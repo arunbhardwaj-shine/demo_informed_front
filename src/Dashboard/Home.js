@@ -10,7 +10,7 @@ const Home = () => {
         {/* <Col>
           <Sidebar />
         </Col> */}
-        <Col>Home Page </Col>
+        <Col>Home Page 123</Col>
       </Row>
     </div>
   );

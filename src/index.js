@@ -3,10 +3,58 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import reducers from "./reducers";
 
+import Home from "./Dashboard/Home";
+import Add from "./Pages/Webinar/Event/Add";
+import Dashboard from "./Pages/Webinar/Dashboard";
+
+import Header from "./components/HeaderComponent/Header";
+import Sidebar from "./components/SidebarComponent/Sidebar";
+import Table from "./components/Table";
+import SmartList from "./components/SmartList";
+import EditList from "./components/EditList";
+import CreateSmartList from "./components/CreateSmartList";
+
+
+let platform = 1;
+if (window.location.href.indexOf("webinar") > -1) {
+      platform = 0;
+}
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={createStore(reducers)}>
+      {platform == 1
+        ? <div className="wrapper">
+          <Header />
+          <Sidebar />
+          <div class="content">
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<App />} />
+                <Route path="/SmartList" element={<SmartList />} />
+                <Route path="/EditList" element={<EditList />} />
+                <Route path="/CreateSmartList" element={<CreateSmartList />} />
+
+                <Route path="/UpdatedTable" element={<Table />} />
+              </Routes>
+            </BrowserRouter>
+          </div>
+        </div>
+      :
+        <BrowserRouter>
+          <Routes>
+            <Route path="/webinar" element={<Home />} />
+            <Route path="/Webinar/dashboard" element={<Dashboard />} />
+            <Route path="/Webinar/Event/Add" element={<Add />} />
+          </Routes>
+        </BrowserRouter>
+      }
+
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

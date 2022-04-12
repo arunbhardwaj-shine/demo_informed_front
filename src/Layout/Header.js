@@ -21,7 +21,7 @@ const Header = (props) => {
     setToken(localStorage.getItem("Token"));
     setUsernameget(localStorage.getItem("username"));
     if(token==null||token==undefined){
-      navigate("/")
+      navigate("/webinar")
     }
   }, [localStorage.getItem("Token"), token]);
   return (
