@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { Button, Modal } from "react-bootstrap";
+import '../assets/css/custom.css';
 
 const Header = () => {
     return (
@@ -21,7 +22,7 @@ const Header = () => {
                     <a href="#" className="nav-item nav-link">Readers</a>
                     <a href="#" className="nav-item nav-link">Analytics</a>
                     <a href="#" className="nav-item nav-link">Distribute</a>
-                    <a href="#" className="nav-item nav-link disabled" tabindex="-1">Webinar</a>
+                    <a href="#" className="nav-item nav-link disabled" tabIndex="-1">Webinar</a>
                 </div>
                 <div className="navbar-nav ms-auto">
                     <a href="#" className="nav-item nav-link">Login</a>

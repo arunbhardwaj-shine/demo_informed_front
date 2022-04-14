@@ -10,7 +10,7 @@ import { getListId } from "../actions";
 
 const SmartList = (props) => {
   const [smartListData, setSmartListData] = useState([]);
- 
+
 
   useEffect(() => {
     console.log(props);
@@ -43,22 +43,22 @@ const SmartList = (props) => {
     <div>
       <h1>Smart List</h1>
 
-      <div class="row">
+      <div className="row">
         {smartListData.map((data) => {
           // setListId(data.id);
           return (
-            <div class="col-sm-3">
-              <div class="card">
-                <div class="card-body">
-                  <h6 class="card-title">{data.name}</h6>
+            <div className="col-sm-3">
+              <div className="card">
+                <div className="card-body">
+                  <h6 className="card-title">{data.name}</h6>
                   <hr />
-                  <p class="card-text">Contact Type .</p>
-                  <p class="card-text">Speciality .</p>
-                  <p class="card-text">Readers {data.readers_count} .</p>
-                  <p class="card-text">IBU .</p>
-                  <p class="card-text">Product {data.product}.</p>
-                  <p class="card-text">Country {data.country} .</p>
-                  <p class="card-text">Registered .</p>
+                  <p className="card-text">Contact Type .</p>
+                  <p className="card-text">Speciality .</p>
+                  <p className="card-text">Readers {data.readers_count} .</p>
+                  <p className="card-text">IBU .</p>
+                  <p className="card-text">Product {data.product}.</p>
+                  <p className="card-text">Country {data.country} .</p>
+                  <p className="card-text">Registered .</p>
                   <Link
                     to={{
                       pathname: "/EditList",

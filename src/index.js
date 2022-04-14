@@ -18,6 +18,8 @@ import Table from "./components/Table";
 import SmartList from "./components/SmartList";
 import EditList from "./components/EditList";
 import CreateSmartList from "./components/CreateSmartList";
+import SmartListFilter from "./components/SmartListFilter";
+import FilterSegment from "./components/FilterSegment";
 
 
 let platform = 1;
@@ -31,13 +33,15 @@ ReactDOM.render(
         ? <div className="wrapper">
           <Header />
           <Sidebar />
-          <div class="content">
+          <div className="content">
             <BrowserRouter>
               <Routes>
                 <Route path="/" element={<App />} />
                 <Route path="/SmartList" element={<SmartList />} />
                 <Route path="/EditList" element={<EditList />} />
                 <Route path="/CreateSmartList" element={<CreateSmartList />} />
+                <Route path="/SmartListFilter" element={<SmartListFilter />} />
+                <Route path="/FilterSegment" element={<FilterSegment />} />
 
                 <Route path="/UpdatedTable" element={<Table />} />
               </Routes>

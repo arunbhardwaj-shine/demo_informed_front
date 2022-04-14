@@ -8,8 +8,8 @@ import { Button, Modal } from "react-bootstrap";
 const Sidebar = () => {
     return (
       <>
-      <div class="sidebar">
-        <a class="active" href="#home">Email</a>
+      <div className="sidebar">
+        <a className="active" href="#home">Email</a>
         <a href="#news">Smart List</a>
         <a href="#contact">Email Analytics</a>
       </div>
