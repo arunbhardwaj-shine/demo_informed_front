@@ -22,21 +22,38 @@ const Table = (props) => {
 
   const [editList, setEditList] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [counterFlag, setCounterFlag] = useState(0);
 
   const [show, setShow] = useState(false);
+  const [hpc, setHpc] = useState([
+    { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
+  ]);
+  const [renderCounterData, setCounterData] = useState([]);
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setCounter([0]);
+    setCounterData([]);
+  };
   const handleShow = () => setShow(true);
 
   const [showUploadMenu, setShowUploadMenu] = useState(false);
   const [render, setReRender] = useState(0);
   const handleCloseUploadMenu = () => setShowUploadMenu(false);
-  const handleShowUploadMenu = () => setShowUploadMenu(true);
+  const handleShowUploadMenu = () => {
+    setShowUploadMenu(true);
+    setShow(false);
+  };
+
   let combine_data;
+  let combine_data_manual;
+
+  //let counter = [];
+  const [counter, setCounter] = useState([0]);
 
   useEffect(() => {
-    console.log(props);
-  }, []);
+    // console.log("changed");
+  });
 
   const onFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -47,10 +64,9 @@ const Table = (props) => {
   }, [props.api_flag]);
 
   const uploadFile = async (event) => {
-    setShow(!show);
     setShowUploadMenu(!showUploadMenu);
 
-    console.log(props);
+    // console.log(props);
     let formData = new FormData();
     formData.append("user_id", 18207);
     formData.append("smart_list_id", props.listId);
@@ -64,7 +80,7 @@ const Table = (props) => {
         let new_data = res.data.response.data[0];
 
         combine_data = [new_data, ...old_data];
-        console.log(combine_data);
+        // console.log(combine_data);
         setEditList(combine_data);
         setUpdatedData(combine_data);
 
@@ -81,13 +97,13 @@ const Table = (props) => {
   };
 
   const showFileInReadersList = async () => {
-    console.log("this is edit list");
+    // console.log("this is edit list");
     //console.log(editList);
     const profile_user_id_array = updateData.map((data) => {
       return data.profile_user_id;
     });
-    console.log(profile_user_id_array);
-    console.log(props.listId);
+    // console.log(profile_user_id_array);
+    // console.log(props.listId);
 
     const body = {
       user_list: profile_user_id_array,
@@ -95,12 +111,12 @@ const Table = (props) => {
       user_id: 18207,
     };
 
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY ;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     await axios
       .post(`distributes/add_update_list`, body)
       .then((res) => {
-        console.log("response from add_update list");
-        console.log(res);
+        // console.log("response from add_update list");
+        // console.log(res);
       })
       .catch((err) => {
         console.log(err);
@@ -162,9 +178,94 @@ const Table = (props) => {
     setEmail(null);
   };
 
+  const deleteRecord = (i) => {
+    //  console.log(hpc);
+    const list = hpc;
+    // console.log(list);
+    list.splice(i, 1);
+    // console.log("list after splice");
+    // console.log(list);
+    // console.log(typeof list);
+    setHpc(list);
+    setCounterFlag(counterFlag + 1);
+
+    // console.log(i);
+    // console.log(counter);
+    // console.log(renderCounterData);
+    // const deleted_data = counter.splice(i, 1);
+    //console.log(deleted_data);
+    // console.log(data);
+    // const renderDelete = counter.filter((counterData) => {
+    //   return counterData != data;
+    // });
+    // console.log(renderDelete);
+    // setCounter(counter);
+    // setCounterData(renderCounterData);
+    // console.log("index to be deleted", i);
+    // const list = [...hpc];
+    // console.log(list);
+    // list.splice(i, 1);
+    // console.log(list);
+    // // console.log(list);
+    // setHpc(list);
+    // console.log(hpc);
+  };
+
+  const addHcp = () => {
+    setHpc([
+      ...hpc,
+      { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
+    ]);
+    // console.log("length is" + counter.length);
+    // setCounter([...counter, counter[counter.length - 1] + 1]);
+
+    // const counterData = counter.map((data, i) => {
+    //   return (
+    //     <>
+    //       <div className="row align-items-center vh-100" id={i}>
+    //         <div className="col-6 mx-auto">
+    //           <div className="card shadow border" data-id={i}>
+    //             <button
+    //               className="btn btn-secondary"
+    //               onClick={() => deleteRecord(data, i)}
+    //             >
+    //               delete
+    //             </button>
+    //             <div className="card-body d-flex flex-column align-items-center">
+    //               <div className="card-title">
+    //                 first name <input type="text"></input>
+    //                 last name <input type="text"></input>
+    //                 email <input type="text"></input>
+    //                 contact type <input type="text"></input>
+    //                 country <input type="text"></input>
+    //                 <br />
+    //                 <Button
+    //                   variant="primary"
+    //                   onClick={handleShowUploadMenu}
+    //                   style={{ margin: "5px" }}
+    //                 >
+    //                   Upload Excel
+    //                 </Button>
+    //               </div>
+    //             </div>
+    //           </div>
+    //         </div>
+    //       </div>
+    //     </>
+    //   );
+    // });
+    // console.log("counter data");
+    // console.log(counterData);
+
+    // setCounterData(counterData);
+    // console.log("hi");
+    // console.log("render counter data");
+    // console.log(renderCounterData);
+  };
+
   const verifyUser = () => {
-    console.log(props);
-    console.log("0123");
+    // console.log(props);
+    // console.log("0123");
   };
 
   const updateReaderDetails = async ({
@@ -190,8 +291,8 @@ const Table = (props) => {
     await axios
       .post(`distributes/update_reders_details`, body)
       .then((res) => {
-        console.log(props);
-        console.log(res);
+        // console.log(props);
+        // console.log(res);
         onCancel();
         props.smartListDatafn();
         setReRender(render + 1);
@@ -230,7 +331,7 @@ const Table = (props) => {
     country,
     profile_user_id,
   }) => {
-    console.log(profile_user_id);
+    // console.log(profile_user_id);
     const filtered_list = editList.filter((data) => {
       return data.profile_user_id != profile_user_id;
     });
@@ -248,8 +349,122 @@ const Table = (props) => {
     await axios
       .post(`distributes/add_update_list`, body)
       .then((res) => {
-        console.log("response from add_update list");
+        // console.log("response from add_update list");
+        // console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const onFirstNameChange = (e, i) => {
+    const { value } = e.target;
+    const list = [...hpc];
+    const name = hpc[i].firstname;
+    list[i].firstname = value;
+    setHpc(list);
+  };
+
+  const onLastNameChange = (e, i) => {
+    const { value } = e.target;
+    const list = [...hpc];
+    const name = hpc[i].lastname;
+    list[i].lastname = value;
+    setHpc(list);
+  };
+
+  const onEmailChange = (e, i) => {
+    const { value } = e.target;
+    const list = [...hpc];
+    const name = hpc[i].email;
+    list[i].email = value;
+    setHpc(list);
+  };
+
+  const onContactTypeChange = (e, i) => {
+    const { value } = e.target;
+    const list = [...hpc];
+    const name = hpc[i].contact_type;
+    list[i].contact_type = value;
+    setHpc(list);
+  };
+
+  const onCountryChange = (e, i) => {
+    const { value } = e.target;
+    const list = [...hpc];
+    const name = hpc[i].country;
+    list[i].country = value;
+    setHpc(list);
+  };
+
+  const saveClicked = async () => {
+    console.log(hpc);
+    const firstname_arr = hpc.map((data) => {
+      return data.firstname;
+    });
+    const lastname_arr = hpc.map((data) => {
+      return data.lastname;
+    });
+    const email_arr = hpc.map((data) => {
+      return data.email;
+    });
+    const contact_type_arr = hpc.map((data) => {
+      return data.contact_type;
+    });
+    const coutry_arr = hpc.map((data) => {
+      return data.country;
+    });
+
+    // console.log(firstname_arr);
+    // console.log(lastname_arr);
+    // console.log(email_arr);
+    // console.log(contact_type_arr);
+    // console.log(coutry_arr);
+
+    // console.log(body);
+
+    // {
+    //   first_name: firstname_arr,
+    //   last_name: lastname_arr,
+    //   email: email_arr,
+    //   country: coutry_arr,
+    //   contact_type: contact_type_arr,
+    //   smart_list_id: props.listId,
+    //   user_id: 18207,
+    // },{
+
+    // }
+    const body_data = hpc.map((data) => {
+      return {
+        first_name: data.firstname,
+        last_name: data.lastname,
+        email: data.email,
+        country: data.country,
+        contact_type: data.contact_type,
+      };
+    });
+
+    const body = {
+      data: body_data,
+      user_id: 18207,
+      smart_list_id: props.listId,
+    };
+
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    await axios
+      .post(`distributes/add_new_readers_in_list`, body)
+      .then((res) => {
+        // console.log("response from add_update list");
         console.log(res);
+        let old_data = editList;
+        let new_data = res.data.response.data;
+        console.log(old_data);
+        console.log(new_data);
+
+        combine_data_manual = [...new_data, ...old_data];
+        console.log(combine_data_manual);
+        setEditList(combine_data_manual);
+        setUpdatedData(combine_data_manual);
       })
       .catch((err) => {
         console.log(err);
@@ -263,96 +478,161 @@ const Table = (props) => {
       </Button>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {" "}
-          <div class="container">
-            <div class="row align-items-center vh-100">
-              <div class="col-6 mx-auto">
-                <div class="card shadow border">
-                  <div class="card-body d-flex flex-column align-items-center">
-                    <p class="card-title">Enter smart list name</p>
-                    <input type="text"></input>
-
+          <Modal.Title>New HCP</Modal.Title>
+          <button
+            className="btn btn-secondary"
+            style={{ margin: "10px" }}
+            onClick={addHcp}
+          >
+            Add HCP +{" "}
+          </button>
+          <button
+            className="btn-secondary"
+            variant="primary"
+            onClick={handleShowUploadMenu}
+            style={{ margin: "5px" }}
+          >
+            Upload Excel
+          </button>
+        </Modal.Header>{" "}
+        {/* <div className="container">
+            <div className="row align-items-center vh-100">
+              <div className="col-6 mx-auto">
+                <div className="card shadow border">
+                  <div className="card-body d-flex flex-column align-items-center">
                     <div className="card-title">
-                      <p class="card-text">
-                        How do you want to create a smart list?
-                      </p>
+                      first name <input type="text"></input>
+                      last name <input type="text"></input>
+                      email <input type="text"></input>
+                      contact type <input type="text"></input>
+                      country <input type="text"></input>
                       <br />
-                      <Link
-                        style={{ margin: "20px" }}
-                        to={{
-                          pathname: "/Cohorts",
-                        }}
+                      <Button
+                        variant="primary"
+                        onClick={handleShowUploadMenu}
+                        style={{ margin: "5px" }}
                       >
-                        segment for new cohorts
-                      </Link>
-                      <Button variant="primary" onClick={handleShowUploadMenu}>
-                        Upload new HPCS
+                        Upload Excel
                       </Button>
-                      <Modal
-                        show={showUploadMenu}
-                        onHide={handleCloseUploadMenu}
-                      >
-                        <Modal.Header closeButton>
-                          <Modal.Title>upload new hpcs</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                          {" "}
-                          <div class="container">
-                            <div class="row align-items-center vh-100">
-                              <div class="col-6 mx-auto">
-                                <div class="card shadow border">
-                                  <div class="card-body d-flex flex-column align-items-center">
-                                    <p class="card-title">Upload a new file</p>
-
-                                    <div className="card-title">
-                                      <input
-                                        type="file"
-                                        onChange={onFileChange}
-                                      />
-                                      <br />
-
-                                      {/* <button
-                    onClick={(event) => uploadFile(event)}
-                    className="btn-secondary"
-                    style={{ margin: "5px" }}
-                  >
-                    upload
-                  </button> */}
-
-                                      {/* <Link
-                    style={{ margin: "20px" }}
-                    to={{
-                      pathname: "/EditList",
-                    }}
-                    onClick={(event) => uploadFile(event)}
-                  >
-                    upload
-                  </Link> */}
-                                      <button
-                                        onClick={(event) => uploadFile(event)}
-                                      >
-                                        upload
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </Modal.Body>
-                        <Modal.Footer></Modal.Footer>
-                      </Modal>
                     </div>
-
-                    <a href="#" class="btn btn-primary">
-                      Download file
-                    </a>
                   </div>
                 </div>
               </div>
+            </div>
+          </div> */}
+        {/* {renderCounterData.map((data) => {
+            return <>{data}</>;
+          })} */}
+        {hpc.map((val, i) => {
+          const fieldName = `hpc[${i}]`;
+          return (
+            <>
+              <div className="container">
+                <div className="row align-items-center vh-100">
+                  <div className="col-6 mx-auto">
+                    <div className="card shadow border">
+                      <div className="card-body d-flex flex-column align-items-center">
+                        <div className="card-title">
+                          first name{" "}
+                          <input
+                            type="text"
+                            name={`${fieldName}.firstname`}
+                            onChange={(event) => onFirstNameChange(event, i)}
+                            value={val.firstname}
+                          ></input>
+                          last name{" "}
+                          <input
+                            type="text"
+                            name={`${fieldName}.lastname`}
+                            onChange={(event) => onLastNameChange(event, i)}
+                            value={val.lastname}
+                          ></input>
+                          email{" "}
+                          <input
+                            type="text"
+                            name={`${fieldName}.email`}
+                            onChange={(event) => onEmailChange(event, i)}
+                            value={val.email}
+                          ></input>
+                          contact type{" "}
+                          <input
+                            type="text"
+                            name={`${fieldName}.contact_type`}
+                            onChange={(event) => onContactTypeChange(event, i)}
+                            value={val.contact_type}
+                          ></input>
+                          country{" "}
+                          <input
+                            type="text"
+                            name={`${fieldName}.country`}
+                            onChange={(event) => onCountryChange(event, i)}
+                            value={val.country}
+                          ></input>
+                          <br />
+                          {hpc.length !== 1 && (
+                            <button onClick={() => deleteRecord(i)}>
+                              Remove
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
+          );
+        })}
+        <Modal.Footer>
+          <button className="btn btn-secondary" onClick={saveClicked}>
+            Save
+          </button>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={showUploadMenu} onHide={handleCloseUploadMenu}>
+        <Modal.Header closeButton>
+          <Modal.Title>upload your new file</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {" "}
+          {/* <div className="container">
+                            <div className="row align-items-center vh-100">
+                              <div
+                                className="col-6 mx-auto"
+                                style={{ border: "2px" }}
+                              >
+                                <p className="card-title">
+                                  Upload your new list file
+                                </p>
+
+                                <div className="card-title">
+                                  <input type="file" onChange={onFileChange} />
+                                  <br />
+                                  <button
+                                    onClick={(event) => uploadFile(event)}
+                                  >
+                                    upload
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div> */}
+          <div className="card">
+            <div className="card-header"> Upload your new list file</div>
+            <div className="card-body">
+              <h5 className="card-title"></h5>
+              <input type="file" onChange={onFileChange} />
+              <br />
+              <button
+                className="btn btn-secondary"
+                onClick={(event) => uploadFile(event)}
+              >
+                upload
+              </button>
+              <p className="card-text">
+                {/* With supporting text below as a natural lead-in
+                                to additional content. */}
+              </p>
             </div>
           </div>
         </Modal.Body>
@@ -521,7 +801,7 @@ const Table = (props) => {
   );
 };
 const mapStateToProps = (state) => {
-  console.log(state);
+  // console.log(state);
   return state;
 };
 
