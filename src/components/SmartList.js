@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import EditList from "./EditList";
+import Loader from "react-js-loader";
 
 import { connect } from "react-redux";
 import { Button, Modal } from "react-bootstrap";
@@ -10,7 +11,7 @@ import { getListId } from "../actions";
 
 const SmartList = (props) => {
   const [smartListData, setSmartListData] = useState([]);
-
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     console.log(props);
@@ -25,6 +26,7 @@ const SmartList = (props) => {
         .post(`distributes/get_smart_list`, body)
         .then((res) => {
           console.log(res);
+          setLoading(false);
           setSmartListData(res.data.response.data);
           console.log(res.data.response.data);
         })
