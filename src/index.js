@@ -20,6 +20,7 @@ import EditList from "./components/EditList";
 import CreateSmartList from "./components/CreateSmartList";
 import SmartListFilter from "./components/SmartListFilter";
 import FilterSegment from "./components/FilterSegment";
+import VerifySmartList from "./components/VerifySmartList";
 
 
 let platform = 1;
@@ -42,6 +43,7 @@ ReactDOM.render(
                 <Route path="/CreateSmartList" element={<CreateSmartList />} />
                 <Route path="/SmartListFilter" element={<SmartListFilter />} />
                 <Route path="/FilterSegment" element={<FilterSegment />} />
+                <Route path="/VerifySmartList" element={<VerifySmartList />} />
 
                 <Route path="/UpdatedTable" element={<Table />} />
               </Routes>

@@ -9,7 +9,7 @@ const SmartListFilter = () => {
 
   useEffect(() => {
     const body = {
-      user_id: 18207,
+      user_id: 29836198,
     };
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -29,7 +29,7 @@ const SmartListFilter = () => {
 
   return (
     <>
-    {'country' in filterList && filterList.country.length > 0 &&
+    {'country' in filterList && Object.keys(filterList.country).length > 0 &&
       <FilterSegment
       filters={filterList}
       />

@@ -81,3 +81,6 @@ ul.toppings-list {float: left;width: auto;max-height: 150px;overflow-y: auto;lis
 .toppings-list .left-section input {
     margin: 5px 10px;
 }
+.rm_border{
+  border: none !important;
+}
