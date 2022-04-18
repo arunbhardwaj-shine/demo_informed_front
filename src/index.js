@@ -12,15 +12,15 @@ import Home from "./Dashboard/Home";
 import Add from "./Pages/Webinar/Event/Add";
 import Dashboard from "./Pages/Webinar/Dashboard";
 
-import Header from "./Components/Informed/CommonComponent/HeaderComponent/Header";
-import Sidebar from "./Components/Informed/CommonComponent/SidebarComponent/Sidebar";
-import Table from "./Components/Informed/SmartListComponent/Table";
-import SmartList from "./Components/Informed/SmartListComponent/SmartList";
-import EditList from "./Components/Informed/SmartListComponent/EditList";
-import CreateSmartList from "./Components/Informed/SmartListComponent/CreateSmartList";
-import SmartListFilter from "./Components/Informed/SmartListComponent/SmartListFilter";
-import FilterSegment from "./Components/Informed/SmartListComponent/FilterSegment";
-import VerifySmartList from "./Components/Informed/SmartListComponent/VerifySmartList";
+import Header from "./Components/Distributes/CommonComponent/HeaderComponent/Header";
+import Sidebar from "./Components/Distributes/CommonComponent/SidebarComponent/Sidebar";
+import Table from "./Components/Distributes/SmartListComponent/Table";
+import SmartList from "./Components/Distributes/SmartListComponent/SmartList";
+import EditList from "./Components/Distributes/SmartListComponent/EditList";
+import CreateSmartList from "./Components/Distributes/SmartListComponent/CreateSmartList";
+import SmartListFilter from "./Components/Distributes/SmartListComponent/SmartListFilter";
+import FilterSegment from "./Components/Distributes/SmartListComponent/FilterSegment";
+import VerifySmartList from "./Components/Distributes/SmartListComponent/VerifySmartList";
 
 
 let platform = 1;
