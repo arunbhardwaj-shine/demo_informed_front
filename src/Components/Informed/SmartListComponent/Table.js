@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button, Modal } from "react-bootstrap";
-import { getListId } from "../actions";
+import { getListId } from "../../../actions";
 import { connect } from "react-redux";
 
 const Table = (props) => {

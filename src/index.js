@@ -12,15 +12,15 @@ import Home from "./Dashboard/Home";
 import Add from "./Pages/Webinar/Event/Add";
 import Dashboard from "./Pages/Webinar/Dashboard";
 
-import Header from "./components/HeaderComponent/Header";
-import Sidebar from "./components/SidebarComponent/Sidebar";
-import Table from "./components/Table";
-import SmartList from "./components/SmartList";
-import EditList from "./components/EditList";
-import CreateSmartList from "./components/CreateSmartList";
-import SmartListFilter from "./components/SmartListFilter";
-import FilterSegment from "./components/FilterSegment";
-import VerifySmartList from "./components/VerifySmartList";
+import Header from "./Components/Informed/CommonComponent/HeaderComponent/Header";
+import Sidebar from "./Components/Informed/CommonComponent/SidebarComponent/Sidebar";
+import Table from "./Components/Informed/SmartListComponent/Table";
+import SmartList from "./Components/Informed/SmartListComponent/SmartList";
+import EditList from "./Components/Informed/SmartListComponent/EditList";
+import CreateSmartList from "./Components/Informed/SmartListComponent/CreateSmartList";
+import SmartListFilter from "./Components/Informed/SmartListComponent/SmartListFilter";
+import FilterSegment from "./Components/Informed/SmartListComponent/FilterSegment";
+import VerifySmartList from "./Components/Informed/SmartListComponent/VerifySmartList";
 
 
 let platform = 1;

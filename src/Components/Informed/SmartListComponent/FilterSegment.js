@@ -144,7 +144,7 @@ const FilterSegment = (props) => {
 
   const applyFilter = async () => {
     const body = {
-      user_id: 29836198
+      user_id: 18207
     };
 
     //For Contact Type

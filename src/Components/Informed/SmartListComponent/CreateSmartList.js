@@ -5,8 +5,6 @@ import Table from "./Table";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { Button, Modal } from "react-bootstrap";
 
-import CustomModal from "./ModalComponent/Modal";
-
 const CreateSmartList = () => {
   const [show, setShow] = useState(false);
   const [smartListName, setSmartListName] = useState("");

@@ -7,7 +7,7 @@ import Loader from "react-js-loader";
 
 import { connect } from "react-redux";
 import { Button, Modal } from "react-bootstrap";
-import { getListId } from "../actions";
+import { getListId } from "../../../actions";
 
 const SmartList = (props) => {
   const [smartListData, setSmartListData] = useState([]);

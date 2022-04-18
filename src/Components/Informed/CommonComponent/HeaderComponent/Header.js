@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { Button, Modal } from "react-bootstrap";
-import '../assets/css/custom.css';
+import '../../assets/css/custom.css';
 
 const Header = () => {
     return (
