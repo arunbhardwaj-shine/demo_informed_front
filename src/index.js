@@ -21,7 +21,7 @@ import CreateSmartList from "./Components/Distributes/SmartListComponent/CreateS
 import SmartListFilter from "./Components/Distributes/SmartListComponent/SmartListFilter";
 import FilterSegment from "./Components/Distributes/SmartListComponent/FilterSegment";
 import VerifySmartList from "./Components/Distributes/SmartListComponent/VerifySmartList";
-import EmailLisitng from "./components/Emails/EmailListing";
+import EmailLisitng from "./Components/Emails/EmailListing";
 
 let platform = 1;
 if (window.location.href.indexOf("webinar") > -1) {

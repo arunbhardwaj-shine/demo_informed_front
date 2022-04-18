@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 const EmailList = () => {
-  let path= process.env.ASSETS_PATH_INFORMED;
+  let path= process.env.REACT_APP_ASSETS_PATH_INFORMED;
  
     return (
       <>
@@ -23,11 +23,11 @@ const EmailList = () => {
             <div className="step2">
               <div className="col-sm-6">
                 <Link to="/SmartListFilter">
-                    <img src="{path}img/upload_hcp.png" alt="upload" width="300px" />
+                    <img src={path+"upload_hcp.png"} alt="upload" width="300px" />
                 </Link>
               </div>
               <div className="col-sm-6">
-                <img src="{path}img/upload.png"  alt="upload" width="300px" />
+                <img src={path+"upload.png"}  alt="upload" width="300px" />
               </div>
             </div>
         </div>
