@@ -8,10 +8,13 @@ import Loader from "react-js-loader";
 import { connect } from "react-redux";
 import { Button, Modal } from "react-bootstrap";
 import { getListId } from "../../../actions";
+import CreateSmartList from "./CreateSmartList";
 
 const SmartList = (props) => {
   const [smartListData, setSmartListData] = useState([]);
+
   const [isLoading, setLoading] = useState(true);
+  let path= process.env.REACT_APP_ASSETS_PATH_INFORMED;
 
   useEffect(() => {
     console.log(props);
@@ -46,6 +49,15 @@ const SmartList = (props) => {
       <h1>Smart List</h1>
 
       <div className="row">
+        <div className="col-sm-3">
+          <div className="card">
+            <div className="card-body">
+              <Link to="/CreateSmartList">
+                  <img src = {path+"new_smart_list.png"} />
+              </Link>
+            </div>
+          </div>
+        </div>
         {smartListData.map((data) => {
           // setListId(data.id);
           return (

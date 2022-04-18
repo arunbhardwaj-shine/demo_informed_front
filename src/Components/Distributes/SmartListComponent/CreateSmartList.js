@@ -11,9 +11,13 @@ const CreateSmartList = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [api_flag, setapi_flag] = useState(0);
   const [data, setData] = useState([]);
+  const [activeClass, setActiveClass] = useState();
+  const [filename, setFileName] = useState();
+  let path= process.env.REACT_APP_ASSETS_PATH_INFORMED;
 
   const handleClose = () => {
     setShow(false);
+    setSelectedFile(null);
   };
   const handleShow = () => setShow(true);
 
@@ -23,32 +27,84 @@ const CreateSmartList = () => {
 
   const onFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
-    //  console.log("hi");
-    console.log(selectedFile);
   };
 
-  const saveButtonClicked = async () => {
-    let formData = new FormData();
-    formData.append("user_id", 18207);
-    formData.append("smart_list_name", smartListName);
-    formData.append("reader_file", selectedFile);
+  const saveButtonClicked = () => {
+      if(selectedFile != null){
+        setShow(false);
+        setFileName(selectedFile.name)
+        toggleSelection("upload_excel");
+      }else{
+        alert("Please upload a file.");
+      }
+  };
 
-    console.log(formData);
+  const toggleSelection = (elm) => {
+    if(activeClass == elm){
+        var element = document.querySelector("#"+elm);
+        if(element.classList.contains('active')){
+          element.classList.remove("active");
+          setActiveClass();
+        }else{
+          element.classList.add("active");
+          setActiveClass(elm);
+        }
+    }else{
+      var allElements = document.querySelectorAll(".custom_img");
+        for(let i=0; i<allElements.length; i++)
+        {
+         allElements[i].classList.remove('active');
+        }
+        var element = document.querySelector("#"+elm);
+        if(element.classList.contains('active')){
+          element.classList.remove("active");
+          setActiveClass();
+        }else{
+          element.classList.add("active");
+          setActiveClass(elm);
+        }
+    }
 
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    await axios
-      .post(`distributes/create_smart_list_with_excel`, formData)
-      .then((res) => {
-        console.log(res);
-        // setapi_flag(1);
-        setData(res.data.response.data);
-        // console.log(data);
-        //  props.getUpdatedData(res.data.response.data);
-        setapi_flag(api_flag + 1);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  };
+
+  const clickNext = (event) => {
+    let error = false;
+    if(smartListName == ""){
+      error = true;
+      alert("Please Enter Smart List name.")
+    }else if(activeClass == "" || typeof activeClass === "undefined"){
+      error = true;
+      alert("Please select one segment.")
+    }
+    
+    if(activeClass == "upload_excel"){
+        uploadFile();
+        event.preventDefault();
+    }else{
+      if(error){
+        event.preventDefault();
+      }
+    }
+  };
+
+  const uploadFile = async () => {
+      let formData = new FormData();
+      formData.append("user_id", 18207);
+      formData.append("smart_list_name", smartListName);
+      formData.append("reader_file", selectedFile);
+
+      console.log(formData);
+
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      await axios
+        .post(`distributes/create_smart_list_with_excel`, formData)
+        .then((res) => {
+          setData(res.data.response.data);
+          setapi_flag(api_flag + 1);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
   };
 
   useEffect(() => {
@@ -72,8 +128,16 @@ const CreateSmartList = () => {
   return (
     <>
       <div className="row">
-        <button className="btn-cancel">cancel</button>
-        <button className="btn-nxt">Next</button>
+        <Link to="/SmartList">
+          <button className="btn-cancel">
+          cancel
+          </button>
+        </Link>
+        <Link to="/SmartListFilter" onClick={(event) =>  clickNext(event)}>
+          <button className="btn-nxt">
+            Next
+          </button>
+        </Link>
       </div>
       <div className="row">
         <div className="step1">
@@ -91,16 +155,18 @@ const CreateSmartList = () => {
         </div>
         <div className="step2">
           <div className="col-sm-6">
-            <Link to="/SmartListFilter">
-              <img src="/componentAssets/img/upload_hcp.png" width="300px" />
-            </Link>
+              <img className="custom_img" id='upload_filter' src={path+"upload_hcp.png"} width="300px" onClick={(event) => toggleSelection("upload_filter")} />
           </div>
           <div className="col-sm-6">
             <img
-              src="/componentAssets/img/upload.png"
+              className="custom_img"
+              id="upload_excel"
+              src={path+"upload.png"}
               width="300px"
               onClick={handleShow}
             />
+            {filename != '' ? <p>{filename}</p> : null}
+
           </div>
         </div>
         <Modal show={show} onHide={handleClose}>
@@ -118,10 +184,10 @@ const CreateSmartList = () => {
             </button> */}
           </Modal.Header>{" "}
           <Modal.Body>
-            <div class="card">
-              <div class="card-header">upload</div>
-              <div class="card-body">
-                <p class="card-text">upload your new list file</p>
+            <div className="card">
+              <div className="card-header">upload</div>
+              <div className="card-body">
+                <p className="card-text">upload your new list file</p>
                 <input type="file" onChange={onFileChange}></input>
               </div>
             </div>
@@ -156,7 +222,7 @@ const CreateSmartList = () => {
           })} */}
           <Modal.Footer>
             <button className="btn btn-secondary" onClick={saveButtonClicked}>
-              Save
+              Ok
             </button>
           </Modal.Footer>
         </Modal>

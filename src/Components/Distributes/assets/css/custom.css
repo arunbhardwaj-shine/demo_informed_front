@@ -84,3 +84,5 @@ ul.toppings-list {float: left;width: auto;max-height: 150px;overflow-y: auto;lis
 .rm_border{
   border: none !important;
 }
+
+img.custom_img.active {border: 2px solid green;}
