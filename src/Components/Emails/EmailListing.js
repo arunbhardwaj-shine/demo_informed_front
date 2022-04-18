@@ -1,17 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import { Button, Modal } from "react-bootstrap";
 
-import CustomModal from "./ModalComponent/Modal";
-
-
-
-const CreateSmartList = () => {
-  const [showModal, setShow] = useState(false);
-  const handleShow = () => setShow(true);
-
+const EmailList = () => {
+  let path= process.env.ASSETS_PATH_INFORMED;
+ 
     return (
       <>
         <div className="row">
@@ -30,17 +23,16 @@ const CreateSmartList = () => {
             <div className="step2">
               <div className="col-sm-6">
                 <Link to="/SmartListFilter">
-                    <img src="/componentAssets/img/upload_hcp.png" width="300px" />
+                    <img src="{path}img/upload_hcp.png" alt="upload" width="300px" />
                 </Link>
               </div>
               <div className="col-sm-6">
-                <img src="/componentAssets/img/upload.png" width="300px" onClick={handleShow} />
+                <img src="{path}img/upload.png"  alt="upload" width="300px" />
               </div>
             </div>
-              {showModal ? <CustomModal />:null}
         </div>
       </>
     );
 };
 
-export default CreateSmartList;
+export default EmailList;

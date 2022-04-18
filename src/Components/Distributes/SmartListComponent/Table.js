@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button, Modal } from "react-bootstrap";
-import { getListId } from "../actions";
+import { getListId } from "../../../actions";
 import { connect } from "react-redux";
 
 const Table = (props) => {
@@ -10,6 +10,11 @@ const Table = (props) => {
     status: false,
     rowKey: null,
   });
+
+  useEffect(() => {
+    console.log(props);
+    setUpdatedData(props.data);
+  }, []);
 
   const [name, setName] = useState(null);
   const [jobTitle, setJobTitle] = useState(null);
@@ -48,12 +53,9 @@ const Table = (props) => {
   let combine_data;
   let combine_data_manual;
 
-  //let counter = [];
   const [counter, setCounter] = useState([0]);
 
-  useEffect(() => {
-    // console.log("changed");
-  });
+  useEffect(() => {});
 
   const onFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -66,7 +68,6 @@ const Table = (props) => {
   const uploadFile = async (event) => {
     setShowUploadMenu(!showUploadMenu);
 
-    // console.log(props);
     let formData = new FormData();
     formData.append("user_id", 18207);
     formData.append("smart_list_id", props.listId);
@@ -83,40 +84,42 @@ const Table = (props) => {
         // console.log(combine_data);
         setEditList(combine_data);
         setUpdatedData(combine_data);
-
-        // setapi_flag(1);
-        //  setData(res.data.response.data);
-        // console.log(data);
-        //  props.getUpdatedData(res.data.response.data);
       })
       .catch((err) => {
         console.log(err);
       });
-
-    //showFileInReadersList();
   };
 
   const showFileInReadersList = async () => {
-    // console.log("this is edit list");
-    //console.log(editList);
+    console.log("updated data");
+    console.log(updateData);
     const profile_user_id_array = updateData.map((data) => {
       return data.profile_user_id;
     });
+
     // console.log(profile_user_id_array);
     // console.log(props.listId);
-
-    const body = {
-      user_list: profile_user_id_array,
-      smart_list_id: props.listId,
-      user_id: 18207,
-    };
+    let body;
+    if (props.listId) {
+      body = {
+        user_list: profile_user_id_array,
+        smart_list_id: props.listId,
+        user_id: 18207,
+      };
+    } else {
+      body = {
+        user_list: profile_user_id_array,
+        smart_list_name: props.smartListName,
+        user_id: 18207,
+      };
+    }
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     await axios
       .post(`distributes/add_update_list`, body)
       .then((res) => {
-        // console.log("response from add_update list");
-        // console.log(res);
+        console.log("response from add_update list");
+        console.log(res);
       })
       .catch((err) => {
         console.log(err);
@@ -348,10 +351,7 @@ const Table = (props) => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     await axios
       .post(`distributes/add_update_list`, body)
-      .then((res) => {
-        // console.log("response from add_update list");
-        // console.log(res);
-      })
+      .then((res) => {})
       .catch((err) => {
         console.log(err);
       });
@@ -397,7 +397,16 @@ const Table = (props) => {
     setHpc(list);
   };
 
+  const backClicked = () => {
+    console.log("back clicked");
+    props.api_flag(0);
+  };
+
   const saveClicked = async () => {
+    setHpc([
+      { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
+    ]);
+    handleClose();
     console.log(hpc);
     const firstname_arr = hpc.map((data) => {
       return data.firstname;
@@ -473,6 +482,19 @@ const Table = (props) => {
 
   return (
     <>
+      {props.url ? (
+        <Link
+          to={{
+            pathname: "/CreateSmartList",
+          }}
+          onClick={backClicked}
+        >
+          BACK
+        </Link>
+      ) : null}
+
+      {props.smartListName}
+      <br />
       <Button variant="primary" onClick={handleShow}>
         Add Reader
       </Button>

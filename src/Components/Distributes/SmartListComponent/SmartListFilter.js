@@ -29,7 +29,7 @@ const SmartListFilter = () => {
 
   return (
     <>
-    {'country' in filterList && filterList.country.length > 0 &&
+    {'country' in filterList && Object.keys(filterList.country).length > 0 &&
       <FilterSegment
       filters={filterList}
       />

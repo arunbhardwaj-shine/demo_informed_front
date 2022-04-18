@@ -12,16 +12,16 @@ import Home from "./Dashboard/Home";
 import Add from "./Pages/Webinar/Event/Add";
 import Dashboard from "./Pages/Webinar/Dashboard";
 
-import Header from "./components/HeaderComponent/Header";
-import Sidebar from "./components/SidebarComponent/Sidebar";
-import Table from "./components/Table";
-import SmartList from "./components/SmartList";
-import EditList from "./components/EditList";
-import CreateSmartList from "./components/CreateSmartList";
-import SmartListFilter from "./components/SmartListFilter";
-import FilterSegment from "./components/FilterSegment";
+import Header from "./Components/Distributes/CommonComponent/HeaderComponent/Header";
+import Sidebar from "./Components/Distributes/CommonComponent/SidebarComponent/Sidebar";
+import Table from "./Components/Distributes/SmartListComponent/Table";
+import SmartList from "./Components/Distributes/SmartListComponent/SmartList";
+import EditList from "./Components/Distributes/SmartListComponent/EditList";
+import CreateSmartList from "./Components/Distributes/SmartListComponent/CreateSmartList";
+import SmartListFilter from "./Components/Distributes/SmartListComponent/SmartListFilter";
+import FilterSegment from "./Components/Distributes/SmartListComponent/FilterSegment";
+import VerifySmartList from "./Components/Distributes/SmartListComponent/VerifySmartList";
 import EmailLisitng from "./components/Emails/EmailListing";
-
 
 let platform = 1;
 if (window.location.href.indexOf("webinar") > -1) {
@@ -43,7 +43,9 @@ ReactDOM.render(
                 <Route path="/CreateSmartList" element={<CreateSmartList />} />
                 <Route path="/EmailLisitng" element={<EmailLisitng />} />
                 <Route path="/SmartListFilter" element={<SmartListFilter />} />
+                <Route path="/EmailLisitng" element={<EmailLisitng />} />
                 <Route path="/FilterSegment" element={<FilterSegment />} />
+                <Route path="/VerifySmartList" element={<VerifySmartList />} />
 
                 <Route path="/UpdatedTable" element={<Table />} />
               </Routes>
