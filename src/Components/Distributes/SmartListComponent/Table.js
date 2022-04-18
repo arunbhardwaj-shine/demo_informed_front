@@ -12,7 +12,8 @@ const Table = (props) => {
   });
 
   useEffect(() => {
-    console.log(props);
+    console.log("props.data");
+    console.log(props.data);
     setUpdatedData(props.data);
   }, []);
 
@@ -97,23 +98,65 @@ const Table = (props) => {
       return data.profile_user_id;
     });
 
-    // console.log(profile_user_id_array);
+    console.log(profile_user_id_array);
     // console.log(props.listId);
     let body;
+    // if (props.listId) {
+    //   body = {
+    //     user_list: profile_user_id_array,
+    //     smart_list_id: props.listId,
+    //     user_id: 18207,
+    //     smartListName: props.smartListName,
+    //   };
+    // } else {
+    //   body = {
+    //     user_list: profile_user_id_array,
+    //     smart_list_name: props.smartListName,
+    //     smart_list_id: "",
+    //     user_id: 18207,
+    //   };
+    // }
     if (props.listId) {
       body = {
         user_list: profile_user_id_array,
         smart_list_id: props.listId,
         user_id: 18207,
+        smart_list_name: "",
+
+        contact_type: "",
+        consent_type: "",
+        reader_selection: "",
+        ibu: "",
+        product: "",
+        speciality: "",
+        country: "",
+        articles: "",
+        register: "",
+        bounce: "",
+        new_users_list: [],
       };
     } else {
       body = {
         user_list: profile_user_id_array,
-        smart_list_name: props.smartListName,
+        smart_list_id: "",
         user_id: 18207,
+        smart_list_name: props.smartListName,
+
+        contact_type: "",
+        consent_type: "",
+        reader_selection: "",
+        ibu: "",
+        product: "",
+        speciality: "",
+        country: "",
+        articles: "",
+        register: "",
+        bounce: "",
+        new_users_list: [],
       };
     }
 
+    console.log(props.listId);
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     await axios
       .post(`distributes/add_update_list`, body)
@@ -290,14 +333,19 @@ const Table = (props) => {
       country: country,
     };
 
+    console.log("props.data");
+    console.log(editList);
+
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     await axios
       .post(`distributes/update_reders_details`, body)
       .then((res) => {
         // console.log(props);
-        // console.log(res);
+
+        console.log(res);
         onCancel();
         props.smartListDatafn();
+
         setReRender(render + 1);
       })
       .catch((err) => {
