@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, NavigationType } from "react-router-dom";
 import Table from "./Table";
+import { useNavigate } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { Button, Modal } from "react-bootstrap";
 
 const CreateSmartList = () => {
+  const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [smartListName, setSmartListName] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
@@ -30,6 +32,7 @@ const CreateSmartList = () => {
   };
 
   const saveButtonClicked = () => {
+    console.log(data);
     if (selectedFile != null) {
       setShow(false);
       setFileName(selectedFile.name);
@@ -77,6 +80,7 @@ const CreateSmartList = () => {
 
     if (activeClass == "upload_excel") {
       uploadFile();
+
       event.preventDefault();
     } else {
       if (error) {
@@ -98,6 +102,12 @@ const CreateSmartList = () => {
       .post(`distributes/create_smart_list_with_excel`, formData)
       .then((res) => {
         setData(res.data.response.data);
+        navigate("/UploadExcel", {
+          // data: data,
+          // smartListName: smartListName,
+
+          state: { data: res.data.response.data, smartListName: smartListName },
+        });
         setapi_flag(api_flag + 1);
       })
       .catch((err) => {
@@ -109,19 +119,19 @@ const CreateSmartList = () => {
     //here you will have correct value in userInput
   }, [smartListName]);
 
-  if (api_flag > 0) {
-    return (
-      <>
-        <Table
-          data={data}
-          smartListDatafn={saveButtonClicked}
-          api_flag={setapi_flag}
-          smartListName={smartListName}
-          url="CreateSmartList"
-        />
-      </>
-    );
-  }
+  // if (api_flag > 0) {
+  //   return (
+  //     <>
+  //       <Table
+  //         data={data}
+  //         smartListDatafn={saveButtonClicked}
+  //         api_flag={setapi_flag}
+  //         smartListName={smartListName}
+  //         url="CreateSmartList"
+  //       />
+  //     </>
+  //   );
+  // }
 
   return (
     <>
