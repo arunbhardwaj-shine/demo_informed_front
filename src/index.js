@@ -12,8 +12,8 @@ import Home from "./Dashboard/Home";
 import Add from "./Pages/Webinar/Event/Add";
 import Dashboard from "./Pages/Webinar/Dashboard";
 
-import Header from "./Components/Distributes/CommonComponent/HeaderComponent/Header";
-import Sidebar from "./Components/Distributes/CommonComponent/SidebarComponent/Sidebar";
+import Header from "./Components/CommonComponent/HeaderComponent/Header";
+import Sidebar from "./Components/CommonComponent/SidebarComponent/Sidebar";
 import Table from "./Components/Distributes/SmartListComponent/Table";
 import SmartList from "./Components/Distributes/SmartListComponent/SmartList";
 import EditList from "./Components/Distributes/SmartListComponent/EditList";
@@ -22,7 +22,7 @@ import SmartListFilter from "./Components/Distributes/SmartListComponent/SmartLi
 import FilterSegment from "./Components/Distributes/SmartListComponent/FilterSegment";
 import VerifySmartList from "./Components/Distributes/SmartListComponent/VerifySmartList";
 import ViewList from "./Components/Distributes/SmartListComponent/ViewList";
-import EmailLisitng from "./Components/Emails/EmailListing";
+import EmailList from "./Components/Emails/EmailListing";
 
 let platform = 1;
 if (window.location.href.indexOf("webinar") > -1) {
@@ -31,29 +31,32 @@ if (window.location.href.indexOf("webinar") > -1) {
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={createStore(reducers)}>
-      {platform == 1
-        ? <div className="wrapper">
-          <Header />
-          <Sidebar />
-          <div className="content">
-            <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<App />} />
-                <Route path="/SmartList" element={<SmartList />} />
-                <Route path="/EditList" element={<EditList />} />
-                <Route path="/CreateSmartList" element={<CreateSmartList />} />
-                <Route path="/EmailLisitng" element={<EmailLisitng />} />
-                <Route path="/SmartListFilter" element={<SmartListFilter />} />
-                <Route path="/EmailLisitng" element={<EmailLisitng />} />
-                <Route path="/FilterSegment" element={<FilterSegment />} />
-                <Route path="/VerifySmartList" element={<VerifySmartList />} />
-                <Route path="/ViewSmartList" element={<ViewList />} />
+      {platform === 1
+        ? <>
+            <Header />
+            <div className="warpper">
+              <div className="container-fluid">
+                <div className="row">
+                <Sidebar />
+                <BrowserRouter>
+                    <Routes>
+                    <Route path="/" element={<App />} />
+                    <Route path="/SmartList" element={<SmartList />} />
+                    <Route path="/EditList" element={<EditList />} />
+                    <Route path="/CreateSmartList" element={<CreateSmartList />} />
+                    <Route path="/SmartListFilter" element={<SmartListFilter />} />
+                    <Route path="/EmailList" element={<EmailList />} />
+                    <Route path="/FilterSegment" element={<FilterSegment />} />
+                    <Route path="/VerifySmartList" element={<VerifySmartList />} />
+                    <Route path="/ViewSmartList" element={<ViewList />} />
 
-                <Route path="/UpdatedTable" element={<Table />} />
-              </Routes>
-            </BrowserRouter>
-          </div>
-        </div>
+                    <Route path="/UpdatedTable" element={<Table />} />
+                    </Routes>
+                  </BrowserRouter>
+                </div>
+              </div>
+            </div>	
+        </>
       :
         <BrowserRouter>
           <Routes>
