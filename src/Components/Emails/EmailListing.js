@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 
 const EmailList = () => {
-  let path= process.env.REACT_APP_ASSETS_PATH_INFORMED;
+  
   let path_image= process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN
 
     return (
