@@ -4,7 +4,9 @@ import Table from "./Table";
 
 const VerifySmartList = () => {
   const location = useLocation();
+  console.log(location);
   const { getfilterdata } = location.state;
+  const { listname } = location.state;
   return(
     <>
     {
@@ -13,6 +15,7 @@ const VerifySmartList = () => {
             <p className="mt-2">Selected Hcp's for the smart list</p>
             <Table
               data={getfilterdata}
+              smartListName={listname}
             />
         </div>
         : <p>No Data Found.</p>

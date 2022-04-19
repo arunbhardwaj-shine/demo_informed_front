@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 import FilterSegment from "./FilterSegment";
+import { useLocation } from 'react-router-dom';
 
 const SmartListFilter = () => {
-
+  const location = useLocation();
+  const { smartListName } = location.state;
   const [filterList, setFilterList] = useState([]);
 
   useEffect(() => {
@@ -32,6 +34,7 @@ const SmartListFilter = () => {
     {'country' in filterList && Object.keys(filterList.country).length > 0 &&
       <FilterSegment
       filters={filterList}
+      listname={smartListName}
       />
     }
     </>

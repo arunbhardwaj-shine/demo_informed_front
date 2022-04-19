@@ -129,7 +129,7 @@ const CreateSmartList = () => {
         <Link to="/SmartList">
           <button className="btn-cancel">cancel</button>
         </Link>
-        <Link to="/SmartListFilter" onClick={(event) => clickNext(event)}>
+        <Link to="/SmartListFilter" state={{ smartListName: smartListName }} onClick={(event) => clickNext(event)}>
           <button className="btn-nxt">Next</button>
         </Link>
       </div>

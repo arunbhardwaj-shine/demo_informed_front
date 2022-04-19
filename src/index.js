@@ -21,6 +21,7 @@ import CreateSmartList from "./Components/Distributes/SmartListComponent/CreateS
 import SmartListFilter from "./Components/Distributes/SmartListComponent/SmartListFilter";
 import FilterSegment from "./Components/Distributes/SmartListComponent/FilterSegment";
 import VerifySmartList from "./Components/Distributes/SmartListComponent/VerifySmartList";
+import ViewList from "./Components/Distributes/SmartListComponent/ViewList";
 import EmailLisitng from "./Components/Emails/EmailListing";
 
 let platform = 1;
@@ -46,6 +47,7 @@ ReactDOM.render(
                 <Route path="/EmailLisitng" element={<EmailLisitng />} />
                 <Route path="/FilterSegment" element={<FilterSegment />} />
                 <Route path="/VerifySmartList" element={<VerifySmartList />} />
+                <Route path="/ViewSmartList" element={<ViewList />} />
 
                 <Route path="/UpdatedTable" element={<Table />} />
               </Routes>

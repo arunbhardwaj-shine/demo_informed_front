@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import EditList from "./EditList";
+import ViewList from "./ViewList";
 import Loader from "react-js-loader";
 
 import { connect } from "react-redux";
@@ -73,15 +74,28 @@ const SmartList = (props) => {
                   <p className="card-text">Product {data.product}.</p>
                   <p className="card-text">Country {data.country} .</p>
                   <p className="card-text">Registered .</p>
-                  <Link
-                    to={{
-                      pathname: "/EditList",
-                      search: "?listId=" + data.id,
-                    }}
-                    onClick={() => linkClicked(data.id)}
-                  >
-                    Edit list
-                  </Link>
+                  <p>
+                    <Link
+                      to={{
+                        pathname: "/EditList",
+                        search: "?listId=" + data.id,
+                      }}
+                      onClick={() => linkClicked(data.id)}
+                    >
+                      Edit
+                    </Link>
+                  </p>
+                  <p>
+                    <Link
+                      to={{
+                        pathname: "/ViewSmartList",
+                        search: "?listId=" + data.id,
+                      }}
+                      onClick={() => linkClicked(data.id)}
+                    >
+                      View
+                    </Link>
+                  </p>
                   {}
                 </div>
               </div>
