@@ -118,6 +118,9 @@ const Table = (props) => {
     //     user_id: 18207,
     //   };
     // }
+    console.log("smartlist name");
+    console.log(props);
+
     if (props.listId) {
       body = {
         user_list: profile_user_id_array,
