@@ -30,10 +30,8 @@ const SmartList = (props) => {
       await axios
         .post(`distributes/get_smart_list`, body)
         .then((res) => {
-          console.log(res);
           setLoading(false);
           setSmartListData(res.data.response.data);
-          console.log(res.data.response.data);
         })
         .catch((err) => {
           console.log(err);
@@ -137,17 +135,31 @@ const SmartList = (props) => {
 										</div>
 										<div className="smartlist-buttons">
 
+                  {data.upload_by_filter == 1 ?
+                    <Link
+                    className="btn btn-primary edit_list"
+                    to={{
+                      pathname: "/EditList",
+                      search: "?listId=" + data.id,
+                    }}
+                    onClick={() => linkClicked(data.id)}
+                    >
+                    Edit List
+                    </Link>
+                   :
+                   <Link
+                     className="btn btn-primary edit_list"
+                     to={{
+                       pathname: "/ViewSmartList",
+                       search: "?listId=" + data.id,
+                     }}
+                     onClick={() => linkClicked(data.id)}
+                     >
+                     Edit List
+                   </Link>
+                  }
 
-									<Link
-									  className="btn btn-primary edit_list"
-									  to={{
-										pathname: "/EditList",
-										search: "?listId=" + data.id,
-									  }}
-									  onClick={() => linkClicked(data.id)}
-									>
-									  Edit List
-									</Link>
+
 									<Link
 									  className="btn btn-primary view"
 									  to={{

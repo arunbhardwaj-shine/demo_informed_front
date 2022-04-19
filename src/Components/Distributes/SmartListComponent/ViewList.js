@@ -13,6 +13,7 @@ const EditList = () => {
   const [profileId, setProfileId] = useState(null);
   const [api_flag, setapi_flag] = useState(0);
   const [isLoading, setLoading] = useState(true);
+  const [getuploadedby, setUploadedBy] = useState();
 
   const [data, setData] = useState([]);
 
@@ -29,7 +30,7 @@ const EditList = () => {
         if (res.data.response.data.length > 0) {
           setEditListData(res.data.response.data);
           setLoading(false);
-          //  console.log(res.data.response.data);
+          setUploadedBy(res.data.response.upload_by_filter);
           setSmartListName(res.data.response.smart_list_name);
           setapi_flag(api_flag + 1);
         }
@@ -58,6 +59,7 @@ const EditList = () => {
           smartListDatafn={getSmartListData}
           api_flag={api_flag}
           listId={queryParams.listId}
+          upload_by_filter={getuploadedby}
         />
         </div>
       </>
