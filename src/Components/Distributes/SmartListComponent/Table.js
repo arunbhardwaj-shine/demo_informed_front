@@ -172,7 +172,7 @@ const Table = (props) => {
       .then((res) => {
         console.log("response from add_update list");
         console.log(res);
-        window.location.href = '/SmartList';
+        // window.location.href = '/SmartList';
       })
       .catch((err) => {
         console.log(err);
@@ -362,23 +362,18 @@ const Table = (props) => {
         var result = editList.filter((obj) => {
           return obj.profile_user_id === body.profile_user_id;
         });
-        console.log("relevant array");
-        console.log(result);
-        result[0].email = body.email;
-        result[0].country = body.country;
-        result[0].company = body.company;
-        result[0].jobTitle = body.jobTitle;
 
-        const index = editList.findIndex(
-          (el) => el.profile_user_id === result.profile_user_id
-        );
+        if(result){
+            result[0].email = body.email;
+            result[0].country = body.country;
+            result[0].company = body.company;
+            result[0].jobTitle = body.jobTitle;
 
-        console.log("index");
-        console.log(index);
-
-        // console.log(hpc);
+            const index = editList.findIndex(
+              (el) => el.profile_user_id === result.profile_user_id
+            );
+        }
         setReRender(render + 1);
-        // console.log(editList);
       })
       .catch((err) => {
         console.log(err);
