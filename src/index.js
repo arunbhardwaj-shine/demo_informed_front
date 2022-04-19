@@ -1,8 +1,8 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
@@ -23,16 +23,17 @@ import FilterSegment from "./Components/Distributes/SmartListComponent/FilterSeg
 import VerifySmartList from "./Components/Distributes/SmartListComponent/VerifySmartList";
 import ViewList from "./Components/Distributes/SmartListComponent/ViewList";
 import EmailList from "./Components/Emails/EmailListing";
+import UploadExcel from "./Components/Distributes/SmartListComponent/UploadExcel";
 
 let platform = 1;
 if (window.location.href.indexOf("webinar") > -1) {
-      platform = 0;
+  platform = 0;
 }
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={createStore(reducers)}>
       {platform === 1
-        ? <>
+        ? ( <>
             <Header />
             <div className="warpper">
               <div className="container-fluid">
@@ -49,7 +50,7 @@ ReactDOM.render(
                     <Route path="/FilterSegment" element={<FilterSegment />} />
                     <Route path="/VerifySmartList" element={<VerifySmartList />} />
                     <Route path="/ViewSmartList" element={<ViewList />} />
-
+                    <Route path="/UploadExcel" element={<UploadExcel />} />
                     <Route path="/UpdatedTable" element={<Table />} />
                     </Routes>
                   </BrowserRouter>
@@ -57,7 +58,7 @@ ReactDOM.render(
               </div>
             </div>	
         </>
-      :
+        )  : (
         <BrowserRouter>
           <Routes>
             <Route path="/webinar" element={<Home />} />
@@ -65,11 +66,10 @@ ReactDOM.render(
             <Route path="/Webinar/Event/Add" element={<Add />} />
           </Routes>
         </BrowserRouter>
-      }
-
+      )}
     </Provider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function

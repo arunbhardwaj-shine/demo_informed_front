@@ -21,6 +21,7 @@ const FilterSegment = (props) => {
   const [showhidearticle, setShowHideArticle] = useState(0);
   const [getfilterdata, setFilterData] = useState();
   const [apifilterflag, setApiFilterFlag] = useState(0);
+  const [getpayload, setPayload] = useState(0);
 
   const [updateflag, setUpdateFlag] = useState([]);
 
@@ -144,7 +145,7 @@ const FilterSegment = (props) => {
   }
 
   const applyFilter = async () => {
-    const body = {
+    const payload = {
       user_id: 18207
     };
 
@@ -154,7 +155,7 @@ const FilterSegment = (props) => {
           let val = getKeyByValue(filters.contact_type,item);
           return val;
         });
-        Object.assign(body, {contactTypeList: contactTypeList});
+        Object.assign(payload, {contactTypeList: contactTypeList});
     }
 
     //For Registered Articles
@@ -163,7 +164,7 @@ const FilterSegment = (props) => {
           let val = getKeyByValue(filters.articles,item);
           return val;
         });
-        Object.assign(body, {registered_on_article: registered_on_article});
+        Object.assign(payload, {registered_on_article: registered_on_article});
     }
 
     //For Speciality
@@ -171,7 +172,7 @@ const FilterSegment = (props) => {
       let speciality = selectedspeciality.map((item) => {
           return item;
         });
-        Object.assign(body, {speciality: speciality});
+        Object.assign(payload, {speciality: speciality});
     }
 
     //For Country
@@ -179,7 +180,7 @@ const FilterSegment = (props) => {
       let country = selectedcountry.map((item) => {
           return item;
         });
-        Object.assign(body, {country: country});
+        Object.assign(payload, {country: country});
     }
 
     //For Product
@@ -187,42 +188,51 @@ const FilterSegment = (props) => {
       let product = selectedproduct.map((item) => {
           return item;
         });
-        Object.assign(body, {product: product});
+        Object.assign(payload, {product: product});
     }
 
     //For IBU
     if(selectedibu){
-      Object.assign(body, {ibu: selectedibu});
+      Object.assign(payload, {ibu: selectedibu});
     }
 
     //For Register
     if(selectedregister && selectedregister =="yes"){
-      Object.assign(body, {registered_users: 1});
+      Object.assign(payload, {registered_users: 1});
     }
 
     //For Bounce
     if(selectedbounce && selectedbounce =="yes"){
-      Object.assign(body, {bounce: 1});
+      Object.assign(payload, {bounce: 1});
     }
 
     //For Reader Selection
     if(selectedreaderselection){
-      Object.assign(body, {reader_selection: selectedreaderselection});
+      Object.assign(payload, {reader_selection: selectedreaderselection});
     }
-    console.log(body);
-    console.log(typeof(body));
 
+    //For Consent
+    if(typeof(selectedconsent) === 'object' && selectedconsent.length > 0){
+        let consent = selectedconsent.map((item) => {
+          return item;
+        });
+        Object.assign(payload, {Consent: consent});
+    }
+    setPayload(payload);
+    console.log(payload);
+    console.log(typeof(payload));
+    setApiFilterFlag(0);
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     await axios
-      .post(`distributes/get_smart_list_with_filter_data`, body)
+      .post(`distributes/get_smart_list_with_filter_data`, payload)
       .then((res) => {
             if('response' in res.data){
               setFilterData(res.data.response.data);
             }else{
               setFilterData();
             }
-            let updated_flag = apifilterflag + 1;
-            setApiFilterFlag(updated_flag);
+            // let updated_flag = apifilterflag + 1;
+            setApiFilterFlag(1);
       })
       .catch((err) => {
         console.log(err);
@@ -240,7 +250,7 @@ const FilterSegment = (props) => {
       </NavLink>
       <div className="row">
           <button className="btn-cancel">Cancel</button>
-          <Link to="/VerifySmartList" state={{ getfilterdata: getfilterdata,listname: listname }}>
+          <Link to="/VerifySmartList" state={{ getfilterdata: getfilterdata,listname: listname,contact_type:selectedcontacttype,filter_payload:getpayload}}>
               Next
           </Link>
       </div>
