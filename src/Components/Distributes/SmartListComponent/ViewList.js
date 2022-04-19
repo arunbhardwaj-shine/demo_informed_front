@@ -52,22 +52,26 @@ const EditList = () => {
   if (api_flag > 0) {
     return (
       <>
+      <div className="col right-sidebar">
         <Table
           data={editList}
           smartListDatafn={getSmartListData}
           api_flag={api_flag}
           listId={queryParams.listId}
         />
+        </div>
       </>
     );
   } else {
     return (
       <>
+      <div className="col right-sidebar">
         {isLoading ? (
           <div className={"item"}>
             <Loader type="heart" bgColor="red" color="red" size={100} />
           </div>
         ) : null}
+        </div>
       </>
     );
   }

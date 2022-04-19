@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { Button, Modal } from "react-bootstrap";
 import '../../assets/css/style.css';
+import '../../assets/css/custom.css';
 
 const Header = () => {
 	let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;

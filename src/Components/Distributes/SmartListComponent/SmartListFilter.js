@@ -31,12 +31,14 @@ const SmartListFilter = () => {
 
   return (
     <>
-    {'country' in filterList && Object.keys(filterList.country).length > 0 &&
-      <FilterSegment
-      filters={filterList}
-      listname={smartListName}
-      />
-    }
+    <div className="col right-sidebar">
+      {'country' in filterList && Object.keys(filterList.country).length > 0 &&
+        <FilterSegment
+        filters={filterList}
+        listname={smartListName}
+        />
+      }
+    </div>
     </>
   );
 

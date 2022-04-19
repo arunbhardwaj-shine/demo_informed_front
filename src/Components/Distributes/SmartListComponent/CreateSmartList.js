@@ -5,7 +5,6 @@ import Table from "./Table";
 import { useNavigate } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { Button, Modal } from "react-bootstrap";
-
 const CreateSmartList = () => {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
@@ -135,6 +134,7 @@ const CreateSmartList = () => {
 
   return (
     <>
+    <div className="col right-sidebar">
       <div className="row">
         <Link to="/SmartList">
           <button className="btn-cancel">cancel</button>
@@ -239,6 +239,7 @@ const CreateSmartList = () => {
             </button>
           </Modal.Footer>
         </Modal>
+      </div>
       </div>
     </>
   );
