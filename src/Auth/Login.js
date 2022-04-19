@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import ExportApi from "../Api/ExportApi";
+import { Button, Form } from "react-bootstrap";
 const Login = (props) => {
   const [err, setErr] = useState(false);
   const formik = useFormik({
@@ -18,10 +19,11 @@ const Login = (props) => {
     onSubmit: (values) => {
       ExportApi.UserLogin(values.email, values.password)
         .then((resp) => {
-          // console.log(resp)
+          //  console.log(resp)
           if (resp.data) {
             if (resp.data.code == 200) {
               localStorage.setItem("Token", resp.data.data);
+              localStorage.setItem("username",values.email );
               props.active(false);
             } else if(resp.data.code==404) {
               setErr(true)
@@ -36,31 +38,37 @@ const Login = (props) => {
   });
   return (
     <form onSubmit={formik.handleSubmit}>
-      <label htmlFor="email">Email</label>
-      <input
-        id="email"
-        name="email"
-        type="email"
-        onChange={formik.handleChange}
+      <center>
+         <h3>Login</h3>
+      </center>
+<hr/>
+       <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+    <Form.Label>Email address</Form.Label>
+    <Form.Control  name="email" onChange={formik.handleChange}
         onBlur={formik.handleBlur}
-        value={formik.values.email}/>
-      {formik.touched.email && formik.errors.email ? (
+        value={formik.values.email} type="email" placeholder="name@example.com" />
+         {formik.touched.email && formik.errors.email ? (
         <div style={{ color: "red" }}>{formik.errors.email}</div>
-      ) : null}
-      <label htmlFor="firstName">Password</label>
-      <input
-        id="password"
-        name="password"
-        type="password"
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        value={formik.values.password}  />
-      {formik.touched.password && formik.errors.password ? (
+      ) : null} 
+    <p style={{color:"red"}}>  {err?err:null}</p>
+  </Form.Group>
+       <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+    <Form.Label>Password</Form.Label>
+    <Form.Control
+       id="password"
+       name="password"
+       type="password"
+       onChange={formik.handleChange}
+       onBlur={formik.handleBlur}
+       value={formik.values.password}
+       />
+          {formik.touched.password && formik.errors.password ? (
         <div style={{ color: "red" }}>{formik.errors.password}</div>
       ) : null}
     <p style={{color:"red"}}>  {err?err:null}</p>
+  </Form.Group>
       
-      <button type="submit">Submit</button>
+      <Button type="submit">Submit</Button>
     </form>
   );
 };

@@ -1,0 +1,284 @@
+@media only screen and (max-width:1400px){
+h3 {
+	font-size: 26px;
+	line-height: 31px;
+}
+h4 {
+	font-size: 20px;
+	line-height: 28px;
+}
+.atenativ-top-product img {
+	max-width: 280px;
+}
+}
+@media only screen and (max-width:1365px){
+.atenativ-main-top .atenativ-main-top-logo img {
+	max-width: 382px;
+}
+.atenativ-main-top-logo {
+	padding: 55px;
+}
+h4 {
+	font-size: 18px;
+}
+h3 {
+	font-size: 24px;
+	line-height: 29px;
+}
+.atenativ-top-meeting-text {
+	padding: 20px 0;
+}
+}
+@media only screen and (max-width:1199px){
+.atenativ-main-top-logo {
+	padding: 30px;
+}	
+.atenativ-main-top .atenativ-main-top-logo img {
+	max-width: 270px;
+}	
+.atenativ-top-product img {
+	max-width: 200px;
+}
+h3 {
+	font-size: 22px;
+	line-height: 25px;
+}
+h4 {
+	font-size: 17px;
+}
+.atenativ-meeting-timing {
+margin-top:15px;
+	padding-top: 16px;
+}
+.atenativ-meeting-timing::before {
+	width: 125px;
+}
+h5 {
+	font-size: 18px;
+	line-height: 26px;
+}
+.atenativ-bottom-inside form .form-group .form-check .form-check-label, .atenativ-bottom-inside form .form-group.multiple-check .text-bigger {
+	font-size: 16px;
+	line-height: 20px;
+}
+.atenativ-bottom-inside form .btn.btn-primary {
+	min-width: 148px;
+	font-size: 16px;
+}
+.atenativ-footer-right a {
+	font-size: 16px;
+	margin-left: 30px;
+}
+}
+@media only screen and (max-width:991px){
+.atenativ-main-top .atenativ-main-top-logo img {
+	max-width: 210px;
+}
+.atenativ-top-product img {
+	max-width: 150px;
+}
+.atenativ-main-top-logo {
+	padding: 20px;
+}
+.atenativ-top-product {
+	margin-left: 20px;
+}
+h4 {
+	font-size: 16px;
+	line-height: 24px;
+}
+h3 {
+	font-size: 21px;
+	line-height: 24px;
+}
+h5 {
+	font-size: 16px;
+	line-height: 24px;
+}
+.atenativ-bottom-inside h5 br{display:none;}
+.atenativ-bottom-inside form .form-group .form-check .form-check-label, .atenativ-bottom-inside form .form-group.multiple-check .text-bigger {
+	font-size: 14px;
+	line-height: 18px;
+}
+.atenativ-bottom-inside form .btn.btn-primary {
+	position: static;
+}
+.form-group .btn-group.custom-select-menu .dropdown-label span {
+	font-size: 13px;
+}
+.dropdown-toggle.dropdown-label::after {
+	right: 12px;
+}
+.atenativ-footer-inside {
+	padding: 10px 0 0 0px;
+}
+.atenativ-bottom-inside form .form-group label {
+	padding: 0 0 10px 15px;
+}
+}
+@media only screen and (max-width:767px){
+.atenativ-top-product {
+    display: none;
+}
+.atenativ-main-top {
+	background: #F8B334;
+	border: 1.97952px solid #F8B334;
+	box-sizing: border-box;
+	box-shadow: 0px 3.95904px 11.8771px rgba(0, 0, 0, 0.24);
+	border-radius: 15.8362px;
+	flex-direction: column;
+	padding: 15px;
+	align-items: flex-start;
+}
+.atenativ-main-top-logo {
+	padding: 0;
+	text-align: left;
+}
+.atenativ-main-top .atenativ-main-top-logo img {
+	max-width: 130px;
+}
+section.atenativ-main {
+	padding: 10px;
+}
+.atenativ-top-meeting-text .atenativ-top-meeting-first {
+	width: 62%;
+}
+.atenativ-top-meeting-text .atenativ-meeting-timing {
+	width: 38%;
+	padding: 0;
+	margin: 0;
+}
+.atenativ-top-meeting-text h3 {
+	font-size: 13px;
+	line-height: 16px;
+	margin-bottom: 2px;
+}
+.atenativ-meeting-timing.mobile-view h4:last-child {
+	margin: 0;
+}
+.atenativ-top-meeting-text h3.light {
+	font-size: 13px;
+	line-height: 16px;
+}
+.atenativ-meeting-timing h4 {
+	font-size: 11px;
+	line-height: 14px;
+	letter-spacing: 0em;
+	margin-bottom: 8px;
+}
+.atenativ-meeting-timing h4 .divider {
+	display: none;
+}
+.atenativ-meeting-timing h4 span {
+	font-weight: 300;
+	width: 100%;
+	display: block;
+}
+.atenativ-meeting-timing.desktop-view{display:none}
+.atenativ-meeting-timing.mobile-view {
+	display: block !important;
+	padding-left: 10px;
+	margin-left: -13px;
+	position: relative;
+	right: -15px;
+}
+.atenativ-main-top-content {
+	width: 100%;
+}
+.atenativ-main-top-content {
+	width: 100%;
+}
+.atenativ-top-meeting-text {
+	padding: 3px 0;
+	width: 100%;
+	display: flex;
+}
+.atenativ-meeting-timing::before {
+	border-top:0;
+	border-left: 4px solid #3C2621;
+	top: 0;
+	left: 0;
+	border-radius: 7px;
+	height: 100%;
+	width: auto;
+}
+.atenativ-main-bottom {
+	padding: 16px;
+}
+h3 {
+	font-size: 18px;
+	line-height: 25px;
+}
+h5 {
+	font-size: 13px;
+	line-height: 17px;
+}
+.atenativ-bottom-inside form .form-group label {
+	padding: 0 0 7px 10px;
+	font-size: 10px;
+line-height: 11px;
+}
+.atenativ-bottom-inside form .form-group {
+	margin-bottom: 6px;
+}
+form input.form-control, .form-group .btn-group.custom-select-menu {
+	min-height: 37px;
+	padding: 5px 12px;
+}
+.form-group .btn-group.custom-select-menu .dropdown-label span {
+	font-size: 10px;
+}
+.atenativ-bottom-inside form .form-group .btn-group.custom-select-menu .dropdown-label {
+	padding: 5px 0;
+}
+.atenativ-bottom-inside form .form-group .form-check .form-check-label, .atenativ-bottom-inside form .form-group.multiple-check .text-bigger {
+	font-size: 11px;
+	line-height: 13px;
+	padding-left: 0px;
+}
+.atenativ-bottom-inside form .form-check-input[type="radio"] {
+	width: 16px;
+	height: 16px;
+}
+.atenativ-bottom-inside form .checkmark {
+	height: 16px;
+	width: 16px;
+	border: 1px solid #3C2621;
+	top: 5px;
+}
+.atenativ-bottom-inside form .form-group .form-check a {
+	font-size: 11px;
+	line-height: 13px;
+}
+.atenativ-bottom-inside form .btn.btn-primary {
+	min-width: 92px;
+	font-size: 12px;
+	background: #F8B334;
+	box-shadow: 0px 4.82143px 9.64286px rgba(0, 0, 0, 0.16);
+	border-radius: 51.8519px;
+	line-height: 14px;
+	height: 31px;
+	float: right;
+	margin-top:15px;
+}
+.atenativ-bottom-inside form .form-group .form-check .form-check-label {
+	padding: 0;
+}
+.form-check-label .checkmark::after, .form-check .checkmark::after {
+	width: 8px;
+	height: 8px;
+}
+.atenativ-bottom-inside form .multi-check-box .form-check {
+	margin-right: 17px;
+}
+.atenativ-footer-right a {
+	font-size: 8px;
+	margin-left: 18px;
+}
+.atenativ-footer-inside img {
+	max-width: 92px;
+}
+.form-group.more-space {
+	margin-top: 0px;
+}
+}
