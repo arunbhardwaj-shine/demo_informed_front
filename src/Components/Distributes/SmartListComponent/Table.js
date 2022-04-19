@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button, Modal } from "react-bootstrap";
-import { getListId } from "../../../actions";
 import { connect } from "react-redux";
 
 const Table = (props) => {
@@ -14,9 +13,15 @@ const Table = (props) => {
   const [emailData, setEmailData] = useState("");
 
   useEffect(() => {
-    console.log("props.data");
-    console.log(props.data);
     setUpdatedData(props.data);
+
+    if(typeof props.listId != "undefined" && props.listId != ""){
+      setListId(props.listId);
+    }
+
+    if(typeof props.smartListName != "undefined" && props.smartListName != ""){
+      setListName(props.smartListName);
+    }
   }, []);
 
   const [name, setName] = useState(null);
@@ -31,6 +36,8 @@ const Table = (props) => {
   const [editList, setEditList] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [counterFlag, setCounterFlag] = useState(0);
+  const [getlistid, setListId] = useState('');
+  const [getlistname, setListName] = useState('');
 
   const [show, setShow] = useState(false);
   const [hpc, setHpc] = useState([
@@ -73,7 +80,7 @@ const Table = (props) => {
 
     let formData = new FormData();
     formData.append("user_id", 18207);
-    formData.append("smart_list_id", props.listId);
+    formData.append("smart_list_id", getlistid);
     formData.append("reader_file", selectedFile);
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -102,7 +109,7 @@ const Table = (props) => {
 
     console.log(profile_user_id_array);
     // console.log(props.listId);
-    let body;
+    // let body;
     // if (props.listId) {
     //   body = {
     //     user_list: profile_user_id_array,
@@ -121,53 +128,51 @@ const Table = (props) => {
     console.log("smartlist name");
     console.log(props);
 
-    if (props.listId) {
-      body = {
+    // if (props.listId) {
+    const body = {
         user_list: profile_user_id_array,
-        smart_list_id: props.listId,
+        smart_list_id: getlistid,
         user_id: 18207,
-        smart_list_name: "",
-
-        contact_type: "",
-        consent_type: "",
-        reader_selection: "",
-        ibu: "",
-        product: "",
-        speciality: "",
-        country: "",
-        articles: "",
-        register: "",
-        bounce: "",
+        smart_list_name: getlistname,
+        submit_type: props.upload_by_filter,
         new_users_list: [],
       };
-    } else {
-      body = {
-        user_list: profile_user_id_array,
-        smart_list_id: "",
-        user_id: 18207,
-        smart_list_name: props.smartListName,
 
-        contact_type: "",
-        consent_type: "",
-        reader_selection: "",
-        ibu: "",
-        product: "",
-        speciality: "",
-        country: "",
-        articles: "",
-        register: "",
-        bounce: "",
-        new_users_list: [],
-      };
-    }
+      if(props.upload_by_filter == 1){
+        if(typeof(props.filter_payload) === 'object'){
+          Object.assign(body, {filters: props.filter_payload});
+        }
+      }
+      console.log(body);
+    // } else {
+      // body = {
+      //   user_list: profile_user_id_array,
+      //   smart_list_id: "",
+      //   user_id: 18207,
+      //   smart_list_name: props.smartListName,
+      //   upload_by_filter: props.upload_by_filter,
+        // contact_type: "",
+        // consent_type: "",
+        // reader_selection: "",
+        // ibu: "",
+        // product: "",
+        // speciality: "",
+        // country: "",
+        // articles: "",
+        // register: "",
+        // bounce: "",
+      //   new_users_list: [],
+      // };
+    // }
 
-    console.log(props.listId);
+
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     await axios
       .post(`distributes/add_update_list`, body)
       .then((res) => {
         console.log("response from add_update list");
         console.log(res);
+        window.location.href = '/SmartList';
       })
       .catch((err) => {
         console.log(err);
@@ -419,7 +424,7 @@ const Table = (props) => {
       user_list: filtered_list.map((data) => {
         return data.profile_user_id;
       }),
-      smart_list_id: props.listId,
+      smart_list_id: getlistid,
       user_id: 18207,
     };
 
@@ -532,7 +537,7 @@ const Table = (props) => {
     const body = {
       data: body_data,
       user_id: 18207,
-      smart_list_id: props.listId,
+      smart_list_id: getlistid,
     };
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -569,7 +574,7 @@ const Table = (props) => {
         </Link>
       ) : null}
 
-      {props.smartListName}
+      {getlistname}
       <br />
       <Button variant="primary" onClick={handleShow}>
         Add Reader
