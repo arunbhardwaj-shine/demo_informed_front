@@ -11,6 +11,8 @@ const Table = (props) => {
     rowKey: null,
   });
 
+  const [emailData, setEmailData] = useState("");
+
   useEffect(() => {
     console.log("props.data");
     console.log(props.data);
@@ -333,7 +335,10 @@ const Table = (props) => {
       country: country,
     };
 
-    console.log("props.data");
+    console.log("body");
+    console.log(body);
+
+    console.log("edit list");
     console.log(editList);
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -342,11 +347,30 @@ const Table = (props) => {
       .then((res) => {
         // console.log(props);
 
-        console.log(res);
+        // console.log(res);
         onCancel();
-        props.smartListDatafn();
 
+        // editList[0].email = email;
+        var result = editList.filter((obj) => {
+          return obj.profile_user_id === body.profile_user_id;
+        });
+        console.log("relevant array");
+        console.log(result);
+        result[0].email = body.email;
+        result[0].country = body.country;
+        result[0].company = body.company;
+        result[0].jobTitle = body.jobTitle;
+
+        const index = editList.findIndex(
+          (el) => el.profile_user_id === result.profile_user_id
+        );
+
+        console.log("index");
+        console.log(index);
+
+        // console.log(hpc);
         setReRender(render + 1);
+        // console.log(editList);
       })
       .catch((err) => {
         console.log(err);
@@ -427,6 +451,7 @@ const Table = (props) => {
     const name = hpc[i].email;
     list[i].email = value;
     setHpc(list);
+    setEmailData(e.target.value);
   };
 
   const onContactTypeChange = (e, i) => {
