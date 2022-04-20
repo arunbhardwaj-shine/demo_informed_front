@@ -1,6 +1,10 @@
 import { BaseApi } from "./BaseApi";
 const UserLogin = (email, password) =>
   BaseApi.post("login",{email:email, password:password});
+const UserLogout = () =>
+  BaseApi.put("/logout",{},{ headers: {
+    'Authorization':localStorage.getItem("Token"),
+  }});
   const GetBuData = () => 
   BaseApi.get("bu",{},{ headers: {
     'Authorization':localStorage.getItem("Token"),
@@ -58,6 +62,7 @@ BaseApi.post("create-rehearsal",{
   }});
 export default {
   UserLogin,
+  UserLogout,
   GetBuData,
   GetTimezoneData,
   GetTimezoneregionData,

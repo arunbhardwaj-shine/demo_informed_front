@@ -113,7 +113,7 @@ const EventData = () => {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Modal heading
+       Event Data
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -180,7 +180,6 @@ const EventData = () => {
               </form>
       </Modal.Body>
     </Modal>
-  );
     </div>
   );
 };

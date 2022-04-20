@@ -18,7 +18,6 @@ const Sidebar = () => {
   useEffect(() => {
     if(token==null||token==undefined){
       setToken(false)
-      navigate("/webinar")
     }
   }, [localStorage.getItem("Token"), token]);
   return (
@@ -42,7 +41,7 @@ const Sidebar = () => {
                 </div>
                 <div className="nav__title">Dashboard</div>
               </Link>
-              <Link className={location.pathname.includes("/webinar/event/add")?"active":"nav__link"}to="webinar/event/add"   title="Library" >
+              <Link className={location.pathname.includes("/webinar/event/add")?"active":"nav__link"}to={localStorage.getItem("Token")?"webinar/event/add":'/'}   title="Library" >
                 <div className="nav__preview">
                   <i className="la la-table "></i>
                 </div>

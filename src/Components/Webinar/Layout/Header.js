@@ -20,10 +20,6 @@ const Header = (props) => {
   useEffect(() => {
     setToken(localStorage.getItem("Token"));
     setUsernameget(localStorage.getItem("username"));
-    if (token == null || token == undefined) {
-      navigate("/webinar");
-      // alert("hello1")
-    }
   }, [localStorage.getItem("Token"), token]);
   return (
     <div>
