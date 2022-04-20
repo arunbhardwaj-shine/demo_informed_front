@@ -89,7 +89,7 @@ function Rehearsal() {
   return (
     <div>
       <div style={{textAlign:"center"}}>
-         <div>
+        {event.length>0? <div>
           <h2> Rehearsal</h2>
             <div>
               <form onSubmit={formik.handleSubmit}>
@@ -209,7 +209,8 @@ function Rehearsal() {
              <button className="btn btn-success btn-block" onClick={handleAddmore}>
             Schedule another rehearsal
           </button>
-          </div> 
+          </div> :"no Data"}
+        
     </div>
     </div>
   );
