@@ -8,9 +8,13 @@ import { Provider } from "react-redux";
 import { createStore } from "redux";
 import reducers from "./reducers";
 
-import Home from "./Dashboard/Home";
-import Add from "./Pages/Webinar/Event/Add";
-import Dashboard from "./Pages/Webinar/Dashboard";
+import Add from './Components/Webinar/Event/Add'
+import Home from './Components/Webinar/Dashboard/Home'
+import Dashboard from './Components/Webinar/Dashboard'
+import EventData from './Components/Webinar/Event/EventData'
+import Rehearsal from './Components/Webinar/Rehearsal/Rehearsal'
+import HeaderWebinar from './Components/Webinar/Layout/Header'
+import SidebarWebinar from './Components/Webinar/Layout/Sidebar'
 
 import Header from "./Components/CommonComponent/HeaderComponent/Header";
 import Sidebar from "./Components/CommonComponent/SidebarComponent/Sidebar";
@@ -26,8 +30,10 @@ import EmailList from "./Components/Emails/EmailListing";
 import UploadExcel from "./Components/Distributes/SmartListComponent/UploadExcel";
 
 let platform = 1;
+let show=0
 if (window.location.href.indexOf("webinar") > -1) {
   platform = 0;
+  show=1
 }
 ReactDOM.render(
   <React.StrictMode>
@@ -59,13 +65,17 @@ ReactDOM.render(
             </div>	
         </>
         )  : (
-        <BrowserRouter>
-          <Routes>
-            <Route path="/webinar" element={<Home />} />
-            <Route path="/Webinar/dashboard" element={<Dashboard />} />
-            <Route path="/Webinar/Event/Add" element={<Add />} />
-          </Routes>
-        </BrowserRouter>
+          <BrowserRouter>
+          <HeaderWebinar/> 
+          {show==1?<SidebarWebinar/>:null}
+            <Routes>
+              <Route path="/webinar" element={<Home />} />
+              <Route path="/webinar/dashboard" element={<Dashboard />} />
+              <Route path="/webinar/event/add" element={<Add />} />
+              <Route path="/webinar/event/edit" element={<EventData />} />
+              <Route path="/webinar/rehearsal" element={<Rehearsal />} />
+            </Routes>
+          </BrowserRouter>
       )}
     </Provider>
   </React.StrictMode>,

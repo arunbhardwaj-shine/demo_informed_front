@@ -30,8 +30,10 @@ const SmartList = (props) => {
       await axios
         .post(`distributes/get_smart_list`, body)
         .then((res) => {
+          console.log(res);
           setLoading(false);
           setSmartListData(res.data.response.data);
+          console.log(res.data.response.data);
         })
         .catch((err) => {
           console.log(err);
