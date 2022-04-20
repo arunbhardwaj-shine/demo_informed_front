@@ -36,7 +36,7 @@ function Rehearsal() {
           Speaker.splice(i, 1);
           setSpeaker([...Speaker]);
           Speakername.splice(i, 1);
-          console.log(Speakername.length);
+           console.log(Speakername.length);
         }
       };
       const handleGetTimezoneData = () => {
@@ -89,7 +89,7 @@ function Rehearsal() {
   return (
     <div>
       <div style={{textAlign:"center"}}>
-          <div>
+         <div>
           <h2> Rehearsal</h2>
             <div>
               <form onSubmit={formik.handleSubmit}>
@@ -209,7 +209,7 @@ function Rehearsal() {
              <button className="btn btn-success btn-block" onClick={handleAddmore}>
             Schedule another rehearsal
           </button>
-          </div>
+          </div> 
     </div>
     </div>
   );

@@ -3,13 +3,12 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { Button, Modal } from "react-bootstrap";
-
+import SidebarWebinar from './../../Webinar/Layout/Sidebar'
 
 const Sidebar = () => {
     return (
       <>
-      
-				<div className="col left-sidebar">
+     <div className="col left-sidebar">
 					<div className="sidebar-menu">
 						<ul>
 							<li className="active"><a href="javascript:void();"><svg width="24" height="18" viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -27,9 +26,8 @@ const Sidebar = () => {
 								
 							</ul>
 					</div>
-				</div>
-												
 						
+				</div>										
       </>
     );
 };
