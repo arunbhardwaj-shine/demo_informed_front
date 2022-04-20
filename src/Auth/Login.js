@@ -22,33 +22,25 @@ const Login = (props) => {
     onSubmit: (values) => {
       ExportApi.UserLogin(values.email, values.password)
         .then((resp) => {
-          //  console.log(resp)
+            console.log(resp.data.data[0].token)
+            console.log(resp.data.data[0].first_name)
           if (resp.data) {
             if (resp.data.code == 200) {
-              localStorage.setItem("Token", resp.data.data);
-              localStorage.setItem("username",values.email );
+               localStorage.setItem("Token", resp.data.data[0].token);
+               localStorage.setItem("username",resp.data.data[0].first_name);
               navigate("/webinar/dashboard");
               props.active(false);
               
-            } else if(resp.data.code==404) {
+            }{
               setErr(true)
               setErr(resp.data.message)
-              props.active(true);
             }
-            // console.log(err);
+            console.log(err);
           }
         })
         .catch((err) => console.log(err));
     },
   });
-	// useEffect(() => {
-	//   setToken(localStorage.getItem("Token"));
-	//   setUsernameget(localStorage.getItem("username"));
-	//   if (token == null || token == undefined) {
-	// 	navigate("/webinar");
-	// 	// alert("hello1")
-	//   }
-	// }, [localStorage.getItem("Token"), token]);
   return (
     <form onSubmit={formik.handleSubmit}>
       <center>

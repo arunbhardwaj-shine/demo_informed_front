@@ -1,53 +1,75 @@
-import { useState, useEffect } from "react";
-import { Button, Dropdown, DropdownButton, Modal, Navbar } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import { Button, Dropdown, Modal } from "react-bootstrap";
+import '../../assets/css/style.css';
+import '../../assets/css/custom.css';
+import Login from "../../../Auth/Login";
+
+
+import ExportApi from "../../../Api/ExportApi";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import Login from "./../../../Auth/Login";
-// import Logo from "../../assets/img/informed-icon.png";
-const Header = (props) => {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [smShowLogin, setSmShowLogin] = useState(false);
-  const [smShow, setSmShow] = useState(false);
-  const [token, setToken] = useState(localStorage.getItem("Token"));
-  const [usernameget, setUsernameget] = useState(
-    localStorage.getItem("username")
-  );
-  const hengleLonginPage = (data) => {
-    setSmShowLogin(data);
-    setDropdownOpen(data);
-  };
-  let navigate = useNavigate();
-  useEffect(() => {
-    setToken(localStorage.getItem("Token"));
-    setUsernameget(localStorage.getItem("username"));
-  }, [localStorage.getItem("Token"), token]);
-  return (
-    <div>
-      <Navbar bg="light" expand="lg">
-        <Link className="nav__link nav__link_head" to="/webinar">
-          <div className="nav__preview">
-            {" "}
-            <img
-              src="https://informed.pro/css/newtemplate/images/inforMed_Logo_Blue.png"
-              height="28"
-              alt="CoolBrand"
-            />
-          </div>
-          {/* <div className="container__title title title_md"><img className="nav__pic" src={betaCRM} alt="betaCRM" /></div> */}
-        </Link>
-        <div className="container">
-          <Link to="/webinar">Library</Link>
-        </div>
-        <div className="container">
-          <Link to="/webinar">Readers</Link>
-        </div>
-        <div className="container">
-          <Link to="/webinar">Analytics</Link>
-        </div>
-        <div className="container">
-          <Link to="/webinar">Distrubute</Link>
-        </div>
-        <div className="container">
+
+const Header = () => {
+	const [dropdownOpen, setDropdownOpen] = useState(false);
+	const [smShowLogin, setSmShowLogin] = useState(false);
+	const [smShow, setSmShow] = useState(false);
+	const [token, setToken] = useState(localStorage.getItem("Token"));
+	const [usernameget, setUsernameget] = useState(
+	  localStorage.getItem("username")
+	);
+	const hengleLonginPage = (data) => {
+	  setSmShowLogin(data);
+	  setDropdownOpen(data);
+	};
+	
+	//let navigate=useNavigate()
+
+	useEffect(() => {
+		setToken(localStorage.getItem("Token"));
+		setUsernameget(localStorage.getItem("username"));
+	  }, [localStorage.getItem("Token"), token]);
+
+	    
+const Logout=()=>{
+	ExportApi.UserLogout()
+	.then((resp) => {
+	  if (resp.data) {
+		  console.log(resp)
+		  if (resp.data.code == 200) {
+			localStorage.removeItem("Token")
+			
+			//navigate("/")
+		} ;
+	  }
+	})
+	.catch((err) => console.log(err));
+}
+
+    return (
+      <>
+     	<header>
+			<nav className="navbar navbar-expand-sm navbar-light">
+			  <div className="container-fluid">
+				<a className="navbar-brand" ><img src="https://informed.pro/css/newtemplate/images/inforMed_Logo_Blue.png" width={230}/></a>
+				<button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+				  <span className="navbar-toggler-icon"></span>
+				</button>
+				<div className="collapse navbar-collapse" id="collapsibleNavbar">
+				  <ul className="navbar-nav">
+					<li className="nav-item active">
+						<a className="nav-link" >Library</a>
+					  </li>
+					  <li className="nav-item">
+						<a className="nav-link" >Readers</a>
+					  </li>
+					  <li className="nav-item">
+						<a className="nav-link" >Analytics</a>
+					  </li>
+					  <li className="nav-item">
+						<a className="nav-link" >Distrubute</a>
+					  </li>
+					  <div className="container">
           <Link
             to={
               localStorage.getItem("Token") ? "/webinar/dashboard" : "/webinar"
@@ -56,16 +78,22 @@ const Header = (props) => {
             Webinar
           </Link>
         </div>
-        {token?(
+					  {/* <li className="nav-item">
+						<Link to="/webinar"  >Webinar</Link>
+					  </li> */}
+				</ul>
+				</div>
+				<div className="user-login">
+				{token?(
          <Dropdown>
          <Dropdown.Toggle variant="success" id="dropdown-basic">
-          {usernameget?usernameget:"WellCome"}
+          {usernameget?usernameget:"WelCome"}
          </Dropdown.Toggle>
        
          <Dropdown.Menu>
-         <Dropdown.Item >Seting
+         <Dropdown.Item >Setting
              </Dropdown.Item>
-         <Dropdown.Item onClick={()=>localStorage.removeItem("Token")}><Link to="/webinar">Logout</Link> </Dropdown.Item>
+         <Dropdown.Item onClick={()=>{Logout()}}>Logout</Dropdown.Item>
          </Dropdown.Menu>
        </Dropdown>
          
@@ -104,8 +132,23 @@ const Header = (props) => {
             ></div>
           </div>
         )}
-      </Navbar>
-    </div>
-  );
+				{/* <ul>
+					<li className="nav-item dropdown">
+					  <a className="nav-link dropdown-toggle"  role="button" data-bs-toggle="dropdown"><span>Hi,</span>Jacob Flindt</a>
+					  <ul className="dropdown-menu">
+						<li><a className="dropdown-item" href="#">Link</a></li>
+						<li><a className="dropdown-item" href="#">Another link</a></li>
+						<li><a className="dropdown-item" href="#">A third link</a></li>
+					  </ul>
+					</li>
+				  </ul> */}
+				</div>
+			  </div>
+			</nav>
+
+		</header>
+      </>
+    );
 };
+
 export default Header;

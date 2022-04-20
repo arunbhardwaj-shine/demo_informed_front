@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Navigate, Outlet, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
+import { Navigate, Outlet, } from 'react-router-dom'
 const Proctected = () => {
 
 console.log(<Outlet/>)
@@ -8,7 +8,7 @@ return Token? (
 <>
 <Outlet/>
 </>
-): <Navigate to="/"/> 
+): <Navigate to="/webinar"/> 
 
 
 }

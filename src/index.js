@@ -14,6 +14,7 @@ import Dashboard from "./Components/Webinar/Dashboard";
 import EventData from "./Components/Webinar/Event/EventData";
 import Rehearsal from "./Components/Webinar/Rehearsal/Rehearsal";
 import SidebarWebinar from "./Components/Webinar/Layout/Sidebar";
+import HeaderWebinar from "./Components/Webinar/Layout/Header";
 
 import Header from "./Components/CommonComponent/HeaderComponent/Header";
 import Sidebar from "./Components/CommonComponent/SidebarComponent/Sidebar";
@@ -29,26 +30,23 @@ import EmailList from "./Components/Emails/EmailListing";
 import UploadExcel from "./Components/Distributes/SmartListComponent/UploadExcel";
 import Proctected from "./Auth/Proctected ";
 
-let platform = 1;
+let platform = 0;
 let show = 0;
-if (window.location.href.indexOf("webinar") > -1) {
+if (window.location.href.indexOf("/webinar") > -1) {
   platform = 1;
   show = 1;
 }
-
+console.log(window.location.pathname)
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={createStore(reducers)}>
-      {
-        <>
+      {platform==0?<>
           <BrowserRouter>
             <Header />
-
             <div className="warpper">
               <div className="container-fluid">
                 <div className="row">
                   <Sidebar />
-
                   <Routes>
                     <Route path="/" element={<App />} />
                     <Route path="/SmartList" element={<SmartList />} />
@@ -70,9 +68,26 @@ ReactDOM.render(
                     <Route path="/ViewSmartList" element={<ViewList />} />
                     <Route path="/UploadExcel" element={<UploadExcel />} />
                     <Route path="/UpdatedTable" element={<Table />} />
+               
+               
+                  </Routes>
+                </div>
+              </div>
+            </div>
+          </BrowserRouter>
+        </>:<BrowserRouter>
+        <HeaderWebinar/>
+        <div className="warpper">
+              <div className="container-fluid">
+                <div className="row">
+                   <SidebarWebinar/>
+        <><Routes>
+        <Route
+                          path="/webinar"
+                          element={<Home />}
+                        />
                     <React.Fragment>
                       {/* <Route path="/webinar" element={<App />} /> */}
-
                       <Route path="/" element={<Proctected />}>
                         <Route
                           path="/webinar/dashboard"
@@ -80,39 +95,29 @@ ReactDOM.render(
                         />
                         <Route path="/webinar/event/add" element={<Add />} />
                         <Route
-                          path="/webinar/event/edit"
-                          element={<EventData />}
-                        />
-                        <Route
                           path="/webinar/rehearsal"
                           element={<Rehearsal />}
                         />
+                        <Route
+                          path="/webinar/event/edit"
+                          element={<EventData />}
+                        />
                       </Route>
-                      {/* <Route path="/webinar/dashboard" element={<Dashboard />} />
-                    <Route path="/webinar/event/add" element={<Add />} />
-                    <Route path="/webinar/event/edit" element={<EventData />} />
-                    <Route path="/webinar/rehearsal" element={<Rehearsal />} /> */}
                     </React.Fragment>
-                  </Routes>
-                </div>
-              </div>
-            </div>
-          </BrowserRouter>
+                    </Routes>
+                    
+        {/* {localStorage.getItem("Token")?<Routes>
+            <Route path="/webinar" element={<Home />} />
+            <Route path="/webinar/dashboard" element={<Dashboard />} />
+            <Route path="/webinar/event/add" element={<Add />} />
+            <Route path="/webinar/event/edit" element={<EventData />} />
+            <Route path="/webinar/rehearsal" element={<Rehearsal />} />
+          </Routes>:null} */}
         </>
-
-        // <BrowserRouter>
-        // <Header/>
-        // {show==1?<SidebarWebinar/>:null}
-        // <>
-        // {localStorage.getItem("Token")?<Routes>
-        //     <Route path="/webinar" element={<Home />} />
-        //     <Route path="/webinar/dashboard" element={<Dashboard />} />
-        //     <Route path="/webinar/event/add" element={<Add />} />
-        //     <Route path="/webinar/event/edit" element={<EventData />} />
-        //     <Route path="/webinar/rehearsal" element={<Rehearsal />} />
-        //   </Routes>:null}
-        // </>
-        // </BrowserRouter>
+        </div>
+        </div>
+        </div>
+        </BrowserRouter>
       }
     </Provider>
   </React.StrictMode>,

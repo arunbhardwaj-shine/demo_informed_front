@@ -1,19 +1,14 @@
 import React from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
-import Header from '../Components/CommonComponent/HeaderComponent/Header'
 import Sidebar from '../Components/CommonComponent/SidebarComponent/Sidebar'
-
+import SidebarWebinar from './../Components/Webinar/Layout/Sidebar'
 const Public = () => {
-const active = localStorage.getItem("Tokan")
-return active? (
+return window.location.pathname.indexOf("/webinar")>-1? (
 <>
-<Header/>
-<Sidebar/>
-<Navigate to="/"/>
+<SidebarWebinar/>
 </>
 ):
-<Outlet/>
-
+<Sidebar/>
 }
 
 export default Public

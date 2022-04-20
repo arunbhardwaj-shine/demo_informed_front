@@ -84,7 +84,7 @@ const EventData = () => {
     handleGetEventlist();
   }, []);
   return (
-    <div style={{marginLeft:"220px"}}>
+    <div>
         <h2><center>Event Data</center></h2>
         <br/>
       <Table striped bordered hover>
