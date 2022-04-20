@@ -12,7 +12,7 @@ const UploadExcel = (props) => {
   return (
     <>
       {console.log(location)}
-      <Table data={data} smartListName={smartListName} upload_by_filter = '0' />
+      <Table data={data} smartListName={smartListName} upload_by_filter="0" />
     </>
   );
 };
