@@ -8,7 +8,7 @@ import Login from "../../../Auth/Login";
 
 
 import ExportApi from "../../../Api/ExportApi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -23,7 +23,7 @@ const Header = () => {
 	  setDropdownOpen(data);
 	};
 	
-	//let navigate=useNavigate()
+	let navigate=useNavigate()
 
 	useEffect(() => {
 		setToken(localStorage.getItem("Token"));
@@ -38,8 +38,7 @@ const Logout=()=>{
 		  console.log(resp)
 		  if (resp.data.code == 200) {
 			localStorage.removeItem("Token")
-			
-			//navigate("/")
+			navigate("/webinar")
 		} ;
 	  }
 	})
