@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Button, Modal } from "react-bootstrap";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
+import SimpleReactValidator from "simple-react-validator";
 
 import { connect } from "react-redux";
 
@@ -13,6 +14,10 @@ const Table = (props) => {
     rowKey: null,
   });
 
+  //let validator = new SimpleReactValidator();
+
+  const [validator] = React.useState(new SimpleReactValidator());
+  const [data, setData] = useState(0);
   const [emailData, setEmailData] = useState("");
 
   useEffect(() => {
@@ -445,29 +450,6 @@ const Table = (props) => {
         },
       ],
     });
-
-    // const filtered_list = editList.filter((data) => {
-    //   return data.profile_user_id != profile_user_id;
-    // });
-    // console.log("filtered list");
-    // console.log(filtered_list);
-
-    // setEditList(filtered_list);
-    // const body = {
-    //   user_list: filtered_list.map((data) => {
-    //     return data.profile_user_id;
-    //   }),
-    //   smart_list_id: getlistid,
-    //   user_id: 18207,
-    // };
-
-    // axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    // await axios
-    //   .post(`distributes/add_update_list`, body)
-    //   .then((res) => {})
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
   };
 
   const onFirstNameChange = (e, i) => {
@@ -497,6 +479,7 @@ const Table = (props) => {
 
   const onContactTypeChange = (e, i) => {
     const { value } = e.target;
+    console.log(value);
     const list = [...hpc];
     const name = hpc[i].contact_type;
     list[i].contact_type = value;
@@ -517,81 +500,76 @@ const Table = (props) => {
   };
 
   const saveClicked = async () => {
-    setHpc([
-      { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
-    ]);
-    handleClose();
     console.log(hpc);
-    const firstname_arr = hpc.map((data) => {
-      return data.firstname;
-    });
-    const lastname_arr = hpc.map((data) => {
-      return data.lastname;
-    });
-    const email_arr = hpc.map((data) => {
-      return data.email;
-    });
-    const contact_type_arr = hpc.map((data) => {
-      return data.contact_type;
-    });
-    const coutry_arr = hpc.map((data) => {
-      return data.country;
-    });
-
-    // console.log(firstname_arr);
-    // console.log(lastname_arr);
-    // console.log(email_arr);
-    // console.log(contact_type_arr);
-    // console.log(coutry_arr);
-
-    // console.log(body);
-
-    // {
-    //   first_name: firstname_arr,
-    //   last_name: lastname_arr,
-    //   email: email_arr,
-    //   country: coutry_arr,
-    //   contact_type: contact_type_arr,
-    //   smart_list_id: props.listId,
-    //   user_id: 18207,
-    // },{
-
-    // }
-    const body_data = hpc.map((data) => {
-      return {
-        first_name: data.firstname,
-        last_name: data.lastname,
-        email: data.email,
-        country: data.country,
-        contact_type: data.contact_type,
-      };
-    });
-
-    const body = {
-      data: body_data,
-      user_id: 18207,
-      smart_list_id: getlistid,
-    };
-
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    await axios
-      .post(`distributes/add_new_readers_in_list`, body)
-      .then((res) => {
-        // console.log("response from add_update list");
-        console.log(res);
-        let old_data = editList;
-        let new_data = res.data.response.data;
-        console.log(old_data);
-        console.log(new_data);
-
-        combine_data_manual = [...new_data, ...old_data];
-        console.log(combine_data_manual);
-        setEditList(combine_data_manual);
-        setUpdatedData(combine_data_manual);
-      })
-      .catch((err) => {
-        console.log(err);
+    if (validator.allValid()) {
+      setHpc([
+        {
+          firstname: "",
+          lastname: "",
+          email: "",
+          contact_type: "",
+          country: "",
+        },
+      ]);
+      handleClose();
+      console.log(hpc);
+      const firstname_arr = hpc.map((data) => {
+        return data.firstname;
       });
+      const lastname_arr = hpc.map((data) => {
+        return data.lastname;
+      });
+      const email_arr = hpc.map((data) => {
+        return data.email;
+      });
+      const contact_type_arr = hpc.map((data) => {
+        return data.contact_type;
+      });
+      const coutry_arr = hpc.map((data) => {
+        return data.country;
+      });
+
+      const body_data = hpc.map((data) => {
+        return {
+          first_name: data.firstname,
+          last_name: data.lastname,
+          email: data.email,
+          country: data.country,
+          contact_type: data.contact_type,
+        };
+      });
+
+      const body = {
+        data: body_data,
+        user_id: 18207,
+        smart_list_id: getlistid,
+      };
+
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      await axios
+        .post(`distributes/add_new_readers_in_list`, body)
+        .then((res) => {
+          console.log(res);
+          let old_data = editList;
+          let new_data = res.data.response.data;
+          console.log(old_data);
+          console.log(new_data);
+
+          combine_data_manual = [...new_data, ...old_data];
+          console.log(combine_data_manual);
+          setEditList(combine_data_manual);
+          setUpdatedData(combine_data_manual);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      alert("validation failed");
+      console.log(validator);
+      validator.showMessages();
+      console.log(validator.errorMessages);
+      setData(data + 1);
+    }
   };
 
   return (
@@ -662,71 +640,111 @@ const Table = (props) => {
         {/* {renderCounterData.map((data) => {
             return <>{data}</>;
           })} */}
-        {hpc.map((val, i) => {
-          const fieldName = `hpc[${i}]`;
-          return (
-            <>
-              <div className="container">
-                <div className="row align-items-center vh-100">
-                  <div className="col-6 mx-auto">
-                    <div className="card shadow border">
-                      <div className="card-body d-flex flex-column align-items-center">
-                        <div className="card-title">
-                          first name{" "}
-                          <input
-                            type="text"
-                            name={`${fieldName}.firstname`}
-                            onChange={(event) => onFirstNameChange(event, i)}
-                            value={val.firstname}
-                          ></input>
-                          last name{" "}
-                          <input
-                            type="text"
-                            name={`${fieldName}.lastname`}
-                            onChange={(event) => onLastNameChange(event, i)}
-                            value={val.lastname}
-                          ></input>
-                          email{" "}
-                          <input
-                            type="text"
-                            name={`${fieldName}.email`}
-                            onChange={(event) => onEmailChange(event, i)}
-                            value={val.email}
-                          ></input>
-                          contact type{" "}
-                          <input
-                            type="text"
-                            name={`${fieldName}.contact_type`}
-                            onChange={(event) => onContactTypeChange(event, i)}
-                            value={val.contact_type}
-                          ></input>
-                          country{" "}
-                          <input
-                            type="text"
-                            name={`${fieldName}.country`}
-                            onChange={(event) => onCountryChange(event, i)}
-                            value={val.country}
-                          ></input>
-                          <br />
-                          {hpc.length !== 1 && (
-                            <button onClick={() => deleteRecord(i)}>
-                              Remove
-                            </button>
-                          )}
+        <div className="container">
+          {hpc.map((val, i) => {
+            const fieldName = `hpc[${i}]`;
+            return (
+              <>
+                <div className="container">
+                  <div className="row align-items-center vh-100">
+                    <div className="col-6 mx-auto">
+                      <div className="card shadow border">
+                        <div className="card-body d-flex flex-column align-items-center">
+                          <div className="card-title form-group">
+                            first name{" "}
+                            <input
+                              type="text"
+                              name={`${fieldName}.firstname`}
+                              onChange={(event) => onFirstNameChange(event, i)}
+                              value={val.firstname}
+                            ></input>
+                            {validator.message(
+                              "name",
+                              val.firstname,
+                              "required|alpha"
+                            )}
+                            last name{" "}
+                            <input
+                              type="text"
+                              name={`${fieldName}.lastname`}
+                              onChange={(event) => onLastNameChange(event, i)}
+                              value={val.lastname}
+                            ></input>
+                            {validator.message(
+                              "lastname",
+                              val.lastname,
+                              "required|alpha"
+                            )}
+                            email{" "}
+                            <input
+                              type="text"
+                              name={`${fieldName}.email`}
+                              onChange={(event) => onEmailChange(event, i)}
+                              value={val.email}
+                            ></input>
+                            {validator.message(
+                              "email",
+                              val.email,
+                              "required|email"
+                            )}
+                            contact type{" "}
+                            {/* <input
+                              type="text"
+                              name={`${fieldName}.contact_type`}
+                              onChange={(event) =>
+                                onContactTypeChange(event, i)
+                              }
+                              value={val.contact_type}
+                            ></input> */}
+                            <input
+                              type="radio"
+                              id="HPC"
+                              onChange={(event) =>
+                                onContactTypeChange(event, i)
+                              }
+                              name={`${fieldName}.contact_type`}
+                              value="HPC"
+                            />
+                            <label for="HPC">HPC</label>
+                            <input
+                              type="radio"
+                              id="UPC"
+                              name={`${fieldName}.contact_type`}
+                              onClick={(event) => onContactTypeChange(event, i)}
+                              value="UPC"
+                            />
+                            <label for="UPC">UPC</label>
+                            country{" "}
+                            <input
+                              type="text"
+                              name={`${fieldName}.country`}
+                              onChange={(event) => onCountryChange(event, i)}
+                              value={val.country}
+                            ></input>
+                            <br />
+                            {hpc.length !== 1 && (
+                              <button onClick={() => deleteRecord(i)}>
+                                Remove
+                              </button>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </>
-          );
-        })}
-        <Modal.Footer>
-          <button className="btn btn-secondary" onClick={saveClicked}>
+              </>
+            );
+          })}
+
+          <button
+            type="submit"
+            className="btn btn-secondary"
+            onClick={saveClicked}
+          >
             Save
           </button>
-        </Modal.Footer>
+        </div>
       </Modal>
       <Modal show={showUploadMenu} onHide={handleCloseUploadMenu}>
         <Modal.Header closeButton>
@@ -760,7 +778,7 @@ const Table = (props) => {
             <div className="card-header"> Upload your new list file</div>
             <div className="card-body">
               <h5 className="card-title"></h5>
-              <input type="file" onChange={onFileChange} />
+              <input type="file" onChange={onFileChange} required />
               <br />
               <button
                 className="btn btn-secondary"
