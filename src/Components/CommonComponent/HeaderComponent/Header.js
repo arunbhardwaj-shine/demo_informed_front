@@ -4,6 +4,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { Button, Dropdown, Modal } from "react-bootstrap";
 import '../../assets/css/style.css';
 import '../../assets/css/custom.css';
+import '../../assets/fonts/fonts.css';
 
 const Header = () => {
 
