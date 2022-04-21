@@ -29,6 +29,9 @@ import ViewList from "./Components/Distributes/SmartListComponent/ViewList";
 import EmailList from "./Components/Emails/EmailListing";
 import UploadExcel from "./Components/Distributes/SmartListComponent/UploadExcel";
 import Proctected from "./Auth/Proctected ";
+import ResetPassword from "./Auth/ResetPassword";
+import ForgotPassword from "./Auth/ForgotPassword";
+import ForgotResetPassword from "./Auth/ForgotResetPassword";
 
 let platform = 0;
 let show = 0;
@@ -81,10 +84,18 @@ ReactDOM.render(
               <div className="container-fluid">
                 <div className="row">
                    <SidebarWebinar/>
-        <><Routes>
-        <Route
+        <>      <Routes>
+                        <Route
                           path="/webinar"
                           element={<Home />}
+                        />
+                        <Route
+                          path="/webinar/Forgotpassword"
+                          element={<ForgotPassword />}
+                        />
+                        <Route
+                          path="/webinar/forgot-reset-password/:id"
+                          element={<ForgotResetPassword />}
                         />
                     <React.Fragment>
                       {/* <Route path="/webinar" element={<App />} /> */}
@@ -92,6 +103,10 @@ ReactDOM.render(
                         <Route
                           path="/webinar/dashboard"
                           element={<Dashboard />}
+                        />
+                        <Route
+                          path="/webinar/resetpassword"
+                          element={<ResetPassword />}
                         />
                         <Route path="/webinar/event/add" element={<Add />} />
                         <Route

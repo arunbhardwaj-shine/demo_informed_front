@@ -1,17 +1,26 @@
 import { BaseApi } from "./BaseApi";
+//Auth
 const UserLogin = (email, password) =>
   BaseApi.post("login",{email:email, password:password});
+const UserForgot = (email) =>
+  BaseApi.post("forgot-password",{email:email});
+const UserForgotResetPasswordPost = (Token,new_pass,confirm_pass) =>
+  BaseApi.put("forgot-reset-password",{new_pass:new_pass,confirm_pass:confirm_pass},{ headers: {
+    'reset_token':Token,
+  }});
+const ResetPasswordPost = (old_pass,new_pass,confirm_pass) =>
+  BaseApi.post("reset-password",{old_pass:old_pass,new_pass:new_pass,confirm_pass:confirm_pass},{ headers: {
+    'Authorization':localStorage.getItem("Token"),
+  }});
 const UserLogout = () =>
   BaseApi.put("/logout",{},{ headers: {
     'Authorization':localStorage.getItem("Token"),
   }});
+        //Dropdown
   const GetBuData = () => 
   BaseApi.get("bu",{},{ headers: {
     'Authorization':localStorage.getItem("Token"),
 }});
-
-// const GetBuData = (tokenn) => console.log(tokenn)
-
 const GetTimezoneData = () => BaseApi.get("timezone",{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
@@ -19,6 +28,7 @@ const GetTimezoneregionData = () => BaseApi.get("timezoneregion",{},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
 const GetCountryData = () => BaseApi.get("country");
+      //Event
 const GetEventList = () => BaseApi.get("events",{},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
@@ -42,6 +52,8 @@ BaseApi.post("create-event",{user_id:1,
   country_timezone:Region,
   speaker_data:a,
   event_date:event_date });
+
+     //Rehearsal
 const CreatRehearsal = (EventTitle,Timezone,event_start_time,
   eventendtime,event_date,type,Description,a) => 
 BaseApi.post("create-rehearsal",{
@@ -62,6 +74,9 @@ BaseApi.post("create-rehearsal",{
   }});
 export default {
   UserLogin,
+  UserForgot,
+  UserForgotResetPasswordPost,
+  ResetPasswordPost,
   UserLogout,
   GetBuData,
   GetTimezoneData,

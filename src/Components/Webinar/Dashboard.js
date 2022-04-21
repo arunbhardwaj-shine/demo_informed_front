@@ -6,8 +6,8 @@ const Dashboard = () => {
 
   return (
     <div>
-      <Sidebar/>
-        <Col><center>Webinar Dashboard </center> </Col>
+      {/* <Sidebar/> */}
+        <center>Webinar Dashboard </center>
     </div>
   );
 };
