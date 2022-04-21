@@ -17,8 +17,14 @@ const Table = (props) => {
   //let validator = new SimpleReactValidator();
 
   const [validator] = React.useState(new SimpleReactValidator());
+  const [validator2] = React.useState(new SimpleReactValidator());
+  const [validator3] = React.useState(new SimpleReactValidator());
+
   const [data, setData] = useState(0);
+  const [fileValidationMessage, setFileValidationMeassage] = useState(0);
   const [emailData, setEmailData] = useState("");
+
+  const [validator3Counter, setValidator3Counter] = useState(0);
 
   useEffect(() => {
     setUpdatedData(props.data);
@@ -87,28 +93,34 @@ const Table = (props) => {
   }, [props.api_flag]);
 
   const uploadFile = async (event) => {
-    setShowUploadMenu(!showUploadMenu);
+    if (validator2.allValid()) {
+      setShowUploadMenu(!showUploadMenu);
 
-    let formData = new FormData();
-    formData.append("user_id", 18207);
-    formData.append("smart_list_id", getlistid);
-    formData.append("reader_file", selectedFile);
+      let formData = new FormData();
+      formData.append("user_id", 18207);
+      formData.append("smart_list_id", getlistid);
+      formData.append("reader_file", selectedFile);
 
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    await axios
-      .post(`distributes/update_reader_list`, formData)
-      .then((res) => {
-        let old_data = editList;
-        let new_data = res.data.response.data[0];
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      await axios
+        .post(`distributes/update_reader_list`, formData)
+        .then((res) => {
+          let old_data = editList;
+          let new_data = res.data.response.data[0];
 
-        combine_data = [new_data, ...old_data];
-        // console.log(combine_data);
-        setEditList(combine_data);
-        setUpdatedData(combine_data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+          combine_data = [new_data, ...old_data];
+          // console.log(combine_data);
+          setEditList(combine_data);
+          setUpdatedData(combine_data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      console.log(validator2.errorMessages);
+      validator2.showMessages();
+      setFileValidationMeassage(fileValidationMessage + 1);
+    }
   };
 
   const showFileInReadersList = async () => {
@@ -400,15 +412,23 @@ const Table = (props) => {
     country,
     profile_user_id,
   }) => {
-    updateReaderDetails({
-      profile_id,
-      newName,
-      email,
-      jobTitle,
-      company,
-      country,
-      profile_user_id,
-    });
+    if (validator3.allValid()) {
+      updateReaderDetails({
+        profile_id,
+        newName,
+        email,
+        jobTitle,
+        company,
+        country,
+        profile_user_id,
+      });
+    } else {
+      console.log("validator3");
+      console.log(validator3);
+      console.log(validator3.errorMessages);
+      // validator3.showMessages();
+      //setValidator3Counter(validator3Counter + 1);
+    }
   };
 
   const deleteReader = (profile_user_id) => {
@@ -698,22 +718,31 @@ const Table = (props) => {
                             ></input> */}
                             <input
                               type="radio"
-                              id="HPC"
+                              id="HCP"
                               onChange={(event) =>
                                 onContactTypeChange(event, i)
                               }
                               name={`${fieldName}.contact_type`}
-                              value="HPC"
+                              value="HCP"
                             />
-                            <label for="HPC">HPC</label>
+                            <label for="HCP">HPC</label>
                             <input
                               type="radio"
-                              id="UPC"
+                              id="staff"
                               name={`${fieldName}.contact_type`}
                               onClick={(event) => onContactTypeChange(event, i)}
-                              value="UPC"
+                              value="staff"
                             />
-                            <label for="UPC">UPC</label>
+                            <label for="staff">staff</label>
+                            <input
+                              type="radio"
+                              id="test-users"
+                              name={`${fieldName}.contact_type`}
+                              onClick={(event) => onContactTypeChange(event, i)}
+                              value="test users"
+                            />
+                            <label for="test-users">Test Users</label>
+                            <br />
                             country{" "}
                             <input
                               type="text"
@@ -721,6 +750,11 @@ const Table = (props) => {
                               onChange={(event) => onCountryChange(event, i)}
                               value={val.country}
                             ></input>
+                            {validator.message(
+                              "country",
+                              val.country,
+                              "required"
+                            )}
                             <br />
                             {hpc.length !== 1 && (
                               <button onClick={() => deleteRecord(i)}>
@@ -778,14 +812,18 @@ const Table = (props) => {
             <div className="card-header"> Upload your new list file</div>
             <div className="card-body">
               <h5 className="card-title"></h5>
-              <input type="file" onChange={onFileChange} required />
+              <input type="file" onChange={onFileChange} />
+              {validator2.message("file", selectedFile, "required")}
+
               <br />
               <button
+                type="submit"
                 className="btn btn-secondary"
                 onClick={(event) => uploadFile(event)}
               >
                 upload
               </button>
+
               <p className="card-text">
                 {/* With supporting text below as a natural lead-in
                                 to additional content. */}
@@ -809,7 +847,7 @@ const Table = (props) => {
             <th scope="col">Action</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="form-group">
           {editList.map((item) => (
             <tr>
               <td>{item.first_name}</td>
@@ -872,6 +910,7 @@ const Table = (props) => {
                 {inEditMode.status && inEditMode.rowKey === item.profile_id ? (
                   <input
                     value={email}
+                    type="email"
                     onChange={(event) => setEmail(event.target.value)}
                   />
                 ) : (
@@ -883,6 +922,7 @@ const Table = (props) => {
                 {inEditMode.status && inEditMode.rowKey === item.profile_id ? (
                   <React.Fragment>
                     <button
+                      type="submit"
                       className={"btn-success"}
                       onClick={() =>
                         onSave({
@@ -950,6 +990,7 @@ const Table = (props) => {
               </td>
             </tr>
           ))}
+          {validator3.message("email", email, "required|email")}
         </tbody>
       </table>
     </>
