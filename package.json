@@ -28,6 +28,7 @@
 		"react-scripts": "5.0.0",
 		"react-table": "^7.7.0",
 		"redux": "^4.1.2",
+		"simple-react-validator": "^1.6.1",
 		"web-vitals": "^2.1.4",
 		"yup": "^0.32.11"
 	},
