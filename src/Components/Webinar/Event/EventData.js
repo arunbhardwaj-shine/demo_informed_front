@@ -87,7 +87,7 @@ const EventData = () => {
     <div>
         <h2><center>Event Data</center></h2>
         <br/>
-      <Table striped bordered hover>
+      <Table  bordered hover>
         <thead>
           <tr>
             <th>#</th>
