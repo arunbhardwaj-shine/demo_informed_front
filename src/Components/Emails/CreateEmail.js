@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 import OwlCarousel from 'react-owl-carousel';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
@@ -9,6 +10,8 @@ const CreateEmail = () => {
   let path_image= process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
+  const location = useLocation();
+  const { PdfSelected } = location.state;
 
    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
    useEffect(() => {
