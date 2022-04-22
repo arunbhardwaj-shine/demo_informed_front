@@ -32,6 +32,9 @@ import CreateEmail from "./Components/Emails/CreateEmail";
 import SelectHCP from "./Components/Emails/SelectHCP";
 import UploadExcel from "./Components/Distributes/SmartListComponent/UploadExcel";
 import Proctected from "./Auth/Proctected ";
+import ResetPassword from "./Auth/ResetPassword";
+import ForgotPassword from "./Auth/ForgotPassword";
+import ForgotResetPassword from "./Auth/ForgotResetPassword";
 
 let platform = 0;
 let show = 0;
@@ -39,7 +42,7 @@ if (window.location.href.indexOf("/webinar") > -1) {
   platform = 1;
   show = 1;
 }
-console.log(window.location.pathname)
+// console.log(window.location.pathname)
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={createStore(reducers)}>
@@ -88,10 +91,18 @@ ReactDOM.render(
               <div className="container-fluid">
                 <div className="row">
                    <SidebarWebinar/>
-        <><Routes>
-        <Route
+        <>      <Routes>
+                        <Route
                           path="/webinar"
                           element={<Home />}
+                        />
+                        <Route
+                          path="/webinar/Forgotpassword"
+                          element={<ForgotPassword />}
+                        />
+                        <Route
+                          path="/webinar/forgot-reset-password/:id"
+                          element={<ForgotResetPassword />}
                         />
                     <React.Fragment>
                       {/* <Route path="/webinar" element={<App />} /> */}
@@ -99,6 +110,10 @@ ReactDOM.render(
                         <Route
                           path="/webinar/dashboard"
                           element={<Dashboard />}
+                        />
+                        <Route
+                          path="/webinar/resetpassword"
+                          element={<ResetPassword />}
                         />
                         <Route path="/webinar/event/add" element={<Add />} />
                         <Route
