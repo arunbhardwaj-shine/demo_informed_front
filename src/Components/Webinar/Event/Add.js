@@ -148,8 +148,6 @@ function Add(props) {
   return (
     <Row>
     <Col md={{ span: 6, offset: 3 }}>
-
-    <div style={{ textAlign: "center", }}>
       <div>
         <h2>Create Event </h2>
         <div>
@@ -168,10 +166,10 @@ function Add(props) {
                 <div style={{ color: "red" }}>{formik.errors.EventTitle}</div>
               ) : null}
             </Form.Group>
-          
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              {Speaker.map((malti, i) => (
+            {Speaker.map((malti, i) => (
                 <div key={i}>
+                  <Form.Group as={Row} className="mb-3" controlId="exampleForm.ControlInput1">
+              
                   {Speaker.length > 1 ? (
 
                     <CloseButton
@@ -180,8 +178,8 @@ function Add(props) {
                     />
                   ) : null}
                   
-                  <Form.Label column sm={3}>Speaker’s Name</Form.Label>
-                  <Col sm={9}>
+                  <Form.Label column sm={2}>Speaker’s Name</Form.Label>
+                  <Col sm={10}>
                   <Form.Control
                     name={Speaker.length === 0 ? malti.name : malti.name + i}
                     onChange={(e) => {
@@ -194,7 +192,8 @@ function Add(props) {
                     <div style={{ color: "red" }}>{formik.errors.email}</div>
                   ) : null}
 
-                  <Form.Label >Speaker’s Email</Form.Label>
+                  <Form.Label column sm={2}>Speaker’s Email</Form.Label>
+                  <Col sm={10}>
                   <Form.Control
                     type="email"
                     name={Speaker.length === 0 ? malti.email : malti.email + i}
@@ -204,14 +203,18 @@ function Add(props) {
                     onBlur={formik.handleBlur}
                     value={formik.values.email}
                   />
+                  </Col>
                   {formik.touched.email && formik.errors.email ? (
                     <div style={{ color: "red" }}>{formik.errors.email}</div>
                   ) : null}
+                
+                  
+                  </Form.Group>
                 </div>
-              ))}
-              <Button onClick={handleMaltiInputAdd}>Add Speaker’s +</Button>
-              <br />
-            </Form.Group>
+                
+            ))}
+            <Button onClick={handleMaltiInputAdd}>Add Speaker’s +</Button>
+
             <Form.Group className="mb-3"as={Row} controlId="exampleForm.ControlInput1">
               <Form.Label column sm={2}>Region </Form.Label>
               <Col sm={10}>
@@ -357,7 +360,6 @@ function Add(props) {
           </form>
         </div>
       </div>
-    </div>
     </Col>
   </Row>
     
