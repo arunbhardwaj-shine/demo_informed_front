@@ -180,7 +180,7 @@ function Rehearsal() {
                 ))}
                 <Button onClick={handleMaltiInputAdd}>Add Speaker’s +</Button>
                 <br/>
-                {event.length>0?<div>
+                {event.length>1?<div>
                  <label>type </label>
                 <select
                   name="type"
