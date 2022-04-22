@@ -89,7 +89,7 @@ function Rehearsal() {
   return (
     <div>
       <div style={{textAlign:"center"}}>
-        {event.length>0? <div>
+        {event? <div>
           <h2> Rehearsal</h2>
             <div>
               <form onSubmit={formik.handleSubmit}>
@@ -120,11 +120,11 @@ function Rehearsal() {
                   value={formik.values.Timezone}
                 >
                   {Timezone?.map((val, i) => (
-                      <>
+                     <React.Fragment key={i}>
                         <option key={i} value={val.values}>
                           {val.values}
                         </option>
-                      </>
+                        </React.Fragment>
                     ))}
                 </select> 
                 <br />
@@ -188,11 +188,11 @@ function Rehearsal() {
                   onBlur={formik.handleBlur}
                 >
                   {event?.map((val, i) => (
-                      <>
+                   <React.Fragment key={i}>
                         <option key={i} value={val.id}>
                           {val.title}
                         </option>
-                      </>
+                        </React.Fragment>
                     ))}
                 </select></div>:null}
                
