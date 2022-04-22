@@ -217,11 +217,11 @@ function Add(props) {
                 value={formik.values.Region}
               ><option>Open this select Region</option>
                 {Timezoneregion?.map((val, i) => (
-                  <>
+                 <React.Fragment key={i}>
                     <option key={i} value={val.values}>
                       {val.values}
                     </option>
-                  </>
+                    </React.Fragment>
                 ))}
               </Form.Select>
               {formik.touched.Region && formik.errors.Region ? (
@@ -238,11 +238,11 @@ function Add(props) {
               value={formik.values.Bu}
             ><option>Open this select Bu</option>
               {bu?.map((val, i) => (
-                <>
+            <React.Fragment key={i}>
                   <option key={i} value={val.values}>
                     {val.values}
                   </option>
-                </>
+                  </React.Fragment>
               ))}
             </Form.Select>
             {formik.touched.Bu && formik.errors.Bu ? (
@@ -259,11 +259,11 @@ function Add(props) {
             >
               <option>Open this select Timezone</option>
               {Timezone?.map((val, i) => (
-                <>
+                <React.Fragment key={i}>
                   <option key={i} value={val.values}> 
                     {val.values}
                   </option>
-                </>
+                </React.Fragment>
               ))}
             </Form.Select>
             {formik.touched.Timezone && formik.errors.Timezone ? (
