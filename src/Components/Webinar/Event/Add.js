@@ -148,14 +148,14 @@ function Add(props) {
   return (
     <Row>
     <Col md={{ span: 6, offset: 3 }}>
-
-    <div style={{ textAlign: "center", }}>
+    <div>
       <div>
         <h2> Event Details</h2>
         <div>
           <form  onSubmit={formik.handleSubmit}>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Event Title </Form.Label>
+            <Form.Group as={Row} className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label column sm={2}>Event Title </Form.Label>
+              <Col sm={10}>
               <Form.Control
                 name="EventTitle"
                 onChange={formik.handleChange}
@@ -165,8 +165,9 @@ function Add(props) {
               {formik.touched.EventTitle && formik.errors.EventTitle ? (
                 <div style={{ color: "red" }}>{formik.errors.EventTitle}</div>
               ) : null}
+              </Col>
             </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group as={Row} className="mb-3" controlId="exampleForm.ControlInput1">
               {Speaker.map((malti, i) => (
                 <div key={i}>
                   {Speaker.length > 1 ? (
@@ -206,8 +207,9 @@ function Add(props) {
               <Button onClick={handleMaltiInputAdd}>Add Speaker’s +</Button>
               <br />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Region </Form.Label>
+            <Form.Group as={Row} className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label column sm={2}>Region </Form.Label>
+              <Col sm={10}>
               <Form.Select
                 name="Region"
                 onChange={formik.handleChange}
@@ -225,12 +227,9 @@ function Add(props) {
               {formik.touched.Region && formik.errors.Region ? (
               <div style={{ color: "red" }}>{formik.errors.Region}</div>
             ) : null}
-              <br />
+            </Col>
             </Form.Group>
-            <Form.Group
-              className="mb-3"
-              controlId="exampleForm.ControlInput1"
-            >
+            <Form.Group as={Row} className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Label>Bu </Form.Label>
             <Form.Select
               name="Bu"
