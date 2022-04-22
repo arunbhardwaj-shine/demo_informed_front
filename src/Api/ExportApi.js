@@ -13,7 +13,7 @@ const ResetPasswordPost = (old_pass,new_pass,confirm_pass) =>
     'Authorization':localStorage.getItem("Token"),
   }});
 const UserLogout = () =>
-  BaseApi.put("/logout",{},{ headers: {
+  BaseApi.post("/logout",{},{ headers: {
     'Authorization':localStorage.getItem("Token"),
   }});
         //Dropdown

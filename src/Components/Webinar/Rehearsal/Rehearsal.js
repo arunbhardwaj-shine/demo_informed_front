@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import ExportApi from "../../../Api/ExportApi";
 import { Button} from "react-bootstrap";
+import { Link } from "react-router-dom";
 function Rehearsal() {
     const [Speaker, setSpeaker] = useState([
         { name: "SpeakersName", email: "SpeakesrEmail" },
@@ -89,7 +90,7 @@ function Rehearsal() {
   return (
     <div>
       <div style={{textAlign:"center"}}>
-        {event? <div>
+        <div>
           <h2> Rehearsal</h2>
             <div>
               <form onSubmit={formik.handleSubmit}>
@@ -180,7 +181,7 @@ function Rehearsal() {
                 ))}
                 <Button onClick={handleMaltiInputAdd}>Add Speaker’s +</Button>
                 <br/>
-                {event.length>1?<div>
+                {event?<div>
                  <label>type </label>
                 <select
                   name="type"
@@ -194,7 +195,7 @@ function Rehearsal() {
                         </option>
                         </React.Fragment>
                     ))}
-                </select></div>:null}
+                </select></div>:<h4 ><Link to="/webinar/event/add" style={{color:"red"}}>Please create event </Link></h4>}
                
                 <br />
                 <label>Description </label>
@@ -209,7 +210,7 @@ function Rehearsal() {
              <button className="btn btn-success btn-block" onClick={handleAddmore}>
             Schedule another rehearsal
           </button>
-          </div> :"no Data"}
+          </div> 
         
     </div>
     </div>
