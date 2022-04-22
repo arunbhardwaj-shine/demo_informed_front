@@ -134,57 +134,57 @@ const CreateSmartList = () => {
 
   return (
     <>
-    <div className="col right-sidebar">
-      <div className="row">
-        <Link to="/SmartList">
-          <button className="btn-cancel">cancel</button>
-        </Link>
-        <Link
-          to="/SmartListFilter"
-          state={{ smartListName: smartListName }}
-          onClick={(event) => clickNext(event)}
-        >
-          <button className="btn-nxt">Next</button>
-        </Link>
-      </div>
-      <div className="row">
-        <div className="step1">
-          <div className="col-sm-6">
-            <input
-              type="text"
-              name="smart_list_name"
-              value={smartListName}
-              onChange={(event) => handleSmartListName(event)}
-            />
-          </div>
-          <div className="col-sm-6">
-            <input type="text" name="creator_name" />
-          </div>
+      <div className="col right-sidebar">
+        <div className="row">
+          <Link to="/SmartList">
+            <button className="btn-cancel">cancel</button>
+          </Link>
+          <Link
+            to="/SmartListFilter"
+            state={{ smartListName: smartListName }}
+            onClick={(event) => clickNext(event)}
+          >
+            <button className="btn-nxt">Next</button>
+          </Link>
         </div>
-        <div className="step2">
-          <div className="col-sm-6">
-            <img
-              className="custom_img"
-              id="upload_filter"
-              src={path + "upload_hcp.png"}
-              width="300px"
-              onClick={(event) => toggleSelection("upload_filter")}
-            />
+        <div className="row">
+          <div className="step1">
+            <div className="col-sm-6">
+              <input
+                type="text"
+                name="smart_list_name"
+                value={smartListName}
+                onChange={(event) => handleSmartListName(event)}
+              />
+            </div>
+            <div className="col-sm-6">
+              <input type="text" name="creator_name" />
+            </div>
           </div>
-          <div className="col-sm-6">
-            <img
-              className="custom_img"
-              id="upload_excel"
-              src={path + "upload.png"}
-              width="300px"
-              onClick={handleShow}
-            />
-            {filename != "" ? <p>{filename}</p> : null}
+          <div className="step2">
+            <div className="col-sm-6">
+              <img
+                className="custom_img"
+                id="upload_filter"
+                src={path + "upload_hcp.png"}
+                width="300px"
+                onClick={(event) => toggleSelection("upload_filter")}
+              />
+            </div>
+            <div className="col-sm-6">
+              <img
+                className="custom_img"
+                id="upload_excel"
+                src={path + "upload.png"}
+                width="300px"
+                onClick={handleShow}
+              />
+              {filename != "" ? <p>{filename}</p> : null}
+            </div>
           </div>
-        </div>
-        <Modal show={show} onHide={handleClose}>
-          <Modal.Header closeButton>
-            {/* <Modal.Title>New HCP</Modal.Title>
+          <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+              {/* <Modal.Title>New HCP</Modal.Title>
             <button className="btn btn-secondary" style={{ margin: "10px" }}>
               Add HCP +{" "}
             </button>
@@ -195,17 +195,17 @@ const CreateSmartList = () => {
             >
               Upload Excel
             </button> */}
-          </Modal.Header>{" "}
-          <Modal.Body>
-            <div className="card">
-              <div className="card-header">upload</div>
-              <div className="card-body">
-                <p className="card-text">upload your new list file</p>
-                <input type="file" onChange={onFileChange}></input>
+            </Modal.Header>{" "}
+            <Modal.Body>
+              <div className="card">
+                <div className="card-header">upload</div>
+                <div className="card-body">
+                  <p className="card-text">upload your new list file</p>
+                  <input type="file" onChange={onFileChange}></input>
+                </div>
               </div>
-            </div>
-          </Modal.Body>
-          {/* <div className="container">
+            </Modal.Body>
+            {/* <div className="container">
             <div className="row align-items-center vh-100">
               <div className="col-6 mx-auto">
                 <div className="card shadow border">
@@ -230,16 +230,16 @@ const CreateSmartList = () => {
               </div>
             </div>
           </div> */}
-          {/* {renderCounterData.map((data) => {
+            {/* {renderCounterData.map((data) => {
             return <>{data}</>;
           })} */}
-          <Modal.Footer>
-            <button className="btn btn-secondary" onClick={saveButtonClicked}>
-              Ok
-            </button>
-          </Modal.Footer>
-        </Modal>
-      </div>
+            <Modal.Footer>
+              <button className="btn btn-secondary" onClick={saveButtonClicked}>
+                Ok
+              </button>
+            </Modal.Footer>
+          </Modal>
+        </div>
       </div>
     </>
   );

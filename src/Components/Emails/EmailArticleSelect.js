@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
+import { Link, NavigationType,useNavigate } from "react-router-dom";
 
 const EmailArticleSelect = () => {
   
   let path_image= process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
-  const [UserData, setUserData] = useState([]);
+  const [PdfSelected, setPdfSelected] = useState(0);
+  const inputElement = useRef();
+  
 
    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
    useEffect(() => {
@@ -16,8 +19,7 @@ const EmailArticleSelect = () => {
         axios
           .post(`emailapi/get_content_list`, body)
           .then((res) => {
-            setSendListData(res.data.response.data.emails);
-            setUserData(res.data.response.data.user);
+            setSendListData(res.data.response.data);
             
           })
           .catch((err) => {
@@ -27,10 +29,20 @@ const EmailArticleSelect = () => {
     
    }, []);
 
+	useEffect(() => {
+		if(PdfSelected!==0){
+			inputElement.current.classList.remove("disabled");
+		}
+
+	}, [PdfSelected]);
+
+	 const handleSelect = (e)=>{
+			setPdfSelected(e.target.value);
+	}
 
     return (
       <>
-     			<div className="col right-sidebar">
+     			<div className="right-sidebar">
 					<div className="page-top-nav">
 						<div className="row justify-content-end align-items-center">
 							<div className="col-12 col-md-1">
@@ -60,7 +72,14 @@ const EmailArticleSelect = () => {
 							<div className="col-12 col-md-2">
 							  <div className="header-btn">
 								<button className="btn btn-primary btn-bordered cancel">Cancel</button>
-								<button className="btn btn-primary btn-filled next">Next</button>
+								{
+										 
+										PdfSelected === 0 ? <button ref={inputElement} className="btn btn-primary btn-filled next disabled">Next</button> : <Link to="/CreateEmail" state={{ PdfSelected: PdfSelected }}>
+										<button ref={inputElement} className="btn btn-primary btn-filled next disabled">Next</button>	
+									</Link>
+
+								}
+							
 							  </div>
 							</div>
 						 </div>
@@ -95,27 +114,32 @@ const EmailArticleSelect = () => {
 					
 					<div className="mail-content-select">
 						<div className="row">
+
+						{SendListData.map((data) => {
+                 		return (
 							<div className="col-12 col-md-4">
 									<div className="mail-content-select-box">
 										<div className="mail-content-select-top">
 											<div className="mail-preview-img">
-												<img src={path_image+"dummy-img.png"} alt="Preview " />
+												<img src={data.cover_img} alt="Preview " />
 											</div>
 											<div className="mail-box-content">
-												<h5>Email Subject</h5>
-												<p>Email Description</p>
+												<h5>{data.title}</h5>
+												<p>{data.pdf_sub_title}</p>
 												<div className="mailbox-tags">
 													<ul>
-														<li className="list1">tag1</li>
-														<li className="list2">tag2</li>
-														<li className="list3">tag3</li>
-														<li className="list4">tag4</li>
-														<li className="list5">tag5</li>
+													{
+														data.tags.map((data_tags) => {
+        											return (
+														<li className="list1">{data_tags}</li>
+													
+														);
+													})}
 													</ul>
 												</div>
 											</div>
-											<div className="select-mail-option">
-												<input type="radio" name="radio" />
+											<div className="select-mail-option" onClick={handleSelect}>
+												<input type="radio" name="radio"  value={data.id} />
 												<span className="checkmark"></span>
 											</div>
 										</div>
@@ -124,19 +148,19 @@ const EmailArticleSelect = () => {
 												<tbody>
 													<tr>
 														<th>Upload Date</th>
-														<td>Jan 04</td>
+														<td>{data.created}</td>
 													</tr>
 													<tr>
 														<th>Language</th>
-														<td>English</td>
+														<td>{data.language}</td>
 													</tr>
 													<tr>
 														<th>SPC</th>
-														<td>Yes</td>
+														<td>{data.spc_included === 0 ? 'No' : 'Yes' }</td>
 													</tr>
 													<tr>
 														<th>Last Email</th>
-														<td>Nov 18 - 9:00 AM</td>
+														<td>{data.last_sent=='' ? 'N/A' : data.last_sent }</td>
 													</tr>
 												</tbody>
 											</table>
@@ -146,159 +170,11 @@ const EmailArticleSelect = () => {
 										</div>
 									</div>
 								</div>
-								<div className="col-12 col-md-4">
-									<div className="mail-content-select-box">
-										<div className="mail-content-select-top">
-											<div className="mail-preview-img">
-												<img src={path_image+"dummy-img.png"} alt="Preview" />
-											</div>
-											<div className="mail-box-content">
-												<h5>Email Subject</h5>
-												<p>Email Description</p>
-												<div className="mailbox-tags">
-													<ul>
-														<li className="list1">tag1</li>
-														<li className="list2">tag2</li>
-														<li className="list3">tag3</li>
-														<li className="list4">tag4</li>
-														<li className="list5">tag5</li>
-													</ul>
-												</div>
-											</div>
-											<div className="select-mail-option">
-												<input type="radio" name="radio" />
-												<span className="checkmark"></span>
-											</div>
-										</div>
-										<div className="mail-content-table">
-											<table>
-												<tbody>
-													<tr>
-														<th>Upload Date</th>
-														<td>Jan 04</td>
-													</tr>
-													<tr>
-														<th>Language</th>
-														<td>English</td>
-													</tr>
-													<tr>
-														<th>SPC</th>
-														<td>Yes</td>
-													</tr>
-													<tr>
-														<th>Last Email</th>
-														<td>Nov 18 - 9:00 AM</td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
-										<div className="mail-content-footer">
-											<button className="btn btn-primary btn-filled">Preview</button>
-										</div>
-									</div>
-								</div>
-								<div className="col-12 col-md-4">
-									<div className="mail-content-select-box">
-										<div className="mail-content-select-top">
-											<div className="mail-preview-img">
-												<img src={path_image+"dummy-img.png"} alt="Preview" />
-											</div>
-											<div className="mail-box-content">
-												<h5>Email Subject</h5>
-												<p>Email Description</p>
-												<div className="mailbox-tags">
-													<ul>
-														<li className="list1">tag1</li>
-														<li className="list2">tag2</li>
-														<li className="list3">tag3</li>
-														<li className="list4">tag4</li>
-														<li className="list5">tag5</li>
-													</ul>
-												</div>
-											</div>
-											<div className="select-mail-option">
-												<input type="radio" name="radio" />
-												<span className="checkmark"></span>
-											</div>
-										</div>
-										<div className="mail-content-table">
-											<table>
-												<tbody>
-													<tr>
-														<th>Upload Date</th>
-														<td>Jan 04</td>
-													</tr>
-													<tr>
-														<th>Language</th>
-														<td>English</td>
-													</tr>
-													<tr>
-														<th>SPC</th>
-														<td>Yes</td>
-													</tr>
-													<tr>
-														<th>Last Email</th>
-														<td>Nov 18 - 9:00 AM</td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
-										<div className="mail-content-footer">
-											<button className="btn btn-primary btn-filled">Preview</button>
-										</div>
-									</div>
-								</div>
-								<div className="col-12 col-md-4">
-									<div className="mail-content-select-box">
-										<div className="mail-content-select-top">
-											<div className="mail-preview-img">
-												<img src={path_image+"dummy-img.png"} alt="Preview" />
-											</div>
-											<div className="mail-box-content">
-												<h5>Email Subject</h5>
-												<p>Email Description</p>
-												<div className="mailbox-tags">
-													<ul>
-														<li className="list1">tag1</li>
-														<li className="list2">tag2</li>
-														<li className="list3">tag3</li>
-														<li className="list4">tag4</li>
-														<li className="list5">tag5</li>
-													</ul>
-												</div>
-											</div>
-											<div className="select-mail-option">
-												<input type="radio" name="radio" />
-												<span className="checkmark"></span>
-											</div>
-										</div>
-										<div className="mail-content-table">
-											<table>
-												<tbody>
-													<tr>
-														<th>Upload Date</th>
-														<td>Jan 04</td>
-													</tr>
-													<tr>
-														<th>Language</th>
-														<td>English</td>
-													</tr>
-													<tr>
-														<th>SPC</th>
-														<td>Yes</td>
-													</tr>
-													<tr>
-														<th>Last Email</th>
-														<td>Nov 18 - 9:00 AM</td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
-										<div className="mail-content-footer">
-											<button className="btn btn-primary btn-filled">Preview</button>
-										</div>
-									</div>
-								</div>
+
+							);
+							})}
+
+		
 							</div>
 						</div>
 					
