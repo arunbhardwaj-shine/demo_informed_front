@@ -146,13 +146,13 @@ const EventData = () => {
 
                     <fieldset class="border p-2">
                     <div key={i}>
-                      <Form.Group as={Row} className="mb-3" controlId="exampleForm.ControlInput1">
+                      
                   
                       {Speaker.length > 1 ? (
                            <button type="button" onClick={() => handleMaltiInputRumove(i)}  className="btn-close float-end" aria-label="Close" />
                       ) : null}
-                      
-                      <Form.Label column sm={2}>Speaker Name</Form.Label>
+                      <Form.Group as={Row} className="mb-3" controlId="exampleForm.ControlInput1">
+                      <Form.Label column sm={3}>Speaker Name</Form.Label>
                       <Col sm={9}>
                       <Form.Control
                         name={Speaker.length === 0 ? malti.name : malti.name + i}
@@ -166,7 +166,7 @@ const EventData = () => {
                         <div style={{ color: "red" }}>{formik.errors.email}</div>
                       ) : null}
                       <div class="mt-2 clearfix"></div>
-                      <Form.Label column sm={2}>Speaker Email</Form.Label>
+                      <Form.Label column sm={3}>Speaker Email</Form.Label>
                       <Col sm={9}>
                       <Form.Control
                         type="email"
@@ -188,9 +188,10 @@ const EventData = () => {
                 ))}
                 <div class="mt-2"></div>
                 <Form.Group className="mb-3">
-                    <Button onClick={handleMaltiInputAdd} class="text-right btn btn-primary">Add More Speaker</Button>
+                    <Button onClick={handleMaltiInputAdd} className="speaker-button">Add More Speaker</Button>
                 </Form.Group>
-                <div class="mt-2 clearfix"></div>
+                <div className="clearfix"></div>
+                <div className="mt-2"></div>
                 <Form.Group as={Row} className="mb-3" controlId="exampleForm.ControlInput1">
                      <Form.Label column sm={2}>Description</Form.Label> 
                      <Col sm={10}>                <textarea     name="Description"
