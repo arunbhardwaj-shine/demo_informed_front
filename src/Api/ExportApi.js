@@ -5,7 +5,7 @@ const UserLogin = (email, password) =>
 const UserForgot = (email) =>
   BaseApi.post("forgot-password",{email:email});
 const UserForgotResetPasswordPost = (Token,new_pass,confirm_pass) =>
-  BaseApi.put("forgot-reset-password",{new_pass:new_pass,confirm_pass:confirm_pass},{ headers: {
+  BaseApi.post("forgot-reset-password",{new_pass:new_pass,confirm_pass:confirm_pass},{ headers: {
     'reset_token':Token,
   }});
 const ResetPasswordPost = (old_pass,new_pass,confirm_pass) =>
@@ -35,7 +35,7 @@ const GetEventList = () => BaseApi.get("events",{},{ headers: {
 const GetEventListData = (id) => BaseApi.get(`event/${id}`,{},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
-const GetEventListDataUpdate = (id,EventTitle,a,Description) => BaseApi.put(`event/${id}`,{event_id:id,title:EventTitle,
+const GetEventListDataUpdate = (id,EventTitle,a,Description) => BaseApi.post(`event/${id}`,{event_id:id,title:EventTitle,
   speaker_data:a, description:Description },{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
@@ -56,7 +56,7 @@ BaseApi.post("event",{user_id:1,
      //Rehearsal
 const CreatRehearsal = (EventTitle,Timezone,event_start_time,
   eventendtime,event_date,type,Description,a) => 
-BaseApi.post("create-rehearsal",{
+BaseApi.post("rehearsal",{
   code:12,
   event_id :1,
   company_id :1,

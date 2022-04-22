@@ -25,7 +25,6 @@ function Add(props) {
     if (e.target.name === `SpeakersName${i}`) {
       const speker = Speakername[i];
       speker.name = e.target.value;
-      // console.log(speker)
       Speakername.splice(i, 1, { ...speker });
       setSpeakerName([...Speakername]);
     } else if (e.target.name === `SpeakesrEmail${i}`) {
@@ -35,7 +34,6 @@ function Add(props) {
       setSpeakerName([...Speakername]);
     }
   };
-
   useEffect(()=>{
     console.log("inside render");
   },[render])
@@ -51,17 +49,13 @@ function Add(props) {
     }
   };
   const handleGetDataBu = () => {
-    //  console.log(token)
     ExportApi.GetBuData(token).then((resp) => {
       if (resp.ok) {
-        //  alert("hlo")
-        //  console.log(resp.data.data);
         setBu(resp.data.data);
       }
     });
   };
   const handleGetTimezoneData = () => {
-    // console.log("///",token)
     ExportApi.GetTimezoneData().then((resp) => {
       if (resp.ok) {
         setTimezone(resp.data.data);
@@ -147,14 +141,11 @@ function Add(props) {
                 onBlur={formik.handleBlur}
                 value={formik.values.EventTitle}
               />
-            
               {formik.touched.EventTitle && formik.errors.EventTitle ? (
                 <div style={{ color: "red" }}>{formik.errors.EventTitle}</div>
               ) : null}
               </Col>
             </Form.Group>
-
-
             {Speaker.map((malti, i) => (
                 <fieldset class="border p-2">
                 <div key={i}>
@@ -191,12 +182,9 @@ function Add(props) {
                   {formik.touched.email && formik.errors.email ? (
                     <div style={{ color: "red" }}>{formik.errors.email}</div>
                   ) : null}
-                
-                  
                   </Form.Group>
                 </div></fieldset>
             ))}
-
             <div class="mt-2"></div>
             <Form.Group className="mb-3">
                 <Button onClick={handleMaltiInputAdd} className="speaker-button">Add More Speaker</Button>
@@ -220,7 +208,6 @@ function Add(props) {
                     </React.Fragment>
                 ))}
               </Form.Select>
-              
               {formik.touched.Region && formik.errors.Region ? (
               <div style={{ color: "red" }}>{formik.errors.Region}</div>
             ) : null}
@@ -247,8 +234,6 @@ function Add(props) {
                   </React.Fragment>
               ))}
             </Form.Select>
-
-            
             {formik.touched.Bu && formik.errors.Bu ? (
               <div style={{ color: "red" }}>{formik.errors.Bu}</div>
             ) : null}
@@ -346,7 +331,7 @@ function Add(props) {
               ) : null}
              </Col> 
             </Form.Group>
-            <Button type="reset">Reset</Button>{'    '}
+            <Button type="reset">Reset</Button>
             <Button type="submit" class="event-submit-button">Submit</Button>
           </form>
         </div>
