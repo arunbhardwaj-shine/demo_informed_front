@@ -9,16 +9,15 @@ function Add(props) {
   const [Speaker, setSpeaker] = useState([
     { name: "SpeakersName", email: "SpeakesrEmail" },
   ]);
+
   const[render,setRerender]=useState(0)
   const [Speakername, setSpeakerName] = useState([{ name: "", email: "" }]);
-  const [Bu, setBu] = useState([]);
+  const [bu, setBu] = useState([]);
   const [Timezone, setTimezone] = useState([]);
   const [Timezoneregion, setTimezoneregion] = useState([]);
-  const [errr, setErrr] = useState([{error:"please enter Email"}]);
-  const handleMultiInputAdd = () => {
+  const handleMaltiInputAdd = () => {
     setSpeaker([...Speaker, { name: "SpeakersName", email: "SpeakesrEmail" }]);
     setSpeakerName([...Speakername, { name: "", email: "" }]);
-    setErrr([...errr,{error:"please enter Email"}])
   };
   const [token, setToken] = useState(localStorage.getItem("Token"));
   const handleSpeakerName = (e, i) => {
@@ -40,24 +39,28 @@ function Add(props) {
     console.log("inside render");
   },[render])
 
-  const handleMultiInputRemove = (i) => {
+  const handleMaltiInputRumove = (i) => {
     console.log("i", i);
     if (Speakername.length > 1) {
       Speaker.splice(i, 1);
       setSpeaker([...Speaker]);
       Speakername.splice(i, 1);
-      setSpeakerName([...Speakername])
+      console.log(Speakername.length);
       setRerender(render+1);
     }
   };
   const handleGetDataBu = () => {
+    //  console.log(token)
     ExportApi.GetBuData(token).then((resp) => {
       if (resp.ok) {
+        //  alert("hlo")
+        //  console.log(resp.data.data);
         setBu(resp.data.data);
       }
     });
   };
   const handleGetTimezoneData = () => {
+    // console.log("///",token)
     ExportApi.GetTimezoneData().then((resp) => {
       if (resp.ok) {
         setTimezone(resp.data.data);
@@ -67,6 +70,7 @@ function Add(props) {
   const handleGetTimezoneregionData = () => {
     ExportApi.GetTimezoneregionData().then((resp) => {
       if (resp.ok) {
+        // console.log(resp);
         setTimezoneregion(resp.data.data);
       }
     });
@@ -83,21 +87,36 @@ function Add(props) {
       Description: "",
     },
     validationSchema: Yup.object({
+     
+        // nominees: Yup
+        //   .array()
+        //   .of(
+        //     Yup.object().shape({
+        //       name: Yup.object().shape({
+        //         prefix: Yup.string().required('prefix is a required field.'),
+        //       }),
+        //     }),
+        //   )
+        //   .required(),
+     
       EventTitle: Yup.string().required("Enter your Title"),
-      Timezone: Yup.string().required("Select Timezone"),
-      event_start_time: Yup.string().required("Event start time is required"),
-      Region: Yup.string().required("Select Region"),
-      Bu: Yup.string().required("Select Bu"),
-      eventendtime: Yup.string().required("Event end time is required"),
-      event_date: Yup.string().required("Date is required"),
+      Timezone: Yup.string().required(),
+      event_start_time: Yup.string().required(),
+      Region: Yup.string().required(),
+      Bu: Yup.string().required(),
+      eventendtime: Yup.string().required(),
+
+      event_date: Yup.string().required(),
+
       Description: Yup.string().required(),
     }),
     onSubmit: (values) => {
-      let SpeakerData = JSON.stringify(Speakername);
+      let a = JSON.stringify(Speakername);
       console.log(values);
+      //  console.log(Speakername)
       ExportApi.CreatEvent(
         values.EventTitle,
-        SpeakerData,
+        a,
         values.event_start_time,
         values.eventendtime,
         values.Timezone,
@@ -129,8 +148,6 @@ function Add(props) {
   return (
     <Row>
     <Col md={{ span: 6, offset: 3 }}>
-
-    <div style={{ textAlign: "center", }}>
       <div>
         <h2>Create Event </h2>
         <div>
@@ -150,48 +167,57 @@ function Add(props) {
               ) : null}
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              {Speaker.map((malti, i) => (
+
+            {Speaker.map((malti, i) => (
+                <fieldset class="border p-2">
                 <div key={i}>
+                  <Form.Group as={Row} className="mb-3" controlId="exampleForm.ControlInput1">
+              
                   {Speaker.length > 1 ? (
+
                     <CloseButton
-                      onClick={() => handleMultiInputRemove(i)}
+                      variant="danger"
+                      onClick={() => handleMaltiInputRumove(i)}
                     />
                   ) : null}
-
-                  <Form.Label >Speaker’s Name</Form.Label>
                   
+                  <Form.Label column sm={2}>Speaker’s Name</Form.Label>
+                  <Col sm={10}>
                   <Form.Control
                     name={Speaker.length === 0 ? malti.name : malti.name + i}
                     onChange={(e) => {
                       handleSpeakerName(e, i);
-                     formik.handleChange()
                     }}
                     onBlur={formik.handleBlur}
-                    value={formik.values.name}
-                  />
-                  {formik.touched.name && formik.errors.name ? (
-                    <div style={{ color: "red" }}>{formik.errors.name}</div>
+                    value={formik.values.email}
+                  /></Col>
+                  {formik.touched.email && formik.errors.email ? (
+                    <div style={{ color: "red" }}>{formik.errors.email}</div>
                   ) : null}
-
-                  <Form.Label >Speaker’s Email</Form.Label>
+                  <div class="mt-2"></div>
+                  <Form.Label column sm={2}>Speaker’s Email</Form.Label>
+                  <Col sm={10}>
                   <Form.Control
                     type="email"
-                    name={`email${i}`}
+                    name={Speaker.length === 0 ? malti.email : malti.email + i}
                     onChange={(e) => {
                       handleSpeakerName(e, i);
-                      formik.handleChange()
                     }}
-                    // onBlur={formik.handleBlur}
-                    //  value={formik.values.email}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.email}
                   />
-                  {/* {formik.touched.email && formik.errors.email ? (
+                  </Col>
+                  {formik.touched.email && formik.errors.email ? (
                     <div style={{ color: "red" }}>{formik.errors.email}</div>
-                  ) : null} */}
-                </div>
-              ))}
-              <Button onClick={handleMultiInputAdd}>Add Speaker’s +</Button>
-              <br />
+                  ) : null}
+                
+                  
+                  </Form.Group>
+                </div></fieldset>
+            ))}
+            <div class="mt-2"></div>
+            <Form.Group className="mb-3">
+                <Button onClick={handleMaltiInputAdd} class="text-right btn btn-primary">Add Speaker’s +</Button>
             </Form.Group>
             <Form.Group className="mb-3"as={Row} controlId="exampleForm.ControlInput1">
               <Form.Label column sm={2}>Region </Form.Label>
@@ -201,7 +227,7 @@ function Add(props) {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.Region}
-              ><option>Select Region</option>
+              ><option>Open this select Region</option>
                 {Timezoneregion?.map((val, i) => (
                  <React.Fragment key={i}>
                     <option key={i} value={val.values}>
@@ -227,8 +253,8 @@ function Add(props) {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.Bu}
-            ><option> Select Bu</option>
-              {Bu?.map((val, i) => (
+            ><option>Open this select Bu</option>
+              {bu?.map((val, i) => (
             <React.Fragment key={i}>
                   <option key={i} value={val.values}>
                     {val.values}
@@ -252,7 +278,7 @@ function Add(props) {
               onBlur={formik.handleBlur}
               value={formik.values.Timezone}
             >
-              <option>Select Timezone</option>
+              <option>Open this select Timezone</option>
               {Timezone?.map((val, i) => (
                 <React.Fragment key={i}>
                   <option key={i} value={val.values}> 
@@ -338,9 +364,9 @@ function Add(props) {
           </form>
         </div>
       </div>
-    </div>
     </Col>
   </Row>
+    
   );
 }
 export default Add;
