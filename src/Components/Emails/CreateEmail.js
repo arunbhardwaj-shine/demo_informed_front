@@ -16,8 +16,19 @@ const CreateEmail = (props) => {
   const [UserData, setUserData] = useState([]);
   const location = useLocation();
   const { PdfSelected } = location.state;
+  const [templateList, setTemplateList] = useState([]);
+  const [template, setTemplate] = useState("");
+  const [emailDescription, setEmailDescription] = useState("");
+  const [emailCreator, setEmailCreator] = useState("");
+  const [counter, setCounter] = useState(0);
+  const [modalCounter, setModalCounter] = useState(0);
+  const [emailCampaign, setemailCampaign] = useState("");
+  const [emailSubject, setEmailSubject] = useState("");
+  const [templateId, setTemplateId] = useState();
 
   useEffect(() => {
+    console.log("pdf selected");
+    console.log(PdfSelected);
     const body = {
       user_id: 18207,
       language: "",
