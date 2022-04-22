@@ -148,9 +148,10 @@ function Add(props) {
   return (
     <Row>
     <Col md={{ span: 6, offset: 3 }}>
-    <div>
+
+    <div style={{ textAlign: "center", }}>
       <div>
-        <h2> Event Details</h2>
+        <h2>Create Event </h2>
         <div>
           <form  onSubmit={formik.handleSubmit}>
             <Form.Group as={Row} className="mb-3" controlId="exampleForm.ControlInput1">
@@ -162,21 +163,25 @@ function Add(props) {
                 onBlur={formik.handleBlur}
                 value={formik.values.EventTitle}
               />
+            </Col>
               {formik.touched.EventTitle && formik.errors.EventTitle ? (
                 <div style={{ color: "red" }}>{formik.errors.EventTitle}</div>
               ) : null}
-              </Col>
             </Form.Group>
-            <Form.Group as={Row} className="mb-3" controlId="exampleForm.ControlInput1">
+          
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               {Speaker.map((malti, i) => (
                 <div key={i}>
                   {Speaker.length > 1 ? (
+
                     <CloseButton
                       variant="danger"
                       onClick={() => handleMaltiInputRumove(i)}
                     />
                   ) : null}
-                  <Form.Label >Speaker’s Name</Form.Label>
+                  
+                  <Form.Label column sm={3}>Speaker’s Name</Form.Label>
+                  <Col sm={9}>
                   <Form.Control
                     name={Speaker.length === 0 ? malti.name : malti.name + i}
                     onChange={(e) => {
@@ -184,7 +189,7 @@ function Add(props) {
                     }}
                     onBlur={formik.handleBlur}
                     value={formik.values.email}
-                  />
+                  /></Col>
                   {formik.touched.email && formik.errors.email ? (
                     <div style={{ color: "red" }}>{formik.errors.email}</div>
                   ) : null}
@@ -207,7 +212,7 @@ function Add(props) {
               <Button onClick={handleMaltiInputAdd}>Add Speaker’s +</Button>
               <br />
             </Form.Group>
-            <Form.Group as={Row} className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-3"as={Row} controlId="exampleForm.ControlInput1">
               <Form.Label column sm={2}>Region </Form.Label>
               <Col sm={10}>
               <Form.Select
@@ -224,13 +229,18 @@ function Add(props) {
                     </React.Fragment>
                 ))}
               </Form.Select>
+              </Col>
               {formik.touched.Region && formik.errors.Region ? (
               <div style={{ color: "red" }}>{formik.errors.Region}</div>
             ) : null}
-            </Col>
+              <br />
             </Form.Group>
-            <Form.Group as={Row} className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Label>Bu </Form.Label>
+            <Form.Group as={Row}
+              className="mb-3"
+              controlId="exampleForm.ControlInput1"
+            >
+            <Form.Label column sm={2}>Bu </Form.Label>
+            <Col sm={10}>
             <Form.Select
               name="Bu"
               onChange={formik.handleChange}
@@ -245,12 +255,16 @@ function Add(props) {
                   </React.Fragment>
               ))}
             </Form.Select>
+
+            </Col>
             {formik.touched.Bu && formik.errors.Bu ? (
               <div style={{ color: "red" }}>{formik.errors.Bu}</div>
             ) : null}
             <br />    
             </Form.Group>
-            <Form.Label>Timezone </Form.Label>
+            <Form.Group className="mb-3"as={Row} controlId="exampleForm.ControlInput1">
+            <Form.Label column sm={2}>Timezone </Form.Label>
+            <Col sm={10}>
             <Form.Select
               name="Timezone"
               onChange={formik.handleChange}
@@ -266,34 +280,44 @@ function Add(props) {
                 </React.Fragment>
               ))}
             </Form.Select>
+            </Col>
             {formik.touched.Timezone && formik.errors.Timezone ? (
               <div style={{ color: "red" }}>{formik.errors.Timezone}</div>
             ) : null}
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Label>Event Start Time </Form.Label>
+            </Form.Group>
+            <Form.Group className="mb-3" as={Row} controlId="exampleForm.ControlInput1">
+            <Form.Label column sm={2}>Event Start Time </Form.Label>
+            <Col sm={10}>
             <Form.Control
               name="event_start_time"
               type="time"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.event_start_time}
-            />{formik.touched.event_start_time && formik.errors.event_start_time ? (
+            /></Col>
+            {formik.touched.event_start_time && formik.errors.event_start_time ? (
               <div style={{ color: "red" }}>{formik.errors.event_start_time}</div>
             ) : null}
             <br />
             </Form.Group>
-            <Form.Label>Event End Time </Form.Label>
+            <Form.Group className="mb-3"as={Row} controlId="exampleForm.ControlInput1">
+            <Form.Label column sm={2}>Event End Time </Form.Label>
+            <Col sm={10}>
             <Form.Control
               name="eventendtime"
               type="time"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.eventendtime}
-            />{formik.touched.eventendtime && formik.errors.eventendtime ? (
+            /></Col>
+            {formik.touched.eventendtime && formik.errors.eventendtime ? (
               <div style={{ color: "red" }}>{formik.errors.eventendtime}</div>
             ) : null}
+            </Form.Group>
             <br />
-            <Form.Label>Event Date </Form.Label>
+            <Form.Group className="mb-3"as={Row} controlId="exampleForm.ControlInput1">
+            <Form.Label column sm={2}>Event Date </Form.Label>
+            <Col sm={10}>
             <Form.Control
               name="event_date"
               type="date"
@@ -301,15 +325,18 @@ function Add(props) {
               onBlur={formik.handleBlur}
               value={formik.values.event_date}
             />
+            </Col>
             {formik.touched.event_date && formik.errors.event_date ? (
                 <div style={{ color: "red" }}>{formik.errors.event_date}</div>
               ) : null}
+              </Form.Group>
             <br />
-            <Form.Group
+            <Form.Group as={Row}
               className="mb-3"
               controlId="exampleForm.ControlInput1"
             >   
-            <Form.Label>Description </Form.Label>
+            <Form.Label column sm={2}>Description </Form.Label>
+            <Col sm={10}>
             <textarea
               name="Description"
               type="text"
@@ -320,6 +347,7 @@ function Add(props) {
               id="exampleFormControlTextarea1"
               rows="3"
             ></textarea>
+            </Col>
                {formik.touched.Description && formik.errors.Description ? (
                 <div style={{ color: "red" }}>{formik.errors.Description}</div>
               ) : null}
