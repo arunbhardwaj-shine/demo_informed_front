@@ -1,5 +1,4 @@
 import React from "react";
-
 import { combineReducers } from "redux";
 
 const getListId = (listId = null, action) => {
@@ -16,7 +15,15 @@ const getUpdatedData = (data = null, action) => {
   return data;
 };
 
+const getEmailData = (emailData = null, action) => {
+  if (action.type === "GET_EMAIL_DATA") {
+    return action.payload;
+  }
+  return emailData;
+};
+
 export default combineReducers({
   listId: getListId,
   updatedData: getUpdatedData,
+  getEmailData: getEmailData,
 });

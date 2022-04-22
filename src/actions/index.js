@@ -12,3 +12,10 @@ export const getUpdatedData = (data) => {
     payload: data,
   };
 };
+
+export const getEmailData = (data) => {
+  return {
+    type: "GET_EMAIL_DATA",
+    payload: data,
+  };
+};

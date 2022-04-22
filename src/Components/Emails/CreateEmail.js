@@ -3,35 +3,25 @@ import axios from "axios";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import OwlCarousel from "react-owl-carousel";
+import { connect } from "react-redux";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
+import { getEmailData } from "../../actions";
+import { getThemeProps } from "@material-ui/styles";
 
-const CreateEmail = () => {
+const CreateEmail = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
   const [templateList, setTemplateList] = useState([]);
   const [template, setTemplate] = useState("");
+  const [emailDescription, setEmailDescription] = useState("");
+  const [emailCreator, setEmailCreator] = useState("");
   const [counter, setCounter] = useState(0);
-
-  //axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-  //   useEffect(() => {
-  //     const body = {
-  //       user_id: 18207,
-  //       language: "",
-  //       ibu: "",
-  //     };
-  //     axios
-  //       .post(`emailapi/get_template_list`, body)
-  //       .then((res) => {
-  //         console.log(res);
-  //         // console.log(res.data.response.data);
-  //         setTemplateList(res.data.response.data);
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   }, []);
+  const [modalCounter, setModalCounter] = useState(0);
+  const [emailCampaign, setemailCampaign] = useState("");
+  const [emailSubject, setEmailSubject] = useState("");
+  const [templateId, setTemplateId] = useState();
 
   useEffect(() => {
     const body = {
@@ -58,8 +48,41 @@ const CreateEmail = () => {
   }, []);
 
   const templateClicked = (template) => {
-    console.log(template.source_code);
+    console.log(template);
+    setTemplateId(template.id);
     setTemplate(template.source_code);
+  };
+
+  const emailSubjectChanged = (e) => {
+    setEmailSubject(e.target.value);
+  };
+
+  const nextClicked = () => {
+    props.getEmailData({
+      emailDescription: emailDescription,
+      emailCreator: emailCreator,
+      emailCampaign: emailCampaign,
+      emailSubject: emailSubject,
+      templateId: templateId,
+    });
+  };
+
+  const tagButtonClicked = () => {
+    // $('#myModal').modal('show'
+    // document.getElementById("tagsModal").modal('show');
+    setModalCounter(modalCounter + 1);
+  };
+
+  const emailDescriptionChange = (e) => {
+    setEmailDescription(e.target.value);
+  };
+
+  const emailCreatorChange = (e) => {
+    setEmailCreator(e.target.value);
+  };
+
+  const changeEmailCampaign = (e) => {
+    setemailCampaign(e.target.value);
   };
 
   return (
@@ -98,7 +121,10 @@ const CreateEmail = () => {
                 <button className="btn btn-primary btn-bordered move-draft">
                   Save As Draft
                 </button>
-                <button className="btn btn-primary btn-filled next">
+                <button
+                  className="btn btn-primary btn-filled next"
+                  onClick={nextClicked}
+                >
                   Next
                 </button>
               </div>
@@ -151,7 +177,6 @@ const CreateEmail = () => {
                   <p>Template 6</p>
                 </div> */}
 
-                {console.log(templateList)}
                 {templateList.map((template) => {
                   return (
                     <>
@@ -173,17 +198,21 @@ const CreateEmail = () => {
                     <div className="form-group col-12 col-md-7">
                       <label for="exampleInputEmail1">Email Description </label>
                       <input
+                        onChange={(e) => emailDescriptionChange(e)}
                         type="text"
                         className="form-control"
                         id="email-desc"
+                        value={emailDescription}
                       />
                     </div>
                     <div className="form-group right-side col-12 col-md-5">
                       <label for="exampleInputEmail1">Email Creator</label>
                       <input
+                        onChange={(e) => emailCreatorChange(e)}
                         type="text"
                         className="form-control"
                         id="email-address"
+                        value={emailCreator}
                       />
                     </div>
                   </div>
@@ -194,6 +223,8 @@ const CreateEmail = () => {
                         type="text"
                         className="form-control"
                         id="email-campaign"
+                        value={emailCampaign}
+                        onChange={changeEmailCampaign}
                       />
                     </div>
                   </div>
@@ -205,6 +236,7 @@ const CreateEmail = () => {
                         id="tags-add"
                         data-bs-toggle="modal"
                         data-bs-target="#tagsModal"
+                        onClick={tagButtonClicked}
                       >
                         + Add Tag
                       </button>
@@ -257,6 +289,8 @@ const CreateEmail = () => {
                         type="text"
                         className="form-control"
                         id="email-subject"
+                        onChange={(e) => emailSubjectChanged(e)}
+                        value={emailSubject}
                       />
                     </div>
                     <div className="form-buttons right-side col-12 col-md-5">
@@ -283,15 +317,11 @@ const CreateEmail = () => {
                 // You can store the "editor" and use when it is needed.
               }}
               onChange={(event, editor) => {
+                console.log(editor);
                 const data = editor.getData();
-                console.log({ event, editor, data });
               }}
-              onBlur={(event, editor) => {
-                console.log("Blur.", editor);
-              }}
-              onFocus={(event, editor) => {
-                console.log("Focus.", editor);
-              }}
+              onBlur={(event, editor) => {}}
+              onFocus={(event, editor) => {}}
             />
           </div>
         </section>
@@ -414,4 +444,12 @@ const CreateEmail = () => {
   );
 };
 
-export default CreateEmail;
+const mapStateToProps = (state) => {
+  console.log(state);
+
+  return state;
+};
+
+export default connect(mapStateToProps, { getEmailData: getEmailData })(
+  CreateEmail
+);
