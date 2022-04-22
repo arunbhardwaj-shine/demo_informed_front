@@ -53,14 +53,11 @@ function Add(props) {
     //  console.log(token)
     ExportApi.GetBuData(token).then((resp) => {
       if (resp.ok) {
-        //  alert("hlo")
-        //  console.log(resp.data.data);
         setBu(resp.data.data);
       }
     });
   };
   const handleGetTimezoneData = () => {
-    // console.log("///",token)
     ExportApi.GetTimezoneData().then((resp) => {
       if (resp.ok) {
         setTimezone(resp.data.data);
@@ -70,7 +67,6 @@ function Add(props) {
   const handleGetTimezoneregionData = () => {
     ExportApi.GetTimezoneregionData().then((resp) => {
       if (resp.ok) {
-        // console.log(resp);
         setTimezoneregion(resp.data.data);
       }
     });
@@ -86,28 +82,14 @@ function Add(props) {
       event_date: "",
       Description: "",
     },
-    validationSchema: Yup.object({
-     
-        // nominees: Yup
-        //   .array()
-        //   .of(
-        //     Yup.object().shape({
-        //       name: Yup.object().shape({
-        //         prefix: Yup.string().required('prefix is a required field.'),
-        //       }),
-        //     }),
-        //   )
-        //   .required(),
-     
+    validationSchema: Yup.object({     
       EventTitle: Yup.string().required("Enter your Title"),
       Timezone: Yup.string().required(),
       event_start_time: Yup.string().required(),
       Region: Yup.string().required(),
       Bu: Yup.string().required(),
       eventendtime: Yup.string().required(),
-
       event_date: Yup.string().required(),
-
       Description: Yup.string().required(),
     }),
     onSubmit: (values) => {
@@ -166,8 +148,6 @@ function Add(props) {
                 <div style={{ color: "red" }}>{formik.errors.EventTitle}</div>
               ) : null}
             </Form.Group>
-
-
             {Speaker.map((malti, i) => (
                 <fieldset class="border p-2">
                 <div key={i}>
