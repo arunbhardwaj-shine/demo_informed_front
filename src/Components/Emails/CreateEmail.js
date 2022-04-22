@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import OwlCarousel from "react-owl-carousel";
@@ -13,15 +14,8 @@ const CreateEmail = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
-  const [templateList, setTemplateList] = useState([]);
-  const [template, setTemplate] = useState("");
-  const [emailDescription, setEmailDescription] = useState("");
-  const [emailCreator, setEmailCreator] = useState("");
-  const [counter, setCounter] = useState(0);
-  const [modalCounter, setModalCounter] = useState(0);
-  const [emailCampaign, setemailCampaign] = useState("");
-  const [emailSubject, setEmailSubject] = useState("");
-  const [templateId, setTemplateId] = useState();
+  const location = useLocation();
+  const { PdfSelected } = location.state;
 
   useEffect(() => {
     const body = {

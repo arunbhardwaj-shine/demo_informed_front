@@ -9,10 +9,12 @@ import Login from "../../../Auth/Login";
 
 import ExportApi from "../../../Api/ExportApi";
 import { Link, useNavigate } from "react-router-dom";
+import ForgotPassword from "../../../Auth/ForgotPassword";
 
 const Header = () => {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 	const [smShowLogin, setSmShowLogin] = useState(false);
+	const [smShowForgot, setSmShowForgot] = useState(false);
 	const [smShow, setSmShow] = useState(false);
 	const [token, setToken] = useState(localStorage.getItem("Token"));
 	const [usernameget, setUsernameget] = useState(
@@ -119,7 +121,9 @@ const Logout=()=>{
               aria-labelledby="example-modal-sizes-title-sm"
             >
               <Modal.Body>
-                <Login active={hengleLonginPage} />
+                <Login active={hengleLonginPage}/>
+				<h5 style={{color:"blue",cursor:"pointer"}} onClick={()=>{setSmShowForgot(true);setSmShowLogin(false)}}
+				   >Forgot Password ?</h5>
               </Modal.Body>
             </Modal>
             <div
@@ -131,6 +135,19 @@ const Logout=()=>{
             ></div>
           </div>
         )}
+		 <Modal
+              size="md"
+              show={smShowForgot}
+              onHide={() => setSmShowForgot(false)}
+              aria-labelledby="example-modal-sizes-title-sm"
+            >
+				<Modal.Header closeButton onClick={()=>setSmShowForgot(false)}>
+				Forgot Password	
+				</Modal.Header>
+              <Modal.Body>
+                <ForgotPassword/>
+              </Modal.Body>
+            </Modal>
 				{/* <ul>
 					<li className="nav-item dropdown">
 					  <a className="nav-link dropdown-toggle"  role="button" data-bs-toggle="dropdown"><span>Hi,</span>Jacob Flindt</a>

@@ -13,7 +13,7 @@ const ResetPasswordPost = (old_pass,new_pass,confirm_pass) =>
     'Authorization':localStorage.getItem("Token"),
   }});
 const UserLogout = () =>
-  BaseApi.put("/logout",{},{ headers: {
+  BaseApi.post("/logout",{},{ headers: {
     'Authorization':localStorage.getItem("Token"),
   }});
         //Dropdown
@@ -21,7 +21,7 @@ const UserLogout = () =>
   BaseApi.get("bu",{},{ headers: {
     'Authorization':localStorage.getItem("Token"),
 }});
-const GetTimezoneData = () => BaseApi.get("timezone",{ headers: {
+const GetTimezoneData = () => BaseApi.get("timezone",{},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
 const GetTimezoneregionData = () => BaseApi.get("timezoneregion",{},{ headers: {
@@ -40,7 +40,7 @@ const GetEventListDataUpdate = (id,EventTitle,a,Description) => BaseApi.put(`eve
   'Authorization':localStorage.getItem("Token"),
 }});
 const CreatEvent = (EventTitle,a,event_start_time,eventendtime,Timezone,Bu,event_date ,Description,Region) => 
-BaseApi.post("create-event",{user_id:1,
+BaseApi.post("event",{user_id:1,
   title:EventTitle,
   description:Description,
   event_start_time:event_start_time,
