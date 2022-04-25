@@ -8,10 +8,15 @@ import { connect } from "react-redux";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 import { getEmailData } from "../../actions";
+import { useNavigate } from "react-router-dom";
+
 import { getThemeProps } from "@material-ui/styles";
+import { Modal } from "react-bootstrap";
+import SimpleReactValidator from "simple-react-validator";
 
 const CreateEmail = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const navigate = useNavigate();
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
   const location = useLocation();
@@ -27,15 +32,11 @@ const CreateEmail = (props) => {
   const [emailSubject, setEmailSubject] = useState("");
   const [templateId, setTemplateId] = useState();
   const [templateName, setTemplateName] = useState("");
+  const [renderAfterValidation, setRenderAfterValidation] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
+  const [validator] = React.useState(new SimpleReactValidator());
 
   useEffect(() => {
-    console.log("location");
-    console.log(location);
-
-    console.log("pathname");
-    console.log(pathname);
-
-    console.log(PdfSelected);
     const body = {
       user_id: 18207,
       language: "",
@@ -81,6 +82,11 @@ const CreateEmail = (props) => {
       });
   };
 
+  const closeModal = () => {
+    console.log("closed");
+    setIsOpen(false);
+  };
+
   const saveAsDraft = async () => {
     const body = {
       user_id: 18207,
@@ -120,18 +126,28 @@ const CreateEmail = (props) => {
   };
 
   const nextClicked = () => {
-    props.getEmailData({
-      emailDescription: emailDescription,
-      emailCreator: emailCreator,
-      emailCampaign: emailCampaign,
-      emailSubject: emailSubject,
-      templateId: templateId,
-    });
+    if (validator.allValid()) {
+      props.getEmailData({
+        emailDescription: emailDescription,
+        emailCreator: emailCreator,
+        emailCampaign: emailCampaign,
+        emailSubject: emailSubject,
+        templateId: templateId,
+      });
+
+      navigate("/SelectHCP");
+    } else {
+      console.log("show error messages");
+      console.log(validator.errorMessages);
+      validator.showMessages();
+      setRenderAfterValidation(renderAfterValidation + 1);
+    }
   };
 
   const tagButtonClicked = () => {
     // $('#myModal').modal('show'
     // document.getElementById("tagsModal").modal('show');
+    setIsOpen(true);
     setModalCounter(modalCounter + 1);
   };
 
@@ -190,7 +206,7 @@ const CreateEmail = (props) => {
                   className="btn btn-primary btn-filled next"
                   onClick={nextClicked}
                 >
-                  <Link to="/SelectHCP">Next</Link>
+                  Next
                 </button>
               </div>
             </div>
@@ -269,6 +285,11 @@ const CreateEmail = (props) => {
                         id="email-desc"
                         value={emailDescription}
                       />
+                      {validator.message(
+                        "emailDesc",
+                        emailDescription,
+                        "required"
+                      )}
                     </div>
                     <div className="form-group right-side col-12 col-md-5">
                       <label for="exampleInputEmail1">Email Creator</label>
@@ -279,6 +300,7 @@ const CreateEmail = (props) => {
                         id="email-address"
                         value={emailCreator}
                       />
+                      {validator.message("creator", emailCreator, "required")}
                     </div>
                   </div>
                   <div className="form-inline row justify-content-between align-items-center">
@@ -291,6 +313,11 @@ const CreateEmail = (props) => {
                         value={emailCampaign}
                         onChange={changeEmailCampaign}
                       />
+                      {validator.message(
+                        "emailCampaign",
+                        emailCampaign,
+                        "required"
+                      )}
                     </div>
                   </div>
                   <div className="input-group w-100">
@@ -357,6 +384,11 @@ const CreateEmail = (props) => {
                         onChange={(e) => emailSubjectChanged(e)}
                         value={emailSubject}
                       />
+                      {validator.message(
+                        "emailSubject",
+                        emailCampaign,
+                        "required"
+                      )}
                     </div>
                     <div className="form-buttons right-side col-12 col-md-5">
                       <button className="btn btn-primary approved-btn btn-bordered">
@@ -408,109 +440,115 @@ const CreateEmail = (props) => {
         aria-labelledby="tagsModal"
         aria-hidden="true"
       >
-        <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="staticBackdropLabel">
-                Add Tags
-              </h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div className="modal-body">
-              <div className="select-tags">
-                <h6>Select Tag :</h6>
-                <div className="tag-lists">
-                  <div className="tag-lists-view">
-                    <div>Hemophilia</div>
-                    <div>Tag 2..</div>
-                    <div>Tag 3..</div>
-                    <div>New ..</div>
-                    <div>Hemophilia</div>
-                    <div>Tag 2..</div>
-                    <div>Tag 3..</div>
-                    <div>New ..</div>
-                    <div>Hemophilia</div>
-                    <div>Tag 2..</div>
-                    <div>Tag 3..</div>
-                    <div>New ..</div>
-                    <div>Hemophilia</div>
-                    <div>Tag 2..</div>
-                    <div>Tag 3..</div>
-                    <div>New ..</div>
-                    <div>Hemophilia</div>
-                    <div>Tag 2..</div>
-                    <div>Tag 3..</div>
-                    <div>New ..</div>
-                    <div>Hemophilia</div>
-                    <div>Tag 2..</div>
-                    <div>Tag 3..</div>
-                    <div>New ..</div>
-                    <div>Tag 3..</div>
-                    <div>New ..</div>
-                    <div>Hemophilia</div>
-                    <div>Tag 2..</div>
-                    <div>Tag 3..</div>
-                    <div>New ..</div>
-                    <div>Hemophilia</div>
-                    <div>Tag 2..</div>
-                    <div>Tag 3..</div>
-                    <div>New ..</div>
+        <Modal show={isOpen}>
+          <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="staticBackdropLabel">
+                  Add Tags
+                </h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={closeModal}
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div className="modal-body">
+                <div className="select-tags">
+                  <h6>Select Tag :</h6>
+                  <div className="tag-lists">
+                    <div className="tag-lists-view">
+                      <div>Hemophilia</div>
+                      <div>Tag 2..</div>
+                      <div>Tag 3..</div>
+                      <div>New ..</div>
+                      <div>Hemophilia</div>
+                      <div>Tag 2..</div>
+                      <div>Tag 3..</div>
+                      <div>New ..</div>
+                      <div>Hemophilia</div>
+                      <div>Tag 2..</div>
+                      <div>Tag 3..</div>
+                      <div>New ..</div>
+                      <div>Hemophilia</div>
+                      <div>Tag 2..</div>
+                      <div>Tag 3..</div>
+                      <div>New ..</div>
+                      <div>Hemophilia</div>
+                      <div>Tag 2..</div>
+                      <div>Tag 3..</div>
+                      <div>New ..</div>
+                      <div>Hemophilia</div>
+                      <div>Tag 2..</div>
+                      <div>Tag 3..</div>
+                      <div>New ..</div>
+                      <div>Tag 3..</div>
+                      <div>New ..</div>
+                      <div>Hemophilia</div>
+                      <div>Tag 2..</div>
+                      <div>Tag 3..</div>
+                      <div>New ..</div>
+                      <div>Hemophilia</div>
+                      <div>Tag 2..</div>
+                      <div>Tag 3..</div>
+                      <div>New ..</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="selected-tags">
+                  <h6>
+                    Selected Tag <span>| 3</span>
+                  </h6>
+                  <div className="total-selected">
+                    <div>
+                      Hemophilia{" "}
+                      <img
+                        src={path_image + "filter-close.svg"}
+                        alt="Close-filter"
+                      />
+                    </div>
+                    <div>
+                      Tag 2..{" "}
+                      <img
+                        src={path_image + "filter-close.svg"}
+                        alt="Close-filter"
+                      />
+                    </div>
+                    <div>
+                      Tag 3..{" "}
+                      <img
+                        src={path_image + "filter-close.svg"}
+                        alt="Close-filter"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
-              <div className="selected-tags">
-                <h6>
-                  Selected Tag <span>| 3</span>
-                </h6>
-                <div className="total-selected">
-                  <div>
-                    Hemophilia{" "}
-                    <img
-                      src={path_image + "filter-close.svg"}
-                      alt="Close-filter"
-                    />
+              <div className="modal-footer">
+                <form>
+                  <div className="form-group">
+                    <label for="new-tag">New Tag</label>
+                    <input type="text" className="form-control" id="new-tag" />
+                    <button
+                      type="button"
+                      className="btn btn-primary add btn-bordered"
+                    >
+                      Add
+                    </button>
                   </div>
-                  <div>
-                    Tag 2..{" "}
-                    <img
-                      src={path_image + "filter-close.svg"}
-                      alt="Close-filter"
-                    />
-                  </div>
-                  <div>
-                    Tag 3..{" "}
-                    <img
-                      src={path_image + "filter-close.svg"}
-                      alt="Close-filter"
-                    />
-                  </div>
-                </div>
+                </form>
+                <button
+                  type="button"
+                  className="btn btn-primary save btn-filled"
+                >
+                  Save
+                </button>
               </div>
-            </div>
-            <div className="modal-footer">
-              <form>
-                <div className="form-group">
-                  <label for="new-tag">New Tag</label>
-                  <input type="text" className="form-control" id="new-tag" />
-                  <button
-                    type="button"
-                    className="btn btn-primary add btn-bordered"
-                  >
-                    Add
-                  </button>
-                </div>
-              </form>
-              <button type="button" className="btn btn-primary save btn-filled">
-                Save
-              </button>
             </div>
           </div>
-        </div>
+        </Modal>
       </div>
     </>
   );
