@@ -30,7 +30,7 @@ const CreateEmail = (props) => {
   const [modalCounter, setModalCounter] = useState(0);
   const [emailCampaign, setemailCampaign] = useState("");
   const [emailSubject, setEmailSubject] = useState("");
-  const [templateId, setTemplateId] = useState();
+  const [templateId, setTemplateId] = useState(0);
   const [templateName, setTemplateName] = useState("");
   const [renderAfterValidation, setRenderAfterValidation] = useState(0);
   const [tagClickedFirst, setTagClickedFirst] = useState([]);
@@ -151,11 +151,18 @@ const CreateEmail = (props) => {
       });
   };
 
-  const templateClicked = (template) => {
-    console.log(template);
+  const templateClicked = (template,e) => {
+    const div = document.querySelector("img.active");
+   
+    if(div){
+     div.classList.remove('active');
+    }
+   
+    
     setTemplateId(template.id);
     setTemplateName(template.name);
     setTemplate(template.source_code);
+    e.target.classList.toggle('active');
   };
 
   const emailSubjectChanged = (e) => {
@@ -163,6 +170,8 @@ const CreateEmail = (props) => {
   };
 
   const nextClicked = () => {
+
+ 
     if (validator.allValid()) {
       props.getEmailData({
         emailDescription: emailDescription,
@@ -285,6 +294,8 @@ const CreateEmail = (props) => {
                 >
                   Save As Draft
                 </button>
+
+                
                 <button
                   className="btn btn-primary btn-filled next"
                   onClick={nextClicked}
@@ -312,46 +323,21 @@ const CreateEmail = (props) => {
               <OwlCarousel
                 className="mail-templates owl-carousel owl-theme"
                 margin={20}
-                items={4}
+                items={5}
+              
                 loop
                 nav
               >
-                {/* <div className="item">
-                  <img src={path_image + "content_added1.png"} alt="" />
-                  <p>Template 1</p>
-                </div>
-                <div className="item">
-                  <img src={path_image + "welcome_email1.png"} alt="" />
-                  <p>Template 2</p>
-                </div>
-                <div className="item">
-                  <img src={path_image + "content_added1.png"} alt="" />
-                  <p>Template 3</p>
-                </div>
-                <div className="item">
-                  <img src={path_image + "welcome_email1.png"} alt="" />
-                  <p>Template 4</p>
-                </div>
-                <div className="item">
-                  <img src={path_image + "content_added1.png"} alt="" />
-                  <p>Template 5</p>
-                </div>
-                <div className="item">
-                  <img src={path_image + "welcome_email1.png"} alt="" />
-                  <p>Template 6</p>
-                </div> */}
-
                 {templateList.map((template) => {
                   return (
                     <>
                       <div
                         className="item"
-                        onClick={() => templateClicked(template)}
+                        onClick={(e) => templateClicked(template,e)}
                       >
                         <img src={path_image + "content_added1.png"} alt="" />
                         <p>{template.name}</p>
                       </div>
-                      ;
                     </>
                   );
                 })}
