@@ -51,7 +51,9 @@ BaseApi.post("event",{user_id:1,
   type:Bu ,
   country_timezone:Region,
   speaker_data:a,
-  event_date:event_date });
+  event_date:event_date },{ headers: {
+    'Authorization':localStorage.getItem("Token"),
+  }});
 
      //Rehearsal
 const CreatRehearsal = (EventTitle,Timezone,event_start_time,
@@ -72,6 +74,19 @@ BaseApi.post("rehearsal",{
    },{ headers: {
     'Authorization':localStorage.getItem("Token"),
   }});
+  //Template
+  const UserTemplateList = (id) =>
+  BaseApi.get(`templates/${id}`,{},{ headers: {
+    'Authorization':localStorage.getItem("Token"),
+  }});
+  const UserTemplate = (id) =>
+  BaseApi.get(`template/${id}`,{},{ headers: {
+    'Authorization':localStorage.getItem("Token"),
+  }});
+  const UserTemplateSandMail = (name,email,Templateid) =>
+  BaseApi.post("test",{name:name,mail :email,template_id:Templateid},{ headers: {
+    'Authorization':localStorage.getItem("Token"),
+  }});
 export default {
   UserLogin,
   UserForgot,
@@ -86,5 +101,8 @@ export default {
   CreatEvent,
   GetEventListDataUpdate,
   GetEventListData,
-  CreatRehearsal
+  CreatRehearsal,
+  UserTemplateList,
+  UserTemplate,
+  UserTemplateSandMail
 };
