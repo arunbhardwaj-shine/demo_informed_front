@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import OwlCarousel from "react-owl-carousel";
@@ -16,6 +16,7 @@ const CreateEmail = (props) => {
   const [UserData, setUserData] = useState([]);
   const location = useLocation();
   const { PdfSelected } = location.state;
+  const pathname = location.pathname;
   const [templateList, setTemplateList] = useState([]);
   const [template, setTemplate] = useState("");
   const [emailDescription, setEmailDescription] = useState("");
@@ -25,9 +26,15 @@ const CreateEmail = (props) => {
   const [emailCampaign, setemailCampaign] = useState("");
   const [emailSubject, setEmailSubject] = useState("");
   const [templateId, setTemplateId] = useState();
+  const [templateName, setTemplateName] = useState("");
 
   useEffect(() => {
-    console.log("pdf selected");
+    console.log("location");
+    console.log(location);
+
+    console.log("pathname");
+    console.log(pathname);
+
     console.log(PdfSelected);
     const body = {
       user_id: 18207,
@@ -52,9 +59,59 @@ const CreateEmail = (props) => {
     getTemplateListData();
   }, []);
 
+  const saveAsTemplateButtonClicked = async () => {
+    console.log("hi");
+    const body = {
+      user_id: 18207,
+      source_code: template,
+      template_id: templateId,
+      name: templateName,
+      status: 2,
+      language: 2,
+    };
+
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    await axios
+      .post(`emailapi/add_update_template`, body)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const saveAsDraft = async () => {
+    const body = {
+      user_id: 18207,
+      pdf_id: PdfSelected,
+      description: emailDescription,
+      creator: emailCreator,
+      campaign_name: emailCampaign,
+      subject: emailSubject,
+      route_location: pathname,
+      tags: [""],
+      campaign_data: {
+        template_id: templateId,
+      },
+    };
+
+    console.log(body);
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    await axios
+      .post(`emailapi/save_draft`, body)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const templateClicked = (template) => {
     console.log(template);
     setTemplateId(template.id);
+    setTemplateName(template.name);
     setTemplate(template.source_code);
   };
 
@@ -98,7 +155,7 @@ const CreateEmail = (props) => {
             <div className="col-12 col-md-1">
               <div className="header-btn-left">
                 <button className="btn btn-primary btn-bordered back">
-                  Back
+                  <Link to="/EmailArticleSelect">Back</Link>
                 </button>
               </div>
             </div>
@@ -123,14 +180,17 @@ const CreateEmail = (props) => {
             </div>
             <div className="col-12 col-md-2">
               <div className="header-btn">
-                <button className="btn btn-primary btn-bordered move-draft">
+                <button
+                  className="btn btn-primary btn-bordered move-draft"
+                  onClick={saveAsDraft}
+                >
                   Save As Draft
                 </button>
                 <button
                   className="btn btn-primary btn-filled next"
                   onClick={nextClicked}
                 >
-                  Next
+                  <Link to="/SelectHCP">Next</Link>
                 </button>
               </div>
             </div>
@@ -307,7 +367,13 @@ const CreateEmail = (props) => {
                         Send A Sample{" "}
                         <img src={path_image + "send-sample.svg"} alt="" />
                       </button>
-                      <button className="btn btn-primary btn-filled">
+                      <button
+                        className="btn btn-primary btn-filled"
+                        onClick={(e) => {
+                          saveAsTemplateButtonClicked();
+                          e.preventDefault();
+                        }}
+                      >
                         Save As template
                       </button>
                     </div>
@@ -324,6 +390,7 @@ const CreateEmail = (props) => {
               onChange={(event, editor) => {
                 console.log(editor);
                 const data = editor.getData();
+                setTemplate(data);
               }}
               onBlur={(event, editor) => {}}
               onFocus={(event, editor) => {}}
