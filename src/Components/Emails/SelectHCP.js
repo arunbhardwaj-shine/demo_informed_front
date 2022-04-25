@@ -10,20 +10,25 @@ const SelectHCP = () => {
   const [UserData, setUserData] = useState([]);
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-  useEffect(() => {
-    const body = {
-      user_id: 18207,
-    };
-    axios
-      .post(`emailapi/get_template_list`, body)
-      .then((res) => {
-        setSendListData(res.data.response.data.emails);
-        setUserData(res.data.response.data.user);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  // useEffect(() => {
+  //   const body = {
+  //     user_id: 18207,
+  //   };
+  //   axios
+  //     .post(`emailapi/get_template_list`, body)
+  //     .then((res) => {
+  //       setSendListData(res.data.response.data.emails);
+  //       setUserData(res.data.response.data.user);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
+
+  const handleInputChange = (event) => {
+    console.log("hi");
+    console.log(event);
+  };
 
   return (
     <>
@@ -75,8 +80,17 @@ const SelectHCP = () => {
                 <h5>Do you want to send to</h5>
                 <ul>
                   <li>
-                    <div className="send-option-img">
-                      <input type="radio" name="select-option-hcp" />
+                    <div
+                      className="send-option-img"
+                      onClick={(event) => handleInputChange(event)}
+                    >
+                      <input
+                        type="radio"
+                        name="select-option-hcp"
+                        value="group of HCPs"
+                        // onChange={(event) => handleInputChange(event)}
+                      />
+
                       <img
                         src={path_image + "group-hcp.svg"}
                         alt="Group HCPs"
@@ -85,8 +99,16 @@ const SelectHCP = () => {
                     <p>Groupe of HCPs</p>
                   </li>
                   <li>
-                    <div className="send-option-img">
-                      <input type="radio" name="select-option-hcp" />
+                    <div
+                      className="send-option-img"
+                      onClick={(event) => handleInputChange(event)}
+                    >
+                      <input
+                        type="radio"
+                        name="select-option-hcp"
+                        value="Single HCP"
+                        // onChange={(event) => handleInputChange(event)}
+                      />
                       <img
                         src={path_image + "single-hcp.svg"}
                         alt="Single HCP"

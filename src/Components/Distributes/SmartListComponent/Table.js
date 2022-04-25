@@ -730,7 +730,9 @@ const Table = (props) => {
                               type="radio"
                               id="staff"
                               name={`${fieldName}.contact_type`}
-                              onClick={(event) => onContactTypeChange(event, i)}
+                              onChange={(event) =>
+                                onContactTypeChange(event, i)
+                              }
                               value="staff"
                             />
                             <label for="staff">staff</label>
@@ -738,7 +740,9 @@ const Table = (props) => {
                               type="radio"
                               id="test-users"
                               name={`${fieldName}.contact_type`}
-                              onClick={(event) => onContactTypeChange(event, i)}
+                              onChange={(event) =>
+                                onContactTypeChange(event, i)
+                              }
                               value="test users"
                             />
                             <label for="test-users">Test Users</label>
