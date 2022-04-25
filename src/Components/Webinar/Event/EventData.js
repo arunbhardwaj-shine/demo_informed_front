@@ -3,6 +3,7 @@ import { Button, Col,  Form,  Modal,  Row,  Table } from "react-bootstrap";
 import ExportApi from "../../../Api/ExportApi";
 import { useFormik } from "formik";
 import '../webinar.css';
+import { Link } from "react-router-dom";
 
 const EventData = () => {
     const [event, setEvent] = useState([]);
@@ -101,14 +102,26 @@ const EventData = () => {
                 </tr>
               </thead>
               <tbody>
-                {event?.map((val,i) => (
+                {event?<>
+                  {event?event?.map((val,i) => (
                   <tr key={i}>  
                     <td>{val.event_date}</td>
                     <td>{val.title}</td>
                     <td><Button onClick={()=>handleGetEventlistEdidData(val.id)}>Edit</Button></td>
                   </tr>
-                ))}
+                )):  <Table bordered hover>
+                <thead>
+                  <tr>
+                    <th>Event Date</th>
+                    <th>Event Title</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tr>
+                  </tr><tr>Data Not Found <Link to="/webinar/event/add" style={{color:"red"}}>Please create event </Link></tr></Table>}
+                </>:<h2>Data Not Found <Link to="/webinar/event/add" style={{color:"red"}}>Please create event </Link></h2>}
               </tbody>
+               
             </Table>
             <Modal show={modalShow} size="lg" aria-labelledby="contained-modal-title-vcenter" centered >
               <Modal.Header onClick={()=>setModalShow(false)} closeButton>
@@ -134,7 +147,7 @@ const EventData = () => {
                   </Form.Group>
                   <fieldset className="border p-2">
                   {SpDataSingle?.map((malti, i) => (
-                      <Form.Group className="mb-3 edit-event">
+                      <Form.Group className="edit-event">
                         <Form.Label column sm={3}>Name <h6>{malti.name}</h6></Form.Label>
                         <Form.Label column sm={3}>Email <h6>{malti.email}</h6></Form.Label>
                       </Form.Group>

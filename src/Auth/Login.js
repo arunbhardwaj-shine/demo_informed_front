@@ -31,7 +31,7 @@ const Login = (props) => {
               navigate("/webinar/dashboard");
               props.active(false);
               
-            }{
+            }else{
               setErr(true)
               setErr(resp.data.message)
             }
