@@ -30,7 +30,7 @@ const CreateEmail = (props) => {
   const [modalCounter, setModalCounter] = useState(0);
   const [emailCampaign, setemailCampaign] = useState("");
   const [emailSubject, setEmailSubject] = useState("");
-  const [templateId, setTemplateId] = useState();
+  const [templateId, setTemplateId] = useState(0);
   const [templateName, setTemplateName] = useState("");
   const [renderAfterValidation, setRenderAfterValidation] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
@@ -133,6 +133,8 @@ const CreateEmail = (props) => {
   };
 
   const nextClicked = () => {
+
+ 
     if (validator.allValid()) {
       props.getEmailData({
         emailDescription: emailDescription,
@@ -209,6 +211,8 @@ const CreateEmail = (props) => {
                 >
                   Save As Draft
                 </button>
+
+                
                 <button
                   className="btn btn-primary btn-filled next"
                   onClick={nextClicked}
