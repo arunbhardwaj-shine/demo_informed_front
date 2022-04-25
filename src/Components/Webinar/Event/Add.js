@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import ExportApi from "../../../Api/ExportApi";
 import { Button, CloseButton, Col, Form, Row } from "react-bootstrap";
 import * as Yup from "yup";
+import '../webinar.css';
 
 function Add(props) {
   //  console.log("ppp",props.token)
@@ -24,7 +25,6 @@ function Add(props) {
     if (e.target.name === `SpeakersName${i}`) {
       const speker = Speakername[i];
       speker.name = e.target.value;
-      // console.log(speker)
       Speakername.splice(i, 1, { ...speker });
       setSpeakerName([...Speakername]);
     } else if (e.target.name === `SpeakesrEmail${i}`) {
@@ -34,7 +34,6 @@ function Add(props) {
       setSpeakerName([...Speakername]);
     }
   };
-
   useEffect(()=>{
     console.log("inside render");
   },[render])
@@ -50,17 +49,13 @@ function Add(props) {
     }
   };
   const handleGetDataBu = () => {
-    //  console.log(token)
     ExportApi.GetBuData(token).then((resp) => {
       if (resp.ok) {
-        //  alert("hlo")
-        //  console.log(resp.data.data);
         setBu(resp.data.data);
       }
     });
   };
   const handleGetTimezoneData = () => {
-    // console.log("///",token)
     ExportApi.GetTimezoneData().then((resp) => {
       if (resp.ok) {
         setTimezone(resp.data.data);
@@ -87,33 +82,18 @@ function Add(props) {
       Description: "",
     },
     validationSchema: Yup.object({
-     
-        // nominees: Yup
-        //   .array()
-        //   .of(
-        //     Yup.object().shape({
-        //       name: Yup.object().shape({
-        //         prefix: Yup.string().required('prefix is a required field.'),
-        //       }),
-        //     }),
-        //   )
-        //   .required(),
-     
-      EventTitle: Yup.string().required("Enter your Title"),
-      Timezone: Yup.string().required(),
-      event_start_time: Yup.string().required(),
-      Region: Yup.string().required(),
-      Bu: Yup.string().required(),
-      eventendtime: Yup.string().required(),
-
-      event_date: Yup.string().required(),
-
-      Description: Yup.string().required(),
+      EventTitle: Yup.string().required("Event title is required"),
+      Timezone: Yup.string().required("Timezone is required"),
+      event_start_time: Yup.string().required("Event start time is required"),
+      Region: Yup.string().required("Region is required"),
+      Bu: Yup.string().required("Bu is required"),
+      eventendtime: Yup.string().required("Event ent time is required"),
+      event_date: Yup.string().required("Event date is required"),
+      Description: Yup.string().required("Description is required"),
     }),
     onSubmit: (values) => {
       let a = JSON.stringify(Speakername);
       console.log(values);
-      //  console.log(Speakername)
       ExportApi.CreatEvent(
         values.EventTitle,
         a,
@@ -148,9 +128,8 @@ function Add(props) {
   return (
     <Row>
     <Col md={{ span: 6, offset: 3 }}>
-    <div>
       <div>
-        <h2> Event Details</h2>
+        <h2>Create Event </h2>
         <div>
           <form  onSubmit={formik.handleSubmit}>
             <Form.Group as={Row} className="mb-3" controlId="exampleForm.ControlInput1">
@@ -167,16 +146,15 @@ function Add(props) {
               ) : null}
               </Col>
             </Form.Group>
-            <Form.Group as={Row} className="mb-3" controlId="exampleForm.ControlInput1">
-              {Speaker.map((malti, i) => (
+            {Speaker.map((malti, i) => (
+                <fieldset class="border p-2">
                 <div key={i}>
                   {Speaker.length > 1 ? (
-                    <CloseButton
-                      variant="danger"
-                      onClick={() => handleMaltiInputRumove(i)}
-                    />
-                  ) : null}
-                  <Form.Label >Speaker’s Name</Form.Label>
+                      <button type="button" onClick={() => handleMaltiInputRumove(i)}  class="btn-close float-end" aria-label="Close" />
+                    ) : null}
+                  <Form.Group as={Row} className="mb-3" controlId="exampleForm.ControlInput1">
+                  <Form.Label column sm={2}>Speaker Name</Form.Label>
+                  <Col sm={10}>
                   <Form.Control
                     name={Speaker.length === 0 ? malti.name : malti.name + i}
                     onChange={(e) => {
@@ -184,12 +162,13 @@ function Add(props) {
                     }}
                     onBlur={formik.handleBlur}
                     value={formik.values.email}
-                  />
+                  /></Col>
                   {formik.touched.email && formik.errors.email ? (
                     <div style={{ color: "red" }}>{formik.errors.email}</div>
                   ) : null}
-
-                  <Form.Label >Speaker’s Email</Form.Label>
+                  <div class="mt-2"></div>
+                  <Form.Label column sm={2}>Speaker Email</Form.Label>
+                  <Col sm={10}>
                   <Form.Control
                     type="email"
                     name={Speaker.length === 0 ? malti.email : malti.email + i}
@@ -199,15 +178,20 @@ function Add(props) {
                     onBlur={formik.handleBlur}
                     value={formik.values.email}
                   />
+                  </Col>
                   {formik.touched.email && formik.errors.email ? (
                     <div style={{ color: "red" }}>{formik.errors.email}</div>
                   ) : null}
-                </div>
-              ))}
-              <Button onClick={handleMaltiInputAdd}>Add Speaker’s +</Button>
-              <br />
+                  </Form.Group>
+                </div></fieldset>
+            ))}
+            <div class="mt-2"></div>
+            <Form.Group className="mb-3">
+                <Button onClick={handleMaltiInputAdd} className="speaker-button">Add More Speaker</Button>
             </Form.Group>
-            <Form.Group as={Row} className="mb-3" controlId="exampleForm.ControlInput1">
+            <div class="clearfix"></div>
+            <div class="mt-2"></div>
+            <Form.Group className="mb-3"as={Row} controlId="exampleForm.ControlInput1">
               <Form.Label column sm={2}>Region </Form.Label>
               <Col sm={10}>
               <Form.Select
@@ -215,7 +199,7 @@ function Add(props) {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.Region}
-              ><option>Open this select Region</option>
+              ><option>Select Region</option>
                 {Timezoneregion?.map((val, i) => (
                  <React.Fragment key={i}>
                     <option key={i} value={val.values}>
@@ -228,15 +212,20 @@ function Add(props) {
               <div style={{ color: "red" }}>{formik.errors.Region}</div>
             ) : null}
             </Col>
+              <br />
             </Form.Group>
-            <Form.Group as={Row} className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Label>Bu </Form.Label>
+            <Form.Group as={Row}
+              className="mb-3"
+              controlId="exampleForm.ControlInput1"
+            >
+            <Form.Label column sm={2}>Bu </Form.Label>
+            <Col sm={10}>
             <Form.Select
               name="Bu"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.Bu}
-            ><option>Open this select Bu</option>
+            ><option>Select Bu</option>
               {bu?.map((val, i) => (
             <React.Fragment key={i}>
                   <option key={i} value={val.values}>
@@ -248,16 +237,18 @@ function Add(props) {
             {formik.touched.Bu && formik.errors.Bu ? (
               <div style={{ color: "red" }}>{formik.errors.Bu}</div>
             ) : null}
-            <br />    
+            </Col>    
             </Form.Group>
-            <Form.Label>Timezone </Form.Label>
+            <Form.Group className="mb-3"as={Row} controlId="exampleForm.ControlInput1">
+            <Form.Label column sm={2}>Timezone </Form.Label>
+            <Col sm={10}>
             <Form.Select
               name="Timezone"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.Timezone}
             >
-              <option>Open this select Timezone</option>
+              <option>Select Timezone</option>
               {Timezone?.map((val, i) => (
                 <React.Fragment key={i}>
                   <option key={i} value={val.values}> 
@@ -266,34 +257,46 @@ function Add(props) {
                 </React.Fragment>
               ))}
             </Form.Select>
+            
             {formik.touched.Timezone && formik.errors.Timezone ? (
               <div style={{ color: "red" }}>{formik.errors.Timezone}</div>
             ) : null}
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Label>Event Start Time </Form.Label>
+            </Col>
+            </Form.Group>
+            <Form.Group className="mb-3" as={Row} controlId="exampleForm.ControlInput1">
+            <Form.Label column sm={2}>Event Start Time </Form.Label>
+            <Col sm={10}>
             <Form.Control
               name="event_start_time"
               type="time"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.event_start_time}
-            />{formik.touched.event_start_time && formik.errors.event_start_time ? (
+            />
+            {formik.touched.event_start_time && formik.errors.event_start_time ? (
               <div style={{ color: "red" }}>{formik.errors.event_start_time}</div>
             ) : null}
-            <br />
+            </Col>
             </Form.Group>
-            <Form.Label>Event End Time </Form.Label>
+            <Form.Group className="mb-3"as={Row} controlId="exampleForm.ControlInput1">
+            <Form.Label column sm={2}>Event End Time </Form.Label>
+            <Col sm={10}>
             <Form.Control
               name="eventendtime"
               type="time"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.eventendtime}
-            />{formik.touched.eventendtime && formik.errors.eventendtime ? (
+            />
+            {formik.touched.eventendtime && formik.errors.eventendtime ? (
               <div style={{ color: "red" }}>{formik.errors.eventendtime}</div>
             ) : null}
+            </Col>
+            </Form.Group>
             <br />
-            <Form.Label>Event Date </Form.Label>
+            <Form.Group className="mb-3"as={Row} controlId="exampleForm.ControlInput1">
+            <Form.Label column sm={2}>Event Date </Form.Label>
+            <Col sm={10}>
             <Form.Control
               name="event_date"
               type="date"
@@ -304,12 +307,14 @@ function Add(props) {
             {formik.touched.event_date && formik.errors.event_date ? (
                 <div style={{ color: "red" }}>{formik.errors.event_date}</div>
               ) : null}
-            <br />
-            <Form.Group
+              </Col>
+              </Form.Group>
+            <Form.Group as={Row}
               className="mb-3"
               controlId="exampleForm.ControlInput1"
             >   
-            <Form.Label>Description </Form.Label>
+            <Form.Label column sm={2}>Description </Form.Label>
+            <Col sm={10}>
             <textarea
               name="Description"
               type="text"
@@ -320,16 +325,17 @@ function Add(props) {
               id="exampleFormControlTextarea1"
               rows="3"
             ></textarea>
+            
                {formik.touched.Description && formik.errors.Description ? (
                 <div style={{ color: "red" }}>{formik.errors.Description}</div>
               ) : null}
+             </Col> 
             </Form.Group>
-            <br />
-            <Button type="submit">Submit</Button>
+            <Button type="reset">Reset</Button>
+            <Button type="submit" class="event-submit-button">Submit</Button>
           </form>
         </div>
       </div>
-    </div>
     </Col>
   </Row>
     
