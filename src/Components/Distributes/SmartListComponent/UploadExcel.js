@@ -11,8 +11,9 @@ const UploadExcel = (props) => {
 
   return (
     <>
-      {console.log(location)}
-      <Table data={data} smartListName={smartListName} upload_by_filter="0" />
+      <div className="col right-sidebar">
+        <Table data={data} smartListName={smartListName} upload_by_filter="0" />
+      </div>  
     </>
   );
 };
