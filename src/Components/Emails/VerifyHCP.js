@@ -10,6 +10,7 @@ const VerifyHCP = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [reRender, setReRender] = useState(0);
+  const [editable, setEditable] = useState(0);
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [selectedHcp, setSelectedHcp] = useState([]);
 
@@ -29,6 +30,11 @@ const VerifyHCP = () => {
   //     });
   // }, []);
 
+
+  useEffect(() => {
+      console.log(editable);
+  });
+
   const handleInputChange = (event, selected) => {
     const div = document.querySelector("div.active");
 
@@ -42,6 +48,16 @@ const VerifyHCP = () => {
   const nextClicked = () => {
     console.log("next clicked");
   };
+
+
+  const editablemade = ()=>{
+    let temp_val =  1-editable;
+    setEditable(temp_val);
+  }
+
+
+  
+
 
   const selectHcp = (index) => {
     // console.log(index);
@@ -194,6 +210,7 @@ const VerifyHCP = () => {
             </form>
           </div>
           <div className="search-hcp-table">
+          <div className="search-hcp-table-inside">
             <table className="table">
               <thead>
                 <tr>
@@ -213,7 +230,9 @@ const VerifyHCP = () => {
                 </tr>
               </thead>
               <tbody>
-                {searchedUsers.length == 0 ? <h1>no user found</h1> : null}
+                {searchedUsers.length == 0 ? <div class="not-found">
+									<h4>No User found!</h4>
+								</div> : null}
                 {searchedUsers.map((users, index) => {
                   return (
                     <>
@@ -262,6 +281,7 @@ const VerifyHCP = () => {
               </tbody>
             </table>
           </div>
+          </div>
 
           <div className="selected-hcp-table">
             <div className="table-title">
@@ -270,7 +290,7 @@ const VerifyHCP = () => {
               </h4>
               <div className="selected-hcp-table-action">
                 <div className="hcp-added">
-                  <button className="btn btn-outline-primary">
+                  <button onClick={editablemade} className="btn btn-outline-primary">
                     <img src={path_image + "edit.svg"} alt="" />
                   </button>
                 </div>
@@ -282,7 +302,7 @@ const VerifyHCP = () => {
               </div>
             </div>
             <div className="selected-hcp-list">
-              <table className="table">
+              <table className="table selected-list-tb">
                 <thead>
                   <tr>
                     <th scope="col">Name</th>
@@ -301,11 +321,14 @@ const VerifyHCP = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {selectedHcp.length == 0 ? <h1>no user found</h1> : null}
+                  {selectedHcp.length == 0 ? <div class="not-found">
+									<h4>No Contact selected yet!</h4>
+								</div> : null}
                   {selectedHcp.map((data, index) => {
+                    console.log(editable);
                     return (
                       <>
-                        <tr>
+                        <tr  contenteditable= {editable === 0 ? "false" : "true" } >
                           <td>{data.name}</td>
                           <td>{data.email}</td>
                           <td>NA</td>
