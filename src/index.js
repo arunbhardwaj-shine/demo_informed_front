@@ -29,12 +29,15 @@ import ViewList from "./Components/Distributes/SmartListComponent/ViewList";
 import EmailList from "./Components/Emails/EmailListing";
 import EmailArticleSelect from "./Components/Emails/EmailArticleSelect";
 import CreateEmail from "./Components/Emails/CreateEmail";
+import VerifyHCP from "./Components/Emails/VerifyHCP";
 import SelectHCP from "./Components/Emails/SelectHCP";
+import VerifyMAIL from "./Components/Emails/VerifyMAIL";
 import UploadExcel from "./Components/Distributes/SmartListComponent/UploadExcel";
 import Proctected from "./Auth/Proctected ";
 import ResetPassword from "./Auth/ResetPassword";
 import ForgotPassword from "./Auth/ForgotPassword";
 import ForgotResetPassword from "./Auth/ForgotResetPassword";
+import Template from "./Components/Webinar/Template/Template";
 
 let platform = 0;
 let show = 0;
@@ -70,6 +73,8 @@ ReactDOM.render(
                     <Route path="/CreateEmail" element={<CreateEmail />} />
                     <Route path="/FilterSegment" element={<FilterSegment />} />
                     <Route path="/SelectHCP" element={<SelectHCP />} />
+                    <Route path="/VerifyHCP" element={<VerifyHCP />} />
+                    <Route path="/VerifyMAIL" element={<VerifyMAIL />} />
                     
                     <Route
                       path="/VerifySmartList"
@@ -119,6 +124,10 @@ ReactDOM.render(
                         <Route
                           path="/webinar/rehearsal"
                           element={<Rehearsal />}
+                        />
+                        <Route
+                          path="/webinar/template"
+                          element={<Template />}
                         />
                         <Route
                           path="/webinar/event/edit"

@@ -30,11 +30,20 @@ const CreateEmail = (props) => {
   const [modalCounter, setModalCounter] = useState(0);
   const [emailCampaign, setemailCampaign] = useState("");
   const [emailSubject, setEmailSubject] = useState("");
-  const [templateId, setTemplateId] = useState();
+  const [templateId, setTemplateId] = useState("");
   const [templateName, setTemplateName] = useState("");
   const [renderAfterValidation, setRenderAfterValidation] = useState(0);
+  const [tagClickedFirst, setTagClickedFirst] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [allTags, setAllTags] = useState({});
+  const [newTag, setNewTag] = useState("");
+  const [finalTags, setFinalTags] = useState([]);
+  const [tagsReRender, setTagsReRender] = useState(0);
+  const [tagsCounter, setTagsCounter] = useState(0);
   const [validator] = React.useState(new SimpleReactValidator());
+  const [validator2] = React.useState(new SimpleReactValidator());
+
+  const newArr = [];
 
   useEffect(() => {
     const body = {
@@ -60,6 +69,28 @@ const CreateEmail = (props) => {
     getTemplateListData();
   }, []);
 
+  useEffect(() => {
+    const body = {
+      user_id: 18207,
+    };
+
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    const getAllTags = async () => {
+      console.log(process.env.REACT_APP_API_KEY);
+      await axios
+        .post(`emailapi/get_tags`, body)
+        .then((res) => {
+          console.log(res);
+          console.log(res.data.response.data);
+          setAllTags(res.data.response.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    getAllTags();
+  }, []);
+
   const saveAsTemplateButtonClicked = async () => {
     console.log("hi");
     const body = {
@@ -82,12 +113,22 @@ const CreateEmail = (props) => {
       });
   };
 
+  const saveButtonClicked = () => {
+    setFinalTags(tagClickedFirst);
+    closeModal();
+  };
+
   const closeModal = () => {
     console.log("closed");
     setIsOpen(false);
   };
 
   const saveAsDraft = async () => {
+    let tagss = [];
+    finalTags.map((tags) => {
+      tagss.push(tags.innerText || tags);
+    });
+    console.log(tagss);
     const body = {
       user_id: 18207,
       pdf_id: PdfSelected,
@@ -96,7 +137,7 @@ const CreateEmail = (props) => {
       campaign_name: emailCampaign,
       subject: emailSubject,
       route_location: pathname,
-      tags: [""],
+      tags: tagss,
       campaign_data: {
         template_id: templateId,
       },
@@ -114,18 +155,17 @@ const CreateEmail = (props) => {
       });
   };
 
-  const templateClicked = (template,e) => {
+  const templateClicked = (template, e) => {
     const div = document.querySelector("img.active");
-   
-    if(div){
-     div.classList.remove('active');
+
+    if (div) {
+      div.classList.remove("active");
     }
-   
-    
+
     setTemplateId(template.id);
     setTemplateName(template.name);
     setTemplate(template.source_code);
-    e.target.classList.toggle('active');
+    e.target.classList.toggle("active");
   };
 
   const emailSubjectChanged = (e) => {
@@ -158,6 +198,14 @@ const CreateEmail = (props) => {
     setModalCounter(modalCounter + 1);
   };
 
+  const newTagChanged = (e) => {
+    setNewTag(e.target.value);
+    e.target.value = "";
+    const new_atg = document.getElementById("new-tag");
+    new_atg.value = "";
+    console.log(new_atg);
+  };
+
   const emailDescriptionChange = (e) => {
     setEmailDescription(e.target.value);
   };
@@ -168,6 +216,44 @@ const CreateEmail = (props) => {
 
   const changeEmailCampaign = (e) => {
     setemailCampaign(e.target.value);
+  };
+
+  useEffect(() => {}, []);
+
+  const addTag = () => {
+    if (validator2.allValid()) {
+      setTagClickedFirst((oldArray) => [...oldArray, newTag]);
+      setNewTag("");
+    } else {
+      validator2.showMessages();
+      setTagsCounter(tagsCounter + 1);
+    }
+  };
+
+  const tagClicked = (event) => {
+    setTagClickedFirst((oldArray) => [...oldArray, event.target]);
+  };
+
+  const removeTag = (index) => {
+    console.log(index);
+    const tags = tagClickedFirst;
+
+    tags.splice(index, 1);
+    console.log(tags);
+    setTagClickedFirst(tags);
+    setTagsReRender(tagsReRender + 1);
+    // tagClickedFirst.splice(index, 1);
+  };
+
+  const removeTagFinal = (index) => {
+    const tags = finalTags;
+    const tagsClickedFirst = tagClickedFirst;
+    tags.splice(index, 1);
+    tagsClickedFirst.splice(index, 1);
+    setFinalTags(tags);
+    setTagClickedFirst(tagsClickedFirst);
+
+    setTagsReRender(tagsReRender + 1);
   };
 
   return (
@@ -209,6 +295,7 @@ const CreateEmail = (props) => {
                 >
                   Save As Draft
                 </button>
+
                 <button
                   className="btn btn-primary btn-filled next"
                   onClick={nextClicked}
@@ -237,7 +324,6 @@ const CreateEmail = (props) => {
                 className="mail-templates owl-carousel owl-theme"
                 margin={20}
                 items={5}
-              
                 loop
                 nav
               >
@@ -246,7 +332,7 @@ const CreateEmail = (props) => {
                     <>
                       <div
                         className="item"
-                        onClick={(e) => templateClicked(template,e)}
+                        onClick={(e) => templateClicked(template, e)}
                       >
                         <img src={path_image + "content_added1.png"} alt="" />
                         <p>{template.name}</p>
@@ -255,6 +341,12 @@ const CreateEmail = (props) => {
                   );
                 })}
               </OwlCarousel>
+              <input type="hidden" id="mail_template" value={templateId} />
+              {validator.message(
+                        "Templates",
+                        templateId,
+                        "required"
+                      )}
               <div className="email-form">
                 <form>
                   <div className="form-inline row justify-content-between align-items-center">
@@ -317,6 +409,34 @@ const CreateEmail = (props) => {
                     </div>
                     <div className="tags_added">
                       <ul>
+                        {finalTags.map((tags, index) => {
+                          return (
+                            <>
+                              <li className="list1">
+                                {tags.innerHTML || tags}{" "}
+                                <img
+                                  src={path_image + "filter-close.svg"}
+                                  alt="Close-filter"
+                                  onClick={() => removeTag(index)}
+                                />
+                              </li>
+                            </>
+                          );
+                        })}
+                        {/* {Object.values(allTags).map((data) => {
+                          return (
+                            <>
+                              <li className="list1">
+                                {data}{" "}
+                                <img
+                                  src={path_image + "filter-close.svg"}
+                                  alt="Close-filter"
+                                />
+                              </li>
+                            </>
+                          );
+                        })} */}
+                        {/* 
                         <li className="list1">
                           tag1{" "}
                           <img
@@ -352,7 +472,7 @@ const CreateEmail = (props) => {
                             src={path_image + "filter-close.svg"}
                             alt="Close-filter"
                           />
-                        </li>
+                        </li> */}
                       </ul>
                     </div>
                   </div>
@@ -368,7 +488,7 @@ const CreateEmail = (props) => {
                       />
                       {validator.message(
                         "emailSubject",
-                        emailCampaign,
+                        emailSubject,
                         "required"
                       )}
                     </div>
@@ -442,69 +562,36 @@ const CreateEmail = (props) => {
                   <h6>Select Tag :</h6>
                   <div className="tag-lists">
                     <div className="tag-lists-view">
-                      <div>Hemophilia</div>
-                      <div>Tag 2..</div>
-                      <div>Tag 3..</div>
-                      <div>New ..</div>
-                      <div>Hemophilia</div>
-                      <div>Tag 2..</div>
-                      <div>Tag 3..</div>
-                      <div>New ..</div>
-                      <div>Hemophilia</div>
-                      <div>Tag 2..</div>
-                      <div>Tag 3..</div>
-                      <div>New ..</div>
-                      <div>Hemophilia</div>
-                      <div>Tag 2..</div>
-                      <div>Tag 3..</div>
-                      <div>New ..</div>
-                      <div>Hemophilia</div>
-                      <div>Tag 2..</div>
-                      <div>Tag 3..</div>
-                      <div>New ..</div>
-                      <div>Hemophilia</div>
-                      <div>Tag 2..</div>
-                      <div>Tag 3..</div>
-                      <div>New ..</div>
-                      <div>Tag 3..</div>
-                      <div>New ..</div>
-                      <div>Hemophilia</div>
-                      <div>Tag 2..</div>
-                      <div>Tag 3..</div>
-                      <div>New ..</div>
-                      <div>Hemophilia</div>
-                      <div>Tag 2..</div>
-                      <div>Tag 3..</div>
-                      <div>New ..</div>
+                      {Object.values(allTags).map((data) => {
+                        return (
+                          <>
+                            <div onClick={(event) => tagClicked(event)}>
+                              {data}{" "}
+                            </div>
+                          </>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
                 <div className="selected-tags">
                   <h6>
-                    Selected Tag <span>| 3</span>
+                    Selected Tag <span>| {tagClickedFirst.length}</span>
                   </h6>
+
                   <div className="total-selected">
-                    <div>
-                      Hemophilia{" "}
-                      <img
-                        src={path_image + "filter-close.svg"}
-                        alt="Close-filter"
-                      />
-                    </div>
-                    <div>
-                      Tag 2..{" "}
-                      <img
-                        src={path_image + "filter-close.svg"}
-                        alt="Close-filter"
-                      />
-                    </div>
-                    <div>
-                      Tag 3..{" "}
-                      <img
-                        src={path_image + "filter-close.svg"}
-                        alt="Close-filter"
-                      />
-                    </div>
+                    {tagClickedFirst.map((data, index) => {
+                      return (
+                        <>
+                          <div>{data.innerHTML || data}</div>
+                          <img
+                            src={path_image + "filter-close.svg"}
+                            alt="Close-filter"
+                            onClick={() => removeTagFinal(index)}
+                          />
+                        </>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
@@ -512,8 +599,16 @@ const CreateEmail = (props) => {
                 <form>
                   <div className="form-group">
                     <label for="new-tag">New Tag</label>
-                    <input type="text" className="form-control" id="new-tag" />
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="new-tag"
+                      value={newTag}
+                      onChange={(e) => newTagChanged(e)}
+                    />
+                    {validator2.message("newTag", newTag, "required")}
                     <button
+                      onClick={addTag}
                       type="button"
                       className="btn btn-primary add btn-bordered"
                     >
@@ -524,6 +619,7 @@ const CreateEmail = (props) => {
                 <button
                   type="button"
                   className="btn btn-primary save btn-filled"
+                  onClick={saveButtonClicked}
                 >
                   Save
                 </button>
