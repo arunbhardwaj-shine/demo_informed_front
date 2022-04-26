@@ -5,7 +5,7 @@ import { Button, Dropdown, Modal } from "react-bootstrap";
 import "../../assets/css/style.css";
 import "../../assets/css/custom.css";
 import Login from "../../../Auth/Login";
-
+import { toast, ToastContainer } from "react-toastify";
 import ExportApi from "../../../Api/ExportApi";
 import { Link, useNavigate } from "react-router-dom";
 import ForgotPassword from "../../../Auth/ForgotPassword";
@@ -19,9 +19,10 @@ const Header = () => {
   const [usernameget, setUsernameget] = useState(
     localStorage.getItem("username")
   );
-  const hengleLonginPage = (data) => {
+  const hengleLonginPage = (data,message) => {
     setSmShowLogin(data);
     setDropdownOpen(data);
+  
   };
   const hengleForgotPage = (data) => {
     setSmShowForgot(data);
@@ -189,6 +190,7 @@ const Header = () => {
             </div>
           </div>
         </nav>
+     
       </header>
     </>
   );

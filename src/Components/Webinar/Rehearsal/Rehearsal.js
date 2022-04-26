@@ -4,6 +4,7 @@ import ExportApi from "../../../Api/ExportApi";
 import { Button, Col, Form, Row} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import '../webinar.css';
+import { toast, ToastContainer } from "react-toastify";
 function Rehearsal() {
     const [Speaker, setSpeaker] = useState([
         { name: "SpeakersName", email: "SpeakesrEmail" },
@@ -55,6 +56,10 @@ function Rehearsal() {
           }
         });
       };
+      var today = new Date();
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      var yyyy = today.getFullYear();
       useEffect(() => {
         handleGetTimezoneData();
         handleGetEventlist()
@@ -76,16 +81,45 @@ function Rehearsal() {
           let a=JSON.stringify(Speakername)
           console.log(a)
           ExportApi.CreatRehearsal(values.EventTitle,values.Timezone,values.event_start_time,
-          values.eventendtime,values.event_date,values.type,values.Description,a)
+          values.eventendtime,values.event_date,values.type,values.Description,Speakername[0].name&&Speakername[0].email?a:null,)
             .then((resp) => {
-              if (resp.data) {
-                  console.log(resp.data);
+              if (resp.data.code == 200) {
+                toast.success(resp.data.message, {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  });;
+                 }else{
+                  toast.error(resp.data.message, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    });
                  }})
             .catch((err) => console.log(err));
           },
       });
   return (
     <Row>
+        <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     <Col md={{ span: 6, offset: 3 }}>
     <div>
           <h2> Rehearsal</h2>
@@ -112,6 +146,7 @@ function Rehearsal() {
             <Form.Control
               name="event_date"
               type="date"
+              min={yyyy + '-'+ mm +'-'+dd}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.event_date}
@@ -176,21 +211,7 @@ function Rehearsal() {
             </Col>
             </Form.Group>
             <br />
-            <Form.Group className="mb-3"as={Row} controlId="exampleForm.ControlInput1">
-            <Form.Label column sm={2}>Event Date </Form.Label>
-            <Col sm={10}>
-            <Form.Control
-              name="event_date"
-              type="date"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.event_date}
-            />
-            {formik.touched.event_date && formik.errors.event_date ? (
-                <div style={{ color: "red" }}>{formik.errors.event_date}</div>
-              ) : null}
-              </Col>
-              </Form.Group>
+           
               {Speaker.map((malti, i) => (
                 <fieldset class="border p-2">
                 <div key={i}>

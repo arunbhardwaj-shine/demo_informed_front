@@ -87,6 +87,10 @@ BaseApi.post("rehearsal",{
   BaseApi.post("test",{name:name,mail :email,template_id:Templateid},{ headers: {
     'Authorization':localStorage.getItem("Token"),
   }});
+  const CreateTemplate = (name,id,) =>
+  BaseApi.post("template",{name:name,event_id:id},{ headers: {
+    'Authorization':localStorage.getItem("Token"),
+  }});
 export default {
   UserLogin,
   UserForgot,
@@ -104,5 +108,6 @@ export default {
   CreatRehearsal,
   UserTemplateList,
   UserTemplate,
-  UserTemplateSandMail
+  UserTemplateSandMail,
+  CreateTemplate
 };

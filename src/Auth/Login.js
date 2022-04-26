@@ -4,9 +4,12 @@ import * as Yup from "yup";
 import ExportApi from "../Api/ExportApi";
 import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 const Login = (props) => {
   const [err, setErr] = useState(false);
   let navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -16,21 +19,32 @@ const Login = (props) => {
       password: Yup.string()
         .min(8, "Must be 8 characters or less")
         .required("Enter your password"),
-      email: Yup.string().email("Invalid email address").required("Enter your email"),
+      email: Yup.string()
+        .email("Invalid email address")
+        .required("Enter your email"),
     }),
     onSubmit: (values) => {
       ExportApi.UserLogin(values.email, values.password)
         .then((resp) => {
           if (resp.data) {
             if (resp.data.code == 200) {
-               localStorage.setItem("Token", resp.data.data[0].token);
-               localStorage.setItem("username",resp.data.data[0].first_name);
+              localStorage.setItem("Token", resp.data.data[0].token);
+              localStorage.setItem("username", resp.data.data[0].first_name);
               navigate("/webinar/dashboard");
               props.active(false);
-              
-            }else{
-              setErr(true)
-              setErr(resp.data.message)
+            } else {
+              setErr(true);
+              props.active(true);
+              toast.error(resp.data.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                });
+              setErr(resp.data.message);
             }
             console.log(err);
           }
@@ -40,36 +54,49 @@ const Login = (props) => {
   });
   return (
     <form onSubmit={formik.handleSubmit}>
+         <ToastContainer
+       position="top-right"
+       autoClose={5000}
+       hideProgressBar={false}
+       newestOnTop={false}
+       closeOnClick
+       rtl={false}
+       pauseOnFocusLoss
+       draggable
+       pauseOnHover
+      />
       <center>
-         <h3>Login</h3>
+        <h3>Login</h3>
       </center>
-<hr/>
-       <Form.Group className="mb-3">
-    <Form.Label>Email address</Form.Label>
-    <Form.Control  name="email" onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        value={formik.values.email} type="email" placeholder="name@example.com" />
-         {formik.touched.email && formik.errors.email ? (
-        <div style={{ color: "red" }}>{formik.errors.email}</div>
-      ) : null} 
-    <p style={{color:"red"}}>  {err?err:null}</p>
- 
-     
-    <Form.Label>Password</Form.Label>
-    <Form.Control
-       id="password"
-       name="password"
-       type="password"
-       onChange={formik.handleChange}
-       onBlur={formik.handleBlur}
-       value={formik.values.password}
-       />
-          {formik.touched.password && formik.errors.password ? (
-        <div style={{ color: "red" }}>{formik.errors.password}</div>
-      ) : null}
-    <p style={{color:"red"}}>  {err?err:null}</p>
-  </Form.Group>
-      
+      <hr />
+      <Form.Group className="mb-3">
+        <Form.Label>Email address</Form.Label>
+        <Form.Control
+          name="email"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.email}
+          type="email"
+          placeholder="name@example.com"
+        />
+        {formik.touched.email && formik.errors.email ? (
+          <div style={{ color: "red" }}>{formik.errors.email}</div>
+        ) : null}
+
+        <Form.Label>Password</Form.Label>
+        <Form.Control
+          id="password"
+          name="password"
+          type="password"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.password}
+        />
+        {formik.touched.password && formik.errors.password ? (
+          <div style={{ color: "red" }}>{formik.errors.password}</div>
+        ) : null}
+      </Form.Group>
+
       <Button type="submit">Submit</Button>
     </form>
   );
