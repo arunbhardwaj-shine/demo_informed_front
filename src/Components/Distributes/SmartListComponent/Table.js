@@ -362,6 +362,7 @@ const Table = (props) => {
       jobTitle: jobTitle,
       company: company,
       country: country,
+      username: name,
     };
 
     console.log("body");
@@ -385,10 +386,15 @@ const Table = (props) => {
         });
 
         if (result) {
+          var first_name = body.username.substring(0, body.username.lastIndexOf(" ") + 1);
+          var last_name = body.username.substring(body.username.lastIndexOf(" ") + 1, body.username.length);
+
           result[0].email = body.email;
           result[0].country = body.country;
           result[0].company = body.company;
           result[0].jobTitle = body.jobTitle;
+          result[0].first_name = first_name;
+          result[0].last_name = last_name;
 
           const index = editList.findIndex(
             (el) => el.profile_user_id === result.profile_user_id
@@ -852,7 +858,17 @@ const Table = (props) => {
         <tbody className="form-group">
           {editList.map((item) => (
             <tr>
-              <td>{item.first_name}</td>
+              <td>
+              {inEditMode.status && inEditMode.rowKey === item.profile_id ? (
+                <input
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                />
+              ):(
+                item.first_name+" "+item.last_name
+              )}
+
+              </td>
               <td>
                 {inEditMode.status && inEditMode.rowKey === item.profile_id ? (
                   <input
@@ -956,7 +972,7 @@ const Table = (props) => {
                       onClick={() =>
                         onEdit({
                           id: item.profile_id,
-                          currentName: item.first_name,
+                          currentName: item.first_name +" "+item.last_name,
                           currentJobTitle: item.jobTitle,
                           currentCompany: item.company,
                           currentIndication: item.indication,
@@ -974,7 +990,7 @@ const Table = (props) => {
                       onClick={() =>
                         onDelete({
                           id: item.profile_id,
-                          currentName: item.first_name,
+                          currentName: item.first_name +" "+ item.last_name,
                           currentJobTitle: item.jobTitle,
                           currentCompany: item.company,
                           currentIndication: item.indication,
