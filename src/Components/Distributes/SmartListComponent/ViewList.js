@@ -60,6 +60,7 @@ const EditList = () => {
           api_flag={api_flag}
           listId={queryParams.listId}
           upload_by_filter={getuploadedby}
+          smartListName={smartListName}
         />
         </div>
       </>
