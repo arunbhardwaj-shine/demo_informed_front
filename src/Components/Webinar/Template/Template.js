@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Form, Modal, Row } from "react-bootstrap";
+import { Button, Col, Form, Modal, Row, Table } from "react-bootstrap";
 import ExportApi from "../../../Api/ExportApi";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -9,8 +9,11 @@ import { toast, ToastContainer } from "react-toastify";
 import Sidebar from "../Sidebar";
 const Template = () => {
   const [err, setErr] = useState(false);
+  const [testMail, SetTestMail] = useState(false);
   const [event, setEvent] = useState([]);
   const [id, setId] = useState();
+  const [name, setName] = useState();
+  const [mail, SetMail] = useState();
   const [subj, setSubj] = useState();
   const [dpc, setDpc] = useState();
   const [Templatename, setTemplatename] = useState();
@@ -18,6 +21,7 @@ const Template = () => {
   const [templateList, setTemplateList] = useState([]);
   const [template, setTemplate] = useState([]);
   const [modalShow, setModalShow] = useState(false);
+  const [modalShow2, setModalShow2] = useState(false);
   const handleUpdateTemplateData = () => {
     ExportApi.UpdateTemplate(subj,dpc,id).then((resp) => {
       if (resp.ok) {
@@ -27,9 +31,6 @@ const Template = () => {
   };
   const formik = useFormik({
     initialValues: {
-      email: "",
-      name: "",
-      file: "",
        Subject:template.subject?template.subject:'',
     },
     validationSchema: Yup.object({
@@ -41,34 +42,7 @@ const Template = () => {
     enableReinitialize: true,
     onSubmit: (values) => {
       console.log(values);
-      ExportApi.UserTemplateSandMail(values.name, values.email, id)
-        .then((resp) => {
-          if (resp.data) {
-            if (resp.data.code == 200) {
-              toast.success(resp.data.message, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-              });
-              console.log(resp.data);
-            } else {
-              toast.error(resp.data.message, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-              });
-            }
-          }
-        })
-        .catch((err) => console.log(err));
+
     },
   });
   const handleGetEventlist = () => {
@@ -78,6 +52,38 @@ const Template = () => {
         setEvent(resp.data.data);
       }
     });
+  };
+  const handleTestMail = (e) => {
+    e.preventDefault();
+    mail?ExportApi.UserTemplateSandMail(name,mail, id)
+    .then((resp) => {
+      if (resp.data) {
+        console.log(resp.data)
+        if (resp.data.code == 200) {
+          toast.success(resp.data.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          console.log(resp.data);
+        } else {
+          toast.error(resp.data.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        }
+      }
+    }):setErr("required")
+    .catch((err) => console.log(err));
   };
   const handleCreateTemplate = () => {
     ExportApi.CreateTemplate(Templatename, Selectevent).then((resp) => {
@@ -117,6 +123,7 @@ const Template = () => {
     });
   };
   const handleGetTemplate = (id) => {
+    SetTestMail(true)
     setId(id);
     ExportApi.UserTemplate(id).then((resp) => {
       if (resp.ok) {
@@ -131,7 +138,6 @@ const Template = () => {
   return (
     <div>
       <Row>
-      
         <ToastContainer
           position="top-right"
           autoClose={5000}
@@ -144,11 +150,35 @@ const Template = () => {
           pauseOnHover
         />
         <Col md={{ span: 6, offset: 3 }}>
-        <Sidebar/>
           <h2>
             <center>Templates</center>
           </h2>
           <Row>
+          <Col className="mb-5">
+          <Form.Label>Select Event </Form.Label>
+                  <Form.Select
+                    name="type"
+                    onChange={(e) => handleGetTemplateList(e.target.value)}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.type}
+                  >
+                    <option> Select Event</option>
+                    {event?.map((val, i) => (
+                      <React.Fragment key={i}>
+                        <option value={val.id}>{val.title}</option>
+                      </React.Fragment>
+                    ))}
+                  </Form.Select>
+            </Col>
+            {testMail?<Col className="mb-5">
+              <Button
+                onClick={() => {
+                  setModalShow2(true);
+                }}
+              >
+               Test Mail
+              </Button>
+            </Col>:null}
             <Col className="mb-5">
               <Button
                 onClick={() => {
@@ -168,107 +198,10 @@ const Template = () => {
         centered
       >
         <Modal.Body>
+         
           <Row>
             <Col className="mb-3">
-              <Form.Label>Select Event </Form.Label>
-              <Form.Select
-                name="type"
-                onChange={(e) => setSelectevent(e.target.value)}
-                onBlur={formik.handleBlur}
-                value={formik.values.type}
-              >
-                <option> Select Event</option>
-                {event?.map((val, i) => (
-                  <React.Fragment key={i}>
-                    <option value={val.id}>{val.title}</option>
-                  </React.Fragment>
-                ))}
-              </Form.Select>
-            </Col>
-            <Col className="mb-3">
-              <Form.Label>Template Name </Form.Label>
-              <Form.Control
-              onChange={(e)=>{setTemplatename(e.target.value)}}
-                name="Templatename"
-                type="text"
-                placeholder="Template Name"
-              />{" "}
-            </Col>
-          </Row>
-          <Button
-            type="submit"
-            onClick={() => {
-              handleCreateTemplate();
-            }}
-          >
-            Go
-          </Button>
-        </Modal.Body>
-      </Modal>
-      <form onSubmit={formik.handleSubmit}>
-        <Row>
-          <Col
-            className="shadow-lg p-3 mb-5 bg-white rounded"
-            md={{ span: 6, offset: 3 }}
-          >
-            <Col>
-              {" "}
-              <Col>
-                <Button type="submit" onClick={handleUpdateTemplateData}>Send</Button>
-              </Col>
-              <Form.Group className="mb-3">
-                <Form.Label>NAME</Form.Label>
-                <Form.Control
-                  name="name"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.name}
-                  type="text"
-                  placeholder="Name"
-                />
-                {formik.touched.name && formik.errors.name ? (
-                  <div style={{ color: "red" }}>{formik.errors.name}</div>
-                ) : null}
-                <p style={{ color: "red" }}> {err ? err : null}</p>
-              </Form.Group>
-            </Col>
-            <Col>
-              <Form.Group className="mb-3">
-                <Form.Label>Email address</Form.Label>
-                <Form.Control
-                  name="email"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.email}
-                  type="email"
-                  placeholder="name@example.com"
-                />
-                {formik.touched.email && formik.errors.email ? (
-                  <div style={{ color: "red" }}>{formik.errors.email}</div>
-                ) : null}
-                <p style={{ color: "red" }}> {err ? err : null}</p>
-              </Form.Group>
-            </Col>
-            <Col>
-              {" "}
-              <Form.Group controlId="formFileLg" className="mb-3">
-                <Form.Label>Choice File</Form.Label>
-                <Form.Control
-                  name="file"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.file}
-                  placeholder="name@example.com"
-                  type="file"
-                  size="md"
-                />
-              </Form.Group>
-            </Col>
-            <Row>
-              <Col>
-                <Col className="mb-3">
-                  {" "}
-                  <Form.Label>Select Event </Form.Label>
+            <Form.Label>Select Event </Form.Label>
                   <Form.Select
                     name="type"
                     onChange={(e) => handleGetTemplateList(e.target.value)}
@@ -282,24 +215,124 @@ const Template = () => {
                       </React.Fragment>
                     ))}
                   </Form.Select>
-                </Col>
-                <Col className="mb-3">
-                  {" "}
-                  <Form.Label>Email Template </Form.Label>
-                  <Form.Select
-                    name="Templateid"
-                    onChange={(e) => handleGetTemplate(e.target.value)}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.templateid}
-                  >
-                    <option>Please Select</option>
-                    {templateList?.map((val, i) => (
-                      <React.Fragment key={i}>
-                        <option value={val.id}>{val.name}</option>
-                      </React.Fragment>
-                    ))}
-                  </Form.Select>
-                </Col>
+            </Col>
+            <Col className="mb-3">
+              <Form.Label>Template Name </Form.Label>
+              <Form.Control
+              onChange={(e)=>{setTemplatename(e.target.value)}}
+                name="Templatename"
+                type="text"
+                placeholder="Template Name"
+              />
+            </Col>
+          </Row>
+          <Button
+            type="submit"
+          >
+            Go
+          </Button>
+        </Modal.Body>
+      </Modal>
+      <Modal
+        show={modalShow2}
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Body>
+        <form onSubmit={(e)=>handleTestMail(e)}>
+          <Row>
+          <Col>
+              <Form.Group className="mb-3">
+                <Form.Label>NAME</Form.Label>
+                <Form.Control
+                  onChange={(e)=>{setName(e.target.value)}}
+                  type="text"
+                  placeholder="Name"
+                />
+                <p style={{ color: "red" }}> {err ? err : null}</p>
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group className="mb-3">
+                <Form.Label>Email address</Form.Label>
+                <Form.Control
+                  onChange={(e)=>SetMail(e.target.value)}
+                  type="email"
+                  placeholder="name@example.com"
+                />
+                {formik.touched.email && formik.errors.email ? (
+                  <div style={{ color: "red" }}>{formik.errors.email}</div>
+                ) : null}
+                <p style={{ color: "red" }}> {err ? err : null}</p>
+              </Form.Group>
+            </Col>
+            <Row>
+            <Col>
+            <Form.Group controlId="formFileLg" className="mb-3">
+              <Form.Label>Choice File</Form.Label>
+              <Form.Control
+                name="file"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.file}
+                placeholder="name@example.com"
+                type="file"
+                size="md"
+              />
+            </Form.Group>
+          </Col>
+            </Row>
+          </Row>
+          {/* <Button type="submit" onClick={handleUpdateTemplateData}>Send</Button> */}
+          <Button type="submit">Send</Button>
+
+         </form>
+        </Modal.Body>
+      </Modal>
+      <Col md={{ span: 6, offset: 3 }}>
+       <Row>
+         <Col className="mb-5">
+           {console.log(templateList)}
+         {templateList.length>1?
+         <Table bordered hover>
+              <thead>
+                <tr>
+                  <th>Template Name</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                  {templateList?templateList?.map((val,i) => (
+                  <tr key={i}>  
+                    <td>{val.name}</td>
+                    <td><Button onClick={(e)=>{handleGetTemplate(val.id)}}>Edit</Button></td>
+                  </tr>
+                )): <h2>Data Not Found</h2>}
+              </tbody>
+            </Table>:null}
+
+         </Col>
+       </Row>
+
+</Col>
+      <form onSubmit={formik.handleSubmit}>
+        <Row>
+          <Col
+            className="shadow-lg p-3 mb-5 bg-white rounded"
+            md={{ span: 6, offset: 3 }}
+          >
+
+            <Row>
+              <Col className="mb-5">
+            <Button 
+            type="submit"
+            onClick={() => {
+              handleCreateTemplate();
+            }}
+          >
+            Save
+          </Button>
                 <Col>
                   {" "}
                   <Form.Group className="mb-3">
@@ -336,6 +369,7 @@ const Template = () => {
                 // console.log( 'Focus.', editor );
               }}
             />
+            
           </Col>
         </Row>
       </form>
