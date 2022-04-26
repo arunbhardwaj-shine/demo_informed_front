@@ -193,9 +193,7 @@ const Table = (props) => {
     await axios
       .post(`distributes/add_update_list`, body)
       .then((res) => {
-        console.log("response from add_update list");
-        console.log(res);
-        // window.location.href = '/SmartList';
+        window.location.href = '/SmartList';
       })
       .catch((err) => {
         console.log(err);

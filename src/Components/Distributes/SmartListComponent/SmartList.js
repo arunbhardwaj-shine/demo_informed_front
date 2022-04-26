@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import EditList from "./EditList";
-import ViewList from "./ViewList";
 import Loader from "react-js-loader";
 
 import { connect } from "react-redux";

@@ -11,8 +11,7 @@ const FilterSegment = (props) => {
   const [selectedcountry, setSelectedCountry] = useState([]);
   const [selectedcontacttype, setSelectedContactType] = useState([]);
   const [selectedspeciality, setSelectedSpeciality] = useState([]);
-  const [selectedreaderselection, setSelectedReaderSelection] =
-    useState("CIS Reader");
+  const [selectedreaderselection, setSelectedReaderSelection] = useState("");
   const [selectedibu, setSelectedIbu] = useState();
   const [selectedproduct, setSelectedProduct] = useState([]);
   const [selectedarticles, setSelectedArticles] = useState([]);
@@ -23,8 +22,79 @@ const FilterSegment = (props) => {
   const [getfilterdata, setFilterData] = useState();
   const [apifilterflag, setApiFilterFlag] = useState(0);
   const [getpayload, setPayload] = useState(0);
-
   const [updateflag, setUpdateFlag] = useState([]);
+
+
+  useEffect(() => {
+    if(props.hasOwnProperty('selectedFilter')  && typeof props.selectedFilter.country !== "undefined"){
+
+      //Country
+      if(typeof props.selectedFilter.country !== "undefined"){
+        setSelectedCountry(props.selectedFilter.country);
+      }
+
+      //Contact Type
+      if(typeof props.selectedFilter.contactTypeList !== "undefined"){
+        let contactTypeList = props.selectedFilter.contactTypeList.map((item) => {
+          let val = filters.contact_type[item];
+          return val;
+        });
+        setSelectedContactType(contactTypeList);
+      }
+
+      //Reader Selection
+      if(typeof props.selectedFilter.reader_selection !== "undefined"){
+            setSelectedReaderSelection(props.selectedFilter.reader_selection);
+      }
+
+      //IBu
+      if(typeof props.selectedFilter.ibu !== "undefined"){
+            setSelectedIbu(props.selectedFilter.ibu);
+      }
+
+      //Speciality
+      if(typeof props.selectedFilter.speciality !== "undefined"){
+            selectedspeciality(props.selectedFilter.speciality);
+      }
+
+      //product
+      if(typeof props.selectedFilter.product !== "undefined"){
+            setSelectedProduct(props.selectedFilter.product);
+      }
+
+      //Register Unregister
+      if(typeof props.selectedFilter.registered_users !== "undefined"){
+          let register_val = props.selectedFilter.registered_users == 1 ? "yes" : "no";
+            setShowHideArticle(props.selectedFilter.registered_users);
+            setSelectedRegister(register_val);
+      }
+
+      //Bounce Unbounce
+      if(typeof props.selectedFilter.bounce !== "undefined"){
+          let bounce = props.selectedFilter.bounce == 1 ? "yes" : "no";
+            setSelectedBounce(bounce);
+      }
+
+      //Articles
+      if(typeof props.selectedFilter.registered_on_article !== "undefined"){
+        let article = props.selectedFilter.registered_on_article.map((item) => {
+          let val = filters.articles[item];
+          return val;
+        });
+        setSelectedArticles(article);
+      }
+
+
+      //Display table In case of update
+      if(typeof props.data !== "undefined"){
+          setFilterData(props.data);
+          setApiFilterFlag(1);
+      }
+
+        let up = updateflag + 1;
+        setUpdateFlag(up);
+    }
+  },[]);
 
   const handleOnCountryChange = (country) => {
     let country_index = selectedcountry.indexOf(country);
@@ -203,13 +273,22 @@ const FilterSegment = (props) => {
     }
 
     //For Register
-    if (selectedregister && selectedregister == "yes") {
-      Object.assign(payload, { registered_users: 1 });
+    if (selectedregister) {
+        if(selectedregister == "yes"){
+            Object.assign(payload, { registered_users: 1 });
+        }else{
+            Object.assign(payload, { registered_users: 0 });
+        }
     }
 
     //For Bounce
-    if (selectedbounce && selectedbounce == "yes") {
-      Object.assign(payload, { bounce: 1 });
+    if (typeof selectedbounce !== "undefined") {
+      if(selectedbounce == "yes"){
+          Object.assign(payload, { bounce: 1 });
+      }else{
+          Object.assign(payload, { bounce: 0 });
+      }
+      // Object.assign(payload, { bounce: 1 });
     }
 
     //For Reader Selection
@@ -287,6 +366,7 @@ const FilterSegment = (props) => {
                         id={`custom-checkbox-contact_type-${index}`}
                         name="contact_type[]"
                         value={item}
+                        checked={typeof selectedcontacttype !== 'undefined' && selectedcontacttype.indexOf(item) !== -1}
                         onChange={() => handleOnContactTypeChange(item)}
                       />
                       <label htmlFor={`custom-checkbox-contact_type-${index}`}>
@@ -309,6 +389,7 @@ const FilterSegment = (props) => {
                         id={`custom-checkbox-speciality-${index}`}
                         name="speciality[]"
                         value={item}
+                        checked={typeof selectedspeciality !== 'undefined' && selectedspeciality.indexOf(item) !== -1}
                         onChange={() => handleOnSpecialityChange(item)}
                       />
                       <label htmlFor={`custom-checkbox-speciality-${index}`}>
@@ -332,6 +413,7 @@ const FilterSegment = (props) => {
                           id={`custom-checkbox-reader_selection-${index}`}
                           name="reader_selection[]"
                           value={item}
+                          checked={selectedreaderselection == item}
                           onChange={() => handleOnReaderSelectionChange(item)}
                         />
                         <label
@@ -356,7 +438,8 @@ const FilterSegment = (props) => {
                       id={`custom-checkbox-ibu-${index}`}
                       name="ibu[]"
                       value={item}
-                      onChange={() => handleOnIbuChange(item)}
+                      checked={selectedibu == item}
+                        onChange={() => handleOnIbuChange(item)}
                     />
                     <label htmlFor={`custom-checkbox-ibu-${index}`}>
                       {item}
@@ -377,6 +460,7 @@ const FilterSegment = (props) => {
                       id={`custom-checkbox-product-${index}`}
                       name="ibu[]"
                       value={item}
+                      checked={typeof selectedproduct !== 'undefined' && selectedproduct.indexOf(item) !== -1}
                       onChange={() => handleOnProductChange(item)}
                     />
                     <label htmlFor={`custom-checkbox-product-${index}`}>
@@ -398,10 +482,11 @@ const FilterSegment = (props) => {
                       id={`custom-checkbox-country-${index}`}
                       name="country[]"
                       value={item}
+                      checked={typeof selectedcountry !== 'undefined' && selectedcountry.indexOf(item) !== -1}
                       onChange={() => handleOnCountryChange(item)}
                     />
                     <label htmlFor={`custom-checkbox-country-${index}`}>
-                      {item}
+                      {item == "B&H" ? "Bosnia and Herzegovina" : item}
                     </label>
                   </li>
                 ))}
@@ -439,6 +524,7 @@ const FilterSegment = (props) => {
                   id="register_yes"
                   name="register"
                   value="yes"
+                  checked={typeof selectedregister !== 'undefined' && selectedregister == "yes"}
                   onChange={() => handleRegister("yes")}
                 />
                 <label htmlFor="register_yes">Yes</label>
@@ -449,6 +535,7 @@ const FilterSegment = (props) => {
                   id="register_no"
                   name="register"
                   value="no"
+                  checked={typeof selectedregister !== 'undefined' && selectedregister == "no"}
                   onChange={() => handleRegister("no")}
                 />
                 <label htmlFor="register_no">No</label>
@@ -465,6 +552,7 @@ const FilterSegment = (props) => {
                   id="bounce_yes"
                   name="bounce"
                   value="yes"
+                  checked={typeof selectedbounce !== 'undefined' && selectedbounce == "yes"}
                   onChange={() => handleBounce("yes")}
                 />
                 <label htmlFor="bounce_yes">Yes</label>
@@ -475,6 +563,7 @@ const FilterSegment = (props) => {
                   id="bounce_no"
                   name="bounce"
                   value="no"
+                  checked={typeof selectedbounce !== 'undefined' && selectedbounce == "no"}
                   onChange={() => handleBounce("no")}
                 />
                 <label htmlFor="bounce_no">No</label>
@@ -495,6 +584,7 @@ const FilterSegment = (props) => {
                         id={`custom-checkbox-articles-${index}`}
                         name="articles[]"
                         value={index}
+                        checked={typeof selectedarticles !== 'undefined' && selectedarticles.indexOf(item) !== -1}
                         onChange={() => handleOnArticleChange(item)}
                       />
                       <label htmlFor={`custom-checkbox-articles-${index}`}>
@@ -524,7 +614,7 @@ const FilterSegment = (props) => {
               <div className="col-md-2">
                 <p>Country</p>
                 {Object.entries(selectedcountry).map(([index, item]) => (
-                  <p>{item}</p>
+                  <p>{item == "B&H" ? "Bosnia and Herzegovina" : item}</p>
                 ))}
               </div>
             ) : null
