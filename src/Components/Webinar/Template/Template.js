@@ -6,20 +6,31 @@ import * as Yup from "yup";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { toast, ToastContainer } from "react-toastify";
+import Sidebar from "../Sidebar";
 const Template = () => {
   const [err, setErr] = useState(false);
   const [event, setEvent] = useState([]);
   const [id, setId] = useState();
+  const [subj, setSubj] = useState();
+  const [dpc, setDpc] = useState();
   const [Templatename, setTemplatename] = useState();
   const [Selectevent, setSelectevent] = useState();
   const [templateList, setTemplateList] = useState([]);
   const [template, setTemplate] = useState([]);
   const [modalShow, setModalShow] = useState(false);
+  const handleUpdateTemplateData = () => {
+    ExportApi.UpdateTemplate(subj,dpc,id).then((resp) => {
+      if (resp.ok) {
+       console.log(resp.data)
+      }
+    });
+  };
   const formik = useFormik({
     initialValues: {
       email: "",
       name: "",
       file: "",
+       Subject:template.subject?template.subject:'',
     },
     validationSchema: Yup.object({
       name: Yup.string().required("Enter your name"),
@@ -27,6 +38,7 @@ const Template = () => {
         .email("Invalid email address")
         .required("Enter your email"),
     }),
+    enableReinitialize: true,
     onSubmit: (values) => {
       console.log(values);
       ExportApi.UserTemplateSandMail(values.name, values.email, id)
@@ -119,6 +131,7 @@ const Template = () => {
   return (
     <div>
       <Row>
+      
         <ToastContainer
           position="top-right"
           autoClose={5000}
@@ -131,6 +144,7 @@ const Template = () => {
           pauseOnHover
         />
         <Col md={{ span: 6, offset: 3 }}>
+        <Sidebar/>
           <h2>
             <center>Templates</center>
           </h2>
@@ -200,7 +214,7 @@ const Template = () => {
             <Col>
               {" "}
               <Col>
-                <Button type="submit">Send</Button>
+                <Button type="submit" onClick={handleUpdateTemplateData}>Send</Button>
               </Col>
               <Form.Group className="mb-3">
                 <Form.Label>NAME</Form.Label>
@@ -292,9 +306,9 @@ const Template = () => {
                     <Form.Label>Subject</Form.Label>
                     <Form.Control
                       name="Subject"
-                      onChange={formik.handleChange}
+                      onChange={(e)=>{setSubj(e.target.value)}}
                       onBlur={formik.handleBlur}
-                      value={template.subject}
+                      value={formik.values.Subject}
                       type="text"
                       placeholder="Subject"
                     />
@@ -312,6 +326,7 @@ const Template = () => {
               }}
               onChange={(event, editor) => {
                 const data = editor.getData();
+                setDpc(data)
                 console.log({ event, editor, data });
               }}
               onBlur={(event, editor) => {
