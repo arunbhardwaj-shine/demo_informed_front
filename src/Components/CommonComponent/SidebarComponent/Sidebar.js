@@ -4,15 +4,18 @@ import { Link } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { Button, Modal } from "react-bootstrap";
 import SidebarWebinar from "./../../Webinar/Layout/Sidebar";
+import { useLocation } from 'react-router-dom';
 
 const Sidebar = () => {
+  const location = useLocation();
+  console.log(location.pathname);
   return (
     <>
       <div className="left-sidebar">
         <div className="sidebar-menu">
           <ul>
-            <li className="active">
-              <a href="javascript:void();">
+            <li className={location.pathname == "/EmailList" ? "active" : "side_li"} >
+              <a href="/EmailList">
                 <svg
                   width="24"
                   height="18"
@@ -32,8 +35,8 @@ const Sidebar = () => {
                 Email
               </a>
             </li>
-            <li>
-              <a href="javascript:void();">
+            <li className={location.pathname == "/SmartList" ? "active" : "side_li"} >
+              <a href="/SmartList">
                 <svg
                   width="24"
                   height="22"
