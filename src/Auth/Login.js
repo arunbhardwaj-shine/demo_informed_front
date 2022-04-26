@@ -3,7 +3,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import ExportApi from "../Api/ExportApi";
 import { Button, Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 const Login = (props) => {
   const [err, setErr] = useState(false);
@@ -15,15 +14,13 @@ const Login = (props) => {
     },
     validationSchema: Yup.object({
       password: Yup.string()
-        .max(15, "Must be 7 characters or less")
+        .min(8, "Must be 8 characters or less")
         .required("Enter your password"),
       email: Yup.string().email("Invalid email address").required("Enter your email"),
     }),
     onSubmit: (values) => {
       ExportApi.UserLogin(values.email, values.password)
         .then((resp) => {
-            console.log(resp.data.data[0].token)
-            console.log(resp.data.data[0].first_name)
           if (resp.data) {
             if (resp.data.code == 200) {
                localStorage.setItem("Token", resp.data.data[0].token);

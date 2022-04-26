@@ -20,9 +20,13 @@ const ForgotResetPassword = () => {
       },
       validationSchema: Yup.object({
         new_pass: Yup.string()
-          .min(8, "Must be 8 characters or less")
+        .matches(
+          /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+          "password must contain one symbol, uppercase and one integer value"
+        )
           .required("Enter your password"),
         confirm_pass: Yup.string()
+        .oneOf([Yup.ref("new_pass"), null], "Passwords must match")
           .min(8, "Must be 8 characters or less")
           .required("Enter your password"),
       }),
