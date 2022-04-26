@@ -5,15 +5,26 @@ import Table from "./Table";
 import { useNavigate } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { Button, Modal } from "react-bootstrap";
+import SimpleReactValidator from "simple-react-validator";
+import { useLocation } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+
 const CreateSmartList = () => {
+  const location = useLocation();
   const navigate = useNavigate();
+
+  const { creator } = location.state != null ? location.state : "";
   const [show, setShow] = useState(false);
   const [smartListName, setSmartListName] = useState("");
+  const [creatorName, setCreatorName] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const [api_flag, setapi_flag] = useState(0);
   const [data, setData] = useState([]);
   const [activeClass, setActiveClass] = useState();
   const [filename, setFileName] = useState();
+  const [rendervalidation, setRenderValidation] = useState(0);
+  const [validator] = React.useState(new SimpleReactValidator());
+
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED;
 
   const handleClose = () => {
@@ -26,6 +37,11 @@ const CreateSmartList = () => {
     setSmartListName(event.target.value);
   };
 
+  const handleCreatorName = async (event) => {
+    setCreatorName(event.target.value);
+  };
+
+
   const onFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
@@ -37,7 +53,16 @@ const CreateSmartList = () => {
       setFileName(selectedFile.name);
       toggleSelection("upload_excel");
     } else {
-      alert("Please upload a file.");
+      toast.success("Please upload a file.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        type: "error"
+        });
     }
   };
 
@@ -68,25 +93,49 @@ const CreateSmartList = () => {
   };
 
   const clickNext = (event) => {
-    let error = false;
-    if (smartListName == "") {
-      error = true;
-      alert("Please Enter Smart List name.");
-    } else if (activeClass == "" || typeof activeClass === "undefined") {
-      error = true;
-      alert("Please select one segment.");
-    }
-
-    if (activeClass == "upload_excel") {
-      uploadFile();
-
-      event.preventDefault();
-    } else {
-      if (error) {
-        event.preventDefault();
+    if (validator.allValid()) {
+      if (activeClass == "upload_excel") {
+         uploadFile();
+      }else{
+        navigate("/SmartListFilter", {state: { smartListName: "My test" }});
       }
+    }else{
+      console.log("show error messages");
+      console.log(validator.errorMessages);
+      validator.showMessages();
+      setRenderValidation(rendervalidation + 1);
     }
+    // navigate("/SmartListFilter", {state: { smartListName: "My test" }});
   };
+    // if (validator.allValid()) {
+    //   if (activeClass == "upload_excel") {
+    //     uploadFile();
+    //   }else{
+    //     alert("sdfdsf");
+    //     navigate("/SmartListFilter", { replace: true });
+    //   }
+    // } else {
+    //   validator.showMessages();
+    // }
+    // let error = false;
+    // if (smartListName == "") {
+    //   error = true;
+    //   alert("Please Enter Smart List name.");
+    // } else if (activeClass == "" || typeof activeClass === "undefined") {
+    //   error = true;
+    //   alert("Please select one segment.");
+    // }
+    //
+    // if (activeClass == "upload_excel") {
+    //   uploadFile();
+    //
+    //   event.preventDefault();
+    // } else {
+    //   if (error) {
+    //     event.preventDefault();
+    //   }
+    // }
+
 
   const uploadFile = async () => {
     let formData = new FormData();
@@ -116,6 +165,9 @@ const CreateSmartList = () => {
 
   useEffect(() => {
     //here you will have correct value in userInput
+    if(typeof creator !== "undefined" &&  creator != ""){
+        setCreatorName(creator);
+    }
   }, [smartListName]);
 
   // if (api_flag > 0) {
@@ -135,17 +187,22 @@ const CreateSmartList = () => {
   return (
     <>
       <div className="col right-sidebar">
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
         <div className="row">
           <Link to="/SmartList">
             <button className="btn-cancel">cancel</button>
           </Link>
-          <Link
-            to="/SmartListFilter"
-            state={{ smartListName: smartListName }}
-            onClick={(event) => clickNext(event)}
-          >
-            <button className="btn-nxt">Next</button>
-          </Link>
+          <button className="btn-nxt" onClick={(event) => clickNext(event)}>Next</button>
         </div>
         <div className="row">
           <div className="step1">
@@ -156,9 +213,15 @@ const CreateSmartList = () => {
                 value={smartListName}
                 onChange={(event) => handleSmartListName(event)}
               />
+              {validator.message("Smart List Name", smartListName, "required")}
             </div>
             <div className="col-sm-6">
-              <input type="text" name="creator_name" />
+              <input type="text"
+              name="creator_name"
+              value={creatorName}
+              onChange={(event) => handleCreatorName(event)}
+            />
+            {validator.message("Creator Name", creatorName, "required")}
             </div>
           </div>
           <div className="step2">
@@ -181,6 +244,8 @@ const CreateSmartList = () => {
               />
               {filename != "" ? <p>{filename}</p> : null}
             </div>
+            <input type="hidden" id="segment" value={activeClass} />
+            {validator.message("segment", activeClass, "required")}
           </div>
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>

@@ -10,6 +10,8 @@ const VerifyHCP = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [reRender, setReRender] = useState(0);
+  const [sorting, setSorting] = useState(0);
+  const [editable, setEditable] = useState(0);
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [selectedHcp, setSelectedHcp] = useState([]);
 
@@ -29,6 +31,11 @@ const VerifyHCP = () => {
   //     });
   // }, []);
 
+
+  useEffect(() => {
+      console.log("sdsdsd");
+  },[selectedHcp,sorting]);
+
   const handleInputChange = (event, selected) => {
     const div = document.querySelector("div.active");
 
@@ -42,6 +49,16 @@ const VerifyHCP = () => {
   const nextClicked = () => {
     console.log("next clicked");
   };
+
+
+  const editablemade = ()=>{
+    let temp_val =  1-editable;
+    setEditable(temp_val);
+  }
+
+
+  
+
 
   const selectHcp = (index) => {
     // console.log(index);
@@ -70,16 +87,16 @@ const VerifyHCP = () => {
   };
 
   const sortSelectedUsers = () => {
-    console.log(selectedHcp);
     let normalArr = [];
     normalArr = selectedHcp;
-    console.log("array before sort");
-    console.log(normalArr);
-    normalArr.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0));
-    console.log("array after sort");
-    console.log(normalArr);
+    if(sorting===0){
+      normalArr.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0));
+    }else{
+      normalArr.sort((a, b) => (a.name < b.name ? 1 : b.name < a.name ? -1 : 0));
+    }
+    
     setSelectedHcp(normalArr);
-    setReRender(reRender + 1);
+    setSorting(1-sorting);
   };
 
   const emailChanged = (e) => {
@@ -207,8 +224,11 @@ const VerifyHCP = () => {
             </form>
           </div>
           <div className="search-hcp-table">
-            {searchedUsers.length == 0 ? (
-              <p>no result found</p>
+          <div className="search-hcp-table-inside">
+            {searchedUsers.length === 0 ? (
+             <div className="not-found">
+              <h4>No Record Found!</h4>
+            </div>
             ) : (
               <table className="table">
                 <thead>
@@ -278,6 +298,7 @@ const VerifyHCP = () => {
               </table>
             )}
           </div>
+          </div>
 
           <div className="selected-hcp-table">
             <div className="table-title">
@@ -286,7 +307,7 @@ const VerifyHCP = () => {
               </h4>
               <div className="selected-hcp-table-action">
                 <div className="hcp-added">
-                  <button className="btn btn-outline-primary">
+                  <button className="btn btn-outline-primary" onClick={editablemade}>
                     <img src={path_image + "edit.svg"} alt="" />
                   </button>
                 </div>
@@ -301,12 +322,14 @@ const VerifyHCP = () => {
               </div>
             </div>
             <div className="selected-hcp-list">
-              {selectedHcp.length == 0 ? (
-                <p>no contact selected yet</p>
+              {selectedHcp.length === 0 ? (
+                <div className="not-found">
+                  <h4>No Contact selected yet!</h4>
+                </div>
               ) : (
                 <table className="table">
                   <thead>
-                    <tr>
+                    <tr >
                       <th scope="col">Name</th>
                       <th scope="col">Email</th>
                       <th scope="col">Bounced</th>
@@ -326,7 +349,7 @@ const VerifyHCP = () => {
                     {selectedHcp.map((data, index) => {
                       return (
                         <>
-                          <tr>
+                          <tr contenteditable= {editable === 0 ? "false" : "true" }>
                             <td>{data.name}</td>
                             <td>{data.email}</td>
                             <td>NA</td>
@@ -357,6 +380,87 @@ const VerifyHCP = () => {
           </div>
         </section>
       </div>
+         <div className="modal fade" id="add_hcp" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="add_hcp" aria-hidden="true">
+            <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div className="modal-content">
+              <div className="modal-header">
+              <h5 className="modal-title" id="staticBackdropLabel">Add New HCP</h5>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div className="modal-body">
+              <div className="hcp-add-box">
+                <div className="hcp-add-form tab-content">
+                  <form id="add_hcp_form" className="tab-pane active">
+                    <div className="row">
+                      <div className="col-12 col-md-6">
+                        <div className="form-group">
+                          <label for="">First Name</label>
+                          <input type="text" className="form-control" />
+                        </div>
+                      </div>
+                      <div className="col-12 col-md-6">
+                        <div className="form-group">
+                          <label for="">Last Name</label>
+                          <input type="text" className="form-control" />
+                        </div>
+                      </div>
+                      <div className="col-12 col-md-6">
+                        <div className="form-group">
+                          <label for="">Email</label>
+                          <input type="email" className="form-control" id="email-desc" />
+                        </div>
+                      </div>
+                      <div className="col-12 col-md-6">
+                        <div className="form-group">
+                          <label for="">Contact Type</label>
+                          <select className="form-contact" aria-label="select">
+                            <option selected>Select Type</option>
+                            <option value="1">HCP</option>
+                            <option value="2">HCP</option>
+                            <option value="3">HCP</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div className="col-12 col-md-6">
+                        <div className="form-group">
+                          <label for="">Country</label>
+                          <select className="country-form" aria-label="select">
+                            <option selected>Select Country</option>
+                            <option value="1">India</option>
+                            <option value="2">USA</option>
+                            <option value="3">Russia</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                  <form id="add_file" className="tab-pane fade">
+                    <div className="form-group files">
+                      <input type="file" className="form-control" multiple="" />
+                    </div>
+                  </form>
+                </div>
+                <div className="hcp-modal-action">
+                  <div className="hcp-action-block">
+                    <div className="hcp-remove">
+                      <button type="button" className="btn btn-filled"><img src="assets/images/delete.svg" alt="Delete HCP" /></button>
+                    </div>
+                    <ul className="nav nav-tabs" role="tablist">
+                      <li className="nav-item add_hcp"><a className="nav-link active btn-bordered" data-bs-toggle="tab" href="#add_hcp_form">Add HCP +</a></li>
+                      <li className="nav-item add-file"><a className="nav-link btn-filled" data-bs-toggle="tab" href="#add_file">Add File</a></li>
+                    </ul>
+        
+                  </div>
+                </div>
+              </div>
+              </div>
+              <div className="modal-footer">
+              <button type="button" className="btn btn-primary save btn-filled">Save</button>
+              </div>
+            </div>
+            </div>
+
+        </div>
     </>
   );
 };
