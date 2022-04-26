@@ -10,6 +10,7 @@ const VerifyHCP = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [reRender, setReRender] = useState(0);
+  const [sorting, setSorting] = useState(0);
   const [editable, setEditable] = useState(0);
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [selectedHcp, setSelectedHcp] = useState([]);
@@ -32,16 +33,16 @@ const VerifyHCP = () => {
 
 
   useEffect(() => {
-      console.log(editable);
-  });
+      console.log("sdsdsd");
+  },[selectedHcp,sorting]);
 
   const handleInputChange = (event, selected) => {
     const div = document.querySelector("div.active");
 
     if (div) {
-      div.classNameList.remove("active");
+      div.classNameNameList.remove("active");
     }
-    event.target.classNameList.toggle("active");
+    event.target.classNameNameList.toggle("active");
     setTemplateId(selected);
   };
 
@@ -85,6 +86,19 @@ const VerifyHCP = () => {
     setReRender(reRender + 1);
   };
 
+  const sortSelectedUsers = () => {
+    let normalArr = [];
+    normalArr = selectedHcp;
+    if(sorting===0){
+      normalArr.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0));
+    }else{
+      normalArr.sort((a, b) => (a.name < b.name ? 1 : b.name < a.name ? -1 : 0));
+    }
+    
+    setSelectedHcp(normalArr);
+    setSorting(1-sorting);
+  };
+
   const emailChanged = (e) => {
     setEmail(e.target.value);
   };
@@ -118,39 +132,39 @@ const VerifyHCP = () => {
 
   return (
     <>
-      <div className="right-sidebar">
-        <div className="page-top-nav">
-          <div className="row justify-content-end align-items-center">
-            <div className="col-12 col-md-1">
-              <div className="header-btn-left">
-                <button className="btn btn-primary btn-bordered back">
+      <div classNameName="right-sidebar">
+        <div classNameName="page-top-nav">
+          <div classNameName="row justify-content-end align-items-center">
+            <div classNameName="col-12 col-md-1">
+              <div classNameName="header-btn-left">
+                <button classNameName="btn btn-primary btn-bordered back">
                   Back
                 </button>
               </div>
             </div>
-            <div className="col-12 col-md-9">
-              <ul className="tabnav-link">
-                <li className="">
+            <div classNameName="col-12 col-md-9">
+              <ul classNameName="tabnav-link">
+                <li classNameName="">
                   <a href="javascript:void(0)">Select Content</a>
                 </li>
-                <li className="">
+                <li classNameName="">
                   <a href="javascript:void(0)">Create Your Email</a>
                 </li>
-                <li className="active">
+                <li classNameName="active">
                   <a href="javascript:void(0)">Select Verify Your HCPs</a>
                 </li>
 
-                <li className="">
+                <li classNameName="">
                   <a href="javascript:void(0)">Verify your Email</a>
                 </li>
               </ul>
             </div>
-            <div className="col-12 col-md-2">
-              <div className="header-btn">
-                <button className="btn btn-primary btn-bordered move-draft">
+            <div classNameName="col-12 col-md-2">
+              <div classNameName="header-btn">
+                <button classNameName="btn btn-primary btn-bordered move-draft">
                   Save As Draft
                 </button>
-                <button className="btn btn-primary btn-filled next">
+                <button classNameName="btn btn-primary btn-filled next">
                   Next
                 </button>
               </div>
@@ -158,47 +172,47 @@ const VerifyHCP = () => {
           </div>
         </div>
 
-        <div className="top-header">
-          <div className="page-title">
+        <div classNameName="top-header">
+          <div classNameName="page-title">
             <h4>Search For HCP By:</h4>
           </div>
         </div>
 
-        <section className="search-hcp">
-          <div className="form-search-hcp">
+        <section classNameName="search-hcp">
+          <div classNameName="form-search-hcp">
             <form>
-              <div className="form-inline row justify-content-between align-items-center">
-                <div className="col-12 col-md-7">
-                  <div className="row justify-content-between align-items-center">
-                    <div className="form-group col-sm-6">
+              <div classNameName="form-inline row justify-content-between align-items-center">
+                <div classNameName="col-12 col-md-7">
+                  <div classNameName="row justify-content-between align-items-center">
+                    <div classNameName="form-group col-sm-6">
                       <label for="hcp-name">Name</label>
                       <input
                         type="text"
-                        className="form-control"
+                        classNameName="form-control"
                         id=""
                         onChange={(e) => nameChanged(e)}
                       />
                     </div>
-                    <div className="form-group col-sm-6">
+                    <div classNameName="form-group col-sm-6">
                       <label for="hcp-email">Email</label>
                       <input
                         type="mail"
-                        className="form-control"
+                        classNameName="form-control"
                         id=""
                         onChange={(e) => emailChanged(e)}
                       />
                     </div>
                   </div>
                 </div>
-                <div className="form-button col-12 col-md-5">
+                <div classNameName="form-button col-12 col-md-5">
                   <button
-                    className="btn btn-primary btn-filled"
+                    classNameName="btn btn-primary btn-filled"
                     onClick={(e) => searchHcp(e)}
                   >
                     Search
                   </button>
                   <button
-                    className="btn btn-primary btn-bordered"
+                    classNameName="btn btn-primary btn-bordered"
                     type="button"
                     data-bs-toggle="modal"
                     data-bs-target="#add_hcp"
@@ -209,100 +223,14 @@ const VerifyHCP = () => {
               </div>
             </form>
           </div>
-          <div className="search-hcp-table">
-          <div className="search-hcp-table-inside">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th scope="col">Name</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">Bounced</th>
-                  <th scope="col">Country</th>
-                  <th scope="col">Readers</th>
-                  <th scope="col">Business Unit</th>
-                  <th scope="col">Interest</th>
-                  <th scope="col">Consent</th>
-                  <th scope="col">Email Received</th>
-                  <th scope="col">Openings</th>
-                  <th scope="col">Registrations</th>
-                  <th scope="col">Last Email</th>
-                  <th scope="col"></th>
-                </tr>
-              </thead>
-              <tbody>
-                {searchedUsers.length == 0 ? <div class="not-found">
-									<h4>No User found!</h4>
-								</div> : null}
-                {searchedUsers.map((users, index) => {
-                  return (
-                    <>
-                      <tr>
-                        <td>{users.name}</td>
-                        <td>{users.email}</td>
-                        <td>NA</td>
-                        <td>{users.country}</td>
-                        <td>NA</td>
-                        <td>NA</td>
-                        <td>NA</td>
-                        <td>NA</td>
-                        <td>NA</td>
-                        <td>NA</td>
-                        <td>NA</td>
-                        <td>NA </td>
-                        <td className="add-new-hcp">
-                          <img
-                            src={path_image + "add-row.png"}
-                            alt="Add More"
-                            onClick={() => selectHcp(index)}
-                          />
-                        </td>
-                      </tr>
-                    </>
-                  );
-                })}
-
-                {/* <tr>
-                  <td>Jacob Flindt</td>
-                  <td>User@docintel.app</td>
-                  <td>No</td>
-                  <td>United Kingdom</td>
-                  <td>CIS</td>
-                  <td>Haematology</td>
-                  <td>Tech</td>
-                  <td>Yes</td>
-                  <td>43</td>
-                  <td>30</td>
-                  <td>28</td>
-                  <td>Nov 18 </td>
-                  <td className="add-new-hcp">
-                    <img src={path_image + "add-row.png"} alt="Add More" />
-                  </td>
-                </tr> */}
-              </tbody>
-            </table>
-          </div>
-          </div>
-
-          <div className="selected-hcp-table">
-            <div className="table-title">
-              <h4>
-                Selected HCPs <span>| {selectedHcp.length}</span>
-              </h4>
-              <div className="selected-hcp-table-action">
-                <div className="hcp-added">
-                  <button onClick={editablemade} className="btn btn-outline-primary">
-                    <img src={path_image + "edit.svg"} alt="" />
-                  </button>
-                </div>
-                <div className="hcp-sort">
-                  <button className="btn btn-outline-primary">
-                    Sort By <img src={path_image + "sort.svg"} alt="" />
-                  </button>
-                </div>
-              </div>
+          <div classNameName="search-hcp-table">
+          <div classNameName="search-hcp-table-inside">
+            {searchedUsers.length === 0 ? (
+             <div className="not-found">
+              <h4>No Record Found!</h4>
             </div>
-            <div className="selected-hcp-list">
-              <table className="table selected-list-tb">
+            ) : (
+              <table classNameName="table">
                 <thead>
                   <tr>
                     <th scope="col">Name</th>
@@ -321,18 +249,14 @@ const VerifyHCP = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {selectedHcp.length == 0 ? <div class="not-found">
-									<h4>No Contact selected yet!</h4>
-								</div> : null}
-                  {selectedHcp.map((data, index) => {
-                    console.log(editable);
+                  {searchedUsers.map((users, index) => {
                     return (
                       <>
-                        <tr  contenteditable= {editable === 0 ? "false" : "true" } >
-                          <td>{data.name}</td>
-                          <td>{data.email}</td>
+                        <tr>
+                          <td>{users.name}</td>
+                          <td>{users.email}</td>
                           <td>NA</td>
-                          <td>{data.country}</td>
+                          <td>{users.country}</td>
                           <td>NA</td>
                           <td>NA</td>
                           <td>NA</td>
@@ -341,23 +265,202 @@ const VerifyHCP = () => {
                           <td>NA</td>
                           <td>NA</td>
                           <td>NA </td>
-                          <td className="delete_row" colSpan="12">
+                          <td classNameName="add-new-hcp">
                             <img
-                              src={path_image + "delete.svg"}
-                              alt="Delete Row"
-                              onClick={() => deleteSelected(index)}
+                              src={path_image + "add-row.png"}
+                              alt="Add More"
+                              onClick={() => selectHcp(index)}
                             />
                           </td>
                         </tr>
                       </>
                     );
                   })}
+
+                  {/* <tr>
+                  <td>Jacob Flindt</td>
+                  <td>User@docintel.app</td>
+                  <td>No</td>
+                  <td>United Kingdom</td>
+                  <td>CIS</td>
+                  <td>Haematology</td>
+                  <td>Tech</td>
+                  <td>Yes</td>
+                  <td>43</td>
+                  <td>30</td>
+                  <td>28</td>
+                  <td>Nov 18 </td>
+                  <td classNameName="add-new-hcp">
+                    <img src={path_image + "add-row.png"} alt="Add More" />
+                  </td>
+                </tr> */}
                 </tbody>
               </table>
+            )}
+          </div>
+          </div>
+
+          <div classNameName="selected-hcp-table">
+            <div classNameName="table-title">
+              <h4>
+                Selected HCPs <span>| {selectedHcp.length}</span>
+              </h4>
+              <div classNameName="selected-hcp-table-action">
+                <div classNameName="hcp-added">
+                  <button classNameName="btn btn-outline-primary" onClick={editablemade}>
+                    <img src={path_image + "edit.svg"} alt="" />
+                  </button>
+                </div>
+                <div classNameName="hcp-sort">
+                  <button
+                    onClick={sortSelectedUsers}
+                    classNameName="btn btn-outline-primary"
+                  >
+                    Sort By <img src={path_image + "sort.svg"} alt="" />
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div classNameName="selected-hcp-list">
+              {selectedHcp.length === 0 ? (
+                <div className="not-found">
+                  <h4>No Contact selected yet!</h4>
+                </div>
+              ) : (
+                <table classNameName="table">
+                  <thead>
+                    <tr >
+                      <th scope="col">Name</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Bounced</th>
+                      <th scope="col">Country</th>
+                      <th scope="col">Readers</th>
+                      <th scope="col">Business Unit</th>
+                      <th scope="col">Interest</th>
+                      <th scope="col">Consent</th>
+                      <th scope="col">Email Received</th>
+                      <th scope="col">Openings</th>
+                      <th scope="col">Registrations</th>
+                      <th scope="col">Last Email</th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {selectedHcp.map((data, index) => {
+                      return (
+                        <>
+                          <tr contenteditable= {editable === 0 ? "false" : "true" }>
+                            <td>{data.name}</td>
+                            <td>{data.email}</td>
+                            <td>NA</td>
+                            <td>{data.country}</td>
+                            <td>NA</td>
+                            <td>NA</td>
+                            <td>NA</td>
+                            <td>NA</td>
+                            <td>NA</td>
+                            <td>NA</td>
+                            <td>NA</td>
+                            <td>NA </td>
+                            <td classNameName="delete_row" colSpan="12">
+                              <img
+                                src={path_image + "delete.svg"}
+                                alt="Delete Row"
+                                onClick={() => deleteSelected(index)}
+                              />
+                            </td>
+                          </tr>
+                        </>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              )}
             </div>
           </div>
         </section>
       </div>
+         <div className="modal fade" id="add_hcp" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="add_hcp" aria-hidden="true">
+            <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div className="modal-content">
+              <div className="modal-header">
+              <h5 className="modal-title" id="staticBackdropLabel">Add New HCP</h5>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div className="modal-body">
+              <div className="hcp-add-box">
+                <div className="hcp-add-form tab-content">
+                  <form id="add_hcp_form" className="tab-pane active">
+                    <div className="row">
+                      <div className="col-12 col-md-6">
+                        <div className="form-group">
+                          <label for="">First Name</label>
+                          <input type="text" className="form-control" />
+                        </div>
+                      </div>
+                      <div className="col-12 col-md-6">
+                        <div className="form-group">
+                          <label for="">Last Name</label>
+                          <input type="text" className="form-control" />
+                        </div>
+                      </div>
+                      <div className="col-12 col-md-6">
+                        <div className="form-group">
+                          <label for="">Email</label>
+                          <input type="email" className="form-control" id="email-desc" />
+                        </div>
+                      </div>
+                      <div className="col-12 col-md-6">
+                        <div className="form-group">
+                          <label for="">Contact Type</label>
+                          <select className="form-contact" aria-label="select">
+                            <option selected>Select Type</option>
+                            <option value="1">HCP</option>
+                            <option value="2">HCP</option>
+                            <option value="3">HCP</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div className="col-12 col-md-6">
+                        <div className="form-group">
+                          <label for="">Country</label>
+                          <select className="country-form" aria-label="select">
+                            <option selected>Select Country</option>
+                            <option value="1">India</option>
+                            <option value="2">USA</option>
+                            <option value="3">Russia</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                  <form id="add_file" className="tab-pane fade">
+                    <div className="form-group files">
+                      <input type="file" className="form-control" multiple="" />
+                    </div>
+                  </form>
+                </div>
+                <div className="hcp-modal-action">
+                  <div className="hcp-action-block">
+                    <div className="hcp-remove">
+                      <button type="button" className="btn btn-filled"><img src="assets/images/delete.svg" alt="Delete HCP" /></button>
+                    </div>
+                    <ul className="nav nav-tabs" role="tablist">
+                      <li className="nav-item add_hcp"><a className="nav-link active btn-bordered" data-bs-toggle="tab" href="#add_hcp_form">Add HCP +</a></li>
+                      <li className="nav-item add-file"><a className="nav-link btn-filled" data-bs-toggle="tab" href="#add_file">Add File</a></li>
+                    </ul>
+        
+                  </div>
+                </div>
+              </div>
+              </div>
+              <div className="modal-footer">
+              <button type="button" className="btn btn-primary save btn-filled">Save</button>
+              </div>
+            </div>
+            </div>
+
+        </div>
     </>
   );
 };
