@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const SelectHCP = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -10,18 +10,15 @@ const SelectHCP = () => {
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
-
-  const handleInputChange = (event,selected) => {
+  const handleInputChange = (event, selected) => {
     const div = document.querySelector("div.active");
-   
-    if(div){
-     div.classList.remove('active');
-    }
-    event.target.classList.toggle('active');
-    setTemplateId(selected);
-    
-  };
 
+    if (div) {
+      div.classList.remove("active");
+    }
+    event.target.classList.toggle("active");
+    setTemplateId(selected);
+  };
 
   return (
     <>
@@ -59,13 +56,17 @@ const SelectHCP = () => {
                 <button className="btn btn-primary btn-bordered move-draft">
                   Save As Draft
                 </button>
-                {templateId===0 ?  <button className="btn btn-primary btn-filled next disabled">Next </button> :  
-
-                <Link to="/VerifyHCP" state={{ UserSelected: templateId }}>
-                 <button className="btn btn-primary btn-filled next"  >Next</button> 
-                </Link>
-                }
-                
+                {templateId === 0 ? (
+                  <button className="btn btn-primary btn-filled next disabled">
+                    Next{" "}
+                  </button>
+                ) : (
+                  <Link to="/VerifyHCP" state={{ UserSelected: templateId }}>
+                    <button className="btn btn-primary btn-filled next">
+                      Next
+                    </button>
+                  </Link>
+                )}
               </div>
             </div>
           </div>
@@ -79,13 +80,13 @@ const SelectHCP = () => {
                   <li>
                     <div
                       className="send-option-img"
-                      onClick={(event) => handleInputChange(event,1)}
+                      onClick={(event) => handleInputChange(event, 1)}
                     >
                       <input
                         type="radio"
                         name="select-option-hcp"
                         value="group of HCPs"
-                    
+
                         // onChange={(event) => handleInputChange(event)}
                       />
 
@@ -99,13 +100,13 @@ const SelectHCP = () => {
                   <li>
                     <div
                       className="send-option-img"
-                      onClick={(e) => handleInputChange(e,2)}
+                      onClick={(e) => handleInputChange(e, 2)}
                     >
                       <input
                         type="radio"
                         name="select-option-hcp"
                         value="Single HCP"
-                       
+
                         // onChange={(event) => handleInputChange(event)}
                       />
                       <img

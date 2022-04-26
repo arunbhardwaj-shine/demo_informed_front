@@ -124,7 +124,11 @@ const CreateEmail = (props) => {
   };
 
   const saveAsDraft = async () => {
-    console.log(finalTags);
+    let tagss = [];
+    finalTags.map((tags) => {
+      tagss.push(tags.innerText || tags);
+    });
+    console.log(tagss);
     const body = {
       user_id: 18207,
       pdf_id: PdfSelected,
@@ -133,7 +137,7 @@ const CreateEmail = (props) => {
       campaign_name: emailCampaign,
       subject: emailSubject,
       route_location: pathname,
-      tags: finalTags,
+      tags: tagss,
       campaign_data: {
         template_id: templateId,
       },
@@ -151,18 +155,17 @@ const CreateEmail = (props) => {
       });
   };
 
-  const templateClicked = (template,e) => {
+  const templateClicked = (template, e) => {
     const div = document.querySelector("img.active");
-   
-    if(div){
-     div.classList.remove('active');
+
+    if (div) {
+      div.classList.remove("active");
     }
-   
-    
+
     setTemplateId(template.id);
     setTemplateName(template.name);
     setTemplate(template.source_code);
-    e.target.classList.toggle('active');
+    e.target.classList.toggle("active");
   };
 
   const emailSubjectChanged = (e) => {
@@ -170,8 +173,6 @@ const CreateEmail = (props) => {
   };
 
   const nextClicked = () => {
-
- 
     if (validator.allValid()) {
       props.getEmailData({
         emailDescription: emailDescription,
@@ -295,7 +296,6 @@ const CreateEmail = (props) => {
                   Save As Draft
                 </button>
 
-                
                 <button
                   className="btn btn-primary btn-filled next"
                   onClick={nextClicked}
@@ -324,7 +324,6 @@ const CreateEmail = (props) => {
                 className="mail-templates owl-carousel owl-theme"
                 margin={20}
                 items={5}
-              
                 loop
                 nav
               >
@@ -333,7 +332,7 @@ const CreateEmail = (props) => {
                     <>
                       <div
                         className="item"
-                        onClick={(e) => templateClicked(template,e)}
+                        onClick={(e) => templateClicked(template, e)}
                       >
                         <img src={path_image + "content_added1.png"} alt="" />
                         <p>{template.name}</p>
