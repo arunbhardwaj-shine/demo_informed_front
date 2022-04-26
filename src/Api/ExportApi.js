@@ -40,7 +40,7 @@ const GetEventListDataUpdate = (id,EventTitle,a,Description) => BaseApi.post(`ev
   'Authorization':localStorage.getItem("Token"),
 }});
 const CreatEvent = (EventTitle,a,event_start_time,eventendtime,Timezone,Bu,event_date ,Description,Region) => 
-BaseApi.post("event",{user_id:1,
+BaseApi.post("event",{
   title:EventTitle,
   description:Description,
   event_start_time:event_start_time,
@@ -91,6 +91,10 @@ BaseApi.post("rehearsal",{
   BaseApi.post("template",{name:name,event_id:id},{ headers: {
     'Authorization':localStorage.getItem("Token"),
   }});
+  const UpdateTemplate = (subject ,id, i) =>
+  BaseApi.post("update-template",{subject :subject ,description :id,template_id :i},{ headers: {
+    'Authorization':localStorage.getItem("Token"),
+  }});
 export default {
   UserLogin,
   UserForgot,
@@ -109,5 +113,6 @@ export default {
   UserTemplateList,
   UserTemplate,
   UserTemplateSandMail,
-  CreateTemplate
+  CreateTemplate,
+  UpdateTemplate
 };
