@@ -4,7 +4,7 @@ import ExportApi from "../../../Api/ExportApi";
 import { useFormik } from "formik";
 import '../webinar.css';
 import { Link } from "react-router-dom";
-
+import { toast, ToastContainer } from "react-toastify";
 const EventData = () => {
     const [event, setEvent] = useState([]);
     const [message, setMessage] = useState();
@@ -70,15 +70,32 @@ const EventData = () => {
     enableReinitialize: true,
     onSubmit: (values) => {
       let a=JSON.stringify(Speakername)
-      ExportApi.GetEventListDataUpdate(eventdata.id,values.EventTitle,a,values.Description,)
+      ExportApi.GetEventListDataUpdate(eventdata.id,values.EventTitle,Speakername[0].name&&Speakername[0].email?a:null,values.Description,)
         .then((resp) => {
           if (resp.data) {
-            setMessage(resp.data.message)
-            handleGetEventlist()
-              console.log(resp.data.message);
-              if(resp.data.message==="Data saved successfully"){
-                setModalShow(false)
-              }
+            if (resp.data.code == 200) {
+              setModalShow(false)
+              handleGetEventlist()
+              toast.success(resp.data.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                });
+            } else {
+              toast.error(resp.data.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                });
+            }
           }
         })
         .catch((err) => console.log(err));
@@ -90,8 +107,19 @@ const EventData = () => {
   return (
     <div>
       <Row>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
         <Col md={{ span: 6, offset: 3 }}>
-            <h2><center>Event List</center></h2>
+            <h2><center>Events</center></h2>
             <br/>
             <Table bordered hover>
               <thead>
@@ -126,7 +154,7 @@ const EventData = () => {
             <Modal show={modalShow} size="lg" aria-labelledby="contained-modal-title-vcenter" centered >
               <Modal.Header onClick={()=>setModalShow(false)} closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                  Event Data
+                  Edit Event 
                 </Modal.Title>
               </Modal.Header>
               <Modal.Body>

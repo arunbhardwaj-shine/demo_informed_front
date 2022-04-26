@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import ExportApi from "../Api/ExportApi";
-import { Button, Col, Form, Row } from "react-bootstrap";
-
+import { Button, Col, Form, Modal, Row } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 function ResetPassword() {
     const [err, setErr] = useState(false);
+    const [modalShow, setmodalShow] = useState(false);
+    const [message, setMessage] = useState(false);
+    let navigate = useNavigate();
     const formik = useFormik({
       initialValues: {
         old_pass: "",
@@ -37,6 +40,8 @@ function ResetPassword() {
             if (resp.data) {
               if (resp.data.code == 200) {
                 console.log(resp.data) 
+                setMessage(resp.data.message)
+                setmodalShow(true)
                 setErr(false)
               }else{
                 setErr(true)
@@ -99,6 +104,18 @@ function ResetPassword() {
       <Button type="submit">Submit</Button>
     </form>
     </div>
+    <Modal
+       show={modalShow}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Body>
+          <center><h2 style={{color:"#09a391",fontWeight:"bold",padding:"30px"}}>{message}</h2>
+            <Button style={{backgroundColor:"#09a391" ,padding:"20px"}} onClick={()=>{setmodalShow(false);  navigate("/webinar/dashboard");}}>OK</Button>    
+          </center>
+      </Modal.Body>
+    </Modal>
     </Col></Row>
   )
 }

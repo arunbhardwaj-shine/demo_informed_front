@@ -3,7 +3,8 @@ import { useFormik } from "formik";
 import ExportApi from "../../../Api/ExportApi";
 import { Button, CloseButton, Col, Form, Row } from "react-bootstrap";
 import * as Yup from "yup";
-import '../webinar.css';
+import "../webinar.css";
+import { toast, ToastContainer } from "react-toastify";
 
 function Add(props) {
   //  console.log("ppp",props.token)
@@ -11,7 +12,7 @@ function Add(props) {
     { name: "SpeakersName", email: "SpeakesrEmail" },
   ]);
 
-  const[render,setRerender]=useState(0)
+  const [render, setRerender] = useState(0);
   const [Speakername, setSpeakerName] = useState([{ name: "", email: "" }]);
   const [bu, setBu] = useState([]);
   const [Timezone, setTimezone] = useState([]);
@@ -34,9 +35,9 @@ function Add(props) {
       setSpeakerName([...Speakername]);
     }
   };
-  useEffect(()=>{
+  useEffect(() => {
     console.log("inside render");
-  },[render])
+  }, [render]);
 
   const handleMaltiInputRumove = (i) => {
     console.log("i", i);
@@ -45,7 +46,7 @@ function Add(props) {
       setSpeaker([...Speaker]);
       Speakername.splice(i, 1);
       console.log(Speakername.length);
-      setRerender(render+1);
+      setRerender(render + 1);
     }
   };
   const handleGetDataBu = () => {
@@ -92,11 +93,12 @@ function Add(props) {
       Description: Yup.string().required("Description is required"),
     }),
     onSubmit: (values) => {
+      console.log(Speakername[0].name)
       let a = JSON.stringify(Speakername);
       console.log(values);
       ExportApi.CreatEvent(
         values.EventTitle,
-        a,
+        Speakername[0].name&&Speakername[0].email?a:null,
         values.event_start_time,
         values.eventendtime,
         values.Timezone,
@@ -108,237 +110,353 @@ function Add(props) {
         .then((resp) => {
           if (resp.data) {
             console.log(resp.data);
+            if (resp.data.code == 200) {
+              toast.success(resp.data.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                });
+            } else {
+              toast.error(resp.data.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                });
+            }
           }
         })
         .catch((err) => console.log(err));
     },
   });
-  const handlegetallapicall = (data) => {
-    handleGetDataBu();
-    handleGetTimezoneData();
-    handleGetTimezoneregionData();
-  };
+  var today = new Date();
+var dd = String(today.getDate()).padStart(2, '0');
+var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+var yyyy = today.getFullYear();
   useEffect(() => {
     setToken(localStorage.getItem("Token"));
     handleGetDataBu();
     handleGetTimezoneData();
     handleGetTimezoneregionData();
-    handlegetallapicall();
   }, [props.token, localStorage.getItem("Token")]);
   return (
     <Row>
-    <Col md={{ span: 6, offset: 3 }}>
-      <div>
-        <h2>Create Event </h2>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+      <Col md={{ span: 6, offset: 3 }}>
         <div>
-          <form  onSubmit={formik.handleSubmit}>
-            <Form.Group as={Row} className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label column sm={2}>Event Title </Form.Label>
-              <Col sm={10}>
-              <Form.Control
-                name="EventTitle"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.EventTitle}
-              />
-              {formik.touched.EventTitle && formik.errors.EventTitle ? (
-                <div style={{ color: "red" }}>{formik.errors.EventTitle}</div>
-              ) : null}
-              </Col>
-            </Form.Group>
-            {Speaker.map((malti, i) => (
-                <fieldset class="border p-2">
-                <div key={i}>
-                  {Speaker.length > 1 ? (
-                      <button type="button" onClick={() => handleMaltiInputRumove(i)}  class="btn-close float-end" aria-label="Close" />
-                    ) : null}
-                  <Form.Group as={Row} className="mb-3" controlId="exampleForm.ControlInput1">
-                  <Form.Label column sm={2}>Speaker Name</Form.Label>
-                  <Col sm={10}>
+          <h2>Create Event </h2>
+          <div>
+            <form onSubmit={formik.handleSubmit}>
+              <Form.Group
+                as={Row}
+                className="mb-3"
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label column sm={2}>
+                  Event Title{" "}
+                </Form.Label>
+                <Col sm={10}>
                   <Form.Control
-                    name={Speaker.length === 0 ? malti.name : malti.name + i}
-                    onChange={(e) => {
-                      handleSpeakerName(e, i);
-                    }}
+                    name="EventTitle"
+                    onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    value={formik.values.email}
-                  /></Col>
-                  {formik.touched.email && formik.errors.email ? (
-                    <div style={{ color: "red" }}>{formik.errors.email}</div>
-                  ) : null}
-                  <div class="mt-2"></div>
-                  <Form.Label column sm={2}>Speaker Email</Form.Label>
-                  <Col sm={10}>
-                  <Form.Control
-                    type="email"
-                    name={Speaker.length === 0 ? malti.email : malti.email + i}
-                    onChange={(e) => {
-                      handleSpeakerName(e, i);
-                    }}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.email}
+                    value={formik.values.EventTitle}
                   />
-                  </Col>
-                  {formik.touched.email && formik.errors.email ? (
-                    <div style={{ color: "red" }}>{formik.errors.email}</div>
+                  {formik.touched.EventTitle && formik.errors.EventTitle ? (
+                    <div style={{ color: "red" }}>
+                      {formik.errors.EventTitle}
+                    </div>
                   ) : null}
-                  </Form.Group>
-                </div></fieldset>
-            ))}
-            <div class="mt-2"></div>
-            <Form.Group className="mb-3">
-                <Button onClick={handleMaltiInputAdd} className="speaker-button">Add More Speaker</Button>
-            </Form.Group>
-            <div class="clearfix"></div>
-            <div class="mt-2"></div>
-            <Form.Group className="mb-3"as={Row} controlId="exampleForm.ControlInput1">
-              <Form.Label column sm={2}>Region </Form.Label>
-              <Col sm={10}>
-              <Form.Select
-                name="Region"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.Region}
-              ><option>Select Region</option>
-                {Timezoneregion?.map((val, i) => (
-                 <React.Fragment key={i}>
-                    <option key={i} value={val.values}>
-                      {val.values}
-                    </option>
-                    </React.Fragment>
-                ))}
-              </Form.Select>
-              {formik.touched.Region && formik.errors.Region ? (
-              <div style={{ color: "red" }}>{formik.errors.Region}</div>
-            ) : null}
-            </Col>
-              <br />
-            </Form.Group>
-            <Form.Group as={Row}
-              className="mb-3"
-              controlId="exampleForm.ControlInput1"
-            >
-            <Form.Label column sm={2}>Bu </Form.Label>
-            <Col sm={10}>
-            <Form.Select
-              name="Bu"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.Bu}
-            ><option>Select Bu</option>
-              {bu?.map((val, i) => (
-            <React.Fragment key={i}>
-                  <option key={i} value={val.values}>
-                    {val.values}
-                  </option>
-                  </React.Fragment>
-              ))}
-            </Form.Select>
-            {formik.touched.Bu && formik.errors.Bu ? (
-              <div style={{ color: "red" }}>{formik.errors.Bu}</div>
-            ) : null}
-            </Col>    
-            </Form.Group>
-            <Form.Group className="mb-3"as={Row} controlId="exampleForm.ControlInput1">
-            <Form.Label column sm={2}>Timezone </Form.Label>
-            <Col sm={10}>
-            <Form.Select
-              name="Timezone"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.Timezone}
-            >
-              <option>Select Timezone</option>
-              {Timezone?.map((val, i) => (
-                <React.Fragment key={i}>
-                  <option key={i} value={val.values}> 
-                    {val.values}
-                  </option>
-                </React.Fragment>
-              ))}
-            </Form.Select>
-            
-            {formik.touched.Timezone && formik.errors.Timezone ? (
-              <div style={{ color: "red" }}>{formik.errors.Timezone}</div>
-            ) : null}
-            </Col>
-            </Form.Group>
-            <Form.Group className="mb-3" as={Row} controlId="exampleForm.ControlInput1">
-            <Form.Label column sm={2}>Event Start Time </Form.Label>
-            <Col sm={10}>
-            <Form.Control
-              name="event_start_time"
-              type="time"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.event_start_time}
-            />
-            {formik.touched.event_start_time && formik.errors.event_start_time ? (
-              <div style={{ color: "red" }}>{formik.errors.event_start_time}</div>
-            ) : null}
-            </Col>
-            </Form.Group>
-            <Form.Group className="mb-3"as={Row} controlId="exampleForm.ControlInput1">
-            <Form.Label column sm={2}>Event End Time </Form.Label>
-            <Col sm={10}>
-            <Form.Control
-              name="eventendtime"
-              type="time"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.eventendtime}
-            />
-            {formik.touched.eventendtime && formik.errors.eventendtime ? (
-              <div style={{ color: "red" }}>{formik.errors.eventendtime}</div>
-            ) : null}
-            </Col>
-            </Form.Group>
-            <br />
-            <Form.Group className="mb-3"as={Row} controlId="exampleForm.ControlInput1">
-            <Form.Label column sm={2}>Event Date </Form.Label>
-            <Col sm={10}>
-            <Form.Control
-              name="event_date"
-              type="date"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.event_date}
-            />
-            {formik.touched.event_date && formik.errors.event_date ? (
-                <div style={{ color: "red" }}>{formik.errors.event_date}</div>
-              ) : null}
-              </Col>
+                </Col>
               </Form.Group>
-            <Form.Group as={Row}
-              className="mb-3"
-              controlId="exampleForm.ControlInput1"
-            >   
-            <Form.Label column sm={2}>Description </Form.Label>
-            <Col sm={10}>
-            <textarea
-              name="Description"
-              type="text"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.Description}
-              className="form-control"
-              id="exampleFormControlTextarea1"
-              rows="3"
-            ></textarea>
-            
-               {formik.touched.Description && formik.errors.Description ? (
-                <div style={{ color: "red" }}>{formik.errors.Description}</div>
-              ) : null}
-             </Col> 
-            </Form.Group>
-            <Button type="reset">Reset</Button>
-            <Button type="submit" class="event-submit-button">Submit</Button>
-          </form>
+              {Speaker.map((malti, i) => (
+                <fieldset className="border p-2">
+                  <div key={i}>
+                    {Speaker.length > 1 ? (
+                      <button
+                        type="button"
+                        onClick={() => handleMaltiInputRumove(i)}
+                        className="btn-close float-end"
+                        aria-label="Close"
+                      />
+                    ) : null}
+                    <Form.Group
+                      as={Row}
+                      className="mb-3"
+                      controlId="exampleForm.ControlInput1"
+                    >
+                      <Form.Label column sm={2}>
+                        Speaker Name
+                      </Form.Label>
+                      <Col sm={10}>
+                        <Form.Control
+                          name={
+                            Speaker.length === 0 ? malti.name : malti.name + i
+                          }
+                          onChange={(e) => {
+                            handleSpeakerName(e, i);
+                          }}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.email}
+                        />
+                      </Col>
+                      {formik.touched.email && formik.errors.email ? (
+                        <div style={{ color: "red" }}>
+                          {formik.errors.email}
+                        </div>
+                      ) : null}
+                      <div className="mt-2"></div>
+                      <Form.Label column sm={2}>
+                        Speaker Email
+                      </Form.Label>
+                      <Col sm={10}>
+                        <Form.Control
+                          type="email"
+                          name={
+                            Speaker.length === 0 ? malti.email : malti.email + i
+                          }
+                          onChange={(e) => {
+                            handleSpeakerName(e, i);
+                          }}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.email}
+                        />
+                      </Col>
+                      {formik.touched.email && formik.errors.email ? (
+                        <div style={{ color: "red" }}>
+                          {formik.errors.email}
+                        </div>
+                      ) : null}
+                    </Form.Group>
+                  </div>
+                </fieldset>
+              ))}
+              <div className="mt-2"></div>
+              <Form.Group className="mb-3">
+                <Button
+                  onClick={handleMaltiInputAdd}
+                  className="speaker-button"
+                >
+                  Add More Speaker
+                </Button>
+              </Form.Group>
+              <div className="clearfix"></div>
+              <div className="mt-2"></div>
+              <Form.Group
+                className="mb-3"
+                as={Row}
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label column sm={2}>
+                  Region{" "}
+                </Form.Label>
+                <Col sm={10}>
+                  <Form.Select
+                    name="Region"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.Region}
+                  >
+                    <option>Select Region</option>
+                    {Timezoneregion?.map((val, i) => (
+                      <React.Fragment key={i}>
+                        <option key={i} value={val.values}>
+                          {val.values}
+                        </option>
+                      </React.Fragment>
+                    ))}
+                  </Form.Select>
+                  {formik.touched.Region && formik.errors.Region ? (
+                    <div style={{ color: "red" }}>{formik.errors.Region}</div>
+                  ) : null}
+                </Col>
+                <br />
+              </Form.Group>
+              <Form.Group
+                as={Row}
+                className="mb-3"
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label column sm={2}>
+                  Bu{" "}
+                </Form.Label>
+                <Col sm={10}>
+                  <Form.Select
+                    name="Bu"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.Bu}
+                  >
+                    <option>Select Bu</option>
+                    {bu?.map((val, i) => (
+                      <React.Fragment key={i}>
+                        <option key={i} value={val.values}>
+                          {val.values}
+                        </option>
+                      </React.Fragment>
+                    ))}
+                  </Form.Select>
+                  {formik.touched.Bu && formik.errors.Bu ? (
+                    <div style={{ color: "red" }}>{formik.errors.Bu}</div>
+                  ) : null}
+                </Col>
+              </Form.Group>
+              <Form.Group
+                className="mb-3"
+                as={Row}
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label column sm={2}>
+                  Timezone{" "}
+                </Form.Label>
+                <Col sm={10}>
+                  <Form.Select
+                    name="Timezone"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.Timezone}
+                  >
+                    <option>Select Timezone</option>
+                    {Timezone?.map((val, i) => (
+                      <React.Fragment key={i}>
+                        <option key={i} value={val.values}>
+                          {val.values}
+                        </option>
+                      </React.Fragment>
+                    ))}
+                  </Form.Select>
+
+                  {formik.touched.Timezone && formik.errors.Timezone ? (
+                    <div style={{ color: "red" }}>{formik.errors.Timezone}</div>
+                  ) : null}
+                </Col>
+              </Form.Group>
+              <Form.Group
+                className="mb-3"
+                as={Row}
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label column sm={2}>
+                  Event Date{" "}
+                </Form.Label>
+                <Col sm={10}>
+                  <Form.Control
+                    name="event_date"
+                    type="date"
+                    min={yyyy + '-'+ mm +'-'+dd}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.event_date}
+                  />
+                  {formik.touched.event_date && formik.errors.event_date ? (
+                    <div style={{ color: "red" }}>
+                      {formik.errors.event_date}
+                    </div>
+                  ) : null}
+                </Col>
+              </Form.Group>
+              <Form.Group
+                className="mb-3"
+                as={Row}
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label column sm={2}>
+                  Event Start Time{" "}
+                </Form.Label>
+                <Col sm={10}>
+                  <Form.Control
+                    name="event_start_time"
+                    type="time"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.event_start_time}
+                  />
+                  {formik.touched.event_start_time &&
+                  formik.errors.event_start_time ? (
+                    <div style={{ color: "red" }}>
+                      {formik.errors.event_start_time}
+                    </div>
+                  ) : null}
+                </Col>
+              </Form.Group>
+              <Form.Group
+                className="mb-3"
+                as={Row}
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label column sm={2}>
+                  Event End Time
+                </Form.Label>
+                <Col sm={10}>
+                  <Form.Control
+                    name="eventendtime"
+                    type="time"
+                    // min={formik.values.event_start_time}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.eventendtime}
+                  />
+                  {formik.touched.eventendtime && formik.errors.eventendtime ? (
+                    <div style={{ color: "red" }}>
+                      {formik.errors.eventendtime}
+                    </div>
+                  ) : null}
+                </Col>
+              </Form.Group>
+              <br />
+
+              <Form.Group
+                as={Row}
+                className="mb-3"
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label column sm={2}>
+                  Description{" "}
+                </Form.Label>
+                <Col sm={10}>
+                  <textarea
+                    name="Description"
+                    type="text"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.Description}
+                    className="form-control"
+                    id="exampleFormControlTextarea1"
+                    rows="3"
+                  ></textarea>
+                  {formik.touched.Description && formik.errors.Description ? (
+                    <div style={{ color: "red" }}>
+                      {formik.errors.Description}
+                    </div>
+                  ) : null}
+                </Col>
+              </Form.Group>
+              <Button type="reset">Reset</Button>
+              <Button type="submit" className="event-submit-button">
+                Submit
+              </Button>
+            </form>
+          </div>
         </div>
-      </div>
-    </Col>
-  </Row>
-    
+      </Col>
+    </Row>
   );
 }
 export default Add;
