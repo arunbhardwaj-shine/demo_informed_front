@@ -69,6 +69,19 @@ const VerifyHCP = () => {
     setReRender(reRender + 1);
   };
 
+  const sortSelectedUsers = () => {
+    console.log(selectedHcp);
+    let normalArr = [];
+    normalArr = selectedHcp;
+    console.log("array before sort");
+    console.log(normalArr);
+    normalArr.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0));
+    console.log("array after sort");
+    console.log(normalArr);
+    setSelectedHcp(normalArr);
+    setReRender(reRender + 1);
+  };
+
   const emailChanged = (e) => {
     setEmail(e.target.value);
   };
@@ -194,94 +207,9 @@ const VerifyHCP = () => {
             </form>
           </div>
           <div className="search-hcp-table">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th scope="col">Name</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">Bounced</th>
-                  <th scope="col">Country</th>
-                  <th scope="col">Readers</th>
-                  <th scope="col">Business Unit</th>
-                  <th scope="col">Interest</th>
-                  <th scope="col">Consent</th>
-                  <th scope="col">Email Received</th>
-                  <th scope="col">Openings</th>
-                  <th scope="col">Registrations</th>
-                  <th scope="col">Last Email</th>
-                  <th scope="col"></th>
-                </tr>
-              </thead>
-              <tbody>
-                {searchedUsers.length == 0 ? <h1>no user found</h1> : null}
-                {searchedUsers.map((users, index) => {
-                  return (
-                    <>
-                      <tr>
-                        <td>{users.name}</td>
-                        <td>{users.email}</td>
-                        <td>NA</td>
-                        <td>{users.country}</td>
-                        <td>NA</td>
-                        <td>NA</td>
-                        <td>NA</td>
-                        <td>NA</td>
-                        <td>NA</td>
-                        <td>NA</td>
-                        <td>NA</td>
-                        <td>NA </td>
-                        <td className="add-new-hcp">
-                          <img
-                            src={path_image + "add-row.png"}
-                            alt="Add More"
-                            onClick={() => selectHcp(index)}
-                          />
-                        </td>
-                      </tr>
-                    </>
-                  );
-                })}
-
-                {/* <tr>
-                  <td>Jacob Flindt</td>
-                  <td>User@docintel.app</td>
-                  <td>No</td>
-                  <td>United Kingdom</td>
-                  <td>CIS</td>
-                  <td>Haematology</td>
-                  <td>Tech</td>
-                  <td>Yes</td>
-                  <td>43</td>
-                  <td>30</td>
-                  <td>28</td>
-                  <td>Nov 18 </td>
-                  <td className="add-new-hcp">
-                    <img src={path_image + "add-row.png"} alt="Add More" />
-                  </td>
-                </tr> */}
-              </tbody>
-            </table>
-          </div>
-
-          <div className="selected-hcp-table">
-            <div className="table-title">
-              <h4>
-                Selected HCPs <span>| {selectedHcp.length}</span>
-              </h4>
-              <div className="selected-hcp-table-action">
-                <div className="hcp-added">
-                  <button className="btn btn-outline-primary">
-                    <img src={path_image + "edit.svg"} alt="" />
-                  </button>
-                </div>
-                <div className="hcp-sort">
-                  <button className="btn btn-outline-primary">
-                    Sort By <img src={path_image + "sort.svg"} alt="" />
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="selected-hcp-list">
+            {searchedUsers.length == 0 ? (
+              <p>no result found</p>
+            ) : (
               <table className="table">
                 <thead>
                   <tr>
@@ -301,15 +229,14 @@ const VerifyHCP = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {selectedHcp.length == 0 ? <h1>no user found</h1> : null}
-                  {selectedHcp.map((data, index) => {
+                  {searchedUsers.map((users, index) => {
                     return (
                       <>
                         <tr>
-                          <td>{data.name}</td>
-                          <td>{data.email}</td>
+                          <td>{users.name}</td>
+                          <td>{users.email}</td>
                           <td>NA</td>
-                          <td>{data.country}</td>
+                          <td>{users.country}</td>
                           <td>NA</td>
                           <td>NA</td>
                           <td>NA</td>
@@ -318,19 +245,114 @@ const VerifyHCP = () => {
                           <td>NA</td>
                           <td>NA</td>
                           <td>NA </td>
-                          <td className="delete_row" colSpan="12">
+                          <td className="add-new-hcp">
                             <img
-                              src={path_image + "delete.svg"}
-                              alt="Delete Row"
-                              onClick={() => deleteSelected(index)}
+                              src={path_image + "add-row.png"}
+                              alt="Add More"
+                              onClick={() => selectHcp(index)}
                             />
                           </td>
                         </tr>
                       </>
                     );
                   })}
+
+                  {/* <tr>
+                  <td>Jacob Flindt</td>
+                  <td>User@docintel.app</td>
+                  <td>No</td>
+                  <td>United Kingdom</td>
+                  <td>CIS</td>
+                  <td>Haematology</td>
+                  <td>Tech</td>
+                  <td>Yes</td>
+                  <td>43</td>
+                  <td>30</td>
+                  <td>28</td>
+                  <td>Nov 18 </td>
+                  <td className="add-new-hcp">
+                    <img src={path_image + "add-row.png"} alt="Add More" />
+                  </td>
+                </tr> */}
                 </tbody>
               </table>
+            )}
+          </div>
+
+          <div className="selected-hcp-table">
+            <div className="table-title">
+              <h4>
+                Selected HCPs <span>| {selectedHcp.length}</span>
+              </h4>
+              <div className="selected-hcp-table-action">
+                <div className="hcp-added">
+                  <button className="btn btn-outline-primary">
+                    <img src={path_image + "edit.svg"} alt="" />
+                  </button>
+                </div>
+                <div className="hcp-sort">
+                  <button
+                    onClick={sortSelectedUsers}
+                    className="btn btn-outline-primary"
+                  >
+                    Sort By <img src={path_image + "sort.svg"} alt="" />
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div className="selected-hcp-list">
+              {selectedHcp.length == 0 ? (
+                <p>no contact selected yet</p>
+              ) : (
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Name</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Bounced</th>
+                      <th scope="col">Country</th>
+                      <th scope="col">Readers</th>
+                      <th scope="col">Business Unit</th>
+                      <th scope="col">Interest</th>
+                      <th scope="col">Consent</th>
+                      <th scope="col">Email Received</th>
+                      <th scope="col">Openings</th>
+                      <th scope="col">Registrations</th>
+                      <th scope="col">Last Email</th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {selectedHcp.map((data, index) => {
+                      return (
+                        <>
+                          <tr>
+                            <td>{data.name}</td>
+                            <td>{data.email}</td>
+                            <td>NA</td>
+                            <td>{data.country}</td>
+                            <td>NA</td>
+                            <td>NA</td>
+                            <td>NA</td>
+                            <td>NA</td>
+                            <td>NA</td>
+                            <td>NA</td>
+                            <td>NA</td>
+                            <td>NA </td>
+                            <td className="delete_row" colSpan="12">
+                              <img
+                                src={path_image + "delete.svg"}
+                                alt="Delete Row"
+                                onClick={() => deleteSelected(index)}
+                              />
+                            </td>
+                          </tr>
+                        </>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              )}
             </div>
           </div>
         </section>
