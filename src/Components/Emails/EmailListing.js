@@ -78,7 +78,7 @@ const EmailList = () => {
 								<div className="filter-result">Filter4<img src={path_image+"filter-close.svg"} alt="Close-filter" /></div>
 							</div>
 							<div className="clear-filter">
-								<button className="btn btn-outline-primary" type="submit">Remove All</button>
+								<button className="btn btn-outline-primary btn-bordered" type="submit">Remove All</button>
 							</div>
 						</div>
 					</div>
@@ -147,8 +147,8 @@ const EmailList = () => {
 										</ul>
 									</div>
 									<div className="mailbox-buttons">
-										<button className="btn btn-primary send">Send</button>
-										<button className="btn btn-primary edit">Edit</button>
+										<button className="btn btn-primary btn-bordered send">Send</button>
+										<button className="btn btn-primary btn-filled edit">Edit</button>
 									</div>
 								</div>
 							</div>
@@ -270,10 +270,10 @@ const EmailList = () => {
                         </ul>
                       </div>
                       <div className="mailbox-buttons">
-                        <div className="send_new"><button className="btn btn-primary send-new">Send New</button></div>
+                        <div className="send_new"><button className="btn btn-primary btn-filled send-new">Send New</button></div>
                         <div className="mailbox-buttons-list">
-                          <button className="btn btn-primary send">Resend</button>
-                          <button className="btn btn-primary edit">View</button>
+                          <button className="btn btn-primary btn-bordered send">Resend</button>
+                          <button className="btn btn-primary btn-filled edit">View</button>
                         </div>
                       </div>
                     </div>

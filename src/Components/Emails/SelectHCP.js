@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import OwlCarousel from "react-owl-carousel";
-import "owl.carousel/dist/assets/owl.carousel.css";
-import "owl.carousel/dist/assets/owl.theme.default.css";
+import { Link} from "react-router-dom";
 
 const SelectHCP = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -11,20 +9,7 @@ const SelectHCP = () => {
   const [templateId, setTemplateId] = useState(0);
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-  // useEffect(() => {
-  //   const body = {
-  //     user_id: 18207,
-  //   };
-  //   axios
-  //     .post(`emailapi/get_template_list`, body)
-  //     .then((res) => {
-  //       setSendListData(res.data.response.data.emails);
-  //       setUserData(res.data.response.data.user);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
+
 
   const handleInputChange = (event,selected) => {
     const div = document.querySelector("div.active");
@@ -37,11 +22,6 @@ const SelectHCP = () => {
     
   };
 
-
-  const nextClicked = ()=>{
-
-      console.log("next clicked");
-  }
 
   return (
     <>
@@ -79,7 +59,12 @@ const SelectHCP = () => {
                 <button className="btn btn-primary btn-bordered move-draft">
                   Save As Draft
                 </button>
-                {templateId===0 ?  <button className="btn btn-primary btn-filled next disabled">Next </button> : <button className="btn btn-primary btn-filled next" onClick={nextClicked} >Next</button> }
+                {templateId===0 ?  <button className="btn btn-primary btn-filled next disabled">Next </button> :  
+
+                <Link to="/VerifyHCP" state={{ UserSelected: templateId }}>
+                 <button className="btn btn-primary btn-filled next"  >Next</button> 
+                </Link>
+                }
                 
               </div>
             </div>
