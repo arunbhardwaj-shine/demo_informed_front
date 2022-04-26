@@ -40,9 +40,9 @@ const VerifyHCP = () => {
     const div = document.querySelector("div.active");
 
     if (div) {
-      div.classNameNameList.remove("active");
+      div.classNameList.remove("active");
     }
-    event.target.classNameNameList.toggle("active");
+    event.target.classNameList.toggle("active");
     setTemplateId(selected);
   };
 
@@ -132,39 +132,39 @@ const VerifyHCP = () => {
 
   return (
     <>
-      <div classNameName="right-sidebar">
-        <div classNameName="page-top-nav">
-          <div classNameName="row justify-content-end align-items-center">
-            <div classNameName="col-12 col-md-1">
-              <div classNameName="header-btn-left">
-                <button classNameName="btn btn-primary btn-bordered back">
+      <div className="right-sidebar">
+        <div className="page-top-nav">
+          <div className="row justify-content-end align-items-center">
+            <div className="col-12 col-md-1">
+              <div className="header-btn-left">
+                <button className="btn btn-primary btn-bordered back">
                   Back
                 </button>
               </div>
             </div>
-            <div classNameName="col-12 col-md-9">
-              <ul classNameName="tabnav-link">
-                <li classNameName="">
+            <div className="col-12 col-md-9">
+              <ul className="tabnav-link">
+                <li className="">
                   <a href="javascript:void(0)">Select Content</a>
                 </li>
-                <li classNameName="">
+                <li className="">
                   <a href="javascript:void(0)">Create Your Email</a>
                 </li>
-                <li classNameName="active">
+                <li className="active">
                   <a href="javascript:void(0)">Select Verify Your HCPs</a>
                 </li>
 
-                <li classNameName="">
+                <li className="">
                   <a href="javascript:void(0)">Verify your Email</a>
                 </li>
               </ul>
             </div>
-            <div classNameName="col-12 col-md-2">
-              <div classNameName="header-btn">
-                <button classNameName="btn btn-primary btn-bordered move-draft">
+            <div className="col-12 col-md-2">
+              <div className="header-btn">
+                <button className="btn btn-primary btn-bordered move-draft">
                   Save As Draft
                 </button>
-                <button classNameName="btn btn-primary btn-filled next">
+                <button className="btn btn-primary btn-filled next">
                   Next
                 </button>
               </div>
@@ -172,47 +172,47 @@ const VerifyHCP = () => {
           </div>
         </div>
 
-        <div classNameName="top-header">
-          <div classNameName="page-title">
+        <div className="top-header">
+          <div className="page-title">
             <h4>Search For HCP By:</h4>
           </div>
         </div>
 
-        <section classNameName="search-hcp">
-          <div classNameName="form-search-hcp">
+        <section className="search-hcp">
+          <div className="form-search-hcp">
             <form>
-              <div classNameName="form-inline row justify-content-between align-items-center">
-                <div classNameName="col-12 col-md-7">
-                  <div classNameName="row justify-content-between align-items-center">
-                    <div classNameName="form-group col-sm-6">
+              <div className="form-inline row justify-content-between align-items-center">
+                <div className="col-12 col-md-7">
+                  <div className="row justify-content-between align-items-center">
+                    <div className="form-group col-sm-6">
                       <label for="hcp-name">Name</label>
                       <input
                         type="text"
-                        classNameName="form-control"
+                        className="form-control"
                         id=""
                         onChange={(e) => nameChanged(e)}
                       />
                     </div>
-                    <div classNameName="form-group col-sm-6">
+                    <div className="form-group col-sm-6">
                       <label for="hcp-email">Email</label>
                       <input
                         type="mail"
-                        classNameName="form-control"
+                        className="form-control"
                         id=""
                         onChange={(e) => emailChanged(e)}
                       />
                     </div>
                   </div>
                 </div>
-                <div classNameName="form-button col-12 col-md-5">
+                <div className="form-button col-12 col-md-5">
                   <button
-                    classNameName="btn btn-primary btn-filled"
+                    className="btn btn-primary btn-filled"
                     onClick={(e) => searchHcp(e)}
                   >
                     Search
                   </button>
                   <button
-                    classNameName="btn btn-primary btn-bordered"
+                    className="btn btn-primary btn-bordered"
                     type="button"
                     data-bs-toggle="modal"
                     data-bs-target="#add_hcp"
@@ -223,14 +223,14 @@ const VerifyHCP = () => {
               </div>
             </form>
           </div>
-          <div classNameName="search-hcp-table">
-          <div classNameName="search-hcp-table-inside">
+          <div className="search-hcp-table">
+          <div className="search-hcp-table-inside">
             {searchedUsers.length === 0 ? (
              <div className="not-found">
               <h4>No Record Found!</h4>
             </div>
             ) : (
-              <table classNameName="table">
+              <table className="table">
                 <thead>
                   <tr>
                     <th scope="col">Name</th>
@@ -265,7 +265,7 @@ const VerifyHCP = () => {
                           <td>NA</td>
                           <td>NA</td>
                           <td>NA </td>
-                          <td classNameName="add-new-hcp">
+                          <td className="add-new-hcp">
                             <img
                               src={path_image + "add-row.png"}
                               alt="Add More"
@@ -290,7 +290,7 @@ const VerifyHCP = () => {
                   <td>30</td>
                   <td>28</td>
                   <td>Nov 18 </td>
-                  <td classNameName="add-new-hcp">
+                  <td className="add-new-hcp">
                     <img src={path_image + "add-row.png"} alt="Add More" />
                   </td>
                 </tr> */}
@@ -300,34 +300,34 @@ const VerifyHCP = () => {
           </div>
           </div>
 
-          <div classNameName="selected-hcp-table">
-            <div classNameName="table-title">
+          <div className="selected-hcp-table">
+            <div className="table-title">
               <h4>
                 Selected HCPs <span>| {selectedHcp.length}</span>
               </h4>
-              <div classNameName="selected-hcp-table-action">
-                <div classNameName="hcp-added">
-                  <button classNameName="btn btn-outline-primary" onClick={editablemade}>
+              <div className="selected-hcp-table-action">
+                <div className="hcp-added">
+                  <button className="btn btn-outline-primary" onClick={editablemade}>
                     <img src={path_image + "edit.svg"} alt="" />
                   </button>
                 </div>
-                <div classNameName="hcp-sort">
+                <div className="hcp-sort">
                   <button
                     onClick={sortSelectedUsers}
-                    classNameName="btn btn-outline-primary"
+                    className="btn btn-outline-primary"
                   >
                     Sort By <img src={path_image + "sort.svg"} alt="" />
                   </button>
                 </div>
               </div>
             </div>
-            <div classNameName="selected-hcp-list">
+            <div className="selected-hcp-list">
               {selectedHcp.length === 0 ? (
                 <div className="not-found">
                   <h4>No Contact selected yet!</h4>
                 </div>
               ) : (
-                <table classNameName="table">
+                <table className="table">
                   <thead>
                     <tr >
                       <th scope="col">Name</th>
@@ -362,7 +362,7 @@ const VerifyHCP = () => {
                             <td>NA</td>
                             <td>NA</td>
                             <td>NA </td>
-                            <td classNameName="delete_row" colSpan="12">
+                            <td className="delete_row" colSpan="12">
                               <img
                                 src={path_image + "delete.svg"}
                                 alt="Delete Row"
