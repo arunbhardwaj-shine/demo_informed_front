@@ -26,22 +26,19 @@ const SelectHCP = () => {
   //     });
   // }, []);
 
-  const handleInputChange = (event,selected) => {
+  const handleInputChange = (event, selected) => {
     const div = document.querySelector("div.active");
-   
-    if(div){
-     div.classList.remove('active');
+
+    if (div) {
+      div.classList.remove("active");
     }
-    event.target.classList.toggle('active');
+    event.target.classList.toggle("active");
     setTemplateId(selected);
-    
   };
 
-
-  const nextClicked = ()=>{
-
-      console.log("next clicked");
-  }
+  const nextClicked = () => {
+    console.log("next clicked");
+  };
 
   return (
     <>
@@ -79,8 +76,18 @@ const SelectHCP = () => {
                 <button className="btn btn-primary btn-bordered move-draft">
                   Save As Draft
                 </button>
-                {templateId===0 ?  <button className="btn btn-primary btn-filled next disabled">Next </button> : <button className="btn btn-primary btn-filled next" onClick={nextClicked} >Next</button> }
-                
+                {templateId === 0 ? (
+                  <button className="btn btn-primary btn-filled next disabled">
+                    Next{" "}
+                  </button>
+                ) : (
+                  <button
+                    className="btn btn-primary btn-filled next"
+                    onClick={nextClicked}
+                  >
+                    Next
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -94,13 +101,13 @@ const SelectHCP = () => {
                   <li>
                     <div
                       className="send-option-img"
-                      onClick={(event) => handleInputChange(event,1)}
+                      onClick={(event) => handleInputChange(event, 1)}
                     >
                       <input
                         type="radio"
                         name="select-option-hcp"
                         value="group of HCPs"
-                    
+
                         // onChange={(event) => handleInputChange(event)}
                       />
 
@@ -114,13 +121,13 @@ const SelectHCP = () => {
                   <li>
                     <div
                       className="send-option-img"
-                      onClick={(e) => handleInputChange(e,2)}
+                      onClick={(e) => handleInputChange(e, 2)}
                     >
                       <input
                         type="radio"
                         name="select-option-hcp"
                         value="Single HCP"
-                       
+
                         // onChange={(event) => handleInputChange(event)}
                       />
                       <img
