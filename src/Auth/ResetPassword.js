@@ -13,12 +13,22 @@ function ResetPassword() {
         new_pass: "",
         confirm_pass : "",
       },
-    //   validationSchema: Yup.object({
-    //     password: Yup.string()
-    //       .max(6, "Must be 7 characters or less")
-    //       .required("Enter your password"),
-    //     email: Yup.string().email("Invalid email address").required("Enter your email"),
-    //   }),
+      validationSchema: Yup.object({
+        old_pass: Yup.string()
+          .max(15, "Old Password Must be 15 characters or less")
+          .min(8,"must be at least 8 characters")
+          .required("Enter your password"),
+          new_pass: Yup.string()
+          .matches(
+            /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+            "password must contain one symbol, uppercase and one integer value"
+          )
+            .required("Enter your password"),
+          confirm_pass: Yup.string()
+          .oneOf([Yup.ref("new_pass"), null], "Passwords must match")
+            .min(8, "Must be 8 characters or less")
+            .required("Enter your password"),
+      }),
       onSubmit: (values) => {
         ExportApi.ResetPasswordPost(values.old_pass,values.new_pass,values.confirm_pass)
           .then((resp) => {

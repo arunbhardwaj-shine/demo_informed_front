@@ -30,7 +30,7 @@ const CreateEmail = (props) => {
   const [modalCounter, setModalCounter] = useState(0);
   const [emailCampaign, setemailCampaign] = useState("");
   const [emailSubject, setEmailSubject] = useState("");
-  const [templateId, setTemplateId] = useState(0);
+  const [templateId, setTemplateId] = useState("");
   const [templateName, setTemplateName] = useState("");
   const [renderAfterValidation, setRenderAfterValidation] = useState(0);
   const [tagClickedFirst, setTagClickedFirst] = useState([]);
@@ -341,6 +341,12 @@ const CreateEmail = (props) => {
                   );
                 })}
               </OwlCarousel>
+              <input type="hidden" id="mail_template" value={templateId} />
+              {validator.message(
+                        "Templates",
+                        templateId,
+                        "required"
+                      )}
               <div className="email-form">
                 <form>
                   <div className="form-inline row justify-content-between align-items-center">

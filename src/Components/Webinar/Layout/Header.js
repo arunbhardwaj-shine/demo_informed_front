@@ -23,6 +23,9 @@ const Header = () => {
     setSmShowLogin(data);
     setDropdownOpen(data);
   };
+  const hengleForgotPage = (data) => {
+    setSmShowForgot(data);
+  };
 
   let navigate = useNavigate();
 
@@ -103,6 +106,7 @@ const Header = () => {
 
                   <Dropdown.Menu>
                     <Dropdown.Item>Setting</Dropdown.Item>
+                    <Dropdown.Item><Link to="/webinar/resetpassword"> Reset Password</Link></Dropdown.Item>
                     <Dropdown.Item
                       onClick={() => {
                         Logout();
@@ -169,7 +173,7 @@ const Header = () => {
                   Forgot Password
                 </Modal.Header>
                 <Modal.Body>
-                  <ForgotPassword />
+                  <ForgotPassword  active={hengleForgotPage}  />
                 </Modal.Body>
               </Modal>
               {/* <ul>

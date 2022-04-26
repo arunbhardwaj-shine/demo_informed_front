@@ -29,6 +29,7 @@ import ViewList from "./Components/Distributes/SmartListComponent/ViewList";
 import EmailList from "./Components/Emails/EmailListing";
 import EmailArticleSelect from "./Components/Emails/EmailArticleSelect";
 import CreateEmail from "./Components/Emails/CreateEmail";
+import VerifyHCP from "./Components/Emails/VerifyHCP";
 import SelectHCP from "./Components/Emails/SelectHCP";
 import UploadExcel from "./Components/Distributes/SmartListComponent/UploadExcel";
 import Proctected from "./Auth/Proctected ";
@@ -71,6 +72,7 @@ ReactDOM.render(
                     <Route path="/CreateEmail" element={<CreateEmail />} />
                     <Route path="/FilterSegment" element={<FilterSegment />} />
                     <Route path="/SelectHCP" element={<SelectHCP />} />
+                    <Route path="/VerifyHCP" element={<VerifyHCP />} />
                     
                     <Route
                       path="/VerifySmartList"
