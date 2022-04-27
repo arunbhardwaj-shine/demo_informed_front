@@ -13,8 +13,8 @@ const Template = () => {
   const [event, setEvent] = useState([]);
   const [id, setId] = useState();
   const [dpc, setDpc] = useState();
-  const [templateList, setTemplateList] = useState([]);
-  const [template, setTemplate] = useState([]);
+  const [templateList, setTemplateList] = useState();
+  const [template, setTemplate] = useState();
   const [modalShow, setModalShow] = useState(false);
   const [modalShow2, setModalShow2] = useState(false);
  
@@ -99,7 +99,7 @@ const Template = () => {
           draggable
           pauseOnHover
         />
-        <Col md={{ span: 6, offset: 3 }}>
+        <Col md={{ span: 8, offset: 3 }}>
           <h2>
             <center>Templates</center>
           </h2>
@@ -156,10 +156,11 @@ const Template = () => {
          <Testmail data={setModalShow2} data1={id}/>
         </Modal.Body>
       </Modal>
-      <Col md={{ span: 6, offset: 3 }}>
+      <Col md={{ span: 8, offset: 3 }}>
        <Row>
          <Col className="mb-5">
-         {templateList.length>1?
+           {console.log("templateList",templateList)}
+         {templateList!=undefined||templateList!=null?
          <Table bordered hover>
               <thead>
                 <tr>
@@ -176,18 +177,18 @@ const Template = () => {
                Test Mail
               </Button><Button onClick={(e)=>{handleGetTemplate(val.id)}}>Edit</Button> </td>
                   </tr>
-                )): <h2>Data Not Found</h2>}
+                )):<h2>Data Not Found</h2>}
               </tbody>
             </Table>:null}
          </Col>
        </Row>
       </Col>
-      {templateList.length>1?
+      {template?
       <form onSubmit={formik.handleSubmit}>
         <Row>
           <Col
             className="shadow-lg p-3 mb-5 bg-white rounded"
-            md={{ span: 6, offset: 3 }}
+            md={{ span: 8, offset: 3 }}
           >
             <Row>
               <Col className="mb-5">

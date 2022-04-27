@@ -46,6 +46,9 @@ function ResetPassword() {
                   draggable: true,
                   progress: undefined,
                   });
+                  setTimeout(function(){
+                    navigate("/webinar/dashboard")
+                  }, 5000);
               } else {
                 toast.error(resp.data.message, {
                   position: "top-right",

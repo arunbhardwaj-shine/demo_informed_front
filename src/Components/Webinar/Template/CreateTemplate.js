@@ -19,9 +19,9 @@ function CreateTemplate(props) {
             Selectevent:""
         },
         validationSchema: Yup.object({
-            Templatename: Yup.string().required("Enter your Template Name"),
+            Templatename: Yup.string().required("Enter your template name"),
             Selectevent: Yup.string()
-            .required("Please Select Event"),
+            .required("Please select event"),
         }),
         enableReinitialize: true,
         onSubmit: (values) => {

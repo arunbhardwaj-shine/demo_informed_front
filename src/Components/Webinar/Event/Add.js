@@ -5,7 +5,7 @@ import { Button, CloseButton, Col, Form, Row } from "react-bootstrap";
 import * as Yup from "yup";
 import "../webinar.css";
 import { toast, ToastContainer } from "react-toastify";
-
+import { useNavigate } from "react-router-dom";
 function Add(props) {
   //  console.log("ppp",props.token)
   const [Speaker, setSpeaker] = useState([
@@ -22,6 +22,7 @@ function Add(props) {
     setSpeakerName([...Speakername, { name: "", email: "" }]);
   };
   const [token, setToken] = useState(localStorage.getItem("Token"));
+  let navigate = useNavigate();
   const handleSpeakerName = (e, i) => {
     if (e.target.name === `SpeakersName${i}`) {
       const speker = Speakername[i];
@@ -120,6 +121,9 @@ function Add(props) {
                 draggable: true,
                 progress: undefined,
                 });
+                setTimeout(function(){
+                  navigate("/webinar/event/edit")
+                }, 5000);
             } else {
               toast.error(resp.data.message, {
                 position: "top-right",
