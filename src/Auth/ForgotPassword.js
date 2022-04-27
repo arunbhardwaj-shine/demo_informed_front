@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import ExportApi from "../Api/ExportApi";
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 function ForgotPassword(props) {
     const [err, setErr] = useState(false);
     const [modalShow, setmodalShow] = useState(false);
@@ -22,14 +23,26 @@ function ForgotPassword(props) {
           .then((resp) => {
             if (resp.data) {
               if (resp.data.code == 200) {
-                    setErr(false)
-                  setMessage(resp.data.message)
-                  setmodalShow(true)
-              }else{
-                setErr(true)
-                setErr(resp.data.message)
+                toast.success(resp.data.message, {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  });
+              } else {
+                toast.error(resp.data.message, {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  });
               }
-              console.log(err);
             }
           })
           .catch((err) => console.log(err));
@@ -37,6 +50,17 @@ function ForgotPassword(props) {
     });
   return (
     <Row>
+       <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     <Col md={{ span: 6, offset: 3 }}>
     <div><form onSubmit={formik.handleSubmit}>
     <center>

@@ -4,9 +4,8 @@ import * as Yup from "yup";
 import ExportApi from "../Api/ExportApi";
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-
+import { toast, ToastContainer } from "react-toastify";
 const ForgotResetPassword = () => {
-    const [err, setErr] = useState(false);
     const [modalShow, setmodalShow] = useState(false);
     const [message, setMessage] = useState(false);
     let Id = window.location.pathname;
@@ -22,7 +21,7 @@ const ForgotResetPassword = () => {
         new_pass: Yup.string()
         .matches(
           /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
-          "password must contain one symbol, uppercase and one integer value"
+          "Password must contain one symbol, uppercase and one integer value"
         )
           .required("Enter your password"),
         confirm_pass: Yup.string()
@@ -35,14 +34,26 @@ const ForgotResetPassword = () => {
           .then((resp) => {
             if (resp.data) {
               if (resp.data.code == 200) {
-                  setMessage(resp.data.message)
-                setmodalShow(true)
-                setErr(false)
-              }else{
-                setErr(true)
-                setErr(resp.data.message)
+                toast.success(resp.data.message, {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  });
+              } else {
+                toast.error(resp.data.message, {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  });
               }
-              console.log(err);
             }
           })
           .catch((err) => console.log(err));
@@ -51,6 +62,17 @@ const ForgotResetPassword = () => {
   return (
     <div>
         <Row>
+        <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     <Col md={{ span: 6, offset: 3 }}>
     <div>
   <form onSubmit={formik.handleSubmit}>
@@ -71,7 +93,6 @@ const ForgotResetPassword = () => {
           {formik.touched.new_pass && formik.errors.new_pass ? (
         <div style={{ color: "red" }}>{formik.errors.new_pass}</div>
       ) : null}
-    <p style={{color:"red"}}>  {err?err:null}</p>
     <Form.Label>Confirm Password</Form.Label>
     <Form.Control
        id="password"
@@ -84,7 +105,6 @@ const ForgotResetPassword = () => {
           {formik.touched.confirm_pass && formik.errors.confirm_pass ? (
         <div style={{ color: "red" }}>{formik.errors.confirm_pass}</div>
       ) : null}
-    <p style={{color:"red"}}>  {err?err:null}</p>
   </Form.Group>
       
       <Button type="submit">Submit</Button>
