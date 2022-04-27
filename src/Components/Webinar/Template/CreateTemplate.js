@@ -6,7 +6,6 @@ import { toast, ToastContainer } from "react-toastify";
 import { Button, Col, Form, Row } from 'react-bootstrap';
 function CreateTemplate(props) {
     const [event, setEvent] = useState([]);
-
     const handleGetEventlist = () => {
         ExportApi.GetEventList().then((resp) => {
           if (resp.ok) {
@@ -88,6 +87,9 @@ function CreateTemplate(props) {
                       </React.Fragment>
                     ))}
                   </Form.Select>
+                  {formik.touched.Selectevent && formik.errors.Selectevent ? (
+                  <div style={{ color: "red" }}>{formik.errors.Selectevent}</div>
+                ) : null}
             </Col>
             <Col className="mb-3">
               <Form.Label>Template Name </Form.Label>
@@ -99,6 +101,9 @@ function CreateTemplate(props) {
                 value={formik.values.Templatename}
                 placeholder="Template Name"
               />
+                  {formik.touched.Templatename && formik.errors.Templatename ? (
+                  <div style={{ color: "red" }}>{formik.errors.Templatename}</div>
+                ) : null}
             </Col>
           </Row>
           <Button

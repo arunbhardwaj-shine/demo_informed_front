@@ -72,9 +72,9 @@ const Template = () => {
       }
     });
   };
-  const handleGetTemplate = (id) => {
-    SetTestMail(true)
-    setId(id);
+  const handleGetTemplate =async (id) => {
+     setId(id);
+     await SetTestMail(true)
     ExportApi.UserTemplate(id).then((resp) => {
       if (resp.ok) {
         console.log(resp.data)
@@ -119,12 +119,6 @@ const Template = () => {
                     ))}
                   </Form.Select>
             </Col>
-            {testMail?<Col className="mb-5">
-              <Button
-                onClick={() => { setModalShow2(true) }} >
-               Test Mail
-              </Button>
-            </Col>:null}
             <Col className="mb-5">
               <Button
                 onClick={() => {setModalShow(true); }}>
@@ -139,6 +133,11 @@ const Template = () => {
         size="md"
         aria-labelledby="contained-modal-title-vcenter"
         centered >
+            <Modal.Header onClick={()=>setModalShow(false)} closeButton>
+                <Modal.Title id="contained-modal-title-vcenter">
+                Create Template
+                </Modal.Title>
+              </Modal.Header>
         <Modal.Body>
     <CreateTemplate data={setModalShow} />
         </Modal.Body>
@@ -148,8 +147,13 @@ const Template = () => {
         size="md"
         aria-labelledby="contained-modal-title-vcenter"
         centered >
+            <Modal.Header onClick={()=>setModalShow2(false)} closeButton>
+                <Modal.Title id="contained-modal-title-vcenter">
+                Test Mail
+                </Modal.Title>
+              </Modal.Header>
         <Modal.Body>
-         <Testmail data={setModalShow2} id={id}/>
+         <Testmail data={setModalShow2} data1={id}/>
         </Modal.Body>
       </Modal>
       <Col md={{ span: 6, offset: 3 }}>
@@ -167,7 +171,10 @@ const Template = () => {
                   {templateList?templateList?.map((val,i) => (
                   <tr key={i}>  
                     <td>{val.name}</td>
-                    <td><Button onClick={(e)=>{handleGetTemplate(val.id)}}>Edit</Button></td>
+                    <td><Button
+                onClick={(e) => { setModalShow2(true);setId(val.id) }} >
+               Test Mail
+              </Button><Button onClick={(e)=>{handleGetTemplate(val.id)}}>Edit</Button> </td>
                   </tr>
                 )): <h2>Data Not Found</h2>}
               </tbody>
@@ -175,6 +182,7 @@ const Template = () => {
          </Col>
        </Row>
       </Col>
+      {templateList.length>1?
       <form onSubmit={formik.handleSubmit}>
         <Row>
           <Col
@@ -197,6 +205,9 @@ const Template = () => {
                       type="text"
                       placeholder="Subject"
                     />
+                         {formik.touched.Email && formik.errors.Email ? (
+                <div style={{ color: "red" }}>{formik.errors.Email}</div>
+              ) : null}
                   </Form.Group>
                 </Col>
                 <Col></Col>
@@ -229,7 +240,7 @@ const Template = () => {
             /> 
           </Col>
         </Row>
-      </form>
+      </form>:null}
     </div>
   );
 };

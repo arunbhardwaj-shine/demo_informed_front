@@ -24,7 +24,7 @@ function ResetPassword() {
           new_pass: Yup.string()
           .matches(
             /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
-            "password must contain one symbol, uppercase and one integer value"
+            "Password must contain one symbol, uppercase and one integer value"
           )
             .required("Enter your password"),
           confirm_pass: Yup.string()
@@ -57,7 +57,6 @@ function ResetPassword() {
                   progress: undefined,
                   });
               }
-
             }
           })
           .catch((err) => console.log(err));
@@ -92,8 +91,6 @@ function ResetPassword() {
         <div style={{ color: "red" }}>{formik.errors.old_pass}</div>
       ) : null} 
     <p style={{color:"red"}}>  {err?err:null}</p>
- 
-     
     <Form.Label>New Password</Form.Label>
     <Form.Control
        id="password"
@@ -121,7 +118,6 @@ function ResetPassword() {
       ) : null}
     <p style={{color:"red"}}>  {err?err:null}</p>
   </Form.Group>
-      
       <Button type="submit">Submit</Button>
     </form>
     </div>
