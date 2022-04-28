@@ -119,7 +119,8 @@ const EventData = () => {
         pauseOnHover
       />
         <Col md={{ span: 6, offset: 3 }}>
-            <h2><center>Events</center></h2>
+            <h2>Events</h2>
+            <Link to="/webinar/event/add"><Button>Create Event</Button></Link>
             <br/>
             <Table bordered hover>
               <thead>

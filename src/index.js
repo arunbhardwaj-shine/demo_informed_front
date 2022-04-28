@@ -39,6 +39,7 @@ import ResetPassword from "./Auth/ResetPassword";
 import ForgotPassword from "./Auth/ForgotPassword";
 import ForgotResetPassword from "./Auth/ForgotResetPassword";
 import Template from "./Components/Webinar/Template/Template";
+import Registration from "./Components/Webinar/Registration/Registration";
 
 let platform = 0;
 let show = 0;
@@ -133,6 +134,10 @@ ReactDOM.render(
                         <Route
                           path="/webinar/event/edit"
                           element={<EventData />}
+                        />
+                        <Route
+                          path="/webinar/registration"
+                          element={<Registration />}
                         />
                       </Route>
                     </React.Fragment>

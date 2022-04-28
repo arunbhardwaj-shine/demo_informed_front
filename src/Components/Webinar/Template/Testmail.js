@@ -28,7 +28,6 @@ export const Testmail = (props) => {
     onSubmit: (values) => {
 
       let formData = new FormData();
-// console.log(first)
       formData.append("template_id", props.data1);
       formData.append("mail", values.Email);
       formData.append("file", image);
@@ -82,26 +81,6 @@ export const Testmail = (props) => {
       />
       <form onSubmit={formik.handleSubmit}>
         <Row>
-          {/* {event? <Row className='mb-3'>
-          <Form.Label>Select Template </Form.Label>
-                  <Form.Select
-                    name="Selecttem"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.Selectevent}
-                  >
-                    <option> Select Template</option>
-                    {event?event?.map((val, i) => (
-                      <React.Fragment key={i}>
-                        <option value={val.id}>{val.title}</option>
-                      </React.Fragment>
-                    )):null}
-                  </Form.Select>
-                  {formik.touched.Selecttem && formik.errors.Selecttem ? (
-                  <div style={{ color: "red" }}>{formik.errors.Selecttem}</div>
-                ) : null}
-                </Row>:null} */}
-
           <Col>
             <Form.Group className="mb-3">
               <Form.Label>Name</Form.Label>
