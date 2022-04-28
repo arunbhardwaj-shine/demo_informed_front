@@ -181,7 +181,7 @@ const Template = () => {
                   </tr>
                 )):<h2>Data Not Found</h2>}
               </tbody>
-            </Table>:null}
+            </Table>:<h2>Data Not Found</h2>}
          </Col>
        </Row>
       </Col>
