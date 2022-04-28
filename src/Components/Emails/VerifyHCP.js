@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import SimpleReactValidator from "simple-react-validator";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const VerifyHCP = () => {
@@ -15,6 +16,8 @@ const VerifyHCP = () => {
   const [sorting, setSorting] = useState(0);
   const [editable, setEditable] = useState(0);
   const [searchedUsers, setSearchedUsers] = useState([]);
+  const navigate = useNavigate();
+
   const [selectedHcp, setSelectedHcp] = useState([]);
   const [modalCounter, setModalCounter] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
@@ -64,7 +67,13 @@ const VerifyHCP = () => {
   };
 
   const nextClicked = () => {
-    console.log("next clicked");
+    navigate("/VerifyMAIL", {
+      // data: data,
+      // smartListName: smartListName,
+      state: {
+        selectedHcp: selectedHcp,
+      },
+    });
   };
 
   const closeModal = () => {
@@ -343,7 +352,10 @@ const VerifyHCP = () => {
                 <button className="btn btn-primary btn-bordered move-draft">
                   Save As Draft
                 </button>
-                <button className="btn btn-primary btn-filled next">
+                <button
+                  onClick={nextClicked}
+                  className="btn btn-primary btn-filled next"
+                >
                   Next
                 </button>
               </div>
