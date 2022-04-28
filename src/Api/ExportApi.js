@@ -83,8 +83,8 @@ BaseApi.post("rehearsal",{
   BaseApi.get(`template/${id}`,{},{ headers: {
     'Authorization':localStorage.getItem("Token"),
   }});
-  const UserTemplateSandMail = (name,email,Templateid) =>
-  BaseApi.post("test",{name:name,mail :email,template_id:Templateid},{ headers: {
+  const UserTemplateSandMail = (form) =>
+  BaseApi.post("test",form,{ headers: {
     'Authorization':localStorage.getItem("Token"),
   }});
   const CreateTemplate = (name,id,) =>

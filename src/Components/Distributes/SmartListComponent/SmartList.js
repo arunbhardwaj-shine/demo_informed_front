@@ -11,6 +11,7 @@ import CreateSmartList from "./CreateSmartList";
 
 const SmartList = (props) => {
   const [smartListData, setSmartListData] = useState([]);
+  const [getUserDetails, setUserDetails] = useState([]);
 
   const [isLoading, setLoading] = useState(true);
   let path= process.env.REACT_APP_ASSETS_PATH_INFORMED;
@@ -31,6 +32,7 @@ const SmartList = (props) => {
           console.log(res);
           setLoading(false);
           setSmartListData(res.data.response.data);
+          setUserDetails(res.data.response.userdetails);
           console.log(res.data.response.data);
         })
         .catch((err) => {
@@ -89,10 +91,15 @@ const SmartList = (props) => {
         <div className="smart-list-result">
 						<div className="col smartlist-result-block">
 							<div className="smartlist-add smartlist-view">
-                <Link to="/CreateSmartList">
-								     <img src={path_image+"add-button.svg"} alt="" />
-                </Link>
-								<p>Create New Smart List</p>
+                {typeof getUserDetails !== "undefined" &&
+                (
+                  <>
+                    <Link to="/CreateSmartList" state={{ creator:  getUserDetails.username}}>
+                      <img src={path_image+"add-button.svg"} alt="" />
+                    </Link>
+                    <p>Create New Smart List</p>
+                  </>
+                )}
 							</div>
 							{smartListData.map((data) => {
 							return (

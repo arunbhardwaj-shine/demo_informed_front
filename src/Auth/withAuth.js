@@ -6,8 +6,6 @@ const WithAuth = (WrappedComponent) => {
   return (props) => {
     // checks whether we are on client / browser or server.
     if (typeof window !== "undefined") {
-       
-
       const accessToken = localStorage.getItem("Token");
       
       // If there is no access token we redirect to "/" page.

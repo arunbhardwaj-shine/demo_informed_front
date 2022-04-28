@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import ExportApi from "../Api/ExportApi";
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-
+import { toast, ToastContainer } from "react-toastify";
 function ResetPassword() {
     const [err, setErr] = useState(false);
     const [modalShow, setmodalShow] = useState(false);
@@ -24,7 +24,7 @@ function ResetPassword() {
           new_pass: Yup.string()
           .matches(
             /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
-            "password must contain one symbol, uppercase and one integer value"
+            "Password must contain one symbol, uppercase and one integer value"
           )
             .required("Enter your password"),
           confirm_pass: Yup.string()
@@ -35,19 +35,31 @@ function ResetPassword() {
       onSubmit: (values) => {
         ExportApi.ResetPasswordPost(values.old_pass,values.new_pass,values.confirm_pass)
           .then((resp) => {
-            //   console.log(resp.data.data[0].token)
-            //   console.log(resp.data.data[0].first_name)
             if (resp.data) {
               if (resp.data.code == 200) {
-                console.log(resp.data) 
-                setMessage(resp.data.message)
-                setmodalShow(true)
-                setErr(false)
-              }else{
-                setErr(true)
-                setErr(resp.data.message)
+                toast.success(resp.data.message, {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  });
+                  setTimeout(function(){
+                    navigate("/webinar/dashboard")
+                  }, 5000);
+              } else {
+                toast.error(resp.data.message, {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  });
               }
-              console.log(err);
             }
           })
           .catch((err) => console.log(err));
@@ -55,6 +67,17 @@ function ResetPassword() {
     });
   return (
     <Row>
+       <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     <Col md={{ span: 6, offset: 3 }}>
     <div>
   <form onSubmit={formik.handleSubmit}>
@@ -71,8 +94,6 @@ function ResetPassword() {
         <div style={{ color: "red" }}>{formik.errors.old_pass}</div>
       ) : null} 
     <p style={{color:"red"}}>  {err?err:null}</p>
- 
-     
     <Form.Label>New Password</Form.Label>
     <Form.Control
        id="password"
@@ -100,7 +121,6 @@ function ResetPassword() {
       ) : null}
     <p style={{color:"red"}}>  {err?err:null}</p>
   </Form.Group>
-      
       <Button type="submit">Submit</Button>
     </form>
     </div>
