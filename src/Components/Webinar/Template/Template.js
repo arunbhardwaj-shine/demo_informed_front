@@ -12,11 +12,11 @@ const Template = () => {
   const [testMail, SetTestMail] = useState(false);
   const [event, setEvent] = useState([]);
   const [id, setId] = useState();
-  const [dpc, setDpc] = useState();
   const [templateList, setTemplateList] = useState();
   const [template, setTemplate] = useState();
   const [modalShow, setModalShow] = useState(false);
   const [modalShow2, setModalShow2] = useState(false);
+  const [dpc, setDpc] = useState();
  
   const formik = useFormik({
     initialValues: {
@@ -27,6 +27,7 @@ const Template = () => {
     }),
     enableReinitialize: true,
     onSubmit: (values) => {
+      console.log(dpc)
       ExportApi.UpdateTemplate(values.Subject,dpc,id).then((resp) => {
         if (resp.ok) {
           if (resp.data.code == 200) {
@@ -77,8 +78,9 @@ const Template = () => {
      await SetTestMail(true)
     ExportApi.UserTemplate(id).then((resp) => {
       if (resp.ok) {
-        console.log(resp.data)
+       console.log()
         setTemplate(resp.data.data);
+        setDpc(resp.data.data.description)
       }
     });
   };
@@ -159,7 +161,7 @@ const Template = () => {
       <Col md={{ span: 8, offset: 3 }}>
        <Row>
          <Col className="mb-5">
-           {console.log("templateList",templateList)}
+           {/* {console.log("templateList",templateList)} */}
          {templateList!=undefined||templateList!=null?
          <Table bordered hover>
               <thead>
@@ -206,8 +208,8 @@ const Template = () => {
                       type="text"
                       placeholder="Subject"
                     />
-                         {formik.touched.Email && formik.errors.Email ? (
-                <div style={{ color: "red" }}>{formik.errors.Email}</div>
+                         {formik.touched.Subject && formik.errors.Subject ? (
+                <div style={{ color: "red" }}>{formik.errors.Subject}</div>
               ) : null}
                   </Form.Group>
                 </Col>
@@ -218,19 +220,19 @@ const Template = () => {
               editor={ClassicEditor}
               data={template ? template.description : "hello"}
               onReady={(editor) => {
-                editor.editing.view.change(writer => {
-                  writer.setStyle(
-                      "min-height",
-                      '300px',
-                      editor.editing.view.document.getRoot()
-                  );
-              });
+              //   editor.editing.view.change(writer => {
+              //     writer.setStyle(
+              //         "min-height",
+              //         '300px',
+              //         editor.editing.view.document.getRoot()
+              //     );
+              // });
                 console.log("Editor is ready to use!", editor);
               }}
               onChange={(event, editor) => {
                 const data = editor.getData();
                 setDpc(data)
-                // console.log({ event, editor, data });
+                 console.log({ data });
               }}
               onBlur={(event, editor) => {
                 // console.log( 'Blur.', editor );
