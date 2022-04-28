@@ -92,7 +92,7 @@ header {
     height: 31px;
     background-repeat: no-repeat;
     transform: rotateX(180deg);
-} 
+}
 .sidebar-menu ul li.active a, .sidebar-menu ul li:hover a{
 	color:#004A89;
 }
@@ -172,7 +172,7 @@ line-height: 19px;color: #fff;text-decoration: none;display: flex;align-items: c
 	background:#ffffff;
 	box-shadow: 0px 2px 10px -3px rgb(0 102 190 / 46%);
 	color:#0066BE;
-} 
+}
 .filter-by button:after{display:none;}
 .filter-by .dropdown-menu {
 	border: 0;
@@ -224,7 +224,7 @@ line-height: 19px;color: #fff;text-decoration: none;display: flex;align-items: c
     margin: 0!important;
 }
 .search-bar form.d-flex input:focus{
-filter: drop-shadow(0px 0px 5px rgba(0, 102, 190, 0.87));	
+filter: drop-shadow(0px 0px 5px rgba(0, 102, 190, 0.87));
 }
 .search-bar form.d-flex {
     position: relative;
@@ -232,12 +232,12 @@ filter: drop-shadow(0px 0px 5px rgba(0, 102, 190, 0.87));
 .filter-by, .clear-search {
 	margin-left: 24px;
 }
-.search-bar input::-webkit-input-placeholder { 
+.search-bar input::-webkit-input-placeholder {
   color: #97B6CF;
   opacity:1;
 }
 
-.search-bar input:-ms-input-placeholder { 
+.search-bar input:-ms-input-placeholder {
   color: #97B6CF;
   opacity:1;
 }
@@ -257,7 +257,7 @@ filter: drop-shadow(0px 0px 5px rgba(0, 102, 190, 0.87));
     box-sizing: border-box;
     border-radius: 15px;
     padding: 16px;
-	 
+
 }
 .apply-filter{
   margin-top: 30px;
@@ -371,6 +371,9 @@ filter: drop-shadow(0px 0px 5px rgba(0, 102, 190, 0.87));
 .draft-approved .mail-top-title {
     background: #39CABC;
 }
+.approved .mail-top-title {
+    display: none;
+}
 .mail-top-title:after {
     content: "";
     background: inherit;
@@ -393,7 +396,7 @@ filter: drop-shadow(0px 0px 5px rgba(0, 102, 190, 0.87));
 .mail-box-content {
     padding: 27px 16px 16px 24px;
 	background: #fff;
-	border-radius: 20px 20px;		
+	border-radius: 20px 20px;
 }
 
 .mail-box-content h5 {
@@ -597,7 +600,7 @@ color: #C8D1D9;}
 	color: #70899F;
 }
 .smartlist-view ul li .mail_click{
-border: 2px solid #986CA5;	
+border: 2px solid #986CA5;
 }
 .smartlist-view ul li .mail_click svg path{fill:#986CA5;}
 .smart-list-added-user img {
@@ -724,11 +727,11 @@ ul.tabnav-link li {
   color: #0066BE;
 }
 .btn-filled{
-color: #FFFFFF;	
+color: #FFFFFF;
 background: #0066BE;
 }
 .header-btn .btn.next, .header-btn .btn.create {
-  margin-left: 8px; 
+  margin-left: 8px;
 }
 .page-top-nav .tabnav-link li::after {
 	content: "";
@@ -1115,13 +1118,13 @@ form .input-group {
 .tag-lists-view::-webkit-scrollbar, .search-hcp-table .search-hcp-table-inside::-webkit-scrollbar {
   width: 10px;
 }
- 
+
 .tag-lists-view::-webkit-scrollbar-track, .search-hcp-table .search-hcp-table-inside::-webkit-scrollbar-track {
  background:#DCE6EF;
  border-radius:15px;
  padding:0 5px;
 }
- 
+
 .tag-lists-view::-webkit-scrollbar-thumb, .search-hcp-table .search-hcp-table-inside::-webkit-scrollbar-thumb {
   background-color: #97B6CF;
    border-radius:15px;
@@ -1198,7 +1201,7 @@ form .input-group {
     margin: 0;
     min-width: 112px;
     padding: 10px 14px;
-}														
+}
 /**MOdal Tags Finish**/
 
 .send-option-list {
@@ -1281,7 +1284,7 @@ form .input-group {
 	max-height: 600px;
 	overflow-y: auto;
 	overflow-x:hidden;
-	
+
 }
 .search-hcp-table table th, .selected-hcp-list table th {
 	font-size: 13px;
@@ -1292,7 +1295,7 @@ form .input-group {
 	border: 0;
 	padding-top: 0;
 	padding-bottom: 0;
-}	
+}
 .search-hcp-table table td, .selected-hcp-list table td {
   font-size: 13px;
   line-height: 15px;
@@ -1385,7 +1388,7 @@ form .input-group {
 	height: 39px;
 }
 .btn{
-filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));	
+filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));
 font-family: 'Roboto-Medium';
 border-radius:30px;
 }
@@ -1412,7 +1415,7 @@ border-radius:30px;
 h4{
 font-size: 24px;
 line-height: 28px;
-text-transform: capitalize;	
+text-transform: capitalize;
 }
 .selected-hcp-table {
 	margin-top: 34px;
@@ -1693,7 +1696,7 @@ background:#004A89;
 .nav-item.add_hcp .nav-link:hover, .nav-item.add_hcp .nav-link:active, .nav-item.add_hcp .nav-link:focus {
 	background: #8A4E9C;
 	color:#fff;
-} 
+}
 .nav-item.add-file .nav-link {
 	filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));
 	border-radius: 30px;
