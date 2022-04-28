@@ -23,7 +23,7 @@ const Template = () => {
        Subject:template?template.subject:'',
     },
     validationSchema: Yup.object({
-      Subject: Yup.string().required("Enter your Subject"),
+      Subject: Yup.string().required("Enter your subject"),
     }),
     enableReinitialize: true,
     onSubmit: (values) => {
