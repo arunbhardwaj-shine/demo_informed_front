@@ -209,6 +209,9 @@ const CreateEmail = (props) => {
         emailCampaign: emailCampaign,
         emailSubject: emailSubject,
         templateId: templateId,
+        tags: finalTags,
+        template: template,
+        pdf_id: PdfSelected,
       });
 
       navigate("/SelectHCP");
@@ -371,11 +374,7 @@ const CreateEmail = (props) => {
                 })}
               </OwlCarousel>
               <input type="hidden" id="mail_template" value={templateId} />
-              {validator.message(
-                        "Templates",
-                        templateId,
-                        "required"
-                      )}
+              {validator.message("Templates", templateId, "required")}
               <div className="email-form">
                 <form>
                   <div className="form-inline row justify-content-between align-items-center">
