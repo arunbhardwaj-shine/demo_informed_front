@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const EmailList = () => {
-
+  const navigate = useNavigate();
   let path_image= process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
@@ -38,6 +39,12 @@ const EmailList = () => {
 
   const searchChange = (e) => {
     setSearch(e.target.value);
+  }
+
+  const draftNavigate = (campaign_id,pdf_id,route) => {
+    if(campaign_id != "" && route != "" && pdf_id != ""){
+      navigate("/"+route, {state: { campaign_id: campaign_id, PdfSelected: pdf_id}});
+    }
   }
 
   useEffect(() => {
@@ -226,7 +233,7 @@ const EmailList = () => {
 										</ul>
 									</div>
 									<div className="mailbox-buttons">
-										<button className="btn btn-primary send">Send</button>
+										<button className="btn btn-primary send btn-bordered">Send</button>
 										<button className="btn btn-primary edit">Edit</button>
 									</div>
 								</div>
@@ -302,8 +309,8 @@ const EmailList = () => {
                           </div>
                         </div>
                         : <div className="mailbox-buttons">
-                          <button className="btn btn-primary send">Send</button>
-                          <button className="btn btn-primary edit">Edit</button>
+                          <button className="btn btn-primary send btn-bordered">Send</button>
+                          <button className="btn btn-primary edit" onClick={() => draftNavigate(data.id,data.pdf_id,data.route_location)}>Edit</button>
                         </div>
                       }
 
