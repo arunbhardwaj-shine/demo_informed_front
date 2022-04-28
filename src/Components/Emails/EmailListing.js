@@ -1,32 +1,55 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const EmailList = () => {
-  
+  const navigate = useNavigate();
   let path_image= process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
+  const [search, setSearch] = useState('');
+  const [filter, setFilter] = useState('');
+  const [submiHandle, setSubmiHandle] = useState('');
 
    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-   useEffect(() => {
+   const getData = () => {
+       const body = {
+         user_id: 18207,
+         search: search,
+         filter: filter,
+       };
+       axios
+         .post(`emailapi/getlist`, body)
+         .then((res) => {
+           setSendListData(res.data.response.data.emails);
+           setUserData(res.data.response.data.user);
 
-        const body = {
-          user_id: 18207,
-        };
-        axios
-          .post(`emailapi/getlist`, body)
-          .then((res) => {
-            setSendListData(res.data.response.data.emails);
-            setUserData(res.data.response.data.user);
-            
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+         })
+         .catch((err) => {
+           console.log(err);
+         });
+   }
 
-    
-   }, []);
+  const submitHandler = (event) => {
+    getData();
+    setSubmiHandle(1);
+    event.preventDefault();
+    return false;
+  };
 
+  const searchChange = (e) => {
+    setSearch(e.target.value);
+  }
+
+  const draftNavigate = (campaign_id,pdf_id,route) => {
+    if(campaign_id != "" && route != "" && pdf_id != ""){
+      navigate("/"+route, {state: { campaign_id: campaign_id, PdfSelected: pdf_id}});
+    }
+  }
+
+  useEffect(() => {
+    getData();
+  }, []);
 
     return (
       <>
@@ -37,8 +60,8 @@ const EmailList = () => {
 						</div>
 						<div className="top-right-action">
 							<div className="search-bar">
-								<form className="d-flex">
-								  <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+								<form className="d-flex" onSubmit={(e) => submitHandler(e)}>
+								  <input className="form-control me-2" type="text" placeholder="Search" aria-label="Search" onChange={(e) => searchChange(e)} />
 								  <button className="btn btn-outline-success" type="submit"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<path d="M15.8045 14.862L11.2545 10.312C12.1359 9.22334 12.6665 7.84 12.6665 6.33334C12.6665 2.84134 9.82522 0 6.33325 0C2.84128 0 0 2.84131 0 6.33331C0 9.82531 2.84132 12.6667 6.33328 12.6667C7.83992 12.6667 9.22325 12.136 10.3119 11.2547L14.8619 15.8047C14.9919 15.9347 15.1625 16 15.3332 16C15.5039 16 15.6745 15.9347 15.8045 15.8047C16.0652 15.544 16.0652 15.1227 15.8045 14.862ZM6.33328 11.3333C3.57597 11.3333 1.33333 9.09066 1.33333 6.33331C1.33333 3.57597 3.57597 1.33331 6.33328 1.33331C9.0906 1.33331 11.3332 3.57597 11.3332 6.33331C11.3332 9.09066 9.09057 11.3333 6.33328 11.3333Z" fill="#97B6CF"/>
 									</svg>
@@ -85,8 +108,8 @@ const EmailList = () => {
 					<div className="email-result">
 						<div className="col email-result-block">
 							<div className="email-block-add">
-								
-							<a href="/EmailArticleSelect"><img src={path_image+"add-button.svg"} alt="" /></a>	
+
+							<a href="/EmailArticleSelect"><img src={path_image+"add-button.svg"} alt="" /></a>
 								<p>Create New Email</p>
 							</div>
 							<div className="email-draft email_box">
@@ -210,7 +233,7 @@ const EmailList = () => {
 										</ul>
 									</div>
 									<div className="mailbox-buttons">
-										<button className="btn btn-primary send">Send</button>
+										<button className="btn btn-primary send btn-bordered">Send</button>
 										<button className="btn btn-primary edit">Edit</button>
 									</div>
 								</div>
@@ -218,26 +241,33 @@ const EmailList = () => {
               {SendListData.map((data) => {
                 //console.log(data)
                  return (
-                  <div className="email_box approved">
+                  <div className="email_box approved" className={"email_box " + (data.status == 1  ? 'approved' : (data.status == 2) ? 'email-draft' : 'draft-approved')}>
+                    <div class="mail-top-title"><span>
+                      {data.status == 2 ? "Draft" : "Approved Draft"}
+                    </span></div>
                     <div className="mail-box-content">
-                      <h5>{data.mail_content.subject}</h5>
+                      <h5>{data.subject}</h5>
                       <p>Email Description</p>
                       <div className="mailbox-table">
                         <table>
                           <tbody>
-                            <tr><th>Campaign</th><td>N/A</td></tr>
-                            <tr><th>Creator</th><td>{UserData.name}</td></tr>
+                            <tr><th>Campaign</th><td>{data.campaign}</td></tr>
+                            <tr><th>Creator</th><td>{data.creator}</td></tr>
                             <tr><th>List</th><td>{data.list}</td></tr>
                           </tbody>
                         </table>
                       </div>
                       <div className="mailbox-tags">
                         <ul>
-                          <li className="list1">N/A</li>
-                         
+                          { data.tags != "" ?
+                              data.tags.map((tag) => {
+                                return ( <li className="list1">{tag}</li> );
+                              })
+                              : <li className="list1">N/A</li>
+                          }
                         </ul>
                       </div>
-                      <div className="mail-time"><span>{data.sent_at}</span></div>
+                      <div className="mail-time"><span>{data.created_at}</span></div>
                       <div className="mail-stats">
                         <ul>
                           <li><div className="mail-status mail_send">
@@ -269,13 +299,21 @@ const EmailList = () => {
                           </div><span>{data.total_Click}</span></li>
                         </ul>
                       </div>
-                      <div className="mailbox-buttons">
-                        <div className="send_new"><button className="btn btn-primary btn-filled send-new">Send New</button></div>
-                        <div className="mailbox-buttons-list">
-                          <button className="btn btn-primary btn-bordered send">Resend</button>
-                          <button className="btn btn-primary btn-filled edit">View</button>
+                      {
+                        data.status == 1 ?
+                        <div className="mailbox-buttons">
+                          <div className="send_new"><button className="btn btn-primary btn-filled send-new">Send New</button></div>
+                          <div className="mailbox-buttons-list">
+                            <button className="btn btn-primary btn-bordered send">Resend</button>
+                            <button className="btn btn-primary btn-filled edit">View</button>
+                          </div>
                         </div>
-                      </div>
+                        : <div className="mailbox-buttons">
+                          <button className="btn btn-primary send btn-bordered">Send</button>
+                          <button className="btn btn-primary edit" onClick={() => draftNavigate(data.id,data.pdf_id,data.route_location)}>Edit</button>
+                        </div>
+                      }
+
                     </div>
                   </div>
                 );
@@ -283,7 +321,7 @@ const EmailList = () => {
 						</div>
 					</div>
 				</div>
-		
+
       </>
     );
 };
