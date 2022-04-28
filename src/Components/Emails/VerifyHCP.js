@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { Modal } from "react-bootstrap";
+import SimpleReactValidator from "simple-react-validator";
 import axios from "axios";
 
 const VerifyHCP = () => {
@@ -14,6 +16,22 @@ const VerifyHCP = () => {
   const [editable, setEditable] = useState(0);
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [selectedHcp, setSelectedHcp] = useState([]);
+  const [modalCounter, setModalCounter] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
+  const [activeManual, setActiveManual] = useState("active");
+  const [activeExcel, setActiveExcel] = useState("");
+  const [counterFlag, setCounterFlag] = useState(0);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [addFileReRender, setAddFileReRender] = useState(0);
+  const [hpc, setHpc] = useState([
+    { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
+  ]);
+
+  const [validationReRender, setValidationReRender] = useState(0);
+
+  let [validator] = React.useState(new SimpleReactValidator());
+
+  const [manualReRender, setManualReRender] = useState(0);
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   // useEffect(() => {
@@ -31,10 +49,9 @@ const VerifyHCP = () => {
   //     });
   // }, []);
 
-
   useEffect(() => {
-      console.log("sdsdsd");
-  },[selectedHcp,sorting]);
+    console.log("sdsdsd");
+  }, [selectedHcp, sorting]);
 
   const handleInputChange = (event, selected) => {
     const div = document.querySelector("div.active");
@@ -50,15 +67,31 @@ const VerifyHCP = () => {
     console.log("next clicked");
   };
 
+  const closeModal = () => {
+    setHpc([
+      {
+        firstname: "",
+        lastname: "",
+        email: "",
+        contact_type: "",
+        country: "",
+      },
+    ]);
+    console.log("closed");
+    setIsOpen(false);
+  };
 
-  const editablemade = ()=>{
-    let temp_val =  1-editable;
+  const editablemade = () => {
+    let temp_val = 1 - editable;
     setEditable(temp_val);
-  }
+  };
 
-
-  
-
+  const addNewHcp = () => {
+    // $('#myModal').modal('show'
+    // document.getElementById("tagsModal").modal('show');
+    setIsOpen(true);
+    setModalCounter(modalCounter + 1);
+  };
 
   const selectHcp = (index) => {
     // console.log(index);
@@ -76,6 +109,10 @@ const VerifyHCP = () => {
     setName(e.target.value);
   };
 
+  const onFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
   const deleteSelected = (index) => {
     // console.log(index);
     let arr = [];
@@ -89,18 +126,160 @@ const VerifyHCP = () => {
   const sortSelectedUsers = () => {
     let normalArr = [];
     normalArr = selectedHcp;
-    if(sorting===0){
-      normalArr.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0));
-    }else{
-      normalArr.sort((a, b) => (a.name < b.name ? 1 : b.name < a.name ? -1 : 0));
+    if (sorting === 0) {
+      normalArr.sort((a, b) =>
+        a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+      );
+    } else {
+      normalArr.sort((a, b) =>
+        a.name < b.name ? 1 : b.name < a.name ? -1 : 0
+      );
     }
-    
+
     setSelectedHcp(normalArr);
-    setSorting(1-sorting);
+    setSorting(1 - sorting);
   };
 
   const emailChanged = (e) => {
     setEmail(e.target.value);
+  };
+
+  const addFile = () => {
+    setActiveExcel("active");
+    setActiveManual("");
+    setAddFileReRender(addFileReRender + 1);
+  };
+
+  const addHcp = () => {
+    setActiveExcel("");
+    setActiveManual("active");
+    setManualReRender(manualReRender + 1);
+  };
+
+  const onFirstNameChange = (e, i) => {
+    const { value } = e.target;
+    const list = [...hpc];
+    const name = hpc[i].firstname;
+    list[i].firstname = value;
+    setHpc(list);
+    // console.log(hpc);
+  };
+
+  const onLastNameChange = (e, i) => {
+    const { value } = e.target;
+    const list = [...hpc];
+    const name = hpc[i].lastname;
+    list[i].lastname = value;
+    setHpc(list);
+    //console.log(hpc);
+  };
+
+  const onEmailChange = (e, i) => {
+    const { value } = e.target;
+    const list = [...hpc];
+    const name = hpc[i].email;
+    list[i].email = value;
+    setHpc(list);
+    // setEmailData(e.target.value);
+    //console.log(hpc);
+  };
+
+  const onContactTypeChange = (e, i) => {
+    const { value } = e.target;
+    //console.log(value);
+    const list = [...hpc];
+    const name = hpc[i].contact_type;
+    list[i].contact_type = value;
+    setHpc(list);
+    //console.log(hpc);
+  };
+
+  const onCountryChange = (e, i) => {
+    const { value } = e.target;
+    const list = [...hpc];
+    const name = hpc[i].country;
+    list[i].country = value;
+    setHpc(list);
+    console.log(hpc);
+  };
+
+  const deleteRecord = (i) => {
+    const list = hpc;
+    list.splice(i, 1);
+    setHpc(list);
+    setCounterFlag(counterFlag + 1);
+  };
+
+  const saveClicked = async () => {
+    //  console.log(validator);
+
+    if (activeManual == "active") {
+      const body_data = hpc.map((data) => {
+        return {
+          first_name: data.firstname,
+          last_name: data.lastname,
+          email: data.email,
+          country: data.country,
+          contact_type: data.contact_type,
+        };
+      });
+
+      const body = {
+        data: body_data,
+        user_id: 18207,
+        smart_list_id: "",
+      };
+
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      await axios
+        .post(`distributes/add_new_readers_in_list`, body)
+        .then((res) => {
+          res.data.response.data.map((data) => {
+            setSelectedHcp((oldArray) => [...oldArray, data]);
+          });
+          //setSelectedHcp(res.data.response.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      setIsOpen(false);
+    } else {
+      let formData = new FormData();
+      formData.append("user_id", 18207);
+      formData.append("smart_list_id", "");
+      formData.append("reader_file", selectedFile);
+
+      console.log(formData);
+
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      await axios
+        .post(`distributes/update_reader_list`, formData)
+        .then((res) => {
+          res.data.response.data.map((data) => {
+            setSelectedHcp((oldArray) => [...oldArray, data]);
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      setIsOpen(false);
+    }
+    setHpc([
+      {
+        firstname: "",
+        lastname: "",
+        email: "",
+        contact_type: "",
+        country: "",
+      },
+    ]);
+  };
+
+  const addMoreHcp = () => {
+    setHpc([
+      ...hpc,
+      { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
+    ]);
   };
 
   const searchHcp = async (e) => {
@@ -216,6 +395,7 @@ const VerifyHCP = () => {
                     type="button"
                     data-bs-toggle="modal"
                     data-bs-target="#add_hcp"
+                    onClick={addNewHcp}
                   >
                     Add New HCP +
                   </button>
@@ -224,60 +404,60 @@ const VerifyHCP = () => {
             </form>
           </div>
           <div className="search-hcp-table">
-          <div className="search-hcp-table-inside">
-            {searchedUsers.length === 0 ? (
-             <div className="not-found">
-              <h4>No Record Found!</h4>
-            </div>
-            ) : (
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Bounced</th>
-                    <th scope="col">Country</th>
-                    <th scope="col">Readers</th>
-                    <th scope="col">Business Unit</th>
-                    <th scope="col">Interest</th>
-                    <th scope="col">Consent</th>
-                    <th scope="col">Email Received</th>
-                    <th scope="col">Openings</th>
-                    <th scope="col">Registrations</th>
-                    <th scope="col">Last Email</th>
-                    <th scope="col"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {searchedUsers.map((users, index) => {
-                    return (
-                      <>
-                        <tr>
-                          <td>{users.name}</td>
-                          <td>{users.email}</td>
-                          <td>NA</td>
-                          <td>{users.country}</td>
-                          <td>NA</td>
-                          <td>NA</td>
-                          <td>NA</td>
-                          <td>NA</td>
-                          <td>NA</td>
-                          <td>NA</td>
-                          <td>NA</td>
-                          <td>NA </td>
-                          <td className="add-new-hcp">
-                            <img
-                              src={path_image + "add-row.png"}
-                              alt="Add More"
-                              onClick={() => selectHcp(index)}
-                            />
-                          </td>
-                        </tr>
-                      </>
-                    );
-                  })}
+            <div className="search-hcp-table-inside">
+              {searchedUsers.length === 0 ? (
+                <div className="not-found">
+                  <h4>No Record Found!</h4>
+                </div>
+              ) : (
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Name</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Bounced</th>
+                      <th scope="col">Country</th>
+                      <th scope="col">Readers</th>
+                      <th scope="col">Business Unit</th>
+                      <th scope="col">Interest</th>
+                      <th scope="col">Consent</th>
+                      <th scope="col">Email Received</th>
+                      <th scope="col">Openings</th>
+                      <th scope="col">Registrations</th>
+                      <th scope="col">Last Email</th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {searchedUsers.map((users, index) => {
+                      return (
+                        <>
+                          <tr>
+                            <td>{users.name}</td>
+                            <td>{users.email}</td>
+                            <td>NA</td>
+                            <td>{users.country}</td>
+                            <td>NA</td>
+                            <td>NA</td>
+                            <td>NA</td>
+                            <td>NA</td>
+                            <td>NA</td>
+                            <td>NA</td>
+                            <td>NA</td>
+                            <td>NA </td>
+                            <td className="add-new-hcp">
+                              <img
+                                src={path_image + "add-row.png"}
+                                alt="Add More"
+                                onClick={() => selectHcp(index)}
+                              />
+                            </td>
+                          </tr>
+                        </>
+                      );
+                    })}
 
-                  {/* <tr>
+                    {/* <tr>
                   <td>Jacob Flindt</td>
                   <td>User@docintel.app</td>
                   <td>No</td>
@@ -294,10 +474,10 @@ const VerifyHCP = () => {
                     <img src={path_image + "add-row.png"} alt="Add More" />
                   </td>
                 </tr> */}
-                </tbody>
-              </table>
-            )}
-          </div>
+                  </tbody>
+                </table>
+              )}
+            </div>
           </div>
 
           <div className="selected-hcp-table">
@@ -307,7 +487,10 @@ const VerifyHCP = () => {
               </h4>
               <div className="selected-hcp-table-action">
                 <div className="hcp-added">
-                  <button className="btn btn-outline-primary" onClick={editablemade}>
+                  <button
+                    className="btn btn-outline-primary"
+                    onClick={editablemade}
+                  >
                     <img src={path_image + "edit.svg"} alt="" />
                   </button>
                 </div>
@@ -329,7 +512,7 @@ const VerifyHCP = () => {
               ) : (
                 <table className="table">
                   <thead>
-                    <tr >
+                    <tr>
                       <th scope="col">Name</th>
                       <th scope="col">Email</th>
                       <th scope="col">Bounced</th>
@@ -349,8 +532,10 @@ const VerifyHCP = () => {
                     {selectedHcp.map((data, index) => {
                       return (
                         <>
-                          <tr contenteditable= {editable === 0 ? "false" : "true" }>
-                            <td>{data.name}</td>
+                          <tr
+                            contenteditable={editable === 0 ? "false" : "true"}
+                          >
+                            <td>{data.name || data.first_name}</td>
                             <td>{data.email}</td>
                             <td>NA</td>
                             <td>{data.country}</td>
@@ -380,87 +565,240 @@ const VerifyHCP = () => {
           </div>
         </section>
       </div>
-         <div className="modal fade" id="add_hcp" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="add_hcp" aria-hidden="true">
-            <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div className="modal-content">
-              <div className="modal-header">
-              <h5 className="modal-title" id="staticBackdropLabel">Add New HCP</h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div className="modal-body">
-              <div className="hcp-add-box">
-                <div className="hcp-add-form tab-content">
-                  <form id="add_hcp_form" className="tab-pane active">
-                    <div className="row">
-                      <div className="col-12 col-md-6">
-                        <div className="form-group">
-                          <label for="">First Name</label>
-                          <input type="text" className="form-control" />
+      <Modal
+        id="add_hcp"
+        show={isOpen}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <div
+          //className="modal fade"
+          //id="add_hcp"
+          data-bs-backdrop="static"
+          data-bs-keyboard="false"
+          tabindex="-1"
+          //aria-labelledby="add_hcp"
+          aria-hidden="true"
+        >
+          {/* <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div className="modal-content"> */}
+          <div className="modal-header">
+            <h5 className="modal-title" id="staticBackdropLabel">
+              Add New HCP
+            </h5>
+            <button
+              onClick={closeModal}
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div className="modal-body">
+            <div className="hcp-add-box">
+              <div className="hcp-add-form tab-content">
+                <form id="add_hcp_form" className={"tab-pane" + activeManual}>
+                  {hpc.map((val, i) => {
+                    const fieldName = `hpc[${i}]`;
+                    return (
+                      <>
+                        <div className="row">
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for="">First Name</label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                onChange={(event) =>
+                                  onFirstNameChange(event, i)
+                                }
+                                value={val.firstname}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for="">Last Name</label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                onChange={(event) => onLastNameChange(event, i)}
+                                value={val.lastname}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for="">Email</label>
+                              <input
+                                type="email"
+                                className="form-control"
+                                id="email-desc"
+                                name={`${fieldName}.email`}
+                                onChange={(event) => onEmailChange(event, i)}
+                                value={val.email}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for="">Contact Type</label>
+                              <select
+                                className="form-contact"
+                                aria-label="select"
+                                onChange={(event) =>
+                                  onContactTypeChange(event, i)
+                                }
+                              >
+                                <option selected>Select Type</option>
+                                <option value="HCP">HCP</option>
+                                <option value="Staff">Staff</option>
+                                <option value="Test Users">Test Users</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for="">Country</label>
+                              <select
+                                className="country-form"
+                                aria-label="select"
+                                onChange={(event) => onCountryChange(event, i)}
+                              >
+                                <option selected>Select Country</option>
+                                <option value="India">India</option>
+                                <option value="USA">USA</option>
+                                <option value="Russia">Russia</option>
+                              </select>
+                              {hpc.length !== 1 && (
+                                <button
+                                  type="button"
+                                  className="btn btn-filled"
+                                  onClick={() => deleteRecord(i)}
+                                >
+                                  Remove
+                                </button>
+                              )}
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                      <div className="col-12 col-md-6">
-                        <div className="form-group">
-                          <label for="">Last Name</label>
-                          <input type="text" className="form-control" />
-                        </div>
-                      </div>
-                      <div className="col-12 col-md-6">
-                        <div className="form-group">
-                          <label for="">Email</label>
-                          <input type="email" className="form-control" id="email-desc" />
-                        </div>
-                      </div>
-                      <div className="col-12 col-md-6">
-                        <div className="form-group">
-                          <label for="">Contact Type</label>
-                          <select className="form-contact" aria-label="select">
-                            <option selected>Select Type</option>
-                            <option value="1">HCP</option>
-                            <option value="2">HCP</option>
-                            <option value="3">HCP</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div className="col-12 col-md-6">
-                        <div className="form-group">
-                          <label for="">Country</label>
-                          <select className="country-form" aria-label="select">
-                            <option selected>Select Country</option>
-                            <option value="1">India</option>
-                            <option value="2">USA</option>
-                            <option value="3">Russia</option>
-                          </select>
-                        </div>
+                      </>
+                    );
+                  })}
+                  {/* <div className="row">
+                    <div className="col-12 col-md-6">
+                      <div className="form-group">
+                        <label for="">First Name</label>
+                        <input type="text" className="form-control" />
                       </div>
                     </div>
-                  </form>
-                  <form id="add_file" className="tab-pane fade">
-                    <div className="form-group files">
-                      <input type="file" className="form-control" multiple="" />
+                    <div className="col-12 col-md-6">
+                      <div className="form-group">
+                        <label for="">Last Name</label>
+                        <input type="text" className="form-control" />
+                      </div>
                     </div>
-                  </form>
-                </div>
-                <div className="hcp-modal-action">
-                  <div className="hcp-action-block">
-                    <div className="hcp-remove">
-                      <button type="button" className="btn btn-filled"><img src="assets/images/delete.svg" alt="Delete HCP" /></button>
+                    <div className="col-12 col-md-6">
+                      <div className="form-group">
+                        <label for="">Email</label>
+                        <input
+                          type="email"
+                          className="form-control"
+                          id="email-desc"
+                        />
+                      </div>
                     </div>
-                    <ul className="nav nav-tabs" role="tablist">
-                      <li className="nav-item add_hcp"><a className="nav-link active btn-bordered" data-bs-toggle="tab" href="#add_hcp_form">Add HCP +</a></li>
-                      <li className="nav-item add-file"><a className="nav-link btn-filled" data-bs-toggle="tab" href="#add_file">Add File</a></li>
-                    </ul>
-        
+                    <div className="col-12 col-md-6">
+                      <div className="form-group">
+                        <label for="">Contact Type</label>
+                        <select className="form-contact" aria-label="select">
+                          <option selected>Select Type</option>
+                          <option value="1">HCP</option>
+                          <option value="2">HCP</option>
+                          <option value="3">HCP</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-6">
+                      <div className="form-group">
+                        <label for="">Country</label>
+                        <select className="country-form" aria-label="select">
+                          <option selected>Select Country</option>
+                          <option value="1">India</option>
+                          <option value="2">USA</option>
+                          <option value="3">Russia</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div> */}
+                </form>
+                <form id="add_file" className={"tab-pane" + activeExcel}>
+                  <div className="form-group files">
+                    <input
+                      type="file"
+                      className="form-control"
+                      multiple=""
+                      onChange={onFileChange}
+                    />
                   </div>
+                </form>
+              </div>
+              <div className="hcp-modal-action">
+                <div className="hcp-action-block">
+                  <div className="hcp-remove">
+                    <button
+                      type="button"
+                      className="btn btn-filled"
+                      onClick={addMoreHcp}
+                    >
+                      Add
+                    </button>
+                  </div>
+                  <div className="hcp-remove">
+                    <button type="button" className="btn btn-filled">
+                      <img src="assets/images/delete.svg" alt="Delete HCP" />
+                    </button>
+                  </div>
+                  <ul className="nav nav-tabs" role="tablist">
+                    <li className="nav-item add_hcp">
+                      <a
+                        onClick={addHcp}
+                        className="nav-link active btn-bordered"
+                        data-bs-toggle="tab"
+                        href="#add_hcp_form"
+                      >
+                        Add HCP +
+                      </a>
+                    </li>
+                    <li className="nav-item add-file">
+                      <a
+                        onClick={addFile}
+                        className="nav-link btn-filled"
+                        data-bs-toggle="tab"
+                        href="#add_file"
+                      >
+                        Add File
+                      </a>
+                    </li>
+                  </ul>
                 </div>
               </div>
-              </div>
-              <div className="modal-footer">
-              <button type="button" className="btn btn-primary save btn-filled">Save</button>
-              </div>
             </div>
-            </div>
-
+          </div>
+          <div className="modal-footer">
+            <button
+              type="button"
+              className="btn btn-primary save btn-filled"
+              onClick={saveClicked}
+            >
+              Save
+            </button>
+          </div>
         </div>
+        {/* </div>
+        </div> */}
+      </Modal>
     </>
   );
 };
