@@ -103,14 +103,14 @@ const Template = () => {
         />
         <Col md={{ span: 8, offset: 3 }}>
           <h2>
-            <center>Templates</center>
+            Templates
           </h2>
           <Row>
           <Col className="mb-5">
           <Form.Label>Select Event </Form.Label>
                   <Form.Select
                     name="type"
-                    onChange={(e) => handleGetTemplateList(e.target.value)}
+                    onChange={(e) =>{handleGetTemplateList(e.target.value);setTemplateList(null);setTemplate(null)}}
                     onBlur={formik.handleBlur}
                     value={formik.values.type} >
                     <option> Select Event</option>
@@ -220,13 +220,13 @@ const Template = () => {
               editor={ClassicEditor}
               data={template ? template.description : "hello"}
               onReady={(editor) => {
-              //   editor.editing.view.change(writer => {
-              //     writer.setStyle(
-              //         "min-height",
-              //         '300px',
-              //         editor.editing.view.document.getRoot()
-              //     );
-              // });
+                editor.editing.view.change(writer => {
+                  writer.setStyle(
+                      "min-height",
+                      '300px',
+                      editor.editing.view.document.getRoot()
+                  );
+              });
                 console.log("Editor is ready to use!", editor);
               }}
               onChange={(event, editor) => {
