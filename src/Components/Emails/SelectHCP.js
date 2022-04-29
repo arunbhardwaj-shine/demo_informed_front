@@ -61,7 +61,16 @@ const SelectHCP = () => {
                     Next{" "}
                   </button>
                 ) : (
-                  <Link to="/VerifyHCP" state={{ UserSelected: templateId }}>
+                  // <Link to="/VerifyHCP" state={{ UserSelected: templateId }}>
+                  //   <button className="btn btn-primary btn-filled next">
+                  //     Next
+                  //   </button>
+                  // </Link>
+
+                  <Link
+                    to="/SelectSmartList"
+                    state={{ UserSelected: templateId }}
+                  >
                     <button className="btn btn-primary btn-filled next">
                       Next
                     </button>
