@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import FilterSegment from "./FilterSegment";
 import queryString from "query-string";
 import axios from "axios";
+import { loader } from "../../../loader";
 
 const EditList = () => {
 
@@ -19,6 +20,7 @@ const EditList = () => {
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
   const editListData = async () => {
+    loader("show");
     await axios
       .post(`distributes/get_reders_list`, body)
       .then((res) => {
@@ -27,6 +29,7 @@ const EditList = () => {
           setSelectedFilter(res.data.response.selected_filters);
           setListName(res.data.response.smart_list_name);
           getfilterlist();
+          loader("hide");
         }
       })
       .catch((err) => {
@@ -38,10 +41,12 @@ const EditList = () => {
     user_id: 18207,
   };
   const getfilterlist = async () => {
+    loader("show");
     await axios
       .post(`distributes/filters_list`, filterdatapayload)
       .then((res) => {
         setFilterList(res.data.response.data);
+        loader("hide");
       })
       .catch((err) => {
         console.log(err);

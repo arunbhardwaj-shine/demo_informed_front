@@ -1,6 +1,7 @@
 import React, { useEffect, useState,useRef } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { loader } from "../../loader";
 
 
 const SelectSmartList = () => {
@@ -17,11 +18,12 @@ const SelectSmartList = () => {
     const body = {
       user_id: 18207,
     };
+    loader("show");
     axios
       .post(`distributes/get_smart_list`, body)
       .then((res) => {
         setSendListData(res.data.response.data);
-        
+        loader("hide");
       })
       .catch((err) => {
         console.log(err);
@@ -76,7 +78,7 @@ useEffect(() => {
 									<li className="active">
 										<a href="javascript:void(0)">Select Verify Your HCPs</a>
 									</li>
-									
+
 									<li className="">
 										<a href="javascript:void(0)">Verify your Email</a>
 									</li>
@@ -86,11 +88,11 @@ useEffect(() => {
 							  <div className="header-btn">
 								<button className="btn btn-primary btn-bordered move-draft">Save As Draft</button>
                 {
-										 
+
                      PdfSelected === 0 ? <button ref={inputElement} className="btn btn-primary btn-filled next disabled">Next</button> : <Link to="/SelectSmartListUsers" state={{ smartListSelected: smartListSelected }}>
-                     <button ref={inputElement} className="btn btn-primary btn-filled next disabled">Next</button>	
+                     <button ref={inputElement} className="btn btn-primary btn-filled next disabled">Next</button>
                    </Link>
- 
+
                  }
 							  </div>
 							</div>
@@ -107,15 +109,15 @@ useEffect(() => {
 									  <label for='input-file'>Upload Exel File</label>
 									  <input id='input-file' type='file' />
 									 </div>
-									
+
 								</div>
 							</div>
 							<div className="col smartlist-result-block">
-						
+
 
                {SendListData.map((template) => {
                   return (
-                    
+
                         <div className="smartlist-view email_box">
                           <div className="mail-box-content">
                             <h5>{template.name}</h5>
@@ -137,12 +139,12 @@ useEffect(() => {
                                 </tbody>
                               </table>
                             </div>
-                            
+
                             <div className="mail-time"><span>Nov 18 | 9:00 AM</span></div>
                             <div className="smart-list-added-user"><img src={path_image + "smartlist-user.svg"} alt="User icon" />{template.readers_count}</div>
                             <div className="mail-stats">
                               <ul>
-                                
+
                                 <li><div className="mail-status smartlist_view">
                                   <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M9.65531 2.57856C10.3951 3.04241 10.9139 3.82733 11.0083 4.73845C11.31 4.87942 11.6449 4.96049 11.9999 4.96049C13.296 4.96049 14.3465 3.91 14.3465 2.6141C14.3465 1.31801 13.296 0.267517 11.9999 0.267517C10.7162 0.267916 9.67488 1.29964 9.65531 2.57856ZM8.11801 7.38316C9.4141 7.38316 10.4646 6.33246 10.4646 5.03657C10.4646 3.74067 9.4139 2.69018 8.11801 2.69018C6.82211 2.69018 5.77102 3.74087 5.77102 5.03677C5.77102 6.33266 6.82211 7.38316 8.11801 7.38316ZM9.11339 7.5431H7.12223C5.46552 7.5431 4.11771 8.89111 4.11771 10.5478V12.9829L4.1239 13.021L4.29163 13.0735C5.87266 13.5675 7.24622 13.7322 8.37679 13.7322C10.585 13.7322 11.8649 13.1027 11.9438 13.0625L12.1005 12.9833H12.1173V10.5478C12.1179 8.89111 10.7701 7.5431 9.11339 7.5431ZM12.9957 5.12063H11.0199C10.9985 5.91115 10.6611 6.62299 10.1273 7.13496C11.6 7.57285 12.6774 8.93843 12.6774 10.5514V11.3018C14.6282 11.2303 15.7524 10.6774 15.8265 10.6403L15.9832 10.5608H16V8.12495C16 6.46844 14.6522 5.12063 12.9957 5.12063ZM4.0005 4.96089C4.45955 4.96089 4.88666 4.82691 5.24847 4.59868C5.36348 3.8485 5.76563 3.19296 6.3401 2.74649C6.34249 2.70256 6.34669 2.65903 6.34669 2.6147C6.34669 1.31861 5.29599 0.268116 4.0005 0.268116C2.70421 0.268116 1.65391 1.31861 1.65391 2.6147C1.65391 3.9102 2.70421 4.96089 4.0005 4.96089ZM6.10787 7.13496C5.57674 6.62559 5.24048 5.91754 5.21592 5.13181C5.14264 5.12642 5.07016 5.12063 4.99548 5.12063H3.00452C1.34781 5.12063 0 6.46844 0 8.12495V10.5604L0.00618994 10.5979L0.173917 10.6508C1.44226 11.0468 2.57422 11.2293 3.55742 11.2868V10.5514C3.55782 8.93843 4.63487 7.57325 6.10787 7.13496Z" fill="#FAC755"></path>
@@ -165,14 +167,14 @@ useEffect(() => {
                 );
                 })}
 
-					
+
 							</div>
 						</div>
 					</section>
 
-				
+
 				</div>
-		
+
     </>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useEffect, useState,useRef } from "react";
 import axios from "axios";
 import { Link,useLocation } from "react-router-dom";
+import { loader } from "../../loader";
 
 import TableOnly from "./TableOnly";
 
@@ -21,12 +22,13 @@ const SelectSmartListUsers = () => {
       user_id: 18207,
       list_id: smartListSelected.id
     };
+    loader("show");
     axios
       .post(`distributes/get_reders_list`, body)
       .then((res) => {
      //   console.log(res)
         setReaders(res.data.response.data);
-        
+        loader("hide");
       })
       .catch((err) => {
         console.log(err);
@@ -60,7 +62,7 @@ useEffect(() => {
 
   return (
     <>
-        
+
         <div className="right-sidebar">
 					<div className="page-top-nav">
 						<div className="row justify-content-end align-items-center">
@@ -80,7 +82,7 @@ useEffect(() => {
 									<li className="active">
 										<a href="javascript:void(0)">Select Verify Your HCPs</a>
 									</li>
-									
+
 									<li className="">
 										<a href="javascript:void(0)">Verify your Email</a>
 									</li>
@@ -149,11 +151,11 @@ useEffect(() => {
                              <td><span>Nov 18</span></td>
                              <td className="add-new-hcp" colspan="12"><img src="assets/images/add-row.png" alt="Add Row" /></td>
                            </tr>
-                        
+
                         </>)
-                          
+
                     })}
-								
+
 									{/* <tr className="hcps-added">
 									  <td>Jacob Flindt</td>
 									  <td>User@docintel.app</td>
@@ -216,16 +218,16 @@ useEffect(() => {
 									</tr> */}
 								  </tbody>
 								</table>
-								
+
 							</div>
 						</div>
 					</section>
 
-				
+
 				</div>
-		
-      
-		
+
+
+
     </>
   );
 };

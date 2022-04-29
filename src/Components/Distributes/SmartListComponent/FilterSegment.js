@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import VerifySmartList from "./VerifySmartList";
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { loader } from "../../../loader";
 
 const FilterSegment = (props) => {
   const [filters, setFilters] = useState(props.filters);
@@ -308,6 +309,7 @@ const FilterSegment = (props) => {
     console.log(typeof payload);
     setApiFilterFlag(0);
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    loader("show");
     await axios
       .post(`distributes/get_smart_list_with_filter_data`, payload)
       .then((res) => {
@@ -318,6 +320,7 @@ const FilterSegment = (props) => {
         }
         // let updated_flag = apifilterflag + 1;
         setApiFilterFlag(1);
+        loader("hide");
       })
       .catch((err) => {
         console.log(err);

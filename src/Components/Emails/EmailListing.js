@@ -25,7 +25,7 @@ const EmailList = () => {
          .then((res) => {
            setSendListData(res.data.response.data.emails);
            setUserData(res.data.response.data.user);
-           loader();
+           loader("hide");
          })
          .catch((err) => {
            loader("hide");
@@ -115,7 +115,7 @@ const EmailList = () => {
 							<a href="/EmailArticleSelect"><img src={path_image+"add-button.svg"} alt="" /></a>
 								<p>Create New Email</p>
 							</div>
-						
+
               {SendListData.map((data) => {
                 //console.log(data)
                  return (

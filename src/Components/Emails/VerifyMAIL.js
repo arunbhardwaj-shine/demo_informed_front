@@ -6,6 +6,7 @@ import { Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { compose } from "redux";
+import { loader } from "../../loader";
 
 const VerifyMAIL = (props) => {
   const location = useLocation();
@@ -88,10 +89,12 @@ const VerifyMAIL = (props) => {
     };
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    loader("show");
     await axios
       .post(`emailapi/send_email`, body)
       .then((res) => {
         console.log(res);
+        loader("hide");
       })
       .catch((err) => {
         console.log(err);

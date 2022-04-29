@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { getThemeProps } from "@material-ui/styles";
 import { Modal } from "react-bootstrap";
 import SimpleReactValidator from "simple-react-validator";
+import { loader } from "../../loader";
 
 const CreateEmail = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -55,7 +56,7 @@ const CreateEmail = (props) => {
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const getTemplateListData = async () => {
-      console.log(process.env.REACT_APP_API_KEY);
+      loader("show");
       await axios
         .post(`emailapi/get_template_list`, body)
         .then((res) => {
@@ -81,9 +82,10 @@ const CreateEmail = (props) => {
       await axios
         .post(`emailapi/get_tags`, body)
         .then((res) => {
-          console.log(res);
-          console.log(res.data.response.data);
           setAllTags(res.data.response.data);
+            if(typeof campaign_id === "undefined" || campaign_id == 0){
+              loader("hide");
+            }
         })
         .catch((err) => {
           console.log(err);
@@ -110,10 +112,7 @@ const CreateEmail = (props) => {
           setEmailSubject(campaign_data.subject);
           setFinalTags(campaign_data.tags);
           setTemplate(campaign_data.source_code)
-
-          console.log("campaign Data");
-          console.log(campaign_data);
-          console.log("campaign Data End");
+          loader("hide");
         })
         .catch((err) => {
           console.log(err);
@@ -132,9 +131,11 @@ const CreateEmail = (props) => {
     };
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    loader("show");
     await axios
       .post(`emailapi/add_update_template`, body)
       .then((res) => {
+        loader("hide");
        // console.log(res);
       })
       .catch((err) => {
@@ -174,9 +175,11 @@ const CreateEmail = (props) => {
 
     console.log(body);
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    loader("show");
     await axios
       .post(`emailapi/save_draft`, body)
       .then((res) => {
+        loader("hide");
        // console.log(res);
       })
       .catch((err) => {
@@ -359,7 +362,7 @@ const CreateEmail = (props) => {
                 margin={20}
                 items={5}
                 dots={false}
-                speed={500} 
+                speed={500}
                 nav
               >
                 {templateList.map((template) => {

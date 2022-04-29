@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Loader from "react-js-loader";
-
+import { loader } from "../../../loader";
 import { connect } from "react-redux";
 import { Button, Modal } from "react-bootstrap";
 import { getListId } from "../../../actions";
@@ -25,15 +24,14 @@ const SmartList = (props) => {
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const getSmartListData = async () => {
-      console.log(process.env.REACT_APP_API_KEY);
+      loader("show");
       await axios
         .post(`distributes/get_smart_list`, body)
         .then((res) => {
-          console.log(res);
           setLoading(false);
           setSmartListData(res.data.response.data);
           setUserDetails(res.data.response.userdetails);
-          console.log(res.data.response.data);
+          loader("hide");
         })
         .catch((err) => {
           console.log(err);

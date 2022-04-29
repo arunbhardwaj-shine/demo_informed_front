@@ -22,7 +22,7 @@ const Header = () => {
   const hengleLonginPage = (data,message) => {
     setSmShowLogin(data);
     setDropdownOpen(data);
-  
+
   };
   const hengleForgotPage = (data) => {
     setSmShowForgot(data);
@@ -190,7 +190,7 @@ const Header = () => {
             </div>
           </div>
         </nav>
-     
+
       </header>
     </>
   );
