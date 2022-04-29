@@ -95,6 +95,20 @@ BaseApi.post("rehearsal",{
   BaseApi.post("update-template",{subject :subject ,description :id,template_id :i},{ headers: {
     'Authorization':localStorage.getItem("Token"),
   }});
+  ////Registration
+  const CreateRegistrationPage = (form) =>
+  BaseApi.post("create-registration-page",form,{ headers: {
+    'Authorization':localStorage.getItem("Token"),
+  }});
+  const RegistrationPageList = (id) =>
+  BaseApi.get(`registration-pages/${id}`,{},{ headers: {
+    'Authorization':localStorage.getItem("Token"),
+  }});
+  const RegistrationPageData = (id) =>
+  BaseApi.get(`registration-page`,{form_id:id},{ headers: {
+    'Authorization':localStorage.getItem("Token"),
+  }});
+
 export default {
   UserLogin,
   UserForgot,
@@ -114,5 +128,8 @@ export default {
   UserTemplate,
   UserTemplateSandMail,
   CreateTemplate,
-  UpdateTemplate
+  UpdateTemplate,
+  CreateRegistrationPage,
+  RegistrationPageList,
+  RegistrationPageData
 };

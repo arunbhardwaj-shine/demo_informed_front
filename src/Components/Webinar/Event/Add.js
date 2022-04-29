@@ -5,7 +5,7 @@ import { Button, CloseButton, Col, Form, Row } from "react-bootstrap";
 import * as Yup from "yup";
 import "../webinar.css";
 import { toast, ToastContainer } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 function Add(props) {
   //  console.log("ppp",props.token)
   const [Speaker, setSpeaker] = useState([
@@ -164,6 +164,7 @@ var yyyy = today.getFullYear();
         pauseOnHover
       />
       <Col md={{ span: 6, offset: 3 }}>
+          <Link to="/webinar/event/edit"><Button>Event List</Button></Link>
         <div>
           <h2>Create Event </h2>
           <div>
