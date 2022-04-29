@@ -97,7 +97,7 @@ const CreateSmartList = () => {
       if (activeClass == "upload_excel") {
          uploadFile();
       }else{
-        navigate("/SmartListFilter", {state: { smartListName: "My test" }});
+        navigate("/SmartListFilter", {state: { smartListName: smartListName }});
       }
     }else{
       console.log("show error messages");

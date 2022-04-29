@@ -21,6 +21,7 @@ const CreateEmail = (props) => {
   const [UserData, setUserData] = useState([]);
   const location = useLocation();
   const { PdfSelected } = location.state;
+  const { campaign_id } = location.state;
   const pathname = location.pathname;
   const [templateList, setTemplateList] = useState([]);
   const [template, setTemplate] = useState("");
@@ -89,10 +90,38 @@ const CreateEmail = (props) => {
         });
     };
     getAllTags();
+    getCampaignData();
   }, []);
 
+  const getCampaignData = async () => {
+    if(typeof campaign_id !== "undefined" && campaign_id != 0){
+      const body = {
+        user_id: 18207,
+        campaign_id: campaign_id
+      };
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      await axios
+        .post(`emailapi/get_campaign_details`, body)
+        .then((res) => {
+          let campaign_data = res.data.response.data;
+          setEmailDescription(campaign_data.description);
+          setEmailCreator(campaign_data.creator);
+          setemailCampaign(campaign_data.campaign);
+          setEmailSubject(campaign_data.subject);
+          setFinalTags(campaign_data.tags);
+          setTemplate(campaign_data.source_code)
+
+          console.log("campaign Data");
+          console.log(campaign_data);
+          console.log("campaign Data End");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
   const saveAsTemplateButtonClicked = async () => {
-    console.log("hi");
     const body = {
       user_id: 18207,
       source_code: template,
@@ -106,10 +135,10 @@ const CreateEmail = (props) => {
     await axios
       .post(`emailapi/add_update_template`, body)
       .then((res) => {
-        console.log(res);
+       // console.log(res);
       })
       .catch((err) => {
-        console.log(err);
+       // console.log(err);
       });
   };
 
@@ -119,7 +148,7 @@ const CreateEmail = (props) => {
   };
 
   const closeModal = () => {
-    console.log("closed");
+    //console.log("closed");
     setIsOpen(false);
   };
 
@@ -128,7 +157,7 @@ const CreateEmail = (props) => {
     finalTags.map((tags) => {
       tagss.push(tags.innerText || tags);
     });
-    console.log(tagss);
+   // console.log(tagss);
     const body = {
       user_id: 18207,
       pdf_id: PdfSelected,
@@ -148,18 +177,20 @@ const CreateEmail = (props) => {
     await axios
       .post(`emailapi/save_draft`, body)
       .then((res) => {
-        console.log(res);
+       // console.log(res);
       })
       .catch((err) => {
-        console.log(err);
+        //console.log(err);
       });
   };
 
   const templateClicked = (template, e) => {
-    const div = document.querySelector("img.active");
+    e.preventDefault();
+    const div = document.querySelector("img.select_mm");
+    console.log(div);
 
     if (div) {
-      div.classList.remove("active");
+      div.classList.remove("select_mm");
     }
 
     setTemplateId(template.id);
@@ -187,8 +218,8 @@ const CreateEmail = (props) => {
 
       navigate("/SelectHCP");
     } else {
-      console.log("show error messages");
-      console.log(validator.errorMessages);
+      //console.log("show error messages");
+      //console.log(validator.errorMessages);
       validator.showMessages();
       setRenderAfterValidation(renderAfterValidation + 1);
     }
@@ -206,7 +237,7 @@ const CreateEmail = (props) => {
     e.target.value = "";
     const new_atg = document.getElementById("new-tag");
     new_atg.value = "";
-    console.log(new_atg);
+    //console.log(new_atg);
   };
 
   const emailDescriptionChange = (e) => {
@@ -238,11 +269,11 @@ const CreateEmail = (props) => {
   };
 
   const removeTag = (index) => {
-    console.log(index);
+    //console.log(index);
     const tags = tagClickedFirst;
 
     tags.splice(index, 1);
-    console.log(tags);
+    //console.log(tags);
     setTagClickedFirst(tags);
     setTagsReRender(tagsReRender + 1);
     // tagClickedFirst.splice(index, 1);
@@ -327,7 +358,8 @@ const CreateEmail = (props) => {
                 className="mail-templates owl-carousel owl-theme"
                 margin={20}
                 items={5}
-                loop
+                dots={false}
+                speed={500} 
                 nav
               >
                 {templateList.map((template) => {
@@ -435,7 +467,7 @@ const CreateEmail = (props) => {
                             </>
                           );
                         })} */}
-                        {/* 
+                        {/*
                         <li className="list1">
                           tag1{" "}
                           <img
@@ -517,11 +549,12 @@ const CreateEmail = (props) => {
             <CKEditor
               editor={ClassicEditor}
               data={template}
+              readOnly = {true}
               onReady={(editor) => {
                 // You can store the "editor" and use when it is needed.
               }}
               onChange={(event, editor) => {
-                console.log(editor);
+                //console.log(editor);
                 const data = editor.getData();
                 setTemplate(data);
               }}
@@ -632,7 +665,7 @@ const CreateEmail = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state);
+  //console.log(state);
 
   return state;
 };

@@ -12,6 +12,7 @@ const Template = () => {
   const [testMail, SetTestMail] = useState(false);
   const [event, setEvent] = useState([]);
   const [id, setId] = useState();
+  const [tName, setTName] = useState();
   const [templateList, setTemplateList] = useState();
   const [template, setTemplate] = useState();
   const [modalShow, setModalShow] = useState(false);
@@ -177,7 +178,7 @@ const Template = () => {
                     <td><Button
                 onClick={(e) => { setModalShow2(true);setId(val.id) }} >
                Test Mail
-              </Button><Button onClick={(e)=>{handleGetTemplate(val.id)}}>Edit</Button> </td>
+              </Button><Button onClick={(e)=>{handleGetTemplate(val.id);localStorage.setItem("template",val.name);setTName(val.name)}}>Edit</Button> </td>
                   </tr>
                 )):<h2>Data Not Found</h2>}
               </tbody>
@@ -192,6 +193,7 @@ const Template = () => {
             className="shadow-lg p-3 mb-5 bg-white rounded"
             md={{ span: 8, offset: 3 }}
           >
+            <Col><h4>Template name : {tName?tName:localStorage.getItem("template")}</h4> </Col>
             <Row>
               <Col className="mb-5">
             <Button type="submit">
