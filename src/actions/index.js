@@ -19,3 +19,10 @@ export const getEmailData = (data) => {
     payload: data,
   };
 };
+
+export const getSelectedSmartListData = (data) => {
+  return {
+    type: "GET_SMART_LIST_DATA",
+    payload: data,
+  };
+};

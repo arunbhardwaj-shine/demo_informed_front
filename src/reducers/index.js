@@ -22,8 +22,16 @@ const getEmailData = (emailData = null, action) => {
   return emailData;
 };
 
+const getSelectedSmartListData = (smartListData = null, action) => {
+  if (action.type === "GET_SMART_LIST_DATA") {
+    return action.payload;
+  }
+  return smartListData;
+};
+
 export default combineReducers({
   listId: getListId,
   updatedData: getUpdatedData,
   getEmailData: getEmailData,
+  getSelectedSmartListData: getSelectedSmartListData,
 });
