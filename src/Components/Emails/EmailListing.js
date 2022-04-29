@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { loader } from "../../loader";
 import axios from "axios";
 
 const EmailList = () => {
@@ -13,6 +14,7 @@ const EmailList = () => {
 
    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
    const getData = () => {
+      loader("show");
        const body = {
          user_id: 18207,
          search: search,
@@ -23,9 +25,10 @@ const EmailList = () => {
          .then((res) => {
            setSendListData(res.data.response.data.emails);
            setUserData(res.data.response.data.user);
-
+           loader();
          })
          .catch((err) => {
+           loader("hide");
            console.log(err);
          });
    }
