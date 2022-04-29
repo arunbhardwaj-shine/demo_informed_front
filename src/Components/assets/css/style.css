@@ -2008,3 +2008,10 @@ line-height: 19px;color: #8A4E9C;font-family: 'Roboto-Medium';cursor:pointer;fil
 .create-smart-list .upload-btn label {
     cursor: pointer;
 }
+
+.ck-content .table, .ck-editor__editable .ck-table-bogus-paragraph span.image-inline img {
+    max-width: 800px !important;
+}
+.owl-dots{
+	display: none;
+}
