@@ -21,7 +21,9 @@ const Sidebar = () => {
     }
   }, [localStorage.getItem("Token"), token]);
   return (
-    <>
+	  <div>
+
+  { location.pathname.includes("/webinar/register")?null:<div>
     {token?
     <div className="col left-sidebar">
     <div className="sidebar-menu">
@@ -52,7 +54,9 @@ const Sidebar = () => {
  
            
   :null}
-  </>
+
+  </div>}
+  </div>
   );
 };
 export default Sidebar;
