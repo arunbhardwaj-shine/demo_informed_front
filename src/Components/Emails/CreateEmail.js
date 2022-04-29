@@ -135,10 +135,10 @@ const CreateEmail = (props) => {
     await axios
       .post(`emailapi/add_update_template`, body)
       .then((res) => {
-        console.log(res);
+       // console.log(res);
       })
       .catch((err) => {
-        console.log(err);
+       // console.log(err);
       });
   };
 
@@ -148,7 +148,7 @@ const CreateEmail = (props) => {
   };
 
   const closeModal = () => {
-    console.log("closed");
+    //console.log("closed");
     setIsOpen(false);
   };
 
@@ -157,7 +157,7 @@ const CreateEmail = (props) => {
     finalTags.map((tags) => {
       tagss.push(tags.innerText || tags);
     });
-    console.log(tagss);
+   // console.log(tagss);
     const body = {
       user_id: 18207,
       pdf_id: PdfSelected,
@@ -177,18 +177,20 @@ const CreateEmail = (props) => {
     await axios
       .post(`emailapi/save_draft`, body)
       .then((res) => {
-        console.log(res);
+       // console.log(res);
       })
       .catch((err) => {
-        console.log(err);
+        //console.log(err);
       });
   };
 
   const templateClicked = (template, e) => {
-    const div = document.querySelector("img.active");
+    e.preventDefault();
+    const div = document.querySelector("img.select_mm");
+    console.log(div);
 
     if (div) {
-      div.classList.remove("active");
+      div.classList.remove("select_mm");
     }
 
     setTemplateId(template.id);
@@ -216,8 +218,8 @@ const CreateEmail = (props) => {
 
       navigate("/SelectHCP");
     } else {
-      console.log("show error messages");
-      console.log(validator.errorMessages);
+      //console.log("show error messages");
+      //console.log(validator.errorMessages);
       validator.showMessages();
       setRenderAfterValidation(renderAfterValidation + 1);
     }
@@ -235,7 +237,7 @@ const CreateEmail = (props) => {
     e.target.value = "";
     const new_atg = document.getElementById("new-tag");
     new_atg.value = "";
-    console.log(new_atg);
+    //console.log(new_atg);
   };
 
   const emailDescriptionChange = (e) => {
@@ -267,11 +269,11 @@ const CreateEmail = (props) => {
   };
 
   const removeTag = (index) => {
-    console.log(index);
+    //console.log(index);
     const tags = tagClickedFirst;
 
     tags.splice(index, 1);
-    console.log(tags);
+    //console.log(tags);
     setTagClickedFirst(tags);
     setTagsReRender(tagsReRender + 1);
     // tagClickedFirst.splice(index, 1);
@@ -356,7 +358,8 @@ const CreateEmail = (props) => {
                 className="mail-templates owl-carousel owl-theme"
                 margin={20}
                 items={5}
-                loop
+                dots={false}
+                speed={500} 
                 nav
               >
                 {templateList.map((template) => {
@@ -546,11 +549,12 @@ const CreateEmail = (props) => {
             <CKEditor
               editor={ClassicEditor}
               data={template}
+              readOnly = {true}
               onReady={(editor) => {
                 // You can store the "editor" and use when it is needed.
               }}
               onChange={(event, editor) => {
-                console.log(editor);
+                //console.log(editor);
                 const data = editor.getData();
                 setTemplate(data);
               }}
@@ -661,7 +665,7 @@ const CreateEmail = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state);
+  //console.log(state);
 
   return state;
 };

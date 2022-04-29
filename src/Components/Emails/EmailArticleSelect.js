@@ -89,7 +89,7 @@ const EmailArticleSelect = () => {
 						<div className="page-title">
 							<h4>Select your content</h4>
 						</div>
-						<div className="top-right-action">
+						{/* <div className="top-right-action">
 							<div className="search-bar">
 								<form className="d-flex">
 								  <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
@@ -109,7 +109,7 @@ const EmailArticleSelect = () => {
 								</button>
 							</div>
 							
-						</div>
+						</div> */}
 					</div>
 					
 					<div className="mail-content-select">
