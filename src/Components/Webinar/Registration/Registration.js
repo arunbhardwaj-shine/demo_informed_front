@@ -43,6 +43,7 @@ const Registration = () => {
       emailEditorRef.current.editor.exportHtml((data) => {
         const { design, html } = data;
         console.log('exportHtml', design);
+        setBody(design)
         alert('Output HTML has been logged in your developer console.');
       });
     };
