@@ -1,95 +1,100 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { Link, NavigationType,useNavigate } from "react-router-dom";
+import { loader } from "../../loader";
+import { Link, NavigationType, useNavigate } from "react-router-dom";
 
 const EmailArticleSelect = () => {
-  
-  let path_image= process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
   const [PdfSelected, setPdfSelected] = useState(0);
   const inputElement = useRef();
-  
 
-   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-   useEffect(() => {
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+  useEffect(() => {
+    const body = {
+      user_id: 18207,
+    };
+    loader("show");
+    axios
+      .post(`emailapi/get_content_list`, body)
+      .then((res) => {
+        setSendListData(res.data.response.data);
+        loader("hide");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
-        const body = {
-          user_id: 18207,
-        };
-        axios
-          .post(`emailapi/get_content_list`, body)
-          .then((res) => {
-            setSendListData(res.data.response.data);
-            
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+  useEffect(() => {
+    if (PdfSelected !== 0) {
+      inputElement.current.classList.remove("disabled");
+    }
+  }, [PdfSelected]);
 
-    
-   }, []);
+  const handleSelect = (e) => {
+    setPdfSelected(e.target.value);
+  };
 
-	useEffect(() => {
-		if(PdfSelected!==0){
-			inputElement.current.classList.remove("disabled");
-		}
+  return (
+    <>
+      <div className="right-sidebar">
+        <div className="page-top-nav">
+          <div className="row justify-content-end align-items-center">
+            <div className="col-12 col-md-1">
+              <div className="header-btn-left"></div>
+            </div>
+            <div className="col-12 col-md-9">
+              <ul className="tabnav-link">
+                <li className="active">
+                  <a href="">Select Content</a>
+                </li>
+                <li className="">
+                  <a href="">Create Your Email</a>
+                </li>
+                <li className="">
+                  <a href="">Select HCPs</a>
+                </li>
+                <li className="">
+                  <a href="">Verify your list</a>
+                </li>
+                <li className="">
+                  <a href="">Verify your Email</a>
+                </li>
+              </ul>
+            </div>
+            <div className="col-12 col-md-2">
+              <div className="header-btn">
+                <button className="btn btn-primary btn-bordered cancel">
+                  Cancel
+                </button>
+                {PdfSelected === 0 ? (
+                  <button
+                    ref={inputElement}
+                    className="btn btn-primary btn-filled next disabled"
+                  >
+                    Next
+                  </button>
+                ) : (
+                  <Link to="/CreateEmail" state={{ PdfSelected: PdfSelected }}>
+                    <button
+                      ref={inputElement}
+                      className="btn btn-primary btn-filled next disabled"
+                    >
+                      Next
+                    </button>
+                  </Link>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
 
-	}, [PdfSelected]);
-
-	 const handleSelect = (e)=>{
-			setPdfSelected(e.target.value);
-	}
-
-    return (
-      <>
-     			<div className="right-sidebar">
-					<div className="page-top-nav">
-						<div className="row justify-content-end align-items-center">
-							<div className="col-12 col-md-1">
-								<div className="header-btn-left">
-									
-								</div>
-							</div>
-							<div className="col-12 col-md-9">
-								<ul className="tabnav-link">
-									<li className="active">
-										<a href="">Select Content</a>
-									</li>
-									<li className="">
-										<a href="">Create Your Email</a>
-									</li>
-									<li className="">
-										<a href="">Select HCPs</a>
-									</li>
-									<li className="">
-										<a href="">Verify your list</a>
-									</li>
-									<li className="">
-										<a href="">Verify your Email</a>
-									</li>
-								</ul>
-							</div>
-							<div className="col-12 col-md-2">
-							  <div className="header-btn">
-								<button className="btn btn-primary btn-bordered cancel">Cancel</button>
-								{
-										 
-										PdfSelected === 0 ? <button ref={inputElement} className="btn btn-primary btn-filled next disabled">Next</button> : <Link to="/CreateEmail" state={{ PdfSelected: PdfSelected }}>
-										<button ref={inputElement} className="btn btn-primary btn-filled next disabled">Next</button>	
-									</Link>
-
-								}
-							
-							  </div>
-							</div>
-						 </div>
-					</div>
-			
-					<div className="top-header">
-						<div className="page-title">
-							<h4>Select your content</h4>
-						</div>
-						<div className="top-right-action">
+        <div className="top-header">
+          <div className="page-title">
+            <h4>Select your content</h4>
+          </div>
+          {/* <div className="top-right-action">
 							<div className="search-bar">
 								<form className="d-flex">
 								  <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
@@ -108,83 +113,75 @@ const EmailArticleSelect = () => {
 									</svg>
 								</button>
 							</div>
-							
-						</div>
-					</div>
-					
-					<div className="mail-content-select">
-						<div className="row">
 
-						{SendListData.map((data) => {
-                 		return (
-							<div className="col-12 col-md-4">
-									<div className="mail-content-select-box">
-										<div className="mail-content-select-top">
-											<div className="mail-preview-img">
-												<img src={data.cover_img} alt="Preview " />
-											</div>
-											<div className="mail-box-content">
-												<h5>{data.title}</h5>
-												<p>{data.pdf_sub_title}</p>
-												<div className="mailbox-tags">
-													<ul>
-													{
-														data.tags.map((data_tags) => {
-        											return (
-														<li className="list1">{data_tags}</li>
-													
-														);
-													})}
-													</ul>
-												</div>
-											</div>
-											<div className="select-mail-option" onClick={handleSelect}>
-												<input type="radio" name="radio"  value={data.id} />
-												<span className="checkmark"></span>
-											</div>
-										</div>
-										<div className="mail-content-table">
-											<table>
-												<tbody>
-													<tr>
-														<th>Upload Date</th>
-														<td>{data.created}</td>
-													</tr>
-													<tr>
-														<th>Language</th>
-														<td>{data.language}</td>
-													</tr>
-													<tr>
-														<th>SPC</th>
-														<td>{data.spc_included === 0 ? 'No' : 'Yes' }</td>
-													</tr>
-													<tr>
-														<th>Last Email</th>
-														<td>{data.last_sent=='' ? 'N/A' : data.last_sent }</td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
-										<div className="mail-content-footer">
-											<button className="btn btn-primary btn-filled">Preview</button>
-										</div>
-									</div>
-								</div>
+						</div> */}
+        </div>
 
-							);
-							})}
-
-		
-							</div>
-						</div>
-					
-				
-				</div>
-	
-		
-      </>
-    );
+        <div className="mail-content-select">
+          <div className="row">
+            {SendListData.map((data) => {
+              return (
+                <div className="col-12 col-md-4">
+                  <div className="mail-content-select-box">
+                    <div className="mail-content-select-top">
+                      <div className="mail-preview-img">
+                        <img src={data.cover_img} alt="Preview " />
+                      </div>
+                      <div className="mail-box-content">
+                        <h5>{data.title}</h5>
+                        <p>{data.pdf_sub_title}</p>
+                        <div className="mailbox-tags">
+                          <ul>
+                            {data.tags.map((data_tags) => {
+                              return <li className="list1">{data_tags}</li>;
+                            })}
+                          </ul>
+                        </div>
+                      </div>
+                      <div
+                        className="select-mail-option"
+                        onClick={handleSelect}
+                      >
+                        <input type="radio" name="radio" value={data.id} />
+                        <span className="checkmark"></span>
+                      </div>
+                    </div>
+                    <div className="mail-content-table">
+                      <table>
+                        <tbody>
+                          <tr>
+                            <th>Upload Date</th>
+                            <td>{data.created}</td>
+                          </tr>
+                          <tr>
+                            <th>Language</th>
+                            <td>{data.language}</td>
+                          </tr>
+                          <tr>
+                            <th>SPC</th>
+                            <td>{data.spc_included === 0 ? "No" : "Yes"}</td>
+                          </tr>
+                          <tr>
+                            <th>Last Email</th>
+                            <td>
+                              {data.last_sent == "" ? "N/A" : data.last_sent}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div className="mail-content-footer">
+                      <a href= {data.preview_link} target="_blank"><button className="btn btn-primary btn-filled">Preview</button></a>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </>
+  );
 };
-
 
 export default EmailArticleSelect;

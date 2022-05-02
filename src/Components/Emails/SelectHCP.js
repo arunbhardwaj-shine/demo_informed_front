@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { loader } from "../../loader";
 
 const SelectHCP = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -20,6 +21,12 @@ const SelectHCP = () => {
     setTemplateId(selected);
   };
 
+  const backClicked = () => {
+    window.history.go(-1);
+
+    // return true;
+  };
+
   return (
     <>
       <div className="col right-sidebar">
@@ -27,7 +34,10 @@ const SelectHCP = () => {
           <div className="row justify-content-end align-items-center">
             <div className="col-12 col-md-1">
               <div className="header-btn-left">
-                <button className="btn btn-primary btn-bordered back">
+                <button
+                  className="btn btn-primary btn-bordered back"
+                  onClick={backClicked}
+                >
                   Back
                 </button>
               </div>
@@ -66,6 +76,15 @@ const SelectHCP = () => {
                       Next
                     </button>
                   </Link>
+
+                  // <Link
+                  //   to="/SelectSmartList"
+                  //   state={{ UserSelected: templateId }}
+                  // >
+                  //   <button className="btn btn-primary btn-filled next">
+                  //     Next
+                  //   </button>
+                  // </Link>
                 )}
               </div>
             </div>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { loader } from "../../loader";
 import axios from "axios";
 
 const EmailList = () => {
@@ -13,6 +14,7 @@ const EmailList = () => {
 
    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
    const getData = () => {
+      loader("show");
        const body = {
          user_id: 18207,
          search: search,
@@ -23,9 +25,10 @@ const EmailList = () => {
          .then((res) => {
            setSendListData(res.data.response.data.emails);
            setUserData(res.data.response.data.user);
-
+           loader("hide");
          })
          .catch((err) => {
+           loader("hide");
            console.log(err);
          });
    }
@@ -68,7 +71,7 @@ const EmailList = () => {
 									</button>
 								</form>
 							</div>
-							<div className="filter-by">
+							{/* <div className="filter-by">
 								<button className="btn btn-outline-primary" type="submit">
 								Filter By <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<path d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z" fill="#97B6CF"/>
@@ -88,10 +91,10 @@ const EmailList = () => {
 									<path d="M12 18.25C11.8019 18.2474 11.6126 18.1676 11.4725 18.0275C11.3324 17.8874 11.2526 17.6981 11.25 17.5V9.5C11.25 9.30109 11.329 9.11032 11.4697 8.96967C11.6103 8.82902 11.8011 8.75 12 8.75C12.1989 8.75 12.3897 8.82902 12.5303 8.96967C12.671 9.11032 12.75 9.30109 12.75 9.5V17.5C12.7474 17.6981 12.6676 17.8874 12.5275 18.0275C12.3874 18.1676 12.1981 18.2474 12 18.25Z" fill="#0066BE"/>
 									</svg>
 								</button>
-							</div>
+							</div> */}
 						</div>
 					</div>
-					<div className="apply-filter">
+					{/* <div className="apply-filter">
 						<h6>Applied filters</h6>
 						<div className="filter-block">
 							<div className="filter-div">
@@ -104,7 +107,7 @@ const EmailList = () => {
 								<button className="btn btn-outline-primary btn-bordered" type="submit">Remove All</button>
 							</div>
 						</div>
-					</div>
+					</div> */}
 					<div className="email-result">
 						<div className="col email-result-block">
 							<div className="email-block-add-box">

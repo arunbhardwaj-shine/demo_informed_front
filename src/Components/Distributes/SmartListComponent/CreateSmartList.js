@@ -8,6 +8,7 @@ import { Button, Modal } from "react-bootstrap";
 import SimpleReactValidator from "simple-react-validator";
 import { useLocation } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
+import { loader } from "../../../loader";
 
 const CreateSmartList = () => {
   const location = useLocation();
@@ -146,16 +147,15 @@ const CreateSmartList = () => {
     console.log(formData);
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    loader("show");
     await axios
       .post(`distributes/create_smart_list_with_excel`, formData)
       .then((res) => {
         setData(res.data.response.data);
         navigate("/UploadExcel", {
-          // data: data,
-          // smartListName: smartListName,
-
           state: { data: res.data.response.data, smartListName: smartListName },
         });
+        loader("hide");
         setapi_flag(api_flag + 1);
       })
       .catch((err) => {

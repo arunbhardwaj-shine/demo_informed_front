@@ -2495,5 +2495,8 @@ color:#004A89;
 /**End Email View **/
 
 .ck-content .table, .ck-editor__editable .ck-table-bogus-paragraph span.image-inline img {
-    max-width: 800px;
+    max-width: 800px !important;
+}
+.owl-dots{
+	display: none;
 }

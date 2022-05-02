@@ -33,7 +33,7 @@ const Header = () => {
 						<a className="nav-link" >Distrubute</a>
 					  </li>
 					  <div className="container">
-       
+
 					  <li className="nav-item">
 						<a to="/webinar"  >Webinar</a>
 					  </li>
@@ -42,7 +42,9 @@ const Header = () => {
 				</div>
 			  </div>
 			</nav>
-
+			<div className="loader" id="custom_loader">
+	        <span className="loader-view"> </span>
+	    </div>
 		</header>
       </>
     );

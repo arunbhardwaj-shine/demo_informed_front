@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import { Button, Dropdown, Modal } from "react-bootstrap";
 import "../../assets/css/style.css";
 import "../../assets/css/custom.css";
 import Login from "../../../Auth/Login";
 import { toast, ToastContainer } from "react-toastify";
-import ExportApi from "../../../Api/ExportApi";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import ForgotPassword from "../../../Auth/ForgotPassword";
+import ExportApi from "../../../Api/ExportApi";
 
 const Header = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -22,7 +20,7 @@ const Header = () => {
   const hengleLonginPage = (data,message) => {
     setSmShowLogin(data);
     setDropdownOpen(data);
-  
+
   };
   const hengleForgotPage = (data) => {
     setSmShowForgot(data);
@@ -48,10 +46,10 @@ const Header = () => {
       })
       .catch((err) => console.log(err));
   };
-
+  const location = useLocation();
   return (
     <>
-      <header>
+    {location.pathname.includes("/webinar/register")?null:<header>
         <nav className="navbar navbar-expand-sm navbar-light">
           <div className="container-fluid">
             <a className="navbar-brand">
@@ -191,7 +189,7 @@ const Header = () => {
           </div>
         </nav>
      
-      </header>
+      </header>}
     </>
   );
 };
