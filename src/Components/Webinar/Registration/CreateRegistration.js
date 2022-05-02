@@ -1,11 +1,9 @@
-import React, { useEffect, useState,useRef  } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import ExportApi from "../../../Api/ExportApi";
 import { Button, CloseButton, Col, Form, Row } from "react-bootstrap";
 import * as Yup from "yup";
 import "../webinar.css";
-import { render } from 'react-dom';
-import EmailEditor from 'react-email-editor';
 import { toast, ToastContainer } from "react-toastify";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
@@ -36,35 +34,6 @@ const CreateRegistration = (props) => {
       }
        
      };
-     const emailEditorRef = useRef(null);
-
-     const exportHtml = async () => {
-        emailEditorRef.current.editor.exportHtml((data) => {
-          const { design, html } = data;
-         console.log('exportHtml', design);
-      
-        setBody (design)
-        console.log(body)
-        })
-      };
-   
-     const onLoad = () => {
-    
-
-       // editor instance is created
-       // you can load your template here;
-       // const templateJson = {};
-       // emailEditorRef.current.editor.loadDesign(templateJson);
-     }
-   
-     const onReady = () => {
-       // editor is ready
-       console.log('onReady');
-     };
-     const onFocus = () => {
-       // editor is ready
-       console.log('onFocus');
-     };
     const formik = useFormik({
         initialValues: {
             RegistrationPageTitle:'',
@@ -76,17 +45,14 @@ const CreateRegistration = (props) => {
         }),
         enableReinitialize: true,
         onSubmit: (values) => {
-          console.log("body",body)
       let formData = new FormData();
       formData.append("event_id",props.id);
-      formData.append("body", JSON.stringify(body));
+      formData.append("body", body);
       formData.append("file", image);
       formData.append("title", values.RegistrationPageTitle);
       formData.append("url", values.url);
       image ? ExportApi.CreateRegistrationPage(formData).then((resp) => {
-        console.log("formData",formData)
             if (resp.ok) {
-              console.log(body)
               if (resp.data.code == 200) {
                   props.data(false)
                 toast.success(resp.data.message, {
@@ -172,7 +138,7 @@ const CreateRegistration = (props) => {
               <Row>          
                   <Col>
                   <Form.Label>Body Text</Form.Label>
-            {/* <CKEditor
+            <CKEditor
               editor={ClassicEditor}
               data={""}
               onReady={(editor) => {
@@ -200,14 +166,7 @@ const CreateRegistration = (props) => {
                 // data?setErr(false):setErr("required")
                 // console.log( 'Focus.', editor );
               }}
-            />  */}
-              <div>
-      <div>
-        <Button onClick={exportHtml}>Export HTML</Button>
-      </div>
-
-      <EmailEditor ref={emailEditorRef} onLoad={onLoad} onReady={onReady} />
-    </div>
+            /> 
           <p style={{color:"red"}}>{err}</p>
                   </Col>
                   
