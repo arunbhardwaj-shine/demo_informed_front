@@ -363,6 +363,8 @@ const CreateEmail = (props) => {
                 items={5}
                 dots={false}
                 speed={500}
+                center={true}
+                loop={true}
                 nav
               >
                 {templateList.map((template) => {
