@@ -22,7 +22,7 @@ const Sidebar = () => {
   return (
 	  <div>
 
-  { location.pathname.includes("/webinar/register")?null:<div>
+{location.pathname.includes("/webinar/register")||location.pathname.includes("/webinar/editor")?null:<div>
     {token?
     <div className="col left-sidebar">
     <div className="sidebar-menu">

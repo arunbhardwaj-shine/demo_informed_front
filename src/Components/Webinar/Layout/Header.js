@@ -49,7 +49,7 @@ const Header = () => {
   const location = useLocation();
   return (
     <>
-    {location.pathname.includes("/webinar/register")?null:<header>
+    {location.pathname.includes("/webinar/register")||location.pathname.includes("/webinar/editor")?null:<header>
         <nav className="navbar navbar-expand-sm navbar-light">
           <div className="container-fluid">
             <a className="navbar-brand">
