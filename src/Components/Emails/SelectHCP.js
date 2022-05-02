@@ -7,11 +7,13 @@ const SelectHCP = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
+  const [selection, setSelection] = useState(0);
   const [templateId, setTemplateId] = useState(0);
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
   const handleInputChange = (event, selected) => {
+    setSelection(event.target.children[0].value);
     const div = document.querySelector("div.active");
 
     if (div) {
@@ -71,7 +73,7 @@ const SelectHCP = () => {
                     Next{" "}
                   </button>
                 ) : (
-                  <Link to="/VerifyHCP" state={{ UserSelected: templateId }}>
+                  <Link to=  {selection==='Single HCP' ? '/VerifyHCP' : '/SelectSmartList'}     state={{ UserSelected: templateId }}>
                     <button className="btn btn-primary btn-filled next">
                       Next
                     </button>
