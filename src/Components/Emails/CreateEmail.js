@@ -9,8 +9,6 @@ import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 import { getEmailData } from "../../actions";
 import { useNavigate } from "react-router-dom";
-
-import { getThemeProps } from "@material-ui/styles";
 import { Modal } from "react-bootstrap";
 import SimpleReactValidator from "simple-react-validator";
 import { loader } from "../../loader";
