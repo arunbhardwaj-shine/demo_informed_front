@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import SimpleReactValidator from "simple-react-validator";
 import { useNavigate } from "react-router-dom";
+import { loader } from "../../loader";
 import axios from "axios";
 
 const VerifyHCP = () => {
@@ -238,7 +239,7 @@ const VerifyHCP = () => {
         user_id: 18207,
         smart_list_id: "",
       };
-
+      loader("show");
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       await axios
         .post(`distributes/add_new_readers_in_list`, body)
@@ -246,6 +247,7 @@ const VerifyHCP = () => {
           res.data.response.data.map((data) => {
             setSelectedHcp((oldArray) => [...oldArray, data]);
           });
+          loader("hide");
           //setSelectedHcp(res.data.response.data);
         })
         .catch((err) => {
@@ -261,12 +263,14 @@ const VerifyHCP = () => {
       console.log(formData);
 
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      loader("show");
       await axios
         .post(`distributes/update_reader_list`, formData)
         .then((res) => {
           res.data.response.data.map((data) => {
             setSelectedHcp((oldArray) => [...oldArray, data]);
           });
+          loader("hide");
         })
         .catch((err) => {
           console.log(err);
@@ -301,6 +305,7 @@ const VerifyHCP = () => {
 
     //console.log(body);
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    loader("show");
     await axios
       .post(`emailapi/search_hcp`, body)
       .then((res) => {
@@ -312,6 +317,7 @@ const VerifyHCP = () => {
         if (res.data.message) {
           setMessage(res.data.message);
         }
+        loader("hide");
       })
       .catch((err) => {
         console.log(err);

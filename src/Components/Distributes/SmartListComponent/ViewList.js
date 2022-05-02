@@ -5,6 +5,7 @@ import queryString from "query-string";
 import { Link } from "react-router-dom";
 import Loader from "react-js-loader";
 import Table from "./Table";
+import { loader } from "../../../loader";
 
 const EditList = () => {
   const queryParams = queryString.parse(window.location.search);
@@ -24,6 +25,7 @@ const EditList = () => {
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const getSmartListData = async () => {
+    loader("show");
     await axios
       .post(`distributes/get_reders_list`, body)
       .then((res) => {
@@ -33,6 +35,7 @@ const EditList = () => {
           setUploadedBy(res.data.response.upload_by_filter);
           setSmartListName(res.data.response.smart_list_name);
           setapi_flag(api_flag + 1);
+          loader("hide");
         }
       })
       .catch((err) => {
@@ -71,7 +74,6 @@ const EditList = () => {
       <div className="col right-sidebar">
         {isLoading ? (
           <div className={"item"}>
-            <Loader type="heart" bgColor="red" color="red" size={100} />
           </div>
         ) : null}
         </div>

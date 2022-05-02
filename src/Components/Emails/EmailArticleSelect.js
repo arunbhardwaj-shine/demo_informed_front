@@ -1,14 +1,15 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
+import { loader } from "../../loader";
 import { Link, NavigationType,useNavigate } from "react-router-dom";
 
 const EmailArticleSelect = () => {
-  
+
   let path_image= process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
   const [PdfSelected, setPdfSelected] = useState(0);
   const inputElement = useRef();
-  
+
 
    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
    useEffect(() => {
@@ -16,17 +17,18 @@ const EmailArticleSelect = () => {
         const body = {
           user_id: 18207,
         };
+        loader("show");
         axios
           .post(`emailapi/get_content_list`, body)
           .then((res) => {
             setSendListData(res.data.response.data);
-            
+            loader("hide");
           })
           .catch((err) => {
             console.log(err);
           });
 
-    
+
    }, []);
 
 	useEffect(() => {
@@ -47,7 +49,7 @@ const EmailArticleSelect = () => {
 						<div className="row justify-content-end align-items-center">
 							<div className="col-12 col-md-1">
 								<div className="header-btn-left">
-									
+
 								</div>
 							</div>
 							<div className="col-12 col-md-9">
@@ -73,23 +75,23 @@ const EmailArticleSelect = () => {
 							  <div className="header-btn">
 								<button className="btn btn-primary btn-bordered cancel">Cancel</button>
 								{
-										 
+
 										PdfSelected === 0 ? <button ref={inputElement} className="btn btn-primary btn-filled next disabled">Next</button> : <Link to="/CreateEmail" state={{ PdfSelected: PdfSelected }}>
-										<button ref={inputElement} className="btn btn-primary btn-filled next disabled">Next</button>	
+										<button ref={inputElement} className="btn btn-primary btn-filled next disabled">Next</button>
 									</Link>
 
 								}
-							
+
 							  </div>
 							</div>
 						 </div>
 					</div>
-			
+
 					<div className="top-header">
 						<div className="page-title">
 							<h4>Select your content</h4>
 						</div>
-						<div className="top-right-action">
+						{/* <div className="top-right-action">
 							<div className="search-bar">
 								<form className="d-flex">
 								  <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
@@ -108,10 +110,10 @@ const EmailArticleSelect = () => {
 									</svg>
 								</button>
 							</div>
-							
-						</div>
+
+						</div> */}
 					</div>
-					
+
 					<div className="mail-content-select">
 						<div className="row">
 
@@ -132,7 +134,7 @@ const EmailArticleSelect = () => {
 														data.tags.map((data_tags) => {
         											return (
 														<li className="list1">{data_tags}</li>
-													
+
 														);
 													})}
 													</ul>
@@ -174,14 +176,14 @@ const EmailArticleSelect = () => {
 							);
 							})}
 
-		
+
 							</div>
 						</div>
-					
-				
+
+
 				</div>
-	
-		
+
+
       </>
     );
 };

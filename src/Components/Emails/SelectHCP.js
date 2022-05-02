@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { loader } from "../../loader";
 
 const SelectHCP = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -61,7 +62,16 @@ const SelectHCP = () => {
                     Next{" "}
                   </button>
                 ) : (
-                  <Link to="/VerifyHCP" state={{ UserSelected: templateId }}>
+                  // <Link to="/VerifyHCP" state={{ UserSelected: templateId }}>
+                  //   <button className="btn btn-primary btn-filled next">
+                  //     Next
+                  //   </button>
+                  // </Link>
+
+                  <Link
+                    to="/SelectSmartList"
+                    state={{ UserSelected: templateId }}
+                  >
                     <button className="btn btn-primary btn-filled next">
                       Next
                     </button>

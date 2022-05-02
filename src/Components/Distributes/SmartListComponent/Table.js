@@ -5,6 +5,7 @@ import { Button, Modal } from "react-bootstrap";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import SimpleReactValidator from "simple-react-validator";
+import { loader } from "../../../loader";
 
 import { connect } from "react-redux";
 
@@ -102,6 +103,7 @@ const Table = (props) => {
       formData.append("reader_file", selectedFile);
 
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      loader("show");
       await axios
         .post(`distributes/update_reader_list`, formData)
         .then((res) => {
@@ -112,6 +114,7 @@ const Table = (props) => {
           // console.log(combine_data);
           setEditList(combine_data);
           setUpdatedData(combine_data);
+          loader("hide");
         })
         .catch((err) => {
           console.log(err);
@@ -190,9 +193,11 @@ const Table = (props) => {
     // }
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    loader("show");
     await axios
       .post(`distributes/add_update_list`, body)
       .then((res) => {
+        loader("hide");
         window.location.href = '/SmartList';
       })
       .catch((err) => {
@@ -370,7 +375,7 @@ const Table = (props) => {
 
     console.log("edit list");
     console.log(editList);
-
+    loader("show");
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     await axios
       .post(`distributes/update_reders_details`, body)
@@ -401,6 +406,7 @@ const Table = (props) => {
           );
         }
         setReRender(render + 1);
+        loader("hide");
       })
       .catch((err) => {
         console.log(err);
@@ -570,19 +576,16 @@ const Table = (props) => {
       };
 
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      loader("show");
       await axios
         .post(`distributes/add_new_readers_in_list`, body)
         .then((res) => {
-          console.log(res);
           let old_data = editList;
           let new_data = res.data.response.data;
-          console.log(old_data);
-          console.log(new_data);
-
           combine_data_manual = [...new_data, ...old_data];
-          console.log(combine_data_manual);
           setEditList(combine_data_manual);
           setUpdatedData(combine_data_manual);
+          loader("hide");
         })
         .catch((err) => {
           console.log(err);
