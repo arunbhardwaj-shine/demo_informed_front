@@ -42,6 +42,7 @@ import ForgotResetPassword from "./Auth/ForgotResetPassword";
 import Template from "./Components/Webinar/Template/Template";
 import Registration from "./Components/Webinar/Registration/Registration";
 import Preview from "./Components/Webinar/Registration/Preview";
+import EditorEmail from "./Components/Webinar/Registration/EditorEmail";
 
 let platform = 0;
 let show = 0;
@@ -107,6 +108,10 @@ ReactDOM.render(
                         <Route
                           path="/webinar/register/:code/:url"
                           element={<Preview/>}
+                        />
+                        <Route
+                          path="/webinar/editor"
+                          element={<EditorEmail/>}
                         />
                         <Route
                           path="/webinar/Forgotpassword"

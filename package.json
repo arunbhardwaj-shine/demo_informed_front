@@ -24,6 +24,7 @@
 		"react-bootstrap": "^2.2.3",
 		"react-confirm-alert": "^2.8.0",
 		"react-dom": "^18.0.0",
+		"react-email-editor": "^1.6.0",
 		"react-js-loader": "^0.1.0",
 		"react-loading-skeleton": "^3.1.0",
 		"react-owl-carousel": "^2.3.3",

@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation,  } from "react-router-dom";
 // import "react-slidedown/lib/slidedown.css";
 // import { useState } from "react";
 const Sidebar = () => {
   const[token,setToken]=useState(true)
-  let navigate = useNavigate();
   const location = useLocation();
   useEffect(() => {
     if(localStorage.getItem("Token")){
@@ -23,9 +22,9 @@ const Sidebar = () => {
   return (
 	  <div>
 
-  { location.pathname.includes("/webinar/register")?null:<div>
+{location.pathname.includes("/webinar/register")||location.pathname.includes("/webinar/editor")?null:<div>
     {token?
-    <div className="col left-sidebar">
+ 
     <div className="sidebar-menu">
       <ul>
       <li className={location.pathname=="/webinar/dashboard"?"active":""} ><Link  to="/webinar/dashboard"  ><svg width="24" height="18" viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -49,7 +48,6 @@ const Sidebar = () => {
 								<path d="M12.2745 7.92L23.4517 1.26857C23.1772 0.877654 22.8128 0.558387 22.3891 0.33763C21.9655 0.116872 21.4951 0.00108202 21.0174 0H2.98311C2.50543 0.00108202 2.03499 0.116872 1.61138 0.33763C1.18776 0.558387 0.823359 0.877654 0.548828 1.26857L11.7374 7.92C11.8198 7.96501 11.9121 7.98861 12.006 7.98861C12.0998 7.98861 12.1922 7.96501 12.2745 7.92Z" fill="#004A89"/>
 								</svg>Registration</Link></li>
         </ul>
-        </div>
         </div>
  
            
