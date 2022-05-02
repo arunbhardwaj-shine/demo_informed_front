@@ -295,6 +295,12 @@ const VerifyHCP = () => {
     ]);
   };
 
+  const backClicked = () => {
+    window.history.go(-1);
+
+    // return true;
+  };
+
   const searchHcp = async (e) => {
     e.preventDefault();
     const body = {
@@ -331,7 +337,10 @@ const VerifyHCP = () => {
           <div className="row justify-content-end align-items-center">
             <div className="col-12 col-md-1">
               <div className="header-btn-left">
-                <button className="btn btn-primary btn-bordered back">
+                <button
+                  className="btn btn-primary btn-bordered back"
+                  onClick={backClicked}
+                >
                   Back
                 </button>
               </div>

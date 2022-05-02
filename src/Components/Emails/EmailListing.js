@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loader } from "../../loader";
 import axios from "axios";
+import Modal from "react-bootstrap/Modal";
 
 const EmailList = () => {
   const navigate = useNavigate();
@@ -11,6 +12,17 @@ const EmailList = () => {
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('');
   const [submiHandle, setSubmiHandle] = useState('');
+  const [getreference, setReference] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
+
+  const showModal = (refernce) => {
+    setReference(refernce);
+    setIsOpen(true);
+  };
+
+  const hideModal = () => {
+    setIsOpen(false);
+  };
 
    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
    const getData = () => {
@@ -110,17 +122,19 @@ const EmailList = () => {
 					</div> */}
 					<div className="email-result">
 						<div className="col email-result-block">
-							<div className="email-block-add">
+							<div className="email-block-add-box">
+								<div className="email-block-add">
 
 							<a href="/EmailArticleSelect"><img src={path_image+"add-button.svg"} alt="" /></a>
 								<p>Create New Email</p>
 							</div>
-
+							</div>
               {SendListData.map((data) => {
                 //console.log(data)
                  return (
-                  <div  className={"email_box " + (data.status === 1  ? 'approved' : (data.status === 2) ? 'email-draft' : 'draft-approved')}>
-                    <div className="mail-top-title"><span>
+					 <div className="email_box_block">
+                  <div className="email_box " className={"email_box " + (data.status == 1  ? 'approved' : (data.status == 2) ? 'email-draft' : 'draft-approved')}>
+                    <div class="mail-top-title"><span>
                       {data.status == 2 ? "Draft" : "Approved Draft"}
                     </span></div>
                     <div className="mail-box-content">
@@ -182,24 +196,53 @@ const EmailList = () => {
                         <div className="mailbox-buttons">
                           <div className="send_new"><button className="btn btn-primary btn-filled send-new">Send New</button></div>
                           <div className="mailbox-buttons-list">
-                            <button className="btn btn-primary btn-bordered send">Resend</button>
+                            <button className="btn btn-primary btn-bordered send" onClick={(e) => showModal('resend')}>Resend</button>
                             <button className="btn btn-primary btn-filled edit">View</button>
                           </div>
                         </div>
                         : <div className="mailbox-buttons">
-                          <button className="btn btn-primary send btn-bordered">Send</button>
+							<div className="mailbox-buttons-list">
+                          {data.route_location == "VerifyMAIL" ? <button className="btn btn-primary send btn-bordered" onClick={(e) => showModal('send')}>Send</button> : ""}
                           <button className="btn btn-primary edit" onClick={() => draftNavigate(data.id,data.pdf_id,data.route_location)}>Edit</button>
                         </div>
+						</div>
                       }
 
                     </div>
                   </div>
+				  </div>
                 );
               })}
 						</div>
 					</div>
 				</div>
 
+        <div class="modal send-confirm" id="resend-confirm">
+            <Modal show={isOpen} onHide={hideModal}>
+      				  <div class="modal-dialog modal-dialog-centered">
+      					<div class="modal-content">
+
+
+      					  <div class="modal-header">
+      						      <button type="button" class="btn-close" onClick={hideModal}></button>
+      					  </div>
+
+
+      					  <div class="modal-body">
+      						<img src="assets/images/alert.png" alt="" />
+      						<h4>This email will be sent to everybody who has not opened the email  </h4>
+
+      						<div class="modal-buttons">
+      							<button type="button" class="btn btn-primary btn-filled" data-bs-dismiss="modal">Yes Please!</button>
+                    { getreference == "resend" ? <button type="button" class="btn btn-primary btn-bordered" data-bs-dismiss="modal">View Email</button> : "" }
+      							<button type="button" class="btn btn-primary btn-bordered light" onClick={hideModal}>Cancel</button>
+      						</div>
+      					  </div>
+
+      					</div>
+      				  </div>
+            </Modal>
+        </div>
       </>
     );
 };

@@ -7,11 +7,13 @@ const SelectHCP = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
+  const [selection, setSelection] = useState(0);
   const [templateId, setTemplateId] = useState(0);
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
   const handleInputChange = (event, selected) => {
+    setSelection(event.target.children[0].value);
     const div = document.querySelector("div.active");
 
     if (div) {
@@ -21,6 +23,12 @@ const SelectHCP = () => {
     setTemplateId(selected);
   };
 
+  const backClicked = () => {
+    window.history.go(-1);
+
+    // return true;
+  };
+
   return (
     <>
       <div className="col right-sidebar">
@@ -28,7 +36,10 @@ const SelectHCP = () => {
           <div className="row justify-content-end align-items-center">
             <div className="col-12 col-md-1">
               <div className="header-btn-left">
-                <button className="btn btn-primary btn-bordered back">
+                <button
+                  className="btn btn-primary btn-bordered back"
+                  onClick={backClicked}
+                >
                   Back
                 </button>
               </div>
@@ -62,20 +73,20 @@ const SelectHCP = () => {
                     Next{" "}
                   </button>
                 ) : (
-                  // <Link to="/VerifyHCP" state={{ UserSelected: templateId }}>
-                  //   <button className="btn btn-primary btn-filled next">
-                  //     Next
-                  //   </button>
-                  // </Link>
-
-                  <Link
-                    to="/SelectSmartList"
-                    state={{ UserSelected: templateId }}
-                  >
+                  <Link to=  {selection==='Single HCP' ? '/VerifyHCP' : '/SelectSmartList'}     state={{ UserSelected: templateId }}>
                     <button className="btn btn-primary btn-filled next">
                       Next
                     </button>
                   </Link>
+
+                  // <Link
+                  //   to="/SelectSmartList"
+                  //   state={{ UserSelected: templateId }}
+                  // >
+                  //   <button className="btn btn-primary btn-filled next">
+                  //     Next
+                  //   </button>
+                  // </Link>
                 )}
               </div>
             </div>
