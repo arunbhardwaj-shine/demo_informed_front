@@ -107,11 +107,14 @@ const EmailList = () => {
 					</div>
 					<div className="email-result">
 						<div className="col email-result-block">
-							<div className="email-block-add">
+							<div className="email-block-add-box">
+								<div className="email-block-add">
 
 							<a href="/EmailArticleSelect"><img src={path_image+"add-button.svg"} alt="" /></a>
 								<p>Create New Email</p>
 							</div>
+							</div>
+							<div className="email_box_block">
 							<div className="email-draft email_box">
 								<div className="mail-top-title">
 									<span>Draft</span>
@@ -170,11 +173,15 @@ const EmailList = () => {
 										</ul>
 									</div>
 									<div className="mailbox-buttons">
+										<div className="mailbox-buttons-list">
 										<button className="btn btn-primary btn-bordered send">Send</button>
 										<button className="btn btn-primary btn-filled edit">Edit</button>
+										</div>
 									</div>
 								</div>
 							</div>
+							</div>
+							<div className="email_box_block">
 							<div className="draft-approved email_box">
 								<div className="mail-top-title">
 									<span>Approved Draft</span>
@@ -233,14 +240,18 @@ const EmailList = () => {
 										</ul>
 									</div>
 									<div className="mailbox-buttons">
-										<button className="btn btn-primary send btn-bordered">Send</button>
-										<button className="btn btn-primary edit">Edit</button>
+									<div className="mailbox-buttons-list">
+										<button className="btn btn-primary btn-bordered send">Send</button>
+										<button className="btn btn-primary btn-filled edit">Edit</button>
+										</div>
 									</div>
 								</div>
+							</div>
 							</div>
               {SendListData.map((data) => {
                 //console.log(data)
                  return (
+					 <div className="email_box_block">
                   <div className="email_box approved" className={"email_box " + (data.status == 1  ? 'approved' : (data.status == 2) ? 'email-draft' : 'draft-approved')}>
                     <div class="mail-top-title"><span>
                       {data.status == 2 ? "Draft" : "Approved Draft"}
@@ -309,13 +320,16 @@ const EmailList = () => {
                           </div>
                         </div>
                         : <div className="mailbox-buttons">
+							<div className="mailbox-buttons-list">
                           <button className="btn btn-primary send btn-bordered">Send</button>
                           <button className="btn btn-primary edit" onClick={() => draftNavigate(data.id,data.pdf_id,data.route_location)}>Edit</button>
                         </div>
+						</div>
                       }
 
                     </div>
                   </div>
+				  </div>
                 );
               })}
 						</div>
