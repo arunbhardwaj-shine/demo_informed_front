@@ -41,6 +41,7 @@ import ForgotPassword from "./Auth/ForgotPassword";
 import ForgotResetPassword from "./Auth/ForgotResetPassword";
 import Template from "./Components/Webinar/Template/Template";
 import Registration from "./Components/Webinar/Registration/Registration";
+import Preview from "./Components/Webinar/Registration/Preview";
 
 let platform = 0;
 let show = 0;
@@ -80,8 +81,6 @@ ReactDOM.render(
                     <Route path="/VerifyHCP" element={<VerifyHCP />} />
                     <Route path="/VerifyMAIL" element={<VerifyMAIL />} />
                     <Route path="/SelectSmartListUsers" element={<SelectSmartListUsers />} />
-
-                    
                     <Route
                       path="/VerifySmartList"
                       element={<VerifySmartList />}
@@ -89,8 +88,6 @@ ReactDOM.render(
                     <Route path="/ViewSmartList" element={<ViewList />} />
                     <Route path="/UploadExcel" element={<UploadExcel />} />
                     <Route path="/UpdatedTable" element={<Table />} />
-               
-               
                   </Routes>
                 </div>
               </div>
@@ -102,10 +99,14 @@ ReactDOM.render(
               <div className="container-fluid">
                 <div className="row">
                    <SidebarWebinar/>
-        <>      <Routes>
+        <>             <Routes>
                         <Route
                           path="/webinar"
                           element={<Home />}
+                        />
+                        <Route
+                          path="/webinar/register/:code/:url"
+                          element={<Preview/>}
                         />
                         <Route
                           path="/webinar/Forgotpassword"

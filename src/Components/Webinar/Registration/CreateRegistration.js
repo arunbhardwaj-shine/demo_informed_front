@@ -12,38 +12,48 @@ const CreateRegistration = (props) => {
     const [body, setBody] = useState();
     const [err, setErr] = useState(false);
     const [image, setimage] = useState("");
+    const [errimage, setErrimage] = useState(false);
     const handeleimage = (e) => {
+      if (e?.target?.files[0].type.match(/\/(jpg|jpeg|png)$/)){
+        setErrimage(false)
         let file = e.target.files[0];
-         setimage(e.target.files[0]);
-         if (file) {
-             const preview = document.getElementById('imgView');
-             const reader = new FileReader();
-             reader.addEventListener("load", function () {
-             preview.src = reader.result;
-             }, false);
-             // console.log("profileImg",file)
-             reader.readAsDataURL(file);
-             }
+        setimage(e.target.files[0]);
+       
+        if (file) {
+            const preview = document.getElementById('imgView');
+            const reader = new FileReader();
+            reader.addEventListener("load", function () {
+            preview.src = reader.result;
+            }, false);
+            // console.log("profileImg",file)
+            reader.readAsDataURL(file);
+            }
+      }else{
+        setErrimage(true)
+        setErrimage("Only jpeg, png, jpg, are allowed")
+      }
+       
      };
     const formik = useFormik({
         initialValues: {
             RegistrationPageTitle:'',
+            url :''
         },
         validationSchema: Yup.object({
           RegistrationPageTitle: Yup.string().required("Enter your registration page title"),
+          url: Yup.string().required("Enter url alias"),
         }),
         enableReinitialize: true,
         onSubmit: (values) => {
-           
       let formData = new FormData();
       formData.append("event_id",props.id);
       formData.append("body", body);
       formData.append("file", image);
       formData.append("title", values.RegistrationPageTitle);
-          ExportApi.CreateRegistrationPage(formData).then((resp) => {
+      formData.append("url", values.url);
+      image ? ExportApi.CreateRegistrationPage(formData).then((resp) => {
             if (resp.ok) {
               if (resp.data.code == 200) {
-                  props.call()
                   props.data(false)
                 toast.success(resp.data.message, {
                   position: "top-right",
@@ -66,9 +76,10 @@ const CreateRegistration = (props) => {
                   });
               }
             }
-          });
+          }):setErrimage("please update your image");
         },
       });
+      
   return (
     <div>
          <ToastContainer
@@ -85,7 +96,7 @@ const CreateRegistration = (props) => {
       <Row>
       <Col>
           <form onSubmit={formik.handleSubmit}>
-        <Row>
+        
               <Col className="mb-5">
                 <Col>
                   <Form.Group className="mb-3">
@@ -100,6 +111,26 @@ const CreateRegistration = (props) => {
                     />
                          {formik.touched.RegistrationPageTitle && formik.errors.RegistrationPageTitle ? (
                 <div style={{ color: "red" }}>{formik.errors.RegistrationPageTitle}</div>
+              ) : null}
+                  </Form.Group>
+                </Col>
+              </Col>
+              <Col className="mb-5">
+                <Col>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Url Alias </Form.Label>
+                    <Form.Control
+                      name="url"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.url}
+                      type="text"
+                      placeholder="url"
+                    />
+                    <div>(Url will be like: https://abc.com/event-name/"url-alias"<br/>
+                         Example: https://informed.pro/WFH-2022/virtual-symposium)</div>
+                         {formik.touched.url  && formik.errors.url  ? (
+                <div style={{ color: "red" }}>{formik.errors.url }</div>
               ) : null}
                   </Form.Group>
                 </Col>
@@ -123,11 +154,11 @@ const CreateRegistration = (props) => {
               onChange={(event, editor) => {
                 const data = editor.getData();
                 setBody(data)
-                data?setErr(false):setErr("required")
+                data?setErr(false):setErr("Please enter body text")
               }}
               onBlur={(event, editor) => {
                 const data = editor.getData();
-                data?setErr(false):setErr("required")
+                data?setErr(false):setErr("Please enter body text")
                 // console.log( 'Blur.', editor );
               }}
               onFocus={(event, editor) => {
@@ -154,12 +185,13 @@ const CreateRegistration = (props) => {
                   type="file"
                   size="md"
                 />
+                 <p style={{color:"red"}}>{errimage}</p>
               </Form.Group>
 
           <Button type="submit">
             Save
           </Button>
-        </Row>
+        
       </form> 
           </Col>
           <Col >   </Col> 

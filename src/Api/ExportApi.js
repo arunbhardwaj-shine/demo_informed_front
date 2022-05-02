@@ -108,6 +108,10 @@ BaseApi.post("rehearsal",{
   BaseApi.get(`registration-page`,{form_id:id},{ headers: {
     'Authorization':localStorage.getItem("Token"),
   }});
+  const UpdateRegistrationPageData = (form) =>
+  BaseApi.post(`update-registration-page`,form,{ headers: {
+    'Authorization':localStorage.getItem("Token"),
+  }});
 
 export default {
   UserLogin,
@@ -131,5 +135,6 @@ export default {
   UpdateTemplate,
   CreateRegistrationPage,
   RegistrationPageList,
-  RegistrationPageData
+  RegistrationPageData,
+  UpdateRegistrationPageData
 };
