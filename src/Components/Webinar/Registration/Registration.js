@@ -1,14 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef  } from "react";
 import { useFormik } from "formik";
 import ExportApi from "../../../Api/ExportApi";
 import { Button, CloseButton, Col, Form, Modal, Row, Table } from "react-bootstrap";
 import * as Yup from "yup";
 import "../webinar.css";
+import { render } from 'react-dom';
+import EmailEditor from 'react-email-editor';
 import { toast, ToastContainer } from "react-toastify";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import CreateRegistration from "./CreateRegistration";
 import { Link } from "react-router-dom";
+
+
 const Registration = () => {
 
 
@@ -26,6 +30,42 @@ const Registration = () => {
     const [image, setimage] = useState();
     const [flag, setFlag] = useState(false);
 
+    const emailEditorRef = useRef(null);
+
+    const saveDesign = () => {
+      emailEditorRef.current.editor.saveDesign((design) => {
+        console.log('saveDesign', design);
+        alert('Design JSON has been logged in your developer console.');
+      });
+    };
+  
+    const exportHtml = () => {
+      emailEditorRef.current.editor.exportHtml((data) => {
+        const { design, html } = data;
+        console.log('exportHtml', design);
+        alert('Output HTML has been logged in your developer console.');
+      });
+    };
+  
+    const onDesignLoad = (data) => {
+      console.log('onDesignLoad', data);
+    };
+  
+    const onLoad = () => {
+      console.log('onLoad');
+  
+     /* emailEditorRef.current.editor.addEventListener(
+        'design:loaded',
+        onDesignLoad
+      );
+      */
+     console.log(JSON.parse(editdata[0].body))
+      emailEditorRef.current.editor.loadDesign(JSON.parse(editdata[0].body));
+    }
+  
+    const onReady = () => {
+      console.log('onReady');
+    }
     const handeleimage = (e) => {
       if (e?.target?.files[0].type.match(/\/(jpg|jpeg|png)$/)){
         setErrimage(false)
@@ -97,7 +137,7 @@ const Registration = () => {
 
           formData.append("form_id", editdata[0].id);
     
-          formData.append("body", body);
+          formData.append("body", JSON.stringify(body));
     
           formData.append("title", values.RegistrationPageTitle);
 
@@ -254,7 +294,19 @@ const Registration = () => {
               <Row>          
                   <Col xs={9}>
                   <Form.Label>Body Text</Form.Label>
-            <CKEditor
+            
+
+        <h1>React Email Editor (Demo)</h1>
+
+        <button onClick={saveDesign}>Save Design</button>
+        <button onClick={exportHtml}>Export HTML</button>
+     
+
+      <React.StrictMode>
+        <EmailEditor ref={emailEditorRef} onLoad={onLoad} onReady={onReady} />
+      </React.StrictMode>
+
+            {/* <CKEditor
               editor={ClassicEditor}
               data={editdata?editdata[0].body:"heelo"}
               onReady={(editor) => {
@@ -282,14 +334,15 @@ const Registration = () => {
                 // data?setErr(false):setErr("required")
                 // console.log( 'Focus.', editor );
               }}
-            /> 
+            />  */}
+
           <p style={{color:"red"}}>{err}</p>
                   </Col>
-         <Col xs={3}> 
+         
+      
+          </Row>
          <div><img id="imgVieww" src={flag==false?`http://51.89.210.56:8000${editdata[0].file}`:""}  alt="Viewing the registration page image" width={340}/> 
     </div>   
-       </Col>
-          </Row>
           <Form.Group controlId="formFileLg" className="mb-3">
                 <Form.Label>Choice File</Form.Label>
                 <Form.Control

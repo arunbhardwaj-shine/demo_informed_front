@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation,  } from "react-router-dom";
 // import "react-slidedown/lib/slidedown.css";
 // import { useState } from "react";
 const Sidebar = () => {
   const[token,setToken]=useState(true)
-  let navigate = useNavigate();
   const location = useLocation();
   useEffect(() => {
     if(localStorage.getItem("Token")){
