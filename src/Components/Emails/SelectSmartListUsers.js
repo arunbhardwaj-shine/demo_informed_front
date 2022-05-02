@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { Link,useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { loader } from "../../loader";
 
 import TableOnly from "./TableOnly";
@@ -40,6 +40,12 @@ const SelectSmartListUsers = () => {
         console.log(err);
       });
   }, []);
+
+  const backClicked = () => {
+    window.history.go(-1);
+
+    // return true;
+  };
 
   const nextClicked = () => {
     navigate("/verifyMAIL", {
@@ -107,7 +113,10 @@ const SelectSmartListUsers = () => {
           <div className="row justify-content-end align-items-center">
             <div className="col-12 col-md-1">
               <div className="header-btn-left">
-                <button className="btn btn-primary btn-bordered back">
+                <button
+                  className="btn btn-primary btn-bordered back"
+                  onClick={backClicked}
+                >
                   Back
                 </button>
               </div>

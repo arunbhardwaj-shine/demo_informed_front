@@ -125,6 +125,12 @@ const VerifyMAIL = (props) => {
     navigate("/EmailList");
   };
 
+  const backClicked = () => {
+    window.history.go(-1);
+
+    // return true;
+  };
+
   return (
     <>
       <div className="right-sidebar">
@@ -132,7 +138,10 @@ const VerifyMAIL = (props) => {
           <div className="row justify-content-end align-items-center">
             <div className="col-12 col-md-1">
               <div className="header-btn-left">
-                <button className="btn btn-primary btn-bordered back">
+                <button
+                  className="btn btn-primary btn-bordered back"
+                  onClick={backClicked}
+                >
                   Back
                 </button>
               </div>
@@ -192,7 +201,7 @@ const VerifyMAIL = (props) => {
                         return (
                           <>
                             <li className="list1">
-                              {tags.innerHTML}{" "}
+                              {tags.innerHTML || tags}{" "}
                               <img
                                 src={path_image + "filter-close.svg"}
                                 alt="Close-filter"
@@ -211,9 +220,7 @@ const VerifyMAIL = (props) => {
                       <h6>
                         The recipients <span>| {selectedHcp.length}</span>
                       </h6>
-                      <p>
-                        Single HCP <span>| 1</span>
-                      </p>
+                      <p>{/* Single HCP <span>| 1</span> */}</p>
                       {props.getSelectedSmartListData ? (
                         <div className="smartlist-view email_box">
                           <div className="mail-box-content">
