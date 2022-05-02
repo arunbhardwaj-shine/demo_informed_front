@@ -2083,3 +2083,9 @@ line-height: 19px;color: #8A4E9C;font-family: 'Roboto-Medium';cursor:pointer;fil
 .owl-dots{
 	display: none;
 }
+.send-option-img.active {
+    border: 4px solid #0066be;
+}
+.send-option-img{
+	cursor: pointer;
+}
