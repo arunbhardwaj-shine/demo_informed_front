@@ -1,4 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
+import { render } from 'react-dom';
+
+import EmailEditor from 'react-email-editor';
 import { Button, Col, Form, Modal, Row, Table } from "react-bootstrap";
 import ExportApi from "../../../Api/ExportApi";
 import { useFormik } from "formik";
@@ -18,6 +21,7 @@ const Template = () => {
   const [modalShow, setModalShow] = useState(false);
   const [modalShow2, setModalShow2] = useState(false);
   const [dpc, setDpc] = useState();
+  const [hello, setHello] = useState(JSON.parse(localStorage.getItem('hello')));
  
   const formik = useFormik({
     initialValues: {
@@ -28,12 +32,21 @@ const Template = () => {
     }),
     enableReinitialize: true,
     onSubmit: (values) => {
-      console.log(dpc)
-      ExportApi.UpdateTemplate(values.Subject,dpc,id).then((resp) => {
+   
+      const exportHtml = async () => {
+        emailEditorRef.current.editor.exportHtml((data) => {
+          const { design, html } = data;
+          localStorage.setItem('bodyaa', JSON.stringify(design));
+              })
+      };
+      exportHtml();
+      setDpc (JSON.parse(localStorage.getItem('bodyaa')))
+      ExportApi.UpdateTemplate(values.Subject,localStorage.getItem('bodyaa'),id).then((resp) => {
         if (resp.ok) {
           if (resp.data.code == 200) {
             setModalShow(false)
             handleGetEventlist()
+            handleGetTemplate()
             toast.success(resp.data.message, {
               position: "top-right",
               autoClose: 5000,
@@ -74,16 +87,31 @@ const Template = () => {
       }
     });
   };
+  
   const handleGetTemplate =async (id) => {
      setId(id);
      await SetTestMail(true)
     ExportApi.UserTemplate(id).then((resp) => {
       if (resp.ok) {
-       console.log()
+        setDpc(resp.data.data.description===""?setDpc():JSON.parse(resp.data.data.description))
+        //  emailEditorRef.current.editor.loadDesign(hello)
         setTemplate(resp.data.data);
-        setDpc(resp.data.data.description)
+        emailEditorRef.current.editor.loadDesign(dpc===undefined?hello:JSON.parse(resp.data.data.description))
       }
     });
+  };
+  console.log(dpc)
+  const emailEditorRef = useRef(null);
+  const onLoad =  () => {
+    setTimeout(function(){
+      console.log("dpc",dpc)
+      emailEditorRef.current.editor.loadDesign(dpc?dpc:hello);
+    }, 2000);
+  }
+  const onReady = () => {
+    // editor is ready
+     emailEditorRef.current.editor.loadDesign(hello)
+    console.log('onReady');
   };
   useEffect(() => {
     handleGetEventlist();
@@ -142,7 +170,7 @@ const Template = () => {
                 </Modal.Title>
               </Modal.Header>
         <Modal.Body>
-    <CreateTemplate data={setModalShow} />
+    <CreateTemplate htTemplate={handleGetTemplateList} data={setModalShow} />
         </Modal.Body>
       </Modal>
       <Modal
@@ -196,7 +224,7 @@ const Template = () => {
             <Col><h4>Template name : {tName?tName:localStorage.getItem("template")}</h4> </Col>
             <Row>
               <Col className="mb-5">
-            <Button type="submit">
+            <Button type="submit" >
             Save
           </Button>
                 <Col>
@@ -218,7 +246,11 @@ const Template = () => {
                 <Col></Col>
               </Col>
             </Row>
-            <CKEditor
+                     
+            <div>
+      <EmailEditor ref={emailEditorRef} onLoad={onLoad} onReady={onReady} />
+    </div>
+            {/* <CKEditor
               editor={ClassicEditor}
               data={template ? template.description : "hello"}
               onReady={(editor) => {
@@ -242,10 +274,13 @@ const Template = () => {
               onFocus={(event, editor) => {
                 // console.log( 'Focus.', editor );
               }}
-            /> 
+            />  */}
           </Col>
         </Row>
-      </form>:null}
+     
+     
+       
+     </form>:null}
     </div>
   );
 };

@@ -98,7 +98,7 @@ BaseApi.post("rehearsal",{
   ////Registration
   const CreateRegistrationPage = (form) =>
   BaseApi.post("create-registration-page",form,{ headers: {
-    'Authorization':localStorage.getItem("Token"),
+    'Authorization':localStorage.getItem("Token"),'Content-Type': 'application/json'
   }});
   const RegistrationPageList = (id) =>
   BaseApi.get(`registration-pages/${id}`,{},{ headers: {
@@ -112,7 +112,8 @@ BaseApi.post("rehearsal",{
   BaseApi.post(`update-registration-page`,form,{ headers: {
     'Authorization':localStorage.getItem("Token"),
   }});
-
+//Public 
+const PublicPage = (event_code,str_slug) =>BaseApi.get(`register/${event_code}/${str_slug}`);
 export default {
   UserLogin,
   UserForgot,
@@ -136,5 +137,7 @@ export default {
   CreateRegistrationPage,
   RegistrationPageList,
   RegistrationPageData,
-  UpdateRegistrationPageData
+  UpdateRegistrationPageData,
+  PublicPage
+
 };
