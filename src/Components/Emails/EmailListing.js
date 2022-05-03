@@ -176,7 +176,7 @@ const EmailList = () => {
                 //console.log(data)
                  return (
 					 <div className="email_box_block">
-                  <div className="email_box " className={"email_box " + (data.status == 1  ? 'approved' : (data.status == 2) ? 'email-draft' : 'draft-approved')}>
+                  <div className={"email_box " + (data.status == 1  ? 'approved' : (data.status == 2) ? 'email-draft' : 'draft-approved')}>
                     <div class="mail-top-title"><span>
                       {data.status == 2 ? "Draft" : "Approved Draft"}
                     </span></div>
