@@ -698,7 +698,7 @@ const VerifyHCP = () => {
                                 <option value="USA">USA</option>
                                 <option value="Russia">Russia</option>
                               </select>
-                              {hpc.length !== 1 && (
+                              {i !== 0 && (
                                 <button
                                   type="button"
                                   className="btn btn-filled"
@@ -782,11 +782,11 @@ const VerifyHCP = () => {
                       Add
                     </button>
                   </div>
-                  <div className="hcp-remove">
+                  {/* <div className="hcp-remove">
                     <button type="button" className="btn btn-filled">
-                      <img src="assets/images/delete.svg" alt="Delete HCP" />
+                      <img src={path_image + "delete.svg"} alt="Delete HCP" />
                     </button>
-                  </div>
+                  </div> */}
                   <ul className="nav nav-tabs" role="tablist">
                     <li className="nav-item add_hcp">
                       <a

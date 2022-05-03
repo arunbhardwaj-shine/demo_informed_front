@@ -22,9 +22,6 @@ header {
     top: 0;
     z-index: 9;
 }
-form {
-    margin: 0;
-}
 .user-login ul {
     margin: 0;
 }
@@ -210,7 +207,7 @@ line-height: 19px;color: #fff;text-decoration: none;display: flex;align-items: c
     background: transparent;
     position: absolute;
     right: 7px;
-    top: 7px;
+    top: 2px;
 }
 .search-bar form.d-flex input {
     width: 279px;
@@ -272,15 +269,15 @@ filter: drop-shadow(0px 0px 5px rgba(0, 102, 190, 0.87));
     font-family: 'Roboto-Medium';
 }
 .filter-div .filter-result {
-    background: #F2E8F5;
-    border-radius: 3px;
-    font-size: 11px;
-    line-height: 13px;
-    color: #8A4E9C;
-    font-family: 'Roboto-Light';
-    padding: 4px 15px 4px 21px;
-    display: inline-block;
-    margin: 3px 14px 5px 0;
+	background: #F2E8F5;
+	border-radius: 3px;
+	font-size: 11px;
+	line-height: 13px;
+	color: #8A4E9C;
+	font-family: 'Roboto-Light';
+	padding: 4px 15px 4px 21px;
+	display: inline-block;
+	margin: 0 10px 5px 0;
 }
 .filter-div {
 	display: inline-block;
@@ -326,7 +323,6 @@ filter: drop-shadow(0px 0px 5px rgba(0, 102, 190, 0.87));
     align-items: center;
     justify-content: center;
     flex-direction: column;
-	margin:0 auto;
 }
 .email-result {
     margin-top: 25px;
@@ -351,15 +347,14 @@ filter: drop-shadow(0px 0px 5px rgba(0, 102, 190, 0.87));
 .sidebar-menu ul li.active svg path, .sidebar-menu ul li:hover svg path {
     fill: rgb(0, 74, 137);
 }
-.email_box {
+.email_box{
     width: 430px;
     flex: 0 0 430px;
-    height: 100%;
 }
 .email-result-block {
     display: flex;
     flex-wrap: wrap;
-	justify-content: flex-start;
+	justify-content: space-between;
 }
 .mail-top-title span {
     font-size: 12px;
@@ -370,9 +365,8 @@ filter: drop-shadow(0px 0px 5px rgba(0, 102, 190, 0.87));
 .mail-top-title {
     background: #FAC755;
     text-align: center;
-    border-radius: 20px 20px 0 0;
-    position: relative;
-    padding: 5px;
+	border-radius: 20px 20px 0 0;
+	position:relative;
 }
 .draft-approved .mail-top-title {
     background: #39CABC;
@@ -388,14 +382,10 @@ filter: drop-shadow(0px 0px 5px rgba(0, 102, 190, 0.87));
     right: 0;
     z-index: -1;
 }
-.email_box_block, .email-block-add-box{margin-bottom:29px}
 .email_box {
     box-shadow: 0px 3px 10px -3px rgba(0, 102, 190, 0.2);
     border-radius: 20px;
-    margin: 0 auto;
-}
-.email-result-block .email-block-add-box .email-block-add {
-    margin-left: 0;
+    margin-bottom: 29px;
 }
 .email_box:hover, .mail-content-select-box:hover {
 	box-shadow: 0px 4px 10px -1px rgba(0, 102, 190, 0.4);
@@ -405,20 +395,7 @@ filter: drop-shadow(0px 0px 5px rgba(0, 102, 190, 0.87));
 	background: #fff;
 	border-radius: 20px 20px;		
 }
-.email-result-block {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-}
-.email-result-block .email_box_block:nth-child(3n+1) .email_box {
-    margin-left: 0;
-}
-.email-result-block .email_box_block:nth-child(3n) .email_box {
-    margin-right: 0;
-}
-.email-result-block .email-block-add-box, .email-result-block .email_box_block {
-    width: 33.3%;
-}
+
 .mail-box-content h5 {
 	font-size: 18px;
 	line-height: 21px;
@@ -457,7 +434,7 @@ filter: drop-shadow(0px 0px 5px rgba(0, 102, 190, 0.87));
     color: #70899E;
     font-family: 'Roboto-Light';
     padding: 2px 8px;
-    margin: 0 7px 7px 0;
+    margin-right: 4px;
 }
 .mailbox-tags ul {
     margin: 0;
@@ -1485,7 +1462,7 @@ text-transform: capitalize;
 .selected-hcp-list table tr td.delete_row{
 		border-radius:30px;
 }
-table tr td.delete_row {
+table tr td.delete_row, table tr:hover td.delete_row {
 	padding: 0;
 	position: absolute;
 	background: #0066BE;
@@ -2256,21 +2233,21 @@ padding-bottom: 10px;
 }
 /** Filter dropdown End**/
 /**modal-resend-confirm**/
-#resend-confirm .modal-dialog {max-width: 582px;}
-#resend-confirm .modal-dialog .modal-content {box-shadow: 0px 3px 10px -3px rgba(0, 102, 190, 0.2);
+.send-confirm .modal-dialog {max-width: 582px;}
+.send-confirm .modal-dialog .modal-content {box-shadow: 0px 3px 10px -3px rgba(0, 102, 190, 0.2);
 border-radius: 30px;border: 0;}
-#resend-confirm .modal-header {
+.send-confirm .modal-header {
 	border: 0;
 	padding: 11px;
 }
-#resend-confirm .modal-header button.btn-close {
+.send-confirm .modal-header button.btn-close {
 	position: absolute;
 	right: 32px;
 	top: 32px;
 	z-index: 9;
 }
-#resend-confirm .modal-header button:focus, #resend-confirm .modal-header button:active{box-shadow:none; outline:none;}
-#resend-confirm .modal-body h4 {
+.send-confirm .modal-header button:focus, .send-confirm .modal-header button:active{box-shadow:none; outline:none;}
+.send-confirm .modal-body h4 {
 	font-size: 24px;
 	line-height: 145.19%;
 	text-align: center;
@@ -2278,22 +2255,25 @@ border-radius: 30px;border: 0;}
 	margin-top: 28px;
 	text-transform: unset;
 }
-#resend-confirm .modal-body {padding: 0 52px 24px;}
-#resend-confirm .modal-body img {text-align: center;margin: 0 auto;display: block;width: 40px;}
-#resend-confirm .modal-body .modal-buttons {
+.send-confirm .modal-body {padding: 0 52px 24px;}
+.send-confirm .modal-body img {text-align: center;margin: 0 auto;display: block;width: 40px;}
+.send-confirm .modal-body .modal-buttons {
 	align-items: center;
 	display: flex;
 	justify-content: space-around;
 	margin-top: 33px;
 }
-#resend-confirm .modal-body .modal-buttons button {min-width: 140px;height: 39px;line-height: 1;}
-#resend-confirm .modal-body .modal-buttons button.light {
+.send-confirm .modal-body .modal-buttons button {min-width: 140px;height: 39px;line-height: 1;}
+.send-confirm .modal-body .modal-buttons button.light {
 	border-color: #97B6CF;
 	color: #97B6CF;
 }
-#resend-confirm .modal-body .modal-buttons button.light:hover {
+.send-confirm .modal-body .modal-buttons button.light:hover {
 	background-color: #97B6CF;
 	color: #ffffff;
+}
+.send-confirm#action-confirm .modal-body .modal-buttons button {
+	min-width: 82px;
 }
 /**End**/
 
@@ -2495,6 +2475,49 @@ color:#004A89;
 /**End Email View **/
 
 .ck-content .table, .ck-editor__editable .ck-table-bogus-paragraph span.image-inline img {
+    max-width: 800px;
+}
+
+
+
+/**View-Smart-List**/
+.smart-list-btns {
+    display: flex;
+    justify-content: flex-end;
+}
+.smart-list-btns .smart-list-download, .smart-list-btns .hcp-new-user, .smart-list-btns .hcp-added {
+    margin-right: 16px;
+}
+.smart-list-btns .smart-list-download button, .smart-list-btns .hcp-new-user button, .smart-list-btns .hcp-added button{
+    border: 0;
+    filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));
+    border-radius: 30px;
+    background: #FFFFFF;
+    width: 40px;
+	    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+}
+.smart-list-btns .top-right-action {
+    margin-left: 8px;
+}
+.smart-list-view {
+	padding-top: 6px;
+}
+.page-top-nav.smart_list_names {
+	margin-bottom: 18px;
+}
+.smart-list-view .selected-hcp-list table {
+	max-width: 1057px;
+	margin: 8px auto;
+}
+.table tr:hover td {
+	background-color: #fbfbfb;
+}
+/**View Smart List End**/
+.ck-content .table, .ck-editor__editable .ck-table-bogus-paragraph span.image-inline img {
     max-width: 800px !important;
 }
 .owl-dots{
@@ -2506,3 +2529,6 @@ color:#004A89;
 .send-option-img{
 	cursor: pointer;
 }
+.approved .mail-top-title {
+	display: none;
+ }
