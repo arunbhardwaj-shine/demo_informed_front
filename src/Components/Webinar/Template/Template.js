@@ -46,6 +46,7 @@ const Template = () => {
           if (resp.data.code == 200) {
             setModalShow(false)
             handleGetEventlist()
+            handleGetTemplate()
             toast.success(resp.data.message, {
               position: "top-right",
               autoClose: 5000,
@@ -86,35 +87,27 @@ const Template = () => {
       }
     });
   };
+  
   const handleGetTemplate =async (id) => {
      setId(id);
      await SetTestMail(true)
     ExportApi.UserTemplate(id).then((resp) => {
       if (resp.ok) {
-       
         setDpc(resp.data.data.description===""?setDpc():JSON.parse(resp.data.data.description))
-    
         //  emailEditorRef.current.editor.loadDesign(hello)
         setTemplate(resp.data.data);
         emailEditorRef.current.editor.loadDesign(dpc===undefined?hello:JSON.parse(resp.data.data.description))
-        
-        
       }
     });
   };
   console.log(dpc)
   const emailEditorRef = useRef(null);
-
-
-
   const onLoad =  () => {
     setTimeout(function(){
       console.log("dpc",dpc)
       emailEditorRef.current.editor.loadDesign(dpc?dpc:hello);
     }, 2000);
   }
-
-
   const onReady = () => {
     // editor is ready
      emailEditorRef.current.editor.loadDesign(hello)
@@ -177,7 +170,7 @@ const Template = () => {
                 </Modal.Title>
               </Modal.Header>
         <Modal.Body>
-    <CreateTemplate data={setModalShow} />
+    <CreateTemplate htTemplate={handleGetTemplateList} data={setModalShow} />
         </Modal.Body>
       </Modal>
       <Modal

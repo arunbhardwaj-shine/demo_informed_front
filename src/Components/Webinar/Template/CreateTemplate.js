@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import { toast, ToastContainer } from "react-toastify";
 import { Button, Col, Form, Row } from 'react-bootstrap';
 function CreateTemplate(props) {
+    console.log(props )
     const [event, setEvent] = useState([]);
     const handleGetEventlist = () => {
         ExportApi.GetEventList().then((resp) => {
@@ -27,6 +28,7 @@ function CreateTemplate(props) {
         onSubmit: (values) => {
             ExportApi.CreateTemplate(values.Templatename, values.Selectevent).then((resp) => {
                 if (resp.ok) {
+                 props.htTemplate(values.Selectevent)
                   if (resp.data.code == 200) {
                       props.data(false)
                     toast.success(resp.data.message, {
