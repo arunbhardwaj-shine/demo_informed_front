@@ -189,7 +189,7 @@ const Registration = () => {
                   {registrationPageList?.map((val,i) => (
                   <tr key={i}>  
                     <td>{val.title}</td>
-                    <td><Link to={`/webinar/register/${val.code}/${val.url}`}><Button>Preview</Button></Link><Button onClick={(e)=>{handleGetRegistrationPagedata(val.id);setFlag(false)}}>Edit</Button> </td>
+                    <td><Link  to={`/webinar/register/${val.code}/${val.url}` }target="_blank" ><Button>Preview</Button></Link><Button onClick={(e)=>{handleGetRegistrationPagedata(val.id);setFlag(false)}}>Edit</Button> </td>
                   </tr>
                 ))}
               </tbody>
@@ -209,7 +209,7 @@ const Registration = () => {
                 </Modal.Title>
               </Modal.Header>
         <Modal.Body>
-    <CreateRegistration  data={setModalShow} id={id} />
+    <CreateRegistration hendletable={handleGetRegistrationPageList}  data={setModalShow} id={id} />
         </Modal.Body>
       </Modal>
                  {editdata?    <Row>

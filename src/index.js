@@ -43,6 +43,7 @@ import Template from "./Components/Webinar/Template/Template";
 import Registration from "./Components/Webinar/Registration/Registration";
 import Preview from "./Components/Webinar/Registration/Preview";
 import EditorEmail from "./Components/Webinar/Registration/EditorEmail";
+import Readers from "./Components/Webinar/Readers/Readers";
 
 let platform = 0;
 let show = 0;
@@ -136,6 +137,10 @@ ReactDOM.render(
                         <Route
                           path="/webinar/rehearsal"
                           element={<Rehearsal />}
+                        />
+                        <Route
+                          path="/webinar/readers"
+                          element={<Readers />}
                         />
                         <Route
                           path="/webinar/template"
