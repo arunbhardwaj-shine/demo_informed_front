@@ -2,8 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { loader } from "../../loader";
+import { connect } from "react-redux";
+import { getCampaignId, getEmailData } from "../../actions";
 
-const SelectHCP = () => {
+import { propTypes } from "react-bootstrap/esm/Image";
+
+const SelectHCP = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
@@ -25,6 +29,43 @@ const SelectHCP = () => {
     window.history.go(-1);
 
     // return true;
+  };
+
+  const saveAsDraft = async () => {
+    console.log(props);
+    const body = {
+      user_id: 18207,
+      pdf_id: props.getDraftData.pdf_id,
+      description: props.getDraftData.description,
+      creator: props.getDraftData.creator,
+      campaign_name: props.getDraftData.campaign,
+      subject: props.getDraftData.subject,
+      route_location: "SelectHCP",
+      tags: props.getDraftData.tags,
+      campaign_data: {
+        template_id: props.getDraftData.campaign_data.template_id,
+      },
+      campaign_id: props.getDraftData.campaign_id,
+    };
+
+    console.log(body);
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    loader("show");
+    await axios
+      .post(`emailapi/save_draft`, body)
+      .then((res) => {
+        console.log(res);
+        console.log(props.getCampaignId);
+        loader("hide");
+        if (props.getCampaignId == "") {
+          props.getCampaignId(res.data.response.data.id);
+        }
+
+        // console.log(res);
+      })
+      .catch((err) => {
+        //console.log(err);
+      });
   };
 
   return (
@@ -63,7 +104,10 @@ const SelectHCP = () => {
             </div>
             <div className="col-12 col-md-2">
               <div className="header-btn">
-                <button className="btn btn-primary btn-bordered move-draft">
+                <button
+                  className="btn btn-primary btn-bordered move-draft"
+                  onClick={saveAsDraft}
+                >
                   Save As Draft
                 </button>
                 {templateId === 0 ? (
@@ -145,4 +189,9 @@ const SelectHCP = () => {
   );
 };
 
-export default SelectHCP;
+const mapStateToProps = (state) => {
+  console.log(state);
+  return state;
+};
+
+export default connect(mapStateToProps)(SelectHCP);

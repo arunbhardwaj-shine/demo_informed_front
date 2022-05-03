@@ -26,3 +26,17 @@ export const getSelectedSmartListData = (data) => {
     payload: data,
   };
 };
+
+export const getCampaignId = (data) => {
+  return {
+    type: "GET_UNIQUE_ID",
+    payload: data,
+  };
+};
+
+export const getDraftData = (data) => {
+  return {
+    type: "GET_DRAFT_DATA",
+    payload: data,
+  };
+};

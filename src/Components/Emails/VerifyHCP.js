@@ -3,9 +3,11 @@ import { Modal } from "react-bootstrap";
 import SimpleReactValidator from "simple-react-validator";
 import { useNavigate } from "react-router-dom";
 import { loader } from "../../loader";
+import { getCampaignId } from "../../actions";
 import axios from "axios";
+import { connect } from "react-redux";
 
-const VerifyHCP = () => {
+const VerifyHCP = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
@@ -330,6 +332,43 @@ const VerifyHCP = () => {
       });
   };
 
+  const saveAsDraft = async () => {
+    console.log(props);
+    const body = {
+      user_id: 18207,
+      pdf_id: props.getDraftData.pdf_id,
+      description: props.getDraftData.description,
+      creator: props.getDraftData.creator,
+      campaign_name: props.getDraftData.campaign,
+      subject: props.getDraftData.subject,
+      route_location: "VerifyHCP",
+      tags: props.getDraftData.tags,
+      campaign_data: {
+        template_id: props.getDraftData.campaign_data.template_id,
+      },
+      campaign_id: props.getDraftData.campaign_id,
+    };
+
+    console.log(body);
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    loader("show");
+    await axios
+      .post(`emailapi/save_draft`, body)
+      .then((res) => {
+        console.log(res);
+        console.log(props.getCampaignId);
+        loader("hide");
+        if (props.getCampaignId == "") {
+          props.getCampaignId(res.data.response.data.id);
+        }
+
+        // console.log(res);
+      })
+      .catch((err) => {
+        //console.log(err);
+      });
+  };
+
   return (
     <>
       <div className="right-sidebar">
@@ -364,7 +403,10 @@ const VerifyHCP = () => {
             </div>
             <div className="col-12 col-md-2">
               <div className="header-btn">
-                <button className="btn btn-primary btn-bordered move-draft">
+                <button
+                  onClick={saveAsDraft}
+                  className="btn btn-primary btn-bordered move-draft"
+                >
                   Save As Draft
                 </button>
                 <button
@@ -830,4 +872,9 @@ const VerifyHCP = () => {
   );
 };
 
-export default VerifyHCP;
+const mapStateToProps = (state) => {
+  console.log(state);
+  return state;
+};
+
+export default connect(mapStateToProps)(VerifyHCP);

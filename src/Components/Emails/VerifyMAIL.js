@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { getEmailData } from "../../actions";
-import { connect } from "react-redux";
+import { connect, connectAdvanced } from "react-redux";
 import axios from "axios";
 import { Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { compose } from "redux";
 import { loader } from "../../loader";
+//import { connect } from "react-redux";
+import { getCampaignId } from "../../actions";
 
 const VerifyMAIL = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
@@ -21,6 +24,9 @@ const VerifyMAIL = (props) => {
   // let emailData;
 
   const { selectedHcp } = location.state;
+  const PdfSelected = location.state
+    ? location.state.PdfSelected
+    : props.getDraftData.PdfSelected;
 
   useEffect(() => {
     //   console.log(emailData);
@@ -58,6 +64,73 @@ const VerifyMAIL = (props) => {
   const nextClicked = () => {
     console.log("next clicked");
   };
+
+  const saveAsDraft = async () => {
+    console.log(props);
+    const body = {
+      user_id: 18207,
+      pdf_id: props.getEmailData.pdf_id,
+      description: props.getEmailData.emailDescription,
+      creator: props.getEmailData.emailCreator,
+      campaign_name: props.getEmailData.emailCampaign,
+      subject: props.getEmailData.emailSubject,
+      route_location: "VerifyMAIL",
+      tags: props.getEmailData.tags,
+      campaign_data: {
+        template_id: props.getEmailData.templateId,
+      },
+      campaign_id: props.getCampaignId,
+    };
+
+    console.log(body);
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    loader("show");
+    await axios
+      .post(`emailapi/save_draft`, body)
+      .then((res) => {
+        console.log(res);
+        console.log(props.getCampaignId);
+        loader("hide");
+        if (props.getCampaignId == "") {
+          props.getCampaignId(res.data.response.data.id);
+        }
+
+        // console.log(res);
+      })
+      .catch((err) => {
+        //console.log(err);
+      });
+  };
+
+  // useEffect(() => {
+  //   //   getAllTags();
+  //   getCampaignData();
+  // }, []);
+
+  // const getCampaignData = async () => {
+  //   if (typeof campaign_id !== "undefined" && campaign_id != 0) {
+  //     const body = {
+  //       user_id: 18207,
+  //       campaign_id: campaign_id,
+  //     };
+  //     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+  //     await axios
+  //       .post(`emailapi/get_campaign_details`, body)
+  //       .then((res) => {
+  //         let campaign_data = res.data.response.data;
+  //         setEmailDescription(campaign_data.description);
+  //         setEmailCreator(campaign_data.creator);
+  //         setemailCampaign(campaign_data.campaign);
+  //         setEmailSubject(campaign_data.subject);
+  //         setFinalTags(campaign_data.tags);
+  //         setTemplate(campaign_data.source_code);
+  //         loader("hide");
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   }
+  // };
 
   const createEmail = async () => {
     setIsOpen(true);
@@ -164,7 +237,10 @@ const VerifyMAIL = (props) => {
             </div>
             <div className="col-12 col-md-2">
               <div className="header-btn">
-                <button className="btn btn-primary btn-bordered move-draft">
+                <button
+                  className="btn btn-primary btn-bordered move-draft"
+                  onClick={saveAsDraft}
+                >
                   Save As Draft
                 </button>
                 <button
