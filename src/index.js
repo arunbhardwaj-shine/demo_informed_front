@@ -42,7 +42,6 @@ import ForgotResetPassword from "./Auth/ForgotResetPassword";
 import Template from "./Components/Webinar/Template/Template";
 import Registration from "./Components/Webinar/Registration/Registration";
 import Preview from "./Components/Webinar/Registration/Preview";
-import EditorEmail from "./Components/Webinar/Registration/EditorEmail";
 
 let platform = 0;
 let show = 0;
@@ -104,7 +103,6 @@ ReactDOM.render(
               </div>
             </div>
           </BrowserRouter>
-<<<<<<< HEAD
         </>
       ) : (
         <BrowserRouter>
@@ -129,35 +127,6 @@ ReactDOM.render(
                       path="/webinar/forgot-reset-password/:id"
                       element={<ForgotResetPassword />}
                     />
-=======
-        </>:<BrowserRouter>
-        <HeaderWebinar/>
-        <div className="warpper">
-              <div className="container-fluid">
-                <div className="row">
-                   <SidebarWebinar/>
-        <>             <Routes>
-                        <Route
-                          path="/webinar"
-                          element={<Home />}
-                        />
-                        <Route
-                          path="/webinar/register/:code/:url"
-                          element={<Preview/>}
-                        />
-                        <Route
-                          path="/webinar/editor"
-                          element={<EditorEmail/>}
-                        />
-                        <Route
-                          path="/webinar/Forgotpassword"
-                          element={<ForgotPassword />}
-                        />
-                        <Route
-                          path="/webinar/forgot-reset-password/:id"
-                          element={<ForgotResetPassword />}
-                        />
->>>>>>> afaccbed6f243c0f891d4458843d956a358dd468
                     <React.Fragment>
                       {/* <Route path="/webinar" element={<App />} /> */}
                       <Route path="/" element={<Proctected />}>
