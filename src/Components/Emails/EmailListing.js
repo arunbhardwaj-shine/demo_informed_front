@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { loader } from "../../loader";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
+import { toast, ToastContainer } from "react-toastify";
 
 const EmailList = () => {
   const navigate = useNavigate();
@@ -13,10 +14,12 @@ const EmailList = () => {
   const [filter, setFilter] = useState('');
   const [submiHandle, setSubmiHandle] = useState('');
   const [getreference, setReference] = useState('');
+  const [campaign_id, setCampaignId] = useState('');
   const [isOpen, setIsOpen] = useState(false);
 
-  const showModal = (refernce) => {
+  const showModal = (refernce,id) => {
     setReference(refernce);
+    setCampaignId(id);
     setIsOpen(true);
   };
 
@@ -45,6 +48,35 @@ const EmailList = () => {
          });
    }
 
+   const resendemail = () => {
+     hideModal();
+     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+     const body = {
+       user_id: 18207,
+       campaign_id:campaign_id
+     };
+     loader("show");
+     axios
+       .post(`emailapi/resend_email`, body)
+       .then((res) => {
+         loader("hide");
+         toast.success("Email send successfully.", {
+           position: "top-right",
+           autoClose: 5000,
+           hideProgressBar: false,
+           closeOnClick: true,
+           pauseOnHover: true,
+           draggable: true,
+           progress: undefined,
+           type: "success"
+           });
+       })
+       .catch((err) => {
+         loader("hide");
+         console.log(err);
+       });
+   }
+
   const submitHandler = (event) => {
     getData();
     setSubmiHandle(1);
@@ -68,7 +100,18 @@ const EmailList = () => {
 
     return (
       <>
-        		<div className="right-sidebar">
+        <div className="right-sidebar">
+          <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          />
 					<div className="top-header">
 						<div className="page-title">
 							<h2>Emails</h2>
@@ -196,13 +239,13 @@ const EmailList = () => {
                         <div className="mailbox-buttons">
                           <div className="send_new"><button className="btn btn-primary btn-filled send-new">Send New</button></div>
                           <div className="mailbox-buttons-list">
-                            <button className="btn btn-primary btn-bordered send" onClick={(e) => showModal('resend')}>Resend</button>
+                            <button className="btn btn-primary btn-bordered send" onClick={(e) => showModal('resend',data.id)}>Resend</button>
                             <button className="btn btn-primary btn-filled edit">View</button>
                           </div>
                         </div>
                         : <div className="mailbox-buttons">
 							<div className="mailbox-buttons-list">
-                          {data.route_location == "VerifyMAIL" ? <button className="btn btn-primary send btn-bordered" onClick={(e) => showModal('send')}>Send</button> : ""}
+                          {data.route_location == "VerifyMAIL" ? <button className="btn btn-primary send btn-bordered" onClick={(e) => showModal('send',data.id)}>Send</button> : ""}
                           <button className="btn btn-primary edit" onClick={() => draftNavigate(data.id,data.pdf_id,data.route_location)}>Edit</button>
                         </div>
 						</div>
@@ -233,7 +276,7 @@ const EmailList = () => {
       						<h4>This email will be sent to everybody who has not opened the email  </h4>
 
       						<div class="modal-buttons">
-      							<button type="button" class="btn btn-primary btn-filled" data-bs-dismiss="modal">Yes Please!</button>
+      							<button type="button" class="btn btn-primary btn-filled" data-bs-dismiss="modal" onClick={resendemail}>Yes Please!</button>
                     { getreference == "resend" ? <button type="button" class="btn btn-primary btn-bordered" data-bs-dismiss="modal">View Email</button> : "" }
       							<button type="button" class="btn btn-primary btn-bordered light" onClick={hideModal}>Cancel</button>
       						</div>

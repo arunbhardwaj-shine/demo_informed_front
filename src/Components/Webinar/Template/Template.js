@@ -1,4 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
+import { render } from 'react-dom';
+
+import EmailEditor from 'react-email-editor';
 import { Button, Col, Form, Modal, Row, Table } from "react-bootstrap";
 import ExportApi from "../../../Api/ExportApi";
 import { useFormik } from "formik";
@@ -18,6 +21,7 @@ const Template = () => {
   const [modalShow, setModalShow] = useState(false);
   const [modalShow2, setModalShow2] = useState(false);
   const [dpc, setDpc] = useState();
+  const [hello, setHello] = useState();
  
   const formik = useFormik({
     initialValues: {
@@ -29,7 +33,16 @@ const Template = () => {
     enableReinitialize: true,
     onSubmit: (values) => {
       console.log(dpc)
-      ExportApi.UpdateTemplate(values.Subject,dpc,id).then((resp) => {
+      const exportHtml = async () => {
+              emailEditorRef.current.editor.exportHtml((data) => {
+                const { design, html } = data;
+                localStorage.setItem('bodyaa', JSON.stringify(design));
+              })
+            };
+        exportHtml();
+        setDpc (JSON.parse(localStorage.getItem('bodyaa')))
+        
+      ExportApi.UpdateTemplate(values.Subject,JSON.stringify(dpc),id).then((resp) => {
         if (resp.ok) {
           if (resp.data.code == 200) {
             setModalShow(false)
@@ -85,7 +98,25 @@ const Template = () => {
       }
     });
   };
+  const emailEditorRef = useRef(null);
+
+
+
+  const onLoad = () => {
+    // editor instance is created
+    // you can load your template here;
+    // const templateJson = {};
+    console.log("dpc",dpc?JSON.parse(dpc):`hello`)
+     emailEditorRef.current.editor.loadDesign(dpc?JSON.parse(dpc):JSON.parse(hello));
+  }
+
+  const onReady = () => {
+    // editor is ready
+    
+    console.log('onReady');
+  };
   useEffect(() => {
+    setHello(`"{"counters":{"u_column":1,"u_row":1,"u_content_heading":3,"u_content_html":3},"body":{"id":"Emt5B8Ar2i","rows":[{"id":"7w2SSIOsw-","cells":[1],"columns":[{"id":"QBU24hpeei","contents":[{"id":"Dx4pV1GscS","type":"heading","values":{"containerPadding":"10px","anchor":"","headingType":"h1","fontFamily":{"label":"Arial","value":"arial,helvetica,sans-serif"},"fontSize":"22px","textAlign":"left","lineHeight":"140%","linkStyle":{"inherit":true,"linkColor":"#0000ee","linkHoverColor":"#0000ee","linkUnderline":true,"linkHoverUnderline":true},"displayCondition":null,"_meta":{"htmlID":"u_content_heading_1","htmlClassNames":"u_content_heading"},"selectable":true,"draggable":true,"duplicatable":true,"deletable":true,"hideable":true,"text":"Heading"}},{"id":"kdzFBDdNHi","type":"html","values":{"html":"<strong>Hello, world!</strong>","displayCondition":null,"containerPadding":"10px","anchor":"","_meta":{"htmlID":"u_content_html_1","htmlClassNames":"u_content_html"},"selectable":true,"draggable":true,"duplicatable":true,"deletable":true,"hideable":true}},{"id":"qsJQRrPQGF","type":"heading","values":{"containerPadding":"10px","anchor":"","headingType":"h1","fontFamily":{"label":"Arial","value":"arial,helvetica,sans-serif"},"fontSize":"22px","textAlign":"left","lineHeight":"140%","linkStyle":{"inherit":true,"linkColor":"#0000ee","linkHoverColor":"#0000ee","linkUnderline":true,"linkHoverUnderline":true},"displayCondition":null,"_meta":{"htmlID":"u_content_heading_2","htmlClassNames":"u_content_heading"},"selectable":true,"draggable":true,"duplicatable":true,"deletable":true,"hideable":true,"text":"Heading"}},{"id":"V-lkJbRX8w","type":"html","values":{"html":"<strong>Hello, world!</strong>","displayCondition":null,"containerPadding":"10px","anchor":"","_meta":{"htmlID":"u_content_html_2","htmlClassNames":"u_content_html"},"selectable":true,"draggable":true,"duplicatable":true,"deletable":true,"hideable":true}},{"id":"Kz4se0I8JS","type":"html","values":{"html":"<strong>Hello, world!</strong>","displayCondition":null,"containerPadding":"10px","anchor":"","_meta":{"htmlID":"u_content_html_3","htmlClassNames":"u_content_html"},"selectable":true,"draggable":true,"duplicatable":true,"deletable":true,"hideable":true}},{"id":"58KQGMO1hW","type":"heading","values":{"containerPadding":"10px","anchor":"","headingType":"h1","fontFamily":{"label":"Arial","value":"arial,helvetica,sans-serif"},"fontSize":"22px","textAlign":"left","lineHeight":"140%","linkStyle":{"inherit":true,"linkColor":"#0000ee","linkHoverColor":"#0000ee","linkUnderline":true,"linkHoverUnderline":true},"displayCondition":null,"_meta":{"htmlID":"u_content_heading_3","htmlClassNames":"u_content_heading"},"selectable":true,"draggable":true,"duplicatable":true,"deletable":true,"hideable":true,"text":"Heading"}}],"values":{"backgroundColor":"","padding":"0px","border":{},"_meta":{"htmlID":"u_column_1","htmlClassNames":"u_column"}}}],"values":{"displayCondition":null,"columns":false,"backgroundColor":"","columnsBackgroundColor":"","backgroundImage":{"url":"","fullWidth":true,"repeat":false,"center":true,"cover":false},"padding":"0px","anchor":"","hideDesktop":false,"_meta":{"htmlID":"u_row_1","htmlClassNames":"u_row"},"selectable":true,"draggable":true,"duplicatable":true,"deletable":true,"hideable":true}}],"values":{"popupPosition":"center","popupWidth":"600px","popupHeight":"auto","borderRadius":"10px","contentAlign":"center","contentVerticalAlign":"center","contentWidth":"500px","fontFamily":{"label":"Arial","value":"arial,helvetica,sans-serif"},"textColor":"#000000","popupBackgroundColor":"#FFFFFF","popupBackgroundImage":{"url":"","fullWidth":true,"repeat":false,"center":true,"cover":true},"popupOverlay_backgroundColor":"rgba(0, 0, 0, 0.1)","popupCloseButton_position":"top-right","popupCloseButton_backgroundColor":"#DDDDDD","popupCloseButton_iconColor":"#000000","popupCloseButton_borderRadius":"0px","popupCloseButton_margin":"0px","popupCloseButton_action":{"name":"close_popup","attrs":{"onClick":"document.querySelector('.u-popup-container').style.display = 'none';"}},"backgroundColor":"#e7e7e7","backgroundImage":{"url":"","fullWidth":true,"repeat":false,"center":true,"cover":false},"preheaderText":"","linkStyle":{"body":true,"linkColor":"#0000ee","linkHoverColor":"#0000ee","linkUnderline":true,"linkHoverUnderline":true},"_meta":{"htmlID":"u_body","htmlClassNames":"u_body"}}},"schemaVersion":8}"`)
     handleGetEventlist();
   }, []);
   return (
@@ -196,7 +227,7 @@ const Template = () => {
             <Col><h4>Template name : {tName?tName:localStorage.getItem("template")}</h4> </Col>
             <Row>
               <Col className="mb-5">
-            <Button type="submit">
+            <Button type="submit" >
             Save
           </Button>
                 <Col>
@@ -218,7 +249,11 @@ const Template = () => {
                 <Col></Col>
               </Col>
             </Row>
-            <CKEditor
+                     
+            <div>
+      <EmailEditor ref={emailEditorRef} onLoad={onLoad} onReady={onReady} />
+    </div>
+            {/* <CKEditor
               editor={ClassicEditor}
               data={template ? template.description : "hello"}
               onReady={(editor) => {
@@ -242,7 +277,7 @@ const Template = () => {
               onFocus={(event, editor) => {
                 // console.log( 'Focus.', editor );
               }}
-            /> 
+            />  */}
           </Col>
         </Row>
       </form>:null}
