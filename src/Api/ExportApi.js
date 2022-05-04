@@ -27,7 +27,8 @@ const GetTimezoneData = () => BaseApi.get("timezone",{},{ headers: {
 const GetTimezoneregionData = () => BaseApi.get("timezoneregion",{},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
-const GetCountryData = () => BaseApi.get("country");
+const GetCountryData = () => BaseApi.get("country",{},{ headers: {
+  'Authorization':localStorage.getItem("Token"),}});
       //Event
 const GetEventList = () => BaseApi.get("events",{},{ headers: {
   'Authorization':localStorage.getItem("Token"),
@@ -39,7 +40,7 @@ const GetEventListDataUpdate = (id,EventTitle,a,Description) => BaseApi.post(`ev
   speaker_data:a, description:Description },{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
-const CreatEvent = (EventTitle,a,event_start_time,eventendtime,Timezone,Bu,event_date ,Description,Region) => 
+const CreatEvent = (EventTitle,a,event_start_time,eventendtime,Timezone,code,Bu,event_date ,Description,Region) => 
 BaseApi.post("event",{
   title:EventTitle,
   description:Description,
@@ -47,7 +48,7 @@ BaseApi.post("event",{
   event_end_time:eventendtime,
   location :"hisar",
   timezone:Timezone,
-  code:"12",
+  code:code,
   type:Bu ,
   country_timezone:Region,
   speaker_data:a,
@@ -116,8 +117,28 @@ BaseApi.post("rehearsal",{
 const PublicPage = (event_code,str_slug) =>BaseApi.get(`register/${event_code}/${str_slug}`);
 
 //Readers
-const ReadersData = (id,type,Country,name_email) =>
-BaseApi.get(`participants`,{event_id:id,type:type,Country:Country,name_email:name_email},{ headers: {
+const ReadersData = (id) =>
+BaseApi.get(`participants`,{event_id:id},{ headers: {
+  'Authorization':localStorage.getItem("Token"),
+}});
+const ReadersDataSearch = (id,name_email) =>
+BaseApi.get(`participants`,{event_id:id,name_email:name_email},{ headers: {
+  'Authorization':localStorage.getItem("Token"),
+}});
+const ReadersType = (id,type) =>
+BaseApi.get(`participants`,{event_id:id,type:type,},{ headers: {
+  'Authorization':localStorage.getItem("Token"),
+}});
+const ReadersCountry = (id,type) =>
+BaseApi.get(`participants`,{event_id:id,type:type,},{ headers: {
+  'Authorization':localStorage.getItem("Token"),
+}});
+const ReadersBlock = (Participant_id,is_blocked ) =>
+BaseApi.post(`block-unblock-participant`,{id:Participant_id,is_blocked:is_blocked},{ headers: {
+  'Authorization':localStorage.getItem("Token"),
+}});
+const ReadersBlockt = (Participant_id ,type  ) =>
+BaseApi.post(`participant`,{id :Participant_id,type:type},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
 export default {
@@ -146,4 +167,9 @@ export default {
   UpdateRegistrationPageData,
   PublicPage,
   ReadersData,
+  ReadersType,
+  ReadersCountry,
+  ReadersDataSearch,
+  ReadersBlock,
+  ReadersBlockt
 };
