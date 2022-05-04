@@ -114,6 +114,12 @@ BaseApi.post("rehearsal",{
   }});
 //Public 
 const PublicPage = (event_code,str_slug) =>BaseApi.get(`register/${event_code}/${str_slug}`);
+
+//Readers
+const ReadersData = (id,type,Country,name_email) =>
+BaseApi.get(`participants`,{event_id:id,type:type,Country:Country,name_email:name_email},{ headers: {
+  'Authorization':localStorage.getItem("Token"),
+}});
 export default {
   UserLogin,
   UserForgot,
@@ -138,6 +144,6 @@ export default {
   RegistrationPageList,
   RegistrationPageData,
   UpdateRegistrationPageData,
-  PublicPage
-
+  PublicPage,
+  ReadersData,
 };

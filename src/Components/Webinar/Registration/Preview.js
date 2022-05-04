@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import ExportApi from '../../../Api/ExportApi';
 
 const Preview = () => {
-  const [data, setData] = useState();
+  const [data, setData] = useState(``);
   const [title, setTitle] = useState();
 
     let parms=useParams()
@@ -13,7 +13,7 @@ const Preview = () => {
         if (resp.ok) {
           console.log(resp.data.data.body)
           setData(resp.data.data.body);
-          document.getElementById("one").innerHTML=resp.data.data.body;
+          document.getElementById("one").innerHTML=resp.data.data.body
         }
       });
     };

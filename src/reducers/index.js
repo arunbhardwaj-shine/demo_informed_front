@@ -29,9 +29,26 @@ const getSelectedSmartListData = (smartListData = null, action) => {
   return smartListData;
 };
 
+const getCampaignId = (uniqueId = null, action) => {
+  if (action.type === "GET_UNIQUE_ID") {
+    return action.payload;
+  }
+
+  return uniqueId;
+};
+
+const getDraftData = (draftData = null, action) => {
+  if (action.type === "GET_DRAFT_DATA") {
+    return action.payload;
+  }
+  return draftData;
+};
+
 export default combineReducers({
   listId: getListId,
   updatedData: getUpdatedData,
   getEmailData: getEmailData,
   getSelectedSmartListData: getSelectedSmartListData,
+  getCampaignId: getCampaignId,
+  getDraftData: getDraftData,
 });

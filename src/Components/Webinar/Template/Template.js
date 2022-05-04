@@ -21,7 +21,7 @@ const Template = () => {
   const [modalShow, setModalShow] = useState(false);
   const [modalShow2, setModalShow2] = useState(false);
   const [dpc, setDpc] = useState();
-  const [hello, setHello] = useState();
+  const [hello, setHello] = useState(JSON.parse(localStorage.getItem('hello')));
  
   const formik = useFormik({
     initialValues: {
@@ -32,21 +32,21 @@ const Template = () => {
     }),
     enableReinitialize: true,
     onSubmit: (values) => {
-      console.log(dpc)
+   
       const exportHtml = async () => {
-              emailEditorRef.current.editor.exportHtml((data) => {
-                const { design, html } = data;
-                localStorage.setItem('bodyaa', JSON.stringify(design));
+        emailEditorRef.current.editor.exportHtml((data) => {
+          const { design, html } = data;
+          localStorage.setItem('bodyaa', JSON.stringify(design));
               })
-            };
-        exportHtml();
-        setDpc (JSON.parse(localStorage.getItem('bodyaa')))
-        
-      ExportApi.UpdateTemplate(values.Subject,JSON.stringify(dpc),id).then((resp) => {
+      };
+      exportHtml();
+      setDpc (JSON.parse(localStorage.getItem('bodyaa')))
+      ExportApi.UpdateTemplate(values.Subject,localStorage.getItem('bodyaa'),id).then((resp) => {
         if (resp.ok) {
           if (resp.data.code == 200) {
             setModalShow(false)
             handleGetEventlist()
+            handleGetTemplate()
             toast.success(resp.data.message, {
               position: "top-right",
               autoClose: 5000,
@@ -87,36 +87,33 @@ const Template = () => {
       }
     });
   };
+  
   const handleGetTemplate =async (id) => {
      setId(id);
      await SetTestMail(true)
     ExportApi.UserTemplate(id).then((resp) => {
       if (resp.ok) {
-       console.log()
+        setDpc(resp.data.data.description===""?setDpc():JSON.parse(resp.data.data.description))
+        //  emailEditorRef.current.editor.loadDesign(hello)
         setTemplate(resp.data.data);
-        setDpc(resp.data.data.description)
+        emailEditorRef.current.editor.loadDesign(dpc===undefined?hello:JSON.parse(resp.data.data.description))
       }
     });
   };
+  console.log(dpc)
   const emailEditorRef = useRef(null);
-
-
-
-  const onLoad = () => {
-    // editor instance is created
-    // you can load your template here;
-    // const templateJson = {};
-    console.log("dpc",dpc?JSON.parse(dpc):`hello`)
-     emailEditorRef.current.editor.loadDesign(dpc?JSON.parse(dpc):JSON.parse(hello));
+  const onLoad =  () => {
+    setTimeout(function(){
+      console.log("dpc",dpc)
+      emailEditorRef.current.editor.loadDesign(dpc?dpc:hello);
+    }, 2000);
   }
-
   const onReady = () => {
     // editor is ready
-    
+     emailEditorRef.current.editor.loadDesign(hello)
     console.log('onReady');
   };
   useEffect(() => {
-    setHello(`"{"counters":{"u_column":1,"u_row":1,"u_content_heading":3,"u_content_html":3},"body":{"id":"Emt5B8Ar2i","rows":[{"id":"7w2SSIOsw-","cells":[1],"columns":[{"id":"QBU24hpeei","contents":[{"id":"Dx4pV1GscS","type":"heading","values":{"containerPadding":"10px","anchor":"","headingType":"h1","fontFamily":{"label":"Arial","value":"arial,helvetica,sans-serif"},"fontSize":"22px","textAlign":"left","lineHeight":"140%","linkStyle":{"inherit":true,"linkColor":"#0000ee","linkHoverColor":"#0000ee","linkUnderline":true,"linkHoverUnderline":true},"displayCondition":null,"_meta":{"htmlID":"u_content_heading_1","htmlClassNames":"u_content_heading"},"selectable":true,"draggable":true,"duplicatable":true,"deletable":true,"hideable":true,"text":"Heading"}},{"id":"kdzFBDdNHi","type":"html","values":{"html":"<strong>Hello, world!</strong>","displayCondition":null,"containerPadding":"10px","anchor":"","_meta":{"htmlID":"u_content_html_1","htmlClassNames":"u_content_html"},"selectable":true,"draggable":true,"duplicatable":true,"deletable":true,"hideable":true}},{"id":"qsJQRrPQGF","type":"heading","values":{"containerPadding":"10px","anchor":"","headingType":"h1","fontFamily":{"label":"Arial","value":"arial,helvetica,sans-serif"},"fontSize":"22px","textAlign":"left","lineHeight":"140%","linkStyle":{"inherit":true,"linkColor":"#0000ee","linkHoverColor":"#0000ee","linkUnderline":true,"linkHoverUnderline":true},"displayCondition":null,"_meta":{"htmlID":"u_content_heading_2","htmlClassNames":"u_content_heading"},"selectable":true,"draggable":true,"duplicatable":true,"deletable":true,"hideable":true,"text":"Heading"}},{"id":"V-lkJbRX8w","type":"html","values":{"html":"<strong>Hello, world!</strong>","displayCondition":null,"containerPadding":"10px","anchor":"","_meta":{"htmlID":"u_content_html_2","htmlClassNames":"u_content_html"},"selectable":true,"draggable":true,"duplicatable":true,"deletable":true,"hideable":true}},{"id":"Kz4se0I8JS","type":"html","values":{"html":"<strong>Hello, world!</strong>","displayCondition":null,"containerPadding":"10px","anchor":"","_meta":{"htmlID":"u_content_html_3","htmlClassNames":"u_content_html"},"selectable":true,"draggable":true,"duplicatable":true,"deletable":true,"hideable":true}},{"id":"58KQGMO1hW","type":"heading","values":{"containerPadding":"10px","anchor":"","headingType":"h1","fontFamily":{"label":"Arial","value":"arial,helvetica,sans-serif"},"fontSize":"22px","textAlign":"left","lineHeight":"140%","linkStyle":{"inherit":true,"linkColor":"#0000ee","linkHoverColor":"#0000ee","linkUnderline":true,"linkHoverUnderline":true},"displayCondition":null,"_meta":{"htmlID":"u_content_heading_3","htmlClassNames":"u_content_heading"},"selectable":true,"draggable":true,"duplicatable":true,"deletable":true,"hideable":true,"text":"Heading"}}],"values":{"backgroundColor":"","padding":"0px","border":{},"_meta":{"htmlID":"u_column_1","htmlClassNames":"u_column"}}}],"values":{"displayCondition":null,"columns":false,"backgroundColor":"","columnsBackgroundColor":"","backgroundImage":{"url":"","fullWidth":true,"repeat":false,"center":true,"cover":false},"padding":"0px","anchor":"","hideDesktop":false,"_meta":{"htmlID":"u_row_1","htmlClassNames":"u_row"},"selectable":true,"draggable":true,"duplicatable":true,"deletable":true,"hideable":true}}],"values":{"popupPosition":"center","popupWidth":"600px","popupHeight":"auto","borderRadius":"10px","contentAlign":"center","contentVerticalAlign":"center","contentWidth":"500px","fontFamily":{"label":"Arial","value":"arial,helvetica,sans-serif"},"textColor":"#000000","popupBackgroundColor":"#FFFFFF","popupBackgroundImage":{"url":"","fullWidth":true,"repeat":false,"center":true,"cover":true},"popupOverlay_backgroundColor":"rgba(0, 0, 0, 0.1)","popupCloseButton_position":"top-right","popupCloseButton_backgroundColor":"#DDDDDD","popupCloseButton_iconColor":"#000000","popupCloseButton_borderRadius":"0px","popupCloseButton_margin":"0px","popupCloseButton_action":{"name":"close_popup","attrs":{"onClick":"document.querySelector('.u-popup-container').style.display = 'none';"}},"backgroundColor":"#e7e7e7","backgroundImage":{"url":"","fullWidth":true,"repeat":false,"center":true,"cover":false},"preheaderText":"","linkStyle":{"body":true,"linkColor":"#0000ee","linkHoverColor":"#0000ee","linkUnderline":true,"linkHoverUnderline":true},"_meta":{"htmlID":"u_body","htmlClassNames":"u_body"}}},"schemaVersion":8}"`)
     handleGetEventlist();
   }, []);
   return (
@@ -173,7 +170,7 @@ const Template = () => {
                 </Modal.Title>
               </Modal.Header>
         <Modal.Body>
-    <CreateTemplate data={setModalShow} />
+    <CreateTemplate htTemplate={handleGetTemplateList} data={setModalShow} />
         </Modal.Body>
       </Modal>
       <Modal
@@ -280,7 +277,10 @@ const Template = () => {
             />  */}
           </Col>
         </Row>
-      </form>:null}
+     
+     
+       
+     </form>:null}
     </div>
   );
 };

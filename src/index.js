@@ -43,6 +43,7 @@ import Template from "./Components/Webinar/Template/Template";
 import Registration from "./Components/Webinar/Registration/Registration";
 import Preview from "./Components/Webinar/Registration/Preview";
 import EditorEmail from "./Components/Webinar/Registration/EditorEmail";
+import Readers from "./Components/Webinar/Readers/Readers";
 
 let platform = 0;
 let show = 0;
@@ -54,7 +55,8 @@ if (window.location.href.indexOf("/webinar") > -1) {
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={createStore(reducers)}>
-      {platform==0?<>
+      {platform == 0 ? (
+        <>
           <BrowserRouter>
             <Header />
             <div className="warpper">
@@ -73,15 +75,24 @@ ReactDOM.render(
                       path="/SmartListFilter"
                       element={<SmartListFilter />}
                     />
-                     <Route path="/SelectSmartList" element={<SelectSmartList/>} />
+                    <Route
+                      path="/SelectSmartList"
+                      element={<SelectSmartList />}
+                    />
                     <Route path="/EmailList" element={<EmailList />} />
-                    <Route path="/EmailArticleSelect" element={<EmailArticleSelect />} />
+                    <Route
+                      path="/EmailArticleSelect"
+                      element={<EmailArticleSelect />}
+                    />
                     <Route path="/CreateEmail" element={<CreateEmail />} />
                     <Route path="/FilterSegment" element={<FilterSegment />} />
                     <Route path="/SelectHCP" element={<SelectHCP />} />
                     <Route path="/VerifyHCP" element={<VerifyHCP />} />
                     <Route path="/VerifyMAIL" element={<VerifyMAIL />} />
-                    <Route path="/SelectSmartListUsers" element={<SelectSmartListUsers />} />
+                    <Route
+                      path="/SelectSmartListUsers"
+                      element={<SelectSmartListUsers />}
+                    />
                     <Route
                       path="/VerifySmartList"
                       element={<VerifySmartList />}
@@ -94,33 +105,30 @@ ReactDOM.render(
               </div>
             </div>
           </BrowserRouter>
-        </>:<BrowserRouter>
-        <HeaderWebinar/>
-        <div className="warpper">
-              <div className="container-fluid">
-                <div className="row">
-                   <SidebarWebinar/>
-        <>             <Routes>
-                        <Route
-                          path="/webinar"
-                          element={<Home />}
-                        />
-                        <Route
-                          path="/webinar/register/:code/:url"
-                          element={<Preview/>}
-                        />
-                        <Route
-                          path="/webinar/editor"
-                          element={<EditorEmail/>}
-                        />
-                        <Route
-                          path="/webinar/Forgotpassword"
-                          element={<ForgotPassword />}
-                        />
-                        <Route
-                          path="/webinar/forgot-reset-password/:id"
-                          element={<ForgotResetPassword />}
-                        />
+        </>
+      ) : (
+        <BrowserRouter>
+          <HeaderWebinar />
+          <div className="warpper">
+            <div className="container-fluid">
+              <div className="row">
+                <SidebarWebinar />
+                <>
+                  {" "}
+                  <Routes>
+                    <Route path="/webinar" element={<Home />} />
+                    <Route
+                      path="/webinar/register/:code/:url"
+                      element={<Preview />}
+                    />
+                    <Route
+                      path="/webinar/Forgotpassword"
+                      element={<ForgotPassword />}
+                    />
+                    <Route
+                      path="/webinar/forgot-reset-password/:id"
+                      element={<ForgotResetPassword />}
+                    />
                     <React.Fragment>
                       {/* <Route path="/webinar" element={<App />} /> */}
                       <Route path="/" element={<Proctected />}>
@@ -138,6 +146,10 @@ ReactDOM.render(
                           element={<Rehearsal />}
                         />
                         <Route
+                          path="/webinar/readers"
+                          element={<Readers />}
+                        />
+                        <Route
                           path="/webinar/template"
                           element={<Template />}
                         />
@@ -151,21 +163,20 @@ ReactDOM.render(
                         />
                       </Route>
                     </React.Fragment>
-                    </Routes>
-                    
-        {/* {localStorage.getItem("Token")?<Routes>
+                  </Routes>
+                  {/* {localStorage.getItem("Token")?<Routes>
             <Route path="/webinar" element={<Home />} />
             <Route path="/webinar/dashboard" element={<Dashboard />} />
             <Route path="/webinar/event/add" element={<Add />} />
             <Route path="/webinar/event/edit" element={<EventData />} />
             <Route path="/webinar/rehearsal" element={<Rehearsal />} />
           </Routes>:null} */}
-        </>
-        </div>
-        </div>
-        </div>
+                </>
+              </div>
+            </div>
+          </div>
         </BrowserRouter>
-      }
+      )}
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")
