@@ -153,7 +153,6 @@ const Readers = () => {
                 onChange={(e) => {
                   handleGetReadersData(e.target.value);
                   setEventId(e.target.value);
-                  alert(e.target.value);
                 }}
                 name="type"
               >
