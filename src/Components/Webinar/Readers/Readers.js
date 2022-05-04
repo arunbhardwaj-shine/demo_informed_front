@@ -89,8 +89,28 @@ const Readers = () => {
     if (isblocked == 0) {
       ExportApi.ReadersBlock(id, 1).then((resp) => {
         if (resp.ok) {
-          console.log(resp.data.data);
+          // console.log(resp.data.data);
           // setCountryName(resp.data.data);
+          if (resp.data.code == 200) {
+            toast.success(resp.data.message, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              });
+          } else {
+            toast.error(resp.data.message, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              });}
         }
       });
     } else {
@@ -98,6 +118,26 @@ const Readers = () => {
         if (resp.ok) {
           // console.log(resp.data.data)
           // setCountryName(resp.data.data);
+          if (resp.data.code == 200) {
+            toast.success(resp.data.message, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              });
+          } else {
+            toast.error(resp.data.message, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              });}
         }
       });
     }
@@ -115,6 +155,26 @@ const Readers = () => {
       if (resp.ok) {
         console.log(resp.data);
         handleGetReadersData(eventId)
+        if (resp.data.code == 200) {
+          toast.success(resp.data.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            });
+        } else {
+          toast.error(resp.data.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            });}
       }
     });
   }
