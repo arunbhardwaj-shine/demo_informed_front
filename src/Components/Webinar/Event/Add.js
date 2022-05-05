@@ -82,10 +82,12 @@ function Add(props) {
       eventendtime: "",
       event_date: "",
       Description: "",
+      code:''
     },
     validationSchema: Yup.object({
       EventTitle: Yup.string().required("Event title is required"),
       Timezone: Yup.string().required("Timezone is required"),
+      code: Yup.string().required("Code is required"),
       event_start_time: Yup.string().required("Event start time is required"),
       Region: Yup.string().required("Region is required"),
       Bu: Yup.string().required("Bu is required"),
@@ -103,6 +105,7 @@ function Add(props) {
         values.event_start_time,
         values.eventendtime,
         values.Timezone,
+        values.code,
         values.Bu,
         values.event_date,
         values.Description,
@@ -359,7 +362,7 @@ var yyyy = today.getFullYear();
                 controlId="exampleForm.ControlInput1"
               >
                 <Form.Label column sm={2}>
-                  Event Date{" "}
+                  Event Date
                 </Form.Label>
                 <Col sm={10}>
                   <Form.Control
@@ -425,8 +428,29 @@ var yyyy = today.getFullYear();
                   ) : null}
                 </Col>
               </Form.Group>
-              <br />
-
+              <Form.Group
+                as={Row}
+                className="mb-3"
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label column sm={2}>
+                  Code
+                </Form.Label>
+                <Col sm={10}>
+                  <Form.Control
+                    name="code"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.code}
+                  />
+                  {formik.touched.code && formik.errors.code ? (
+                    <div style={{ color: "red" }}>
+                      {formik.errors.code}
+                    </div>
+                  ) : null}
+                </Col>
+              </Form.Group>
+              <br/>
               <Form.Group
                 as={Row}
                 className="mb-3"

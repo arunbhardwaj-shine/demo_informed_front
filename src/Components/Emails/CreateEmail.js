@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
 
-import { getEmailData } from "../../actions";
+import { getCampaignId, getEmailData } from "../../actions";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import SimpleReactValidator from "simple-react-validator";
@@ -21,11 +21,15 @@ const CreateEmail = (props) => {
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
   const location = useLocation();
-  const { PdfSelected } = location.state;
-  const { campaign_id } = location.state;
-  const pathname = location.pathname;
+  const [uniqueId, setUniqueId] = useState("");
+  const PdfSelected = location.state
+    ? location.state.PdfSelected
+    : props.getDraftData.pdf_id;
+  const campaign_id = props.getDraftData ? props.getDraftData.campaign_id : "";
+
   const [templateList, setTemplateList] = useState([]);
   const [template, setTemplate] = useState("");
+  const [campaign_id_st, setCampaign_id] = useState(campaign_id);
   const [emailDescription, setEmailDescription] = useState("");
   const [emailCreator, setEmailCreator] = useState("");
   const [counter, setCounter] = useState(0);
@@ -74,7 +78,6 @@ const CreateEmail = (props) => {
       await axios
         .post(`emailapi/get_template_list`, body)
         .then((res) => {
-          console.log(res);
           setTemplateList(res.data.response.data);
           setCounter(counter + 1);
         })
@@ -96,14 +99,13 @@ const CreateEmail = (props) => {
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const getAllTags = async () => {
-      console.log(process.env.REACT_APP_API_KEY);
       await axios
         .post(`emailapi/get_tags`, body)
         .then((res) => {
           setAllTags(res.data.response.data);
-            if(typeof campaign_id === "undefined" || campaign_id == 0){
-              loader("hide");
-            }
+          if (typeof campaign_id === "undefined" || campaign_id == 0) {
+            loader("hide");
+          }
         })
         .catch((err) => {
           console.log(err);
@@ -168,10 +170,10 @@ const sendsampeap = (event)=>{
 
 
   const getCampaignData = async () => {
-    if(typeof campaign_id !== "undefined" && campaign_id != 0){
+    if (typeof campaign_id !== "undefined" && campaign_id != 0) {
       const body = {
         user_id: 18207,
-        campaign_id: campaign_id
+        campaign_id: campaign_id,
       };
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       await axios
@@ -183,7 +185,7 @@ const sendsampeap = (event)=>{
           setemailCampaign(campaign_data.campaign);
           setEmailSubject(campaign_data.subject);
           setFinalTags(campaign_data.tags);
-          setTemplate(campaign_data.source_code)
+          setTemplate(campaign_data.source_code);
           loader("hide");
         })
         .catch((err) => {
@@ -221,10 +223,10 @@ const sendsampeap = (event)=>{
       .post(`emailapi/add_update_template`, body)
       .then((res) => {
         loader("hide");
-       // console.log(res);
+        // console.log(res);
       })
       .catch((err) => {
-       // console.log(err);
+        // console.log(err);
       });
   };
 
@@ -247,34 +249,89 @@ const sendsampeap = (event)=>{
     setIsOpen(false);
   };
 
+  // const saveAsDraft = async () => {
+  //   let tagss = [];
+  //   finalTags.map((tags) => {
+  //     tagss.push(tags.innerText || tags);
+  //   });
+
+  //   // console.log(tagss);
+  //   const body = {
+  //     user_id: 18207,
+  //     pdf_id: PdfSelected,
+  //     description: emailDescription,
+  //     creator: emailCreator,
+  //     campaign_name: emailCampaign,
+  //     subject: emailSubject,
+  //     route_location: "CreateEmail",
+  //     tags: tagss,
+  //     campaign_data: {
+  //       template_id: templateId,
+  //     },
+  //     campaign_id: campaign_id,
+  //   };
+
+  //   console.log(body);
+  //   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+  //   loader("show");
+  //   await axios
+  //     .post(`emailapi/save_draft`, body)
+  //     .then((res) => {
+  //       console.log(res);
+  //       console.log(res.data.response.data.id);
+  //       setUniqueId(res.data.response.data.id);
+  //       //  props.getCampaignId(res.data.response.data.id);
+
+  //       loader("hide");
+
+  //       props.getCampaignId(res.data.response.data.id);
+
+  //       // console.log(res);
+  //     })
+  //     .catch((err) => {
+  //       //console.log(err);
+  //     });
+  // };
+
   const saveAsDraft = async () => {
     let tagss = [];
     finalTags.map((tags) => {
       tagss.push(tags.innerText || tags);
     });
-   // console.log(tagss);
+
     const body = {
       user_id: 18207,
-      pdf_id: PdfSelected,
-      description: emailDescription,
-      creator: emailCreator,
-      campaign_name: emailCampaign,
-      subject: emailSubject,
-      route_location: pathname,
-      tags: tagss,
+      pdf_id: props.getEmailData
+        ? PdfSelected
+        : props.getDraftData.pdf_selected,
+      description: props.getEmailData
+        ? emailDescription
+        : props.getDraftData.description,
+      creator: props.getEmailData ? emailCreator : props.getDraftData.creator,
+      campaign_name: props.getEmailData
+        ? emailCampaign
+        : props.getDraftData.campaign,
+      subject: props.getEmailData ? emailSubject : props.getDraftData.subject,
+      route_location: "CreateEmail",
+      tags: props.getEmailData ? tagss : props.getDraftData.tags,
       campaign_data: {
-        template_id: templateId,
+        template_id: props.getEmailData
+          ? templateId
+          : props.getDraftData.template_id,
       },
+
+      campaign_id: campaign_id_st,
     };
 
-    console.log(body);
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
       .post(`emailapi/save_draft`, body)
       .then((res) => {
         loader("hide");
-       // console.log(res);
+
+        setCampaign_id(res.data.response.data.id);
+        //props.getCampaignId(res.data.response.data.id);
       })
       .catch((err) => {
         //console.log(err);
@@ -301,6 +358,7 @@ const sendsampeap = (event)=>{
   const nextClicked = () => {
     if (validator.allValid()) {
       props.getEmailData({
+        //uniqueId: uniqueId,
         emailDescription: emailDescription,
         emailCreator: emailCreator,
         emailCampaign: emailCampaign,
@@ -309,6 +367,7 @@ const sendsampeap = (event)=>{
         tags: finalTags,
         template: template,
         pdf_id: PdfSelected,
+        campaign_id: campaign_id_st,
       });
 
       navigate("/SelectHCP");
@@ -646,7 +705,7 @@ const searchHcp = async (e) => {
             <CKEditor
               editor={ClassicEditor}
               data={template}
-              readOnly = {true}
+              readOnly={true}
               onReady={(editor) => {
                 // You can store the "editor" and use when it is needed.
               }}
@@ -889,11 +948,11 @@ const searchHcp = async (e) => {
 };
 
 const mapStateToProps = (state) => {
-  //console.log(state);
-
+  console.log(state);
   return state;
 };
 
-export default connect(mapStateToProps, { getEmailData: getEmailData })(
-  CreateEmail
-);
+export default connect(mapStateToProps, {
+  getEmailData: getEmailData,
+  getCampaignId: getCampaignId,
+})(CreateEmail);

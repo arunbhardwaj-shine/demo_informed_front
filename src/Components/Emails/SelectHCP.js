@@ -2,8 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { loader } from "../../loader";
+import { connect } from "react-redux";
+import { getCampaignId, getEmailData } from "../../actions";
 
-const SelectHCP = () => {
+import { propTypes } from "react-bootstrap/esm/Image";
+
+const SelectHCP = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
@@ -11,6 +15,8 @@ const SelectHCP = () => {
   const [templateId, setTemplateId] = useState(0);
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+  const campaign_id = props.getDraftData ? props.getDraftData.campaign_id : "";
+  const [campaign_id_st, setCampaign_id] = useState(campaign_id);
 
   const handleInputChange = (event, selected) => {
     setSelection(event.target.children[0].value);
@@ -27,6 +33,65 @@ const SelectHCP = () => {
     window.history.go(-1);
 
     // return true;
+  };
+
+  const saveAsDraft = async () => {
+    console.log(props);
+
+    let camp_id = "";
+    try {
+      camp_id = props.getDraftData.campaign_id;
+    } catch {
+      camp_id = "";
+    }
+
+    setCampaign_id(camp_id);
+
+    const body = {
+      user_id: 18207,
+      pdf_id: props.getEmailData
+        ? props.getEmailData.pdf_id
+        : props.getDraftData.pdf_id,
+      description: props.getEmailData
+        ? props.getEmailData.emailDescription
+        : props.getDraftData.description,
+      creator: props.getEmailData
+        ? props.getEmailData.emailCreator
+        : props.getDraftData.creator,
+      campaign_name: props.getEmailData
+        ? props.getEmailData.emailCampaign
+        : props.getDraftData.campaign,
+      subject: props.getEmailData
+        ? props.getEmailData.emailSubject
+        : props.getDraftData.subject,
+      route_location: "SelectHCP",
+      tags: props.getEmailData
+        ? props.getEmailData.tags
+        : props.getDraftData.tags,
+      campaign_data: {
+        template_id: props.getEmailData
+          ? props.getEmailData.templateId
+          : props.getDraftData.template_id,
+      },
+      campaign_id: campaign_id_st,
+    };
+
+    console.log(body);
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    loader("show");
+    await axios
+      .post(`emailapi/save_draft`, body)
+      .then((res) => {
+        console.log(res);
+        console.log(props.getCampaignId);
+        setCampaign_id(res.data.response.data.id);
+        loader("hide");
+
+        // console.log(res);
+      })
+      .catch((err) => {
+        //console.log(err);
+      });
   };
 
   return (
@@ -65,7 +130,10 @@ const SelectHCP = () => {
             </div>
             <div className="col-12 col-md-2">
               <div className="header-btn">
-                <button className="btn btn-primary btn-bordered move-draft">
+                <button
+                  className="btn btn-primary btn-bordered move-draft"
+                  onClick={saveAsDraft}
+                >
                   Save As Draft
                 </button>
                 {templateId === 0 ? (
@@ -73,7 +141,14 @@ const SelectHCP = () => {
                     Next{" "}
                   </button>
                 ) : (
-                  <Link to=  {selection==='Single HCP' ? '/VerifyHCP' : '/SelectSmartList'}     state={{ UserSelected: templateId }}>
+                  <Link
+                    to={
+                      selection === "Single HCP"
+                        ? "/VerifyHCP"
+                        : "/SelectSmartList"
+                    }
+                    state={{ UserSelected: templateId }}
+                  >
                     <button className="btn btn-primary btn-filled next">
                       Next
                     </button>
@@ -147,4 +222,9 @@ const SelectHCP = () => {
   );
 };
 
-export default SelectHCP;
+const mapStateToProps = (state) => {
+  console.log(state);
+  return state;
+};
+
+export default connect(mapStateToProps)(SelectHCP);

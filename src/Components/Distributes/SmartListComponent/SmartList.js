@@ -7,41 +7,67 @@ import { connect } from "react-redux";
 import { Button, Modal } from "react-bootstrap";
 import { getListId } from "../../../actions";
 import CreateSmartList from "./CreateSmartList";
-
+import { toast } from "react-toastify";
 const SmartList = (props) => {
   const [smartListData, setSmartListData] = useState([]);
   const [getUserDetails, setUserDetails] = useState([]);
-
+  const [prevsmartListData, setPrevSmartListData] = useState([]);
+  const [search, setSearch] = useState("");
   const [isLoading, setLoading] = useState(true);
   let path= process.env.REACT_APP_ASSETS_PATH_INFORMED;
   let path_image= process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-  useEffect(() => {
-    console.log(props);
-    const body = {
-      user_id: 18207,
-    };
 
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    const getSmartListData = async () => {
-      loader("show");
-      await axios
-        .post(`distributes/get_smart_list`, body)
-        .then((res) => {
-          setLoading(false);
-          setSmartListData(res.data.response.data);
-          setUserDetails(res.data.response.userdetails);
-          loader("hide");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-    getSmartListData();
+  const body = {
+    user_id: 18207,
+    search:search,
+    filter:'',
+  };
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+  const getSmartListData = async (flag) => {
+    loader("show");
+    await axios
+      .post(`distributes/get_smart_list`, body)
+      .then((res) => {
+        setLoading(false);
+        setSmartListData(res.data.response.data);
+        if(flag == 0){
+          setPrevSmartListData(res.data.response.data);
+        }
+        setUserDetails(res.data.response.userdetails);
+        loader("hide");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getSmartListData(0);
   }, []);
+
+
 
   const linkClicked = (data) => {
     props.getListId(data);
+  };
+
+  const searchChange = (e) => {
+    setSearch(e.target.value);
+    if(e.target.value == ""){
+      setSmartListData(prevsmartListData);
+      // getSmartListData(1);
+    }
+  };
+
+  const submitHandler = (event) => {
+    if(search.length > 2){
+      getSmartListData(1);
+    }else{
+      toast.error("Please enter two letters minimum.");
+    }
+    event.preventDefault();
+    return false;
   };
 
   return (
@@ -53,23 +79,26 @@ const SmartList = (props) => {
           </div>
           <div className="top-right-action">
             <div className="search-bar">
-              <form className="d-flex">
-                <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+              <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
+                <input className="form-control me-2" type="text" placeholder="Search" aria-label="Search" onChange={(e) => searchChange(e)} />
                 <button className="btn btn-outline-success" type="submit"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M15.8045 14.862L11.2545 10.312C12.1359 9.22334 12.6665 7.84 12.6665 6.33334C12.6665 2.84134 9.82522 0 6.33325 0C2.84128 0 0 2.84131 0 6.33331C0 9.82531 2.84132 12.6667 6.33328 12.6667C7.83992 12.6667 9.22325 12.136 10.3119 11.2547L14.8619 15.8047C14.9919 15.9347 15.1625 16 15.3332 16C15.5039 16 15.6745 15.9347 15.8045 15.8047C16.0652 15.544 16.0652 15.1227 15.8045 14.862ZM6.33328 11.3333C3.57597 11.3333 1.33333 9.09066 1.33333 6.33331C1.33333 3.57597 3.57597 1.33331 6.33328 1.33331C9.0906 1.33331 11.3332 3.57597 11.3332 6.33331C11.3332 9.09066 9.09057 11.3333 6.33328 11.3333Z" fill="#97B6CF"/>
                 </svg>
                 </button>
               </form>
             </div>
-            <div className="filter-by">
+            {
+
+              /*<div className="filter-by">
               <button className="btn btn-outline-primary" type="submit">
               Filter By <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z" fill="#97B6CF"/>
-                <path d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z" fill="#97B6CF"/>
-                <path d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z" fill="#97B6CF"/>
-                </svg>
+              <path d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z" fill="#97B6CF"/>
+              <path d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z" fill="#97B6CF"/>
+              <path d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z" fill="#97B6CF"/>
+              </svg>
               </button>
-            </div>
+              </div>*/
+            }
             <div className="clear-search">
               <button className="btn btn-outline-primary" type="submit">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -108,20 +137,20 @@ const SmartList = (props) => {
 										<div className="mailbox-table">
 											<table>
 												<tbody>
-													<tr><th>Contact Type</th><td>Smart list members type</td></tr>
-													<tr><th>Speciality</th><td>Speciality of the smart list members</td></tr>
-													<tr><th>Readers</th><td>{data.readers_count}</td></tr>
-													<tr><th>IBU</th><td>Haematology</td></tr>
+													<tr><th>Contact Type</th><td>{data.contact_type}</td></tr>
+													<tr><th>Speciality</th><td>{data.speciality}</td></tr>
+													<tr><th>Readers</th><td>{data.reader_selection}</td></tr>
+													<tr><th>IBU</th><td>{data.ibu}</td></tr>
 													<tr><th>Product</th><td>{data.product}</td></tr>
 													<tr><th>Country</th><td>{data.country}</td></tr>
-													<tr><th>Registered</th><td>No</td></tr>
-													<tr><th>Created By</th><td><span>Arun Bhardwaj</span></td></tr>
+													<tr><th>Registered</th><td>{data.registered}</td></tr>
+													<tr><th>Created By</th><td><span>{data.creator}</span></td></tr>
 												</tbody>
 											</table>
 										</div>
 
-										<div className="mail-time"><span>Nov 18 | 9:00 AM</span></div>
-										<div className="smart-list-added-user"><img src={path_image+"smartlist-user.svg"} alt="User icon" />203</div>
+										<div className="mail-time"><span>{data.created_at}</span></div>
+										<div className="smart-list-added-user"><img src={path_image+"smartlist-user.svg"} alt="User icon" />{data.readers_count}</div>
 										<div className="mail-stats">
 											<ul>
 
@@ -189,7 +218,6 @@ const SmartList = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return state;
 };
 

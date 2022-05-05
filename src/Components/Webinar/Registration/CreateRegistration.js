@@ -37,22 +37,27 @@ const CreateRegistration = (props) => {
     const formik = useFormik({
         initialValues: {
             RegistrationPageTitle:'',
-            url :''
+            url :'',
+            body:""
         },
         validationSchema: Yup.object({
           RegistrationPageTitle: Yup.string().required("Enter your registration page title"),
-          url: Yup.string().required("Enter url alias"),
+          body: Yup.string().required("Enter a Body text"),
+          url: Yup.string()
+          .matches(/^[a-zA-Z]+$/u,"Only alphabets are allowed")
+          .required("Enter url alias"),
         }),
         enableReinitialize: true,
         onSubmit: (values) => {
       let formData = new FormData();
       formData.append("event_id",props.id);
-      formData.append("body", body);
+      formData.append("body", values.body);
       formData.append("file", image);
       formData.append("title", values.RegistrationPageTitle);
       formData.append("url", values.url);
       image ? ExportApi.CreateRegistrationPage(formData).then((resp) => {
             if (resp.ok) {
+              props.hendletable(props.id)
               if (resp.data.code == 200) {
                   props.data(false)
                 toast.success(resp.data.message, {
@@ -127,7 +132,7 @@ const CreateRegistration = (props) => {
                       type="text"
                       placeholder="url"
                     />
-                    <div>(Url will be like: https://abc.com/event-name/"url-alias"<br/>
+                    <div>(Url will be like: https://abc.com/event-name/url-alias<br/>
                          Example: https://informed.pro/WFH-2022/virtual-symposium)</div>
                          {formik.touched.url  && formik.errors.url  ? (
                 <div style={{ color: "red" }}>{formik.errors.url }</div>
@@ -138,7 +143,20 @@ const CreateRegistration = (props) => {
               <Row>          
                   <Col>
                   <Form.Label>Body Text</Form.Label>
-            <CKEditor
+                  <textarea
+                    name="Description"
+                    type="body"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.body}
+                    className="form-control"
+                    id="exampleFormControlTextarea1"
+                    rows="5"
+                  ></textarea>
+                               {formik.touched.body && formik.errors.body ? (
+                <div style={{ color: "red" }}>{formik.errors.body}</div>
+              ) : null}
+            {/* <CKEditor
               editor={ClassicEditor}
               data={""}
               onReady={(editor) => {
@@ -166,7 +184,7 @@ const CreateRegistration = (props) => {
                 // data?setErr(false):setErr("required")
                 // console.log( 'Focus.', editor );
               }}
-            /> 
+            />  */}
           <p style={{color:"red"}}>{err}</p>
                   </Col>
                   
