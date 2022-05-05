@@ -4,7 +4,7 @@ import "../../../App.css";
 import queryString from "query-string";
 import { Link } from "react-router-dom";
 import Loader from "react-js-loader";
-import Table from "./Table";
+import ViewTable from "./ViewTable";
 import { loader } from "../../../loader";
 
 const EditList = () => {
@@ -15,6 +15,7 @@ const EditList = () => {
   const [api_flag, setapi_flag] = useState(0);
   const [isLoading, setLoading] = useState(true);
   const [getuploadedby, setUploadedBy] = useState();
+  const [getlistcount, setListCount] = useState("");
 
   const [data, setData] = useState([]);
 
@@ -34,6 +35,7 @@ const EditList = () => {
           setLoading(false);
           setUploadedBy(res.data.response.upload_by_filter);
           setSmartListName(res.data.response.smart_list_name);
+          setListCount(res.data.response.list_count);
           setapi_flag(api_flag + 1);
           loader("hide");
         }
@@ -57,10 +59,11 @@ const EditList = () => {
     return (
       <>
       <div className="col right-sidebar">
-        <Table
+        <ViewTable
           data={editList}
           smartListDatafn={getSmartListData}
           api_flag={api_flag}
+          list_count={getlistcount}
           listId={queryParams.listId}
           upload_by_filter={getuploadedby}
           smartListName={smartListName}
