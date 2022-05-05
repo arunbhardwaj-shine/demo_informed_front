@@ -92,8 +92,8 @@ BaseApi.post("rehearsal",{
   BaseApi.post("template",{name:name,event_id:id},{ headers: {
     'Authorization':localStorage.getItem("Token"),
   }});
-  const UpdateTemplate = (subject ,id, i) =>
-  BaseApi.post("update-template",{subject :subject ,description :id,template_id :i},{ headers: {
+  const UpdateTemplate = (subject ,id, i,linkData) =>
+  BaseApi.post("update-template",{subject :subject ,description :id,template_id :i,linkData:linkData},{ headers: {
     'Authorization':localStorage.getItem("Token"),
   }});
   ////Registration

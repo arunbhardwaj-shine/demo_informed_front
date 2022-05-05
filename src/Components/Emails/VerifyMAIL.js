@@ -9,6 +9,8 @@ import { compose } from "redux";
 import { loader } from "../../loader";
 //import { connect } from "react-redux";
 import { getCampaignId } from "../../actions";
+import { popup_alert } from "../../popup_alert";
+import { toast } from "react-toastify";
 
 const VerifyMAIL = (props) => {
   const location = useLocation();
@@ -40,21 +42,7 @@ const VerifyMAIL = (props) => {
   }, []);
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-  // useEffect(() => {
-  //   const body = {
-  //     user_id: 18207,
-  //   };
-  //   axios
-  //     .post(`emailapi/get_template_list`, body)
-  //     .then((res) => {
-  //       setSendListData(res.data.response.data.emails);
-  //       setUserData(res.data.response.data.user);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
-
+  
   const handleInputChange = (event, selected) => {
     const div = document.querySelector("div.active");
 
@@ -70,21 +58,7 @@ const VerifyMAIL = (props) => {
   };
 
   const saveAsDraft = async () => {
-    console.log(props);
-    // const body = {
-    //   user_id: 18207,
-    //   pdf_id: props.getEmailData.pdf_id,
-    //   description: props.getEmailData.emailDescription,
-    //   creator: props.getEmailData.emailCreator,
-    //   campaign_name: props.getEmailData.emailCampaign,
-    //   subject: props.getEmailData.emailSubject,
-    //   route_location: "VerifyMAIL",
-    //   tags: props.getEmailData.tags,
-    //   campaign_data: {
-    //     template_id: props.getEmailData.templateId,
-    //   },
-    //   campaign_id: props.getCampaignId,
-    // };
+   
 
     const body = {
       user_id: 18207,
@@ -135,38 +109,9 @@ const VerifyMAIL = (props) => {
       });
   };
 
-  // useEffect(() => {
-  //   //   getAllTags();
-  //   getCampaignData();
-  // }, []);
-
-  // const getCampaignData = async () => {
-  //   if (typeof campaign_id !== "undefined" && campaign_id != 0) {
-  //     const body = {
-  //       user_id: 18207,
-  //       campaign_id: campaign_id,
-  //     };
-  //     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-  //     await axios
-  //       .post(`emailapi/get_campaign_details`, body)
-  //       .then((res) => {
-  //         let campaign_data = res.data.response.data;
-  //         setEmailDescription(campaign_data.description);
-  //         setEmailCreator(campaign_data.creator);
-  //         setemailCampaign(campaign_data.campaign);
-  //         setEmailSubject(campaign_data.subject);
-  //         setFinalTags(campaign_data.tags);
-  //         setTemplate(campaign_data.source_code);
-  //         loader("hide");
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   }
-  // };
 
   const createEmail = async () => {
-    setIsOpen(true);
+    //setIsOpen(true);
     let finalTags = props.getEmailData
       ? props.getEmailData.tags.map((tags) => {
           return tags.innerHTML || tags;
@@ -205,6 +150,9 @@ const VerifyMAIL = (props) => {
         ? props.getEmailData.emailCampaign
         : props.getDraftData.campaign,
       tags: finalTags,
+      template_source_code:props.getEmailData
+      ? props.getEmailData.source_code
+      : props.getDraftData.source_code,
       campaign_id: props.getEmailData ? "" : props.getDraftData.campaign_id,
       //   campaign_data: {
       //     user_list: [""],
@@ -225,10 +173,26 @@ const VerifyMAIL = (props) => {
     await axios
       .post(`emailapi/send_email`, body)
       .then((res) => {
-        console.log(res);
+       
         loader("hide");
+        if (res.data.status_code === 200) {
+          popup_alert({
+            visible: "show",
+            message: "Test mail sent successfuly",
+            type: "success",
+          });
+        } else {
+          popup_alert({
+            visible: "show",
+            message: res.data.message,
+            type: "error",
+          });
+        }
+
+
       })
       .catch((err) => {
+        toast.error("Something went wrong");
         console.log(err);
       });
   };
@@ -491,7 +455,7 @@ const VerifyMAIL = (props) => {
                           <div className="mail-preview-img">
                             <img
                               src={path_image + "dummy-img.png"}
-                              alt="Preview Image"
+                              alt="Preview "
                             />
                           </div>
                           <div className="mail-box-content">
