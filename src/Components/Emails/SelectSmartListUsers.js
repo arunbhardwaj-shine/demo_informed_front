@@ -5,12 +5,15 @@ import { loader } from "../../loader";
 
 import TableOnly from "./TableOnly";
 import { Navigate } from "react-router-dom";
+import { connect } from "react-redux";
 
-const SelectSmartListUsers = () => {
+const SelectSmartListUsers = (props) => {
   const navigate = useNavigate();
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const location = useLocation();
   const [readers, setReaders] = useState([]);
+  const campaign_id = props.getDraftData ? props.getDraftData.campaign_id : "";
+  const [campaign_id_st, setCampaign_id] = useState(campaign_id);
   const [SendListData, setSendListData] = useState([]);
   const [PdfSelected, setPdfSelected] = useState(0);
   const [TemplateId, setTemplateId] = useState(0);
@@ -19,14 +22,20 @@ const SelectSmartListUsers = () => {
   const [reRender, setReRender] = useState(0);
   const [update, setUpdate] = useState(0);
 
-  const { smartListSelected } = location.state;
+  const smartListSelected = location.state
+    ? location.state.smartListSelected
+    : props.getDraftData.smart_list_data;
+
+  //console.log(smartListSelected);
 
   const inputElement = useRef();
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   useEffect(() => {
     const body = {
       user_id: 18207,
-      list_id: smartListSelected.id,
+      list_id: props.getEmailData
+        ? smartListSelected.id
+        : props.getDraftData.campaign_data.smart_list_id,
     };
     loader("show");
     axios
@@ -45,6 +54,64 @@ const SelectSmartListUsers = () => {
     window.history.go(-1);
 
     // return true;
+  };
+
+  const saveAsDraft = async () => {
+    console.log("hi");
+
+    const body = {
+      user_id: 18207,
+      pdf_id: props.getEmailData
+        ? props.getEmailData.pdf_id
+        : props.getDraftData.pdf_id,
+      description: props.getEmailData
+        ? props.getEmailData.emailDescription
+        : props.getDraftData.description,
+      creator: props.getEmailData
+        ? props.getEmailData.emailCreator
+        : props.getDraftData.creator,
+      campaign_name: props.getEmailData
+        ? props.getEmailData.emailCampaign
+        : props.getDraftData.campaign,
+      subject: props.getEmailData
+        ? props.getEmailData.emailSubject
+        : props.getDraftData.subject,
+      route_location: "SelectSmartListUsers",
+      tags: props.getEmailData
+        ? props.getEmailData.tags
+        : props.getDraftData.tags,
+      campaign_data: {
+        template_id: props.getEmailData
+          ? props.getEmailData.templateId
+          : props.getDraftData.campaign_data.template_id,
+        smart_list_id: props.getEmailData
+          ? smartListSelected.id
+          : props.getDraftData.campaign_data.smart_list_id,
+        //smart_list_data: readers,
+        // users_list : smartListSelected,
+        selectedHcp: [...readers, ...readersNewlyAdded],
+      },
+      campaign_id: campaign_id_st,
+    };
+
+    console.log(body);
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    loader("show");
+    await axios
+      .post(`emailapi/save_draft`, body)
+      .then((res) => {
+        console.log(res);
+        //console.log(selectedHcp);
+        setCampaign_id(res.data.response.data.id);
+        //  setSelectedHcp(selectedHcp);
+        //  console.log(props.getCampaignId);
+        loader("hide");
+
+        // console.log(res);
+      })
+      .catch((err) => {
+        //console.log(err);
+      });
   };
 
   const nextClicked = () => {
@@ -140,7 +207,10 @@ const SelectSmartListUsers = () => {
             </div>
             <div className="col-12 col-md-2">
               <div className="header-btn">
-                <button className="btn btn-primary btn-bordered move-draft">
+                <button
+                  className="btn btn-primary btn-bordered move-draft"
+                  onClick={saveAsDraft}
+                >
                   Save As Draft
                 </button>
                 <button
@@ -352,4 +422,9 @@ const SelectSmartListUsers = () => {
   );
 };
 
-export default SelectSmartListUsers;
+const mapStateToProps = (state) => {
+  console.log(state);
+  return state;
+};
+
+export default connect(mapStateToProps)(SelectSmartListUsers);

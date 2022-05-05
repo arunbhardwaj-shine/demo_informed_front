@@ -15,6 +15,8 @@ const SelectHCP = (props) => {
   const [templateId, setTemplateId] = useState(0);
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+  const campaign_id = props.getDraftData ? props.getDraftData.campaign_id : "";
+  const [campaign_id_st, setCampaign_id] = useState(campaign_id);
 
   const handleInputChange = (event, selected) => {
     setSelection(event.target.children[0].value);
@@ -35,19 +37,43 @@ const SelectHCP = (props) => {
 
   const saveAsDraft = async () => {
     console.log(props);
+
+    let camp_id = "";
+    try {
+      camp_id = props.getDraftData.campaign_id;
+    } catch {
+      camp_id = "";
+    }
+
+    setCampaign_id(camp_id);
+
     const body = {
       user_id: 18207,
-      pdf_id: props.getDraftData.pdf_id,
-      description: props.getDraftData.description,
-      creator: props.getDraftData.creator,
-      campaign_name: props.getDraftData.campaign,
-      subject: props.getDraftData.subject,
+      pdf_id: props.getEmailData
+        ? props.getEmailData.pdf_id
+        : props.getDraftData.pdf_id,
+      description: props.getEmailData
+        ? props.getEmailData.emailDescription
+        : props.getDraftData.description,
+      creator: props.getEmailData
+        ? props.getEmailData.emailCreator
+        : props.getDraftData.creator,
+      campaign_name: props.getEmailData
+        ? props.getEmailData.emailCampaign
+        : props.getDraftData.campaign,
+      subject: props.getEmailData
+        ? props.getEmailData.emailSubject
+        : props.getDraftData.subject,
       route_location: "SelectHCP",
-      tags: props.getDraftData.tags,
+      tags: props.getEmailData
+        ? props.getEmailData.tags
+        : props.getDraftData.tags,
       campaign_data: {
-        template_id: props.getDraftData.campaign_data.template_id,
+        template_id: props.getEmailData
+          ? props.getEmailData.templateId
+          : props.getDraftData.template_id,
       },
-      campaign_id: props.getDraftData.campaign_id,
+      campaign_id: campaign_id_st,
     };
 
     console.log(body);
@@ -58,10 +84,8 @@ const SelectHCP = (props) => {
       .then((res) => {
         console.log(res);
         console.log(props.getCampaignId);
+        setCampaign_id(res.data.response.data.id);
         loader("hide");
-        if (props.getCampaignId == "") {
-          props.getCampaignId(res.data.response.data.id);
-        }
 
         // console.log(res);
       })
@@ -117,7 +141,14 @@ const SelectHCP = (props) => {
                     Next{" "}
                   </button>
                 ) : (
-                  <Link to=  {selection==='Single HCP' ? '/VerifyHCP' : '/SelectSmartList'}     state={{ UserSelected: templateId }}>
+                  <Link
+                    to={
+                      selection === "Single HCP"
+                        ? "/VerifyHCP"
+                        : "/SelectSmartList"
+                    }
+                    state={{ UserSelected: templateId }}
+                  >
                     <button className="btn btn-primary btn-filled next">
                       Next
                     </button>

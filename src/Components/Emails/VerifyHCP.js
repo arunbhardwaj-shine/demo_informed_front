@@ -11,6 +11,8 @@ const VerifyHCP = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
+  const campaign_id = props.getDraftData ? props.getDraftData.campaign_id : "";
+  const [campaign_id_st, setCampaign_id] = useState(campaign_id);
   const [templateId, setTemplateId] = useState(0);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -39,6 +41,23 @@ const VerifyHCP = (props) => {
 
   const [manualReRender, setManualReRender] = useState(0);
 
+  useEffect(() => {
+    console.log(props);
+    // props.getDraftData.campaign_data.selectedHcp;
+    if (
+      typeof props !== "undefined" &&
+      props !== null &&
+      props.hasOwnProperty("getDraftData")
+    ) {
+      if (props.getDraftData !== null) {
+        let reducHcp = props.getDraftData.campaign_data.selectedHcp;
+        if (typeof reducHcp != "undefined") {
+          setSelectedHcp(reducHcp);
+        }
+      }
+    }
+  }, []);
+
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   // useEffect(() => {
   //   const body = {
@@ -53,6 +72,31 @@ const VerifyHCP = (props) => {
   //     .catch((err) => {
   //       console.log(err);
   //     });
+  // }, []);
+
+  // axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+  // useEffect(() => {
+  //   const getUserById = async () => {
+  //     const body = {
+  //       // data: body_data,
+  //       user_id: 18207,
+  //       readers_id: props.getDraftData.campaign_data.selectedHcp,
+  //     };
+
+  //     loader("show");
+  //     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+  //     await axios
+  //       .post(`emailapi/get_user_details`, body)
+  //       .then((res) => {
+  //         console.log(res);
+  //         setSelectedHcp(res.data.response.data);
+  //         loader("hide");
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   };
+  //   getUserById();
   // }, []);
 
   useEffect(() => {
@@ -70,6 +114,7 @@ const VerifyHCP = (props) => {
   };
 
   const nextClicked = () => {
+    console.log(selectedHcp);
     navigate("/VerifyMAIL", {
       // data: data,
       // smartListName: smartListName,
@@ -333,20 +378,55 @@ const VerifyHCP = (props) => {
   };
 
   const saveAsDraft = async () => {
+    console.log("hi");
     console.log(props);
+    console.log(selectedHcp);
+    // const body = {
+    //   user_id: 18207,
+    //   pdf_id: props.getDraftData.pdf_id,
+    //   description: props.getDraftData.description,
+    //   creator: props.getDraftData.creator,
+    //   campaign_name: props.getDraftData.campaign,
+    //   subject: props.getDraftData.subject,
+    //   route_location: "VerifyHCP",
+    //   tags: props.getDraftData.tags,
+    //   campaign_data: {
+    //     template_id: props.getDraftData.template_id,
+    //     // selectedHcp: selectedHcp.map((hcp) => {
+    //     //   return hcp.user_id;
+    //     // }),
+    //   },
+    //   campaign_id: props.getDraftData.campaign_id || "",
+    // };
+
     const body = {
       user_id: 18207,
-      pdf_id: props.getDraftData.pdf_id,
-      description: props.getDraftData.description,
-      creator: props.getDraftData.creator,
-      campaign_name: props.getDraftData.campaign,
-      subject: props.getDraftData.subject,
+      pdf_id: props.getEmailData
+        ? props.getEmailData.pdf_id
+        : props.getDraftData.pdf_id,
+      description: props.getEmailData
+        ? props.getEmailData.emailDescription
+        : props.getDraftData.description,
+      creator: props.getEmailData
+        ? props.getEmailData.emailCreator
+        : props.getDraftData.creator,
+      campaign_name: props.getEmailData
+        ? props.getEmailData.emailCampaign
+        : props.getDraftData.campaign,
+      subject: props.getEmailData
+        ? props.getEmailData.emailSubject
+        : props.getDraftData.subject,
       route_location: "VerifyHCP",
-      tags: props.getDraftData.tags,
+      tags: props.getEmailData
+        ? props.getEmailData.tags
+        : props.getDraftData.tags,
       campaign_data: {
-        template_id: props.getDraftData.campaign_data.template_id,
+        template_id: props.getEmailData
+          ? props.getEmailData.templateId
+          : props.getDraftData.campaign_data.template_id,
+        selectedHcp: selectedHcp,
       },
-      campaign_id: props.getDraftData.campaign_id,
+      campaign_id: campaign_id_st,
     };
 
     console.log(body);
@@ -356,11 +436,11 @@ const VerifyHCP = (props) => {
       .post(`emailapi/save_draft`, body)
       .then((res) => {
         console.log(res);
-        console.log(props.getCampaignId);
+        console.log(selectedHcp);
+        setCampaign_id(res.data.response.data.id);
+        setSelectedHcp(selectedHcp);
+        //  console.log(props.getCampaignId);
         loader("hide");
-        if (props.getCampaignId == "") {
-          props.getCampaignId(res.data.response.data.id);
-        }
 
         // console.log(res);
       })
