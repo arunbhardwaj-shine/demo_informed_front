@@ -121,16 +121,16 @@ const ReadersData = (id) =>
 BaseApi.get(`participants`,{event_id:id},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
-const ReadersDataSearch = (id,name_email) =>
-BaseApi.get(`participants`,{event_id:id,name_email:name_email},{ headers: {
+const ReadersDataSearch = (id,name_email,type,country) =>
+BaseApi.get(`participants`,{event_id:id,name_email:name_email,type:type,country:country},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
-const ReadersType = (id,type) =>
-BaseApi.get(`participants`,{event_id:id,type:type,},{ headers: {
+const ReadersType = (id,type,search,countryvalue) =>
+BaseApi.get(`participants`,{event_id:id,type:type,name_email:search,country:countryvalue},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
-const ReadersCountry = (id,type) =>
-BaseApi.get(`participants`,{event_id:id,type:type,},{ headers: {
+const ReadersCountry = (id,name,type,search) =>
+BaseApi.get(`participants`,{event_id:id,country:name,type:type,name_email:search},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
 const ReadersBlock = (Participant_id,is_blocked ) =>

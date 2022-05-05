@@ -8,10 +8,14 @@ import ExportApi from "../../../Api/ExportApi";
 import ReactDOM from "react-dom";
 import { ReactFormBuilder } from "react-form-builder2";
 import "react-form-builder2/dist/app.css";
+import { scryRenderedComponentsWithType } from "react-dom/test-utils";
 const Readers = () => {
   const [data, setData] = useState();
+  const [type, setType] = useState();
+  const [countryvalue, setCountryValue] = useState();
   const [event, setEvent] = useState([]);
   const [eventId, setEventId] = useState();
+  const [search, setSearch] = useState();
   const [flag, setFlag] = useState(false);
   const [countryName, setCountryName] = useState();
   const [render, setRender] = useState(0);
@@ -32,7 +36,7 @@ const Readers = () => {
     });
   };
   const handleGetReadersSearch = (id) => {
-    ExportApi.ReadersDataSearch(eventId, id).then((resp) => {
+    ExportApi.ReadersDataSearch(eventId, id,type,countryvalue).then((resp) => {
       if (resp.ok) {
         console.log(resp.data);
         if (resp.data.code === 404) {
@@ -45,7 +49,7 @@ const Readers = () => {
     });
   };
   const handleGetReadersType = (id) => {
-    ExportApi.ReadersType(eventId, id).then((resp) => {
+    ExportApi.ReadersType(eventId, id,search,countryvalue).then((resp) => {
       if (resp.ok) {
         // console.log(resp.data);
         if (resp.data.code === 404) {
@@ -58,7 +62,7 @@ const Readers = () => {
     });
   };
   const handleGetReadersCountry = (id) => {
-    ExportApi.ReadersCountry(eventId, id).then((resp) => {
+    ExportApi.ReadersCountry(eventId, id,type,search).then((resp) => {
       if (resp.ok) {
         // console.log(resp.data);
         if (resp.data.code === 404) {
@@ -233,6 +237,7 @@ const Readers = () => {
                   <Form.Select
                     onChange={(e) => {
                       handleGetReadersCountry(e.target.value);
+                      setCountryValue(e.target.value)
                     }}
                   >
                     <option>select Country</option>
@@ -248,6 +253,7 @@ const Readers = () => {
                   <Form.Select
                     onChange={(e) => {
                       handleGetReadersType(e.target.value);
+                      setType(e.target.value)
                     }}
                   >
                     <option value="HCP">HCP</option>
@@ -260,6 +266,7 @@ const Readers = () => {
                   <Form.Control
                     onChange={(e) => {
                       handleGetReadersSearch(e.target.value);
+                      setSearch(e.target.value)
                     }}
                     placeholder="By name or email"
                   />
