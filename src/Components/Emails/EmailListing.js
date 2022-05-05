@@ -125,6 +125,7 @@ const EmailList = (props) => {
       campaign_id: campaign_id,
     };
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    loader("show");
     await axios
       .post(`emailapi/get_campaign_details`, body)
       .then((res) => {
@@ -309,7 +310,14 @@ const EmailList = (props) => {
                     {
                       data.status == 1 ?
                       <div className="mailbox-buttons">
-                        <div className="send_new"><button className="btn btn-primary btn-filled send-new">Send New</button></div>
+                        <div className="send_new"><button className="btn btn-primary btn-filled send-new" onClick={() => draftNavigate(data.id,
+                            data.pdf_id,
+                            'CreateEmail',
+                            data.campaign,
+                            data.creator,
+                            data.discription,
+                            data.subject,
+                            data.tags)}>Send New</button></div>
                         <div className="mailbox-buttons-list">
                           <button className="btn btn-primary btn-bordered send" onClick={(e) => showModal('resend',data.id)}>Resend</button>
                           <button className="btn btn-primary btn-filled edit" onClick={(e) => showViewEmailModal(data.id)}>View</button>
