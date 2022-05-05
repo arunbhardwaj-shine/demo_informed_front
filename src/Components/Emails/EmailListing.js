@@ -311,11 +311,13 @@ const showDeleteButtons = () => {
         </div> */}
       <div className="email-result">
         <div className="col email-result-block">
+          <div className="email_box_block">
           <div className="email-block-add">
             <a href="/EmailArticleSelect">
               <img src={path_image + "add-button.svg"} alt="" />
             </a>
             <p>Create New Email</p>
+          </div>
           </div>
             {SendListData.map((data) => {
               //console.log(data)
@@ -326,6 +328,7 @@ const showDeleteButtons = () => {
                     {data.status == 2 ? "Draft" : "Approved Draft"}
                   </span></div>
                   <div className="mail-box-content">
+                    <div className="mail-box-content-top">
                     <h5>{data.subject}</h5>
                     <p>{data.description}</p>
                     <div className="mailbox-table">
@@ -379,8 +382,10 @@ const showDeleteButtons = () => {
                         </div><span>{data.total_Click}</span></li>
                       </ul>
                     </div>
+                    </div>
                     {
                       data.status == 1 ?
+                      
                       <div className="mailbox-buttons">
                         <div className="send_new"><button className="btn btn-primary btn-filled send-new" onClick={() => draftNavigate(data.id,
                             data.pdf_id,
@@ -398,7 +403,7 @@ const showDeleteButtons = () => {
                       : <div className="mailbox-buttons">
             <div className="mailbox-buttons-list">
                         {data.route_location == "VerifyMAIL" ? <button className="btn btn-primary send btn-bordered" onClick={(e) => showModal('send',data.id)}>Send</button> : ""}
-                        <button className="btn btn-primary edit" onClick={() => draftNavigate(data.id,
+                        <button className="btn btn-primary edit btn-filled" onClick={() => draftNavigate(data.id,
                             data.pdf_id,
                             data.route_location,
                             data.campaign,
@@ -587,9 +592,25 @@ const showDeleteButtons = () => {
   </div>
 
         {/*Modal for delete Email listing*/}
-        <div className="modal send-confirm" id="delete-confirm">
-          <Modal show={confirmationpopup}>
-  				  <div className="modal-dialog modal-dialog-centered">
+        <div className="delete">
+          <Modal className="modal send-confirm" id="delete-confirm" show={confirmationpopup}>
+          <Modal.Header>
+          {/* <Modal.Title>Heading Text</Modal.Title>*/}
+          <button type="button" className="btn-close" data-bs-dismiss="modal" onClick={(e) => hideConfirmationModal()}></button>
+        </Modal.Header>
+
+        <Modal.Body>
+              <img src={path + "alert.png"} alt="" />
+  						<h4>The Email Campaign will be deleted from the list.<br/>Are you sure you want to delete it?</h4>
+            <div className="modal-buttons">
+              <button type="button" className="btn btn-primary btn-filled" onClick={(e) => deleteEmail()}>Yes Please!</button>
+              <button type="button" className="btn btn-primary btn-bordered light" onClick={(e) => hideConfirmationModal()} >Cancel</button>
+            </div>
+        </Modal.Body>
+
+       
+            {/* 
+                <div className="modal-dialog modal-dialog-centered">
   					<div className="modal-content">
 
   					  <div className="modal-header">
@@ -608,13 +629,31 @@ const showDeleteButtons = () => {
 
   					</div>
   				  </div>
+              */
+            }
+  				  
           </Modal>
 				</div>
 
         {/*Modal for Verification*/}
-        <div className="modal send-confirm" id="action-confirm">
-          <Modal show={verificationpopup}>
-  				  <div className="modal-dialog modal-dialog-centered">
+        <div className="delete-confirm">
+          <Modal className="modal send-confirm" id="action-confirm" show={verificationpopup}>
+              <Modal.Header>
+              
+              <button type="button" className="btn-close" data-bs-dismiss="modal" onClick={(e) => hideVerificationPopup()}></button>
+            </Modal.Header>
+
+            <Modal.Body>
+              <img src={path_image+"success.png"} alt="" />
+  						<h4>The HCP record has been deleted <br />successfully !</h4>
+                <div className="modal-buttons">
+                  <button type="button" className="btn btn-primary btn-bordered light" onClick={(e) => hideVerificationPopup()}>Close</button>
+                </div>
+            </Modal.Body>
+
+
+
+  				  {/* <div className="modal-dialog modal-dialog-centered">
   					<div className="modal-content">
   					  <div className="modal-header">
   						<button type="button" className="btn-close" data-bs-dismiss="modal" onClick={(e) => hideVerificationPopup()}></button>
@@ -628,7 +667,7 @@ const showDeleteButtons = () => {
   					  </div>
 
   					</div>
-  				  </div>
+  				  </div> */}
           </Modal>
 				</div>
     </>

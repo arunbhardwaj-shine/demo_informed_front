@@ -171,7 +171,7 @@ const SmartList = (props) => {
 
                   {data.upload_by_filter == 1 ?
                     <Link
-                    className="btn btn-primary edit_list"
+                    className="btn btn-primary edit_list btn-bordered"
                     to={{
                       pathname: "/EditList",
                       search: "?listId=" + data.id,
@@ -182,7 +182,7 @@ const SmartList = (props) => {
                     </Link>
                    :
                    <Link
-                     className="btn btn-primary edit_list"
+                     className="btn btn-primary edit_list btn-filled"
                      to={{
                        pathname: "/ViewSmartList",
                        search: "?listId=" + data.id,

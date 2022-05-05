@@ -2,15 +2,13 @@
 	float: right;
 	width: 170px;
 }
-.btn-primary{
-	float: right;
-}
+
 .edit-event{
 	width: 252px;
 	float: left;
 }
 .edit-event {
-	loat: left;
+	float: left;
     position: relative;
 }
 
