@@ -57,7 +57,7 @@ const EmailList = () => {
      };
      loader("show");
      axios
-       .post(`emailapi/resend_email`, body)
+       .post(`emailapi/send_sample_email`, body)
        .then((res) => {
          loader("hide");
          toast.success("Email send successfully.", {
