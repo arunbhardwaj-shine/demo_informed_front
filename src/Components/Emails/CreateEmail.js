@@ -4,8 +4,8 @@ import { Link, useLocation } from "react-router-dom";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { connect } from "react-redux";
-import AliceCarousel from 'react-alice-carousel';
-import 'react-alice-carousel/lib/alice-carousel.css';
+import AliceCarousel from "react-alice-carousel";
+import "react-alice-carousel/lib/alice-carousel.css";
 
 import { getCampaignId, getEmailData } from "../../actions";
 import { useNavigate } from "react-router-dom";
@@ -13,7 +13,7 @@ import { Modal } from "react-bootstrap";
 import SimpleReactValidator from "simple-react-validator";
 import { loader } from "../../loader";
 import { popup_alert } from "../../popup_alert";
-import { toast} from "react-toastify";
+import { toast } from "react-toastify";
 
 const CreateEmail = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -25,6 +25,8 @@ const CreateEmail = (props) => {
   const PdfSelected = location.state
     ? location.state.PdfSelected
     : props.getDraftData.pdf_id;
+  console.log(PdfSelected);
+
   const campaign_id = props.getDraftData ? props.getDraftData.campaign_id : "";
 
   const [templateList, setTemplateList] = useState([]);
@@ -63,7 +65,6 @@ const CreateEmail = (props) => {
   const newArr = [];
 
   useEffect(() => {
-    
     loader("show");
 
     const body = {
@@ -115,7 +116,6 @@ const CreateEmail = (props) => {
     getCampaignData();
   }, []);
 
-  
   const deleteSelected = (index) => {
     let arr = [];
     arr = selectedHcp;
@@ -125,39 +125,43 @@ const CreateEmail = (props) => {
     setReRender(reRender + 1);
   };
 
-const sendsampeap = (event)=>{
+  const sendsampeap = (event) => {
+    setIsOpensend(false);
 
-  setIsOpensend(false);
+    let selected_ids = selectedHcp.map((number) => number["user_id"]);
 
- let selected_ids  = selectedHcp.map((number) =>
-    number['user_id']
-);
+    loader("show");
+    const body = {
+      user_id: 18207,
+      pdf_id: PdfSelected,
+      subject: emailSubject,
+      template_id: templateId,
+      user_list: selected_ids,
+      smartlist_id: "",
+    };
 
-  loader("show");
-  const body = {
-    user_id: 18207,
-    pdf_id: PdfSelected,
-    subject: emailSubject,
-    template_id: templateId,
-    user_list: selected_ids,
-    smartlist_id: "",
-  };
+    console.log(body);
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
-   console.log(body); 
-  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-
-      axios
+    axios
       .post(`emailapi/send_sample_email`, body)
       .then((res) => {
         console.log(res);
         loader("hide");
-        if(res.data.status_code===200){
-         
-          popup_alert({"visible":"show","message":"Test mail sent successfuly","type":"success"});
-        }else{
-          popup_alert({"visible":"show","message":res.data.message,"type":"error"});
+        if (res.data.status_code === 200) {
+          popup_alert({
+            visible: "show",
+            message: "Test mail sent successfuly",
+            type: "success",
+          });
+        } else {
+          popup_alert({
+            visible: "show",
+            message: res.data.message,
+            type: "error",
+          });
         }
-        
+
         //toast.success("Test Mail sent successfuly");
       })
       .catch((err) => {
@@ -165,9 +169,7 @@ const sendsampeap = (event)=>{
         toast.error("Something went wrong");
         console.log(err);
       });
-
-}
-
+  };
 
   const getCampaignData = async () => {
     if (typeof campaign_id !== "undefined" && campaign_id != 0) {
@@ -193,7 +195,6 @@ const sendsampeap = (event)=>{
         });
     }
   };
-
 
   const selectHcp = (index) => {
     // console.log(index);
@@ -238,11 +239,10 @@ const sendsampeap = (event)=>{
   const nameChanged = (e) => {
     setName(e.target.value);
   };
-  
+
   const emailChanged = (e) => {
     setEmail(e.target.value);
   };
-
 
   const closeModal = () => {
     //console.log("closed");
@@ -321,6 +321,7 @@ const sendsampeap = (event)=>{
       },
 
       campaign_id: campaign_id_st,
+      status: 2,
     };
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -379,6 +380,54 @@ const sendsampeap = (event)=>{
     }
   };
 
+  const approvedClicked = async (e) => {
+    e.preventDefault();
+    let tagss = [];
+    finalTags.map((tags) => {
+      tagss.push(tags.innerText || tags);
+    });
+
+    const body = {
+      user_id: 18207,
+      pdf_id:
+        props.getEmailData || PdfSelected
+          ? PdfSelected
+          : props.getDraftData.pdf_selected,
+      description: props.getEmailData
+        ? emailDescription
+        : props.getDraftData.description,
+      creator: props.getEmailData ? emailCreator : props.getDraftData.creator,
+      campaign_name: props.getEmailData
+        ? emailCampaign
+        : props.getDraftData.campaign,
+      subject: props.getEmailData ? emailSubject : props.getDraftData.subject,
+      route_location: "CreateEmail",
+      tags: props.getEmailData ? tagss : props.getDraftData.tags,
+      campaign_data: {
+        template_id: props.getEmailData
+          ? templateId
+          : props.getDraftData.template_id,
+      },
+
+      campaign_id: campaign_id_st,
+      status: 3,
+    };
+
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    loader("show");
+    await axios
+      .post(`emailapi/save_draft`, body)
+      .then((res) => {
+        loader("hide");
+
+        setCampaign_id(res.data.response.data.id);
+        //props.getCampaignId(res.data.response.data.id);
+      })
+      .catch((err) => {
+        //console.log(err);
+      });
+  };
+
   const tagButtonClicked = () => {
     // $('#myModal').modal('show'
     // document.getElementById("tagsModal").modal('show');
@@ -406,7 +455,7 @@ const sendsampeap = (event)=>{
     setemailCampaign(e.target.value);
   };
 
-  useEffect(() => { }, []);
+  useEffect(() => {}, []);
 
   const addTag = () => {
     if (validator2.allValid()) {
@@ -422,16 +471,19 @@ const sendsampeap = (event)=>{
     setTagClickedFirst((oldArray) => [...oldArray, event.target]);
   };
 
-
-  const sendSample =(event)=>{
+  const sendSample = (event) => {
     event.preventDefault();
-      if(templateId=="" || templateId==0 || emailSubject=="" || emailSubject==0){
-          toast.error("Plese select Mail template and Subject first");
-      }else{
-        setIsOpensend(true);
-      }
-
-  }
+    if (
+      templateId == "" ||
+      templateId == 0 ||
+      emailSubject == "" ||
+      emailSubject == 0
+    ) {
+      toast.error("Plese select Mail template and Subject first");
+    } else {
+      setIsOpensend(true);
+    }
+  };
 
   const removeTag = (index) => {
     //console.log(index);
@@ -458,42 +510,40 @@ const sendsampeap = (event)=>{
     0: { items: 1 },
     568: { items: 2 },
     1024: { items: 5 },
-};
-
-const searchHcp = async (e) => {
-  e.preventDefault();
-  const body = {
-    user_id: 18207,
-    name: name,
-    email: email,
   };
 
-  //console.log(body);
-  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-  //loader("show");
-  await axios
-    .post(`emailapi/search_hcp`, body)
-    .then((res) => {
-      console.log(res);
-      // console.log(res.data.response.data);
-      if (res.data.response) {
-        setSearchedUsers(res.data.response.data);
-      }
-      if (res.data.message) {
-        setMessage(res.data.message);
-      }
-      //loader("hide");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
+  const searchHcp = async (e) => {
+    e.preventDefault();
+    const body = {
+      user_id: 18207,
+      name: name,
+      email: email,
+    };
 
+    //console.log(body);
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    //loader("show");
+    await axios
+      .post(`emailapi/search_hcp`, body)
+      .then((res) => {
+        console.log(res);
+        // console.log(res.data.response.data);
+        if (res.data.response) {
+          setSearchedUsers(res.data.response.data);
+        }
+        if (res.data.message) {
+          setMessage(res.data.message);
+        }
+        //loader("hide");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <>
       <div className="col right-sidebar">
-    
         <div className="page-top-nav">
           <div className="row justify-content-end align-items-center">
             <div className="col-12 col-md-1">
@@ -555,17 +605,13 @@ const searchHcp = async (e) => {
         <section className="select-mail-template">
           <div className="custom-container">
             <div className="row">
-
-                 
-                      <AliceCarousel
-                        mouseTracking
-                        disableDotsControls
-                        
-                        activeIndex={activeIndex}
-                        responsive={responsive}
-                        onSlideChanged={syncActiveIndex}
-                      >
-            
+              <AliceCarousel
+                mouseTracking
+                disableDotsControls
+                activeIndex={activeIndex}
+                responsive={responsive}
+                onSlideChanged={syncActiveIndex}
+              >
                 {templateList.map((template) => {
                   return (
                     <>
@@ -580,7 +626,7 @@ const searchHcp = async (e) => {
                   );
                 })}
               </AliceCarousel>
-            
+
               <input type="hidden" id="mail_template" value={templateId} />
               {validator.message("Templates", templateId, "required")}
               <div className="email-form">
@@ -659,7 +705,6 @@ const searchHcp = async (e) => {
                             </>
                           );
                         })}
-                  
                       </ul>
                     </div>
                   </div>
@@ -680,11 +725,17 @@ const searchHcp = async (e) => {
                       )}
                     </div>
                     <div className="form-buttons right-side col-12 col-md-5">
-                      <button className="btn btn-primary approved-btn btn-bordered">
-                        Approved
+                      <button
+                        className="btn btn-primary approved-btn btn-bordered"
+                        onClick={(e) => approvedClicked(e)}
+                      >
+                        Approved{" "}
                         <img src={path_image + "approved-btn.svg"} alt="" />
                       </button>
-                      <button className="btn btn-primary btn-filled btn-large" onClick={sendSample}>
+                      <button
+                        className="btn btn-primary btn-filled btn-large"
+                        onClick={sendSample}
+                      >
                         Send A Sample
                         <img src={path_image + "send-sample.svg"} alt="" />
                       </button>
@@ -816,132 +867,187 @@ const searchHcp = async (e) => {
           </div>
         </Modal>
 
-    
-          <Modal show={isOpen_send}>
-            <div id="send-sample" className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <Modal show={isOpen_send}>
+          <div
+            id="send-sample"
+            className="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+          >
             <div className="modal-content">
-
-           
               <div className="modal-header">
-              <h4>Send a Sample</h4>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" onClick={() => setIsOpensend(false)}  ></button>
+                <h4>Send a Sample</h4>
+                <button
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="modal"
+                  onClick={() => setIsOpensend(false)}
+                ></button>
               </div>
 
               <div className="modal-body">
-              <div className="top-header">
-              <div className="page-title">
-                <h4>Search For Contact By:</h4>
-              </div>
-              </div>
-              <section className="search-hcp">
-              <div className="form-search-hcp">
-                <form>
-                  <div className="form-inline row justify-content-between align-items-center">
-                    <div className="col-12 col-md-7">
-                      <div className="row justify-content-between align-items-center">
-                        <div className="form-group col-sm-6">
-                          <label for="hcp-name">Name</label>
-                          <input type="text" className="form-control"  onChange={(e) => nameChanged(e)} id="" />
+                <div className="top-header">
+                  <div className="page-title">
+                    <h4>Search For Contact By:</h4>
+                  </div>
+                </div>
+                <section className="search-hcp">
+                  <div className="form-search-hcp">
+                    <form>
+                      <div className="form-inline row justify-content-between align-items-center">
+                        <div className="col-12 col-md-7">
+                          <div className="row justify-content-between align-items-center">
+                            <div className="form-group col-sm-6">
+                              <label for="hcp-name">Name</label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                onChange={(e) => nameChanged(e)}
+                                id=""
+                              />
+                            </div>
+                            <div className="form-group col-sm-6">
+                              <label for="hcp-email">Email</label>
+                              <input
+                                type="mail"
+                                onChange={(e) => emailChanged(e)}
+                                className="form-control"
+                                id=""
+                              />
+                            </div>
+                          </div>
                         </div>
-                        <div className="form-group col-sm-6">
-                          <label for="hcp-email">Email</label>
-                          <input type="mail"   onChange={(e) => emailChanged(e)} className="form-control" id="" />
+                        <div className="form-button col-12 col-md-5">
+                          <button
+                            className="btn btn-primary btn-filled"
+                            onClick={(e) => searchHcp(e)}
+                          >
+                            Search
+                          </button>
+                          <button
+                            className="btn btn-primary btn-bordered"
+                            type="button"
+                            data-bs-toggle="modal"
+                            data-bs-target="#add_hcp"
+                          >
+                            Add New Contact +
+                          </button>
+                          <button
+                            className="btn btn-primary btn-bordered"
+                            type="button"
+                            data-bs-toggle="modal"
+                            data-bs-target="#add_hcp"
+                          >
+                            Add Smart List +
+                          </button>
                         </div>
                       </div>
-                    </div>
-                    <div className="form-button col-12 col-md-5">
-                      <button className="btn btn-primary btn-filled"  onClick={(e) => searchHcp(e)}>Search</button>
-                      <button className="btn btn-primary btn-bordered" type="button" data-bs-toggle="modal" data-bs-target="#add_hcp">Add New Contact +</button>
-                      <button className="btn btn-primary btn-bordered" type="button" data-bs-toggle="modal" data-bs-target="#add_hcp">Add Smart List +</button>
+                    </form>
+                  </div>
+                  <div className="search-hcp-table">
+                    <div className="search-hcp-table-inside">
+                      {searchedUsers.length === 0 ? (
+                        <div className="not-found">
+                          <h4>No Record Found!</h4>
+                        </div>
+                      ) : (
+                        searchedUsers.map((data, index) => {
+                          return (
+                            <div className="search-hcp-box">
+                              <p className="send-hcp-box-title">
+                                Name | <span>{data.name}</span>
+                              </p>
+                              <p className="send-hcp-box-title">
+                                Email | <span>{data.email}</span>
+                              </p>
+                              <p className="send-hcp-box-title">
+                                Contact Type | <span>N/A</span>
+                              </p>
+                              <div
+                                className="add-new-field"
+                                onClick={() => selectHcp(index)}
+                              >
+                                <img
+                                  src={path_image + "add-row.png"}
+                                  alt="Add More"
+                                />
+                              </div>
+                            </div>
+                          );
+                        })
+                      )}
                     </div>
                   </div>
-                </form>
-              </div>
-              <div className="search-hcp-table">
-              <div className="search-hcp-table-inside">
-
-              {searchedUsers.length === 0 ? (
-                <div className="not-found">
-                  <h4>No Record Found!</h4>
-                </div>
-              ) : (
-                searchedUsers.map((data, index) => {
-                    return (
-                      <div className="search-hcp-box">
-                        <p className="send-hcp-box-title">Name | <span>{data.name}</span></p>
-                        <p className="send-hcp-box-title">Email | <span>{data.email}</span></p>
-                        <p className="send-hcp-box-title">Contact Type | <span>N/A</span></p>
-                        <div className="add-new-field" onClick={() => selectHcp(index)}><img src={path_image + "add-row.png"} alt="Add More" /></div>
-                      </div>
-                    );
-                  })
-                )}
-
-              </div>
-              </div>
-              <div className="selected-hcp-table">
-                <div className="table-title">
-                  <h4>Selected HCPs <span>| {selectedHcp.length}</span></h4>
-                </div>
-                <div className="selected-hcp-list">
-                {selectedHcp.length === 0 ? (
-                    <div className="not-found">
-                      <h4>No Contact selected yet!</h4>
+                  <div className="selected-hcp-table">
+                    <div className="table-title">
+                      <h4>
+                        Selected HCPs <span>| {selectedHcp.length}</span>
+                      </h4>
                     </div>
-                  ) : (
-                    <table className="table">
-                      <thead>
-                        <tr>
-                          <th scope="col">Name</th>
-                          <th scope="col">Email</th>
-                          <th scope="col">Country</th>
-                          <th scope="col"></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {selectedHcp.map((data, index2) => {
-                          return (
-                            <>
-                              <tr >
-                               <td>{data.name || data.first_name}</td>
-                                <td>{data.email}</td>
-                            
-                                <td>{data.country}</td>
-                              
-                                <td className="delete_row" colSpan="12">
-                                  <img
-                                    src={path_image + "delete.svg"}
-                                    alt="Delete Row"
-                                    onClick={() => deleteSelected(index2)}
-                                  />
-                                </td>
-                              </tr>
-                            </>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  )}
-                </div>
-              </div>
-            </section>
-              
+                    <div className="selected-hcp-list">
+                      {selectedHcp.length === 0 ? (
+                        <div className="not-found">
+                          <h4>No Contact selected yet!</h4>
+                        </div>
+                      ) : (
+                        <table className="table">
+                          <thead>
+                            <tr>
+                              <th scope="col">Name</th>
+                              <th scope="col">Email</th>
+                              <th scope="col">Country</th>
+                              <th scope="col"></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {selectedHcp.map((data, index2) => {
+                              return (
+                                <>
+                                  <tr>
+                                    <td>{data.name || data.first_name}</td>
+                                    <td>{data.email}</td>
+
+                                    <td>{data.country}</td>
+
+                                    <td className="delete_row" colSpan="12">
+                                      <img
+                                        src={path_image + "delete.svg"}
+                                        alt="Delete Row"
+                                        onClick={() => deleteSelected(index2)}
+                                      />
+                                    </td>
+                                  </tr>
+                                </>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      )}
+                    </div>
+                  </div>
+                </section>
               </div>
               <div className="modal-footer">
-              {selectedHcp.length === 0 ?
-
-                <button type="button" className="btn btn-primary btn-filled disabled" data-bs-dismiss="modal">Send</button> 
-              :
-                <button type="button" className="btn btn-primary btn-filled" data-bs-dismiss="modal" onClick={sendsampeap}>Send</button> 
-              }
-              
+                {selectedHcp.length === 0 ? (
+                  <button
+                    type="button"
+                    className="btn btn-primary btn-filled disabled"
+                    data-bs-dismiss="modal"
+                  >
+                    Send
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    className="btn btn-primary btn-filled"
+                    data-bs-dismiss="modal"
+                    onClick={sendsampeap}
+                  >
+                    Send
+                  </button>
+                )}
               </div>
-
             </div>
-            </div>
-            </Modal>
-         
-
+          </div>
+        </Modal>
       </div>
     </>
   );

@@ -427,6 +427,7 @@ const VerifyHCP = (props) => {
         selectedHcp: selectedHcp,
       },
       campaign_id: campaign_id_st,
+      status: 2,
     };
 
     console.log(body);
