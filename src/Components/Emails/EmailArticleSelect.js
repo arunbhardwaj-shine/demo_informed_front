@@ -171,7 +171,11 @@ const EmailArticleSelect = () => {
                       </table>
                     </div>
                     <div className="mail-content-footer">
-                      <a href= {data.preview_link} target="_blank"><button className="btn btn-primary btn-filled">Preview</button></a>
+                      <a href={data.preview_link} target="_blank">
+                        <button className="btn btn-primary btn-filled">
+                          Preview
+                        </button>
+                      </a>
                     </div>
                   </div>
                 </div>

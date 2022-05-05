@@ -10,6 +10,7 @@ import { toast, ToastContainer } from "react-toastify";
 const EmailList = (props) => {
   const navigate = useNavigate();
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
   const [search, setSearch] = useState("");
@@ -20,6 +21,10 @@ const EmailList = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [viewEmailModal, setviewEmailModal] = useState(false);
   const [viewEmailData, setviewEmailData] = useState();
+  const [deletestatus, setDeleteStatus] = useState(false);
+  const [confirmationpopup, setConfirmationPopup] = useState(false);
+  const [verificationpopup, setVerificationPopup] = useState(false);
+  const [deletecardid, setDeleteCardId] = useState();
 
   const showViewEmailModal = (id) => {
       if(typeof SendListData !== "undefined"){
@@ -34,6 +39,7 @@ const EmailList = (props) => {
     setviewEmailModal(false);
   }
   const showModal = (refernce,id) => {
+    hideEmailModal();
     setReference(refernce);
     setCampaignId(id);
     setIsOpen(true);
@@ -124,6 +130,7 @@ const EmailList = (props) => {
       campaign_id: campaign_id,
     };
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    loader("show");
     await axios
       .post(`emailapi/get_campaign_details`, body)
       .then((res) => {
@@ -153,6 +160,73 @@ const EmailList = (props) => {
   useEffect(() => {
     getData();
   }, []);
+
+const showDeleteButtons = () => {
+    if(deletestatus){
+      setDeleteStatus(false);
+    }else{
+      setDeleteStatus(true);
+    }
+};
+
+
+  const showConfirmationPopup = (id) => {
+    if(confirmationpopup){
+      setConfirmationPopup(false);
+    }else{
+      setConfirmationPopup(true);
+    }
+    setDeleteCardId(id);
+  }
+
+  const hideConfirmationModal = () => {
+    setConfirmationPopup(false);
+  }
+
+  const showVerificationPopup = () => {
+    hideConfirmationModal();
+    if(verificationpopup){
+      setVerificationPopup(false);
+    }else{
+      setVerificationPopup(true);
+    }
+  }
+
+  const hideVerificationPopup = () => {
+    setVerificationPopup(false);
+  }
+
+  const deleteEmail = () => {
+
+    // const body = {
+    //   user_id: 18207,
+    //   campaign_id: deletecardid,
+    // };
+    // axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    // loader("show");
+    // axios
+    //   .post(`emailapi/delete_campaign`, body)
+    //   .then((res) => {
+        // if(res.data.status_code == 200){
+        var updatedArray = SendListData.filter(function(item){
+          return item['id'] != deletecardid
+        })
+        showVerificationPopup();
+        if(typeof updatedArray !== "undefined"){
+          setSendListData(updatedArray);
+        }
+      //   }
+      //   loader("hide");
+      // })
+      // .catch((err) => {
+      //   console.log(err);
+      // });
+
+  }
+
+
+
+
 
   return (
     <>
@@ -198,7 +272,7 @@ const EmailList = (props) => {
               </button>
             </form>
           </div>
-          {/* <div className="filter-by">
+           {/*<div className="filter-by">
               <button className="btn btn-outline-primary" type="submit">
               Filter By <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z" fill="#97B6CF"/>
@@ -206,9 +280,9 @@ const EmailList = (props) => {
                 <path d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z" fill="#97B6CF"/>
                 </svg>
               </button>
-            </div>
+            </div>*/}
             <div className="clear-search">
-              <button className="btn btn-outline-primary" type="submit">
+              <button className="btn btn-outline-primary" onClick={(e) => showDeleteButtons()}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M15.84 22.25H8.15989C7.3915 22.2389 6.65562 21.9381 6.09941 21.4079C5.5432 20.8776 5.20765 20.157 5.15985 19.39L4.24984 5.55C4.24518 5.44966 4.26045 5.34938 4.29478 5.25498C4.32911 5.16057 4.38181 5.07391 4.44985 5C4.51993 4.9234 4.60479 4.86177 4.69931 4.81881C4.79382 4.77584 4.89606 4.75244 4.99985 4.75H19C19.1029 4.74977 19.2046 4.7707 19.2991 4.81148C19.3935 4.85226 19.4785 4.91202 19.5488 4.98704C19.6192 5.06207 19.6733 5.15077 19.7079 5.24761C19.7426 5.34446 19.7569 5.44739 19.75 5.55L18.88 19.39C18.8317 20.1638 18.4905 20.8902 17.9258 21.4214C17.3611 21.9527 16.6153 22.249 15.84 22.25ZM5.83986 6.25L6.60987 19.3C6.63531 19.6935 6.80978 20.0625 7.09775 20.3319C7.38573 20.6013 7.76555 20.7508 8.15989 20.75H15.84C16.2336 20.7485 16.6121 20.5982 16.8996 20.3292C17.1871 20.0603 17.3622 19.6927 17.39 19.3L18.2 6.3L5.83986 6.25Z" fill="#0066BE"/>
                 <path d="M20.9998 6.25H2.99999C2.80108 6.25 2.61032 6.17098 2.46967 6.03033C2.32902 5.88968 2.25 5.69891 2.25 5.5C2.25 5.30109 2.32902 5.11032 2.46967 4.96967C2.61032 4.82902 2.80108 4.75 2.99999 4.75H20.9998C21.1987 4.75 21.3895 4.82902 21.5301 4.96967C21.6708 5.11032 21.7498 5.30109 21.7498 5.5C21.7498 5.69891 21.6708 5.88968 21.5301 6.03033C21.3895 6.17098 21.1987 6.25 20.9998 6.25Z" fill="#0066BE"/>
@@ -218,7 +292,7 @@ const EmailList = (props) => {
                 <path d="M12 18.25C11.8019 18.2474 11.6126 18.1676 11.4725 18.0275C11.3324 17.8874 11.2526 17.6981 11.25 17.5V9.5C11.25 9.30109 11.329 9.11032 11.4697 8.96967C11.6103 8.82902 11.8011 8.75 12 8.75C12.1989 8.75 12.3897 8.82902 12.5303 8.96967C12.671 9.11032 12.75 9.30109 12.75 9.5V17.5C12.7474 17.6981 12.6676 17.8874 12.5275 18.0275C12.3874 18.1676 12.1981 18.2474 12 18.25Z" fill="#0066BE"/>
                 </svg>
               </button>
-            </div> */}
+            </div>
         </div>
       </div>
       {/* <div className="apply-filter">
@@ -253,7 +327,7 @@ const EmailList = (props) => {
                   </span></div>
                   <div className="mail-box-content">
                     <h5>{data.subject}</h5>
-                    <p>Email Description</p>
+                    <p>{data.description}</p>
                     <div className="mailbox-table">
                       <table>
                         <tbody>
@@ -308,7 +382,14 @@ const EmailList = (props) => {
                     {
                       data.status == 1 ?
                       <div className="mailbox-buttons">
-                        <div className="send_new"><button className="btn btn-primary btn-filled send-new">Send New</button></div>
+                        <div className="send_new"><button className="btn btn-primary btn-filled send-new" onClick={() => draftNavigate(data.id,
+                            data.pdf_id,
+                            'CreateEmail',
+                            data.campaign,
+                            data.creator,
+                            data.discription,
+                            data.subject,
+                            data.tags)}>Send New</button></div>
                         <div className="mailbox-buttons-list">
                           <button className="btn btn-primary btn-bordered send" onClick={(e) => showModal('resend',data.id)}>Resend</button>
                           <button className="btn btn-primary btn-filled edit" onClick={(e) => showViewEmailModal(data.id)}>View</button>
@@ -327,6 +408,14 @@ const EmailList = (props) => {
                             data.tags)}>Edit</button>
                       </div>
           </div>
+                    }
+                    { deletestatus && (
+                          <div className="dlt_btn">
+                            <button onClick={(e) => showConfirmationPopup(data.id)}>
+                              <img src={path + "delete.svg"} alt="Delete Row" />
+                            </button>
+                        </div>
+                      )
                     }
 
                   </div>
@@ -378,7 +467,6 @@ const EmailList = (props) => {
         {typeof viewEmailData !== "undefined" && (
 
           <div className="modal-body">
-          {console.log(viewEmailData)}
           <div className="mail-box-content">
             <div className="mail-box-heading">
             <h5>{viewEmailData[0].subject}</h5>
@@ -497,12 +585,57 @@ const EmailList = (props) => {
       </div>
         </Modal>
   </div>
+
+        {/*Modal for delete Email listing*/}
+        <div className="modal send-confirm" id="delete-confirm">
+          <Modal show={confirmationpopup}>
+  				  <div className="modal-dialog modal-dialog-centered">
+  					<div className="modal-content">
+
+  					  <div className="modal-header">
+  						<button type="button" className="btn-close" data-bs-dismiss="modal" onClick={(e) => hideConfirmationModal()}></button>
+  					  </div>
+
+  					  <div className="modal-body">
+  						<img src="assets/images/alert.png" alt="" />
+  						<h4>The Email Campaign will be deleted from the list.<br/>Are you sure you want to delete it?</h4>
+
+  						<div className="modal-buttons">
+  							<button type="button" className="btn btn-primary btn-filled" onClick={(e) => deleteEmail()}>Yes Please!</button>
+  							<button type="button" className="btn btn-primary btn-bordered light" onClick={(e) => hideConfirmationModal()} >Cancel</button>
+  						</div>
+  					  </div>
+
+  					</div>
+  				  </div>
+          </Modal>
+				</div>
+
+        {/*Modal for Verification*/}
+        <div className="modal send-confirm" id="action-confirm">
+          <Modal show={verificationpopup}>
+  				  <div className="modal-dialog modal-dialog-centered">
+  					<div className="modal-content">
+  					  <div className="modal-header">
+  						<button type="button" className="btn-close" data-bs-dismiss="modal" onClick={(e) => hideVerificationPopup()}></button>
+  					  </div>
+  					  <div className="modal-body">
+  						<img src={path_image+"success.png"} alt="" />
+  						<h4>The HCP record has been deleted <br />successfully !</h4>
+  						<div className="modal-buttons">
+  							<button type="button" className="btn btn-primary btn-bordered light" onClick={(e) => hideVerificationPopup()}>Close</button>
+  						</div>
+  					  </div>
+
+  					</div>
+  				  </div>
+          </Modal>
+				</div>
     </>
   );
 };
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return state;
 };
 
