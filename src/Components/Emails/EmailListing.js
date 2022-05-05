@@ -34,6 +34,7 @@ const EmailList = (props) => {
     setviewEmailModal(false);
   }
   const showModal = (refernce,id) => {
+    hideEmailModal();
     setReference(refernce);
     setCampaignId(id);
     setIsOpen(true);
@@ -378,7 +379,6 @@ const EmailList = (props) => {
         {typeof viewEmailData !== "undefined" && (
 
           <div className="modal-body">
-          {console.log(viewEmailData)}
           <div className="mail-box-content">
             <div className="mail-box-heading">
             <h5>{viewEmailData[0].subject}</h5>
@@ -502,7 +502,6 @@ const EmailList = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return state;
 };
 
