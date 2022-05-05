@@ -23,6 +23,8 @@ const CreateEmail = (props) => {
   const PdfSelected = location.state
     ? location.state.PdfSelected
     : props.getDraftData.pdf_id;
+  console.log(PdfSelected);
+
   const campaign_id = props.getDraftData ? props.getDraftData.campaign_id : "";
 
   const [templateList, setTemplateList] = useState([]);
@@ -225,6 +227,7 @@ const CreateEmail = (props) => {
       },
 
       campaign_id: campaign_id_st,
+      status: 2,
     };
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -282,6 +285,54 @@ const CreateEmail = (props) => {
       validator.showMessages();
       setRenderAfterValidation(renderAfterValidation + 1);
     }
+  };
+
+  const approvedClicked = async (e) => {
+    e.preventDefault();
+    let tagss = [];
+    finalTags.map((tags) => {
+      tagss.push(tags.innerText || tags);
+    });
+
+    const body = {
+      user_id: 18207,
+      pdf_id:
+        props.getEmailData || PdfSelected
+          ? PdfSelected
+          : props.getDraftData.pdf_selected,
+      description: props.getEmailData
+        ? emailDescription
+        : props.getDraftData.description,
+      creator: props.getEmailData ? emailCreator : props.getDraftData.creator,
+      campaign_name: props.getEmailData
+        ? emailCampaign
+        : props.getDraftData.campaign,
+      subject: props.getEmailData ? emailSubject : props.getDraftData.subject,
+      route_location: "CreateEmail",
+      tags: props.getEmailData ? tagss : props.getDraftData.tags,
+      campaign_data: {
+        template_id: props.getEmailData
+          ? templateId
+          : props.getDraftData.template_id,
+      },
+
+      campaign_id: campaign_id_st,
+      status: 3,
+    };
+
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    loader("show");
+    await axios
+      .post(`emailapi/save_draft`, body)
+      .then((res) => {
+        loader("hide");
+
+        setCampaign_id(res.data.response.data.id);
+        //props.getCampaignId(res.data.response.data.id);
+      })
+      .catch((err) => {
+        //console.log(err);
+      });
   };
 
   const tagButtonClicked = () => {
@@ -585,7 +636,10 @@ const CreateEmail = (props) => {
                       )}
                     </div>
                     <div className="form-buttons right-side col-12 col-md-5">
-                      <button className="btn btn-primary approved-btn btn-bordered">
+                      <button
+                        className="btn btn-primary approved-btn btn-bordered"
+                        onClick={(e) => approvedClicked(e)}
+                      >
                         Approved{" "}
                         <img src={path_image + "approved-btn.svg"} alt="" />
                       </button>

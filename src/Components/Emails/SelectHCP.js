@@ -74,6 +74,7 @@ const SelectHCP = (props) => {
           : props.getDraftData.template_id,
       },
       campaign_id: campaign_id_st,
+      status: 2,
     };
 
     console.log(body);
