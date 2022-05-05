@@ -65,7 +65,7 @@ const Registration = () => {
           if (resp.ok) {
             console.log(resp.data.data);
             setRegistrationPageList(resp.data.data);
-            if(resp.data.data===undefined){
+            if(resp.data.data.code===404){
               setMassage("Data Not Found")
             }
           }
@@ -84,11 +84,15 @@ const Registration = () => {
       const formik = useFormik({
         initialValues: {
             RegistrationPageTitle:editdata?editdata[0].title:'',
-              url:editdata?editdata[0].url:""
+              url:editdata?editdata[0].url:"",
+              body:editdata?editdata[0].body:""
         },
         validationSchema: Yup.object({
           RegistrationPageTitle: Yup.string().required("Enter your registration page title"),
-          url: Yup.string().required("Enter url alias"),
+          body: Yup.string().required("Enter a Body text"),
+          url: Yup.string()
+          .matches(/^[a-zA-Z]+$/u,"Only alphabets are allowed")
+          .required("Enter url alias"),
         }),
         enableReinitialize: true,
         onSubmit: (values) => { 
@@ -97,7 +101,7 @@ const Registration = () => {
 
           formData.append("form_id", editdata[0].id);
     
-          formData.append("body", body);
+          formData.append("body", values.body);
     
           formData.append("title", values.RegistrationPageTitle);
 
@@ -189,7 +193,7 @@ const Registration = () => {
                   {registrationPageList?.map((val,i) => (
                   <tr key={i}>  
                     <td>{val.title}</td>
-                    <td><Link to={`/webinar/register/${val.code}/${val.url}`}><Button>Preview</Button></Link><Button onClick={(e)=>{handleGetRegistrationPagedata(val.id);setFlag(false)}}>Edit</Button> </td>
+                    <td><Link  to={`/webinar/register/${val.code}/${val.url}` }target="_blank" ><Button>Preview</Button></Link><Button onClick={(e)=>{handleGetRegistrationPagedata(val.id);setFlag(false)}}>Edit</Button> </td>
                   </tr>
                 ))}
               </tbody>
@@ -209,7 +213,7 @@ const Registration = () => {
                 </Modal.Title>
               </Modal.Header>
         <Modal.Body>
-    <CreateRegistration  data={setModalShow} id={id} />
+    <CreateRegistration hendletable={handleGetRegistrationPageList}  data={setModalShow} id={id} />
         </Modal.Body>
       </Modal>
                  {editdata?    <Row>
@@ -254,35 +258,19 @@ const Registration = () => {
               <Row>          
                   <Col xs={9}>
                   <Form.Label>Body Text</Form.Label>
-            <CKEditor
-              editor={ClassicEditor}
-              data={editdata?editdata[0].body:"heelo"}
-              onReady={(editor) => {
-                editor.editing.view.change(writer => {
-                  writer.setStyle(
-                      "min-height",
-                      '400px',
-                      editor.editing.view.document.getRoot()
-                  );
-              });
-                console.log("Editor is ready to use!", editor);
-              }}
-              onChange={(event, editor) => {
-                const data = editor.getData();
-                setBody(data)
-                data?setErr(false):setErr("required")
-              }}
-              onBlur={(event, editor) => {
-                const data = editor.getData();
-                data?setErr(false):setErr("required")
-                // console.log( 'Blur.', editor );
-              }}
-              onFocus={(event, editor) => {
-                // const data = editor.getData();
-                // data?setErr(false):setErr("required")
-                // console.log( 'Focus.', editor );
-              }}
-            /> 
+                  <textarea
+                    name="Description"
+                    type="body"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.body}
+                    className="form-control"
+                    id="exampleFormControlTextarea1"
+                    rows="5"
+                  ></textarea>
+                               {formik.touched.body && formik.errors.body ? (
+                <div style={{ color: "red" }}>{formik.errors.body}</div>
+              ) : null}
           <p style={{color:"red"}}>{err}</p>
                   </Col>
          <Col xs={3}> 

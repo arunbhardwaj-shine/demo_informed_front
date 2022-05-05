@@ -5,7 +5,6 @@ import EmailEditor from 'react-email-editor';
 
 const EditorEmail = () => {
     const emailEditorRef = useRef(null);
-
     const exportHtml = async () => {
        emailEditorRef.current.editor.exportHtml((data) => {
          const { design, html } = data;
