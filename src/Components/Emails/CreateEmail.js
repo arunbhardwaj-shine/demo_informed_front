@@ -65,6 +65,30 @@ const CreateEmail = (props) => {
   const newArr = [];
 
   useEffect(() => {
+    console.log(props);
+    // props.getDraftData.campaign_data.selectedHcp;
+    if (
+      typeof props !== "undefined" &&
+      props !== null &&
+      props.hasOwnProperty("getDraftData")
+    ) {
+      if (props.getDraftData !== null) {
+        setEmailDescription(props.getDraftData.description);
+        setEmailCreator(props.getDraftData.creator);
+        setemailCampaign(props.getDraftData.campaign);
+        setEmailSubject(props.getDraftData.subject);
+        setFinalTags(props.getDraftData.tags);
+        setTemplate(props.getDraftData.source_code);
+
+        //  let reducHcp = props.getDraftData.campaign_data.selectedHcp;
+        //  if (typeof reducHcp != "undefined") {
+        //    setSelectedHcp(reducHcp);
+        //  }
+      }
+    }
+  }, []);
+
+  useEffect(() => {
     loader("show");
 
     const body = {
@@ -113,7 +137,7 @@ const CreateEmail = (props) => {
         });
     };
     getAllTags();
-    getCampaignData();
+    // getCampaignData();
   }, []);
 
   const deleteSelected = (index) => {
@@ -171,30 +195,30 @@ const CreateEmail = (props) => {
       });
   };
 
-  const getCampaignData = async () => {
-    if (typeof campaign_id !== "undefined" && campaign_id != 0) {
-      const body = {
-        user_id: 18207,
-        campaign_id: campaign_id,
-      };
-      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      await axios
-        .post(`emailapi/get_campaign_details`, body)
-        .then((res) => {
-          let campaign_data = res.data.response.data;
-          setEmailDescription(campaign_data.description);
-          setEmailCreator(campaign_data.creator);
-          setemailCampaign(campaign_data.campaign);
-          setEmailSubject(campaign_data.subject);
-          setFinalTags(campaign_data.tags);
-          setTemplate(campaign_data.source_code);
-          loader("hide");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  };
+  // const getCampaignData = async () => {
+  //   if (typeof campaign_id !== "undefined" && campaign_id != 0) {
+  //     const body = {
+  //       user_id: 18207,
+  //       campaign_id: campaign_id,
+  //     };
+  //     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+  //     await axios
+  //       .post(`emailapi/get_campaign_details`, body)
+  //       .then((res) => {
+  //         let campaign_data = res.data.response.data;
+  //         setEmailDescription(campaign_data.description);
+  //         setEmailCreator(campaign_data.creator);
+  //         setemailCampaign(campaign_data.campaign);
+  //         setEmailSubject(campaign_data.subject);
+  //         setFinalTags(campaign_data.tags);
+  //         setTemplate(campaign_data.source_code);
+  //         loader("hide");
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   }
+  // };
 
   const selectHcp = (index) => {
     // console.log(index);
