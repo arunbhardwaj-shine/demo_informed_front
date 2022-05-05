@@ -19,6 +19,7 @@ import HeaderWebinar from "./Components/Webinar/Layout/Header";
 import Header from "./Components/CommonComponent/HeaderComponent/Header";
 import Sidebar from "./Components/CommonComponent/SidebarComponent/Sidebar";
 import Table from "./Components/Distributes/SmartListComponent/Table";
+import ViewTable from "./Components/Distributes/SmartListComponent/ViewTable";
 import SmartList from "./Components/Distributes/SmartListComponent/SmartList";
 import EditList from "./Components/Distributes/SmartListComponent/EditList";
 import CreateSmartList from "./Components/Distributes/SmartListComponent/CreateSmartList";
@@ -100,6 +101,7 @@ ReactDOM.render(
                     <Route path="/ViewSmartList" element={<ViewList />} />
                     <Route path="/UploadExcel" element={<UploadExcel />} />
                     <Route path="/UpdatedTable" element={<Table />} />
+                    <Route path="/ViewTable" element={<ViewTable />} />
                   </Routes>
                 </div>
               </div>
