@@ -14,6 +14,8 @@ const VerifyMAIL = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+  const campaign_id = props.getDraftData ? props.getDraftData.campaign_id : "";
+  const [campaign_id_st, setCampaign_id] = useState(campaign_id);
 
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
@@ -23,7 +25,9 @@ const VerifyMAIL = (props) => {
   const [reRender, setReRender] = useState(0);
   // let emailData;
 
-  const { selectedHcp } = location.state;
+  const selectedHcp = location.state
+    ? location.state.selectedHcp
+    : props.getDraftData.selectedHcp;
   const PdfSelected = location.state
     ? location.state.PdfSelected
     : props.getDraftData.PdfSelected;
@@ -67,19 +71,49 @@ const VerifyMAIL = (props) => {
 
   const saveAsDraft = async () => {
     console.log(props);
+    // const body = {
+    //   user_id: 18207,
+    //   pdf_id: props.getEmailData.pdf_id,
+    //   description: props.getEmailData.emailDescription,
+    //   creator: props.getEmailData.emailCreator,
+    //   campaign_name: props.getEmailData.emailCampaign,
+    //   subject: props.getEmailData.emailSubject,
+    //   route_location: "VerifyMAIL",
+    //   tags: props.getEmailData.tags,
+    //   campaign_data: {
+    //     template_id: props.getEmailData.templateId,
+    //   },
+    //   campaign_id: props.getCampaignId,
+    // };
+
     const body = {
       user_id: 18207,
-      pdf_id: props.getEmailData.pdf_id,
-      description: props.getEmailData.emailDescription,
-      creator: props.getEmailData.emailCreator,
-      campaign_name: props.getEmailData.emailCampaign,
-      subject: props.getEmailData.emailSubject,
+      pdf_id: props.getEmailData
+        ? props.getEmailData.pdf_id
+        : props.getDraftData.pdf_id,
+      description: props.getEmailData
+        ? props.getEmailData.emailDescription
+        : props.getDraftData.description,
+      creator: props.getEmailData
+        ? props.getEmailData.emailCreator
+        : props.getDraftData.creator,
+      campaign_name: props.getEmailData
+        ? props.getEmailData.emailCampaign
+        : props.getDraftData.campaign,
+      subject: props.getEmailData
+        ? props.getEmailData.emailSubject
+        : props.getDraftData.subject,
       route_location: "VerifyMAIL",
-      tags: props.getEmailData.tags,
+      tags: props.getEmailData
+        ? props.getEmailData.tags
+        : props.getDraftData.tags,
       campaign_data: {
-        template_id: props.getEmailData.templateId,
+        template_id: props.getEmailData
+          ? props.getEmailData.templateId
+          : props.getDraftData.campaign_data.template_id,
+        selectedHcp: selectedHcp,
       },
-      campaign_id: props.getCampaignId,
+      campaign_id: campaign_id_st,
     };
 
     console.log(body);
@@ -89,11 +123,9 @@ const VerifyMAIL = (props) => {
       .post(`emailapi/save_draft`, body)
       .then((res) => {
         console.log(res);
-        console.log(props.getCampaignId);
+        //   console.log(props.getCampaignId);
         loader("hide");
-        if (props.getCampaignId == "") {
-          props.getCampaignId(res.data.response.data.id);
-        }
+        setCampaign_id(res.data.response.data.id);
 
         // console.log(res);
       })
@@ -134,35 +166,58 @@ const VerifyMAIL = (props) => {
 
   const createEmail = async () => {
     setIsOpen(true);
-    let finalTags = props.getEmailData.tags.map((tags) => {
-      return tags.innerHTML;
-    });
+    let finalTags = props.getEmailData
+      ? props.getEmailData.tags.map((tags) => {
+          return tags.innerHTML || tags;
+        })
+      : props.getDraftData.tags.map((tags) => {
+          return tags.innerHTML || tags;
+        });
 
-    let user_list = selectedHcp.map((userId) => {
-      return userId.profile_user_id || userId.user_id;
-    });
+    let user_list =
+      props.getEmailData || location.state
+        ? selectedHcp.map((userId) => {
+            return userId.profile_user_id || userId.user_id;
+          })
+        : props.getDraftData.campaign_data.selectedHcp.map((userId) => {
+            return userId.profile_user_id || userId.user_id;
+          });
 
-    console.log(finalTags);
-    console.log(props.getEmailData.templateId);
+    console.log(user_list);
+    //console.log(props.getEmailData.templateId);
     const body = {
       user_id: 18207,
-      route_location: "http://localhost:3000/VerifyMAIL",
-      pdf_id: props.getEmailData.pdf_id,
-      subject: props.getEmailData.emailSubject,
-      description: props.getEmailData.emailDescription,
-      creator: props.getEmailData.emailCreator,
-      campaign_name: props.getEmailData.emailCampaign,
+      route_location: "VerifyMAIL",
+      pdf_id: props.getEmailData
+        ? props.getEmailData.pdf_id
+        : props.getDraftData.pdf_id,
+      subject: props.getEmailData
+        ? props.getEmailData.emailSubject
+        : props.getDraftData.subject,
+      description: props.getEmailData
+        ? props.getEmailData.emailDescription
+        : props.getDraftData.description,
+      creator: props.getEmailData
+        ? props.getEmailData.emailCreator
+        : props.getDraftData.creator,
+      campaign_name: props.getEmailData
+        ? props.getEmailData.emailCampaign
+        : props.getDraftData.campaign,
       tags: finalTags,
-      campaign_id: "",
+      campaign_id: props.getEmailData ? "" : props.getDraftData.campaign_id,
       //   campaign_data: {
       //     user_list: [""],
       //     template_id: ,
       //   },
       campaign_data: {
         user_list: user_list,
-        template_id: props.getEmailData.templateId,
+        template_id: props.getEmailData
+          ? props.getEmailData.templateId
+          : props.getDraftData.campaign_data.template_id,
       },
     };
+
+    //console.log(body);
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
@@ -178,13 +233,15 @@ const VerifyMAIL = (props) => {
   };
 
   const removeTag = (i) => {
-    const allTags = props.getEmailData.tags;
+    const allTags = props.getEmailData
+      ? props.getEmailData.tags
+      : props.getDraftData.tags;
     console.log(allTags);
     allTags.splice(i, 1);
     console.log(allTags);
     setReRender(reRender + 1);
     console.log("props.tags");
-    console.log(props.getEmailData.tags);
+    //  console.log(props.getEmailData.tags);
 
     //  props.getEmailData();
   };
@@ -262,31 +319,50 @@ const VerifyMAIL = (props) => {
                   <h4>Email Details</h4>
                   <h6>
                     <strong>Campaign Title | </strong>
-                    {props.getEmailData.emailCampaign}
+                    {props.getEmailData
+                      ? props.getEmailData.emailCampaign
+                      : props.getDraftData.campaign}
                   </h6>
                   <h6>
                     <strong>Creator | </strong>
                     {console.log("props")}
                     {console.log(props)}
-                    {props.getEmailData.emailCreator}
+                    {props.getEmailData
+                      ? props.getEmailData.emailCreator
+                      : props.getDraftData.creator}
                   </h6>
                   <h6>
                     <strong>Tags | </strong>
                     <ul>
-                      {props.getEmailData.tags.map((tags, i) => {
-                        return (
-                          <>
-                            <li className="list1">
-                              {tags.innerHTML || tags}{" "}
-                              <img
-                                src={path_image + "filter-close.svg"}
-                                alt="Close-filter"
-                                onClick={() => removeTag(i)}
-                              />
-                            </li>
-                          </>
-                        );
-                      })}
+                      {props.getEmailData
+                        ? props.getEmailData.tags.map((tags, i) => {
+                            return (
+                              <>
+                                <li className="list1">
+                                  {tags.innerHTML || tags}{" "}
+                                  <img
+                                    src={path_image + "filter-close.svg"}
+                                    alt="Close-filter"
+                                    onClick={() => removeTag(i)}
+                                  />
+                                </li>
+                              </>
+                            );
+                          })
+                        : props.getDraftData.tags.map((tags, i) => {
+                            return (
+                              <>
+                                <li className="list1">
+                                  {tags.innerHTML || tags}{" "}
+                                  <img
+                                    src={path_image + "filter-close.svg"}
+                                    alt="Close-filter"
+                                    onClick={() => removeTag(i)}
+                                  />
+                                </li>
+                              </>
+                            );
+                          })}
                     </ul>
                   </h6>
                 </div>
@@ -294,7 +370,7 @@ const VerifyMAIL = (props) => {
                   <div className="row">
                     <div className="col-12 col-md-5 mail-recipt-left">
                       <h6>
-                        The recipients <span>| {selectedHcp.length}</span>
+                        {/* The recipients <span>| {selectedHcp.length}</span> */}
                       </h6>
                       <p>{/* Single HCP <span>| 1</span> */}</p>
                       {props.getSelectedSmartListData ? (
@@ -418,8 +494,16 @@ const VerifyMAIL = (props) => {
                             />
                           </div>
                           <div className="mail-box-content">
-                            <h5>{props.getEmailData.emailSubject}</h5>
-                            <p>{props.getEmailData.emailDescription}</p>
+                            <h5>
+                              {props.getEmailData
+                                ? props.getEmailData.emailSubject
+                                : props.getDraftData.subject}
+                            </h5>
+                            <p>
+                              {props.getEmailData
+                                ? props.getEmailData.emailDescription
+                                : props.getDraftData.description}
+                            </p>
                             <div className="mailbox-tags">
                               <ul>
                                 <li className="list1">NA</li>
@@ -467,15 +551,19 @@ const VerifyMAIL = (props) => {
             <div className="col-12 verify-right">
               <div className="preview_mail">
                 <h4>Preview Your Email</h4>
-                <p>{props.getEmailData.emailSubject}</p>
+                <p>
+                  {props.getEmailData
+                    ? props.getEmailData.emailSubject
+                    : props.getDraftData.subject}
+                </p>
                 <div
                   className="preview-mail-box"
                   dangerouslySetInnerHTML={{
-                    __html: props.getEmailData.template,
+                    __html: props.getEmailData
+                      ? props.getEmailData.template
+                      : props.getDraftData.source_code,
                   }}
-                >
-                  {/* <img src={path_image + "pdf-format.png"} alt="PDF View" /> */}
-                </div>
+                ></div>
               </div>
             </div>
           </div>

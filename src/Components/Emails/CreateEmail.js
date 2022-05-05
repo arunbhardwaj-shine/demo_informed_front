@@ -27,6 +27,7 @@ const CreateEmail = (props) => {
 
   const [templateList, setTemplateList] = useState([]);
   const [template, setTemplate] = useState("");
+  const [campaign_id_st, setCampaign_id] = useState(campaign_id);
   const [emailDescription, setEmailDescription] = useState("");
   const [emailCreator, setEmailCreator] = useState("");
   const [counter, setCounter] = useState(0);
@@ -61,7 +62,6 @@ const CreateEmail = (props) => {
       await axios
         .post(`emailapi/get_template_list`, body)
         .then((res) => {
-          console.log(res);
           setTemplateList(res.data.response.data);
           setCounter(counter + 1);
         })
@@ -79,7 +79,6 @@ const CreateEmail = (props) => {
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const getAllTags = async () => {
-      console.log(process.env.REACT_APP_API_KEY);
       await axios
         .post(`emailapi/get_tags`, body)
         .then((res) => {
@@ -154,44 +153,89 @@ const CreateEmail = (props) => {
     setIsOpen(false);
   };
 
+  // const saveAsDraft = async () => {
+  //   let tagss = [];
+  //   finalTags.map((tags) => {
+  //     tagss.push(tags.innerText || tags);
+  //   });
+
+  //   // console.log(tagss);
+  //   const body = {
+  //     user_id: 18207,
+  //     pdf_id: PdfSelected,
+  //     description: emailDescription,
+  //     creator: emailCreator,
+  //     campaign_name: emailCampaign,
+  //     subject: emailSubject,
+  //     route_location: "CreateEmail",
+  //     tags: tagss,
+  //     campaign_data: {
+  //       template_id: templateId,
+  //     },
+  //     campaign_id: campaign_id,
+  //   };
+
+  //   console.log(body);
+  //   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+  //   loader("show");
+  //   await axios
+  //     .post(`emailapi/save_draft`, body)
+  //     .then((res) => {
+  //       console.log(res);
+  //       console.log(res.data.response.data.id);
+  //       setUniqueId(res.data.response.data.id);
+  //       //  props.getCampaignId(res.data.response.data.id);
+
+  //       loader("hide");
+
+  //       props.getCampaignId(res.data.response.data.id);
+
+  //       // console.log(res);
+  //     })
+  //     .catch((err) => {
+  //       //console.log(err);
+  //     });
+  // };
+
   const saveAsDraft = async () => {
     let tagss = [];
     finalTags.map((tags) => {
       tagss.push(tags.innerText || tags);
     });
 
-    // console.log(tagss);
     const body = {
       user_id: 18207,
-      pdf_id: PdfSelected,
-      description: emailDescription,
-      creator: emailCreator,
-      campaign_name: emailCampaign,
-      subject: emailSubject,
+      pdf_id: props.getEmailData
+        ? PdfSelected
+        : props.getDraftData.pdf_selected,
+      description: props.getEmailData
+        ? emailDescription
+        : props.getDraftData.description,
+      creator: props.getEmailData ? emailCreator : props.getDraftData.creator,
+      campaign_name: props.getEmailData
+        ? emailCampaign
+        : props.getDraftData.campaign,
+      subject: props.getEmailData ? emailSubject : props.getDraftData.subject,
       route_location: "CreateEmail",
-      tags: tagss,
+      tags: props.getEmailData ? tagss : props.getDraftData.tags,
       campaign_data: {
-        template_id: templateId,
+        template_id: props.getEmailData
+          ? templateId
+          : props.getDraftData.template_id,
       },
-      campaign_id: campaign_id,
+
+      campaign_id: campaign_id_st,
     };
 
-    console.log(body);
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
       .post(`emailapi/save_draft`, body)
       .then((res) => {
-        console.log(res);
-        console.log(res.data.response.data.id);
-        setUniqueId(res.data.response.data.id);
-        //  props.getCampaignId(res.data.response.data.id);
-
         loader("hide");
 
-        props.getCampaignId(res.data.response.data.id);
-
-        // console.log(res);
+        setCampaign_id(res.data.response.data.id);
+        //props.getCampaignId(res.data.response.data.id);
       })
       .catch((err) => {
         //console.log(err);
@@ -201,7 +245,6 @@ const CreateEmail = (props) => {
   const templateClicked = (template, e) => {
     e.preventDefault();
     const div = document.querySelector("img.select_mm");
-    console.log(div);
 
     if (div) {
       div.classList.remove("select_mm");
@@ -229,6 +272,7 @@ const CreateEmail = (props) => {
         tags: finalTags,
         template: template,
         pdf_id: PdfSelected,
+        campaign_id: campaign_id_st,
       });
 
       navigate("/SelectHCP");
@@ -683,7 +727,6 @@ const CreateEmail = (props) => {
 
 const mapStateToProps = (state) => {
   console.log(state);
-
   return state;
 };
 
