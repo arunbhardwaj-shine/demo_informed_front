@@ -2024,7 +2024,12 @@ const CreateEmail = (props) => {
                                 <option value="USA">USA</option>
                                 <option value="Russia">Russia</option>
                               </select>
-                              {i !== 0 && (
+                              
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-6 btn_rmv">
+                          <div className="form-group">
+                          {i !== 0 && (
                                 <button
                                   type="button"
                                   className="btn btn-filled"
@@ -2059,7 +2064,8 @@ const CreateEmail = (props) => {
                       className="btn btn-filled"
                       onClick={addMoreHcp}
                     >
-                      Add
+                     <img src={path_image + "add-row.png"} alt="Add More" />
+                   
                     </button>
                   </div>
                   <ul className="nav nav-tabs" role="tablist">
