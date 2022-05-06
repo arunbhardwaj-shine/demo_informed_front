@@ -44,6 +44,14 @@ const getDraftData = (draftData = null, action) => {
   return draftData;
 };
 
+const getSelected =(selected=null,action) => {
+  if (action.type === "GET_SELECTED") {
+    return action.payload;
+  }
+  return selected;
+
+}
+
 export default combineReducers({
   listId: getListId,
   updatedData: getUpdatedData,
@@ -51,4 +59,5 @@ export default combineReducers({
   getSelectedSmartListData: getSelectedSmartListData,
   getCampaignId: getCampaignId,
   getDraftData: getDraftData,
+  getSelected: getSelected
 });

@@ -490,12 +490,29 @@ const VerifyHCP = (props) => {
                 >
                   Save As Draft
                 </button>
-                <button
-                  onClick={nextClicked}
-                  className="btn btn-primary btn-filled next"
-                >
-                  Next
-                </button>
+
+
+                {selectedHcp.length === 0 ? 
+                
+                 <button
+                  
+                    className="btn btn-primary btn-filled next disabled"
+                  >
+                    Next
+                  </button>
+               
+                 
+                : 
+              
+                  <button
+                    onClick={nextClicked}
+                    className="btn btn-primary btn-filled next"
+                  >
+                    Next
+                  </button>
+              
+                }
+
               </div>
             </div>
           </div>

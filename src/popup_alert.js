@@ -12,6 +12,12 @@ const popup_alert = (data) => {
       document.getElementById("img-replaced").src = "componentAssets/images/alert.png";
     }
 
+    if(data.redirect){
+      console.log(data.redirect)
+      document.getElementById("modeltoreplace").setAttribute("redirecto", data.redirect);   
+    }
+
+
   }
 };
 

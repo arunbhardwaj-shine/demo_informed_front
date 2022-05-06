@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 import { loader } from "../../loader";
 import { connect } from "react-redux";
 import { getCampaignId, getEmailData } from "../../actions";
+import { getDraftData } from "../../actions";
+import { getSelected } from "../../actions";
+
 
 import { propTypes } from "react-bootstrap/esm/Image";
 
@@ -36,16 +39,7 @@ const SelectHCP = (props) => {
   };
 
   const saveAsDraft = async () => {
-    console.log(props);
 
-    let camp_id = "";
-    try {
-      camp_id = props.getDraftData.campaign_id;
-    } catch {
-      camp_id = "";
-    }
-
-    setCampaign_id(camp_id);
 
     const body = {
       user_id: 18207,
@@ -77,23 +71,42 @@ const SelectHCP = (props) => {
       status: 2,
     };
 
-    console.log(body);
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
       .post(`emailapi/save_draft`, body)
       .then((res) => {
-        console.log(res);
-        console.log(props.getCampaignId);
         setCampaign_id(res.data.response.data.id);
         loader("hide");
 
-        // console.log(res);
       })
       .catch((err) => {
         //console.log(err);
       });
   };
+
+
+   const nextClicked = () => {
+
+   //console.log(props.getEmailData)
+   //console.log(props.getEmailData());
+   //const obj =  Object.assign(props.getEmailData(), {selected:selection} );
+  // console.log(obj)
+   //console.log(props);
+   console.log(props.getEmailData)
+ const obj = props.getEmailData;
+ console.log(obj);
+ //Object.assign(props.getEmailData(), {selected:selection} );
+  obj.selected =selection;
+
+
+  console.log(obj)
+//            console.log(obj);
+props.getEmailData(obj);
+
+console.log(props);
+
+   }
 
   return (
     <>
@@ -150,19 +163,12 @@ const SelectHCP = (props) => {
                     }
                     state={{ UserSelected: templateId }}
                   >
-                    <button className="btn btn-primary btn-filled next">
-                      Next
-                    </button>
+                   <button className="btn btn-primary btn-filled next" onClick={nextClicked}>
+                     Next
+                   </button>
                   </Link>
 
-                  // <Link
-                  //   to="/SelectSmartList"
-                  //   state={{ UserSelected: templateId }}
-                  // >
-                  //   <button className="btn btn-primary btn-filled next">
-                  //     Next
-                  //   </button>
-                  // </Link>
+                 
                 )}
               </div>
             </div>

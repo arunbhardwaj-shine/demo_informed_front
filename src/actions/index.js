@@ -40,3 +40,13 @@ export const getDraftData = (data) => {
     payload: data,
   };
 };
+
+export const getSelected = (data) => {
+  return {
+    type: "GET_SELECTED",
+    payload: data,
+  };
+};
+
+
+
