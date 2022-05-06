@@ -2834,7 +2834,7 @@ display: none;
   }
 	  /*Css for email filters end*/
 
-	  .select-mail-template .ck-editor, .ck.ck-editor{width:100%;margin-bottom:30px;}
+	  .select-mail-template .ck-editor, .ck.ck-editor{width:100%!important;margin-bottom:30px!important}
 	  #add_hcp .btn_rmv .form-group {
 		justify-content: flex-end;
 	}
