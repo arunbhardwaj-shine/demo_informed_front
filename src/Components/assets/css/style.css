@@ -224,7 +224,7 @@ header {
     background: transparent;
     position: absolute;
     right: 7px;
-    top: 2px;
+    top: 6px;
 }
 .search-bar form.d-flex input {
     width: 279px;
@@ -2430,26 +2430,37 @@ line-height: 19px;color: #004A89;font-family: 'Roboto-Bold';margin: 10px 0;displ
 }
 
 /** Email view **/
-#mail-view .modal-dialog {
-    max-width: 1052px;
+#mail-view.modal-dialog {
+	max-width: 1052px;
+	min-height: calc(100% - 3.5rem);
+	height: calc(100% - 3.5rem);
+	transform: none;
 }
 #mail-view .modal-content {
     padding: 0 17px 20px;
 }
 #mail-view .mail-box-content {
-    padding: 0px 16px 16px 20px;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-}
-#mail-view  .mailbox-table {
-    flex: 0 0 100%;
+	padding: 0px 16px 6px 20px;
+	display: flex;
+	justify-content: space-between;
+	flex-direction: column;
+	height: auto;
 }
 #mail-view .modal-body {
 	padding-top: 9px;
+    overflow-y: auto;
 }
 #mail-view .mail-box-content h5 {
 	color: #0066BE;
+}
+#mail-view.modal-dialog .modal-content {
+	max-height: 100%;
+	overflow: hidden;
+}
+#mail-view .mail-box-heading-block {
+	display: flex;
+	justify-content: space-between;
+	align-content: center;
 }
 #mail-view .mailbox-table th{
 color:#004A89;
@@ -2534,7 +2545,7 @@ color:#004A89;
 	margin-left: 7px;
 }
 #mail-view .chart-description {
-	padding: 0px 16px 0px 20px;
+	padding: 14px 16px 0px 20px;
 }
 #mail-view .chart-description .chart-description-view {
 	box-shadow: 0px 1px 8px rgba(0, 102, 190, 0.24);
