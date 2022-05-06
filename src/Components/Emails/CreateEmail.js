@@ -360,10 +360,9 @@ const CreateEmail = (props) => {
         setCampaign_id(res.data.response.data.id);
         if (res.data.status_code === 200) {
           toast.success("Draft saved");
-        }else{
+        } else {
           toast.warning(res.data.message);
         }
-        
       })
       .catch((err) => {
         toast.error("Something went wrong");
@@ -454,7 +453,7 @@ const CreateEmail = (props) => {
         setCampaign_id(res.data.response.data.id);
         if (res.data.status_code === 200) {
           toast.success("Approved Draft saved");
-        }else{
+        } else {
           toast.warning(res.data.message);
         }
       })
@@ -1003,84 +1002,85 @@ const CreateEmail = (props) => {
         aria-hidden="true"
       >
         <Modal id="tagsModal" show={isOpen}>
-        <Modal.Header>
-          <h5 className="modal-title" id="staticBackdropLabel">
-                  Add Tags
-                </h5>
+          <Modal.Header>
+            <h5 className="modal-title" id="staticBackdropLabel">
+              Add Tags
+            </h5>
+            <button
+              type="button"
+              className="btn-close"
+              onClick={closeModal}
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="select-tags">
+              <h6>Select Tag :</h6>
+              <div className="tag-lists">
+                <div className="tag-lists-view">
+                  {Object.values(allTags).map((data) => {
+                    return (
+                      <>
+                        <div onClick={(event) => tagClicked(event)}>
+                          {data}{" "}
+                        </div>
+                      </>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+            <div className="selected-tags">
+              <h6>
+                Selected Tag <span>| {tagClickedFirst.length}</span>
+              </h6>
+
+              <div className="total-selected">
+                {tagClickedFirst.map((data, index) => {
+                  return (
+                    <>
+                      <div>{data.innerHTML || data}</div>
+                      <img
+                        src={path_image + "filter-close.svg"}
+                        alt="Close-filter"
+                        onClick={() => removeTagFinal(index)}
+                      />
+                    </>
+                  );
+                })}
+              </div>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <form>
+              <div className="form-group">
+                <label for="new-tag">New Tag</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="new-tag"
+                  value={newTag}
+                  onChange={(e) => newTagChanged(e)}
+                />
+                {validator2.message("newTag", newTag, "required")}
                 <button
+                  onClick={addTag}
                   type="button"
-                  className="btn-close"
-                  onClick={closeModal}
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-        </Modal.Header>
-        <Modal.Body>
-        <div className="select-tags">
-                  <h6>Select Tag :</h6>
-                  <div className="tag-lists">
-                    <div className="tag-lists-view">
-                      {Object.values(allTags).map((data) => {
-                        return (
-                          <>
-                            <div onClick={(event) => tagClicked(event)}>
-                              {data}{" "}
-                            </div>
-                          </>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-                <div className="selected-tags">
-                  <h6>
-                    Selected Tag <span>| {tagClickedFirst.length}</span>
-                  </h6>
-
-                  <div className="total-selected">
-                    {tagClickedFirst.map((data, index) => {
-                      return (
-                        <>
-                          <div>{data.innerHTML || data}</div>
-                          <img
-                            src={path_image + "filter-close.svg"}
-                            alt="Close-filter"
-                            onClick={() => removeTagFinal(index)}
-                          />
-                        </>
-                      );
-                    })}
-                  </div>
-                </div>
-        </Modal.Body>
-        <Modal.Footer>
-           <form>
-                <div className="form-group">
-                  <label for="new-tag">New Tag</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="new-tag"
-                    value={newTag}
-                    onChange={(e) => newTagChanged(e)}
-                  />
-                  {validator2.message("newTag", newTag, "required")}
-                  <button
-                    onClick={addTag}
-                    type="button"
-                    className="btn btn-primary add btn-bordered"
-                  >
-                    Add
-                  </button>
-                </div>
-              </form>
-              <button
-                type="button"
-                className="btn btn-primary save btn-filled"
-                onClick={saveButtonClicked}
-              >Save</button>
-        </Modal.Footer>
-
+                  className="btn btn-primary add btn-bordered"
+                >
+                  Add
+                </button>
+              </div>
+            </form>
+            <button
+              type="button"
+              className="btn btn-primary save btn-filled"
+              onClick={saveButtonClicked}
+            >
+              Save
+            </button>
+          </Modal.Footer>
 
           {/* <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div className="modal-content">
@@ -1169,176 +1169,177 @@ const CreateEmail = (props) => {
 
         <Modal id="send-sample" show={isOpen_send}>
           <Modal.Header>
-             <h4>Send a Sample</h4>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                onClick={() => setIsOpensend(false)}
-              ></button>
-
+            <h4>Send a Sample</h4>
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              onClick={() => setIsOpensend(false)}
+            ></button>
           </Modal.Header>
           <Modal.Body>
-          <div className="top-header">
-                  <div className="page-title">
-                    <h4>Search For Contact By:</h4>
-                  </div>
-                </div>
-                <section className="search-hcp">
-                  <div className="form-search-hcp">
-                    <form>
-                      <div className="form-inline row justify-content-between align-items-center">
-                        <div className="col-12 col-md-7">
-                          <div className="row justify-content-between align-items-center">
-                            <div className="form-group col-sm-6">
-                              <label for="hcp-name">Name</label>
-                              <input
-                                type="text"
-                                className="form-control"
-                                onChange={(e) => nameChanged(e)}
-                                id=""
-                              />
-                            </div>
-                            <div className="form-group col-sm-6">
-                              <label for="hcp-email">Email</label>
-                              <input
-                                type="mail"
-                                onChange={(e) => emailChanged(e)}
-                                className="form-control"
-                                id=""
-                              />
-                            </div>
-                          </div>
+            <div className="top-header">
+              <div className="page-title">
+                <h4>Search For Contact By:</h4>
+              </div>
+            </div>
+            <section className="search-hcp">
+              <div className="form-search-hcp">
+                <form>
+                  <div className="form-inline row justify-content-between align-items-center">
+                    <div className="col-12 col-md-7">
+                      <div className="row justify-content-between align-items-center">
+                        <div className="form-group col-sm-6">
+                          <label for="hcp-name">Name</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            onChange={(e) => nameChanged(e)}
+                            id=""
+                          />
                         </div>
-                        <div className="form-button col-12 col-md-5">
-                          <button
-                            className="btn btn-primary btn-filled"
-                            onClick={(e) => searchHcp(e)}
-                          >
-                            Search
-                          </button>
-                          <button
-                            className="btn btn-primary btn-bordered"
-                            type="button"
-                            data-bs-toggle="modal"
-                            data-bs-target="#add_hcp"
-                          >
-                            Add New Contact +
-                          </button>
-                          <button
-                            className="btn btn-primary btn-bordered"
-                            type="button"
-                            data-bs-toggle="modal"
-                            data-bs-target="#add_hcp"
-                          >
-                            Add Smart List +
-                          </button>
+                        <div className="form-group col-sm-6">
+                          <label for="hcp-email">Email</label>
+                          <input
+                            type="mail"
+                            onChange={(e) => emailChanged(e)}
+                            className="form-control"
+                            id=""
+                          />
                         </div>
                       </div>
-                    </form>
+                    </div>
+                    <div className="form-button col-12 col-md-5">
+                      <button
+                        className="btn btn-primary btn-filled"
+                        onClick={(e) => searchHcp(e)}
+                      >
+                        Search
+                      </button>
+                      <button
+                        className="btn btn-primary btn-bordered"
+                        type="button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#add_hcp"
+                        onClick={addNewContactClicked}
+                      >
+                        Add New Contact +
+                      </button>
+                      <button
+                        className="btn btn-primary btn-bordered"
+                        type="button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#add_hcp"
+                        onClick={() => setAddListOpen(true)}
+                      >
+                        Add Smart List +
+                      </button>
+                    </div>
                   </div>
-                  <div className="search-hcp-table">
-                    <div className="search-hcp-table-inside">
-                      {searchedUsers.length === 0 ? (
-                        <div className="not-found">
-                          <h4>No Record Found!</h4>
+                </form>
+              </div>
+              <div className="search-hcp-table">
+                <div className="search-hcp-table-inside">
+                  {searchedUsers.length === 0 ? (
+                    <div className="not-found">
+                      <h4>No Record Found!</h4>
+                    </div>
+                  ) : (
+                    searchedUsers.map((data, index) => {
+                      return (
+                        <div className="search-hcp-box">
+                          <p className="send-hcp-box-title">
+                            Name | <span>{data.name}</span>
+                          </p>
+                          <p className="send-hcp-box-title">
+                            Email | <span>{data.email}</span>
+                          </p>
+                          <p className="send-hcp-box-title">
+                            Contact Type | <span>N/A</span>
+                          </p>
+                          <div
+                            className="add-new-field"
+                            onClick={() => selectHcp(index)}
+                          >
+                            <img
+                              src={path_image + "add-row.png"}
+                              alt="Add More"
+                            />
+                          </div>
                         </div>
-                      ) : (
-                        searchedUsers.map((data, index) => {
+                      );
+                    })
+                  )}
+                </div>
+              </div>
+              <div className="selected-hcp-table">
+                <div className="table-title">
+                  <h4>
+                    Selected HCPs <span>| {selectedHcp.length}</span>
+                  </h4>
+                </div>
+                <div className="selected-hcp-list">
+                  {selectedHcp.length === 0 ? (
+                    <div className="not-found">
+                      <h4>No Contact selected yet!</h4>
+                    </div>
+                  ) : (
+                    <table className="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Name</th>
+                          <th scope="col">Email</th>
+                          <th scope="col">Country</th>
+                          <th scope="col"></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {selectedHcp.map((data, index2) => {
                           return (
-                            <div className="search-hcp-box">
-                              <p className="send-hcp-box-title">
-                                Name | <span>{data.name}</span>
-                              </p>
-                              <p className="send-hcp-box-title">
-                                Email | <span>{data.email}</span>
-                              </p>
-                              <p className="send-hcp-box-title">
-                                Contact Type | <span>N/A</span>
-                              </p>
-                              <div
-                                className="add-new-field"
-                                onClick={() => selectHcp(index)}
-                              >
-                                <img
-                                  src={path_image + "add-row.png"}
-                                  alt="Add More"
-                                />
-                              </div>
-                            </div>
+                            <>
+                              <tr>
+                                <td>{data.name || data.first_name}</td>
+                                <td>{data.email}</td>
+
+                                <td>{data.country}</td>
+
+                                <td className="delete_row" colSpan="12">
+                                  <img
+                                    src={path_image + "delete.svg"}
+                                    alt="Delete Row"
+                                    onClick={() => deleteSelected(index2)}
+                                  />
+                                </td>
+                              </tr>
+                            </>
                           );
-                        })
-                      )}
-                    </div>
-                  </div>
-                  <div className="selected-hcp-table">
-                    <div className="table-title">
-                      <h4>
-                        Selected HCPs <span>| {selectedHcp.length}</span>
-                      </h4>
-                    </div>
-                    <div className="selected-hcp-list">
-                      {selectedHcp.length === 0 ? (
-                        <div className="not-found">
-                          <h4>No Contact selected yet!</h4>
-                        </div>
-                      ) : (
-                        <table className="table">
-                          <thead>
-                            <tr>
-                              <th scope="col">Name</th>
-                              <th scope="col">Email</th>
-                              <th scope="col">Country</th>
-                              <th scope="col"></th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {selectedHcp.map((data, index2) => {
-                              return (
-                                <>
-                                  <tr>
-                                    <td>{data.name || data.first_name}</td>
-                                    <td>{data.email}</td>
-
-                                    <td>{data.country}</td>
-
-                                    <td className="delete_row" colSpan="12">
-                                      <img
-                                        src={path_image + "delete.svg"}
-                                        alt="Delete Row"
-                                        onClick={() => deleteSelected(index2)}
-                                      />
-                                    </td>
-                                  </tr>
-                                </>
-                              );
-                            })}
-                          </tbody>
-                        </table>
-                      )}
-                    </div>
-                  </div>
-                </section>
+                        })}
+                      </tbody>
+                    </table>
+                  )}
+                </div>
+              </div>
+            </section>
           </Modal.Body>
           <Modal.Footer>
-          {selectedHcp.length === 0 ? (
-                  <button
-                    type="button"
-                    className="btn btn-primary btn-filled disabled"
-                    data-bs-dismiss="modal"
-                  >
-                    Send
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    className="btn btn-primary btn-filled"
-                    data-bs-dismiss="modal"
-                    onClick={sendsampeap}
-                  >
-                    Send
-                  </button>
-                )}
+            {selectedHcp.length === 0 ? (
+              <button
+                type="button"
+                className="btn btn-primary btn-filled disabled"
+                data-bs-dismiss="modal"
+              >
+                Send
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="btn btn-primary btn-filled"
+                data-bs-dismiss="modal"
+                onClick={sendsampeap}
+              >
+                Send
+              </button>
+            )}
           </Modal.Footer>
           {/*<div
             id="send-sample"
