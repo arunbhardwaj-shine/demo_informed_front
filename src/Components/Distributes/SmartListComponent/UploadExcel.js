@@ -13,7 +13,7 @@ const UploadExcel = (props) => {
     <>
       <div className="col right-sidebar">
         <Table data={data} smartListName={smartListName} upload_by_filter="0" />
-      </div>  
+      </div>
     </>
   );
 };
