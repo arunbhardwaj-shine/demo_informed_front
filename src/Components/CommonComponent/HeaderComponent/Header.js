@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { Button, Dropdown, Modal } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import '../../assets/css/style.css';
 import '../../assets/css/custom.css';
 import '../../assets/fonts/fonts.css';
@@ -9,10 +10,17 @@ import { ToastContainer } from "react-toastify";
 
 const Header = () => {
 
+	const navigate = useNavigate();
 
 	const removed_pop =()=>{
 		var element = document.getElementById("resend-confirm");
    		 element.classList.remove("custom_model_show");
+		var redirect_info = document.getElementById("modeltoreplace").getAttribute("redirecto");
+		if(redirect_info){
+			navigate(redirect_info);
+		}
+ 		
+			
 	}
 
 	let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -84,7 +92,7 @@ const Header = () => {
 						<h4 id="message_change">This email will be sent to everybody who has not opened the email  </h4>
 						
 						<div className="modal-buttons">
-							<button type="button" className="btn btn-primary btn-bordered light" data-bs-dismiss="modal" onClick={removed_pop}>Close</button> 
+							<button type="button" href="javascript:;"  id="modeltoreplace" className="btn btn-primary btn-bordered light" data-bs-dismiss="modal" onClick={removed_pop}>Close</button> 
 						</div>
 					  </div>
 
