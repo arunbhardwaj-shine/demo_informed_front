@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loader } from "../../loader";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { getDraftData } from "../../actions";
 import { connect } from "react-redux";
@@ -32,6 +33,9 @@ const EmailList = (props) => {
   const [filtercreator, setFilterCreators] = useState([]);
   const [filterdate, setFilterDate] = useState([]);
   const [filtercampaign, setFilterCampaigns] = useState([]);
+  const [updateflag, setUpdateFlag] = useState([]);
+  const [removeFlag, setRemoveFlag] = useState(false);
+  const [filterapplied, setFilterApply] = useState(false);
 
   const showViewEmailModal = (id) => {
       if(typeof SendListData !== "undefined"){
@@ -57,7 +61,7 @@ const EmailList = (props) => {
   };
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-  const getData = () => {
+  const getData = (stage) => {
     loader("show");
     const body = {
       user_id: 18207,
@@ -69,11 +73,12 @@ const EmailList = (props) => {
       .then((res) => {
         if(res.data.status_code == 200){
           setSendListData(res.data.response.data.emails);
-          setFilterData(res.data.response.data.filter);
+          if(stage == "initial"){
+            setFilterData(res.data.response.data.filter);
+          }
           setUserData(res.data.response.data.user);
         }else{
-          toast.success(res.data.message);
-          // console.log("Toast");
+          setSendListData([]);
         }
         loader("hide");
       })
@@ -104,7 +109,7 @@ const EmailList = (props) => {
   };
 
   const submitHandler = (event) => {
-    getData();
+    getData('progress');
     setSubmiHandle(1);
     event.preventDefault();
     return false;
@@ -162,7 +167,7 @@ const EmailList = (props) => {
   //   data.tags;
 
   useEffect(() => {
-    getData();
+    getData('initial');
   }, []);
 
 const showDeleteButtons = () => {
@@ -237,7 +242,18 @@ const showDeleteButtons = () => {
       filtertags.push(ftag);
       setFilterTags(filtertags);
     }
-    console.log(filtertags);
+
+    let getfilter = filter;
+    if(getfilter.hasOwnProperty('tags')){
+      getfilter.tags = filtertags;
+    }else{
+      getfilter = Object.assign({ tags: filtertags }, filter);
+    }
+    setFilter(getfilter);
+
+    let up = updateflag + 1;
+    setUpdateFlag(up);
+
   };
 
   const handleOnFilterCreator = (fcreator) => {
@@ -249,7 +265,16 @@ const showDeleteButtons = () => {
       filtercreator.push(fcreator);
       setFilterCreators(filtercreator);
     }
-    console.log(filtercreator);
+
+    let getfilter = filter;
+    if(getfilter.hasOwnProperty('creator')){
+      getfilter.creator = filtercreator;
+    }else{
+      getfilter = Object.assign({ creator: filtercreator }, filter);
+    }
+    setFilter(getfilter);
+    let up = updateflag + 1;
+    setUpdateFlag(up);
   };
 
   const handleOnFilterDate = (fdate) => {
@@ -261,7 +286,16 @@ const showDeleteButtons = () => {
       filterdate.push(fdate);
       setFilterDate(filterdate);
     }
-    console.log(filterdate);
+
+    let getfilter = filter;
+    if(getfilter.hasOwnProperty('date')){
+      getfilter.date = filterdate;
+    }else{
+      getfilter = Object.assign({ date: filterdate }, filter);
+    }
+    setFilter(getfilter);
+    let up = updateflag + 1;
+    setUpdateFlag(up);
   };
 
   const handleOnFilterCampaign = (fcampaign) => {
@@ -273,7 +307,16 @@ const showDeleteButtons = () => {
       filtercampaign.push(fcampaign);
       setFilterCampaigns(filtercampaign);
     }
-    console.log(filtercampaign);
+
+    let getfilter = filter;
+    if(getfilter.hasOwnProperty('campaign')){
+      getfilter.campaign = filtercampaign;
+    }else{
+      getfilter = Object.assign({ campaign: filtercampaign }, filter);
+    }
+    setFilter(getfilter);
+    let up = updateflag + 1;
+    setUpdateFlag(up);
   };
 
   const clearFilter = () => {
@@ -284,15 +327,38 @@ const showDeleteButtons = () => {
     setFilterCreators([]);
     setFilterDate([]);
     setFilterCampaigns([]);
+    setFilter([]);
+    let up = updateflag + 1;
+    setUpdateFlag(up);
+    if(filterapplied){
+      getData('progress');
+    }
+    setShowFilter(false);
   };
 
   const applyFilter = () => {
-      console.log("Apply Filters");
+    setFilterApply(true);
+    getData('progress');
+    setShowFilter(false);
   }
 
-
-
-
+  const removeindividualfilter = (src,item) => {
+      // setRemoveFlag(true);
+      loader('show');
+      if(src == "tag"){
+        handleOnFilterTags(item);
+      }else if(src == "campaign"){
+        handleOnFilterCampaign(item);
+      }else if(src == "date"){
+        handleOnFilterDate(item);
+      }else if(src == "creator"){
+        handleOnFilterCreator(item);
+      }
+      if(filterapplied){
+        getData('progress');
+      }
+      setShowFilter(false);
+  }
 
   return (
     <>
@@ -340,15 +406,17 @@ const showDeleteButtons = () => {
           </div>
           <div className="filter-by nav-item dropdown">
                <button className="btn btn-secondary dropdown" type="button" id="dropdownMenuButton2" onClick={() => setShowFilter((showfilter) => !showfilter)}>
-               Filter By <svg className="filter-arrow" width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-               <path d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z" fill="#97B6CF"/>
-               <path d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z" fill="#97B6CF"/>
-               <path d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z" fill="#97B6CF"/>
-               </svg>
-               <svg className="close-arrow" width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+               Filter By
+               {
+                 showfilter ? ( <svg className="close-arrow" width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                  <rect width="2.09896" height="15.1911" rx="1.04948" transform="matrix(0.720074 0.693897 -0.720074 0.693897 11.0977 0)" fill="#0066BE"/>
                  <rect width="2.09896" height="15.1911" rx="1.04948" transform="matrix(0.720074 -0.693897 0.720074 0.693897 0 1.45898)" fill="#0066BE"/>
-                 </svg>
+                </svg>) : (<svg className="filter-arrow" width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                   <path d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z" fill="#97B6CF"/>
+                   <path d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z" fill="#97B6CF"/>
+                   <path d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z" fill="#97B6CF"/>
+                   </svg>)
+               }
                </button>
                {/*Code for show filters*/}
               {
@@ -365,17 +433,18 @@ const showDeleteButtons = () => {
                             {
                               Object.entries(filterdata.tags).map(([index, item]) => (
                                   <li>
-                                  <div className="select-multiple-option">
+                                  <label className="select-multiple-option">
                                     <input
                                       type="checkbox"
                                       id={`custom-checkbox-tags-${index}`}
                                       name="tags[]"
                                       value={item}
+                                      checked={updateflag > 0 && typeof filtertags !== 'undefined' && filtertags.indexOf(item) !== -1}
                                       onChange={() => handleOnFilterTags(item)}
                                     />
-                                    <span className="checkmark"></span>
-                                  </div>
                                     {item}
+                                    <span className="checkmark"></span>
+                                  </label>
                                   </li>
                               ))}
                             </ul>
@@ -393,17 +462,18 @@ const showDeleteButtons = () => {
                             {
                               Object.entries(filterdata.creators).map(([index, item]) => (
                                   <li>
-                                  <div className="select-multiple-option">
+                                  <label className="select-multiple-option">
                                     <input
                                       type="checkbox"
                                       id={`custom-checkbox-creator-${index}`}
                                       name="creator[]"
                                       value={item}
+                                      checked={updateflag > 0 && typeof filtercreator !== 'undefined' && filtercreator.indexOf(item) !== -1}
                                       onChange={() => handleOnFilterCreator(item)}
                                     />
-                                    <span className="checkmark"></span>
-                                  </div>
                                     {item}
+                                    <span className="checkmark"></span>
+                                  </label>
                                   </li>
                               ))}
                             </ul>
@@ -420,17 +490,18 @@ const showDeleteButtons = () => {
                             {
                               Object.entries(filterdata.created).map(([index, item]) => (
                                   <li>
-                                  <div className="select-multiple-option">
+                                  <label className="select-multiple-option">
                                   <input
                                     type="checkbox"
                                     id={`custom-checkbox-date-${index}`}
                                     name="date[]"
                                     value={item}
+                                    checked={updateflag > 0 && typeof filterdate !== 'undefined' && filterdate.indexOf(item) !== -1}
                                     onChange={() => handleOnFilterDate(item)}
                                   />
-                                    <span className="checkmark"></span>
-                                  </div>
                                     {item}
+                                    <span className="checkmark"></span>
+                                  </label>
                                   </li>
                               ))}
                             </ul>
@@ -445,43 +516,46 @@ const showDeleteButtons = () => {
 
                               <ul>
                               <li>
-                                <div className="select-multiple-option">
+                                <label className="select-multiple-option">
                                   <input
                                     type="checkbox"
                                     id={`custom-checkbox-campaign-0`}
                                     name="campaign[]"
                                     value='Sent'
-                                    onChange={() => handleOnFilterCampaign('Sent')}
+                                    checked={updateflag > 0 && typeof filtercampaign !== 'undefined' && filtercampaign.indexOf(1) !== -1}
+                                    onChange={() => handleOnFilterCampaign(1)}
                                   />
-                                  <span className="checkmark"></span>
-                                </div>
                                 Sent
+                                  <span className="checkmark"></span>
+                                </label>
                               </li>
                               <li>
-                                <div className="select-multiple-option">
+                                <label className="select-multiple-option">
                                 <input
                                   type="checkbox"
                                   id={`custom-checkbox-campaign-1`}
                                   name="campaign[]"
                                   value='Draft'
-                                  onChange={() => handleOnFilterCampaign('Draft')}
+                                  checked={updateflag > 0 && typeof filtercampaign !== 'undefined' && filtercampaign.indexOf(2) !== -1}
+                                  onChange={() => handleOnFilterCampaign(2)}
                                 />
-                                  <span className="checkmark"></span>
-                                </div>
                                 Draft
+                                  <span className="checkmark"></span>
+                                </label>
                               </li>
                               <li>
-                                <div className="select-multiple-option">
+                                <label className="select-multiple-option">
                                 <input
                                   type="checkbox"
                                   id={`custom-checkbox-campaign-2`}
                                   name="campaign[]"
                                   value='draft-approved'
-                                  onChange={() => handleOnFilterCampaign('draft-approved')}
+                                  checked={updateflag > 0 && typeof filtercampaign !== 'undefined' && filtercampaign.indexOf(3) !== -1}
+                                  onChange={() => handleOnFilterCampaign(3)}
                                 />
-                                  <span className="checkmark"></span>
-                                </div>
                                 Draft Approved
+                                  <span className="checkmark"></span>
+                                </label>
                               </li>
                               </ul>
                           </Accordion.Body>
@@ -496,11 +570,16 @@ const showDeleteButtons = () => {
                 )
               }
 
-               <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                   <li><a className="dropdown-item" href="#">Filter1 <img src={path + "filter-close.svg"} alt="Close-filter" /></a></li>
-                   <li><a className="dropdown-item" href="#">Filter2 <img src={path + "filter-close.svg"} alt="Close-filter" /></a></li>
-                   <li><a className="dropdown-item" href="#">Filter3 <img src={path + "filter-close.svg"} alt="Close-filter" /></a></li>
-                   </ul>
+               {
+                 /*
+                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                     <li><a className="dropdown-item" href="#">Filter1 <img src={path + "filter-close.svg"} alt="Close-filter" /></a></li>
+                     <li><a className="dropdown-item" href="#">Filter2 <img src={path + "filter-close.svg"} alt="Close-filter" /></a></li>
+                     <li><a className="dropdown-item" href="#">Filter3 <img src={path + "filter-close.svg"} alt="Close-filter" /></a></li>
+                 </ul>
+                 */
+               }
+
              </div>
             <div className="clear-search">
               <button className="btn btn-outline-primary" onClick={(e) => showDeleteButtons()}>
@@ -516,32 +595,112 @@ const showDeleteButtons = () => {
             </div>
         </div>
       </div>
-      {/* <div className="apply-filter">
-          <h6>Applied filters</h6>
-          <div className="filter-block">
-            <div className="filter-div">
-              <div className="filter-result">Filter1<img src={path_image+"filter-close.svg"} alt="Close-filter" /></div>
-              <div className="filter-result">Filter2<img src={path_image+"filter-close.svg"} alt="Close-filter" /></div>
-              <div className="filter-result">Filter3<img src={path_image+"filter-close.svg"} alt="Close-filter" /></div>
-              <div className="filter-result">Filter4<img src={path_image+"filter-close.svg"} alt="Close-filter" /></div>
-            </div>
-            <div className="clear-filter">
-              <button className="btn btn-outline-primary btn-bordered" type="submit">Remove All</button>
-            </div>
-          </div>
-        </div> */}
+      {
+        updateflag > 0 && (filtertags.length > 0 || filtercreator.length > 0 || filterdate.length > 0 || filtercampaign.length > 0 ) && (
+          <div className="apply-filter">
+							<h6>Applied filters</h6>
+							<div className="filter-block">
+								<div className="filter-block-left full">
+                    {
+                      filtertags.length > 0 && (
+                        <div className="filter-div">
+      										<div className="filter-div-title">
+      											<span>Tags |</span>
+      										</div>
+      										<div className="filter-div-list">
+                            {Object.entries(filtertags).map(([index, item]) => (
+                              <div className="filter-result" onClick={(event) => removeindividualfilter("tag",item)}>
+                                {item}
+                                <img src={path_image+"filter-close.svg"} alt="Close-filter" />
+                              </div>
+                            ))}
+      										</div>
+      									</div>
+                      )
+                    }
+
+                    {
+                      filtercreator.length > 0 && (
+                        <div className="filter-div">
+      										<div className="filter-div-title">
+      											<span>Creators |</span>
+      										</div>
+      										<div className="filter-div-list">
+                            {Object.entries(filtercreator).map(([index, item]) => (
+                              <div className="filter-result" onClick={(event) => removeindividualfilter("creator",item)}>
+                                {item}
+                                <img src={path_image+"filter-close.svg"} alt="Close-filter" />
+                              </div>
+                            ))}
+      										</div>
+      									</div>
+                      )
+                    }
+
+                    {
+                      filterdate.length > 0 && (
+                        <div className="filter-div">
+      										<div className="filter-div-title">
+      											<span>Date |</span>
+      										</div>
+      										<div className="filter-div-list">
+                            {Object.entries(filterdate).map(([index, item]) => (
+                              <div className="filter-result" onClick={(event) => removeindividualfilter("date",item)}>
+                                {item}
+                                <img src={path_image+"filter-close.svg"} alt="Close-filter" />
+                              </div>
+                            ))}
+      										</div>
+      									</div>
+                      )
+                    }
+
+                    {
+                      filtercampaign.length > 0 && (
+                        <div className="filter-div">
+      										<div className="filter-div-title">
+      											<span>Campaign |</span>
+      										</div>
+      										<div className="filter-div-list">
+                            {Object.entries(filtercampaign).map(([index, item]) => (
+                              <div className="filter-result" onClick={(event) => removeindividualfilter("campaign",item)}>
+                                {
+                                  item == 3 ? "Draft Approved" : item == 2 ? "Draft" : "Save"
+                                }
+                              <img src={path_image+"filter-close.svg"} alt="Close-filter" /></div>
+                            ))}
+      										</div>
+      									</div>
+                      )
+                    }
+
+
+								</div>
+                <div class="clear-filter">
+  								<button class="btn btn-outline-primary btn-bordered" onClick={clearFilter}>Remove All</button>
+  							</div>
+							</div>
+						</div>
+        )
+      }
       <div className="email-result">
         <div className="col email-result-block">
-          <div className="email_box_block">
-          <div className="email-block-add">
-            <a href="/EmailArticleSelect">
-              <img src={path_image + "add-button.svg"} alt="" />
-            </a>
-            <p>Create New Email</p>
-          </div>
-          </div>
-            {SendListData.map((data) => {
-              //console.log(data)
+        {
+          filtertags.length == 0 && filtercreator.length == 0 && filterdate.length == 0 && filtercampaign.length == 0  && (
+            <div className="email_box_block">
+              <div className="email-block-add">
+                <Link to="/EmailArticleSelect">
+                  <img src={path_image + "add-button.svg"} alt="" />
+                </Link>
+                <p>Create New Email</p>
+              </div>
+            </div>
+          )
+        }
+
+            {
+              SendListData.length > 0 ?
+              SendListData.map((data) => {
                return (
          <div className="email_box_block">
                 <div className={"email_box " + (data.status == 1  ? 'approved' : (data.status == 2) ? 'email-draft' : 'draft-approved')}>
@@ -606,7 +765,7 @@ const showDeleteButtons = () => {
                     </div>
                     {
                       data.status == 1 ?
-                      
+
                       <div className="mailbox-buttons">
                         <div className="send_new"><button className="btn btn-primary btn-filled send-new" onClick={() => draftNavigate(data.id,
                             data.pdf_id,
@@ -648,7 +807,12 @@ const showDeleteButtons = () => {
                 </div>
         </div>
               );
-            })}
+            })
+            :
+            <div className="email_box_block no_found">
+              <p>No Data Found</p>
+            </div>
+          }
           </div>
         </div>
       </div>
@@ -933,7 +1097,7 @@ const showDeleteButtons = () => {
         )}
         </div>
       </div> */}
-        
+
 
         {/*Modal for delete Email listing*/}
         <div className="delete">
@@ -952,8 +1116,8 @@ const showDeleteButtons = () => {
             </div>
         </Modal.Body>
 
-       
-            {/* 
+
+            {/*
                 <div className="modal-dialog modal-dialog-centered">
   					<div className="modal-content">
 
@@ -975,7 +1139,7 @@ const showDeleteButtons = () => {
   				  </div>
               */
             }
-  				  
+
           </Modal>
 				</div>
 
@@ -983,7 +1147,7 @@ const showDeleteButtons = () => {
         <div className="delete-confirm">
           <Modal className="modal send-confirm" id="action-confirm" show={verificationpopup}>
               <Modal.Header>
-              
+
               <button type="button" className="btn-close" data-bs-dismiss="modal" onClick={(e) => hideVerificationPopup()}></button>
             </Modal.Header>
 

@@ -141,6 +141,11 @@ const ReadersBlockt = (Participant_id ,type  ) =>
 BaseApi.post(`participant`,{id :Participant_id,type:type},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
+////// Email Stats
+const EmailStatss = (id,template_id,search_key) =>
+BaseApi.get(`email-stats/${id}`,{template_id:template_id,search_key:search_key},{ headers: {
+  'Authorization':localStorage.getItem("Token"),
+}});
 export default {
   UserLogin,
   UserForgot,
@@ -171,5 +176,6 @@ export default {
   ReadersCountry,
   ReadersDataSearch,
   ReadersBlock,
-  ReadersBlockt
+  ReadersBlockt,
+  EmailStatss
 };

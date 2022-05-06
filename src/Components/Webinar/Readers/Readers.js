@@ -9,6 +9,7 @@ import ReactDOM from "react-dom";
 import { ReactFormBuilder } from "react-form-builder2";
 import "react-form-builder2/dist/app.css";
 import { scryRenderedComponentsWithType } from "react-dom/test-utils";
+import CsvDownload from 'react-json-to-csv'
 const Readers = () => {
   const [data, setData] = useState();
   const [type, setType] = useState();
@@ -93,9 +94,8 @@ const Readers = () => {
     if (isblocked == 0) {
       ExportApi.ReadersBlock(id, 1).then((resp) => {
         if (resp.ok) {
-          // console.log(resp.data.data);
-          // setCountryName(resp.data.data);
           if (resp.data.code == 200) {
+            handleGetReadersData(eventId)
             toast.success(resp.data.message, {
               position: "top-right",
               autoClose: 5000,
@@ -123,6 +123,7 @@ const Readers = () => {
           // console.log(resp.data.data)
           // setCountryName(resp.data.data);
           if (resp.data.code == 200) {
+            handleGetReadersData(eventId)
             toast.success(resp.data.message, {
               position: "top-right",
               autoClose: 5000,
@@ -188,7 +189,7 @@ const Readers = () => {
   }, []);
   return (
     <div>
-      {console.log("data", data)}
+   
       <Row>
         <ToastContainer
           position="top-right"
@@ -271,6 +272,9 @@ const Readers = () => {
                     placeholder="By name or email"
                   />
                 </Col>
+                <Col>
+                <CsvDownload data={data}>Excel Download</CsvDownload>
+                </Col>
               </Row>
 
               <br />
@@ -313,7 +317,7 @@ const Readers = () => {
                                 <img
                                   src={Unlock}
                                   width={70}
-                                  onClick={(e) => {
+                                  onClick={() => {
                                     handleBlock(val.id, val.is_blocked);
                                     handleGetReadersData(eventId);
                                   }}
@@ -321,7 +325,7 @@ const Readers = () => {
                               ) : (
                                 <img
                                   src={Lock}
-                                  onClick={(e) => {
+                                  onClick={() => {
                                     handleBlock(val.id, val.is_blocked);
                                     handleGetReadersData(eventId);
                                   }}
