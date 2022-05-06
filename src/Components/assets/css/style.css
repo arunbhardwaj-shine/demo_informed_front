@@ -2,6 +2,7 @@ body {
 	font-family: 'Roboto';
 	background: #e7eff6;
 }
+a{cursor: pointer;}
 nav #collapsibleNavbar li.nav-item a {
     color: #0066BE;
     font-size: 16px;
@@ -2159,6 +2160,7 @@ line-height: 19px;color: #8A4E9C;font-family: 'Roboto-Medium';cursor:pointer;fil
     padding: 19px 18px 72px 29px;
 	max-height: 720px;
 	display:block;
+	z-index: 7;
 }
 .dropdown-menu.filter-options h4 {
     font-size: 20px;
@@ -2179,31 +2181,42 @@ line-height: 19px;color: #8A4E9C;font-family: 'Roboto-Medium';cursor:pointer;fil
 	border: 0;
 	z-index:5;
 }
-.dropdown-menu.filter-options #accordion .card {border: 0;background: transparent;border-radius: 30px;padding: 3px;margin-bottom: 10px;}
-.dropdown-menu.filter-options .card-header a {
+.dropdown-menu.filter-options #accordion .card, .dropdown-menu.filter-options .accordion .card {border: 0;background: transparent;border-radius: 30px;padding: 3px;margin-bottom: 10px;}
+.dropdown-menu.filter-options .card-header a, .dropdown-menu.filter-options .card-header .accordion-button {
 	font-size: 18px;
 	line-height: 21px;
 	color: #004A89;
 	padding: 12px 20px;
 	width: 100%;
 	text-align: left;
+	font-family: 'Roboto-Medium';
+    border-radius: 30px;
+	background: #fff url("../images/dropdown-arrow.svg");
+	background-repeat: no-repeat;
+	background-size: 16px;
+    transition: transform .2s ease-in-out;
+	background-origin: content-box;
+	background-position: right center;
+	box-shadow: none;
+	border:0;
 }
-.dropdown-menu.filter-options #accordion .card .collapse, .dropdown-menu.filter-options #accordion .card .collapsing {
+
+.dropdown-menu.filter-options .accordion .card .collapse, .dropdown-menu.filter-options .accordion .card .collapsing {
 	box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
 	border-radius: 25px 25px 30px 30px;
-	margin-top: -47px;
+	margin-top: -45px;
 	padding-top: 43px;
 	padding-left: 10px;
 }
 
-.dropdown-menu.filter-options #accordion .card ul {
+.dropdown-menu.filter-options .accordion .card ul {
 	padding: 0;
 	margin: 0;
 	overflow-y: auto;
 	max-height: 142px;
 }
 
-.dropdown-menu.filter-options #accordion .card ul li, .approved_list ul li {
+.dropdown-menu.filter-options .accordion .card ul li, .approved_list ul li {
     list-style: none;
     position: relative;
 	font-size: 14px;
@@ -2213,13 +2226,13 @@ font-family: 'Roboto-Light';
 padding-bottom: 10px;
 }
 
-.dropdown-menu.filter-options #accordion .card .select-multiple-option, .select-multiple-option {display: inline-block;margin-right: 12px;position:relative}
+.dropdown-menu.filter-options .accordion .card .select-multiple-option, .select-multiple-option {display: inline-block;margin-right: 12px;position:relative}
 
-.dropdown-menu.filter-options #accordion .card .select-multiple-option input,.select-multiple-option input[type="radio"] {opacity: 0;
+.dropdown-menu.filter-options .accordion .card .select-multiple-option input,.select-multiple-option input[type="radio"] {opacity: 0;
     z-index: 1;position: absolute;width: 16px;height: 16px;border-radius: 50%;top: 3px;cursor:pointer;}
 
-.dropdown-menu.filter-options #accordion .card .select-multiple-option .checkmark, .select-multiple-option .checkmark {width: 16px;border: 1px solid #97B6CF;height: 16px;border-radius: 50%;position: relative;display: inline-block;top: 3px;}
-.dropdown-menu.filter-options #accordion .select-multiple-option .checkmark:after, .select-multiple-option .checkmark:after {
+.dropdown-menu.filter-options .accordion .card .select-multiple-option .checkmark, .select-multiple-option .checkmark {width: 16px;border: 1px solid #97B6CF;height: 16px;border-radius: 50%;position: relative;display: inline-block;top: 3px;}
+.dropdown-menu.filter-options .accordion .select-multiple-option .checkmark:after, .select-multiple-option .checkmark:after {
     left: 5px;
 	top: 2px;
 	width: 5px;
@@ -2232,18 +2245,18 @@ padding-bottom: 10px;
 	content: "";
     position: absolute;
 }
-.dropdown-menu.filter-options #accordion .select-multiple-option input:checked ~ .checkmark:after, .select-multiple-option input:checked ~ .checkmark:after {
+.dropdown-menu.filter-options .accordion .select-multiple-option input:checked ~ .checkmark:after, .select-multiple-option input:checked ~ .checkmark:after {
     display: block;
 }
-.dropdown-menu.filter-options #accordion .select-multiple-option input:checked ~ .checkmark, .approved_list ul li .select-multiple-option input:checked ~ .checkmark {
+.dropdown-menu.filter-options .accordion .select-multiple-option input:checked ~ .checkmark, .approved_list ul li .select-multiple-option input:checked ~ .checkmark {
     background-color: #39CABC;
 	border-color:#39CABC;
 }
-.card-header a:not(.collapsed)::after {
+.card-header .accordion-button:not(.collapsed)::after {
     transform: rotate(-180deg);
 	    top: 11px;
 }
-.card-header a::after {
+.card-header.aaccordion-header::after {
     flex-shrink: 0;
     width: 16px;
     height: 16px;
