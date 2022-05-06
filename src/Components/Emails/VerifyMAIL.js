@@ -42,7 +42,7 @@ const VerifyMAIL = (props) => {
   }, []);
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-  
+
   const handleInputChange = (event, selected) => {
     const div = document.querySelector("div.active");
 
@@ -58,8 +58,6 @@ const VerifyMAIL = (props) => {
   };
 
   const saveAsDraft = async () => {
-   
-
     const body = {
       user_id: 18207,
       pdf_id: props.getEmailData
@@ -109,7 +107,6 @@ const VerifyMAIL = (props) => {
       });
   };
 
-
   const createEmail = async () => {
     //setIsOpen(true);
     let finalTags = props.getEmailData
@@ -150,9 +147,9 @@ const VerifyMAIL = (props) => {
         ? props.getEmailData.emailCampaign
         : props.getDraftData.campaign,
       tags: finalTags,
-      template_source_code:props.getEmailData
-      ? props.getEmailData.template
-      : props.getDraftData.source_code,
+      template_source_code: props.getEmailData
+        ? props.getEmailData.template
+        : props.getDraftData.source_code,
       campaign_id: props.getEmailData ? "" : props.getDraftData.campaign_id,
       //   campaign_data: {
       //     user_list: [""],
@@ -173,14 +170,13 @@ const VerifyMAIL = (props) => {
     await axios
       .post(`emailapi/send_email`, body)
       .then((res) => {
-       
         loader("hide");
         if (res.data.status_code === 200) {
           popup_alert({
             visible: "show",
             message: "Mail sent successfuly",
             type: "success",
-            redirect:"/EmailList"
+            redirect: "/EmailList",
           });
         } else {
           popup_alert({
@@ -189,8 +185,6 @@ const VerifyMAIL = (props) => {
             type: "error",
           });
         }
-
-
       })
       .catch((err) => {
         toast.error("Something went wrong");

@@ -387,6 +387,13 @@ const CreateEmail = (props) => {
   };
 
   const nextClicked = () => {
+    console.log(finalTags);
+    const tags = finalTags.map((finalTags) => {
+      return finalTags.innerHTML;
+    });
+
+    console.log(tags);
+
     if (validator.allValid()) {
       props.getEmailData({
         //uniqueId: uniqueId,
@@ -395,7 +402,7 @@ const CreateEmail = (props) => {
         emailCampaign: emailCampaign,
         emailSubject: emailSubject,
         templateId: templateId,
-        tags: finalTags,
+        tags: tags,
         template: template,
         pdf_id: PdfSelected,
         campaign_id: campaign_id_st,
