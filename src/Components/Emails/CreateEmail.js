@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { connect } from "react-redux";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 
 import { getCampaignId, getEmailData } from "../../actions";
 import { useNavigate } from "react-router-dom";
-import { Modal } from "react-bootstrap";
+import { Modal, ModalDialog } from "react-bootstrap";
 import SimpleReactValidator from "simple-react-validator";
 import { loader } from "../../loader";
 import { popup_alert } from "../../popup_alert";
@@ -27,10 +27,16 @@ const CreateEmail = (props) => {
     : props.getDraftData.pdf_id;
   //console.log(PdfSelected);
 
+  const [manualReRender, setManualReRender] = useState(0);
   const campaign_id = props.getDraftData ? props.getDraftData.campaign_id : "";
-
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [activeExcel, setActiveExcel] = useState("");
+  const [addFileReRender, setAddFileReRender] = useState(0);
+  const [counterFlag, setCounterFlag] = useState(0);
+  const [activeManual, setActiveManual] = useState("active");
   const [templateList, setTemplateList] = useState([]);
   const [template, setTemplate] = useState("");
+  const [readers, setReaders] = useState([]);
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
   const [emailDescription, setEmailDescription] = useState("");
   const [emailCreator, setEmailCreator] = useState("");
@@ -62,7 +68,40 @@ const CreateEmail = (props) => {
   const slideNext = () => setActiveIndex(activeIndex + 1);
   const syncActiveIndex = ({ item }) => setActiveIndex(item);
 
+  const [hpc, setHpc] = useState([
+    { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
+  ]);
+
+  const [isOpenAdd, setIsOpenAdd] = useState(false);
+
+  const [addListOpen, setAddListOpen] = useState(false);
+  const [smartListData, setSmartListData] = useState([]);
+
   const newArr = [];
+
+  useEffect(() => {
+    if (addListOpen == true) {
+      setIsOpensend(false);
+    }
+  }, [addListOpen]);
+
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+  useEffect(() => {
+    const body = {
+      user_id: 18207,
+    };
+    loader("show");
+    axios
+      .post(`distributes/get_smart_list`, body)
+      .then((res) => {
+        setSmartListData(res.data.response.data);
+        //console.log(res.data.response.data);
+        loader("hide");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   useEffect(() => {
     //console.log(props);
@@ -78,16 +117,17 @@ const CreateEmail = (props) => {
         setemailCampaign(props.getDraftData.campaign);
         setEmailSubject(props.getDraftData.subject);
         setFinalTags(props.getDraftData.tags);
-       
+
         setTemplateId(props.getDraftData.campaign_data.template_id);
-       
-        
-       
+
         setTimeout(() => {
-          document.getElementById("template_dyn"+props.getDraftData.campaign_data.template_id).click();
+          document
+            .getElementById(
+              "template_dyn" + props.getDraftData.campaign_data.template_id
+            )
+            .click();
           setTemplate(props.getDraftData.source_code);
-        }, "1000")
-       
+        }, "1000");
 
         //  let reducHcp = props.getDraftData.campaign_data.selectedHcp;
         //  if (typeof reducHcp != "undefined") {
@@ -137,10 +177,10 @@ const CreateEmail = (props) => {
         .post(`emailapi/get_tags`, body)
         .then((res) => {
           setAllTags(res.data.response.data);
-         // console.log(campaign_id_st);
-         // if (typeof campaign_id_st === "undefined" || campaign_id_st == 0) {
-            loader("hide");
-         // }
+          // console.log(campaign_id_st);
+          // if (typeof campaign_id_st === "undefined" || campaign_id_st == 0) {
+          loader("hide");
+          // }
         })
         .catch((err) => {
           //console.log(err);
@@ -149,6 +189,13 @@ const CreateEmail = (props) => {
     getAllTags();
     // getCampaignData();
   }, []);
+
+  const addMoreHcp = () => {
+    setHpc([
+      ...hpc,
+      { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
+    ]);
+  };
 
   const deleteSelected = (index) => {
     let arr = [];
@@ -159,10 +206,24 @@ const CreateEmail = (props) => {
     setReRender(reRender + 1);
   };
 
-  const sendsampeap = (event) => {
-    setIsOpensend(false);
+  const onFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
 
-    let selected_ids = selectedHcp.map((number) => number["user_id"]);
+  const addClicked = () => {
+    setSelectedHcp(readers);
+    setIsOpensend(true);
+    setAddListOpen(false);
+  };
+
+  const sendsampeap = (event) => {
+    console.log(selectedHcp);
+    setIsOpensend(false);
+    setIsOpenAdd(false);
+
+    let selected_ids = selectedHcp.map(
+      (number) => number["user_id"] || number["profile_user_id"]
+    );
 
     loader("show");
     const body = {
@@ -204,7 +265,6 @@ const CreateEmail = (props) => {
         console.log(err);
       });
   };
-
 
   const selectHcp = (index) => {
     // console.log(index);
@@ -259,7 +319,6 @@ const CreateEmail = (props) => {
     setIsOpen(false);
   };
 
-
   const saveAsDraft = async () => {
     let tagss = [];
     finalTags.map((tags) => {
@@ -299,10 +358,14 @@ const CreateEmail = (props) => {
         loader("hide");
 
         setCampaign_id(res.data.response.data.id);
-        //props.getCampaignId(res.data.response.data.id);
+        if (res.data.status_code === 200) {
+          toast.success("Draft saved");
+        } else {
+          toast.warning(res.data.message);
+        }
       })
       .catch((err) => {
-        //console.log(err);
+        toast.error("Something went wrong");
       });
   };
 
@@ -388,10 +451,14 @@ const CreateEmail = (props) => {
         loader("hide");
 
         setCampaign_id(res.data.response.data.id);
-        //props.getCampaignId(res.data.response.data.id);
+        if (res.data.status_code === 200) {
+          toast.success("Approved Draft saved");
+        } else {
+          toast.warning(res.data.message);
+        }
       })
       .catch((err) => {
-        //console.log(err);
+        toast.error("Somwthing went wrong");
       });
   };
 
@@ -435,10 +502,15 @@ const CreateEmail = (props) => {
   };
 
   const tagClicked = (event) => {
-    setTagClickedFirst((oldArray) => [...oldArray, event.target]);
+    if(!tagClickedFirst.includes(event.target)){
+      setTagClickedFirst((oldArray) => [...oldArray, event.target]);
+    }
+   
   };
 
   const sendSample = (event) => {
+    //  console.log(selectedHcp);
+
     event.preventDefault();
     if (
       templateId == "" ||
@@ -450,6 +522,12 @@ const CreateEmail = (props) => {
     } else {
       setIsOpensend(true);
     }
+  };
+
+  const addNewContactClicked = () => {
+    setIsOpenAdd(true);
+    setIsOpensend(false);
+    console.log("hi");
   };
 
   const removeTag = (index) => {
@@ -506,6 +584,180 @@ const CreateEmail = (props) => {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const addFile = (e) => {
+    e.preventDefault();
+    setActiveExcel("active");
+    setActiveManual("");
+    setAddFileReRender(addFileReRender + 1);
+  };
+
+  const onFirstNameChange = (e, i) => {
+    const { value } = e.target;
+    const list = [...hpc];
+    const name = hpc[i].firstname;
+    list[i].firstname = value;
+    setHpc(list);
+    // console.log(hpc);
+  };
+
+  const onLastNameChange = (e, i) => {
+    const { value } = e.target;
+    const list = [...hpc];
+    const name = hpc[i].lastname;
+    list[i].lastname = value;
+    setHpc(list);
+    //console.log(hpc);
+  };
+
+  const onEmailChange = (e, i) => {
+    const { value } = e.target;
+    const list = [...hpc];
+    const name = hpc[i].email;
+    list[i].email = value;
+    setHpc(list);
+    // setEmailData(e.target.value);
+    //console.log(hpc);
+  };
+
+  const onContactTypeChange = (e, i) => {
+    const { value } = e.target;
+    //console.log(value);
+    const list = [...hpc];
+    const name = hpc[i].contact_type;
+    list[i].contact_type = value;
+    setHpc(list);
+    //console.log(hpc);
+  };
+
+  const onCountryChange = (e, i) => {
+    const { value } = e.target;
+    const list = [...hpc];
+    const name = hpc[i].country;
+    list[i].country = value;
+    setHpc(list);
+    console.log(hpc);
+  };
+
+  const deleteRecord = (i) => {
+    const list = hpc;
+    list.splice(i, 1);
+    setHpc(list);
+    setCounterFlag(counterFlag + 1);
+  };
+
+  const addHcp = (e) => {
+    e.preventDefault();
+    setActiveExcel("");
+    setActiveManual("active");
+    setManualReRender(manualReRender + 1);
+  };
+
+  const handleSelect = (data) => {
+    console.log(data);
+
+    const body = {
+      user_id: 18207,
+      list_id: data.id,
+    };
+    loader("show");
+    axios
+      .post(`distributes/get_reders_list`, body)
+      .then((res) => {
+        //   console.log(res)
+        setReaders(res.data.response.data);
+        loader("hide");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const saveClicked = async () => {
+    //  console.log(validator);
+
+    setIsOpenAdd(false);
+
+    if (activeManual == "active") {
+      const body_data = hpc.map((data) => {
+        return {
+          first_name: data.firstname,
+          last_name: data.lastname,
+          email: data.email,
+          country: data.country,
+          contact_type: data.contact_type,
+        };
+      });
+
+      const body = {
+        data: body_data,
+        user_id: 18207,
+        smart_list_id: "",
+      };
+      loader("show");
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      await axios
+        .post(`distributes/add_new_readers_in_list`, body)
+        .then((res) => {
+          if (res.data.status_code === 200) {
+            toast.success("User added successfuly");
+
+            res.data.response.data.map((data) => {
+              setSelectedHcp((oldArray) => [...oldArray, data]);
+            });
+            loader("hide");
+          } else {
+            toast.warning(res.data.message);
+          }
+
+          //setSelectedHcp(res.data.response.data);
+        })
+        .catch((err) => {
+          toast.error("Something went wrong");
+        });
+      setIsOpen(false);
+    } else {
+      let formData = new FormData();
+      formData.append("user_id", 18207);
+      formData.append("smart_list_id", "");
+      formData.append("reader_file", selectedFile);
+
+      console.log(formData);
+
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      loader("show");
+      await axios
+        .post(`distributes/update_reader_list`, formData)
+        .then((res) => {
+          if (res.data.status_code === 200) {
+            toast.success("User added successfuly");
+
+            res.data.response.data.map((data) => {
+              setSelectedHcp((oldArray) => [...oldArray, data]);
+            });
+
+            loader("hide");
+          } else {
+            toast.warning(res.data.message);
+          }
+        })
+        .catch((err) => {
+          console.log("something went wrong");
+        });
+      setIsOpen(false);
+    }
+    setHpc([
+      {
+        firstname: "",
+        lastname: "",
+        email: "",
+        contact_type: "",
+        country: "",
+      },
+    ]);
+
+    setIsOpensend(true);
   };
 
   return (
@@ -586,7 +838,11 @@ const CreateEmail = (props) => {
                         className="item"
                         onClick={(e) => templateClicked(template, e)}
                       >
-                        <img id={"template_dyn"+template.id} src={path_image + "content_added1.png"} alt="" />
+                        <img
+                          id={"template_dyn" + template.id}
+                          src={path_image + "content_added1.png"}
+                          alt=""
+                        />
                         <p>{template.name}</p>
                       </div>
                     </>
@@ -646,7 +902,7 @@ const CreateEmail = (props) => {
                   <div className="input-group w-100">
                     <div className="input-group-prepend">
                       <button
-                        className="btn btn-bordered"
+                        className="btn btn-bordered btn-primary"
                         type="button"
                         id="tags-add"
                         data-bs-toggle="modal"
@@ -720,11 +976,11 @@ const CreateEmail = (props) => {
                 </form>
               </div>
             </div>
+            <div className="row">
             <CKEditor
               editor={ClassicEditor}
               data={template}
               readOnly={true}
-             
               onReady={(editor) => {
                 // You can store the "editor" and use when it is needed.
               }}
@@ -736,6 +992,7 @@ const CreateEmail = (props) => {
               onBlur={(event, editor) => {}}
               onFocus={(event, editor) => {}}
             />
+            </div>
           </div>
         </section>
       </div>
@@ -749,8 +1006,88 @@ const CreateEmail = (props) => {
         aria-labelledby="tagsModal"
         aria-hidden="true"
       >
-        <Modal show={isOpen}>
-          <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <Modal id="tagsModal" show={isOpen}>
+          <Modal.Header>
+            <h5 className="modal-title" id="staticBackdropLabel">
+              Add Tags
+            </h5>
+            <button
+              type="button"
+              className="btn-close"
+              onClick={closeModal}
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="select-tags">
+              <h6>Select Tag :</h6>
+              <div className="tag-lists">
+                <div className="tag-lists-view">
+                  {Object.values(allTags).map((data) => {
+                    return (
+                      <>
+                        <div onClick={(event) => tagClicked(event)}>
+                          {data}{" "}
+                        </div>
+                      </>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+            <div className="selected-tags">
+              <h6>
+                Selected Tag <span>| {tagClickedFirst.length}</span>
+              </h6>
+
+              <div className="total-selected">
+                {tagClickedFirst.map((data, index) => {
+                  return (
+                    <>
+                      <div>{data.innerHTML || data}</div>
+                      <img
+                        src={path_image + "filter-close.svg"}
+                        alt="Close-filter"
+                        onClick={() => removeTagFinal(index)}
+                      />
+                    </>
+                  );
+                })}
+              </div>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <form>
+              <div className="form-group">
+                <label for="new-tag">New Tag</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="new-tag"
+                  value={newTag}
+                  onChange={(e) => newTagChanged(e)}
+                />
+                {validator2.message("newTag", newTag, "required")}
+                <button
+                  onClick={addTag}
+                  type="button"
+                  className="btn btn-primary add btn-bordered"
+                >
+                  Add
+                </button>
+              </div>
+            </form>
+            <button
+              type="button"
+              className="btn btn-primary save btn-filled"
+              onClick={saveButtonClicked}
+            >
+              Save
+            </button>
+          </Modal.Footer>
+
+          {/* <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title" id="staticBackdropLabel">
@@ -832,15 +1169,188 @@ const CreateEmail = (props) => {
                 </button>
               </div>
             </div>
-          </div>
+          </div> */}
         </Modal>
 
-        <Modal show={isOpen_send}>
-          <div
+        <Modal id="send-sample" show={isOpen_send}>
+          <Modal.Header>
+            <h4>Send a Sample</h4>
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              onClick={() => setIsOpensend(false)}
+            ></button>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="top-header">
+              <div className="page-title">
+                <h4>Search For Contact By:</h4>
+              </div>
+            </div>
+            <section className="search-hcp">
+              <div className="form-search-hcp">
+                <form>
+                  <div className="form-inline row justify-content-between align-items-center">
+                    <div className="col-12 col-md-7">
+                      <div className="row justify-content-between align-items-center">
+                        <div className="form-group col-sm-6">
+                          <label for="hcp-name">Name</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            onChange={(e) => nameChanged(e)}
+                            id=""
+                          />
+                        </div>
+                        <div className="form-group col-sm-6">
+                          <label for="hcp-email">Email</label>
+                          <input
+                            type="mail"
+                            onChange={(e) => emailChanged(e)}
+                            className="form-control"
+                            id=""
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="form-button col-12 col-md-5">
+                      <button
+                        className="btn btn-primary btn-filled"
+                        onClick={(e) => searchHcp(e)}
+                      >
+                        Search
+                      </button>
+                      <button
+                        className="btn btn-primary btn-bordered"
+                        type="button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#add_hcp"
+                        onClick={addNewContactClicked}
+                      >
+                        Add New Contact +
+                      </button>
+                      <button
+                        className="btn btn-primary btn-bordered"
+                        type="button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#add_hcp"
+                        onClick={() => setAddListOpen(true)}
+                      >
+                        Add Smart List +
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div className="search-hcp-table sample_list_dt">
+                <div className="search-hcp-table-inside sample_list_dt">
+                  {searchedUsers.length === 0 ? (
+                    <div className="not-found">
+                      <h4>No Record Found!</h4>
+                    </div>
+                  ) : (
+                    searchedUsers.map((data, index) => {
+                      return (
+                        <div className="search-hcp-box">
+                          <p className="send-hcp-box-title">
+                            Name | <span>{data.name}</span>
+                          </p>
+                          <p className="send-hcp-box-title">
+                            Email | <span>{data.email}</span>
+                          </p>
+                          <p className="send-hcp-box-title">
+                            Contact Type | <span>N/A</span>
+                          </p>
+                          <div
+                            className="add-new-field"
+                            onClick={() => selectHcp(index)}
+                          >
+                            <img
+                              src={path_image + "add-row.png"}
+                              alt="Add More"
+                            />
+                          </div>
+                        </div>
+                      );
+                    })
+                  )}
+                </div>
+              </div>
+              <div className="selected-hcp-table">
+                <div className="table-title">
+                  <h4>
+                    Selected HCPs <span>| {selectedHcp.length}</span>
+                  </h4>
+                </div>
+                <div className="selected-hcp-list">
+                  {selectedHcp.length === 0 ? (
+                    <div className="not-found">
+                      <h4>No Contact selected yet!</h4>
+                    </div>
+                  ) : (
+                    <table className="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Name</th>
+                          <th scope="col">Email</th>
+                          <th scope="col">Country</th>
+                          <th scope="col"></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {selectedHcp.map((data, index2) => {
+                          return (
+                            <>
+                              <tr>
+                                <td>{data.name || data.first_name}</td>
+                                <td>{data.email}</td>
+
+                                <td>{data.country}</td>
+
+                                <td className="delete_row" colSpan="12">
+                                  <img
+                                    src={path_image + "delete.svg"}
+                                    alt="Delete Row"
+                                    onClick={() => deleteSelected(index2)}
+                                  />
+                                </td>
+                              </tr>
+                            </>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  )}
+                </div>
+              </div>
+            </section>
+          </Modal.Body>
+          <Modal.Footer>
+            {selectedHcp.length === 0 ? (
+              <button
+                type="button"
+                className="btn btn-primary btn-filled disabled"
+                data-bs-dismiss="modal"
+              >
+                Send
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="btn btn-primary btn-filled"
+                data-bs-dismiss="modal"
+                onClick={sendsampeap}
+              >
+                Send
+              </button>
+            )}
+          </Modal.Footer>
+          {/*<div
             id="send-sample"
             className="modal-dialog modal-dialog-centered modal-dialog-scrollable"
           >
-            <div className="modal-content">
+             <div className="modal-content">
               <div className="modal-header">
                 <h4>Send a Sample</h4>
                 <button
@@ -891,6 +1401,7 @@ const CreateEmail = (props) => {
                             Search
                           </button>
                           <button
+                            onClick={addNewContactClicked}
                             className="btn btn-primary btn-bordered"
                             type="button"
                             data-bs-toggle="modal"
@@ -903,6 +1414,7 @@ const CreateEmail = (props) => {
                             type="button"
                             data-bs-toggle="modal"
                             data-bs-target="#add_hcp"
+                            onClick={() => setAddListOpen(true)}
                           >
                             Add Smart List +
                           </button>
@@ -1013,10 +1525,582 @@ const CreateEmail = (props) => {
                   </button>
                 )}
               </div>
-            </div>
-          </div>
+            </div> 
+          </div>*/}
         </Modal>
       </div>
+
+      <div class="modal">
+        <Modal id="add-list" show={addListOpen}>
+        <Modal.Header>
+        <h4>Add List</h4>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  onClick={() => setAddListOpen(false)}
+                ></button>
+          </Modal.Header>
+          <Modal.Body>
+          <div class="top-right-action">
+                  <div class="search-bar">
+                    <form class="d-flex">
+                      <input
+                        class="form-control me-2"
+                        type="search"
+                        placeholder="Search"
+                        aria-label="Search"
+                      />
+                      <button class="btn btn-outline-success" type="submit">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M15.8045 14.862L11.2545 10.312C12.1359 9.22334 12.6665 7.84 12.6665 6.33334C12.6665 2.84134 9.82522 0 6.33325 0C2.84128 0 0 2.84131 0 6.33331C0 9.82531 2.84132 12.6667 6.33328 12.6667C7.83992 12.6667 9.22325 12.136 10.3119 11.2547L14.8619 15.8047C14.9919 15.9347 15.1625 16 15.3332 16C15.5039 16 15.6745 15.9347 15.8045 15.8047C16.0652 15.544 16.0652 15.1227 15.8045 14.862ZM6.33328 11.3333C3.57597 11.3333 1.33333 9.09066 1.33333 6.33331C1.33333 3.57597 3.57597 1.33331 6.33328 1.33331C9.0906 1.33331 11.3332 3.57597 11.3332 6.33331C11.3332 9.09066 9.09057 11.3333 6.33328 11.3333Z"
+                            fill="#97B6CF"
+                          ></path>
+                        </svg>
+                      </button>
+                    </form>
+                  </div>
+                  <div class="filter-by">
+                    <button class="btn btn-outline-primary" type="submit">
+                      Filter By{" "}
+                      <svg
+                        width="16"
+                        height="14"
+                        viewBox="0 0 16 14"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z"
+                          fill="#97B6CF"
+                        ></path>
+                        <path
+                          d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z"
+                          fill="#97B6CF"
+                        ></path>
+                        <path
+                          d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z"
+                          fill="#97B6CF"
+                        ></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="col smartlist-result-block">
+                  {smartListData.map((data) => {
+                    return (
+                      <>
+                        <div class="smartlist-view email_box">
+                          <div class="mail-box-content">
+                            <h5>{data.name}</h5>
+                            <div class="select-mail-option">
+                              <input
+                                type="radio"
+                                name="radio"
+                                onClick={() => handleSelect(data)}
+                              />
+                              <span class="checkmark"></span>
+                            </div>
+                            <div class="mailbox-table">
+                              <table>
+                                <tbody>
+                                  <tr>
+                                    <th>Contact Type</th>
+                                    <td>NA</td>
+                                  </tr>
+                                  <tr>
+                                    <th>Speciality</th>
+                                    <td>NA</td>
+                                  </tr>
+                                  <tr>
+                                    <th>Readers</th>
+                                    <td>NA</td>
+                                  </tr>
+                                  <tr>
+                                    <th>IBU</th>
+                                    <td>NA</td>
+                                  </tr>
+                                  <tr>
+                                    <th>Product</th>
+                                    <td>NA</td>
+                                  </tr>
+                                  <tr>
+                                    <th>Country</th>
+                                    <td>NA</td>
+                                  </tr>
+                                  <tr>
+                                    <th>Registered</th>
+                                    <td>NA</td>
+                                  </tr>
+                                  <tr>
+                                    <th>Created By</th>
+                                    <td>
+                                      <span>NA</span>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+
+                            <div class="mail-time">
+                              <span>Nov 18 | 9:00 AM</span>
+                            </div>
+                            <div class="smart-list-added-user">
+                              <img
+                                src={path_image + "smartlist-user.svg"}
+                                alt="User icon"
+                              />
+                              203
+                            </div>
+                            <div class="mail-stats">
+                              <ul>
+                                <li>
+                                  <div class="mail-status smartlist_view">
+                                    <svg
+                                      width="16"
+                                      height="14"
+                                      viewBox="0 0 16 14"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M9.65531 2.57856C10.3951 3.04241 10.9139 3.82733 11.0083 4.73845C11.31 4.87942 11.6449 4.96049 11.9999 4.96049C13.296 4.96049 14.3465 3.91 14.3465 2.6141C14.3465 1.31801 13.296 0.267517 11.9999 0.267517C10.7162 0.267916 9.67488 1.29964 9.65531 2.57856ZM8.11801 7.38316C9.4141 7.38316 10.4646 6.33246 10.4646 5.03657C10.4646 3.74067 9.4139 2.69018 8.11801 2.69018C6.82211 2.69018 5.77102 3.74087 5.77102 5.03677C5.77102 6.33266 6.82211 7.38316 8.11801 7.38316ZM9.11339 7.5431H7.12223C5.46552 7.5431 4.11771 8.89111 4.11771 10.5478V12.9829L4.1239 13.021L4.29163 13.0735C5.87266 13.5675 7.24622 13.7322 8.37679 13.7322C10.585 13.7322 11.8649 13.1027 11.9438 13.0625L12.1005 12.9833H12.1173V10.5478C12.1179 8.89111 10.7701 7.5431 9.11339 7.5431ZM12.9957 5.12063H11.0199C10.9985 5.91115 10.6611 6.62299 10.1273 7.13496C11.6 7.57285 12.6774 8.93843 12.6774 10.5514V11.3018C14.6282 11.2303 15.7524 10.6774 15.8265 10.6403L15.9832 10.5608H16V8.12495C16 6.46844 14.6522 5.12063 12.9957 5.12063ZM4.0005 4.96089C4.45955 4.96089 4.88666 4.82691 5.24847 4.59868C5.36348 3.8485 5.76563 3.19296 6.3401 2.74649C6.34249 2.70256 6.34669 2.65903 6.34669 2.6147C6.34669 1.31861 5.29599 0.268116 4.0005 0.268116C2.70421 0.268116 1.65391 1.31861 1.65391 2.6147C1.65391 3.9102 2.70421 4.96089 4.0005 4.96089ZM6.10787 7.13496C5.57674 6.62559 5.24048 5.91754 5.21592 5.13181C5.14264 5.12642 5.07016 5.12063 4.99548 5.12063H3.00452C1.34781 5.12063 0 6.46844 0 8.12495V10.5604L0.00618994 10.5979L0.173917 10.6508C1.44226 11.0468 2.57422 11.2293 3.55742 11.2868V10.5514C3.55782 8.93843 4.63487 7.57325 6.10787 7.13496Z"
+                                        fill="#FAC755"
+                                      ></path>
+                                    </svg>
+                                  </div>
+                                  <span>10%</span>
+                                </li>
+                                <li>
+                                  <div class="mail-status mail_click">
+                                    <svg
+                                      width="14"
+                                      height="16"
+                                      viewBox="0 0 14 16"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M2.96391 5.30631C2.85416 4.93468 2.74879 4.56243 2.6696 4.20577C2.14894 3.89774 1.79477 3.33718 1.79477 2.68932C1.79477 1.71473 2.58729 0.922837 3.56126 0.922837C4.53522 0.922837 5.32774 1.71535 5.32774 2.68932C5.32774 2.82338 5.30966 2.95246 5.2816 3.07779C5.45058 3.45004 5.58713 3.86906 5.70685 4.29493C6.04356 3.84599 6.25058 3.29415 6.25058 2.68932C6.25058 1.20343 5.04715 0 3.56126 0C2.07536 0 0.872559 1.20343 0.872559 2.68932C0.872559 3.96882 1.76734 5.03445 2.96391 5.30631Z"
+                                        fill="#C8D1D9"
+                                      ></path>
+                                      <path
+                                        d="M1.10616 11.673C1.76898 10.9566 2.51286 11.2372 3.50865 11.3887C4.36415 11.5203 5.20655 11.2802 5.15043 10.8182C5.06189 10.0705 4.93718 9.73632 4.65347 8.76797C4.42713 7.9979 3.99751 6.6099 3.60655 5.28301C3.08278 3.50779 2.93126 2.68348 3.62837 2.47771C4.37974 2.25885 4.8106 3.32635 5.20094 4.80663C5.64552 6.49143 5.87935 7.23531 6.01029 7.19603C6.241 7.12993 5.92549 6.40912 6.52907 6.23141C7.28356 6.01193 7.42946 6.60179 7.64084 6.54256C7.85222 6.47896 7.78052 5.88161 8.38223 5.70577C8.98706 5.53118 9.29073 6.27568 9.54014 6.20148C9.78706 6.12853 9.78145 5.85978 10.1543 5.75316C10.5278 5.64217 11.9333 6.27132 12.7376 9.01925C13.7472 12.4743 12.6098 13.1165 12.9546 14.2863L8.44833 15.9998C8.08356 15.1224 6.9537 15.0576 5.95417 14.4983C4.94716 13.9315 4.26314 12.8272 1.63866 12.8808C0.6516 12.9008 0.698366 12.1139 1.10616 11.673Z"
+                                        fill="#C8D1D9"
+                                      ></path>
+                                    </svg>
+                                  </div>
+                                  <span>60%</span>
+                                </li>
+                              </ul>
+                            </div>
+                            <div class="smartlist-buttons">
+                              <button class="btn btn-primary view">View</button>
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    );
+                  })}
+                </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <button type="button"
+                  class="btn btn-primary btn-filled"
+                  data-bs-dismiss="modal"
+                  onClick={addClicked}>
+                  Add
+                </button>
+
+          </Modal.Footer>
+
+          {/* <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4>Add List</h4>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  onClick={() => setAddListOpen(false)}
+                ></button>
+              </div>
+
+              <div class="modal-body">
+                <div class="top-right-action">
+                  <div class="search-bar">
+                    <form class="d-flex">
+                      <input
+                        class="form-control me-2"
+                        type="search"
+                        placeholder="Search"
+                        aria-label="Search"
+                      />
+                      <button class="btn btn-outline-success" type="submit">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M15.8045 14.862L11.2545 10.312C12.1359 9.22334 12.6665 7.84 12.6665 6.33334C12.6665 2.84134 9.82522 0 6.33325 0C2.84128 0 0 2.84131 0 6.33331C0 9.82531 2.84132 12.6667 6.33328 12.6667C7.83992 12.6667 9.22325 12.136 10.3119 11.2547L14.8619 15.8047C14.9919 15.9347 15.1625 16 15.3332 16C15.5039 16 15.6745 15.9347 15.8045 15.8047C16.0652 15.544 16.0652 15.1227 15.8045 14.862ZM6.33328 11.3333C3.57597 11.3333 1.33333 9.09066 1.33333 6.33331C1.33333 3.57597 3.57597 1.33331 6.33328 1.33331C9.0906 1.33331 11.3332 3.57597 11.3332 6.33331C11.3332 9.09066 9.09057 11.3333 6.33328 11.3333Z"
+                            fill="#97B6CF"
+                          ></path>
+                        </svg>
+                      </button>
+                    </form>
+                  </div>
+                  <div class="filter-by">
+                    <button class="btn btn-outline-primary" type="submit">
+                      Filter By{" "}
+                      <svg
+                        width="16"
+                        height="14"
+                        viewBox="0 0 16 14"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z"
+                          fill="#97B6CF"
+                        ></path>
+                        <path
+                          d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z"
+                          fill="#97B6CF"
+                        ></path>
+                        <path
+                          d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z"
+                          fill="#97B6CF"
+                        ></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="col smartlist-result-block">
+                  {smartListData.map((data) => {
+                    return (
+                      <>
+                        <div class="smartlist-view email_box">
+                          <div class="mail-box-content">
+                            <h5>{data.name}</h5>
+                            <div class="select-mail-option">
+                              <input
+                                type="radio"
+                                name="radio"
+                                onClick={() => handleSelect(data)}
+                              />
+                              <span class="checkmark"></span>
+                            </div>
+                            <div class="mailbox-table">
+                              <table>
+                                <tbody>
+                                  <tr>
+                                    <th>Contact Type</th>
+                                    <td>NA</td>
+                                  </tr>
+                                  <tr>
+                                    <th>Speciality</th>
+                                    <td>NA</td>
+                                  </tr>
+                                  <tr>
+                                    <th>Readers</th>
+                                    <td>NA</td>
+                                  </tr>
+                                  <tr>
+                                    <th>IBU</th>
+                                    <td>NA</td>
+                                  </tr>
+                                  <tr>
+                                    <th>Product</th>
+                                    <td>NA</td>
+                                  </tr>
+                                  <tr>
+                                    <th>Country</th>
+                                    <td>NA</td>
+                                  </tr>
+                                  <tr>
+                                    <th>Registered</th>
+                                    <td>NA</td>
+                                  </tr>
+                                  <tr>
+                                    <th>Created By</th>
+                                    <td>
+                                      <span>NA</span>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+
+                            <div class="mail-time">
+                              <span>Nov 18 | 9:00 AM</span>
+                            </div>
+                            <div class="smart-list-added-user">
+                              <img
+                                src="assets/images/smartlist-user.svg"
+                                alt="User icon"
+                              />
+                              203
+                            </div>
+                            <div class="mail-stats">
+                              <ul>
+                                <li>
+                                  <div class="mail-status smartlist_view">
+                                    <svg
+                                      width="16"
+                                      height="14"
+                                      viewBox="0 0 16 14"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M9.65531 2.57856C10.3951 3.04241 10.9139 3.82733 11.0083 4.73845C11.31 4.87942 11.6449 4.96049 11.9999 4.96049C13.296 4.96049 14.3465 3.91 14.3465 2.6141C14.3465 1.31801 13.296 0.267517 11.9999 0.267517C10.7162 0.267916 9.67488 1.29964 9.65531 2.57856ZM8.11801 7.38316C9.4141 7.38316 10.4646 6.33246 10.4646 5.03657C10.4646 3.74067 9.4139 2.69018 8.11801 2.69018C6.82211 2.69018 5.77102 3.74087 5.77102 5.03677C5.77102 6.33266 6.82211 7.38316 8.11801 7.38316ZM9.11339 7.5431H7.12223C5.46552 7.5431 4.11771 8.89111 4.11771 10.5478V12.9829L4.1239 13.021L4.29163 13.0735C5.87266 13.5675 7.24622 13.7322 8.37679 13.7322C10.585 13.7322 11.8649 13.1027 11.9438 13.0625L12.1005 12.9833H12.1173V10.5478C12.1179 8.89111 10.7701 7.5431 9.11339 7.5431ZM12.9957 5.12063H11.0199C10.9985 5.91115 10.6611 6.62299 10.1273 7.13496C11.6 7.57285 12.6774 8.93843 12.6774 10.5514V11.3018C14.6282 11.2303 15.7524 10.6774 15.8265 10.6403L15.9832 10.5608H16V8.12495C16 6.46844 14.6522 5.12063 12.9957 5.12063ZM4.0005 4.96089C4.45955 4.96089 4.88666 4.82691 5.24847 4.59868C5.36348 3.8485 5.76563 3.19296 6.3401 2.74649C6.34249 2.70256 6.34669 2.65903 6.34669 2.6147C6.34669 1.31861 5.29599 0.268116 4.0005 0.268116C2.70421 0.268116 1.65391 1.31861 1.65391 2.6147C1.65391 3.9102 2.70421 4.96089 4.0005 4.96089ZM6.10787 7.13496C5.57674 6.62559 5.24048 5.91754 5.21592 5.13181C5.14264 5.12642 5.07016 5.12063 4.99548 5.12063H3.00452C1.34781 5.12063 0 6.46844 0 8.12495V10.5604L0.00618994 10.5979L0.173917 10.6508C1.44226 11.0468 2.57422 11.2293 3.55742 11.2868V10.5514C3.55782 8.93843 4.63487 7.57325 6.10787 7.13496Z"
+                                        fill="#FAC755"
+                                      ></path>
+                                    </svg>
+                                  </div>
+                                  <span>10%</span>
+                                </li>
+                                <li>
+                                  <div class="mail-status mail_click">
+                                    <svg
+                                      width="14"
+                                      height="16"
+                                      viewBox="0 0 14 16"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M2.96391 5.30631C2.85416 4.93468 2.74879 4.56243 2.6696 4.20577C2.14894 3.89774 1.79477 3.33718 1.79477 2.68932C1.79477 1.71473 2.58729 0.922837 3.56126 0.922837C4.53522 0.922837 5.32774 1.71535 5.32774 2.68932C5.32774 2.82338 5.30966 2.95246 5.2816 3.07779C5.45058 3.45004 5.58713 3.86906 5.70685 4.29493C6.04356 3.84599 6.25058 3.29415 6.25058 2.68932C6.25058 1.20343 5.04715 0 3.56126 0C2.07536 0 0.872559 1.20343 0.872559 2.68932C0.872559 3.96882 1.76734 5.03445 2.96391 5.30631Z"
+                                        fill="#C8D1D9"
+                                      ></path>
+                                      <path
+                                        d="M1.10616 11.673C1.76898 10.9566 2.51286 11.2372 3.50865 11.3887C4.36415 11.5203 5.20655 11.2802 5.15043 10.8182C5.06189 10.0705 4.93718 9.73632 4.65347 8.76797C4.42713 7.9979 3.99751 6.6099 3.60655 5.28301C3.08278 3.50779 2.93126 2.68348 3.62837 2.47771C4.37974 2.25885 4.8106 3.32635 5.20094 4.80663C5.64552 6.49143 5.87935 7.23531 6.01029 7.19603C6.241 7.12993 5.92549 6.40912 6.52907 6.23141C7.28356 6.01193 7.42946 6.60179 7.64084 6.54256C7.85222 6.47896 7.78052 5.88161 8.38223 5.70577C8.98706 5.53118 9.29073 6.27568 9.54014 6.20148C9.78706 6.12853 9.78145 5.85978 10.1543 5.75316C10.5278 5.64217 11.9333 6.27132 12.7376 9.01925C13.7472 12.4743 12.6098 13.1165 12.9546 14.2863L8.44833 15.9998C8.08356 15.1224 6.9537 15.0576 5.95417 14.4983C4.94716 13.9315 4.26314 12.8272 1.63866 12.8808C0.6516 12.9008 0.698366 12.1139 1.10616 11.673Z"
+                                        fill="#C8D1D9"
+                                      ></path>
+                                    </svg>
+                                  </div>
+                                  <span>60%</span>
+                                </li>
+                              </ul>
+                            </div>
+                            <div class="smartlist-buttons">
+                              <button class="btn btn-primary view">View</button>
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    );
+                  })}
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-primary btn-filled"
+                  data-bs-dismiss="modal"
+                  onClick={addClicked}
+                >
+                  Add
+                </button>
+              </div>
+            </div>
+          </div> */}
+        </Modal>
+      </div>
+
+      <Modal
+        id="add_hcp"
+        show={isOpenAdd}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <div
+          //className="modal fade"
+          //id="add_hcp"
+          data-bs-backdrop="static"
+          data-bs-keyboard="false"
+          tabindex="-1"
+          //aria-labelledby="add_hcp"
+          aria-hidden="true"
+        >
+          {/* <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div className="modal-content"> */}
+          <div className="modal-header">
+            <h5 className="modal-title" id="staticBackdropLabel">
+              Add New HCP
+            </h5>
+            <button
+              onClick={() => setIsOpenAdd(false)}
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div className="modal-body">
+            <div className="hcp-add-box">
+              <div className="hcp-add-form tab-content">
+                <form id="add_hcp_form" className={"tab-pane" + activeManual}>
+                  {hpc.map((val, i) => {
+                    const fieldName = `hpc[${i}]`;
+                    return (
+                      <>
+                        <div className="row">
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for="">First Name</label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                onChange={(event) =>
+                                  onFirstNameChange(event, i)
+                                }
+                                value={val.firstname}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for="">Last Name</label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                onChange={(event) => onLastNameChange(event, i)}
+                                value={val.lastname}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for="">Email</label>
+                              <input
+                                type="email"
+                                className="form-control"
+                                id="email-desc"
+                                name={`${fieldName}.email`}
+                                onChange={(event) => onEmailChange(event, i)}
+                                value={val.email}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for="">Contact Type</label>
+                              <select
+                                className="form-contact"
+                                aria-label="select"
+                                onChange={(event) =>
+                                  onContactTypeChange(event, i)
+                                }
+                              >
+                                <option selected>Select Type</option>
+                                <option value="HCP">HCP</option>
+                                <option value="Staff">Staff</option>
+                                <option value="Test Users">Test Users</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for="">Country</label>
+                              <select
+                                className="country-form"
+                                aria-label="select"
+                                onChange={(event) => onCountryChange(event, i)}
+                              >
+                                <option selected>Select Country</option>
+                                <option value="India">India</option>
+                                <option value="USA">USA</option>
+                                <option value="Russia">Russia</option>
+                              </select>
+                              {i !== 0 && (
+                                <button
+                                  type="button"
+                                  className="btn btn-filled"
+                                  onClick={() => deleteRecord(i)}
+                                >
+                                  Remove
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    );
+                  })}
+                </form>
+                <form id="add_file" className={"tab-pane" + activeExcel}>
+                  <div className="form-group files">
+                    <input
+                      type="file"
+                      className="form-control"
+                      multiple=""
+                      onChange={onFileChange}
+                    />
+                  </div>
+                </form>
+              </div>
+              <div className="hcp-modal-action">
+                <div className="hcp-action-block">
+                  <div className="hcp-remove">
+                    <button
+                      type="button"
+                      className="btn btn-filled"
+                      onClick={addMoreHcp}
+                    >
+                      Add
+                    </button>
+                  </div>
+                  <ul className="nav nav-tabs" role="tablist">
+                    <li className="nav-item add_hcp">
+                      <a
+                        onClick={(e) => addHcp(e)}
+                        className="nav-link active btn-bordered"
+                        data-bs-toggle="tab"
+                        href="#add_hcp_form"
+                      >
+                        Add HCP +
+                      </a>
+                    </li>
+                    <li className="nav-item add-file">
+                      <a
+                        onClick={(e) => addFile(e)}
+                        className="nav-link btn-filled"
+                        data-bs-toggle="tab"
+                        href="#add_file"
+                      >
+                        Add File
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="modal-footer">
+            <button
+              type="button"
+              className="btn btn-primary save btn-filled"
+              onClick={saveClicked}
+            >
+              Save
+            </button>
+          </div>
+        </div>
+        {/* </div>
+        </div> */}
+      </Modal>
     </>
   );
 };
