@@ -6,6 +6,7 @@ import { loader } from "../../loader";
 import { getCampaignId } from "../../actions";
 import axios from "axios";
 import { connect } from "react-redux";
+import { toast } from "react-toastify";
 
 const VerifyHCP = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -59,45 +60,7 @@ const VerifyHCP = (props) => {
   }, []);
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-  // useEffect(() => {
-  //   const body = {
-  //     user_id: 18207,
-  //   };
-  //   axios
-  //     .post(`emailapi/get_template_list`, body)
-  //     .then((res) => {
-  //       setSendListData(res.data.response.data.emails);
-  //       setUserData(res.data.response.data.user);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
 
-  // axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-  // useEffect(() => {
-  //   const getUserById = async () => {
-  //     const body = {
-  //       // data: body_data,
-  //       user_id: 18207,
-  //       readers_id: props.getDraftData.campaign_data.selectedHcp,
-  //     };
-
-  //     loader("show");
-  //     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-  //     await axios
-  //       .post(`emailapi/get_user_details`, body)
-  //       .then((res) => {
-  //         console.log(res);
-  //         setSelectedHcp(res.data.response.data);
-  //         loader("hide");
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   };
-  //   getUserById();
-  // }, []);
 
   useEffect(() => {
     console.log("sdsdsd");
@@ -287,20 +250,31 @@ const VerifyHCP = (props) => {
         smart_list_id: "",
       };
       loader("show");
+      
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       await axios
         .post(`distributes/add_new_readers_in_list`, body)
         .then((res) => {
-          res.data.response.data.map((data) => {
-            setSelectedHcp((oldArray) => [...oldArray, data]);
-          });
-          loader("hide");
+
+          if (res.data.status_code === 200) {
+            toast.success("User added successfuly");
+            res.data.response.data.map((data) => {
+              setSelectedHcp((oldArray) => [...oldArray, data]);
+            });
+            loader("hide");
+
+          }else{
+            toast.warning(res.data.message);
+          }
+
+        
           //setSelectedHcp(res.data.response.data);
         })
         .catch((err) => {
-          console.log(err);
+          loader("hide");
+          toast.error("Somwthing went wrong");
         });
-      setIsOpen(false);
+     // setIsOpen(false);
     } else {
       let formData = new FormData();
       formData.append("user_id", 18207);

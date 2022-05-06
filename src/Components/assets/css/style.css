@@ -1058,6 +1058,9 @@ form .input-group #tags-add {
 	font-family: 'Roboto-Medium';
 	padding: 10px 20px;
 }
+form .input-group #tags-add:hover, form .input-group #tags-add:active, form .input-group #tags-add:focus {
+	color: #fff;
+}
 form .input-group .input-group-prepend {
 	padding-right: 32px;
 	margin-right: 22px;
@@ -1122,12 +1125,12 @@ form .input-group {
 
 /**Modal Tags**/
 
-#tagsModal .modal-dialog {
+#tagsModal.modal-dialog {
   max-width: 1122px;
   box-shadow: 0px 3px 10px -3px rgba(0, 102, 190, 0.2);
   border-radius: 30px;
 }
-#tagsModal .modal-dialog .modal-content {
+#tagsModal .modal-content {
 	box-shadow: 0px 3px 10px -3px rgba(0, 102, 190, 0.2);
 	border-radius: 30px;
 	padding: 17px;
@@ -1156,7 +1159,7 @@ form .input-group {
   height: 6px;
   background-size: 16px;
 }
-.modal-dialog-scrollable .modal-body .tag-lists {
+ .modal-body .tag-lists {
 	box-shadow: inset 0px 0px 9px rgba(0, 102, 190, 0.28);
 	border-radius: 15px;
 	padding: 17px 20px 17px 16px;
@@ -1168,7 +1171,7 @@ form .input-group {
 	box-sizing: border-box;
 	overflow-y: auto;
 }
-.modal-dialog-scrollable .modal-body .tag-lists .tag-lists-view div {
+.modal-body .tag-lists .tag-lists-view div {
 	display: inline-block;
 	background: #8A4E9C;
 	border: 0.5px solid #8A4E9C;
@@ -2352,9 +2355,15 @@ border-radius: 30px;border: 0;}
 /**End**/
 
 /**modal-add list**/
-#add-list .modal-dialog, #send-sample .modal-dialog {
+#add-list .modal-dialog, #send-sample.modal-dialog {
     max-width: 1230px;
 }
+#send-sample.modal-dialog {
+	height: calc(100% - 3.5rem);
+	display: flex;
+    align-items: center;
+}
+#send-sample .modal-body{overflow-y: auto;}
 #add-list .smartlist-view {
     flex: 0 0 auto;
     box-sizing: border-box;
@@ -2420,6 +2429,7 @@ line-height: 19px;color: #004A89;font-family: 'Roboto-Bold';margin: 10px 0;displ
 }
 #send-sample .modal-content {
     padding: 0 15px;
+    height: 100%;
 }
 #send-sample .selected-hcp-list .not-found h4 {
     font-size: 36px;
