@@ -6,6 +6,7 @@ import { loader } from "../../loader";
 import { getCampaignId } from "../../actions";
 import axios from "axios";
 import { connect } from "react-redux";
+import { toast } from "react-toastify";
 
 const VerifyHCP = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -59,45 +60,7 @@ const VerifyHCP = (props) => {
   }, []);
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-  // useEffect(() => {
-  //   const body = {
-  //     user_id: 18207,
-  //   };
-  //   axios
-  //     .post(`emailapi/get_template_list`, body)
-  //     .then((res) => {
-  //       setSendListData(res.data.response.data.emails);
-  //       setUserData(res.data.response.data.user);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
 
-  // axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-  // useEffect(() => {
-  //   const getUserById = async () => {
-  //     const body = {
-  //       // data: body_data,
-  //       user_id: 18207,
-  //       readers_id: props.getDraftData.campaign_data.selectedHcp,
-  //     };
-
-  //     loader("show");
-  //     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-  //     await axios
-  //       .post(`emailapi/get_user_details`, body)
-  //       .then((res) => {
-  //         console.log(res);
-  //         setSelectedHcp(res.data.response.data);
-  //         loader("hide");
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   };
-  //   getUserById();
-  // }, []);
 
   useEffect(() => {
     console.log("sdsdsd");
@@ -287,20 +250,31 @@ const VerifyHCP = (props) => {
         smart_list_id: "",
       };
       loader("show");
+      
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       await axios
         .post(`distributes/add_new_readers_in_list`, body)
         .then((res) => {
-          res.data.response.data.map((data) => {
-            setSelectedHcp((oldArray) => [...oldArray, data]);
-          });
-          loader("hide");
+
+          if (res.data.status_code === 200) {
+            toast.success("User added successfuly");
+            res.data.response.data.map((data) => {
+              setSelectedHcp((oldArray) => [...oldArray, data]);
+            });
+            loader("hide");
+
+          }else{
+            toast.warning(res.data.message);
+          }
+
+        
           //setSelectedHcp(res.data.response.data);
         })
         .catch((err) => {
-          console.log(err);
+          loader("hide");
+          toast.error("Somwthing went wrong");
         });
-      setIsOpen(false);
+     // setIsOpen(false);
     } else {
       let formData = new FormData();
       formData.append("user_id", 18207);
@@ -490,12 +464,29 @@ const VerifyHCP = (props) => {
                 >
                   Save As Draft
                 </button>
-                <button
-                  onClick={nextClicked}
-                  className="btn btn-primary btn-filled next"
-                >
-                  Next
-                </button>
+
+
+                {selectedHcp.length === 0 ? 
+                
+                 <button
+                  
+                    className="btn btn-primary btn-filled next disabled"
+                  >
+                    Next
+                  </button>
+               
+                 
+                : 
+              
+                  <button
+                    onClick={nextClicked}
+                    className="btn btn-primary btn-filled next"
+                  >
+                    Next
+                  </button>
+              
+                }
+
               </div>
             </div>
           </div>
@@ -554,7 +545,7 @@ const VerifyHCP = (props) => {
             </form>
           </div>
           <div className="search-hcp-table">
-            <div className="search-hcp-table-inside">
+            <div className={searchedUsers.length === 0 ? 'search-hcp-table-inside not-found' : 'search-hcp-table-inside'  } >
               {searchedUsers.length === 0 ? (
                 <div className="not-found">
                   <h4>No Record Found!</h4>
@@ -685,13 +676,13 @@ const VerifyHCP = (props) => {
                           <tr
                             contenteditable={editable === 0 ? "false" : "true"}
                           >
-                            <td>{data.name || data.first_name}</td>
-                            <td>{data.email}</td>
-                            <td>NA</td>
-                            <td>{data.country}</td>
-                            <td>NA</td>
-                            <td>NA</td>
-                            <td>NA</td>
+                            <td><span>{data.name || data.first_name}</span></td>
+                            <td><span>{data.email}</span></td>
+                            <td><span>NA</span></td>
+                            <td><span>{data.country}</span></td>
+                            <td><span>NA</span></td>
+                            <td><span>NA</span></td>
+                            <td><span>NA</span></td>
                             <td>NA</td>
                             <td>NA</td>
                             <td>NA</td>
@@ -733,8 +724,10 @@ const VerifyHCP = (props) => {
         >
           {/* <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div className="modal-content"> */}
-          <div className="modal-header">
-            <h5 className="modal-title" id="staticBackdropLabel">
+
+
+        <Modal.Header>
+        <h5 className="modal-title" id="staticBackdropLabel">
               Add New HCP
             </h5>
             <button
@@ -744,9 +737,9 @@ const VerifyHCP = (props) => {
               data-bs-dismiss="modal"
               aria-label="Close"
             ></button>
-          </div>
-          <div className="modal-body">
-            <div className="hcp-add-box">
+        </Modal.Header>
+        <Modal.Body>
+        <div className="hcp-add-box">
               <div className="hcp-add-form tab-content">
                 <form id="add_hcp_form" className={"tab-pane" + activeManual}>
                   {hpc.map((val, i) => {
@@ -821,7 +814,12 @@ const VerifyHCP = (props) => {
                                 <option value="USA">USA</option>
                                 <option value="Russia">Russia</option>
                               </select>
-                              {i !== 0 && (
+                              
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-6 btn-last">
+                            <div className="form-group">
+                            {i !== 0 && (
                                 <button
                                   type="button"
                                   className="btn btn-filled"
@@ -830,7 +828,7 @@ const VerifyHCP = (props) => {
                                   Remove
                                 </button>
                               )}
-                            </div>
+                           </div>
                           </div>
                         </div>
                       </>
@@ -935,8 +933,227 @@ const VerifyHCP = (props) => {
                 </div>
               </div>
             </div>
-          </div>
-          <div className="modal-footer">
+
+        </Modal.Body>
+
+        <Modal.Footer>
+        <button
+              type="button"
+              className="btn btn-primary save btn-filled"
+              onClick={saveClicked}
+            >
+              Save
+            </button>
+        </Modal.Footer>
+
+
+
+
+
+          {/* <div className="modal-header">
+            <h5 className="modal-title" id="staticBackdropLabel">
+              Add New HCP
+            </h5>
+            <button
+              onClick={closeModal}
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div> */}
+          {/* <div className="modal-body">
+            <div className="hcp-add-box">
+              <div className="hcp-add-form tab-content">
+                <form id="add_hcp_form" className={"tab-pane" + activeManual}>
+                  {hpc.map((val, i) => {
+                    const fieldName = `hpc[${i}]`;
+                    return (
+                      <>
+                        <div className="row">
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for="">First Name</label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                onChange={(event) =>
+                                  onFirstNameChange(event, i)
+                                }
+                                value={val.firstname}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for="">Last Name</label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                onChange={(event) => onLastNameChange(event, i)}
+                                value={val.lastname}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for="">Email</label>
+                              <input
+                                type="email"
+                                className="form-control"
+                                id="email-desc"
+                                name={`${fieldName}.email`}
+                                onChange={(event) => onEmailChange(event, i)}
+                                value={val.email}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for="">Contact Type</label>
+                              <select
+                                className="form-contact"
+                                aria-label="select"
+                                onChange={(event) =>
+                                  onContactTypeChange(event, i)
+                                }
+                              >
+                                <option selected>Select Type</option>
+                                <option value="HCP">HCP</option>
+                                <option value="Staff">Staff</option>
+                                <option value="Test Users">Test Users</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for="">Country</label>
+                              <select
+                                className="country-form"
+                                aria-label="select"
+                                onChange={(event) => onCountryChange(event, i)}
+                              >
+                                <option selected>Select Country</option>
+                                <option value="India">India</option>
+                                <option value="USA">USA</option>
+                                <option value="Russia">Russia</option>
+                              </select>
+                              {i !== 0 && (
+                                <button
+                                  type="button"
+                                  className="btn btn-filled"
+                                  onClick={() => deleteRecord(i)}
+                                >
+                                  Remove
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    );
+                  })} */}
+                  {/* <div className="row">
+                    <div className="col-12 col-md-6">
+                      <div className="form-group">
+                        <label for="">First Name</label>
+                        <input type="text" className="form-control" />
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-6">
+                      <div className="form-group">
+                        <label for="">Last Name</label>
+                        <input type="text" className="form-control" />
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-6">
+                      <div className="form-group">
+                        <label for="">Email</label>
+                        <input
+                          type="email"
+                          className="form-control"
+                          id="email-desc"
+                        />
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-6">
+                      <div className="form-group">
+                        <label for="">Contact Type</label>
+                        <select className="form-contact" aria-label="select">
+                          <option selected>Select Type</option>
+                          <option value="1">HCP</option>
+                          <option value="2">HCP</option>
+                          <option value="3">HCP</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-6">
+                      <div className="form-group">
+                        <label for="">Country</label>
+                        <select className="country-form" aria-label="select">
+                          <option selected>Select Country</option>
+                          <option value="1">India</option>
+                          <option value="2">USA</option>
+                          <option value="3">Russia</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div> */}
+                {/* </form>
+                <form id="add_file" className={"tab-pane" + activeExcel}>
+                  <div className="form-group files">
+                    <input
+                      type="file"
+                      className="form-control"
+                      multiple=""
+                      onChange={onFileChange}
+                    />
+                  </div>
+                </form>
+              </div>
+              <div className="hcp-modal-action">
+                <div className="hcp-action-block">
+                  <div className="hcp-remove">
+                    <button
+                      type="button"
+                      className="btn btn-filled"
+                      onClick={addMoreHcp}
+                    >
+                      Add
+                    </button>
+                  </div> */}
+                  {/* <div className="hcp-remove">
+                    <button type="button" className="btn btn-filled">
+                      <img src={path_image + "delete.svg"} alt="Delete HCP" />
+                    </button>
+                  </div> */}
+                  {/* <ul className="nav nav-tabs" role="tablist">
+                    <li className="nav-item add_hcp">
+                      <a
+                        onClick={addHcp}
+                        className="nav-link active btn-bordered"
+                        data-bs-toggle="tab"
+                        href="#add_hcp_form"
+                      >
+                        Add HCP +
+                      </a>
+                    </li>
+                    <li className="nav-item add-file">
+                      <a
+                        onClick={addFile}
+                        className="nav-link btn-filled"
+                        data-bs-toggle="tab"
+                        href="#add_file"
+                      >
+                        Add File
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div> */}
+          {/* <div className="modal-footer">
             <button
               type="button"
               className="btn btn-primary save btn-filled"
@@ -944,7 +1161,7 @@ const VerifyHCP = (props) => {
             >
               Save
             </button>
-          </div>
+          </div> */}
         </div>
         {/* </div>
         </div> */}

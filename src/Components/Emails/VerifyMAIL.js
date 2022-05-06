@@ -151,7 +151,7 @@ const VerifyMAIL = (props) => {
         : props.getDraftData.campaign,
       tags: finalTags,
       template_source_code:props.getEmailData
-      ? props.getEmailData.source_code
+      ? props.getEmailData.template
       : props.getDraftData.source_code,
       campaign_id: props.getEmailData ? "" : props.getDraftData.campaign_id,
       //   campaign_data: {
@@ -178,8 +178,9 @@ const VerifyMAIL = (props) => {
         if (res.data.status_code === 200) {
           popup_alert({
             visible: "show",
-            message: "Test mail sent successfuly",
+            message: "Mail sent successfuly",
             type: "success",
+            redirect:"/EmailList"
           });
         } else {
           popup_alert({
