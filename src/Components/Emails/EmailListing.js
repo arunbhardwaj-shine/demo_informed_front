@@ -57,7 +57,7 @@ const EmailList = (props) => {
   };
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-  const getData = () => {
+  const getData = (stage) => {
     loader("show");
     const body = {
       user_id: 18207,
@@ -69,7 +69,9 @@ const EmailList = (props) => {
       .then((res) => {
         if(res.data.status_code == 200){
           setSendListData(res.data.response.data.emails);
-          setFilterData(res.data.response.data.filter);
+          if(stage == "initial"){
+            setFilterData(res.data.response.data.filter);
+          }
           setUserData(res.data.response.data.user);
         }else{
           toast.success(res.data.message);
@@ -104,7 +106,7 @@ const EmailList = (props) => {
   };
 
   const submitHandler = (event) => {
-    getData();
+    getData('progress');
     setSubmiHandle(1);
     event.preventDefault();
     return false;
@@ -162,7 +164,7 @@ const EmailList = (props) => {
   //   data.tags;
 
   useEffect(() => {
-    getData();
+    getData('initial');
   }, []);
 
 const showDeleteButtons = () => {
@@ -237,7 +239,14 @@ const showDeleteButtons = () => {
       filtertags.push(ftag);
       setFilterTags(filtertags);
     }
-    console.log(filtertags);
+
+    let getfilter = filter;
+    if(getfilter.hasOwnProperty('tags')){
+      getfilter.tags = filtertags;
+    }else{
+      getfilter = Object.assign({ tags: filtertags }, filter);
+    }
+    setFilter(getfilter);
   };
 
   const handleOnFilterCreator = (fcreator) => {
@@ -249,7 +258,14 @@ const showDeleteButtons = () => {
       filtercreator.push(fcreator);
       setFilterCreators(filtercreator);
     }
-    console.log(filtercreator);
+
+    let getfilter = filter;
+    if(getfilter.hasOwnProperty('creator')){
+      getfilter.creator = filtercreator;
+    }else{
+      getfilter = Object.assign({ creator: filtercreator }, filter);
+    }
+    setFilter(getfilter);
   };
 
   const handleOnFilterDate = (fdate) => {
@@ -261,7 +277,14 @@ const showDeleteButtons = () => {
       filterdate.push(fdate);
       setFilterDate(filterdate);
     }
-    console.log(filterdate);
+
+    let getfilter = filter;
+    if(getfilter.hasOwnProperty('date')){
+      getfilter.date = filterdate;
+    }else{
+      getfilter = Object.assign({ date: filterdate }, filter);
+    }
+    setFilter(getfilter);
   };
 
   const handleOnFilterCampaign = (fcampaign) => {
@@ -273,7 +296,14 @@ const showDeleteButtons = () => {
       filtercampaign.push(fcampaign);
       setFilterCampaigns(filtercampaign);
     }
-    console.log(filtercampaign);
+
+    let getfilter = filter;
+    if(getfilter.hasOwnProperty('campaign')){
+      getfilter.campaign = filtercampaign;
+    }else{
+      getfilter = Object.assign({ campaign: filtercampaign }, filter);
+    }
+    setFilter(getfilter);
   };
 
   const clearFilter = () => {
@@ -284,15 +314,12 @@ const showDeleteButtons = () => {
     setFilterCreators([]);
     setFilterDate([]);
     setFilterCampaigns([]);
+    setFilter([]);
   };
 
   const applyFilter = () => {
-      console.log("Apply Filters");
+    getData('progress');
   }
-
-
-
-
 
   return (
     <>
@@ -606,7 +633,7 @@ const showDeleteButtons = () => {
                     </div>
                     {
                       data.status == 1 ?
-                      
+
                       <div className="mailbox-buttons">
                         <div className="send_new"><button className="btn btn-primary btn-filled send-new" onClick={() => draftNavigate(data.id,
                             data.pdf_id,
@@ -933,7 +960,7 @@ const showDeleteButtons = () => {
         )}
         </div>
       </div> */}
-        
+
 
         {/*Modal for delete Email listing*/}
         <div className="delete">
@@ -952,8 +979,8 @@ const showDeleteButtons = () => {
             </div>
         </Modal.Body>
 
-       
-            {/* 
+
+            {/*
                 <div className="modal-dialog modal-dialog-centered">
   					<div className="modal-content">
 
@@ -975,7 +1002,7 @@ const showDeleteButtons = () => {
   				  </div>
               */
             }
-  				  
+
           </Modal>
 				</div>
 
@@ -983,7 +1010,7 @@ const showDeleteButtons = () => {
         <div className="delete-confirm">
           <Modal className="modal send-confirm" id="action-confirm" show={verificationpopup}>
               <Modal.Header>
-              
+
               <button type="button" className="btn-close" data-bs-dismiss="modal" onClick={(e) => hideVerificationPopup()}></button>
             </Modal.Header>
 
