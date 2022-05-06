@@ -373,7 +373,7 @@ const showDeleteButtons = () => {
                                       value={item}
                                       onChange={() => handleOnFilterTags(item)}
                                     />
-                                    {/*<span className="checkmark"></span>*/}
+                                    <span className="checkmark"></span>
                                   </div>
                                     {item}
                                   </li>
@@ -401,7 +401,7 @@ const showDeleteButtons = () => {
                                       value={item}
                                       onChange={() => handleOnFilterCreator(item)}
                                     />
-                                    {/*<span className="checkmark"></span>*/}
+                                    <span className="checkmark"></span>
                                   </div>
                                     {item}
                                   </li>
@@ -428,7 +428,7 @@ const showDeleteButtons = () => {
                                     value={item}
                                     onChange={() => handleOnFilterDate(item)}
                                   />
-                                    {/*<span className="checkmark"></span>*/}
+                                    <span className="checkmark"></span>
                                   </div>
                                     {item}
                                   </li>
@@ -453,7 +453,7 @@ const showDeleteButtons = () => {
                                     value='Sent'
                                     onChange={() => handleOnFilterCampaign('Sent')}
                                   />
-                                  {/*<span className="checkmark"></span>*/}
+                                  <span className="checkmark"></span>
                                 </div>
                                 Sent
                               </li>
@@ -466,7 +466,7 @@ const showDeleteButtons = () => {
                                   value='Draft'
                                   onChange={() => handleOnFilterCampaign('Draft')}
                                 />
-                                  {/*<span className="checkmark"></span>*/}
+                                  <span className="checkmark"></span>
                                 </div>
                                 Draft
                               </li>
@@ -479,7 +479,7 @@ const showDeleteButtons = () => {
                                   value='draft-approved'
                                   onChange={() => handleOnFilterCampaign('draft-approved')}
                                 />
-                                  {/*<span className="checkmark"></span>*/}
+                                  <span className="checkmark"></span>
                                 </div>
                                 Draft Approved
                               </li>
