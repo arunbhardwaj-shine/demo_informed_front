@@ -45,6 +45,7 @@ import Registration from "./Components/Webinar/Registration/Registration";
 import Preview from "./Components/Webinar/Registration/Preview";
 import EditorEmail from "./Components/Webinar/Registration/EditorEmail";
 import Readers from "./Components/Webinar/Readers/Readers";
+import EmailStats from "./Components/Webinar/Email Stats/EmailStats";
 
 let platform = 0;
 let show = 0;
@@ -162,6 +163,10 @@ ReactDOM.render(
                         <Route
                           path="/webinar/registration"
                           element={<Registration />}
+                        />
+                        <Route
+                          path="/webinar/emailstats"
+                          element={<EmailStats />}
                         />
                       </Route>
                     </React.Fragment>
