@@ -5,6 +5,7 @@ import axios from "axios";
 import { getDraftData } from "../../actions";
 import { connect } from "react-redux";
 import Modal from "react-bootstrap/Modal";
+import Accordion from 'react-bootstrap/Accordion';
 import { toast, ToastContainer } from "react-toastify";
 
 const EmailList = (props) => {
@@ -13,6 +14,7 @@ const EmailList = (props) => {
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
+  const [filterdata, setFilterData] = useState([]);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("");
   const [submiHandle, setSubmiHandle] = useState("");
@@ -24,7 +26,12 @@ const EmailList = (props) => {
   const [deletestatus, setDeleteStatus] = useState(false);
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [verificationpopup, setVerificationPopup] = useState(false);
+  const [showfilter, setShowFilter] = useState(false);
   const [deletecardid, setDeleteCardId] = useState();
+  const [filtertags, setFilterTags] = useState([]);
+  const [filtercreator, setFilterCreators] = useState([]);
+  const [filterdate, setFilterDate] = useState([]);
+  const [filtercampaign, setFilterCampaigns] = useState([]);
 
   const showViewEmailModal = (id) => {
       if(typeof SendListData !== "undefined"){
@@ -60,8 +67,14 @@ const EmailList = (props) => {
     axios
       .post(`emailapi/getlist`, body)
       .then((res) => {
-        setSendListData(res.data.response.data.emails);
-        setUserData(res.data.response.data.user);
+        if(res.data.status_code == 200){
+          setSendListData(res.data.response.data.emails);
+          setFilterData(res.data.response.data.filter);
+          setUserData(res.data.response.data.user);
+        }else{
+          toast.success(res.data.message);
+          // console.log("Toast");
+        }
         loader("hide");
       })
       .catch((err) => {
@@ -82,16 +95,7 @@ const EmailList = (props) => {
       .post(`emailapi/resend_email`, body)
       .then((res) => {
         loader("hide");
-        toast.success("Email send successfully.", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          type: "success",
-        });
+        toast.success("Email send successfully.");
       })
       .catch((err) => {
         loader("hide");
@@ -224,6 +228,68 @@ const showDeleteButtons = () => {
 
   }
 
+  const handleOnFilterTags = (ftag) => {
+    let tag_index = filtertags.indexOf(ftag);
+    if (tag_index !== -1) {
+      filtertags.splice(tag_index, 1);
+      setFilterTags(filtertags);
+    } else {
+      filtertags.push(ftag);
+      setFilterTags(filtertags);
+    }
+    console.log(filtertags);
+  };
+
+  const handleOnFilterCreator = (fcreator) => {
+    let tag_index = filtercreator.indexOf(fcreator);
+    if (tag_index !== -1) {
+      filtercreator.splice(tag_index, 1);
+      setFilterCreators(filtercreator);
+    } else {
+      filtercreator.push(fcreator);
+      setFilterCreators(filtercreator);
+    }
+    console.log(filtercreator);
+  };
+
+  const handleOnFilterDate = (fdate) => {
+    let tag_index = filterdate.indexOf(fdate);
+    if (tag_index !== -1) {
+      filterdate.splice(tag_index, 1);
+      setFilterDate(filterdate);
+    } else {
+      filterdate.push(fdate);
+      setFilterDate(filterdate);
+    }
+    console.log(filterdate);
+  };
+
+  const handleOnFilterCampaign = (fcampaign) => {
+    let tag_index = filtercampaign.indexOf(fcampaign);
+    if (tag_index !== -1) {
+      filtercampaign.splice(tag_index, 1);
+      setFilterCampaigns(filtercampaign);
+    } else {
+      filtercampaign.push(fcampaign);
+      setFilterCampaigns(filtercampaign);
+    }
+    console.log(filtercampaign);
+  };
+
+  const clearFilter = () => {
+    document.querySelectorAll("input").forEach((checkbox) => {
+      checkbox.checked = false;
+    });
+    setFilterTags([]);
+    setFilterCreators([]);
+    setFilterDate([]);
+    setFilterCampaigns([]);
+  };
+
+  const applyFilter = () => {
+      console.log("Apply Filters");
+  }
+
 
 
 
@@ -272,15 +338,170 @@ const showDeleteButtons = () => {
               </button>
             </form>
           </div>
-           {/*<div className="filter-by">
-              <button className="btn btn-outline-primary" type="submit">
-              Filter By <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z" fill="#97B6CF"/>
-                <path d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z" fill="#97B6CF"/>
-                <path d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z" fill="#97B6CF"/>
-                </svg>
-              </button>
-            </div>*/}
+          <div className="filter-by nav-item dropdown">
+               <button className="btn btn-secondary dropdown" type="button" id="dropdownMenuButton2" onClick={() => setShowFilter((showfilter) => !showfilter)}>
+               Filter By <svg className="filter-arrow" width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <path d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z" fill="#97B6CF"/>
+               <path d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z" fill="#97B6CF"/>
+               <path d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z" fill="#97B6CF"/>
+               </svg>
+               <svg className="close-arrow" width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                 <rect width="2.09896" height="15.1911" rx="1.04948" transform="matrix(0.720074 0.693897 -0.720074 0.693897 11.0977 0)" fill="#0066BE"/>
+                 <rect width="2.09896" height="15.1911" rx="1.04948" transform="matrix(0.720074 -0.693897 0.720074 0.693897 0 1.45898)" fill="#0066BE"/>
+                 </svg>
+               </button>
+               {/*Code for show filters*/}
+              {
+                showfilter && (
+                  <div className="dropdown-menu filter-options" aria-labelledby="dropdownMenuButton2">
+                  <h4>Filter By</h4>
+                  <Accordion defaultActiveKey="0" flush>
+                      {
+                        filterdata.hasOwnProperty('tags') && filterdata.tags.length > 0 && (
+                          <Accordion.Item className="card" eventKey="0">
+                          <Accordion.Header className="card-header">Tags</Accordion.Header>
+                          <Accordion.Body className="card-body">
+                          <ul>
+                            {
+                              Object.entries(filterdata.tags).map(([index, item]) => (
+                                  <li>
+                                  <div className="select-multiple-option">
+                                    <input
+                                      type="checkbox"
+                                      id={`custom-checkbox-tags-${index}`}
+                                      name="tags[]"
+                                      value={item}
+                                      onChange={() => handleOnFilterTags(item)}
+                                    />
+                                    <span className="checkmark"></span>
+                                  </div>
+                                    {item}
+                                  </li>
+                              ))}
+                            </ul>
+                            </Accordion.Body>
+                            </Accordion.Item>
+                        )
+                      }
+
+                      {
+                        filterdata.hasOwnProperty('creators') && filterdata.creators.length > 0 && (
+                          <Accordion.Item className="card" eventKey="1">
+                          <Accordion.Header className="card-header">Creators</Accordion.Header>
+                          <Accordion.Body className="card-body">
+                          <ul>
+                            {
+                              Object.entries(filterdata.creators).map(([index, item]) => (
+                                  <li>
+                                  <div className="select-multiple-option">
+                                    <input
+                                      type="checkbox"
+                                      id={`custom-checkbox-creator-${index}`}
+                                      name="creator[]"
+                                      value={item}
+                                      onChange={() => handleOnFilterCreator(item)}
+                                    />
+                                    <span className="checkmark"></span>
+                                  </div>
+                                    {item}
+                                  </li>
+                              ))}
+                            </ul>
+                            </Accordion.Body>
+                            </Accordion.Item>
+                        )
+                      }
+                      {
+                        filterdata.hasOwnProperty('created') && filterdata.created.length > 0 && (
+                          <Accordion.Item className="card" eventKey="2">
+                          <Accordion.Header className="card-header">Created</Accordion.Header>
+                          <Accordion.Body className="card-body">
+                          <ul>
+                            {
+                              Object.entries(filterdata.created).map(([index, item]) => (
+                                  <li>
+                                  <div className="select-multiple-option">
+                                  <input
+                                    type="checkbox"
+                                    id={`custom-checkbox-date-${index}`}
+                                    name="date[]"
+                                    value={item}
+                                    onChange={() => handleOnFilterDate(item)}
+                                  />
+                                    <span className="checkmark"></span>
+                                  </div>
+                                    {item}
+                                  </li>
+                              ))}
+                            </ul>
+                            </Accordion.Body>
+                            </Accordion.Item>
+                        )
+                      }
+
+                      <Accordion.Item className="card" eventKey="3">
+                          <Accordion.Header className="card-header">Camapign</Accordion.Header>
+                          <Accordion.Body className="card-body">
+
+                              <ul>
+                              <li>
+                                <div className="select-multiple-option">
+                                  <input
+                                    type="checkbox"
+                                    id={`custom-checkbox-campaign-0`}
+                                    name="campaign[]"
+                                    value='Sent'
+                                    onChange={() => handleOnFilterCampaign('Sent')}
+                                  />
+                                  <span className="checkmark"></span>
+                                </div>
+                                Sent
+                              </li>
+                              <li>
+                                <div className="select-multiple-option">
+                                <input
+                                  type="checkbox"
+                                  id={`custom-checkbox-campaign-1`}
+                                  name="campaign[]"
+                                  value='Draft'
+                                  onChange={() => handleOnFilterCampaign('Draft')}
+                                />
+                                  <span className="checkmark"></span>
+                                </div>
+                                Draft
+                              </li>
+                              <li>
+                                <div className="select-multiple-option">
+                                <input
+                                  type="checkbox"
+                                  id={`custom-checkbox-campaign-2`}
+                                  name="campaign[]"
+                                  value='draft-approved'
+                                  onChange={() => handleOnFilterCampaign('draft-approved')}
+                                />
+                                  <span className="checkmark"></span>
+                                </div>
+                                Draft Approved
+                              </li>
+                              </ul>
+                          </Accordion.Body>
+                      </Accordion.Item>
+                  </Accordion>
+
+                  <div className="filter-footer">
+                    <button className="btn btn-primary btn-bordered" onClick={clearFilter}>Clear</button>
+                    <button className="btn btn-primary btn-filled" onClick={applyFilter}>Apply</button>
+                  </div>
+                </div>
+                )
+              }
+
+               <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                   <li><a className="dropdown-item" href="#">Filter1 <img src={path + "filter-close.svg"} alt="Close-filter" /></a></li>
+                   <li><a className="dropdown-item" href="#">Filter2 <img src={path + "filter-close.svg"} alt="Close-filter" /></a></li>
+                   <li><a className="dropdown-item" href="#">Filter3 <img src={path + "filter-close.svg"} alt="Close-filter" /></a></li>
+                   </ul>
+             </div>
             <div className="clear-search">
               <button className="btn btn-outline-primary" onClick={(e) => showDeleteButtons()}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -311,11 +532,13 @@ const showDeleteButtons = () => {
         </div> */}
       <div className="email-result">
         <div className="col email-result-block">
+          <div className="email_box_block">
           <div className="email-block-add">
             <a href="/EmailArticleSelect">
               <img src={path_image + "add-button.svg"} alt="" />
             </a>
             <p>Create New Email</p>
+          </div>
           </div>
             {SendListData.map((data) => {
               //console.log(data)
@@ -326,6 +549,7 @@ const showDeleteButtons = () => {
                     {data.status == 2 ? "Draft" : "Approved Draft"}
                   </span></div>
                   <div className="mail-box-content">
+                    <div className="mail-box-content-top">
                     <h5>{data.subject}</h5>
                     <p>{data.description}</p>
                     <div className="mailbox-table">
@@ -379,8 +603,10 @@ const showDeleteButtons = () => {
                         </div><span>{data.total_Click}</span></li>
                       </ul>
                     </div>
+                    </div>
                     {
                       data.status == 1 ?
+                      
                       <div className="mailbox-buttons">
                         <div className="send_new"><button className="btn btn-primary btn-filled send-new" onClick={() => draftNavigate(data.id,
                             data.pdf_id,
@@ -398,7 +624,7 @@ const showDeleteButtons = () => {
                       : <div className="mailbox-buttons">
             <div className="mailbox-buttons-list">
                         {data.route_location == "VerifyMAIL" ? <button className="btn btn-primary send btn-bordered" onClick={(e) => showModal('send',data.id)}>Send</button> : ""}
-                        <button className="btn btn-primary edit" onClick={() => draftNavigate(data.id,
+                        <button className="btn btn-primary edit btn-filled" onClick={() => draftNavigate(data.id,
                             data.pdf_id,
                             data.route_location,
                             data.campaign,
@@ -427,19 +653,14 @@ const showDeleteButtons = () => {
         </div>
       </div>
 
-      <div className="modal send-confirm" id="resend-confirm">
-          <Modal show={isOpen} onHide={hideModal}>
-              <div className="modal-dialog modal-dialog-centered">
-              <div className="modal-content">
+      <div>
+          <Modal className="modal send-confirm" id="resend-confirm" show={isOpen}>
+              <Modal.Header>
+                <button type="button" className="btn-close" onClick={hideModal}></button>
+              </Modal.Header>
 
-
-                <div className="modal-header">
-                      <button type="button" className="btn-close" onClick={hideModal}></button>
-                </div>
-
-
-                <div className="modal-body">
-                <img src="assets/images/alert.png" alt="" />
+              <Modal.Body>
+                <img src={path + "alert.png"} alt="" />
                 <h4>This email will be sent to everybody who has not opened the email  </h4>
 
                 <div className="modal-buttons">
@@ -447,17 +668,146 @@ const showDeleteButtons = () => {
                   { getreference == "resend" ? <button type="button" className="btn btn-primary btn-bordered" onClick={(e) => showViewEmailModal(campaign_id)}>View Email</button> : "" }
                   <button type="button" className="btn btn-primary btn-bordered light" onClick={hideModal}>Cancel</button>
                 </div>
-                </div>
-
-              </div>
-              </div>
+              </Modal.Body>
           </Modal>
       </div>
 
       // Modal for view Email
-      <div className="modal" id="mail-view">
-    <Modal show={viewEmailModal} onHide={hideEmailModal}>
-      <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div>
+    <Modal id="mail-view" show={viewEmailModal} onHide={hideEmailModal}>
+
+    <Modal.Header>
+      <h4>Email View</h4>
+      <button type="button" className="btn-close" data-bs-dismiss="modal" onClick={hideEmailModal}></button>
+    </Modal.Header>
+
+    <Modal.Body>
+    {typeof viewEmailData !== "undefined" && (
+        <div className="modal-body-view">
+        <div className="mail-box-content">
+        <div className="mail-box-heading-block">
+          <div className="mail-box-heading">
+          <h5>{viewEmailData[0].subject}</h5>
+          <p>{viewEmailData[0].description}</p>
+          </div>
+          <div className="mail-view-btn">
+            <button className="btn btn-primary btn-bordered" onClick={(e) => showModal('send',campaign_id)}>Resend</button>
+          </div>
+          </div>
+          <div className="mailbox-table">
+            <table>
+            <tbody>
+              <tr><th>Campaign</th><td>{viewEmailData[0].campaign}</td></tr>
+              <tr><th>List</th><td>{viewEmailData[0].list}</td></tr>
+              <tr><th>Content Title </th><td>{viewEmailData[0].article_title}</td></tr>
+              <tr><th>Docintel Link </th><td><a href={viewEmailData[0].docintel_link} target="_blank">{viewEmailData[0].docintel_link}</a></td></tr>
+            </tbody>
+            </table>
+
+          </div>
+            <div className="mail-time"><span>{viewEmailData[0].created_at}</span></div>
+          <div className="mailbox-tags">
+            <h6>Tags</h6>
+            <ul>
+            { viewEmailData[0].tags != "" ?
+              viewEmailData[0].tags.map((tag) => {
+                return ( <li className="list1">{tag}</li> );
+              })
+              : <li className="list1">N/A</li>
+            }
+            </ul>
+          </div>
+          <div className="mail-stats">
+            <ul>
+            <li>
+              <div className="mail_send">
+              <h6>Emails send</h6>
+              <div className="mail-stats-list">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="20" cy="20" r="18.5" stroke="#986CA5" stroke-width="3" stroke-linejoin="round"/>
+                <g clip-path="url(#clip0_698_88)">
+                <path d="M21.905 10.0557C21.5703 10.1568 21.264 10.3392 21.0106 10.5926L11.933 19.6701C11.6745 19.9286 11.4958 20.2371 11.3965 20.5645L20.1535 18.8131L21.905 10.0557Z" fill="#986CA5"/>
+                <path d="M29.3698 15.9047L24.0578 10.5925C23.7892 10.3241 23.4613 10.136 23.1032 10.0391L21.2259 19.426C21.1795 19.6579 20.9982 19.8393 20.7663 19.8857L11.3793 21.7632C11.4745 22.1129 11.6586 22.4434 11.9328 22.7176L12.3995 23.1842L10.1715 25.4121C9.9428 25.641 9.9428 26.012 10.1717 26.2408C10.2861 26.3551 10.436 26.4124 10.586 26.4124C10.736 26.4124 10.8858 26.3551 11.0002 26.2408L13.2282 24.0129L14.1745 24.9593L10.1715 28.9623C9.9428 29.191 9.9428 29.5621 10.1717 29.7908C10.2861 29.9052 10.436 29.9625 10.586 29.9625C10.736 29.9625 10.8858 29.9052 11.0002 29.7908L15.0032 25.7878L15.9496 26.7343L13.7218 28.9623C13.4929 29.191 13.4929 29.5621 13.7218 29.7908C13.8361 29.9052 13.9861 29.9625 14.1361 29.9625C14.2861 29.9625 14.4359 29.9052 14.5503 29.7908L16.7783 27.563L17.2449 28.0296C17.6508 28.4354 18.1919 28.6589 18.7686 28.6589C19.3454 28.6589 19.8866 28.4354 20.2924 28.0296L29.3698 18.9522C30.2101 18.1119 30.2101 16.7448 29.3698 15.9047Z" fill="#986CA5"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_698_88">
+                <rect width="20" height="20" fill="white" transform="translate(10 10)"/>
+                </clipPath>
+                </defs>
+                </svg>
+
+                <span>{viewEmailData[0].total_Sent}</span>
+              </div>
+              </div>
+            </li>
+
+            <li>
+              <div className="mail_view">
+              <h6>Emails bounced</h6>
+              <div className="mail-stats-list">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="20" cy="20" r="18.5" stroke="#F58289" stroke-width="3" stroke-linejoin="round"/>
+                <g clip-path="url(#clip0_698_97)">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M27.9098 12.283C27.5648 12.0981 27.1782 12.0001 26.7771 12.0001L12.4111 12C12.002 12 11.6165 12.1028 11.2788 12.2833L19.594 17.8268L27.9098 12.283ZM20.6461 25.1001C20.5929 24.8003 20.5651 24.4917 20.5651 24.1766C20.5651 21.2795 22.9136 18.931 25.8107 18.931C27.0975 18.931 28.2762 19.3944 29.1888 20.1634L29.1889 14.2817C29.1888 13.8568 29.0782 13.4485 28.8715 13.0884L19.9582 19.0308C19.738 19.1776 19.451 19.1777 19.2307 19.0309L10.3172 13.0886C10.1158 13.4407 10 13.8479 10 14.2819V15.0203V16.3318V17.8295L10.0001 19.1409L10 20.6387V21.9502V22.6886C10.0001 23.3309 10.2514 23.9359 10.7078 24.3923C11.1642 24.8487 11.7694 25.1001 12.4115 25.1001L20.6461 25.1001ZM25.804 28.3757C28.1216 28.3757 30.0004 26.4969 30.0004 24.1792C30.0004 21.8616 28.1216 19.9828 25.804 19.9828C23.4863 19.9828 21.6075 21.8616 21.6075 24.1792C21.6075 26.4969 23.4863 28.3757 25.804 28.3757ZM25.1052 26.6285C25.1052 26.2422 25.4184 25.9291 25.8047 25.9291C26.1909 25.9291 26.504 26.2422 26.504 26.6285C26.504 27.0148 26.1909 27.3279 25.8047 27.3279C25.4185 27.3279 25.1052 27.0148 25.1052 26.6285ZM25.8046 24.9097C26.1909 24.9097 26.504 24.583 26.504 24.1799V21.7623C26.504 21.3593 26.1909 21.0325 25.8046 21.0325C25.4183 21.0325 25.1052 21.3593 25.1052 21.7623V24.1799C25.1052 24.583 25.4183 24.9097 25.8046 24.9097Z" fill="#F58289"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_698_97">
+                <rect width="20" height="20" fill="white" transform="translate(10 10)"/>
+                </clipPath>
+                </defs>
+                </svg>
+                <span>60%</span>
+              </div>
+              </div>
+            </li>
+            <li>
+              <div className="mail_open">
+              <h6>Emails opened</h6>
+              <div className="mail-stats-list">
+
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="20" cy="20" r="18.5" stroke="#FAC755" stroke-width="3" stroke-linejoin="round"/>
+                <path d="M20 21.7875L11.3125 17.1063C11.4295 16.6343 11.7283 16.2277 12.1437 15.975L19.7062 11.95C19.7963 11.9008 19.8973 11.875 20 11.875C20.1027 11.875 20.2037 11.9008 20.2937 11.95L27.825 15.9563C28.0375 16.0817 28.2231 16.2478 28.3711 16.4452C28.5191 16.6425 28.6266 16.8672 28.6875 17.1063L20 21.7875Z" fill="#FAC755"/>
+                <path d="M17.25 21.7251L11.25 25.9251V18.4939L17.25 21.7251Z" fill="#FAC755"/>
+                <path d="M21.5189 22.3875L28.4626 27.25C28.2924 27.517 28.0579 27.7371 27.7805 27.89C27.5031 28.0429 27.1918 28.1237 26.8751 28.125H13.1251C12.8084 28.1237 12.4971 28.0429 12.2197 27.89C11.9423 27.7371 11.7078 27.517 11.5376 27.25L18.4814 22.3875L19.7064 23.05C19.7965 23.099 19.8975 23.1247 20.0001 23.1247C20.1027 23.1247 20.2037 23.099 20.2939 23.05L21.5189 22.3875Z" fill="#FAC755"/>
+                <path d="M28.75 18.4939V25.9251L22.75 21.7251L28.75 18.4939Z" fill="#FAC755"/>
+                </svg>
+                <span>{viewEmailData[0].total_Opened_pr}%</span>
+              </div>
+              </div>
+            </li>
+            <li><div className="mail_click">
+              <div className="mail_click_box">
+              <h6>CTR 1</h6>
+              <div className="mail_click_box_content">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="20" cy="20" r="18.5" stroke="#39CABC" stroke-width="3" stroke-linejoin="round"/>
+                  <path d="M14.955 16.6329C14.8178 16.1684 14.6861 15.703 14.5871 15.2572C13.9363 14.8722 13.4936 14.1715 13.4936 13.3617C13.4936 12.1434 14.4842 11.1535 15.7017 11.1535C16.9192 11.1535 17.9098 12.1442 17.9098 13.3617C17.9098 13.5292 17.8872 13.6906 17.8521 13.8472C18.0633 14.3125 18.234 14.8363 18.3837 15.3687C18.8046 14.8075 19.0633 14.1177 19.0633 13.3617C19.0633 11.5043 17.5591 10 15.7017 10C13.8443 10 12.3408 11.5043 12.3408 13.3617C12.3408 14.961 13.4593 16.2931 14.955 16.6329Z" fill="#39CABC"/>
+                  <path d="M12.6329 24.5915C13.4615 23.696 14.3913 24.0467 15.6361 24.2361C16.7054 24.4006 17.7584 24.1005 17.6883 23.5229C17.5776 22.5884 17.4217 22.1706 17.0671 20.9602C16.7842 19.9976 16.2471 18.2626 15.7584 16.604C15.1037 14.385 14.9143 13.3546 15.7857 13.0974C16.7249 12.8238 17.2635 14.1582 17.7514 16.0085C18.3071 18.1145 18.5994 19.0444 18.7631 18.9953C19.0515 18.9127 18.6571 18.0116 19.4116 17.7895C20.3547 17.5152 20.5371 18.2525 20.8013 18.1784C21.0655 18.0989 20.9759 17.3523 21.728 17.1325C22.4841 16.9142 22.8637 17.8448 23.1754 17.7521C23.4841 17.6609 23.4771 17.325 23.9432 17.1917C24.41 17.053 26.1668 17.8394 27.1723 21.2743C28.4342 25.5931 27.0125 26.3959 27.4435 27.8581L21.8107 30C21.3547 28.9033 19.9424 28.8222 18.693 28.1231C17.4342 27.4146 16.5792 26.0342 13.2986 26.1013C12.0647 26.1262 12.1232 25.1426 12.6329 24.5915Z" fill="#39CABC"/>
+                  </svg>
+                <span>{viewEmailData[0].total_Click_pr}%</span>
+              </div>
+              </div>
+            </div></li>
+            </ul>
+          </div>
+
+          </div>
+          <div className="chart-description">
+            <div className="chart-description-view">
+              <img src={path_image+"chart-description.png"} alt="" />
+            </div>
+          </div>
+        </div>
+        )}
+    </Modal.Body>
+    </Modal>
+  </div>
+
+
+
+
+      {/* <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div className="modal-content">
           <div className="modal-header">
             <h4>Email View</h4>
@@ -582,14 +932,29 @@ const showDeleteButtons = () => {
           </div>
         )}
         </div>
-      </div>
-        </Modal>
-  </div>
+      </div> */}
+        
 
         {/*Modal for delete Email listing*/}
-        <div className="modal send-confirm" id="delete-confirm">
-          <Modal show={confirmationpopup}>
-  				  <div className="modal-dialog modal-dialog-centered">
+        <div className="delete">
+          <Modal className="modal send-confirm" id="delete-confirm" show={confirmationpopup}>
+          <Modal.Header>
+          {/* <Modal.Title>Heading Text</Modal.Title>*/}
+          <button type="button" className="btn-close" data-bs-dismiss="modal" onClick={(e) => hideConfirmationModal()}></button>
+        </Modal.Header>
+
+        <Modal.Body>
+              <img src={path + "alert.png"} alt="" />
+  						<h4>The Email Campaign will be deleted from the list.<br/>Are you sure you want to delete it?</h4>
+            <div className="modal-buttons">
+              <button type="button" className="btn btn-primary btn-filled" onClick={(e) => deleteEmail()}>Yes Please!</button>
+              <button type="button" className="btn btn-primary btn-bordered light" onClick={(e) => hideConfirmationModal()} >Cancel</button>
+            </div>
+        </Modal.Body>
+
+       
+            {/* 
+                <div className="modal-dialog modal-dialog-centered">
   					<div className="modal-content">
 
   					  <div className="modal-header">
@@ -608,13 +973,31 @@ const showDeleteButtons = () => {
 
   					</div>
   				  </div>
+              */
+            }
+  				  
           </Modal>
 				</div>
 
         {/*Modal for Verification*/}
-        <div className="modal send-confirm" id="action-confirm">
-          <Modal show={verificationpopup}>
-  				  <div className="modal-dialog modal-dialog-centered">
+        <div className="delete-confirm">
+          <Modal className="modal send-confirm" id="action-confirm" show={verificationpopup}>
+              <Modal.Header>
+              
+              <button type="button" className="btn-close" data-bs-dismiss="modal" onClick={(e) => hideVerificationPopup()}></button>
+            </Modal.Header>
+
+            <Modal.Body>
+              <img src={path_image+"success.png"} alt="" />
+  						<h4>The HCP record has been deleted <br />successfully !</h4>
+                <div className="modal-buttons">
+                  <button type="button" className="btn btn-primary btn-bordered light" onClick={(e) => hideVerificationPopup()}>Close</button>
+                </div>
+            </Modal.Body>
+
+
+
+  				  {/* <div className="modal-dialog modal-dialog-centered">
   					<div className="modal-content">
   					  <div className="modal-header">
   						<button type="button" className="btn-close" data-bs-dismiss="modal" onClick={(e) => hideVerificationPopup()}></button>
@@ -628,7 +1011,7 @@ const showDeleteButtons = () => {
   					  </div>
 
   					</div>
-  				  </div>
+  				  </div> */}
           </Modal>
 				</div>
     </>
