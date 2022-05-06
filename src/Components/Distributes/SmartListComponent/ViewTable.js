@@ -16,15 +16,21 @@ const ViewTable = (props) => {
   });
 
   //let validator = new SimpleReactValidator();
+  const [editable, setEditable] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
 
   const [validator] = React.useState(new SimpleReactValidator());
   const [validator2] = React.useState(new SimpleReactValidator());
   const [validator3] = React.useState(new SimpleReactValidator());
 
+  const [update, setUpdate] = useState(0);
   const [data, setData] = useState(0);
   const [fileValidationMessage, setFileValidationMeassage] = useState(0);
   const [emailData, setEmailData] = useState("");
   const [search, setSearch] = useState("");
+  const [deleteConfirmation, setOpenDeleteConfirmation] = useState(false);
+
+  const [profile_user_id, setProfileUserId] = useState();
 
   const [validator3Counter, setValidator3Counter] = useState(0);
 
@@ -58,6 +64,7 @@ const ViewTable = (props) => {
   const [getlistid, setListId] = useState("");
   const [getlistname, setListName] = useState("");
   const [getlistcount, setListCount] = useState("");
+  const [reRender, setReRender] = useState(0);
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [show, setShow] = useState(false);
   const [hpc, setHpc] = useState([
@@ -73,7 +80,7 @@ const ViewTable = (props) => {
   const handleShow = () => setShow(true);
 
   const [showUploadMenu, setShowUploadMenu] = useState(false);
-  const [render, setReRender] = useState(0);
+  const [render, setReRenders] = useState(0);
   const handleCloseUploadMenu = () => setShowUploadMenu(false);
   const handleShowUploadMenu = () => {
     setShowUploadMenu(true);
@@ -85,10 +92,11 @@ const ViewTable = (props) => {
 
   const [counter, setCounter] = useState([0]);
 
-  useEffect(() => {
-    console.log("HERE123456");
-
-  });
+  const editButtonClicked = () => {
+    let temp_val = 1 - editable;
+    setEditable(temp_val);
+    setUpdate(update + 1);
+  };
 
   const onFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -203,7 +211,7 @@ const ViewTable = (props) => {
       .post(`distributes/add_update_list`, body)
       .then((res) => {
         loader("hide");
-        window.location.href = '/SmartList';
+        window.location.href = "/SmartList";
       })
       .catch((err) => {
         console.log(err);
@@ -396,8 +404,14 @@ const ViewTable = (props) => {
         });
 
         if (result) {
-          var first_name = body.username.substring(0, body.username.lastIndexOf(" ") + 1);
-          var last_name = body.username.substring(body.username.lastIndexOf(" ") + 1, body.username.length);
+          var first_name = body.username.substring(
+            0,
+            body.username.lastIndexOf(" ") + 1
+          );
+          var last_name = body.username.substring(
+            body.username.lastIndexOf(" ") + 1,
+            body.username.length
+          );
 
           result[0].email = body.email;
           result[0].country = body.country;
@@ -446,20 +460,48 @@ const ViewTable = (props) => {
     }
   };
 
-  const deleteReader = (profile_user_id) => {
+  const deleteReader = async (profile_user_id) => {
+    // const filtered_list = editList.filter((data) => {
+    //   return data.profile_user_id != profile_user_id;
+    // });
+    // console.log("filtered list");
+    // console.log(filtered_list);
+    // setEditList(filtered_list);
+    const body = {
+      // user_list: filtered_list.map((data) => {
+      //   return data.profile_user_id;
+      // }),
+      smart_list_id: getlistid,
+      user_id: 18207,
+      profile_user_id: profile_user_id,
+    };
+
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    loader("show");
+    await axios
+      .post(`distributes/delete_reader`, body)
+      .then((res) => {
+        console.log(res);
+
+        loader("hide");
+        //  window.location.href = "/SmartList";
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
     const filtered_list = editList.filter((data) => {
       return data.profile_user_id != profile_user_id;
     });
-    console.log("filtered list");
-    console.log(filtered_list);
+
     setEditList(filtered_list);
-    const body = {
-      user_list: filtered_list.map((data) => {
-        return data.profile_user_id;
-      }),
-      smart_list_id: getlistid,
-      user_id: 18207,
-    };
+
+    //setReRenders(reRender + 1);
+  };
+
+  const editing = (event, p) => {
+    console.log(event);
+    // console.log(p);
   };
 
   const onDelete = async ({
@@ -471,20 +513,26 @@ const ViewTable = (props) => {
     country,
     profile_user_id,
   }) => {
-    confirmAlert({
-      title: "Confirm to submit",
-      message: "Are you sure to do this.",
-      buttons: [
-        {
-          label: "Yes",
-          onClick: () => deleteReader(profile_user_id),
-        },
-        {
-          label: "No",
-          onClick: () => alert("Click No"),
-        },
-      ],
-    });
+    setIsOpen(true);
+    setProfileUserId(profile_user_id);
+
+    // setIsOpen(true);
+    // confirmAlert({
+    //   title: "Confirm to submit",
+    //   message: "Are you sure to do this.",
+    //   buttons: [
+    //     {
+    //       label: "Yes",
+    //       onClick: () => deleteReader(profile_user_id),
+    //     },
+    //     {
+    //       label: "No",
+    //       onClick: () => alert("Click No"),
+    //     },
+    //   ],
+    // });
+
+    //  setIsOpen(true);
   };
 
   const onFirstNameChange = (e, i) => {
@@ -606,16 +654,25 @@ const ViewTable = (props) => {
 
   const searchChange = (e) => {
     setSearch(e.target.value);
+    //console.log(e.target.value);
+    if (e.target.value === "") {
+      setEditList(updateData);
+    }
   };
 
   const submitHandler = (event) => {
     let r_table = [];
-    updateData.find(function(item) {
-      if(item.first_name == search || item.last_name == search || item.email == search){
+    updateData.find(function (item) {
+      //console.log(item);
+      if (
+        item.first_name.includes(search) ||
+        item.last_name.includes(search) ||
+        item.email.includes(search)
+      ) {
         r_table.push(item);
       }
     });
-    if(r_table.length > 0){
+    if (r_table.length > 0) {
       setEditList(r_table);
     }
     event.preventDefault();
@@ -624,125 +681,183 @@ const ViewTable = (props) => {
 
   return (
     <>
-    <div className="page-top-nav smart_list_names">
-      <div className="row justify-content-end align-items-center">
-        <div className="col-12 col-md-1">
-          <div className="header-btn-left">
-          {props.url ? (
-              <Link
-                to={{
-                  pathname: "/CreateSmartList",
-                }}
-                onClick={backClicked}
-              >
-              <button className="btn btn-primary btn-bordered back">Back</button>
-              </Link>
-            ) : <button className="btn btn-primary btn-bordered back">Back</button>}
-
-          </div>
-        </div>
-        <div className="col-12 col-md-11">
-          <div className="smart-list-btns">
-            <div className="smart-list-download">
-              <button className="btn btn-outline-primary"><img src={path + "download.svg"} alt="Download List" /></button>
-            </div>
-            <div className="hcp-new-user">
-              <button className="btn btn-outline-primary"><img src={path + "new-user.svg"} alt="New User" onClick={handleShow} /></button>
-            </div>
-            <div className="hcp-added">
-              <button className="btn btn-outline-primary"><img src={path + "edit-button.svg"} alt="Edit" /></button>
-            </div>
-            <div className="top-right-action">
-              <div className="search-bar">
-                <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
-                  <input className="form-control me-2" type="text" placeholder="Search" aria-label="Search" onChange={(e) => searchChange(e)} />
-                  <button className="btn btn-outline-success" type="submit"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M15.8045 14.862L11.2545 10.312C12.1359 9.22334 12.6665 7.84 12.6665 6.33334C12.6665 2.84134 9.82522 0 6.33325 0C2.84128 0 0 2.84131 0 6.33331C0 9.82531 2.84132 12.6667 6.33328 12.6667C7.83992 12.6667 9.22325 12.136 10.3119 11.2547L14.8619 15.8047C14.9919 15.9347 15.1625 16 15.3332 16C15.5039 16 15.6745 15.9347 15.8045 15.8047C16.0652 15.544 16.0652 15.1227 15.8045 14.862ZM6.33328 11.3333C3.57597 11.3333 1.33333 9.09066 1.33333 6.33331C1.33333 3.57597 3.57597 1.33331 6.33328 1.33331C9.0906 1.33331 11.3332 3.57597 11.3332 6.33331C11.3332 9.09066 9.09057 11.3333 6.33328 11.3333Z" fill="#97B6CF"></path>
-                  </svg>
+      <div className="page-top-nav smart_list_names">
+        <div className="row justify-content-end align-items-center">
+          <div className="col-12 col-md-1">
+            <div className="header-btn-left">
+              {props.url ? (
+                <Link
+                  to={{
+                    pathname: "/CreateSmartList",
+                  }}
+                  onClick={backClicked}
+                >
+                  <button className="btn btn-primary btn-bordered back">
+                    Back
                   </button>
-                </form>
-              </div>
-              <div className="filter-by">
-                <button className="btn btn-outline-primary" type="submit">
-                Filter By <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z" fill="#97B6CF"></path>
-                  <path d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z" fill="#97B6CF"></path>
-                  <path d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z" fill="#97B6CF"></path>
-                  </svg>
+                </Link>
+              ) : (
+                <button className="btn btn-primary btn-bordered back">
+                  Back
+                </button>
+              )}
+            </div>
+          </div>
+          <div className="col-12 col-md-11">
+            <div className="smart-list-btns">
+              <div className="smart-list-download">
+                <button className="btn btn-outline-primary">
+                  <img src={path + "download.svg"} alt="Download List" />
                 </button>
               </div>
-
+              <div className="hcp-new-user">
+                <button className="btn btn-outline-primary">
+                  <img
+                    src={path + "new-user.svg"}
+                    alt="New User"
+                    onClick={handleShow}
+                  />
+                </button>
+              </div>
+              <div className="hcp-added">
+                <button
+                  className="btn btn-outline-primary"
+                  onClick={editButtonClicked}
+                >
+                  <img src={path + "edit-button.svg"} alt="Edit" />
+                </button>
+              </div>
+              <div className="top-right-action">
+                <div className="search-bar">
+                  <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
+                    <input
+                      className="form-control me-2"
+                      type="text"
+                      placeholder="Search"
+                      aria-label="Search"
+                      onChange={(e) => searchChange(e)}
+                    />
+                    <button className="btn btn-outline-success" type="submit">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M15.8045 14.862L11.2545 10.312C12.1359 9.22334 12.6665 7.84 12.6665 6.33334C12.6665 2.84134 9.82522 0 6.33325 0C2.84128 0 0 2.84131 0 6.33331C0 9.82531 2.84132 12.6667 6.33328 12.6667C7.83992 12.6667 9.22325 12.136 10.3119 11.2547L14.8619 15.8047C14.9919 15.9347 15.1625 16 15.3332 16C15.5039 16 15.6745 15.9347 15.8045 15.8047C16.0652 15.544 16.0652 15.1227 15.8045 14.862ZM6.33328 11.3333C3.57597 11.3333 1.33333 9.09066 1.33333 6.33331C1.33333 3.57597 3.57597 1.33331 6.33328 1.33331C9.0906 1.33331 11.3332 3.57597 11.3332 6.33331C11.3332 9.09066 9.09057 11.3333 6.33328 11.3333Z"
+                          fill="#97B6CF"
+                        ></path>
+                      </svg>
+                    </button>
+                  </form>
+                </div>
+                <div className="filter-by">
+                  <button className="btn btn-outline-primary" type="submit">
+                    Filter By{" "}
+                    <svg
+                      width="16"
+                      height="14"
+                      viewBox="0 0 16 14"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z"
+                        fill="#97B6CF"
+                      ></path>
+                      <path
+                        d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z"
+                        fill="#97B6CF"
+                      ></path>
+                      <path
+                        d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z"
+                        fill="#97B6CF"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-       </div>
-    </div>
+      </div>
 
-    <section className="search-hcp smart-list-view">
-			<div className="result-hcp-table">
-				<div className="table-title">
-					<h4>{getlistname} <span>| {props.list_count}</span></h4>
-					<div className="selected-hcp-table-action">
-						<a className="show-less-info" href="#">Show More information </a>
-
-					</div>
-				</div>
-				<div className="selected-hcp-list">
-					<table className="table">
-					  <thead>
-						<tr>
-						  <th scope="col">Name</th>
-						  <th scope="col">Email</th>
-						  <th scope="col">Bounced</th>
-						  <th scope="col">Country</th>
-						  <th scope="col">Readers</th>
-						  <th scope="col">Business Unit</th>
-						  <th scope="col">Interest</th>
-						  <th scope="col"></th>
-						</tr>
-					  </thead>
-            <tbody className="form-group">
-            {editList.map((item) => (
-              <tr>
-                <td>
-                {inEditMode.status && inEditMode.rowKey === item.profile_id ? (
-                  <input
-                    value={name}
-                    onChange={(event) => setName(event.target.value)}
-                  />
-                ):(
-                  item.first_name+" "+item.last_name
-                )}
-
-                </td>
-                <td>
-                  {" "}
-                  {inEditMode.status && inEditMode.rowKey === item.profile_id ? (
-                    <input
-                      value={email}
-                      type="email"
-                      onChange={(event) => setEmail(event.target.value)}
-                    />
-                  ) : (
-                    item.email
-                  )}
-                </td>
-                <td>No</td>
-                <td>
-                  {inEditMode.status && inEditMode.rowKey === item.profile_id ? (
-                    <input
-                      value={country}
-                      onChange={(event) => setCountry(event.target.value)}
-                    />
-                  ) : (
-                    item.country
-                  )}
-                </td>
-                <td>CIS</td>
-                <td>Hametology</td>
-                <td>Tech</td>
-                {
-                  /*
+      <section className="search-hcp smart-list-view">
+        <div className="result-hcp-table">
+          <div className="table-title">
+            <h4>
+              {getlistname} <span>| {props.list_count}</span>
+            </h4>
+            <div className="selected-hcp-table-action">
+              <a className="show-less-info" href="#">
+                Show More information{" "}
+              </a>
+            </div>
+          </div>
+          <div className="selected-hcp-list">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Bounced</th>
+                  <th scope="col">Country</th>
+                  <th scope="col">Readers</th>
+                  <th scope="col">Business Unit</th>
+                  <th scope="col">Interest</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody className="form-group">
+                {editList.map((item) => (
+                  <tr
+                    contenteditable={editable === 0 ? "false" : "true"}
+                    onInput={(e) =>
+                      editing(e.currentTarget.textContent, item.profile_id)
+                    }
+                  >
+                    <td>
+                      {inEditMode.status &&
+                      inEditMode.rowKey === item.profile_id ? (
+                        <input
+                          value={name}
+                          onChange={(event) => setName(event.target.value)}
+                        />
+                      ) : (
+                        item.first_name + " " + item.last_name
+                      )}
+                    </td>
+                    <td>
+                      {" "}
+                      {inEditMode.status &&
+                      inEditMode.rowKey === item.profile_id ? (
+                        <input
+                          value={email}
+                          type="email"
+                          onChange={(event) => setEmail(event.target.value)}
+                        />
+                      ) : (
+                        item.email
+                      )}
+                    </td>
+                    <td>No</td>
+                    <td>
+                      {inEditMode.status &&
+                      inEditMode.rowKey === item.profile_id ? (
+                        <input
+                          value={country}
+                          onChange={(event) => setCountry(event.target.value)}
+                        />
+                      ) : (
+                        item.country
+                      )}
+                    </td>
+                    <td>CIS</td>
+                    <td>Hametology</td>
+                    <td>Tech</td>
+                    {/*
                   <td>
                     {inEditMode.status && inEditMode.rowKey === item.profile_id ? (
                       <input
@@ -838,35 +953,36 @@ const ViewTable = (props) => {
 
                       </div>
                     )}
-                  </td>*/
-                }
-                <td class="delete_row" colspan="12">
-                  <img src={path + "delete.svg"} alt="Delete Row" onClick={() =>
-                    onDelete({
-                      id: item.profile_id,
-                      currentName: item.first_name +" "+ item.last_name,
-                      currentJobTitle: item.jobTitle,
-                      currentCompany: item.company,
-                      currentIndication: item.indication,
-                      currentProduct: item.product,
-                      currentCountry: item.country,
-                      currentEmail: item.email,
-                      profile_user_id: item.profile_user_id,
-                    })
-                  } />
-                </td>
-              </tr>
-            ))}
-          {validator3.message("email", email, "required|email")}
-        </tbody>
-					</table>
-				</div>
-			</div>
-		</section>
+                  </td>*/}
+                    <td class="delete_row" colspan="12">
+                      <img
+                        src={path + "delete.svg"}
+                        alt="Delete Row"
+                        onClick={() =>
+                          onDelete({
+                            id: item.profile_id,
+                            currentName: item.first_name + " " + item.last_name,
+                            currentJobTitle: item.jobTitle,
+                            currentCompany: item.company,
+                            currentIndication: item.indication,
+                            currentProduct: item.product,
+                            currentCountry: item.country,
+                            currentEmail: item.email,
+                            profile_user_id: item.profile_user_id,
+                          })
+                        }
+                      />
+                    </td>
+                  </tr>
+                ))}
+                {validator3.message("email", email, "required|email")}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
 
-
-
-    <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>New HCP</Modal.Title>
           <button
@@ -1002,7 +1118,6 @@ const ViewTable = (props) => {
         </div>
       </Modal>
 
-
       <Modal show={showUploadMenu} onHide={handleCloseUploadMenu}>
         <Modal.Header closeButton>
           <Modal.Title>upload your new file</Modal.Title>
@@ -1025,14 +1140,94 @@ const ViewTable = (props) => {
                 upload
               </button>
 
-              <p className="card-text">
-
-              </p>
+              <p className="card-text"></p>
             </div>
           </div>
         </Modal.Body>
         <Modal.Footer></Modal.Footer>
       </Modal>
+
+      <div className="modal send-confirm" id="resend-confirm">
+        <Modal show={isOpen}>
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  onClick={() => setIsOpen(false)}
+                ></button>
+              </div>
+
+              <div className="modal-body">
+                <img src="assets/images/alert.png" alt="" />
+                <h4>
+                  The HCP record will be deleted from the list.Are you sure you
+                  want to delete it?
+                </h4>
+
+                <div className="modal-buttons">
+                  <button
+                    type="button"
+                    className="btn btn-primary btn-filled"
+                    data-bs-dismiss="modal"
+                    onClick={() => {
+                      deleteReader(profile_user_id);
+                      setIsOpen(false);
+
+                      setOpenDeleteConfirmation(true);
+                    }}
+                  >
+                    Yes Please!
+                  </button>
+
+                  <button
+                    type="button"
+                    className="btn btn-primary btn-bordered light"
+                    data-bs-dismiss="modal"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Modal>
+      </div>
+
+      <div className="modal send-confirm" id="resend-confirm">
+        <Modal show={deleteConfirmation}>
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  onClick={() => setIsOpen(false)}
+                ></button>
+              </div>
+
+              <div className="modal-body">
+                <img src="assets/images/alert.png" alt="" />
+                <h4>The HCP record has been deleted successfully</h4>
+
+                <div className="modal-buttons">
+                  <button
+                    type="button"
+                    className="btn btn-primary btn-bordered light"
+                    data-bs-dismiss="modal"
+                    onClick={() => setOpenDeleteConfirmation(false)}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Modal>
+      </div>
     </>
   );
 };

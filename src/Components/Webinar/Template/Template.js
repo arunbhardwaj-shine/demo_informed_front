@@ -21,8 +21,13 @@ const Template = () => {
   const [modalShow, setModalShow] = useState(false);
   const [modalShow2, setModalShow2] = useState(false);
   const [dpc, setDpc] = useState();
+  const [editLinkData, setEditLinkData] = useState([]);
+  const [render, setRender] = useState(0);
   const [hello, setHello] = useState(JSON.parse(localStorage.getItem('hello')));
- 
+  const [linkInput, setLinkInput] = useState([
+    { name: "LinkName", link: "Link" },
+  ]);
+  const [linkData, setLinkData] = useState([{ name: "", link: "" }]);
   const formik = useFormik({
     initialValues: {
        Subject:template?template.subject:'',
@@ -41,12 +46,15 @@ const Template = () => {
       };
       exportHtml();
       setDpc (JSON.parse(localStorage.getItem('bodyaa')))
-      ExportApi.UpdateTemplate(values.Subject,localStorage.getItem('bodyaa'),id).then((resp) => {
+      let data = JSON.stringify(linkData);
+      ExportApi.UpdateTemplate(values.Subject,localStorage.getItem('bodyaa'),id,linkData[0].name&&linkData[0].link?data:null,).then((resp) => {
         if (resp.ok) {
           if (resp.data.code == 200) {
+            setLinkInput([ { name: "LinkName", link: "Link" }])
+            setLinkData([{ name: "", link: "" }])
             setModalShow(false)
             handleGetEventlist()
-            handleGetTemplate()
+             handleGetTemplate(localStorage.getItem("idd"))
             toast.success(resp.data.message, {
               position: "top-right",
               autoClose: 5000,
@@ -72,6 +80,50 @@ const Template = () => {
 
     },
   });
+  const handleEditInputValue= (data)=>{
+    console.log(data)
+    setLinkData(data)
+   
+    if(data){
+    for (let index = 1; index < data.length; index++) {  
+      linkInput.push({ name: "LinkName", link: "Link" })
+     }
+    }else{
+      console.log("editLinkData.length<1")
+      setLinkInput([ { name: "LinkName", link: "Link" }])
+      setLinkData([{ name: "", link: "" }])
+      setRender(render+1)
+    }
+  }
+
+  const handleMaltiInputRumove = (i) => {
+      let data=[...linkInput]
+      let data1=[...linkData]
+      data.splice(i, 1);
+      data1.splice(i, 1);
+      setTimeout(() => {
+        setLinkInput(data);
+      },500);
+      setLinkData(data1)
+      
+  };
+  const handleMaltiInputAdd = () => {
+    setLinkInput([...linkInput,{ name: "LinkName", link: "Link" }]);
+    setLinkData([...linkData, { name: "", link: "" }]);
+  };
+  const handleLinkValue = (e, i) => {
+    if (e.target.name === `LinkName${i}`) {
+      const linkInput = linkData[i];
+      linkInput.name = e.target.value;
+      linkData.splice(i, 1, { ...linkInput });
+      setLinkData([...linkData]);
+    } else if (e.target.name === `Link${i}`) {
+      const linkInput = linkData[i];
+      linkInput.link = e.target.value;
+      linkData.splice(i, 1, { ...linkInput});
+      setLinkData([...linkData]);
+    }
+  };
   const handleGetEventlist = () => {
     ExportApi.GetEventList().then((resp) => {
       if (resp.ok) {
@@ -88,31 +140,30 @@ const Template = () => {
     });
   };
   
-  const handleGetTemplate =async (id) => {
-     setId(id);
-     await SetTestMail(true)
-    ExportApi.UserTemplate(id).then((resp) => {
+  const handleGetTemplate = (idd) => {
+     setId(idd);
+    ExportApi.UserTemplate(idd).then((resp) => {
       if (resp.ok) {
-        setDpc(resp.data.data.description===""?setDpc():JSON.parse(resp.data.data.description))
-        //  emailEditorRef.current.editor.loadDesign(hello)
+        setEditLinkData(resp.data.data.data)
+        resp.data.data.description===""? setDpc():setDpc(JSON.parse(resp.data.data.description))
+        handleEditInputValue(resp.data.data.data,resp.data.data.description)
         setTemplate(resp.data.data);
-        emailEditorRef.current.editor.loadDesign(dpc===undefined?hello:JSON.parse(resp.data.data.description))
+        emailEditorRef.current.editor.loadDesign(resp.data.data.description?JSON.parse(resp.data.data.description):hello)
       }
     });
   };
-  console.log(dpc)
+
   const emailEditorRef = useRef(null);
   const onLoad =  () => {
     setTimeout(function(){
-      console.log("dpc",dpc)
       emailEditorRef.current.editor.loadDesign(dpc?dpc:hello);
     }, 2000);
   }
   const onReady = () => {
-    // editor is ready
      emailEditorRef.current.editor.loadDesign(hello)
     console.log('onReady');
   };
+
   useEffect(() => {
     handleGetEventlist();
   }, []);
@@ -190,7 +241,6 @@ const Template = () => {
       <Col md={{ span: 8, offset: 3 }}>
        <Row>
          <Col className="mb-5">
-           {/* {console.log("templateList",templateList)} */}
          {templateList!=undefined||templateList!=null?
          <Table bordered hover>
               <thead>
@@ -206,7 +256,7 @@ const Template = () => {
                     <td><Button
                 onClick={(e) => { setModalShow2(true);setId(val.id) }} >
                Test Mail
-              </Button><Button onClick={(e)=>{handleGetTemplate(val.id);localStorage.setItem("template",val.name);setTName(val.name)}}>Edit</Button> </td>
+              </Button><Button onClick={(e)=>{localStorage.setItem("idd",val.id) ; handleGetTemplate(val.id);localStorage.setItem("template",val.name);setTName(val.name)}}>Edit</Button> </td>
                   </tr>
                 )):<h2>Data Not Found</h2>}
               </tbody>
@@ -246,35 +296,72 @@ const Template = () => {
                 <Col></Col>
               </Col>
             </Row>
-                     
+              {linkInput.map((malti, i) => (
+                <fieldset className="border p-2">
+                  <div key={i}>
+                    {linkInput.length > 1 ? (
+                      <button
+                        type="button"
+                        onClick={() => handleMaltiInputRumove(i)}
+                        className="btn-close float-end"
+                        aria-label="Close"
+                      />
+                    ) : null}
+                    <Form.Group
+                      as={Row}
+                      className="mb-3"
+                      controlId="exampleForm.ControlInput1"
+                    >
+                      <Form.Label column sm={2}>
+                        Link Name
+                      </Form.Label>
+                      <Col sm={10}>
+                        <Form.Control
+                        value={linkData[i]?.name}
+                          name={
+                            linkInput.length === 0 ? malti?.name : malti?.name + i
+                          }
+                          onChange={(e) => {
+                            handleLinkValue(e, i);
+                          }}
+                        />
+                      </Col>
+                      <div className="mt-2"></div>
+                      <Form.Label column sm={2}>
+                      Link
+                      </Form.Label>
+                      <Col sm={10}>
+                        <Form.Control
+                        value={linkData[i]?.link}
+                          name={
+                            linkInput.length === 0 ? malti.link : malti.link + i
+                          }
+                          onChange={(e) => {
+                           handleLinkValue(e, i);
+                          }}
+                        />
+                      </Col>
+                    </Form.Group>
+                  </div>
+                </fieldset>
+              ))}
+              <div className="mt-2"></div>
+              <Form.Group className="mb-3">
+                <Button
+                  onClick={handleMaltiInputAdd}
+                  className="speaker-button"
+                >
+                  Add More Speaker
+                </Button>
+              </Form.Group>
+              <div className="clearfix"></div>
+              <div className="mt-2"></div>   
             <div>
+            <Form.Label >
+                  Description
+                </Form.Label>
       <EmailEditor ref={emailEditorRef} onLoad={onLoad} onReady={onReady} />
     </div>
-            {/* <CKEditor
-              editor={ClassicEditor}
-              data={template ? template.description : "hello"}
-              onReady={(editor) => {
-                editor.editing.view.change(writer => {
-                  writer.setStyle(
-                      "min-height",
-                      '300px',
-                      editor.editing.view.document.getRoot()
-                  );
-              });
-                console.log("Editor is ready to use!", editor);
-              }}
-              onChange={(event, editor) => {
-                const data = editor.getData();
-                setDpc(data)
-                 console.log({ data });
-              }}
-              onBlur={(event, editor) => {
-                // console.log( 'Blur.', editor );
-              }}
-              onFocus={(event, editor) => {
-                // console.log( 'Focus.', editor );
-              }}
-            />  */}
           </Col>
         </Row>
      

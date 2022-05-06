@@ -58,27 +58,24 @@ const EditList = () => {
   if (api_flag > 0) {
     return (
       <>
-      <div className="col right-sidebar">
-        <ViewTable
-          data={editList}
-          smartListDatafn={getSmartListData}
-          api_flag={api_flag}
-          list_count={getlistcount}
-          listId={queryParams.listId}
-          upload_by_filter={getuploadedby}
-          smartListName={smartListName}
-        />
+        <div className="col right-sidebar">
+          <ViewTable
+            data={editList}
+            smartListDatafn={getSmartListData}
+            api_flag={api_flag}
+            list_count={getlistcount}
+            listId={queryParams.listId}
+            upload_by_filter={getuploadedby}
+            smartListName={smartListName}
+          />
         </div>
       </>
     );
   } else {
     return (
       <>
-      <div className="col right-sidebar">
-        {isLoading ? (
-          <div className={"item"}>
-          </div>
-        ) : null}
+        <div className="col right-sidebar">
+          {isLoading ? <div className={"item"}></div> : null}
         </div>
       </>
     );
