@@ -145,10 +145,10 @@ const Template = () => {
     ExportApi.UserTemplate(idd).then((resp) => {
       if (resp.ok) {
         setEditLinkData(resp.data.data.data)
-        resp.data.data.description===""? setDpc():setDpc(JSON.parse(resp.data.data.description))
+        // resp.data.data.description===""? setDpc():setDpc(JSON.parse(resp.data.data.description))
         handleEditInputValue(resp.data.data.data,resp.data.data.description)
         setTemplate(resp.data.data);
-        emailEditorRef.current.editor.loadDesign(resp.data.data.description?JSON.parse(resp.data.data.description):hello)
+        // emailEditorRef.current.editor.loadDesign(resp.data.data.description?JSON.parse(resp.data.data.description):hello)
       }
     });
   };

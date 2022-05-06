@@ -28,6 +28,7 @@
 		"react-email-editor": "^1.6.0",
 		"react-form-builder2": "^0.10.6",
 		"react-js-loader": "^0.1.0",
+		"react-json-to-csv": "^1.0.4",
 		"react-loading-skeleton": "^3.1.0",
 		"react-owl-carousel": "^2.3.3",
 		"react-redux": "^7.2.8",
