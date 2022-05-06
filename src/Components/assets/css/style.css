@@ -1024,11 +1024,22 @@ background: #0066BE;
 box-shadow: 0px 0px 5px rgba(0, 102, 190, 0.87);
 }
 .form-inline .form-group {
-	display: flex;
-	align-items: center;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.srv-validation-message {
+    flex: 0 0 100%;
+    font-size: 14px;
+    color: #f00;
 }
 .email-form {
 	padding: 0;
+}
+.ck.ck-editor {
+    position: relative;
+    width: 100%;
+    margin-bottom: 30px;
 }
 .form-inline .form-group input#email-address {
 	max-width: 364px;
@@ -1122,7 +1133,10 @@ form .input-group {
 	color: #39CABC;
 	padding: 10px 29px;
 }
-
+.form-buttons .approved-btn:hover {
+    background: #39CABC;
+    color: #fff;
+}
 
 /**Modal Tags**/
 
@@ -1244,8 +1258,15 @@ form .input-group {
 	margin: 0;
 }
 #tagsModal .modal-footer form .form-group {
-	display: flex;
-	align-items: center;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+#tagsModal .modal-footer form .form-group .srv-validation-message {
+    flex: 0 0 100%;
+    order: 4;
+    color: #f00;
+    font-size: 14px;
 }
 #tagsModal .modal-footer form .form-group .btn {
 	width: 112px;
@@ -1350,7 +1371,7 @@ form .input-group {
 	padding: 10px 25px 10px 15px;
 	min-height: 265px;
 	position: relative;
-	max-height: 600px;
+	max-height: 270px;
 	overflow-y: auto;
 	overflow-x:hidden;
 	
@@ -1395,6 +1416,22 @@ form .input-group {
 }
 .search-hcp-table table tr td:last-child, .selected-hcp-list table tr td:last-child {
   border-radius: 0px 13px 13px 0px;
+  padding: 10px 10px;
+}
+.table tr:hover td.add-new-hcp {
+    background: transparent;
+}
+.table tr[contenteditable="true"] td span {
+    background: #dadada;
+    color: #70899E;
+    border-radius: 4px;
+    padding: 1 3px;
+}
+.table tr[contenteditable="true"]{
+	outline: 1px solid #b5b5b5;
+}
+.form-search-hcp .form-inline .form-group input {
+    width: calc(100% - 77px);
 }
 .selected-hcp-list tbody td span, .search-hcp-table tbody td span {
 	color: #0066BE;
@@ -1572,10 +1609,17 @@ background:#004A89;
 }
 
 /**MOdal hcp Add**/
-
-#add_hcp .modal-dialog {
+form#add_hcp_form .row:not(:first-child) {
+    border-top: 1px dashed #0066BE;
+    margin-top: 15px;
+    padding-top: 15px;
+}
+#add_hcp.modal-dialog {
   max-width: 1045px;
   width: 90%;
+}
+#add_hcp_form .btn-last .form-group {
+    justify-content: flex-end;
 }
 #add_hcp .modal-dialog .modal-content, .modal-dialog .modal-content {
   box-shadow: 0px 3px 10px -3px rgba(0, 102, 190, 0.2);
@@ -1802,7 +1846,7 @@ border-color:#004A89;
 
 
 .search-hcp-table tr .add-new-hcp {
-	top: -9px;
+	top: 5px;
 	right: -27px;
 }
 .search-hcp-table tr {
@@ -1936,10 +1980,11 @@ border-color:#004A89;
     color: #97B6CF;
     font-family: 'Roboto-Light';
 }
-.search-hcp-table.no-result {
+.search-hcp-table-inside.not-found {
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 100%;
 }
 .table-title .selected-hcp-table-action a.show-less-info {
     font-size: 16px;
@@ -2368,7 +2413,7 @@ border-radius: 30px;border: 0;}
 /**End**/
 
 /**modal-add list**/
-#add-list .modal-dialog, #send-sample.modal-dialog {
+#add-list.modal-dialog, #send-sample.modal-dialog {
     max-width: 1230px;
 }
 #send-sample.modal-dialog {
@@ -2394,7 +2439,8 @@ border-radius: 30px;border: 0;}
     position: relative;
     box-shadow: 0px 3px 10px -3px rgb(0 102 190 / 20%);
     border-radius: 20px;
-    width: 350px;
+    max-width: 350px;
+	width: 350px;
     flex: 0 0 350px;
     margin: 0 auto;
 }
@@ -2717,3 +2763,10 @@ color:#004A89;
 		border: none !important;
 		
 	}
+.sample_list_dt{
+	min-height: 70px !important;
+}
+.search-hcp-table-inside.not-found {
+    text-align: center;
+    min-height: 90px;
+}
