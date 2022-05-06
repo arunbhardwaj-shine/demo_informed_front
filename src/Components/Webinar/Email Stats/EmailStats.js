@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Col, Form, Row, Table } from "react-bootstrap";
 import { ToastContainer } from "react-toastify";
 import ExportApi from "../../../Api/ExportApi";
-import CsvDownload from 'react-json-to-csv'
+// import CsvDownload from 'react-json-to-csv'
 function EmailStats() {
   const [event, setEvent] = useState([]);
   const [eventId, setEventId] = useState();
@@ -96,7 +96,7 @@ function EmailStats() {
           <Row>
               <Col></Col>
               <Col></Col>
-              <Col> <CsvDownload data={EmailData}>Excel Download</CsvDownload></Col>
+              {/* <Col> <CsvDownload data={EmailData}>Excel Download</CsvDownload></Col> */}
           </Row>
           {EmailData != undefined || EmailData != null ? (
             <Table bordered hover>
