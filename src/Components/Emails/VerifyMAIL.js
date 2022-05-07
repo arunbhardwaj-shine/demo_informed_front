@@ -333,10 +333,12 @@ const VerifyMAIL = (props) => {
                         {/* The recipients <span>| {selectedHcp.length}</span> */}
                       </h6>
                       <p>{/* Single HCP <span>| 1</span> */}</p>
-                      {props.getSelectedSmartListData ? (
+                      {props.getSelectedSmartListData || props.getDraftData? (
+                      
                         <div className="smartlist-view email_box">
+                          {console.log(props.getDraftData)}
                           <div className="mail-box-content">
-                            <h5>{props.getSelectedSmartListData.name}</h5>
+                            <h5>{props.getSelectedSmartListData?props.getSelectedSmartListData.name : props.getDraftData.smart_list_data.name }</h5>
 
                             <div className="mailbox-table">
                               <table>

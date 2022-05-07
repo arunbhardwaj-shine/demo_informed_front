@@ -115,39 +115,7 @@ const ViewTable = (props) => {
     setEditList(props.data);
   }, [props.api_flag]);
 
-  const uploadFile = async (event) => {
-    if (validator2.allValid()) {
-      setShowUploadMenu(!showUploadMenu);
-
-      let formData = new FormData();
-      formData.append("user_id", 18207);
-      formData.append("smart_list_id", getlistid);
-      formData.append("reader_file", selectedFile);
-
-      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      loader("show");
-      await axios
-        .post(`distributes/update_reader_list`, formData)
-        .then((res) => {
-          let old_data = editList;
-          let new_data = res.data.response.data[0];
-
-          combine_data = [new_data, ...old_data];
-          // console.log(combine_data);
-          setEditList(combine_data);
-          setUpdatedData(combine_data);
-          loader("hide");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      console.log(validator2.errorMessages);
-      validator2.showMessages();
-      setFileValidationMeassage(fileValidationMessage + 1);
-    }
-  };
-
+  
   const showFileInReadersList = async () => {
     console.log("updated data");
     console.log(updateData);
@@ -156,7 +124,6 @@ const ViewTable = (props) => {
     });
 
     console.log(profile_user_id_array);
-
     console.log("smartlist name");
     console.log(props);
 
@@ -627,30 +594,27 @@ const ViewTable = (props) => {
 
       // console.log(body);
 
-      //loader("show");
+      loader("show");
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       await axios
         .post(`distributes/add_new_readers_in_list`, body)
         .then((res) => {
           if (res.data.status_code === 200) {
-            // console.log(res);
+            
             toast.success("User added successfuly");
-            //console.log(res.data.response.data);
-
-            //console.log(r);
+         
             let old_data = editList;
-            console.log(old_data);
+            
             let new_data = res.data.response.data;
-            console.log(res.data.response.data);
+            
             combine_data_manual = [...new_data, ...old_data];
-            // console.log("hi");
-            console.log(combine_data_manual);
+            
             setEditList(combine_data_manual);
             setUpdatedData(combine_data_manual);
 
-            // loader("hide");
+             loader("hide");
           } else {
-            //   toast.warning(res.data.message);
+               toast.warning(res.data.message);
           }
 
           //setSelectedHcp(res.data.response.data);
@@ -662,7 +626,7 @@ const ViewTable = (props) => {
     } else {
       let formData = new FormData();
       formData.append("user_id", 18207);
-      formData.append("smart_list_id", "");
+      formData.append("smart_list_id", getlistid);
       formData.append("reader_file", selectedFile);
 
       console.log(formData);
@@ -674,10 +638,13 @@ const ViewTable = (props) => {
         .then((res) => {
           if (res.data.status_code === 200) {
             toast.success("User added successfuly");
-
-            res.data.response.data.map((data) => {
-              setHpc((oldArray) => [...oldArray, data]);
-            });
+            console.log(res.data.response.data);   
+            let old_data = editList;
+            let new_data = res.data.response.data;  
+            combine_data = [...new_data, ...old_data];
+            // console.log(combine_data);
+            setEditList(combine_data);
+            setUpdatedData(combine_data);
 
             loader("hide");
           } else {
@@ -701,6 +668,42 @@ const ViewTable = (props) => {
 
     //setIsOpensend(true);
   };
+
+
+  const uploadFile = async (event) => {
+    if (validator2.allValid()) {
+      setShowUploadMenu(!showUploadMenu);
+
+      let formData = new FormData();
+      formData.append("user_id", 18207);
+      formData.append("smart_list_id", getlistid);
+      formData.append("reader_file", selectedFile);
+
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      loader("show");
+      await axios
+        .post(`distributes/update_reader_list`, formData)
+        .then((res) => {
+          
+          let old_data = editList;
+          let new_data = res.data.response.data[0];
+
+          combine_data = [new_data, ...old_data];
+          // console.log(combine_data);
+          setEditList(combine_data);
+          setUpdatedData(combine_data);
+          loader("hide");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      console.log(validator2.errorMessages);
+      validator2.showMessages();
+      setFileValidationMeassage(fileValidationMessage + 1);
+    }
+  };
+
 
   return (
     <>
@@ -729,7 +732,7 @@ const ViewTable = (props) => {
           <div className="col-12 col-md-11">
             <div className="smart-list-btns">
               <div className="smart-list-download">
-                <button className="btn btn-outline-primary">
+                <button className="btn btn-outline-primary" onClick={showFileInReadersList}>
                   <img src={path + "download.svg"} alt="Download List" />
                 </button>
               </div>
