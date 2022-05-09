@@ -105,12 +105,18 @@ const EmailList = (props) => {
     axios
       .post(`emailapi/resend_email`, body)
       .then((res) => {
+        if(res.data.status_code == 200){
+          toast.success("Email send successfully.");
+        }else if(res.data.status_code == 201){
+          toast.warning(res.data.message);
+        }else{
+          toast.warning(res.data.message);
+        }
         loader("hide");
-        toast.success("Email send successfully.");
       })
       .catch((err) => {
         loader("hide");
-        console.log(err);
+        toast.error("Something went wrong");
       });
   };
 
@@ -152,13 +158,17 @@ const EmailList = (props) => {
     await axios
       .post(`emailapi/get_campaign_details`, body)
       .then((res) => {
-        let campaign_data = res.data.response.data;
-        console.log(campaign_data);
-        props.getDraftData(campaign_data);
+        if(res.data.status_code == 200){
+          let campaign_data = res.data.response.data;
+          props.getDraftData(campaign_data);
+        }else{
+          toast.warning(res.data.message);
+        }
         loader("hide");
       })
       .catch((err) => {
-        console.log(err);
+        loader("hide");
+        toast.error("Something went wrong");
       });
 
     //console.log(props);
@@ -215,7 +225,7 @@ const showDeleteButtons = () => {
   // }
 
   const deleteEmail = () => {
-
+    hideConfirmationModal();
     const body = {
       user_id: 18207,
       campaign_id: deletecardid,
@@ -226,24 +236,27 @@ const showDeleteButtons = () => {
       .post(`emailapi/delete_campaign`, body)
       .then((res) => {
         if(res.data.status_code == 200){
+          hideConfirmationModal();
           var updatedArray = SendListData.filter(function(item){
             return item['id'] != deletecardid
           })
-          hideConfirmationModal();
+          if(typeof updatedArray !== "undefined"){
+            setSendListData(updatedArray);
+          }
           popup_alert({
             visible: "show",
             message: "The Email record has been deleted <br />successfully !",
             type: "success",
             redirect: "",
           });
-          if(typeof updatedArray !== "undefined"){
-            setSendListData(updatedArray);
-          }
+        }else{
+          toast.warning(res.data.message);
         }
         loader("hide");
       })
       .catch((err) => {
-        console.log(err);
+        loader("hide");
+        toast.error("Something went wrong");
       });
 
   }
