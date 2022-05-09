@@ -56,6 +56,7 @@ let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [counterFlag, setCounterFlag] = useState(0);
   const [getlistid, setListId] = useState("");
   const [getlistname, setListName] = useState("");
+  const [getsortflag, setsortflag] = useState(false);
 
   const [show, setShow] = useState(false);
   const [hpc, setHpc] = useState([
@@ -597,6 +598,17 @@ let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     }
   };
 
+  const sortdata = () => {
+    setsortflag((getsortflag) => !getsortflag);
+    if(getsortflag){
+      let sortedData = editList.sort((a, b) => (a.first_name > b.first_name) ? 1 : -1);
+      setEditList(sortedData);
+    }else{
+      let sortedData = editList.sort((a, b) => (a.first_name < b.first_name) ? 1 : -1);
+      setEditList(sortedData);
+    }
+  }
+
   return (
     <>
 
@@ -656,7 +668,7 @@ let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 								<button class="btn btn-outline-primary"><img src={path + "edit-button.svg"} alt="Edit" /></button>
 							</div>
 							<div class="hcp-sort">
-								<button class="btn btn-outline-primary">Sort By <img src={path + "sort.svg"} alt="Shorting" /></button>
+								<button class="btn btn-outline-primary" onClick={sortdata}>Sort By <img src={path + "sort.svg"} alt="Shorting" /></button>
 							</div>
 						</div>
 					</div>
