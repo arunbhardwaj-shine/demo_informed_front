@@ -73,7 +73,6 @@ const EmailList = (props) => {
     axios
       .post(`emailapi/getlist`, body)
       .then((res) => {
-        console.log(res);
         if(res.data.status_code == 200){
           setSendListData(res.data.response.data.emails);
           if(stage == "initial"){
@@ -81,6 +80,8 @@ const EmailList = (props) => {
             setFilterData(res.data.response.data.filter);
           }
           setUserData(res.data.response.data.user);
+        }else if(res.data.status_code == 201){
+          setSendListData([]);
         }else{
           setSendListData([]);
           toast.warning(res.data.message);
@@ -88,7 +89,6 @@ const EmailList = (props) => {
         loader("hide");
       })
       .catch((err) => {
-        console.log("asdsa");
         loader("hide");
         toast.error("Something went wrong");
       });
