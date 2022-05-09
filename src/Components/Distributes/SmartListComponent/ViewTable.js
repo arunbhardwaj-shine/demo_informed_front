@@ -10,13 +10,15 @@ import { loader } from "../../../loader";
 import { toast } from "react-toastify";
 
 import { connect } from "react-redux";
+import { popup_alert } from "../../../popup_alert";
 
 const ViewTable = (props) => {
   const [inEditMode, setInEditMode] = useState({
     status: false,
     rowKey: null,
   });
-
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  //let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   //let validator = new SimpleReactValidator();
   const [editable, setEditable] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
@@ -31,6 +33,7 @@ const ViewTable = (props) => {
   const [emailData, setEmailData] = useState("");
   const [search, setSearch] = useState("");
   const [deleteConfirmation, setOpenDeleteConfirmation] = useState(false);
+  const [showReaders, setShowSaveReader] = useState(false);
 
   const [profile_user_id, setProfileUserId] = useState();
 
@@ -115,7 +118,6 @@ const ViewTable = (props) => {
     setEditList(props.data);
   }, [props.api_flag]);
 
-  
   const showFileInReadersList = async () => {
     console.log("updated data");
     console.log(updateData);
@@ -151,9 +153,23 @@ const ViewTable = (props) => {
       .post(`distributes/add_update_list`, body)
       .then((res) => {
         loader("hide");
-        window.location.href = "/SmartList";
+        if (res.data.status_code === 200) {
+          popup_alert({
+            visible: "show",
+            message: "user added successfully",
+            type: "success",
+          });
+        } else {
+          popup_alert({
+            visible: "show",
+            message: res.data.message,
+            type: "error",
+          });
+        }
+        //window.location.href = "/SmartList";
       })
       .catch((err) => {
+        toast.error("Something went wrong");
         console.log(err);
       });
   };
@@ -402,8 +418,16 @@ const ViewTable = (props) => {
     country,
     profile_user_id,
   }) => {
-    setIsOpen(true);
-    setProfileUserId(profile_user_id);
+    if (editList.length > 1) {
+      setIsOpen(true);
+      setProfileUserId(profile_user_id);
+    } else {
+      popup_alert({
+        visible: "show",
+        message: "Please keep atleast one reader or delete the smart list",
+        type: "error",
+      });
+    }
 
     // setIsOpen(true);
     // confirmAlert({
@@ -467,7 +491,8 @@ const ViewTable = (props) => {
   };
 
   const backClicked = () => {
-    console.log("back clicked");
+    //console.log("back clicked");
+    window.history.go(-1);
     props.api_flag(0);
   };
 
@@ -573,6 +598,8 @@ const ViewTable = (props) => {
   const saveClicked = async () => {
     //  console.log(validator);
 
+    setShowSaveReader(true);
+
     setIsOpenAdd(false);
 
     if (activeManual == "active") {
@@ -600,21 +627,20 @@ const ViewTable = (props) => {
         .post(`distributes/add_new_readers_in_list`, body)
         .then((res) => {
           if (res.data.status_code === 200) {
-            
             toast.success("User added successfuly");
-         
+
             let old_data = editList;
-            
+
             let new_data = res.data.response.data;
-            
+
             combine_data_manual = [...new_data, ...old_data];
-            
+
             setEditList(combine_data_manual);
             setUpdatedData(combine_data_manual);
 
-             loader("hide");
+            loader("hide");
           } else {
-               toast.warning(res.data.message);
+            toast.warning(res.data.message);
           }
 
           //setSelectedHcp(res.data.response.data);
@@ -638,9 +664,9 @@ const ViewTable = (props) => {
         .then((res) => {
           if (res.data.status_code === 200) {
             toast.success("User added successfuly");
-            console.log(res.data.response.data);   
+            console.log(res.data.response.data);
             let old_data = editList;
-            let new_data = res.data.response.data;  
+            let new_data = res.data.response.data;
             combine_data = [...new_data, ...old_data];
             // console.log(combine_data);
             setEditList(combine_data);
@@ -669,7 +695,6 @@ const ViewTable = (props) => {
     //setIsOpensend(true);
   };
 
-
   const uploadFile = async (event) => {
     if (validator2.allValid()) {
       setShowUploadMenu(!showUploadMenu);
@@ -684,7 +709,6 @@ const ViewTable = (props) => {
       await axios
         .post(`distributes/update_reader_list`, formData)
         .then((res) => {
-          
           let old_data = editList;
           let new_data = res.data.response.data[0];
 
@@ -704,6 +728,15 @@ const ViewTable = (props) => {
     }
   };
 
+  const showSucessPopup = () => {
+    popup_alert({
+      visible: "show",
+      message: "The HCP record has been deleted successfully",
+      type: "success",
+    });
+
+    setOpenDeleteConfirmation(false);
+  };
 
   return (
     <>
@@ -723,7 +756,10 @@ const ViewTable = (props) => {
                   </button>
                 </Link>
               ) : (
-                <button className="btn btn-primary btn-bordered back">
+                <button
+                  className="btn btn-primary btn-bordered back"
+                  onClick={backClicked}
+                >
                   Back
                 </button>
               )}
@@ -731,11 +767,14 @@ const ViewTable = (props) => {
           </div>
           <div className="col-12 col-md-11">
             <div className="smart-list-btns">
-              <div className="smart-list-download">
-                <button className="btn btn-outline-primary" onClick={showFileInReadersList}>
+              {/* <div className="smart-list-download">
+                <button
+                  className="btn btn-outline-primary"
+                //  onClick={showFileInReadersList}
+                >
                   <img src={path + "download.svg"} alt="Download List" />
                 </button>
-              </div>
+              </div> */}
               <div className="hcp-new-user">
                 <button className="btn btn-outline-primary">
                   <img
@@ -746,12 +785,12 @@ const ViewTable = (props) => {
                 </button>
               </div>
               <div className="hcp-added">
-                <button
+                {/* <button
                   className="btn btn-outline-primary"
                   onClick={editButtonClicked}
                 >
                   <img src={path + "edit-button.svg"} alt="Edit" />
-                </button>
+                </button> */}
               </div>
               <div className="top-right-action">
                 <div className="search-bar">
@@ -779,7 +818,7 @@ const ViewTable = (props) => {
                     </button>
                   </form>
                 </div>
-                <div className="filter-by">
+                {/* <div className="filter-by">
                   <button className="btn btn-outline-primary" type="submit">
                     Filter By{" "}
                     <svg
@@ -803,24 +842,26 @@ const ViewTable = (props) => {
                       ></path>
                     </svg>
                   </button>
-                </div>
+                </div> */}
               </div>
+              {showReaders ? (
+                <button onClick={showFileInReadersList}>save</button>
+              ) : null}
             </div>
           </div>
         </div>
       </div>
-
       <section className="search-hcp smart-list-view">
         <div className="result-hcp-table">
           <div className="table-title">
             <h4>
-              {getlistname} <span>| {props.list_count}</span>
+              {getlistname} <span>| {editList.length}</span>
             </h4>
-            <div className="selected-hcp-table-action">
+            {/* <div className="selected-hcp-table-action">
               <a className="show-less-info" href="#">
                 Show More information{" "}
               </a>
-            </div>
+            </div> */}
           </div>
           <div className="selected-hcp-list">
             <table className="table">
@@ -1007,7 +1048,6 @@ const ViewTable = (props) => {
           </div>
         </div>
       </section>
-
       {/* <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>New HCP</Modal.Title>
@@ -1172,8 +1212,7 @@ const ViewTable = (props) => {
         </Modal.Body>
         <Modal.Footer></Modal.Footer>
       </Modal> */}
-
-      <div className="modal send-confirm" id="resend-confirm">
+      {/* <div className="modal send-confirm" id="resend-confirm">
         <Modal show={isOpen}>
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
@@ -1222,43 +1261,56 @@ const ViewTable = (props) => {
             </div>
           </div>
         </Modal>
-      </div>
+      </div> */}
 
-      <div className="modal send-confirm" id="resend-confirm">
-        <Modal show={deleteConfirmation}>
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header">
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  onClick={() => {
-                    setIsOpen(false);
-                    setReRenders(reRenders + 1);
-                  }}
-                ></button>
-              </div>
+      <Modal show={isOpen} className="send-confirm" id="resend-confirm">
+        <Modal.Header>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            onClick={() => {
+              setIsOpen(false);
+            }}
+          ></button>
+        </Modal.Header>
+        <Modal.Body>
+          <img src={path + "alert.png"} alt="" />
+          <h4>
+            The HCP record will be deleted from the list Are you sure you want
+            to delete it?{" "}
+          </h4>
 
-              <div className="modal-body">
-                <img src="assets/images/alert.png" alt="" />
-                <h4>The HCP record has been deleted successfully</h4>
+          <div class="modal-buttons">
+            <button
+              type="button"
+              class="btn btn-primary btn-filled"
+              data-bs-dismiss="modal"
+              onClick={() => {
+                deleteReader(profile_user_id);
+                setIsOpen(false);
 
-                <div className="modal-buttons">
-                  <button
-                    type="button"
-                    className="btn btn-primary btn-bordered light"
-                    data-bs-dismiss="modal"
-                    onClick={() => setOpenDeleteConfirmation(false)}
-                  >
-                    Close
-                  </button>
-                </div>
-              </div>
-            </div>
+                setOpenDeleteConfirmation(true);
+              }}
+            >
+              Yes Please!
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-primary btn-bordered light"
+              data-bs-dismiss="modal"
+              onClick={() => {
+                setIsOpen(false);
+              }}
+            >
+              Cancel
+            </button>
           </div>
-        </Modal>
-      </div>
+        </Modal.Body>
+      </Modal>
+
+      {deleteConfirmation == true ? showSucessPopup() : null}
 
       <Modal
         id="add_hcp"

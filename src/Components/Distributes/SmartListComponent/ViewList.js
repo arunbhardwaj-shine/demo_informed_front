@@ -26,18 +26,20 @@ const EditList = () => {
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const getSmartListData = async () => {
-    loader("show");
+    // loader("show");
     await axios
       .post(`distributes/get_reders_list`, body)
       .then((res) => {
-        if (res.data.response.data.length > 0) {
-          setEditListData(res.data.response.data);
-          setLoading(false);
-          setUploadedBy(res.data.response.upload_by_filter);
-          setSmartListName(res.data.response.smart_list_name);
-          setListCount(res.data.response.list_count);
-          setapi_flag(api_flag + 1);
-          loader("hide");
+        if (res.data.response) {
+          if (res.data.response.data.length > 0) {
+            setEditListData(res.data.response.data);
+            setLoading(false);
+            setUploadedBy(res.data.response.upload_by_filter);
+            setSmartListName(res.data.response.smart_list_name);
+            setListCount(res.data.response.list_count);
+            setapi_flag(api_flag + 1);
+            loader("hide");
+          }
         }
       })
       .catch((err) => {
