@@ -29,7 +29,6 @@ const EditList = () => {
           setSelectedFilter(res.data.response.selected_filters);
           setListName(res.data.response.smart_list_name);
           getfilterlist();
-          loader("hide");
         }
       })
       .catch((err) => {
@@ -41,7 +40,6 @@ const EditList = () => {
     user_id: 18207,
   };
   const getfilterlist = async () => {
-    loader("show");
     await axios
       .post(`distributes/filters_list`, filterdatapayload)
       .then((res) => {
@@ -52,9 +50,6 @@ const EditList = () => {
         console.log(err);
       });
   };
-
-
-
 
   useEffect(() => {
     editListData();
@@ -69,6 +64,7 @@ const EditList = () => {
         listname={listName}
         selectedFilter={selectedFilter}
         data={filteredData}
+        action="edit"
         />
       }
     </div>

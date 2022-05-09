@@ -38,6 +38,7 @@ const SmartListFilter = () => {
         <FilterSegment
         filters={filterList}
         listname={smartListName}
+        action="create"
         />
       }
     </div>

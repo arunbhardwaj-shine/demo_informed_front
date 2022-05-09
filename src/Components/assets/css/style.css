@@ -190,7 +190,7 @@ header {
 	background:#ffffff;
 	box-shadow: 0px 2px 10px -3px rgb(0 102 190 / 46%);
 	color:#0066BE;
-} 
+}
 .filter-by button:after{display:none;}
 .filter-by .dropdown-menu {
 	border: 0;
@@ -242,7 +242,7 @@ header {
     margin: 0!important;
 }
 .search-bar form.d-flex input:focus{
-filter: drop-shadow(0px 0px 5px rgba(0, 102, 190, 0.87));	
+filter: drop-shadow(0px 0px 5px rgba(0, 102, 190, 0.87));
 }
 .search-bar form.d-flex {
     position: relative;
@@ -250,12 +250,12 @@ filter: drop-shadow(0px 0px 5px rgba(0, 102, 190, 0.87));
 .filter-by, .clear-search {
 	margin-left: 24px;
 }
-.search-bar input::-webkit-input-placeholder { 
+.search-bar input::-webkit-input-placeholder {
   color: #97B6CF;
   opacity:1;
 }
 
-.search-bar input:-ms-input-placeholder { 
+.search-bar input:-ms-input-placeholder {
   color: #97B6CF;
   opacity:1;
 }
@@ -275,7 +275,7 @@ filter: drop-shadow(0px 0px 5px rgba(0, 102, 190, 0.87));
     box-sizing: border-box;
     border-radius: 15px;
     padding: 16px;
-	 
+
 }
 .apply-filter{
   margin-top: 30px;
@@ -628,6 +628,7 @@ color: #C8D1D9;}
     align-items: center;
     justify-content: center;
     margin-bottom: 29px;
+		min-height: 423px;
 }
 .smart-list-result {
 	margin-top: 40px;
@@ -675,7 +676,7 @@ color: #C8D1D9;}
 	color: #70899F;
 }
 .smartlist-view ul li .mail_click{
-border: 2px solid #986CA5;	
+border: 2px solid #986CA5;
 }
 .smartlist-view ul li .mail_click svg path{fill:#986CA5;}
 .smart-list-added-user img {
@@ -796,11 +797,11 @@ ul.tabnav-link li {
   color: #0066BE;
 }
 .btn-filled{
-color: #FFFFFF;	
+color: #FFFFFF;
 background: #0066BE;
 }
 .header-btn .btn.next, .header-btn .btn.create {
-  margin-left: 8px; 
+  margin-left: 8px;
 }
 .page-top-nav .tabnav-link li::after {
 	content: "";
@@ -944,7 +945,7 @@ background: #0066BE;
 	border-top: 0.5px dashed #0066BF;
 	padding-top: 13px;
 	display: flex;
-	justify-content: end;																															
+	justify-content: end;
 }
 .mail-content-select {
 	margin-top: 34px;
@@ -1040,11 +1041,11 @@ box-shadow: 0px 0px 5px rgba(0, 102, 190, 0.87);
 }
 .email-form {
 	padding: 0;
-}    
+}
 .ck.ck-editor {
     position: relative;
     width: 100%;
-    margin-bottom: 30px;    
+    margin-bottom: 30px;
 }
 .form-inline .form-group input#email-address {
 	max-width: 364px;
@@ -1210,13 +1211,13 @@ form .input-group {
 .tag-lists-view::-webkit-scrollbar, .search-hcp-table .search-hcp-table-inside::-webkit-scrollbar, .dropdown-menu.filter-options #accordion::-webkit-scrollbar, .dropdown-menu.filter-options #accordion .card ul::-webkit-scrollbar, ::-webkit-scrollbar {
   width: 10px;
 }
- 
+
 .tag-lists-view::-webkit-scrollbar-track, .search-hcp-table .search-hcp-table-inside::-webkit-scrollbar-track, .dropdown-menu.filter-options #accordion::-webkit-scrollbar-track, .dropdown-menu.filter-options #accordion .card ul::-webkit-scrollbar-track, ::-webkit-scrollbar-track {
  background:#DCE6EF;
  border-radius:15px;
  padding:0 5px;
 }
- 
+
 .tag-lists-view::-webkit-scrollbar-thumb, .search-hcp-table .search-hcp-table-inside::-webkit-scrollbar-thumb, .dropdown-menu.filter-options #accordion::-webkit-scrollbar-thumb, .dropdown-menu.filter-options #accordion .card ul::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb {
   background-color: #97B6CF;
    border-radius:15px;
@@ -1300,7 +1301,7 @@ form .input-group {
     margin: 0;
     min-width: 112px;
     padding: 10px 14px;
-}														
+}
 /**MOdal Tags Finish**/
 
 .send-option-list {
@@ -1383,7 +1384,7 @@ form .input-group {
 	max-height: 270px;
 	overflow-y: auto;
 	overflow-x:hidden;
-	
+
 }
 .search-hcp-table table th, .selected-hcp-list table th {
 	font-size: 13px;
@@ -1394,7 +1395,7 @@ form .input-group {
 	border: 0;
 	padding-top: 0;
 	padding-bottom: 0;
-}	
+}
 .search-hcp-table table td, .selected-hcp-list table td {
   font-size: 13px;
   line-height: 15px;
@@ -1503,7 +1504,7 @@ form .input-group {
 	height: 39px;
 }
 .btn{
-filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));	
+filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));
 font-family: 'Roboto-Medium';
 border-radius:30px;
 }
@@ -1530,7 +1531,7 @@ border-radius:30px;
 h4{
 font-size: 24px;
 line-height: 28px;
-text-transform: capitalize;	
+text-transform: capitalize;
 }
 .selected-hcp-table {
 	margin-top: 34px;
@@ -1812,7 +1813,7 @@ form#add_hcp_form .row:not(:first-child) {
 .nav-item.add_hcp .nav-link:hover, .nav-item.add_hcp .nav-link:active, .nav-item.add_hcp .nav-link:focus {
 	background: #8A4E9C;
 	color:#fff;
-} 
+}
 .nav-item.add-file .nav-link {
 	filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));
 	border-radius: 30px;
@@ -2998,21 +2999,21 @@ position: relative;
 	border: 0.5px solid #97B6CF;
 	box-shadow: inset 0px 0px 15px rgba(0, 102, 190, 0.23);
 	border-radius: 15px;padding: 5px 23px;}
-	
+
 	.select-mail-template .alice-carousel .item {max-width: 137px;text-align: center;margin: 14px auto;}
-	
+
 	.select-mail-template .alice-carousel .item {text-align: center;}
-	
+
 	.select-mail-template .alice-carousel .item img {width: 100%;padding: 0px;box-shadow: 0px 1px 8px rgb(0 102 190 / 24%);
 		border-radius: 15px;max-width: 107px;}
-	
+
 	.select-mail-template .alice-carousel .item p {font-size: 16px;
 	line-height: 19px;
-	text-transform: capitalize;           
+	text-transform: capitalize;
 	color: #0066BE;font-family: 'Roboto';margin: 9px 0 0;}
-	
+
 	.select-mail-template .alice-carousel .alice-carousel__prev-btn {position: absolute;width: auto;top: 50%;transform: translateY(-50%);padding: 0;width: 24px;height: 24px;left: 16px;display: flex;align-items: center;justify-content: center;background: url(../images/template-slider-arrow.png) no-repeat center center;}
-	
+
 	.select-mail-template .alice-carousel .alice-carousel__next-btn {position: absolute;top: 50%;transform: translateY(-50%)rotate(180deg);right: 16px;width: auto;padding: 0;width: 24px;height: 24px;display: flex;align-items: center;justify-content: center;background: url(../images/template-slider-arrow.png) no-repeat center center;}
 	.select-mail-template .alice-carousel .alice-carousel__prev-btn span, .select-mail-template .alice-carousel .alice-carousel__next-btn span {display: none;}
 
@@ -3042,7 +3043,7 @@ position: relative;
 	}
 	.ck-content .table table {
 		border: none !important;
-		
+
 	}
 .sample_list_dt{
 	min-height: 70px !important;
@@ -3138,13 +3139,14 @@ position: relative;
 	#upload-confirm .modal-body .modal-buttons {
 		justify-content: flex-end;
 		margin-top: 20px;
+		margin-right: 0px;
 	}
 	.header-btn-left a {
 		text-decoration: none;
 		color: #0066BE;
 	}
 	.header-btn-left button:hover a {
-		color: #fff;	
+		color: #fff;
 	}
 	.smart-list-result .smartlist-view {
 		margin: 32px 0 0;
@@ -3194,6 +3196,10 @@ position: relative;
 		border-color: #97B6CF;
 		color: #97B6CF;
 		background: transparent;
+	}
+	.smart_list_names .header-btn .btn.light a {
+		color: #97B6CF;
+		text-decoration: none;
 	}
 	.smart_list_names .header-btn .btn.btn-bordered.save-as {
 		border-color: #0066BE;
@@ -3254,7 +3260,7 @@ position: relative;
 	.smart-list-dropdown .card .card-header .btn button::after {
 		top: 22px;
 		right: 25px;
-		background-image: url(http://localhost:3000/static/media/dropdown-blue.029ed6e68ef2fd802c94.svg);
+		background-image: url(../images/dropdown-blue.svg);
 		width: 16px;
 		height: 16px;
 		position: absolute;
@@ -3279,7 +3285,7 @@ position: relative;
 	#accordion-smart .block-smart-name h6 {
 		font-size: 14px;
 		line-height: 16px;
-		color: #004A89;	
+		color: #004A89;
 		font-family: 'Roboto-Medium';
 	}
 	#accordion-smart .smart-name-list {
@@ -3308,8 +3314,8 @@ position: relative;
 		display: flex;
 		line-height: 1.4;
 	}
-	.dropdown-menu.filter-options  .card .select-multiple-option input, 
-	.smart-list-dropdown .card .select-multiple-option input, 
+	.dropdown-menu.filter-options  .card .select-multiple-option input,
+	.smart-list-dropdown .card .select-multiple-option input,
 	.select-multiple-option input[type="radio"] {
 		opacity: 0;
 		z-index: 1;
@@ -3403,4 +3409,8 @@ position: relative;
 		font-size: 28px;
 		font-weight: 600;
 		color: #004A89;
+	}
+
+	.btn a, .btn.btn-primary a {
+		color: inherit;
 	}

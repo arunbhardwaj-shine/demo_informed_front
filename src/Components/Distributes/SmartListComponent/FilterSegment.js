@@ -334,56 +334,68 @@ const FilterSegment = (props) => {
 
   return (
     <>
-      <div className="page-top-nav smart_list_names">
-        <div className="row justify-content-end align-items-center">
-          <div className="col-12 col-md-6">
-            <div className="page-title"><h2>Smart List Name</h2></div>
-          </div>
-          <div className="col-12 col-md-6">
-            <div className="header-btn">
-            <button className="btn btn-primary btn-bordered light">Close</button>
-            <button className="btn btn-primary btn-bordered save-as">Save As</button>
-            <button className="btn btn-primary btn-filled save">Save</button>
+      {
+        typeof props.action !== "undefined" && props.action == "edit" && (
+
+          <div className="page-top-nav smart_list_names">
+            <div className="row justify-content-end align-items-center">
+              <div className="col-12 col-md-6">
+                <div className="page-title"><h2>Smart List Name</h2></div>
+              </div>
+            <div className="col-12 col-md-6">
+              <div className="header-btn">
+                <button className="btn btn-primary btn-bordered light">Close</button>
+                <button className="btn btn-primary btn-bordered save-as">Save As</button>
+                <button className="btn btn-primary btn-filled save">Save</button>
+              </div>
+            </div>
             </div>
           </div>
-         </div>
-      </div>
+        )
+      }
 
-      <div className="page-top-nav smart_list_names create_filter_list">
-        <div className="row justify-content-end align-items-center">
-          <div className="col-12 col-md-6">
-            <NavLink to="/CreateSmartList" className="active">
-              Go Back
-            </NavLink>
+      {
+        typeof props.action !== "undefined" && props.action == "create" && (
+          <div className="page-top-nav smart_list_names create_filter_list">
+            <div className="row justify-content-end align-items-center">
+              <div className="col-12 col-md-6">
+                <NavLink to="/CreateSmartList" className="active">
+                  Go Back
+                </NavLink>
+              </div>
+              <div className="col-12 col-md-6">
+                <div className="header-btn">
+                  <button className="btn btn-primary btn-bordered light">
+                    <NavLink to="/SmartList">
+                      Cancel
+                    </NavLink>
+                  </button>
+                  <button className="btn btn-primary btn-bordered save-as">
+                    <Link
+                      to="/VerifySmartList"
+                      state={{
+                        getfilterdata: getfilterdata,
+                        listname: listname,
+                        contact_type: selectedcontacttype,
+                        filter_payload: getpayload,
+                      }}
+                    >
+                      Create
+                    </Link>
+                </button>
+                </div>
+              </div>
+             </div>
           </div>
-          <div className="col-12 col-md-6">
-            <div className="header-btn">
-              <button className="btn btn-primary btn-bordered light">Cancel</button>
-              <button className="btn btn-primary btn-bordered save-as">
-                <Link
-                  to="/VerifySmartList"
-                  state={{
-                    getfilterdata: getfilterdata,
-                    listname: listname,
-                    contact_type: selectedcontacttype,
-                    filter_payload: getpayload,
-                  }}
-                >
-                  Create
-                </Link>
-            </button>
-            </div>
-          </div>
-         </div>
-      </div>
-
+        )
+      }
       <section className="search-hcp smart-list-name">
         <div className="smart-list-name-drop">
             <h5>Please select who to include to your smart list.You can pick one or more:</h5>
              <div className="smart-list-dropdown">
                 <div className="dropdown-smart">
                   <div id="accordion-smart">
-                      <Accordion flush>
+                      <Accordion defaultActiveKey="0" flush>
                         <Accordion.Item className="card" eventKey="0">
                           <div className="card-header">
                             <Accordion.Header className="btn">Segmentation</Accordion.Header>
