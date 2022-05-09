@@ -62,7 +62,6 @@ const CreateSmartList = () => {
     setCreatorName(event.target.value);
   };
 
-
   const onFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
@@ -82,8 +81,8 @@ const CreateSmartList = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        type: "error"
-        });
+        type: "error",
+      });
     }
   };
 
@@ -115,11 +114,13 @@ const CreateSmartList = () => {
   const clickNext = (event) => {
     if (validator.allValid()) {
       if (activeClass == "upload_excel") {
-         uploadFile();
-      }else{
-        navigate("/SmartListFilter", {state: { smartListName: smartListName }});
+        uploadFile();
+      } else {
+        navigate("/SmartListFilter", {
+          state: { smartListName: smartListName },
+        });
       }
-    }else{
+    } else {
       console.log("show error messages");
       console.log(validator.errorMessages);
       validator.showMessages();

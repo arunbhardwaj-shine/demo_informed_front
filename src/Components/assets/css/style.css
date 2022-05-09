@@ -766,10 +766,15 @@ ul.tabnav-link li {
   font-size: 16px;
   text-transform: capitalize;
   border: 1px solid #0066BE;
+  background: #0066BE;
+  color: #fff;
   font-family: 'Roboto-Medium';
   padding: 10px 14px;
   min-width:80px;
   line-height:1;
+}
+.btn.btn-primary a {
+	color: #fff;
 }
 .btn.btn-bordered:hover, .btn.btn-bordered:focus, .btn.btn-bordered:active  {
   background:#0066BE;
@@ -1067,8 +1072,12 @@ form .input-group #tags-add {
 	font-size: 16px;
 	line-height: 19px;
 	color: #0066BE;
+	background: transparent;
 	font-family: 'Roboto-Medium';
 	padding: 10px 20px;
+}
+form .input-group #tags-add:hover {
+	background: #0066BE;
 }
 form .input-group #tags-add:hover, form .input-group #tags-add:active, form .input-group #tags-add:focus {
 	color: #fff;
@@ -2407,16 +2416,23 @@ border-radius: 30px;border: 0;}
 .send-confirm .modal-body .modal-buttons {
 	align-items: center;
 	display: flex;
-	justify-content: space-around;
+	max-width: 330px;
+	margin-left: auto;
+	margin-right: auto;
+	justify-content: center;
 	margin-top: 33px;
 }
 .send-confirm .modal-body .modal-buttons button {min-width: 140px;height: 39px;line-height: 1;}
 .send-confirm .modal-body .modal-buttons button.light {
 	border-color: #97B6CF;
+	box-shadow: 0px 3px 10px -3px rgba(0, 102, 190, 0.2);
 	color: #97B6CF;
+	background: transparent;
+	margin-left: auto;
 }
 .send-confirm .modal-body .modal-buttons button.light:hover {
-	background-color: #97B6CF;
+	background-color: #0066BE;
+	border-color: #0066BE;
 	color: #ffffff;
 }
 .send-confirm#action-confirm .modal-body .modal-buttons button {
@@ -2995,10 +3011,10 @@ position: relative;
 	text-transform: capitalize;           
 	color: #0066BE;font-family: 'Roboto';margin: 9px 0 0;}
 	
-	.select-mail-template .alice-carousel .alice-carousel__prev-btn {position: absolute;width: auto;top: 50%;transform: translateY(-50%);}
+	.select-mail-template .alice-carousel .alice-carousel__prev-btn {position: absolute;width: auto;top: 50%;transform: translateY(-50%);padding: 0;width: 24px;height: 24px;left: 16px;display: flex;align-items: center;justify-content: center;background: url(../images/template-slider-arrow.png) no-repeat center center;}
 	
-	.select-mail-template .alice-carousel .alice-carousel__next-btn {position: absolute;top: 50%;transform: translateY(-50%);right: 0;width: auto;}
-
+	.select-mail-template .alice-carousel .alice-carousel__next-btn {position: absolute;top: 50%;transform: translateY(-50%)rotate(180deg);right: 16px;width: auto;padding: 0;width: 24px;height: 24px;display: flex;align-items: center;justify-content: center;background: url(../images/template-slider-arrow.png) no-repeat center center;}
+	.select-mail-template .alice-carousel .alice-carousel__prev-btn span, .select-mail-template .alice-carousel .alice-carousel__next-btn span {display: none;}
 
 	.ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected.ck-widget_with-selection-handle>.ck-widget__selection-handle, .ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected.ck-widget_with-selection-handle>.ck-widget__selection-handle:hover, .ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected:hover.ck-widget_with-selection-handle>.ck-widget__selection-handle, .ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected:hover.ck-widget_with-selection-handle>.ck-widget__selection-handle:hover {
 		background: var(--ck-color-widget-blurred-border);
@@ -3075,8 +3091,8 @@ position: relative;
 	  top: 0;
   }
   .filter-block-left.full::after {
-display: none;
-}
+	display: none;
+	}
   .filter-block .filter-block-left {
 	  padding-right: 30px;
 	  position: relative;
@@ -3122,4 +3138,46 @@ display: none;
 	#upload-confirm .modal-body .modal-buttons {
 		justify-content: flex-end;
 		margin-top: 20px;
+	}
+	.header-btn-left a {
+		text-decoration: none;
+		color: #0066BE;
+	}
+	.header-btn-left button:hover a {
+		color: #fff;	
+	}
+	.smart-list-result .smartlist-view {
+		margin: 32px 0 0;
+	}
+	.smart-list-result .smartlist-view:first-child,
+	.smart-list-result .smartlist-view:nth-child(2),
+	.smart-list-result .smartlist-view:nth-child(3),
+	.smart-list-result .smartlist-view:nth-child(4) {
+		margin: 0;
+	}
+	.smartlist-buttons .btn.btn-primary:first-child {
+		background: transparent;
+		color: #0066BE;
+	}
+	.smartlist-buttons .btn.btn-primary:first-child:hover {
+		background: #0066BE;
+		color: #fff;
+	}
+	.smartlist-buttons .btn.btn-primary:last-child:hover {
+		background: transparent;
+		color: #0066BE;
+	}
+	.total-selected .tag-cross {
+		margin-left: 18.2px;
+		margin-bottom: 10px;
+	}
+	.total-selected .tag-cross:first-child {
+		margin-left: 0;
+	}
+	.total-selected .tag-cross img {
+		margin-left: 42px;
+		cursor: pointer;
+	}
+	.send-confirm .modal-body .modal-buttons button:first-child {
+		margin-left: 0;
 	}
