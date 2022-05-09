@@ -391,7 +391,7 @@ const FilterSegment = (props) => {
                           <Accordion.Body>
                           <div className="card-body">
 
-                          
+
                               {"contact_type" in filters &&
                                 Object.keys(filters.contact_type).length > 0 && (
                                   <>
@@ -420,9 +420,9 @@ const FilterSegment = (props) => {
                                   </div>
                                 </>
                               )}
-                            
 
-                            
+
+
                                 {"speciality" in filters &&
                                   Object.keys(filters.speciality).length > 0 && (
                                     <>
@@ -451,9 +451,9 @@ const FilterSegment = (props) => {
                                     </div>
                                   </>
                                 )}
-                              
 
-                              
+
+
                                   {"reader_selection" in filters &&
                                     Object.keys(filters.reader_selection).length > 0 && (
                                       <>
@@ -482,9 +482,9 @@ const FilterSegment = (props) => {
                                         </div>
                                     </>
                                   )}
-                                
 
-                                
+
+
                                     {"ibu" in filters &&
                                       Object.keys(filters.ibu).length > 0 && (
                                         <>
@@ -513,10 +513,10 @@ const FilterSegment = (props) => {
                                         </div>
                                       </>
                                     )}
-                                  
 
 
-                                  
+
+
                                       {"product" in filters &&
                                         Object.keys(filters.product).length > 0 && (
                                           <>
@@ -545,10 +545,10 @@ const FilterSegment = (props) => {
                                           </div>
                                         </>
                                       )}
-                                    
 
 
-                                    
+
+
                                         {"country" in filters &&
                                           Object.keys(filters.country).length > 0 && (
                                             <>
@@ -577,10 +577,10 @@ const FilterSegment = (props) => {
                                             </div>
                                           </>
                                         )}
-                                      
 
 
-                                      
+
+
                                           {"consent_type" in filters && filters.consent_type.length > 0 && (
                                               <>
                                                 <div className="col block-smart-name">
@@ -607,9 +607,9 @@ const FilterSegment = (props) => {
                                               </div>
                                             </>
                                           )}
-                                        
 
-                                        
+
+
                                         {"articles" in filters && Object.keys(filters.articles).length > 0 && showhidearticle == 1 && (
                                                 <>
                                                 <div className="col block-smart-name">
@@ -637,7 +637,7 @@ const FilterSegment = (props) => {
                                                 </div>
                                               </>
                                             )}
-                                          
+
 
                              <div className="col block-smart-name registered">
                               <h6>Registered</h6>
@@ -879,48 +879,19 @@ const FilterSegment = (props) => {
 
 					</div>
 				</div>
-				<div className="result-hcp-table">
-					<div className="table-title">
-						<h6>Selected HCPs for the smart list </h6>
-						<div className="selected-hcp-table-action">
-							<a className="show-less-info" href="#">Show Less information </a>
-							<div className="hcp-new-user">
-								<button className="btn btn-outline-primary"><img src={path_image + "new-user.svg"} alt="New User" /></button>
-							</div>
-							<div className="hcp-added">
-								<button className="btn btn-outline-primary"><img src={path_image + "edit-button.svg"} alt="Edit" /></button>
-							</div>
-						</div>
-					</div>
-					<div className="selected-hcp-list">
-						<table className="table">
-						  <thead>
-							<tr>
-							  <th scope="col">Name</th>
-							  <th scope="col">Email</th>
-							  <th scope="col">Bounced</th>
-							  <th scope="col">Country</th>
-							  <th scope="col">Readers</th>
-							  <th scope="col">Business Unit</th>
-							  <th scope="col">Interest</th>
-							  <th scope="col"></th>
-							</tr>
-						  </thead>
-						  <tbody>
-							<tr>
-							  <td>Jacob Flindt</td>
-							  <td>User@docintel.app</td>
-							  <td>No</td>
-							  <td>United Kingdom</td>
-							  <td>CIS</td>
-							  <td>Haematology</td>
-							  <td>Tech</td>
-							  <td className="delete_row" colspan="12"><img src={path_image + "delete.svg"} alt="Delete Row" /></td>
-							</tr>
-						  </tbody>
-						</table>
-					</div>
-				</div>
+
+        {apifilterflag > 0 ? (
+            typeof getfilterdata === "object" && getfilterdata.length > 0 ? (
+              <div className="box mt-2">
+                <Table data={getfilterdata} smartListName={listname} upload_by_filter="1" />
+              </div>
+            ) : (
+              <div className="box mt-2">
+                <p>No Data Found</p>
+              </div>
+            )
+          ) : null}
+
 			</section>
     </>
   );

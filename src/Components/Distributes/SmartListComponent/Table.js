@@ -599,44 +599,54 @@ let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   return (
     <>
-    <div class="page-top-nav smart_list_names">
-      <div class="row justify-content-end align-items-center">
-        <div class="col-12 col-md-1">
-          <div class="header-btn-left">
-          <button class="btn btn-primary btn-bordered back">
-              <Link to={"/CreateSmartList"}>
-                BACK
-              </Link>
-          </button>
-          </div>
+
+    {
+      typeof props.upload_by_filter !== "undefined" && props.upload_by_filter == 0 && (
+        <div class="page-top-nav smart_list_names">
+          <div class="row justify-content-end align-items-center">
+            <div class="col-12 col-md-1">
+              <div class="header-btn-left">
+              <button class="btn btn-primary btn-bordered back">
+                  <Link to={"/CreateSmartList"}>
+                    BACK
+                  </Link>
+              </button>
+              </div>
+            </div>
+            <div class="col-12 col-md-9">
+              <ul class="tabnav-link">
+                <li class="">
+                  <a href="javascript:void(0)">Create smart List</a>
+                </li>
+                <li class="active">
+                  <a href="javascript:void(0)">Verify Your List</a>
+                </li>
+              </ul>
+            </div>
+            <div class="col-12 col-md-2">
+              <div class="header-btn">
+              <button class="btn btn-primary btn-bordered move-draft">
+                <Link to={{pathname: "/CreateSmartList"}}>
+                  Cancel
+                </Link>
+              </button>
+              <button class="btn btn-primary btn-filled create" onClick={showFileInReadersList}>Craete</button>
+              </div>
+            </div>
+           </div>
         </div>
-        <div class="col-12 col-md-9">
-          <ul class="tabnav-link">
-            <li class="">
-              <a href="javascript:void(0)">Create smart List</a>
-            </li>
-            <li class="active">
-              <a href="javascript:void(0)">Verify Your List</a>
-            </li>
-          </ul>
-        </div>
-        <div class="col-12 col-md-2">
-          <div class="header-btn">
-          <button class="btn btn-primary btn-bordered move-draft">
-            <Link to={{pathname: "/CreateSmartList"}}>
-              Cancel
-            </Link>
-          </button>
-          <button class="btn btn-primary btn-filled create" onClick={showFileInReadersList}>Craete</button>
-          </div>
-        </div>
-       </div>
-    </div>
+      )
+    }
 
     <section class="search-hcp smart-list-view">
 				<div class="result-hcp-table">
 					<div class="table-title">
-						<h4>Uploaded HCPs for the smart list <span>| {editList.length > 0 ? editList.length : 0}</span></h4>
+            {
+              props.upload_by_filter == 0
+              ? <h4>Uploaded HCPs for the smart list <span>| {editList.length > 0 ? editList.length : 0}</span></h4>
+              : <h4>Selected Hcp's for the smart list</h4>
+            }
+
 						<div class="selected-hcp-table-action">
 							<a class="show-less-info" href="#">Show Less information </a>
 							<div class="hcp-new-user">
