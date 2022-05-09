@@ -14,7 +14,7 @@ const Table = (props) => {
     status: false,
     rowKey: null,
   });
-
+let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   //let validator = new SimpleReactValidator();
 
   const [validator] = React.useState(new SimpleReactValidator());
@@ -369,12 +369,6 @@ const Table = (props) => {
       country: country,
       username: name,
     };
-
-    console.log("body");
-    console.log(body);
-
-    console.log("edit list");
-    console.log(editList);
     loader("show");
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     await axios
@@ -598,34 +592,145 @@ const Table = (props) => {
         });
     } else {
       alert("validation failed");
-      console.log(validator);
       validator.showMessages();
-      console.log(validator.errorMessages);
       setData(data + 1);
     }
   };
 
   return (
     <>
-      {props.url ? (
-        <Link
-          to={{
-            pathname: "/CreateSmartList",
-          }}
-          onClick={backClicked}
-        >
-          BACK
-        </Link>
-      ) : null}
+    <div class="page-top-nav smart_list_names">
+      <div class="row justify-content-end align-items-center">
+        <div class="col-12 col-md-1">
+          <div class="header-btn-left">
+          <button class="btn btn-primary btn-bordered back">
+              <Link to={"/CreateSmartList"}>
+                BACK
+              </Link>
+          </button>
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          <ul class="tabnav-link">
+            <li class="">
+              <a href="javascript:void(0)">Create smart List</a>
+            </li>
+            <li class="active">
+              <a href="javascript:void(0)">Verify Your List</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-12 col-md-2">
+          <div class="header-btn">
+          <button class="btn btn-primary btn-bordered move-draft">
+            <Link to={{pathname: "/CreateSmartList"}}>
+              Cancel
+            </Link>
+          </button>
+          <button class="btn btn-primary btn-filled create" onClick={showFileInReadersList}>Craete</button>
+          </div>
+        </div>
+       </div>
+    </div>
 
-      {getlistname}
-      <br />
-      <Button variant="primary" onClick={handleShow}>
-        Add Reader
-      </Button>
-      <button className="btn btn-secondary" onClick={showFileInReadersList}>
-        Verify user
-      </button>
+    <section class="search-hcp smart-list-view">
+				<div class="result-hcp-table">
+					<div class="table-title">
+						<h4>Uploaded HCPs for the smart list <span>| {editList.length > 0 ? editList.length : 0}</span></h4>
+						<div class="selected-hcp-table-action">
+							<a class="show-less-info" href="#">Show Less information </a>
+							<div class="hcp-new-user">
+								<button class="btn btn-outline-primary" onClick={handleShow}><img src={path + "new-user.svg"} alt="New User" /></button>
+							</div>
+							<div class="hcp-added">
+								<button class="btn btn-outline-primary"><img src={path + "edit-button.svg"} alt="Edit" /></button>
+							</div>
+							<div class="hcp-sort">
+								<button class="btn btn-outline-primary">Sort By <img src={path + "sort.svg"} alt="Shorting" /></button>
+							</div>
+						</div>
+					</div>
+					<div class="selected-hcp-list">
+						<table class="table">
+						  <thead>
+							<tr>
+							  <th scope="col">Name</th>
+							  <th scope="col">Email</th>
+							  <th scope="col">Bounced</th>
+							  <th scope="col">Country</th>
+							  <th scope="col">Readers</th>
+							  <th scope="col">Business Unit</th>
+							  <th scope="col">Interest</th>
+							  <th scope="col"></th>
+							</tr>
+						  </thead>
+						  <tbody>
+              {editList.map((item) => (
+                <tr>
+                  <td>
+                    {inEditMode.status && inEditMode.rowKey === item.profile_id ? (
+                      <input
+                        value={name}
+                        onChange={(event) => setName(event.target.value)}
+                      />
+                    ) : (
+                      item.first_name + " " + item.last_name
+                    )}
+                  </td>
+
+                  <td>
+                    {" "}
+                    {inEditMode.status && inEditMode.rowKey === item.profile_id ? (
+                      <input
+                        value={email}
+                        type="email"
+                        onChange={(event) => setEmail(event.target.value)}
+                      />
+                    ) : (
+                      item.email
+                    )}
+                  </td>
+                  <td>No</td>
+                  <td>
+                    {inEditMode.status && inEditMode.rowKey === item.profile_id ? (
+                      <input
+                        value={country}
+                        onChange={(event) => setCountry(event.target.value)}
+                      />
+                    ) : (
+                      item.country
+                    )}
+                  </td>
+                  <td>N/A</td>
+                  <td>N/A</td>
+                  <td>N/A</td>
+                  <td class="delete_row" colspan="12" onClick={() =>
+                      onDelete({
+                        id: item.profile_id,
+                        currentName: item.first_name + " " + item.last_name,
+                        currentJobTitle: item.jobTitle,
+                        currentCompany: item.company,
+                        currentIndication: item.indication,
+                        currentProduct: item.product,
+                        currentCountry: item.country,
+                        currentEmail: item.email,
+                        profile_user_id: item.profile_user_id,
+                      })
+                    }>
+                    <img src={path + "delete.svg"} alt="Delete Row" /></td>
+                </tr>
+              ))}
+              {validator3.message("email", email, "required|email")}
+
+						  </tbody>
+						</table>
+
+					</div>
+				</div>
+			</section>
+
+
+      {/*Modal to add new users*/}
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>New HCP</Modal.Title>
@@ -645,34 +750,6 @@ const Table = (props) => {
             Upload Excel
           </button>
         </Modal.Header>{" "}
-        {/* <div className="container">
-            <div className="row align-items-center vh-100">
-              <div className="col-6 mx-auto">
-                <div className="card shadow border">
-                  <div className="card-body d-flex flex-column align-items-center">
-                    <div className="card-title">
-                      first name <input type="text"></input>
-                      last name <input type="text"></input>
-                      email <input type="text"></input>
-                      contact type <input type="text"></input>
-                      country <input type="text"></input>
-                      <br />
-                      <Button
-                        variant="primary"
-                        onClick={handleShowUploadMenu}
-                        style={{ margin: "5px" }}
-                      >
-                        Upload Excel
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> */}
-        {/* {renderCounterData.map((data) => {
-            return <>{data}</>;
-          })} */}
         <div className="container">
           {hpc.map((val, i) => {
             const fieldName = `hpc[${i}]`;
@@ -721,14 +798,6 @@ const Table = (props) => {
                               "required|email"
                             )}
                             contact type{" "}
-                            {/* <input
-                              type="text"
-                              name={`${fieldName}.contact_type`}
-                              onChange={(event) =>
-                                onContactTypeChange(event, i)
-                              }
-                              value={val.contact_type}
-                            ></input> */}
                             <input
                               type="radio"
                               id="HCP"
@@ -797,34 +866,14 @@ const Table = (props) => {
           </button>
         </div>
       </Modal>
+
+      {/*Upload Excel file*/}
       <Modal show={showUploadMenu} onHide={handleCloseUploadMenu}>
         <Modal.Header closeButton>
           <Modal.Title>upload your new file</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {" "}
-          {/* <div className="container">
-                            <div className="row align-items-center vh-100">
-                              <div
-                                className="col-6 mx-auto"
-                                style={{ border: "2px" }}
-                              >
-                                <p className="card-title">
-                                  Upload your new list file
-                                </p>
-
-                                <div className="card-title">
-                                  <input type="file" onChange={onFileChange} />
-                                  <br />
-                                  <button
-                                    onClick={(event) => uploadFile(event)}
-                                  >
-                                    upload
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          </div> */}
           <div className="card">
             <div className="card-header"> Upload your new list file</div>
             <div className="card-body">
@@ -842,8 +891,6 @@ const Table = (props) => {
               </button>
 
               <p className="card-text">
-                {/* With supporting text below as a natural lead-in
-                                to additional content. */}
               </p>
             </div>
           </div>
@@ -851,174 +898,6 @@ const Table = (props) => {
         <Modal.Footer></Modal.Footer>
       </Modal>
 
-      <table className="table">
-        <thead>
-          <tr>
-            <th scope="col"> Name</th>
-            <th scope="col">job title</th>
-            <th scope="col">company</th>
-            <th scope="col">indication</th>
-            <th scope="col">product</th>
-            <th scope="col">country</th>
-            <th scope="col">email</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody className="form-group">
-          {editList.map((item) => (
-            <tr>
-              <td>
-                {inEditMode.status && inEditMode.rowKey === item.profile_id ? (
-                  <input
-                    value={name}
-                    onChange={(event) => setName(event.target.value)}
-                  />
-                ) : (
-                  item.first_name + " " + item.last_name
-                )}
-              </td>
-              <td>
-                {inEditMode.status && inEditMode.rowKey === item.profile_id ? (
-                  <input
-                    value={jobTitle}
-                    onChange={(event) => setJobTitle(event.target.value)}
-                  />
-                ) : (
-                  item.jobTitle
-                )}
-              </td>
-              <td>
-                {" "}
-                {inEditMode.status && inEditMode.rowKey === item.profile_id ? (
-                  <input
-                    value={company}
-                    onChange={(event) => setCompany(event.target.value)}
-                  />
-                ) : (
-                  item.company
-                )}
-              </td>
-              <td>
-                {" "}
-                {inEditMode.status && inEditMode.rowKey === item.profile_id ? (
-                  <input
-                    value={indication}
-                    onChange={(event) => setIndication(event.target.value)}
-                  />
-                ) : (
-                  item.indication
-                )}
-              </td>
-              <td>
-                {" "}
-                {inEditMode.status && inEditMode.rowKey === item.profile_id ? (
-                  <input
-                    value={product}
-                    onChange={(event) => setProduct(event.target.value)}
-                  />
-                ) : (
-                  item.product
-                )}
-              </td>
-              <td>
-                {inEditMode.status && inEditMode.rowKey === item.profile_id ? (
-                  <input
-                    value={country}
-                    onChange={(event) => setCountry(event.target.value)}
-                  />
-                ) : (
-                  item.country
-                )}
-              </td>
-
-              <td>
-                {" "}
-                {inEditMode.status && inEditMode.rowKey === item.profile_id ? (
-                  <input
-                    value={email}
-                    type="email"
-                    onChange={(event) => setEmail(event.target.value)}
-                  />
-                ) : (
-                  item.email
-                )}
-              </td>
-              <td></td>
-              <td>
-                {inEditMode.status && inEditMode.rowKey === item.profile_id ? (
-                  <React.Fragment>
-                    <button
-                      type="submit"
-                      className={"btn-success"}
-                      onClick={() =>
-                        onSave({
-                          profile_id: item.profile_id,
-                          newName: name,
-                          email: email,
-                          jobTitle: jobTitle,
-                          company: company,
-                          country: country,
-                          profile_user_id: item.profile_user_id,
-                        })
-                      }
-                    >
-                      Save
-                    </button>
-
-                    <button
-                      className={"btn-secondary"}
-                      style={{ marginLeft: 8 }}
-                      onClick={() => onCancel()}
-                    >
-                      Cancel
-                    </button>
-                  </React.Fragment>
-                ) : (
-                  <div>
-                    <button
-                      className={"btn-primary"}
-                      onClick={() =>
-                        onEdit({
-                          id: item.profile_id,
-                          currentName: item.first_name + " " + item.last_name,
-                          currentJobTitle: item.jobTitle,
-                          currentCompany: item.company,
-                          currentIndication: item.indication,
-                          currentProduct: item.product,
-                          currentCountry: item.country,
-                          currentEmail: item.email,
-                        })
-                      }
-                    >
-                      Edit
-                    </button>
-                    <button
-                      style={{ margin: "2px" }}
-                      className={"btn-primary"}
-                      onClick={() =>
-                        onDelete({
-                          id: item.profile_id,
-                          currentName: item.first_name + " " + item.last_name,
-                          currentJobTitle: item.jobTitle,
-                          currentCompany: item.company,
-                          currentIndication: item.indication,
-                          currentProduct: item.product,
-                          currentCountry: item.country,
-                          currentEmail: item.email,
-                          profile_user_id: item.profile_user_id,
-                        })
-                      }
-                    >
-                      Delete
-                    </button>
-                  </div>
-                )}
-              </td>
-            </tr>
-          ))}
-          {validator3.message("email", email, "required|email")}
-        </tbody>
-      </table>
     </>
   );
 };

@@ -36,7 +36,7 @@ const CreateSmartList = () => {
 
 
     if(!smartListName.trim()){
-       
+
         toast.warning("Please enter the samrt list name first");
     }else if(!creatorName.trim()){
       toast.warning("Please enter the creator name");
@@ -51,7 +51,7 @@ const CreateSmartList = () => {
           element.classList.add("active");
         }
     }
-   
+
   }
 
   const handleSmartListName = async (event) => {
@@ -87,13 +87,13 @@ const CreateSmartList = () => {
   };
 
   const toggleSelection = (elm) => {
-   
+
       var element = document.querySelector("."+elm);
       var element2 = document.querySelector(".upload-opt");
        element2.classList.remove("active");
 
        if(!smartListName.trim()){
-       
+
            toast.warning("Please enter the samrt list name first");
        }else if(!creatorName.trim()){
           toast.warning("Please enter the creator name");
@@ -128,10 +128,10 @@ const CreateSmartList = () => {
     }
     // navigate("/SmartListFilter", {state: { smartListName: "My test" }});
   };
-  
+
   const uploadFile = async () => {
 
-
+      setShow(false);
     if (selectedFile === null) {
 
       toast.warning("Please upload file first")
@@ -207,13 +207,13 @@ const CreateSmartList = () => {
 												<input type="text" class="form-control"  value={smartListName}
                            onChange={(event) => handleSmartListName(event)} />
 											</div>
-                 
+
 											<div class="form-group col">
 												<label for="creator-name">Creator’s Name</label>
 												<input type="text" class="form-control"  value={creatorName}
                         onChange={(event) => handleCreatorName(event)} />
 											</div>
-                     
+
 											<div class="form-group col-sm-12">
 												<div class="form-group-content">
 													<p>I want this to be a <span>Demo list</span></p>
@@ -237,7 +237,7 @@ const CreateSmartList = () => {
                       <div class="send-option-img group-opt">
                         <input  onClick={(event) => toggleSelection("group-opt")} type="radio" name="select-option-hcp"  id="segment" value={activeClass}  />
                           <img  src={path + "group-hcp.svg"} alt="Group HCPs" />
-                        
+
                       </div>
                       <p>Segment from current cohort </p>
                     </li>
@@ -249,23 +249,23 @@ const CreateSmartList = () => {
                     </li>
 									</ul>
 								</div>
-							</div>  
+							</div>
 							<div class="download-sample">
 								<p>Download sample Excel file to upload new HCPs</p>
 								<div class="upload-btn">
 									  <label for="input-file">Download File</label>
-								
+
 								</div>
 							</div>
 							</div>
               </section>
 						</div>
-        
+
             <Modal className="send-confirm" id="upload-confirm" show={show} onHide={handleClose}>
               <Modal.Header >
                 <h4>Upload File</h4>
                 <button type="button" onClick={handleClose} class="btn-close" data-bs-dismiss="modal"></button>
-              
+
               </Modal.Header>
               <Modal.Body>
                 <div class="upload-file-box">
@@ -276,7 +276,7 @@ const CreateSmartList = () => {
                   </div>
                   </div>
                 <div class="modal-buttons">
-                  <button type="button" class="btn btn-primary btn-bordered light"  onClick={uploadFile} data-bs-dismiss="modal">Upload</button> 
+                  <button type="button" class="btn btn-primary btn-bordered light"  onClick={uploadFile} data-bs-dismiss="modal">Upload</button>
                 </div>
               </Modal.Body>
           </Modal>

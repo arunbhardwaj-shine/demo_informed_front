@@ -10,13 +10,15 @@ import { loader } from "../../../loader";
 import { toast } from "react-toastify";
 
 import { connect } from "react-redux";
+import { popup_alert } from "../../../popup_alert";
 
 const ViewTable = (props) => {
   const [inEditMode, setInEditMode] = useState({
     status: false,
     rowKey: null,
   });
-
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  //let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   //let validator = new SimpleReactValidator();
   const [editable, setEditable] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
@@ -31,6 +33,7 @@ const ViewTable = (props) => {
   const [emailData, setEmailData] = useState("");
   const [search, setSearch] = useState("");
   const [deleteConfirmation, setOpenDeleteConfirmation] = useState(false);
+  const [showReaders, setShowSaveReader] = useState(false);
 
   const [profile_user_id, setProfileUserId] = useState();
 
@@ -115,7 +118,6 @@ const ViewTable = (props) => {
     setEditList(props.data);
   }, [props.api_flag]);
 
-  
   const showFileInReadersList = async () => {
     console.log("updated data");
     console.log(updateData);
@@ -151,9 +153,23 @@ const ViewTable = (props) => {
       .post(`distributes/add_update_list`, body)
       .then((res) => {
         loader("hide");
-        window.location.href = "/SmartList";
+        if (res.data.status_code === 200) {
+          popup_alert({
+            visible: "show",
+            message: "user added successfully",
+            type: "success",
+          });
+        } else {
+          popup_alert({
+            visible: "show",
+            message: res.data.message,
+            type: "error",
+          });
+        }
+        //window.location.href = "/SmartList";
       })
       .catch((err) => {
+        toast.error("Something went wrong");
         console.log(err);
       });
   };
@@ -241,11 +257,6 @@ const ViewTable = (props) => {
     setManualReRender(manualReRender + 1);
   };
 
-  const verifyUser = () => {
-    // console.log(props);
-    // console.log("0123");
-  };
-
   const updateReaderDetails = async ({
     profile_id,
     newName,
@@ -276,12 +287,8 @@ const ViewTable = (props) => {
     await axios
       .post(`distributes/update_reders_details`, body)
       .then((res) => {
-        // console.log(props);
-
-        // console.log(res);
         onCancel();
 
-        // editList[0].email = email;
         var result = editList.filter((obj) => {
           return obj.profile_user_id === body.profile_user_id;
         });
@@ -338,22 +345,11 @@ const ViewTable = (props) => {
       console.log("validator3");
       console.log(validator3);
       console.log(validator3.errorMessages);
-      // validator3.showMessages();
-      //setValidator3Counter(validator3Counter + 1);
     }
   };
 
   const deleteReader = async (profile_user_id) => {
-    // const filtered_list = editList.filter((data) => {
-    //   return data.profile_user_id != profile_user_id;
-    // });
-    // console.log("filtered list");
-    // console.log(filtered_list);
-    // setEditList(filtered_list);
     const body = {
-      // user_list: filtered_list.map((data) => {
-      //   return data.profile_user_id;
-      // }),
       smart_list_id: getlistid,
       user_id: 18207,
       profile_user_id: profile_user_id,
@@ -367,7 +363,6 @@ const ViewTable = (props) => {
         console.log(res);
 
         loader("hide");
-        //  window.location.href = "/SmartList";
       })
       .catch((err) => {
         console.log(err);
@@ -378,13 +373,10 @@ const ViewTable = (props) => {
     });
 
     setEditList(filtered_list);
-
-    //setReRenders(reRender + 1);
   };
 
   const editing = (event, p) => {
     console.log(event);
-    // console.log(p);
   };
 
   const addFile = () => {
@@ -402,26 +394,16 @@ const ViewTable = (props) => {
     country,
     profile_user_id,
   }) => {
-    setIsOpen(true);
-    setProfileUserId(profile_user_id);
-
-    // setIsOpen(true);
-    // confirmAlert({
-    //   title: "Confirm to submit",
-    //   message: "Are you sure to do this.",
-    //   buttons: [
-    //     {
-    //       label: "Yes",
-    //       onClick: () => deleteReader(profile_user_id),
-    //     },
-    //     {
-    //       label: "No",
-    //       onClick: () => alert("Click No"),
-    //     },
-    //   ],
-    // });
-
-    //  setIsOpen(true);
+    if (editList.length > 1) {
+      setIsOpen(true);
+      setProfileUserId(profile_user_id);
+    } else {
+      popup_alert({
+        visible: "show",
+        message: "Please keep atleast one reader or delete the smart list",
+        type: "error",
+      });
+    }
   };
 
   const onFirstNameChange = (e, i) => {
@@ -467,85 +449,13 @@ const ViewTable = (props) => {
   };
 
   const backClicked = () => {
-    console.log("back clicked");
+    window.history.go(-1);
     props.api_flag(0);
   };
 
-  // const saveClicked = async () => {
-  //   console.log(hpc);
-  //   if (validator.allValid()) {
-  //     setHpc([
-  //       {
-  //         firstname: "",
-  //         lastname: "",
-  //         email: "",
-  //         contact_type: "",
-  //         country: "",
-  //       },
-  //     ]);
-  //     handleClose();
-  //     console.log(hpc);
-  //     const firstname_arr = hpc.map((data) => {
-  //       return data.firstname;
-  //     });
-  //     const lastname_arr = hpc.map((data) => {
-  //       return data.lastname;
-  //     });
-  //     const email_arr = hpc.map((data) => {
-  //       return data.email;
-  //     });
-  //     const contact_type_arr = hpc.map((data) => {
-  //       return data.contact_type;
-  //     });
-  //     const coutry_arr = hpc.map((data) => {
-  //       return data.country;
-  //     });
-
-  //     const body_data = hpc.map((data) => {
-  //       return {
-  //         first_name: data.firstname,
-  //         last_name: data.lastname,
-  //         email: data.email,
-  //         country: data.country,
-  //         contact_type: data.contact_type,
-  //       };
-  //     });
-
-  //     const body = {
-  //       data: body_data,
-  //       user_id: 18207,
-  //       smart_list_id: getlistid,
-  //     };
-
-  //     console.log(body);
-
-  //     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-  //     loader("show");
-  //     await axios
-  //       .post(`distributes/add_new_readers_in_list`, body)
-  //       .then((res) => {
-  //         let old_data = editList;
-  //         let new_data = res.data.response.data;
-  //         combine_data_manual = [...new_data, ...old_data];
-  //         setEditList(combine_data_manual);
-  //         setUpdatedData(combine_data_manual);
-  //         loader("hide");
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   } else {
-  //     alert("validation failed");
-  //     console.log(validator);
-  //     validator.showMessages();
-  //     console.log(validator.errorMessages);
-  //     setData(data + 1);
-  //   }
-  // };
-
   const searchChange = (e) => {
     setSearch(e.target.value);
-    //console.log(e.target.value);
+
     if (e.target.value === "") {
       setEditList(updateData);
     }
@@ -554,7 +464,6 @@ const ViewTable = (props) => {
   const submitHandler = (event) => {
     let r_table = [];
     updateData.find(function (item) {
-      //console.log(item);
       if (
         item.first_name.includes(search) ||
         item.last_name.includes(search) ||
@@ -571,7 +480,7 @@ const ViewTable = (props) => {
   };
 
   const saveClicked = async () => {
-    //  console.log(validator);
+    setShowSaveReader(true);
 
     setIsOpenAdd(false);
 
@@ -592,35 +501,30 @@ const ViewTable = (props) => {
         smart_list_id: getlistid,
       };
 
-      // console.log(body);
-
       loader("show");
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       await axios
         .post(`distributes/add_new_readers_in_list`, body)
         .then((res) => {
           if (res.data.status_code === 200) {
-            
             toast.success("User added successfuly");
-         
+
             let old_data = editList;
-            
+
             let new_data = res.data.response.data;
-            
+
             combine_data_manual = [...new_data, ...old_data];
-            
+
             setEditList(combine_data_manual);
             setUpdatedData(combine_data_manual);
 
-             loader("hide");
+            loader("hide");
           } else {
-               toast.warning(res.data.message);
+            toast.warning(res.data.message);
           }
-
-          //setSelectedHcp(res.data.response.data);
         })
         .catch((err) => {
-          //   toast.error("Something went wrong");
+          toast.error("Something went wrong");
         });
       setIsOpen(false);
     } else {
@@ -638,9 +542,9 @@ const ViewTable = (props) => {
         .then((res) => {
           if (res.data.status_code === 200) {
             toast.success("User added successfuly");
-            console.log(res.data.response.data);   
+            console.log(res.data.response.data);
             let old_data = editList;
-            let new_data = res.data.response.data;  
+            let new_data = res.data.response.data;
             combine_data = [...new_data, ...old_data];
             // console.log(combine_data);
             setEditList(combine_data);
@@ -665,10 +569,7 @@ const ViewTable = (props) => {
         country: "",
       },
     ]);
-
-    //setIsOpensend(true);
   };
-
 
   const uploadFile = async (event) => {
     if (validator2.allValid()) {
@@ -684,12 +585,11 @@ const ViewTable = (props) => {
       await axios
         .post(`distributes/update_reader_list`, formData)
         .then((res) => {
-          
           let old_data = editList;
           let new_data = res.data.response.data[0];
 
           combine_data = [new_data, ...old_data];
-          // console.log(combine_data);
+
           setEditList(combine_data);
           setUpdatedData(combine_data);
           loader("hide");
@@ -704,6 +604,15 @@ const ViewTable = (props) => {
     }
   };
 
+  const showSucessPopup = () => {
+    popup_alert({
+      visible: "show",
+      message: "The HCP record has been deleted successfully",
+      type: "success",
+    });
+
+    setOpenDeleteConfirmation(false);
+  };
 
   return (
     <>
@@ -723,7 +632,10 @@ const ViewTable = (props) => {
                   </button>
                 </Link>
               ) : (
-                <button className="btn btn-primary btn-bordered back">
+                <button
+                  className="btn btn-primary btn-bordered back"
+                  onClick={backClicked}
+                >
                   Back
                 </button>
               )}
@@ -731,11 +643,14 @@ const ViewTable = (props) => {
           </div>
           <div className="col-12 col-md-11">
             <div className="smart-list-btns">
-              <div className="smart-list-download">
-                <button className="btn btn-outline-primary" onClick={showFileInReadersList}>
+              {/* <div className="smart-list-download">
+                <button
+                  className="btn btn-outline-primary"
+                //  onClick={showFileInReadersList}
+                >
                   <img src={path + "download.svg"} alt="Download List" />
                 </button>
-              </div>
+              </div> */}
               <div className="hcp-new-user">
                 <button className="btn btn-outline-primary">
                   <img
@@ -746,12 +661,12 @@ const ViewTable = (props) => {
                 </button>
               </div>
               <div className="hcp-added">
-                <button
+                {/* <button
                   className="btn btn-outline-primary"
                   onClick={editButtonClicked}
                 >
                   <img src={path + "edit-button.svg"} alt="Edit" />
-                </button>
+                </button> */}
               </div>
               <div className="top-right-action">
                 <div className="search-bar">
@@ -779,7 +694,7 @@ const ViewTable = (props) => {
                     </button>
                   </form>
                 </div>
-                <div className="filter-by">
+                {/* <div className="filter-by">
                   <button className="btn btn-outline-primary" type="submit">
                     Filter By{" "}
                     <svg
@@ -803,24 +718,26 @@ const ViewTable = (props) => {
                       ></path>
                     </svg>
                   </button>
-                </div>
+                </div> */}
               </div>
+              {showReaders ? (
+                <button onClick={showFileInReadersList}>save</button>
+              ) : null}
             </div>
           </div>
         </div>
       </div>
-
       <section className="search-hcp smart-list-view">
         <div className="result-hcp-table">
           <div className="table-title">
             <h4>
-              {getlistname} <span>| {props.list_count}</span>
+              {getlistname} <span>| {editList.length}</span>
             </h4>
-            <div className="selected-hcp-table-action">
+            {/* <div className="selected-hcp-table-action">
               <a className="show-less-info" href="#">
                 Show More information{" "}
               </a>
-            </div>
+            </div> */}
           </div>
           <div className="selected-hcp-list">
             <table className="table">
@@ -883,103 +800,7 @@ const ViewTable = (props) => {
                     <td>CIS</td>
                     <td>Hametology</td>
                     <td>Tech</td>
-                    {/*
-                  <td>
-                    {inEditMode.status && inEditMode.rowKey === item.profile_id ? (
-                      <input
-                        value={jobTitle}
-                        onChange={(event) => setJobTitle(event.target.value)}
-                      />
-                    ) : (
-                      item.jobTitle
-                    )}
-                  </td>
 
-                  <td>
-                    {" "}
-                    {inEditMode.status && inEditMode.rowKey === item.profile_id ? (
-                      <input
-                        value={company}
-                        onChange={(event) => setCompany(event.target.value)}
-                      />
-                    ) : (
-                      item.company
-                    )}
-                  </td>
-                  <td>
-                    {" "}
-                    {inEditMode.status && inEditMode.rowKey === item.profile_id ? (
-                      <input
-                        value={indication}
-                        onChange={(event) => setIndication(event.target.value)}
-                      />
-                    ) : (
-                      item.indication
-                    )}
-                  </td>
-                  <td>
-                    {" "}
-                    {inEditMode.status && inEditMode.rowKey === item.profile_id ? (
-                      <input
-                        value={product}
-                        onChange={(event) => setProduct(event.target.value)}
-                      />
-                    ) : (
-                      item.product
-                    )}
-                  </td>
-                  <td>
-                    {inEditMode.status && inEditMode.rowKey === item.profile_id ? (
-                      <React.Fragment>
-                        <button
-                          type="submit"
-                          className={"btn-success"}
-                          onClick={() =>
-                            onSave({
-                              profile_id: item.profile_id,
-                              newName: name,
-                              email: email,
-                              jobTitle: jobTitle,
-                              company: company,
-                              country: country,
-                              profile_user_id: item.profile_user_id,
-                            })
-                          }
-                        >
-                          Save
-                        </button>
-
-                        <button
-                          className={"btn-secondary"}
-                          style={{ marginLeft: 8 }}
-                          onClick={() => onCancel()}
-                        >
-                          Cancel
-                        </button>
-                      </React.Fragment>
-                    ) : (
-                      <div>
-                        <button
-                          className={"btn-primary"}
-                          onClick={() =>
-                            onEdit({
-                              id: item.profile_id,
-                              currentName: item.first_name +" "+item.last_name,
-                              currentJobTitle: item.jobTitle,
-                              currentCompany: item.company,
-                              currentIndication: item.indication,
-                              currentProduct: item.product,
-                              currentCountry: item.country,
-                              currentEmail: item.email,
-                            })
-                          }
-                        >
-                          Edit
-                        </button>
-
-                      </div>
-                    )}
-                  </td>*/}
                     <td class="delete_row" colspan="12">
                       <img
                         src={path + "delete.svg"}
@@ -1008,257 +829,54 @@ const ViewTable = (props) => {
         </div>
       </section>
 
-      {/* <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>New HCP</Modal.Title>
+      <Modal show={isOpen} className="send-confirm" id="resend-confirm">
+        <Modal.Header>
           <button
-            className="btn btn-secondary"
-            style={{ margin: "10px" }}
-            onClick={addHcp}
-          >
-            Add HCP +{" "}
-          </button>
-          <button
-            className="btn-secondary"
-            variant="primary"
-            onClick={handleShowUploadMenu}
-            style={{ margin: "5px" }}
-          >
-            Upload Excel
-          </button>
-        </Modal.Header>{" "}
-        <div className="container">
-          {hpc.map((val, i) => {
-            const fieldName = `hpc[${i}]`;
-            return (
-              <>
-                <div className="container">
-                  <div className="row align-items-center vh-100">
-                    <div className="col-6 mx-auto">
-                      <div className="card shadow border">
-                        <div className="card-body d-flex flex-column align-items-center">
-                          <div className="card-title form-group">
-                            first name{" "}
-                            <input
-                              type="text"
-                              name={`${fieldName}.firstname`}
-                              onChange={(event) => onFirstNameChange(event, i)}
-                              value={val.firstname}
-                            ></input>
-                            {validator.message(
-                              "name",
-                              val.firstname,
-                              "required|alpha"
-                            )}
-                            last name{" "}
-                            <input
-                              type="text"
-                              name={`${fieldName}.lastname`}
-                              onChange={(event) => onLastNameChange(event, i)}
-                              value={val.lastname}
-                            ></input>
-                            {validator.message(
-                              "lastname",
-                              val.lastname,
-                              "required|alpha"
-                            )}
-                            email{" "}
-                            <input
-                              type="text"
-                              name={`${fieldName}.email`}
-                              onChange={(event) => onEmailChange(event, i)}
-                              value={val.email}
-                            ></input>
-                            {validator.message(
-                              "email",
-                              val.email,
-                              "required|email"
-                            )}
-                            contact type{" "}
-                            <input
-                              type="radio"
-                              id="HCP"
-                              onChange={(event) =>
-                                onContactTypeChange(event, i)
-                              }
-                              name={`${fieldName}.contact_type`}
-                              value="HCP"
-                            />
-                            <label for="HCP">HPC</label>
-                            <input
-                              type="radio"
-                              id="staff"
-                              name={`${fieldName}.contact_type`}
-                              onChange={(event) =>
-                                onContactTypeChange(event, i)
-                              }
-                              value="staff"
-                            />
-                            <label for="staff">staff</label>
-                            <input
-                              type="radio"
-                              id="test-users"
-                              name={`${fieldName}.contact_type`}
-                              onChange={(event) =>
-                                onContactTypeChange(event, i)
-                              }
-                              value="test users"
-                            />
-                            <label for="test-users">Test Users</label>
-                            <br />
-                            country{" "}
-                            <input
-                              type="text"
-                              name={`${fieldName}.country`}
-                              onChange={(event) => onCountryChange(event, i)}
-                              value={val.country}
-                            ></input>
-                            {validator.message(
-                              "country",
-                              val.country,
-                              "required"
-                            )}
-                            <br />
-                            {hpc.length !== 1 && (
-                              <button onClick={() => deleteRecord(i)}>
-                                Remove
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </>
-            );
-          })}
-
-          <button
-            type="submit"
-            className="btn btn-secondary"
-            onClick={saveClicked}
-          >
-            Save
-          </button>
-        </div>
-      </Modal>
-
-      <Modal show={showUploadMenu} onHide={handleCloseUploadMenu}>
-        <Modal.Header closeButton>
-          <Modal.Title>upload your new file</Modal.Title>
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            onClick={() => {
+              setIsOpen(false);
+            }}
+          ></button>
         </Modal.Header>
         <Modal.Body>
-          {" "}
-          <div className="card">
-            <div className="card-header"> Upload your new list file</div>
-            <div className="card-body">
-              <h5 className="card-title"></h5>
-              <input type="file" onChange={onFileChange} />
-              {validator2.message("file", selectedFile, "required")}
+          <img src={path + "alert.png"} alt="" />
+          <h4>
+            The HCP record will be deleted from the list Are you sure you want
+            to delete it?{" "}
+          </h4>
 
-              <br />
-              <button
-                type="submit"
-                className="btn btn-secondary"
-                onClick={(event) => uploadFile(event)}
-              >
-                upload
-              </button>
+          <div class="modal-buttons">
+            <button
+              type="button"
+              class="btn btn-primary btn-filled"
+              data-bs-dismiss="modal"
+              onClick={() => {
+                deleteReader(profile_user_id);
+                setIsOpen(false);
 
-              <p className="card-text"></p>
-            </div>
+                setOpenDeleteConfirmation(true);
+              }}
+            >
+              Yes Please!
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-primary btn-bordered light"
+              data-bs-dismiss="modal"
+              onClick={() => {
+                setIsOpen(false);
+              }}
+            >
+              Cancel
+            </button>
           </div>
         </Modal.Body>
-        <Modal.Footer></Modal.Footer>
-      </Modal> */}
+      </Modal>
 
-      <div className="modal send-confirm" id="resend-confirm">
-        <Modal show={isOpen}>
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header">
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  onClick={() => {
-                    setIsOpen(false);
-                  }}
-                ></button>
-              </div>
-
-              <div className="modal-body">
-                <img src="assets/images/alert.png" alt="" />
-                <h4>
-                  The HCP record will be deleted from the list.Are you sure you
-                  want to delete it?
-                </h4>
-
-                <div className="modal-buttons">
-                  <button
-                    type="button"
-                    className="btn btn-primary btn-filled"
-                    data-bs-dismiss="modal"
-                    onClick={() => {
-                      deleteReader(profile_user_id);
-                      setIsOpen(false);
-
-                      setOpenDeleteConfirmation(true);
-                    }}
-                  >
-                    Yes Please!
-                  </button>
-
-                  <button
-                    type="button"
-                    className="btn btn-primary btn-bordered light"
-                    data-bs-dismiss="modal"
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Modal>
-      </div>
-
-      <div className="modal send-confirm" id="resend-confirm">
-        <Modal show={deleteConfirmation}>
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header">
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  onClick={() => {
-                    setIsOpen(false);
-                    setReRenders(reRenders + 1);
-                  }}
-                ></button>
-              </div>
-
-              <div className="modal-body">
-                <img src="assets/images/alert.png" alt="" />
-                <h4>The HCP record has been deleted successfully</h4>
-
-                <div className="modal-buttons">
-                  <button
-                    type="button"
-                    className="btn btn-primary btn-bordered light"
-                    data-bs-dismiss="modal"
-                    onClick={() => setOpenDeleteConfirmation(false)}
-                  >
-                    Close
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Modal>
-      </div>
+      {deleteConfirmation == true ? showSucessPopup() : null}
 
       <Modal
         id="add_hcp"
@@ -1268,16 +886,11 @@ const ViewTable = (props) => {
         centered
       >
         <div
-          //className="modal fade"
-          //id="add_hcp"
           data-bs-backdrop="static"
           data-bs-keyboard="false"
           tabindex="-1"
-          //aria-labelledby="add_hcp"
           aria-hidden="true"
         >
-          {/* <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div className="modal-content"> */}
           <div className="modal-header">
             <h5 className="modal-title" id="staticBackdropLabel">
               Add New HCP
@@ -1440,8 +1053,6 @@ const ViewTable = (props) => {
             </button>
           </div>
         </div>
-        {/* </div>
-        </div> */}
       </Modal>
     </>
   );
