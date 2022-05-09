@@ -3325,6 +3325,12 @@ position: relative;
 		border-radius: 50%;
 		top: 3px;
 		cursor: pointer;
+		width: 100%;
+		height: 100%;
+		left: 0;
+		right: 0;
+		border: 0;
+		top: 0
 	}
 	.dropdown-menu.filter-options  .card .select-multiple-option .checkmark, .smart-list-dropdown .card .select-multiple-option .checkmark, .select-multiple-option .checkmark {
 		width: 16px;
@@ -3338,7 +3344,7 @@ position: relative;
 	.dropdown-menu.filter-options .card .select-multiple-option, .smart-list-dropdown .card .select-multiple-option, .select-multiple-option {
 		display: inline-block;
 		margin-right: 12px;
-		position: relative;
+		position: static;
 		padding: 0;
 	}
 	.dropdown-menu.filter-options  .select-multiple-option .checkmark:after, .smart-list-dropdown .select-multiple-option .checkmark:after, .select-multiple-option .checkmark:after {
