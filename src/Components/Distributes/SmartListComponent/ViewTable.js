@@ -257,11 +257,6 @@ const ViewTable = (props) => {
     setManualReRender(manualReRender + 1);
   };
 
-  const verifyUser = () => {
-    // console.log(props);
-    // console.log("0123");
-  };
-
   const updateReaderDetails = async ({
     profile_id,
     newName,
@@ -292,12 +287,8 @@ const ViewTable = (props) => {
     await axios
       .post(`distributes/update_reders_details`, body)
       .then((res) => {
-        // console.log(props);
-
-        // console.log(res);
         onCancel();
 
-        // editList[0].email = email;
         var result = editList.filter((obj) => {
           return obj.profile_user_id === body.profile_user_id;
         });
@@ -354,22 +345,11 @@ const ViewTable = (props) => {
       console.log("validator3");
       console.log(validator3);
       console.log(validator3.errorMessages);
-      // validator3.showMessages();
-      //setValidator3Counter(validator3Counter + 1);
     }
   };
 
   const deleteReader = async (profile_user_id) => {
-    // const filtered_list = editList.filter((data) => {
-    //   return data.profile_user_id != profile_user_id;
-    // });
-    // console.log("filtered list");
-    // console.log(filtered_list);
-    // setEditList(filtered_list);
     const body = {
-      // user_list: filtered_list.map((data) => {
-      //   return data.profile_user_id;
-      // }),
       smart_list_id: getlistid,
       user_id: 18207,
       profile_user_id: profile_user_id,
@@ -383,7 +363,6 @@ const ViewTable = (props) => {
         console.log(res);
 
         loader("hide");
-        //  window.location.href = "/SmartList";
       })
       .catch((err) => {
         console.log(err);
@@ -394,13 +373,10 @@ const ViewTable = (props) => {
     });
 
     setEditList(filtered_list);
-
-    //setReRenders(reRender + 1);
   };
 
   const editing = (event, p) => {
     console.log(event);
-    // console.log(p);
   };
 
   const addFile = () => {
@@ -428,24 +404,6 @@ const ViewTable = (props) => {
         type: "error",
       });
     }
-
-    // setIsOpen(true);
-    // confirmAlert({
-    //   title: "Confirm to submit",
-    //   message: "Are you sure to do this.",
-    //   buttons: [
-    //     {
-    //       label: "Yes",
-    //       onClick: () => deleteReader(profile_user_id),
-    //     },
-    //     {
-    //       label: "No",
-    //       onClick: () => alert("Click No"),
-    //     },
-    //   ],
-    // });
-
-    //  setIsOpen(true);
   };
 
   const onFirstNameChange = (e, i) => {
@@ -491,86 +449,13 @@ const ViewTable = (props) => {
   };
 
   const backClicked = () => {
-    //console.log("back clicked");
     window.history.go(-1);
     props.api_flag(0);
   };
 
-  // const saveClicked = async () => {
-  //   console.log(hpc);
-  //   if (validator.allValid()) {
-  //     setHpc([
-  //       {
-  //         firstname: "",
-  //         lastname: "",
-  //         email: "",
-  //         contact_type: "",
-  //         country: "",
-  //       },
-  //     ]);
-  //     handleClose();
-  //     console.log(hpc);
-  //     const firstname_arr = hpc.map((data) => {
-  //       return data.firstname;
-  //     });
-  //     const lastname_arr = hpc.map((data) => {
-  //       return data.lastname;
-  //     });
-  //     const email_arr = hpc.map((data) => {
-  //       return data.email;
-  //     });
-  //     const contact_type_arr = hpc.map((data) => {
-  //       return data.contact_type;
-  //     });
-  //     const coutry_arr = hpc.map((data) => {
-  //       return data.country;
-  //     });
-
-  //     const body_data = hpc.map((data) => {
-  //       return {
-  //         first_name: data.firstname,
-  //         last_name: data.lastname,
-  //         email: data.email,
-  //         country: data.country,
-  //         contact_type: data.contact_type,
-  //       };
-  //     });
-
-  //     const body = {
-  //       data: body_data,
-  //       user_id: 18207,
-  //       smart_list_id: getlistid,
-  //     };
-
-  //     console.log(body);
-
-  //     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-  //     loader("show");
-  //     await axios
-  //       .post(`distributes/add_new_readers_in_list`, body)
-  //       .then((res) => {
-  //         let old_data = editList;
-  //         let new_data = res.data.response.data;
-  //         combine_data_manual = [...new_data, ...old_data];
-  //         setEditList(combine_data_manual);
-  //         setUpdatedData(combine_data_manual);
-  //         loader("hide");
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   } else {
-  //     alert("validation failed");
-  //     console.log(validator);
-  //     validator.showMessages();
-  //     console.log(validator.errorMessages);
-  //     setData(data + 1);
-  //   }
-  // };
-
   const searchChange = (e) => {
     setSearch(e.target.value);
-    //console.log(e.target.value);
+
     if (e.target.value === "") {
       setEditList(updateData);
     }
@@ -579,7 +464,6 @@ const ViewTable = (props) => {
   const submitHandler = (event) => {
     let r_table = [];
     updateData.find(function (item) {
-      //console.log(item);
       if (
         item.first_name.includes(search) ||
         item.last_name.includes(search) ||
@@ -596,8 +480,6 @@ const ViewTable = (props) => {
   };
 
   const saveClicked = async () => {
-    //  console.log(validator);
-
     setShowSaveReader(true);
 
     setIsOpenAdd(false);
@@ -618,8 +500,6 @@ const ViewTable = (props) => {
         user_id: 18207,
         smart_list_id: getlistid,
       };
-
-      // console.log(body);
 
       loader("show");
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -642,11 +522,9 @@ const ViewTable = (props) => {
           } else {
             toast.warning(res.data.message);
           }
-
-          //setSelectedHcp(res.data.response.data);
         })
         .catch((err) => {
-          //   toast.error("Something went wrong");
+          toast.error("Something went wrong");
         });
       setIsOpen(false);
     } else {
@@ -691,8 +569,6 @@ const ViewTable = (props) => {
         country: "",
       },
     ]);
-
-    //setIsOpensend(true);
   };
 
   const uploadFile = async (event) => {
@@ -713,7 +589,7 @@ const ViewTable = (props) => {
           let new_data = res.data.response.data[0];
 
           combine_data = [new_data, ...old_data];
-          // console.log(combine_data);
+
           setEditList(combine_data);
           setUpdatedData(combine_data);
           loader("hide");
@@ -924,103 +800,7 @@ const ViewTable = (props) => {
                     <td>CIS</td>
                     <td>Hametology</td>
                     <td>Tech</td>
-                    {/*
-                  <td>
-                    {inEditMode.status && inEditMode.rowKey === item.profile_id ? (
-                      <input
-                        value={jobTitle}
-                        onChange={(event) => setJobTitle(event.target.value)}
-                      />
-                    ) : (
-                      item.jobTitle
-                    )}
-                  </td>
 
-                  <td>
-                    {" "}
-                    {inEditMode.status && inEditMode.rowKey === item.profile_id ? (
-                      <input
-                        value={company}
-                        onChange={(event) => setCompany(event.target.value)}
-                      />
-                    ) : (
-                      item.company
-                    )}
-                  </td>
-                  <td>
-                    {" "}
-                    {inEditMode.status && inEditMode.rowKey === item.profile_id ? (
-                      <input
-                        value={indication}
-                        onChange={(event) => setIndication(event.target.value)}
-                      />
-                    ) : (
-                      item.indication
-                    )}
-                  </td>
-                  <td>
-                    {" "}
-                    {inEditMode.status && inEditMode.rowKey === item.profile_id ? (
-                      <input
-                        value={product}
-                        onChange={(event) => setProduct(event.target.value)}
-                      />
-                    ) : (
-                      item.product
-                    )}
-                  </td>
-                  <td>
-                    {inEditMode.status && inEditMode.rowKey === item.profile_id ? (
-                      <React.Fragment>
-                        <button
-                          type="submit"
-                          className={"btn-success"}
-                          onClick={() =>
-                            onSave({
-                              profile_id: item.profile_id,
-                              newName: name,
-                              email: email,
-                              jobTitle: jobTitle,
-                              company: company,
-                              country: country,
-                              profile_user_id: item.profile_user_id,
-                            })
-                          }
-                        >
-                          Save
-                        </button>
-
-                        <button
-                          className={"btn-secondary"}
-                          style={{ marginLeft: 8 }}
-                          onClick={() => onCancel()}
-                        >
-                          Cancel
-                        </button>
-                      </React.Fragment>
-                    ) : (
-                      <div>
-                        <button
-                          className={"btn-primary"}
-                          onClick={() =>
-                            onEdit({
-                              id: item.profile_id,
-                              currentName: item.first_name +" "+item.last_name,
-                              currentJobTitle: item.jobTitle,
-                              currentCompany: item.company,
-                              currentIndication: item.indication,
-                              currentProduct: item.product,
-                              currentCountry: item.country,
-                              currentEmail: item.email,
-                            })
-                          }
-                        >
-                          Edit
-                        </button>
-
-                      </div>
-                    )}
-                  </td>*/}
                     <td class="delete_row" colspan="12">
                       <img
                         src={path + "delete.svg"}
@@ -1048,220 +828,6 @@ const ViewTable = (props) => {
           </div>
         </div>
       </section>
-      {/* <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>New HCP</Modal.Title>
-          <button
-            className="btn btn-secondary"
-            style={{ margin: "10px" }}
-            onClick={addHcp}
-          >
-            Add HCP +{" "}
-          </button>
-          <button
-            className="btn-secondary"
-            variant="primary"
-            onClick={handleShowUploadMenu}
-            style={{ margin: "5px" }}
-          >
-            Upload Excel
-          </button>
-        </Modal.Header>{" "}
-        <div className="container">
-          {hpc.map((val, i) => {
-            const fieldName = `hpc[${i}]`;
-            return (
-              <>
-                <div className="container">
-                  <div className="row align-items-center vh-100">
-                    <div className="col-6 mx-auto">
-                      <div className="card shadow border">
-                        <div className="card-body d-flex flex-column align-items-center">
-                          <div className="card-title form-group">
-                            first name{" "}
-                            <input
-                              type="text"
-                              name={`${fieldName}.firstname`}
-                              onChange={(event) => onFirstNameChange(event, i)}
-                              value={val.firstname}
-                            ></input>
-                            {validator.message(
-                              "name",
-                              val.firstname,
-                              "required|alpha"
-                            )}
-                            last name{" "}
-                            <input
-                              type="text"
-                              name={`${fieldName}.lastname`}
-                              onChange={(event) => onLastNameChange(event, i)}
-                              value={val.lastname}
-                            ></input>
-                            {validator.message(
-                              "lastname",
-                              val.lastname,
-                              "required|alpha"
-                            )}
-                            email{" "}
-                            <input
-                              type="text"
-                              name={`${fieldName}.email`}
-                              onChange={(event) => onEmailChange(event, i)}
-                              value={val.email}
-                            ></input>
-                            {validator.message(
-                              "email",
-                              val.email,
-                              "required|email"
-                            )}
-                            contact type{" "}
-                            <input
-                              type="radio"
-                              id="HCP"
-                              onChange={(event) =>
-                                onContactTypeChange(event, i)
-                              }
-                              name={`${fieldName}.contact_type`}
-                              value="HCP"
-                            />
-                            <label for="HCP">HPC</label>
-                            <input
-                              type="radio"
-                              id="staff"
-                              name={`${fieldName}.contact_type`}
-                              onChange={(event) =>
-                                onContactTypeChange(event, i)
-                              }
-                              value="staff"
-                            />
-                            <label for="staff">staff</label>
-                            <input
-                              type="radio"
-                              id="test-users"
-                              name={`${fieldName}.contact_type`}
-                              onChange={(event) =>
-                                onContactTypeChange(event, i)
-                              }
-                              value="test users"
-                            />
-                            <label for="test-users">Test Users</label>
-                            <br />
-                            country{" "}
-                            <input
-                              type="text"
-                              name={`${fieldName}.country`}
-                              onChange={(event) => onCountryChange(event, i)}
-                              value={val.country}
-                            ></input>
-                            {validator.message(
-                              "country",
-                              val.country,
-                              "required"
-                            )}
-                            <br />
-                            {hpc.length !== 1 && (
-                              <button onClick={() => deleteRecord(i)}>
-                                Remove
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </>
-            );
-          })}
-
-          <button
-            type="submit"
-            className="btn btn-secondary"
-            onClick={saveClicked}
-          >
-            Save
-          </button>
-        </div>
-      </Modal>
-
-      <Modal show={showUploadMenu} onHide={handleCloseUploadMenu}>
-        <Modal.Header closeButton>
-          <Modal.Title>upload your new file</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {" "}
-          <div className="card">
-            <div className="card-header"> Upload your new list file</div>
-            <div className="card-body">
-              <h5 className="card-title"></h5>
-              <input type="file" onChange={onFileChange} />
-              {validator2.message("file", selectedFile, "required")}
-
-              <br />
-              <button
-                type="submit"
-                className="btn btn-secondary"
-                onClick={(event) => uploadFile(event)}
-              >
-                upload
-              </button>
-
-              <p className="card-text"></p>
-            </div>
-          </div>
-        </Modal.Body>
-        <Modal.Footer></Modal.Footer>
-      </Modal> */}
-      {/* <div className="modal send-confirm" id="resend-confirm">
-        <Modal show={isOpen}>
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header">
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  onClick={() => {
-                    setIsOpen(false);
-                  }}
-                ></button>
-              </div>
-
-              <div className="modal-body">
-                <img src="assets/images/alert.png" alt="" />
-                <h4>
-                  The HCP record will be deleted from the list.Are you sure you
-                  want to delete it?
-                </h4>
-
-                <div className="modal-buttons">
-                  <button
-                    type="button"
-                    className="btn btn-primary btn-filled"
-                    data-bs-dismiss="modal"
-                    onClick={() => {
-                      deleteReader(profile_user_id);
-                      setIsOpen(false);
-
-                      setOpenDeleteConfirmation(true);
-                    }}
-                  >
-                    Yes Please!
-                  </button>
-
-                  <button
-                    type="button"
-                    className="btn btn-primary btn-bordered light"
-                    data-bs-dismiss="modal"
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Modal>
-      </div> */}
 
       <Modal show={isOpen} className="send-confirm" id="resend-confirm">
         <Modal.Header>
@@ -1320,16 +886,11 @@ const ViewTable = (props) => {
         centered
       >
         <div
-          //className="modal fade"
-          //id="add_hcp"
           data-bs-backdrop="static"
           data-bs-keyboard="false"
           tabindex="-1"
-          //aria-labelledby="add_hcp"
           aria-hidden="true"
         >
-          {/* <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div className="modal-content"> */}
           <div className="modal-header">
             <h5 className="modal-title" id="staticBackdropLabel">
               Add New HCP
@@ -1492,8 +1053,6 @@ const ViewTable = (props) => {
             </button>
           </div>
         </div>
-        {/* </div>
-        </div> */}
       </Modal>
     </>
   );
