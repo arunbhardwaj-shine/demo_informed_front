@@ -42,7 +42,6 @@ const CreateSmartList = () => {
     setCreatorName(event.target.value);
   };
 
-
   const onFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
@@ -62,8 +61,8 @@ const CreateSmartList = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        type: "error"
-        });
+        type: "error",
+      });
     }
   };
 
@@ -96,11 +95,13 @@ const CreateSmartList = () => {
   const clickNext = (event) => {
     if (validator.allValid()) {
       if (activeClass == "upload_excel") {
-         uploadFile();
-      }else{
-        navigate("/SmartListFilter", {state: { smartListName: smartListName }});
+        uploadFile();
+      } else {
+        navigate("/SmartListFilter", {
+          state: { smartListName: smartListName },
+        });
       }
-    }else{
+    } else {
       console.log("show error messages");
       console.log(validator.errorMessages);
       validator.showMessages();
@@ -108,35 +109,34 @@ const CreateSmartList = () => {
     }
     // navigate("/SmartListFilter", {state: { smartListName: "My test" }});
   };
-    // if (validator.allValid()) {
-    //   if (activeClass == "upload_excel") {
-    //     uploadFile();
-    //   }else{
-    //     alert("sdfdsf");
-    //     navigate("/SmartListFilter", { replace: true });
-    //   }
-    // } else {
-    //   validator.showMessages();
-    // }
-    // let error = false;
-    // if (smartListName == "") {
-    //   error = true;
-    //   alert("Please Enter Smart List name.");
-    // } else if (activeClass == "" || typeof activeClass === "undefined") {
-    //   error = true;
-    //   alert("Please select one segment.");
-    // }
-    //
-    // if (activeClass == "upload_excel") {
-    //   uploadFile();
-    //
-    //   event.preventDefault();
-    // } else {
-    //   if (error) {
-    //     event.preventDefault();
-    //   }
-    // }
-
+  // if (validator.allValid()) {
+  //   if (activeClass == "upload_excel") {
+  //     uploadFile();
+  //   }else{
+  //     alert("sdfdsf");
+  //     navigate("/SmartListFilter", { replace: true });
+  //   }
+  // } else {
+  //   validator.showMessages();
+  // }
+  // let error = false;
+  // if (smartListName == "") {
+  //   error = true;
+  //   alert("Please Enter Smart List name.");
+  // } else if (activeClass == "" || typeof activeClass === "undefined") {
+  //   error = true;
+  //   alert("Please select one segment.");
+  // }
+  //
+  // if (activeClass == "upload_excel") {
+  //   uploadFile();
+  //
+  //   event.preventDefault();
+  // } else {
+  //   if (error) {
+  //     event.preventDefault();
+  //   }
+  // }
 
   const uploadFile = async () => {
     let formData = new FormData();
@@ -165,8 +165,8 @@ const CreateSmartList = () => {
 
   useEffect(() => {
     //here you will have correct value in userInput
-    if(typeof creator !== "undefined" &&  creator != ""){
-        setCreatorName(creator);
+    if (typeof creator !== "undefined" && creator != "") {
+      setCreatorName(creator);
     }
   }, [smartListName]);
 
@@ -202,7 +202,9 @@ const CreateSmartList = () => {
           <Link to="/SmartList">
             <button className="btn-cancel">cancel</button>
           </Link>
-          <button className="btn-nxt" onClick={(event) => clickNext(event)}>Next</button>
+          <button className="btn-nxt" onClick={(event) => clickNext(event)}>
+            Next
+          </button>
         </div>
         <div className="row">
           <div className="step1">
@@ -216,12 +218,13 @@ const CreateSmartList = () => {
               {validator.message("Smart List Name", smartListName, "required")}
             </div>
             <div className="col-sm-6">
-              <input type="text"
-              name="creator_name"
-              value={creatorName}
-              onChange={(event) => handleCreatorName(event)}
-            />
-            {validator.message("Creator Name", creatorName, "required")}
+              <input
+                type="text"
+                name="creator_name"
+                value={creatorName}
+                onChange={(event) => handleCreatorName(event)}
+              />
+              {validator.message("Creator Name", creatorName, "required")}
             </div>
           </div>
           <div className="step2">

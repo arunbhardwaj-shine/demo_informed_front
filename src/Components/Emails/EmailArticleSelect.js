@@ -36,6 +36,12 @@ const EmailArticleSelect = () => {
     setPdfSelected(e.target.value);
   };
 
+  const cancelClicked = () => {
+    window.history.go(-1);
+
+    // return true;
+  };
+
   return (
     <>
       <div className="right-sidebar">
@@ -65,7 +71,10 @@ const EmailArticleSelect = () => {
             </div>
             <div className="col-12 col-md-2">
               <div className="header-btn">
-                <button className="btn btn-primary btn-bordered cancel">
+                <button
+                  className="btn btn-primary btn-bordered cancel"
+                  onClick={cancelClicked}
+                >
                   Cancel
                 </button>
                 {PdfSelected === 0 ? (

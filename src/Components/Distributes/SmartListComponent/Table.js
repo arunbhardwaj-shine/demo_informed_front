@@ -198,7 +198,7 @@ const Table = (props) => {
       .post(`distributes/add_update_list`, body)
       .then((res) => {
         loader("hide");
-        window.location.href = '/SmartList';
+        window.location.href = "/SmartList";
       })
       .catch((err) => {
         console.log(err);
@@ -391,8 +391,14 @@ const Table = (props) => {
         });
 
         if (result) {
-          var first_name = body.username.substring(0, body.username.lastIndexOf(" ") + 1);
-          var last_name = body.username.substring(body.username.lastIndexOf(" ") + 1, body.username.length);
+          var first_name = body.username.substring(
+            0,
+            body.username.lastIndexOf(" ") + 1
+          );
+          var last_name = body.username.substring(
+            body.username.lastIndexOf(" ") + 1,
+            body.username.length
+          );
 
           result[0].email = body.email;
           result[0].country = body.country;
@@ -862,15 +868,14 @@ const Table = (props) => {
           {editList.map((item) => (
             <tr>
               <td>
-              {inEditMode.status && inEditMode.rowKey === item.profile_id ? (
-                <input
-                  value={name}
-                  onChange={(event) => setName(event.target.value)}
-                />
-              ):(
-                item.first_name+" "+item.last_name
-              )}
-
+                {inEditMode.status && inEditMode.rowKey === item.profile_id ? (
+                  <input
+                    value={name}
+                    onChange={(event) => setName(event.target.value)}
+                  />
+                ) : (
+                  item.first_name + " " + item.last_name
+                )}
               </td>
               <td>
                 {inEditMode.status && inEditMode.rowKey === item.profile_id ? (
@@ -975,7 +980,7 @@ const Table = (props) => {
                       onClick={() =>
                         onEdit({
                           id: item.profile_id,
-                          currentName: item.first_name +" "+item.last_name,
+                          currentName: item.first_name + " " + item.last_name,
                           currentJobTitle: item.jobTitle,
                           currentCompany: item.company,
                           currentIndication: item.indication,
@@ -993,7 +998,7 @@ const Table = (props) => {
                       onClick={() =>
                         onDelete({
                           id: item.profile_id,
-                          currentName: item.first_name +" "+ item.last_name,
+                          currentName: item.first_name + " " + item.last_name,
                           currentJobTitle: item.jobTitle,
                           currentCompany: item.company,
                           currentIndication: item.indication,
