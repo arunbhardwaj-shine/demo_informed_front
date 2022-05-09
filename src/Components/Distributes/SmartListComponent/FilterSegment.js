@@ -391,40 +391,43 @@ const FilterSegment = (props) => {
                           <Accordion.Body>
                           <div className="card-body">
 
-                          <div className="col block-smart-name">
+                          
                               {"contact_type" in filters &&
                                 Object.keys(filters.contact_type).length > 0 && (
                                   <>
-                                    <p>Contact Type</p>
-                                    <div className="smart-name-list">
-                                    <ul>
-                                      {Object.entries(filters.contact_type).map(([index, item]) => (
-                                        <li>
-                                          <div className="select-multiple-option">
-                                            <input
-                                              type="checkbox"
-                                              id={`custom-checkbox-contact_type-${index}`}
-                                              name="contact_type[]"
-                                              value={item}
-                                              checked={typeof selectedcontacttype !== 'undefined' && selectedcontacttype.indexOf(item) !== -1}
-                                              onChange={() => handleOnContactTypeChange(item)}
-                                            />
-                                            <span className="checkmark"></span>
-                                          </div>
-                                          {item}
-                                        </li>
-                                      ))}
-                                    </ul>
+                                    <div className="col block-smart-name">
+                                      <h6>Contact Type</h6>
+                                      <div className="smart-name-list">
+                                      <ul>
+                                        {Object.entries(filters.contact_type).map(([index, item]) => (
+                                          <li>
+                                            <div className="select-multiple-option">
+                                              <input
+                                                type="checkbox"
+                                                id={`custom-checkbox-contact_type-${index}`}
+                                                name="contact_type[]"
+                                                value={item}
+                                                checked={typeof selectedcontacttype !== 'undefined' && selectedcontacttype.indexOf(item) !== -1}
+                                                onChange={() => handleOnContactTypeChange(item)}
+                                              />
+                                              <span className="checkmark"></span>
+                                            </div>
+                                            {item}
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    </div>
                                   </div>
                                 </>
                               )}
-                            </div>
+                            
 
-                            <div className="col block-smart-name">
+                            
                                 {"speciality" in filters &&
                                   Object.keys(filters.speciality).length > 0 && (
                                     <>
-                                      <p>Speciality</p>
+                                      <div className="col block-smart-name">
+                                      <h6>Speciality</h6>
                                       <div className="smart-name-list">
                                       <ul>
                                         {Object.entries(filters.speciality).map(([index, item]) => (
@@ -445,44 +448,48 @@ const FilterSegment = (props) => {
                                         ))}
                                       </ul>
                                     </div>
+                                    </div>
                                   </>
                                 )}
-                              </div>
+                              
 
-                              <div className="col block-smart-name">
+                              
                                   {"reader_selection" in filters &&
                                     Object.keys(filters.reader_selection).length > 0 && (
                                       <>
-                                        <p>Reader Selection</p>
-                                        <div className="smart-name-list">
-                                        <ul>
-                                          {Object.entries(filters.reader_selection).map(([index, item]) => (
-                                            <li>
-                                              <div className="select-multiple-option">
-                                              <input
-                                                type="radio"
-                                                id={`custom-checkbox-reader_selection-${index}`}
-                                                name="reader_selection[]"
-                                                value={item}
-                                                checked={selectedreaderselection == item}
-                                                onChange={() => handleOnReaderSelectionChange(item)}
-                                              />
-                                                <span className="checkmark"></span>
-                                              </div>
-                                              {item}
-                                            </li>
-                                          ))}
-                                        </ul>
-                                      </div>
+                                        <div className="col block-smart-name">
+                                          <h6>Reader Selection</h6>
+                                          <div className="smart-name-list">
+                                            <ul>
+                                              {Object.entries(filters.reader_selection).map(([index, item]) => (
+                                                <li>
+                                                  <div className="select-multiple-option">
+                                                  <input
+                                                    type="radio"
+                                                    id={`custom-checkbox-reader_selection-${index}`}
+                                                    name="reader_selection[]"
+                                                    value={item}
+                                                    checked={selectedreaderselection == item}
+                                                    onChange={() => handleOnReaderSelectionChange(item)}
+                                                  />
+                                                    <span className="checkmark"></span>
+                                                  </div>
+                                                  {item}
+                                                </li>
+                                              ))}
+                                            </ul>
+                                          </div>
+                                        </div>
                                     </>
                                   )}
-                                </div>
+                                
 
-                                <div className="col block-smart-name">
+                                
                                     {"ibu" in filters &&
                                       Object.keys(filters.ibu).length > 0 && (
                                         <>
-                                          <p>Ibu</p>
+                                          <div className="col block-smart-name">
+                                          <h6>Ibu</h6>
                                           <div className="smart-name-list">
                                           <ul>
                                             {Object.entries(filters.ibu).map(([index, item]) => (
@@ -503,16 +510,18 @@ const FilterSegment = (props) => {
                                             ))}
                                           </ul>
                                         </div>
+                                        </div>
                                       </>
                                     )}
-                                  </div>
+                                  
 
 
-                                  <div className="col block-smart-name">
+                                  
                                       {"product" in filters &&
                                         Object.keys(filters.product).length > 0 && (
                                           <>
-                                            <p>Product</p>
+                                          <div className="col block-smart-name">
+                                            <h6>Product</h6>
                                             <div className="smart-name-list">
                                             <ul>
                                               {Object.entries(filters.product).map(([index, item]) => (
@@ -533,16 +542,18 @@ const FilterSegment = (props) => {
                                               ))}
                                             </ul>
                                           </div>
+                                          </div>
                                         </>
                                       )}
-                                    </div>
+                                    
 
 
-                                    <div className="col block-smart-name">
+                                    
                                         {"country" in filters &&
                                           Object.keys(filters.country).length > 0 && (
                                             <>
-                                              <p>Country</p>
+                                              <div className="col block-smart-name">
+                                              <h6>Country</h6>
                                               <div className="smart-name-list">
                                               <ul>
                                                 {Object.entries(filters.country).map(([index, item]) => (
@@ -563,15 +574,17 @@ const FilterSegment = (props) => {
                                                 ))}
                                               </ul>
                                             </div>
+                                            </div>
                                           </>
                                         )}
-                                      </div>
+                                      
 
 
-                                      <div className="col block-smart-name">
+                                      
                                           {"consent_type" in filters && filters.consent_type.length > 0 && (
                                               <>
-                                                <p>Consent Type</p>
+                                                <div className="col block-smart-name">
+                                                <h6>Consent Type</h6>
                                                 <div className="smart-name-list">
                                                 <ul>
                                                   {filters.consent_type.map((item, index) => (
@@ -591,14 +604,16 @@ const FilterSegment = (props) => {
                                                   ))}
                                                 </ul>
                                               </div>
+                                              </div>
                                             </>
                                           )}
-                                        </div>
+                                        
 
-                                        <div className="col block-smart-name">
+                                        
                                         {"articles" in filters && Object.keys(filters.articles).length > 0 && showhidearticle == 1 && (
                                                 <>
-                                                  <p>Articles</p>
+                                                <div className="col block-smart-name">
+                                                  <h6>Articles</h6>
                                                   <div className="smart-name-list">
                                                   <ul>
                                                     {Object.entries(filters.articles).map(([index, item]) => (
@@ -619,9 +634,10 @@ const FilterSegment = (props) => {
                                                     ))}
                                                   </ul>
                                                 </div>
+                                                </div>
                                               </>
                                             )}
-                                          </div>
+                                          
 
                              <div className="col block-smart-name registered">
                               <h6>Registered</h6>
