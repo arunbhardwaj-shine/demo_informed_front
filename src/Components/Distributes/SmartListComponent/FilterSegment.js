@@ -349,7 +349,7 @@ const FilterSegment = (props) => {
          </div>
       </div>
 
-      <div className="page-top-nav smart_list_names">
+      <div className="page-top-nav smart_list_names create_filter_list">
         <div className="row justify-content-end align-items-center">
           <div className="col-12 col-md-6">
             <NavLink to="/CreateSmartList" className="active">
@@ -736,6 +736,55 @@ const FilterSegment = (props) => {
                 ) : null
               ) : null}
 
+              {updateflag > 0 ? (
+                typeof selectedspeciality === "object" &&
+                selectedspeciality.length > 0 ? (
+                  <div className="filter-div">
+    								<div className="filter-div-title">
+                      <span>Speciality |</span>
+                    </div>
+                    <div className="filter-div-list">
+                      {Object.entries(selectedspeciality).map(([index, item]) => (
+                        <div className="filter-result">{item} <img src={path_image + "filter-close.svg"} alt="Close-filter" /></div>
+                      ))}
+                    </div>
+                  </div>
+                ) : null
+              ) : null}
+
+              {updateflag > 0 ? (
+                typeof selectedproduct === "object" &&
+                selectedproduct.length > 0 ? (
+                  <div className="filter-div">
+    								<div className="filter-div-title">
+                      <span>Products |</span>
+                    </div>
+                    <div className="filter-div-list">
+                      {Object.entries(selectedproduct).map(([index, item]) => (
+                        <div className="filter-result">{item} <img src={path_image + "filter-close.svg"} alt="Close-filter" /></div>
+                      ))}
+                    </div>
+                  </div>
+                ) : null
+              ) : null}
+
+
+              {updateflag > 0 ? (
+                  typeof selectedarticles === "object" &&
+                  selectedarticles.length > 0 ? (
+                    <div className="filter-div">
+      								<div className="filter-div-title">
+      									<span>Articles |</span>
+      								</div>
+                      <div className="filter-div-list">
+                        {Object.entries(selectedarticles).map(([index, item]) => (
+                          <div className="filter-result">{item} <img src={path_image + "filter-close.svg"} alt="Close-filter" /></div>
+                        ))}
+                      </div>
+                    </div>
+                  ) : null
+                ) : null}
+
 							<div className="filter-div">
 								<div className="filter-div-title">
 									<span>Country |</span>
@@ -763,7 +812,7 @@ const FilterSegment = (props) => {
 							</div>
 						</div>
 
-            {/*Right Block*/} 
+            {/*Right Block*/}
 						<div className="filter-block-right">
 
 						</div>
