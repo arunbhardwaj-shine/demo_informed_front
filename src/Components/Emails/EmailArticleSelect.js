@@ -38,7 +38,6 @@ const EmailArticleSelect = () => {
 
   const cancelClicked = () => {
     window.history.go(-1);
-
     // return true;
   };
 
