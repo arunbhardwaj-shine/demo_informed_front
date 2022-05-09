@@ -1051,12 +1051,14 @@ const CreateEmail = (props) => {
                 {tagClickedFirst.map((data, index) => {
                   return (
                     <>
-                      <div>{data.innerHTML || data}</div>
-                      <img
+                      <div className="tag-cross">
+                        {data.innerHTML || data}
+                        <img
                         src={path_image + "filter-close.svg"}
                         alt="Close-filter"
                         onClick={() => removeTagFinal(index)}
-                      />
+                        />
+                      </div>
                     </>
                   );
                 })}
