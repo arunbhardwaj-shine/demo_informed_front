@@ -785,37 +785,82 @@ const FilterSegment = (props) => {
                   ) : null
                 ) : null}
 
-							<div className="filter-div">
-								<div className="filter-div-title">
-									<span>Country |</span>
-								</div>
-								<div className="filter-div-list">
-									<div className="filter-result">Country Name<img src={path_image + "filter-close.svg"} alt="Close-filter" /></div>
-									<div className="filter-result">Country Name<img src={path_image + "filter-close.svg"} alt="Close-filter" /></div>
-								</div>
-							</div>
-							<div className="filter-div">
-								<div className="filter-div-title">
-									<span>Speciality |</span>
-								</div>
-								<div className="filter-div-list">
-									<div className="filter-result">HCPs<img src={path_image + "filter-close.svg"} alt="Close-filter" /></div>
-								</div>
-							</div>
-							<div className="filter-div">
-								<div className="filter-div-title">
-									<span>Reader Selection |</span>
-								</div>
-								<div className="filter-div-list">
-									<div className="filter-result">Reader Selection<img src={path_image + "filter-close.svg"} alt="Close-filter" /></div>
-								</div>
-							</div>
+
+            {updateflag > 0 ? (
+              typeof selectedconsent === "object" &&
+              selectedconsent.length > 0 ? (
+                <div className="filter-div">
+  								<div className="filter-div-title">
+  									<span>Consent |</span>
+  								</div>
+                  <div className="filter-div-list">
+                    {Object.entries(selectedconsent).map(([index, item]) => (
+                      <div className="filter-result">{item} <img src={path_image + "filter-close.svg"} alt="Close-filter" /></div>
+                    ))}
+                  </div>
+                </div>
+              ) : null
+            ) : null}
+
+
+            {updateflag > 0 ? (
+              selectedreaderselection ? (
+                <div className="filter-div">
+                  <div className="filter-div-title">
+                    <span>Reader Selection |</span>
+                  </div>
+                  <div className="filter-div-list">
+                    <div className="filter-result">{selectedreaderselection} <img src={path_image + "filter-close.svg"} alt="Close-filter" /></div>
+                  </div>
+                </div>
+              ) : null
+            ) : null}
+
 						</div>
 
             {/*Right Block*/}
 						<div className="filter-block-right">
+                {updateflag > 0 ? (
+                  selectedibu ? (
+                    <div className="filter-div">
+                      <div className="filter-div-title">
+                        <span>IBU |</span>
+                      </div>
+                      <div className="filter-div-list">
+                        <div className="filter-result">{selectedibu} <img src={path_image + "filter-close.svg"} alt="Close-filter" /></div>
+                      </div>
+                    </div>
+                  ) : null
+                ) : null}
 
-						</div>
+                {updateflag > 0 ? (
+                    selectedregister ? (
+                      <div className="filter-div">
+                        <div className="filter-div-title">
+                          <span>Register |</span>
+                        </div>
+                        <div className="filter-div-list">
+                          <div className="filter-result">{selectedregister} <img src={path_image + "filter-close.svg"} alt="Close-filter" /></div>
+                        </div>
+                      </div>
+                    ) : null
+                  ) : null}
+
+                  {updateflag > 0 ? (
+                    selectedbounce ? (
+                      <div className="filter-div">
+                        <div className="filter-div-title">
+                          <span>Bounce |</span>
+                        </div>
+                        <div className="filter-div-list">
+                          <div className="filter-result">{selectedbounce} <img src={path_image + "filter-close.svg"} alt="Close-filter" /></div>
+                        </div>
+                      </div>
+                    ) : null
+                  ) : null}
+
+						 </div>
+
 					</div>
 				</div>
 				<div className="result-hcp-table">
