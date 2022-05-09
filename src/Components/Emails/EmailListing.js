@@ -7,13 +7,15 @@ import { getDraftData } from "../../actions";
 import { connect } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 import Accordion from 'react-bootstrap/Accordion';
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
+import { popup_alert } from "../../popup_alert";
 
 const EmailList = (props) => {
   const navigate = useNavigate();
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
+  const [getoriginalsendlistdata, setOriginalSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
   const [filterdata, setFilterData] = useState([]);
   const [search, setSearch] = useState("");
@@ -71,20 +73,24 @@ const EmailList = (props) => {
     axios
       .post(`emailapi/getlist`, body)
       .then((res) => {
+        console.log(res);
         if(res.data.status_code == 200){
           setSendListData(res.data.response.data.emails);
           if(stage == "initial"){
+            setOriginalSendListData(res.data.response.data.emails);
             setFilterData(res.data.response.data.filter);
           }
           setUserData(res.data.response.data.user);
         }else{
           setSendListData([]);
+          toast.warning(res.data.message);
         }
         loader("hide");
       })
       .catch((err) => {
+        console.log("asdsa");
         loader("hide");
-        console.log(err);
+        toast.error("Something went wrong");
       });
   };
 
@@ -117,6 +123,9 @@ const EmailList = (props) => {
 
   const searchChange = (e) => {
     setSearch(e.target.value);
+    if(e.target.value === ''){
+      setSendListData(getoriginalsendlistdata);
+    }
   };
 
   const draftNavigate = async (
@@ -192,44 +201,50 @@ const showDeleteButtons = () => {
     setConfirmationPopup(false);
   }
 
-  const showVerificationPopup = () => {
-    hideConfirmationModal();
-    if(verificationpopup){
-      setVerificationPopup(false);
-    }else{
-      setVerificationPopup(true);
-    }
-  }
+  // const showVerificationPopup = () => {
+  //   hideConfirmationModal();
+  //   if(verificationpopup){
+  //     setVerificationPopup(false);
+  //   }else{
+  //     setVerificationPopup(true);
+  //   }
+  // }
 
-  const hideVerificationPopup = () => {
-    setVerificationPopup(false);
-  }
+  // const hideVerificationPopup = () => {
+  //   setVerificationPopup(false);
+  // }
 
   const deleteEmail = () => {
 
-    // const body = {
-    //   user_id: 18207,
-    //   campaign_id: deletecardid,
-    // };
-    // axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    // loader("show");
-    // axios
-    //   .post(`emailapi/delete_campaign`, body)
-    //   .then((res) => {
-        // if(res.data.status_code == 200){
-        var updatedArray = SendListData.filter(function(item){
-          return item['id'] != deletecardid
-        })
-        showVerificationPopup();
-        if(typeof updatedArray !== "undefined"){
-          setSendListData(updatedArray);
+    const body = {
+      user_id: 18207,
+      campaign_id: deletecardid,
+    };
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    loader("show");
+    axios
+      .post(`emailapi/delete_campaign`, body)
+      .then((res) => {
+        if(res.data.status_code == 200){
+          var updatedArray = SendListData.filter(function(item){
+            return item['id'] != deletecardid
+          })
+          hideConfirmationModal();
+          popup_alert({
+            visible: "show",
+            message: "The Email record has been deleted <br />successfully !",
+            type: "success",
+            redirect: "",
+          });
+          if(typeof updatedArray !== "undefined"){
+            setSendListData(updatedArray);
+          }
         }
-      //   }
-      //   loader("hide");
-      // })
-      // .catch((err) => {
-      //   console.log(err);
-      // });
+        loader("hide");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
   }
 
@@ -331,7 +346,7 @@ const showDeleteButtons = () => {
     let up = updateflag + 1;
     setUpdateFlag(up);
     if(filterapplied){
-      getData('progress');
+      setSendListData(getoriginalsendlistdata);
     }
     setShowFilter(false);
   };
@@ -363,17 +378,6 @@ const showDeleteButtons = () => {
   return (
     <>
     <div className="right-sidebar">
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
       <div className="top-header">
         <div className="page-title">
           <h2>Emails</h2>
@@ -1115,35 +1119,10 @@ const showDeleteButtons = () => {
               <button type="button" className="btn btn-primary btn-bordered light" onClick={(e) => hideConfirmationModal()} >Cancel</button>
             </div>
         </Modal.Body>
-
-
-            {/*
-                <div className="modal-dialog modal-dialog-centered">
-  					<div className="modal-content">
-
-  					  <div className="modal-header">
-  						<button type="button" className="btn-close" data-bs-dismiss="modal" onClick={(e) => hideConfirmationModal()}></button>
-  					  </div>
-
-  					  <div className="modal-body">
-  						<img src="assets/images/alert.png" alt="" />
-  						<h4>The Email Campaign will be deleted from the list.<br/>Are you sure you want to delete it?</h4>
-
-  						<div className="modal-buttons">
-  							<button type="button" className="btn btn-primary btn-filled" onClick={(e) => deleteEmail()}>Yes Please!</button>
-  							<button type="button" className="btn btn-primary btn-bordered light" onClick={(e) => hideConfirmationModal()} >Cancel</button>
-  						</div>
-  					  </div>
-
-  					</div>
-  				  </div>
-              */
-            }
-
           </Modal>
 				</div>
 
-        {/*Modal for Verification*/}
+        {/*Modal for Verification
         <div className="delete-confirm">
           <Modal className="modal send-confirm" id="action-confirm" show={verificationpopup}>
               <Modal.Header>
@@ -1158,26 +1137,8 @@ const showDeleteButtons = () => {
                   <button type="button" className="btn btn-primary btn-bordered light" onClick={(e) => hideVerificationPopup()}>Close</button>
                 </div>
             </Modal.Body>
-
-
-
-  				  {/* <div className="modal-dialog modal-dialog-centered">
-  					<div className="modal-content">
-  					  <div className="modal-header">
-  						<button type="button" className="btn-close" data-bs-dismiss="modal" onClick={(e) => hideVerificationPopup()}></button>
-  					  </div>
-  					  <div className="modal-body">
-  						<img src={path_image+"success.png"} alt="" />
-  						<h4>The HCP record has been deleted <br />successfully !</h4>
-  						<div className="modal-buttons">
-  							<button type="button" className="btn btn-primary btn-bordered light" onClick={(e) => hideVerificationPopup()}>Close</button>
-  						</div>
-  					  </div>
-
-  					</div>
-  				  </div> */}
           </Modal>
-				</div>
+				</div>*/}
     </>
   );
 };
