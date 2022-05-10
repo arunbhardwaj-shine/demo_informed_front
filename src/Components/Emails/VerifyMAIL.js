@@ -304,6 +304,7 @@ const VerifyMAIL = (props) => {
                     <ul>
                       {props.getEmailData
                         ? props.getEmailData.tags.map((tags, i) => {
+                          console.log(tags)
                             return (
                               <>
                                 <li className="list1">
@@ -338,10 +339,10 @@ const VerifyMAIL = (props) => {
                   <div className="row">
                     <div className="col-12 col-md-5 mail-recipt-left">
                       <h6>
-                        {/* The recipients <span>| {selectedHcp.length}</span> */}
+                      The recipients <span>| {selectedHcp.length }</span>
                       </h6>
                       <p>{/* Single HCP <span>| 1</span> */}</p>
-                      {props.getSelectedSmartListData || props.getDraftData ? (
+                      {props.getSelectedSmartListData || props.getDraftData.smart_list_data[0] ? (
                         <div className="smartlist-view email_box">
                           {console.log(props.getDraftData)}
                           <div className="mail-box-content">

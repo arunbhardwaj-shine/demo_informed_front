@@ -104,7 +104,7 @@ const CreateSmartList = () => {
           } else {
             element.classList.add("active");
           }
-          navigate("/SmartListFilter", {state: { smartListName: smartListName }});
+          navigate("/SmartListFilter", {state: { smartListName: smartListName, creatorName: creatorName }});
         }
 
 
@@ -149,13 +149,14 @@ const CreateSmartList = () => {
     loader("show");
 
     console.log(formData);
+    console.log(creatorName);
 
     await axios
       .post(`distributes/create_smart_list_with_excel`, formData)
       .then((res) => {
         setData(res.data.response.data);
         navigate("/UploadExcel", {
-          state: { data: res.data.response.data, smartListName: smartListName },
+          state: { data: res.data.response.data, smartListName: smartListName, creator: creatorName },
         });
         loader("hide");
         setapi_flag(api_flag + 1);
