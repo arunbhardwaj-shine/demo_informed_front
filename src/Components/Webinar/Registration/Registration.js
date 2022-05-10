@@ -63,9 +63,9 @@ const Registration = () => {
       }   
         ExportApi.RegistrationPageList(id).then((resp) => {
           if (resp.ok) {
-            console.log(resp.data.data);
+            console.log(resp.data.code);
             setRegistrationPageList(resp.data.data);
-            if(resp.data.data.code===404){
+            if(resp.data.code===404){
               setMassage("Data Not Found")
             }
           }

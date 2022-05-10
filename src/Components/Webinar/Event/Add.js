@@ -179,9 +179,6 @@ var yyyy = today.getFullYear();
    setSpeakerName(Speakername)
   }, [Speakername]);
 
-
-
-
   return (
     <Row>
       {/* {console.log("Speakername",Speakername)} */}
@@ -254,7 +251,6 @@ var yyyy = today.getFullYear();
                           }}
                         />
                       </Col>
-                   
                       <div className="mt-2"></div>
                       <Form.Label column sm={2}>
                         Speaker Email
