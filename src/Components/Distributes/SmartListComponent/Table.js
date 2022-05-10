@@ -59,8 +59,8 @@ const Table = (props,ref) => {
   ]);
 
   useImperativeHandle(ref, () => ({
-    createSmartList() {
-      showFileInReadersList();
+    createSmartList(dd) {
+      showFileInReadersList(dd);
     },
   }), [])
 
@@ -144,10 +144,8 @@ const Table = (props,ref) => {
     setOpenDeleteConfirmation(false);
   };
 
-  const showFileInReadersList = async () => {
+  const showFileInReadersList = async (fdata) => {
     let body = {};
-    console.log(editList);
-    console.log(props.data);
     if(typeof editList != "undefined" && editList.length > 0){
       //for Normal flow
       const profile_user_id_array = editList.map((data) => {
@@ -164,7 +162,7 @@ const Table = (props,ref) => {
       };
     } else if(typeof props != "undefined" && props.hasOwnProperty('data') && props.data.length > 0){
       //Parent Child FLow
-      const profile_user_id_array = props.data.map((data) => {
+      const profile_user_id_array = fdata.map((data) => {
         return data.profile_user_id;
       });
        body = {
@@ -183,7 +181,7 @@ const Table = (props,ref) => {
         Object.assign(body, { filters: props.filter_payload });
       }
     }
-
+    console.log(body);
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
