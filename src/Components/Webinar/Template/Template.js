@@ -159,7 +159,7 @@ const Template = () => {
       emailEditorRef.current.editor.loadDesign(dpc?dpc:hello);
   }
   const onReady = () => {
-     emailEditorRef.current.editor.loadDesign(hello)
+     emailEditorRef.current.editor.loadDesign(dpc)
     console.log('onReady');
   };
 
