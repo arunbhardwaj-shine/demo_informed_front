@@ -57,6 +57,7 @@ const Table = (props,ref) => {
   const [hpc, setHpc] = useState([
     { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
   ]);
+  const [countryall, setCountryall] = useState([]);
 
   useImperativeHandle(ref, () => ({
     createSmartList() {
@@ -75,6 +76,25 @@ const Table = (props,ref) => {
     if (typeof props.smartListName != "undefined" && props.smartListName != "") {
       setListName(props.smartListName);
     }
+    const getalCountry = async () => {
+      const body = {
+        user_id: 18207,
+      };
+      await axios
+        .post(`distributes/filters_list`, body)
+        .then((res) => {
+          
+          setCountryall(res.data.response.data.country);
+          console.log(countryall)
+         // setCounter(counter + 1);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    getalCountry();
+
+
   }, []);
 
 
@@ -976,9 +996,14 @@ const Table = (props,ref) => {
                                 }
                               >
                                 <option selected>Select Type</option>
-                                <option value="HCP">HCP</option>
-                                <option value="Staff">Staff</option>
-                                <option value="Test Users">Test Users</option>
+                                {countryall.length === 0 ? "" : (Object.entries(countryall).map(([index, item]) => {
+                                    return (
+                                      <>
+                                         <option value={index}>{item}</option>
+                                      </>
+                                    );
+                                  })) }
+
                               </select>
                             </div>
                           </div>

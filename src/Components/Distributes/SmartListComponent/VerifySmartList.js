@@ -7,6 +7,7 @@ const VerifySmartList = () => {
   const { getfilterdata } = location.state;
   const { listname } = location.state;
   const { filter_payload } = location.state;
+   
   return (
     <>
       <div className="col right-sidebar">
