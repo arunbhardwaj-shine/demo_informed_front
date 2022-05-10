@@ -9,6 +9,8 @@ import Modal from "react-bootstrap/Modal";
 import Accordion from 'react-bootstrap/Accordion';
 import { toast } from "react-toastify";
 import { popup_alert } from "../../popup_alert";
+import Highcharts from 'highcharts'
+import HighchartsReact from 'highcharts-react-official'
 
 const EmailList = (props) => {
   const navigate = useNavigate();
@@ -38,11 +40,54 @@ const EmailList = (props) => {
   const [updateflag, setUpdateFlag] = useState([]);
   const [removeFlag, setRemoveFlag] = useState(false);
   const [filterapplied, setFilterApply] = useState(false);
+  const [options_ch, setOptions_ch] = useState({
+    chart: {
+      type: 'column',
+      options3d: {
+          enabled: true,
+          alpha: 10,
+          beta: 25,
+          depth: 70
+      }
+    },
+    title: {
+      text: 'Mail campaign stats'
+    },
+    plotOptions: {
+      column: {
+        depth: 25
+    }
+  },
+  xAxis: {
+    categories: ["Email sent","Email opened","Link clicked"],
+    labels: {
+        skew3d: true,
+        style: {
+            fontSize: '16px'
+        }
+    }
+},
+yAxis: {
+    title: {
+        text: null
+    }
+},
+    series: [{
+      name: 'Email campaign',
+      data: [2, 3, 0]
+  }]
+});
 
-  const showViewEmailModal = (id) => {
+
+
+  const showViewEmailModal = (data) => {
+    let id = data.id;
       if(typeof SendListData !== "undefined"){
         let getSpecificKeyData = SendListData.filter(p => p.id == id);
-        setviewEmailData(getSpecificKeyData);
+      let vakueupdate = options_ch;
+      vakueupdate.series[0].data = [getSpecificKeyData[0].total_Sent,getSpecificKeyData[0].total_Opened,getSpecificKeyData[0].total_Click];
+        setOptions_ch(vakueupdate);
+         setviewEmailData(getSpecificKeyData);
       }
       hideModal();
       setviewEmailModal(true);
@@ -718,6 +763,8 @@ const showDeleteButtons = () => {
             {
               SendListData.length > 0 ?
               SendListData.map((data) => {
+                 
+
                return (
          <div className="email_box_block">
                 <div className={"email_box " + (data.status == 1  ? 'approved' : (data.status == 2) ? 'email-draft' : 'draft-approved')}>
@@ -794,7 +841,7 @@ const showDeleteButtons = () => {
                             data.tags)}>Send New</button></div>
                         <div className="mailbox-buttons-list">
                           <button className="btn btn-primary btn-bordered send" onClick={(e) => showModal('resend',data.id)}>Resend</button>
-                          <button className="btn btn-primary btn-filled edit" onClick={(e) => showViewEmailModal(data.id)}>View</button>
+                          <button className="btn btn-primary btn-filled edit" onClick={(e) => showViewEmailModal(data)}>View</button>
                         </div>
                       </div>
                       : <div className="mailbox-buttons">
@@ -853,7 +900,6 @@ const showDeleteButtons = () => {
           </Modal>
       </div>
 
-      // Modal for view Email
       <div>
     <Modal id="mail-view" show={viewEmailModal} onHide={hideEmailModal}>
 
@@ -937,7 +983,7 @@ const showDeleteButtons = () => {
                 </clipPath>
                 </defs>
                 </svg>
-                <span>60%</span>
+                <span>0</span>
               </div>
               </div>
             </li>
@@ -976,7 +1022,10 @@ const showDeleteButtons = () => {
           </div>
           <div className="chart-description">
             <div className="chart-description-view">
-              <img src={path_image+"chart-description.png"} alt="" />
+              <HighchartsReact
+                  highcharts={Highcharts}
+                  options={options_ch}
+                />
             </div>
           </div>
         </div>
