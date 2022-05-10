@@ -22,7 +22,7 @@ const Sidebar = () => {
                     Email
               </Link>
             </li>
-            <li className={(location.pathname == "/SmartList" || location.pathname == "/CreateSmartList" || location.pathname =="/SmartListFilter" ||  location.pathname =="/UploadExcel") ? "active" : "side_li"} >
+            <li className={(location.pathname == "/SmartList" || location.pathname == "/EditList" || location.pathname == "/CreateSmartList" || location.pathname =="/SmartListFilter" ||  location.pathname =="/UploadExcel") ? "active" : "side_li"} >
               
               <Link to={"/SmartList"} >
                

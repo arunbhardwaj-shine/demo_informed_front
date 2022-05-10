@@ -156,7 +156,7 @@ const ViewTable = (props) => {
         if (res.data.status_code === 200) {
           popup_alert({
             visible: "show",
-            message: "user added successfully",
+            message: "User added successfully",
             type: "success",
           });
         } else {
@@ -720,9 +720,7 @@ const ViewTable = (props) => {
                   </button>
                 </div> */}
               </div>
-              {showReaders ? (
-                <button onClick={showFileInReadersList}>save</button>
-              ) : null}
+             
             </div>
           </div>
         </div>
@@ -738,6 +736,15 @@ const ViewTable = (props) => {
                 Show More information{" "}
               </a>
             </div> */}
+             {showReaders ? (
+                <div className="row">
+                    <div className="col-md-12">
+                      <button class="btn btn-primary btn-filled next"  onClick={showFileInReadersList} >Save</button>
+                    </div>
+                </div>
+                
+               
+              ) : null}
           </div>
           <div className="selected-hcp-list">
             <table className="table">
