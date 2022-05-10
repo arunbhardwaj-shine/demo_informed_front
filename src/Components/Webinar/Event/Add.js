@@ -15,21 +15,22 @@ function Add(props) {
   const [render, setRerender] = useState(0);
   const [Speakername, setSpeakerName] = useState([{ name: "", email: "" }]);
   const [bu, setBu] = useState([]);
+  const [index, setIndex] = useState();
   const [Timezone, setTimezone] = useState([]);
+  const [massage, setMassage] = useState();
   const [Timezoneregion, setTimezoneregion] = useState([]);
   const handleMaltiInputAdd = () => {
-    setSpeaker([...Speaker, { name: "SpeakersName", email: "SpeakesrEmail" }]);
     setSpeakerName([...Speakername, { name: "", email: "" }]);
   };
   const [token, setToken] = useState(localStorage.getItem("Token"));
   let navigate = useNavigate();
   const handleSpeakerName = (e, i) => {
-    if (e.target.name === `SpeakersName${i}`) {
+    if (e.target.name === `name${i}`) {
       const speker = Speakername[i];
       speker.name = e.target.value;
       Speakername.splice(i, 1, { ...speker });
       setSpeakerName([...Speakername]);
-    } else if (e.target.name === `SpeakesrEmail${i}`) {
+    } else if (e.target.name === `email${i}`) {
       const speker = Speakername[i];
       speker.email = e.target.value;
       Speakername.splice(i, 1, { ...speker });
@@ -40,15 +41,23 @@ function Add(props) {
     console.log("inside render");
   }, [render]);
 
-  const handleMaltiInputRumove = (i) => {
-    console.log("i", i);
-    if (Speakername.length > 1) {
-      Speaker.splice(i, 1);
-      setSpeaker([...Speaker]);
-      Speakername.splice(i, 1);
-      console.log(Speakername.length);
-      setRerender(render + 1);
-    }
+  const handleMaltiInputRumove = (i) => {  
+    console.log("first,",i) 
+       let data1=Speakername
+       console.log("before,",data1)
+       console.log("before1,",Speakername)
+    
+       Speakername.splice(0, 1);
+      setTimeout(()=>setSpeakerName([...Speakername]),1000) 
+        
+      setRerender(render+1)      
+     
+     console.log("after,",data1.length)
+    //  if () {
+       
+    //  }
+        setSpeakerName(data1)
+      // setRerender(render+1); 
   };
   const handleGetDataBu = () => {
     ExportApi.GetBuData(token).then((resp) => {
@@ -67,7 +76,7 @@ function Add(props) {
   const handleGetTimezoneregionData = () => {
     ExportApi.GetTimezoneregionData().then((resp) => {
       if (resp.ok) {
-        // console.log(resp);
+         console.log(resp.data.data);
         setTimezoneregion(resp.data.data);
       }
     });
@@ -91,57 +100,69 @@ function Add(props) {
       event_start_time: Yup.string().required("Event start time is required"),
       Region: Yup.string().required("Region is required"),
       Bu: Yup.string().required("Bu is required"),
-      eventendtime: Yup.string().required("Event ent time is required"),
-      event_date: Yup.string().required("Event date is required"),
+      eventendtime: Yup.string()
+      .required("Event ent time is required"),
+      event_date: Yup.string()
+      .required("Event date is required"),
       Description: Yup.string().required("Description is required"),
     }),
     onSubmit: (values) => {
-      console.log(Speakername[0].name)
+      var today = new Date(values.event_date);
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      var yyyy = today.getFullYear();
+      let dateData=dd + '-'+ mm +'-'+yyyy
+      console.log()
       let a = JSON.stringify(Speakername);
-      console.log(values);
-      ExportApi.CreatEvent(
-        values.EventTitle,
-        Speakername[0].name&&Speakername[0].email?a:null,
-        values.event_start_time,
-        values.eventendtime,
-        values.Timezone,
-        values.code,
-        values.Bu,
-        values.event_date,
-        values.Description,
-        values.Region
-      )
-        .then((resp) => {
-          if (resp.data) {
-            console.log(resp.data);
-            if (resp.data.code == 200) {
-              toast.success(resp.data.message, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                });
-                setTimeout(function(){
-                  navigate("/webinar/event/edit")
-                }, 5000);
-            } else {
-              toast.error(resp.data.message, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                });
-            }
-          }
-        })
-        .catch((err) => console.log(err));
-    },
+      console.log(dateData);
+if(values.event_start_time>=values.eventendtime){
+  setMassage("End time has to be greater")
+}else{
+setMassage(false)
+  ExportApi.CreatEvent(
+       values.EventTitle,
+       Speakername[0].name&&Speakername[0].email?a:null,
+       values.event_start_time,
+       values.eventendtime,
+       values.Timezone,
+       values.code,
+       values.Bu,
+       dateData,
+       values.Description,
+       values.Region
+     )
+       .then((resp) => {
+         if (resp.data) {
+           console.log(resp.data);
+           if (resp.data.code == 200) {
+             toast.success(resp.data.message, {
+               position: "top-right",
+               autoClose: 5000,
+               hideProgressBar: false,
+               closeOnClick: true,
+               pauseOnHover: true,
+               draggable: true,
+               progress: undefined,
+               });
+               setTimeout(function(){
+                 navigate("/webinar/event/edit")
+               }, 5000);
+           } else {
+             toast.error(resp.data.message, {
+               position: "top-right",
+               autoClose: 5000,
+               hideProgressBar: false,
+               closeOnClick: true,
+               pauseOnHover: true,
+               draggable: true,
+               progress: undefined,
+               });
+           }
+         }
+       })
+       .catch((err) => console.log(err));
+   }
+}
   });
   var today = new Date();
 var dd = String(today.getDate()).padStart(2, '0');
@@ -153,8 +174,17 @@ var yyyy = today.getFullYear();
     handleGetTimezoneData();
     handleGetTimezoneregionData();
   }, [props.token, localStorage.getItem("Token")]);
+  useEffect(() => {
+   console.log(Speakername)
+   setSpeakerName(Speakername)
+  }, [Speakername]);
+
+
+
+
   return (
     <Row>
+      {/* {console.log("Speakername",Speakername)} */}
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -194,13 +224,13 @@ var yyyy = today.getFullYear();
                   ) : null}
                 </Col>
               </Form.Group>
-              {Speaker.map((malti, i) => (
+              {Speakername.map((malti, i) => (
                 <fieldset className="border p-2">
                   <div key={i}>
-                    {Speaker.length > 1 ? (
+                    {Speakername.length > 1 ? (
                       <button
                         type="button"
-                        onClick={() => handleMaltiInputRumove(i)}
+                        onClick={() =>{setIndex(i); handleMaltiInputRumove(i)}}
                         className="btn-close float-end"
                         aria-label="Close"
                       />
@@ -216,20 +246,15 @@ var yyyy = today.getFullYear();
                       <Col sm={10}>
                         <Form.Control
                           name={
-                            Speaker.length === 0 ? malti.name : malti.name + i
+                            Speakername.length === 0 ? "name" : "name" + i
                           }
+                          value={malti.name}
                           onChange={(e) => {
                             handleSpeakerName(e, i);
                           }}
-                          onBlur={formik.handleBlur}
-                          value={formik.values.email}
                         />
                       </Col>
-                      {formik.touched.email && formik.errors.email ? (
-                        <div style={{ color: "red" }}>
-                          {formik.errors.email}
-                        </div>
-                      ) : null}
+                   
                       <div className="mt-2"></div>
                       <Form.Label column sm={2}>
                         Speaker Email
@@ -238,20 +263,13 @@ var yyyy = today.getFullYear();
                         <Form.Control
                           type="email"
                           name={
-                            Speaker.length === 0 ? malti.email : malti.email + i
+                            Speakername.length === 0 ? "email" : "email" + i
                           }
                           onChange={(e) => {
                             handleSpeakerName(e, i);
                           }}
-                          onBlur={formik.handleBlur}
-                          value={formik.values.email}
                         />
                       </Col>
-                      {formik.touched.email && formik.errors.email ? (
-                        <div style={{ color: "red" }}>
-                          {formik.errors.email}
-                        </div>
-                      ) : null}
                     </Form.Group>
                   </div>
                 </fieldset>
@@ -368,7 +386,7 @@ var yyyy = today.getFullYear();
                   <Form.Control
                     name="event_date"
                     type="date"
-                    min={yyyy + '-'+ mm +'-'+dd}
+                    min={dd + '-'+ mm +'-'+yyyy}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.event_date}
@@ -386,7 +404,7 @@ var yyyy = today.getFullYear();
                 controlId="exampleForm.ControlInput1"
               >
                 <Form.Label column sm={2}>
-                  Event Start Time{" "}
+                  Event Start Time
                 </Form.Label>
                 <Col sm={10}>
                   <Form.Control
@@ -402,6 +420,7 @@ var yyyy = today.getFullYear();
                       {formik.errors.event_start_time}
                     </div>
                   ) : null}
+                  
                 </Col>
               </Form.Group>
               <Form.Group
@@ -426,6 +445,9 @@ var yyyy = today.getFullYear();
                       {formik.errors.eventendtime}
                     </div>
                   ) : null}
+                    <div style={{ color: "red" }}>
+                      { massage}
+                    </div>
                 </Col>
               </Form.Group>
               <Form.Group

@@ -259,8 +259,8 @@ const Registration = () => {
                   <Col xs={9}>
                   <Form.Label>Body Text</Form.Label>
                   <textarea
-                    name="Description"
-                    type="body"
+                    name="body"
+                    type="text"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.body}

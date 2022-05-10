@@ -12,9 +12,6 @@ const EventData = () => {
     const [SpDataSingle, setSpDataSingle] = useState();
 
     const [modalShow, setModalShow] = useState(false);
-    const [Speaker, setSpeaker] = useState([
-        { name: "SpeakersName", email: "SpeakesrEmail" },
-      ]);
       const [Speakername, setSpeakerName] = useState([{name: "", email: "" }]);
   const handleGetEventlist = () => {
     ExportApi.GetEventList().then((resp) => {
@@ -36,16 +33,15 @@ const EventData = () => {
     });
   };
   const handleMaltiInputAdd = () => {
-    setSpeaker([...Speaker, {name: "SpeakersName", email: "SpeakesrEmail" }]);
     setSpeakerName([...Speakername,{name:'',email:""}])
   };
   const handleSpeakerName = (e, i) => {
-    if (e.target.name === `SpeakersName${i}`) {
+    if (e.target.name === `name${i}`) {
       const speker = Speakername[i];
       speker.name = e.target.value;
        Speakername.splice(i, 1,{...speker});
        setSpeakerName([...Speakername]);
-    } else if (e.target.name === `SpeakesrEmail${i}`) {
+    } else if (e.target.name === `email${i}`) {
       const speker = Speakername[i];
       speker.email = e.target.value;
       Speakername.splice(i, 1, { ...speker });
@@ -55,12 +51,10 @@ const EventData = () => {
   
   const handleMaltiInputRumove = (i) => {
     console.log("i",i);
-    if (Speakername.length > 1) {
-      Speaker.splice(i, 1);
-      setSpeaker([...Speaker]);
       Speakername.splice(i, 1);
+      setSpeakerName([...Speakername])
       console.log(Speakername.length);
-    }
+    
   };
   const formik = useFormik({
     initialValues: {
@@ -153,7 +147,7 @@ const EventData = () => {
                
             </Table>
             <Modal show={modalShow} size="lg" aria-labelledby="contained-modal-title-vcenter" centered >
-              <Modal.Header onClick={()=>setModalShow(false)} closeButton>
+              <Modal.Header onClick={()=>{setSpeakerName([{name: "", email: "" }]); setModalShow(false)}} closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
                   Edit Event 
                 </Modal.Title>
@@ -184,47 +178,37 @@ const EventData = () => {
                   </fieldset>
                   <div class="mt-2 clearfix"></div>
 
-                    {Speaker.map((malti, i) => (
+                    {Speakername.map((malti, i) => (
 
                     <fieldset class="border p-2">
                     <div key={i}>
                       
                   
-                      {Speaker.length > 1 ? (
+                      {Speakername.length > 1 ? (
                            <button type="button" onClick={() => handleMaltiInputRumove(i)}  className="btn-close float-end" aria-label="Close" />
                       ) : null}
                       <Form.Group as={Row} className="mb-3" controlId="exampleForm.ControlInput1">
                       <Form.Label column sm={3}>Speaker Name</Form.Label>
                       <Col sm={9}>
                       <Form.Control
-                        name={Speaker.length === 0 ? malti.name : malti.name + i}
+                        name={Speakername.length === 0 ? "name" : "name" + i}
+                        value={malti.name}
                         onChange={(e) => {
                           handleSpeakerName(e, i);
                         }}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.email}
                       /></Col>
-                      {formik.touched.email && formik.errors.email ? (
-                        <div style={{ color: "red" }}>{formik.errors.email}</div>
-                      ) : null}
                       <div class="mt-2 clearfix"></div>
                       <Form.Label column sm={3}>Speaker Email</Form.Label>
                       <Col sm={9}>
                       <Form.Control
                         type="email"
-                        name={Speaker.length === 0 ? malti.email : malti.email + i}
+                        name={Speakername.length === 0 ? "email" : "email" + i}
                         onChange={(e) => {
                           handleSpeakerName(e, i);
                         }}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.email}
+                        value={malti.email}
                       />
                       </Col>
-                      {formik.touched.email && formik.errors.email ? (
-                        <div style={{ color: "red" }}>{formik.errors.email}</div>
-                      ) : null}
-                    
-                      
                       </Form.Group>
                     </div></fieldset>
                 ))}
@@ -245,7 +229,7 @@ const EventData = () => {
                     </Form.Group>
                     
               <Modal.Footer>
-                <Button variant="danger" onClick={()=>{setModalShow(false)}}>Close</Button>
+                <Button variant="danger" onClick={()=>{setSpeakerName([{name: "", email: "" }]);setModalShow(false)}}>Close</Button>
                 <Button type="submit" variant="success">Update</Button>
               </Modal.Footer>
             </form>
