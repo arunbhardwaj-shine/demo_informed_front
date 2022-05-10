@@ -211,7 +211,8 @@ const CreateEmail = (props) => {
   };
 
   const addClicked = () => {
-    setSelectedHcp(readers);
+    setSelectedHcp((oldArray) => [...readers, ...oldArray]);
+    // setSelectedHcp(readers);
     setIsOpensend(true);
     setAddListOpen(false);
   };
@@ -1054,9 +1055,9 @@ const CreateEmail = (props) => {
                       <div className="tag-cross">
                         {data.innerHTML || data}
                         <img
-                        src={path_image + "filter-close.svg"}
-                        alt="Close-filter"
-                        onClick={() => removeTagFinal(index)}
+                          src={path_image + "filter-close.svg"}
+                          alt="Close-filter"
+                          onClick={() => removeTagFinal(index)}
                         />
                       </div>
                     </>
