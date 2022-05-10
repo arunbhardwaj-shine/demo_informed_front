@@ -67,6 +67,7 @@ const Table = (props) => {
   const [counterFlag, setCounterFlag] = useState(0);
   const [getlistid, setListId] = useState("");
   const [getlistname, setListName] = useState("");
+  const [getsortflag, setsortflag] = useState(false);
 
   const [show, setShow] = useState(false);
   const [hpc, setHpc] = useState([
@@ -413,25 +414,6 @@ const Table = (props) => {
     };
   };
 
-  const sortSelectedUsers = () => {
-    let normalArr = [];
-
-    normalArr = editList;
-    if (sorting === 0) {
-      normalArr.sort((a, b) =>
-        a.first_name > b.first_name ? 1 : b.first_name > a.first_name ? -1 : 0
-      );
-    } else {
-      normalArr.sort((a, b) =>
-        a.first_name < b.first_name ? 1 : b.first_name < a.first_name ? -1 : 0
-      );
-    }
-
-    setEditList(normalArr);
-    setSorting(1 - sorting);
-    console.log(editList);
-  };
-
   const onDelete = async ({
     profile_id,
     newName,
@@ -596,6 +578,21 @@ const Table = (props) => {
       },
     ]);
   };
+  const sortdata = () => {
+    setsortflag((getsortflag) => !getsortflag);
+    if (getsortflag) {
+      let sortedData = editList.sort((a, b) =>
+        a.first_name > b.first_name ? 1 : -1
+      );
+      setEditList(sortedData);
+    } else {
+      let sortedData = editList.sort((a, b) =>
+        a.first_name < b.first_name ? 1 : -1
+      );
+      setEditList(sortedData);
+    }
+  };
+
   return (
     <>
       {typeof props.upload_by_filter !== "undefined" &&
@@ -649,24 +646,21 @@ const Table = (props) => {
             )}
 
             <div class="selected-hcp-table-action">
-              {/* <a class="show-less-info" href="#">
+              <a class="show-less-info" href="#">
                 Show Less information{" "}
-              </a> */}
+              </a>
               <div class="hcp-new-user">
                 <button class="btn btn-outline-primary" onClick={handleShow}>
                   <img src={path + "new-user.svg"} alt="New User" />
                 </button>
               </div>
-              {/* <div class="hcp-added">
+              <div class="hcp-added">
                 <button class="btn btn-outline-primary">
                   <img src={path + "edit-button.svg"} alt="Edit" />
                 </button>
-              </div> */}
+              </div>
               <div class="hcp-sort">
-                <button
-                  class="btn btn-outline-primary"
-                  onClick={sortSelectedUsers}
-                >
+                <button class="btn btn-outline-primary" onClick={sortdata}>
                   Sort By <img src={path + "sort.svg"} alt="Shorting" />
                 </button>
               </div>

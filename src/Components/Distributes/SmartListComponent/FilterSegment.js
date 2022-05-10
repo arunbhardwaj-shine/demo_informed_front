@@ -728,7 +728,9 @@ const FilterSegment = (props) => {
     					</div>
   				</div>
 				<div className="apply-filter">
-					<h6>Selected Criterias <span>| 333</span></h6>
+					<h6>Selected Criterias <span>|
+            {typeof getfilterdata !== "undefined" && getfilterdata.length > 0  ? getfilterdata.length : 0}
+          </span></h6>
 					<div className="filter-block">
 						<div className="filter-block-left">
 
