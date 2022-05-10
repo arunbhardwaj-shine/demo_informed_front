@@ -42,7 +42,7 @@ const CreateRegistration = (props) => {
         },
         validationSchema: Yup.object({
           RegistrationPageTitle: Yup.string().required("Enter your registration page title"),
-          body: Yup.string().required("Enter a Body text"),
+          body: Yup.string().required("Enter a body text"),
           url: Yup.string()
           .matches(/^[a-zA-Z]+$/u,"Only alphabets are allowed")
           .required("Enter url alias"),
@@ -144,8 +144,8 @@ const CreateRegistration = (props) => {
                   <Col>
                   <Form.Label>Body Text</Form.Label>
                   <textarea
-                    name="Description"
-                    type="body"
+                    name="body"
+                    type="text"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.body}
@@ -153,7 +153,7 @@ const CreateRegistration = (props) => {
                     id="exampleFormControlTextarea1"
                     rows="5"
                   ></textarea>
-                               {formik.touched.body && formik.errors.body ? (
+                    {formik.touched.body && formik.errors.body ? (
                 <div style={{ color: "red" }}>{formik.errors.body}</div>
               ) : null}
             {/* <CKEditor
@@ -185,7 +185,7 @@ const CreateRegistration = (props) => {
                 // console.log( 'Focus.', editor );
               }}
             />  */}
-          <p style={{color:"red"}}>{err}</p>
+         
                   </Col>
                   
          <Col> <div>

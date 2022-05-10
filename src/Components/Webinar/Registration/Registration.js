@@ -63,9 +63,9 @@ const Registration = () => {
       }   
         ExportApi.RegistrationPageList(id).then((resp) => {
           if (resp.ok) {
-            console.log(resp.data.data);
+            console.log(resp.data.code);
             setRegistrationPageList(resp.data.data);
-            if(resp.data.data.code===404){
+            if(resp.data.code===404){
               setMassage("Data Not Found")
             }
           }
@@ -259,8 +259,8 @@ const Registration = () => {
                   <Col xs={9}>
                   <Form.Label>Body Text</Form.Label>
                   <textarea
-                    name="Description"
-                    type="body"
+                    name="body"
+                    type="text"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.body}
