@@ -176,7 +176,7 @@ const EventData = () => {
                   </Form.Group>
                   <fieldset className="border p-2">
                   {SpDataSingle?.map((malti, i) => (
-                      <Form.Group className="edit-event">
+                      <Form.Group className="edit-event" key={i}>
                         <Form.Label column sm={3}>Name <h6>{malti.name}</h6></Form.Label>
                         <Form.Label column sm={3}>Email <h6>{malti.email}</h6></Form.Label>
                       </Form.Group>

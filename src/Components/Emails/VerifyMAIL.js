@@ -25,7 +25,10 @@ const VerifyMAIL = (props) => {
   const [templateId, setTemplateId] = useState(0);
   const [tags, setTags] = useState([]);
   const [reRender, setReRender] = useState(0);
-  // let emailData;
+  const [template_source_code, setTemplate] = useState(props.getEmailData
+    ? props.getEmailData.template
+    : props.getDraftData.source_code);
+ 
 
   const selectedHcp = location.state
     ? location.state.selectedHcp
@@ -244,9 +247,14 @@ const VerifyMAIL = (props) => {
                 <li className="">
                   <a href="javascript:void(0)">Create Your Email</a>
                 </li>
+
+                
                 <li className="">
                   <a href="javascript:void(0)">Select Verify Your HCPs</a>
                 </li>
+
+
+
                 <li className="active">
                   <a href="javascript:void(0)">Verify your Email</a>
                 </li>
@@ -389,12 +397,14 @@ const VerifyMAIL = (props) => {
                             </div>
                             <div className="smart-list-added-user">
                               <img
-                                src="assets/images/smartlist-user.svg"
+                               src={path_image + "smartlist-user.svg"}
                                 alt="User icon"
                               />
-                              203
+                               {props.getSelectedSmartListData
+                                ? props.getSelectedSmartListData.readers_count
+                                : props.getDraftData.smart_list_data.readers_count}
                             </div>
-                            <div className="mail-stats">
+                            {/* <div className="mail-stats">
                               <ul>
                                 <li>
                                   <div className="mail-status smartlist_view">
@@ -435,7 +445,7 @@ const VerifyMAIL = (props) => {
                                   <span>60%</span>
                                 </li>
                               </ul>
-                            </div>
+                            </div> */}
                             <div className="smartlist-buttons">
                               <button className="btn btn-primary view">
                                 View

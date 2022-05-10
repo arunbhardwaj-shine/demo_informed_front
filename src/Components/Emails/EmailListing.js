@@ -9,6 +9,8 @@ import Modal from "react-bootstrap/Modal";
 import Accordion from "react-bootstrap/Accordion";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../popup_alert";
+import Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official";
 
 const EmailList = (props) => {
   const navigate = useNavigate();
@@ -38,10 +40,57 @@ const EmailList = (props) => {
   const [updateflag, setUpdateFlag] = useState([]);
   const [removeFlag, setRemoveFlag] = useState(false);
   const [filterapplied, setFilterApply] = useState(false);
+  const [options_ch, setOptions_ch] = useState({
+    chart: {
+      type: "column",
+      options3d: {
+        enabled: true,
+        alpha: 10,
+        beta: 25,
+        depth: 70,
+      },
+    },
+    title: {
+      text: "Mail campaign stats",
+    },
+    plotOptions: {
+      column: {
+        depth: 25,
+      },
+    },
+    xAxis: {
+      categories: ["Email sent", "Email opened", "Link clicked"],
+      labels: {
+        skew3d: true,
+        style: {
+          fontSize: "16px",
+        },
+      },
+    },
+    yAxis: {
+      title: {
+        text: null,
+      },
+    },
+    series: [
+      {
+        name: "Email campaign",
+        data: [2, 3, 0],
+      },
+    ],
+  });
 
-  const showViewEmailModal = (id) => {
+  const showViewEmailModal = (data) => {
+    let id = data.id;
     if (typeof SendListData !== "undefined") {
       let getSpecificKeyData = SendListData.filter((p) => p.id == id);
+      let vakueupdate = options_ch;
+      vakueupdate.series[0].data = [
+        getSpecificKeyData[0].total_Sent,
+        getSpecificKeyData[0].total_Opened,
+        getSpecificKeyData[0].total_Click,
+      ];
+      setOptions_ch(vakueupdate);
       setviewEmailData(getSpecificKeyData);
     }
     hideModal();
@@ -189,16 +238,16 @@ const EmailList = (props) => {
     getData("initial");
   }, []);
 
-  const createEmail = () => {
-    props.getDraftData(null);
-  };
-
   const showDeleteButtons = () => {
     if (deletestatus) {
       setDeleteStatus(false);
     } else {
       setDeleteStatus(true);
     }
+  };
+
+  const createNewEmail = () => {
+    props.getDraftData(null);
   };
 
   const showConfirmationPopup = (id) => {
@@ -855,8 +904,8 @@ const EmailList = (props) => {
               filterdate.length == 0 &&
               filtercampaign.length == 0 && (
                 <div className="email_box_block">
-                  <div className="email-block-add" onClick={createEmail}>
-                    <Link to="/EmailArticleSelect">
+                  <div className="email-block-add">
+                    <Link to="/EmailArticleSelect" onClick={createNewEmail}>
                       <img src={path_image + "add-button.svg"} alt="" />
                     </Link>
                     <p>Create New Email</p>
@@ -1036,7 +1085,7 @@ const EmailList = (props) => {
                               </button>
                               <button
                                 className="btn btn-primary btn-filled edit"
-                                onClick={(e) => showViewEmailModal(data.id)}
+                                onClick={(e) => showViewEmailModal(data)}
                               >
                                 View
                               </button>
@@ -1097,6 +1146,7 @@ const EmailList = (props) => {
           </div>
         </div>
       </div>
+
       <div>
         <Modal className="modal send-confirm" id="resend-confirm" show={isOpen}>
           <Modal.Header>
@@ -1144,7 +1194,7 @@ const EmailList = (props) => {
           </Modal.Body>
         </Modal>
       </div>
-      // Modal for view Email
+
       <div>
         <Modal id="mail-view" show={viewEmailModal} onHide={hideEmailModal}>
           <Modal.Header>
@@ -1305,7 +1355,7 @@ const EmailList = (props) => {
                                 </clipPath>
                               </defs>
                             </svg>
-                            <span>60%</span>
+                            <span>0</span>
                           </div>
                         </div>
                       </li>
@@ -1388,7 +1438,10 @@ const EmailList = (props) => {
                 </div>
                 <div className="chart-description">
                   <div className="chart-description-view">
-                    <img src={path_image + "chart-description.png"} alt="" />
+                    <HighchartsReact
+                      highcharts={Highcharts}
+                      options={options_ch}
+                    />
                   </div>
                 </div>
               </div>
@@ -1396,6 +1449,7 @@ const EmailList = (props) => {
           </Modal.Body>
         </Modal>
       </div>
+
       {/* <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div className="modal-content">
           <div className="modal-header">
@@ -1522,6 +1576,7 @@ const EmailList = (props) => {
         )}
         </div>
       </div> */}
+
       {/*Modal for delete Email listing*/}
       <div className="delete">
         <Modal
@@ -1565,6 +1620,7 @@ const EmailList = (props) => {
           </Modal.Body>
         </Modal>
       </div>
+
       {/*Modal for Verification
         <div className="delete-confirm">
           <Modal className="modal send-confirm" id="action-confirm" show={verificationpopup}>

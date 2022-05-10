@@ -25,7 +25,7 @@ function EmailStats() {
     });
   };
   const handleGetEmaildata = (id) => {
-      console.log(id)
+      // console.log(id)
     ExportApi.EmailStatss(eventId, id).then((resp) => {
       if (resp.ok) {
         console.log(resp.data.data.data);

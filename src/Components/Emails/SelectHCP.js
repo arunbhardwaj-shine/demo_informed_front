@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { getCampaignId, getEmailData } from "../../actions";
 import { getDraftData } from "../../actions";
 import { getSelected } from "../../actions";
-
+import { toast } from "react-toastify";
 
 import { propTypes } from "react-bootstrap/esm/Image";
 
@@ -65,7 +65,7 @@ const SelectHCP = (props) => {
       campaign_data: {
         template_id: props.getEmailData
           ? props.getEmailData.templateId
-          : props.getDraftData.template_id,
+          : props.getDraftData.campaign_data.template_id,
       },
       campaign_id: campaign_id_st,
       status: 2,
@@ -76,12 +76,22 @@ const SelectHCP = (props) => {
     await axios
       .post(`emailapi/save_draft`, body)
       .then((res) => {
-        setCampaign_id(res.data.response.data.id);
         loader("hide");
+        if (res.data.status_code === 200) {
+          toast.success("Draft saved successfuly");
+          setCampaign_id(res.data.response.data.id);
+
+        }else{
+          toast.warning(res.data.message);
+        }
+
+        
+        
 
       })
       .catch((err) => {
         //console.log(err);
+        toast.error("Something went wrong");
       });
   };
 
@@ -198,7 +208,7 @@ console.log(props);
                         alt="Group HCPs"
                       />
                     </div>
-                    <p>Groupe of HCPs</p>
+                    <p>Group of HCP's</p>
                   </li>
                   <li>
                     <div

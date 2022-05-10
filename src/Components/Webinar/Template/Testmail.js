@@ -29,7 +29,7 @@ export const Testmail = (props) => {
 
       let formData = new FormData();
       formData.append("template_id", props.data1);
-      formData.append("mail", values.Email);
+      formData.append("email", values.Email);
       formData.append("file", image);
       formData.append("name", values.Name);
 
