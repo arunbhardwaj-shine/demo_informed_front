@@ -24,7 +24,7 @@ const UserLogout = () =>
 const GetTimezoneData = () => BaseApi.get("timezone",{},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
-const GetTimezoneregionData = () => BaseApi.get("timezoneregion",{},{ headers: {
+const GetTimezoneregionData = () => BaseApi.get("timezone_region",{},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
 const GetCountryData = () => BaseApi.get("country",{},{ headers: {
@@ -55,7 +55,6 @@ BaseApi.post("event",{
   event_date:event_date },{ headers: {
     'Authorization':localStorage.getItem("Token"),
   }});
-
      //Rehearsal
 const CreatRehearsal = (EventTitle,Timezone,event_start_time,
   eventendtime,event_date,type,Description,a) => 

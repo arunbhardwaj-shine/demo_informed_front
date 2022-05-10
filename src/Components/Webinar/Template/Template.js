@@ -40,7 +40,7 @@ const Template = () => {
       const exportHtml = async () => {
         emailEditorRef.current.editor.exportHtml((data) => {
           const { design, html } = data;
-          
+          console.log("htmmmm",html)
           localStorage.setItem('html', html);
           localStorage.setItem('bodyaa', JSON.stringify(design));
               })
@@ -97,15 +97,15 @@ const Template = () => {
   }
 
   const handleMaltiInputRumove = (i) => {
-      let data=[...linkInput]
-      let data1=[...linkData]
+      let data=linkInput
+      let data1=linkData
       data.splice(i, 1);
       data1.splice(i, 1);
       setTimeout(() => {
         setLinkInput(data);
       },500);
       setLinkData(data1)
-      
+      setRender(render+1)
   };
   const handleMaltiInputAdd = () => {
     setLinkInput([...linkInput,{ name: "LinkName", link: "Link" }]);
@@ -145,6 +145,7 @@ const Template = () => {
     ExportApi.UserTemplate(idd).then((resp) => {
       if (resp.ok) {
         setEditLinkData(resp.data.data.data)
+        console.log(resp.data.data)
         resp.data.data.json_description===""? setDpc():setDpc(JSON.parse(resp.data.data.json_description))
         handleEditInputValue(resp.data.data.data,resp.data.data.description)
         setTemplate(resp.data.data);

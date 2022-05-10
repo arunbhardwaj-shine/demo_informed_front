@@ -228,7 +228,8 @@ const CreateEmail = (props) => {
     setSelectedFile(event.target.files[0]);
   };
 
-  const addClicked = () => {
+  const addClicked = (e) => {
+    e.preventDefault();
     setSelectedHcp((oldArray) => [...readers, ...oldArray]);
     // setSelectedHcp(readers);
     setIsOpensend(true);
@@ -678,20 +679,20 @@ const CreateEmail = (props) => {
     setManualReRender(manualReRender + 1);
   };
 
-  const handleSelect = (data) => {
+  const handleSelect = (data, e) => {
     console.log(data);
 
     const body = {
       user_id: 18207,
       list_id: data.id,
     };
-    loader("show");
+    // loader("show");
     axios
       .post(`distributes/get_reders_list`, body)
       .then((res) => {
         //   console.log(res)
         setReaders(res.data.response.data);
-        loader("hide");
+        //loader("hide");
       })
       .catch((err) => {
         console.log(err);
@@ -1367,7 +1368,7 @@ const CreateEmail = (props) => {
                           <input
                             type="radio"
                             name="radio"
-                            onClick={() => handleSelect(data)}
+                            onClick={(e) => handleSelect(data, e)}
                           />
                           <span className="checkmark"></span>
                         </div>
@@ -1479,7 +1480,7 @@ const CreateEmail = (props) => {
               type="button"
               className="btn btn-primary btn-filled"
               data-bs-dismiss="modal"
-              onClick={addClicked}
+              onClick={(e) => addClicked(e)}
             >
               Add
             </button>

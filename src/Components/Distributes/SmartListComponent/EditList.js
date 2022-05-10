@@ -10,6 +10,7 @@ const EditList = () => {
   const [selectedFilter, setSelectedFilter] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [listName, setListName] = useState('');
+  const [creator, setCreator] = useState('');
   const queryParams = queryString.parse(window.location.search);
 
   const body = {
@@ -28,6 +29,7 @@ const EditList = () => {
           setFilteredData(res.data.response.data);
           setSelectedFilter(res.data.response.selected_filters);
           setListName(res.data.response.smart_list_name);
+          setCreator(res.data.response.creator_name);
           getfilterlist();
         }
       })
@@ -64,6 +66,7 @@ const EditList = () => {
         listname={listName}
         selectedFilter={selectedFilter}
         data={filteredData}
+        creator={creator}
         action="edit"
         />
       }
