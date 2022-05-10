@@ -35,6 +35,8 @@ const ViewTable = (props) => {
   const [deleteConfirmation, setOpenDeleteConfirmation] = useState(false);
   const [showReaders, setShowSaveReader] = useState(false);
 
+  const [addNewData, setAddNewData] = useState(0);
+
   const [profile_user_id, setProfileUserId] = useState();
 
   const [reRenders, setReRenders] = useState(0);
@@ -43,6 +45,7 @@ const ViewTable = (props) => {
 
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [activeManual, setActiveManual] = useState("active");
+  const [newData, setNewData] = useState([]);
 
   const [activeExcel, setActiveExcel] = useState("");
 
@@ -118,60 +121,69 @@ const ViewTable = (props) => {
     setEditList(props.data);
   }, [props.api_flag]);
 
-  const showFileInReadersList = async () => {
-    console.log("updated data");
-    console.log(updateData);
-    const profile_user_id_array = editList.map((data) => {
-      return data.profile_user_id;
-    });
+  useEffect(() => {
+    setNewData([]);
+    const showFileInList = async () => {
+      console.log(editList);
+      const profile_user_id_array = editList.map((data) => {
+        return data.profile_user_id;
+      });
+      const body = {
+        user_list: profile_user_id_array,
+        smart_list_id: getlistid,
+        user_id: 18207,
+        smart_list_name: getlistname,
+        submit_type: props.upload_by_filter,
+        new_users_list: [],
+      };
 
-    console.log(profile_user_id_array);
-    console.log("smartlist name");
-    console.log(props);
+      if (props.upload_by_filter == 1) {
+        if (typeof props.filter_payload === "object") {
+          Object.assign(body, { filters: props.filter_payload });
+        }
+      }
+
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      loader("show");
+      await axios
+        .post(`distributes/add_update_list`, body)
+        .then((res) => {
+          loader("hide");
+          console.log(res);
+          if (res.data.status_code === 200) {
+            popup_alert({
+              visible: "show",
+              message: "User added successfully",
+              type: "success",
+            });
+          } else {
+            popup_alert({
+              visible: "show",
+              message: res.data.message,
+              type: "error",
+            });
+          }
+          //window.location.href = "/SmartList";
+        })
+        .catch((err) => {
+          toast.error("Something went wrong");
+          console.log(err);
+        });
+    };
+    if (addNewData > 0) {
+      showFileInList();
+    }
+  }, [addNewData]);
+
+  const showFileInReadersList = async () => {
+    setEditList((oldArray) => [...newData, ...oldArray]);
+    setAddNewData(addNewData + 1);
+    // setTimeout(() => {
+    //   console.log(editList);
+    // }, 1000);
+    // console.log(editList);
 
     // if (props.listId) {
-    const body = {
-      user_list: profile_user_id_array,
-      smart_list_id: getlistid,
-      user_id: 18207,
-      smart_list_name: getlistname,
-      submit_type: props.upload_by_filter,
-      new_users_list: [],
-    };
-
-    if (props.upload_by_filter == 1) {
-      if (typeof props.filter_payload === "object") {
-        Object.assign(body, { filters: props.filter_payload });
-      }
-    }
-
-    console.log(body);
-
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    loader("show");
-    await axios
-      .post(`distributes/add_update_list`, body)
-      .then((res) => {
-        loader("hide");
-        if (res.data.status_code === 200) {
-          popup_alert({
-            visible: "show",
-            message: "User added successfully",
-            type: "success",
-          });
-        } else {
-          popup_alert({
-            visible: "show",
-            message: res.data.message,
-            type: "error",
-          });
-        }
-        //window.location.href = "/SmartList";
-      })
-      .catch((err) => {
-        toast.error("Something went wrong");
-        console.log(err);
-      });
   };
 
   /**
@@ -433,7 +445,7 @@ const ViewTable = (props) => {
 
   const onContactTypeChange = (e, i) => {
     const { value } = e.target;
-    console.log(value);
+    // console.log(value);
     const list = [...hpc];
     const name = hpc[i].contact_type;
     list[i].contact_type = value;
@@ -450,7 +462,7 @@ const ViewTable = (props) => {
 
   const backClicked = () => {
     window.history.go(-1);
-    props.api_flag(0);
+    //props.api_flag(0);
   };
 
   const searchChange = (e) => {
@@ -513,10 +525,13 @@ const ViewTable = (props) => {
 
             let new_data = res.data.response.data;
 
+            setNewData((oldArray) => [...new_data, ...oldArray]);
+            //setNewData(new_data);
+
             combine_data_manual = [...new_data, ...old_data];
 
-            setEditList(combine_data_manual);
-            setUpdatedData(combine_data_manual);
+            setEditList(old_data);
+            // setUpdatedData(combine_data_manual);
 
             loader("hide");
           } else {
@@ -545,10 +560,13 @@ const ViewTable = (props) => {
             console.log(res.data.response.data);
             let old_data = editList;
             let new_data = res.data.response.data;
+            setNewData(new_data);
             combine_data = [...new_data, ...old_data];
+
+            console.log(new_data);
             // console.log(combine_data);
-            setEditList(combine_data);
-            setUpdatedData(combine_data);
+            setEditList(old_data);
+            //    setUpdatedData(combine_data);
 
             loader("hide");
           } else {
@@ -612,6 +630,15 @@ const ViewTable = (props) => {
     });
 
     setOpenDeleteConfirmation(false);
+  };
+
+  const deleteNewlyAdded = (profile_user_id) => {
+    //  console.log(profile_user_id);
+    const data = newData;
+    const dataUpdated = data.filter((d) => {
+      return d.profile_user_id != profile_user_id;
+    });
+    setNewData(dataUpdated);
   };
 
   return (
@@ -720,7 +747,6 @@ const ViewTable = (props) => {
                   </button>
                 </div> */}
               </div>
-             
             </div>
           </div>
         </div>
@@ -736,15 +762,18 @@ const ViewTable = (props) => {
                 Show More information{" "}
               </a>
             </div> */}
-             {showReaders ? (
-                <div className="row">
-                    <div className="col-md-12">
-                      <button class="btn btn-primary btn-filled next"  onClick={showFileInReadersList} >Save</button>
-                    </div>
+            {showReaders ? (
+              <div className="row">
+                <div className="col-md-12">
+                  <button
+                    class="btn btn-primary btn-filled next"
+                    onClick={showFileInReadersList}
+                  >
+                    Save
+                  </button>
                 </div>
-                
-               
-              ) : null}
+              </div>
+            ) : null}
           </div>
           <div className="selected-hcp-list">
             <table className="table">
@@ -761,6 +790,68 @@ const ViewTable = (props) => {
                 </tr>
               </thead>
               <tbody className="form-group">
+                {newData.map((item) => (
+                  <tr
+                    className="hcps-added"
+                    contenteditable={editable === 0 ? "false" : "true"}
+                    onInput={(e) =>
+                      editing(e.currentTarget.textContent, item.profile_id)
+                    }
+                  >
+                    <td>
+                      {inEditMode.status &&
+                      inEditMode.rowKey === item.profile_id ? (
+                        <input
+                          value={name}
+                          onChange={(event) => setName(event.target.value)}
+                        />
+                      ) : (
+                        item.first_name + " " + item.last_name
+                      )}
+                    </td>
+                    <td>
+                      {" "}
+                      {inEditMode.status &&
+                      inEditMode.rowKey === item.profile_id ? (
+                        <input
+                          value={email}
+                          type="email"
+                          onChange={(event) => setEmail(event.target.value)}
+                        />
+                      ) : (
+                        item.email
+                      )}
+                    </td>
+                    <td>No</td>
+                    <td>
+                      {inEditMode.status &&
+                      inEditMode.rowKey === item.profile_id ? (
+                        <input
+                          value={country}
+                          onChange={(event) => setCountry(event.target.value)}
+                        />
+                      ) : (
+                        item.country
+                      )}
+                    </td>
+                    <td>NA</td>
+                    <td>NA</td>
+                    <td>NA</td>
+
+                    <td class="delete_row" colspan="12">
+                      <img
+                        src={path + "delete.svg"}
+                        alt="Delete Row"
+                        onClick={() => deleteNewlyAdded(item.profile_user_id)}
+                      />
+                    </td>
+                  </tr>
+                ))}
+
+                <tr className="seprator-add">
+                  <td colspan="13"></td>
+                </tr>
+
                 {editList.map((item) => (
                   <tr
                     contenteditable={editable === 0 ? "false" : "true"}
@@ -829,7 +920,6 @@ const ViewTable = (props) => {
                     </td>
                   </tr>
                 ))}
-                {validator3.message("email", email, "required|email")}
               </tbody>
             </table>
           </div>
