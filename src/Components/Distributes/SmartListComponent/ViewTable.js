@@ -200,6 +200,7 @@ const ViewTable = (props) => {
   const showFileInReadersList = async () => {
     setEditList((oldArray) => [...newData, ...oldArray]);
     setAddNewData(addNewData + 1);
+    setShowSaveReader(false);
     // setTimeout(() => {
     //   console.log(editList);
     // }, 1000);

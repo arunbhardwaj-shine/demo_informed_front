@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { loader } from "../../loader";
-import { Link, NavigationType, useNavigate } from "react-router-dom";
+import { Link, Navigate, NavigationType, useNavigate } from "react-router-dom";
 
 const EmailArticleSelect = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
+  const navigate = useNavigate();
   const [PdfSelected, setPdfSelected] = useState(0);
   const inputElement = useRef();
 
@@ -37,7 +38,7 @@ const EmailArticleSelect = () => {
   };
 
   const cancelClicked = () => {
-    window.history.go(-1);
+    navigate("/EmailList");
     // return true;
   };
 
