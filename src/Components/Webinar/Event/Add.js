@@ -382,7 +382,7 @@ var yyyy = today.getFullYear();
                   <Form.Control
                     name="event_date"
                     type="date"
-                    min={dd + '-'+ mm +'-'+yyyy}
+                    min={yyyy + '-'+ mm +'-'+dd}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.event_date}
