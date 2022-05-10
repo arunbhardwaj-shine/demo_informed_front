@@ -37,17 +37,18 @@ const Template = () => {
     }),
     enableReinitialize: true,
     onSubmit: (values) => {
-   
       const exportHtml = async () => {
         emailEditorRef.current.editor.exportHtml((data) => {
           const { design, html } = data;
+          
+          localStorage.setItem('html', html);
           localStorage.setItem('bodyaa', JSON.stringify(design));
               })
       };
       exportHtml();
       setDpc (JSON.parse(localStorage.getItem('bodyaa')))
       let data = JSON.stringify(linkData);
-      ExportApi.UpdateTemplate(values.Subject,localStorage.getItem('bodyaa'),id,linkData[0].name&&linkData[0].link?data:null,).then((resp) => {
+      ExportApi.UpdateTemplate(values.Subject,localStorage.getItem('bodyaa'),localStorage.getItem("html"),id,linkData[0].name&&linkData[0].link?data:null,).then((resp) => {
         if (resp.ok) {
           if (resp.data.code == 200) {
             setLinkInput([ { name: "LinkName", link: "Link" }])
@@ -77,7 +78,6 @@ const Template = () => {
           }
         }
       });
-
     },
   });
   const handleEditInputValue= (data)=>{
@@ -145,22 +145,21 @@ const Template = () => {
     ExportApi.UserTemplate(idd).then((resp) => {
       if (resp.ok) {
         setEditLinkData(resp.data.data.data)
-        // resp.data.data.description===""? setDpc():setDpc(JSON.parse(resp.data.data.description))
+        resp.data.data.json_description===""? setDpc():setDpc(JSON.parse(resp.data.data.json_description))
         handleEditInputValue(resp.data.data.data,resp.data.data.description)
         setTemplate(resp.data.data);
-        // emailEditorRef.current.editor.loadDesign(resp.data.data.description?JSON.parse(resp.data.data.description):hello)
+         emailEditorRef.current.editor.loadDesign(resp.data.data.json_description ?JSON.parse(resp.data.data.json_description ):hello)
       }
     });
   };
-
+  
   const emailEditorRef = useRef(null);
   const onLoad =  () => {
-    setTimeout(function(){
+    console.log(dpc)
       emailEditorRef.current.editor.loadDesign(dpc?dpc:hello);
-    }, 2000);
   }
   const onReady = () => {
-     emailEditorRef.current.editor.loadDesign(hello)
+     emailEditorRef.current.editor.loadDesign(dpc)
     console.log('onReady');
   };
 
