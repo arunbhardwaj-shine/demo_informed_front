@@ -25,8 +25,11 @@ const VerifyMAIL = (props) => {
   const [templateId, setTemplateId] = useState(0);
   const [tags, setTags] = useState([]);
   const [reRender, setReRender] = useState(0);
-  // let emailData;
-
+  const [template_source_code, setTemplate] = useState(props.getEmailData
+    ? props.getEmailData.template
+    : props.getDraftData.source_code);
+ 
+console.log(template_source_code);
   const selectedHcp = location.state
     ? location.state.selectedHcp
     : props.getDraftData.selectedHcp;
