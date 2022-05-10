@@ -2,12 +2,13 @@ import axios from "axios";
 import Table from "./Table";
 import { Link } from "react-router-dom";
 import VerifySmartList from "./VerifySmartList";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import Accordion from 'react-bootstrap/Accordion';
 import { loader } from "../../../loader";
 
 const FilterSegment = (props) => {
+  const tableCompRef = useRef();
   const [filters, setFilters] = useState(props.filters);
   const [listname, setListName] = useState(props.listname);
   const [selectedcountry, setSelectedCountry] = useState([]);
@@ -97,6 +98,11 @@ const FilterSegment = (props) => {
         setUpdateFlag(up);
     }
   },[]);
+
+  const sendDataToParent = (childData) => {
+    setFilterData(childData);
+    setApiFilterFlag(1);
+  }
 
   const handleOnCountryChange = (country) => {
     let country_index = selectedcountry.indexOf(country);
@@ -306,8 +312,6 @@ const FilterSegment = (props) => {
       Object.assign(payload, { Consent: consent });
     }
     setPayload(payload);
-    console.log(payload);
-    console.log(typeof payload);
     setApiFilterFlag(0);
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
@@ -332,6 +336,10 @@ const FilterSegment = (props) => {
     return Object.keys(object).find((key) => object[key] === value);
   };
 
+  const createSmartListWithFilters = () => {
+    tableCompRef.current.createSmartList();
+  }
+
   return (
     <>
       {
@@ -345,8 +353,11 @@ const FilterSegment = (props) => {
             <div className="col-12 col-md-6">
               <div className="header-btn">
                 <button className="btn btn-primary btn-bordered light">Close</button>
-                <button className="btn btn-primary btn-bordered save-as">Save As</button>
-                <button className="btn btn-primary btn-filled save">Save</button>
+                {/*<button className="btn btn-primary btn-bordered save-as">Save As</button>*/}
+                <button className="btn btn-primary btn-filled save" onClick={createSmartListWithFilters}
+                  disabled = { typeof getfilterdata == "undefined" || getfilterdata.length == 0 ? true : false }>
+                  Save
+                </button>
               </div>
             </div>
             </div>
@@ -370,19 +381,10 @@ const FilterSegment = (props) => {
                       Cancel
                     </NavLink>
                   </button>
-                  <button className="btn btn-primary btn-bordered save-as">
-                    <Link
-                      to="/VerifySmartList"
-                      state={{
-                        getfilterdata: getfilterdata,
-                        listname: listname,
-                        contact_type: selectedcontacttype,
-                        filter_payload: getpayload,
-                      }}
-                    >
+                  <button className="btn btn-primary btn-bordered save-as" onClick={createSmartListWithFilters}
+                    disabled = {typeof getfilterdata == "undefined" || getfilterdata.length == 0 ? true : false } >
                       Create
-                    </Link>
-                </button>
+                  </button>
                 </div>
               </div>
              </div>
@@ -897,7 +899,7 @@ const FilterSegment = (props) => {
         {apifilterflag > 0 ? (
             typeof getfilterdata === "object" && getfilterdata.length > 0 ? (
               <div className="box mt-2">
-                <Table data={getfilterdata} smartListName={listname} upload_by_filter="1" />
+                <Table ref={tableCompRef} data={getfilterdata} smartListName={listname} upload_by_filter="1" filter_payload={getpayload} creator={props.creator} sendDataToParent={sendDataToParent}/>
               </div>
             ) : (
               <div className="box mt-2">

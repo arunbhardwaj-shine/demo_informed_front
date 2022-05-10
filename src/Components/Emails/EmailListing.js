@@ -528,7 +528,7 @@ const showDeleteButtons = () => {
                       }
 
                       <Accordion.Item className="card" eventKey="3">
-                          <Accordion.Header className="card-header">Camapign</Accordion.Header>
+                          <Accordion.Header className="card-header">Campaign</Accordion.Header>
                           <Accordion.Body className="card-body">
 
                               <ul>

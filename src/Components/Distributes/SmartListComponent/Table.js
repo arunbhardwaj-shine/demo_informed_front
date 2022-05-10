@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, forwardRef, useRef, useImperativeHandle } from "react";
 import { Link } from "react-router-dom";
 import { Button, Modal } from "react-bootstrap";
 import { confirmAlert } from "react-confirm-alert";
@@ -8,24 +8,23 @@ import SimpleReactValidator from "simple-react-validator";
 import { loader } from "../../../loader";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../../popup_alert";
-
+import queryString from "query-string";
 import { connect } from "react-redux";
 
-const Table = (props) => {
+const Table = (props,ref) => {
   const [inEditMode, setInEditMode] = useState({
     status: false,
     rowKey: null,
   });
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   //let validator = new SimpleReactValidator();
-
+  const queryParams = queryString.parse(window.location.search);
   const [validator] = React.useState(new SimpleReactValidator());
   const [validator2] = React.useState(new SimpleReactValidator());
   const [validator3] = React.useState(new SimpleReactValidator());
   const [isOpen, setIsOpen] = useState(false);
   const [deleteConfirmation, setOpenDeleteConfirmation] = useState(false);
   const [profileUserId, setProfileUserId] = useState();
-
   const [data, setData] = useState(0);
   const [manualReRender, setManualReRender] = useState(0);
   const [isOpenAdd, setIsOpenAdd] = useState(false);
@@ -35,24 +34,6 @@ const Table = (props) => {
   const [sorting, setSorting] = useState(0);
   const [addFileReRender, setAddFileReRender] = useState(0);
   const [activeExcel, setActiveExcel] = useState("");
-
-  const [validator3Counter, setValidator3Counter] = useState(0);
-
-  useEffect(() => {
-    setUpdatedData(props.data);
-
-    if (typeof props.listId != "undefined" && props.listId != "") {
-      setListId(props.listId);
-    }
-
-    if (
-      typeof props.smartListName != "undefined" &&
-      props.smartListName != ""
-    ) {
-      setListName(props.smartListName);
-    }
-  }, []);
-
   const [name, setName] = useState(null);
   const [jobTitle, setJobTitle] = useState(null);
   const [company, setCompany] = useState(null);
@@ -61,19 +42,42 @@ const Table = (props) => {
   const [country, setCountry] = useState(null);
   const [email, setEmail] = useState(null);
   const [updateData, setUpdatedData] = useState(null);
-
   const [editList, setEditList] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [counterFlag, setCounterFlag] = useState(0);
   const [getlistid, setListId] = useState("");
   const [getlistname, setListName] = useState("");
   const [getsortflag, setsortflag] = useState(false);
-
+  const [showUploadMenu, setShowUploadMenu] = useState(false);
+  const [render, setReRender] = useState(0);
   const [show, setShow] = useState(false);
+  const [renderCounterData, setCounterData] = useState([]);
+  const [validator3Counter, setValidator3Counter] = useState(0);
+  const [counter, setCounter] = useState([0]);
   const [hpc, setHpc] = useState([
     { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
   ]);
-  const [renderCounterData, setCounterData] = useState([]);
+
+  useImperativeHandle(ref, () => ({
+    createSmartList() {
+      showFileInReadersList();
+    },
+  }), [])
+
+  useEffect(() => {
+    setUpdatedData(props.data);
+    setEditList(props.data);
+    if (typeof props.listId != "undefined" && props.listId != "") {
+      setListId(props.listId);
+    }else{
+      setListId(queryParams.listId);
+    }
+    if (typeof props.smartListName != "undefined" && props.smartListName != "") {
+      setListName(props.smartListName);
+    }
+  }, []);
+
+
 
   const handleClose = () => {
     setShow(false);
@@ -81,9 +85,6 @@ const Table = (props) => {
     setCounterData([]);
   };
   const handleShow = () => setIsOpenAdd(true);
-
-  const [showUploadMenu, setShowUploadMenu] = useState(false);
-  const [render, setReRender] = useState(0);
   const handleCloseUploadMenu = () => setShowUploadMenu(false);
   const handleShowUploadMenu = () => {
     setShowUploadMenu(true);
@@ -93,17 +94,10 @@ const Table = (props) => {
   let combine_data;
   let combine_data_manual;
 
-  const [counter, setCounter] = useState([0]);
-
-  useEffect(() => {});
 
   const onFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
-
-  useEffect(() => {
-    setEditList(props.data);
-  }, [props.api_flag]);
 
   const uploadFile = async (event) => {
     if (validator2.allValid()) {
@@ -125,6 +119,7 @@ const Table = (props) => {
           combine_data = [new_data, ...old_data];
           // console.log(combine_data);
           setEditList(combine_data);
+          props.sendDataToParent(combine_data);
           setUpdatedData(combine_data);
           loader("hide");
         })
@@ -141,50 +136,47 @@ const Table = (props) => {
   const showSucessPopup = () => {
     popup_alert({
       visible: "show",
-      message: "The HCP record has been deleted successfully",
+      message: "The HCP record has been deleted successfully.",
       type: "success",
+      redirect: "",
     });
 
     setOpenDeleteConfirmation(false);
   };
 
   const showFileInReadersList = async () => {
-    console.log("updated data");
-    console.log(updateData);
-    const profile_user_id_array = editList.map((data) => {
-      return data.profile_user_id;
-    });
-
-    console.log(profile_user_id_array);
-    // console.log(props.listId);
-    // let body;
-    // if (props.listId) {
-    //   body = {
-    //     user_list: profile_user_id_array,
-    //     smart_list_id: props.listId,
-    //     user_id: 18207,
-    //     smartListName: props.smartListName,
-    //   };
-    // } else {
-    //   body = {
-    //     user_list: profile_user_id_array,
-    //     smart_list_name: props.smartListName,
-    //     smart_list_id: "",
-    //     user_id: 18207,
-    //   };
-    // }
-    console.log("smartlist name");
-    console.log(props);
-
-    // if (props.listId) {
-    const body = {
-      user_list: profile_user_id_array,
-      smart_list_id: getlistid,
-      user_id: 18207,
-      smart_list_name: getlistname,
-      submit_type: props.upload_by_filter,
-      new_users_list: [],
-    };
+    let body = {};
+    console.log(editList);
+    console.log(props.data);
+    if(typeof editList != "undefined" && editList.length > 0){
+      //for Normal flow
+      const profile_user_id_array = editList.map((data) => {
+        return data.profile_user_id;
+      });
+       body = {
+        user_list: profile_user_id_array,
+        smart_list_id: (typeof getlistid !== "undefined") ? getlistid : "",
+        user_id: 18207,
+        smart_list_name: getlistname,
+        submit_type: props.upload_by_filter,
+        new_users_list: [],
+        creator_name: (typeof props.creator !== "undefined") ? props.creator : "",
+      };
+    } else if(typeof props != "undefined" && props.hasOwnProperty('data') && props.data.length > 0){
+      //Parent Child FLow
+      const profile_user_id_array = props.data.map((data) => {
+        return data.profile_user_id;
+      });
+       body = {
+        user_list: profile_user_id_array,
+        smart_list_id: (typeof queryParams.listId !== "undefined") ? queryParams.listId : "",
+        user_id: 18207,
+        smart_list_name: props.smartListName,
+        submit_type: props.upload_by_filter,
+        new_users_list: [],
+        creator_name: (typeof props.creator !== "undefined") ? props.creator : "",
+      };
+    }
 
     if (props.upload_by_filter == 1) {
       if (typeof props.filter_payload === "object") {
@@ -192,15 +184,22 @@ const Table = (props) => {
       }
     }
 
-    console.log(body);
-
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
       .post(`distributes/add_update_list`, body)
       .then((res) => {
         loader("hide");
-        //window.location.href = "/SmartList";
+        if(res.data.status_code == 200){
+          popup_alert({
+            visible: "show",
+            message: "Smart List Created <br />successfully !",
+            type: "success",
+            redirect: "/SmartList",
+          });
+        }else{
+          toast.warning(res.data.message);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -397,21 +396,19 @@ const Table = (props) => {
   };
 
   const deleteReader = (profile_user_id) => {
-    console.log(profile_user_id);
-
     const filtered_list = editList.filter((data) => {
       return data.profile_user_id != profile_user_id;
     });
-    console.log("filtered list");
-    console.log(filtered_list);
+
     setEditList(filtered_list);
-    const body = {
-      user_list: filtered_list.map((data) => {
-        return data.profile_user_id;
-      }),
-      smart_list_id: getlistid,
-      user_id: 18207,
-    };
+    props.sendDataToParent(filtered_list);
+    // const body = {
+    //   user_list: filtered_list.map((data) => {
+    //     return data.profile_user_id;
+    //   }),
+    //   smart_list_id: getlistid,
+    //   user_id: 18207,
+    // };
   };
 
   const onDelete = async ({
@@ -431,6 +428,7 @@ const Table = (props) => {
         visible: "show",
         message: "Please keep atleast one reader or delete the smart list",
         type: "error",
+        redirect: "",
       });
     }
   };
@@ -520,9 +518,8 @@ const Table = (props) => {
             combine_data_manual = [...new_data, ...old_data];
 
             setEditList(combine_data_manual);
+            props.sendDataToParent(combine_data_manual);
             setUpdatedData(combine_data_manual);
-            //setProfileUserId()
-            showFileInReadersList();
 
             loader("hide");
           } else {
@@ -555,9 +552,8 @@ const Table = (props) => {
             combine_data = [...new_data, ...old_data];
             // console.log(combine_data);
             setEditList(combine_data);
+            props.sendDataToParent(combine_data);
             setUpdatedData(combine_data);
-            showFileInReadersList();
-
             loader("hide");
           } else {
             toast.warning(res.data.message);
@@ -585,11 +581,13 @@ const Table = (props) => {
         a.first_name > b.first_name ? 1 : -1
       );
       setEditList(sortedData);
+      props.sendDataToParent(sortedData);
     } else {
       let sortedData = editList.sort((a, b) =>
         a.first_name < b.first_name ? 1 : -1
       );
       setEditList(sortedData);
+      props.sendDataToParent(sortedData);
     }
   };
 
@@ -646,19 +644,26 @@ const Table = (props) => {
             )}
 
             <div class="selected-hcp-table-action">
-              <a class="show-less-info" href="#">
-                Show Less information{" "}
-              </a>
+              {/*
+                <a class="show-less-info" href="#">
+                  Show Less information{" "}
+                </a>
+                */
+              }
               <div class="hcp-new-user">
                 <button class="btn btn-outline-primary" onClick={handleShow}>
                   <img src={path + "new-user.svg"} alt="New User" />
                 </button>
               </div>
-              <div class="hcp-added">
-                <button class="btn btn-outline-primary">
-                  <img src={path + "edit-button.svg"} alt="Edit" />
-                </button>
-              </div>
+              {
+                /*
+                <div class="hcp-added">
+                  <button class="btn btn-outline-primary">
+                    <img src={path + "edit-button.svg"} alt="Edit" />
+                  </button>
+                </div>
+                */
+              }
               <div class="hcp-sort">
                 <button class="btn btn-outline-primary" onClick={sortdata}>
                   Sort By <img src={path + "sort.svg"} alt="Shorting" />
@@ -1120,7 +1125,6 @@ const Table = (props) => {
               class="btn btn-primary btn-filled"
               data-bs-dismiss="modal"
               onClick={() => {
-                console.log(profileUserId);
                 deleteReader(profileUserId);
                 setIsOpen(false);
 
@@ -1154,4 +1158,4 @@ const mapStateToProps = (state) => {
   return state;
 };
 
-export default Table;
+export default forwardRef(Table);

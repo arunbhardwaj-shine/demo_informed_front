@@ -7,6 +7,7 @@ import { useLocation } from 'react-router-dom';
 const SmartListFilter = () => {
   const location = useLocation();
   const { smartListName } = location.state;
+  const { creatorName } = location.state;
   const [filterList, setFilterList] = useState([]);
 
   useEffect(() => {
@@ -38,6 +39,7 @@ const SmartListFilter = () => {
         <FilterSegment
         filters={filterList}
         listname={smartListName}
+        creator={creatorName}
         action="create"
         />
       }
