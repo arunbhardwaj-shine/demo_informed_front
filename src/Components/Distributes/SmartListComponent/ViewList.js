@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import Loader from "react-js-loader";
 import ViewTable from "./ViewTable";
 import { loader } from "../../../loader";
+import { popup_alert } from "../../../popup_alert";
 
 const EditList = () => {
   const queryParams = queryString.parse(window.location.search);
@@ -30,15 +31,26 @@ const EditList = () => {
     await axios
       .post(`distributes/get_reders_list`, body)
       .then((res) => {
-        if (res.data.response.data.length > 0) {
-          setEditListData(res.data.response.data);
-          setLoading(false);
-          setUploadedBy(res.data.response.upload_by_filter);
-          setSmartListName(res.data.response.smart_list_name);
-          setListCount(res.data.response.list_count);
-          setapi_flag(api_flag + 1);
-          loader("hide");
+        console.log(res);
+
+        if (res.data.response) {
+          if (res.data.response.data.length > 0) {
+            setEditListData(res.data.response.data);
+            setLoading(false);
+            setUploadedBy(res.data.response.upload_by_filter);
+            setSmartListName(res.data.response.smart_list_name);
+            setListCount(res.data.response.list_count);
+            setapi_flag(api_flag + 1);
+            loader("hide");
+          }
+        } else {
+          popup_alert({
+            visible: "show",
+            message: "No readers in the smart list",
+            type: "error",
+          });
         }
+        loader("hide");
       })
       .catch((err) => {
         console.log(err);
