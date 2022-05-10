@@ -87,6 +87,8 @@ const ViewTable = (props) => {
   ]);
   const [renderCounterData, setCounterData] = useState([]);
 
+  const [countryall, setCountryall] = useState([]);
+
   const handleClose = () => {
     setShow(false);
     setCounter([0]);
@@ -173,6 +175,26 @@ const ViewTable = (props) => {
     if (addNewData > 0) {
       showFileInList();
     }
+
+    const getalCountry = async () => {
+      let body = {
+        user_id: 18207,
+      };
+      await axios
+        .post(`distributes/filters_list`, body)
+        .then((res) => {
+          
+          setCountryall(res.data.response.data.country);
+          //console.log(countryall)
+         // setCounter(counter + 1);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    getalCountry();
+
+
   }, [addNewData]);
 
   const showFileInReadersList = async () => {
@@ -1073,9 +1095,13 @@ const ViewTable = (props) => {
                                 onChange={(event) => onCountryChange(event, i)}
                               >
                                 <option selected>Select Country</option>
-                                <option value="India">India</option>
-                                <option value="USA">USA</option>
-                                <option value="Russia">Russia</option>
+                                {countryall.length === 0 ? "" : (Object.entries(countryall).map(([index, item]) => {
+                                    return (
+                                      <>
+                                         <option value={index}>{item}</option>
+                                      </>
+                                    );
+                                  })) }
                               </select>
                               {i !== 0 && (
                                 <button
