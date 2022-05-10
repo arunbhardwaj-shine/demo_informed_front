@@ -1539,28 +1539,28 @@ const CreateEmail = (props) => {
         </Modal>
       </div>
 
-      <div ClassName="modal">
+      <div className="modal">
         <Modal id="add-list" show={addListOpen}>
           <Modal.Header>
             <h4>Add List</h4>
             <button
               type="button"
-              ClassName="btn-close"
+              className="btn-close"
               data-bs-dismiss="modal"
               onClick={() => setAddListOpen(false)}
             ></button>
           </Modal.Header>
           <Modal.Body>
-            <div ClassName="top-right-action">
-              <div ClassName="search-bar">
-                <form ClassName="d-flex">
+            <div className="top-right-action">
+              <div className="search-bar">
+                <form className="d-flex">
                   <input
-                    ClassName="form-control me-2"
+                    className="form-control me-2"
                     type="search"
                     placeholder="Search"
                     aria-label="Search"
                   />
-                  <button ClassName="btn btn-outline-success" type="submit">
+                  <button className="btn btn-outline-success" type="submit">
                     <svg
                       width="16"
                       height="16"
@@ -1576,8 +1576,8 @@ const CreateEmail = (props) => {
                   </button>
                 </form>
               </div>
-              <div ClassName="filter-by">
-                <button ClassName="btn btn-outline-primary" type="submit">
+              <div className="filter-by">
+                <button className="btn btn-outline-primary" type="submit">
                   Filter By{" "}
                   <svg
                     width="16"
@@ -1602,22 +1602,22 @@ const CreateEmail = (props) => {
                 </button>
               </div>
             </div>
-            <div ClassName="col smartlist-result-block">
+            <div className="col smartlist-result-block">
               {smartListData.map((data) => {
                 return (
                   <>
-                    <div ClassName="smartlist-view email_box">
-                      <div ClassName="mail-box-content">
+                    <div className="smartlist-view email_box">
+                      <div className="mail-box-content">
                         <h5>{data.name}</h5>
-                        <div ClassName="select-mail-option">
+                        <div className="select-mail-option">
                           <input
                             type="radio"
                             name="radio"
                             onClick={() => handleSelect(data)}
                           />
-                          <span ClassName="checkmark"></span>
+                          <span className="checkmark"></span>
                         </div>
-                        <div ClassName="mailbox-table">
+                        <div className="mailbox-table">
                           <table>
                             <tbody>
                               <tr>
@@ -1658,20 +1658,20 @@ const CreateEmail = (props) => {
                           </table>
                         </div>
 
-                        <div ClassName="mail-time">
+                        <div className="mail-time">
                           <span>Nov 18 | 9:00 AM</span>
                         </div>
-                        <div ClassName="smart-list-added-user">
+                        <div className="smart-list-added-user">
                           <img
                             src={path_image + "smartlist-user.svg"}
                             alt="User icon"
                           />
                           203
                         </div>
-                        <div ClassName="mail-stats">
+                        <div className="mail-stats">
                           <ul>
                             <li>
-                              <div ClassName="mail-status smartlist_view">
+                              <div className="mail-status smartlist_view">
                                 <svg
                                   width="16"
                                   height="14"
@@ -1688,7 +1688,7 @@ const CreateEmail = (props) => {
                               <span>10%</span>
                             </li>
                             <li>
-                              <div ClassName="mail-status mail_click">
+                              <div className="mail-status mail_click">
                                 <svg
                                   width="14"
                                   height="16"
@@ -1710,8 +1710,8 @@ const CreateEmail = (props) => {
                             </li>
                           </ul>
                         </div>
-                        <div ClassName="smartlist-buttons">
-                          <button ClassName="btn btn-primary view">View</button>
+                        <div className="smartlist-buttons">
+                          <button className="btn btn-primary view">View</button>
                         </div>
                       </div>
                     </div>
@@ -1723,7 +1723,7 @@ const CreateEmail = (props) => {
           <Modal.Footer>
             <button
               type="button"
-              ClassName="btn btn-primary btn-filled"
+              className="btn btn-primary btn-filled"
               data-bs-dismiss="modal"
               onClick={addClicked}
             >
@@ -1731,29 +1731,29 @@ const CreateEmail = (props) => {
             </button>
           </Modal.Footer>
 
-          {/* <div ClassName="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div ClassName="modal-content">
-              <div ClassName="modal-header">
+          {/* <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div className="modal-content">
+              <div className="modal-header">
                 <h4>Add List</h4>
                 <button
                   type="button"
-                  ClassName="btn-close"
+                  className="btn-close"
                   data-bs-dismiss="modal"
                   onClick={() => setAddListOpen(false)}
                 ></button>
               </div>
 
-              <div ClassName="modal-body">
-                <div ClassName="top-right-action">
-                  <div ClassName="search-bar">
-                    <form ClassName="d-flex">
+              <div className="modal-body">
+                <div className="top-right-action">
+                  <div className="search-bar">
+                    <form className="d-flex">
                       <input
-                        ClassName="form-control me-2"
+                        className="form-control me-2"
                         type="search"
                         placeholder="Search"
                         aria-label="Search"
                       />
-                      <button ClassName="btn btn-outline-success" type="submit">
+                      <button className="btn btn-outline-success" type="submit">
                         <svg
                           width="16"
                           height="16"
@@ -1769,8 +1769,8 @@ const CreateEmail = (props) => {
                       </button>
                     </form>
                   </div>
-                  <div ClassName="filter-by">
-                    <button ClassName="btn btn-outline-primary" type="submit">
+                  <div className="filter-by">
+                    <button className="btn btn-outline-primary" type="submit">
                       Filter By{" "}
                       <svg
                         width="16"
@@ -1795,22 +1795,22 @@ const CreateEmail = (props) => {
                     </button>
                   </div>
                 </div>
-                <div ClassName="col smartlist-result-block">
+                <div className="col smartlist-result-block">
                   {smartListData.map((data) => {
                     return (
                       <>
-                        <div ClassName="smartlist-view email_box">
-                          <div ClassName="mail-box-content">
+                        <div className="smartlist-view email_box">
+                          <div className="mail-box-content">
                             <h5>{data.name}</h5>
-                            <div ClassName="select-mail-option">
+                            <div className="select-mail-option">
                               <input
                                 type="radio"
                                 name="radio"
                                 onClick={() => handleSelect(data)}
                               />
-                              <span ClassName="checkmark"></span>
+                              <span className="checkmark"></span>
                             </div>
-                            <div ClassName="mailbox-table">
+                            <div className="mailbox-table">
                               <table>
                                 <tbody>
                                   <tr>
@@ -1851,20 +1851,20 @@ const CreateEmail = (props) => {
                               </table>
                             </div>
 
-                            <div ClassName="mail-time">
+                            <div className="mail-time">
                               <span>Nov 18 | 9:00 AM</span>
                             </div>
-                            <div ClassName="smart-list-added-user">
+                            <div className="smart-list-added-user">
                               <img
                                 src="assets/images/smartlist-user.svg"
                                 alt="User icon"
                               />
                               203
                             </div>
-                            <div ClassName="mail-stats">
+                            <div className="mail-stats">
                               <ul>
                                 <li>
-                                  <div ClassName="mail-status smartlist_view">
+                                  <div className="mail-status smartlist_view">
                                     <svg
                                       width="16"
                                       height="14"
@@ -1881,7 +1881,7 @@ const CreateEmail = (props) => {
                                   <span>10%</span>
                                 </li>
                                 <li>
-                                  <div ClassName="mail-status mail_click">
+                                  <div className="mail-status mail_click">
                                     <svg
                                       width="14"
                                       height="16"
@@ -1903,8 +1903,8 @@ const CreateEmail = (props) => {
                                 </li>
                               </ul>
                             </div>
-                            <div ClassName="smartlist-buttons">
-                              <button ClassName="btn btn-primary view">View</button>
+                            <div className="smartlist-buttons">
+                              <button className="btn btn-primary view">View</button>
                             </div>
                           </div>
                         </div>
@@ -1913,10 +1913,10 @@ const CreateEmail = (props) => {
                   })}
                 </div>
               </div>
-              <div ClassName="modal-footer">
+              <div className="modal-footer">
                 <button
                   type="button"
-                  ClassName="btn btn-primary btn-filled"
+                  className="btn btn-primary btn-filled"
                   data-bs-dismiss="modal"
                   onClick={addClicked}
                 >
