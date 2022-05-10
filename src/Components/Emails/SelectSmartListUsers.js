@@ -197,8 +197,11 @@ const SelectSmartListUsers = (props) => {
                 <li className="">
                   <a href="javascript:void(0)">Create Your Email</a>
                 </li>
+                <li className="">
+                  <a href="javascript:void(0)">Select HCPs</a>
+                </li>
                 <li className="active">
-                  <a href="javascript:void(0)">Select Verify Your HCPs</a>
+                  <a href="javascript:void(0)">Verify Your HCPs</a>
                 </li>
 
                 <li className="">
