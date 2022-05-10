@@ -6,6 +6,8 @@ import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import SimpleReactValidator from "simple-react-validator";
 import { loader } from "../../../loader";
+import { toast } from "react-toastify";
+import { popup_alert } from "../../../popup_alert";
 
 import { connect } from "react-redux";
 
@@ -14,16 +16,25 @@ const Table = (props) => {
     status: false,
     rowKey: null,
   });
-let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   //let validator = new SimpleReactValidator();
 
   const [validator] = React.useState(new SimpleReactValidator());
   const [validator2] = React.useState(new SimpleReactValidator());
   const [validator3] = React.useState(new SimpleReactValidator());
+  const [isOpen, setIsOpen] = useState(false);
+  const [deleteConfirmation, setOpenDeleteConfirmation] = useState(false);
+  const [profileUserId, setProfileUserId] = useState();
 
   const [data, setData] = useState(0);
+  const [manualReRender, setManualReRender] = useState(0);
+  const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [fileValidationMessage, setFileValidationMeassage] = useState(0);
   const [emailData, setEmailData] = useState("");
+  const [activeManual, setActiveManual] = useState("active");
+  const [sorting, setSorting] = useState(0);
+  const [addFileReRender, setAddFileReRender] = useState(0);
+  const [activeExcel, setActiveExcel] = useState("");
 
   const [validator3Counter, setValidator3Counter] = useState(0);
 
@@ -56,6 +67,7 @@ let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [counterFlag, setCounterFlag] = useState(0);
   const [getlistid, setListId] = useState("");
   const [getlistname, setListName] = useState("");
+  const [getsortflag, setsortflag] = useState(false);
 
   const [show, setShow] = useState(false);
   const [hpc, setHpc] = useState([
@@ -68,7 +80,7 @@ let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     setCounter([0]);
     setCounterData([]);
   };
-  const handleShow = () => setShow(true);
+  const handleShow = () => setIsOpenAdd(true);
 
   const [showUploadMenu, setShowUploadMenu] = useState(false);
   const [render, setReRender] = useState(0);
@@ -126,6 +138,16 @@ let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     }
   };
 
+  const showSucessPopup = () => {
+    popup_alert({
+      visible: "show",
+      message: "The HCP record has been deleted successfully",
+      type: "success",
+    });
+
+    setOpenDeleteConfirmation(false);
+  };
+
   const showFileInReadersList = async () => {
     console.log("updated data");
     console.log(updateData);
@@ -171,26 +193,6 @@ let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     }
 
     console.log(body);
-    // } else {
-    // body = {
-    //   user_list: profile_user_id_array,
-    //   smart_list_id: "",
-    //   user_id: 18207,
-    //   smart_list_name: props.smartListName,
-    //   upload_by_filter: props.upload_by_filter,
-    // contact_type: "",
-    // consent_type: "",
-    // reader_selection: "",
-    // ibu: "",
-    // product: "",
-    // speciality: "",
-    // country: "",
-    // articles: "",
-    // register: "",
-    // bounce: "",
-    //   new_users_list: [],
-    // };
-    // }
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
@@ -198,7 +200,7 @@ let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
       .post(`distributes/add_update_list`, body)
       .then((res) => {
         loader("hide");
-        window.location.href = "/SmartList";
+        //window.location.href = "/SmartList";
       })
       .catch((err) => {
         console.log(err);
@@ -270,84 +272,24 @@ let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     // console.log(typeof list);
     setHpc(list);
     setCounterFlag(counterFlag + 1);
-
-    // console.log(i);
-    // console.log(counter);
-    // console.log(renderCounterData);
-    // const deleted_data = counter.splice(i, 1);
-    //console.log(deleted_data);
-    // console.log(data);
-    // const renderDelete = counter.filter((counterData) => {
-    //   return counterData != data;
-    // });
-    // console.log(renderDelete);
-    // setCounter(counter);
-    // setCounterData(renderCounterData);
-    // console.log("index to be deleted", i);
-    // const list = [...hpc];
-    // console.log(list);
-    // list.splice(i, 1);
-    // console.log(list);
-    // // console.log(list);
-    // setHpc(list);
-    // console.log(hpc);
   };
 
   const addHcp = () => {
-    setHpc([
-      ...hpc,
-      { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
-    ]);
-    // console.log("length is" + counter.length);
-    // setCounter([...counter, counter[counter.length - 1] + 1]);
-
-    // const counterData = counter.map((data, i) => {
-    //   return (
-    //     <>
-    //       <div className="row align-items-center vh-100" id={i}>
-    //         <div className="col-6 mx-auto">
-    //           <div className="card shadow border" data-id={i}>
-    //             <button
-    //               className="btn btn-secondary"
-    //               onClick={() => deleteRecord(data, i)}
-    //             >
-    //               delete
-    //             </button>
-    //             <div className="card-body d-flex flex-column align-items-center">
-    //               <div className="card-title">
-    //                 first name <input type="text"></input>
-    //                 last name <input type="text"></input>
-    //                 email <input type="text"></input>
-    //                 contact type <input type="text"></input>
-    //                 country <input type="text"></input>
-    //                 <br />
-    //                 <Button
-    //                   variant="primary"
-    //                   onClick={handleShowUploadMenu}
-    //                   style={{ margin: "5px" }}
-    //                 >
-    //                   Upload Excel
-    //                 </Button>
-    //               </div>
-    //             </div>
-    //           </div>
-    //         </div>
-    //       </div>
-    //     </>
-    //   );
-    // });
-    // console.log("counter data");
-    // console.log(counterData);
-
-    // setCounterData(counterData);
-    // console.log("hi");
-    // console.log("render counter data");
-    // console.log(renderCounterData);
+    setActiveExcel("");
+    setActiveManual("active");
+    setManualReRender(manualReRender + 1);
   };
 
   const verifyUser = () => {
     // console.log(props);
     // console.log("0123");
+  };
+
+  const addFile = (e) => {
+    e.preventDefault();
+    setActiveExcel("active");
+    setActiveManual("");
+    setAddFileReRender(addFileReRender + 1);
   };
 
   const updateReaderDetails = async ({
@@ -413,6 +355,19 @@ let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
       });
   };
 
+  const addMoreHcp = () => {
+    setHpc([
+      ...hpc,
+      {
+        firstname: "",
+        lastname: "",
+        email: "",
+        contact_type: "",
+        country: "",
+      },
+    ]);
+  };
+
   const onSave = ({
     profile_id,
     newName,
@@ -442,6 +397,8 @@ let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   };
 
   const deleteReader = (profile_user_id) => {
+    console.log(profile_user_id);
+
     const filtered_list = editList.filter((data) => {
       return data.profile_user_id != profile_user_id;
     });
@@ -466,20 +423,16 @@ let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     country,
     profile_user_id,
   }) => {
-    confirmAlert({
-      title: "Confirm to submit",
-      message: "Are you sure to do this.",
-      buttons: [
-        {
-          label: "Yes",
-          onClick: () => deleteReader(profile_user_id),
-        },
-        {
-          label: "No",
-          onClick: () => alert("Click No"),
-        },
-      ],
-    });
+    if (editList.length > 1) {
+      setIsOpen(true);
+      setProfileUserId(profile_user_id);
+    } else {
+      popup_alert({
+        visible: "show",
+        message: "Please keep atleast one reader or delete the smart list",
+        type: "error",
+      });
+    }
   };
 
   const onFirstNameChange = (e, i) => {
@@ -530,35 +483,11 @@ let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   };
 
   const saveClicked = async () => {
-    console.log(hpc);
-    if (validator.allValid()) {
-      setHpc([
-        {
-          firstname: "",
-          lastname: "",
-          email: "",
-          contact_type: "",
-          country: "",
-        },
-      ]);
-      handleClose();
-      console.log(hpc);
-      const firstname_arr = hpc.map((data) => {
-        return data.firstname;
-      });
-      const lastname_arr = hpc.map((data) => {
-        return data.lastname;
-      });
-      const email_arr = hpc.map((data) => {
-        return data.email;
-      });
-      const contact_type_arr = hpc.map((data) => {
-        return data.contact_type;
-      });
-      const coutry_arr = hpc.map((data) => {
-        return data.country;
-      });
+    // setShowSaveReader(true);
 
+    setIsOpenAdd(false);
+
+    if (activeManual == "active") {
       const body_data = hpc.map((data) => {
         return {
           first_name: data.firstname,
@@ -575,170 +504,252 @@ let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
         smart_list_id: getlistid,
       };
 
-      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       await axios
         .post(`distributes/add_new_readers_in_list`, body)
         .then((res) => {
-          let old_data = editList;
-          let new_data = res.data.response.data;
-          combine_data_manual = [...new_data, ...old_data];
-          setEditList(combine_data_manual);
-          setUpdatedData(combine_data_manual);
-          loader("hide");
+          console.log(res);
+          if (res.data.status_code === 200) {
+            toast.success("User added successfuly");
+
+            let old_data = editList;
+
+            let new_data = res.data.response.data;
+
+            combine_data_manual = [...new_data, ...old_data];
+
+            setEditList(combine_data_manual);
+            setUpdatedData(combine_data_manual);
+            //setProfileUserId()
+            showFileInReadersList();
+
+            loader("hide");
+          } else {
+            toast.warning(res.data.message);
+          }
         })
         .catch((err) => {
-          console.log(err);
+          toast.error("Something went wrong");
         });
+      setIsOpen(false);
+      //setIsOpen(false);
     } else {
-      alert("validation failed");
-      validator.showMessages();
-      setData(data + 1);
+      let formData = new FormData();
+      formData.append("user_id", 18207);
+      formData.append("smart_list_id", getlistid);
+      formData.append("reader_file", selectedFile);
+
+      console.log(formData);
+
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      loader("show");
+      await axios
+        .post(`distributes/update_reader_list`, formData)
+        .then((res) => {
+          if (res.data.status_code === 200) {
+            toast.success("User added successfuly");
+            console.log(res.data.response.data);
+            let old_data = editList;
+            let new_data = res.data.response.data;
+            combine_data = [...new_data, ...old_data];
+            // console.log(combine_data);
+            setEditList(combine_data);
+            setUpdatedData(combine_data);
+            showFileInReadersList();
+
+            loader("hide");
+          } else {
+            toast.warning(res.data.message);
+          }
+        })
+        .catch((err) => {
+          console.log("something went wrong");
+        });
+      setIsOpen(false);
+    }
+    setHpc([
+      {
+        firstname: "",
+        lastname: "",
+        email: "",
+        contact_type: "",
+        country: "",
+      },
+    ]);
+  };
+  const sortdata = () => {
+    setsortflag((getsortflag) => !getsortflag);
+    if (getsortflag) {
+      let sortedData = editList.sort((a, b) =>
+        a.first_name > b.first_name ? 1 : -1
+      );
+      setEditList(sortedData);
+    } else {
+      let sortedData = editList.sort((a, b) =>
+        a.first_name < b.first_name ? 1 : -1
+      );
+      setEditList(sortedData);
     }
   };
 
   return (
     <>
-
-    {
-      typeof props.upload_by_filter !== "undefined" && props.upload_by_filter == 0 && (
-        <div class="page-top-nav smart_list_names">
-          <div class="row justify-content-end align-items-center">
-            <div class="col-12 col-md-1">
-              <div class="header-btn-left">
-              <button class="btn btn-primary btn-bordered back">
-                  <Link to={"/CreateSmartList"}>
-                    BACK
-                  </Link>
-              </button>
+      {typeof props.upload_by_filter !== "undefined" &&
+        props.upload_by_filter == 0 && (
+          <div class="page-top-nav smart_list_names">
+            <div class="row justify-content-end align-items-center">
+              <div class="col-12 col-md-1">
+                <div class="header-btn-left">
+                  <button class="btn btn-primary btn-bordered back">
+                    <Link to={"/CreateSmartList"}>BACK</Link>
+                  </button>
+                </div>
+              </div>
+              <div class="col-12 col-md-9">
+                <ul class="tabnav-link">
+                  <li class="">
+                    <a href="javascript:void(0)">Create smart List</a>
+                  </li>
+                  <li class="active">
+                    <a href="javascript:void(0)">Verify Your List</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-12 col-md-2">
+                <div class="header-btn">
+                  <button class="btn btn-primary btn-bordered move-draft">
+                    <Link to={{ pathname: "/CreateSmartList" }}>Cancel</Link>
+                  </button>
+                  <button
+                    class="btn btn-primary btn-filled create"
+                    onClick={showFileInReadersList}
+                  >
+                    Craete
+                  </button>
+                </div>
               </div>
             </div>
-            <div class="col-12 col-md-9">
-              <ul class="tabnav-link">
-                <li class="">
-                  <a href="javascript:void(0)">Create smart List</a>
-                </li>
-                <li class="active">
-                  <a href="javascript:void(0)">Verify Your List</a>
-                </li>
-              </ul>
-            </div>
-            <div class="col-12 col-md-2">
-              <div class="header-btn">
-              <button class="btn btn-primary btn-bordered move-draft">
-                <Link to={{pathname: "/CreateSmartList"}}>
-                  Cancel
-                </Link>
-              </button>
-              <button class="btn btn-primary btn-filled create" onClick={showFileInReadersList}>Craete</button>
+          </div>
+        )}
+
+      <section class="search-hcp smart-list-view">
+        <div class="result-hcp-table">
+          <div class="table-title">
+            {props.upload_by_filter == 0 ? (
+              <h4>
+                Uploaded HCPs for the smart list{" "}
+                <span>| {editList.length > 0 ? editList.length : 0}</span>
+              </h4>
+            ) : (
+              <h4>Selected Hcp's for the smart list</h4>
+            )}
+
+            <div class="selected-hcp-table-action">
+              <a class="show-less-info" href="#">
+                Show Less information{" "}
+              </a>
+              <div class="hcp-new-user">
+                <button class="btn btn-outline-primary" onClick={handleShow}>
+                  <img src={path + "new-user.svg"} alt="New User" />
+                </button>
+              </div>
+              <div class="hcp-added">
+                <button class="btn btn-outline-primary">
+                  <img src={path + "edit-button.svg"} alt="Edit" />
+                </button>
+              </div>
+              <div class="hcp-sort">
+                <button class="btn btn-outline-primary" onClick={sortdata}>
+                  Sort By <img src={path + "sort.svg"} alt="Shorting" />
+                </button>
               </div>
             </div>
-           </div>
-        </div>
-      )
-    }
-
-    <section class="search-hcp smart-list-view">
-				<div class="result-hcp-table">
-					<div class="table-title">
-            {
-              props.upload_by_filter == 0
-              ? <h4>Uploaded HCPs for the smart list <span>| {editList.length > 0 ? editList.length : 0}</span></h4>
-              : <h4>Selected Hcp's for the smart list</h4>
-            }
-
-						<div class="selected-hcp-table-action">
-							<a class="show-less-info" href="#">Show Less information </a>
-							<div class="hcp-new-user">
-								<button class="btn btn-outline-primary" onClick={handleShow}><img src={path + "new-user.svg"} alt="New User" /></button>
-							</div>
-							<div class="hcp-added">
-								<button class="btn btn-outline-primary"><img src={path + "edit-button.svg"} alt="Edit" /></button>
-							</div>
-							<div class="hcp-sort">
-								<button class="btn btn-outline-primary">Sort By <img src={path + "sort.svg"} alt="Shorting" /></button>
-							</div>
-						</div>
-					</div>
-					<div class="selected-hcp-list">
-						<table class="table">
-						  <thead>
-							<tr>
-							  <th scope="col">Name</th>
-							  <th scope="col">Email</th>
-							  <th scope="col">Bounced</th>
-							  <th scope="col">Country</th>
-							  <th scope="col">Readers</th>
-							  <th scope="col">Business Unit</th>
-							  <th scope="col">Interest</th>
-							  <th scope="col"></th>
-							</tr>
-						  </thead>
-						  <tbody>
-              {editList.map((item) => (
+          </div>
+          <div class="selected-hcp-list">
+            <table class="table">
+              <thead>
                 <tr>
-                  <td>
-                    {inEditMode.status && inEditMode.rowKey === item.profile_id ? (
-                      <input
-                        value={name}
-                        onChange={(event) => setName(event.target.value)}
-                      />
-                    ) : (
-                      item.first_name + " " + item.last_name
-                    )}
-                  </td>
-
-                  <td>
-                    {" "}
-                    {inEditMode.status && inEditMode.rowKey === item.profile_id ? (
-                      <input
-                        value={email}
-                        type="email"
-                        onChange={(event) => setEmail(event.target.value)}
-                      />
-                    ) : (
-                      item.email
-                    )}
-                  </td>
-                  <td>No</td>
-                  <td>
-                    {inEditMode.status && inEditMode.rowKey === item.profile_id ? (
-                      <input
-                        value={country}
-                        onChange={(event) => setCountry(event.target.value)}
-                      />
-                    ) : (
-                      item.country
-                    )}
-                  </td>
-                  <td>N/A</td>
-                  <td>N/A</td>
-                  <td>N/A</td>
-                  <td class="delete_row" colspan="12" onClick={() =>
-                      onDelete({
-                        id: item.profile_id,
-                        currentName: item.first_name + " " + item.last_name,
-                        currentJobTitle: item.jobTitle,
-                        currentCompany: item.company,
-                        currentIndication: item.indication,
-                        currentProduct: item.product,
-                        currentCountry: item.country,
-                        currentEmail: item.email,
-                        profile_user_id: item.profile_user_id,
-                      })
-                    }>
-                    <img src={path + "delete.svg"} alt="Delete Row" /></td>
+                  <th scope="col">Name</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Bounced</th>
+                  <th scope="col">Country</th>
+                  <th scope="col">Readers</th>
+                  <th scope="col">Business Unit</th>
+                  <th scope="col">Interest</th>
+                  <th scope="col"></th>
                 </tr>
-              ))}
-              {validator3.message("email", email, "required|email")}
+              </thead>
+              <tbody>
+                {editList.map((item) => (
+                  <tr>
+                    <td>
+                      {inEditMode.status &&
+                      inEditMode.rowKey === item.profile_id ? (
+                        <input
+                          value={name}
+                          onChange={(event) => setName(event.target.value)}
+                        />
+                      ) : (
+                        item.first_name + " " + item.last_name
+                      )}
+                    </td>
 
-						  </tbody>
-						</table>
-
-					</div>
-				</div>
-			</section>
-
+                    <td>
+                      {" "}
+                      {inEditMode.status &&
+                      inEditMode.rowKey === item.profile_id ? (
+                        <input
+                          value={email}
+                          type="email"
+                          onChange={(event) => setEmail(event.target.value)}
+                        />
+                      ) : (
+                        item.email
+                      )}
+                    </td>
+                    <td>No</td>
+                    <td>
+                      {inEditMode.status &&
+                      inEditMode.rowKey === item.profile_id ? (
+                        <input
+                          value={country}
+                          onChange={(event) => setCountry(event.target.value)}
+                        />
+                      ) : (
+                        item.country
+                      )}
+                    </td>
+                    <td>N/A</td>
+                    <td>N/A</td>
+                    <td>N/A</td>
+                    <td
+                      class="delete_row"
+                      colspan="12"
+                      onClick={() =>
+                        onDelete({
+                          id: item.profile_id,
+                          currentName: item.first_name + " " + item.last_name,
+                          currentJobTitle: item.jobTitle,
+                          currentCompany: item.company,
+                          currentIndication: item.indication,
+                          currentProduct: item.product,
+                          currentCountry: item.country,
+                          currentEmail: item.email,
+                          profile_user_id: item.profile_user_id,
+                        })
+                      }
+                    >
+                      <img src={path + "delete.svg"} alt="Delete Row" />
+                    </td>
+                  </tr>
+                ))}
+                {validator3.message("email", email, "required|email")}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
 
       {/*Modal to add new users*/}
       <Modal show={show} onHide={handleClose}>
@@ -877,6 +888,184 @@ let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
         </div>
       </Modal>
 
+      {/* add new hcps */}
+      <Modal
+        id="add_hcp"
+        show={isOpenAdd}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <div
+          data-bs-backdrop="static"
+          data-bs-keyboard="false"
+          tabindex="-1"
+          aria-hidden="true"
+        >
+          <div className="modal-header">
+            <h5 className="modal-title" id="staticBackdropLabel">
+              Add New HCP
+            </h5>
+            <button
+              onClick={() => setIsOpenAdd(false)}
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div className="modal-body">
+            <div className="hcp-add-box">
+              <div className="hcp-add-form tab-content">
+                <form id="add_hcp_form" className={"tab-pane" + activeManual}>
+                  {hpc.map((val, i) => {
+                    const fieldName = `hpc[${i}]`;
+                    return (
+                      <>
+                        <div className="row">
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for="">First Name</label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                onChange={(event) =>
+                                  onFirstNameChange(event, i)
+                                }
+                                value={val.firstname}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for="">Last Name</label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                onChange={(event) => onLastNameChange(event, i)}
+                                value={val.lastname}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for="">Email</label>
+                              <input
+                                type="email"
+                                className="form-control"
+                                id="email-desc"
+                                name={`${fieldName}.email`}
+                                onChange={(event) => onEmailChange(event, i)}
+                                value={val.email}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for="">Contact Type</label>
+                              <select
+                                className="form-contact"
+                                aria-label="select"
+                                onChange={(event) =>
+                                  onContactTypeChange(event, i)
+                                }
+                              >
+                                <option selected>Select Type</option>
+                                <option value="HCP">HCP</option>
+                                <option value="Staff">Staff</option>
+                                <option value="Test Users">Test Users</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for="">Country</label>
+                              <select
+                                className="country-form"
+                                aria-label="select"
+                                onChange={(event) => onCountryChange(event, i)}
+                              >
+                                <option selected>Select Country</option>
+                                <option value="India">India</option>
+                                <option value="USA">USA</option>
+                                <option value="Russia">Russia</option>
+                              </select>
+                              {i !== 0 && (
+                                <button
+                                  type="button"
+                                  className="btn btn-filled"
+                                  onClick={() => deleteRecord(i)}
+                                >
+                                  Remove
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    );
+                  })}
+                </form>
+                <form id="add_file" className={"tab-pane" + activeExcel}>
+                  <div className="form-group files">
+                    <input
+                      type="file"
+                      className="form-control"
+                      multiple=""
+                      onChange={onFileChange}
+                    />
+                  </div>
+                </form>
+              </div>
+              <div className="hcp-modal-action">
+                <div className="hcp-action-block">
+                  <div className="hcp-remove">
+                    <button
+                      type="button"
+                      className="btn btn-filled"
+                      onClick={addMoreHcp}
+                    >
+                      Add
+                    </button>
+                  </div>
+                  <ul className="nav nav-tabs" role="tablist">
+                    <li className="nav-item add_hcp">
+                      <a
+                        onClick={(e) => addHcp(e)}
+                        className="nav-link active btn-bordered"
+                        data-bs-toggle="tab"
+                        href="#add_hcp_form"
+                      >
+                        Add HCP +
+                      </a>
+                    </li>
+                    <li className="nav-item add-file">
+                      <a
+                        onClick={(e) => addFile(e)}
+                        className="nav-link btn-filled"
+                        data-bs-toggle="tab"
+                        href="#add_file"
+                      >
+                        Add File
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="modal-footer">
+            <button
+              type="button"
+              className="btn btn-primary save btn-filled"
+              onClick={saveClicked}
+            >
+              Save
+            </button>
+          </div>
+        </div>
+      </Modal>
+
       {/*Upload Excel file*/}
       <Modal show={showUploadMenu} onHide={handleCloseUploadMenu}>
         <Modal.Header closeButton>
@@ -900,14 +1089,63 @@ let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
                 upload
               </button>
 
-              <p className="card-text">
-              </p>
+              <p className="card-text"></p>
             </div>
           </div>
         </Modal.Body>
         <Modal.Footer></Modal.Footer>
       </Modal>
 
+      <Modal show={isOpen} className="send-confirm" id="resend-confirm">
+        <Modal.Header>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            onClick={() => {
+              setIsOpen(false);
+            }}
+          ></button>
+        </Modal.Header>
+        <Modal.Body>
+          <img src={path + "alert.png"} alt="" />
+          <h4>
+            The HCP record will be deleted from the list Are you sure you want
+            to delete it?{" "}
+          </h4>
+
+          <div class="modal-buttons">
+            <button
+              type="button"
+              class="btn btn-primary btn-filled"
+              data-bs-dismiss="modal"
+              onClick={() => {
+                console.log(profileUserId);
+                deleteReader(profileUserId);
+                setIsOpen(false);
+
+                setOpenDeleteConfirmation(true);
+                // setUpdatedData(update + 1);
+              }}
+            >
+              Yes Please!
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-primary btn-bordered light"
+              data-bs-dismiss="modal"
+              onClick={() => {
+                setIsOpen(false);
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </Modal.Body>
+      </Modal>
+
+      {deleteConfirmation == true ? showSucessPopup() : null}
     </>
   );
 };

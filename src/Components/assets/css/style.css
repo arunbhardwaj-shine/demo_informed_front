@@ -2320,7 +2320,7 @@ line-height: 19px;color: #8A4E9C;font-family: 'Roboto-Medium';cursor:pointer;fil
 	border-color:#39CABC;
 }
 .card-header .accordion-button:not(.collapsed)::after {
-    transform: rotate(-180deg);
+    /* transform: rotate(-180deg); */
 	    top: 11px;
 }
 .card-header.aaccordion-header::after {
@@ -3257,14 +3257,18 @@ position: relative;
 		font-family: 'Roboto';
 		background-color: transparent;
 	}
+	.smart-list-dropdown .card .card-header .btn button.collapsed::after {
+		transform: rotate(180deg);
+	}
 	.smart-list-dropdown .card .card-header .btn button::after {
-		top: 22px;
+		top: 18px;
 		right: 25px;
 		background-image: url(../images/dropdown-blue.svg);
 		width: 16px;
 		height: 16px;
 		position: absolute;
 		background-size: 100%;
+		transform: rotate(0);
 	}
 	.smart-list-dropdown .card .card-header .btn button:focus {
 		box-shadow: none;
