@@ -619,14 +619,14 @@ const VerifyHCP = (props) => {
                 Selected HCPs <span>| {selectedHcp.length}</span>
               </h4>
               <div className="selected-hcp-table-action">
-                <div className="hcp-added">
+                {/* <div className="hcp-added">
                   <button
                     className="btn btn-outline-primary"
                     onClick={editablemade}
                   >
                     <img src={path_image + "edit.svg"} alt="" />
                   </button>
-                </div>
+                </div> */}
                 <div className="hcp-sort">
                   <button
                     onClick={sortSelectedUsers}

@@ -19,6 +19,8 @@ const SelectSmartList = (props) => {
   useEffect(() => {
     const body = {
       user_id: 18207,
+      search:"",
+      filter:""
     };
     loader("show");
     axios
@@ -193,7 +195,7 @@ const SelectSmartList = (props) => {
         <section className="search-hcp">
           <div className="select-smart-list">
             <div className="table-title">
-              <div className="create-smart-list">
+              {/* <div className="create-smart-list">
                 <p>
                   If you do not have a smart list for the HCPs group, you can :
                 </p>
@@ -204,7 +206,7 @@ const SelectSmartList = (props) => {
                   <label for="input-file">Upload Exel File</label>
                   <input id="input-file" type="file" />
                 </div>
-              </div>
+              </div> */}
             </div>
             <div className="col smartlist-result-block">
               {SendListData.map((template) => {
@@ -273,18 +275,18 @@ const SelectSmartList = (props) => {
                             <tr>
                               <th>Registered</th>
                               <td>
-                                {template.country === ""
+                                {template.registered === ""
                                   ? "N/A"
-                                  : template.country}
+                                  : template.registered}
                               </td>
                             </tr>
                             <tr>
                               <th>Created By</th>
                               <td>
                                 <span>
-                                  {template.contact_type === ""
+                                  {template.creator === ""
                                     ? "N/A"
-                                    : template.contact_type}
+                                    : template.creator}
                                 </span>
                               </td>
                             </tr>
@@ -293,7 +295,7 @@ const SelectSmartList = (props) => {
                       </div>
 
                       <div className="mail-time">
-                        <span>Nov 18 | 9:00 AM</span>
+                        <span> {template.created_at}</span>
                       </div>
                       <div className="smart-list-added-user">
                         <img
@@ -302,7 +304,7 @@ const SelectSmartList = (props) => {
                         />
                         {template.readers_count}
                       </div>
-                      <div className="mail-stats">
+                      {/* <div className="mail-stats">
                         <ul>
                           <li>
                             <div className="mail-status smartlist_view">
@@ -343,7 +345,7 @@ const SelectSmartList = (props) => {
                             <span>60%</span>
                           </li>
                         </ul>
-                      </div>
+                      </div> */}
                       <div className="smartlist-buttons">
                         <button className="btn btn-primary view">View</button>
                       </div>

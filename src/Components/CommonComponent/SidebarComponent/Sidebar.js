@@ -13,7 +13,7 @@ const Sidebar = () => {
       <div className="left-sidebar">
         <div className="sidebar-menu">
           <ul>
-            <li className={(location.pathname == "/EmailList" || location.pathname === "/EmailArticleSelect" || location.pathname === "/CreateEmail" || location.pathname === "/SelectHCP" || location.pathname === "/CreateEmail" || location.pathname === "/VerifyHCP" || location.pathname === "/VerifyMAIL") ? "active" : "side_li"} >
+            <li className={(location.pathname == "/EmailList" || location.pathname === "/EmailArticleSelect" || location.pathname === "/CreateEmail" || location.pathname === "/SelectHCP" || location.pathname === "/CreateEmail" || location.pathname === "/VerifyHCP" || location.pathname === "/VerifyMAIL" || location.pathname === "/verifyMAIL" || location.pathname ==="/SelectSmartListUsers" || location.pathname ==="/SelectSmartList") ? "active" : "side_li"} >
               <Link to={"/EmailList"} >
                   <svg width="24" height="18" viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M23.92 2.28564L12.8457 8.8685C12.5899 9.01484 12.3004 9.09183 12.0057 9.09183C11.711 9.09183 11.4215 9.01484 11.1657 8.8685L0.0799999 2.28564C0.0270091 2.51424 0.000170336 2.74813 0 2.98279V14.1599C0 14.951 0.314264 15.7097 0.873659 16.2691C1.43305 16.8285 2.19175 17.1428 2.98286 17.1428H21.0171C21.8082 17.1428 22.5669 16.8285 23.1263 16.2691C23.6857 15.7097 24 14.951 24 14.1599V2.98279C23.9998 2.74813 23.973 2.51424 23.92 2.28564Z" fill="rgba(0, 102, 190, 0.6)"/>

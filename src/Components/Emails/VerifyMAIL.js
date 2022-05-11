@@ -32,7 +32,7 @@ const VerifyMAIL = (props) => {
 
   const selectedHcp = location.state
     ? location.state.selectedHcp
-    : props.getDraftData.selectedHcp;
+    : props.getDraftData.campaign_data.selectedHcp;
   const PdfSelected = location.state
     ? location.state.PdfSelected
     : props.getDraftData.PdfSelected;
@@ -342,7 +342,7 @@ const VerifyMAIL = (props) => {
                       The recipients <span>| {selectedHcp.length }</span>
                       </h6>
                       <p>{/* Single HCP <span>| 1</span> */}</p>
-                      {props.getSelectedSmartListData || props.getDraftData.smart_list_data[0] ? (
+                      {props.getSelectedSmartListData || props.getDraftData?.smart_list_data[0] ? (
                         <div className="smartlist-view email_box">
                           {console.log(props.getDraftData)}
                           <div className="mail-box-content">

@@ -36,7 +36,7 @@ const EditList = () => {
 
         if (res.data.response) {
           if (res.data.response.data.length > 0) {
-            setCreatorName(res.data.response.creatorName);
+            setCreatorName(res.data.response.creator_name);
             setEditListData(res.data.response.data);
             setLoading(false);
             setUploadedBy(res.data.response.upload_by_filter);
@@ -81,6 +81,7 @@ const EditList = () => {
             listId={queryParams.listId}
             upload_by_filter={getuploadedby}
             smartListName={smartListName}
+            creatorName={creatorName}
           />
         </div>
       </>
