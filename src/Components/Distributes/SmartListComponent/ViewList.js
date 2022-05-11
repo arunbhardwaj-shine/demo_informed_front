@@ -17,6 +17,7 @@ const EditList = () => {
   const [isLoading, setLoading] = useState(true);
   const [getuploadedby, setUploadedBy] = useState();
   const [getlistcount, setListCount] = useState("");
+  const [creatorName, setCreatorName] = useState("");
 
   const [data, setData] = useState([]);
 
@@ -35,6 +36,7 @@ const EditList = () => {
 
         if (res.data.response) {
           if (res.data.response.data.length > 0) {
+            setCreatorName(res.data.response.creatorName);
             setEditListData(res.data.response.data);
             setLoading(false);
             setUploadedBy(res.data.response.upload_by_filter);

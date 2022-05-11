@@ -99,11 +99,6 @@ const FilterSegment = (props) => {
     }
   },[]);
 
-  const sendDataToParent = (childData) => {
-    setFilterData(childData);
-    setApiFilterFlag(1);
-  }
-
   const handleOnCountryChange = (country) => {
     let country_index = selectedcountry.indexOf(country);
     if (country_index !== -1) {
@@ -336,8 +331,13 @@ const FilterSegment = (props) => {
     return Object.keys(object).find((key) => object[key] === value);
   };
 
+  const sendDataToParent = (childData) => {
+    setFilterData(childData);
+    setApiFilterFlag(1);
+  }
+
   const createSmartListWithFilters = () => {
-    tableCompRef.current.createSmartList();
+    tableCompRef.current.createSmartList(getfilterdata);
   }
 
   return (
@@ -899,6 +899,7 @@ const FilterSegment = (props) => {
         {apifilterflag > 0 ? (
             typeof getfilterdata === "object" && getfilterdata.length > 0 ? (
               <div className="box mt-2">
+                {console.log(getfilterdata)}
                 <Table ref={tableCompRef} data={getfilterdata} smartListName={listname} upload_by_filter="1" filter_payload={getpayload} creator={props.creator} sendDataToParent={sendDataToParent}/>
               </div>
             ) : (
