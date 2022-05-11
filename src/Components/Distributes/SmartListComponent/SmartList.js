@@ -117,21 +117,24 @@ const SmartList = (props) => {
 
         <div className="smart-list-result">
 						<div className="col smartlist-result-block">
-							<div className="smartlist-add smartlist-view">
-                {typeof getUserDetails !== "undefined" &&
-                (
-                  <>
-                    <Link to="/CreateSmartList" state={{ creator:  getUserDetails.username}}>
-                      <img src={path_image+"add-button.svg"} alt="" />
-                    </Link>
-                    <p>Create New Smart List</p>
-                  </>
-                )}
-							</div>
+              <div className="smartlist_box_block">
+                <div className="smartlist-add smartlist-view">
+                  {typeof getUserDetails !== "undefined" &&
+                  (
+                    <>
+                      <Link to="/CreateSmartList" state={{ creator:  getUserDetails.username}}>
+                        <img src={path_image+"add-button.svg"} alt="" />
+                      </Link>
+                      <p>Create New Smart List</p>
+                    </>
+                  )}
+                </div>
+              </div>
 							{
                 typeof smartListData !== "undefined" && smartListData.length > 0 ?
                   smartListData.map((data) => {
                     return (
+                      <div className="smartlist_box_block">
                       <div className="smartlist-view email_box">
                         <div className="mail-box-content">
                           <h5>{data.name}</h5>
@@ -208,6 +211,7 @@ const SmartList = (props) => {
                         </Link>
                           </div>
                         </div>
+                      </div>
                       </div>
                     );
                   })
