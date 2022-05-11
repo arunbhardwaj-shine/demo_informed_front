@@ -629,6 +629,7 @@ color: #C8D1D9;}
 .smartlist-result-block .smartlist_box_block {
     width: 25%;
     padding: 0 15px;
+		margin-bottom: 29px;
 }
 .smartlist-result-block {
 	display: flex;
@@ -3497,5 +3498,5 @@ position: relative;
 	.highcharts-data-table tr:hover {
 		background: #f1f7ff;
 	}
-		
+
 	.btn-close:focus{box-shadow: none;}
