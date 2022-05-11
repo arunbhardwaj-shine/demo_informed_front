@@ -124,6 +124,7 @@ const ViewTable = (props) => {
   }, [props.api_flag]);
 
   useEffect(() => {
+    console.log(props);
     setNewData([]);
     const showFileInList = async () => {
       console.log(editList);
@@ -137,6 +138,7 @@ const ViewTable = (props) => {
         smart_list_name: getlistname,
         submit_type: props.upload_by_filter,
         new_users_list: [],
+        creator_name: props.creatorName,
       };
 
       if (props.upload_by_filter == 1) {

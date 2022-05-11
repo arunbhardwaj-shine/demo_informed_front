@@ -8,12 +8,16 @@ import { Button, Modal } from "react-bootstrap";
 import { getListId } from "../../../actions";
 import CreateSmartList from "./CreateSmartList";
 import { toast } from "react-toastify";
+import { popup_alert } from "../../../popup_alert";
 const SmartList = (props) => {
   const [smartListData, setSmartListData] = useState([]);
   const [getUserDetails, setUserDetails] = useState([]);
   const [prevsmartListData, setPrevSmartListData] = useState([]);
   const [search, setSearch] = useState("");
   const [isLoading, setLoading] = useState(true);
+  const [deletestatus, setDeleteStatus] = useState(false);
+  const [confirmationpopup, setConfirmationPopup] = useState(false);
+  const [deletecardid, setDeleteCardId] = useState();
   let path= process.env.REACT_APP_ASSETS_PATH_INFORMED;
   let path_image= process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -70,6 +74,63 @@ const SmartList = (props) => {
     return false;
   };
 
+  const showDeleteButtons = () => {
+    if (deletestatus) {
+      setDeleteStatus(false);
+    } else {
+      setDeleteStatus(true);
+    }
+  };
+
+  const showConfirmationPopup = (id) => {
+    if (confirmationpopup) {
+      setConfirmationPopup(false);
+    } else {
+      setConfirmationPopup(true);
+    }
+    setDeleteCardId(id);
+  };
+
+  const hideConfirmationModal = () => {
+    setConfirmationPopup(false);
+  };
+
+  const deleteEmail = () => {
+    hideConfirmationModal();
+    const body = {
+      user_id: 18207,
+      smart_list_id: deletecardid,
+    };
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    loader("show");
+
+    axios
+      .post(`distributes/delete_smart_list`, body)
+      .then((res) => {
+        if (res.data.status_code == 200) {
+          var updatedArray = smartListData.filter(function (item) {
+            return item["id"] != deletecardid;
+          });
+          if (typeof updatedArray !== "undefined") {
+            setSmartListData(updatedArray);
+          }
+          popup_alert({
+            visible: "show",
+            message: "The Smart List has been deleted <br />successfully !",
+            type: "success",
+            redirect: "",
+          });
+        } else {
+          toast.warning(res.data.message);
+        }
+        loader("hide");
+      })
+      .catch((err) => {
+        loader("hide");
+        toast.error("Something went wrong");
+      });
+  };
+
   return (
     <>
     <div className="col right-sidebar">
@@ -100,7 +161,7 @@ const SmartList = (props) => {
               </div>*/
             }
             <div className="clear-search">
-              <button className="btn btn-outline-primary" type="submit">
+              <button className="btn btn-outline-primary" onClick={(e) => showDeleteButtons()}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M15.84 22.25H8.15989C7.3915 22.2389 6.65562 21.9381 6.09941 21.4079C5.5432 20.8776 5.20765 20.157 5.15985 19.39L4.24984 5.55C4.24518 5.44966 4.26045 5.34938 4.29478 5.25498C4.32911 5.16057 4.38181 5.07391 4.44985 5C4.51993 4.9234 4.60479 4.86177 4.69931 4.81881C4.79382 4.77584 4.89606 4.75244 4.99985 4.75H19C19.1029 4.74977 19.2046 4.7707 19.2991 4.81148C19.3935 4.85226 19.4785 4.91202 19.5488 4.98704C19.6192 5.06207 19.6733 5.15077 19.7079 5.24761C19.7426 5.34446 19.7569 5.44739 19.75 5.55L18.88 19.39C18.8317 20.1638 18.4905 20.8902 17.9258 21.4214C17.3611 21.9527 16.6153 22.249 15.84 22.25ZM5.83986 6.25L6.60987 19.3C6.63531 19.6935 6.80978 20.0625 7.09775 20.3319C7.38573 20.6013 7.76555 20.7508 8.15989 20.75H15.84C16.2336 20.7485 16.6121 20.5982 16.8996 20.3292C17.1871 20.0603 17.3622 19.6927 17.39 19.3L18.2 6.3L5.83986 6.25Z" fill="#0066BE"/>
                 <path d="M20.9998 6.25H2.99999C2.80108 6.25 2.61032 6.17098 2.46967 6.03033C2.32902 5.88968 2.25 5.69891 2.25 5.5C2.25 5.30109 2.32902 5.11032 2.46967 4.96967C2.61032 4.82902 2.80108 4.75 2.99999 4.75H20.9998C21.1987 4.75 21.3895 4.82902 21.5301 4.96967C21.6708 5.11032 21.7498 5.30109 21.7498 5.5C21.7498 5.69891 21.6708 5.88968 21.5301 6.03033C21.3895 6.17098 21.1987 6.25 20.9998 6.25Z" fill="#0066BE"/>
@@ -117,21 +178,24 @@ const SmartList = (props) => {
 
         <div className="smart-list-result">
 						<div className="col smartlist-result-block">
-							<div className="smartlist-add smartlist-view">
-                {typeof getUserDetails !== "undefined" &&
-                (
-                  <>
-                    <Link to="/CreateSmartList" state={{ creator:  getUserDetails.username}}>
-                      <img src={path_image+"add-button.svg"} alt="" />
-                    </Link>
-                    <p>Create New Smart List</p>
-                  </>
-                )}
-							</div>
+              <div className="smartlist_box_block">
+                <div className="smartlist-add smartlist-view">
+                  {typeof getUserDetails !== "undefined" &&
+                  (
+                    <>
+                      <Link to="/CreateSmartList" state={{ creator:  getUserDetails.username}}>
+                        <img src={path_image+"add-button.svg"} alt="" />
+                      </Link>
+                      <p>Create New Smart List</p>
+                    </>
+                  )}
+                </div>
+              </div>
 							{
                 typeof smartListData !== "undefined" && smartListData.length > 0 ?
                   smartListData.map((data) => {
                     return (
+                      <div className="smartlist_box_block">
                       <div className="smartlist-view email_box">
                         <div className="mail-box-content">
                           <h5>{data.name}</h5>
@@ -207,7 +271,15 @@ const SmartList = (props) => {
                           View
                         </Link>
                           </div>
+                          {deletestatus && (
+                            <div className="dlt_btn">
+                              <button onClick={(e) => showConfirmationPopup(data.id)}>
+                                <img src={path_image + "delete.svg"} alt="Delete Row" />
+                              </button>
+                            </div>
+                          )}
                         </div>
+                      </div>
                       </div>
                     );
                   })
@@ -215,8 +287,51 @@ const SmartList = (props) => {
               }
 						</div>
 					</div>
-
       </div>
+      {/*Modal for delete confrimaton start*/}
+        <div className="delete">
+          <Modal
+            className="modal send-confirm"
+            id="delete-confirm"
+            show={confirmationpopup}
+          >
+            <Modal.Header>
+              {/* <Modal.Title>Heading Text</Modal.Title>*/}
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                onClick={(e) => hideConfirmationModal()}
+              ></button>
+            </Modal.Header>
+
+            <Modal.Body>
+              <img src={path_image + "alert.png"} alt="" />
+              <h4>
+                The Smart List will be deleted from the list.
+                <br />
+                Are you sure you want to delete it?
+              </h4>
+              <div className="modal-buttons">
+                <button
+                  type="button"
+                  className="btn btn-primary btn-filled"
+                  onClick={(e) => deleteEmail()}
+                >
+                  Yes Please!
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-primary btn-bordered light"
+                  onClick={(e) => hideConfirmationModal()}
+                >
+                  Cancel
+                </button>
+              </div>
+            </Modal.Body>
+          </Modal>
+        </div>
+      {/*Modal for delete confrimaton end*/}
     </>
   );
 };
