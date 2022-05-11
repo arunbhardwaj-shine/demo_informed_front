@@ -76,6 +76,7 @@ const Table = (props,ref) => {
     if (typeof props.smartListName != "undefined" && props.smartListName != "") {
       setListName(props.smartListName);
     }
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const getalCountry = async () => {
       const body = {
         user_id: 18207,
@@ -83,7 +84,7 @@ const Table = (props,ref) => {
       await axios
         .post(`distributes/filters_list`, body)
         .then((res) => {
-          
+
           setCountryall(res.data.response.data.country);
           console.log(countryall)
          // setCounter(counter + 1);
@@ -153,16 +154,16 @@ const Table = (props,ref) => {
     }
   };
 
-  const showSucessPopup = () => {
-    popup_alert({
-      visible: "show",
-      message: "The HCP record has been deleted successfully.",
-      type: "success",
-      redirect: "",
-    });
-
-    setOpenDeleteConfirmation(false);
-  };
+  // const showSucessPopup = () => {
+  //   popup_alert({
+  //     visible: "show",
+  //     message: "The HCP record has been deleted successfully.",
+  //     type: "success",
+  //     redirect: "",
+  //   });
+  //
+  //   setOpenDeleteConfirmation(false);
+  // };
 
   const showFileInReadersList = async (fdata) => {
     let body = {};
@@ -420,6 +421,13 @@ const Table = (props,ref) => {
 
     setEditList(filtered_list);
     props.sendDataToParent(filtered_list);
+      popup_alert({
+        visible: "show",
+        message: "The HCP record has been deleted successfully.",
+        type: "success",
+        redirect: "",
+      });
+
     // const body = {
     //   user_list: filtered_list.map((data) => {
     //     return data.profile_user_id;
@@ -478,7 +486,6 @@ const Table = (props,ref) => {
 
   const onContactTypeChange = (e, i) => {
     const { value } = e.target;
-    console.log(value);
     const list = [...hpc];
     const name = hpc[i].contact_type;
     list[i].contact_type = value;
@@ -525,7 +532,6 @@ const Table = (props,ref) => {
       await axios
         .post(`distributes/add_new_readers_in_list`, body)
         .then((res) => {
-          console.log(res);
           if (res.data.status_code === 200) {
             toast.success("User added successfuly");
 
@@ -538,14 +544,14 @@ const Table = (props,ref) => {
             setEditList(combine_data_manual);
             props.sendDataToParent(combine_data_manual);
             setUpdatedData(combine_data_manual);
-
-            loader("hide");
           } else {
             toast.warning(res.data.message);
           }
+          loader("hide");
         })
         .catch((err) => {
-          toast.error("Something went wrong");
+          // toast.error("Something went wrong");
+          loader("hide");
         });
       setIsOpen(false);
       //setIsOpen(false);
@@ -572,13 +578,14 @@ const Table = (props,ref) => {
             setEditList(combine_data);
             props.sendDataToParent(combine_data);
             setUpdatedData(combine_data);
-            loader("hide");
           } else {
             toast.warning(res.data.message);
           }
+          loader("hide");
         })
         .catch((err) => {
-          console.log("something went wrong");
+          toast.error("Something went wrong");
+          loader("hide");
         });
       setIsOpen(false);
     }
@@ -994,14 +1001,9 @@ const Table = (props,ref) => {
                                 }
                               >
                                 <option selected>Select Type</option>
-                                {countryall.length === 0 ? "" : (Object.entries(countryall).map(([index, item]) => {
-                                    return (
-                                      <>
-                                         <option value={index}>{item}</option>
-                                      </>
-                                    );
-                                  })) }
-
+                                <option value="HCP">HCP</option>
+                                <option value="Staff">Staff</option>
+                                <option value="Test Users">Test Users</option>
                               </select>
                             </div>
                           </div>
@@ -1014,9 +1016,14 @@ const Table = (props,ref) => {
                                 onChange={(event) => onCountryChange(event, i)}
                               >
                                 <option selected>Select Country</option>
-                                <option value="India">India</option>
-                                <option value="USA">USA</option>
-                                <option value="Russia">Russia</option>
+                                {countryall.length === 0 ? "" : (Object.entries(countryall).map(([index, item]) => {
+                                    return (
+                                      <>
+                                         <option value={index}>{item}</option>
+                                      </>
+                                    );
+                                  })) }
+
                               </select>
                               {i !== 0 && (
                                 <button
@@ -1171,8 +1178,6 @@ const Table = (props,ref) => {
           </div>
         </Modal.Body>
       </Modal>
-
-      {deleteConfirmation == true ? showSucessPopup() : null}
     </>
   );
 };

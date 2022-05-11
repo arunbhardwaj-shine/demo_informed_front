@@ -8,11 +8,15 @@ const UploadExcel = (props) => {
   const { smartListName } = location.state;
   const { creator } = location.state;
 
+  const sendDataToParent = (childData) => {
+    //console.log("function to just pass the callback");
+  }
+
   return (
     <>
     {
       <div className="col right-sidebar">
-        <Table data={data} smartListName={smartListName} upload_by_filter="0" creator={creator} />
+        <Table data={data} smartListName={smartListName} upload_by_filter="0" creator={creator} sendDataToParent={sendDataToParent} />
       </div>
     }
 
