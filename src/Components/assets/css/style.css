@@ -1228,6 +1228,7 @@ form .input-group {
 	font-size: 14px;
 	line-height: 16px;
 	margin: 8px 16px 8px 0;
+	cursor: pointer;
 }
 .tag-lists-view::-webkit-scrollbar, .search-hcp-table .search-hcp-table-inside::-webkit-scrollbar, .dropdown-menu.filter-options #accordion::-webkit-scrollbar, .dropdown-menu.filter-options #accordion .card ul::-webkit-scrollbar, ::-webkit-scrollbar {
   width: 10px;
@@ -3500,3 +3501,6 @@ position: relative;
 	}
 
 	.btn-close:focus{box-shadow: none;}
+	.item {
+		cursor: pointer;
+	}

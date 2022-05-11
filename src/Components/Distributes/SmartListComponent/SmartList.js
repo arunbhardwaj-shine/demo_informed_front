@@ -217,7 +217,7 @@ const SmartList = (props) => {
 
                           <div className="mail-time"><span>{data.created_at}</span></div>
                           <div className="smart-list-added-user"><img src={path_image+"smartlist-user.svg"} alt="User icon" />{data.readers_count}</div>
-                          <div className="mail-stats">
+                          {/* <div className="mail-stats">
                             <ul>
 
                               <li><div className="mail-status smartlist_view">
@@ -232,7 +232,7 @@ const SmartList = (props) => {
                                   </svg>
                               </div><span>60%</span></li>
                             </ul>
-                          </div>
+                          </div> */}
                           <div className="smartlist-buttons">
 
                         {data.upload_by_filter == 1 ?

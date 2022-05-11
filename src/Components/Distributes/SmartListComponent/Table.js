@@ -212,7 +212,7 @@ const Table = (props,ref) => {
         if(res.data.status_code == 200){
           popup_alert({
             visible: "show",
-            message: "Smart List Created <br />successfully !",
+            message: "Smart List Saved <br />successfully !",
             type: "success",
             redirect: "/SmartList",
           });
@@ -292,7 +292,8 @@ const Table = (props,ref) => {
     setCounterFlag(counterFlag + 1);
   };
 
-  const addHcp = () => {
+  const addHcp = (e) => {
+    e.preventDefault();
     setActiveExcel("");
     setActiveManual("active");
     setManualReRender(manualReRender + 1);
@@ -1069,7 +1070,7 @@ const Table = (props,ref) => {
                         onClick={(e) => addHcp(e)}
                         className="nav-link active btn-bordered"
                         data-bs-toggle="tab"
-                        href="#add_hcp_form"
+                        href="javascript:;"
                       >
                         Add HCP +
                       </a>
@@ -1079,7 +1080,7 @@ const Table = (props,ref) => {
                         onClick={(e) => addFile(e)}
                         className="nav-link btn-filled"
                         data-bs-toggle="tab"
-                        href="#add_file"
+                        href="javascript:;"
                       >
                         Add File
                       </a>
