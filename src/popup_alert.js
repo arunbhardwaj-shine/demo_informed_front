@@ -17,7 +17,6 @@ const popup_alert = (data) => {
       data.redirect != "undefined" &&
       typeof data.redirect !== "undefined"
     ) {
-      alert("in");
       document
         .getElementById("modeltoreplace")
         .setAttribute("redirecto", data.redirect);

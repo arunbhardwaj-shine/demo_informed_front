@@ -27,6 +27,7 @@ const SelectSmartListUsers = (props) => {
   const [activeManual, setActiveManual] = useState("active");
   const [activeExcel, setActiveExcel] = useState("");
   const [manualReRender, setManualReRender] = useState(0);
+  const [sorting, setSorting] = useState(0);
   const [counterFlag, setCounterFlag] = useState(0);
   const [countryall, setCountryall] = useState([]);
   const [addFileReRender, setAddFileReRender] = useState(0);
@@ -277,6 +278,25 @@ const SelectSmartListUsers = (props) => {
     setManualReRender(manualReRender + 1);
   };
 
+  const sortSelectedUsers = () => {
+    console.log("hi");
+    console.log(readers);
+    let normalArr = [];
+    normalArr = readers;
+    if (sorting === 0) {
+      normalArr.sort((a, b) =>
+        a.first_name > b.first_name ? 1 : b.first_name > a.first_name ? -1 : 0
+      );
+    } else {
+      normalArr.sort((a, b) =>
+        a.first_name < b.first_name ? 1 : b.first_name < a.first_name ? -1 : 0
+      );
+    }
+
+    setReaders(normalArr);
+    setSorting(1 - sorting);
+  };
+
   const addFile = (e) => {
     e.preventDefault();
     setActiveExcel("active");
@@ -310,7 +330,7 @@ const SelectSmartListUsers = (props) => {
         user_id: 18207,
         smart_list_id: "",
       };
-      // loader("show");
+      loader("show");
 
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       await axios
@@ -428,9 +448,9 @@ const SelectSmartListUsers = (props) => {
                 HCPs <span>| {smartListSelected.readers_count}</span>
               </h4>
               <div className="selected-hcp-table-action">
-                <a className="show-less-info" href="#">
+                {/* <a className="show-less-info" href="#">
                   Show Less information{" "}
-                </a>
+                </a> */}
                 <div className="hcp-new-user">
                   <button
                     className="btn btn-outline-primary"
@@ -440,12 +460,15 @@ const SelectSmartListUsers = (props) => {
                   </button>
                 </div>
                 <div className="hcp-added">
-                  <button className="btn btn-outline-primary">
+                  {/* <button className="btn btn-outline-primary">
                     <img src={path_image + "edit.svg"} alt="Edit" />
-                  </button>
+                  </button> */}
                 </div>
                 <div className="hcp-sort">
-                  <button className="btn btn-outline-primary">
+                  <button
+                    className="btn btn-outline-primary"
+                    onClick={sortSelectedUsers}
+                  >
                     Sort By <img src={path_image + "sort.svg"} alt="Shorting" />
                   </button>
                 </div>
