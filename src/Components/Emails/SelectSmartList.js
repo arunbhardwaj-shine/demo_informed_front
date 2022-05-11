@@ -19,6 +19,8 @@ const SelectSmartList = (props) => {
   useEffect(() => {
     const body = {
       user_id: 18207,
+      search:"",
+      filter:""
     };
     loader("show");
     axios
