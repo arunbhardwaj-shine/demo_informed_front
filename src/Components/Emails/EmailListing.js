@@ -1246,7 +1246,7 @@ const EmailList = (props) => {
                                 className="btn btn-primary edit btn-filled"
                                 onClick={() => {
                                   getEmailData(null);
-                                  getSelectedSmartListData(null);
+                                  // getSelectedSmartListData(null);
                                   draftNavigate(
                                     data.id,
                                     data.pdf_id,
