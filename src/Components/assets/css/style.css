@@ -610,14 +610,31 @@ color: #C8D1D9;}
 
 
 /**Smart List**/
-.smartlist-view {
-    width: 350px;
+/* .smartlist-view {
+     width: 350px;
     flex: 0 0 350px;
+	width: 25%;
+    padding: 0 15px;
+} */
+.smartlist-result-block .not_found {
+    padding: 15px;
+    width: 75%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 600;
+    color: #004A89;
+}
+.smartlist-result-block .smartlist_box_block {
+    width: 25%;
+    padding: 0 15px;
 }
 .smartlist-result-block {
-    display: flex;
+	display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: flex-start;
+    margin: 0 -15px;
 }
 .smartlist-add {
     border: 2px dashed #97B6CF;
@@ -1107,8 +1124,9 @@ form .input-group .tags_added ul {
 	margin: 0;
 }
 form .input-group .tags_added ul li img {
-	width: 10px;
-	margin-left: 5px;
+    width: 10px;
+    margin-left: 5px;
+    cursor: pointer;
 }
 .input-group-prepend::after {
 	content: "";
@@ -1140,9 +1158,10 @@ form .input-group {
 	padding: 9px 29px;
 }
 .form-buttons .approved-btn {
-	border: 1px solid #39CABC;
-	color: #39CABC;
-	padding: 10px 29px;
+    border: 1px solid #39CABC;
+    color: #39CABC;
+    padding: 10px 29px;
+    background: transparent;
 }
 .form-buttons .approved-btn:hover {
     background: #39CABC;
@@ -3417,6 +3436,7 @@ position: relative;
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		width:66.6%;
 	}
 	.email_box_block.no_found p {
 		font-size: 28px;
@@ -3477,3 +3497,5 @@ position: relative;
 	.highcharts-data-table tr:hover {
 		background: #f1f7ff;
 	}
+		
+	.btn-close:focus{box-shadow: none;}
