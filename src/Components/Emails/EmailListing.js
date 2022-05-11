@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { loader } from "../../loader";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { getDraftData } from "../../actions";
+import { getDraftData, getEmailData } from "../../actions";
 import { connect } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 import Accordion from "react-bootstrap/Accordion";
@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import { popup_alert } from "../../popup_alert";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import { getSelectedSmartListData } from "../../actions";
 
 const EmailList = (props) => {
   const navigate = useNavigate();
@@ -248,6 +249,8 @@ const EmailList = (props) => {
 
   const createNewEmail = () => {
     props.getDraftData(null);
+    props.getSelectedSmartListData(null);
+    props.getEmailData(null);
   };
 
   const showConfirmationPopup = (id) => {
@@ -1090,7 +1093,9 @@ const EmailList = (props) => {
                               )}
                               <button
                                 className="btn btn-primary edit btn-filled"
-                                onClick={() =>
+                                onClick={() => {
+                                  getEmailData(null);
+                                  getSelectedSmartListData(null);
                                   draftNavigate(
                                     data.id,
                                     data.pdf_id,
@@ -1100,8 +1105,8 @@ const EmailList = (props) => {
                                     data.discription,
                                     data.subject,
                                     data.tags
-                                  )
-                                }
+                                  );
+                                }}
                               >
                                 Edit
                               </button>
@@ -1630,6 +1635,8 @@ const mapStateToProps = (state) => {
   return state;
 };
 
-export default connect(mapStateToProps, { getDraftData: getDraftData })(
-  EmailList
-);
+export default connect(mapStateToProps, {
+  getDraftData: getDraftData,
+  getSelectedSmartListData: getSelectedSmartListData,
+  getEmailData: getEmailData,
+})(EmailList);

@@ -183,18 +183,15 @@ const ViewTable = (props) => {
       await axios
         .post(`distributes/filters_list`, body)
         .then((res) => {
-          
           setCountryall(res.data.response.data.country);
           //console.log(countryall)
-         // setCounter(counter + 1);
+          // setCounter(counter + 1);
         })
         .catch((err) => {
           console.log(err);
         });
     };
     getalCountry();
-
-
   }, [addNewData]);
 
   const showFileInReadersList = async () => {
@@ -1095,13 +1092,19 @@ const ViewTable = (props) => {
                                 onChange={(event) => onCountryChange(event, i)}
                               >
                                 <option selected>Select Country</option>
-                                {countryall.length === 0 ? "" : (Object.entries(countryall).map(([index, item]) => {
-                                    return (
-                                      <>
-                                         <option value={index}>{item}</option>
-                                      </>
-                                    );
-                                  })) }
+                                {countryall.length === 0
+                                  ? ""
+                                  : Object.entries(countryall).map(
+                                      ([index, item]) => {
+                                        return (
+                                          <>
+                                            <option value={index}>
+                                              {item}
+                                            </option>
+                                          </>
+                                        );
+                                      }
+                                    )}
                               </select>
                               {i !== 0 && (
                                 <button
