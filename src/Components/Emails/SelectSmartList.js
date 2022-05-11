@@ -211,6 +211,7 @@ const SelectSmartList = (props) => {
             <div className="col smartlist-result-block">
               {SendListData.map((template) => {
                 return (
+                  <div className="smartlist_box_block">
                   <div className="smartlist-view email_box">
                     <div className="mail-box-content">
                       <h5>{template.name}</h5>
@@ -350,6 +351,7 @@ const SelectSmartList = (props) => {
                         <button className="btn btn-primary view">View</button>
                       </div>
                     </div>
+                  </div> 
                   </div>
                 );
               })}

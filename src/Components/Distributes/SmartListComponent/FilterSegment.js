@@ -29,7 +29,8 @@ const FilterSegment = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   useEffect(() => {
-    if(props.hasOwnProperty('selectedFilter')  && typeof props.selectedFilter.country !== "undefined"){
+
+    if(props.hasOwnProperty('selectedFilter')){
 
       //Country
       if(typeof props.selectedFilter.country !== "undefined"){

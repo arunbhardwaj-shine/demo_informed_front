@@ -28,7 +28,12 @@ const VerifyMAIL = (props) => {
   const [template_source_code, setTemplate] = useState(props.getEmailData
     ? props.getEmailData.template
     : props.getDraftData.source_code);
- 
+
+
+    var var_template_source_code = template_source_code.replaceAll("800", "450");
+     var_template_source_code = var_template_source_code.replaceAll("600", "450");
+
+  
 
   const selectedHcp = location.state
     ? location.state.selectedHcp
@@ -269,7 +274,7 @@ const VerifyMAIL = (props) => {
                   Save As Draft
                 </button>
                 <button
-                  className="btn btn-primary btn-filled next"
+                  className="btn btn-primary btn-filled next send_btn"
                   onClick={createEmail}
                 >
                   Send
@@ -535,9 +540,7 @@ const VerifyMAIL = (props) => {
                 <div
                   className="preview-mail-box"
                   dangerouslySetInnerHTML={{
-                    __html: props.getEmailData
-                      ? props.getEmailData.template
-                      : props.getDraftData.source_code,
+                    __html: var_template_source_code,
                   }}
                 ></div>
               </div>

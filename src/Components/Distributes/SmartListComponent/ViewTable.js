@@ -1143,7 +1143,7 @@ const ViewTable = (props) => {
                       className="btn btn-filled"
                       onClick={addMoreHcp}
                     >
-                      Add
+                     <img src={path_image + "add-row.png"} alt="Add More" />
                     </button>
                   </div>
                   <ul className="nav nav-tabs" role="tablist">
@@ -1152,7 +1152,7 @@ const ViewTable = (props) => {
                         onClick={(e) => addHcp(e)}
                         className="nav-link active btn-bordered"
                         data-bs-toggle="tab"
-                        href="#add_hcp_form"
+                        href="javascript:;"
                       >
                         Add HCP +
                       </a>
@@ -1162,7 +1162,7 @@ const ViewTable = (props) => {
                         onClick={(e) => addFile(e)}
                         className="nav-link btn-filled"
                         data-bs-toggle="tab"
-                        href="#add_file"
+                        href="javascript:;"
                       >
                         Add File
                       </a>

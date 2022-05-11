@@ -983,7 +983,6 @@ const CreateEmail = (props) => {
                         onClick={sendSample}
                       >
                         Send A Sample
-                        <img src={path_image + "send-sample.svg"} alt="" />
                       </button>
                       <button
                         className="btn btn-primary btn-filled"
@@ -1649,7 +1648,7 @@ const CreateEmail = (props) => {
                         onClick={(e) => addHcp(e)}
                         className="nav-link active btn-bordered"
                         data-bs-toggle="tab"
-                        href="#add_hcp_form"
+                        href="javascipt:;"
                       >
                         Add HCP +
                       </a>
@@ -1659,7 +1658,7 @@ const CreateEmail = (props) => {
                         onClick={(e) => addFile(e)}
                         className="nav-link btn-filled"
                         data-bs-toggle="tab"
-                        href="#add_file"
+                        href="javascipt:;"
                       >
                         Add File
                       </a>
