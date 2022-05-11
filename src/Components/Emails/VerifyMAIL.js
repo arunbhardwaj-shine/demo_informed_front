@@ -274,7 +274,7 @@ const VerifyMAIL = (props) => {
                   Save As Draft
                 </button>
                 <button
-                  className="btn btn-primary btn-filled next"
+                  className="btn btn-primary btn-filled next send_btn"
                   onClick={createEmail}
                 >
                   Send

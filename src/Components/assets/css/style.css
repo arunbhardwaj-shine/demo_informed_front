@@ -577,7 +577,8 @@ color: #C8D1D9;}
 	margin-top: 3px;
 }
 .mail-time {
-	margin-bottom: 11px;
+    margin-bottom: 11px;
+    margin-top: 2px;
 }
 .approved .mail-box-content h5 {
 	color: #0066BE;
@@ -617,11 +618,11 @@ color: #C8D1D9;}
     padding: 0 15px;
 } */
 .smartlist-result-block .not_found {
-    padding: 15px;
+    padding: 15px 15px 15px 15%;
     width: 75%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     font-size: 28px;
     font-weight: 600;
     color: #004A89;
@@ -678,14 +679,15 @@ color: #C8D1D9;}
 }
 .smartlist-view .mail-stats ul {
     justify-content: flex-start;
-    margin: 15px 0;
+    margin: 0px 0 15px;
 }
 .smart-list-added-user {
-	font-size: 18px;
-	line-height: 21px;
-	color: #0066BE;
-	display: flex;
-	align-items: center;
+    font-size: 18px;
+    line-height: 21px;
+    color: #0066BE;
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
 }
 .smartlist-view ul li .smartlist_view {
 	border: 2px solid #FAC755;
@@ -799,20 +801,33 @@ ul.tabnav-link li {
   background:#0066BE;
   color: #FFFFFF;
 }
+.header-btn .btn.send_btn {
+    background: linear-gradient(102.53deg, #0066BE 16.48%, #455AAD 44.46%, #8A4E9C 88.12%);
+    height: 38px;
+}
 .header-btn .btn.create {
     background: linear-gradient(102.53deg, #0066BE 16.48%, #455AAD 44.46%, #8A4E9C 88.12%);
     border: 0;
     height: 40px;
 }
-.header-btn .btn.create:hover, .header-btn .btn.create:focus, .header-btn .btn.create:active {
+.header-btn .btn.create:hover, .header-btn .btn.create:focus, .header-btn .btn.create:active, .header-btn .btn.send_btn:hover, .header-btn .btn.send_btn:active, .header-btn .btn.send_btn:focus {
     background: linear-gradient(102.22deg, #54BAB0 8.07%, #2BA5B5 16.83%, #0792BA 24.34%, #047DBC 34.35%, #0066BE 45.61%, #2060B6 55.2%, #455AAD 66.04%, #5E56A7 73.97%, #8A4E9C 88.15%);
 }
 .header-btn .btn.btn-primary {
   filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));
 }
-.btn-bordered{
+.btn.btn-bordered{
   background: #FFFFFF;
   color: #0066BE;
+}
+.btn.btn-bordered.cancel {
+    color: #97B6CF;
+    border-color: #97B6CF;
+}
+.btn.btn-bordered.cancel:hover {
+    color: #fff;
+    border-color: #97B6CF;
+	background: #97B6CF;
 }
 .btn-filled{
 color: #FFFFFF;
@@ -866,7 +881,8 @@ background: #0066BE;
 	object-fit: contain;
 }
 .mail-preview-img {
-	flex: 0 0 97px;
+    flex: 0 0 97px;
+    margin-bottom: 8px;
 }
 .mail-content-select-top .mail-box-content {
 	padding: 0;
@@ -960,7 +976,7 @@ background: #0066BE;
 	padding: 4px 0 14px;
 }
 .mail-content-footer {
-	border-top: 0.5px dashed #0066BF;
+	border-top: 0.5px dashed rgb(0 102 191 / 50%);
 	padding-top: 13px;
 	display: flex;
 	justify-content: end;
@@ -1491,7 +1507,7 @@ form .input-group {
 	 top: 52px;
 }
 .result-hcp-table .add-new-hcp {
-    top: -9px;
+    top: 6px;
     right: -27px;
 }
 .search-hcp-table .add-new-hcp img, .result-hcp-table .add-new-hcp img {
@@ -1699,10 +1715,13 @@ form#add_hcp_form .row:not(:first-child) {
   margin: 0;
 }
 #add_hcp .modal-body .hcp-add-box {
-	padding: 0px 19px 19px;
+	padding: 0px 19px 4px;
 	display: flex;
 	position: relative;
 	flex-wrap:wrap;
+}
+#add_hcp .modal-body {
+    padding-bottom: 0;
 }
 .hcp-add-form {
 	width: calc(100% - 40px);
@@ -1748,6 +1767,7 @@ form#add_hcp_form .row:not(:first-child) {
 	margin: 0;
 	filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));
 	min-width: 106px;
+	padding: 7px 14px;
 }
 #add_hcp .modal-footer {
 	text-align: center;
@@ -2522,7 +2542,7 @@ border-radius: 30px;border: 0;}
 #send-sample .search-hcp-table-inside {display: flex;flex-wrap: wrap;align-items: flex-start;padding: 20px 25px 10px 21px;}
 
 #send-sample .search-hcp-table-inside .search-hcp-box {box-shadow: 0px 1px 8px rgba(0, 102, 190, 0.24);
-border-radius: 15px;width: 30%;margin-right: 3.3%;box-sizing: border-box;padding:6px 16px;position: relative;height: auto;}
+border-radius: 15px;width: 30%;margin-right: 3.3%;box-sizing: border-box;padding:6px 16px;position: relative;height: auto;margin-bottom:25px}
 
 #send-sample .search-hcp-table-inside .search-hcp-box .add-new-field {position: absolute;right: -20px;top: 50%;transform: translateY(-50%);}
 
@@ -3437,8 +3457,9 @@ position: relative;
 	.email_box_block.no_found {
 		display: flex;
 		align-items: center;
-		justify-content: center;
-		width:66.6%;
+		justify-content: flex-start;
+		width: 66.6%;
+		padding-left: 10%;
 	}
 	.email_box_block.no_found p {
 		font-size: 28px;
@@ -3503,4 +3524,36 @@ position: relative;
 	.btn-close:focus{box-shadow: none;}
 	.item {
 		cursor: pointer;
+	}
+
+
+	@media only screen and (max-width:1750px){
+		.page-top-nav .tabnav-link li {
+			padding: 0 30px;
+		}
+		.page-top-nav .tabnav-link li::after {
+			width: 44px;
+			right: -23px;
+			top: 10px;
+		}
+		.page-top-nav .tabnav-link li a {
+			font-size: 15px;
+		}
+	}
+	@media only screen and (max-width:1650px){
+	.right-sidebar { 
+		padding-left: 30px;
+		padding-right: 30px;
+	}
+	.btn.btn-primary {
+		font-size: 14px;
+		padding: 10px 8px;
+		min-width: 60px;
+	}
+}
+
+	@media only screen and (max-width:1550px){
+		.smartlist-result-block .smartlist_box_block {
+			width: 33.3%;
+		}
 	}
