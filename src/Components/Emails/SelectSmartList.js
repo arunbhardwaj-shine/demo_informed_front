@@ -10,6 +10,7 @@ const SelectSmartList = (props) => {
   const [SendListData, setSendListData] = useState([]);
   const [PdfSelected, setPdfSelected] = useState(0);
   const [TemplateId, setTemplateId] = useState(0);
+  const [getselecedlistid, setselecedlistid] = useState(0);
   const [smartListSelected, setSmartListSelected] = useState({});
   const campaign_id = props.getDraftData ? props.getDraftData.campaign_id : "";
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
@@ -38,6 +39,8 @@ const SelectSmartList = (props) => {
     if (PdfSelected !== 0) {
       inputElement.current.classList.remove("disabled");
     }
+    let listid = props.getEmailData ? smartListSelected.id : props.getDraftData.campaign_data.smart_list_id;
+    setselecedlistid(listid);
   }, [PdfSelected]);
 
   const handleSelect = (e) => {
@@ -219,7 +222,7 @@ const SelectSmartList = (props) => {
                         className="select-mail-option"
                         onClick={() => handleSelect(template)}
                       >
-                        <input type="radio" name="radio" />
+                        <input type="radio" name="radio" checked= { template.id == getselecedlistid ? true : false } />
                         <span className="checkmark"></span>
                       </div>
                       <div className="mailbox-table">
@@ -351,7 +354,7 @@ const SelectSmartList = (props) => {
                         <button className="btn btn-primary view">View</button>
                       </div>
                     </div>
-                  </div> 
+                  </div>
                   </div>
                 );
               })}
