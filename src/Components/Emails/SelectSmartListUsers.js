@@ -235,24 +235,24 @@ const SelectSmartListUsers = (props) => {
                 HCPs <span>| {smartListSelected.readers_count}</span>
               </h4>
               <div className="selected-hcp-table-action">
-                <a className="show-less-info" href="#">
+                {/* <a className="show-less-info" href="#">
                   Show Less information{" "}
-                </a>
-                <div className="hcp-new-user">
+                </a> */}
+                {/* <div className="hcp-new-user">
                   <button className="btn btn-outline-primary">
                     <img src={path_image + "new-user.svg"} alt="New User" />
                   </button>
-                </div>
-                <div className="hcp-added">
+                </div> */}
+                {/* <div className="hcp-added">
                   <button className="btn btn-outline-primary">
                     <img src={path_image + "edit.svg"} alt="Edit" />
                   </button>
-                </div>
-                <div className="hcp-sort">
+                </div> */}
+                {/* <div className="hcp-sort">
                   <button className="btn btn-outline-primary">
                     Sort By <img src={path_image + "sort.svg"} alt="Shorting" />
                   </button>
-                </div>
+                </div> */}
               </div>
             </div>
             <div className="selected-hcp-list">

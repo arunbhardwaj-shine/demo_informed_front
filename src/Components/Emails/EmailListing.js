@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { loader } from "../../loader";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { getDraftData } from "../../actions";
+import { getDraftData, getEmailData } from "../../actions";
 import { connect } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 import Accordion from "react-bootstrap/Accordion";
@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import { popup_alert } from "../../popup_alert";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import { getSelectedSmartListData } from "../../actions";
 
 const EmailList = (props) => {
   const navigate = useNavigate();
@@ -248,6 +249,8 @@ const EmailList = (props) => {
 
   const createNewEmail = () => {
     props.getDraftData(null);
+    props.getSelectedSmartListData(null);
+    props.getEmailData(null);
   };
 
   const showConfirmationPopup = (id) => {
@@ -568,120 +571,9 @@ const EmailList = (props) => {
                                 )
                               )}
                             </ul>
-                            </Accordion.Body>
-                            </Accordion.Item>
-                        )
-                      }
-
-                      {
-                        filterdata.hasOwnProperty('creators') && filterdata.creators.length > 0 && (
-                          <Accordion.Item className="card" eventKey="1">
-                          <Accordion.Header className="card-header">Creators</Accordion.Header>
-                          <Accordion.Body className="card-body">
-                          <ul>
-                            {
-                              Object.entries(filterdata.creators).map(([index, item]) => (
-                                  <li>
-                                  <label className="select-multiple-option">
-                                    <input
-                                      type="checkbox"
-                                      id={`custom-checkbox-creator-${index}`}
-                                      name="creator[]"
-                                      value={item}
-                                      checked={updateflag > 0 && typeof filtercreator !== 'undefined' && filtercreator.indexOf(item) !== -1}
-                                      onChange={() => handleOnFilterCreator(item)}
-                                    />
-                                    {item}
-                                    <span className="checkmark"></span>
-                                  </label>
-                                  </li>
-                              ))}
-                            </ul>
-                            </Accordion.Body>
-                            </Accordion.Item>
-                        )
-                      }
-                      {
-                        filterdata.hasOwnProperty('created') && filterdata.created.length > 0 && (
-                          <Accordion.Item className="card" eventKey="2">
-                          <Accordion.Header className="card-header">Created</Accordion.Header>
-                          <Accordion.Body className="card-body">
-                          <ul>
-                            {
-                              Object.entries(filterdata.created).map(([index, item]) => (
-                                  <li>
-                                  <label className="select-multiple-option">
-                                  <input
-                                    type="checkbox"
-                                    id={`custom-checkbox-date-${index}`}
-                                    name="date[]"
-                                    value={item}
-                                    checked={updateflag > 0 && typeof filterdate !== 'undefined' && filterdate.indexOf(item) !== -1}
-                                    onChange={() => handleOnFilterDate(item)}
-                                  />
-                                    {item}
-                                    <span className="checkmark"></span>
-                                  </label>
-                                  </li>
-                              ))}
-                            </ul>
-                            </Accordion.Body>
-                            </Accordion.Item>
-                        )
-                      }
-
-                      <Accordion.Item className="card" eventKey="3">
-                          <Accordion.Header className="card-header">Campaign</Accordion.Header>
-                          <Accordion.Body className="card-body">
-
-                              <ul>
-                              <li>
-                                <label className="select-multiple-option">
-                                  <input
-                                    type="checkbox"
-                                    id={`custom-checkbox-campaign-0`}
-                                    name="campaign[]"
-                                    value='Sent'
-                                    checked={updateflag > 0 && typeof filtercampaign !== 'undefined' && filtercampaign.indexOf(1) !== -1}
-                                    onChange={() => handleOnFilterCampaign(1)}
-                                  />
-                                Sent
-                                  <span className="checkmark"></span>
-                                </label>
-                              </li>
-                              <li>
-                                <label className="select-multiple-option">
-                                <input
-                                  type="checkbox"
-                                  id={`custom-checkbox-campaign-1`}
-                                  name="campaign[]"
-                                  value='Draft'
-                                  checked={updateflag > 0 && typeof filtercampaign !== 'undefined' && filtercampaign.indexOf(2) !== -1}
-                                  onChange={() => handleOnFilterCampaign(2)}
-                                />
-                                Draft
-                                  <span className="checkmark"></span>
-                                </label>
-                              </li>
-                              <li>
-                                <label className="select-multiple-option">
-                                <input
-                                  type="checkbox"
-                                  id={`custom-checkbox-campaign-2`}
-                                  name="campaign[]"
-                                  value='draft-approved'
-                                  checked={updateflag > 0 && typeof filtercampaign !== 'undefined' && filtercampaign.indexOf(3) !== -1}
-                                  onChange={() => handleOnFilterCampaign(3)}
-                                />
-                                Draft Approved
-                                  <span className="checkmark"></span>
-                                </label>
-                              </li>
-                              </ul>
                           </Accordion.Body>
                         </Accordion.Item>
                       )}
-
                     {filterdata.hasOwnProperty("creators") &&
                       filterdata.creators.length > 0 && (
                         <Accordion.Item className="card" eventKey="1">
@@ -755,7 +647,143 @@ const EmailList = (props) => {
                           </Accordion.Body>
                         </Accordion.Item>
                       )}
-
+                    <Accordion.Item className="card" eventKey="3">
+                      <Accordion.Header className="card-header">
+                        Campaign
+                      </Accordion.Header>
+                      <Accordion.Body className="card-body">
+                        <ul>
+                          <li>
+                            <label className="select-multiple-option">
+                              <input
+                                type="checkbox"
+                                id={`custom-checkbox-campaign-0`}
+                                name="campaign[]"
+                                value="Sent"
+                                checked={
+                                  updateflag > 0 &&
+                                  typeof filtercampaign !== "undefined" &&
+                                  filtercampaign.indexOf(1) !== -1
+                                }
+                                onChange={() => handleOnFilterCampaign(1)}
+                              />
+                              Sent
+                              <span className="checkmark"></span>
+                            </label>
+                          </li>
+                          <li>
+                            <label className="select-multiple-option">
+                              <input
+                                type="checkbox"
+                                id={`custom-checkbox-campaign-1`}
+                                name="campaign[]"
+                                value="Draft"
+                                checked={
+                                  updateflag > 0 &&
+                                  typeof filtercampaign !== "undefined" &&
+                                  filtercampaign.indexOf(2) !== -1
+                                }
+                                onChange={() => handleOnFilterCampaign(2)}
+                              />
+                              Draft
+                              <span className="checkmark"></span>
+                            </label>
+                          </li>
+                          <li>
+                            <label className="select-multiple-option">
+                              <input
+                                type="checkbox"
+                                id={`custom-checkbox-campaign-2`}
+                                name="campaign[]"
+                                value="draft-approved"
+                                checked={
+                                  updateflag > 0 &&
+                                  typeof filtercampaign !== "undefined" &&
+                                  filtercampaign.indexOf(3) !== -1
+                                }
+                                onChange={() => handleOnFilterCampaign(3)}
+                              />
+                              Draft Approved
+                              <span className="checkmark"></span>
+                            </label>
+                          </li>
+                        </ul>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                    )}
+                    {filterdata.hasOwnProperty("creators") &&
+                      filterdata.creators.length > 0 && (
+                        <Accordion.Item className="card" eventKey="1">
+                          <Accordion.Header className="card-header">
+                            Creators
+                          </Accordion.Header>
+                          <Accordion.Body className="card-body">
+                            <ul>
+                              {Object.entries(filterdata.creators).map(
+                                ([index, item]) => (
+                                  <li>
+                                    <label className="select-multiple-option">
+                                      <input
+                                        type="checkbox"
+                                        id={`custom-checkbox-creator-${index}`}
+                                        name="creator[]"
+                                        value={item}
+                                        checked={
+                                          updateflag > 0 &&
+                                          typeof filtercreator !==
+                                            "undefined" &&
+                                          filtercreator.indexOf(item) !== -1
+                                        }
+                                        onChange={() =>
+                                          handleOnFilterCreator(item)
+                                        }
+                                      />
+                                      {item}
+                                      <span className="checkmark"></span>
+                                    </label>
+                                  </li>
+                                )
+                              )}
+                            </ul>
+                          </Accordion.Body>
+                        </Accordion.Item>
+                      )}
+                    {filterdata.hasOwnProperty("created") &&
+                      filterdata.created.length > 0 && (
+                        <Accordion.Item className="card" eventKey="2">
+                          <Accordion.Header className="card-header">
+                            Created
+                          </Accordion.Header>
+                          <Accordion.Body className="card-body">
+                            <ul>
+                              {Object.entries(filterdata.created).map(
+                                ([index, item]) => (
+                                  <li>
+                                    <label className="select-multiple-option">
+                                      <input
+                                        type="checkbox"
+                                        id={`custom-checkbox-date-${index}`}
+                                        name="date[]"
+                                        value={item}
+                                        checked={
+                                          updateflag > 0 &&
+                                          typeof filterdate !== "undefined" &&
+                                          filterdate.indexOf(item) !== -1
+                                        }
+                                        onChange={() =>
+                                          handleOnFilterDate(item)
+                                        }
+                                      />
+                                      {item}
+                                      <span className="checkmark"></span>
+                                    </label>
+                                  </li>
+                                )
+                              )}
+                            </ul>
+                          </Accordion.Body>
+                        </Accordion.Item>
+                      )}
                     <Accordion.Item className="card" eventKey="3">
                       <Accordion.Header className="card-header">
                         Camapign
@@ -1216,7 +1244,9 @@ const EmailList = (props) => {
                               )}
                               <button
                                 className="btn btn-primary edit btn-filled"
-                                onClick={() =>
+                                onClick={() => {
+                                  getEmailData(null);
+                                  getSelectedSmartListData(null);
                                   draftNavigate(
                                     data.id,
                                     data.pdf_id,
@@ -1226,8 +1256,8 @@ const EmailList = (props) => {
                                     data.discription,
                                     data.subject,
                                     data.tags
-                                  )
-                                }
+                                  );
+                                }}
                               >
                                 Edit
                               </button>
@@ -1756,6 +1786,8 @@ const mapStateToProps = (state) => {
   return state;
 };
 
-export default connect(mapStateToProps, { getDraftData: getDraftData })(
-  EmailList
-);
+export default connect(mapStateToProps, {
+  getDraftData: getDraftData,
+  getSelectedSmartListData: getSelectedSmartListData,
+  getEmailData: getEmailData,
+})(EmailList);
