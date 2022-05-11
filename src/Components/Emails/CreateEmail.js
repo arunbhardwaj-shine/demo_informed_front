@@ -983,7 +983,6 @@ const CreateEmail = (props) => {
                         onClick={sendSample}
                       >
                         Send A Sample
-                        <img src={path_image + "send-sample.svg"} alt="" />
                       </button>
                       <button
                         className="btn btn-primary btn-filled"

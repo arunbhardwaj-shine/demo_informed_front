@@ -1143,7 +1143,7 @@ const ViewTable = (props) => {
                       className="btn btn-filled"
                       onClick={addMoreHcp}
                     >
-                      Add
+                     <img src={path_image + "add-row.png"} alt="Add More" />
                     </button>
                   </div>
                   <ul className="nav nav-tabs" role="tablist">

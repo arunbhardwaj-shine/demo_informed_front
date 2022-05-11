@@ -18,6 +18,7 @@ const Table = (props,ref) => {
   });
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   //let validator = new SimpleReactValidator();
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const queryParams = queryString.parse(window.location.search);
   const [validator] = React.useState(new SimpleReactValidator());
   const [validator2] = React.useState(new SimpleReactValidator());
@@ -1060,7 +1061,7 @@ const Table = (props,ref) => {
                       className="btn btn-filled"
                       onClick={addMoreHcp}
                     >
-                      Add
+                     <img src={path_image + "add-row.png"} alt="Add More" />
                     </button>
                   </div>
                   <ul className="nav nav-tabs" role="tablist">
