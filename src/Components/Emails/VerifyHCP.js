@@ -61,7 +61,6 @@ const VerifyHCP = (props) => {
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
-
   useEffect(() => {
     console.log("sdsdsd");
   }, [selectedHcp, sorting]);
@@ -250,31 +249,28 @@ const VerifyHCP = (props) => {
         smart_list_id: "",
       };
       loader("show");
-      
+
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       await axios
         .post(`distributes/add_new_readers_in_list`, body)
         .then((res) => {
-
           if (res.data.status_code === 200) {
             toast.success("User added successfuly");
             res.data.response.data.map((data) => {
               setSelectedHcp((oldArray) => [...oldArray, data]);
             });
             loader("hide");
-
-          }else{
+          } else {
             toast.warning(res.data.message);
           }
 
-        
           //setSelectedHcp(res.data.response.data);
         })
         .catch((err) => {
           loader("hide");
           toast.error("Somwthing went wrong");
         });
-     // setIsOpen(false);
+      // setIsOpen(false);
     } else {
       let formData = new FormData();
       formData.append("user_id", 18207);
@@ -465,28 +461,18 @@ const VerifyHCP = (props) => {
                   Save As Draft
                 </button>
 
-
-                {selectedHcp.length === 0 ? 
-                
-                 <button
-                  
-                    className="btn btn-primary btn-filled next disabled"
-                  >
+                {selectedHcp.length === 0 ? (
+                  <button className="btn btn-primary btn-filled next disabled">
                     Next
                   </button>
-               
-                 
-                : 
-              
+                ) : (
                   <button
                     onClick={nextClicked}
                     className="btn btn-primary btn-filled next"
                   >
                     Next
                   </button>
-              
-                }
-
+                )}
               </div>
             </div>
           </div>
@@ -545,7 +531,13 @@ const VerifyHCP = (props) => {
             </form>
           </div>
           <div className="search-hcp-table">
-            <div className={searchedUsers.length === 0 ? 'search-hcp-table-inside not-found' : 'search-hcp-table-inside'  } >
+            <div
+              className={
+                searchedUsers.length === 0
+                  ? "search-hcp-table-inside not-found"
+                  : "search-hcp-table-inside"
+              }
+            >
               {searchedUsers.length === 0 ? (
                 <div className="not-found">
                   <h4>No Record Found!</h4>
@@ -676,13 +668,27 @@ const VerifyHCP = (props) => {
                           <tr
                             contenteditable={editable === 0 ? "false" : "true"}
                           >
-                            <td><span>{data.name || data.first_name}</span></td>
-                            <td><span>{data.email}</span></td>
-                            <td><span>NA</span></td>
-                            <td><span>{data.country}</span></td>
-                            <td><span>NA</span></td>
-                            <td><span>NA</span></td>
-                            <td><span>NA</span></td>
+                            <td>
+                              <span>{data.name || data.first_name}</span>
+                            </td>
+                            <td>
+                              <span>{data.email}</span>
+                            </td>
+                            <td>
+                              <span>NA</span>
+                            </td>
+                            <td>
+                              <span>{data.country}</span>
+                            </td>
+                            <td>
+                              <span>NA</span>
+                            </td>
+                            <td>
+                              <span>NA</span>
+                            </td>
+                            <td>
+                              <span>NA</span>
+                            </td>
                             <td>NA</td>
                             <td>NA</td>
                             <td>NA</td>
@@ -725,9 +731,8 @@ const VerifyHCP = (props) => {
           {/* <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div className="modal-content"> */}
 
-
-        <Modal.Header>
-        <h5 className="modal-title" id="staticBackdropLabel">
+          <Modal.Header>
+            <h5 className="modal-title" id="staticBackdropLabel">
               Add New HCP
             </h5>
             <button
@@ -737,9 +742,9 @@ const VerifyHCP = (props) => {
               data-bs-dismiss="modal"
               aria-label="Close"
             ></button>
-        </Modal.Header>
-        <Modal.Body>
-        <div className="hcp-add-box">
+          </Modal.Header>
+          <Modal.Body>
+            <div className="hcp-add-box">
               <div className="hcp-add-form tab-content">
                 <form id="add_hcp_form" className={"tab-pane" + activeManual}>
                   {hpc.map((val, i) => {
@@ -814,12 +819,11 @@ const VerifyHCP = (props) => {
                                 <option value="USA">USA</option>
                                 <option value="Russia">Russia</option>
                               </select>
-                              
                             </div>
                           </div>
                           <div className="col-12 col-md-6 btn-last">
                             <div className="form-group">
-                            {i !== 0 && (
+                              {i !== 0 && (
                                 <button
                                   type="button"
                                   className="btn btn-filled"
@@ -828,7 +832,7 @@ const VerifyHCP = (props) => {
                                   Remove
                                 </button>
                               )}
-                           </div>
+                            </div>
                           </div>
                         </div>
                       </>
@@ -933,22 +937,17 @@ const VerifyHCP = (props) => {
                 </div>
               </div>
             </div>
+          </Modal.Body>
 
-        </Modal.Body>
-
-        <Modal.Footer>
-        <button
+          <Modal.Footer>
+            <button
               type="button"
               className="btn btn-primary save btn-filled"
               onClick={saveClicked}
             >
               Save
             </button>
-        </Modal.Footer>
-
-
-
-
+          </Modal.Footer>
 
           {/* <div className="modal-header">
             <h5 className="modal-title" id="staticBackdropLabel">
@@ -1053,7 +1052,7 @@ const VerifyHCP = (props) => {
                       </>
                     );
                   })} */}
-                  {/* <div className="row">
+          {/* <div className="row">
                     <div className="col-12 col-md-6">
                       <div className="form-group">
                         <label for="">First Name</label>
@@ -1099,7 +1098,7 @@ const VerifyHCP = (props) => {
                       </div>
                     </div>
                   </div> */}
-                {/* </form>
+          {/* </form>
                 <form id="add_file" className={"tab-pane" + activeExcel}>
                   <div className="form-group files">
                     <input
@@ -1122,12 +1121,12 @@ const VerifyHCP = (props) => {
                       Add
                     </button>
                   </div> */}
-                  {/* <div className="hcp-remove">
+          {/* <div className="hcp-remove">
                     <button type="button" className="btn btn-filled">
                       <img src={path_image + "delete.svg"} alt="Delete HCP" />
                     </button>
                   </div> */}
-                  {/* <ul className="nav nav-tabs" role="tablist">
+          {/* <ul className="nav nav-tabs" role="tablist">
                     <li className="nav-item add_hcp">
                       <a
                         onClick={addHcp}
