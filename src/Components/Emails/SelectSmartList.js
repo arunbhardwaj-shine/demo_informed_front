@@ -12,7 +12,9 @@ const SelectSmartList = (props) => {
   const [TemplateId, setTemplateId] = useState(0);
   const [getselecedlistid, setselecedlistid] = useState(0);
   const [smartListSelected, setSmartListSelected] = useState({});
-  const campaign_id = props.getDraftData ? props.getDraftData.campaign_id : "";
+  const campaign_id = props.getEmailData
+  ? props.getEmailData.campaign_id
+  : props.getDraftData.campaign_data.campaign_id;
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
 
   const inputElement = useRef();

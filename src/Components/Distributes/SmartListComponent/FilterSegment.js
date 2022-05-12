@@ -1,14 +1,15 @@
 import axios from "axios";
 import Table from "./Table";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import VerifySmartList from "./VerifySmartList";
 import React, { useEffect, useState, useRef } from "react";
 import { NavLink } from "react-router-dom";
-import Accordion from 'react-bootstrap/Accordion';
+import Accordion from "react-bootstrap/Accordion";
 import { loader } from "../../../loader";
 
 const FilterSegment = (props) => {
   const tableCompRef = useRef();
+  const Navigate = useNavigate();
   const [filters, setFilters] = useState(props.filters);
   const [listname, setListName] = useState(props.listname);
   const [selectedcountry, setSelectedCountry] = useState([]);
@@ -29,58 +30,59 @@ const FilterSegment = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   useEffect(() => {
-
-    if(props.hasOwnProperty('selectedFilter')){
-
+    if (props.hasOwnProperty("selectedFilter")) {
       //Country
-      if(typeof props.selectedFilter.country !== "undefined"){
+      if (typeof props.selectedFilter.country !== "undefined") {
         setSelectedCountry(props.selectedFilter.country);
       }
 
       //Contact Type
-      if(typeof props.selectedFilter.contactTypeList !== "undefined"){
-        let contactTypeList = props.selectedFilter.contactTypeList.map((item) => {
-          let val = filters.contact_type[item];
-          return val;
-        });
+      if (typeof props.selectedFilter.contactTypeList !== "undefined") {
+        let contactTypeList = props.selectedFilter.contactTypeList.map(
+          (item) => {
+            let val = filters.contact_type[item];
+            return val;
+          }
+        );
         setSelectedContactType(contactTypeList);
       }
 
       //Reader Selection
-      if(typeof props.selectedFilter.reader_selection !== "undefined"){
-            setSelectedReaderSelection(props.selectedFilter.reader_selection);
+      if (typeof props.selectedFilter.reader_selection !== "undefined") {
+        setSelectedReaderSelection(props.selectedFilter.reader_selection);
       }
 
       //IBu
-      if(typeof props.selectedFilter.ibu !== "undefined"){
-            setSelectedIbu(props.selectedFilter.ibu);
+      if (typeof props.selectedFilter.ibu !== "undefined") {
+        setSelectedIbu(props.selectedFilter.ibu);
       }
 
       //Speciality
-      if(typeof props.selectedFilter.speciality !== "undefined"){
-            selectedspeciality(props.selectedFilter.speciality);
+      if (typeof props.selectedFilter.speciality !== "undefined") {
+        selectedspeciality(props.selectedFilter.speciality);
       }
 
       //product
-      if(typeof props.selectedFilter.product !== "undefined"){
-            setSelectedProduct(props.selectedFilter.product);
+      if (typeof props.selectedFilter.product !== "undefined") {
+        setSelectedProduct(props.selectedFilter.product);
       }
 
       //Register Unregister
-      if(typeof props.selectedFilter.registered_users !== "undefined"){
-          let register_val = props.selectedFilter.registered_users == 1 ? "yes" : "no";
-            setShowHideArticle(props.selectedFilter.registered_users);
-            setSelectedRegister(register_val);
+      if (typeof props.selectedFilter.registered_users !== "undefined") {
+        let register_val =
+          props.selectedFilter.registered_users == 1 ? "yes" : "no";
+        setShowHideArticle(props.selectedFilter.registered_users);
+        setSelectedRegister(register_val);
       }
 
       //Bounce Unbounce
-      if(typeof props.selectedFilter.bounce !== "undefined"){
-          let bounce = props.selectedFilter.bounce == 1 ? "yes" : "no";
-            setSelectedBounce(bounce);
+      if (typeof props.selectedFilter.bounce !== "undefined") {
+        let bounce = props.selectedFilter.bounce == 1 ? "yes" : "no";
+        setSelectedBounce(bounce);
       }
 
       //Articles
-      if(typeof props.selectedFilter.registered_on_article !== "undefined"){
+      if (typeof props.selectedFilter.registered_on_article !== "undefined") {
         let article = props.selectedFilter.registered_on_article.map((item) => {
           let val = filters.articles[item];
           return val;
@@ -88,17 +90,16 @@ const FilterSegment = (props) => {
         setSelectedArticles(article);
       }
 
-
       //Display table In case of update
-      if(typeof props.data !== "undefined"){
-          setFilterData(props.data);
-          setApiFilterFlag(1);
+      if (typeof props.data !== "undefined") {
+        setFilterData(props.data);
+        setApiFilterFlag(1);
       }
 
-        let up = updateflag + 1;
-        setUpdateFlag(up);
+      let up = updateflag + 1;
+      setUpdateFlag(up);
     }
-  },[]);
+  }, []);
 
   const handleOnCountryChange = (country) => {
     let country_index = selectedcountry.indexOf(country);
@@ -113,6 +114,10 @@ const FilterSegment = (props) => {
       let up = updateflag + 1;
       setUpdateFlag(up);
     }
+  };
+
+  const closeClicked = () => {
+    Navigate("/SmartList");
   };
 
   const handleOnContactTypeChange = (contact_type) => {
@@ -278,19 +283,19 @@ const FilterSegment = (props) => {
 
     //For Register
     if (selectedregister) {
-        if(selectedregister == "yes"){
-            Object.assign(payload, { registered_users: 1 });
-        }else{
-            Object.assign(payload, { registered_users: 0 });
-        }
+      if (selectedregister == "yes") {
+        Object.assign(payload, { registered_users: 1 });
+      } else {
+        Object.assign(payload, { registered_users: 0 });
+      }
     }
 
     //For Bounce
     if (typeof selectedbounce !== "undefined") {
-      if(selectedbounce == "yes"){
-          Object.assign(payload, { bounce: 1 });
-      }else{
-          Object.assign(payload, { bounce: 0 });
+      if (selectedbounce == "yes") {
+        Object.assign(payload, { bounce: 1 });
+      } else {
+        Object.assign(payload, { bounce: 0 });
       }
       // Object.assign(payload, { bounce: 1 });
     }
@@ -335,421 +340,537 @@ const FilterSegment = (props) => {
   const sendDataToParent = (childData) => {
     setFilterData(childData);
     setApiFilterFlag(1);
-  }
+  };
 
   const createSmartListWithFilters = () => {
     tableCompRef.current.createSmartList(getfilterdata);
-  }
+  };
 
   return (
     <>
-      {
-        typeof props.action !== "undefined" && props.action == "edit" && (
-
-          <div className="page-top-nav smart_list_names">
-            <div className="row justify-content-end align-items-center">
-              <div className="col-12 col-md-6">
-                <div className="page-title"><h2>Smart List Name</h2></div>
+      {typeof props.action !== "undefined" && props.action == "edit" && (
+        <div className="page-top-nav smart_list_names">
+          <div className="row justify-content-end align-items-center">
+            <div className="col-12 col-md-6">
+              <div className="page-title">
+                <h2>Smart List Name</h2>
               </div>
+            </div>
             <div className="col-12 col-md-6">
               <div className="header-btn">
-                <button className="btn btn-primary btn-bordered light">Close</button>
+                <button
+                  className="btn btn-primary btn-bordered light"
+                  onClick={closeClicked}
+                >
+                  Close
+                </button>
                 {/*<button className="btn btn-primary btn-bordered save-as">Save As</button>*/}
-                <button className="btn btn-primary btn-filled save" onClick={createSmartListWithFilters}
-                  disabled = { typeof getfilterdata == "undefined" || getfilterdata.length == 0 ? true : false }>
+                <button
+                  className="btn btn-primary btn-filled save"
+                  onClick={createSmartListWithFilters}
+                  disabled={
+                    typeof getfilterdata == "undefined" ||
+                    getfilterdata.length == 0
+                      ? true
+                      : false
+                  }
+                >
                   Save
                 </button>
               </div>
             </div>
-            </div>
           </div>
-        )
-      }
+        </div>
+      )}
 
-      {
-        typeof props.action !== "undefined" && props.action == "create" && (
-          <div className="page-top-nav smart_list_names create_filter_list">
-            <div className="row justify-content-end align-items-center">
-              <div className="col-12 col-md-6">
-                <NavLink to="/CreateSmartList" className="active">
-                  Go Back
-                </NavLink>
-              </div>
-              <div className="col-12 col-md-6">
-                <div className="header-btn">
-                  <button className="btn btn-primary btn-bordered light">
-                    <NavLink to="/SmartList">
-                      Cancel
+      {typeof props.action !== "undefined" && props.action == "create" && (
+        <div className="page-top-nav smart_list_names create_filter_list">
+          <div className="row justify-content-end align-items-center">
+            <div className="col-12 col-md-1">
+                <div class="header-btn-left">
+					        <button class="btn btn-primary btn-bordered back">
+                    <NavLink to="/CreateSmartList" className="active">
+                      Back
                     </NavLink>
                   </button>
-                  <button className="btn btn-primary btn-bordered save-as" onClick={createSmartListWithFilters}
-                    disabled = {typeof getfilterdata == "undefined" || getfilterdata.length == 0 ? true : false } >
-                      Create
-                  </button>
-                </div>
+							  </div>
+            </div>
+            <div class="col-12 col-md-9">
+								<ul class="tabnav-link">
+									<li class="">
+										<a href="javascript:void(0)">Create smart list</a>
+									</li>
+									<li class="active">
+										<a href="javascript:void(0)">Select & Verify your HCPs</a>
+									</li>
+								</ul>
+							</div>
+
+            <div className="col-12 col-md-2">
+              <div className="header-btn">
+                <button className="btn btn-primary btn-bordered light">
+                  <NavLink to="/SmartList">Cancel</NavLink>
+                </button>
+                <button
+                  className="btn btn-primary btn-bordered save-as"
+                  onClick={createSmartListWithFilters}
+                  disabled={
+                    typeof getfilterdata == "undefined" ||
+                    getfilterdata.length == 0
+                      ? true
+                      : false
+                  }
+                >
+                  Create
+                </button>
               </div>
-             </div>
+            </div>
           </div>
-        )
-      }
+        </div>
+      )}
       <section className="search-hcp smart-list-name">
         <div className="smart-list-name-drop">
-            <h5>Please select who to include to your smart list.You can pick one or more:</h5>
-             <div className="smart-list-dropdown">
-                <div className="dropdown-smart">
-                  <div id="accordion-smart">
-                      <Accordion defaultActiveKey="0" flush>
-                        <Accordion.Item className="card" eventKey="0">
-                          <div className="card-header">
-                            <Accordion.Header className="btn">Segmentation</Accordion.Header>
-                          </div>
-                          <Accordion.Body>
-                          <div className="card-body">
-
-
-                              {"contact_type" in filters &&
-                                Object.keys(filters.contact_type).length > 0 && (
-                                  <>
-                                    <div className="col block-smart-name">
-                                      <h6>Contact Type</h6>
-                                      <div className="smart-name-list">
-                                      <ul>
-                                        {Object.entries(filters.contact_type).map(([index, item]) => (
-                                          <li>
-                                            <div className="select-multiple-option">
-                                              <input
-                                                type="checkbox"
-                                                id={`custom-checkbox-contact_type-${index}`}
-                                                name="contact_type[]"
-                                                value={item}
-                                                checked={typeof selectedcontacttype !== 'undefined' && selectedcontacttype.indexOf(item) !== -1}
-                                                onChange={() => handleOnContactTypeChange(item)}
-                                              />
-                                              <span className="checkmark"></span>
-                                            </div>
-                                            {item}
-                                          </li>
-                                        ))}
-                                      </ul>
-                                    </div>
-                                  </div>
-                                </>
-                              )}
-
-
-
-                                {"speciality" in filters &&
-                                  Object.keys(filters.speciality).length > 0 && (
-                                    <>
-                                      <div className="col block-smart-name">
-                                      <h6>Speciality</h6>
-                                      <div className="smart-name-list">
-                                      <ul>
-                                        {Object.entries(filters.speciality).map(([index, item]) => (
-                                          <li>
-                                            <div className="select-multiple-option">
+          <h5>
+            Please select who to include to your smart list.You can pick one or
+            more:
+          </h5>
+          <div className="smart-list-dropdown">
+            <div className="dropdown-smart">
+              <div id="accordion-smart">
+                <Accordion defaultActiveKey="0" flush>
+                  <Accordion.Item className="card" eventKey="0">
+                    <div className="card-header">
+                      <Accordion.Header className="btn">
+                        Segmentation
+                      </Accordion.Header>
+                    </div>
+                    <Accordion.Body>
+                      <div className="card-body">
+                        {"contact_type" in filters &&
+                          Object.keys(filters.contact_type).length > 0 && (
+                            <>
+                              <div className="col block-smart-name">
+                                <h6>Contact Type</h6>
+                                <div className="smart-name-list">
+                                  <ul>
+                                    {Object.entries(filters.contact_type).map(
+                                      ([index, item]) => (
+                                        <li>
+                                          <div className="select-multiple-option">
                                             <input
-                                                type="checkbox"
-                                                id={`custom-checkbox-speciality-${index}`}
-                                                name="speciality[]"
-                                                value={item}
-                                                checked={typeof selectedspeciality !== 'undefined' && selectedspeciality.indexOf(item) !== -1}
-                                                onChange={() => handleOnSpecialityChange(item)}
-                                              />
-                                              <span className="checkmark"></span>
-                                            </div>
-                                            {item}
-                                          </li>
-                                        ))}
-                                      </ul>
-                                    </div>
-                                    </div>
-                                  </>
-                                )}
-
-
-
-                                  {"reader_selection" in filters &&
-                                    Object.keys(filters.reader_selection).length > 0 && (
-                                      <>
-                                        <div className="col block-smart-name">
-                                          <h6>Reader Selection</h6>
-                                          <div className="smart-name-list">
-                                            <ul>
-                                              {Object.entries(filters.reader_selection).map(([index, item]) => (
-                                                <li>
-                                                  <div className="select-multiple-option">
-                                                  <input
-                                                    type="radio"
-                                                    id={`custom-checkbox-reader_selection-${index}`}
-                                                    name="reader_selection[]"
-                                                    value={item}
-                                                    checked={selectedreaderselection == item}
-                                                    onChange={() => handleOnReaderSelectionChange(item)}
-                                                  />
-                                                    <span className="checkmark"></span>
-                                                  </div>
-                                                  {item}
-                                                </li>
-                                              ))}
-                                            </ul>
+                                              type="checkbox"
+                                              id={`custom-checkbox-contact_type-${index}`}
+                                              name="contact_type[]"
+                                              value={item}
+                                              checked={
+                                                typeof selectedcontacttype !==
+                                                  "undefined" &&
+                                                selectedcontacttype.indexOf(
+                                                  item
+                                                ) !== -1
+                                              }
+                                              onChange={() =>
+                                                handleOnContactTypeChange(item)
+                                              }
+                                            />
+                                            <span className="checkmark"></span>
                                           </div>
-                                        </div>
-                                    </>
-                                  )}
-
-
-
-                                    {"ibu" in filters &&
-                                      Object.keys(filters.ibu).length > 0 && (
-                                        <>
-                                          <div className="col block-smart-name">
-                                          <h6>Ibu</h6>
-                                          <div className="smart-name-list">
-                                          <ul>
-                                            {Object.entries(filters.ibu).map(([index, item]) => (
-                                              <li>
-                                                <div className="select-multiple-option">
-                                                <input
-                                                    type="radio"
-                                                    id={`custom-checkbox-ibu-${index}`}
-                                                    name="ibu[]"
-                                                    value={item}
-                                                    checked={selectedibu == item}
-                                                      onChange={() => handleOnIbuChange(item)}
-                                                  />
-                                                  <span className="checkmark"></span>
-                                                </div>
-                                                {item}
-                                              </li>
-                                            ))}
-                                          </ul>
-                                        </div>
-                                        </div>
-                                      </>
+                                          {item}
+                                        </li>
+                                      )
                                     )}
+                                  </ul>
+                                </div>
+                              </div>
+                            </>
+                          )}
 
-
-
-
-                                      {"product" in filters &&
-                                        Object.keys(filters.product).length > 0 && (
-                                          <>
-                                          <div className="col block-smart-name">
-                                            <h6>Product</h6>
-                                            <div className="smart-name-list">
-                                            <ul>
-                                              {Object.entries(filters.product).map(([index, item]) => (
-                                                <li>
-                                                  <div className="select-multiple-option">
-                                                  <input
-                                                      type="checkbox"
-                                                      id={`custom-checkbox-product-${index}`}
-                                                      name="ibu[]"
-                                                      value={item}
-                                                      checked={typeof selectedproduct !== 'undefined' && selectedproduct.indexOf(item) !== -1}
-                                                      onChange={() => handleOnProductChange(item)}
-                                                    />
-                                                    <span className="checkmark"></span>
-                                                  </div>
-                                                  {item}
-                                                </li>
-                                              ))}
-                                            </ul>
+                        {"speciality" in filters &&
+                          Object.keys(filters.speciality).length > 0 && (
+                            <>
+                              <div className="col block-smart-name">
+                                <h6>Speciality</h6>
+                                <div className="smart-name-list">
+                                  <ul>
+                                    {Object.entries(filters.speciality).map(
+                                      ([index, item]) => (
+                                        <li>
+                                          <div className="select-multiple-option">
+                                            <input
+                                              type="checkbox"
+                                              id={`custom-checkbox-speciality-${index}`}
+                                              name="speciality[]"
+                                              value={item}
+                                              checked={
+                                                typeof selectedspeciality !==
+                                                  "undefined" &&
+                                                selectedspeciality.indexOf(
+                                                  item
+                                                ) !== -1
+                                              }
+                                              onChange={() =>
+                                                handleOnSpecialityChange(item)
+                                              }
+                                            />
+                                            <span className="checkmark"></span>
                                           </div>
+                                          {item}
+                                        </li>
+                                      )
+                                    )}
+                                  </ul>
+                                </div>
+                              </div>
+                            </>
+                          )}
+
+                        {"reader_selection" in filters &&
+                          Object.keys(filters.reader_selection).length > 0 && (
+                            <>
+                              <div className="col block-smart-name">
+                                <h6>Reader Selection</h6>
+                                <div className="smart-name-list">
+                                  <ul>
+                                    {Object.entries(
+                                      filters.reader_selection
+                                    ).map(([index, item]) => (
+                                      <li>
+                                        <div className="select-multiple-option">
+                                          <input
+                                            type="radio"
+                                            id={`custom-checkbox-reader_selection-${index}`}
+                                            name="reader_selection[]"
+                                            value={item}
+                                            checked={
+                                              selectedreaderselection == item
+                                            }
+                                            onChange={() =>
+                                              handleOnReaderSelectionChange(
+                                                item
+                                              )
+                                            }
+                                          />
+                                          <span className="checkmark"></span>
+                                        </div>
+                                        {item}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              </div>
+                            </>
+                          )}
+
+                        {"ibu" in filters &&
+                          Object.keys(filters.ibu).length > 0 && (
+                            <>
+                              <div className="col block-smart-name">
+                                <h6>Ibu</h6>
+                                <div className="smart-name-list">
+                                  <ul>
+                                    {Object.entries(filters.ibu).map(
+                                      ([index, item]) => (
+                                        <li>
+                                          <div className="select-multiple-option">
+                                            <input
+                                              type="radio"
+                                              id={`custom-checkbox-ibu-${index}`}
+                                              name="ibu[]"
+                                              value={item}
+                                              checked={selectedibu == item}
+                                              onChange={() =>
+                                                handleOnIbuChange(item)
+                                              }
+                                            />
+                                            <span className="checkmark"></span>
                                           </div>
-                                        </>
-                                      )}
-
-
-
-
-                                        {"country" in filters &&
-                                          Object.keys(filters.country).length > 0 && (
-                                            <>
-                                              <div className="col block-smart-name">
-                                              <h6>Country</h6>
-                                              <div className="smart-name-list">
-                                              <ul>
-                                                {Object.entries(filters.country).map(([index, item]) => (
-                                                  <li>
-                                                    <div className="select-multiple-option">
-                                                    <input
-                                                        type="checkbox"
-                                                        id={`custom-checkbox-country-${index}`}
-                                                        name="country[]"
-                                                        value={item}
-                                                        checked={typeof selectedcountry !== 'undefined' && selectedcountry.indexOf(item) !== -1}
-                                                        onChange={() => handleOnCountryChange(item)}
-                                                      />
-                                                      <span className="checkmark"></span>
-                                                    </div>
-                                                    {item}
-                                                  </li>
-                                                ))}
-                                              </ul>
-                                            </div>
-                                            </div>
-                                          </>
-                                        )}
-
-
-
-
-                                          {"consent_type" in filters && filters.consent_type.length > 0 && (
-                                              <>
-                                                <div className="col block-smart-name">
-                                                <h6>Consent Type</h6>
-                                                <div className="smart-name-list">
-                                                <ul>
-                                                  {filters.consent_type.map((item, index) => (
-                                                    <li>
-                                                      <div className="select-multiple-option">
-                                                      <input
-                                                          type="checkbox"
-                                                          id={`custom-checkbox-consent_type-${index}`}
-                                                          name="consent_type[]"
-                                                          value={index}
-                                                          onChange={() => handleOnConsentChange(index)}
-                                                        />
-                                                        <span className="checkmark"></span>
-                                                      </div>
-                                                      {item}
-                                                    </li>
-                                                  ))}
-                                                </ul>
-                                              </div>
-                                              </div>
-                                            </>
-                                          )}
-
-
-
-                                        {"articles" in filters && Object.keys(filters.articles).length > 0 && showhidearticle == 1 && (
-                                                <>
-                                                <div className="col block-smart-name">
-                                                  <h6>Articles</h6>
-                                                  <div className="smart-name-list">
-                                                  <ul>
-                                                    {Object.entries(filters.articles).map(([index, item]) => (
-                                                      <li>
-                                                        <div className="select-multiple-option">
-                                                        <input
-                                                            type="checkbox"
-                                                            id={`custom-checkbox-articles-${index}`}
-                                                            name="articles[]"
-                                                            value={index}
-                                                            checked={typeof selectedarticles !== 'undefined' && selectedarticles.indexOf(item) !== -1}
-                                                            onChange={() => handleOnArticleChange(item)}
-                                                          />
-                                                          <span className="checkmark"></span>
-                                                        </div>
-                                                        {item}
-                                                      </li>
-                                                    ))}
-                                                  </ul>
-                                                </div>
-                                                </div>
-                                              </>
-                                            )}
-
-
-                             <div className="col block-smart-name registered">
-                              <h6>Registered</h6>
-                              <ul>
-                              <li>
-                                <div className="select-multiple-option">
-                                <input
-                                    type="radio"
-                                    id="register_yes"
-                                    name="register"
-                                    value="yes"
-                                    checked={typeof selectedregister !== 'undefined' && selectedregister == "yes"}
-                                    onChange={() => handleRegister("yes")}
-                                  />
-                                  <span className="checkmark"></span>
+                                          {item}
+                                        </li>
+                                      )
+                                    )}
+                                  </ul>
                                 </div>
-                                Yes
-                              </li>
-                              <li>
-                                <div className="select-multiple-option">
-                                <input
-                                    type="radio"
-                                    id="register_no"
-                                    name="register"
-                                    value="no"
-                                    checked={typeof selectedregister !== 'undefined' && selectedregister == "no"}
-                                    onChange={() => handleRegister("no")}
-                                  />
-                                  <span className="checkmark"></span>
+                              </div>
+                            </>
+                          )}
+
+                        {"product" in filters &&
+                          Object.keys(filters.product).length > 0 && (
+                            <>
+                              <div className="col block-smart-name">
+                                <h6>Product</h6>
+                                <div className="smart-name-list">
+                                  <ul>
+                                    {Object.entries(filters.product).map(
+                                      ([index, item]) => (
+                                        <li>
+                                          <div className="select-multiple-option">
+                                            <input
+                                              type="checkbox"
+                                              id={`custom-checkbox-product-${index}`}
+                                              name="ibu[]"
+                                              value={item}
+                                              checked={
+                                                typeof selectedproduct !==
+                                                  "undefined" &&
+                                                selectedproduct.indexOf(
+                                                  item
+                                                ) !== -1
+                                              }
+                                              onChange={() =>
+                                                handleOnProductChange(item)
+                                              }
+                                            />
+                                            <span className="checkmark"></span>
+                                          </div>
+                                          {item}
+                                        </li>
+                                      )
+                                    )}
+                                  </ul>
                                 </div>
-                                No
-                              </li>
-                              </ul>
-                              <h6>Bounced</h6>
-                              <ul>
-                              <li>
-                                <div className="select-multiple-option">
-                                <input
-                                    type="radio"
-                                    id="bounce_yes"
-                                    name="bounce"
-                                    value="yes"
-                                    checked={typeof selectedbounce !== 'undefined' && selectedbounce == "yes"}
-                                    onChange={() => handleBounce("yes")}
-                                  />
-                                  <span className="checkmark"></span>
+                              </div>
+                            </>
+                          )}
+
+                        {"country" in filters &&
+                          Object.keys(filters.country).length > 0 && (
+                            <>
+                              <div className="col block-smart-name">
+                                <h6>Country</h6>
+                                <div className="smart-name-list">
+                                  <ul>
+                                    {Object.entries(filters.country).map(
+                                      ([index, item]) => (
+                                        <li>
+                                          <div className="select-multiple-option">
+                                            <input
+                                              type="checkbox"
+                                              id={`custom-checkbox-country-${index}`}
+                                              name="country[]"
+                                              value={item}
+                                              checked={
+                                                typeof selectedcountry !==
+                                                  "undefined" &&
+                                                selectedcountry.indexOf(
+                                                  item
+                                                ) !== -1
+                                              }
+                                              onChange={() =>
+                                                handleOnCountryChange(item)
+                                              }
+                                            />
+                                            <span className="checkmark"></span>
+                                          </div>
+                                          {item}
+                                        </li>
+                                      )
+                                    )}
+                                  </ul>
                                 </div>
-                                Yes
-                              </li>
-                              <li>
-                                <div className="select-multiple-option">
-                                <input
-                                    type="radio"
-                                    id="bounce_no"
-                                    name="bounce"
-                                    value="no"
-                                    checked={typeof selectedbounce !== 'undefined' && selectedbounce == "no"}
-                                    onChange={() => handleBounce("no")}
-                                  />
-                                  <span className="checkmark"></span>
+                              </div>
+                            </>
+                          )}
+
+                        {"consent_type" in filters &&
+                          filters.consent_type.length > 0 && (
+                            <>
+                              <div className="col block-smart-name">
+                                <h6>Consent Type</h6>
+                                <div className="smart-name-list">
+                                  <ul>
+                                    {filters.consent_type.map((item, index) => (
+                                      <li>
+                                        <div className="select-multiple-option">
+                                          <input
+                                            type="checkbox"
+                                            id={`custom-checkbox-consent_type-${index}`}
+                                            name="consent_type[]"
+                                            value={index}
+                                            onChange={() =>
+                                              handleOnConsentChange(index)
+                                            }
+                                          />
+                                          <span className="checkmark"></span>
+                                        </div>
+                                        {item}
+                                      </li>
+                                    ))}
+                                  </ul>
                                 </div>
-                                No
-                              </li>
-                              </ul>
-                             </div>
-                          <div className="segmentation-button">
-                            <button className="btn btn-bordered btn-primary" onClick={clearFilter}>Clear</button>
-                            <button className="btn btn-filled btn-primary" onClick={applyFilter}>Apply</button>
-                          </div>
-                          </div>
-                          </Accordion.Body>
-                        </Accordion.Item>
-                      </Accordion>
+                              </div>
+                            </>
+                          )}
+
+                        {"articles" in filters &&
+                          Object.keys(filters.articles).length > 0 &&
+                          showhidearticle == 1 && (
+                            <>
+                              <div className="col block-smart-name">
+                                <h6>Articles</h6>
+                                <div className="smart-name-list">
+                                  <ul>
+                                    {Object.entries(filters.articles).map(
+                                      ([index, item]) => (
+                                        <li>
+                                          <div className="select-multiple-option">
+                                            <input
+                                              type="checkbox"
+                                              id={`custom-checkbox-articles-${index}`}
+                                              name="articles[]"
+                                              value={index}
+                                              checked={
+                                                typeof selectedarticles !==
+                                                  "undefined" &&
+                                                selectedarticles.indexOf(
+                                                  item
+                                                ) !== -1
+                                              }
+                                              onChange={() =>
+                                                handleOnArticleChange(item)
+                                              }
+                                            />
+                                            <span className="checkmark"></span>
+                                          </div>
+                                          {item}
+                                        </li>
+                                      )
+                                    )}
+                                  </ul>
+                                </div>
+                              </div>
+                            </>
+                          )}
+
+                        <div className="col block-smart-name registered">
+                          <h6>Registered</h6>
+                          <ul>
+                            <li>
+                              <div className="select-multiple-option">
+                                <input
+                                  type="radio"
+                                  id="register_yes"
+                                  name="register"
+                                  value="yes"
+                                  checked={
+                                    typeof selectedregister !== "undefined" &&
+                                    selectedregister == "yes"
+                                  }
+                                  onChange={() => handleRegister("yes")}
+                                />
+                                <span className="checkmark"></span>
+                              </div>
+                              Yes
+                            </li>
+                            <li>
+                              <div className="select-multiple-option">
+                                <input
+                                  type="radio"
+                                  id="register_no"
+                                  name="register"
+                                  value="no"
+                                  checked={
+                                    typeof selectedregister !== "undefined" &&
+                                    selectedregister == "no"
+                                  }
+                                  onChange={() => handleRegister("no")}
+                                />
+                                <span className="checkmark"></span>
+                              </div>
+                              No
+                            </li>
+                          </ul>
+                          <h6>Bounced</h6>
+                          <ul>
+                            <li>
+                              <div className="select-multiple-option">
+                                <input
+                                  type="radio"
+                                  id="bounce_yes"
+                                  name="bounce"
+                                  value="yes"
+                                  checked={
+                                    typeof selectedbounce !== "undefined" &&
+                                    selectedbounce == "yes"
+                                  }
+                                  onChange={() => handleBounce("yes")}
+                                />
+                                <span className="checkmark"></span>
+                              </div>
+                              Yes
+                            </li>
+                            <li>
+                              <div className="select-multiple-option">
+                                <input
+                                  type="radio"
+                                  id="bounce_no"
+                                  name="bounce"
+                                  value="no"
+                                  checked={
+                                    typeof selectedbounce !== "undefined" &&
+                                    selectedbounce == "no"
+                                  }
+                                  onChange={() => handleBounce("no")}
+                                />
+                                <span className="checkmark"></span>
+                              </div>
+                              No
+                            </li>
+                          </ul>
+                        </div>
+                        <div className="segmentation-button">
+                          <button
+                            className="btn btn-bordered btn-primary"
+                            onClick={clearFilter}
+                          >
+                            Clear
+                          </button>
+                          <button
+                            className="btn btn-filled btn-primary"
+                            onClick={applyFilter}
+                          >
+                            Apply
+                          </button>
+                        </div>
+                      </div>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="apply-filter">
+          <h6>
+            Selected Criterias{" "}
+            <span>
+              |
+              {typeof getfilterdata !== "undefined" && getfilterdata.length > 0
+                ? getfilterdata.length
+                : 0}
+            </span>
+          </h6>
+          <div className="filter-block">
+            <div className="filter-block-left">
+              {updateflag > 0 ? (
+                typeof selectedcountry === "object" &&
+                selectedcountry.length > 0 ? (
+                  <div className="filter-div">
+                    <div className="filter-div-title">
+                      <span>Country |</span>
+                    </div>
+                    <div className="filter-div-list">
+                      {Object.entries(selectedcountry).map(([index, item]) => (
+                        <div className="filter-result">
+                          {item == "B&H" ? "Bosnia and Herzegovina" : item}{" "}
+                          <img
+                            src={path_image + "filter-close.svg"}
+                            alt="Close-filter"
+                          />
+                        </div>
+                      ))}
+                    </div>
                   </div>
-    					  </div>
-    					</div>
-  				</div>
-				<div className="apply-filter">
-					<h6>Selected Criterias <span>|
-            {typeof getfilterdata !== "undefined" && getfilterdata.length > 0  ? getfilterdata.length : 0}
-          </span></h6>
-					<div className="filter-block">
-						<div className="filter-block-left">
-
-            {updateflag > 0 ? (
-              typeof selectedcountry === "object" &&
-              selectedcountry.length > 0 ? (
-  							<div className="filter-div">
-  								<div className="filter-div-title">
-  									<span>Country |</span>
-  								</div>
-  								<div className="filter-div-list">
-                    {Object.entries(selectedcountry).map(([index, item]) => (
-                      <div className="filter-result">{item == "B&H" ? "Bosnia and Herzegovina" : item} <img src={path_image + "filter-close.svg"} alt="Close-filter" /></div>
-                    ))}
-  								</div>
-  							</div>
                 ) : null
               ) : null}
 
@@ -757,15 +878,23 @@ const FilterSegment = (props) => {
                 typeof selectedcontacttype === "object" &&
                 selectedcontacttype.length > 0 ? (
                   <div className="filter-div">
-    								<div className="filter-div-title">
-    									<span>contact Type |</span>
-    								</div>
-    								<div className="filter-div-list">
-                      {Object.entries(selectedcontacttype).map(([index, item]) => (
-                          <div className="filter-result">{item} <img src={path_image + "filter-close.svg"} alt="Close-filter" /></div>
-                      ))}
-                      </div>
-      							</div>
+                    <div className="filter-div-title">
+                      <span>contact Type |</span>
+                    </div>
+                    <div className="filter-div-list">
+                      {Object.entries(selectedcontacttype).map(
+                        ([index, item]) => (
+                          <div className="filter-result">
+                            {item}{" "}
+                            <img
+                              src={path_image + "filter-close.svg"}
+                              alt="Close-filter"
+                            />
+                          </div>
+                        )
+                      )}
+                    </div>
+                  </div>
                 ) : null
               ) : null}
 
@@ -773,13 +902,21 @@ const FilterSegment = (props) => {
                 typeof selectedspeciality === "object" &&
                 selectedspeciality.length > 0 ? (
                   <div className="filter-div">
-    								<div className="filter-div-title">
+                    <div className="filter-div-title">
                       <span>Speciality |</span>
                     </div>
                     <div className="filter-div-list">
-                      {Object.entries(selectedspeciality).map(([index, item]) => (
-                        <div className="filter-result">{item} <img src={path_image + "filter-close.svg"} alt="Close-filter" /></div>
-                      ))}
+                      {Object.entries(selectedspeciality).map(
+                        ([index, item]) => (
+                          <div className="filter-result">
+                            {item}{" "}
+                            <img
+                              src={path_image + "filter-close.svg"}
+                              alt="Close-filter"
+                            />
+                          </div>
+                        )
+                      )}
                     </div>
                   </div>
                 ) : null
@@ -789,128 +926,171 @@ const FilterSegment = (props) => {
                 typeof selectedproduct === "object" &&
                 selectedproduct.length > 0 ? (
                   <div className="filter-div">
-    								<div className="filter-div-title">
+                    <div className="filter-div-title">
                       <span>Products |</span>
                     </div>
                     <div className="filter-div-list">
                       {Object.entries(selectedproduct).map(([index, item]) => (
-                        <div className="filter-result">{item} <img src={path_image + "filter-close.svg"} alt="Close-filter" /></div>
+                        <div className="filter-result">
+                          {item}{" "}
+                          <img
+                            src={path_image + "filter-close.svg"}
+                            alt="Close-filter"
+                          />
+                        </div>
                       ))}
                     </div>
                   </div>
                 ) : null
               ) : null}
 
+              {updateflag > 0 ? (
+                typeof selectedarticles === "object" &&
+                selectedarticles.length > 0 ? (
+                  <div className="filter-div">
+                    <div className="filter-div-title">
+                      <span>Articles |</span>
+                    </div>
+                    <div className="filter-div-list">
+                      {Object.entries(selectedarticles).map(([index, item]) => (
+                        <div className="filter-result">
+                          {item}{" "}
+                          <img
+                            src={path_image + "filter-close.svg"}
+                            alt="Close-filter"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : null
+              ) : null}
 
               {updateflag > 0 ? (
-                  typeof selectedarticles === "object" &&
-                  selectedarticles.length > 0 ? (
-                    <div className="filter-div">
-      								<div className="filter-div-title">
-      									<span>Articles |</span>
-      								</div>
-                      <div className="filter-div-list">
-                        {Object.entries(selectedarticles).map(([index, item]) => (
-                          <div className="filter-result">{item} <img src={path_image + "filter-close.svg"} alt="Close-filter" /></div>
-                        ))}
+                typeof selectedconsent === "object" &&
+                selectedconsent.length > 0 ? (
+                  <div className="filter-div">
+                    <div className="filter-div-title">
+                      <span>Consent |</span>
+                    </div>
+                    <div className="filter-div-list">
+                      {Object.entries(selectedconsent).map(([index, item]) => (
+                        <div className="filter-result">
+                          {item}{" "}
+                          <img
+                            src={path_image + "filter-close.svg"}
+                            alt="Close-filter"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : null
+              ) : null}
+
+              {updateflag > 0 ? (
+                selectedreaderselection ? (
+                  <div className="filter-div">
+                    <div className="filter-div-title">
+                      <span>Reader Selection |</span>
+                    </div>
+                    <div className="filter-div-list">
+                      <div className="filter-result">
+                        {selectedreaderselection}{" "}
+                        <img
+                          src={path_image + "filter-close.svg"}
+                          alt="Close-filter"
+                        />
                       </div>
                     </div>
-                  ) : null
-                ) : null}
-
-
-            {updateflag > 0 ? (
-              typeof selectedconsent === "object" &&
-              selectedconsent.length > 0 ? (
-                <div className="filter-div">
-  								<div className="filter-div-title">
-  									<span>Consent |</span>
-  								</div>
-                  <div className="filter-div-list">
-                    {Object.entries(selectedconsent).map(([index, item]) => (
-                      <div className="filter-result">{item} <img src={path_image + "filter-close.svg"} alt="Close-filter" /></div>
-                    ))}
                   </div>
-                </div>
-              ) : null
-            ) : null}
-
-
-            {updateflag > 0 ? (
-              selectedreaderselection ? (
-                <div className="filter-div">
-                  <div className="filter-div-title">
-                    <span>Reader Selection |</span>
-                  </div>
-                  <div className="filter-div-list">
-                    <div className="filter-result">{selectedreaderselection} <img src={path_image + "filter-close.svg"} alt="Close-filter" /></div>
-                  </div>
-                </div>
-              ) : null
-            ) : null}
-
-						</div>
+                ) : null
+              ) : null}
+            </div>
 
             {/*Right Block*/}
-						<div className="filter-block-right">
-                {updateflag > 0 ? (
-                  selectedibu ? (
-                    <div className="filter-div">
-                      <div className="filter-div-title">
-                        <span>IBU |</span>
-                      </div>
-                      <div className="filter-div-list">
-                        <div className="filter-result">{selectedibu} <img src={path_image + "filter-close.svg"} alt="Close-filter" /></div>
+            <div className="filter-block-right">
+              {updateflag > 0 ? (
+                selectedibu ? (
+                  <div className="filter-div">
+                    <div className="filter-div-title">
+                      <span>IBU |</span>
+                    </div>
+                    <div className="filter-div-list">
+                      <div className="filter-result">
+                        {selectedibu}{" "}
+                        <img
+                          src={path_image + "filter-close.svg"}
+                          alt="Close-filter"
+                        />
                       </div>
                     </div>
-                  ) : null
-                ) : null}
+                  </div>
+                ) : null
+              ) : null}
 
-                {updateflag > 0 ? (
-                    selectedregister ? (
-                      <div className="filter-div">
-                        <div className="filter-div-title">
-                          <span>Register |</span>
-                        </div>
-                        <div className="filter-div-list">
-                          <div className="filter-result">{selectedregister} <img src={path_image + "filter-close.svg"} alt="Close-filter" /></div>
-                        </div>
+              {updateflag > 0 ? (
+                selectedregister ? (
+                  <div className="filter-div">
+                    <div className="filter-div-title">
+                      <span>Register |</span>
+                    </div>
+                    <div className="filter-div-list">
+                      <div className="filter-result">
+                        {selectedregister}{" "}
+                        <img
+                          src={path_image + "filter-close.svg"}
+                          alt="Close-filter"
+                        />
                       </div>
-                    ) : null
-                  ) : null}
+                    </div>
+                  </div>
+                ) : null
+              ) : null}
 
-                  {updateflag > 0 ? (
-                    selectedbounce ? (
-                      <div className="filter-div">
-                        <div className="filter-div-title">
-                          <span>Bounce |</span>
-                        </div>
-                        <div className="filter-div-list">
-                          <div className="filter-result">{selectedbounce} <img src={path_image + "filter-close.svg"} alt="Close-filter" /></div>
-                        </div>
+              {updateflag > 0 ? (
+                selectedbounce ? (
+                  <div className="filter-div">
+                    <div className="filter-div-title">
+                      <span>Bounce |</span>
+                    </div>
+                    <div className="filter-div-list">
+                      <div className="filter-result">
+                        {selectedbounce}{" "}
+                        <img
+                          src={path_image + "filter-close.svg"}
+                          alt="Close-filter"
+                        />
                       </div>
-                    ) : null
-                  ) : null}
-
-						 </div>
-
-					</div>
-				</div>
+                    </div>
+                  </div>
+                ) : null
+              ) : null}
+            </div>
+          </div>
+        </div>
 
         {apifilterflag > 0 ? (
-            typeof getfilterdata === "object" && getfilterdata.length > 0 ? (
-              <div className="box mt-2">
-                {console.log(getfilterdata)}
-                <Table ref={tableCompRef} data={getfilterdata} smartListName={listname} upload_by_filter="1" filter_payload={getpayload} creator={props.creator} sendDataToParent={sendDataToParent}/>
-              </div>
-            ) : (
-              <div className="box mt-2">
-                <p>No Data Found</p>
-              </div>
-            )
-          ) : null}
-
-			</section>
+          typeof getfilterdata === "object" && getfilterdata.length > 0 ? (
+            <div className="box mt-2">
+              {console.log(getfilterdata)}
+              <Table
+                ref={tableCompRef}
+                data={getfilterdata}
+                smartListName={listname}
+                upload_by_filter="1"
+                filter_payload={getpayload}
+                creator={props.creator}
+                sendDataToParent={sendDataToParent}
+              />
+            </div>
+          ) : (
+            <div className="box mt-2">
+              <p>No Data Found</p>
+            </div>
+          )
+        ) : null}
+      </section>
     </>
   );
 };
