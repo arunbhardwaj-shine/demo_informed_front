@@ -388,7 +388,7 @@ const FilterSegment = (props) => {
           <div className="row justify-content-end align-items-center">
             <div className="col-12 col-md-6">
               <NavLink to="/CreateSmartList" className="active">
-                Go Back
+                Back
               </NavLink>
             </div>
             <div className="col-12 col-md-6">

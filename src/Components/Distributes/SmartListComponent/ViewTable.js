@@ -545,7 +545,13 @@ const ViewTable = (props) => {
       };
 
       console.log(body.data);
-      if (body.data[0].first_name) {
+      if (
+        body.data[0].first_name &&
+        body.data[0].last_name &&
+        body.data[0].email &&
+        body.data[0].country &&
+        body.data[0].contact_type
+      ) {
         loader("show");
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         await axios
@@ -574,6 +580,12 @@ const ViewTable = (props) => {
           .catch((err) => {
             toast.error("Something went wrong");
           });
+      } else {
+        popup_alert({
+          visible: "show",
+          message: "Please enter the valid details.",
+          type: "error",
+        });
       }
 
       setIsOpen(false);
@@ -662,7 +674,7 @@ const ViewTable = (props) => {
   const showSucessPopup = () => {
     popup_alert({
       visible: "show",
-      message: "The HCP record has been deleted successfully",
+      message: "The HCP record has been deleted successfully !",
       type: "success",
     });
 
@@ -985,8 +997,8 @@ const ViewTable = (props) => {
         <Modal.Body>
           <img src={path + "alert.png"} alt="" />
           <h4>
-            The HCP record will be deleted from the list Are you sure you want
-            to delete it?{" "}
+            The HCP record will be deleted from the list.
+            <br /> Are you sure you want to delete it?{" "}
           </h4>
 
           <div class="modal-buttons">
