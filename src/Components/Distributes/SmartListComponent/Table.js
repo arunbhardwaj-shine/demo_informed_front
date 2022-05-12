@@ -690,7 +690,7 @@ const Table = (props, ref) => {
                 <span>| {editList.length > 0 ? editList.length : 0}</span>
               </h4>
             ) : (
-              <h4>Selected Hcp's for the smart list</h4>
+              <h4>Selected HCPs for the smart list</h4>
             )}
 
             <div class="selected-hcp-table-action">
