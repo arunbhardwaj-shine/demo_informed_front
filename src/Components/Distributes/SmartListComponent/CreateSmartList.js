@@ -9,7 +9,7 @@ import SimpleReactValidator from "simple-react-validator";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { loader } from "../../../loader";
-
+import { popup_alert } from "../../../popup_alert";
 const CreateSmartList = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -33,26 +33,22 @@ const CreateSmartList = () => {
     setSelectedFile(null);
   };
   const handleShow = () => {
-
-
-    if(!smartListName.trim()){
-
-        toast.warning("Please enter the samrt list name first");
-    }else if(!creatorName.trim()){
+    if (!smartListName.trim()) {
+      toast.warning("Please enter the samrt list name first");
+    } else if (!creatorName.trim()) {
       toast.warning("Please enter the creator name");
-    }else{
-        setShow(true);
-        var element = document.querySelector(".upload-opt");
-        var element2 = document.querySelector(".group-opt");
-        element2.classList.remove("active");
-        if (element.classList.contains("active")) {
-          element.classList.remove("active");
-        } else {
-          element.classList.add("active");
-        }
+    } else {
+      setShow(true);
+      var element = document.querySelector(".upload-opt");
+      var element2 = document.querySelector(".group-opt");
+      element2.classList.remove("active");
+      if (element.classList.contains("active")) {
+        element.classList.remove("active");
+      } else {
+        element.classList.add("active");
+      }
     }
-
-  }
+  };
 
   const handleSmartListName = async (event) => {
     setSmartListName(event.target.value);
@@ -87,28 +83,24 @@ const CreateSmartList = () => {
   };
 
   const toggleSelection = (elm) => {
+    var element = document.querySelector("." + elm);
+    var element2 = document.querySelector(".upload-opt");
+    element2.classList.remove("active");
 
-      var element = document.querySelector("."+elm);
-      var element2 = document.querySelector(".upload-opt");
-       element2.classList.remove("active");
-
-       if(!smartListName.trim()){
-
-           toast.warning("Please enter the samrt list name first");
-       }else if(!creatorName.trim()){
-          toast.warning("Please enter the creator name");
-        }else{
-
-          if (element.classList.contains("active")) {
-            element.classList.remove("active");
-          } else {
-            element.classList.add("active");
-          }
-          navigate("/SmartListFilter", {state: { smartListName: smartListName, creatorName: creatorName }});
-        }
-
-
-
+    if (!smartListName.trim()) {
+      toast.warning("Please enter the samrt list name first");
+    } else if (!creatorName.trim()) {
+      toast.warning("Please enter the creator name");
+    } else {
+      if (element.classList.contains("active")) {
+        element.classList.remove("active");
+      } else {
+        element.classList.add("active");
+      }
+      navigate("/SmartListFilter", {
+        state: { smartListName: smartListName, creatorName: creatorName },
+      });
+    }
   };
 
   const clickNext = (event) => {
@@ -129,15 +121,16 @@ const CreateSmartList = () => {
     // navigate("/SmartListFilter", {state: { smartListName: "My test" }});
   };
 
+  const closeClicked = () => {
+    navigate("/SmartList");
+  };
+
   const uploadFile = async () => {
-
-      setShow(false);
+    setShow(false);
     if (selectedFile === null) {
-
-      toast.warning("Please upload file first")
+      toast.warning("Please upload file first");
 
       return false;
-
     }
 
     let formData = new FormData();
@@ -154,12 +147,25 @@ const CreateSmartList = () => {
     await axios
       .post(`distributes/create_smart_list_with_excel`, formData)
       .then((res) => {
-        setData(res.data.response.data);
-        navigate("/UploadExcel", {
-          state: { data: res.data.response.data, smartListName: smartListName, creator: creatorName },
-        });
+        if (res.data.status_code === 200) {
+          setData(res.data.response.data);
+          navigate("/UploadExcel", {
+            state: {
+              data: res.data.response.data,
+              smartListName: smartListName,
+              creator: creatorName,
+            },
+          });
+
+          setapi_flag(api_flag + 1);
+        } else {
+          popup_alert({
+            visible: "show",
+            message: res.data.message,
+            type: "error",
+          });
+        }
         loader("hide");
-        setapi_flag(api_flag + 1);
       })
       .catch((err) => {
         console.log(err);
@@ -167,120 +173,181 @@ const CreateSmartList = () => {
   };
 
   useEffect(() => {
-
-    if(typeof creator !== "undefined" &&  creator != ""){
-        setCreatorName(creator);
+    if (typeof creator !== "undefined" && creator != "") {
+      setCreatorName(creator);
     }
   }, [smartListName]);
 
   return (
     <>
+      <div class="right-sidebar">
+        <div class="page-top-nav smart_list_names">
+          <div class="row justify-content-end align-items-center">
+            <div class="col-12 col-md-11">
+              <ul class="tabnav-link">
+                <li class="active">
+                  <a href="javascript:void(0)">Create smart list</a>
+                </li>
+                <li class="">
+                  <a href="javascript:void(0)">?</a>
+                </li>
+              </ul>
+            </div>
+            <div class="col-12 col-md-1">
+              <div class="header-btn-right">
+                <button
+                  class="btn btn-primary btn-bordered light"
+                  onClick={closeClicked}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <section class="create_smart_list">
+          <div class="create_smart_list_inset">
+            <div class="create-smart-step">
+              <h2>STEP1</h2>
+              <div class="create-smart-step-box">
+                <form>
+                  <div class="row justify-content-between align-items-center">
+                    <div class="form-group col">
+                      <label for="smart-list-name">Enter smart list name</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        value={smartListName}
+                        onChange={(event) => handleSmartListName(event)}
+                      />
+                    </div>
 
-         <div class="right-sidebar">
-					<div class="page-top-nav smart_list_names">
-						<div class="row justify-content-end align-items-center">
-							<div class="col-12 col-md-11">
-								<ul class="tabnav-link">
-									<li class="active">
-										<a href="javascript:void(0)">Create smart list</a>
-									</li>
-									<li class="">
-										<a href="javascript:void(0)">?</a>
-									</li>
-								</ul>
-							</div>
-							<div class="col-12 col-md-1">
-								<div class="header-btn-right">
-									<button class="btn btn-primary btn-bordered light">Cancel</button>
-								</div>
-							</div>
-						 </div>
-					</div>
-					<section class="create_smart_list">
-						<div class="create_smart_list_inset">
-							<div class="create-smart-step">
-								<h2>STEP1</h2>
-								<div class="create-smart-step-box">
-									<form>
-										<div class="row justify-content-between align-items-center">
-											<div class="form-group col">
-												<label for="smart-list-name">Enter smart list name</label>
-												<input type="text" class="form-control"  value={smartListName}
-                           onChange={(event) => handleSmartListName(event)} />
-											</div>
+                    <div class="form-group col">
+                      <label for="creator-name">Creator’s Name</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        value={creatorName}
+                        onChange={(event) => handleCreatorName(event)}
+                      />
+                    </div>
 
-											<div class="form-group col">
-												<label for="creator-name">Creator’s Name</label>
-												<input type="text" class="form-control"  value={creatorName}
-                        onChange={(event) => handleCreatorName(event)} />
-											</div>
-
-											<div class="form-group col-sm-12">
-												<div class="form-group-content">
-													<p>I want this to be a <span>Demo list</span></p>
-													<div class="select-demo-option">
-														<input type="radio" name="radio" />
-														<span class="checkmark"></span>
-													</div>
-													<a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Step to create smart list"><img src={path + "question.svg"} alt=""/></a>
-												</div>
-											</div>
-										</div>
-									</form>
-								</div>
-							</div>
-							<div class="create-smart-step">
-								<h2>STEP2</h2>
-								<div class="create-smart-step-box">
-									<h5>How do you want to create your smart list ?</h5>
-									<ul>
-										<li>
-                      <div class="send-option-img group-opt">
-                        <input  onClick={(event) => toggleSelection("group-opt")} type="radio" name="select-option-hcp"  id="segment" value={activeClass}  />
-                          <img  src={path + "group-hcp.svg"} alt="Group HCPs" />
-
-                      </div>
-                      <p>Segment from current cohort </p>
-                    </li>
-										<li>
-                      <div class="send-option-img upload-opt" data-bs-toggle="modal" data-bs-target="#upload-confirm">
-                        <input type="radio" onClick={handleShow} name="select-option-hcp" /><img   src={path + "upload-btn.svg"} alt="Single HCP" /> {filename != "" ? <p>{filename}</p> : null}
+                    <div class="form-group col-sm-12">
+                      <div class="form-group-content">
+                        <p>
+                          I want this to be a <span>Demo list</span>
+                        </p>
+                        <div class="select-demo-option">
+                          <input type="radio" name="radio" />
+                          <span class="checkmark"></span>
                         </div>
-                        <p>Upload new HCPs</p>
-                    </li>
-									</ul>
-								</div>
-							</div>
-							<div class="download-sample">
-								<p>Download sample Excel file to upload new HCPs</p>
-								<div class="upload-btn">
-									  <label for="input-file">Download File</label>
-
-								</div>
-							</div>
-							</div>
-              </section>
-						</div>
-
-            <Modal className="send-confirm" id="upload-confirm" show={show} onHide={handleClose}>
-              <Modal.Header >
-                <h4>Upload File</h4>
-                <button type="button" onClick={handleClose} class="btn-close" data-bs-dismiss="modal"></button>
-
-              </Modal.Header>
-              <Modal.Body>
-                <div class="upload-file-box">
-                  <div class="box">
-                    <input type="file" name="file-4[]" id="file-4" class="inputfile inputfile-3" onChange={onFileChange} data-multiple-caption="{count} files selected" multiple />
-                    <label for="file-4"><span>Choose Your File</span></label>
-                    <p>Upload your new list file</p>
+                        <a
+                          href="#"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="top"
+                          title="Step to create smart list"
+                        >
+                          <img src={path + "question.svg"} alt="" />
+                        </a>
+                      </div>
+                    </div>
                   </div>
-                  </div>
-                <div class="modal-buttons">
-                  <button type="button" class="btn btn-primary btn-bordered light"  onClick={uploadFile} data-bs-dismiss="modal">Upload</button>
-                </div>
-              </Modal.Body>
-          </Modal>
+                </form>
+              </div>
+            </div>
+            <div class="create-smart-step">
+              <h2>STEP2</h2>
+              <div class="create-smart-step-box">
+                <h5>How do you want to create your smart list ?</h5>
+                <ul>
+                  <li>
+                    <div class="send-option-img group-opt">
+                      <input
+                        onClick={(event) => toggleSelection("group-opt")}
+                        type="radio"
+                        name="select-option-hcp"
+                        id="segment"
+                        value={activeClass}
+                      />
+                      <img src={path + "group-hcp.svg"} alt="Group HCPs" />
+                    </div>
+                    <p>Segment from current cohort </p>
+                  </li>
+                  <li>
+                    <div
+                      class="send-option-img upload-opt"
+                      data-bs-toggle="modal"
+                      data-bs-target="#upload-confirm"
+                    >
+                      <input
+                        type="radio"
+                        onClick={handleShow}
+                        name="select-option-hcp"
+                      />
+                      <img src={path + "upload-btn.svg"} alt="Single HCP" />{" "}
+                      {filename != "" ? <p>{filename}</p> : null}
+                    </div>
+                    <p>Upload new HCPs</p>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="download-sample">
+              <p>Download sample Excel file to upload new HCPs</p>
+              <div class="upload-btn">
+                <label for="input-file">Download File</label>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <Modal
+        className="send-confirm"
+        id="upload-confirm"
+        show={show}
+        onHide={handleClose}
+      >
+        <Modal.Header>
+          <h4>Upload File</h4>
+          <button
+            type="button"
+            onClick={handleClose}
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
+        </Modal.Header>
+        <Modal.Body>
+          <div class="upload-file-box">
+            <div class="box">
+              <input
+                type="file"
+                name="file-4[]"
+                id="file-4"
+                class="inputfile inputfile-3"
+                accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                onChange={onFileChange}
+                data-multiple-caption="{count} files selected"
+                multiple
+              />
+              <label for="file-4">
+                <span>Choose Your File</span>
+              </label>
+              <p>Upload your new list file</p>
+            </div>
+          </div>
+          <div class="modal-buttons">
+            <button
+              type="button"
+              class="btn btn-primary btn-bordered light"
+              onClick={uploadFile}
+              data-bs-dismiss="modal"
+            >
+              Upload
+            </button>
+          </div>
+        </Modal.Body>
+      </Modal>
     </>
   );
 };

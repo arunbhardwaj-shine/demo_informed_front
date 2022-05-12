@@ -1,5 +1,11 @@
 import axios from "axios";
-import React, { useEffect, useState, forwardRef, useRef, useImperativeHandle } from "react";
+import React, {
+  useEffect,
+  useState,
+  forwardRef,
+  useRef,
+  useImperativeHandle,
+} from "react";
 import { Link } from "react-router-dom";
 import { Button, Modal } from "react-bootstrap";
 import { confirmAlert } from "react-confirm-alert";
@@ -11,7 +17,7 @@ import { popup_alert } from "../../../popup_alert";
 import queryString from "query-string";
 import { connect } from "react-redux";
 
-const Table = (props,ref) => {
+const Table = (props, ref) => {
   const [inEditMode, setInEditMode] = useState({
     status: false,
     rowKey: null,
@@ -24,6 +30,7 @@ const Table = (props,ref) => {
   const [validator2] = React.useState(new SimpleReactValidator());
   const [validator3] = React.useState(new SimpleReactValidator());
   const [isOpen, setIsOpen] = useState(false);
+  const [showLessInfo, setShowLessInfo] = useState(false);
   const [deleteConfirmation, setOpenDeleteConfirmation] = useState(false);
   const [profileUserId, setProfileUserId] = useState();
   const [data, setData] = useState(0);
@@ -60,21 +67,28 @@ const Table = (props,ref) => {
   ]);
   const [countryall, setCountryall] = useState([]);
 
-  useImperativeHandle(ref, () => ({
-    createSmartList(dd) {
-      showFileInReadersList(dd);
-    },
-  }), [])
+  useImperativeHandle(
+    ref,
+    () => ({
+      createSmartList(dd) {
+        showFileInReadersList(dd);
+      },
+    }),
+    []
+  );
 
   useEffect(() => {
     setUpdatedData(props.data);
     setEditList(props.data);
     if (typeof props.listId != "undefined" && props.listId != "") {
       setListId(props.listId);
-    }else{
+    } else {
       setListId(queryParams.listId);
     }
-    if (typeof props.smartListName != "undefined" && props.smartListName != "") {
+    if (
+      typeof props.smartListName != "undefined" &&
+      props.smartListName != ""
+    ) {
       setListName(props.smartListName);
     }
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -85,21 +99,16 @@ const Table = (props,ref) => {
       await axios
         .post(`distributes/filters_list`, body)
         .then((res) => {
-
           setCountryall(res.data.response.data.country);
-          console.log(countryall)
-         // setCounter(counter + 1);
+          console.log(countryall);
+          // setCounter(counter + 1);
         })
         .catch((err) => {
           console.log(err);
         });
     };
     getalCountry();
-
-
   }, []);
-
-
 
   const handleClose = () => {
     setShow(false);
@@ -116,9 +125,14 @@ const Table = (props,ref) => {
   let combine_data;
   let combine_data_manual;
 
-
   const onFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
+  };
+
+  const showMoreInfo = (e) => {
+    e.preventDefault();
+
+    setShowLessInfo(!showLessInfo);
   };
 
   const uploadFile = async (event) => {
@@ -168,33 +182,38 @@ const Table = (props,ref) => {
 
   const showFileInReadersList = async (fdata) => {
     let body = {};
-    if(typeof editList != "undefined" && editList.length > 0){
+    if (typeof editList != "undefined" && editList.length > 0) {
       //for Normal flow
       const profile_user_id_array = editList.map((data) => {
         return data.profile_user_id;
       });
-       body = {
+      body = {
         user_list: profile_user_id_array,
-        smart_list_id: (typeof getlistid !== "undefined") ? getlistid : "",
+        smart_list_id: typeof getlistid !== "undefined" ? getlistid : "",
         user_id: 18207,
         smart_list_name: getlistname,
         submit_type: props.upload_by_filter,
         new_users_list: [],
-        creator_name: (typeof props.creator !== "undefined") ? props.creator : "",
+        creator_name: typeof props.creator !== "undefined" ? props.creator : "",
       };
-    } else if(typeof props != "undefined" && props.hasOwnProperty('data') && props.data.length > 0){
+    } else if (
+      typeof props != "undefined" &&
+      props.hasOwnProperty("data") &&
+      props.data.length > 0
+    ) {
       //Parent Child FLow
       const profile_user_id_array = fdata.map((data) => {
         return data.profile_user_id;
       });
-       body = {
+      body = {
         user_list: profile_user_id_array,
-        smart_list_id: (typeof queryParams.listId !== "undefined") ? queryParams.listId : "",
+        smart_list_id:
+          typeof queryParams.listId !== "undefined" ? queryParams.listId : "",
         user_id: 18207,
         smart_list_name: props.smartListName,
         submit_type: props.upload_by_filter,
         new_users_list: [],
-        creator_name: (typeof props.creator !== "undefined") ? props.creator : "",
+        creator_name: typeof props.creator !== "undefined" ? props.creator : "",
       };
     }
 
@@ -210,14 +229,14 @@ const Table = (props,ref) => {
       .post(`distributes/add_update_list`, body)
       .then((res) => {
         loader("hide");
-        if(res.data.status_code == 200){
+        if (res.data.status_code == 200) {
           popup_alert({
             visible: "show",
             message: "Smart List Saved <br />successfully !",
             type: "success",
             redirect: "/SmartList",
           });
-        }else{
+        } else {
           toast.warning(res.data.message);
         }
       })
@@ -423,12 +442,12 @@ const Table = (props,ref) => {
 
     setEditList(filtered_list);
     props.sendDataToParent(filtered_list);
-      popup_alert({
-        visible: "show",
-        message: "The HCP record has been deleted successfully.",
-        type: "success",
-        redirect: "",
-      });
+    popup_alert({
+      visible: "show",
+      message: "The HCP record has been deleted successfully.",
+      type: "success",
+      redirect: "",
+    });
 
     // const body = {
     //   user_list: filtered_list.map((data) => {
@@ -529,32 +548,34 @@ const Table = (props,ref) => {
         smart_list_id: getlistid,
       };
 
-      loader("show");
-      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      await axios
-        .post(`distributes/add_new_readers_in_list`, body)
-        .then((res) => {
-          if (res.data.status_code === 200) {
-            toast.success("User added successfuly");
+      if (body.data[0].first_name) {
+        loader("show");
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+        await axios
+          .post(`distributes/add_new_readers_in_list`, body)
+          .then((res) => {
+            if (res.data.status_code === 200) {
+              toast.success("User added successfuly");
 
-            let old_data = editList;
+              let old_data = editList;
 
-            let new_data = res.data.response.data;
+              let new_data = res.data.response.data;
 
-            combine_data_manual = [...new_data, ...old_data];
+              combine_data_manual = [...new_data, ...old_data];
 
-            setEditList(combine_data_manual);
-            props.sendDataToParent(combine_data_manual);
-            setUpdatedData(combine_data_manual);
-          } else {
-            toast.warning(res.data.message);
-          }
-          loader("hide");
-        })
-        .catch((err) => {
-          // toast.error("Something went wrong");
-          loader("hide");
-        });
+              setEditList(combine_data_manual);
+              props.sendDataToParent(combine_data_manual);
+              setUpdatedData(combine_data_manual);
+            } else {
+              toast.warning(res.data.message);
+            }
+            loader("hide");
+          })
+          .catch((err) => {
+            // toast.error("Something went wrong");
+            loader("hide");
+          });
+      }
       setIsOpen(false);
       //setIsOpen(false);
     } else {
@@ -566,29 +587,31 @@ const Table = (props,ref) => {
       console.log(formData);
 
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      loader("show");
-      await axios
-        .post(`distributes/update_reader_list`, formData)
-        .then((res) => {
-          if (res.data.status_code === 200) {
-            toast.success("User added successfuly");
-            console.log(res.data.response.data);
-            let old_data = editList;
-            let new_data = res.data.response.data;
-            combine_data = [...new_data, ...old_data];
-            // console.log(combine_data);
-            setEditList(combine_data);
-            props.sendDataToParent(combine_data);
-            setUpdatedData(combine_data);
-          } else {
-            toast.warning(res.data.message);
-          }
-          loader("hide");
-        })
-        .catch((err) => {
-          toast.error("Something went wrong");
-          loader("hide");
-        });
+      if (selectedFile) {
+        loader("show");
+        await axios
+          .post(`distributes/update_reader_list`, formData)
+          .then((res) => {
+            if (res.data.status_code === 200) {
+              toast.success("User added successfuly");
+              console.log(res.data.response.data);
+              let old_data = editList;
+              let new_data = res.data.response.data;
+              combine_data = [...new_data, ...old_data];
+              // console.log(combine_data);
+              setEditList(combine_data);
+              props.sendDataToParent(combine_data);
+              setUpdatedData(combine_data);
+            } else {
+              toast.warning(res.data.message);
+            }
+            loader("hide");
+          })
+          .catch((err) => {
+            toast.error("Something went wrong");
+            loader("hide");
+          });
+      }
       setIsOpen(false);
     }
     setHpc([
@@ -671,26 +694,26 @@ const Table = (props,ref) => {
             )}
 
             <div class="selected-hcp-table-action">
-              {/*
-                <a class="show-less-info" href="#">
-                  Show Less information{" "}
-                </a>
-                */
-              }
+              <a className="show-less-info" onClick={(e) => showMoreInfo(e)}>
+                {showLessInfo == true ? (
+                  <p>Show More information</p>
+                ) : (
+                  <p>Show less info</p>
+                )}{" "}
+              </a>
+
               <div class="hcp-new-user">
                 <button class="btn btn-outline-primary" onClick={handleShow}>
                   <img src={path + "new-user.svg"} alt="New User" />
                 </button>
               </div>
-              {
-                /*
+              {/*
                 <div class="hcp-added">
                   <button class="btn btn-outline-primary">
                     <img src={path + "edit-button.svg"} alt="Edit" />
                   </button>
                 </div>
-                */
-              }
+                */}
               <div class="hcp-sort">
                 <button class="btn btn-outline-primary" onClick={sortdata}>
                   Sort By <img src={path + "sort.svg"} alt="Shorting" />
@@ -706,10 +729,15 @@ const Table = (props,ref) => {
                   <th scope="col">Email</th>
                   <th scope="col">Bounced</th>
                   <th scope="col">Country</th>
-                  <th scope="col">Readers</th>
-                  <th scope="col">Business Unit</th>
-                  <th scope="col">Interest</th>
-                  <th scope="col"></th>
+                  {showLessInfo == false ? (
+                    <>
+                      {" "}
+                      <th scope="col">Readers</th>
+                      <th scope="col">Business Unit</th>
+                      <th scope="col">Interest</th>
+                      <th scope="col"></th>{" "}
+                    </>
+                  ) : null}
                 </tr>
               </thead>
               <tbody>
@@ -752,9 +780,9 @@ const Table = (props,ref) => {
                         item.country
                       )}
                     </td>
-                    <td>N/A</td>
-                    <td>N/A</td>
-                    <td>N/A</td>
+                    {showLessInfo == false ? <td>NA</td> : null}
+                    {showLessInfo == false ? <td>NA</td> : null}
+                    {showLessInfo == false ? <td>NA</td> : null}
                     <td
                       class="delete_row"
                       colspan="12"
@@ -1018,14 +1046,19 @@ const Table = (props,ref) => {
                                 onChange={(event) => onCountryChange(event, i)}
                               >
                                 <option selected>Select Country</option>
-                                {countryall.length === 0 ? "" : (Object.entries(countryall).map(([index, item]) => {
-                                    return (
-                                      <>
-                                         <option value={index}>{item}</option>
-                                      </>
-                                    );
-                                  })) }
-
+                                {countryall.length === 0
+                                  ? ""
+                                  : Object.entries(countryall).map(
+                                      ([index, item]) => {
+                                        return (
+                                          <>
+                                            <option value={index}>
+                                              {item}
+                                            </option>
+                                          </>
+                                        );
+                                      }
+                                    )}
                               </select>
                               {i !== 0 && (
                                 <button
@@ -1062,7 +1095,7 @@ const Table = (props,ref) => {
                       className="btn btn-filled"
                       onClick={addMoreHcp}
                     >
-                     <img src={path_image + "add-row.png"} alt="Add More" />
+                      <img src={path_image + "add-row.png"} alt="Add More" />
                     </button>
                   </div>
                   <ul className="nav nav-tabs" role="tablist">

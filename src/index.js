@@ -46,6 +46,7 @@ import Preview from "./Components/Webinar/Registration/Preview";
 import EditorEmail from "./Components/Webinar/Registration/EditorEmail";
 import Readers from "./Components/Webinar/Readers/Readers";
 import EmailStats from "./Components/Webinar/Email Stats/EmailStats";
+import EmailSand from "./Components/Webinar/Email Stats/EmailSand";
 
 let platform = 0;
 let show = 0;
@@ -148,10 +149,7 @@ ReactDOM.render(
                           path="/webinar/rehearsal"
                           element={<Rehearsal />}
                         />
-                        <Route
-                          path="/webinar/readers"
-                          element={<Readers />}
-                        />
+                        <Route path="/webinar/readers" element={<Readers />} />
                         <Route
                           path="/webinar/template"
                           element={<Template />}
@@ -167,6 +165,10 @@ ReactDOM.render(
                         <Route
                           path="/webinar/emailstats"
                           element={<EmailStats />}
+                        />
+                        <Route
+                          path="/webinar/sandemail"
+                          element={<EmailSand />}
                         />
                       </Route>
                     </React.Fragment>

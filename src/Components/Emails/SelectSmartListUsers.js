@@ -18,6 +18,7 @@ const SelectSmartListUsers = (props) => {
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
   const [SendListData, setSendListData] = useState([]);
   const [PdfSelected, setPdfSelected] = useState(0);
+  const [showLessInfo, setShowLessInfo] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [TemplateId, setTemplateId] = useState(0);
   const [removedReaders, setRemovedReaders] = useState([]);
@@ -161,6 +162,12 @@ const SelectSmartListUsers = (props) => {
 
   const onFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
+  };
+
+  const showMoreInfo = (e) => {
+    e.preventDefault();
+
+    setShowLessInfo(!showLessInfo);
   };
 
   const onFirstNameChange = (e, i) => {
@@ -448,9 +455,13 @@ const SelectSmartListUsers = (props) => {
                 HCPs <span>| {smartListSelected.readers_count}</span>
               </h4>
               <div className="selected-hcp-table-action">
-                {/* <a className="show-less-info" href="#">
-                  Show Less information{" "}
-                </a> */}
+                <a className="show-less-info" onClick={(e) => showMoreInfo(e)}>
+                  {showLessInfo == true ? (
+                    <p>Show More information</p>
+                  ) : (
+                    <p>Show less info</p>
+                  )}{" "}
+                </a>
                 <div className="hcp-new-user">
                   <button
                     className="btn btn-outline-primary"
@@ -484,13 +495,16 @@ const SelectSmartListUsers = (props) => {
                     <th scope="col">Country</th>
                     <th scope="col">Readers</th>
                     <th scope="col">Business Unit</th>
-                    <th scope="col">Interest</th>
-                    <th scope="col">Consent</th>
-                    <th scope="col">Email Received</th>
-                    <th scope="col">Openings</th>
-                    <th scope="col">Registrations</th>
-                    <th scope="col">Last Email</th>
-                    <th scope="col"></th>
+                    {showLessInfo == false ? (
+                      <>
+                        <th scope="col">Interest</th>
+                        <th scope="col">Consent</th>
+                        <th scope="col">Email Received</th>
+                        <th scope="col">Openings</th>
+                        <th scope="col">Registrations</th>
+                        <th scope="col">Last Email</th>
+                      </>
+                    ) : null}
                   </tr>
                 </thead>
                 <tbody>
@@ -504,7 +518,13 @@ const SelectSmartListUsers = (props) => {
                           <td>{rr.country}</td>
                           <td>NA</td>
                           <td>NA</td>
-                          <td>NA</td>
+                          {showLessInfo == false ? <td>NA</td> : null}
+                          {showLessInfo == false ? <td>NA</td> : null}
+                          {showLessInfo == false ? <td>NA</td> : null}
+                          {showLessInfo == false ? <td>NA</td> : null}
+                          {showLessInfo == false ? <td>NA</td> : null}
+                          {showLessInfo == false ? <td>NA</td> : null}
+                          {/* <td>NA</td>
                           <td>
                             <span>NA</span>
                           </td>
@@ -512,14 +532,14 @@ const SelectSmartListUsers = (props) => {
                             <span>NA</span>
                           </td>
                           <td>
-                            <span>30</span>
-                          </td>
-                          <td>
                             <span>NA</span>
                           </td>
                           <td>
                             <span>NA</span>
                           </td>
+                          <td>
+                            <span>NA</span>
+                          </td> */}
                           <td className="add-new-hcp" colspan="12">
                             <img
                               src={path_image + "add-row.png"}
@@ -571,22 +591,12 @@ const SelectSmartListUsers = (props) => {
                           <td>{readers.country}</td>
                           <td>NA</td>
                           <td>NA</td>
-                          <td>NA</td>
-                          <td>
-                            <span>NA</span>
-                          </td>
-                          <td>
-                            <span>NA</span>
-                          </td>
-                          <td>
-                            <span>NA</span>
-                          </td>
-                          <td>
-                            <span>NA</span>
-                          </td>
-                          <td>
-                            <span>NA 18</span>
-                          </td>
+                          {showLessInfo == false ? <td>NA</td> : null}
+                          {showLessInfo == false ? <td>NA</td> : null}
+                          {showLessInfo == false ? <td>NA</td> : null}
+                          {showLessInfo == false ? <td>NA</td> : null}
+                          {showLessInfo == false ? <td>NA</td> : null}
+                          {showLessInfo == false ? <td>NA</td> : null}
                           <td className="delete_row" colspan="12">
                             <img
                               src={path_image + "delete.svg"}
@@ -608,22 +618,12 @@ const SelectSmartListUsers = (props) => {
                           <td>{readers.country}</td>
                           <td>NA</td>
                           <td>NA</td>
-                          <td>NA</td>
-                          <td>
-                            <span>NA</span>
-                          </td>
-                          <td>
-                            <span>NA</span>
-                          </td>
-                          <td>
-                            <span>NA</span>
-                          </td>
-                          <td>
-                            <span>NA</span>
-                          </td>
-                          <td>
-                            <span>NA</span>
-                          </td>
+                          {showLessInfo == false ? <td>NA</td> : null}
+                          {showLessInfo == false ? <td>NA</td> : null}
+                          {showLessInfo == false ? <td>NA</td> : null}
+                          {showLessInfo == false ? <td>NA</td> : null}
+                          {showLessInfo == false ? <td>NA</td> : null}
+                          {showLessInfo == false ? <td>NA</td> : null}
                           <td className="delete_row" colspan="12">
                             <img
                               src={path_image + "delete.svg"}
