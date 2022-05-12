@@ -386,12 +386,27 @@ const FilterSegment = (props) => {
       {typeof props.action !== "undefined" && props.action == "create" && (
         <div className="page-top-nav smart_list_names create_filter_list">
           <div className="row justify-content-end align-items-center">
-            <div className="col-12 col-md-6">
-              <NavLink to="/CreateSmartList" className="active">
-                Back
-              </NavLink>
+            <div className="col-12 col-md-1">
+                <div class="header-btn-left">
+					        <button class="btn btn-primary btn-bordered back">
+                    <NavLink to="/CreateSmartList" className="active">
+                      Back
+                    </NavLink>
+                  </button>
+							  </div>
             </div>
-            <div className="col-12 col-md-6">
+            <div class="col-12 col-md-9">
+								<ul class="tabnav-link">
+									<li class="">
+										<a href="javascript:void(0)">Create smart list</a>
+									</li>
+									<li class="active">
+										<a href="javascript:void(0)">Select & Verify your HCPs</a>
+									</li>
+								</ul>
+							</div>
+
+            <div className="col-12 col-md-2">
               <div className="header-btn">
                 <button className="btn btn-primary btn-bordered light">
                   <NavLink to="/SmartList">Cancel</NavLink>
