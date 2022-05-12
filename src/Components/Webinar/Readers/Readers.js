@@ -13,6 +13,8 @@ import CsvDownload from 'react-json-to-csv'
 const Readers = () => {
   const [data, setData] = useState();
   const [type, setType] = useState();
+  const [paginate, setPaginate] = useState();
+  const [currentPage, setCurrentPage] = useState();
   const [countryvalue, setCountryValue] = useState();
   const [event, setEvent] = useState([]);
   const [eventId, setEventId] = useState();
@@ -24,14 +26,31 @@ const Readers = () => {
   const handleGetReadersData = (id) => {
     ExportApi.ReadersData(id).then((resp) => {
       if (resp.ok) {
-        console.log(resp.data.code);
+         console.log(resp.data.data.paginate.currentPage);
         if (resp.data.code === 404) {
           setMassage("Data Not Found");
           setData();
           setFlag(false);
         } else {
+          setPaginate(resp.data.data.paginate)
+           setCurrentPage(resp.data.data.paginate.currentPage)
           setData(resp.data.data.data);
           setFlag(true);
+        }
+      }
+    });
+  };
+  const handleGetReadersDataPage = (id) => {
+    ExportApi.ReadersPage(id,eventId).then((resp) => {
+      if (resp.ok) {
+        console.log(resp.data);
+        if (resp.data.code === 404) {
+          setMassage("Data Not Found");
+          setData();
+        } else {
+          setPaginate(resp.data.data.paginate)
+          setCurrentPage(resp.data.data.paginate.currentPage)
+          setData(resp.data.data.data);
         }
       }
     });
@@ -95,7 +114,7 @@ const Readers = () => {
       ExportApi.ReadersBlock(id, 1).then((resp) => {
         if (resp.ok) {
           if (resp.data.code == 200) {
-            handleGetReadersData(eventId)
+            handleGetReadersDataPage(currentPage)
             toast.success(resp.data.message, {
               position: "top-right",
               autoClose: 5000,
@@ -123,7 +142,7 @@ const Readers = () => {
           // console.log(resp.data.data)
           // setCountryName(resp.data.data);
           if (resp.data.code == 200) {
-            handleGetReadersData(eventId)
+            handleGetReadersDataPage(currentPage)
             toast.success(resp.data.message, {
               position: "top-right",
               autoClose: 5000,
@@ -159,7 +178,7 @@ const Readers = () => {
     ExportApi.ReadersBlockt(id,val).then((resp) => {
       if (resp.ok) {
         console.log(resp.data);
-        handleGetReadersData(eventId)
+        handleGetReadersDataPage(currentPage)
         if (resp.data.code == 200) {
           toast.success(resp.data.message, {
             position: "top-right",
@@ -319,7 +338,7 @@ const Readers = () => {
                                   width={70}
                                   onClick={() => {
                                     handleBlock(val.id, val.is_blocked);
-                                    handleGetReadersData(eventId);
+                                    handleGetReadersDataPage(currentPage);
                                   }}
                                 />
                               ) : (
@@ -327,7 +346,7 @@ const Readers = () => {
                                   src={Lock}
                                   onClick={() => {
                                     handleBlock(val.id, val.is_blocked);
-                                    handleGetReadersData(eventId);
+                                    handleGetReadersDataPage(currentPage);
                                   }}
                                   width={70}
                                 />
@@ -338,7 +357,13 @@ const Readers = () => {
                       ) : (
                         <h2>{massage}</h2>
                       )}
+                      {console.log(currentPage)}
                     </tbody>
+                    <Row style={{color:"blue"}}>
+                      {/* <Col></Col> */}
+                      {paginate.previousPageUrl? <Col><p style={{cursor:"pointer"}} onClick={()=>{handleGetReadersDataPage(currentPage-1)}}>Previous </p></Col>:null}
+                      {paginate.nextPageUrl? <Col><p style={{cursor:"pointer"}} onClick={()=>{handleGetReadersDataPage(currentPage+1)}}>Next</p></Col>:null}
+                    </Row>
                   </Table>
                 </Col>
               </Row>
