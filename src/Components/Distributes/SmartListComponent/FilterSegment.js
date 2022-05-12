@@ -394,7 +394,7 @@ const FilterSegment = (props) => {
             <div className="col-12 col-md-6">
               <div className="header-btn">
                 <button className="btn btn-primary btn-bordered light">
-                  <NavLink to="/SmartList">Cancel</NavLink>
+                  <NavLink to="/CreateSmartList">Cancel</NavLink>
                 </button>
                 <button
                   className="btn btn-primary btn-bordered save-as"

@@ -7,7 +7,7 @@ import TableOnly from "./TableOnly";
 import { Navigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
-
+import { popup_alert } from "../../popup_alert";
 import { Modal } from "react-bootstrap";
 const SelectSmartListUsers = (props) => {
   const navigate = useNavigate();
@@ -337,28 +337,44 @@ const SelectSmartListUsers = (props) => {
         user_id: 18207,
         smart_list_id: "",
       };
-      loader("show");
 
-      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      await axios
-        .post(`distributes/add_new_readers_in_list`, body)
-        .then((res) => {
-          if (res.data.status_code === 200) {
-            toast.success("User added successfuly");
-            res.data.response.data.map((data) => {
-              setReaders((oldArray) => [...oldArray, data]);
-            });
+      if (
+        body.data[0].first_name &&
+        body.data[0].last_name &&
+        body.data[0].email &&
+        body.data[0].country &&
+        body.data[0].contact_type
+      ) {
+        loader("show");
+
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+        await axios
+          .post(`distributes/add_new_readers_in_list`, body)
+          .then((res) => {
+            if (res.data.status_code === 200) {
+              toast.success("User added successfuly");
+              res.data.response.data.map((data) => {
+                setReaders((oldArray) => [...oldArray, data]);
+              });
+              loader("hide");
+            } else {
+              toast.warning(res.data.message);
+            }
+
+            //setSelectedHcp(res.data.response.data);
+          })
+          .catch((err) => {
             loader("hide");
-          } else {
-            toast.warning(res.data.message);
-          }
-
-          //setSelectedHcp(res.data.response.data);
-        })
-        .catch((err) => {
-          loader("hide");
-          toast.error("Somwthing went wrong");
+            toast.error("Somwthing went wrong");
+          });
+      } else {
+        popup_alert({
+          visible: "show",
+          message: "Please fill the necessary details",
+          type: "error",
         });
+      }
+
       setIsOpen(false);
     } else {
       let formData = new FormData();
@@ -369,18 +385,21 @@ const SelectSmartListUsers = (props) => {
       console.log(formData);
 
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      loader("show");
-      await axios
-        .post(`distributes/update_reader_list`, formData)
-        .then((res) => {
-          res.data.response.data.map((data) => {
-            setReaders((oldArray) => [...oldArray, data]);
+      if (selectedFile) {
+        loader("show");
+        await axios
+          .post(`distributes/update_reader_list`, formData)
+          .then((res) => {
+            res.data.response.data.map((data) => {
+              setReaders((oldArray) => [...oldArray, data]);
+            });
+            loader("hide");
+          })
+          .catch((err) => {
+            console.log(err);
           });
-          loader("hide");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      }
+
       setIsOpen(false);
     }
     setHpc([

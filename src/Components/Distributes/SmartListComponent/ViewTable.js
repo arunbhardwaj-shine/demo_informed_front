@@ -517,6 +517,12 @@ const ViewTable = (props) => {
     });
     if (r_table.length > 0) {
       setEditList(r_table);
+    } else {
+      popup_alert({
+        visible: "show",
+        message: "Data not found",
+        type: "error",
+      });
     }
     event.preventDefault();
     return false;
@@ -1166,6 +1172,7 @@ const ViewTable = (props) => {
                       className="form-control"
                       multiple=""
                       onChange={onFileChange}
+                      accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                     />
                   </div>
                 </form>

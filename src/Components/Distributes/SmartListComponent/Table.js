@@ -548,7 +548,13 @@ const Table = (props, ref) => {
         smart_list_id: getlistid,
       };
 
-      if (body.data[0].first_name) {
+      if (
+        body.data[0].first_name &&
+        body.data[0].last_name &&
+        body.data[0].email &&
+        body.data[0].country &&
+        body.data[0].contact_type
+      ) {
         loader("show");
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         await axios
@@ -575,6 +581,12 @@ const Table = (props, ref) => {
             // toast.error("Something went wrong");
             loader("hide");
           });
+      } else {
+        popup_alert({
+          visible: "show",
+          message: "Please fill the necessary details",
+          type: "error",
+        });
       }
       setIsOpen(false);
       //setIsOpen(false);
@@ -1081,7 +1093,7 @@ const Table = (props, ref) => {
                     <input
                       type="file"
                       className="form-control"
-                      multiple=""
+                      accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                       onChange={onFileChange}
                     />
                   </div>
@@ -1147,7 +1159,11 @@ const Table = (props, ref) => {
             <div className="card-header"> Upload your new list file</div>
             <div className="card-body">
               <h5 className="card-title"></h5>
-              <input type="file" onChange={onFileChange} />
+              <input
+                type="file"
+                onChange={onFileChange}
+                accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+              />
               {validator2.message("file", selectedFile, "required")}
 
               <br />

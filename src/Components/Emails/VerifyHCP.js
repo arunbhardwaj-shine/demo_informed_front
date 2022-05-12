@@ -7,6 +7,7 @@ import { getCampaignId } from "../../actions";
 import axios from "axios";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
+import { popup_alert } from "../../popup_alert";
 
 const VerifyHCP = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -143,17 +144,20 @@ const VerifyHCP = (props) => {
   };
 
   const sortSelectedUsers = () => {
+    // console.log("Anuj");
     let normalArr = [];
     normalArr = selectedHcp;
     if (sorting === 0) {
       normalArr.sort((a, b) =>
-        a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+        a.first_name > b.first_name ? 1 : b.first_name > a.first_name ? -1 : 0
       );
     } else {
       normalArr.sort((a, b) =>
-        a.name < b.name ? 1 : b.name < a.name ? -1 : 0
+        a.first_name < b.first_name ? 1 : b.first_name < a.first_name ? -1 : 0
       );
     }
+
+    console.log(normalArr);
 
     setSelectedHcp(normalArr);
     setSorting(1 - sorting);
@@ -231,6 +235,7 @@ const VerifyHCP = (props) => {
 
   const saveClicked = async () => {
     //  console.log(validator);
+    setIsOpen(false);
 
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
@@ -248,28 +253,43 @@ const VerifyHCP = (props) => {
         user_id: 18207,
         smart_list_id: "",
       };
-      loader("show");
 
-      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      await axios
-        .post(`distributes/add_new_readers_in_list`, body)
-        .then((res) => {
-          if (res.data.status_code === 200) {
-            toast.success("User added successfuly");
-            res.data.response.data.map((data) => {
-              setSelectedHcp((oldArray) => [...oldArray, data]);
-            });
+      if (
+        body.data[0].first_name &&
+        body.data[0].last_name &&
+        body.data[0].email &&
+        body.data[0].country &&
+        body.data[0].contact_type
+      ) {
+        loader("show");
+
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+        await axios
+          .post(`distributes/add_new_readers_in_list`, body)
+          .then((res) => {
+            if (res.data.status_code === 200) {
+              toast.success("User added successfuly");
+              res.data.response.data.map((data) => {
+                setSelectedHcp((oldArray) => [...oldArray, data]);
+              });
+              loader("hide");
+            } else {
+              toast.warning(res.data.message);
+            }
+
+            //setSelectedHcp(res.data.response.data);
+          })
+          .catch((err) => {
             loader("hide");
-          } else {
-            toast.warning(res.data.message);
-          }
-
-          //setSelectedHcp(res.data.response.data);
-        })
-        .catch((err) => {
-          loader("hide");
-          toast.error("Somwthing went wrong");
+            toast.error("Somwthing went wrong");
+          });
+      } else {
+        popup_alert({
+          visible: "show",
+          message: "Please fill the necessary details",
+          type: "error",
         });
+      }
       // setIsOpen(false);
     } else {
       let formData = new FormData();
@@ -280,19 +300,25 @@ const VerifyHCP = (props) => {
       console.log(formData);
 
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      loader("show");
-      await axios
-        .post(`distributes/update_reader_list`, formData)
-        .then((res) => {
-          res.data.response.data.map((data) => {
-            setSelectedHcp((oldArray) => [...oldArray, data]);
+      if (selectedFile) {
+        loader("show");
+        await axios
+          .post(`distributes/update_reader_list`, formData)
+          .then((res) => {
+            if (res.data.status_code === 200) {
+              toast.success("User added successfuly");
+              res.data.response.data.map((data) => {
+                setSelectedHcp((oldArray) => [...oldArray, data]);
+              });
+            }
+
+            loader("hide");
+          })
+          .catch((err) => {
+            console.log(err);
           });
-          loader("hide");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      setIsOpen(false);
+        setIsOpen(false);
+      }
     }
     setHpc([
       {
@@ -540,7 +566,7 @@ const VerifyHCP = (props) => {
             >
               {searchedUsers.length === 0 ? (
                 <div className="not-found">
-                  <h4>No Record Found!</h4>
+                  <h4>No Record Found !</h4>
                 </div>
               ) : (
                 <table className="table">
@@ -838,52 +864,6 @@ const VerifyHCP = (props) => {
                       </>
                     );
                   })}
-                  {/* <div className="row">
-                    <div className="col-12 col-md-6">
-                      <div className="form-group">
-                        <label for="">First Name</label>
-                        <input type="text" className="form-control" />
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-6">
-                      <div className="form-group">
-                        <label for="">Last Name</label>
-                        <input type="text" className="form-control" />
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-6">
-                      <div className="form-group">
-                        <label for="">Email</label>
-                        <input
-                          type="email"
-                          className="form-control"
-                          id="email-desc"
-                        />
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-6">
-                      <div className="form-group">
-                        <label for="">Contact Type</label>
-                        <select className="form-contact" aria-label="select">
-                          <option selected>Select Type</option>
-                          <option value="1">HCP</option>
-                          <option value="2">HCP</option>
-                          <option value="3">HCP</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-6">
-                      <div className="form-group">
-                        <label for="">Country</label>
-                        <select className="country-form" aria-label="select">
-                          <option selected>Select Country</option>
-                          <option value="1">India</option>
-                          <option value="2">USA</option>
-                          <option value="3">Russia</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div> */}
                 </form>
                 <form id="add_file" className={"tab-pane" + activeExcel}>
                   <div className="form-group files">
@@ -892,6 +872,7 @@ const VerifyHCP = (props) => {
                       className="form-control"
                       multiple=""
                       onChange={onFileChange}
+                      accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                     />
                   </div>
                 </form>
@@ -904,7 +885,7 @@ const VerifyHCP = (props) => {
                       className="btn btn-filled"
                       onClick={addMoreHcp}
                     >
-                     <img src={path_image + "add-row.png"} alt="Add More" />
+                      <img src={path_image + "add-row.png"} alt="Add More" />
                     </button>
                   </div>
                   {/* <div className="hcp-remove">
