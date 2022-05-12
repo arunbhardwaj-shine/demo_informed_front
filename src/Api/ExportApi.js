@@ -153,11 +153,15 @@ const EmailSand = (id,name,email) =>
 BaseApi.post(`create-unregistered-participant`,{event_id :id,name:name,email:email},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
+const Excelsend = (form) =>
+BaseApi.post(`upload-unregistered-participant`,form,{ headers: {
+  'Authorization':localStorage.getItem("Token"), 
+}});
 const EmailSandRegistered = (type,event_id,) =>
 BaseApi.get(`participant-list`,{event_id:event_id,type:type},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
-const sandAllmaik = (template_id ,participants,) =>
+const sandAllmaik = (template_id ,participants) =>
 BaseApi.post(`send-mail`,{template_id:template_id,participants:participants},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
@@ -197,5 +201,6 @@ export default {
   EmailStatss,
   EmailSand,
   EmailSandRegistered,
-  sandAllmaik
+  sandAllmaik,
+  Excelsend
 };

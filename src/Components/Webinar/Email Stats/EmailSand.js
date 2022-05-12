@@ -15,30 +15,65 @@ const EmailSand = () => {
   const [type, setType] = useState();
   const [checked, setChecked] = React.useState([1]);
   const [Checkbox, setCheckbox] = React.useState([]);
-  const [data, setData] = React.useState([]);
-  const [totalSelectedCheckboxes, setTotalSelectedCheckboxes] = useState(0);
+  const [data, setData] = useState([]);
   const [image, setimage] = useState("");
   const [errimage, setErrimage] = useState(false);
   const handeleimage = (e) => {
-    if (e?.target?.files[0].type.match(/\/(xlsx|)$/)){
+    console.log(e?.target?.files[0].name)
+    // if (e?.target?.files[0].name.match(`/(\.xls|\.xlsx)$/i`)){
       setErrimage(false)
-      setimage(e.target.files[0]);}
-      else{
-        setErrimage(true)
-        setErrimage("Only xlsx are allowed")
-      }
+      console.log("e.target.files[0]",e.target.files[0])
+      setimage(e.target.files[0]);
+    // } 
+    //   else{
+    //     setErrimage(true)
+    //     setErrimage("Only xls are allowed")
+    //   }
     }
   const handleGetEventlist = () => {
-    ExportApi.GetEventList().then((resp) => {
-      if (resp.ok) {
-        setEvent(resp.data.data);
-      }
-    });
+      ExportApi.GetEventList().then((resp) => {
+        if (resp.ok) {
+          setEvent(resp.data.data);
+        }
+      });
+  };
+  const sendExcelFile = () => {
+    let formData = new FormData();
+    formData.append("file", image);
+    if(image){
+      
+      ExportApi.Excelsend(formData).then((resp) => {
+        if (resp.ok) {
+          if (resp.data.code == 200) {
+            setShow(false);
+            toast.success(resp.data.message, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+          } else {
+            toast.error(resp.data.message, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+          }
+          console.log(resp.data) 
+        }
+      });
+    }
   };
   const handleGetTemplateList = (id) => {
     ExportApi.UserTemplateList(id).then((resp) => {
       if (resp.ok) {
-        // console.log(resp.data.data);
         setTemplateList(resp.data.data);
       }
     });
@@ -47,21 +82,33 @@ const EmailSand = () => {
     let a = JSON.stringify(data);
     ExportApi.sandAllmaik(templateId,a).then((resp) => {
       if (resp.ok) {
+        if (resp.data.code == 200) {
+          setShow(false);
+          toast.success(resp.data.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        } else {
+          toast.error(resp.data.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        }
          console.log(resp.data.data);
       }
     });
   };
-  // const handleGetEmaildata = (id) => {
-  //   // console.log(id)
-  //   ExportApi.EmailStatss(eventId, id).then((resp) => {
-  //     if (resp.ok) {
-  //       console.log(resp.data.data.data);
-  //       setEmailData(resp.data.data.data);
-  //     }
-  //   });
-  // };
   const handleGetEmaildataRegistered = (value) => {
-    // console.log(id)
     ExportApi.EmailSandRegistered(value, eventId).then((resp) => {
       if (resp.ok) {
         console.log(resp.data.data);
@@ -70,7 +117,6 @@ const EmailSand = () => {
           if (a.length !== Checkbox.length) Checkbox.push({ Check: false });
         }
         setEmailData(resp.data.data);
-        // setEmailData(resp.data.data.data);
       }
     });
   };
@@ -118,23 +164,30 @@ const EmailSand = () => {
     handleGetEventlist();
   }, []);
   const Checkboxhandle = (e) => {
-    for (let index = 0; index < EmailData.length; index++) {
-      const obj = EmailData[index];
-      const Check = Checkbox[index];
-      Check.Check = e.target.checked;
-      Checkbox.splice(index, 1, Check);
-      setChecked([...Checkbox]);
-      if (e.target.checked === true) {
-        data.push(obj);
+    // for (let index = 0; index < EmailData.length; index++) {
+    //   data.splice(index, 1);
+    //   setData([...data])
+    //   console.log("first",data)
+    // }
+      for (let index = 0; index < EmailData.length; index++) {
+        const obj = EmailData[index];
+        const Check = Checkbox[index];
+        Check.Check = e.target.checked;
+        Checkbox.splice(index, 1, Check);
+        setChecked([...Checkbox]);
+        console.log(obj)
+         data.push(obj);
+        // console.log("omg",data)
+        
       }
+   
       //  setTotalSelectedCheckboxes(document.querySelectorAll('input[type=checkbox]:checked').length);
-    }
+    
     if (e.target.checked === false) {
       setData([]);
     }
   };
   const Checkboxhandlebox = (e, val,i) => {
-  
     const index=EmailData.findIndex((v)=>v.id==val.id)
     console.log(index)
     const Check = Checkbox[index];
@@ -257,8 +310,6 @@ const EmailSand = () => {
           </Col>
         </Row>
         <Row>
-          <h6>Selected User {data.length>0?data.length:0}</h6>
-          {EmailData ? (<>
              <Form.Group controlId="formFileLg" className="mb-3">
              <Form.Label>Choice File</Form.Label>
              <Form.Control
@@ -268,9 +319,13 @@ const EmailSand = () => {
                }}
                type="file"
                size="md"
+               accept="application/vnd.ms-excel"
              />
-              <p style={{color:"red"}}>{errimage}</p>
+              <p>excel file should contain first_name, last_name and  email</p>
+              <Button onClick={()=>{sendExcelFile()}}>Upload</Button>
            </Form.Group>
+          <h6>Selected User {data.length>0?data.length:0}</h6>
+          {EmailData ? (<>
             <Table bordered hover>
               <thead>
                 <tr>
