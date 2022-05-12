@@ -12,7 +12,9 @@ const VerifyHCP = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
-  const campaign_id = props.getDraftData ? props.getDraftData.campaign_id : "";
+  const campaign_id = props.getEmailData
+  ? props.getEmailData.campaign_id
+  : props.getDraftData.campaign_data.campaign_id;
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
   const [templateId, setTemplateId] = useState(0);
   const [name, setName] = useState("");

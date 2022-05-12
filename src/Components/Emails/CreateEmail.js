@@ -29,7 +29,9 @@ const CreateEmail = (props) => {
   //console.log(PdfSelected);
 
   const [manualReRender, setManualReRender] = useState(0);
-  const campaign_id = props.getDraftData ? props.getDraftData.campaign_id : "";
+  const campaign_id = props.getEmailData
+  ? props.getEmailData.campaign_id
+  : props.getDraftData.campaign_data.campaign_id;
   const [selectedFile, setSelectedFile] = useState(null);
   const [activeExcel, setActiveExcel] = useState("");
   const [addFileReRender, setAddFileReRender] = useState(0);
