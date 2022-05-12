@@ -12,7 +12,9 @@ const SelectSmartList = (props) => {
   const [TemplateId, setTemplateId] = useState(0);
   const [getselecedlistid, setselecedlistid] = useState(0);
   const [smartListSelected, setSmartListSelected] = useState({});
-  const campaign_id = props.getDraftData ? props.getDraftData.campaign_id : "";
+  const campaign_id = props.getEmailData
+  ? props.getEmailData.campaign_id
+  : props.getDraftData.campaign_data.campaign_id;
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
 
   const inputElement = useRef();
@@ -228,72 +230,14 @@ const SelectSmartList = (props) => {
                       <div className="mailbox-table">
                         <table>
                           <tbody>
-                            <tr>
-                              <th>Contact Type</th>
-                              <td>
-                                {template.contact_type === ""
-                                  ? "N/A"
-                                  : template.contact_type}
-                              </td>
-                            </tr>
-                            <tr>
-                              <th>Speciality</th>
-                              <td>
-                                {template.contact_type === ""
-                                  ? "N/A"
-                                  : template.contact_type}
-                              </td>
-                            </tr>
-                            <tr>
-                              <th>Readers</th>
-                              <td>
-                                {template.contact_type === ""
-                                  ? "N/A"
-                                  : template.contact_type}
-                              </td>
-                            </tr>
-                            <tr>
-                              <th>IBU</th>
-                              <td>
-                                {template.contact_type === ""
-                                  ? "N/A"
-                                  : template.contact_type}
-                              </td>
-                            </tr>
-                            <tr>
-                              <th>Product</th>
-                              <td>
-                                {template.product === ""
-                                  ? "N/A"
-                                  : template.product}
-                              </td>
-                            </tr>
-                            <tr>
-                              <th>Country</th>
-                              <td>
-                                {template.contact_type === ""
-                                  ? "N/A"
-                                  : template.contact_type}
-                              </td>
-                            </tr>
-                            <tr>
-                              <th>Registered</th>
-                              <td>
-                                {template.registered === ""
-                                  ? "N/A"
-                                  : template.registered}
-                              </td>
-                            </tr>
-                            <tr>
-                              <th>Created By</th>
-                              <td>
-                                <span>
-                                  {template.creator === ""
-                                    ? "N/A"
-                                    : template.creator}
-                                </span>
-                              </td>
-                            </tr>
+                            <tr><th>Contact Type</th><td>{template.contact_type}</td></tr>
+                            <tr><th>Speciality</th><td>{template.speciality}</td></tr>
+                            <tr><th>Readers</th><td>{template.reader_selection}</td></tr>
+                            <tr><th>IBU</th><td>{template.ibu}</td></tr>
+                            <tr><th>Product</th><td>{template.product}</td></tr>
+                            <tr><th>Country</th><td>{template.country}</td></tr>
+                            <tr><th>Registered</th><td>{template.registered}</td></tr>
+                            <tr><th>Created By</th><td><span>{template.creator}</span></td></tr>
                           </tbody>
                         </table>
                       </div>

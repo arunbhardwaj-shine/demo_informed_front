@@ -14,7 +14,9 @@ const SelectSmartListUsers = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const location = useLocation();
   const [readers, setReaders] = useState([]);
-  const campaign_id = props.getDraftData ? props.getDraftData.campaign_id : "";
+  const campaign_id = props.getEmailData
+  ? props.getEmailData.campaign_id
+  : props.getDraftData.campaign_data.campaign_id;
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
   const [SendListData, setSendListData] = useState([]);
   const [PdfSelected, setPdfSelected] = useState(0);

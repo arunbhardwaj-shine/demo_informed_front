@@ -15,19 +15,12 @@ const EmailSand = () => {
   const [type, setType] = useState();
   const [checked, setChecked] = React.useState([1]);
   const [Checkbox, setCheckbox] = React.useState([]);
-  const [data, setData] = React.useState([]);
-  const [totalSelectedCheckboxes, setTotalSelectedCheckboxes] = useState(0);
+  const [data, setData] = useState([]);
   const [image, setimage] = useState("");
-  const [errimage, setErrimage] = useState(false);
+  const [All, setAll] = useState([]);
   const handeleimage = (e) => {
-    if (e?.target?.files[0].type.match(/\/(xlsx|)$/)){
-      setErrimage(false)
-      setimage(e.target.files[0]);}
-      else{
-        setErrimage(true)
-        setErrimage("Only xlsx are allowed")
-      }
-    }
+    setimage(e.target.files[0]);
+  };
   const handleGetEventlist = () => {
     ExportApi.GetEventList().then((resp) => {
       if (resp.ok) {
@@ -35,33 +28,77 @@ const EmailSand = () => {
       }
     });
   };
+  const sendExcelFile = () => {
+    let formData = new FormData();
+    formData.append("file", image);
+    if (image) {
+      ExportApi.Excelsend(formData).then((resp) => {
+        if (resp.ok) {
+          if (resp.data.code == 200) {
+            setShow(false);
+            toast.success(resp.data.message, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+          } else {
+            toast.error(resp.data.message, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+          }
+          console.log(resp.data);
+        }
+      });
+    }
+  };
   const handleGetTemplateList = (id) => {
     ExportApi.UserTemplateList(id).then((resp) => {
       if (resp.ok) {
-        // console.log(resp.data.data);
         setTemplateList(resp.data.data);
       }
     });
   };
   const handleGSendEmail = (id) => {
     let a = JSON.stringify(data);
-    ExportApi.sandAllmaik(templateId,a).then((resp) => {
+    ExportApi.sandAllmaik(templateId, a).then((resp) => {
       if (resp.ok) {
-         console.log(resp.data.data);
+        if (resp.data.code == 200) {
+          setShow(false);
+          toast.success(resp.data.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        } else {
+          toast.error(resp.data.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        }
+        console.log(resp.data.data);
       }
     });
   };
-  // const handleGetEmaildata = (id) => {
-  //   // console.log(id)
-  //   ExportApi.EmailStatss(eventId, id).then((resp) => {
-  //     if (resp.ok) {
-  //       console.log(resp.data.data.data);
-  //       setEmailData(resp.data.data.data);
-  //     }
-  //   });
-  // };
   const handleGetEmaildataRegistered = (value) => {
-    // console.log(id)
     ExportApi.EmailSandRegistered(value, eventId).then((resp) => {
       if (resp.ok) {
         console.log(resp.data.data);
@@ -70,7 +107,6 @@ const EmailSand = () => {
           if (a.length !== Checkbox.length) Checkbox.push({ Check: false });
         }
         setEmailData(resp.data.data);
-        // setEmailData(resp.data.data.data);
       }
     });
   };
@@ -118,46 +154,45 @@ const EmailSand = () => {
     handleGetEventlist();
   }, []);
   const Checkboxhandle = (e) => {
+    if (e.target.checked === false) {
+      setData([]);
+      setAll([])
+    }
     for (let index = 0; index < EmailData.length; index++) {
       const obj = EmailData[index];
       const Check = Checkbox[index];
       Check.Check = e.target.checked;
       Checkbox.splice(index, 1, Check);
       setChecked([...Checkbox]);
+      console.log(obj);
       if (e.target.checked === true) {
-        data.push(obj);
+        All.push(obj);
+        setData(All);
       }
-      //  setTotalSelectedCheckboxes(document.querySelectorAll('input[type=checkbox]:checked').length);
-    }
-    if (e.target.checked === false) {
-      setData([]);
     }
   };
-  const Checkboxhandlebox = (e, val,i) => {
-  
-    const index=EmailData.findIndex((v)=>v.id==val.id)
-    console.log(index)
+  const Checkboxhandlebox = (e, val, i) => {
+    const index = EmailData.findIndex((v) => v.id == val.id);
+    console.log(index);
     const Check = Checkbox[index];
     Check.Check = e.target.checked;
     Checkbox.splice(index, 1, Check);
     setChecked([...Checkbox]);
-   if( e.target.checked == true){
-    setData([...data, val])
-   }
-   else{
-    data.splice(index, 1);
-    setData([...data]);
-    setTimeout(()=>{setData([...data])},1000)
-   } 
-    
-    // setTotalSelectedCheckboxes(document.querySelectorAll('input[type=checkbox]:checked').length);
+    if (e.target.checked == true) {
+      setData([...data, val]);
+    } else {
+      data.splice(index, 1);
+      setData([...data]);
+      // setTimeout(() => {
+      //   setData([...data]);
+      // }, 1000);
+    }
   };
   useEffect(() => {
     console.log(data);
   }, [checked, data]);
   return (
     <Row>
-      {/* {console.log("Speakername",Speakername)} */}
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -173,12 +208,14 @@ const EmailSand = () => {
         <h2>EmailSand</h2>
         <Row style={{ paddingTop: "20px" }}>
           <Col>
-            {" "}
             <Button onClick={() => setShow(true)}>Add User</Button>
           </Col>
           <Col>
-            {" "}
-            <Button onClick={()=>{handleGSendEmail()}}>Send Mail</Button>
+            <Button
+              onClick={() => {
+                handleGSendEmail() }} >
+              Send Mail
+            </Button>
           </Col>
         </Row>
         <Row style={{ paddingTop: "50px" }}>
@@ -188,11 +225,9 @@ const EmailSand = () => {
               name="type"
               onChange={(e) => {
                 handleGetTemplateList(e.target.value);
-                setEventId(e.target.value);
-
+                setEventId(e.target.value)
                 setEventName(e.target.options[e.target.selectedIndex].text);
-              }}
-            >
+              }} >
               <option> Select Event</option>
               {event?.map((val, i) => (
                 <React.Fragment key={i}>
@@ -207,11 +242,7 @@ const EmailSand = () => {
                 <Form.Label>Select Template </Form.Label>
                 <Form.Select
                   onChange={(e) => {
-                    setTemplateId(e.target.value);
-                  }}
-
-                  name="type"
-                >
+                    setTemplateId(e.target.value)}}name="type" >
                   <option> Select Template</option>
                   {templateList
                     ? templateList?.map((val, i) => (
@@ -232,8 +263,7 @@ const EmailSand = () => {
                   onChange={(e) => {
                     handleGetEmaildataRegistered(e.target.value);
                   }}
-                  aria-label="Default select example"
-                >
+                  aria-label="Default select example">
                   <option>Select User</option>
                   <option value={0}>All Registered</option>
                   <option value={1}>All Non Registered</option>
@@ -247,8 +277,7 @@ const EmailSand = () => {
               onChange={(e) => {
                 // handleGetReadersType(e.target.value);
                 setType(e.target.value);
-              }}
-            >
+              }} >
               <option>Select User Type</option>
               <option value="HCP">HCP</option>
               <option value="Staff User">Staff User</option>
@@ -257,52 +286,60 @@ const EmailSand = () => {
           </Col>
         </Row>
         <Row>
-          <h6>Selected User {data.length>0?data.length:0}</h6>
-          {EmailData ? (<>
-             <Form.Group controlId="formFileLg" className="mb-3">
-             <Form.Label>Choice File</Form.Label>
-             <Form.Control
-               name="file"
-               onChange={(e) => {
-                 handeleimage(e);
-               }}
-               type="file"
-               size="md"
-             />
-              <p style={{color:"red"}}>{errimage}</p>
-           </Form.Group>
-            <Table bordered hover>
-              <thead>
-                <tr>
-                  <th>
-                    <input
-                      type="checkbox"
-                      onChange={(e) =>{Checkboxhandle(e)}}
-                    />
-                  </th>
-                  <th>Name</th>
-                  <th>Email</th>
-                </tr>
-              </thead>
-              <tbody>
-                {EmailData
-                  ? EmailData?.map((val, i) => (
-                      <tr key={i}>
-                        <td>
-                          <input
-                            type="checkbox"
-                            value={Checkbox[i].Check}
-                            checked={Checkbox[i].Check}
-                            onChange={(e) => Checkboxhandlebox(e, val, i)}
-                          />
-                        </td>
-                        <td>{val.name}</td>
-                        <td>{val.email}</td>
-                      </tr>
-                    ))
-                  : null}
-              </tbody>
-            </Table>
+          <Form.Group controlId="formFileLg" className="mb-3">
+            <Form.Label>Choice File</Form.Label>
+            <Form.Control
+              name="file"
+              onChange={(e) => {
+                handeleimage(e);
+              }}
+              type="file"
+              size="md"
+              accept="application/vnd.ms-excel"
+            />
+            <p>excel file should contain first_name, last_name and email</p>
+            <Button
+              onClick={() => {
+                sendExcelFile();
+              }}>
+              Upload
+            </Button>
+          </Form.Group>
+          <h6>Selected User {data.length > 0 ? data.length : 0}</h6>
+          {EmailData ? (
+            <>
+              <Table bordered hover>
+                <thead>
+                  <tr>
+                    <th>
+                      <input
+                        type="checkbox"
+                        onChange={(e) => {
+                          Checkboxhandle(e);
+                        }} />
+                    </th>
+                    <th>Name</th>
+                    <th>Email</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {EmailData
+                    ? EmailData?.map((val, i) => (
+                        <tr key={i}>
+                          <td>
+                            <input
+                              type="checkbox"
+                              value={Checkbox[i].Check}
+                              checked={Checkbox[i].Check}
+                              onChange={(e) => Checkboxhandlebox(e, val, i)} />
+                          </td>
+                          <td>{val.name}</td>
+                          <td>{val.email}</td>
+                        </tr>
+                      ))
+                    : null}
+                </tbody>
+              </Table>
             </>
           ) : null}
         </Row>
@@ -311,8 +348,7 @@ const EmailSand = () => {
         size="sm"
         show={Show}
         onHide={() => setShow(false)}
-        aria-labelledby="example-modal-sizes-title-sm"
-      >
+        aria-labelledby="example-modal-sizes-title-sm" >
         <Modal.Body>
           <div>
             <h2 style={{ fontWeight: "bold" }}>
@@ -327,18 +363,16 @@ const EmailSand = () => {
             <Form.Group
               as={Row}
               className="mb-3"
-              controlId="exampleForm.ControlInput1"
-            >
+              controlId="exampleForm.ControlInput1" >
               <Form.Label column sm={2}>
-                Name{" "}
+                Name
               </Form.Label>
               <Col sm={10}>
                 <Form.Control
                   name="name"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={formik.values.name}
-                />
+                  value={formik.values.name} />
                 {formik.touched.name && formik.errors.name ? (
                   <div style={{ color: "red" }}>{formik.errors.name}</div>
                 ) : null}
@@ -347,8 +381,7 @@ const EmailSand = () => {
             <Form.Group
               as={Row}
               className="mb-3"
-              controlId="exampleForm.ControlInput1"
-            >
+              controlId="exampleForm.ControlInput1" >
               <Form.Label column sm={2}>
                 Email{" "}
               </Form.Label>
