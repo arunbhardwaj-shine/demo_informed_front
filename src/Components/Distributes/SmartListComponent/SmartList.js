@@ -240,6 +240,8 @@ const SmartList = (props) => {
     }
     if (filterapplied) {
       getSmartListData(1);
+    }else{
+      loader("hide");
     }
     setShowFilter(false);
   };
