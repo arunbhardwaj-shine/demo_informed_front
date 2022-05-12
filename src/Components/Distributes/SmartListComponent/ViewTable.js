@@ -32,6 +32,7 @@ const ViewTable = (props) => {
   const [fileValidationMessage, setFileValidationMeassage] = useState(0);
   const [emailData, setEmailData] = useState("");
   const [search, setSearch] = useState("");
+  const [showLessInfo, setShowLessInfo] = useState(false);
   const [deleteConfirmation, setOpenDeleteConfirmation] = useState(false);
   const [showReaders, setShowSaveReader] = useState(false);
 
@@ -46,7 +47,7 @@ const ViewTable = (props) => {
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [activeManual, setActiveManual] = useState("active");
   const [newData, setNewData] = useState([]);
-
+  const [showLessUpdate, setShowLessUpdate] = useState(0);
   const [activeExcel, setActiveExcel] = useState("");
 
   useEffect(() => {
@@ -62,6 +63,25 @@ const ViewTable = (props) => {
     ) {
       setListName(props.smartListName);
     }
+  }, []);
+
+  useEffect(() => {
+    const getalCountry = async () => {
+      let body = {
+        user_id: 18207,
+      };
+      await axios
+        .post(`distributes/filters_list`, body)
+        .then((res) => {
+          setCountryall(res.data.response.data.country);
+          //console.log(countryall)
+          // setCounter(counter + 1);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    getalCountry();
   }, []);
 
   const [name, setName] = useState(null);
@@ -177,23 +197,6 @@ const ViewTable = (props) => {
     if (addNewData > 0) {
       showFileInList();
     }
-
-    const getalCountry = async () => {
-      let body = {
-        user_id: 18207,
-      };
-      await axios
-        .post(`distributes/filters_list`, body)
-        .then((res) => {
-          setCountryall(res.data.response.data.country);
-          //console.log(countryall)
-          // setCounter(counter + 1);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-    getalCountry();
   }, [addNewData]);
 
   const showFileInReadersList = async () => {
@@ -270,6 +273,12 @@ const ViewTable = (props) => {
 
     setHpc(list);
     setCounterFlag(counterFlag + 1);
+  };
+
+  const showMoreInfo = (e) => {
+    e.preventDefault();
+
+    setShowLessInfo(!showLessInfo);
   };
 
   const addMoreHcp = () => {
@@ -535,34 +544,38 @@ const ViewTable = (props) => {
         smart_list_id: getlistid,
       };
 
-      loader("show");
-      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      await axios
-        .post(`distributes/add_new_readers_in_list`, body)
-        .then((res) => {
-          if (res.data.status_code === 200) {
-            toast.success("User added successfuly");
+      console.log(body.data);
+      if (body.data[0].first_name) {
+        loader("show");
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+        await axios
+          .post(`distributes/add_new_readers_in_list`, body)
+          .then((res) => {
+            if (res.data.status_code === 200) {
+              toast.success("User added successfuly");
 
-            let old_data = editList;
+              let old_data = editList;
 
-            let new_data = res.data.response.data;
+              let new_data = res.data.response.data;
 
-            setNewData((oldArray) => [...new_data, ...oldArray]);
-            //setNewData(new_data);
+              setNewData((oldArray) => [...new_data, ...oldArray]);
+              //setNewData(new_data);
 
-            combine_data_manual = [...new_data, ...old_data];
+              combine_data_manual = [...new_data, ...old_data];
 
-            setEditList(old_data);
-            // setUpdatedData(combine_data_manual);
+              setEditList(old_data);
+              // setUpdatedData(combine_data_manual);
 
-            loader("hide");
-          } else {
-            toast.warning(res.data.message);
-          }
-        })
-        .catch((err) => {
-          toast.error("Something went wrong");
-        });
+              loader("hide");
+            } else {
+              toast.warning(res.data.message);
+            }
+          })
+          .catch((err) => {
+            toast.error("Something went wrong");
+          });
+      }
+
       setIsOpen(false);
     } else {
       let formData = new FormData();
@@ -571,35 +584,37 @@ const ViewTable = (props) => {
       formData.append("reader_file", selectedFile);
 
       console.log(formData);
+      if (selectedFile) {
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+        loader("show");
+        await axios
+          .post(`distributes/update_reader_list`, formData)
+          .then((res) => {
+            if (res.data.status_code === 200) {
+              toast.success("User added successfuly");
+              console.log(res.data.response.data);
+              let old_data = editList;
+              let new_data = res.data.response.data;
+              setNewData(new_data);
+              combine_data = [...new_data, ...old_data];
 
-      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      loader("show");
-      await axios
-        .post(`distributes/update_reader_list`, formData)
-        .then((res) => {
-          if (res.data.status_code === 200) {
-            toast.success("User added successfuly");
-            console.log(res.data.response.data);
-            let old_data = editList;
-            let new_data = res.data.response.data;
-            setNewData(new_data);
-            combine_data = [...new_data, ...old_data];
+              console.log(new_data);
+              // console.log(combine_data);
+              setEditList(old_data);
+              //    setUpdatedData(combine_data);
 
-            console.log(new_data);
-            // console.log(combine_data);
-            setEditList(old_data);
-            //    setUpdatedData(combine_data);
-
-            loader("hide");
-          } else {
-            toast.warning(res.data.message);
-          }
-        })
-        .catch((err) => {
-          console.log("something went wrong");
-        });
-      setIsOpen(false);
+              loader("hide");
+            } else {
+              toast.warning(res.data.message);
+            }
+          })
+          .catch((err) => {
+            console.log("something went wrong");
+          });
+        setIsOpen(false);
+      }
     }
+
     setHpc([
       {
         firstname: "",
@@ -779,11 +794,15 @@ const ViewTable = (props) => {
             <h4>
               {getlistname} <span>| {editList.length}</span>
             </h4>
-            {/* <div className="selected-hcp-table-action">
-              <a className="show-less-info" href="#">
-                Show More information{" "}
+            <div className="selected-hcp-table-action">
+              <a className="show-less-info" onClick={(e) => showMoreInfo(e)}>
+                {showLessInfo == true ? (
+                  <p>Show More information</p>
+                ) : (
+                  <p>Show less info</p>
+                )}{" "}
               </a>
-            </div> */}
+            </div>
             {showReaders ? (
               <div className="row">
                 <div className="col-md-12">
@@ -805,10 +824,15 @@ const ViewTable = (props) => {
                   <th scope="col">Email</th>
                   <th scope="col">Bounced</th>
                   <th scope="col">Country</th>
-                  <th scope="col">Readers</th>
-                  <th scope="col">Business Unit</th>
-                  <th scope="col">Interest</th>
-                  <th scope="col"></th>
+                  {showLessInfo == false ? (
+                    <>
+                      {" "}
+                      <th scope="col">Readers</th>
+                      <th scope="col">Business Unit</th>
+                      <th scope="col">Interest</th>
+                      <th scope="col"></th>{" "}
+                    </>
+                  ) : null}
                 </tr>
               </thead>
               <tbody className="form-group">
@@ -856,9 +880,9 @@ const ViewTable = (props) => {
                         item.country
                       )}
                     </td>
-                    <td>NA</td>
-                    <td>NA</td>
-                    <td>NA</td>
+                    {showLessInfo == false ? <td>NA</td> : null}
+                    {showLessInfo == false ? <td>NA</td> : null}
+                    {showLessInfo == false ? <td>NA</td> : null}
 
                     <td class="delete_row" colspan="12">
                       <img
@@ -917,10 +941,9 @@ const ViewTable = (props) => {
                         item.country
                       )}
                     </td>
-                    <td>CIS</td>
-                    <td>Hametology</td>
-                    <td>Tech</td>
-
+                    {showLessInfo == false ? <td>NA</td> : null}
+                    {showLessInfo == false ? <td>NA</td> : null}
+                    {showLessInfo == false ? <td>NA</td> : null}
                     <td class="delete_row" colspan="12">
                       <img
                         src={path + "delete.svg"}
@@ -1143,7 +1166,7 @@ const ViewTable = (props) => {
                       className="btn btn-filled"
                       onClick={addMoreHcp}
                     >
-                     <img src={path_image + "add-row.png"} alt="Add More" />
+                      <img src={path_image + "add-row.png"} alt="Add More" />
                     </button>
                   </div>
                   <ul className="nav nav-tabs" role="tablist">

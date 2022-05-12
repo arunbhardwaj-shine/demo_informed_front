@@ -30,6 +30,7 @@ const Table = (props, ref) => {
   const [validator2] = React.useState(new SimpleReactValidator());
   const [validator3] = React.useState(new SimpleReactValidator());
   const [isOpen, setIsOpen] = useState(false);
+  const [showLessInfo, setShowLessInfo] = useState(false);
   const [deleteConfirmation, setOpenDeleteConfirmation] = useState(false);
   const [profileUserId, setProfileUserId] = useState();
   const [data, setData] = useState(0);
@@ -126,6 +127,12 @@ const Table = (props, ref) => {
 
   const onFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
+  };
+
+  const showMoreInfo = (e) => {
+    e.preventDefault();
+
+    setShowLessInfo(!showLessInfo);
   };
 
   const uploadFile = async (event) => {
@@ -541,32 +548,34 @@ const Table = (props, ref) => {
         smart_list_id: getlistid,
       };
 
-      loader("show");
-      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      await axios
-        .post(`distributes/add_new_readers_in_list`, body)
-        .then((res) => {
-          if (res.data.status_code === 200) {
-            toast.success("User added successfuly");
+      if (body.data[0].first_name) {
+        loader("show");
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+        await axios
+          .post(`distributes/add_new_readers_in_list`, body)
+          .then((res) => {
+            if (res.data.status_code === 200) {
+              toast.success("User added successfuly");
 
-            let old_data = editList;
+              let old_data = editList;
 
-            let new_data = res.data.response.data;
+              let new_data = res.data.response.data;
 
-            combine_data_manual = [...new_data, ...old_data];
+              combine_data_manual = [...new_data, ...old_data];
 
-            setEditList(combine_data_manual);
-            props.sendDataToParent(combine_data_manual);
-            setUpdatedData(combine_data_manual);
-          } else {
-            toast.warning(res.data.message);
-          }
-          loader("hide");
-        })
-        .catch((err) => {
-          // toast.error("Something went wrong");
-          loader("hide");
-        });
+              setEditList(combine_data_manual);
+              props.sendDataToParent(combine_data_manual);
+              setUpdatedData(combine_data_manual);
+            } else {
+              toast.warning(res.data.message);
+            }
+            loader("hide");
+          })
+          .catch((err) => {
+            // toast.error("Something went wrong");
+            loader("hide");
+          });
+      }
       setIsOpen(false);
       //setIsOpen(false);
     } else {
@@ -578,29 +587,31 @@ const Table = (props, ref) => {
       console.log(formData);
 
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      loader("show");
-      await axios
-        .post(`distributes/update_reader_list`, formData)
-        .then((res) => {
-          if (res.data.status_code === 200) {
-            toast.success("User added successfuly");
-            console.log(res.data.response.data);
-            let old_data = editList;
-            let new_data = res.data.response.data;
-            combine_data = [...new_data, ...old_data];
-            // console.log(combine_data);
-            setEditList(combine_data);
-            props.sendDataToParent(combine_data);
-            setUpdatedData(combine_data);
-          } else {
-            toast.warning(res.data.message);
-          }
-          loader("hide");
-        })
-        .catch((err) => {
-          toast.error("Something went wrong");
-          loader("hide");
-        });
+      if (selectedFile) {
+        loader("show");
+        await axios
+          .post(`distributes/update_reader_list`, formData)
+          .then((res) => {
+            if (res.data.status_code === 200) {
+              toast.success("User added successfuly");
+              console.log(res.data.response.data);
+              let old_data = editList;
+              let new_data = res.data.response.data;
+              combine_data = [...new_data, ...old_data];
+              // console.log(combine_data);
+              setEditList(combine_data);
+              props.sendDataToParent(combine_data);
+              setUpdatedData(combine_data);
+            } else {
+              toast.warning(res.data.message);
+            }
+            loader("hide");
+          })
+          .catch((err) => {
+            toast.error("Something went wrong");
+            loader("hide");
+          });
+      }
       setIsOpen(false);
     }
     setHpc([
@@ -683,11 +694,14 @@ const Table = (props, ref) => {
             )}
 
             <div class="selected-hcp-table-action">
-              {/*
-                <a class="show-less-info" href="#">
-                  Show Less information{" "}
-                </a>
-                */}
+              <a className="show-less-info" onClick={(e) => showMoreInfo(e)}>
+                {showLessInfo == true ? (
+                  <p>Show More information</p>
+                ) : (
+                  <p>Show less info</p>
+                )}{" "}
+              </a>
+
               <div class="hcp-new-user">
                 <button class="btn btn-outline-primary" onClick={handleShow}>
                   <img src={path + "new-user.svg"} alt="New User" />
@@ -715,10 +729,15 @@ const Table = (props, ref) => {
                   <th scope="col">Email</th>
                   <th scope="col">Bounced</th>
                   <th scope="col">Country</th>
-                  <th scope="col">Readers</th>
-                  <th scope="col">Business Unit</th>
-                  <th scope="col">Interest</th>
-                  <th scope="col"></th>
+                  {showLessInfo == false ? (
+                    <>
+                      {" "}
+                      <th scope="col">Readers</th>
+                      <th scope="col">Business Unit</th>
+                      <th scope="col">Interest</th>
+                      <th scope="col"></th>{" "}
+                    </>
+                  ) : null}
                 </tr>
               </thead>
               <tbody>
@@ -761,9 +780,9 @@ const Table = (props, ref) => {
                         item.country
                       )}
                     </td>
-                    <td>N/A</td>
-                    <td>N/A</td>
-                    <td>N/A</td>
+                    {showLessInfo == false ? <td>NA</td> : null}
+                    {showLessInfo == false ? <td>NA</td> : null}
+                    {showLessInfo == false ? <td>NA</td> : null}
                     <td
                       class="delete_row"
                       colspan="12"
