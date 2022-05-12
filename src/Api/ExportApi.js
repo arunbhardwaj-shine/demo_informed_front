@@ -120,6 +120,10 @@ const ReadersData = (id) =>
 BaseApi.get(`participants`,{event_id:id},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
+const ReadersPage = (id,eventId) =>
+BaseApi.get(`participants?page=${id}`,{event_id:eventId},{ headers: {
+  'Authorization':localStorage.getItem("Token"),
+}});
 const ReadersDataSearch = (id,name_email,type,country) =>
 BaseApi.get(`participants`,{event_id:id,name_email:name_email,type:type,country:country},{ headers: {
   'Authorization':localStorage.getItem("Token"),
@@ -145,6 +149,19 @@ const EmailStatss = (id,template_id,search_key) =>
 BaseApi.get(`email-stats/${id}`,{template_id:template_id,search_key:search_key},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
+const EmailSand = (id,name,email) =>
+BaseApi.post(`create-unregistered-participant`,{event_id :id,name:name,email:email},{ headers: {
+  'Authorization':localStorage.getItem("Token"),
+}});
+const EmailSandRegistered = (type,event_id,) =>
+BaseApi.get(`participant-list`,{event_id:event_id,type:type},{ headers: {
+  'Authorization':localStorage.getItem("Token"),
+}});
+const sandAllmaik = (template_id ,participants,) =>
+BaseApi.post(`send-mail`,{template_id:template_id,participants:participants},{ headers: {
+  'Authorization':localStorage.getItem("Token"),
+}});
+
 export default {
   UserLogin,
   UserForgot,
@@ -174,7 +191,11 @@ export default {
   ReadersType,
   ReadersCountry,
   ReadersDataSearch,
+  ReadersPage,
   ReadersBlock,
   ReadersBlockt,
-  EmailStatss
+  EmailStatss,
+  EmailSand,
+  EmailSandRegistered,
+  sandAllmaik
 };

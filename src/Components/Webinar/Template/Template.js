@@ -142,16 +142,16 @@ const Template = () => {
   
   const handleGetTemplate = (idd) => {
      setId(idd);
-    ExportApi.UserTemplate(idd).then((resp) => {
-      if (resp.ok) {
-        setEditLinkData(resp.data.data.data)
-        console.log(resp.data.data)
-        resp.data.data.json_description===""? setDpc():setDpc(JSON.parse(resp.data.data.json_description))
-        handleEditInputValue(resp.data.data.data,resp.data.data.description)
-        setTemplate(resp.data.data);
-         emailEditorRef.current.editor.loadDesign(resp.data.data.json_description ?JSON.parse(resp.data.data.json_description ):hello)
-      }
-    });
+      ExportApi.UserTemplate(idd).then((resp) => {
+        if (resp.ok) {
+          setEditLinkData(resp.data.data.data)
+          console.log(resp.data.data)
+          resp.data.data.json_description===""? setDpc():setDpc(JSON.parse(resp.data.data.json_description))
+          handleEditInputValue(resp.data.data.data,resp.data.data.description)
+          setTemplate(resp.data.data);
+           emailEditorRef.current.editor.loadDesign(resp.data.data.json_description ?JSON.parse(resp.data.data.json_description ):hello)
+        }
+      });
   };
   
   const emailEditorRef = useRef(null);
