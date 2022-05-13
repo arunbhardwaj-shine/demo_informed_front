@@ -116,7 +116,7 @@ export const Testmail = (props) => {
           <Row>
             <Col>
               <Form.Group controlId="formFileLg" className="mb-3">
-                <Form.Label>Choice File</Form.Label>
+                <Form.Label>Attachment</Form.Label>
                 <Form.Control
                   name="file"
                   onChange={(e) => {

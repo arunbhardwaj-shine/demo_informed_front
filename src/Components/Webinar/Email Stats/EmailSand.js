@@ -270,7 +270,7 @@ const EmailSand = () => {
             ) : null}
           </Col>
           <Col>
-            {templateList != undefined || templateList != null ? (
+            {templateId != undefined || templateId != null ? (
               <>
                 <Form.Label>Select Users </Form.Label>
                 <Form.Select
@@ -287,6 +287,8 @@ const EmailSand = () => {
             ) : null}
           </Col>
           <Col>
+             {EmailData != undefined || EmailData  != null ? (
+              <>
             <Form.Label>Select User Type </Form.Label>
             <Form.Select
               onChange={(e) => {
@@ -298,6 +300,8 @@ const EmailSand = () => {
               <option value="Staff User">Staff User</option>
               <option value="Test User">Test User</option>
             </Form.Select>
+            </>
+            ) : null}
           </Col>
         </Row>
         <Row>
@@ -418,6 +422,8 @@ const EmailSand = () => {
           </form>
         </Modal.Body>
       </Modal>
+      <Col>
+      </Col>
     </Row>
   );
 };
