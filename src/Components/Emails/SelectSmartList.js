@@ -13,8 +13,8 @@ const SelectSmartList = (props) => {
   const [getselecedlistid, setselecedlistid] = useState(0);
   const [smartListSelected, setSmartListSelected] = useState({});
   const campaign_id = props.getEmailData
-  ? props.getEmailData.campaign_id
-  : props.getDraftData.campaign_data.campaign_id;
+    ? props.getEmailData.campaign_id
+    : props.getDraftData.campaign_data.campaign_id;
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
 
   const inputElement = useRef();
@@ -22,8 +22,8 @@ const SelectSmartList = (props) => {
   useEffect(() => {
     const body = {
       user_id: 18207,
-      search:"",
-      filter:""
+      search: "",
+      filter: "",
     };
     loader("show");
     axios
@@ -41,7 +41,9 @@ const SelectSmartList = (props) => {
     if (PdfSelected !== 0) {
       inputElement.current.classList.remove("disabled");
     }
-    let listid = props.getEmailData ? smartListSelected.id : props.getDraftData.campaign_data.smart_list_id;
+    let listid = props.getEmailData
+      ? smartListSelected.id
+      : props.getDraftData.campaign_data.smart_list_id;
     setselecedlistid(listid);
   }, [PdfSelected]);
 
@@ -63,7 +65,7 @@ const SelectSmartList = (props) => {
 
   const saveAsDraft = async () => {
     console.log("hi");
-
+    console.log(smartListSelected);
     const body = {
       user_id: 18207,
       pdf_id: props.getEmailData
@@ -217,42 +219,78 @@ const SelectSmartList = (props) => {
               {SendListData.map((template) => {
                 return (
                   <div className="smartlist_box_block">
-                  <div className="smartlist-view email_box">
-                    <div className="mail-box-content">
-                      <h5>{template.name}</h5>
-                      <div
-                        className="select-mail-option"
-                        onClick={() => handleSelect(template)}
-                      >
-                        <input type="radio" name="radio" checked= { template.id == getselecedlistid ? true : false } />
-                        <span className="checkmark"></span>
-                      </div>
-                      <div className="mailbox-table">
-                        <table>
-                          <tbody>
-                            <tr><th>Contact Type</th><td>{template.contact_type}</td></tr>
-                            <tr><th>Speciality</th><td>{template.speciality}</td></tr>
-                            <tr><th>Readers</th><td>{template.reader_selection}</td></tr>
-                            <tr><th>IBU</th><td>{template.ibu}</td></tr>
-                            <tr><th>Product</th><td>{template.product}</td></tr>
-                            <tr><th>Country</th><td>{template.country}</td></tr>
-                            <tr><th>Registered</th><td>{template.registered}</td></tr>
-                            <tr><th>Created By</th><td><span>{template.creator}</span></td></tr>
-                          </tbody>
-                        </table>
-                      </div>
+                    <div className="smartlist-view email_box">
+                      <div className="mail-box-content">
+                        <h5>{template.name}</h5>
+                        <div
+                          className="select-mail-option"
+                          onClick={() => handleSelect(template)}
+                        >
+                          <input
+                            type="radio"
+                            name="radio"
+                            checked={
+                              template.id == getselecedlistid
+                                ? true
+                                : template.id == PdfSelected
+                                ? true
+                                : false
+                            }
+                          />
+                          <span className="checkmark"></span>
+                        </div>
+                        <div className="mailbox-table">
+                          <table>
+                            <tbody>
+                              <tr>
+                                <th>Contact Type</th>
+                                <td>{template.contact_type}</td>
+                              </tr>
+                              <tr>
+                                <th>Speciality</th>
+                                <td>{template.speciality}</td>
+                              </tr>
+                              <tr>
+                                <th>Readers</th>
+                                <td>{template.reader_selection}</td>
+                              </tr>
+                              <tr>
+                                <th>IBU</th>
+                                <td>{template.ibu}</td>
+                              </tr>
+                              <tr>
+                                <th>Product</th>
+                                <td>{template.product}</td>
+                              </tr>
+                              <tr>
+                                <th>Country</th>
+                                <td>{template.country}</td>
+                              </tr>
+                              <tr>
+                                <th>Registered</th>
+                                <td>{template.registered}</td>
+                              </tr>
+                              <tr>
+                                <th>Created By</th>
+                                <td>
+                                  <span>{template.creator}</span>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
 
-                      <div className="mail-time">
-                        <span> {template.created_at}</span>
-                      </div>
-                      <div className="smart-list-added-user">
-                        <img
-                          src={path_image + "smartlist-user.svg"}
-                          alt="User icon"
-                        />
-                        {template.readers_count}
-                      </div>
-                      {/* <div className="mail-stats">
+                        <div className="mail-time">
+                          <span> {template.created_at}</span>
+                        </div>
+                        <div className="smart-list-added-user">
+                          <img
+                            src={path_image + "smartlist-user.svg"}
+                            alt="User icon"
+                          />
+                          {template.readers_count}
+                        </div>
+                        {/* <div className="mail-stats">
                         <ul>
                           <li>
                             <div className="mail-status smartlist_view">
@@ -294,11 +332,11 @@ const SelectSmartList = (props) => {
                           </li>
                         </ul>
                       </div> */}
-                      <div className="smartlist-buttons">
-                        <button className="btn btn-primary view">View</button>
+                        <div className="smartlist-buttons">
+                          <button className="btn btn-primary view">View</button>
+                        </div>
                       </div>
                     </div>
-                  </div>
                   </div>
                 );
               })}

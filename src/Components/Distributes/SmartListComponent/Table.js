@@ -57,9 +57,11 @@ const Table = (props, ref) => {
   const [getlistname, setListName] = useState("");
   const [getsortflag, setsortflag] = useState(false);
   const [showUploadMenu, setShowUploadMenu] = useState(false);
+  const [update, setUpdate] = useState(0);
   const [render, setReRender] = useState(0);
   const [show, setShow] = useState(false);
   const [renderCounterData, setCounterData] = useState([]);
+  const [editable, setEditable] = useState(0);
   const [validator3Counter, setValidator3Counter] = useState(0);
   const [counter, setCounter] = useState([0]);
   const [hpc, setHpc] = useState([
@@ -135,6 +137,12 @@ const Table = (props, ref) => {
     setShowLessInfo(!showLessInfo);
   };
 
+  const editButtonClicked = () => {
+    let temp_val = 1 - editable;
+    setEditable(temp_val);
+    setUpdate(update + 1);
+  };
+
   const uploadFile = async (event) => {
     if (validator2.allValid()) {
       setShowUploadMenu(!showUploadMenu);
@@ -179,6 +187,78 @@ const Table = (props, ref) => {
   //
   //   setOpenDeleteConfirmation(false);
   // };
+
+  const editing = (
+    profile_id,
+    profile_user_id,
+    email,
+    jobTitle,
+    company,
+    country,
+    names,
+    index
+  ) => {
+    var ignoreClickOnMeElement = document.getElementById(
+      "row-selected" + index
+    );
+    //  console.log(ignoreClickOnMeElement);
+
+    //  console.log(p);
+    // console.log(event);
+    // console.log(profile_id);
+    // console.log(profile_user_id);
+    // console.log(email);
+
+    // console.log(country);
+    // console.log(names);
+
+    //  setEmailEdit(email_edit);
+
+    ignoreClickOnMeElement.addEventListener(
+      "mouseleave",
+      async (event) => {
+        console.log("clicked outside");
+        const name_edit = document.getElementById(
+          "field_name" + index
+        ).innerText;
+        //setNameEdit(name_edit);
+        const country_edit = document.getElementById(
+          "field_country" + index
+        ).innerText;
+        //  setCountryEdit(country_edit);
+        const email_edit = document.getElementById(
+          "field_email" + index
+        ).innerText;
+        // console.log(editList);
+        const data = editList.find((x) => x.profile_id === profile_id);
+        console.log(data);
+        console.log(email_edit);
+        console.log(country_edit);
+
+        if (data.email != email_edit || data.country != country_edit) {
+          const body = {
+            user_id: 18207,
+            profile_user_id: profile_user_id,
+            profile_id: profile_id,
+            email: email_edit,
+            country: country_edit,
+            username: name_edit,
+          };
+
+          axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+          await axios
+            .post(`distributes/update_reders_details`, body)
+            .then((res) => {
+              console.log(res);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      },
+      { once: true }
+    );
+  };
 
   const showFileInReadersList = async (fdata) => {
     let body = {};
@@ -719,13 +799,16 @@ const Table = (props, ref) => {
                   <img src={path + "new-user.svg"} alt="New User" />
                 </button>
               </div>
-              {/*
-                <div class="hcp-added">
-                  <button class="btn btn-outline-primary">
-                    <img src={path + "edit-button.svg"} alt="Edit" />
-                  </button>
-                </div>
-                */}
+
+              <div class="hcp-added">
+                <button
+                  class="btn btn-outline-primary"
+                  onClick={editButtonClicked}
+                >
+                  <img src={path + "edit-button.svg"} alt="Edit" />
+                </button>
+              </div>
+
               <div class="hcp-sort">
                 <button class="btn btn-outline-primary" onClick={sortdata}>
                   Sort By <img src={path + "sort.svg"} alt="Shorting" />
@@ -754,7 +837,7 @@ const Table = (props, ref) => {
               </thead>
               <tbody>
                 {editList.map((item) => (
-                  <tr>
+                  <tr contenteditable={editable === 0 ? "false" : "true"}>
                     <td>
                       {inEditMode.status &&
                       inEditMode.rowKey === item.profile_id ? (

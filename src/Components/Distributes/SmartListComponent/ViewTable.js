@@ -36,6 +36,10 @@ const ViewTable = (props) => {
   const [deleteConfirmation, setOpenDeleteConfirmation] = useState(false);
   const [showReaders, setShowSaveReader] = useState(false);
 
+  const [name_edits, setNameEdit] = useState("");
+  const [country_edits, setCountryEdit] = useState("");
+  const [email_edits, setEmailEdit] = useState("");
+
   const [addNewData, setAddNewData] = useState(0);
 
   const [profile_user_id, setProfileUserId] = useState();
@@ -418,8 +422,82 @@ const ViewTable = (props) => {
     setEditList(filtered_list);
   };
 
-  const editing = (event, p) => {
-    console.log(event);
+  const editing = (
+    profile_id,
+    profile_user_id,
+    email,
+    jobTitle,
+    company,
+    country,
+    names,
+    index
+  ) => {
+    // console.log(index);
+
+    let ignoreClickOnMeElement = document.getElementById(
+      "row-selected" + index
+    );
+    //  console.log(ignoreClickOnMeElement);
+
+    //  console.log(p);
+    // console.log(event);
+    // console.log(profile_id);
+    // console.log(profile_user_id);
+    // console.log(email);
+
+    // console.log(country);
+    // console.log(names);
+
+    //  setEmailEdit(email_edit);
+
+    ignoreClickOnMeElement.addEventListener(
+      "mouseleave",
+      async (event) => {
+        // event.preventDefault();
+        console.log(event);
+        console.log(index);
+        const name_edit = document.getElementById(
+          "field_name" + index
+        ).innerText;
+
+        const country_edit = document.getElementById(
+          "field_country" + index
+        ).innerText;
+
+        const email_edit = document.getElementById(
+          "field_email" + index
+        ).innerText;
+
+        const data = editList.find((x) => x.profile_id === profile_id);
+        console.log(data);
+
+        if (
+          data.first_name + " " + data.last_name != name_edit ||
+          data.email != email_edit ||
+          data.country != country_edit
+        ) {
+          const body = {
+            user_id: 18207,
+            profile_user_id: profile_user_id,
+            profile_id: profile_id,
+            email: email_edit,
+            country: country_edit,
+            username: name_edit,
+          };
+
+          axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+          await axios
+            .post(`distributes/update_reders_details`, body)
+            .then((res) => {
+              console.log(res);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      },
+      { once: true }
+    );
   };
 
   const addFile = () => {
@@ -743,12 +821,12 @@ const ViewTable = (props) => {
                 </button>
               </div>
               <div className="hcp-added">
-                {/* <button
+                <button
                   className="btn btn-outline-primary"
                   onClick={editButtonClicked}
                 >
                   <img src={path + "edit-button.svg"} alt="Edit" />
-                </button> */}
+                </button>
               </div>
               <div className="top-right-action">
                 <div className="search-bar">
@@ -858,9 +936,7 @@ const ViewTable = (props) => {
                   <tr
                     className="hcps-added"
                     contenteditable={editable === 0 ? "false" : "true"}
-                    onInput={(e) =>
-                      editing(e.currentTarget.textContent, item.profile_id)
-                    }
+                    onInput={(e) => editing(e, item.profile_id)}
                   >
                     <td>
                       {inEditMode.status &&
@@ -898,9 +974,9 @@ const ViewTable = (props) => {
                         item.country
                       )}
                     </td>
-                    {showLessInfo == false ? <td>NA</td> : null}
-                    {showLessInfo == false ? <td>NA</td> : null}
-                    {showLessInfo == false ? <td>NA</td> : null}
+                    {showLessInfo == false ? <td> NA</td> : null}
+                    {showLessInfo == false ? <td> NA</td> : null}
+                    {showLessInfo == false ? <td> NA</td> : null}
 
                     <td class="delete_row" colspan="12">
                       <img
@@ -916,14 +992,25 @@ const ViewTable = (props) => {
                   <td colspan="13"></td>
                 </tr>
 
-                {editList.map((item) => (
+                {editList.map((item, index) => (
                   <tr
+                    id={`row-selected` + index}
                     contenteditable={editable === 0 ? "false" : "true"}
-                    onInput={(e) =>
-                      editing(e.currentTarget.textContent, item.profile_id)
+                    onFocus={(e) =>
+                      editing(
+                        //  e.currentTarget,
+                        item.profile_id,
+                        item.profile_user_id,
+                        item.email,
+                        item.jobTitle,
+                        item.company,
+                        item.country,
+                        item.first_name + " " + item.last_name,
+                        index
+                      )
                     }
                   >
-                    <td>
+                    <td id={`field_name` + index}>
                       {inEditMode.status &&
                       inEditMode.rowKey === item.profile_id ? (
                         <input
@@ -934,7 +1021,7 @@ const ViewTable = (props) => {
                         item.first_name + " " + item.last_name
                       )}
                     </td>
-                    <td>
+                    <td id={`field_email` + index}>
                       {" "}
                       {inEditMode.status &&
                       inEditMode.rowKey === item.profile_id ? (
@@ -947,8 +1034,8 @@ const ViewTable = (props) => {
                         item.email
                       )}
                     </td>
-                    <td>No</td>
-                    <td>
+                    <td id={`field_bounced` + index}>No</td>
+                    <td id={`field_country` + index}>
                       {inEditMode.status &&
                       inEditMode.rowKey === item.profile_id ? (
                         <input
@@ -959,9 +1046,15 @@ const ViewTable = (props) => {
                         item.country
                       )}
                     </td>
-                    {showLessInfo == false ? <td>NA</td> : null}
-                    {showLessInfo == false ? <td>NA</td> : null}
-                    {showLessInfo == false ? <td>NA</td> : null}
+                    {showLessInfo == false ? (
+                      <td id="field_readers">NA</td>
+                    ) : null}
+                    {showLessInfo == false ? (
+                      <td id="field_business_unit">NA</td>
+                    ) : null}
+                    {showLessInfo == false ? (
+                      <td id="field_interest">NA</td>
+                    ) : null}
                     <td class="delete_row" colspan="12">
                       <img
                         src={path + "delete.svg"}
