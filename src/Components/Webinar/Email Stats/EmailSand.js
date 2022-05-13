@@ -12,6 +12,7 @@ const EmailSand = () => {
   const [EmailData, setEmailData] = useState();
   const [templateList, setTemplateList] = useState();
   const [templateId, setTemplateId] = useState();
+  const [registeredNonRegistered, setRegisteredNonRegistered] = useState();
   const [type, setType] = useState();
   const [checked, setChecked] = React.useState([1]);
   const [Checkbox, setCheckbox] = React.useState([]);
@@ -100,6 +101,19 @@ const EmailSand = () => {
   };
   const handleGetEmaildataRegistered = (value) => {
     ExportApi.EmailSandRegistered(value, eventId).then((resp) => {
+      if (resp.ok) {
+        console.log(resp.data.data);
+        let a = resp.data.data;
+        for (let index = 0; index < a.length; index++) {
+          if (a.length !== Checkbox.length) Checkbox.push({ Check: false });
+        }
+        setEmailData(resp.data.data);
+      }
+    });
+  };
+  const handleGetEmaildataRegisteredUserType = (value) => {
+    // console.log(registeredNonRegistered)
+    ExportApi.EmailSandRegisteredType(registeredNonRegistered, eventId,value).then((resp) => {
       if (resp.ok) {
         console.log(resp.data.data);
         let a = resp.data.data;
@@ -205,7 +219,7 @@ const EmailSand = () => {
         pauseOnHover
       />
       <Col md={{ span: 6, offset: 3 }}>
-        <h2>EmailSand</h2>
+        <h2>EmailSend</h2>
         <Row style={{ paddingTop: "20px" }}>
           <Col>
             <Button onClick={() => setShow(true)}>Add User</Button>
@@ -256,12 +270,13 @@ const EmailSand = () => {
             ) : null}
           </Col>
           <Col>
-            {templateList != undefined || templateList != null ? (
+            {templateId != undefined || templateId != null ? (
               <>
                 <Form.Label>Select Users </Form.Label>
                 <Form.Select
                   onChange={(e) => {
                     handleGetEmaildataRegistered(e.target.value);
+                    setRegisteredNonRegistered(e.target.value)
                   }}
                   aria-label="Default select example">
                   <option>Select User</option>
@@ -272,17 +287,21 @@ const EmailSand = () => {
             ) : null}
           </Col>
           <Col>
+             {EmailData != undefined || EmailData  != null ? (
+              <>
             <Form.Label>Select User Type </Form.Label>
             <Form.Select
               onChange={(e) => {
-                // handleGetReadersType(e.target.value);
-                setType(e.target.value);
+                handleGetEmaildataRegisteredUserType(e.target.value);
+                // setType(e.target.value);
               }} >
               <option>Select User Type</option>
               <option value="HCP">HCP</option>
               <option value="Staff User">Staff User</option>
               <option value="Test User">Test User</option>
             </Form.Select>
+            </>
+            ) : null}
           </Col>
         </Row>
         <Row>
@@ -297,7 +316,7 @@ const EmailSand = () => {
               size="md"
               accept="application/vnd.ms-excel"
             />
-            <p>excel file should contain first_name, last_name and email</p>
+            <p>Excel file should contain first_name, last_name and email</p>
             <Button
               onClick={() => {
                 sendExcelFile();
@@ -403,6 +422,8 @@ const EmailSand = () => {
           </form>
         </Modal.Body>
       </Modal>
+      <Col>
+      </Col>
     </Row>
   );
 };

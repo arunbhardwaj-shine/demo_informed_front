@@ -6,6 +6,8 @@ import React, { useEffect, useState, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import Accordion from "react-bootstrap/Accordion";
 import { loader } from "../../../loader";
+import { Modal } from "react-bootstrap";
+import { toast } from "react-toastify";
 
 const FilterSegment = (props) => {
   const tableCompRef = useRef();
@@ -27,6 +29,8 @@ const FilterSegment = (props) => {
   const [apifilterflag, setApiFilterFlag] = useState(0);
   const [getpayload, setPayload] = useState(0);
   const [updateflag, setUpdateFlag] = useState([]);
+  const [confirmationPopupStatus, setConfirmationPopupStatus] = useState(false);
+  const [getfilterapplied, setfilterapplied] = useState(0);
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   useEffect(() => {
@@ -224,6 +228,7 @@ const FilterSegment = (props) => {
   };
 
   const applyFilter = async () => {
+    let flag_to_check_data = false;
     const payload = {
       user_id: 18207,
     };
@@ -238,6 +243,7 @@ const FilterSegment = (props) => {
         return val;
       });
       Object.assign(payload, { contactTypeList: contactTypeList });
+      flag_to_check_data = true;
     }
 
     //For Registered Articles
@@ -247,6 +253,7 @@ const FilterSegment = (props) => {
         return val;
       });
       Object.assign(payload, { registered_on_article: registered_on_article });
+      flag_to_check_data = true;
     }
 
     //For Speciality
@@ -258,6 +265,7 @@ const FilterSegment = (props) => {
         return item;
       });
       Object.assign(payload, { speciality: speciality });
+      flag_to_check_data = true;
     }
 
     //For Country
@@ -266,6 +274,7 @@ const FilterSegment = (props) => {
         return item;
       });
       Object.assign(payload, { country: country });
+      flag_to_check_data = true;
     }
 
     //For Product
@@ -274,11 +283,13 @@ const FilterSegment = (props) => {
         return item;
       });
       Object.assign(payload, { product: product });
+      flag_to_check_data = true;
     }
 
     //For IBU
     if (selectedibu) {
       Object.assign(payload, { ibu: selectedibu });
+      flag_to_check_data = true;
     }
 
     //For Register
@@ -288,6 +299,7 @@ const FilterSegment = (props) => {
       } else {
         Object.assign(payload, { registered_users: 0 });
       }
+      flag_to_check_data = true;
     }
 
     //For Bounce
@@ -297,12 +309,14 @@ const FilterSegment = (props) => {
       } else {
         Object.assign(payload, { bounce: 0 });
       }
+      flag_to_check_data = true;
       // Object.assign(payload, { bounce: 1 });
     }
 
     //For Reader Selection
     if (selectedreaderselection) {
       Object.assign(payload, { reader_selection: selectedreaderselection });
+      flag_to_check_data = true;
     }
 
     //For Consent
@@ -311,26 +325,31 @@ const FilterSegment = (props) => {
         return item;
       });
       Object.assign(payload, { Consent: consent });
+      flag_to_check_data = true;
     }
-    setPayload(payload);
-    setApiFilterFlag(0);
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    loader("show");
-    await axios
-      .post(`distributes/get_smart_list_with_filter_data`, payload)
-      .then((res) => {
-        if ("response" in res.data) {
-          setFilterData(res.data.response.data);
-        } else {
-          setFilterData();
-        }
-        // let updated_flag = apifilterflag + 1;
-        setApiFilterFlag(1);
-        loader("hide");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+    if(flag_to_check_data){
+      setfilterapplied(1);
+      setPayload(payload);
+      setApiFilterFlag(0);
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      loader("show");
+      await axios
+        .post(`distributes/get_smart_list_with_filter_data`, payload)
+        .then((res) => {
+          if ("response" in res.data) {
+              setFilterData(res.data.response.data);
+            } else {
+                setFilterData();
+              }
+              setApiFilterFlag(1);
+              loader("hide");
+          }).catch((err) => {
+                console.log(err);
+          });
+    }else{
+      toast.error("Please select any filter.");
+    }
   };
 
   const getKeyByValue = (object, value) => {
@@ -342,9 +361,43 @@ const FilterSegment = (props) => {
     setApiFilterFlag(1);
   };
 
-  const createSmartListWithFilters = () => {
-    tableCompRef.current.createSmartList(getfilterdata);
+  const showConfirmation = () => {
+      setConfirmationPopupStatus(true);
   };
+
+  const hideconfirmationpopup = () => {
+    setConfirmationPopupStatus(false);
+  }
+
+  const createListWithFilters = () => {
+    setConfirmationPopupStatus(false);
+    tableCompRef.current.createSmartList(getfilterdata);
+  }
+
+  const removeindividualfilter = (src, item) => {
+    if(src == "country"){
+      handleOnCountryChange(item);
+    }else if (src == "contact_type") {
+      handleOnContactTypeChange(item);
+    }else if (src == "speciality") {
+      handleOnSpecialityChange(item);
+    }else if (src == "product") {
+      handleOnProductChange(item);
+    }else if (src == "article") {
+      handleOnArticleChange(item);
+    }else if (src == "consent") {
+      handleOnConsentChange(item);
+    }else if (src == "reader_selection") {
+      handleOnReaderSelectionChange(item);
+    }else if (src == "ibu") {
+      handleOnIbuChange(item);
+    }else if (src == "register") {
+      setSelectedRegister();
+    }else if (src == "bounce") {
+      setSelectedBounce();
+    }
+  }
+
 
   return (
     <>
@@ -367,12 +420,9 @@ const FilterSegment = (props) => {
                 {/*<button className="btn btn-primary btn-bordered save-as">Save As</button>*/}
                 <button
                   className="btn btn-primary btn-filled save"
-                  onClick={createSmartListWithFilters}
+                  onClick={() => showConfirmation()}
                   disabled={
-                    typeof getfilterdata == "undefined" ||
-                    getfilterdata.length == 0
-                      ? true
-                      : false
+                    getfilterapplied == 1 && getfilterdata.length > 0 ? false : true
                   }
                 >
                   Save
@@ -413,7 +463,7 @@ const FilterSegment = (props) => {
                 </button>
                 <button
                   className="btn btn-primary btn-bordered save-as"
-                  onClick={createSmartListWithFilters}
+                  onClick={() => createListWithFilters()}
                   disabled={
                     typeof getfilterdata == "undefined" ||
                     getfilterdata.length == 0
@@ -861,7 +911,9 @@ const FilterSegment = (props) => {
                     </div>
                     <div className="filter-div-list">
                       {Object.entries(selectedcountry).map(([index, item]) => (
-                        <div className="filter-result">
+                        <div className="filter-result" onClick={() =>
+                            removeindividualfilter("country", item)
+                          }>
                           {item == "B&H" ? "Bosnia and Herzegovina" : item}{" "}
                           <img
                             src={path_image + "filter-close.svg"}
@@ -884,7 +936,9 @@ const FilterSegment = (props) => {
                     <div className="filter-div-list">
                       {Object.entries(selectedcontacttype).map(
                         ([index, item]) => (
-                          <div className="filter-result">
+                          <div className="filter-result" onClick={() =>
+                              removeindividualfilter("contact_type", item)
+                            }>
                             {item}{" "}
                             <img
                               src={path_image + "filter-close.svg"}
@@ -908,7 +962,9 @@ const FilterSegment = (props) => {
                     <div className="filter-div-list">
                       {Object.entries(selectedspeciality).map(
                         ([index, item]) => (
-                          <div className="filter-result">
+                          <div className="filter-result" onClick={() =>
+                              removeindividualfilter("speciality", item)
+                            }>
                             {item}{" "}
                             <img
                               src={path_image + "filter-close.svg"}
@@ -931,7 +987,9 @@ const FilterSegment = (props) => {
                     </div>
                     <div className="filter-div-list">
                       {Object.entries(selectedproduct).map(([index, item]) => (
-                        <div className="filter-result">
+                        <div className="filter-result" onClick={() =>
+                            removeindividualfilter("product", item)
+                          }>
                           {item}{" "}
                           <img
                             src={path_image + "filter-close.svg"}
@@ -953,7 +1011,9 @@ const FilterSegment = (props) => {
                     </div>
                     <div className="filter-div-list">
                       {Object.entries(selectedarticles).map(([index, item]) => (
-                        <div className="filter-result">
+                        <div className="filter-result" onClick={() =>
+                            removeindividualfilter("article", item)
+                          }>
                           {item}{" "}
                           <img
                             src={path_image + "filter-close.svg"}
@@ -975,7 +1035,9 @@ const FilterSegment = (props) => {
                     </div>
                     <div className="filter-div-list">
                       {Object.entries(selectedconsent).map(([index, item]) => (
-                        <div className="filter-result">
+                        <div className="filter-result" onClick={() =>
+                            removeindividualfilter("consent", item)
+                          }>
                           {item}{" "}
                           <img
                             src={path_image + "filter-close.svg"}
@@ -995,7 +1057,9 @@ const FilterSegment = (props) => {
                       <span>Reader Selection |</span>
                     </div>
                     <div className="filter-div-list">
-                      <div className="filter-result">
+                      <div className="filter-result" onClick={() =>
+                          removeindividualfilter("reader_selection", selectedreaderselection)
+                        }>
                         {selectedreaderselection}{" "}
                         <img
                           src={path_image + "filter-close.svg"}
@@ -1017,7 +1081,9 @@ const FilterSegment = (props) => {
                       <span>IBU |</span>
                     </div>
                     <div className="filter-div-list">
-                      <div className="filter-result">
+                      <div className="filter-result" onClick={() =>
+                          removeindividualfilter("ibu", selectedibu)
+                        }>
                         {selectedibu}{" "}
                         <img
                           src={path_image + "filter-close.svg"}
@@ -1036,7 +1102,9 @@ const FilterSegment = (props) => {
                       <span>Register |</span>
                     </div>
                     <div className="filter-div-list">
-                      <div className="filter-result">
+                      <div className="filter-result" onClick={() =>
+                          removeindividualfilter("register", selectedregister)
+                        }>
                         {selectedregister}{" "}
                         <img
                           src={path_image + "filter-close.svg"}
@@ -1055,7 +1123,9 @@ const FilterSegment = (props) => {
                       <span>Bounce |</span>
                     </div>
                     <div className="filter-div-list">
-                      <div className="filter-result">
+                      <div className="filter-result" onClick={() =>
+                          removeindividualfilter("bounce", selectedbounce)
+                        }>
                         {selectedbounce}{" "}
                         <img
                           src={path_image + "filter-close.svg"}
@@ -1073,7 +1143,6 @@ const FilterSegment = (props) => {
         {apifilterflag > 0 ? (
           typeof getfilterdata === "object" && getfilterdata.length > 0 ? (
             <div className="box mt-2">
-              {console.log(getfilterdata)}
               <Table
                 ref={tableCompRef}
                 data={getfilterdata}
@@ -1091,6 +1160,28 @@ const FilterSegment = (props) => {
           )
         ) : null}
       </section>
+
+      {/*Confrimation Popup start*/}
+      <Modal show={confirmationPopupStatus} className="send-confirm" id="resend-confirm">
+        <Modal.Header>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" onClick={() => {hideconfirmationpopup()}}></button>
+        </Modal.Header>
+        <Modal.Body>
+          <img src={path_image + "alert.png"} alt="" />
+          <h4>
+            Are you sure you want to save the changes?
+          </h4>
+          <div class="modal-buttons">
+            <button type="button" class="btn btn-primary btn-filled" data-bs-dismiss="modal" onClick={() => {createListWithFilters()}}>
+              Yes Please!
+            </button>
+            <button type="button" class="btn btn-primary btn-bordered light" data-bs-dismiss="modal"  onClick={() => {hideconfirmationpopup()}} >
+              Cancel
+            </button>
+          </div>
+        </Modal.Body>
+      </Modal>
+      {/*Confrimation Popup end*/}
     </>
   );
 };

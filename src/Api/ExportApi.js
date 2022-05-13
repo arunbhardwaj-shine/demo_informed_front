@@ -91,8 +91,8 @@ BaseApi.post("rehearsal",{
   BaseApi.post("template",{name:name,event_id:id},{ headers: {
     'Authorization':localStorage.getItem("Token"),
   }});
-  const UpdateTemplate = (subject ,id,html, i,linkData) =>
-  BaseApi.post("update-template",{subject :subject ,json_description :id,description :html,template_id :i,linkData:linkData},{ headers: {
+  const UpdateTemplate = (subject ,id,html, i) =>
+  BaseApi.post("update-template",{subject :subject ,json_description :id,description :html,template_id :i},{ headers: {
     'Authorization':localStorage.getItem("Token"),
   }});
   ////Registration
@@ -161,8 +161,16 @@ const EmailSandRegistered = (type,event_id,) =>
 BaseApi.get(`participant-list`,{event_id:event_id,type:type},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
+const EmailSandRegisteredType = (type,event_id,user_type) =>
+BaseApi.get(`participant-list`,{event_id:event_id,type:type,user_type:user_type},{ headers: {
+  'Authorization':localStorage.getItem("Token"),
+}});
 const sandAllmaik = (template_id ,participants) =>
 BaseApi.post(`send-mail`,{template_id:template_id,participants:participants},{ headers: {
+  'Authorization':localStorage.getItem("Token"),
+}});
+const CreateParticipant = (event_id ,name,email,country,browser) =>
+BaseApi.post(`create-participant`,{event_id:event_id,name:name,email:email,country:country,browser:browser},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
 
@@ -201,6 +209,8 @@ export default {
   EmailStatss,
   EmailSand,
   EmailSandRegistered,
+  EmailSandRegisteredType,
   sandAllmaik,
-  Excelsend
+  Excelsend,
+  CreateParticipant
 };
