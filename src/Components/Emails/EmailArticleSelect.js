@@ -556,7 +556,9 @@ const EmailArticleSelect = () => {
               SendListData.map((data) => {
               return (
                 <div className="col-12 col-md-4">
+                  <div className="mail-content-select-box-outer">
                   <div className="mail-content-select-box">
+                    <div classname="mail-content-select-box-block">
                     <div className="mail-content-select-top">
                       <div className="mail-preview-img">
                         <img src={data.cover_img} alt="Preview " />
@@ -608,6 +610,7 @@ const EmailArticleSelect = () => {
                         </tbody>
                       </table>
                     </div>
+                    </div>
                     <div className="mail-content-footer">
                       <a href={data.preview_link} target="_blank">
                         <button className="btn btn-primary btn-filled">
@@ -615,6 +618,7 @@ const EmailArticleSelect = () => {
                         </button>
                       </a>
                     </div>
+                  </div>
                   </div>
                 </div>
               );
