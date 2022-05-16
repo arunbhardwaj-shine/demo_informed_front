@@ -620,7 +620,7 @@ const EmailArticleSelect = () => {
               );
             }) :
             <div className="not_found">
-              No Data Found
+              <p>No Data Found</p>
             </div>
           }
           </div>
