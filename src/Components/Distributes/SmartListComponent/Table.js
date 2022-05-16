@@ -68,6 +68,7 @@ const Table = (props, ref) => {
     { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
   ]);
   const [countryall, setCountryall] = useState([]);
+  const [editableData, setEditableData] = useState([]);
 
   useImperativeHandle(
     ref,
@@ -198,66 +199,67 @@ const Table = (props, ref) => {
     names,
     index
   ) => {
-    var ignoreClickOnMeElement = document.getElementById(
-      "row-selected" + index
-    );
-    //  console.log(ignoreClickOnMeElement);
+    const arr = [];
+    arr.push({
+      profile_id: profile_id,
+      profile_user_id: profile_user_id,
+      email: email,
+      jobTitle: jobTitle,
+      company: company,
+      country: country,
+      names: names,
+    });
 
-    //  console.log(p);
-    // console.log(event);
-    // console.log(profile_id);
-    // console.log(profile_user_id);
-    // console.log(email);
+    setEditableData((oldArray) => [...oldArray, arr]);
 
-    // console.log(country);
-    // console.log(names);
+    // var ignoreClickOnMeElement = document.getElementById(
+    //   "row-selected" + index
+    // );
 
-    //  setEmailEdit(email_edit);
+    // ignoreClickOnMeElement.addEventListener(
+    //   "mouseleave",
+    //   async (event) => {
+    //     console.log("clicked outside");
+    //     const name_edit = document.getElementById(
+    //       "field_name" + index
+    //     ).innerText;
+    //     //setNameEdit(name_edit);
+    //     const country_edit = document.getElementById(
+    //       "field_country" + index
+    //     ).innerText;
+    //     //  setCountryEdit(country_edit);
+    //     const email_edit = document.getElementById(
+    //       "field_email" + index
+    //     ).innerText;
+    //     // console.log(editList);
+    //     const data = editList.find((x) => x.profile_id === profile_id);
+    //     console.log(data);
+    //     console.log(email_edit);
+    //     console.log(country_edit);
 
-    ignoreClickOnMeElement.addEventListener(
-      "mouseleave",
-      async (event) => {
-        console.log("clicked outside");
-        const name_edit = document.getElementById(
-          "field_name" + index
-        ).innerText;
-        //setNameEdit(name_edit);
-        const country_edit = document.getElementById(
-          "field_country" + index
-        ).innerText;
-        //  setCountryEdit(country_edit);
-        const email_edit = document.getElementById(
-          "field_email" + index
-        ).innerText;
-        // console.log(editList);
-        const data = editList.find((x) => x.profile_id === profile_id);
-        console.log(data);
-        console.log(email_edit);
-        console.log(country_edit);
+    //     if (data.email != email_edit || data.country != country_edit) {
+    //       const body = {
+    //         user_id: 18207,
+    //         profile_user_id: profile_user_id,
+    //         profile_id: profile_id,
+    //         email: email_edit,
+    //         country: country_edit,
+    //         username: name_edit,
+    //       };
 
-        if (data.email != email_edit || data.country != country_edit) {
-          const body = {
-            user_id: 18207,
-            profile_user_id: profile_user_id,
-            profile_id: profile_id,
-            email: email_edit,
-            country: country_edit,
-            username: name_edit,
-          };
-
-          axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-          await axios
-            .post(`distributes/update_reders_details`, body)
-            .then((res) => {
-              console.log(res);
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        }
-      },
-      { once: true }
-    );
+    //       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    //       await axios
+    //         .post(`distributes/update_reders_details`, body)
+    //         .then((res) => {
+    //           console.log(res);
+    //         })
+    //         .catch((err) => {
+    //           console.log(err);
+    //         });
+    //     }
+    //   },
+    //   { once: true }
+    // );
   };
 
   const showFileInReadersList = async (fdata) => {
