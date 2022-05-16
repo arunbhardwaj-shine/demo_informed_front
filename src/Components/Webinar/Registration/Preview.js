@@ -41,7 +41,6 @@ const Preview = () => {
       // bind function for close the popup
       ExportApi.CreateParticipant(name,event_id,company_id,form_id,country,browser,email).then((resp) => {
         if (resp.ok) {
-          alert("hello")
           console.log(resp.data)
           if(resp.data.code==200)
           setData(resp.data.message)
