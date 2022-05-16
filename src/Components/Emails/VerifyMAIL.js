@@ -453,7 +453,7 @@ const VerifyMAIL = (props) => {
                               </ul>
                             </div> */}
                             <div className="smartlist-buttons">
-                              <button className="btn btn-primary view">
+                              <button className="btn btn-primary btn-bordered view">
                                 View
                               </button>
                             </div>
