@@ -33,6 +33,9 @@ const GetCountryData = () => BaseApi.get("country",{},{ headers: {
 const GetEventList = () => BaseApi.get("events",{},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
+const GetEventListSerch = (data) => BaseApi.get("events",{search:data},{ headers: {
+  'Authorization':localStorage.getItem("Token"),
+}});
 const GetEventListData = (id) => BaseApi.get(`event/${id}`,{},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
@@ -185,6 +188,7 @@ export default {
   GetTimezoneregionData,
   GetCountryData,
   GetEventList,
+  GetEventListSerch,
   CreatEvent,
   GetEventListDataUpdate,
   GetEventListData,
