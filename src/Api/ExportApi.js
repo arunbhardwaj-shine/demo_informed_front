@@ -169,8 +169,8 @@ const sandAllmaik = (template_id ,participants) =>
 BaseApi.post(`send-mail`,{template_id:template_id,participants:participants},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
-const CreateParticipant = (event_id ,name,email,country,browser) =>
-BaseApi.post(`create-participant`,{event_id:event_id,name:name,email:email,country:country,browser:browser},{ headers: {
+const CreateParticipant = (name,event_id,company_id,form_id,country,browser,email) =>
+BaseApi.post(`create-participant`,{event_id:event_id,name:name,email:email,country:country,browser:browser,form_id:form_id,company_id:company_id},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
 
