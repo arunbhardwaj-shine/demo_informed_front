@@ -316,7 +316,7 @@ const EmailSand = () => {
               size="md"
               accept="application/vnd.ms-excel"
             />
-            <p>Excel file should contain first_name, last_name and email</p>
+            <p>Excel file should contain first name, last name and email</p>
             <Button
               onClick={() => {
                 sendExcelFile();

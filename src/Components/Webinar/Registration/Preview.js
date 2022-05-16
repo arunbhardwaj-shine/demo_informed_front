@@ -3,6 +3,7 @@ import { Button, Modal } from 'react-bootstrap';
 import { useParams } from 'react-router-dom'
 import { ensurePluginOrder } from 'react-table';
 import ExportApi from '../../../Api/ExportApi';
+import { browserName, browserVersion } from "react-device-detect";
 const Preview = () => {
   const [data, setData] = useState();
   const [show, setShow] = useState(false);
@@ -32,14 +33,10 @@ const Preview = () => {
     const handleFormData = (e) => {
        e.preventDefault();
      let name=document.getElementById("fname").value
-     let event_id=document.getElementById("event_id").value
-     let company_id=document.getElementById("company_id").value
-     let form_id=document.getElementById("form_id").value
      let country=document.getElementById("country").value
-     let browser=document.getElementById("browser").value
      let email=document.getElementById("email").value
       // bind function for close the popup
-      ExportApi.CreateParticipant(name,event_id,company_id,form_id,country,browser,email).then((resp) => {
+      ExportApi.CreateParticipant(name,country,browserName,email,parms.url).then((resp) => {
         if (resp.ok) {
           console.log(resp.data)
           if(resp.data.code==200)
@@ -50,7 +47,7 @@ const Preview = () => {
     };
     useEffect(() => {
       handleGetPublicPage()
-    
+    console.log("browserName",browserName)
     }, [])
 
   return (

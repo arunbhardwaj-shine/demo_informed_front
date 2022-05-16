@@ -167,7 +167,7 @@ ReactDOM.render(
                           element={<EmailStats />}
                         />
                         <Route
-                          path="/webinar/sandemail"
+                          path="/webinar/sendemail"
                           element={<EmailSand />}
                         />
                       </Route>
