@@ -482,6 +482,7 @@ const ViewTable = (props) => {
           company: company,
           country: country_edit,
           names: name_edit,
+          user_id: 18207,
         });
         setEditableData((oldArray) => [...oldArray, ...arr]);
       },
