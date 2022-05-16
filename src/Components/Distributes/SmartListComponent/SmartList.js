@@ -9,6 +9,7 @@ import { getListId } from "../../../actions";
 import CreateSmartList from "./CreateSmartList";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../../popup_alert";
+import Accordion from "react-bootstrap/Accordion";
 const SmartList = (props) => {
   const [smartListData, setSmartListData] = useState([]);
   const [getUserDetails, setUserDetails] = useState([]);
@@ -18,6 +19,14 @@ const SmartList = (props) => {
   const [deletestatus, setDeleteStatus] = useState(false);
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [deletecardid, setDeleteCardId] = useState();
+  const [filterdata, setFilterData] = useState([]);
+  const [getfiltername, setFilterName] = useState([]);
+  const [getFilterCreator, setFilterCreator] = useState([]);
+  const [filterdate, setFilterDate] = useState([]);
+  const [filter, setFilter] = useState("");
+  const [updateflag, setUpdateFlag] = useState(0);
+  const [showfilter, setShowFilter] = useState(false);
+  const [filterapplied, setFilterApply] = useState(false);
   let path= process.env.REACT_APP_ASSETS_PATH_INFORMED;
   let path_image= process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -25,7 +34,7 @@ const SmartList = (props) => {
   const body = {
     user_id: 18207,
     search:search,
-    filter:'',
+    filter:filter,
   };
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const getSmartListData = async (flag) => {
@@ -36,6 +45,7 @@ const SmartList = (props) => {
         setLoading(false);
         setSmartListData(res.data.response.data);
         if(flag == 0){
+          setFilterData(res.data.response.filter);
           setPrevSmartListData(res.data.response.data);
         }
         setUserDetails(res.data.response.userdetails);
@@ -131,6 +141,111 @@ const SmartList = (props) => {
       });
   };
 
+  const handleNameChange = (name) => {
+    let get_name_index = getfiltername.indexOf(name);
+    if (get_name_index !== -1) {
+      getfiltername.splice(get_name_index, 1);
+      setFilterName(getfiltername);
+    } else {
+      getfiltername.push(name);
+      setFilterName(getfiltername);
+    }
+
+    let getfilter = getfiltername;
+    if (getfilter.hasOwnProperty("name")) {
+      getfilter.name = getfiltername;
+    } else {
+      getfilter = Object.assign({ name: getfiltername }, filter);
+    }
+    setFilter(getfilter);
+
+    let up = updateflag + 1;
+    setUpdateFlag(up);
+  }
+
+  const handleCreatorChange = (creator) => {
+    let get_creator_index = getFilterCreator.indexOf(creator);
+    if (get_creator_index !== -1) {
+      getFilterCreator.splice(get_creator_index, 1);
+      setFilterCreator(getFilterCreator);
+    } else {
+      getFilterCreator.push(creator);
+      setFilterCreator(getFilterCreator);
+    }
+
+    let getfilter = getFilterCreator;
+    if (getfilter.hasOwnProperty("creator")) {
+      getfilter.name = getFilterCreator;
+    } else {
+      getfilter = Object.assign({ creator: getFilterCreator }, filter);
+    }
+    setFilter(getfilter);
+
+    let up = updateflag + 1;
+    setUpdateFlag(up);
+  }
+
+  const handleOnFilterDate = (fdate) => {
+    let date_index = filterdate.indexOf(fdate);
+    if (date_index !== -1) {
+      filterdate.splice(date_index, 1);
+      setFilterDate(filterdate);
+    } else {
+      filterdate.push(fdate);
+      setFilterDate(filterdate);
+    }
+
+    let getfilter = filter;
+    if (getfilter.hasOwnProperty("date")) {
+      getfilter.date = filterdate;
+    } else {
+      getfilter = Object.assign({ date: filterdate }, filter);
+    }
+    setFilter(getfilter);
+    let up = updateflag + 1;
+    setUpdateFlag(up);
+  };
+
+  const clearFilter = () => {
+    document.querySelectorAll("input").forEach((checkbox) => {
+      checkbox.checked = false;
+    });
+    setFilterName([]);
+    setFilterCreator([]);
+    setFilterDate([]);
+    setFilter([]);
+    let up = updateflag + 1;
+    setUpdateFlag(up);
+    if (filterapplied) {
+      setSmartListData(prevsmartListData);
+    }
+    setShowFilter(false);
+  };
+
+  const applyFilter = () => {
+    setFilterApply(true);
+    getSmartListData(1);
+    setShowFilter(false);
+  };
+
+
+  const removeindividualfilter = (src, item) => {
+    loader("show");
+    if (src == "name") {
+      handleNameChange(item);
+    } else if (src == "date") {
+      handleOnFilterDate(item);
+    } else if (src == "creator") {
+      handleCreatorChange(item);
+    }
+    if (filterapplied) {
+      getSmartListData(1);
+    }else{
+      loader("hide");
+    }
+    setShowFilter(false);
+  };
+
   return (
     <>
     <div className="col right-sidebar">
@@ -148,18 +263,186 @@ const SmartList = (props) => {
                 </button>
               </form>
             </div>
-            {
 
-              /*<div className="filter-by">
-              <button className="btn btn-outline-primary" type="submit">
-              Filter By <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z" fill="#97B6CF"/>
-              <path d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z" fill="#97B6CF"/>
-              <path d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z" fill="#97B6CF"/>
-              </svg>
-              </button>
-              </div>*/
-            }
+              <div className="filter-by nav-item dropdown">
+                <button className="btn btn-secondary dropdown" type="button" id="dropdownMenuButton2" onClick={() => setShowFilter((showfilter) => !showfilter)}>
+                Filter By
+                {showfilter ? (
+                  <svg
+                    className="close-arrow"
+                    width="13"
+                    height="12"
+                    viewBox="0 0 13 12"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <rect
+                      width="2.09896"
+                      height="15.1911"
+                      rx="1.04948"
+                      transform="matrix(0.720074 0.693897 -0.720074 0.693897 11.0977 0)"
+                      fill="#0066BE"
+                    />
+                    <rect
+                      width="2.09896"
+                      height="15.1911"
+                      rx="1.04948"
+                      transform="matrix(0.720074 -0.693897 0.720074 0.693897 0 1.45898)"
+                      fill="#0066BE"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    className="filter-arrow"
+                    width="16"
+                    height="14"
+                    viewBox="0 0 16 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z"
+                      fill="#97B6CF"
+                    />
+                    <path
+                      d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z"
+                      fill="#97B6CF"
+                    />
+                    <path
+                      d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z"
+                      fill="#97B6CF"
+                    />
+                  </svg>
+                )}
+                </button>
+
+                {showfilter && (
+                  <div className="dropdown-menu filter-options" aria-labelledby="dropdownMenuButton2">
+                	  <h4>Filter By</h4>
+                    <Accordion defaultActiveKey="0" flush>
+                    {filterdata.hasOwnProperty("name") &&
+                      filterdata.name.length > 0 && (
+                        <Accordion.Item className="card" eventKey="0">
+                          <Accordion.Header className="card-header">
+                            Name
+                          </Accordion.Header>
+                          <Accordion.Body className="card-body">
+                            <ul>
+                              {Object.entries(filterdata.name).map(
+                                ([index, item]) => (
+                                  <li>
+                                    <label className="select-multiple-option">
+                                      <input
+                                        type="checkbox"
+                                        id={`custom-checkbox-name-${index}`}
+                                        name="names[]"
+                                        value={item}
+                                        checked={
+                                          updateflag > 0 &&
+                                          typeof getfiltername !== "undefined" &&
+                                          getfiltername.indexOf(item) !== -1
+                                        }
+                                        onChange={() =>
+                                          handleNameChange(item)
+                                        }
+                                      />
+                                      {item}
+                                      <span className="checkmark"></span>
+                                    </label>
+                                  </li>
+                                )
+                              )}
+                            </ul>
+                            </Accordion.Body>
+                            </Accordion.Item>
+                        )
+                      }
+
+                      {filterdata.hasOwnProperty("creator") &&
+                        filterdata.creator.length > 0 && (
+                          <Accordion.Item className="card" eventKey="1">
+                            <Accordion.Header className="card-header">
+                              Creator
+                            </Accordion.Header>
+                            <Accordion.Body className="card-body">
+                              <ul>
+                                {Object.entries(filterdata.creator).map(
+                                  ([index, item]) => (
+                                    <li>
+                                      <label className="select-multiple-option">
+                                        <input
+                                          type="checkbox"
+                                          id={`custom-checkbox-creator-${index}`}
+                                          name="creator[]"
+                                          value={item}
+                                          checked={
+                                            updateflag > 0 &&
+                                            typeof getFilterCreator !== "undefined" &&
+                                            getFilterCreator.indexOf(item) !== -1
+                                          }
+                                          onChange={() =>
+                                            handleCreatorChange(item)
+                                          }
+                                        />
+                                        {item}
+                                        <span className="checkmark"></span>
+                                      </label>
+                                    </li>
+                                  )
+                                )}
+                              </ul>
+                              </Accordion.Body>
+                              </Accordion.Item>
+                          )
+                        }
+
+
+                        {
+                          filterdata.hasOwnProperty('created') && filterdata.created.length > 0 && (
+                            <Accordion.Item className="card" eventKey="2">
+                            <Accordion.Header className="card-header">Created</Accordion.Header>
+                            <Accordion.Body className="card-body">
+                            <ul>
+                              {
+                                Object.entries(filterdata.created).map(([index, item]) => (
+                                    <li>
+                                    <label className="select-multiple-option">
+                                    <input
+                                      type="checkbox"
+                                      id={`custom-checkbox-date-${index}`}
+                                      name="date[]"
+                                      value={item}
+                                      checked={updateflag > 0 && typeof filterdate !== 'undefined' && filterdate.indexOf(item) !== -1}
+                                      onChange={() => handleOnFilterDate(item)}
+                                    />
+                                      {item}
+                                      <span className="checkmark"></span>
+                                    </label>
+                                    </li>
+                                ))}
+                              </ul>
+                              </Accordion.Body>
+                              </Accordion.Item>
+                          )
+                        }
+                    </Accordion>
+                    <div className="filter-footer">
+                      <button
+                        className="btn btn-primary btn-bordered"
+                        onClick={clearFilter}
+                      >
+                        Clear
+                      </button>
+                      <button
+                        className="btn btn-primary btn-filled"
+                        onClick={applyFilter}
+                      >
+                        Apply
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             <div className="clear-search">
               <button className="btn btn-outline-primary" onClick={(e) => showDeleteButtons()}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -176,21 +459,120 @@ const SmartList = (props) => {
         </div>
 
 
-        <div className="smart-list-result">
-						<div className="col smartlist-result-block">
-              <div className="smartlist_box_block">
-                <div className="smartlist-add smartlist-view">
-                  {typeof getUserDetails !== "undefined" &&
-                  (
-                    <>
-                      <Link to="/CreateSmartList" state={{ creator:  getUserDetails.username}}>
-                        <img src={path_image+"add-button.svg"} alt="" />
-                      </Link>
-                      <p>Create New Smart List</p>
-                    </>
+        {updateflag > 0 &&
+          (getfiltername.length > 0 ||
+            getFilterCreator.length > 0 ||
+            filterdate.length > 0 ) && (
+            <div className="apply-filter">
+              <h6>Applied filters</h6>
+              <div className="filter-block">
+                <div className="filter-block-left full">
+
+                  {getfiltername.length > 0 && (
+                    <div className="filter-div">
+                      <div className="filter-div-title">
+                        <span>Name |</span>
+                      </div>
+                      <div className="filter-div-list">
+                        {Object.entries(getfiltername).map(([index, item]) => (
+                          <div
+                            className="filter-result"
+                            onClick={(event) =>
+                              removeindividualfilter("name", item)
+                            }
+                          >
+                            {item}
+                            <img
+                              src={path_image + "filter-close.svg"}
+                              alt="Close-filter"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {getFilterCreator.length > 0 && (
+                    <div className="filter-div">
+                      <div className="filter-div-title">
+                        <span>Creators |</span>
+                      </div>
+                      <div className="filter-div-list">
+                        {Object.entries(getFilterCreator).map(([index, item]) => (
+                          <div
+                            className="filter-result"
+                            onClick={(event) =>
+                              removeindividualfilter("creator", item)
+                            }
+                          >
+                            {item}
+                            <img
+                              src={path_image + "filter-close.svg"}
+                              alt="Close-filter"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {filterdate.length > 0 && (
+                    <div className="filter-div">
+                      <div className="filter-div-title">
+                        <span>Date |</span>
+                      </div>
+                      <div className="filter-div-list">
+                        {Object.entries(filterdate).map(([index, item]) => (
+                          <div
+                            className="filter-result"
+                            onClick={(event) =>
+                              removeindividualfilter("date", item)
+                            }
+                          >
+                            {item}
+                            <img
+                              src={path_image + "filter-close.svg"}
+                              alt="Close-filter"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   )}
                 </div>
+                <div className="clear-filter">
+                  <button
+                    className="btn btn-outline-primary btn-bordered"
+                    onClick={clearFilter}
+                  >
+                    Remove All
+                  </button>
+                </div>
               </div>
+            </div>
+          )}
+
+        <div className="smart-list-result">
+						<div className="col smartlist-result-block">
+            {
+              getfiltername.length == 0 &&
+                getFilterCreator.length == 0 &&
+                filterdate.length == 0  && (
+                  <div className="smartlist_box_block">
+                    <div className="smartlist-add smartlist-view">
+                      {typeof getUserDetails !== "undefined" &&
+                      (
+                        <>
+                          <Link to="/CreateSmartList" state={{ creator:  getUserDetails.username}}>
+                            <img src={path_image+"add-button.svg"} alt="" />
+                          </Link>
+                          <p>Create New Smart List</p>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                )
+            }
 							{
                 typeof smartListData !== "undefined" && smartListData.length > 0 ?
                   smartListData.map((data) => {

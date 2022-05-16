@@ -338,54 +338,61 @@ const CreateEmail = (props) => {
     setIsOpen(false);
   };
 
-  const saveAsDraft = async () => {
+  const saveAsDraft = async (event) => {
     let tagss = [];
     finalTags.map((tags) => {
       tagss.push(tags.innerText || tags);
     });
 
-    const body = {
-      user_id: 18207,
-      pdf_id: props.getEmailData
-        ? PdfSelected
-        : props.getDraftData.pdf_selected,
-      description: props.getEmailData
-        ? emailDescription
-        : props.getDraftData.description,
-      creator: props.getEmailData ? emailCreator : props.getDraftData.creator,
-      campaign_name: props.getEmailData
-        ? emailCampaign
-        : props.getDraftData.campaign,
-      subject: props.getEmailData ? emailSubject : props.getDraftData.subject,
-      route_location: "CreateEmail",
-      tags: props.getEmailData ? tagss : props.getDraftData.tags,
-      campaign_data: {
-        template_id: props.getEmailData
-          ? templateId
-          : props.getDraftData.template_id,
-      },
+    let campaign = props.getEmailData ? emailCampaign : props.getDraftData.campaign;
 
-      campaign_id: campaign_id_st,
-      status: 2,
-    };
+    if(typeof campaign !== "undefined" && campaign !== ""){
+        const body = {
+          user_id: 18207,
+          pdf_id: props.getEmailData
+          ? PdfSelected
+          : props.getDraftData.pdf_selected,
+          description: props.getEmailData
+          ? emailDescription
+          : props.getDraftData.description,
+          creator: props.getEmailData ? emailCreator : props.getDraftData.creator,
+          campaign_name: props.getEmailData
+          ? emailCampaign
+          : props.getDraftData.campaign,
+          subject: props.getEmailData ? emailSubject : props.getDraftData.subject,
+          route_location: "CreateEmail",
+          tags: props.getEmailData ? tagss : props.getDraftData.tags,
+          campaign_data: {
+            template_id: props.getEmailData
+            ? templateId
+            : props.getDraftData.template_id,
+          },
 
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    loader("show");
-    await axios
-      .post(`emailapi/save_draft`, body)
-      .then((res) => {
-        loader("hide");
+          campaign_id: campaign_id_st,
+          status: 2,
+        };
 
-        setCampaign_id(res.data.response.data.id);
-        if (res.data.status_code === 200) {
-          toast.success("Draft saved");
-        } else {
-          toast.warning(res.data.message);
-        }
-      })
-      .catch((err) => {
-        toast.error("Something went wrong");
-      });
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+        loader("show");
+        await axios
+        .post(`emailapi/save_draft`, body)
+        .then((res) => {
+          loader("hide");
+
+          setCampaign_id(res.data.response.data.id);
+          if (res.data.status_code === 200) {
+            toast.success("Draft saved");
+          } else {
+            toast.warning(res.data.message);
+          }
+        })
+        .catch((err) => {
+          toast.error("Something went wrong");
+        });
+    }else{
+      event.preventDefault();
+      toast.error("Plese select Email Campaign first");
+    }
   };
 
   const templateClicked = (template, e) => {

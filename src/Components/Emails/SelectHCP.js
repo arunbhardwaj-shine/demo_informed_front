@@ -18,7 +18,10 @@ const SelectHCP = (props) => {
   const [templateId, setTemplateId] = useState(0);
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-  const campaign_id = props.getDraftData ? props.getDraftData.campaign_id : "";
+  const campaign_id = props.getEmailData
+  ? props.getEmailData.campaign_id
+  : props.getDraftData.campaign_data.campaign_id;
+  console.log(campaign_id);
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
 
   const handleInputChange = (event, selected) => {
@@ -39,8 +42,6 @@ const SelectHCP = (props) => {
   };
 
   const saveAsDraft = async () => {
-
-
     const body = {
       user_id: 18207,
       pdf_id: props.getEmailData
@@ -80,14 +81,9 @@ const SelectHCP = (props) => {
         if (res.data.status_code === 200) {
           toast.success("Draft saved successfuly");
           setCampaign_id(res.data.response.data.id);
-
-        }else{
+        } else {
           toast.warning(res.data.message);
         }
-
-        
-        
-
       })
       .catch((err) => {
         //console.log(err);
@@ -95,28 +91,24 @@ const SelectHCP = (props) => {
       });
   };
 
+  const nextClicked = () => {
+    //console.log(props.getEmailData)
+    //console.log(props.getEmailData());
+    //const obj =  Object.assign(props.getEmailData(), {selected:selection} );
+    // console.log(obj)
+    //console.log(props);
+    console.log(props.getEmailData);
+    const obj = props.getEmailData;
+    console.log(obj);
+    //Object.assign(props.getEmailData(), {selected:selection} );
+    obj.selected = selection;
 
-   const nextClicked = () => {
+    console.log(obj);
+    //            console.log(obj);
+    props.getEmailData(obj);
 
-   //console.log(props.getEmailData)
-   //console.log(props.getEmailData());
-   //const obj =  Object.assign(props.getEmailData(), {selected:selection} );
-  // console.log(obj)
-   //console.log(props);
-   console.log(props.getEmailData)
- const obj = props.getEmailData;
- console.log(obj);
- //Object.assign(props.getEmailData(), {selected:selection} );
-  obj.selected =selection;
-
-
-  console.log(obj)
-//            console.log(obj);
-props.getEmailData(obj);
-
-console.log(props);
-
-   }
+    console.log(props);
+  };
 
   return (
     <>
@@ -173,12 +165,13 @@ console.log(props);
                     }
                     state={{ UserSelected: templateId }}
                   >
-                   <button className="btn btn-primary btn-filled next" onClick={nextClicked}>
-                     Next
-                   </button>
+                    <button
+                      className="btn btn-primary btn-filled next"
+                      onClick={nextClicked}
+                    >
+                      Next
+                    </button>
                   </Link>
-
-                 
                 )}
               </div>
             </div>

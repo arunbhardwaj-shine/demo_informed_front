@@ -32,8 +32,13 @@ const ViewTable = (props) => {
   const [fileValidationMessage, setFileValidationMeassage] = useState(0);
   const [emailData, setEmailData] = useState("");
   const [search, setSearch] = useState("");
+  const [showLessInfo, setShowLessInfo] = useState(false);
   const [deleteConfirmation, setOpenDeleteConfirmation] = useState(false);
   const [showReaders, setShowSaveReader] = useState(false);
+
+  const [name_edits, setNameEdit] = useState("");
+  const [country_edits, setCountryEdit] = useState("");
+  const [email_edits, setEmailEdit] = useState("");
 
   const [addNewData, setAddNewData] = useState(0);
 
@@ -46,7 +51,7 @@ const ViewTable = (props) => {
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [activeManual, setActiveManual] = useState("active");
   const [newData, setNewData] = useState([]);
-
+  const [showLessUpdate, setShowLessUpdate] = useState(0);
   const [activeExcel, setActiveExcel] = useState("");
 
   useEffect(() => {
@@ -62,6 +67,25 @@ const ViewTable = (props) => {
     ) {
       setListName(props.smartListName);
     }
+  }, []);
+
+  useEffect(() => {
+    const getalCountry = async () => {
+      let body = {
+        user_id: 18207,
+      };
+      await axios
+        .post(`distributes/filters_list`, body)
+        .then((res) => {
+          setCountryall(res.data.response.data.country);
+          //console.log(countryall)
+          // setCounter(counter + 1);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    getalCountry();
   }, []);
 
   const [name, setName] = useState(null);
@@ -177,23 +201,6 @@ const ViewTable = (props) => {
     if (addNewData > 0) {
       showFileInList();
     }
-
-    const getalCountry = async () => {
-      let body = {
-        user_id: 18207,
-      };
-      await axios
-        .post(`distributes/filters_list`, body)
-        .then((res) => {
-          setCountryall(res.data.response.data.country);
-          //console.log(countryall)
-          // setCounter(counter + 1);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-    getalCountry();
   }, [addNewData]);
 
   const showFileInReadersList = async () => {
@@ -270,6 +277,12 @@ const ViewTable = (props) => {
 
     setHpc(list);
     setCounterFlag(counterFlag + 1);
+  };
+
+  const showMoreInfo = (e) => {
+    e.preventDefault();
+
+    setShowLessInfo(!showLessInfo);
   };
 
   const addMoreHcp = () => {
@@ -409,8 +422,82 @@ const ViewTable = (props) => {
     setEditList(filtered_list);
   };
 
-  const editing = (event, p) => {
-    console.log(event);
+  const editing = (
+    profile_id,
+    profile_user_id,
+    email,
+    jobTitle,
+    company,
+    country,
+    names,
+    index
+  ) => {
+    // console.log(index);
+
+    let ignoreClickOnMeElement = document.getElementById(
+      "row-selected" + index
+    );
+    //  console.log(ignoreClickOnMeElement);
+
+    //  console.log(p);
+    // console.log(event);
+    // console.log(profile_id);
+    // console.log(profile_user_id);
+    // console.log(email);
+
+    // console.log(country);
+    // console.log(names);
+
+    //  setEmailEdit(email_edit);
+
+    ignoreClickOnMeElement.addEventListener(
+      "mouseleave",
+      async (event) => {
+        // event.preventDefault();
+        console.log(event);
+        console.log(index);
+        const name_edit = document.getElementById(
+          "field_name" + index
+        ).innerText;
+
+        const country_edit = document.getElementById(
+          "field_country" + index
+        ).innerText;
+
+        const email_edit = document.getElementById(
+          "field_email" + index
+        ).innerText;
+
+        const data = editList.find((x) => x.profile_id === profile_id);
+        console.log(data);
+
+        if (
+          data.first_name + " " + data.last_name != name_edit ||
+          data.email != email_edit ||
+          data.country != country_edit
+        ) {
+          const body = {
+            user_id: 18207,
+            profile_user_id: profile_user_id,
+            profile_id: profile_id,
+            email: email_edit,
+            country: country_edit,
+            username: name_edit,
+          };
+
+          axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+          await axios
+            .post(`distributes/update_reders_details`, body)
+            .then((res) => {
+              console.log(res);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      },
+      { once: true }
+    );
   };
 
   const addFile = () => {
@@ -508,6 +595,12 @@ const ViewTable = (props) => {
     });
     if (r_table.length > 0) {
       setEditList(r_table);
+    } else {
+      popup_alert({
+        visible: "show",
+        message: "Data not found",
+        type: "error",
+      });
     }
     event.preventDefault();
     return false;
@@ -535,34 +628,50 @@ const ViewTable = (props) => {
         smart_list_id: getlistid,
       };
 
-      loader("show");
-      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      await axios
-        .post(`distributes/add_new_readers_in_list`, body)
-        .then((res) => {
-          if (res.data.status_code === 200) {
-            toast.success("User added successfuly");
+      console.log(body.data);
+      if (
+        body.data[0].first_name &&
+        body.data[0].last_name &&
+        body.data[0].email &&
+        body.data[0].country &&
+        body.data[0].contact_type
+      ) {
+        loader("show");
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+        await axios
+          .post(`distributes/add_new_readers_in_list`, body)
+          .then((res) => {
+            if (res.data.status_code === 200) {
+              toast.success("User added successfuly");
 
-            let old_data = editList;
+              let old_data = editList;
 
-            let new_data = res.data.response.data;
+              let new_data = res.data.response.data;
 
-            setNewData((oldArray) => [...new_data, ...oldArray]);
-            //setNewData(new_data);
+              setNewData((oldArray) => [...new_data, ...oldArray]);
+              //setNewData(new_data);
 
-            combine_data_manual = [...new_data, ...old_data];
+              combine_data_manual = [...new_data, ...old_data];
 
-            setEditList(old_data);
-            // setUpdatedData(combine_data_manual);
+              setEditList(old_data);
+              // setUpdatedData(combine_data_manual);
 
-            loader("hide");
-          } else {
-            toast.warning(res.data.message);
-          }
-        })
-        .catch((err) => {
-          toast.error("Something went wrong");
+              loader("hide");
+            } else {
+              toast.warning(res.data.message);
+            }
+          })
+          .catch((err) => {
+            toast.error("Something went wrong");
+          });
+      } else {
+        popup_alert({
+          visible: "show",
+          message: "Please enter the valid details.",
+          type: "error",
         });
+      }
+
       setIsOpen(false);
     } else {
       let formData = new FormData();
@@ -571,35 +680,37 @@ const ViewTable = (props) => {
       formData.append("reader_file", selectedFile);
 
       console.log(formData);
+      if (selectedFile) {
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+        loader("show");
+        await axios
+          .post(`distributes/update_reader_list`, formData)
+          .then((res) => {
+            if (res.data.status_code === 200) {
+              toast.success("User added successfuly");
+              console.log(res.data.response.data);
+              let old_data = editList;
+              let new_data = res.data.response.data;
+              setNewData(new_data);
+              combine_data = [...new_data, ...old_data];
 
-      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      loader("show");
-      await axios
-        .post(`distributes/update_reader_list`, formData)
-        .then((res) => {
-          if (res.data.status_code === 200) {
-            toast.success("User added successfuly");
-            console.log(res.data.response.data);
-            let old_data = editList;
-            let new_data = res.data.response.data;
-            setNewData(new_data);
-            combine_data = [...new_data, ...old_data];
+              console.log(new_data);
+              // console.log(combine_data);
+              setEditList(old_data);
+              //    setUpdatedData(combine_data);
 
-            console.log(new_data);
-            // console.log(combine_data);
-            setEditList(old_data);
-            //    setUpdatedData(combine_data);
-
-            loader("hide");
-          } else {
-            toast.warning(res.data.message);
-          }
-        })
-        .catch((err) => {
-          console.log("something went wrong");
-        });
-      setIsOpen(false);
+              loader("hide");
+            } else {
+              toast.warning(res.data.message);
+            }
+          })
+          .catch((err) => {
+            console.log("something went wrong");
+          });
+        setIsOpen(false);
+      }
     }
+
     setHpc([
       {
         firstname: "",
@@ -647,7 +758,7 @@ const ViewTable = (props) => {
   const showSucessPopup = () => {
     popup_alert({
       visible: "show",
-      message: "The HCP record has been deleted successfully",
+      message: "The HCP record has been deleted successfully !",
       type: "success",
     });
 
@@ -710,12 +821,12 @@ const ViewTable = (props) => {
                 </button>
               </div>
               <div className="hcp-added">
-                {/* <button
+                <button
                   className="btn btn-outline-primary"
                   onClick={editButtonClicked}
                 >
                   <img src={path + "edit-button.svg"} alt="Edit" />
-                </button> */}
+                </button>
               </div>
               <div className="top-right-action">
                 <div className="search-bar">
@@ -779,11 +890,15 @@ const ViewTable = (props) => {
             <h4>
               {getlistname} <span>| {editList.length}</span>
             </h4>
-            {/* <div className="selected-hcp-table-action">
-              <a className="show-less-info" href="#">
-                Show More information{" "}
+            <div className="selected-hcp-table-action">
+              <a className="show-less-info" onClick={(e) => showMoreInfo(e)}>
+                {showLessInfo == true ? (
+                  <p>Show More information</p>
+                ) : (
+                  <p>Show less info</p>
+                )}{" "}
               </a>
-            </div> */}
+            </div>
             {showReaders ? (
               <div className="row">
                 <div className="col-md-12">
@@ -805,10 +920,15 @@ const ViewTable = (props) => {
                   <th scope="col">Email</th>
                   <th scope="col">Bounced</th>
                   <th scope="col">Country</th>
-                  <th scope="col">Readers</th>
-                  <th scope="col">Business Unit</th>
-                  <th scope="col">Interest</th>
-                  <th scope="col"></th>
+                  {showLessInfo == false ? (
+                    <>
+                      {" "}
+                      <th scope="col">Readers</th>
+                      <th scope="col">Business Unit</th>
+                      <th scope="col">Interest</th>
+                      <th scope="col"></th>{" "}
+                    </>
+                  ) : null}
                 </tr>
               </thead>
               <tbody className="form-group">
@@ -816,9 +936,7 @@ const ViewTable = (props) => {
                   <tr
                     className="hcps-added"
                     contenteditable={editable === 0 ? "false" : "true"}
-                    onInput={(e) =>
-                      editing(e.currentTarget.textContent, item.profile_id)
-                    }
+                    onInput={(e) => editing(e, item.profile_id)}
                   >
                     <td>
                       {inEditMode.status &&
@@ -856,9 +974,9 @@ const ViewTable = (props) => {
                         item.country
                       )}
                     </td>
-                    <td>NA</td>
-                    <td>NA</td>
-                    <td>NA</td>
+                    {showLessInfo == false ? <td> NA</td> : null}
+                    {showLessInfo == false ? <td> NA</td> : null}
+                    {showLessInfo == false ? <td> NA</td> : null}
 
                     <td class="delete_row" colspan="12">
                       <img
@@ -874,14 +992,25 @@ const ViewTable = (props) => {
                   <td colspan="13"></td>
                 </tr>
 
-                {editList.map((item) => (
+                {editList.map((item, index) => (
                   <tr
+                    id={`row-selected` + index}
                     contenteditable={editable === 0 ? "false" : "true"}
-                    onInput={(e) =>
-                      editing(e.currentTarget.textContent, item.profile_id)
+                    onFocus={(e) =>
+                      editing(
+                        //  e.currentTarget,
+                        item.profile_id,
+                        item.profile_user_id,
+                        item.email,
+                        item.jobTitle,
+                        item.company,
+                        item.country,
+                        item.first_name + " " + item.last_name,
+                        index
+                      )
                     }
                   >
-                    <td>
+                    <td id={`field_name` + index}>
                       {inEditMode.status &&
                       inEditMode.rowKey === item.profile_id ? (
                         <input
@@ -892,7 +1021,7 @@ const ViewTable = (props) => {
                         item.first_name + " " + item.last_name
                       )}
                     </td>
-                    <td>
+                    <td id={`field_email` + index}>
                       {" "}
                       {inEditMode.status &&
                       inEditMode.rowKey === item.profile_id ? (
@@ -905,8 +1034,8 @@ const ViewTable = (props) => {
                         item.email
                       )}
                     </td>
-                    <td>No</td>
-                    <td>
+                    <td id={`field_bounced` + index}>No</td>
+                    <td id={`field_country` + index}>
                       {inEditMode.status &&
                       inEditMode.rowKey === item.profile_id ? (
                         <input
@@ -917,10 +1046,15 @@ const ViewTable = (props) => {
                         item.country
                       )}
                     </td>
-                    <td>CIS</td>
-                    <td>Hametology</td>
-                    <td>Tech</td>
-
+                    {showLessInfo == false ? (
+                      <td id="field_readers">NA</td>
+                    ) : null}
+                    {showLessInfo == false ? (
+                      <td id="field_business_unit">NA</td>
+                    ) : null}
+                    {showLessInfo == false ? (
+                      <td id="field_interest">NA</td>
+                    ) : null}
                     <td class="delete_row" colspan="12">
                       <img
                         src={path + "delete.svg"}
@@ -962,8 +1096,8 @@ const ViewTable = (props) => {
         <Modal.Body>
           <img src={path + "alert.png"} alt="" />
           <h4>
-            The HCP record will be deleted from the list Are you sure you want
-            to delete it?{" "}
+            The HCP record will be deleted from the list.
+            <br /> Are you sure you want to delete it?{" "}
           </h4>
 
           <div class="modal-buttons">
@@ -1131,6 +1265,7 @@ const ViewTable = (props) => {
                       className="form-control"
                       multiple=""
                       onChange={onFileChange}
+                      accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                     />
                   </div>
                 </form>
@@ -1143,7 +1278,7 @@ const ViewTable = (props) => {
                       className="btn btn-filled"
                       onClick={addMoreHcp}
                     >
-                     <img src={path_image + "add-row.png"} alt="Add More" />
+                      <img src={path_image + "add-row.png"} alt="Add More" />
                     </button>
                   </div>
                   <ul className="nav nav-tabs" role="tablist">

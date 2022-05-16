@@ -7,14 +7,14 @@ const VerifySmartList = () => {
   const { getfilterdata } = location.state;
   const { listname } = location.state;
   const { filter_payload } = location.state;
-   
+
   return (
     <>
       <div className="col right-sidebar">
         {typeof getfilterdata === "object" && getfilterdata.length > 0 ? (
           <div className="box mt-2">
             {console.log(filter_payload)}
-            <p className="mt-2">Selected Hcp's for the smart list</p>
+            <p className="mt-2">Selected HCPs for the smart list</p>
             <Table
               data={getfilterdata}
               smartListName={listname}

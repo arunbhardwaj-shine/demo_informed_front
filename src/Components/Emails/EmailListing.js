@@ -437,6 +437,8 @@ const EmailList = (props) => {
     }
     if (filterapplied) {
       getData("progress");
+    }else{
+      loader("hide");
     }
     setShowFilter(false);
   };

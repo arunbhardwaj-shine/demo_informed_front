@@ -6,8 +6,8 @@ import { Button, Col, Form, Modal, Row, Table } from "react-bootstrap";
 import ExportApi from "../../../Api/ExportApi";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+// import { CKEditor } from "@ckeditor/ckeditor5-react";
+// import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { toast, ToastContainer } from "react-toastify";
 import CreateTemplate from "./CreateTemplate";
 import { Testmail } from "./Testmail";
@@ -21,13 +21,8 @@ const Template = () => {
   const [modalShow, setModalShow] = useState(false);
   const [modalShow2, setModalShow2] = useState(false);
   const [dpc, setDpc] = useState();
-  const [editLinkData, setEditLinkData] = useState([]);
   const [render, setRender] = useState(0);
   const [hello, setHello] = useState(JSON.parse(localStorage.getItem('hello')));
-  const [linkInput, setLinkInput] = useState([
-    { name: "LinkName", link: "Link" },
-  ]);
-  const [linkData, setLinkData] = useState([{ name: "", link: "" }]);
   const formik = useFormik({
     initialValues: {
        Subject:template?template.subject:'',
@@ -40,90 +35,47 @@ const Template = () => {
       const exportHtml = async () => {
         emailEditorRef.current.editor.exportHtml((data) => {
           const { design, html } = data;
-          console.log("htmmmm",html)
+          // console.log("htmmmm",html)
+          setDpc(design)
           localStorage.setItem('html', html);
-          localStorage.setItem('bodyaa', JSON.stringify(design));
+           localStorage.setItem('bodyaa', JSON.stringify(design));
+           ExportApi.UpdateTemplate(values.Subject,design,html,localStorage.getItem("idd")).then((resp) => {
+            if (resp.ok) {
+              if (resp.data.code == 200) {
+                setDpc()
+                setModalShow(false)
+                // handleGetEventlist()
+                  //  handleGetTemplate(localStorage.getItem("idd"))
+                toast.success(resp.data.message, {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  });
+              } else {
+                toast.error(resp.data.message, {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  });
+              }
+            }
+          });
               })
       };
       exportHtml();
-      setDpc (JSON.parse(localStorage.getItem('bodyaa')))
-      let data = JSON.stringify(linkData);
-      ExportApi.UpdateTemplate(values.Subject,localStorage.getItem('bodyaa'),localStorage.getItem("html"),id,linkData[0].name&&linkData[0].link?data:null,).then((resp) => {
-        if (resp.ok) {
-          if (resp.data.code == 200) {
-            setLinkInput([ { name: "LinkName", link: "Link" }])
-            setLinkData([{ name: "", link: "" }])
-            setModalShow(false)
-            handleGetEventlist()
-             handleGetTemplate(localStorage.getItem("idd"))
-            toast.success(resp.data.message, {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              });
-          } else {
-            toast.error(resp.data.message, {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              });
-          }
-        }
-      });
+        // setDpc (JSON.parse(dpc));
+        // let data1=JSON.parse(localStorage.getItem('bodyaa'))
+     
     },
   });
-  const handleEditInputValue= (data)=>{
-    console.log(data)
-    setLinkData(data)
-   
-    if(data){
-    for (let index = 1; index < data.length; index++) {  
-      linkInput.push({ name: "LinkName", link: "Link" })
-     }
-    }else{
-      console.log("editLinkData.length<1")
-      setLinkInput([ { name: "LinkName", link: "Link" }])
-      setLinkData([{ name: "", link: "" }])
-      setRender(render+1)
-    }
-  }
-
-  const handleMaltiInputRumove = (i) => {
-      let data=linkInput
-      let data1=linkData
-      data.splice(i, 1);
-      data1.splice(i, 1);
-      setTimeout(() => {
-        setLinkInput(data);
-      },500);
-      setLinkData(data1)
-      setRender(render+1)
-  };
-  const handleMaltiInputAdd = () => {
-    setLinkInput([...linkInput,{ name: "LinkName", link: "Link" }]);
-    setLinkData([...linkData, { name: "", link: "" }]);
-  };
-  const handleLinkValue = (e, i) => {
-    if (e.target.name === `LinkName${i}`) {
-      const linkInput = linkData[i];
-      linkInput.name = e.target.value;
-      linkData.splice(i, 1, { ...linkInput });
-      setLinkData([...linkData]);
-    } else if (e.target.name === `Link${i}`) {
-      const linkInput = linkData[i];
-      linkInput.link = e.target.value;
-      linkData.splice(i, 1, { ...linkInput});
-      setLinkData([...linkData]);
-    }
-  };
   const handleGetEventlist = () => {
     ExportApi.GetEventList().then((resp) => {
       if (resp.ok) {
@@ -141,29 +93,36 @@ const Template = () => {
   };
   
   const handleGetTemplate = (idd) => {
+    setDpc()
      setId(idd);
-    ExportApi.UserTemplate(idd).then((resp) => {
-      if (resp.ok) {
-        setEditLinkData(resp.data.data.data)
-        console.log(resp.data.data)
-        resp.data.data.json_description===""? setDpc():setDpc(JSON.parse(resp.data.data.json_description))
-        handleEditInputValue(resp.data.data.data,resp.data.data.description)
-        setTemplate(resp.data.data);
-         emailEditorRef.current.editor.loadDesign(resp.data.data.json_description ?JSON.parse(resp.data.data.json_description ):hello)
-      }
-    });
+      ExportApi.UserTemplate(idd).then((resp) => {
+        if (resp.ok) {
+        //   console.log('1',resp.data.data.json_description)
+        // setDpc(resp.data.data.json_description?JSON.parse(resp.data.data.json_description):"")
+          setTemplate(resp.data.data);
+           emailEditorRef.current.editor.loadDesign(resp.data.data.json_description?JSON.parse(resp.data.data.json_description ):hello)
+        }
+      });
   };
   
   const emailEditorRef = useRef(null);
-  const onLoad =  () => {
+  const onLoad = () => {
     console.log(dpc)
-      emailEditorRef.current.editor.loadDesign(dpc?dpc:hello);
+      // emailEditorRef.current.editor.loadDesign(dpc?dpc:hello);
   }
   const onReady = () => {
-     emailEditorRef.current.editor.loadDesign(dpc)
+    // await emailEditorRef.current.editor.loadDesign(dpc)
     console.log('onReady');
   };
-
+  const handleError = () => {
+if(template==null||template==undefined){
+  setDpc()
+  setTemplate()
+}
+  }
+  useEffect(() => {
+    handleError()
+  }, [template]);
   useEffect(() => {
     handleGetEventlist();
   }, []);
@@ -296,66 +255,8 @@ const Template = () => {
                 <Col></Col>
               </Col>
             </Row>
-              {linkInput.map((malti, i) => (
-                <fieldset className="border p-2">
-                  <div key={i}>
-                    {linkInput.length > 1 ? (
-                      <button
-                        type="button"
-                        onClick={() => handleMaltiInputRumove(i)}
-                        className="btn-close float-end"
-                        aria-label="Close"
-                      />
-                    ) : null}
-                    <Form.Group
-                      as={Row}
-                      className="mb-3"
-                      controlId="exampleForm.ControlInput1"
-                    >
-                      <Form.Label column sm={2}>
-                        Link Name
-                      </Form.Label>
-                      <Col sm={10}>
-                        <Form.Control
-                        value={linkData[i]?.name}
-                          name={
-                            linkInput.length === 0 ? malti?.name : malti?.name + i
-                          }
-                          onChange={(e) => {
-                            handleLinkValue(e, i);
-                          }}
-                        />
-                      </Col>
-                      <div className="mt-2"></div>
-                      <Form.Label column sm={2}>
-                      Link
-                      </Form.Label>
-                      <Col sm={10}>
-                        <Form.Control
-                        value={linkData[i]?.link}
-                          name={
-                            linkInput.length === 0 ? malti.link : malti.link + i
-                          }
-                          onChange={(e) => {
-                           handleLinkValue(e, i);
-                          }}
-                        />
-                      </Col>
-                    </Form.Group>
-                  </div>
-                </fieldset>
-              ))}
-              <div className="mt-2"></div>
-              <Form.Group className="mb-3">
-                <Button
-                  onClick={handleMaltiInputAdd}
-                  className="speaker-button"
-                >
-                  Add More Speaker
-                </Button>
-              </Form.Group>
-              <div className="clearfix"></div>
-              <div className="mt-2"></div>   
+             
+            
             <div>
             <Form.Label >
                   Description

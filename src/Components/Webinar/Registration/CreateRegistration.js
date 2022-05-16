@@ -81,7 +81,7 @@ const CreateRegistration = (props) => {
                   });
               }
             }
-          }):setErrimage("please update your image");
+          }):setErrimage("Please update your image");
         },
       });
       
