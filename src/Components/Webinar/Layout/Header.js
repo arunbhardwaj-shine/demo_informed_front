@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Dropdown, Modal } from "react-bootstrap";
 import "../../assets/css/style.css";
+import '../../assets/css/responsive.css';
 import "../../assets/css/custom.css";
 import Login from "../../../Auth/Login";
 import { toast, ToastContainer } from "react-toastify";

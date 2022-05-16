@@ -643,7 +643,7 @@ const SmartList = (props) => {
 
 
                         <Link
-                          className="btn btn-primary view"
+                          className="btn btn-primary btn-bordered view"
                           to={{
                           pathname: "/ViewSmartList",
                           search: "?listId=" + data.id,

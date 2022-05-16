@@ -1,31 +1,46 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { loader } from "../../loader";
+import { toast } from "react-toastify";
 import { Link, Navigate, NavigationType, useNavigate } from "react-router-dom";
 
 const EmailArticleSelect = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
+  const [previousSendListData, setPreviousSendListData] = useState([]);
   const navigate = useNavigate();
   const [PdfSelected, setPdfSelected] = useState(0);
   const inputElement = useRef();
+  const [search, setSearch] = useState("");
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   useEffect(() => {
+    getContentData(0);
+  }, []);
+
+  const getContentData = (flag) => {
     const body = {
       user_id: 18207,
+      search: search,
     };
     loader("show");
     axios
       .post(`emailapi/get_content_list`, body)
       .then((res) => {
-        setSendListData(res.data.response.data);
+        if(res.data.status_code == 200){
+          setSendListData(res.data.response.data);
+          if(flag == 0){
+            setPreviousSendListData(res.data.response.data);
+          }
+        }
         loader("hide");
       })
       .catch((err) => {
-        console.log(err);
+        loader("hide");
+        toast.error("Something went wrong");
+        // console.log(err);
       });
-  }, []);
+  };
 
   useEffect(() => {
     if (PdfSelected !== 0) {
@@ -41,6 +56,19 @@ const EmailArticleSelect = () => {
     navigate("/EmailList");
     // return true;
   };
+
+  const searchChange = (e) => {
+    setSearch(e.target.value);
+    if (e.target.value === "") {
+      setSendListData(previousSendListData);
+    }
+  };
+
+  const submitHandler = (event) => {
+      getContentData(1);
+      event.preventDefault();
+      return false;
+  }
 
   return (
     <>
@@ -103,10 +131,10 @@ const EmailArticleSelect = () => {
           <div className="page-title">
             <h4>Select your content</h4>
           </div>
-          {/* <div className="top-right-action">
+           <div className="top-right-action">
 							<div className="search-bar">
-								<form className="d-flex">
-								  <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+								<form className="d-flex" onSubmit={(e) => submitHandler(e)}>
+								  <input className="form-control me-2" type="text" placeholder="Search" aria-label="Search" onChange={(e) => searchChange(e)}s />
 								  <button className="btn btn-outline-success" type="submit"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<path d="M15.8045 14.862L11.2545 10.312C12.1359 9.22334 12.6665 7.84 12.6665 6.33334C12.6665 2.84134 9.82522 0 6.33325 0C2.84128 0 0 2.84131 0 6.33331C0 9.82531 2.84132 12.6667 6.33328 12.6667C7.83992 12.6667 9.22325 12.136 10.3119 11.2547L14.8619 15.8047C14.9919 15.9347 15.1625 16 15.3332 16C15.5039 16 15.6745 15.9347 15.8045 15.8047C16.0652 15.544 16.0652 15.1227 15.8045 14.862ZM6.33328 11.3333C3.57597 11.3333 1.33333 9.09066 1.33333 6.33331C1.33333 3.57597 3.57597 1.33331 6.33328 1.33331C9.0906 1.33331 11.3332 3.57597 11.3332 6.33331C11.3332 9.09066 9.09057 11.3333 6.33328 11.3333Z" fill="#97B6CF"/>
 									</svg>
@@ -122,13 +150,14 @@ const EmailArticleSelect = () => {
 									</svg>
 								</button>
 							</div>
-
-						</div> */}
+						</div>
         </div>
 
         <div className="mail-content-select">
           <div className="row">
-            {SendListData.map((data) => {
+            {
+              typeof SendListData !== "undefined" && SendListData.length > 0 ?
+              SendListData.map((data) => {
               return (
                 <div className="col-12 col-md-4">
                   <div className="mail-content-select-box">
@@ -189,7 +218,11 @@ const EmailArticleSelect = () => {
                   </div>
                 </div>
               );
-            })}
+            }) :
+            <div className="not_found">
+              No Data Found
+            </div>
+          }
           </div>
         </div>
       </div>
