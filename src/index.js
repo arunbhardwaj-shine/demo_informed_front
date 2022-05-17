@@ -52,6 +52,7 @@ import EditorEmail from "./Components/Webinar/Registration/EditorEmail";
 import Readers from "./Components/Webinar/Readers/Readers";
 import EmailStats from "./Components/Webinar/Email Stats/EmailStats";
 import EmailSand from "./Components/Webinar/Email Stats/EmailSand";
+import SmtpDetails from "./Components/Webinar/Smtp/SmtpDetails.JS";
 
 let platform = 0;
 let show = 0;
@@ -174,6 +175,10 @@ ReactDOM.render(
                         <Route
                           path="/webinar/sendemail"
                           element={<EmailSand />}
+                        />
+                        <Route
+                          path="/webinar/smtpdetails"
+                          element={<SmtpDetails />}
                         />
                       </Route>
                     </React.Fragment>

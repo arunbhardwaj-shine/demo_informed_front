@@ -36,6 +36,7 @@ const Preview = () => {
      let country=document.getElementById("country").value
      let email=document.getElementById("email").value
       // bind function for close the popup
+  
       ExportApi.CreateParticipant(name,country,browserName,email,parms.url).then((resp) => {
         if (resp.ok) {
           console.log(resp.data)

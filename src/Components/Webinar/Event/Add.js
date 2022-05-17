@@ -173,6 +173,10 @@ var yyyy = today.getFullYear();
     handleGetDataBu();
     handleGetTimezoneData();
     handleGetTimezoneregionData();
+    navigator.geolocation.getCurrentPosition(function(position) {
+      console.log("Latitude is :", position.coords.latitude);
+      console.log("Longitude is :", position.coords.longitude);
+    });
   }, [props.token, localStorage.getItem("Token")]);
   useEffect(() => {
    console.log(Speakername)

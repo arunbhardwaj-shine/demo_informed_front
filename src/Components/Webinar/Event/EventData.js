@@ -21,6 +21,14 @@ const EventData = () => {
       }
     });
   };
+  const handleGetEventlistSerch = (data) => {
+    ExportApi.GetEventListSerch(data).then((resp) => {
+      if (resp.ok) {
+          //  console.log(resp.data)
+        setEvent(resp.data.data);
+      }
+    });
+  };
   const handleGetEventlistEdidData = (val) => {
     ExportApi.GetEventListData(val).then((resp) => {
       if (resp.ok) {
@@ -114,7 +122,19 @@ const EventData = () => {
       />
         <Col md={{ span: 6, offset: 3 }}>
             <h2>Events</h2>
+          <Row>
+            <Col>
             <Link to="/webinar/event/add"><Button>Create Event</Button></Link>
+            </Col>
+            <Col>
+            <Form.Control
+            onChange={(e)=>{handleGetEventlistSerch(e.target.value)}}
+                    name="Search"
+                    placeholder="Search......"
+                  />
+            </Col>
+          </Row>
+        
             <br/>
             <Table bordered hover>
               <thead>
