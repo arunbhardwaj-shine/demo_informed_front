@@ -19,8 +19,8 @@ const SelectHCP = (props) => {
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const campaign_id = props.getEmailData
-  ? props.getEmailData.campaign_id
-  : props.getDraftData.campaign_data.campaign_id;
+    ? props.getEmailData.campaign_id
+    : props.getDraftData.campaign_data.campaign_id;
   console.log(campaign_id);
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
 

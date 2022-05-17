@@ -344,37 +344,39 @@ const CreateEmail = (props) => {
       tagss.push(tags.innerText || tags);
     });
 
-    let campaign = props.getEmailData ? emailCampaign : props.getDraftData.campaign;
+    let campaign = props.getEmailData
+      ? emailCampaign
+      : props.getDraftData.campaign;
 
-    if(typeof campaign !== "undefined" && campaign !== ""){
-        const body = {
-          user_id: 18207,
-          pdf_id: props.getEmailData
+    if (typeof campaign !== "undefined" && campaign !== "") {
+      const body = {
+        user_id: 18207,
+        pdf_id: props.getEmailData
           ? PdfSelected
           : props.getDraftData.pdf_selected,
-          description: props.getEmailData
+        description: props.getEmailData
           ? emailDescription
           : props.getDraftData.description,
-          creator: props.getEmailData ? emailCreator : props.getDraftData.creator,
-          campaign_name: props.getEmailData
+        creator: props.getEmailData ? emailCreator : props.getDraftData.creator,
+        campaign_name: props.getEmailData
           ? emailCampaign
           : props.getDraftData.campaign,
-          subject: props.getEmailData ? emailSubject : props.getDraftData.subject,
-          route_location: "CreateEmail",
-          tags: props.getEmailData ? tagss : props.getDraftData.tags,
-          campaign_data: {
-            template_id: props.getEmailData
+        subject: props.getEmailData ? emailSubject : props.getDraftData.subject,
+        route_location: "CreateEmail",
+        tags: props.getEmailData ? tagss : props.getDraftData.tags,
+        campaign_data: {
+          template_id: props.getEmailData
             ? templateId
             : props.getDraftData.template_id,
-          },
+        },
 
-          campaign_id: campaign_id_st,
-          status: 2,
-        };
+        campaign_id: campaign_id_st,
+        status: 2,
+      };
 
-        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-        loader("show");
-        await axios
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      loader("show");
+      await axios
         .post(`emailapi/save_draft`, body)
         .then((res) => {
           loader("hide");
@@ -389,7 +391,7 @@ const CreateEmail = (props) => {
         .catch((err) => {
           toast.error("Something went wrong");
         });
-    }else{
+    } else {
       event.preventDefault();
       toast.error("Plese select Email Campaign first");
     }
@@ -1468,7 +1470,9 @@ const CreateEmail = (props) => {
                           </ul>
                         </div>
                         <div className="smartlist-buttons">
-                          <button className="btn btn-primary btn-bordered view">View</button>
+                          <button className="btn btn-primary btn-bordered view">
+                            View
+                          </button>
                         </div>
                       </div>
                     </div>

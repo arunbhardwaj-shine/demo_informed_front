@@ -25,10 +25,10 @@ const EmailArticleSelect = () => {
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   useEffect(() => {
-    getContentData(0,1);
+    getContentData(0, 1);
   }, []);
 
-  const getContentData = (flag,page) => {
+  const getContentData = (flag, page) => {
     const body = {
       user_id: 18207,
       search: search,
@@ -36,21 +36,20 @@ const EmailArticleSelect = () => {
     };
     loader("show");
     axios
-      .post(`emailapi/get_content_list?page=`+page, body)
+      .post(`emailapi/get_content_list?page=` + page, body)
       .then((res) => {
-        if(res.data.status_code == 200){
+        if (res.data.status_code == 200) {
           setSendListData(res.data.response.data);
-          if(flag == 0){
+          if (flag == 0) {
             setPreviousSendListData(res.data.response.data);
             setFilterData(res.data.response.filter);
           }
 
-          if(page == 2){
+          if (page == 2) {
             let up = updateflag + 1;
             setUpdateFlag(up);
           }
-
-        }else {
+        } else {
           setSendListData([]);
         }
         loader("hide");
@@ -85,10 +84,10 @@ const EmailArticleSelect = () => {
   };
 
   const submitHandler = (event) => {
-      getContentData(1,1);
-      event.preventDefault();
-      return false;
-  }
+    getContentData(1, 1);
+    event.preventDefault();
+    return false;
+  };
 
   const handleOnFilterTags = (ftag) => {
     let tag_index = filtertags.indexOf(ftag);
@@ -155,7 +154,6 @@ const EmailArticleSelect = () => {
     setUpdateFlag(up);
   };
 
-
   const clearFilter = () => {
     document.querySelectorAll("input").forEach((checkbox) => {
       checkbox.checked = false;
@@ -174,7 +172,7 @@ const EmailArticleSelect = () => {
 
   const applyFilter = () => {
     setFilterApply(true);
-    getContentData(1,1);
+    getContentData(1, 1);
     setShowFilter(false);
   };
 
@@ -190,17 +188,17 @@ const EmailArticleSelect = () => {
     }
 
     if (filterapplied) {
-      getContentData(1,1);
-    }else{
+      getContentData(1, 1);
+    } else {
       loader("hide");
     }
     setShowFilter(false);
   };
 
   const load_more = () => {
-    getContentData(0,2);
+    getContentData(0, 2);
     setloadmore(1);
-  }
+  };
 
   return (
     <>
@@ -263,20 +261,41 @@ const EmailArticleSelect = () => {
           <div className="page-title">
             <h4>Select your content</h4>
           </div>
-           <div className="top-right-action">
-							<div className="search-bar">
-								<form className="d-flex" onSubmit={(e) => submitHandler(e)}>
-								  <input className="form-control me-2" type="text" placeholder="Search" aria-label="Search" onChange={(e) => searchChange(e)}s />
-								  <button className="btn btn-outline-success" type="submit">
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-  									<path d="M15.8045 14.862L11.2545 10.312C12.1359 9.22334 12.6665 7.84 12.6665 6.33334C12.6665 2.84134 9.82522 0 6.33325 0C2.84128 0 0 2.84131 0 6.33331C0 9.82531 2.84132 12.6667 6.33328 12.6667C7.83992 12.6667 9.22325 12.136 10.3119 11.2547L14.8619 15.8047C14.9919 15.9347 15.1625 16 15.3332 16C15.5039 16 15.6745 15.9347 15.8045 15.8047C16.0652 15.544 16.0652 15.1227 15.8045 14.862ZM6.33328 11.3333C3.57597 11.3333 1.33333 9.09066 1.33333 6.33331C1.33333 3.57597 3.57597 1.33331 6.33328 1.33331C9.0906 1.33331 11.3332 3.57597 11.3332 6.33331C11.3332 9.09066 9.09057 11.3333 6.33328 11.3333Z" fill="#97B6CF"/>
-  									</svg>
-									</button>
-								</form>
-							</div>
+          <div className="top-right-action">
+            <div className="search-bar">
+              <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
+                <input
+                  className="form-control me-2"
+                  type="text"
+                  placeholder="Search"
+                  aria-label="Search"
+                  onChange={(e) => searchChange(e)}
+                  s
+                />
+                <button className="btn btn-outline-success" type="submit">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M15.8045 14.862L11.2545 10.312C12.1359 9.22334 12.6665 7.84 12.6665 6.33334C12.6665 2.84134 9.82522 0 6.33325 0C2.84128 0 0 2.84131 0 6.33331C0 9.82531 2.84132 12.6667 6.33328 12.6667C7.83992 12.6667 9.22325 12.136 10.3119 11.2547L14.8619 15.8047C14.9919 15.9347 15.1625 16 15.3332 16C15.5039 16 15.6745 15.9347 15.8045 15.8047C16.0652 15.544 16.0652 15.1227 15.8045 14.862ZM6.33328 11.3333C3.57597 11.3333 1.33333 9.09066 1.33333 6.33331C1.33333 3.57597 3.57597 1.33331 6.33328 1.33331C9.0906 1.33331 11.3332 3.57597 11.3332 6.33331C11.3332 9.09066 9.09057 11.3333 6.33328 11.3333Z"
+                      fill="#97B6CF"
+                    />
+                  </svg>
+                </button>
+              </form>
+            </div>
 
-							<div className="filter-by nav-item dropdown">
-								<button className="btn btn-secondary dropdown" type="button" id="dropdownMenuButton2" onClick={() => setShowFilter((showfilter) => !showfilter)}>
+            <div className="filter-by nav-item dropdown">
+              <button
+                className="btn btn-secondary dropdown"
+                type="button"
+                id="dropdownMenuButton2"
+                onClick={() => setShowFilter((showfilter) => !showfilter)}
+              >
                 Filter By
                 {showfilter ? (
                   <svg
@@ -325,322 +344,330 @@ const EmailArticleSelect = () => {
                     />
                   </svg>
                 )}
-								</button>
+              </button>
 
-                {
-                  showfilter && (
-                    <div
-                      className="dropdown-menu filter-options"
-                      aria-labelledby="dropdownMenuButton2"
-                    >
-                      <h4>Filter By</h4>
-                      <Accordion defaultActiveKey="0" flush>
-                      { filterdata.hasOwnProperty("tags") &&
-                        filterdata.tags.length > 0 && (
-                          <Accordion.Item className="card" eventKey="0">
-                            <Accordion.Header className="card-header">
-                              Tags
-                            </Accordion.Header>
-                            <Accordion.Body className="card-body">
-                              <ul>
-                                {Object.entries(filterdata.tags).map(
-                                  ([index, item]) => (
-                                    <li>
-                                      <label className="select-multiple-option">
-                                        <input
-                                          type="checkbox"
-                                          id={`custom-checkbox-tags-${index}`}
-                                          name="tags[]"
-                                          value={item}
-                                          checked={
-                                            updateflag > 0 &&
-                                            typeof filtertags !== "undefined" &&
-                                            filtertags.indexOf(item) !== -1
-                                          }
-                                          onChange={() =>
-                                            handleOnFilterTags(item)
-                                          }
-                                        />
-                                        {item}
-                                        <span className="checkmark"></span>
-                                      </label>
-                                    </li>
-                                  )
-                                )}
-                              </ul>
-                              </Accordion.Body>
-                              </Accordion.Item>
-                          )
-                        }
-
-                        {
-                          filterdata.hasOwnProperty('language') && filterdata.language.length > 0 && (
-                            <Accordion.Item className="card" eventKey="1">
-                            <Accordion.Header className="card-header">Language</Accordion.Header>
-                            <Accordion.Body className="card-body">
+              {showfilter && (
+                <div
+                  className="dropdown-menu filter-options"
+                  aria-labelledby="dropdownMenuButton2"
+                >
+                  <h4>Filter By</h4>
+                  <Accordion defaultActiveKey="0" flush>
+                    {filterdata.hasOwnProperty("tags") &&
+                      filterdata.tags.length > 0 && (
+                        <Accordion.Item className="card" eventKey="0">
+                          <Accordion.Header className="card-header">
+                            Tags
+                          </Accordion.Header>
+                          <Accordion.Body className="card-body">
                             <ul>
-                              {
-                                Object.entries(filterdata.language).map(([index, item]) => (
-                                    <li>
+                              {Object.entries(filterdata.tags).map(
+                                ([index, item]) => (
+                                  <li>
+                                    <label className="select-multiple-option">
+                                      <input
+                                        type="checkbox"
+                                        id={`custom-checkbox-tags-${index}`}
+                                        name="tags[]"
+                                        value={item}
+                                        checked={
+                                          updateflag > 0 &&
+                                          typeof filtertags !== "undefined" &&
+                                          filtertags.indexOf(item) !== -1
+                                        }
+                                        onChange={() =>
+                                          handleOnFilterTags(item)
+                                        }
+                                      />
+                                      {item}
+                                      <span className="checkmark"></span>
+                                    </label>
+                                  </li>
+                                )
+                              )}
+                            </ul>
+                          </Accordion.Body>
+                        </Accordion.Item>
+                      )}
+
+                    {filterdata.hasOwnProperty("language") &&
+                      filterdata.language.length > 0 && (
+                        <Accordion.Item className="card" eventKey="1">
+                          <Accordion.Header className="card-header">
+                            Language
+                          </Accordion.Header>
+                          <Accordion.Body className="card-body">
+                            <ul>
+                              {Object.entries(filterdata.language).map(
+                                ([index, item]) => (
+                                  <li>
                                     <label className="select-multiple-option">
                                       <input
                                         type="checkbox"
                                         id={`custom-checkbox-lng-${index}`}
                                         name="language[]"
                                         value={item}
-                                        checked={updateflag > 0 && typeof filterlng !== 'undefined' && filterlng.indexOf(item) !== -1}
-                                        onChange={() => handleOnfilterlngguage(item)}
+                                        checked={
+                                          updateflag > 0 &&
+                                          typeof filterlng !== "undefined" &&
+                                          filterlng.indexOf(item) !== -1
+                                        }
+                                        onChange={() =>
+                                          handleOnfilterlngguage(item)
+                                        }
                                       />
                                       {item}
                                       <span className="checkmark"></span>
                                     </label>
-                                    </li>
-                                ))}
-                              </ul>
-                              </Accordion.Body>
-                              </Accordion.Item>
-                          )
-                        }
+                                  </li>
+                                )
+                              )}
+                            </ul>
+                          </Accordion.Body>
+                        </Accordion.Item>
+                      )}
 
-                        {
-                          filterdata.hasOwnProperty('created') && filterdata.created.length > 0 && (
-                            <Accordion.Item className="card" eventKey="2">
-                            <Accordion.Header className="card-header">Created</Accordion.Header>
-                            <Accordion.Body className="card-body">
+                    {filterdata.hasOwnProperty("created") &&
+                      filterdata.created.length > 0 && (
+                        <Accordion.Item className="card" eventKey="2">
+                          <Accordion.Header className="card-header">
+                            Created
+                          </Accordion.Header>
+                          <Accordion.Body className="card-body">
                             <ul>
-                              {
-                                Object.entries(filterdata.created).map(([index, item]) => (
-                                    <li>
+                              {Object.entries(filterdata.created).map(
+                                ([index, item]) => (
+                                  <li>
                                     <label className="select-multiple-option">
-                                    <input
-                                      type="checkbox"
-                                      id={`custom-checkbox-date-${index}`}
-                                      name="date[]"
-                                      value={item}
-                                      checked={updateflag > 0 && typeof filterdate !== 'undefined' && filterdate.indexOf(item) !== -1}
-                                      onChange={() => handleOnFilterDate(item)}
-                                    />
+                                      <input
+                                        type="checkbox"
+                                        id={`custom-checkbox-date-${index}`}
+                                        name="date[]"
+                                        value={item}
+                                        checked={
+                                          updateflag > 0 &&
+                                          typeof filterdate !== "undefined" &&
+                                          filterdate.indexOf(item) !== -1
+                                        }
+                                        onChange={() =>
+                                          handleOnFilterDate(item)
+                                        }
+                                      />
                                       {item}
                                       <span className="checkmark"></span>
                                     </label>
-                                    </li>
-                                ))}
-                              </ul>
-                              </Accordion.Body>
-                              </Accordion.Item>
-                          )
-                        }
+                                  </li>
+                                )
+                              )}
+                            </ul>
+                          </Accordion.Body>
+                        </Accordion.Item>
+                      )}
+                  </Accordion>
+                  <div className="filter-footer">
+                    <button
+                      className="btn btn-primary btn-bordered"
+                      onClick={clearFilter}
+                    >
+                      Clear
+                    </button>
+                    <button
+                      className="btn btn-primary btn-filled"
+                      onClick={applyFilter}
+                    >
+                      Apply
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
 
-                      </Accordion>
-                      <div className="filter-footer">
-                        <button
-                          className="btn btn-primary btn-bordered"
-                          onClick={clearFilter}
-                        >
-                          Clear
-                        </button>
-                        <button
-                          className="btn btn-primary btn-filled"
-                          onClick={applyFilter}
-                        >
-                          Apply
-                        </button>
+        {/*Code for filters start*/}
+        {updateflag > 0 &&
+          (filtertags.length > 0 ||
+            filterlng.length > 0 ||
+            filterdate.length > 0) && (
+            <div className="apply-filter">
+              <h6>Applied filters</h6>
+              <div className="filter-block">
+                <div className="filter-block-left full">
+                  {filtertags.length > 0 && (
+                    <div className="filter-div">
+                      <div className="filter-div-title">
+                        <span>Tags |</span>
+                      </div>
+                      <div className="filter-div-list">
+                        {Object.entries(filtertags).map(([index, item]) => (
+                          <div
+                            className="filter-result"
+                            onClick={(event) =>
+                              removeindividualfilter("tag", item)
+                            }
+                          >
+                            {item}
+                            <img
+                              src={path_image + "filter-close.svg"}
+                              alt="Close-filter"
+                            />
+                          </div>
+                        ))}
                       </div>
                     </div>
                   )}
-							</div>
-						</div>
-        </div>
 
-      {/*Code for filters start*/}
-      {updateflag > 0 &&
-        (filtertags.length > 0 ||
-          filterlng.length > 0 ||
-          filterdate.length > 0) && (
+                  {filterlng.length > 0 && (
+                    <div className="filter-div">
+                      <div className="filter-div-title">
+                        <span>Language |</span>
+                      </div>
+                      <div className="filter-div-list">
+                        {Object.entries(filterlng).map(([index, item]) => (
+                          <div
+                            className="filter-result"
+                            onClick={(event) =>
+                              removeindividualfilter("lng", item)
+                            }
+                          >
+                            {item}
+                            <img
+                              src={path_image + "filter-close.svg"}
+                              alt="Close-filter"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
-          <div className="apply-filter">
-            <h6>Applied filters</h6>
-            <div className="filter-block">
-              <div className="filter-block-left full">
-
-                {filtertags.length > 0 && (
-                  <div className="filter-div">
-                    <div className="filter-div-title">
-                      <span>Tags |</span>
+                  {filterdate.length > 0 && (
+                    <div className="filter-div">
+                      <div className="filter-div-title">
+                        <span>Date |</span>
+                      </div>
+                      <div className="filter-div-list">
+                        {Object.entries(filterdate).map(([index, item]) => (
+                          <div
+                            className="filter-result"
+                            onClick={(event) =>
+                              removeindividualfilter("date", item)
+                            }
+                          >
+                            {item}
+                            <img
+                              src={path_image + "filter-close.svg"}
+                              alt="Close-filter"
+                            />
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                    <div className="filter-div-list">
-                      {Object.entries(filtertags).map(([index, item]) => (
-                        <div
-                          className="filter-result"
-                          onClick={(event) =>
-                            removeindividualfilter("tag", item)
-                          }
-                        >
-                          {item}
-                          <img
-                            src={path_image + "filter-close.svg"}
-                            alt="Close-filter"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {filterlng.length > 0 && (
-                  <div className="filter-div">
-                    <div className="filter-div-title">
-                      <span>Language |</span>
-                    </div>
-                    <div className="filter-div-list">
-                      {Object.entries(filterlng).map(([index, item]) => (
-                        <div
-                          className="filter-result"
-                          onClick={(event) =>
-                            removeindividualfilter("lng", item)
-                          }
-                        >
-                          {item}
-                          <img
-                            src={path_image + "filter-close.svg"}
-                            alt="Close-filter"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {filterdate.length > 0 && (
-                  <div className="filter-div">
-                    <div className="filter-div-title">
-                      <span>Date |</span>
-                    </div>
-                    <div className="filter-div-list">
-                      {Object.entries(filterdate).map(([index, item]) => (
-                        <div
-                          className="filter-result"
-                          onClick={(event) =>
-                            removeindividualfilter("date", item)
-                          }
-                        >
-                          {item}
-                          <img
-                            src={path_image + "filter-close.svg"}
-                            alt="Close-filter"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-              </div>
-              <div className="clear-filter">
-                <button
-                  className="btn btn-outline-primary btn-bordered"
-                  onClick={clearFilter}
-                >
-                  Remove All
-                </button>
+                  )}
+                </div>
+                <div className="clear-filter">
+                  <button
+                    className="btn btn-outline-primary btn-bordered"
+                    onClick={clearFilter}
+                  >
+                    Remove All
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        )}
-      {/*Code for filters end*/}
+          )}
+        {/*Code for filters end*/}
 
         <div className="mail-content-select">
           <div className="row">
-            {
-              typeof SendListData !== "undefined" && SendListData.length > 0 ?
+            {typeof SendListData !== "undefined" && SendListData.length > 0 ? (
               SendListData.map((data) => {
-              return (
-                <div className="col-12 col-md-4">
-                  <div className="mail-content-select-box-outer">
-                  <div className="mail-content-select-box">
-                    <div classname="mail-content-select-box-block">
-                    <div className="mail-content-select-top">
-                      <div className="mail-preview-img">
-                        <img src={data.cover_img} alt="Preview " />
-                      </div>
-                      <div className="mail-box-content">
-                        <h5>{data.title}</h5>
-                        <p>{data.pdf_sub_title}</p>
-                        <div className="mailbox-tags">
-                          <ul>
-                            {data.tags != "" ? (
-                              data.tags.map((tag) => {
-                                return <li className="list1">{tag}</li>;
-                              })
-                            ) : (
-                              <li className="list1">N/A</li>
-                            )}
-                          </ul>
+                return (
+                  <div className="col-12 col-md-4">
+                    <div className="mail-content-select-box">
+                      <div className="mail-content-select-top">
+                        <div className="mail-preview-img">
+                          <img src={data.cover_img} alt="Preview " />
+                        </div>
+                        <div className="mail-box-content">
+                          <h5>{data.title}</h5>
+                          <p>{data.pdf_sub_title}</p>
+                          <div className="mailbox-tags">
+                            <ul>
+                              {data.tags != "" ? (
+                                data.tags.map((tag) => {
+                                  return <li className="list1">{tag}</li>;
+                                })
+                              ) : (
+                                <li className="list1">N/A</li>
+                              )}
+                            </ul>
+                          </div>
+                        </div>
+                        <div
+                          className="select-mail-option"
+                          onClick={handleSelect}
+                        >
+                          <input type="radio" name="radio" value={data.id} />
+                          <span className="checkmark"></span>
                         </div>
                       </div>
-                      <div
-                        className="select-mail-option"
-                        onClick={handleSelect}
-                      >
-                        <input type="radio" name="radio" value={data.id} />
-                        <span className="checkmark"></span>
+                      <div className="mail-content-table">
+                        <table>
+                          <tbody>
+                            <tr>
+                              <th>Upload Date</th>
+                              <td>{data.created}</td>
+                            </tr>
+                            <tr>
+                              <th>Language</th>
+                              <td>{data.language}</td>
+                            </tr>
+                            <tr>
+                              <th>SPC</th>
+                              <td>{data.spc_included === 0 ? "No" : "Yes"}</td>
+                            </tr>
+                            <tr>
+                              <th>Last Email</th>
+                              <td>
+                                {data.last_sent == "" ? "N/A" : data.last_sent}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div className="mail-content-footer">
+                        <a href={data.preview_link} target="_blank">
+                          <button className="btn btn-primary btn-filled">
+                            Preview
+                          </button>
+                        </a>
                       </div>
                     </div>
-                    <div className="mail-content-table">
-                      <table>
-                        <tbody>
-                          <tr>
-                            <th>Upload Date</th>
-                            <td>{data.created}</td>
-                          </tr>
-                          <tr>
-                            <th>Language</th>
-                            <td>{data.language}</td>
-                          </tr>
-                          <tr>
-                            <th>SPC</th>
-                            <td>{data.spc_included === 0 ? "No" : "Yes"}</td>
-                          </tr>
-                          <tr>
-                            <th>Last Email</th>
-                            <td>
-                              {data.last_sent == "" ? "N/A" : data.last_sent}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    </div>
-                    <div className="mail-content-footer">
-                      <a href={data.preview_link} target="_blank">
-                        <button className="btn btn-primary btn-filled">
-                          Preview
-                        </button>
-                      </a>
-                    </div>
                   </div>
-                  </div>
-                </div>
-              );
-            }) :
-            <div className="not_found">
-              <p>No Data Found</p>
-            </div>
-          }
+                );
+              })
+            ) : (
+              <div className="not_found">
+                <p>No Data Found</p>
+              </div>
+            )}
           </div>
         </div>
 
-        {
-            typeof SendListData !== "undefined" && SendListData.length > 0 && getloadmore === 0 && (
-              <div className="load_more">
-                <button className="btn btn-primary btn-filled" onClick={load_more}>Load More</button>
-              </div>
-            )
-        }
-
+        {typeof SendListData !== "undefined" &&
+          SendListData.length > 0 &&
+          getloadmore === 0 && (
+            <div className="load_more">
+              <button
+                className="btn btn-primary btn-filled"
+                onClick={load_more}
+              >
+                Load More
+              </button>
+            </div>
+          )}
       </div>
-
-
     </>
   );
 };

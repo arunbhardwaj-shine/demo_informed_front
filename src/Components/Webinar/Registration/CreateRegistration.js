@@ -11,6 +11,7 @@ const CreateRegistration = (props) => {
     // console.log(props.id)
     const [body, setBody] = useState();
     const [err, setErr] = useState(false);
+    const [templateList, setTemplateList] = useState();
     const [image, setimage] = useState("");
     const [errimage, setErrimage] = useState(false);
     const handeleimage = (e) => {
@@ -34,13 +35,22 @@ const CreateRegistration = (props) => {
       }
        
      };
+     const handleGetTemplateList = (props) => {
+      ExportApi.UserTemplateList(props.id).then((resp) => {
+        if (resp.ok) {
+          setTemplateList(resp.data.data);
+        }
+      });
+    };
     const formik = useFormik({
         initialValues: {
             RegistrationPageTitle:'',
             url :'',
-            body:""
+            body:"",
+            TemplateId:''
         },
         validationSchema: Yup.object({
+          TemplateId: Yup.string().required("Please select template "),
           RegistrationPageTitle: Yup.string().required("Enter your registration page title"),
           body: Yup.string().required("Enter a body text"),
           url: Yup.string()
@@ -55,6 +65,7 @@ const CreateRegistration = (props) => {
       formData.append("file", image);
       formData.append("title", values.RegistrationPageTitle);
       formData.append("url", values.url);
+      formData.append("template_id", values.TemplateId);
       image ? ExportApi.CreateRegistrationPage(formData).then((resp) => {
             if (resp.ok) {
               props.hendletable(props.id)
@@ -84,7 +95,9 @@ const CreateRegistration = (props) => {
           }):setErrimage("Please update your image");
         },
       });
-      
+      useEffect(() => {
+        handleGetTemplateList(props)
+      }, [])
   return (
     <div>
          <ToastContainer
@@ -114,6 +127,31 @@ const CreateRegistration = (props) => {
                       type="text"
                       placeholder="Title"
                     />
+                         {formik.touched.RegistrationPageTitle && formik.errors.RegistrationPageTitle ? (
+                <div style={{ color: "red" }}>{formik.errors.RegistrationPageTitle}</div>
+              ) : null}
+                  </Form.Group>
+                </Col>
+              </Col>
+              <Col className="mb-5">
+                <Col>
+                  <Form.Group className="mb-3">
+                  <Form.Label>Select Template </Form.Label>
+                <Form.Select
+                  name="TemplateId"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.TemplateId}
+                  >
+                  <option> Select Template</option>
+                  {templateList
+                    ? templateList?.map((val, i) => (
+                        <React.Fragment key={i}>
+                          <option value={val.id}>{val.name}</option>
+                        </React.Fragment>
+                      ))
+                    : null}
+                </Form.Select>
                          {formik.touched.RegistrationPageTitle && formik.errors.RegistrationPageTitle ? (
                 <div style={{ color: "red" }}>{formik.errors.RegistrationPageTitle}</div>
               ) : null}

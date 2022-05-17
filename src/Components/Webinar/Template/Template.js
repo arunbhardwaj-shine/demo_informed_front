@@ -1,13 +1,9 @@
 import React, { useEffect, useState,useRef } from "react";
-import { render } from 'react-dom';
-
 import EmailEditor from 'react-email-editor';
 import { Button, Col, Form, Modal, Row, Table } from "react-bootstrap";
 import ExportApi from "../../../Api/ExportApi";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-// import { CKEditor } from "@ckeditor/ckeditor5-react";
-// import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { toast, ToastContainer } from "react-toastify";
 import CreateTemplate from "./CreateTemplate";
 import { Testmail } from "./Testmail";
@@ -97,17 +93,16 @@ const Template = () => {
      setId(idd);
       ExportApi.UserTemplate(idd).then((resp) => {
         if (resp.ok) {
-        //   console.log('1',resp.data.data.json_description)
-        // setDpc(resp.data.data.json_description?JSON.parse(resp.data.data.json_description):"")
+          //   console.log('1',resp.data.data.json_description)
+          // setDpc(resp.data.data.json_description?JSON.parse(resp.data.data.json_description):"")
           setTemplate(resp.data.data);
-           emailEditorRef.current.editor.loadDesign(resp.data.data.json_description?JSON.parse(resp.data.data.json_description ):hello)
+          emailEditorRef.current.editor.loadDesign(resp.data.data.json_description?JSON.parse(resp.data.data.json_description ):hello)
         }
       });
   };
   
   const emailEditorRef = useRef(null);
   const onLoad = () => {
-    console.log(dpc)
       // emailEditorRef.current.editor.loadDesign(dpc?dpc:hello);
   }
   const onReady = () => {

@@ -9,11 +9,11 @@ const EmailSand = () => {
   const [eventId, setEventId] = useState();
   const [eventName, setEventName] = useState();
   const [Show, setShow] = useState(false);
+  const [ShowHtml, setShowHtml] = useState(false);
   const [EmailData, setEmailData] = useState();
   const [templateList, setTemplateList] = useState();
   const [templateId, setTemplateId] = useState();
   const [registeredNonRegistered, setRegisteredNonRegistered] = useState();
-  const [type, setType] = useState();
   const [checked, setChecked] = React.useState([1]);
   const [Checkbox, setCheckbox] = React.useState([]);
   const [data, setData] = useState([]);
@@ -69,6 +69,25 @@ const EmailSand = () => {
       }
     });
   };
+  const handleGetTemplateListhtml = () => {
+    setShowHtml(true)
+    ExportApi.UserTemplate(templateId).then((resp) => {
+      if (resp.ok) {
+        console.log(resp.data.data.description);
+        document.getElementById("one").innerHTML=resp.data.data.description
+
+        // setTimeout(() => {
+          
+        //   let closePeer = document.getElementById('submit');
+        //   console.log("closePeer",closePeer)
+        //   if (closePeer) {
+        //   closePeer.addEventListener('click',handleFormData);
+        //   }
+        // }, 5500);
+        // setHtml(resp.data.data);
+      }
+    });
+  };
   const handleGSendEmail = (id) => {
     let a = JSON.stringify(data);
     ExportApi.sandAllmaik(templateId, a).then((resp) => {
@@ -116,11 +135,17 @@ const EmailSand = () => {
     ExportApi.EmailSandRegisteredType(registeredNonRegistered, eventId,value).then((resp) => {
       if (resp.ok) {
         console.log(resp.data.data);
-        let a = resp.data.data;
-        for (let index = 0; index < a.length; index++) {
-          if (a.length !== Checkbox.length) Checkbox.push({ Check: false });
+        if(resp.data.data){
+
+          let a = resp.data.data;
+          for (let index = 0; index < a.length; index++) {
+            if (a.length !== Checkbox.length) Checkbox.push({ Check: false });
         }
         setEmailData(resp.data.data);
+        }
+        else{
+          setEmailData()
+        }
       }
     });
   };
@@ -202,6 +227,7 @@ const EmailSand = () => {
       // }, 1000);
     }
   };
+ 
   useEffect(() => {
     console.log(data);
   }, [checked, data]);
@@ -266,6 +292,13 @@ const EmailSand = () => {
                       ))
                     : null}
                 </Form.Select>
+              </>
+            ) : null}
+          </Col>
+          <Col>
+            {templateId != undefined || templateId != null ? (
+              <>
+             <Button onClick={()=>{handleGetTemplateListhtml();}}>Preview</Button>
               </>
             ) : null}
           </Col>
@@ -352,7 +385,7 @@ const EmailSand = () => {
                               checked={Checkbox[i].Check}
                               onChange={(e) => Checkboxhandlebox(e, val, i)} />
                           </td>
-                          <td>{val.name}</td>
+                         {val.name?<td>{val.name}</td>:<td>{val.first_name} {val.last_name}</td>}
                           <td>{val.email}</td>
                         </tr>
                       ))
@@ -363,6 +396,8 @@ const EmailSand = () => {
           ) : null}
         </Row>
       </Col>
+      {ShowHtml? <div style={{width:"200px"}} id="one"> </div>:null}
+
       <Modal
         size="sm"
         show={Show}
@@ -424,6 +459,7 @@ const EmailSand = () => {
       </Modal>
       <Col>
       </Col>
+     
     </Row>
   );
 };

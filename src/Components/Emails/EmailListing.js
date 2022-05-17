@@ -437,7 +437,7 @@ const EmailList = (props) => {
     }
     if (filterapplied) {
       getData("progress");
-    }else{
+    } else {
       loader("hide");
     }
     setShowFilter(false);
@@ -573,67 +573,83 @@ const EmailList = (props) => {
                                 )
                               )}
                             </ul>
-                            </Accordion.Body>
-                            </Accordion.Item>
-                        )
-                      }
+                          </Accordion.Body>
+                        </Accordion.Item>
+                      )}
 
-                      {
-                        filterdata.hasOwnProperty('creators') && filterdata.creators.length > 0 && (
-                          <Accordion.Item className="card" eventKey="1">
-                          <Accordion.Header className="card-header">Creators</Accordion.Header>
+                    {filterdata.hasOwnProperty("creators") &&
+                      filterdata.creators.length > 0 && (
+                        <Accordion.Item className="card" eventKey="1">
+                          <Accordion.Header className="card-header">
+                            Creators
+                          </Accordion.Header>
                           <Accordion.Body className="card-body">
-                          <ul>
-                            {
-                              Object.entries(filterdata.creators).map(([index, item]) => (
+                            <ul>
+                              {Object.entries(filterdata.creators).map(
+                                ([index, item]) => (
                                   <li>
-                                  <label className="select-multiple-option">
-                                    <input
-                                      type="checkbox"
-                                      id={`custom-checkbox-creator-${index}`}
-                                      name="creator[]"
-                                      value={item}
-                                      checked={updateflag > 0 && typeof filtercreator !== 'undefined' && filtercreator.indexOf(item) !== -1}
-                                      onChange={() => handleOnFilterCreator(item)}
-                                    />
-                                    {item}
-                                    <span className="checkmark"></span>
-                                  </label>
+                                    <label className="select-multiple-option">
+                                      <input
+                                        type="checkbox"
+                                        id={`custom-checkbox-creator-${index}`}
+                                        name="creator[]"
+                                        value={item}
+                                        checked={
+                                          updateflag > 0 &&
+                                          typeof filtercreator !==
+                                            "undefined" &&
+                                          filtercreator.indexOf(item) !== -1
+                                        }
+                                        onChange={() =>
+                                          handleOnFilterCreator(item)
+                                        }
+                                      />
+                                      {item}
+                                      <span className="checkmark"></span>
+                                    </label>
                                   </li>
-                              ))}
+                                )
+                              )}
                             </ul>
-                            </Accordion.Body>
-                            </Accordion.Item>
-                        )
-                      }
-                      {
-                        filterdata.hasOwnProperty('created') && filterdata.created.length > 0 && (
-                          <Accordion.Item className="card" eventKey="2">
-                          <Accordion.Header className="card-header">Created</Accordion.Header>
+                          </Accordion.Body>
+                        </Accordion.Item>
+                      )}
+                    {filterdata.hasOwnProperty("created") &&
+                      filterdata.created.length > 0 && (
+                        <Accordion.Item className="card" eventKey="2">
+                          <Accordion.Header className="card-header">
+                            Created
+                          </Accordion.Header>
                           <Accordion.Body className="card-body">
-                          <ul>
-                            {
-                              Object.entries(filterdata.created).map(([index, item]) => (
+                            <ul>
+                              {Object.entries(filterdata.created).map(
+                                ([index, item]) => (
                                   <li>
-                                  <label className="select-multiple-option">
-                                  <input
-                                    type="checkbox"
-                                    id={`custom-checkbox-date-${index}`}
-                                    name="date[]"
-                                    value={item}
-                                    checked={updateflag > 0 && typeof filterdate !== 'undefined' && filterdate.indexOf(item) !== -1}
-                                    onChange={() => handleOnFilterDate(item)}
-                                  />
-                                    {item}
-                                    <span className="checkmark"></span>
-                                  </label>
+                                    <label className="select-multiple-option">
+                                      <input
+                                        type="checkbox"
+                                        id={`custom-checkbox-date-${index}`}
+                                        name="date[]"
+                                        value={item}
+                                        checked={
+                                          updateflag > 0 &&
+                                          typeof filterdate !== "undefined" &&
+                                          filterdate.indexOf(item) !== -1
+                                        }
+                                        onChange={() =>
+                                          handleOnFilterDate(item)
+                                        }
+                                      />
+                                      {item}
+                                      <span className="checkmark"></span>
+                                    </label>
                                   </li>
-                              ))}
+                                )
+                              )}
                             </ul>
-                            </Accordion.Body>
-                            </Accordion.Item>
-                        )
-                      }
+                          </Accordion.Body>
+                        </Accordion.Item>
+                      )}
 
                     <Accordion.Item className="card" eventKey="3">
                       <Accordion.Header className="card-header">
