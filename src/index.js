@@ -66,7 +66,7 @@ ReactDOM.render(
     <Provider store={createStore(reducers)}>
       {platform == 0 ? (
         <>
-          <Router>
+          <BrowserRouter>
             <Header />
             <div className="warpper">
               <div className="container-fluid">
@@ -114,7 +114,7 @@ ReactDOM.render(
                 </div>
               </div>
             </div>
-          </Router>
+          </BrowserRouter>
         </>
       ) : (
         <BrowserRouter>
