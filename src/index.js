@@ -3,7 +3,12 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  MemoryRouter as Router,
+} from "react-router-dom";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import reducers from "./reducers";
@@ -60,7 +65,7 @@ ReactDOM.render(
     <Provider store={createStore(reducers)}>
       {platform == 0 ? (
         <>
-          <BrowserRouter>
+          <Router>
             <Header />
             <div className="warpper">
               <div className="container-fluid">
@@ -108,7 +113,7 @@ ReactDOM.render(
                 </div>
               </div>
             </div>
-          </BrowserRouter>
+          </Router>
         </>
       ) : (
         <BrowserRouter>
