@@ -91,11 +91,14 @@ const CreateEmail = (props) => {
   useEffect(() => {
     const body = {
       user_id: 18207,
+      search: "",
+      filter: "",
     };
     loader("show");
     axios
       .post(`distributes/get_smart_list`, body)
       .then((res) => {
+        console.log(res);
         setSmartListData(res.data.response.data);
         //console.log(res.data.response.data);
         loader("hide");
@@ -1365,6 +1368,7 @@ const CreateEmail = (props) => {
               {smartListData.map((data) => {
                 return (
                   <>
+                    {console.log(data)}
                     <div className="smartlist-view email_box">
                       <div className="mail-box-content">
                         <h5>{data.name}</h5>
