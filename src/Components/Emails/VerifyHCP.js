@@ -14,8 +14,8 @@ const VerifyHCP = (props) => {
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
   const campaign_id = props.getEmailData
-  ? props.getEmailData.campaign_id
-  : props.getDraftData.campaign_data.campaign_id;
+    ? props.getEmailData.campaign_id
+    : props.getDraftData.campaign_data.campaign_id;
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
   const [templateId, setTemplateId] = useState(0);
   const [name, setName] = useState("");
@@ -647,14 +647,14 @@ const VerifyHCP = (props) => {
                 Selected HCPs <span>| {selectedHcp.length}</span>
               </h4>
               <div className="selected-hcp-table-action">
-                {/* <div className="hcp-added">
+                <div className="hcp-added">
                   <button
                     className="btn btn-outline-primary"
                     onClick={editablemade}
                   >
                     <img src={path_image + "edit.svg"} alt="" />
                   </button>
-                </div> */}
+                </div>
                 <div className="hcp-sort">
                   <button
                     onClick={sortSelectedUsers}
@@ -691,6 +691,7 @@ const VerifyHCP = (props) => {
                   </thead>
                   <tbody>
                     {selectedHcp.map((data, index) => {
+                      console.log(data);
                       return (
                         <>
                           <tr

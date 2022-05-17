@@ -64,10 +64,12 @@ const Table = (props, ref) => {
   const [editable, setEditable] = useState(0);
   const [validator3Counter, setValidator3Counter] = useState(0);
   const [counter, setCounter] = useState([0]);
+  const [saveOpen, setSaveOpen] = useState(false);
   const [hpc, setHpc] = useState([
     { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
   ]);
   const [countryall, setCountryall] = useState([]);
+
   const [editableData, setEditableData] = useState([]);
 
   useImperativeHandle(
@@ -139,6 +141,7 @@ const Table = (props, ref) => {
   };
 
   const editButtonClicked = () => {
+    setSaveOpen(true);
     let temp_val = 1 - editable;
     setEditable(temp_val);
     setUpdate(update + 1);
@@ -199,67 +202,73 @@ const Table = (props, ref) => {
     names,
     index
   ) => {
-    const arr = [];
-    arr.push({
-      profile_id: profile_id,
-      profile_user_id: profile_user_id,
-      email: email,
-      jobTitle: jobTitle,
-      company: company,
-      country: country,
-      names: names,
-    });
+    let ignoreClickOnMeElement = document.getElementById(
+      "row-selected" + index
+    );
 
-    setEditableData((oldArray) => [...oldArray, arr]);
+    ignoreClickOnMeElement.addEventListener(
+      "mouseleave",
+      async (event) => {
+        const name_edit = document.getElementById(
+          "field_name" + index
+        ).innerText;
 
-    // var ignoreClickOnMeElement = document.getElementById(
-    //   "row-selected" + index
-    // );
+        const country_edit = document.getElementById(
+          "field_country" + index
+        ).innerText;
 
-    // ignoreClickOnMeElement.addEventListener(
-    //   "mouseleave",
-    //   async (event) => {
-    //     console.log("clicked outside");
-    //     const name_edit = document.getElementById(
-    //       "field_name" + index
-    //     ).innerText;
-    //     //setNameEdit(name_edit);
-    //     const country_edit = document.getElementById(
-    //       "field_country" + index
-    //     ).innerText;
-    //     //  setCountryEdit(country_edit);
-    //     const email_edit = document.getElementById(
-    //       "field_email" + index
-    //     ).innerText;
-    //     // console.log(editList);
-    //     const data = editList.find((x) => x.profile_id === profile_id);
-    //     console.log(data);
-    //     console.log(email_edit);
-    //     console.log(country_edit);
+        console.log(name_edit);
+        console.log(country_edit);
 
-    //     if (data.email != email_edit || data.country != country_edit) {
-    //       const body = {
-    //         user_id: 18207,
-    //         profile_user_id: profile_user_id,
-    //         profile_id: profile_id,
-    //         email: email_edit,
-    //         country: country_edit,
-    //         username: name_edit,
-    //       };
+        const arr = [];
+        arr.push({
+          profile_id: profile_id,
+          profile_user_id: profile_user_id,
+          email: email,
+          jobTitle: jobTitle,
+          company: company,
+          country: country_edit,
+          names: name_edit,
+          user_id: 18207,
+        });
+        setEditableData((oldArray) => [...oldArray, ...arr]);
+      },
+      { once: true }
+    );
 
-    //       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    //       await axios
-    //         .post(`distributes/update_reders_details`, body)
-    //         .then((res) => {
-    //           console.log(res);
-    //         })
-    //         .catch((err) => {
-    //           console.log(err);
-    //         });
-    //     }
-    //   },
-    //   { once: true }
-    // );
+    // ignoreClickOnMeElement.addEventListener("mouseleave", async (event) => {
+
+    //   console.log(event);
+    //   console.log(index);
+
+    //   const data = editList.find((x) => x.profile_id === profile_id);
+    //   console.log(data);
+
+    //   if (
+    //     data.first_name + " " + data.last_name != name_edit ||
+    //     data.email != email_edit ||
+    //     data.country != country_edit
+    //   ) {
+    //     const body = {
+    //       user_id: 18207,
+    //       profile_user_id: profile_user_id,
+    //       profile_id: profile_id,
+    //       email: email_edit,
+    //       country: country_edit,
+    //       username: name_edit,
+    //     };
+
+    //     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    //     await axios
+    //       .post(`distributes/update_reders_details`, body)
+    //       .then((res) => {
+    //         console.log(res);
+    //       })
+    //       .catch((err) => {
+    //         console.log(err);
+    //       });
+    //   }
+    // });
   };
 
   const showFileInReadersList = async (fdata) => {
@@ -411,6 +420,24 @@ const Table = (props, ref) => {
     setActiveExcel("active");
     setActiveManual("");
     setAddFileReRender(addFileReRender + 1);
+  };
+
+  const saveEditClicked = async () => {
+    console.log(editableData);
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    await axios
+      .post(`distributes/update_reders_details`, editableData)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const closeClicked = () => {
+    setSaveOpen(false);
+    setEditable(0);
   };
 
   const updateReaderDetails = async ({
@@ -836,11 +863,33 @@ const Table = (props, ref) => {
                     </>
                   ) : null}
                 </tr>
+                {saveOpen ? (
+                  <>
+                    <button onClick={saveEditClicked}>Save</button>
+                    <button onClick={closeClicked}>Close</button>
+                  </>
+                ) : null}
               </thead>
               <tbody>
-                {editList.map((item) => (
-                  <tr contenteditable={editable === 0 ? "false" : "true"}>
-                    <td>
+                {editList.map((item, index) => (
+                  <tr
+                    id={`row-selected` + index}
+                    contenteditable={editable === 0 ? "false" : "true"}
+                    onFocus={(e) =>
+                      editing(
+                        //  e.currentTarget,
+                        item.profile_id,
+                        item.profile_user_id,
+                        item.email,
+                        item.jobTitle,
+                        item.company,
+                        item.country,
+                        item.first_name + " " + item.last_name,
+                        index
+                      )
+                    }
+                  >
+                    <td id={`field_name` + index}>
                       {inEditMode.status &&
                       inEditMode.rowKey === item.profile_id ? (
                         <input
@@ -852,7 +901,7 @@ const Table = (props, ref) => {
                       )}
                     </td>
 
-                    <td>
+                    <td id={`field_email` + index}>
                       {" "}
                       {inEditMode.status &&
                       inEditMode.rowKey === item.profile_id ? (
@@ -865,8 +914,8 @@ const Table = (props, ref) => {
                         item.email
                       )}
                     </td>
-                    <td>No</td>
-                    <td>
+                    <td id={`field_bounced` + index}>No</td>
+                    <td id={`field_country` + index}>
                       {inEditMode.status &&
                       inEditMode.rowKey === item.profile_id ? (
                         <input
@@ -877,9 +926,15 @@ const Table = (props, ref) => {
                         item.country
                       )}
                     </td>
-                    {showLessInfo == false ? <td>NA</td> : null}
-                    {showLessInfo == false ? <td>NA</td> : null}
-                    {showLessInfo == false ? <td>NA</td> : null}
+                    {showLessInfo == false ? (
+                      <td id="field_readers">NA</td>
+                    ) : null}
+                    {showLessInfo == false ? (
+                      <td id="field_business_unit">NA</td>
+                    ) : null}
+                    {showLessInfo == false ? (
+                      <td id="field_interest">NA</td>
+                    ) : null}
                     <td
                       class="delete_row"
                       colspan="12"

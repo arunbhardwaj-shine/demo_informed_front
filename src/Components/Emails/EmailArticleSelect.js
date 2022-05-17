@@ -270,7 +270,6 @@ const EmailArticleSelect = () => {
                   placeholder="Search"
                   aria-label="Search"
                   onChange={(e) => searchChange(e)}
-                  s
                 />
                 <button className="btn btn-outline-success" type="submit">
                   <svg

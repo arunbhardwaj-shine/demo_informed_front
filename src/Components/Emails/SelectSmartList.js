@@ -14,7 +14,7 @@ const SelectSmartList = (props) => {
   const [smartListSelected, setSmartListSelected] = useState({});
   const campaign_id = props.getEmailData
     ? props.getEmailData.campaign_id
-    : props.getDraftData.campaign_data.campaign_id;
+    : props.getDraftData.campaign_id;
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
 
   const inputElement = useRef();
@@ -49,12 +49,12 @@ const SelectSmartList = (props) => {
 
   const handleSelect = (e) => {
     console.log(e);
-    console.log(e);
+
     setSmartListSelected(e);
 
-    //  console.log(e.target.value);
     props.getSelectedSmartListData(e);
     setPdfSelected(e.id);
+    // e.preventDefault();
   };
 
   const backClicked = () => {
@@ -217,6 +217,7 @@ const SelectSmartList = (props) => {
             </div>
             <div className="col smartlist-result-block">
               {SendListData.map((template) => {
+                //   console.log(template);
                 return (
                   <div className="smartlist_box_block">
                     <div className="smartlist-view email_box">
@@ -230,9 +231,10 @@ const SelectSmartList = (props) => {
                             type="radio"
                             name="radio"
                             checked={
-                              template.id == getselecedlistid
+                              template.id == PdfSelected
                                 ? true
-                                : template.id == PdfSelected
+                                : template.id == getselecedlistid &&
+                                  !PdfSelected
                                 ? true
                                 : false
                             }
@@ -333,7 +335,9 @@ const SelectSmartList = (props) => {
                         </ul>
                       </div> */}
                         <div className="smartlist-buttons">
-                          <button className="btn btn-primary btn-bordered view">View</button>
+                          <button className="btn btn-primary btn-bordered view">
+                            View
+                          </button>
                         </div>
                       </div>
                     </div>

@@ -15,8 +15,8 @@ const SelectSmartListUsers = (props) => {
   const location = useLocation();
   const [readers, setReaders] = useState([]);
   const campaign_id = props.getEmailData
-  ? props.getEmailData.campaign_id
-  : props.getDraftData.campaign_data.campaign_id;
+    ? props.getEmailData.campaign_id
+    : props.getDraftData.campaign_data.campaign_id;
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
   const [SendListData, setSendListData] = useState([]);
   const [PdfSelected, setPdfSelected] = useState(0);
@@ -91,7 +91,7 @@ const SelectSmartListUsers = (props) => {
         });
     };
     getalCountry();
-  });
+  }, []);
 
   const saveAsDraft = async () => {
     console.log("hi");

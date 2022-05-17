@@ -1154,7 +1154,7 @@ const FilterSegment = (props) => {
               />
             </div>
           ) : (
-            <div className="box mt-2">
+            <div className="box mt-2 no-data">
               <p>No Data Found</p>
             </div>
           )
