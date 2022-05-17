@@ -47,7 +47,9 @@ import EditorEmail from "./Components/Webinar/Registration/EditorEmail";
 import Readers from "./Components/Webinar/Readers/Readers";
 import EmailStats from "./Components/Webinar/Email Stats/EmailStats";
 import EmailSand from "./Components/Webinar/Email Stats/EmailSand";
-import SmtpDetails from "./Components/Webinar/Smtp/SmtpDetails.JS";
+import StpDetails from "./Components/Webinar/Smtp/StpDetails";
+
+
 
 let platform = 0;
 let show = 0;
@@ -131,7 +133,7 @@ ReactDOM.render(
                       element={<ForgotPassword />}
                     />
                     <Route
-                      path="/webinar/forgot-reset-password/:id"
+                      path="/webinar/forgot-password/:id"
                       element={<ForgotResetPassword />}
                     />
                     <React.Fragment>
@@ -172,8 +174,8 @@ ReactDOM.render(
                           element={<EmailSand />}
                         />
                         <Route
-                          path="/webinar/smtpdetails"
-                          element={<SmtpDetails />}
+                          path="/webinar/stpdetails"
+                          element={<StpDetails />}
                         />
                       </Route>
                     </React.Fragment>

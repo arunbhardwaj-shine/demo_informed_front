@@ -137,11 +137,15 @@ const Header = () => {
                     show={smShowLogin}
                     onHide={() => setSmShowLogin(false)}
                     aria-labelledby="example-modal-sizes-title-sm"
-                  >
+                  ><Modal.Header
+                  closeButton
+                  onClick={() => setSmShowLogin(false)}
+                >
+                </Modal.Header>
                     <Modal.Body>
                       <Login active={hengleLonginPage} />
                       <h5
-                        style={{ color: "blue", cursor: "pointer" }}
+                        style={{ color: "blue", cursor: "pointer",width:"173px" }}
                         onClick={() => {
                           setSmShowForgot(true);
                           setSmShowLogin(false);
@@ -170,7 +174,6 @@ const Header = () => {
                   closeButton
                   onClick={() => setSmShowForgot(false)}
                 >
-                  Forgot Password
                 </Modal.Header>
                 <Modal.Body>
                   <ForgotPassword  active={hengleForgotPage}  />

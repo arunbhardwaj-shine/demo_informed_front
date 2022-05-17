@@ -18,6 +18,7 @@ function Add(props) {
   const [index, setIndex] = useState();
   const [Timezone, setTimezone] = useState([]);
   const [massage, setMassage] = useState();
+  const [country, setCountry] = useState([]);
   const [Timezoneregion, setTimezoneregion] = useState([]);
   const handleMaltiInputAdd = () => {
     setSpeakerName([...Speakername, { name: "", email: "" }]);
@@ -81,6 +82,19 @@ function Add(props) {
       }
     });
   };
+  const handleGetCountry = () => {
+    ExportApi.GetCountryData().then((resp) => {
+      if (resp.ok) {
+         console.log(resp.data.data);
+         setCountry(resp.data.data);
+      }
+    });
+  };
+  const handleReset = (resetForm) => {
+    
+      resetForm();
+  
+  };
   const formik = useFormik({
     initialValues: {
       EventTitle: "",
@@ -91,7 +105,8 @@ function Add(props) {
       eventendtime: "",
       event_date: "",
       Description: "",
-      code:''
+      code:'',
+      Country:''
     },
     validationSchema: Yup.object({
       EventTitle: Yup.string().required("Event title is required"),
@@ -99,6 +114,7 @@ function Add(props) {
       code: Yup.string().required("Code is required"),
       event_start_time: Yup.string().required("Event start time is required"),
       Region: Yup.string().required("Region is required"),
+      Country: Yup.string().required("Country is required"),
       Bu: Yup.string().required("Bu is required"),
       eventendtime: Yup.string()
       .required("Event ent time is required"),
@@ -116,7 +132,7 @@ function Add(props) {
       let a = JSON.stringify(Speakername);
       console.log(dateData);
 if(values.event_start_time>=values.eventendtime){
-  setMassage("End time has to be greater")
+  setMassage("End time has to be greater start time")
 }else{
 setMassage(false)
   ExportApi.CreatEvent(
@@ -129,7 +145,8 @@ setMassage(false)
        values.Bu,
        dateData,
        values.Description,
-       values.Region
+       values.Region,
+       values.Country
      )
        .then((resp) => {
          if (resp.data) {
@@ -173,10 +190,7 @@ var yyyy = today.getFullYear();
     handleGetDataBu();
     handleGetTimezoneData();
     handleGetTimezoneregionData();
-    navigator.geolocation.getCurrentPosition(function(position) {
-      console.log("Latitude is :", position.coords.latitude);
-      console.log("Longitude is :", position.coords.longitude);
-    });
+    handleGetCountry()
   }, [props.token, localStorage.getItem("Token")]);
   useEffect(() => {
    console.log(Speakername)
@@ -311,6 +325,36 @@ var yyyy = today.getFullYear();
                   </Form.Select>
                   {formik.touched.Region && formik.errors.Region ? (
                     <div style={{ color: "red" }}>{formik.errors.Region}</div>
+                  ) : null}
+                </Col>
+                <br />
+              </Form.Group>
+              <Form.Group
+                className="mb-3"
+                as={Row}
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label column sm={2}>
+                 Country
+                </Form.Label>
+                <Col sm={10}>
+                  <Form.Select
+                    name="Country"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.Country}
+                  >
+                    <option>Select Country</option>
+                    {country?.map((val, i) => (
+                      <React.Fragment key={i}>
+                        <option key={i} value={val.country}>
+                          {val.country}
+                        </option>
+                      </React.Fragment>
+                    ))}
+                  </Form.Select>
+                  {formik.touched.Country && formik.errors.Country ? (
+                    <div style={{ color: "red" }}>{formik.errors.Country}</div>
                   ) : null}
                 </Col>
                 <br />
@@ -499,7 +543,7 @@ var yyyy = today.getFullYear();
                   ) : null}
                 </Col>
               </Form.Group>
-              <Button type="reset">Reset</Button>
+              <Button type="reset" onClick={handleReset.bind(null, formik.resetForm)}>Reset</Button>
               <Button type="submit" className="event-submit-button">
                 Submit
               </Button>
