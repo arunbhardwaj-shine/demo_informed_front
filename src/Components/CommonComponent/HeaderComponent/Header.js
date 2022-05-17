@@ -20,13 +20,16 @@ const Header = () => {
 		if(redirect_info){
 			navigate(redirect_info);
 		}
- 		
-			
+
+
 	}
 
 	let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     return (
       <>
+			<div className="loader" id="custom_loader">
+	        <span className="loader-view"> </span>
+	    </div>
      	<header>
 			<nav className="navbar navbar-expand-sm navbar-light">
 			  <div className="container-fluid">
@@ -58,12 +61,6 @@ const Header = () => {
 				</div>
 			  </div>
 			</nav>
-			<div className="loader" id="custom_loader">
-	        <span className="loader-view"> </span>
-	    </div>
-
-				
-
 
 		</header>
 		<ToastContainer
@@ -82,18 +79,18 @@ const Header = () => {
 				  <div className="modal-dialog modal-dialog-centered">
 					<div className="modal-content">
 
-					 
+
 					  <div className="modal-header">
 						{/* <button type="button" className="btn-close" data-bs-dismiss="modal"></button> */}
 					  </div>
 
-					 
+
 					  <div className="modal-body">
 						<img id="img-replaced" src={path+"success.svg"} alt="" />
 						<h4 id="message_change">This email will be sent to everybody who has not opened the email  </h4>
-						
+
 						<div className="modal-buttons">
-							<button type="button" href="javascript:;"  id="modeltoreplace" className="btn btn-primary btn-bordered light" data-bs-dismiss="modal" onClick={removed_pop}>Close</button> 
+							<button type="button" href="javascript:;"  id="modeltoreplace" className="btn btn-primary btn-bordered light" data-bs-dismiss="modal" onClick={removed_pop}>Close</button>
 						</div>
 					  </div>
 
@@ -101,7 +98,7 @@ const Header = () => {
 				  </div>
 				</div>
 
-			
+
       </>
     );
 };
