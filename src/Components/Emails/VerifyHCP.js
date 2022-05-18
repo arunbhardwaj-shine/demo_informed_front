@@ -765,13 +765,13 @@ const VerifyHCP = (props) => {
                 {saveOpen ? (
                   <>
                     <button
-                      className="btn btn-outline-primary"
+                      className="btn btn-primary btn-bordered"
                       onClick={saveEditClicked}
                     >
                       Save
                     </button>
                     <button
-                      className="btn btn-outline-primary"
+                      className="btn btn-primary btn-filled"
                       onClick={closeClicked}
                     >
                       Close

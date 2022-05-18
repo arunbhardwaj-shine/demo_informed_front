@@ -130,7 +130,7 @@ ReactDOM.render(
                   <Routes>
                     <Route path="/webinar" element={<Home />} />
                     <Route
-                      path="/webinar/register/:code/:url"
+                      path="/webinar/register/:code/:url/:stats"
                       element={<Preview />}
                     />
                     <Route
