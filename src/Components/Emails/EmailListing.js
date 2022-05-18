@@ -317,6 +317,15 @@ const EmailList = (props) => {
       });
   };
 
+  const handleScroll = (ev)=>{
+     if(ev.target.scrollTop>20){
+       document.querySelector("#mail-view").setAttribute("custom-atr", "scroll");
+     }else{
+      document.querySelector("#mail-view").setAttribute("custom-atr", "non-scroll");
+     }
+
+  }
+
   const handleOnFilterTags = (ftag) => {
     let tag_index = filtertags.indexOf(ftag);
     if (tag_index !== -1) {
@@ -1207,7 +1216,7 @@ const EmailList = (props) => {
       </div>
 
       <div>
-        <Modal id="mail-view" show={viewEmailModal} onHide={hideEmailModal}>
+        <Modal id="mail-view" show={viewEmailModal} onHide={hideEmailModal}  custom-atr="non-scroll">
           <Modal.Header>
             <h4>Email View</h4>
             <button
@@ -1218,7 +1227,7 @@ const EmailList = (props) => {
             ></button>
           </Modal.Header>
 
-          <Modal.Body>
+          <Modal.Body onScroll={handleScroll} >
             {typeof viewEmailData !== "undefined" && (
               <div className="modal-body-view">
                 <div className="mail-box-content">
