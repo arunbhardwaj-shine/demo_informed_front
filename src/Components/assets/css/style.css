@@ -733,4 +733,14 @@ text.highcharts-credits { display: none; }
 .btn-check:active+.btn-secondary:focus, .btn-check:checked+.btn-secondary:focus, .btn-secondary.active:focus, .btn-secondary:active:focus, .show>.btn-secondary.dropdown-toggle:focus {
     box-shadow: none;
 }
+
+button#test-table-xls-button {
+  font-size: 0;
+  width: 40px;
+  margin-right: 16px;
+  background-image: url(../images/download.svg);
+  background-size: 20px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
 	
