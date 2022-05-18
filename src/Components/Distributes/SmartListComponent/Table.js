@@ -16,6 +16,8 @@ import { toast } from "react-toastify";
 import { popup_alert } from "../../../popup_alert";
 import queryString from "query-string";
 import { connect } from "react-redux";
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+
 
 const Table = (props, ref) => {
   const [inEditMode, setInEditMode] = useState({
@@ -126,6 +128,8 @@ const Table = (props, ref) => {
     setShowUploadMenu(true);
     setShow(false);
   };
+
+
 
   let combine_data;
   let combine_data_manual;
@@ -839,6 +843,16 @@ const Table = (props, ref) => {
                 )}{" "}
               </a>
 
+              <ReactHTMLTableToExcel
+                    id="test-table-xls-button"
+                    className="btn btn-outline-primary"
+                    table="table-to-xls"
+                    filename="tablexls"
+                    sheet="tablexls"
+                    buttonText="Download "
+                   
+                    />
+
               <div class="hcp-new-user">
                 <button class="btn btn-outline-primary" onClick={handleShow}>
                   <img src={path + "new-user.svg"} alt="New User" />
@@ -878,7 +892,11 @@ const Table = (props, ref) => {
             </div>
           </div>
           <div class="selected-hcp-list">
-            <table class="table">
+         
+
+
+
+            <table class="table" id="table-to-xls">
               <thead>
                 <tr>
                   <th scope="col">Name</th>
