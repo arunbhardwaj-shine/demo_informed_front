@@ -4,15 +4,20 @@ import ExportApi from "../../../Api/ExportApi";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast, ToastContainer } from "react-toastify";
+import CsvDownload from 'react-json-to-csv'
 const EmailSand = () => {
+  const [currentPage, setCurrentPage] = useState();
+  const [type, setType] = useState();
+  const [paginate, setPaginate] = useState();
   const [event, setEvent] = useState([]);
   const [eventId, setEventId] = useState();
   const [eventName, setEventName] = useState();
   const [Show, setShow] = useState(false);
-  const [ShowHtml, setShowHtml] = useState(false);
+  const [modalShow, setModalShow] = useState(false);
   const [EmailData, setEmailData] = useState();
   const [templateList, setTemplateList] = useState();
   const [templateId, setTemplateId] = useState();
+  const [massage, setMassage] = useState();
   const [registeredNonRegistered, setRegisteredNonRegistered] = useState();
   const [checked, setChecked] = React.useState([1]);
   const [Checkbox, setCheckbox] = React.useState([]);
@@ -29,9 +34,41 @@ const EmailSand = () => {
       }
     });
   };
+  const exampledata = [
+    { first_name: "ajay", last_name: "khan", email: "abcd@gmail.com" },
+    { first_name: "ram", last_name: "kumar", email: "absedcd@gmail.com" },
+  ];
+  const handeleSearch = (e) => {
+    ExportApi.ParticipantPageSearch(
+      currentPage,
+      eventId,
+      registeredNonRegistered,
+      type,
+      e
+    ).then((resp) => {
+      if (resp.ok) {
+        if (resp.data.code === 404) {
+          //  setMassage("Data Not Found");
+          setEmailData();
+          setMassage("Data Not Found");
+        } else {
+          console.log(resp.data.data);
+          let a = resp.data.data.data;
+          for (let index = 0; index < a.length; index++) {
+            if (a.length !== Checkbox.length) Checkbox.push({ Check: false });
+          }
+          setPaginate(resp.data.data.paginate);
+          setCurrentPage(resp.data.data.paginate.currentPage);
+          // setData(resp.data.data.data);
+          setEmailData(resp.data.data.data);
+        }
+      }
+    });
+  };
   const sendExcelFile = () => {
     let formData = new FormData();
     formData.append("file", image);
+    formData.append("event_id", eventId);
     if (image) {
       ExportApi.Excelsend(formData).then((resp) => {
         if (resp.ok) {
@@ -65,26 +102,20 @@ const EmailSand = () => {
   const handleGetTemplateList = (id) => {
     ExportApi.UserTemplateList(id).then((resp) => {
       if (resp.ok) {
+        console.log("first", resp.data.code);
+        if (resp.data.code == 404) {
+          setTemplateId();
+        }
         setTemplateList(resp.data.data);
       }
     });
   };
   const handleGetTemplateListhtml = () => {
-    setShowHtml(true)
+    setModalShow(true)
     ExportApi.UserTemplate(templateId).then((resp) => {
       if (resp.ok) {
         console.log(resp.data.data.description);
-        document.getElementById("one").innerHTML=resp.data.data.description
-
-        // setTimeout(() => {
-          
-        //   let closePeer = document.getElementById('submit');
-        //   console.log("closePeer",closePeer)
-        //   if (closePeer) {
-        //   closePeer.addEventListener('click',handleFormData);
-        //   }
-        // }, 5500);
-        // setHtml(resp.data.data);
+        document.getElementById("one").innerHTML = resp.data.data.description;
       }
     });
   };
@@ -121,30 +152,44 @@ const EmailSand = () => {
   const handleGetEmaildataRegistered = (value) => {
     ExportApi.EmailSandRegistered(value, eventId).then((resp) => {
       if (resp.ok) {
-        console.log(resp.data.data);
-        let a = resp.data.data;
-        for (let index = 0; index < a.length; index++) {
-          if (a.length !== Checkbox.length) Checkbox.push({ Check: false });
+        if (resp.data.code === 404) {
+          // setMassage("Data Not Found")
+          setMassage("Data Not Found");;
+          setEmailData();
+        } else {
+          console.log(resp.data.data);
+          let a = resp.data.data.data;
+          for (let index = 0; index < a.length; index++) {
+            if (a.length !== Checkbox.length) Checkbox.push({ Check: false });
+          }
+          setPaginate(resp.data.data.paginate);
+          setCurrentPage(resp.data.data.paginate.currentPage);
+          // setData(resp.data.data.data);
+          setEmailData(resp.data.data.data);
         }
-        setEmailData(resp.data.data);
       }
     });
   };
   const handleGetEmaildataRegisteredUserType = (value) => {
     // console.log(registeredNonRegistered)
-    ExportApi.EmailSandRegisteredType(registeredNonRegistered, eventId,value).then((resp) => {
+    ExportApi.EmailSandRegisteredType(
+      registeredNonRegistered,
+      eventId,
+      value
+    ).then((resp) => {
       if (resp.ok) {
         console.log(resp.data.data);
-        if(resp.data.data){
-
-          let a = resp.data.data;
+        if (resp.data.code === 404) {
+          setEmailData();
+         setMassage("Data Not Found")
+        } else {
           for (let index = 0; index < a.length; index++) {
             if (a.length !== Checkbox.length) Checkbox.push({ Check: false });
-        }
-        setEmailData(resp.data.data);
-        }
-        else{
-          setEmailData()
+          }
+          setPaginate(resp.data.data.paginate);
+          setCurrentPage(resp.data.data.paginate.currentPage);
+          let a = resp.data.data.data;
+          setEmailData(resp.data.data.data);
         }
       }
     });
@@ -195,7 +240,7 @@ const EmailSand = () => {
   const Checkboxhandle = (e) => {
     if (e.target.checked === false) {
       setData([]);
-      setAll([])
+      setAll([]);
     }
     for (let index = 0; index < EmailData.length; index++) {
       const obj = EmailData[index];
@@ -211,23 +256,49 @@ const EmailSand = () => {
     }
   };
   const Checkboxhandlebox = (e, val, i) => {
-    const index = EmailData.findIndex((v) => v.id == val.id);
-    console.log(index);
-    const Check = Checkbox[index];
-    Check.Check = e.target.checked;
-    Checkbox.splice(index, 1, Check);
+    const Check1 = Checkbox[i];
+    Check1.Check = e.target.checked;
+    Checkbox.splice(i, 1, Check1);
+    console.log(Checkbox)
     setChecked([...Checkbox]);
-    if (e.target.checked == true) {
+    if (e.target.checked === true) {
       setData([...data, val]);
     } else {
-      data.splice(index, 1);
-      setData([...data]);
-      // setTimeout(() => {
-      //   setData([...data]);
-      // }, 1000);
+      const index = data?.findIndex((v) => v.id == val.id);
+      const dataCopy=data
+      console.log(dataCopy)
+      dataCopy.splice(index, 1);
+      console.log(dataCopy)
+      setData(dataCopy);
+   }
+  };
+  const handleTempId = (e) => {
+    console.log(e);
+    if (e == "null") {
+      //  console.log("first,e",e)
+      setTemplateId();
+    } else {
+      setTemplateId(e);
     }
   };
- 
+  const handleGetParticipantPage = (id) => {
+    ExportApi.ParticipantPage(id, eventId, registeredNonRegistered).then(
+      (resp) => {
+        if (resp.ok) {
+          console.log(resp.data);
+          if (resp.data.code === 404) {
+            setEmailData();
+            setMassage("Data Not Found");
+          } else {
+            setPaginate(resp.data.data.paginate);
+            setCurrentPage(resp.data.data.paginate.currentPage);
+            setEmailData(resp.data.data.data);
+          }
+        }
+      }
+    );
+  };
+
   useEffect(() => {
     console.log(data);
   }, [checked, data]);
@@ -245,7 +316,7 @@ const EmailSand = () => {
         pauseOnHover
       />
       <Col md={{ span: 6, offset: 3 }}>
-        <h2>EmailSend</h2>
+        <h2>Email Send</h2>
         <Row style={{ paddingTop: "20px" }}>
           <Col>
             <Button onClick={() => setShow(true)}>Add User</Button>
@@ -253,7 +324,9 @@ const EmailSand = () => {
           <Col>
             <Button
               onClick={() => {
-                handleGSendEmail() }} >
+                handleGSendEmail();
+              }}
+            >
               Send Mail
             </Button>
           </Col>
@@ -265,9 +338,10 @@ const EmailSand = () => {
               name="type"
               onChange={(e) => {
                 handleGetTemplateList(e.target.value);
-                setEventId(e.target.value)
+                setEventId(e.target.value);
                 setEventName(e.target.options[e.target.selectedIndex].text);
-              }} >
+              }}
+            >
               <option> Select Event</option>
               {event?.map((val, i) => (
                 <React.Fragment key={i}>
@@ -282,8 +356,11 @@ const EmailSand = () => {
                 <Form.Label>Select Template </Form.Label>
                 <Form.Select
                   onChange={(e) => {
-                    setTemplateId(e.target.value)}}name="type" >
-                  <option> Select Template</option>
+                    handleTempId(e.target.value);
+                  }}
+                  name="type"
+                >
+                  <option value="null"> Select Template</option>
                   {templateList
                     ? templateList?.map((val, i) => (
                         <React.Fragment key={i}>
@@ -296,9 +373,17 @@ const EmailSand = () => {
             ) : null}
           </Col>
           <Col>
-            {templateId != undefined || templateId != null ? (
+            {templateList != undefined || templateList != null ? (
               <>
-             <Button onClick={()=>{handleGetTemplateListhtml();}}>Preview</Button>
+                {templateId ? (
+                  <Button
+                    onClick={() => {
+                      handleGetTemplateListhtml();
+                    }}
+                  >
+                    Preview
+                  </Button>
+                ) : null}
               </>
             ) : null}
           </Col>
@@ -309,9 +394,10 @@ const EmailSand = () => {
                 <Form.Select
                   onChange={(e) => {
                     handleGetEmaildataRegistered(e.target.value);
-                    setRegisteredNonRegistered(e.target.value)
+                    setRegisteredNonRegistered(e.target.value);
                   }}
-                  aria-label="Default select example">
+                  aria-label="Default select example"
+                >
                   <option>Select User</option>
                   <option value={0}>All Registered</option>
                   <option value={1}>All Non Registered</option>
@@ -320,89 +406,150 @@ const EmailSand = () => {
             ) : null}
           </Col>
           <Col>
-             {EmailData != undefined || EmailData  != null ? (
+            {EmailData != undefined || EmailData != null ? (
               <>
-            <Form.Label>Select User Type </Form.Label>
-            <Form.Select
-              onChange={(e) => {
-                handleGetEmaildataRegisteredUserType(e.target.value);
-                // setType(e.target.value);
-              }} >
-              <option>Select User Type</option>
-              <option value="HCP">HCP</option>
-              <option value="Staff User">Staff User</option>
-              <option value="Test User">Test User</option>
-            </Form.Select>
-            </>
+                <Form.Label>Select User Type </Form.Label>
+                <Form.Select
+                  onChange={(e) => {
+                    handleGetEmaildataRegisteredUserType(e.target.value);
+                    setType(e.target.value);
+                  }}
+                >
+                  <option>Select User Type</option>
+                  <option value="HCP">HCP</option>
+                  <option value="Staff User">Staff User</option>
+                  <option value="Test User">Test User</option>
+                </Form.Select>
+              </>
             ) : null}
           </Col>
         </Row>
         <Row>
-          <Form.Group controlId="formFileLg" className="mb-3">
-            <Form.Label>Choice File</Form.Label>
-            <Form.Control
-              name="file"
-              onChange={(e) => {
-                handeleimage(e);
-              }}
-              type="file"
-              size="md"
-              accept="application/vnd.ms-excel"
-            />
-            <p>Excel file should contain first name, last name and email</p>
-            <Button
-              onClick={() => {
-                sendExcelFile();
-              }}>
-              Upload
-            </Button>
-          </Form.Group>
-          <h6>Selected User {data.length > 0 ? data.length : 0}</h6>
-          {EmailData ? (
-            <>
-              <Table bordered hover>
-                <thead>
-                  <tr>
-                    <th>
-                      <input
-                        type="checkbox"
-                        onChange={(e) => {
-                          Checkboxhandle(e);
-                        }} />
-                    </th>
-                    <th>Name</th>
-                    <th>Email</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {EmailData
-                    ? EmailData?.map((val, i) => (
-                        <tr key={i}>
-                          <td>
-                            <input
-                              type="checkbox"
-                              value={Checkbox[i].Check}
-                              checked={Checkbox[i].Check}
-                              onChange={(e) => Checkboxhandlebox(e, val, i)} />
-                          </td>
-                         {val.name?<td>{val.name}</td>:<td>{val.first_name} {val.last_name}</td>}
-                          <td>{val.email}</td>
-                        </tr>
-                      ))
-                    : null}
-                </tbody>
-              </Table>
-            </>
-          ) : null}
+          <Col>
+            <Form.Group controlId="formFileLg" className="mb-3">
+              <Form.Label>Choice File</Form.Label>
+              <Form.Control
+                name="file"
+                onChange={(e) => {
+                  handeleimage(e);
+                }}
+                type="file"
+                size="md"
+                accept="application/vnd.ms-excel"
+              />
+              <p>Excel file should contain first name, last name and email</p>
+              <Button
+                onClick={() => {
+                  sendExcelFile();
+                }}
+              >
+                Upload
+              </Button>
+            </Form.Group>
+          </Col>
+
+          <>
+            <Row>
+              <Col>
+              <CsvDownload data={exampledata}>Download sample</CsvDownload>
+              </Col>
+              <Col>
+                <Form.Control
+                  name="Search"
+                  onChange={(e) => {
+                    handeleSearch(e.target.value);
+                  }}
+                  type="text"
+                  size="md"
+                  placeholder="Search....."
+                />
+              </Col>
+            </Row>
+            <br />
+            <br />
+            <br />
+            <h6>Selected User {data.length > 0 ? data.length : 0}</h6>
+            <br />
+            <Table bordered hover>
+              <thead>
+                <tr>
+                  <th>
+                    <input
+                      type="checkbox"
+                      onChange={(e) => {
+                        Checkboxhandle(e);
+                      }}
+                    />
+                  </th>
+                  <th>Name</th>
+                  <th>Email</th>
+                </tr>
+              </thead>
+              <tbody>
+                {EmailData ? (
+                  EmailData?.map((val, i) => (
+                    <tr key={i}>
+                      <td>
+                        <input
+                          type="checkbox"
+                          value={Checkbox[i].Check}
+                          checked={Checkbox[i].Check}
+                          onChange={(e) => Checkboxhandlebox(e, val, i)}
+                        />
+                      </td>
+                      {val.name ? (
+                        <td>{val.name}</td>
+                      ) : (
+                        <td>
+                          {val.first_name} {val.last_name}
+                        </td>
+                      )}
+                      <td>{val.email}</td>
+                    </tr>
+                  ))
+                ) : (
+                  <h2>{massage}</h2>
+                )}
+              </tbody>
+              <Row style={{ color: "blue" }}>
+                {/* <Col></Col> */}
+                {paginate?.previousPageUrl ? (
+                  <Col>
+                    <p
+                      style={{ cursor: "pointer" }}
+                      onClick={() => {
+                        handleGetParticipantPage(currentPage - 1);
+                      }}
+                    >
+                      Previous{" "}
+                    </p>
+                  </Col>
+                ) : null}
+                {paginate?.nextPageUrl ? (
+                  <Col>
+                    <p
+                      style={{ cursor: "pointer" }}
+                      onClick={() => {
+                        handleGetParticipantPage(currentPage + 1);
+                      }}
+                    >
+                      Next
+                    </p>
+                  </Col>
+                ) : null}
+              </Row>
+            </Table>
+          </>
         </Row>
       </Col>
-      {ShowHtml? <div style={{width:"200px"}} id="one"> </div>:null}
+     
 
       <Modal
         size="sm"
         show={Show}
         onHide={() => setShow(false)}
-        aria-labelledby="example-modal-sizes-title-sm" >
+        aria-labelledby="example-modal-sizes-title-sm"
+      >
         <Modal.Body>
           <div>
             <h2 style={{ fontWeight: "bold" }}>
@@ -417,7 +564,8 @@ const EmailSand = () => {
             <Form.Group
               as={Row}
               className="mb-3"
-              controlId="exampleForm.ControlInput1" >
+              controlId="exampleForm.ControlInput1"
+            >
               <Form.Label column sm={2}>
                 Name
               </Form.Label>
@@ -426,7 +574,8 @@ const EmailSand = () => {
                   name="name"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={formik.values.name} />
+                  value={formik.values.name}
+                />
                 {formik.touched.name && formik.errors.name ? (
                   <div style={{ color: "red" }}>{formik.errors.name}</div>
                 ) : null}
@@ -435,7 +584,8 @@ const EmailSand = () => {
             <Form.Group
               as={Row}
               className="mb-3"
-              controlId="exampleForm.ControlInput1" >
+              controlId="exampleForm.ControlInput1"
+            >
               <Form.Label column sm={2}>
                 Email{" "}
               </Form.Label>
@@ -457,9 +607,20 @@ const EmailSand = () => {
           </form>
         </Modal.Body>
       </Modal>
-      <Col>
-      </Col>
-     
+      <Modal
+        show={modalShow}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered >
+            <Modal.Header onClick={()=>setModalShow(false)} closeButton>
+               
+              </Modal.Header>
+        <Modal.Body>
+        <div  id="one">
+        </div>
+        </Modal.Body>
+      </Modal>
+      <Col></Col>
     </Row>
   );
 };

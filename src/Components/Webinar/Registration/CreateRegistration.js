@@ -7,6 +7,7 @@ import "../webinar.css";
 import { toast, ToastContainer } from "react-toastify";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { Link } from "react-router-dom";
 const CreateRegistration = (props) => {
     // console.log(props.id)
     const [body, setBody] = useState();
@@ -112,9 +113,7 @@ const CreateRegistration = (props) => {
         pauseOnHover
       />
       <Row>
-      <Col>
           <form onSubmit={formik.handleSubmit}>
-        
               <Col className="mb-5">
                 <Col>
                   <Form.Group className="mb-3">
@@ -134,7 +133,7 @@ const CreateRegistration = (props) => {
                 </Col>
               </Col>
               <Col className="mb-5">
-                <Col>
+                {templateList?<Col>
                   <Form.Group className="mb-3">
                   <Form.Label>Select Template </Form.Label>
                 <Form.Select
@@ -156,7 +155,8 @@ const CreateRegistration = (props) => {
                 <div style={{ color: "red" }}>{formik.errors.RegistrationPageTitle}</div>
               ) : null}
                   </Form.Group>
-                </Col>
+                </Col>:<Link to="/webinar/template">Please create template</Link>}
+                
               </Col>
               <Col className="mb-5">
                 <Col>
@@ -179,9 +179,9 @@ const CreateRegistration = (props) => {
                 </Col>
               </Col>
               <Row>          
-                  <Col>
+                  <Col xs={6}>
                   <Form.Label>Body Text</Form.Label>
-                  <textarea
+                  <Form.Control as="textarea" rows={12} 
                     name="body"
                     type="text"
                     onChange={formik.handleChange}
@@ -189,41 +189,11 @@ const CreateRegistration = (props) => {
                     value={formik.values.body}
                     className="form-control"
                     id="exampleFormControlTextarea1"
-                    rows="5"
-                  ></textarea>
+                    
+                  />
                     {formik.touched.body && formik.errors.body ? (
                 <div style={{ color: "red" }}>{formik.errors.body}</div>
               ) : null}
-            {/* <CKEditor
-              editor={ClassicEditor}
-              data={""}
-              onReady={(editor) => {
-                editor.editing.view.change(writer => {
-                  writer.setStyle(
-                      "min-height",
-                      '400px',
-                      editor.editing.view.document.getRoot()
-                  );
-              });
-                console.log("Editor is ready to use!", editor);
-              }}
-              onChange={(event, editor) => {
-                const data = editor.getData();
-                setBody(data)
-                data?setErr(false):setErr("Please enter body text")
-              }}
-              onBlur={(event, editor) => {
-                const data = editor.getData();
-                data?setErr(false):setErr("Please enter body text")
-                // console.log( 'Blur.', editor );
-              }}
-              onFocus={(event, editor) => {
-                // const data = editor.getData();
-                // data?setErr(false):setErr("required")
-                // console.log( 'Focus.', editor );
-              }}
-            />  */}
-         
                   </Col>
                   
          <Col> <div>
@@ -249,8 +219,8 @@ const CreateRegistration = (props) => {
           </Button>
         
       </form> 
-          </Col>
-          <Col >   </Col> 
+        
+        
       </Row>
     </div>
   )

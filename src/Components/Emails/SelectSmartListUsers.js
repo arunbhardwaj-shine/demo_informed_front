@@ -29,11 +29,14 @@ const SelectSmartListUsers = (props) => {
   const [update, setUpdate] = useState(0);
   const [activeManual, setActiveManual] = useState("active");
   const [activeExcel, setActiveExcel] = useState("");
+  const [editableData, setEditableData] = useState([]);
   const [manualReRender, setManualReRender] = useState(0);
   const [sorting, setSorting] = useState(0);
   const [counterFlag, setCounterFlag] = useState(0);
   const [countryall, setCountryall] = useState([]);
   const [addFileReRender, setAddFileReRender] = useState(0);
+  const [saveOpen, setSaveOpen] = useState(false);
+  const [editable, setEditable] = useState(0);
   const [hpc, setHpc] = useState([
     { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
   ]);
@@ -313,12 +316,118 @@ const SelectSmartListUsers = (props) => {
     setAddFileReRender(addFileReRender + 1);
   };
 
+  const editing = (
+    profile_id,
+    profile_user_id,
+    email,
+    jobTitle,
+    company,
+    country,
+    names,
+    index
+  ) => {
+    let ignoreClickOnMeElement = document.getElementById(
+      "row-selected" + index
+    );
+
+    ignoreClickOnMeElement.addEventListener(
+      "mouseleave",
+      async (event) => {
+        const name_edit = document.getElementById(
+          "field_name" + index
+        ).innerText;
+
+        const country_edit = document.getElementById(
+          "field_country" + index
+        ).innerText;
+
+        console.log(name_edit);
+        console.log(country_edit);
+
+        const arr = [];
+        arr.push({
+          profile_id: profile_id,
+          profile_user_id: profile_user_id,
+          email: email,
+          jobTitle: jobTitle,
+          company: company,
+          country: country_edit,
+          username: name_edit,
+        });
+        setEditableData((oldArray) => [...oldArray, ...arr]);
+      },
+      { once: true }
+    );
+
+    // ignoreClickOnMeElement.addEventListener("mouseleave", async (event) => {
+
+    //   console.log(event);
+    //   console.log(index);
+
+    //   const data = editList.find((x) => x.profile_id === profile_id);
+    //   console.log(data);
+
+    //   if (
+    //     data.first_name + " " + data.last_name != name_edit ||
+    //     data.email != email_edit ||
+    //     data.country != country_edit
+    //   ) {
+    //     const body = {
+    //       user_id: 18207,
+    //       profile_user_id: profile_user_id,
+    //       profile_id: profile_id,
+    //       email: email_edit,
+    //       country: country_edit,
+    //       username: name_edit,
+    //     };
+
+    //     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    //     await axios
+    //       .post(`distributes/update_reders_details`, body)
+    //       .then((res) => {
+    //         console.log(res);
+    //       })
+    //       .catch((err) => {
+    //         console.log(err);
+    //       });
+    //   }
+    // });
+  };
   const deleteReader = (i) => {
     const readersList = readers;
     const removedReader = readersList.splice(i, 1);
     setReaders(readersList);
     setRemovedReaders((oldArray) => [...oldArray, removedReader[0]]);
     //  console.log(removedReaders);
+  };
+
+  const saveEditClicked = async () => {
+    setEditable(0);
+    console.log(editableData);
+    const body = {
+      user_id: 18207,
+      edit_list_array: editableData,
+    };
+
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    loader("show");
+    await axios
+      .post(`distributes/update_reders_details`, body)
+      .then((res) => {
+        loader("hide");
+        if (res.data.status_code === 200) {
+          toast.success("List updated");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    setSaveOpen(false);
+  };
+
+  const closeClicked = () => {
+    setSaveOpen(false);
+    setEditable(0);
   };
 
   const saveClicked = async () => {
@@ -415,6 +524,14 @@ const SelectSmartListUsers = (props) => {
     ]);
   };
 
+  const editButtonClicked = () => {
+    setSaveOpen(true);
+
+    let temp_val = 1 - editable;
+    setEditable(temp_val);
+    setUpdate(update + 1);
+  };
+
   return (
     <>
       <div className="right-sidebar">
@@ -492,9 +609,12 @@ const SelectSmartListUsers = (props) => {
                   </button>
                 </div>
                 <div className="hcp-added">
-                  {/* <button className="btn btn-outline-primary">
+                  <button
+                    className="btn btn-outline-primary"
+                    onClick={editButtonClicked}
+                  >
                     <img src={path_image + "edit.svg"} alt="Edit" />
-                  </button> */}
+                  </button>
                 </div>
                 <div className="hcp-sort">
                   <button
@@ -504,6 +624,22 @@ const SelectSmartListUsers = (props) => {
                     Sort By <img src={path_image + "sort.svg"} alt="Shorting" />
                   </button>
                 </div>
+                {saveOpen ? (
+                  <>
+                    <button
+                      className="btn btn-outline-primary"
+                      onClick={saveEditClicked}
+                    >
+                      Save
+                    </button>
+                    <button
+                      className="btn btn-outline-primary"
+                      onClick={closeClicked}
+                    >
+                      Close
+                    </button>
+                  </>
+                ) : null}
               </div>
             </div>
             <div className="selected-hcp-list">
@@ -632,11 +768,29 @@ const SelectSmartListUsers = (props) => {
                   {readers.map((readers, i) => {
                     return (
                       <>
-                        <tr>
-                          <td>{readers.first_name}</td>
-                          <td>{readers.email}</td>
-                          <td>NA</td>
-                          <td>{readers.country}</td>
+                        <tr
+                          id={`row-selected` + i}
+                          contenteditable={editable === 0 ? "false" : "true"}
+                          onClick={(e) =>
+                            editing(
+                              //  e.currentTarget,
+                              readers.profile_id,
+                              readers.profile_user_id,
+                              readers.email,
+                              readers.jobTitle,
+                              readers.company,
+                              readers.country,
+                              readers.first_name + " " + readers.last_name,
+                              i
+                            )
+                          }
+                        >
+                          <td id={`field_name` + i}>
+                            {readers.first_name + " " + readers.last_name}
+                          </td>
+                          <td id={`field_email` + i}>{readers.email}</td>
+                          <td id={`field_bounced` + i}>NA</td>
+                          <td id={`field_country` + i}>{readers.country}</td>
                           <td>NA</td>
                           <td>NA</td>
                           {showLessInfo == false ? <td>NA</td> : null}

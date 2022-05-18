@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import ExportApi from "../Api/ExportApi";
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 const ForgotResetPassword = () => {
     const [modalShow, setmodalShow] = useState(false);
-    const [message, setMessage] = useState(false);
-    let Id = window.location.pathname;
-    const Token = Id.substring(31);
+    const [message, setMessage] = useState(false)
+    const [active, setActive] = useState(true)
+    const [showPage, setShowPage] = useState(localStorage.getItem("showPage"))
+    let parms=useParams()
+    console.log(parms)
     let navigate = useNavigate();
 // console.log("path",Token)
     const formik = useFormik({
@@ -30,10 +32,15 @@ const ForgotResetPassword = () => {
           .required("Enter your password"),
       }),
       onSubmit: (values) => {
-        ExportApi.UserForgotResetPasswordPost(Token,values.new_pass,values.confirm_pass)
+        ExportApi.UserForgotResetPasswordPost(parms.id, values.new_pass,values.confirm_pass)
           .then((resp) => {
             if (resp.data) {
               if (resp.data.code == 200) {
+                   localStorage.setItem("showPage",1)
+                   setActive(false)
+                   setTimeout(function(){
+                    navigate("/webinar")
+                  }, 5000);
                 toast.success(resp.data.message, {
                   position: "top-right",
                   autoClose: 5000,
@@ -59,70 +66,77 @@ const ForgotResetPassword = () => {
           .catch((err) => console.log(err));
       },
     });
+    useEffect(() => {
+    if(showPage){
+      setActive(false)
+      navigate("/webinar")
+    
+    }
+    }, [])
   return (
-    <div>
-        <Row>
-        <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-    <Col md={{ span: 6, offset: 3 }}>
-    <div>
-  <form onSubmit={formik.handleSubmit}>
-      <center>
-         <h3>Reset Password</h3>
-      </center>
+    <div>{active? <>    <Row>
+      <ToastContainer
+      position="top-right"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+    />
+  <Col md={{ span: 6, offset: 3 }}>
+  <div>
+<form onSubmit={formik.handleSubmit}>
+    <center>
+       <h3>Forgot Password</h3>
+    </center>
 <hr/>
-       <Form.Group className="mb-3">
-    <Form.Label>New Password</Form.Label>
-    <Form.Control
-       id="password"
-       name="new_pass"
-       type="password"
-       onChange={formik.handleChange}
-       onBlur={formik.handleBlur}
-       value={formik.values.new_pass}
-       />
-          {formik.touched.new_pass && formik.errors.new_pass ? (
-        <div style={{ color: "red" }}>{formik.errors.new_pass}</div>
-      ) : null}
-    <Form.Label>Confirm Password</Form.Label>
-    <Form.Control
-       id="password"
-       name="confirm_pass"
-       type="password"
-       onChange={formik.handleChange}
-       onBlur={formik.handleBlur}
-       value={formik.values.confirm_pass}
-       />
-          {formik.touched.confirm_pass && formik.errors.confirm_pass ? (
-        <div style={{ color: "red" }}>{formik.errors.confirm_pass}</div>
-      ) : null}
-  </Form.Group>
-      
-      <Button type="submit">Submit</Button>
-    </form>
-    </div>
-    </Col></Row>
-    <Modal
-       show={modalShow}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Body>
-          <center><h2 style={{color:"#09a391",fontWeight:"bold",padding:"30px"}}>{message}</h2>
-            <Button style={{backgroundColor:"#09a391" ,padding:"20px"}} onClick={()=>{setmodalShow(false);  navigate("/webinar/dashboard");}}>OK</Button>    
-          </center>
-      </Modal.Body>
-    </Modal>
+     <Form.Group className="mb-3">
+  <Form.Label>New Password</Form.Label>
+  <Form.Control
+     id="password"
+     name="new_pass"
+     type="password"
+     onChange={formik.handleChange}
+     onBlur={formik.handleBlur}
+     value={formik.values.new_pass}
+     />
+        {formik.touched.new_pass && formik.errors.new_pass ? (
+      <div style={{ color: "red" }}>{formik.errors.new_pass}</div>
+    ) : null}
+  <Form.Label>Confirm Password</Form.Label>
+  <Form.Control
+     id="password"
+     name="confirm_pass"
+     type="password"
+     onChange={formik.handleChange}
+     onBlur={formik.handleBlur}
+     value={formik.values.confirm_pass}
+     />
+        {formik.touched.confirm_pass && formik.errors.confirm_pass ? (
+      <div style={{ color: "red" }}>{formik.errors.confirm_pass}</div>
+    ) : null}
+</Form.Group>
+    
+    <Button type="submit">Submit</Button>
+  </form>
+  </div>
+  </Col></Row>
+  <Modal
+     show={modalShow}
+    size="lg"
+    aria-labelledby="contained-modal-title-vcenter"
+    centered
+  >
+    <Modal.Body>
+        <center><h2 style={{color:"#09a391",fontWeight:"bold",padding:"30px"}}>{message}</h2>
+          <Button style={{backgroundColor:"#09a391" ,padding:"20px"}} onClick={()=>{setmodalShow(false);  navigate("/webinar/dashboard");}}>OK</Button>    
+        </center>
+    </Modal.Body>
+  </Modal></>: navigate("/webinar")}
+   
     </div>
   )
 }

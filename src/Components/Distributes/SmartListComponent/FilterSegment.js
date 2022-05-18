@@ -9,6 +9,7 @@ import { loader } from "../../../loader";
 import { Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
 
+
 const FilterSegment = (props) => {
   const tableCompRef = useRef();
   const Navigate = useNavigate();

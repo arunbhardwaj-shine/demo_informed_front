@@ -764,6 +764,7 @@ text.highcharts-credits { display: none; }
 .btn-check:active+.btn-secondary:focus, .btn-check:checked+.btn-secondary:focus, .btn-secondary.active:focus, .btn-secondary:active:focus, .show>.btn-secondary.dropdown-toggle:focus {
     box-shadow: none;
 }
+
 .smart-list-name .box.no-data p {text-align: center;font-size: 20px;line-height: 22px;color: #004A89;font-family: 'Roboto-Medium';margin-bottom: 20px;}
 .smart-list-name .box p{margin-bottom:0;}
 .smart-list-name .search-hcp.smart-list-view {
@@ -779,6 +780,7 @@ button#test-table-xls-button {
   background-repeat: no-repeat;
   background-position: center;
 }
+	
 .load_more {text-align: center;margin-bottom: 20px;}
 .load_more .btn {
 	padding: 13px 20px;
