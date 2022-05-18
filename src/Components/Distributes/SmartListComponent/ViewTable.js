@@ -316,15 +316,26 @@ const ViewTable = (props) => {
 
   const saveEditClicked = async () => {
     console.log(editableData);
+    setEditable(0);
+    const body = {
+      user_id: 18207,
+      edit_list_array: editableData,
+    };
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    loader("show");
     await axios
-      .post(`distributes/update_reders_details`, editableData)
+      .post(`distributes/update_reders_details`, body)
       .then((res) => {
-        console.log(res);
+        loader("hide");
+        if (res.data.status_code === 200) {
+          toast.success("List updated");
+        }
       })
       .catch((err) => {
         console.log(err);
       });
+
+    setSaveOpen(false);
   };
 
   const updateReaderDetails = async ({
@@ -481,8 +492,7 @@ const ViewTable = (props) => {
           jobTitle: jobTitle,
           company: company,
           country: country_edit,
-          names: name_edit,
-          user_id: 18207,
+          username: name_edit,
         });
         setEditableData((oldArray) => [...oldArray, ...arr]);
       },
@@ -938,8 +948,18 @@ const ViewTable = (props) => {
 
             {saveOpen ? (
               <>
-                <button onClick={saveEditClicked}>Save</button>
-                <button onClick={closeClicked}>Close</button>
+                <button
+                  className="btn btn-outline-primary"
+                  onClick={saveEditClicked}
+                >
+                  Save
+                </button>
+                <button
+                  className="btn btn-outline-primary"
+                  onClick={closeClicked}
+                >
+                  Close
+                </button>
               </>
             ) : null}
           </div>
@@ -1027,7 +1047,7 @@ const ViewTable = (props) => {
                   <tr
                     id={`row-selected` + index}
                     contenteditable={editable === 0 ? "false" : "true"}
-                    onFocus={(e) =>
+                    onClick={(e) =>
                       editing(
                         //  e.currentTarget,
                         item.profile_id,

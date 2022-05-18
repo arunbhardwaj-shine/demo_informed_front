@@ -16,6 +16,8 @@ import { toast } from "react-toastify";
 import { popup_alert } from "../../../popup_alert";
 import queryString from "query-string";
 import { connect } from "react-redux";
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+
 
 const Table = (props, ref) => {
   const [inEditMode, setInEditMode] = useState({
@@ -127,6 +129,8 @@ const Table = (props, ref) => {
     setShow(false);
   };
 
+
+
   let combine_data;
   let combine_data_manual;
 
@@ -228,7 +232,7 @@ const Table = (props, ref) => {
           jobTitle: jobTitle,
           company: company,
           country: country_edit,
-          names: name_edit,
+          username: name_edit,
           user_id: 18207,
         });
         setEditableData((oldArray) => [...oldArray, ...arr]);
@@ -423,16 +427,27 @@ const Table = (props, ref) => {
   };
 
   const saveEditClicked = async () => {
+    setEditable(0);
     console.log(editableData);
+    const body = {
+      user_id: 18207,
+      edit_list_array: editableData,
+    };
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    loader("show");
     await axios
-      .post(`distributes/update_reders_details`, editableData)
+      .post(`distributes/update_reders_details`, body)
       .then((res) => {
+        loader("hide");
+        if (res.data.status_code === 200) {
+          toast.success("List updated");
+        }
         console.log(res);
       })
       .catch((err) => {
         console.log(err);
       });
+    setSaveOpen(false);
   };
 
   const closeClicked = () => {
@@ -823,6 +838,16 @@ const Table = (props, ref) => {
                 )}{" "}
               </a>
 
+              <ReactHTMLTableToExcel
+                    id="test-table-xls-button"
+                    className="btn btn-outline-primary"
+                    table="table-to-xls"
+                    filename="tablexls"
+                    sheet="tablexls"
+                    buttonText="Download "
+                   
+                    />
+
               <div class="hcp-new-user">
                 <button class="btn btn-outline-primary" onClick={handleShow}>
                   <img src={path + "new-user.svg"} alt="New User" />
@@ -846,7 +871,11 @@ const Table = (props, ref) => {
             </div>
           </div>
           <div class="selected-hcp-list">
-            <table class="table">
+         
+
+
+
+            <table class="table" id="table-to-xls">
               <thead>
                 <tr>
                   <th scope="col">Name</th>
@@ -865,8 +894,18 @@ const Table = (props, ref) => {
                 </tr>
                 {saveOpen ? (
                   <>
-                    <button onClick={saveEditClicked}>Save</button>
-                    <button onClick={closeClicked}>Close</button>
+                    <button
+                      className="btn btn-outline-primary"
+                      onClick={saveEditClicked}
+                    >
+                      Save
+                    </button>
+                    <button
+                      className="btn btn-outline-primary"
+                      onClick={closeClicked}
+                    >
+                      Close
+                    </button>
                   </>
                 ) : null}
               </thead>
@@ -875,7 +914,7 @@ const Table = (props, ref) => {
                   <tr
                     id={`row-selected` + index}
                     contenteditable={editable === 0 ? "false" : "true"}
-                    onFocus={(e) =>
+                    onClick={(e) =>
                       editing(
                         //  e.currentTarget,
                         item.profile_id,
