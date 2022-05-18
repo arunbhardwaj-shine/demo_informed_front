@@ -58,7 +58,7 @@ const CreateEmail = (props) => {
   const [tagsReRender, setTagsReRender] = useState(0);
   const [tagsCounter, setTagsCounter] = useState(0);
   const [validator] = React.useState(new SimpleReactValidator());
-  const [validator2] = React.useState(new SimpleReactValidator());
+
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [countryall, setCountryall] = useState([]);
   const [message, setMessage] = useState("");
@@ -91,7 +91,6 @@ const CreateEmail = (props) => {
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
-
   useEffect(() => {
     getSmartListData(0);
   }, []);
@@ -108,9 +107,9 @@ const CreateEmail = (props) => {
       .post(`distributes/get_smart_list`, body)
       .then((res) => {
         setSmartListData(res.data.response.data);
-        if(flag == 0){
-            setPrevSmartListData(res.data.response.data);
-        }else{
+        if (flag == 0) {
+          setPrevSmartListData(res.data.response.data);
+        } else {
           loader("hide");
         }
       })
@@ -118,7 +117,7 @@ const CreateEmail = (props) => {
         loader("hide");
         console.log(err);
       });
-  }
+  };
 
   useEffect(() => {
     //console.log(props);
@@ -537,14 +536,16 @@ const CreateEmail = (props) => {
     setemailCampaign(e.target.value);
   };
 
-  useEffect(() => {}, []);
-
   const addTag = () => {
-    if (validator2.allValid()) {
+    console.log(newTag);
+    console.log(typeof newTag);
+    console.log(newTag.length);
+    if (newTag.length == 0 || typeof newTag == "undefined") {
+      toast.error("Plese input a tag");
+    } else {
       setTagClickedFirst((oldArray) => [...oldArray, newTag]);
       setNewTag("");
-    } else {
-      validator2.showMessages();
+
       setTagsCounter(tagsCounter + 1);
     }
   };
@@ -606,31 +607,37 @@ const CreateEmail = (props) => {
 
   const searchHcp = async (e) => {
     e.preventDefault();
-    const body = {
-      user_id: 18207,
-      name: name,
-      email: email,
-    };
+    if (name == "" || typeof name == "undefined") {
+      toast.error("data not found");
+    } else {
+      const body = {
+        user_id: 18207,
+        name: name,
+        email: email,
+      };
 
-    //console.log(body);
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    //loader("show");
-    await axios
-      .post(`emailapi/search_hcp`, body)
-      .then((res) => {
-        console.log(res);
-        // console.log(res.data.response.data);
-        if (res.data.response) {
-          setSearchedUsers(res.data.response.data);
-        }
-        if (res.data.message) {
-          setMessage(res.data.message);
-        }
-        //loader("hide");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      //console.log(body);
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      //loader("show");
+      await axios
+        .post(`emailapi/search_hcp`, body)
+        .then((res) => {
+          console.log(res);
+          // console.log(res.data.response.data);
+          if (res.data.response) {
+            setSearchedUsers(res.data.response.data);
+          } else {
+            toast.error(res.data.message);
+          }
+          // if (res.data.message) {
+          //   setMessage(res.data.message);
+          // }
+          //loader("hide");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   const addFile = (e) => {
@@ -815,10 +822,10 @@ const CreateEmail = (props) => {
   };
 
   const submitHandler = (event) => {
-    if(getsearch !== ""){
+    if (getsearch !== "") {
       getSmartListData(1);
-    }else{
-      toast.error('Please enter text.');
+    } else {
+      toast.error("Please enter text.");
     }
     event.preventDefault();
     return false;
@@ -1133,7 +1140,7 @@ const CreateEmail = (props) => {
                   value={newTag}
                   onChange={(e) => newTagChanged(e)}
                 />
-                {validator2.message("newTag", newTag, "required")}
+
                 <button
                   onClick={addTag}
                   type="button"
@@ -1352,7 +1359,10 @@ const CreateEmail = (props) => {
                     aria-label="Search"
                     onChange={(e) => searchChange(e)}
                   />
-                  <button className="btn btn-outline-success" onClick={(e) => submitHandler(e)}>
+                  <button
+                    className="btn btn-outline-success"
+                    onClick={(e) => submitHandler(e)}
+                  >
                     <svg
                       width="16"
                       height="16"
@@ -1397,49 +1407,75 @@ const CreateEmail = (props) => {
               */}
             </div>
             <div className="col smartlist-result-block">
-              {
-                typeof smartListData !== "undefined" && smartListData.length > 0 ?
+              {typeof smartListData !== "undefined" &&
+              smartListData.length > 0 ? (
                 smartListData.map((data) => {
-                return (
-                  <>
+                  return (
+                    <>
                       <div className="smartlist_box_block">
-                            <div className="smartlist-view email_box">
-                              <div className="mail-box-content">
-                                <h5>{data.name}</h5>
-                                <div className="select-mail-option">
-                                  <input
-                                    type="radio"
-                                    name="radio"
-                                    onClick={(e) => handleSelect(data, e)}
-                                  />
-                                  <span className="checkmark"></span>
-                                </div>
-                                <div className="mailbox-table">
-                                  <table>
-                                    <tbody>
-                                    <tr><th>Contact Type</th><td>{data.contact_type}</td></tr>
-                                    <tr><th>Speciality</th><td>{data.speciality}</td></tr>
-                                    <tr><th>Readers</th><td>{data.reader_selection}</td></tr>
-                                    <tr><th>IBU</th><td>{data.ibu}</td></tr>
-                                    <tr><th>Product</th><td>{data.product}</td></tr>
-                                    <tr><th>Country</th><td>{data.country}</td></tr>
-                                    <tr><th>Registered</th><td>{data.registered}</td></tr>
-                                    <tr><th>Created By</th><td><span>{data.creator}</span></td></tr>
-                                    </tbody>
-                                  </table>
-                                </div>
+                        <div className="smartlist-view email_box">
+                          <div className="mail-box-content">
+                            <h5>{data.name}</h5>
+                            <div className="select-mail-option">
+                              <input
+                                type="radio"
+                                name="radio"
+                                onClick={(e) => handleSelect(data, e)}
+                              />
+                              <span className="checkmark"></span>
+                            </div>
+                            <div className="mailbox-table">
+                              <table>
+                                <tbody>
+                                  <tr>
+                                    <th>Contact Type</th>
+                                    <td>{data.contact_type}</td>
+                                  </tr>
+                                  <tr>
+                                    <th>Speciality</th>
+                                    <td>{data.speciality}</td>
+                                  </tr>
+                                  <tr>
+                                    <th>Readers</th>
+                                    <td>{data.reader_selection}</td>
+                                  </tr>
+                                  <tr>
+                                    <th>IBU</th>
+                                    <td>{data.ibu}</td>
+                                  </tr>
+                                  <tr>
+                                    <th>Product</th>
+                                    <td>{data.product}</td>
+                                  </tr>
+                                  <tr>
+                                    <th>Country</th>
+                                    <td>{data.country}</td>
+                                  </tr>
+                                  <tr>
+                                    <th>Registered</th>
+                                    <td>{data.registered}</td>
+                                  </tr>
+                                  <tr>
+                                    <th>Created By</th>
+                                    <td>
+                                      <span>{data.creator}</span>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
 
-                                <div className="mail-time">
-                                  <span>{data.created_at}</span>
-                                </div>
-                                <div className="smart-list-added-user">
-                                  <img
-                                    src={path_image + "smartlist-user.svg"}
-                                    alt="User icon"
-                                  />
-                                  {data.readers_count}
-                                </div>
-                                {/*
+                            <div className="mail-time">
+                              <span>{data.created_at}</span>
+                            </div>
+                            <div className="smart-list-added-user">
+                              <img
+                                src={path_image + "smartlist-user.svg"}
+                                alt="User icon"
+                              />
+                              {data.readers_count}
+                            </div>
+                            {/*
                                   <div className="mail-stats">
                                   <ul>
                                   <li>
@@ -1483,18 +1519,22 @@ const CreateEmail = (props) => {
                                   </ul>
                                   </div>
                                 */}
-                              <div className="smartlist-buttons">
-                                <button className="btn btn-primary btn-bordered view">
-                                  View
-                                </button>
-                              </div>
+                            <div className="smartlist-buttons">
+                              <button className="btn btn-primary btn-bordered view">
+                                View
+                              </button>
                             </div>
                           </div>
-                    </div>
-                  </>
-                );
-              }) : <div className="no_found"><p>No Data Found</p></div>
-            }
+                        </div>
+                      </div>
+                    </>
+                  );
+                })
+              ) : (
+                <div className="no_found">
+                  <p>No Data Found</p>
+                </div>
+              )}
             </div>
           </Modal.Body>
           <Modal.Footer>

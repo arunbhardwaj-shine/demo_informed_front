@@ -655,7 +655,7 @@ const EmailArticleSelect = () => {
         </div>
 
         {typeof SendListData !== "undefined" &&
-          SendListData.length > 0 &&
+          SendListData.length == 30 &&
           getloadmore === 0 && (
             <div className="load_more">
               <button
