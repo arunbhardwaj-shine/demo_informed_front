@@ -17,8 +17,8 @@ const VerifyMAIL = (props) => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const campaign_id = props.getEmailData
-  ? props.getEmailData.campaign_id
-  : props.getDraftData.campaign_data.campaign_id;
+    ? props.getEmailData.campaign_id
+    : props.getDraftData.campaign_data.campaign_id;
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
 
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -27,15 +27,14 @@ const VerifyMAIL = (props) => {
   const [templateId, setTemplateId] = useState(0);
   const [tags, setTags] = useState([]);
   const [reRender, setReRender] = useState(0);
-  const [template_source_code, setTemplate] = useState(props.getEmailData
-    ? props.getEmailData.template
-    : props.getDraftData.source_code);
+  const [template_source_code, setTemplate] = useState(
+    props.getEmailData
+      ? props.getEmailData.template
+      : props.getDraftData.source_code
+  );
 
-
-    var var_template_source_code = template_source_code.replaceAll("800", "450");
-     var_template_source_code = var_template_source_code.replaceAll("600", "450");
-
-  
+  var var_template_source_code = template_source_code.replaceAll("800", "450");
+  var_template_source_code = var_template_source_code.replaceAll("600", "450");
 
   const selectedHcp = location.state
     ? location.state.selectedHcp
@@ -255,12 +254,9 @@ const VerifyMAIL = (props) => {
                   <a href="javascript:void(0)">Create Your Email</a>
                 </li>
 
-                
                 <li className="">
                   <a href="javascript:void(0)">Select Verify Your HCPs</a>
                 </li>
-
-
 
                 <li className="active">
                   <a href="javascript:void(0)">Verify your Email</a>
@@ -311,7 +307,7 @@ const VerifyMAIL = (props) => {
                     <ul>
                       {props.getEmailData
                         ? props.getEmailData.tags.map((tags, i) => {
-                          console.log(tags)
+                            console.log(tags);
                             return (
                               <>
                                 <li className="list1">
@@ -344,7 +340,7 @@ const VerifyMAIL = (props) => {
                 </div>
                 <div className="mail-recipt">
                   <div className="row">
-                  <div className="col-12 col-md-12 mail-recipt-right">
+                    <div className="col-12 col-md-12 mail-recipt-right">
                       <h6>Content that will be send</h6>
                       <p>
                         Content <span>| 1</span>
@@ -410,74 +406,76 @@ const VerifyMAIL = (props) => {
                     </div>
                     <div className="col-12 col-md-12 mail-recipt-left">
                       <h6>
-                      The recipients <span>| {selectedHcp.length }</span>
+                        The recipients <span>| {selectedHcp.length}</span>
                       </h6>
                       <p>{/* Single HCP <span>| 1</span> */}</p>
-                      {props.getSelectedSmartListData || props.getDraftData?.smart_list_data[0] ? (
+                      {props.getSelectedSmartListData ||
+                      props.getDraftData?.smart_list_data[0] ? (
                         <div className="smartlist-view email_box_outer">
-                        <div className="smartlist-view email_box">
-                          {console.log(props.getDraftData)}
-                          <div className="mail-box-content">
-                            <h5>
-                              {props.getSelectedSmartListData
-                                ? props.getSelectedSmartListData.name
-                                : props.getDraftData.smart_list_data.name}
-                            </h5>
+                          <div className="smartlist-view email_box">
+                            {console.log(props.getDraftData)}
+                            <div className="mail-box-content">
+                              <h5>
+                                {props.getSelectedSmartListData
+                                  ? props.getSelectedSmartListData.name
+                                  : props.getDraftData.smart_list_data.name}
+                              </h5>
 
-                            <div className="mailbox-table">
-                              <table>
-                                <tbody>
-                                  <tr>
-                                    <th>Contact Type</th>
-                                    <td>NA</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Speciality</th>
-                                    <td>NA</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Readers</th>
-                                    <td>NA</td>
-                                  </tr>
-                                  <tr>
-                                    <th>IBU</th>
-                                    <td>NA</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Product</th>
-                                    <td>NA</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Country</th>
-                                    <td>NA</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Registered</th>
-                                    <td>NA</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Created By</th>
-                                    <td>
-                                      <span>NA</span>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
+                              <div className="mailbox-table">
+                                <table>
+                                  <tbody>
+                                    <tr>
+                                      <th>Contact Type</th>
+                                      <td>NA</td>
+                                    </tr>
+                                    <tr>
+                                      <th>Speciality</th>
+                                      <td>NA</td>
+                                    </tr>
+                                    <tr>
+                                      <th>Readers</th>
+                                      <td>NA</td>
+                                    </tr>
+                                    <tr>
+                                      <th>IBU</th>
+                                      <td>NA</td>
+                                    </tr>
+                                    <tr>
+                                      <th>Product</th>
+                                      <td>NA</td>
+                                    </tr>
+                                    <tr>
+                                      <th>Country</th>
+                                      <td>NA</td>
+                                    </tr>
+                                    <tr>
+                                      <th>Registered</th>
+                                      <td>NA</td>
+                                    </tr>
+                                    <tr>
+                                      <th>Created By</th>
+                                      <td>
+                                        <span>NA</span>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
 
-                            <div className="mail-time">
-                              <span>Nov 18 | 9:00 AM</span>
-                            </div>
-                            <div className="smart-list-added-user">
-                              <img
-                               src={path_image + "smartlist-user.svg"}
-                                alt="User icon"
-                              />
-                               {props.getSelectedSmartListData
-                                ? props.getSelectedSmartListData.readers_count
-                                : props.getDraftData.smart_list_data.readers_count}
-                            </div>
-                            {/* <div className="mail-stats">
+                              <div className="mail-time">
+                                <span>Nov 18 | 9:00 AM</span>
+                              </div>
+                              <div className="smart-list-added-user">
+                                <img
+                                  src={path_image + "smartlist-user.svg"}
+                                  alt="User icon"
+                                />
+                                {props.getSelectedSmartListData
+                                  ? props.getSelectedSmartListData.readers_count
+                                  : props.getDraftData.smart_list_data
+                                      .readers_count}
+                              </div>
+                              {/* <div className="mail-stats">
                               <ul>
                                 <li>
                                   <div className="mail-status smartlist_view">
@@ -519,17 +517,16 @@ const VerifyMAIL = (props) => {
                                 </li>
                               </ul>
                             </div> */}
-                            <div className="smartlist-buttons">
-                              <button className="btn btn-primary btn-bordered view">
-                                View
-                              </button>
+                              <div className="smartlist-buttons">
+                                <button className="btn btn-primary btn-bordered view">
+                                  View
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
-                        </div>
                       ) : null}
                     </div>
-     
                   </div>
                 </div>
               </div>

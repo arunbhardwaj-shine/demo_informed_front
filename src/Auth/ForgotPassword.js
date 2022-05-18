@@ -24,7 +24,7 @@ function ForgotPassword(props) {
             if (resp.data) {
               console.log(resp.data)
               if (resp.data.code == 200) {
-                localStorage.removeItem("showPage")
+                localStorage.removeItem('showPage')
                 toast.success(resp.data.message, {
                   position: "top-right",
                   autoClose: 5000,

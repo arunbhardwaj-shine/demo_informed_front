@@ -38,9 +38,7 @@ const ForgotResetPassword = () => {
               if (resp.data.code == 200) {
                    localStorage.setItem("showPage",1)
                    setActive(false)
-                   setTimeout(function(){
-                    navigate("/webinar")
-                  }, 5000);
+                 
                 toast.success(resp.data.message, {
                   position: "top-right",
                   autoClose: 5000,
@@ -50,6 +48,9 @@ const ForgotResetPassword = () => {
                   draggable: true,
                   progress: undefined,
                   });
+                  setTimeout(function(){
+                    navigate("/webinar")
+                  }, 5000);
               } else {
                 toast.error(resp.data.message, {
                   position: "top-right",
@@ -69,8 +70,9 @@ const ForgotResetPassword = () => {
     useEffect(() => {
     if(showPage){
       setActive(false)
-      navigate("/webinar")
-    
+      setTimeout(function(){
+        navigate("/webinar")
+      }, 2000);
     }
     }, [])
   return (

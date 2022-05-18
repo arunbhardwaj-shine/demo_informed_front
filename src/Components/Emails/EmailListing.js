@@ -127,7 +127,9 @@ const EmailList = (props) => {
           setSendListData(res.data.response.data.emails);
           if (stage == "initial") {
             setOriginalSendListData(res.data.response.data.emails);
+
             setFilterData(res.data.response.data.filter);
+            console.log(res.data.response.data.filter);
           }
           setUserData(res.data.response.data.user);
         } else if (res.data.status_code == 201) {
@@ -551,24 +553,26 @@ const EmailList = (props) => {
                               {Object.entries(filterdata.tags).map(
                                 ([index, item]) => (
                                   <li>
-                                    <label className="select-multiple-option">
-                                      <input
-                                        type="checkbox"
-                                        id={`custom-checkbox-tags-${index}`}
-                                        name="tags[]"
-                                        value={item}
-                                        checked={
-                                          updateflag > 0 &&
-                                          typeof filtertags !== "undefined" &&
-                                          filtertags.indexOf(item) !== -1
-                                        }
-                                        onChange={() =>
-                                          handleOnFilterTags(item)
-                                        }
-                                      />
-                                      {item}
-                                      <span className="checkmark"></span>
-                                    </label>
+                                    {item != "" ? (
+                                      <label className="select-multiple-option">
+                                        <input
+                                          type="checkbox"
+                                          id={`custom-checkbox-tags-${index}`}
+                                          name="tags[]"
+                                          value={item}
+                                          checked={
+                                            updateflag > 0 &&
+                                            typeof filtertags !== "undefined" &&
+                                            filtertags.indexOf(item) !== -1
+                                          }
+                                          onChange={() =>
+                                            handleOnFilterTags(item)
+                                          }
+                                        />
+                                        {item}
+                                        <span className="checkmark"></span>
+                                      </label>
+                                    ) : null}
                                   </li>
                                 )
                               )}
@@ -581,7 +585,7 @@ const EmailList = (props) => {
                       filterdata.creators.length > 0 && (
                         <Accordion.Item className="card" eventKey="1">
                           <Accordion.Header className="card-header">
-                            Creators
+                            Creator
                           </Accordion.Header>
                           <Accordion.Body className="card-body">
                             <ul>
@@ -653,7 +657,7 @@ const EmailList = (props) => {
 
                     <Accordion.Item className="card" eventKey="3">
                       <Accordion.Header className="card-header">
-                        Camapign
+                        Campaign
                       </Accordion.Header>
                       <Accordion.Body className="card-body">
                         <ul>
