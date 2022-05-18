@@ -10,6 +10,7 @@ import { loader } from "../../../loader";
 import { toast } from "react-toastify";
 
 import { connect } from "react-redux";
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { popup_alert } from "../../../popup_alert";
 
 const ViewTable = (props) => {
@@ -939,6 +940,15 @@ const ViewTable = (props) => {
                 )}{" "}
               </a>
 
+              <ReactHTMLTableToExcel
+                id="test-table-xls-button"
+                className="btn btn-outline-primary"
+                table="table-to-xls"
+                filename="tablexls"
+                sheet="tablexls"
+                buttonText="Download"
+              />
+
               {saveOpen ? (
                 <>
                   <button
@@ -970,7 +980,7 @@ const ViewTable = (props) => {
             ) : null}
           </div>
           <div className="selected-hcp-list">
-            <table className="table">
+            <table className="table" id="table-to-xls">
               <thead>
                 <tr>
                   <th scope="col">Name</th>
