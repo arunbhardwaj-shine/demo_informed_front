@@ -13,10 +13,11 @@ const EmailSand = () => {
   const [eventId, setEventId] = useState();
   const [eventName, setEventName] = useState();
   const [Show, setShow] = useState(false);
-  const [ShowHtml, setShowHtml] = useState(false);
+  const [modalShow, setModalShow] = useState(false);
   const [EmailData, setEmailData] = useState();
   const [templateList, setTemplateList] = useState();
   const [templateId, setTemplateId] = useState();
+  const [massage, setMassage] = useState();
   const [registeredNonRegistered, setRegisteredNonRegistered] = useState();
   const [checked, setChecked] = React.useState([1]);
   const [Checkbox, setCheckbox] = React.useState([]);
@@ -49,6 +50,7 @@ const EmailSand = () => {
         if (resp.data.code === 404) {
           //  setMassage("Data Not Found");
           setEmailData();
+          setMassage("Data Not Found");
         } else {
           console.log(resp.data.data);
           let a = resp.data.data.data;
@@ -109,7 +111,7 @@ const EmailSand = () => {
     });
   };
   const handleGetTemplateListhtml = () => {
-    setShowHtml(true);
+    setModalShow(true)
     ExportApi.UserTemplate(templateId).then((resp) => {
       if (resp.ok) {
         console.log(resp.data.data.description);
@@ -151,7 +153,8 @@ const EmailSand = () => {
     ExportApi.EmailSandRegistered(value, eventId).then((resp) => {
       if (resp.ok) {
         if (resp.data.code === 404) {
-          // setMassage("Data Not Found");
+          // setMassage("Data Not Found")
+          setMassage("Data Not Found");;
           setEmailData();
         } else {
           console.log(resp.data.data);
@@ -178,6 +181,7 @@ const EmailSand = () => {
         console.log(resp.data.data);
         if (resp.data.code === 404) {
           setEmailData();
+         setMassage("Data Not Found")
         } else {
           for (let index = 0; index < a.length; index++) {
             if (a.length !== Checkbox.length) Checkbox.push({ Check: false });
@@ -252,7 +256,6 @@ const EmailSand = () => {
     }
   };
   const Checkboxhandlebox = (e, val, i) => {
-   
     const Check1 = Checkbox[i];
     Check1.Check = e.target.checked;
     Checkbox.splice(i, 1, Check1);
@@ -262,15 +265,11 @@ const EmailSand = () => {
       setData([...data, val]);
     } else {
       const index = data?.findIndex((v) => v.id == val.id);
-      // alert(index)
-      const datar=data
-      console.log(datar)
-      datar.splice(index, 1);
-      console.log(datar)
-      setData(datar);
-    //   setTimeout(() => {
-    //     setData([...data]);
-    //   }, 1000);
+      const dataCopy=data
+      console.log(dataCopy)
+      dataCopy.splice(index, 1);
+      console.log(dataCopy)
+      setData(dataCopy);
    }
   };
   const handleTempId = (e) => {
@@ -289,6 +288,7 @@ const EmailSand = () => {
           console.log(resp.data);
           if (resp.data.code === 404) {
             setEmailData();
+            setMassage("Data Not Found");
           } else {
             setPaginate(resp.data.data.paginate);
             setCurrentPage(resp.data.data.paginate.currentPage);
@@ -508,7 +508,7 @@ const EmailSand = () => {
                     </tr>
                   ))
                 ) : (
-                  <h2>No record found</h2>
+                  <h2>{massage}</h2>
                 )}
               </tbody>
               <Row style={{ color: "blue" }}>
@@ -542,11 +542,7 @@ const EmailSand = () => {
           </>
         </Row>
       </Col>
-      {ShowHtml ? (
-        <div style={{ width: "200px" }} id="one">
-          {" "}
-        </div>
-      ) : null}
+     
 
       <Modal
         size="sm"
@@ -609,6 +605,19 @@ const EmailSand = () => {
               Submit
             </Button>
           </form>
+        </Modal.Body>
+      </Modal>
+      <Modal
+        show={modalShow}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered >
+            <Modal.Header onClick={()=>setModalShow(false)} closeButton>
+               
+              </Modal.Header>
+        <Modal.Body>
+        <div  id="one">
+        </div>
         </Modal.Body>
       </Modal>
       <Col></Col>
