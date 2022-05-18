@@ -876,13 +876,13 @@ const Table = (props, ref) => {
               {saveOpen ? (
                 <>
                   <button
-                    className="btn btn-outline-primary bordered"
+                    className="btn btn-primary btn-bordered"
                     onClick={saveEditClicked}
                   >
                     Save
                   </button>
                   <button
-                    className="btn btn-outline-primary light"
+                    className="btn btn-primary btn-filled"
                     onClick={closeClicked}
                   >
                     Close
