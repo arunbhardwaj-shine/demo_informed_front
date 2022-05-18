@@ -11,7 +11,7 @@ const Preview = () => {
     let parms=useParams()
     console.log(parms)
     const handleGetPublicPage = () => {
-      ExportApi.PublicPage(parms.code,parms.url).then((resp) => {
+      ExportApi.PublicPage(parms.code,parms.url,).then((resp) => {
         if (resp.ok) {
           console.log(resp.data.data.body)
           
@@ -37,7 +37,7 @@ const Preview = () => {
      let email=document.getElementById("email").value
       // bind function for close the popup
   
-      ExportApi.CreateParticipant(name,country,browserName,email,parms.url).then((resp) => {
+      ExportApi.CreateParticipant(name,country,browserName,email,parms.url,parms.stats).then((resp) => {
         if (resp.ok) {
           console.log(resp.data)
           if(resp.data.code==200)
