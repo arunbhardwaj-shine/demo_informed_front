@@ -3,7 +3,12 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  MemoryRouter as Router,
+} from "react-router-dom";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import reducers from "./reducers";
@@ -47,6 +52,9 @@ import EditorEmail from "./Components/Webinar/Registration/EditorEmail";
 import Readers from "./Components/Webinar/Readers/Readers";
 import EmailStats from "./Components/Webinar/Email Stats/EmailStats";
 import EmailSand from "./Components/Webinar/Email Stats/EmailSand";
+import StpDetails from "./Components/Webinar/Smtp/StpDetails";
+
+
 
 let platform = 0;
 let show = 0;
@@ -130,7 +138,7 @@ ReactDOM.render(
                       element={<ForgotPassword />}
                     />
                     <Route
-                      path="/webinar/forgot-reset-password/:id"
+                      path="/webinar/forgot-password/:id"
                       element={<ForgotResetPassword />}
                     />
                     <React.Fragment>
@@ -169,6 +177,10 @@ ReactDOM.render(
                         <Route
                           path="/webinar/sendemail"
                           element={<EmailSand />}
+                        />
+                        <Route
+                          path="/webinar/stpdetails"
+                          element={<StpDetails />}
                         />
                       </Route>
                     </React.Fragment>

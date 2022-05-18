@@ -77,7 +77,7 @@ const ForgotResetPassword = () => {
     <div>
   <form onSubmit={formik.handleSubmit}>
       <center>
-         <h3>Reset Password</h3>
+         <h3>Forgot Password</h3>
       </center>
 <hr/>
        <Form.Group className="mb-3">

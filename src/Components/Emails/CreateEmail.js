@@ -23,6 +23,7 @@ const CreateEmail = (props) => {
   const [UserData, setUserData] = useState([]);
   const location = useLocation();
   const [uniqueId, setUniqueId] = useState("");
+  const [getsearch, setSearch] = useState("");
   const PdfSelected = location.state
     ? location.state.PdfSelected
     : props.getDraftData.pdf_id;
@@ -78,6 +79,7 @@ const CreateEmail = (props) => {
 
   const [addListOpen, setAddListOpen] = useState(false);
   const [smartListData, setSmartListData] = useState([]);
+  const [prevsmartListData, setPrevSmartListData] = useState([]);
 
   const newArr = [];
 
@@ -88,22 +90,35 @@ const CreateEmail = (props) => {
   }, [addListOpen]);
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+
+
   useEffect(() => {
+    getSmartListData(0);
+  }, []);
+
+  const getSmartListData = (flag) => {
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
       user_id: 18207,
+      search: getsearch,
+      filter: "",
     };
     loader("show");
     axios
       .post(`distributes/get_smart_list`, body)
       .then((res) => {
         setSmartListData(res.data.response.data);
-        //console.log(res.data.response.data);
-        loader("hide");
+        if(flag == 0){
+            setPrevSmartListData(res.data.response.data);
+        }else{
+          loader("hide");
+        }
       })
       .catch((err) => {
+        loader("hide");
         console.log(err);
       });
-  }, []);
+  }
 
   useEffect(() => {
     //console.log(props);
@@ -344,37 +359,39 @@ const CreateEmail = (props) => {
       tagss.push(tags.innerText || tags);
     });
 
-    let campaign = props.getEmailData ? emailCampaign : props.getDraftData.campaign;
+    let campaign = props.getEmailData
+      ? emailCampaign
+      : props.getDraftData.campaign;
 
-    if(typeof campaign !== "undefined" && campaign !== ""){
-        const body = {
-          user_id: 18207,
-          pdf_id: props.getEmailData
+    if (typeof campaign !== "undefined" && campaign !== "") {
+      const body = {
+        user_id: 18207,
+        pdf_id: props.getEmailData
           ? PdfSelected
           : props.getDraftData.pdf_selected,
-          description: props.getEmailData
+        description: props.getEmailData
           ? emailDescription
           : props.getDraftData.description,
-          creator: props.getEmailData ? emailCreator : props.getDraftData.creator,
-          campaign_name: props.getEmailData
+        creator: props.getEmailData ? emailCreator : props.getDraftData.creator,
+        campaign_name: props.getEmailData
           ? emailCampaign
           : props.getDraftData.campaign,
-          subject: props.getEmailData ? emailSubject : props.getDraftData.subject,
-          route_location: "CreateEmail",
-          tags: props.getEmailData ? tagss : props.getDraftData.tags,
-          campaign_data: {
-            template_id: props.getEmailData
+        subject: props.getEmailData ? emailSubject : props.getDraftData.subject,
+        route_location: "CreateEmail",
+        tags: props.getEmailData ? tagss : props.getDraftData.tags,
+        campaign_data: {
+          template_id: props.getEmailData
             ? templateId
             : props.getDraftData.template_id,
-          },
+        },
 
-          campaign_id: campaign_id_st,
-          status: 2,
-        };
+        campaign_id: campaign_id_st,
+        status: 2,
+      };
 
-        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-        loader("show");
-        await axios
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      loader("show");
+      await axios
         .post(`emailapi/save_draft`, body)
         .then((res) => {
           loader("hide");
@@ -389,7 +406,7 @@ const CreateEmail = (props) => {
         .catch((err) => {
           toast.error("Something went wrong");
         });
-    }else{
+    } else {
       event.preventDefault();
       toast.error("Plese select Email Campaign first");
     }
@@ -788,6 +805,23 @@ const CreateEmail = (props) => {
     ]);
 
     setIsOpensend(true);
+  };
+
+  const searchChange = (e) => {
+    setSearch(e.target.value);
+    if (e.target.value === "") {
+      setSmartListData(prevsmartListData);
+    }
+  };
+
+  const submitHandler = (event) => {
+    if(getsearch !== ""){
+      getSmartListData(1);
+    }else{
+      toast.error('Please enter text.');
+    }
+    event.preventDefault();
+    return false;
   };
 
   return (
@@ -1310,14 +1344,15 @@ const CreateEmail = (props) => {
           <Modal.Body>
             <div className="top-right-action">
               <div className="search-bar">
-                <form className="d-flex">
+                <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
                   <input
                     className="form-control me-2"
                     type="search"
                     placeholder="Search"
                     aria-label="Search"
+                    onChange={(e) => searchChange(e)}
                   />
-                  <button className="btn btn-outline-success" type="submit">
+                  <button className="btn btn-outline-success" onClick={(e) => submitHandler(e)}>
                     <svg
                       width="16"
                       height="16"
@@ -1333,148 +1368,133 @@ const CreateEmail = (props) => {
                   </button>
                 </form>
               </div>
-              <div className="filter-by">
-                <button className="btn btn-outline-primary" type="submit">
-                  Filter By{" "}
-                  <svg
-                    width="16"
-                    height="14"
-                    viewBox="0 0 16 14"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z"
-                      fill="#97B6CF"
-                    ></path>
-                    <path
-                      d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z"
-                      fill="#97B6CF"
-                    ></path>
-                    <path
-                      d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z"
-                      fill="#97B6CF"
-                    ></path>
-                  </svg>
-                </button>
-              </div>
+              {/*
+                <div className="filter-by">
+                  <button className="btn btn-outline-primary" type="submit">
+                    Filter By{" "}
+                    <svg
+                      width="16"
+                      height="14"
+                      viewBox="0 0 16 14"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z"
+                        fill="#97B6CF"
+                      ></path>
+                      <path
+                        d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z"
+                        fill="#97B6CF"
+                      ></path>
+                      <path
+                        d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z"
+                        fill="#97B6CF"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+              */}
             </div>
             <div className="col smartlist-result-block">
-              {smartListData.map((data) => {
+              {
+                typeof smartListData !== "undefined" && smartListData.length > 0 ?
+                smartListData.map((data) => {
                 return (
                   <>
-                    <div className="smartlist-view email_box">
-                      <div className="mail-box-content">
-                        <h5>{data.name}</h5>
-                        <div className="select-mail-option">
-                          <input
-                            type="radio"
-                            name="radio"
-                            onClick={(e) => handleSelect(data, e)}
-                          />
-                          <span className="checkmark"></span>
-                        </div>
-                        <div className="mailbox-table">
-                          <table>
-                            <tbody>
-                              <tr>
-                                <th>Contact Type</th>
-                                <td>NA</td>
-                              </tr>
-                              <tr>
-                                <th>Speciality</th>
-                                <td>NA</td>
-                              </tr>
-                              <tr>
-                                <th>Readers</th>
-                                <td>NA</td>
-                              </tr>
-                              <tr>
-                                <th>IBU</th>
-                                <td>NA</td>
-                              </tr>
-                              <tr>
-                                <th>Product</th>
-                                <td>NA</td>
-                              </tr>
-                              <tr>
-                                <th>Country</th>
-                                <td>NA</td>
-                              </tr>
-                              <tr>
-                                <th>Registered</th>
-                                <td>NA</td>
-                              </tr>
-                              <tr>
-                                <th>Created By</th>
-                                <td>
-                                  <span>NA</span>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
+                      <div className="smartlist_box_block">
+                            <div className="smartlist-view email_box">
+                              <div className="mail-box-content">
+                                <h5>{data.name}</h5>
+                                <div className="select-mail-option">
+                                  <input
+                                    type="radio"
+                                    name="radio"
+                                    onClick={(e) => handleSelect(data, e)}
+                                  />
+                                  <span className="checkmark"></span>
+                                </div>
+                                <div className="mailbox-table">
+                                  <table>
+                                    <tbody>
+                                    <tr><th>Contact Type</th><td>{data.contact_type}</td></tr>
+                                    <tr><th>Speciality</th><td>{data.speciality}</td></tr>
+                                    <tr><th>Readers</th><td>{data.reader_selection}</td></tr>
+                                    <tr><th>IBU</th><td>{data.ibu}</td></tr>
+                                    <tr><th>Product</th><td>{data.product}</td></tr>
+                                    <tr><th>Country</th><td>{data.country}</td></tr>
+                                    <tr><th>Registered</th><td>{data.registered}</td></tr>
+                                    <tr><th>Created By</th><td><span>{data.creator}</span></td></tr>
+                                    </tbody>
+                                  </table>
+                                </div>
 
-                        <div className="mail-time">
-                          <span>Nov 18 | 9:00 AM</span>
-                        </div>
-                        <div className="smart-list-added-user">
-                          <img
-                            src={path_image + "smartlist-user.svg"}
-                            alt="User icon"
-                          />
-                          203
-                        </div>
-                        <div className="mail-stats">
-                          <ul>
-                            <li>
-                              <div className="mail-status smartlist_view">
-                                <svg
+                                <div className="mail-time">
+                                  <span>{data.created_at}</span>
+                                </div>
+                                <div className="smart-list-added-user">
+                                  <img
+                                    src={path_image + "smartlist-user.svg"}
+                                    alt="User icon"
+                                  />
+                                  {data.readers_count}
+                                </div>
+                                {/*
+                                  <div className="mail-stats">
+                                  <ul>
+                                  <li>
+                                  <div className="mail-status smartlist_view">
+                                  <svg
                                   width="16"
                                   height="14"
                                   viewBox="0 0 16 14"
                                   fill="none"
                                   xmlns="http://www.w3.org/2000/svg"
-                                >
+                                  >
                                   <path
-                                    d="M9.65531 2.57856C10.3951 3.04241 10.9139 3.82733 11.0083 4.73845C11.31 4.87942 11.6449 4.96049 11.9999 4.96049C13.296 4.96049 14.3465 3.91 14.3465 2.6141C14.3465 1.31801 13.296 0.267517 11.9999 0.267517C10.7162 0.267916 9.67488 1.29964 9.65531 2.57856ZM8.11801 7.38316C9.4141 7.38316 10.4646 6.33246 10.4646 5.03657C10.4646 3.74067 9.4139 2.69018 8.11801 2.69018C6.82211 2.69018 5.77102 3.74087 5.77102 5.03677C5.77102 6.33266 6.82211 7.38316 8.11801 7.38316ZM9.11339 7.5431H7.12223C5.46552 7.5431 4.11771 8.89111 4.11771 10.5478V12.9829L4.1239 13.021L4.29163 13.0735C5.87266 13.5675 7.24622 13.7322 8.37679 13.7322C10.585 13.7322 11.8649 13.1027 11.9438 13.0625L12.1005 12.9833H12.1173V10.5478C12.1179 8.89111 10.7701 7.5431 9.11339 7.5431ZM12.9957 5.12063H11.0199C10.9985 5.91115 10.6611 6.62299 10.1273 7.13496C11.6 7.57285 12.6774 8.93843 12.6774 10.5514V11.3018C14.6282 11.2303 15.7524 10.6774 15.8265 10.6403L15.9832 10.5608H16V8.12495C16 6.46844 14.6522 5.12063 12.9957 5.12063ZM4.0005 4.96089C4.45955 4.96089 4.88666 4.82691 5.24847 4.59868C5.36348 3.8485 5.76563 3.19296 6.3401 2.74649C6.34249 2.70256 6.34669 2.65903 6.34669 2.6147C6.34669 1.31861 5.29599 0.268116 4.0005 0.268116C2.70421 0.268116 1.65391 1.31861 1.65391 2.6147C1.65391 3.9102 2.70421 4.96089 4.0005 4.96089ZM6.10787 7.13496C5.57674 6.62559 5.24048 5.91754 5.21592 5.13181C5.14264 5.12642 5.07016 5.12063 4.99548 5.12063H3.00452C1.34781 5.12063 0 6.46844 0 8.12495V10.5604L0.00618994 10.5979L0.173917 10.6508C1.44226 11.0468 2.57422 11.2293 3.55742 11.2868V10.5514C3.55782 8.93843 4.63487 7.57325 6.10787 7.13496Z"
-                                    fill="#FAC755"
+                                  d="M9.65531 2.57856C10.3951 3.04241 10.9139 3.82733 11.0083 4.73845C11.31 4.87942 11.6449 4.96049 11.9999 4.96049C13.296 4.96049 14.3465 3.91 14.3465 2.6141C14.3465 1.31801 13.296 0.267517 11.9999 0.267517C10.7162 0.267916 9.67488 1.29964 9.65531 2.57856ZM8.11801 7.38316C9.4141 7.38316 10.4646 6.33246 10.4646 5.03657C10.4646 3.74067 9.4139 2.69018 8.11801 2.69018C6.82211 2.69018 5.77102 3.74087 5.77102 5.03677C5.77102 6.33266 6.82211 7.38316 8.11801 7.38316ZM9.11339 7.5431H7.12223C5.46552 7.5431 4.11771 8.89111 4.11771 10.5478V12.9829L4.1239 13.021L4.29163 13.0735C5.87266 13.5675 7.24622 13.7322 8.37679 13.7322C10.585 13.7322 11.8649 13.1027 11.9438 13.0625L12.1005 12.9833H12.1173V10.5478C12.1179 8.89111 10.7701 7.5431 9.11339 7.5431ZM12.9957 5.12063H11.0199C10.9985 5.91115 10.6611 6.62299 10.1273 7.13496C11.6 7.57285 12.6774 8.93843 12.6774 10.5514V11.3018C14.6282 11.2303 15.7524 10.6774 15.8265 10.6403L15.9832 10.5608H16V8.12495C16 6.46844 14.6522 5.12063 12.9957 5.12063ZM4.0005 4.96089C4.45955 4.96089 4.88666 4.82691 5.24847 4.59868C5.36348 3.8485 5.76563 3.19296 6.3401 2.74649C6.34249 2.70256 6.34669 2.65903 6.34669 2.6147C6.34669 1.31861 5.29599 0.268116 4.0005 0.268116C2.70421 0.268116 1.65391 1.31861 1.65391 2.6147C1.65391 3.9102 2.70421 4.96089 4.0005 4.96089ZM6.10787 7.13496C5.57674 6.62559 5.24048 5.91754 5.21592 5.13181C5.14264 5.12642 5.07016 5.12063 4.99548 5.12063H3.00452C1.34781 5.12063 0 6.46844 0 8.12495V10.5604L0.00618994 10.5979L0.173917 10.6508C1.44226 11.0468 2.57422 11.2293 3.55742 11.2868V10.5514C3.55782 8.93843 4.63487 7.57325 6.10787 7.13496Z"
+                                  fill="#FAC755"
                                   ></path>
-                                </svg>
-                              </div>
-                              <span>10%</span>
-                            </li>
-                            <li>
-                              <div className="mail-status mail_click">
-                                <svg
+                                  </svg>
+                                  </div>
+                                  <span>10%</span>
+                                  </li>
+                                  <li>
+                                  <div className="mail-status mail_click">
+                                  <svg
                                   width="14"
                                   height="16"
                                   viewBox="0 0 14 16"
                                   fill="none"
                                   xmlns="http://www.w3.org/2000/svg"
-                                >
+                                  >
                                   <path
-                                    d="M2.96391 5.30631C2.85416 4.93468 2.74879 4.56243 2.6696 4.20577C2.14894 3.89774 1.79477 3.33718 1.79477 2.68932C1.79477 1.71473 2.58729 0.922837 3.56126 0.922837C4.53522 0.922837 5.32774 1.71535 5.32774 2.68932C5.32774 2.82338 5.30966 2.95246 5.2816 3.07779C5.45058 3.45004 5.58713 3.86906 5.70685 4.29493C6.04356 3.84599 6.25058 3.29415 6.25058 2.68932C6.25058 1.20343 5.04715 0 3.56126 0C2.07536 0 0.872559 1.20343 0.872559 2.68932C0.872559 3.96882 1.76734 5.03445 2.96391 5.30631Z"
-                                    fill="#C8D1D9"
+                                  d="M2.96391 5.30631C2.85416 4.93468 2.74879 4.56243 2.6696 4.20577C2.14894 3.89774 1.79477 3.33718 1.79477 2.68932C1.79477 1.71473 2.58729 0.922837 3.56126 0.922837C4.53522 0.922837 5.32774 1.71535 5.32774 2.68932C5.32774 2.82338 5.30966 2.95246 5.2816 3.07779C5.45058 3.45004 5.58713 3.86906 5.70685 4.29493C6.04356 3.84599 6.25058 3.29415 6.25058 2.68932C6.25058 1.20343 5.04715 0 3.56126 0C2.07536 0 0.872559 1.20343 0.872559 2.68932C0.872559 3.96882 1.76734 5.03445 2.96391 5.30631Z"
+                                  fill="#C8D1D9"
                                   ></path>
                                   <path
-                                    d="M1.10616 11.673C1.76898 10.9566 2.51286 11.2372 3.50865 11.3887C4.36415 11.5203 5.20655 11.2802 5.15043 10.8182C5.06189 10.0705 4.93718 9.73632 4.65347 8.76797C4.42713 7.9979 3.99751 6.6099 3.60655 5.28301C3.08278 3.50779 2.93126 2.68348 3.62837 2.47771C4.37974 2.25885 4.8106 3.32635 5.20094 4.80663C5.64552 6.49143 5.87935 7.23531 6.01029 7.19603C6.241 7.12993 5.92549 6.40912 6.52907 6.23141C7.28356 6.01193 7.42946 6.60179 7.64084 6.54256C7.85222 6.47896 7.78052 5.88161 8.38223 5.70577C8.98706 5.53118 9.29073 6.27568 9.54014 6.20148C9.78706 6.12853 9.78145 5.85978 10.1543 5.75316C10.5278 5.64217 11.9333 6.27132 12.7376 9.01925C13.7472 12.4743 12.6098 13.1165 12.9546 14.2863L8.44833 15.9998C8.08356 15.1224 6.9537 15.0576 5.95417 14.4983C4.94716 13.9315 4.26314 12.8272 1.63866 12.8808C0.6516 12.9008 0.698366 12.1139 1.10616 11.673Z"
-                                    fill="#C8D1D9"
+                                  d="M1.10616 11.673C1.76898 10.9566 2.51286 11.2372 3.50865 11.3887C4.36415 11.5203 5.20655 11.2802 5.15043 10.8182C5.06189 10.0705 4.93718 9.73632 4.65347 8.76797C4.42713 7.9979 3.99751 6.6099 3.60655 5.28301C3.08278 3.50779 2.93126 2.68348 3.62837 2.47771C4.37974 2.25885 4.8106 3.32635 5.20094 4.80663C5.64552 6.49143 5.87935 7.23531 6.01029 7.19603C6.241 7.12993 5.92549 6.40912 6.52907 6.23141C7.28356 6.01193 7.42946 6.60179 7.64084 6.54256C7.85222 6.47896 7.78052 5.88161 8.38223 5.70577C8.98706 5.53118 9.29073 6.27568 9.54014 6.20148C9.78706 6.12853 9.78145 5.85978 10.1543 5.75316C10.5278 5.64217 11.9333 6.27132 12.7376 9.01925C13.7472 12.4743 12.6098 13.1165 12.9546 14.2863L8.44833 15.9998C8.08356 15.1224 6.9537 15.0576 5.95417 14.4983C4.94716 13.9315 4.26314 12.8272 1.63866 12.8808C0.6516 12.9008 0.698366 12.1139 1.10616 11.673Z"
+                                  fill="#C8D1D9"
                                   ></path>
-                                </svg>
+                                  </svg>
+                                  </div>
+                                  <span>60%</span>
+                                  </li>
+                                  </ul>
+                                  </div>
+                                */}
+                              <div className="smartlist-buttons">
+                                <button className="btn btn-primary btn-bordered view">
+                                  View
+                                </button>
                               </div>
-                              <span>60%</span>
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="smartlist-buttons">
-                          <button className="btn btn-primary btn-bordered view">View</button>
-                        </div>
-                      </div>
+                            </div>
+                          </div>
                     </div>
                   </>
                 );
-              })}
+              }) : <div className="no_found"><p>No Data Found</p></div>
+            }
             </div>
           </Modal.Body>
           <Modal.Footer>

@@ -33,6 +33,9 @@ const GetCountryData = () => BaseApi.get("country",{},{ headers: {
 const GetEventList = () => BaseApi.get("events",{},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
+const GetEventListSerch = (data) => BaseApi.get("events",{search:data},{ headers: {
+  'Authorization':localStorage.getItem("Token"),
+}});
 const GetEventListData = (id) => BaseApi.get(`event/${id}`,{},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
@@ -40,13 +43,13 @@ const GetEventListDataUpdate = (id,EventTitle,a,Description) => BaseApi.post(`ev
   speaker_data:a, description:Description },{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
-const CreatEvent = (EventTitle,a,event_start_time,eventendtime,Timezone,code,Bu,event_date ,Description,Region) => 
+const CreatEvent = (EventTitle,a,event_start_time,eventendtime,Timezone,code,Bu,event_date ,Description,Region,Country) => 
 BaseApi.post("event",{
   title:EventTitle,
   description:Description,
   event_start_time:event_start_time,
   event_end_time:eventendtime,
-  location :"hisar",
+  location :Country,
   timezone:Timezone,
   code:code,
   type:Bu ,
@@ -173,6 +176,14 @@ const CreateParticipant = (name,country,browser,email,alice) =>
 BaseApi.post(`create-participant`,{name:name,email:email,country:country,browser:browser,alice:alice},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
+const ParticipantPage = (id,eventId,registeredNonRegistered) =>
+BaseApi.get(`participant-list?page=${id}`,{event_id:eventId,type:registeredNonRegistered},{ headers: {
+  'Authorization':localStorage.getItem("Token"),
+}});
+const ParticipantPageSearch = (id,eventId,registeredNonRegistered,user_type,search) =>
+BaseApi.get(`participant-list?page=${id}`,{event_id:eventId,type:registeredNonRegistered,user_type:user_type,search},{ headers: {
+  'Authorization':localStorage.getItem("Token"),
+}});
 
 export default {
   UserLogin,
@@ -185,6 +196,7 @@ export default {
   GetTimezoneregionData,
   GetCountryData,
   GetEventList,
+  GetEventListSerch,
   CreatEvent,
   GetEventListDataUpdate,
   GetEventListData,
@@ -212,5 +224,7 @@ export default {
   EmailSandRegisteredType,
   sandAllmaik,
   Excelsend,
-  CreateParticipant
+  CreateParticipant,
+  ParticipantPage,
+  ParticipantPageSearch
 };

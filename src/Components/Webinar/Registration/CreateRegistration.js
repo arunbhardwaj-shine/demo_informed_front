@@ -7,10 +7,12 @@ import "../webinar.css";
 import { toast, ToastContainer } from "react-toastify";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { Link } from "react-router-dom";
 const CreateRegistration = (props) => {
     // console.log(props.id)
     const [body, setBody] = useState();
     const [err, setErr] = useState(false);
+    const [templateList, setTemplateList] = useState();
     const [image, setimage] = useState("");
     const [errimage, setErrimage] = useState(false);
     const handeleimage = (e) => {
@@ -34,13 +36,22 @@ const CreateRegistration = (props) => {
       }
        
      };
+     const handleGetTemplateList = (props) => {
+      ExportApi.UserTemplateList(props.id).then((resp) => {
+        if (resp.ok) {
+          setTemplateList(resp.data.data);
+        }
+      });
+    };
     const formik = useFormik({
         initialValues: {
             RegistrationPageTitle:'',
             url :'',
-            body:""
+            body:"",
+            TemplateId:''
         },
         validationSchema: Yup.object({
+          TemplateId: Yup.string().required("Please select template "),
           RegistrationPageTitle: Yup.string().required("Enter your registration page title"),
           body: Yup.string().required("Enter a body text"),
           url: Yup.string()
@@ -55,6 +66,7 @@ const CreateRegistration = (props) => {
       formData.append("file", image);
       formData.append("title", values.RegistrationPageTitle);
       formData.append("url", values.url);
+      formData.append("template_id", values.TemplateId);
       image ? ExportApi.CreateRegistrationPage(formData).then((resp) => {
             if (resp.ok) {
               props.hendletable(props.id)
@@ -84,7 +96,9 @@ const CreateRegistration = (props) => {
           }):setErrimage("Please update your image");
         },
       });
-      
+      useEffect(() => {
+        handleGetTemplateList(props)
+      }, [])
   return (
     <div>
          <ToastContainer
@@ -99,9 +113,7 @@ const CreateRegistration = (props) => {
         pauseOnHover
       />
       <Row>
-      <Col>
           <form onSubmit={formik.handleSubmit}>
-        
               <Col className="mb-5">
                 <Col>
                   <Form.Group className="mb-3">
@@ -119,6 +131,32 @@ const CreateRegistration = (props) => {
               ) : null}
                   </Form.Group>
                 </Col>
+              </Col>
+              <Col className="mb-5">
+                {templateList?<Col>
+                  <Form.Group className="mb-3">
+                  <Form.Label>Select Template </Form.Label>
+                <Form.Select
+                  name="TemplateId"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.TemplateId}
+                  >
+                  <option> Select Template</option>
+                  {templateList
+                    ? templateList?.map((val, i) => (
+                        <React.Fragment key={i}>
+                          <option value={val.id}>{val.name}</option>
+                        </React.Fragment>
+                      ))
+                    : null}
+                </Form.Select>
+                         {formik.touched.RegistrationPageTitle && formik.errors.RegistrationPageTitle ? (
+                <div style={{ color: "red" }}>{formik.errors.RegistrationPageTitle}</div>
+              ) : null}
+                  </Form.Group>
+                </Col>:<Link to="/webinar/template">Please create template</Link>}
+                
               </Col>
               <Col className="mb-5">
                 <Col>
@@ -141,9 +179,9 @@ const CreateRegistration = (props) => {
                 </Col>
               </Col>
               <Row>          
-                  <Col>
+                  <Col xs={6}>
                   <Form.Label>Body Text</Form.Label>
-                  <textarea
+                  <Form.Control as="textarea" rows={12} 
                     name="body"
                     type="text"
                     onChange={formik.handleChange}
@@ -151,41 +189,11 @@ const CreateRegistration = (props) => {
                     value={formik.values.body}
                     className="form-control"
                     id="exampleFormControlTextarea1"
-                    rows="5"
-                  ></textarea>
+                    
+                  />
                     {formik.touched.body && formik.errors.body ? (
                 <div style={{ color: "red" }}>{formik.errors.body}</div>
               ) : null}
-            {/* <CKEditor
-              editor={ClassicEditor}
-              data={""}
-              onReady={(editor) => {
-                editor.editing.view.change(writer => {
-                  writer.setStyle(
-                      "min-height",
-                      '400px',
-                      editor.editing.view.document.getRoot()
-                  );
-              });
-                console.log("Editor is ready to use!", editor);
-              }}
-              onChange={(event, editor) => {
-                const data = editor.getData();
-                setBody(data)
-                data?setErr(false):setErr("Please enter body text")
-              }}
-              onBlur={(event, editor) => {
-                const data = editor.getData();
-                data?setErr(false):setErr("Please enter body text")
-                // console.log( 'Blur.', editor );
-              }}
-              onFocus={(event, editor) => {
-                // const data = editor.getData();
-                // data?setErr(false):setErr("required")
-                // console.log( 'Focus.', editor );
-              }}
-            />  */}
-         
                   </Col>
                   
          <Col> <div>
@@ -211,8 +219,8 @@ const CreateRegistration = (props) => {
           </Button>
         
       </form> 
-          </Col>
-          <Col >   </Col> 
+        
+        
       </Row>
     </div>
   )

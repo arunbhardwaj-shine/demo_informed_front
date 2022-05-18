@@ -28,6 +28,7 @@ const ViewTable = (props) => {
   const [validator3] = React.useState(new SimpleReactValidator());
   const [manualReRender, setManualReRender] = useState(0);
   const [update, setUpdate] = useState(0);
+  const [saveOpen, setSaveOpen] = useState(false);
   const [data, setData] = useState(0);
   const [fileValidationMessage, setFileValidationMeassage] = useState(0);
   const [emailData, setEmailData] = useState("");
@@ -35,6 +36,7 @@ const ViewTable = (props) => {
   const [showLessInfo, setShowLessInfo] = useState(false);
   const [deleteConfirmation, setOpenDeleteConfirmation] = useState(false);
   const [showReaders, setShowSaveReader] = useState(false);
+  const [save, setSave] = useState(false);
 
   const [name_edits, setNameEdit] = useState("");
   const [country_edits, setCountryEdit] = useState("");
@@ -53,6 +55,7 @@ const ViewTable = (props) => {
   const [newData, setNewData] = useState([]);
   const [showLessUpdate, setShowLessUpdate] = useState(0);
   const [activeExcel, setActiveExcel] = useState("");
+  const [editableData, setEditableData] = useState([]);
 
   useEffect(() => {
     setUpdatedData(props.data);
@@ -134,6 +137,8 @@ const ViewTable = (props) => {
   const [counter, setCounter] = useState([0]);
 
   const editButtonClicked = () => {
+    setSaveOpen(true);
+
     let temp_val = 1 - editable;
     setEditable(temp_val);
     setUpdate(update + 1);
@@ -141,6 +146,11 @@ const ViewTable = (props) => {
 
   const onFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
+  };
+
+  const closeClicked = () => {
+    setSaveOpen(false);
+    setEditable(0);
   };
 
   useEffect(() => {
@@ -304,6 +314,30 @@ const ViewTable = (props) => {
     setManualReRender(manualReRender + 1);
   };
 
+  const saveEditClicked = async () => {
+    console.log(editableData);
+    setEditable(0);
+    const body = {
+      user_id: 18207,
+      edit_list_array: editableData,
+    };
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    loader("show");
+    await axios
+      .post(`distributes/update_reders_details`, body)
+      .then((res) => {
+        loader("hide");
+        if (res.data.status_code === 200) {
+          toast.success("List updated");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    setSaveOpen(false);
+  };
+
   const updateReaderDetails = async ({
     profile_id,
     newName,
@@ -432,30 +466,13 @@ const ViewTable = (props) => {
     names,
     index
   ) => {
-    // console.log(index);
-
     let ignoreClickOnMeElement = document.getElementById(
       "row-selected" + index
     );
-    //  console.log(ignoreClickOnMeElement);
-
-    //  console.log(p);
-    // console.log(event);
-    // console.log(profile_id);
-    // console.log(profile_user_id);
-    // console.log(email);
-
-    // console.log(country);
-    // console.log(names);
-
-    //  setEmailEdit(email_edit);
 
     ignoreClickOnMeElement.addEventListener(
       "mouseleave",
       async (event) => {
-        // event.preventDefault();
-        console.log(event);
-        console.log(index);
         const name_edit = document.getElementById(
           "field_name" + index
         ).innerText;
@@ -464,40 +481,57 @@ const ViewTable = (props) => {
           "field_country" + index
         ).innerText;
 
-        const email_edit = document.getElementById(
-          "field_email" + index
-        ).innerText;
+        console.log(name_edit);
+        console.log(country_edit);
 
-        const data = editList.find((x) => x.profile_id === profile_id);
-        console.log(data);
-
-        if (
-          data.first_name + " " + data.last_name != name_edit ||
-          data.email != email_edit ||
-          data.country != country_edit
-        ) {
-          const body = {
-            user_id: 18207,
-            profile_user_id: profile_user_id,
-            profile_id: profile_id,
-            email: email_edit,
-            country: country_edit,
-            username: name_edit,
-          };
-
-          axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-          await axios
-            .post(`distributes/update_reders_details`, body)
-            .then((res) => {
-              console.log(res);
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        }
+        const arr = [];
+        arr.push({
+          profile_id: profile_id,
+          profile_user_id: profile_user_id,
+          email: email,
+          jobTitle: jobTitle,
+          company: company,
+          country: country_edit,
+          username: name_edit,
+        });
+        setEditableData((oldArray) => [...oldArray, ...arr]);
       },
       { once: true }
     );
+
+    // ignoreClickOnMeElement.addEventListener("mouseleave", async (event) => {
+
+    //   console.log(event);
+    //   console.log(index);
+
+    //   const data = editList.find((x) => x.profile_id === profile_id);
+    //   console.log(data);
+
+    //   if (
+    //     data.first_name + " " + data.last_name != name_edit ||
+    //     data.email != email_edit ||
+    //     data.country != country_edit
+    //   ) {
+    //     const body = {
+    //       user_id: 18207,
+    //       profile_user_id: profile_user_id,
+    //       profile_id: profile_id,
+    //       email: email_edit,
+    //       country: country_edit,
+    //       username: name_edit,
+    //     };
+
+    //     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    //     await axios
+    //       .post(`distributes/update_reders_details`, body)
+    //       .then((res) => {
+    //         console.log(res);
+    //       })
+    //       .catch((err) => {
+    //         console.log(err);
+    //       });
+    //   }
+    // });
   };
 
   const addFile = () => {
@@ -911,6 +945,23 @@ const ViewTable = (props) => {
                 </div>
               </div>
             ) : null}
+
+            {saveOpen ? (
+              <>
+                <button
+                  className="btn btn-outline-primary"
+                  onClick={saveEditClicked}
+                >
+                  Save
+                </button>
+                <button
+                  className="btn btn-outline-primary"
+                  onClick={closeClicked}
+                >
+                  Close
+                </button>
+              </>
+            ) : null}
           </div>
           <div className="selected-hcp-list">
             <table className="table">
@@ -996,7 +1047,7 @@ const ViewTable = (props) => {
                   <tr
                     id={`row-selected` + index}
                     contenteditable={editable === 0 ? "false" : "true"}
-                    onFocus={(e) =>
+                    onClick={(e) =>
                       editing(
                         //  e.currentTarget,
                         item.profile_id,

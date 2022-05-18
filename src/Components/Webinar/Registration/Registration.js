@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import ExportApi from "../../../Api/ExportApi";
-import { Button, CloseButton, Col, Form, Modal, Row, Table } from "react-bootstrap";
+import { Button, Col, Form, Modal, Row, Table } from "react-bootstrap";
 import * as Yup from "yup";
 import "../webinar.css";
 import { toast, ToastContainer } from "react-toastify";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import CreateRegistration from "./CreateRegistration";
 import { Link } from "react-router-dom";
 const Registration = () => {
 
 
+    const [eventid, setEventId] = useState();
     const [event, setEvent] = useState([]);
     const [id, setId] = useState();
     const [registrationPageList, setRegistrationPageList] = useState();
@@ -25,7 +24,7 @@ const Registration = () => {
     const [err, setErr] = useState(false);
     const [image, setimage] = useState();
     const [flag, setFlag] = useState(false);
-
+    const [templateList, setTemplateList] = useState();
     const handeleimage = (e) => {
       if (e?.target?.files[0].type.match(/\/(jpg|jpeg|png)$/)){
         setErrimage(false)
@@ -48,6 +47,13 @@ const Registration = () => {
       }
        
      };
+     const handleGetTemplateList = () => {
+      ExportApi.UserTemplateList(id).then((resp) => {
+        if (resp.ok) {
+          setTemplateList(resp.data.data);
+        }
+      });
+    };
     const handleGetEventlist = () => {
         ExportApi.GetEventList().then((resp) => {
           if (resp.ok) {
@@ -59,6 +65,7 @@ const Registration = () => {
       if(id==="Shine"){
         setId(null)
       }else{
+        
         setId(id)
       }   
         ExportApi.RegistrationPageList(id).then((resp) => {
@@ -75,6 +82,7 @@ const Registration = () => {
         ExportApi.RegistrationPageData(id).then((resp) => {
           if (resp.ok) {
             setimage(null)
+            handleGetTemplateList()
             console.log(resp.data.data);
             setEditdata(resp.data.data);
           }
@@ -83,11 +91,13 @@ const Registration = () => {
 
       const formik = useFormik({
         initialValues: {
-            RegistrationPageTitle:editdata?editdata[0].title:'',
-              url:editdata?editdata[0].url:"",
-              body:editdata?editdata[0].body:""
+            RegistrationPageTitle:editdata?editdata.title:'',
+              url:editdata?editdata.url:"",
+              body:editdata?editdata.body:"",
+              TemplateId:editdata?editdata.template_id:''
         },
         validationSchema: Yup.object({
+          TemplateId: Yup.string().required("Please select template "),
           RegistrationPageTitle: Yup.string().required("Enter your registration page title"),
           body: Yup.string().required("Enter a Body text"),
           url: Yup.string()
@@ -99,7 +109,7 @@ const Registration = () => {
           
           let formData = new FormData();
 
-          formData.append("form_id", editdata[0].id);
+          formData.append("form_id", editdata.id);
     
           formData.append("body", values.body);
     
@@ -107,7 +117,7 @@ const Registration = () => {
 
           formData.append("file", image);
           formData.append("url", values.url);
-  
+          formData.append("template_id", values.TemplateId);
           ExportApi.UpdateRegistrationPageData(formData).then((resp) => {
             if (resp.ok) {
               if (resp.data.code == 200) {
@@ -164,7 +174,7 @@ const Registration = () => {
           <Form.Label>Select Event </Form.Label>
                   <Form.Select
                     name="type"
-                    onChange={(e) =>{handleGetRegistrationPageList(e.target.value);setModalShow2(true);setEditdata(null);}} >
+                    onChange={(e) =>{handleGetRegistrationPageList(e.target.value);setEventId(e.target.value);setModalShow2(true);setEditdata(null);}} >
                     <option value="Shine" > Select Event</option>
                     {event?.map((val, i) => (
                       <React.Fragment key={i}>
@@ -237,8 +247,31 @@ const Registration = () => {
               ) : null}
                   </Form.Group>
                 </Col>
+
               </Col>
-       
+            <Col>
+                  <Form.Group className="mb-3">
+                  <Form.Label>Select Template </Form.Label>
+                <Form.Select
+                  name="TemplateId"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.TemplateId}
+                  >
+                  <option> Select Template</option>
+                  {templateList
+                    ? templateList?.map((val, i) => (
+                        <React.Fragment key={i}>
+                          <option value={val.id}>{val.name}</option>
+                        </React.Fragment>
+                      ))
+                    : null}
+                </Form.Select>
+                         {formik.touched.RegistrationPageTitle && formik.errors.RegistrationPageTitle ? (
+                <div style={{ color: "red" }}>{formik.errors.RegistrationPageTitle}</div>
+              ) : null}
+                  </Form.Group>
+                </Col>
                   <Form.Group className="mb-3">
                     <Form.Label>Url Alias </Form.Label>
                     <Form.Control
@@ -274,7 +307,7 @@ const Registration = () => {
           <p style={{color:"red"}}>{err}</p>
                   </Col>
          <Col xs={3}> 
-         <div><img id="imgVieww" src={flag==false?`http://51.89.210.56:8000${editdata[0].file}`:""}  alt="Viewing the registration page image" width={340}/> 
+         <div><img id="imgVieww" src={flag==false?`http://51.89.210.56:8000${editdata.file}`:""}  alt="Viewing the registration page image" width={340}/> 
     </div>   
        </Col>
           </Row>

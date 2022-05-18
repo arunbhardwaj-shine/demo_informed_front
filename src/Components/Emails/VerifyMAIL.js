@@ -344,12 +344,77 @@ const VerifyMAIL = (props) => {
                 </div>
                 <div className="mail-recipt">
                   <div className="row">
-                    <div className="col-12 col-md-5 mail-recipt-left">
+                  <div className="col-12 col-md-12 mail-recipt-right">
+                      <h6>Content that will be send</h6>
+                      <p>
+                        Content <span>| 1</span>
+                      </p>
+                      <div className="mail-content-select-box">
+                        <div className="mail-content-select-top">
+                          <div className="mail-preview-img">
+                            <img
+                              src={path_image + "dummy-img.png"}
+                              alt="Preview "
+                            />
+                          </div>
+                          <div className="mail-box-content">
+                            <h5>
+                              {props.getEmailData
+                                ? props.getEmailData.emailSubject
+                                : props.getDraftData.subject}
+                            </h5>
+                            <p>
+                              {props.getEmailData
+                                ? props.getEmailData.emailDescription
+                                : props.getDraftData.description}
+                            </p>
+                            <div className="mailbox-tags">
+                              <ul>
+                                <li className="list1">NA</li>
+                                <li className="list2">NA</li>
+                                <li className="list3">NA</li>
+                                <li className="list4">NA</li>
+                                <li className="list5">NA</li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="mail-content-table">
+                          <table>
+                            <tbody>
+                              <tr>
+                                <th>Upload Date</th>
+                                <td>NA</td>
+                              </tr>
+                              <tr>
+                                <th>Language</th>
+                                <td>NA</td>
+                              </tr>
+                              <tr>
+                                <th>SPC</th>
+                                <td>NA</td>
+                              </tr>
+                              <tr>
+                                <th>Last Email</th>
+                                <td>NA</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div className="mail-content-footer">
+                          <button className="btn btn-primary btn-filled">
+                            Preview
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-12 mail-recipt-left">
                       <h6>
                       The recipients <span>| {selectedHcp.length }</span>
                       </h6>
                       <p>{/* Single HCP <span>| 1</span> */}</p>
                       {props.getSelectedSmartListData || props.getDraftData?.smart_list_data[0] ? (
+                        <div className="smartlist-view email_box_outer">
                         <div className="smartlist-view email_box">
                           {console.log(props.getDraftData)}
                           <div className="mail-box-content">
@@ -461,72 +526,10 @@ const VerifyMAIL = (props) => {
                             </div>
                           </div>
                         </div>
+                        </div>
                       ) : null}
                     </div>
-                    <div className="col-12 col-md-7 mail-recipt-right">
-                      <h6>Content that will be send</h6>
-                      <p>
-                        Content <span>| 1</span>
-                      </p>
-                      <div className="mail-content-select-box">
-                        <div className="mail-content-select-top">
-                          <div className="mail-preview-img">
-                            <img
-                              src={path_image + "dummy-img.png"}
-                              alt="Preview "
-                            />
-                          </div>
-                          <div className="mail-box-content">
-                            <h5>
-                              {props.getEmailData
-                                ? props.getEmailData.emailSubject
-                                : props.getDraftData.subject}
-                            </h5>
-                            <p>
-                              {props.getEmailData
-                                ? props.getEmailData.emailDescription
-                                : props.getDraftData.description}
-                            </p>
-                            <div className="mailbox-tags">
-                              <ul>
-                                <li className="list1">NA</li>
-                                <li className="list2">NA</li>
-                                <li className="list3">NA</li>
-                                <li className="list4">NA</li>
-                                <li className="list5">NA</li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="mail-content-table">
-                          <table>
-                            <tbody>
-                              <tr>
-                                <th>Upload Date</th>
-                                <td>NA</td>
-                              </tr>
-                              <tr>
-                                <th>Language</th>
-                                <td>NA</td>
-                              </tr>
-                              <tr>
-                                <th>SPC</th>
-                                <td>NA</td>
-                              </tr>
-                              <tr>
-                                <th>Last Email</th>
-                                <td>NA</td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                        <div className="mail-content-footer">
-                          <button className="btn btn-primary btn-filled">
-                            Preview
-                          </button>
-                        </div>
-                      </div>
-                    </div>
+     
                   </div>
                 </div>
               </div>

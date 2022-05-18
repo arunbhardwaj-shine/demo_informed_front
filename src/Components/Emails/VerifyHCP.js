@@ -14,8 +14,8 @@ const VerifyHCP = (props) => {
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
   const campaign_id = props.getEmailData
-  ? props.getEmailData.campaign_id
-  : props.getDraftData.campaign_data.campaign_id;
+    ? props.getEmailData.campaign_id
+    : props.getDraftData.campaign_data.campaign_id;
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
   const [templateId, setTemplateId] = useState(0);
   const [name, setName] = useState("");
@@ -24,7 +24,9 @@ const VerifyHCP = (props) => {
   const [reRender, setReRender] = useState(0);
   const [sorting, setSorting] = useState(0);
   const [editable, setEditable] = useState(0);
+  const [saveOpen, setSaveOpen] = useState(false);
   const [searchedUsers, setSearchedUsers] = useState([]);
+  const [editableData, setEditableData] = useState([]);
   const navigate = useNavigate();
 
   const [selectedHcp, setSelectedHcp] = useState([]);
@@ -104,6 +106,7 @@ const VerifyHCP = (props) => {
   };
 
   const editablemade = () => {
+    setSaveOpen(true);
     let temp_val = 1 - editable;
     setEditable(temp_val);
   };
@@ -340,6 +343,85 @@ const VerifyHCP = (props) => {
     ]);
   };
 
+  const editing = (
+    profile_id,
+    profile_user_id,
+    email,
+    jobTitle,
+    company,
+    country,
+    names,
+    index
+  ) => {
+    let ignoreClickOnMeElement = document.getElementById(
+      "row-selected" + index
+    );
+
+    ignoreClickOnMeElement.addEventListener(
+      "mouseleave",
+      async (event) => {
+        const name_edit = document.getElementById(
+          "field_name" + index
+        ).innerText;
+
+        const country_edit = document.getElementById(
+          "field_country" + index
+        ).innerText;
+
+        console.log(name_edit);
+        console.log(country_edit);
+
+        const arr = [];
+        arr.push({
+          profile_id: profile_id,
+          profile_user_id: profile_user_id,
+          email: email,
+          jobTitle: jobTitle,
+          company: company,
+          country: country_edit,
+          names: name_edit,
+          user_id: 18207,
+        });
+        setEditableData((oldArray) => [...oldArray, ...arr]);
+      },
+      { once: true }
+    );
+
+    // ignoreClickOnMeElement.addEventListener("mouseleave", async (event) => {
+
+    //   console.log(event);
+    //   console.log(index);
+
+    //   const data = editList.find((x) => x.profile_id === profile_id);
+    //   console.log(data);
+
+    //   if (
+    //     data.first_name + " " + data.last_name != name_edit ||
+    //     data.email != email_edit ||
+    //     data.country != country_edit
+    //   ) {
+    //     const body = {
+    //       user_id: 18207,
+    //       profile_user_id: profile_user_id,
+    //       profile_id: profile_id,
+    //       email: email_edit,
+    //       country: country_edit,
+    //       username: name_edit,
+    //     };
+
+    //     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    //     await axios
+    //       .post(`distributes/update_reders_details`, body)
+    //       .then((res) => {
+    //         console.log(res);
+    //       })
+    //       .catch((err) => {
+    //         console.log(err);
+    //       });
+    //   }
+    // });
+  };
+
   const backClicked = () => {
     window.history.go(-1);
 
@@ -373,6 +455,24 @@ const VerifyHCP = (props) => {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const saveEditClicked = async () => {
+    console.log(editableData);
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    await axios
+      .post(`distributes/update_reders_details`, editableData)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const closeClicked = () => {
+    setSaveOpen(false);
+    setEditable(0);
   };
 
   const saveAsDraft = async () => {
@@ -647,14 +747,14 @@ const VerifyHCP = (props) => {
                 Selected HCPs <span>| {selectedHcp.length}</span>
               </h4>
               <div className="selected-hcp-table-action">
-                {/* <div className="hcp-added">
+                <div className="hcp-added">
                   <button
                     className="btn btn-outline-primary"
                     onClick={editablemade}
                   >
                     <img src={path_image + "edit.svg"} alt="" />
                   </button>
-                </div> */}
+                </div>
                 <div className="hcp-sort">
                   <button
                     onClick={sortSelectedUsers}
@@ -663,6 +763,12 @@ const VerifyHCP = (props) => {
                     Sort By <img src={path_image + "sort.svg"} alt="" />
                   </button>
                 </div>
+                {saveOpen ? (
+                  <>
+                    <button onClick={saveEditClicked}>Save</button>
+                    <button onClick={closeClicked}>Close</button>
+                  </>
+                ) : null}
               </div>
             </div>
             <div className="selected-hcp-list">
@@ -691,21 +797,36 @@ const VerifyHCP = (props) => {
                   </thead>
                   <tbody>
                     {selectedHcp.map((data, index) => {
+                      console.log(data);
                       return (
                         <>
                           <tr
+                            id={`row-selected` + index}
                             contenteditable={editable === 0 ? "false" : "true"}
+                            onFocus={(e) =>
+                              editing(
+                                //  e.currentTarget,
+                                data.profile_id,
+                                data.profile_user_id,
+                                data.email,
+                                data.jobTitle,
+                                data.company,
+                                data.country,
+                                data.first_name + " " + data.last_name,
+                                index
+                              )
+                            }
                           >
-                            <td>
+                            <td id={`field_name` + index}>
                               <span>{data.name || data.first_name}</span>
                             </td>
-                            <td>
+                            <td id={`field_email` + index}>
                               <span>{data.email}</span>
                             </td>
-                            <td>
+                            <td id={`field_bounced` + index}>
                               <span>NA</span>
                             </td>
-                            <td>
+                            <td id={`field_country` + index}>
                               <span>{data.country}</span>
                             </td>
                             <td>
