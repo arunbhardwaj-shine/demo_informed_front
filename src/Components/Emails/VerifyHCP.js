@@ -108,7 +108,7 @@ const VerifyHCP = (props) => {
   const editablemade = () => {
     setSaveOpen(true);
     let temp_val = 1 - editable;
-    setEditable(temp_val);
+    if (temp_val) setEditable(temp_val);
   };
 
   const addNewHcp = () => {
@@ -154,16 +154,15 @@ const VerifyHCP = (props) => {
     normalArr = selectedHcp;
     if (sorting === 0) {
       normalArr.sort((a, b) =>
-        a.first_name > b.first_name ? 1 : b.first_name > a.first_name ? -1 : 0
+        a.name > b.name ? 1 : b.name > a.name ? -1 : 0
       );
     } else {
       normalArr.sort((a, b) =>
-        a.first_name < b.first_name ? 1 : b.first_name < a.first_name ? -1 : 0
+        a.name < b.name ? 1 : b.name < a.name ? -1 : 0
       );
     }
 
     console.log(normalArr);
-
     setSelectedHcp(normalArr);
     setSorting(1 - sorting);
   };
@@ -747,22 +746,26 @@ const VerifyHCP = (props) => {
                 Selected HCPs <span>| {selectedHcp.length}</span>
               </h4>
               <div className="selected-hcp-table-action">
-                <div className="hcp-added">
-                  <button
-                    className="btn btn-outline-primary"
-                    onClick={editablemade}
-                  >
-                    <img src={path_image + "edit.svg"} alt="" />
-                  </button>
-                </div>
-                <div className="hcp-sort">
-                  <button
-                    onClick={sortSelectedUsers}
-                    className="btn btn-outline-primary"
-                  >
-                    Sort By <img src={path_image + "sort.svg"} alt="" />
-                  </button>
-                </div>
+                {editable == false ? (
+                  <>
+                    <div className="hcp-added">
+                      <button
+                        className="btn btn-outline-primary"
+                        onClick={editablemade}
+                      >
+                        <img src={path_image + "edit.svg"} alt="" />
+                      </button>
+                    </div>
+                    <div className="hcp-sort">
+                      <button
+                        onClick={sortSelectedUsers}
+                        className="btn btn-outline-primary"
+                      >
+                        Sort By <img src={path_image + "sort.svg"} alt="" />
+                      </button>
+                    </div>
+                  </>
+                ) : null}
                 {saveOpen ? (
                   <>
                     <button
@@ -813,7 +816,7 @@ const VerifyHCP = (props) => {
                           <tr
                             id={`row-selected` + index}
                             contenteditable={editable === 0 ? "false" : "true"}
-                            onFocus={(e) =>
+                            onClick={(e) =>
                               editing(
                                 //  e.currentTarget,
                                 data.profile_id,
@@ -848,11 +851,21 @@ const VerifyHCP = (props) => {
                             <td>
                               <span>NA</span>
                             </td>
-                            <td>NA</td>
-                            <td>NA</td>
-                            <td>NA</td>
-                            <td>NA</td>
-                            <td>NA </td>
+                            <td>
+                              <span>NA</span>
+                            </td>
+                            <td>
+                              <span>NA</span>
+                            </td>
+                            <td>
+                              <span>NA</span>
+                            </td>
+                            <td>
+                              <span>NA</span>
+                            </td>
+                            <td>
+                              <span>NA </span>
+                            </td>
                             <td className="delete_row" colSpan="12">
                               <img
                                 src={path_image + "delete.svg"}

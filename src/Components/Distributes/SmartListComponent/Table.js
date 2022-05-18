@@ -16,8 +16,7 @@ import { toast } from "react-toastify";
 import { popup_alert } from "../../../popup_alert";
 import queryString from "query-string";
 import { connect } from "react-redux";
-import ReactHTMLTableToExcel from 'react-html-table-to-excel';
-
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
 
 const Table = (props, ref) => {
   const [inEditMode, setInEditMode] = useState({
@@ -129,8 +128,6 @@ const Table = (props, ref) => {
     setShow(false);
   };
 
-
-
   let combine_data;
   let combine_data_manual;
 
@@ -145,7 +142,11 @@ const Table = (props, ref) => {
   };
 
   const editButtonClicked = () => {
-    setSaveOpen(true);
+    if (editable == 1) {
+      setSaveOpen(false);
+    } else {
+      setSaveOpen(true);
+    }
     let temp_val = 1 - editable;
     setEditable(temp_val);
     setUpdate(update + 1);
@@ -835,44 +836,51 @@ const Table = (props, ref) => {
             )}
 
             <div class="selected-hcp-table-action">
-              <a className="show-less-info" onClick={(e) => showMoreInfo(e)}>
-                {showLessInfo == true ? (
-                  <p>Show More information</p>
-                ) : (
-                  <p>Show less info</p>
-                )}{" "}
-              </a>
-
-              <ReactHTMLTableToExcel
+              {editable == false ? (
+                <>
+                  {" "}
+                  <a
+                    className="show-less-info"
+                    onClick={(e) => showMoreInfo(e)}
+                  >
+                    {showLessInfo == true ? (
+                      <p>Show More information</p>
+                    ) : (
+                      <p>Show less info</p>
+                    )}{" "}
+                  </a>
+                  <ReactHTMLTableToExcel
                     id="test-table-xls-button"
                     className="btn btn-outline-primary"
                     table="table-to-xls"
                     filename="tablexls"
                     sheet="tablexls"
                     buttonText="Download "
-                   
-                    />
+                  />
+                  <div class="hcp-new-user">
+                    <button
+                      class="btn btn-outline-primary"
+                      onClick={handleShow}
+                    >
+                      <img src={path + "new-user.svg"} alt="New User" />
+                    </button>
+                  </div>
+                  <div class="hcp-added">
+                    <button
+                      class="btn btn-outline-primary"
+                      onClick={editButtonClicked}
+                    >
+                      <img src={path + "edit-button.svg"} alt="Edit" />
+                    </button>
+                  </div>
+                  <div class="hcp-sort">
+                    <button class="btn btn-outline-primary" onClick={sortdata}>
+                      Sort By <img src={path + "sort.svg"} alt="Shorting" />
+                    </button>
+                  </div>
+                </>
+              ) : null}
 
-              <div class="hcp-new-user">
-                <button class="btn btn-outline-primary" onClick={handleShow}>
-                  <img src={path + "new-user.svg"} alt="New User" />
-                </button>
-              </div>
-
-              <div class="hcp-added">
-                <button
-                  class="btn btn-outline-primary"
-                  onClick={editButtonClicked}
-                >
-                  <img src={path + "edit-button.svg"} alt="Edit" />
-                </button>
-              </div>
-
-              <div class="hcp-sort">
-                <button class="btn btn-outline-primary" onClick={sortdata}>
-                  Sort By <img src={path + "sort.svg"} alt="Shorting" />
-                </button>
-              </div>
               {saveOpen ? (
                 <>
                   <button
@@ -892,10 +900,6 @@ const Table = (props, ref) => {
             </div>
           </div>
           <div class="selected-hcp-list">
-         
-
-
-
             <table class="table" id="table-to-xls">
               <thead>
                 <tr>
@@ -934,50 +938,32 @@ const Table = (props, ref) => {
                     }
                   >
                     <td id={`field_name` + index}>
-                      {inEditMode.status &&
-                      inEditMode.rowKey === item.profile_id ? (
-                        <input
-                          value={name}
-                          onChange={(event) => setName(event.target.value)}
-                        />
-                      ) : (
-                        item.first_name + " " + item.last_name
-                      )}
+                      <span>{item.first_name + " " + item.last_name}</span>
                     </td>
 
                     <td id={`field_email` + index}>
-                      {" "}
-                      {inEditMode.status &&
-                      inEditMode.rowKey === item.profile_id ? (
-                        <input
-                          value={email}
-                          type="email"
-                          onChange={(event) => setEmail(event.target.value)}
-                        />
-                      ) : (
-                        item.email
-                      )}
+                      <span> {item.email} </span>
                     </td>
-                    <td id={`field_bounced` + index}>No</td>
+                    <td id={`field_bounced` + index}>
+                      <span>NA</span>
+                    </td>
                     <td id={`field_country` + index}>
-                      {inEditMode.status &&
-                      inEditMode.rowKey === item.profile_id ? (
-                        <input
-                          value={country}
-                          onChange={(event) => setCountry(event.target.value)}
-                        />
-                      ) : (
-                        item.country
-                      )}
+                      <span>{item.country}</span>
                     </td>
                     {showLessInfo == false ? (
-                      <td id="field_readers">NA</td>
+                      <td id="field_readers">
+                        <span>NA</span>
+                      </td>
                     ) : null}
                     {showLessInfo == false ? (
-                      <td id="field_business_unit">NA</td>
+                      <td id="field_business_unit">
+                        <span>NA</span>
+                      </td>
                     ) : null}
                     {showLessInfo == false ? (
-                      <td id="field_interest">NA</td>
+                      <td id="field_interest">
+                        <span>NA</span>
+                      </td>
                     ) : null}
                     <td
                       class="delete_row"

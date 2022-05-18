@@ -599,37 +599,45 @@ const SelectSmartListUsers = (props) => {
                 HCPs <span>| {smartListSelected.readers_count}</span>
               </h4>
               <div className="selected-hcp-table-action">
-                <a className="show-less-info" onClick={(e) => showMoreInfo(e)}>
-                  {showLessInfo == true ? (
-                    <p>Show More information</p>
-                  ) : (
-                    <p>Show less info</p>
-                  )}{" "}
-                </a>
-                <div className="hcp-new-user">
-                  <button
-                    className="btn btn-outline-primary"
-                    onClick={addNewUser}
-                  >
-                    <img src={path_image + "new-user.svg"} alt="New User" />
-                  </button>
-                </div>
-                <div className="hcp-added">
-                  <button
-                    className="btn btn-outline-primary"
-                    onClick={editButtonClicked}
-                  >
-                    <img src={path_image + "edit.svg"} alt="Edit" />
-                  </button>
-                </div>
-                <div className="hcp-sort">
-                  <button
-                    className="btn btn-outline-primary"
-                    onClick={sortSelectedUsers}
-                  >
-                    Sort By <img src={path_image + "sort.svg"} alt="Shorting" />
-                  </button>
-                </div>
+                {editable == false ? (
+                  <>
+                    <a
+                      className="show-less-info"
+                      onClick={(e) => showMoreInfo(e)}
+                    >
+                      {showLessInfo == true ? (
+                        <p>Show More information</p>
+                      ) : (
+                        <p>Show less info</p>
+                      )}{" "}
+                    </a>
+                    <div className="hcp-new-user">
+                      <button
+                        className="btn btn-outline-primary"
+                        onClick={addNewUser}
+                      >
+                        <img src={path_image + "new-user.svg"} alt="New User" />
+                      </button>
+                    </div>
+                    <div className="hcp-added">
+                      <button
+                        className="btn btn-outline-primary"
+                        onClick={editButtonClicked}
+                      >
+                        <img src={path_image + "edit.svg"} alt="Edit" />
+                      </button>
+                    </div>
+                    <div className="hcp-sort">
+                      <button
+                        className="btn btn-outline-primary"
+                        onClick={sortSelectedUsers}
+                      >
+                        Sort By{" "}
+                        <img src={path_image + "sort.svg"} alt="Shorting" />
+                      </button>
+                    </div>
+                  </>
+                ) : null}
                 {saveOpen ? (
                   <>
                     <button
@@ -792,19 +800,58 @@ const SelectSmartListUsers = (props) => {
                           }
                         >
                           <td id={`field_name` + i}>
-                            {readers.first_name + " " + readers.last_name}
+                            <span>
+                              {" "}
+                              {readers.first_name +
+                                " " +
+                                readers.last_name}{" "}
+                            </span>
                           </td>
-                          <td id={`field_email` + i}>{readers.email}</td>
-                          <td id={`field_bounced` + i}>NA</td>
-                          <td id={`field_country` + i}>{readers.country}</td>
-                          <td>NA</td>
-                          <td>NA</td>
-                          {showLessInfo == false ? <td>NA</td> : null}
-                          {showLessInfo == false ? <td>NA</td> : null}
-                          {showLessInfo == false ? <td>NA</td> : null}
-                          {showLessInfo == false ? <td>NA</td> : null}
-                          {showLessInfo == false ? <td>NA</td> : null}
-                          {showLessInfo == false ? <td>NA</td> : null}
+                          <td id={`field_email` + i}>
+                            <span>{readers.email}</span>
+                          </td>
+                          <td id={`field_bounced` + i}>
+                            <span>NA</span>
+                          </td>
+                          <td id={`field_country` + i}>
+                            <span>{readers.country}</span>
+                          </td>
+                          <td>
+                            <span>NA</span>
+                          </td>
+                          <td>
+                            <span>NA</span>
+                          </td>
+                          {showLessInfo == false ? (
+                            <td>
+                              <span>NA</span>
+                            </td>
+                          ) : null}
+                          {showLessInfo == false ? (
+                            <td>
+                              <span>NA</span>
+                            </td>
+                          ) : null}
+                          {showLessInfo == false ? (
+                            <td>
+                              <span>NA</span>
+                            </td>
+                          ) : null}
+                          {showLessInfo == false ? (
+                            <td>
+                              <span>NA</span>
+                            </td>
+                          ) : null}
+                          {showLessInfo == false ? (
+                            <td>
+                              <span>NA</span>
+                            </td>
+                          ) : null}
+                          {showLessInfo == false ? (
+                            <td>
+                              <span>NA</span>
+                            </td>
+                          ) : null}
                           <td className="delete_row" colspan="12">
                             <img
                               src={path_image + "delete.svg"}
