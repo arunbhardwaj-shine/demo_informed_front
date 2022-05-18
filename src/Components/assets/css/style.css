@@ -43,7 +43,6 @@ header { position: sticky; top: 0; z-index: 9; }
 .clear-search button:hover, .clear-search button:active, .clear-search button:focus { background: var(--light-blue); }
 .clear-search button:hover svg path, .clear-search button:active svg path, .clear-search button:focus svg path{ fill: var(--white); }
 .user-login li { list-style: none; }
-
 .filter-by button { background: var(--white); border-radius: 30px; box-shadow: 0px 2px 10px -3px rgba(0, 102, 190, 0.15); font-weight: 400; font-size: 13px; line-height: 15px; color: var(--skyblue); padding: 12px 26px; border: 0.5px solid transparent; position: relative; z-index: 8; }
 .filter-by button:hover, .filter-by button:focus { color: var(--light-blue); border: 0.5px solid var(--light-blue); }
 .filter-by button:hover path, .filter-by button:focus path { fill: var(--light-blue); }
@@ -711,7 +710,7 @@ img.select_mm { border: 3px solid var(--light-blue); }
  .smart-list-dropdown .card .card-header .btn button:focus { box-shadow: none; border: 0; }
 
 
-	/* accordion-smart */
+/* accordion-smart */
 #accordion-smart .card-body { display: flex; padding: 0 24px 14px; flex-wrap: wrap; }
 #accordion-smart .card-body .col { flex: 0 0 158px; position: relative; margin-right: 50px; }
 #accordion-smart .block-smart-name h6 { font-size: 14px; line-height: 16px; color: var(--blue); font-family: 'Roboto-Medium'; }
@@ -767,6 +766,5 @@ button#test-table-xls-button { font-size: 0; width: 40px; margin-right: 16px; ba
 .hcp-sort .btn:hover, .hcp-added .btn:hover { filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.4)); } 
 .table-title .selected-hcp-table-action a.show-less-info p { padding-right: 21px; position: relative; } 
 a.show-less-info p:after { content: "<<"; padding-left: 7px; position: absolute; right: 0; border-bottom: 1px solid var(--skyblue); line-height: 14px; top: 2px; }
-.verify-email-detail h6 ul li img[alt="Close-filter"] {
-  cursor: pointer;
-}
+.verify-email-detail h6 ul li img[alt="Close-filter"] {cursor: pointer;}
+#mail-view.modal-dialog[custom-atr="scroll"] .modal-header {box-shadow: 0px 2px 18px rgba(0, 102, 190, 0.12);z-index: 10;position: relative;}
