@@ -138,7 +138,11 @@ const ViewTable = (props) => {
   const [counter, setCounter] = useState([0]);
 
   const editButtonClicked = () => {
-    setSaveOpen(true);
+    if (editable == 1) {
+      setSaveOpen(false);
+    } else {
+      setSaveOpen(true);
+    }
 
     let temp_val = 1 - editable;
     setEditable(temp_val);
@@ -844,31 +848,38 @@ const ViewTable = (props) => {
           </div>
           <div className="col-12 col-md-11">
             <div className="smart-list-btns">
-              {/* <div className="smart-list-download">
-                <button
-                  className="btn btn-outline-primary"
-                //  onClick={showFileInReadersList}
-                >
-                  <img src={path + "download.svg"} alt="Download List" />
-                </button>
-              </div> */}
-              <div className="hcp-new-user">
-                <button className="btn btn-outline-primary">
-                  <img
-                    src={path + "new-user.svg"}
-                    alt="New User"
-                    onClick={handleShow}
-                  />
-                </button>
-              </div>
-              <div className="hcp-added">
-                <button
-                  className="btn btn-outline-primary"
-                  onClick={editButtonClicked}
-                >
-                  <img src={path + "edit-button.svg"} alt="Edit" />
-                </button>
-              </div>
+              {editable == false ? (
+                <>
+                  <div className="smart-list-download">
+                    <ReactHTMLTableToExcel
+                      id="test-table-xls-button"
+                      className="btn btn-outline-primary"
+                      table="table-to-xls"
+                      filename="tablexls"
+                      sheet="tablexls"
+                      buttonText="Download"
+                    />
+                  </div>
+                  <div className="hcp-new-user">
+                    <button className="btn btn-outline-primary">
+                      <img
+                        src={path + "new-user.svg"}
+                        alt="New User"
+                        onClick={handleShow}
+                      />
+                    </button>
+                  </div>
+                  <div className="hcp-added">
+                    <button
+                      className="btn btn-outline-primary"
+                      onClick={editButtonClicked}
+                    >
+                      <img src={path + "edit-button.svg"} alt="Edit" />
+                    </button>
+                  </div>
+                </>
+              ) : null}
+
               <div className="top-right-action">
                 <div className="search-bar">
                   <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
@@ -932,33 +943,30 @@ const ViewTable = (props) => {
               {getlistname} <span>| {editList.length}</span>
             </h4>
             <div className="selected-hcp-table-action">
-              <a className="show-less-info" onClick={(e) => showMoreInfo(e)}>
-                {showLessInfo == true ? (
-                  <p>Show More information</p>
-                ) : (
-                  <p>Show less info</p>
-                )}{" "}
-              </a>
-
-              <ReactHTMLTableToExcel
-                id="test-table-xls-button"
-                className="btn btn-outline-primary"
-                table="table-to-xls"
-                filename="tablexls"
-                sheet="tablexls"
-                buttonText="Download"
-              />
-
+              {editable == false ? (
+                <>
+                  <a
+                    className="show-less-info"
+                    onClick={(e) => showMoreInfo(e)}
+                  >
+                    {showLessInfo == true ? (
+                      <p>Show More information</p>
+                    ) : (
+                      <p>Show less info</p>
+                    )}{" "}
+                  </a>
+                </>
+              ) : null}
               {saveOpen ? (
                 <>
                   <button
-                    className="btn btn-outline-primary bordered"
+                    className="btn btn-primary btn-bordered"
                     onClick={saveEditClicked}
                   >
                     Save
                   </button>
                   <button
-                    className="btn btn-outline-primary light"
+                    className="btn btn-primary btn-filled"
                     onClick={closeClicked}
                   >
                     Close
@@ -1078,49 +1086,31 @@ const ViewTable = (props) => {
                     }
                   >
                     <td id={`field_name` + index}>
-                      {inEditMode.status &&
-                      inEditMode.rowKey === item.profile_id ? (
-                        <input
-                          value={name}
-                          onChange={(event) => setName(event.target.value)}
-                        />
-                      ) : (
-                        item.first_name + " " + item.last_name
-                      )}
+                      <span> {item.first_name + " " + item.last_name} </span>
                     </td>
                     <td id={`field_email` + index}>
-                      {" "}
-                      {inEditMode.status &&
-                      inEditMode.rowKey === item.profile_id ? (
-                        <input
-                          value={email}
-                          type="email"
-                          onChange={(event) => setEmail(event.target.value)}
-                        />
-                      ) : (
-                        item.email
-                      )}
+                      <span>{item.email}</span>
                     </td>
-                    <td id={`field_bounced` + index}>No</td>
+                    <td id={`field_bounced` + index}>
+                      <span>NA</span>
+                    </td>
                     <td id={`field_country` + index}>
-                      {inEditMode.status &&
-                      inEditMode.rowKey === item.profile_id ? (
-                        <input
-                          value={country}
-                          onChange={(event) => setCountry(event.target.value)}
-                        />
-                      ) : (
-                        item.country
-                      )}
+                      <span>{item.country}</span>
                     </td>
                     {showLessInfo == false ? (
-                      <td id="field_readers">NA</td>
+                      <td id="field_readers">
+                        <span>NA</span>
+                      </td>
                     ) : null}
                     {showLessInfo == false ? (
-                      <td id="field_business_unit">NA</td>
+                      <td id="field_business_unit">
+                        <span>NA</span>
+                      </td>
                     ) : null}
                     {showLessInfo == false ? (
-                      <td id="field_interest">NA</td>
+                      <td id="field_interest">
+                        <span>NA</span>
+                      </td>
                     ) : null}
                     <td class="delete_row" colspan="12">
                       <img
