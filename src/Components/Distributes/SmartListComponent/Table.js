@@ -884,16 +884,16 @@ const Table = (props, ref) => {
               {saveOpen ? (
                 <>
                   <button
-                    className="btn btn-primary btn-bordered"
-                    onClick={saveEditClicked}
-                  >
-                    Save
-                  </button>
-                  <button
                     className="btn btn-primary btn-filled"
                     onClick={closeClicked}
                   >
                     Close
+                  </button>
+                  <button
+                    className="btn btn-primary btn-bordered"
+                    onClick={saveEditClicked}
+                  >
+                    Save
                   </button>
                 </>
               ) : null}
@@ -941,29 +941,19 @@ const Table = (props, ref) => {
                       <span>{item.first_name + " " + item.last_name}</span>
                     </td>
 
-                    <td id={`field_email` + index}>
-                      <span> {item.email} </span>
-                    </td>
-                    <td id={`field_bounced` + index}>
-                      <span>NA</span>
-                    </td>
+                    <td id={`field_email` + index}>{item.email}</td>
+                    <td id={`field_bounced` + index}>NA</td>
                     <td id={`field_country` + index}>
                       <span>{item.country}</span>
                     </td>
                     {showLessInfo == false ? (
-                      <td id="field_readers">
-                        <span>NA</span>
-                      </td>
+                      <td id="field_readers">NA</td>
                     ) : null}
                     {showLessInfo == false ? (
-                      <td id="field_business_unit">
-                        <span>NA</span>
-                      </td>
+                      <td id="field_business_unit">NA</td>
                     ) : null}
                     {showLessInfo == false ? (
-                      <td id="field_interest">
-                        <span>NA</span>
-                      </td>
+                      <td id="field_interest">NA</td>
                     ) : null}
                     <td
                       class="delete_row"

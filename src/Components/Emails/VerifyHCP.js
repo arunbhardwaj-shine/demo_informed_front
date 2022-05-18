@@ -769,16 +769,17 @@ const VerifyHCP = (props) => {
                 {saveOpen ? (
                   <>
                     <button
-                      className="btn btn-primary btn-bordered"
-                      onClick={saveEditClicked}
-                    >
-                      Save
-                    </button>
-                    <button
                       className="btn btn-primary btn-filled"
                       onClick={closeClicked}
                     >
                       Close
+                    </button>
+
+                    <button
+                      className="btn btn-primary btn-bordered"
+                      onClick={saveEditClicked}
+                    >
+                      Save
                     </button>
                   </>
                 ) : null}
@@ -833,39 +834,19 @@ const VerifyHCP = (props) => {
                             <td id={`field_name` + index}>
                               <span>{data.name || data.first_name}</span>
                             </td>
-                            <td id={`field_email` + index}>
-                              <span>{data.email}</span>
-                            </td>
-                            <td id={`field_bounced` + index}>
-                              <span>NA</span>
-                            </td>
+                            <td id={`field_email` + index}>{data.email}</td>
+                            <td id={`field_bounced` + index}>NA</td>
                             <td id={`field_country` + index}>
                               <span>{data.country}</span>
                             </td>
-                            <td>
-                              <span>NA</span>
-                            </td>
-                            <td>
-                              <span>NA</span>
-                            </td>
-                            <td>
-                              <span>NA</span>
-                            </td>
-                            <td>
-                              <span>NA</span>
-                            </td>
-                            <td>
-                              <span>NA</span>
-                            </td>
-                            <td>
-                              <span>NA</span>
-                            </td>
-                            <td>
-                              <span>NA</span>
-                            </td>
-                            <td>
-                              <span>NA </span>
-                            </td>
+                            <td>NA</td>
+                            <td>NA</td>
+                            <td>NA</td>
+                            <td>NA</td>
+                            <td>NA</td>
+                            <td>NA</td>
+                            <td>NA</td>
+                            <td>NA</td>
                             <td className="delete_row" colSpan="12">
                               <img
                                 src={path_image + "delete.svg"}

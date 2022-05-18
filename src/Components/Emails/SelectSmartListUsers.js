@@ -641,16 +641,17 @@ const SelectSmartListUsers = (props) => {
                 {saveOpen ? (
                   <>
                     <button
-                      className="btn btn-primary btn-bordered"
-                      onClick={saveEditClicked}
-                    >
-                      Save
-                    </button>
-                    <button
                       className="btn btn-primary btn-filled"
                       onClick={closeClicked}
                     >
                       Close
+                    </button>
+
+                    <button
+                      className="btn btn-primary btn-bordered"
+                      onClick={saveEditClicked}
+                    >
+                      Save
                     </button>
                   </>
                 ) : null}
@@ -807,51 +808,19 @@ const SelectSmartListUsers = (props) => {
                                 readers.last_name}{" "}
                             </span>
                           </td>
-                          <td id={`field_email` + i}>
-                            <span>{readers.email}</span>
-                          </td>
-                          <td id={`field_bounced` + i}>
-                            <span>NA</span>
-                          </td>
+                          <td id={`field_email` + i}>{readers.email}</td>
+                          <td id={`field_bounced` + i}>NA</td>
                           <td id={`field_country` + i}>
                             <span>{readers.country}</span>
                           </td>
-                          <td>
-                            <span>NA</span>
-                          </td>
-                          <td>
-                            <span>NA</span>
-                          </td>
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>NA</span>
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>NA</span>
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>NA</span>
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>NA</span>
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>NA</span>
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>NA</span>
-                            </td>
-                          ) : null}
+                          <td>NA</td>
+                          <td>NA</td>
+                          {showLessInfo == false ? <td>NA</td> : null}
+                          {showLessInfo == false ? <td>NA </td> : null}
+                          {showLessInfo == false ? <td>NA</td> : null}
+                          {showLessInfo == false ? <td>NA</td> : null}
+                          {showLessInfo == false ? <td>NA</td> : null}
+                          {showLessInfo == false ? <td>NA</td> : null}
                           <td className="delete_row" colspan="12">
                             <img
                               src={path_image + "delete.svg"}
