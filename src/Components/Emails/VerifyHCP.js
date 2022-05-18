@@ -765,8 +765,18 @@ const VerifyHCP = (props) => {
                 </div>
                 {saveOpen ? (
                   <>
-                    <button onClick={saveEditClicked}>Save</button>
-                    <button onClick={closeClicked}>Close</button>
+                    <button
+                      className="btn btn-outline-primary"
+                      onClick={saveEditClicked}
+                    >
+                      Save
+                    </button>
+                    <button
+                      className="btn btn-outline-primary"
+                      onClick={closeClicked}
+                    >
+                      Close
+                    </button>
                   </>
                 ) : null}
               </div>
@@ -797,7 +807,7 @@ const VerifyHCP = (props) => {
                   </thead>
                   <tbody>
                     {selectedHcp.map((data, index) => {
-                      console.log(data);
+                      //  console.log(data);
                       return (
                         <>
                           <tr

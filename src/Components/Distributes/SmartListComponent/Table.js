@@ -437,11 +437,16 @@ const Table = (props, ref) => {
         loader("hide");
         if (res.data.status_code === 200) {
           toast.success("List updated");
+        } else {
+          popup_alert({
+            visible: "show",
+            message: res.data.message,
+            type: "error",
+          });
         }
-        console.log(res);
       })
       .catch((err) => {
-        console.log(err);
+        toast.error("Something went wrong");
       });
     setSaveOpen(false);
   };
@@ -854,6 +859,22 @@ const Table = (props, ref) => {
                   Sort By <img src={path + "sort.svg"} alt="Shorting" />
                 </button>
               </div>
+              {saveOpen ? (
+                <>
+                  <button
+                    className="btn btn-outline-primary bordered"
+                    onClick={saveEditClicked}
+                  >
+                    Save
+                  </button>
+                  <button
+                    className="btn btn-outline-primary light"
+                    onClick={closeClicked}
+                  >
+                    Close
+                  </button>
+                </>
+              ) : null}
             </div>
           </div>
           <div class="selected-hcp-list">
@@ -874,22 +895,6 @@ const Table = (props, ref) => {
                     </>
                   ) : null}
                 </tr>
-                {saveOpen ? (
-                  <>
-                    <button
-                      className="btn btn-outline-primary"
-                      onClick={saveEditClicked}
-                    >
-                      Save
-                    </button>
-                    <button
-                      className="btn btn-outline-primary"
-                      onClick={closeClicked}
-                    >
-                      Close
-                    </button>
-                  </>
-                ) : null}
               </thead>
               <tbody>
                 {editList.map((item, index) => (

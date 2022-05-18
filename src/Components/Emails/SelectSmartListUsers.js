@@ -417,10 +417,16 @@ const SelectSmartListUsers = (props) => {
         loader("hide");
         if (res.data.status_code === 200) {
           toast.success("List updated");
+        } else {
+          popup_alert({
+            visible: "show",
+            message: res.data.message,
+            type: "error",
+          });
         }
       })
       .catch((err) => {
-        console.log(err);
+        toast.error("Something went wrong");
       });
     setSaveOpen(false);
   };
@@ -627,13 +633,13 @@ const SelectSmartListUsers = (props) => {
                 {saveOpen ? (
                   <>
                     <button
-                      className="btn btn-outline-primary"
+                      className="btn btn-outline-primary bordered"
                       onClick={saveEditClicked}
                     >
                       Save
                     </button>
                     <button
-                      className="btn btn-outline-primary"
+                      className="btn btn-outline-primary light"
                       onClick={closeClicked}
                     >
                       Close

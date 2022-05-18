@@ -329,10 +329,16 @@ const ViewTable = (props) => {
         loader("hide");
         if (res.data.status_code === 200) {
           toast.success("List updated");
+        } else {
+          popup_alert({
+            visible: "show",
+            message: res.data.message,
+            type: "error",
+          });
         }
       })
       .catch((err) => {
-        console.log(err);
+        toast.error("Something went wrong");
       });
 
     setSaveOpen(false);
@@ -932,6 +938,23 @@ const ViewTable = (props) => {
                   <p>Show less info</p>
                 )}{" "}
               </a>
+
+              {saveOpen ? (
+                <>
+                  <button
+                    className="btn btn-outline-primary bordered"
+                    onClick={saveEditClicked}
+                  >
+                    Save
+                  </button>
+                  <button
+                    className="btn btn-outline-primary light"
+                    onClick={closeClicked}
+                  >
+                    Close
+                  </button>
+                </>
+              ) : null}
             </div>
             {showReaders ? (
               <div className="row">
@@ -944,23 +967,6 @@ const ViewTable = (props) => {
                   </button>
                 </div>
               </div>
-            ) : null}
-
-            {saveOpen ? (
-              <>
-                <button
-                  className="btn btn-outline-primary"
-                  onClick={saveEditClicked}
-                >
-                  Save
-                </button>
-                <button
-                  className="btn btn-outline-primary"
-                  onClick={closeClicked}
-                >
-                  Close
-                </button>
-              </>
             ) : null}
           </div>
           <div className="selected-hcp-list">
