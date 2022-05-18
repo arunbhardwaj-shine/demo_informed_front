@@ -70,7 +70,7 @@ const Registration = () => {
     }
     ExportApi.RegistrationPageList(id).then((resp) => {
       if (resp.ok) {
-        console.log(resp.data.code);
+        console.log(resp.data.data);
         setRegistrationPageList(resp.data.data);
         if (resp.data.code === 404) {
           setMassage("Data Not Found");
@@ -215,7 +215,7 @@ const Registration = () => {
                           <td>{val.title}</td>
                           <td>
                             <Link
-                              to={`/webinar/register/${val.code}/${val.url}`}
+                              to={`/webinar/register/${val.code}/${val.url}/${1}`}
                               target="_blank"
                             >
                               <Button>Preview</Button>

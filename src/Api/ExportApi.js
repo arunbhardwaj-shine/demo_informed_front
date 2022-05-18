@@ -116,7 +116,7 @@ BaseApi.post("rehearsal",{
     'Authorization':localStorage.getItem("Token"),
   }});
 //Public 
-const PublicPage = (event_code,str_slug) =>BaseApi.get(`register/${event_code}/${str_slug}`);
+const PublicPage = (event_code,str_slug,) =>BaseApi.get(`register/${event_code}/${str_slug}`);
 
 //Readers
 const ReadersData = (id) =>
@@ -172,8 +172,8 @@ const sandAllmaik = (template_id ,participants) =>
 BaseApi.post(`send-mail`,{template_id:template_id,participants:participants},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
-const CreateParticipant = (name,country,browser,email,alice) =>
-BaseApi.post(`create-participant`,{name:name,email:email,country:country,browser:browser,alice:alice},{ headers: {
+const CreateParticipant = (name,country,browser,email,alice,stats) =>
+BaseApi.post(`create-participant`,{name:name,email:email,country:country,browser:browser,alice:alice,status:stats},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
 const ParticipantPage = (id,eventId,registeredNonRegistered) =>

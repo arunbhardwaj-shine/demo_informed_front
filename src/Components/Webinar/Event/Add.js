@@ -7,7 +7,7 @@ import "../webinar.css";
 import { toast, ToastContainer } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 function Add(props) {
-  //  console.log("ppp",props.token)
+
   const [Speaker, setSpeaker] = useState([
     { name: "SpeakersName", email: "SpeakesrEmail" },
   ]);
@@ -42,23 +42,13 @@ function Add(props) {
     console.log("inside render");
   }, [render]);
 
-  const handleMaltiInputRumove = (i) => {  
-    console.log("first,",i) 
+  const handleMaltiInputRumove = (i) => {   
        let data1=Speakername
-       console.log("before,",data1)
-       console.log("before1,",Speakername)
-    
        Speakername.splice(0, 1);
       setTimeout(()=>setSpeakerName([...Speakername]),1000) 
-        
       setRerender(render+1)      
-     
      console.log("after,",data1.length)
-    //  if () {
-       
-    //  }
-        setSpeakerName(data1)
-      // setRerender(render+1); 
+        setSpeakerName(data1) 
   };
   const handleGetDataBu = () => {
     ExportApi.GetBuData(token).then((resp) => {
@@ -77,7 +67,6 @@ function Add(props) {
   const handleGetTimezoneregionData = () => {
     ExportApi.GetTimezoneregionData().then((resp) => {
       if (resp.ok) {
-         console.log(resp.data.data);
         setTimezoneregion(resp.data.data);
       }
     });
@@ -85,14 +74,15 @@ function Add(props) {
   const handleGetCountry = () => {
     ExportApi.GetCountryData().then((resp) => {
       if (resp.ok) {
-         console.log(resp.data.data);
+
          setCountry(resp.data.data);
       }
     });
   };
   const handleReset = (resetForm) => {
-    
-      resetForm();
+    resetForm();
+    // setSpeakerName({ name: "", email: "" })
+    // setSpeaker({ name: "SpeakersName",email: "SpeakesrEmail"})
   
   };
   const formik = useFormik({
@@ -193,7 +183,6 @@ var yyyy = today.getFullYear();
     handleGetCountry()
   }, [props.token, localStorage.getItem("Token")]);
   useEffect(() => {
-   console.log(Speakername)
    setSpeakerName(Speakername)
   }, [Speakername]);
 
@@ -260,6 +249,7 @@ var yyyy = today.getFullYear();
                       </Form.Label>
                       <Col sm={10}>
                         <Form.Control
+                        type="text"
                           name={
                             Speakername.length === 0 ? "name" : "name" + i
                           }
@@ -543,7 +533,7 @@ var yyyy = today.getFullYear();
                   ) : null}
                 </Col>
               </Form.Group>
-              <Button type="reset" onClick={handleReset.bind(null, formik.resetForm)}>Reset</Button>
+              <Button type="reset" onClick={()=>{handleReset.bind(null, formik.resetForm);setSpeakerName([{ name: "", email: "" }]);setSpeaker([{ name: "SpeakersName",email: "SpeakesrEmail"}])}}>Reset</Button>
               <Button type="submit" className="event-submit-button">
                 Submit
               </Button>
