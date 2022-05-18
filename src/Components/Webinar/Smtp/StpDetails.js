@@ -221,9 +221,6 @@ const StpDetails = () => {
                 </Form.Label>
                 <Col >
                   <Form.Check
-                  // value={defaultChecked}
-                  //  defaultChecked
-                    //  type="checkbox"
                     name="tls"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
