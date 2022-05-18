@@ -64,8 +64,10 @@ const Table = (props, ref) => {
   const [renderCounterData, setCounterData] = useState([]);
   const [editable, setEditable] = useState(0);
   const [validator3Counter, setValidator3Counter] = useState(0);
+  const [sortingCount, setSortingCount] = useState(0);
   const [counter, setCounter] = useState([0]);
   const [saveOpen, setSaveOpen] = useState(false);
+
   const [hpc, setHpc] = useState([
     { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
   ]);
@@ -766,21 +768,41 @@ const Table = (props, ref) => {
       },
     ]);
   };
-  const sortdata = () => {
-    setsortflag((getsortflag) => !getsortflag);
-    if (getsortflag) {
-      let sortedData = editList.sort((a, b) =>
-        a.first_name > b.first_name ? 1 : -1
+  // const sortdata = () => {
+  //   setsortflag((getsortflag) => !getsortflag);
+  //   if (getsortflag) {
+  //     let sortedData = editList.sort((a, b) =>
+  //       a.first_name > b.first_name ? 1 : -1
+  //     );
+  //     setEditList(sortedData);
+  //     props.sendDataToParent(sortedData);
+  //   } else {
+  //     let sortedData = editList.sort((a, b) =>
+  //       a.first_name < b.first_name ? 1 : -1
+  //     );
+  //     setEditList(sortedData);
+  //     props.sendDataToParent(sortedData);
+  //   }
+  // };
+
+  const sortSelectedUsers = () => {
+    console.log("hi");
+    //console.log(readers);
+    let normalArr = [];
+    normalArr = editList;
+    if (sorting === 0) {
+      normalArr.sort((a, b) =>
+        a.first_name > b.first_name ? 1 : b.first_name > a.first_name ? -1 : 0
       );
-      setEditList(sortedData);
-      props.sendDataToParent(sortedData);
     } else {
-      let sortedData = editList.sort((a, b) =>
-        a.first_name < b.first_name ? 1 : -1
+      normalArr.sort((a, b) =>
+        a.first_name < b.first_name ? 1 : b.first_name < a.first_name ? -1 : 0
       );
-      setEditList(sortedData);
-      props.sendDataToParent(sortedData);
     }
+
+    setEditList(normalArr);
+    setSorting(1 - sorting);
+    setSortingCount(sortingCount + 1);
   };
 
   return (
@@ -873,10 +895,44 @@ const Table = (props, ref) => {
                       <img src={path + "edit-button.svg"} alt="Edit" />
                     </button>
                   </div>
-                  <div class="hcp-sort">
-                    <button class="btn btn-outline-primary" onClick={sortdata}>
-                      Sort By <img src={path + "sort.svg"} alt="Shorting" />
-                    </button>
+                  <div className="hcp-sort">
+                    {sortingCount == 0 ? (
+                      <>
+                        <button
+                          className="btn btn-outline-primary"
+                          onClick={sortSelectedUsers}
+                        >
+                          Sort By{" "}
+                          <img src={path_image + "sort.svg"} alt="Shorting" />
+                        </button>
+                      </>
+                    ) : sorting == 0 ? (
+                      <>
+                        <button
+                          className="btn btn-outline-primary"
+                          onClick={sortSelectedUsers}
+                        >
+                          Sort By{" "}
+                          <img
+                            src={path_image + "sort-decending.svg"}
+                            alt="Shorting"
+                          />
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          className="btn btn-outline-primary"
+                          onClick={sortSelectedUsers}
+                        >
+                          Sort By{" "}
+                          <img
+                            src={path_image + "sort-assending.svg"}
+                            alt="Shorting"
+                          />
+                        </button>
+                      </>
+                    )}
                   </div>
                 </>
               ) : null}
