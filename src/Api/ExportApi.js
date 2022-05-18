@@ -184,7 +184,11 @@ const ParticipantPageSearch = (id,eventId,registeredNonRegistered,user_type,sear
 BaseApi.get(`participant-list?page=${id}`,{event_id:eventId,type:registeredNonRegistered,user_type:user_type,search},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
-
+//......SMTP......//
+const PostSMTP = (smtp_host,smtp_port,smtp_from_name,smtp_email,smtp_password,encryption_type,tls) =>
+BaseApi.post(`smtp`,{smtp_host:smtp_host,smtp_port:smtp_port,smtp_from_name:smtp_from_name,smtp_email:smtp_email,smtp_password:smtp_password,encryption_type:encryption_type,tls:tls},{ headers: {
+  'Authorization':localStorage.getItem("Token"),
+}});
 export default {
   UserLogin,
   UserForgot,
@@ -226,5 +230,6 @@ export default {
   Excelsend,
   CreateParticipant,
   ParticipantPage,
-  ParticipantPageSearch
+  ParticipantPageSearch,
+  PostSMTP
 };

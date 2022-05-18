@@ -80,10 +80,7 @@ function Add(props) {
     });
   };
   const handleReset = (resetForm) => {
-    resetForm();
-    // setSpeakerName({ name: "", email: "" })
-    // setSpeaker({ name: "SpeakersName",email: "SpeakesrEmail"})
-  
+    resetForm();  
   };
   const formik = useFormik({
     initialValues: {
