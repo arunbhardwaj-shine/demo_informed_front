@@ -1063,8 +1063,8 @@ const EmailList = (props) => {
                         {data.status == 1 ? (
                           <div className="mailbox-buttons">
                             <div className="send_new">
-                              <button
-                                className="btn btn-primary btn-filled send-new"
+                              <button     
+                                className="btn btn-primary btn-bordered send-new"
                                 onClick={() =>
                                   draftNavigate(
                                     data.id,
