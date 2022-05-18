@@ -27,6 +27,7 @@ const VerifyHCP = (props) => {
   const [saveOpen, setSaveOpen] = useState(false);
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [editableData, setEditableData] = useState([]);
+  const [sortingCount, setSortingCount] = useState(0);
   const navigate = useNavigate();
 
   const [selectedHcp, setSelectedHcp] = useState([]);
@@ -165,6 +166,7 @@ const VerifyHCP = (props) => {
     console.log(normalArr);
     setSelectedHcp(normalArr);
     setSorting(1 - sorting);
+    setSortingCount(sortingCount + 1);
   };
 
   const emailChanged = (e) => {
@@ -757,12 +759,43 @@ const VerifyHCP = (props) => {
                       </button>
                     </div>
                     <div className="hcp-sort">
-                      <button
-                        onClick={sortSelectedUsers}
-                        className="btn btn-outline-primary"
-                      >
-                        Sort By <img src={path_image + "sort.svg"} alt="" />
-                      </button>
+                      {sortingCount == 0 ? (
+                        <>
+                          <button
+                            className="btn btn-outline-primary"
+                            onClick={sortSelectedUsers}
+                          >
+                            Sort By{" "}
+                            <img src={path_image + "sort.svg"} alt="Shorting" />
+                          </button>
+                        </>
+                      ) : sorting == 0 ? (
+                        <>
+                          <button
+                            className="btn btn-outline-primary"
+                            onClick={sortSelectedUsers}
+                          >
+                            Sort By{" "}
+                            <img
+                              src={path_image + "sort-decending.svg"}
+                              alt="Shorting"
+                            />
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <button
+                            className="btn btn-outline-primary"
+                            onClick={sortSelectedUsers}
+                          >
+                            Sort By{" "}
+                            <img
+                              src={path_image + "sort-assending.svg"}
+                              alt="Shorting"
+                            />
+                          </button>
+                        </>
+                      )}
                     </div>
                   </>
                 ) : null}

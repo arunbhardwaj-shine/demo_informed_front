@@ -37,6 +37,7 @@ const SelectSmartListUsers = (props) => {
   const [addFileReRender, setAddFileReRender] = useState(0);
   const [saveOpen, setSaveOpen] = useState(false);
   const [editable, setEditable] = useState(0);
+  const [sortingCount, setSortingCount] = useState(0);
   const [hpc, setHpc] = useState([
     { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
   ]);
@@ -307,6 +308,7 @@ const SelectSmartListUsers = (props) => {
 
     setReaders(normalArr);
     setSorting(1 - sorting);
+    setSortingCount(sortingCount + 1);
   };
 
   const addFile = (e) => {
@@ -628,13 +630,43 @@ const SelectSmartListUsers = (props) => {
                       </button>
                     </div>
                     <div className="hcp-sort">
-                      <button
-                        className="btn btn-outline-primary"
-                        onClick={sortSelectedUsers}
-                      >
-                        Sort By{" "}
-                        <img src={path_image + "sort.svg"} alt="Shorting" />
-                      </button>
+                      {sortingCount == 0 ? (
+                        <>
+                          <button
+                            className="btn btn-outline-primary"
+                            onClick={sortSelectedUsers}
+                          >
+                            Sort By{" "}
+                            <img src={path_image + "sort.svg"} alt="Shorting" />
+                          </button>
+                        </>
+                      ) : sorting == 0 ? (
+                        <>
+                          <button
+                            className="btn btn-outline-primary"
+                            onClick={sortSelectedUsers}
+                          >
+                            Sort By{" "}
+                            <img
+                              src={path_image + "sort-decending.svg"}
+                              alt="Shorting"
+                            />
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <button
+                            className="btn btn-outline-primary"
+                            onClick={sortSelectedUsers}
+                          >
+                            Sort By{" "}
+                            <img
+                              src={path_image + "sort-assending.svg"}
+                              alt="Shorting"
+                            />
+                          </button>
+                        </>
+                      )}
                     </div>
                   </>
                 ) : null}
