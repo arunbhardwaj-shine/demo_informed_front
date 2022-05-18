@@ -250,8 +250,6 @@ if(template==null||template==undefined){
                 <Col></Col>
               </Col>
             </Row>
-             
-            
             <div>
             <Form.Label >
                   Description
@@ -259,10 +257,7 @@ if(template==null||template==undefined){
       <EmailEditor ref={emailEditorRef} onLoad={onLoad} onReady={onReady} />
     </div>
           </Col>
-        </Row>
-     
-     
-       
+        </Row>  
      </form>:null}
     </div>
   );
