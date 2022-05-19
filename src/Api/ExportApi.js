@@ -173,7 +173,7 @@ BaseApi.post(`send-mail`,{template_id:template_id,participants:participants},{ h
   'Authorization':localStorage.getItem("Token"),
 }});
 const CreateParticipant = (name,country,browser,email,alice,stats) =>
-BaseApi.post(`create-participant`,{name:name,email:email,country:country,browser:browser,alice:alice,status:stats},{ headers: {
+BaseApi.post(`create-participant`,{name:name,email:email,country_id:country,browser:browser,alice:alice,status:stats},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
 const ParticipantPage = (id,eventId,registeredNonRegistered) =>

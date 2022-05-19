@@ -96,7 +96,10 @@ const Template = () => {
           //   console.log('1',resp.data.data.json_description)
           // setDpc(resp.data.data.json_description?JSON.parse(resp.data.data.json_description):"")
           setTemplate(resp.data.data);
-          emailEditorRef.current.editor.loadDesign(resp.data.data.json_description?JSON.parse(resp.data.data.json_description ):hello)
+          setTimeout(() => {
+            
+            emailEditorRef.current.editor.loadDesign(resp.data.data.json_description?JSON.parse(resp.data.data.json_description ):hello)
+          }, 1000);
         }
       });
   };

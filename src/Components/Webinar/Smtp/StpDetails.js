@@ -6,6 +6,8 @@ import * as Yup from "yup";
 import ExportApi from "../../../Api/ExportApi";
 import { Checkbox } from "@material-ui/core";
 const StpDetails = () => {
+
+
   const formik = useFormik({
     initialValues: {
       smtp_host: "",
@@ -22,18 +24,19 @@ const StpDetails = () => {
       //   "You must accept the terms and conditions"
       //   ),
         smtp_host: Yup.string()
-        .required("SMTP host  is required"),
-        smtp_port: Yup.string().required("SMTP port  is required"),
-        smtp_from_name: Yup.string().required("SMTP from Name  is required"),
+        .required("Host  is required"),
+        smtp_port: Yup.string().required("Port  is required"),
+        smtp_from_name: Yup.string().required("From Name  is required"),
         smtp_email: Yup.string()
         .email("Invalid email address")
-        .required("SMTP email  is required"),
-        smtp_password: Yup.string().required("SMTP password  is required"),
-        encryption_type: Yup.string().required( "SMTP encryption is required"),
+        .required("Email  is required"),
+        smtp_password: Yup.string().required("Password  is required"),
+        encryption_type: Yup.string().required( "Encryption is required"),
          tls: Yup.boolean().oneOf([true], "TLS is required"),
     }), 
     onSubmit: (values) => {
-      console.log(values)
+      console.log(window)
+
         ExportApi.PostSMTP(values.smtp_host,values.smtp_port,values.smtp_from_name,values.smtp_email,values.smtp_password,values.encryption_type,values.tls).then((resp) => {
           if (resp.ok) {
             if (resp.data.code == 200) {
