@@ -28,7 +28,6 @@
 		"react-alice-carousel": "^2.6.0",
 		"react-bootstrap": "^2.2.3",
 		"react-confirm-alert": "^2.8.0",
-		"react-device-detect": "^2.2.2",
 		"react-dom": "^18.0.0",
 		"react-email-editor": "^1.6.0",
 		"react-form-builder2": "^0.10.6",

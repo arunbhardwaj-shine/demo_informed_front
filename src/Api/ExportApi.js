@@ -168,8 +168,8 @@ const EmailSandRegisteredType = (type,event_id,user_type) =>
 BaseApi.get(`participant-list`,{event_id:event_id,type:type,user_type:user_type},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
-const sandAllmaik = (template_id ,participants) =>
-BaseApi.post(`send-mail`,{template_id:template_id,participants:participants},{ headers: {
+const sandAllmaik = (template_id ,participants,registeredNonRegistered) =>
+BaseApi.post(`send-mail`,{template_id:template_id,participants:participants,type:registeredNonRegistered},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
 const CreateParticipant = (name,country,browser,email,alice,stats) =>
