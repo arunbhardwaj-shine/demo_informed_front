@@ -41,6 +41,7 @@ const VerifyHCP = (props) => {
   const [hpc, setHpc] = useState([
     { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
   ]);
+  const [updateCounter, setUpdateCounter] = useState(0);
 
   const [validationReRender, setValidationReRender] = useState(0);
 
@@ -155,11 +156,19 @@ const VerifyHCP = (props) => {
     normalArr = selectedHcp;
     if (sorting === 0) {
       normalArr.sort((a, b) =>
-        a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+        a.name.toLowerCase() > b.name.toLowerCase()
+          ? 1
+          : b.name.toLowerCase() > a.name.toLowerCase()
+          ? -1
+          : 0
       );
     } else {
       normalArr.sort((a, b) =>
-        a.name < b.name ? 1 : b.name < a.name ? -1 : 0
+        a.name.toLowerCase() < b.name.toLowerCase()
+          ? 1
+          : b.name.toLowerCase() < a.name.toLowerCase()
+          ? -1
+          : 0
       );
     }
 
@@ -474,6 +483,13 @@ const VerifyHCP = (props) => {
   const closeClicked = () => {
     setSaveOpen(false);
     setEditable(0);
+    let vr = selectedHcp;
+    setSelectedHcp([]);
+    setTimeout(() => {
+      setSelectedHcp(vr);
+      console.log("This will run after 1 second!");
+      setUpdateCounter(updateCounter + 1);
+    }, 50);
   };
 
   const saveAsDraft = async () => {

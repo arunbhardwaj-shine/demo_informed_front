@@ -67,6 +67,7 @@ const Table = (props, ref) => {
   const [sortingCount, setSortingCount] = useState(0);
   const [counter, setCounter] = useState([0]);
   const [saveOpen, setSaveOpen] = useState(false);
+  const [updateCounter, setUpdateCounter] = useState(0);
 
   const [hpc, setHpc] = useState([
     { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
@@ -461,6 +462,13 @@ const Table = (props, ref) => {
   const closeClicked = () => {
     setSaveOpen(false);
     setEditable(0);
+    let vr = editList;
+    setEditList([]);
+    setTimeout(() => {
+      setEditList(vr);
+      console.log("This will run after 1 second!");
+      setUpdateCounter(updateCounter + 1);
+    }, 50);
   };
 
   const updateReaderDetails = async ({
@@ -661,7 +669,7 @@ const Table = (props, ref) => {
   const saveClicked = async () => {
     // setShowSaveReader(true);
 
-    setIsOpenAdd(false);
+    // setIsOpenAdd(false);
 
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
@@ -792,11 +800,19 @@ const Table = (props, ref) => {
     normalArr = editList;
     if (sorting === 0) {
       normalArr.sort((a, b) =>
-        a.first_name > b.first_name ? 1 : b.first_name > a.first_name ? -1 : 0
+        a.first_name.toLowerCase() > b.first_name.toLowerCase()
+          ? 1
+          : b.first_name.toLowerCase() > a.first_name.toLowerCase()
+          ? -1
+          : 0
       );
     } else {
       normalArr.sort((a, b) =>
-        a.first_name < b.first_name ? 1 : b.first_name < a.first_name ? -1 : 0
+        a.first_name.toLowerCase() < b.first_name.toLowerCase()
+          ? 1
+          : b.first_name.toLowerCase() < a.first_name.toLowerCase()
+          ? -1
+          : 0
       );
     }
 

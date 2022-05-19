@@ -38,6 +38,7 @@ const ViewTable = (props) => {
   const [deleteConfirmation, setOpenDeleteConfirmation] = useState(false);
   const [showReaders, setShowSaveReader] = useState(false);
   const [save, setSave] = useState(false);
+  const [updateCounter, setUpdateCounter] = useState(0);
 
   const [name_edits, setNameEdit] = useState("");
   const [country_edits, setCountryEdit] = useState("");
@@ -167,7 +168,22 @@ const ViewTable = (props) => {
   const closeClicked = () => {
     setSaveOpen(false);
     setEditable(0);
+    let vr = editList;
+    setEditList([]);
+    setTimeout(() => {
+      setEditList(vr);
+      console.log("This will run after 1 second!");
+      setUpdateCounter(updateCounter + 1);
+    }, 50);
   };
+
+  // useEffect(() => {
+  //   setEditList(editList);
+  // }, [updateCounter]);
+
+  useEffect(() => {
+    console.log("upatdedddddd");
+  }, [editList]);
 
   useEffect(() => {
     setEditList(props.data);
@@ -713,8 +729,10 @@ const ViewTable = (props) => {
         await axios
           .post(`distributes/add_new_readers_in_list`, body)
           .then((res) => {
+            console.log(res);
             if (res.data.status_code === 200) {
               //toast.success("User added successfuly");
+              console.log("res");
               let old_data = editList;
               let new_data = res.data.response.data;
               setNewData((oldArray) => [...new_data, ...oldArray]);
@@ -727,10 +745,10 @@ const ViewTable = (props) => {
               setIsOpen(false);
               setShowSaveReader(true);
               setIsOpenAdd(false);
-              loader("hide");
             } else {
               toast.warning(res.data.message);
             }
+            loader("hide");
           })
           .catch((err) => {
             toast.error("Something went wrong");
@@ -753,7 +771,7 @@ const ViewTable = (props) => {
           .then((res) => {
             if (res.data.status_code === 200) {
               toast.success("User added successfuly");
-              console.log(res.data.response.data);
+
               let old_data = editList;
               let new_data = res.data.response.data;
               setNewData(new_data);
@@ -763,6 +781,10 @@ const ViewTable = (props) => {
               // console.log(combine_data);
               setEditList(old_data);
               setShowSaveReader(true);
+              setIsOpenAdd(false);
+              setActiveManual("active");
+              setActiveExcel("");
+              setSelectedFile(null);
               //    setUpdatedData(combine_data);
 
               loader("hide");
@@ -774,6 +796,8 @@ const ViewTable = (props) => {
             console.log("something went wrong");
           });
         setIsOpen(false);
+      } else {
+        toast.error("Please add a excel file");
       }
     }
   };
@@ -1097,9 +1121,11 @@ const ViewTable = (props) => {
                       )
                     }
                   >
+                    {console.log(item)}
                     <td id={`field_name` + index}>
                       <span> {item.first_name + " " + item.last_name} </span>
                     </td>
+
                     <td id={`field_email` + index}>{item.email}</td>
                     <td id={`field_bounced` + index}>NA</td>
                     <td id={`field_country` + index}>
@@ -1139,6 +1165,7 @@ const ViewTable = (props) => {
             </table>
           </div>
         </div>
+        <input type="hidden" value={updateCounter} />
       </section>
 
       <Modal show={isOpen} className="send-confirm" id="resend-confirm">
@@ -1219,6 +1246,8 @@ const ViewTable = (props) => {
                     country: "",
                   },
                 ]);
+                setActiveManual("Active");
+                setActiveExcel("");
               }}
               type="button"
               className="btn-close"
@@ -1342,15 +1371,17 @@ const ViewTable = (props) => {
               </div>
               <div className="hcp-modal-action">
                 <div className="hcp-action-block">
-                  <div className="hcp-remove">
-                    <button
-                      type="button"
-                      className="btn btn-filled"
-                      onClick={addMoreHcp}
-                    >
-                      <img src={path_image + "add-row.png"} alt="Add More" />
-                    </button>
-                  </div>
+                  {activeManual == "active" ? (
+                    <div className="hcp-remove">
+                      <button
+                        type="button"
+                        className="btn btn-filled"
+                        onClick={addMoreHcp}
+                      >
+                        <img src={path_image + "add-row.png"} alt="Add More" />
+                      </button>
+                    </div>
+                  ) : null}
                   <ul className="nav nav-tabs" role="tablist">
                     <li className="nav-item add_hcp">
                       <a
