@@ -297,6 +297,9 @@ const CreateEmail = (props) => {
         toast.error("Something went wrong");
         console.log(err);
       });
+
+    setSelectedHcp([]);
+    setSearchedUsers([]);
   };
 
   const selectHcp = (index) => {
@@ -618,7 +621,7 @@ const CreateEmail = (props) => {
 
       //console.log(body);
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      //loader("show");
+      loader("show");
       await axios
         .post(`emailapi/search_hcp`, body)
         .then((res) => {
@@ -632,7 +635,7 @@ const CreateEmail = (props) => {
           // if (res.data.message) {
           //   setMessage(res.data.message);
           // }
-          //loader("hide");
+          loader("hide");
         })
         .catch((err) => {
           console.log(err);
@@ -1167,7 +1170,11 @@ const CreateEmail = (props) => {
               type="button"
               className="btn-close"
               data-bs-dismiss="modal"
-              onClick={() => setIsOpensend(false)}
+              onClick={() => {
+                setIsOpensend(false);
+                setSelectedHcp([]);
+                setSearchedUsers([]);
+              }}
             ></button>
           </Modal.Header>
           <Modal.Body>
@@ -1345,7 +1352,11 @@ const CreateEmail = (props) => {
               type="button"
               className="btn-close"
               data-bs-dismiss="modal"
-              onClick={() => setAddListOpen(false)}
+              onClick={() => {
+                setAddListOpen(false);
+                setSelectedHcp([]);
+                setSearchedUsers([]);
+              }}
             ></button>
           </Modal.Header>
           <Modal.Body>
