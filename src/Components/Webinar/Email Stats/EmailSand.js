@@ -366,7 +366,7 @@ const EmailSand = () => {
             </Form.Select>
           </Col>
           <Col>
-            {templateList != undefined || templateList != null ? (
+            {eventId==="null"||eventId===null||eventId===undefined?null: (
               <>
                 <Form.Label>Select Template </Form.Label>
                 <Form.Select
@@ -385,7 +385,7 @@ const EmailSand = () => {
                     : null}
                 </Form.Select>
               </>
-            ) : null}
+            )}
           </Col>
           <Col>
             {templateList != undefined || templateList != null ? (

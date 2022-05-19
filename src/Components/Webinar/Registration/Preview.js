@@ -48,7 +48,7 @@ const Preview = () => {
     };
     useEffect(() => {
       handleGetPublicPage()
-    console.log("browserName",browserName)
+    // console.log("browserName",browserName)
     }, [])
 
   return (
