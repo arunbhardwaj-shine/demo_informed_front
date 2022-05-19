@@ -3,7 +3,7 @@ import { Button, Modal } from 'react-bootstrap';
 import { useParams } from 'react-router-dom'
 import { ensurePluginOrder } from 'react-table';
 import ExportApi from '../../../Api/ExportApi';
-import { browserName, browserVersion } from "react-device-detect";
+// import { browserName, browserVersion } from "react-device-detect";
 const Preview = () => {
   const [data, setData] = useState();
   const [show, setShow] = useState(false);
@@ -37,7 +37,7 @@ const Preview = () => {
      let email=document.getElementById("email").value
       // bind function for close the popup
   
-      ExportApi.CreateParticipant(name,country,browserName,email,parms.url,parms.stats).then((resp) => {
+      ExportApi.CreateParticipant(name,country,email,parms.url,parms.stats).then((resp) => {
         if (resp.ok) {
           console.log(resp.data)
           if(resp.data.code==200)
