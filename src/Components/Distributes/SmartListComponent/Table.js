@@ -330,7 +330,7 @@ const Table = (props, ref) => {
         if (res.data.status_code == 200) {
           popup_alert({
             visible: "show",
-            message: "Smart List Saved <br />successfully !",
+            message: "Your changes has been saved <br />successfully !",
             type: "success",
             redirect: "/SmartList",
           });
@@ -576,7 +576,7 @@ const Table = (props, ref) => {
     props.sendDataToParent(filtered_list);
     popup_alert({
       visible: "show",
-      message: "The HCP record has been deleted successfully.",
+      message: "The HCP record has been deleted </br>successfully !",
       type: "success",
       redirect: "",
     });
@@ -868,7 +868,7 @@ const Table = (props, ref) => {
                     {showLessInfo == true ? (
                       <p>Show More information</p>
                     ) : (
-                      <p>Show less info</p>
+                      <p>Show less information</p>
                     )}{" "}
                   </a>
                   <ReactHTMLTableToExcel
@@ -1412,8 +1412,8 @@ const Table = (props, ref) => {
         <Modal.Body>
           <img src={path + "alert.png"} alt="" />
           <h4>
-            The HCP record will be deleted from the list Are you sure you want
-            to delete it?{" "}
+            The HCP record will be deleted from the list.
+            <br/>Are you sure you want to delete it?
           </h4>
 
           <div class="modal-buttons">
