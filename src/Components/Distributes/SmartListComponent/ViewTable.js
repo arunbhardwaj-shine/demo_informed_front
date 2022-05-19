@@ -747,11 +747,13 @@ const ViewTable = (props) => {
               setIsOpenAdd(false);
             } else {
               toast.warning(res.data.message);
+              loader("hide");
             }
             loader("hide");
           })
           .catch((err) => {
             toast.error("Something went wrong");
+            loader("hide");
           });
       } else {
         toast.error("please enter the email atleast");
@@ -790,9 +792,11 @@ const ViewTable = (props) => {
               loader("hide");
             } else {
               toast.warning(res.data.message);
+              loader("hide");
             }
           })
           .catch((err) => {
+            loader("hide");
             console.log("something went wrong");
           });
         setIsOpen(false);
@@ -896,11 +900,10 @@ const ViewTable = (props) => {
                     />
                   </div>
                   <div className="hcp-new-user">
-                    <button className="btn btn-outline-primary">
+                    <button className="btn btn-outline-primary" onClick={handleShow}>
                       <img
                         src={path + "new-user.svg"}
                         alt="New User"
-                        onClick={handleShow}
                       />
                     </button>
                   </div>
@@ -987,7 +990,7 @@ const ViewTable = (props) => {
                     {showLessInfo == true ? (
                       <p>Show More information</p>
                     ) : (
-                      <p>Show less info</p>
+                      <p>Show less information</p>
                     )}{" "}
                   </a>
                 </>
