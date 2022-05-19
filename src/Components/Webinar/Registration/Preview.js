@@ -68,7 +68,9 @@ const Preview = () => {
         <Button onClick={()=>setShow(false)}>Close</Button>
       </Modal.Footer>
     </Modal>
-    <div id="one"> </div>
+    <div id="one">
+      
+       </div>
     </>
   )
 }
