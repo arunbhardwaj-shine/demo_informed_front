@@ -122,7 +122,18 @@ const ViewTable = (props) => {
     setCounter([0]);
     setCounterData([]);
   };
-  const handleShow = () => setIsOpenAdd(true);
+  const handleShow = () => {
+    setIsOpenAdd(true);
+    setHpc([
+      {
+        firstname: "",
+        lastname: "",
+        email: "",
+        contact_type: "",
+        country: "",
+      },
+    ]);
+  };
 
   const [showUploadMenu, setShowUploadMenu] = useState(false);
   const [render, setReRender] = useState(0);
@@ -301,16 +312,30 @@ const ViewTable = (props) => {
   };
 
   const addMoreHcp = () => {
-    setHpc([
-      ...hpc,
-      {
-        firstname: "",
-        lastname: "",
-        email: "",
-        contact_type: "",
-        country: "",
-      },
-    ]);
+    console.log(hpc);
+
+    const status = hpc.map((data) => {
+      if (data.email == "") {
+        return "false";
+      } else {
+        return "true";
+      }
+    });
+
+    if (status.every((element) => element == "true")) {
+      setHpc([
+        ...hpc,
+        {
+          firstname: "",
+          lastname: "",
+          email: "",
+          contact_type: "",
+          country: "",
+        },
+      ]);
+    } else {
+      toast.error("Please input the email atleast");
+    }
   };
 
   const addHcp = () => {
@@ -651,10 +676,8 @@ const ViewTable = (props) => {
     return false;
   };
 
-  const saveClicked = async () => {
-    setShowSaveReader(true);
-
-    setIsOpenAdd(false);
+  const saveClicked = async (e) => {
+    //  setIsOpenAdd(false);
 
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
@@ -673,26 +696,27 @@ const ViewTable = (props) => {
         smart_list_id: getlistid,
       };
 
+      const status = body.data.map((data) => {
+        if (data.email == "") {
+          return "false";
+        } else {
+          return "true";
+        }
+      });
+
+      console.log(status);
+
       console.log(body.data);
-      if (
-        body.data[0].first_name &&
-        body.data[0].last_name &&
-        body.data[0].email &&
-        body.data[0].country &&
-        body.data[0].contact_type
-      ) {
+      if (status.every((element) => element == "true")) {
         loader("show");
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         await axios
           .post(`distributes/add_new_readers_in_list`, body)
           .then((res) => {
             if (res.data.status_code === 200) {
-              toast.success("User added successfuly");
-
+              //toast.success("User added successfuly");
               let old_data = editList;
-
               let new_data = res.data.response.data;
-
               setNewData((oldArray) => [...new_data, ...oldArray]);
               //setNewData(new_data);
 
@@ -700,7 +724,9 @@ const ViewTable = (props) => {
 
               setEditList(old_data);
               // setUpdatedData(combine_data_manual);
-
+              setIsOpen(false);
+              setShowSaveReader(true);
+              setIsOpenAdd(false);
               loader("hide");
             } else {
               toast.warning(res.data.message);
@@ -710,14 +736,8 @@ const ViewTable = (props) => {
             toast.error("Something went wrong");
           });
       } else {
-        popup_alert({
-          visible: "show",
-          message: "Please enter the valid details.",
-          type: "error",
-        });
+        toast.error("please enter the email atleast");
       }
-
-      setIsOpen(false);
     } else {
       let formData = new FormData();
       formData.append("user_id", 18207);
@@ -742,6 +762,7 @@ const ViewTable = (props) => {
               console.log(new_data);
               // console.log(combine_data);
               setEditList(old_data);
+              setShowSaveReader(true);
               //    setUpdatedData(combine_data);
 
               loader("hide");
@@ -755,16 +776,6 @@ const ViewTable = (props) => {
         setIsOpen(false);
       }
     }
-
-    setHpc([
-      {
-        firstname: "",
-        lastname: "",
-        email: "",
-        contact_type: "",
-        country: "",
-      },
-    ]);
   };
 
   const uploadFile = async (event) => {
@@ -1197,7 +1208,18 @@ const ViewTable = (props) => {
               Add New HCP
             </h5>
             <button
-              onClick={() => setIsOpenAdd(false)}
+              onClick={() => {
+                setIsOpenAdd(false);
+                setHpc([
+                  {
+                    firstname: "",
+                    lastname: "",
+                    email: "",
+                    contact_type: "",
+                    country: "",
+                  },
+                ]);
+              }}
               type="button"
               className="btn-close"
               data-bs-dismiss="modal"
@@ -1359,7 +1381,9 @@ const ViewTable = (props) => {
             <button
               type="button"
               className="btn btn-primary save btn-filled"
-              onClick={saveClicked}
+              onClick={(e) => {
+                saveClicked(e);
+              }}
             >
               Save
             </button>

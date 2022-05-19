@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loader } from "../../loader";
 import { connect } from "react-redux";
 import { getSelectedSmartListData } from "../../actions";
+import { Navigate } from "react-router-dom";
 
 const SelectSmartList = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -12,6 +13,7 @@ const SelectSmartList = (props) => {
   const [TemplateId, setTemplateId] = useState(0);
   const [getselecedlistid, setselecedlistid] = useState(0);
   const [smartListSelected, setSmartListSelected] = useState({});
+  const navigate = useNavigate();
   const campaign_id = props.getEmailData
     ? props.getEmailData.campaign_id
     : props.getDraftData.campaign_id;
@@ -202,18 +204,19 @@ const SelectSmartList = (props) => {
         <section className="search-hcp">
           <div className="select-smart-list">
             <div className="table-title">
-              {/* <div className="create-smart-list">
+              <div className="create-smart-list">
                 <p>
                   If you do not have a smart list for the HCPs group, you can :
                 </p>
-                <button className="btn btn-primary btn-bordered">
-                  Create new smart list
+                <button
+                  className="btn btn-primary btn-bordered"
+                  onClick={() => {
+                    navigate("/CreateSmartList");
+                  }}
+                >
+                  Create new smart list | Upload Exel File
                 </button>
-                <div className="upload-btn">
-                  <label for="input-file">Upload Exel File</label>
-                  <input id="input-file" type="file" />
-                </div>
-              </div> */}
+              </div>
             </div>
             <div className="col smartlist-result-block">
               {SendListData.map((template) => {

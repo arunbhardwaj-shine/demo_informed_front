@@ -734,7 +734,7 @@ const CreateEmail = (props) => {
   const saveClicked = async () => {
     //  console.log(validator);
 
-    setIsOpenAdd(false);
+    // setIsOpenAdd(false);
 
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {

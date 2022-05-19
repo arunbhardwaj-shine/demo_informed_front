@@ -473,7 +473,7 @@ const SelectSmartListUsers = (props) => {
             if (res.data.status_code === 200) {
               toast.success("User added successfuly");
               res.data.response.data.map((data) => {
-                setReaders((oldArray) => [...oldArray, data]);
+                setReadersNewlyAdded((oldArray) => [data, ...oldArray]);
               });
               loader("hide");
             } else {
