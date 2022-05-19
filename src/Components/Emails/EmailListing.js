@@ -1047,7 +1047,7 @@ const EmailList = (props) => {
                                     />
                                   </svg>
                                 </div>
-                                <span>{data.total_Opened}</span>
+                                <span>{data.total_Opened_pr > 0 ? data.total_Opened_pr+"%" : 0} </span>
                               </li>
                               <li>
                                 <div className="mail-status mail_click">
@@ -1068,7 +1068,7 @@ const EmailList = (props) => {
                                     />
                                   </svg>
                                 </div>
-                                <span>{data.total_Click}</span>
+                                <span>{data.total_Click_pr > 0 ? data.total_Click_pr+"%" : 0} </span>
                               </li>
                             </ul>
                           </div>
@@ -1076,7 +1076,7 @@ const EmailList = (props) => {
                         {data.status == 1 ? (
                           <div className="mailbox-buttons">
                             <div className="send_new">
-                              <button     
+                              <button
                                 className="btn btn-primary btn-bordered send-new"
                                 onClick={() =>
                                   draftNavigate(
