@@ -336,6 +336,7 @@ const Table = (props, ref) => {
           });
         } else {
           toast.warning(res.data.message);
+          loader("hide");
         }
       })
       .catch((err) => {
@@ -453,6 +454,7 @@ const Table = (props, ref) => {
         }
       })
       .catch((err) => {
+        loader("hide");
         toast.error("Something went wrong");
       });
     setSaveOpen(false);
@@ -522,6 +524,7 @@ const Table = (props, ref) => {
         loader("hide");
       })
       .catch((err) => {
+        loader("hide");
         console.log(err);
       });
   };
@@ -710,7 +713,7 @@ const Table = (props, ref) => {
             loader("hide");
           })
           .catch((err) => {
-            // toast.error("Something went wrong");
+            toast.error("Something went wrong");
             loader("hide");
           });
       } else {
