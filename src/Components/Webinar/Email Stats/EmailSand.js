@@ -5,6 +5,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast, ToastContainer } from "react-toastify";
 import CsvDownload from 'react-json-to-csv'
+import ReactHtmlTableToExcel from "react-html-table-to-excel";
 const EmailSand = () => {
   const [currentPage, setCurrentPage] = useState();
   const [type, setType] = useState();
@@ -27,6 +28,15 @@ const EmailSand = () => {
   const handeleimage = (e) => {
     setimage(e.target.files[0]);
   };
+  // const downloadFile = () => {
+  //   let link = document.createElement('a');
+  //     link.href = "https://informed.pro/sample.xlsx";
+  //     link.setAttribute('download', 'file.xlsx');
+  //     document.body.appendChild(link);
+  //     link.download = '';
+  //     link.click();
+  //     document.body.removeChild(link);
+  // }
   const handleGetEventlist = () => {
     ExportApi.GetEventList().then((resp) => {
       if (resp.ok) {
@@ -35,16 +45,12 @@ const EmailSand = () => {
     });
   };
   const exampledata = [
-    { first_name: "ajay", last_name: "khan", email: "abcd@gmail.com" },
+    { first_name: "Goust", last_name: "khan", email: "abcd@gmail.com" },
     { first_name: "ram", last_name: "kumar", email: "absedcd@gmail.com" },
   ];
   const handeleSearch = (e) => {
     ExportApi.ParticipantPageSearch(
-      currentPage,
-      eventId,
-      registeredNonRegistered,
-      type,
-      e
+      currentPage, eventId,registeredNonRegistered, type, e
     ).then((resp) => {
       if (resp.ok) {
         if (resp.data.code === 404) {
@@ -164,14 +170,12 @@ const EmailSand = () => {
           }
           setPaginate(resp.data.data.paginate);
           setCurrentPage(resp.data.data.paginate.currentPage);
-          // setData(resp.data.data.data);
           setEmailData(resp.data.data.data);
         }
       }
     });
   };
   const handleGetEmaildataRegisteredUserType = (value) => {
-    // console.log(registeredNonRegistered)
     ExportApi.EmailSandRegisteredType(
       registeredNonRegistered,
       eventId,
@@ -275,12 +279,10 @@ const EmailSand = () => {
   const handleTempId = (e) => {
     console.log(e);
     if (e == "null") {
-      //  console.log("first,e",e)
       setTemplateId();
     } else {
       setTemplateId(e);
-    }
-  };
+    } };
   const handleGetParticipantPage = (id) => {
     ExportApi.ParticipantPage(id, eventId, registeredNonRegistered).then(
       (resp) => {
@@ -447,10 +449,16 @@ const EmailSand = () => {
               </Button>
             </Form.Group>
           </Col>
-
+        
           <>
             <Row>
               <Col>
+              {/* <div class="download-sample">
+              <p>Download sample Excel file to upload new participant</p>
+              <div class="upload-btn" onClick={downloadFile}>
+                <label for="input-file">Download File</label>
+              </div>
+            </div> */}
               <CsvDownload data={exampledata}>Download sample</CsvDownload>
               </Col>
               <Col>
