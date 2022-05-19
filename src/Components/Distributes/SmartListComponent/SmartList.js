@@ -495,7 +495,7 @@ const SmartList = (props) => {
                   {getFilterCreator.length > 0 && (
                     <div className="filter-div">
                       <div className="filter-div-title">
-                        <span>Creators |</span>
+                        <span>Creator |</span>
                       </div>
                       <div className="filter-div-list">
                         {Object.entries(getFilterCreator).map(([index, item]) => (
@@ -519,7 +519,7 @@ const SmartList = (props) => {
                   {filterdate.length > 0 && (
                     <div className="filter-div">
                       <div className="filter-div-title">
-                        <span>Date |</span>
+                        <span>Created |</span>
                       </div>
                       <div className="filter-div-list">
                         {Object.entries(filterdate).map(([index, item]) => (
