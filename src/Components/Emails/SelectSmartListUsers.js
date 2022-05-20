@@ -531,7 +531,7 @@ const SelectSmartListUsers = (props) => {
             toast.error("Somwthing went wrong");
           });
       } else {
-        toast.error("please enter the email atleast");
+        toast.error("Please enter the email atleast");
       }
 
       //  setIsOpen(false);

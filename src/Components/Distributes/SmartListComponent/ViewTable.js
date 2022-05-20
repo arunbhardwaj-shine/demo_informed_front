@@ -759,7 +759,7 @@ const ViewTable = (props) => {
             loader("hide");
           });
       } else {
-        toast.error("please enter the email atleast");
+        toast.error("Please enter the email atleast");
       }
     } else {
       let formData = new FormData();
