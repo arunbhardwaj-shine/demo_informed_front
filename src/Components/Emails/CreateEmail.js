@@ -608,7 +608,7 @@ const CreateEmail = (props) => {
   const searchHcp = async (e) => {
     e.preventDefault();
     if (name == "" || typeof name == "undefined") {
-      toast.error("data not found");
+      toast.warning("Please enter name or email first");
     } else {
       const body = {
         user_id: 18207,
@@ -618,7 +618,7 @@ const CreateEmail = (props) => {
 
       //console.log(body);
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      //loader("show");
+      loader("show");
       await axios
         .post(`emailapi/search_hcp`, body)
         .then((res) => {
@@ -627,12 +627,12 @@ const CreateEmail = (props) => {
           if (res.data.response) {
             setSearchedUsers(res.data.response.data);
           } else {
-            toast.error(res.data.message);
+            toast.warning(res.data.message);
           }
           // if (res.data.message) {
           //   setMessage(res.data.message);
           // }
-          //loader("hide");
+          loader("hide");
         })
         .catch((err) => {
           console.log(err);
