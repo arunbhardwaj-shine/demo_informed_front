@@ -4,8 +4,6 @@ import ExportApi from "../../../Api/ExportApi";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast, ToastContainer } from "react-toastify";
-import CsvDownload from "react-json-to-csv";
-import ReactHtmlTableToExcel from "react-html-table-to-excel";
 const EmailSand = () => {
   const [currentPage, setCurrentPage] = useState();
   const [type, setType] = useState();
@@ -29,12 +27,6 @@ const EmailSand = () => {
     setimage(e.target.files[0]);
   };
   const downloadFile = () => {
- 
-      // alert("okk")
-      // ExportApi.DownloadSampleFile().then((resp) => {
-      //   if (resp.ok) {
-      //     alert("okkin")
-      //      console.log(resp.data.data)
         let link = document.createElement('a');
         link.href = "http://51.89.210.56:8000/files/Sample.xlsx";
         link.setAttribute('download', 'file.xlsx');
@@ -42,10 +34,6 @@ const EmailSand = () => {
         link.download = '';
         link.click();
         document.body.removeChild(link);
-        // }
-      // });
-  
-   
   }
   const handleGetEventlist = () => {
     ExportApi.GetEventList().then((resp) => {
@@ -54,10 +42,6 @@ const EmailSand = () => {
       }
     });
   };
-  const exampledata = [
-    { first_name: "Goust", last_name: "khan", email: "abcd@gmail.com" },
-    { first_name: "ram", last_name: "kumar", email: "absedcd@gmail.com" },
-  ];
   const handeleSearch = (e) => {
     ExportApi.ParticipantPageSearch(
       currentPage,
@@ -68,7 +52,6 @@ const EmailSand = () => {
     ).then((resp) => {
       if (resp.ok) {
         if (resp.data.code === 404) {
-            // setMassage("Data Not Found");
           setEmailData();
           setMassage("Data Not Found");
         } else {
@@ -80,7 +63,6 @@ const EmailSand = () => {
           }
           setPaginate(resp.data.data.paginate);
           setCurrentPage(resp.data.data.paginate.currentPage);
-          // setData(resp.data.data.data);
           setEmailData(resp.data.data.data);
         }
       }
@@ -178,7 +160,6 @@ const EmailSand = () => {
     ExportApi.EmailSandRegistered(value, eventId).then((resp) => {
       if (resp.ok) {
         if (resp.data.code === 404) {
-          // setMassage("Data Not Found")
           setMassage("Data Not Found");
           setEmailData();
         } else {
@@ -202,7 +183,6 @@ const EmailSand = () => {
       value
     ).then((resp) => {
       if (resp.ok) {
-        // console.log(resp.data);
         if (resp.data.code === 404) {
           setEmailData();
           setMassage("Data Not Found");
@@ -434,7 +414,7 @@ const EmailSand = () => {
             )}
           </Col>
           {eventId==="null"||eventId===null||eventId===undefined?null:<Col>
-            {registeredNonRegistered==="null"||registeredNonRegistered===null||registeredNonRegistered===undefined?null: (
+            {registeredNonRegistered==="null"||registeredNonRegistered===null||registeredNonRegistered===undefined||registeredNonRegistered==1?null: (
               <>
                 <Form.Label>Select User Type </Form.Label>
                 <Form.Select
@@ -488,7 +468,6 @@ const EmailSand = () => {
                 <label for="input-file">Download Sample File</label>
               </div>
             </div>
-                {/* <CsvDownload data={exampledata}>Download sample</CsvDownload> */}
               </Col>
               <Col>
                 <Form.Control
