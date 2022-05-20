@@ -16,7 +16,8 @@ import { toast } from "react-toastify";
 import { popup_alert } from "../../../popup_alert";
 import queryString from "query-string";
 import { connect } from "react-redux";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+
 
 const Table = (props, ref) => {
   const [inEditMode, setInEditMode] = useState({
@@ -26,6 +27,7 @@ const Table = (props, ref) => {
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   //let validator = new SimpleReactValidator();
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let file_name  =useRef("");
   const queryParams = queryString.parse(window.location.search);
   const [validator] = React.useState(new SimpleReactValidator());
   const [validator2] = React.useState(new SimpleReactValidator());
@@ -64,11 +66,8 @@ const Table = (props, ref) => {
   const [renderCounterData, setCounterData] = useState([]);
   const [editable, setEditable] = useState(0);
   const [validator3Counter, setValidator3Counter] = useState(0);
-  const [sortingCount, setSortingCount] = useState(0);
   const [counter, setCounter] = useState([0]);
   const [saveOpen, setSaveOpen] = useState(false);
-  const [updateCounter, setUpdateCounter] = useState(0);
-
   const [hpc, setHpc] = useState([
     { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
   ]);
@@ -124,25 +123,14 @@ const Table = (props, ref) => {
     setCounter([0]);
     setCounterData([]);
   };
-  const handleShow = () => {
-    setIsOpenAdd(true);
-    setHpc([
-      {
-        firstname: "",
-        lastname: "",
-        email: "",
-        contact_type: "",
-        country: "",
-      },
-    ]);
-    setActiveManual("active");
-    setActiveExcel("");
-  };
+  const handleShow = () => setIsOpenAdd(true);
   const handleCloseUploadMenu = () => setShowUploadMenu(false);
   const handleShowUploadMenu = () => {
     setShowUploadMenu(true);
     setShow(false);
   };
+
+
 
   let combine_data;
   let combine_data_manual;
@@ -158,11 +146,7 @@ const Table = (props, ref) => {
   };
 
   const editButtonClicked = () => {
-    if (editable == 1) {
-      setSaveOpen(false);
-    } else {
-      setSaveOpen(true);
-    }
+    setSaveOpen(true);
     let temp_val = 1 - editable;
     setEditable(temp_val);
     setUpdate(update + 1);
@@ -344,13 +328,12 @@ const Table = (props, ref) => {
         if (res.data.status_code == 200) {
           popup_alert({
             visible: "show",
-            message: "Your changes has been saved <br />successfully !",
+            message: "Smart List Saved <br />successfully !",
             type: "success",
             redirect: "/SmartList",
           });
         } else {
           toast.warning(res.data.message);
-          loader("hide");
         }
       })
       .catch((err) => {
@@ -459,17 +442,11 @@ const Table = (props, ref) => {
         loader("hide");
         if (res.data.status_code === 200) {
           toast.success("List updated");
-        } else {
-          popup_alert({
-            visible: "show",
-            message: res.data.message,
-            type: "error",
-          });
         }
+        console.log(res);
       })
       .catch((err) => {
-        loader("hide");
-        toast.error("Something went wrong");
+        console.log(err);
       });
     setSaveOpen(false);
   };
@@ -477,13 +454,6 @@ const Table = (props, ref) => {
   const closeClicked = () => {
     setSaveOpen(false);
     setEditable(0);
-    let vr = editList;
-    setEditList([]);
-    setTimeout(() => {
-      setEditList(vr);
-      console.log("This will run after 1 second!");
-      setUpdateCounter(updateCounter + 1);
-    }, 50);
   };
 
   const updateReaderDetails = async ({
@@ -545,36 +515,21 @@ const Table = (props, ref) => {
         loader("hide");
       })
       .catch((err) => {
-        loader("hide");
         console.log(err);
       });
   };
 
   const addMoreHcp = () => {
-    console.log(hpc);
-
-    const status = hpc.map((data) => {
-      if (data.email == "") {
-        return "false";
-      } else {
-        return "true";
-      }
-    });
-
-    if (status.every((element) => element == "true")) {
-      setHpc([
-        ...hpc,
-        {
-          firstname: "",
-          lastname: "",
-          email: "",
-          contact_type: "",
-          country: "",
-        },
-      ]);
-    } else {
-      toast.error("Please input the email atleast");
-    }
+    setHpc([
+      ...hpc,
+      {
+        firstname: "",
+        lastname: "",
+        email: "",
+        contact_type: "",
+        country: "",
+      },
+    ]);
   };
 
   const onSave = ({
@@ -614,7 +569,7 @@ const Table = (props, ref) => {
     props.sendDataToParent(filtered_list);
     popup_alert({
       visible: "show",
-      message: "The HCP record has been deleted </br>successfully !",
+      message: "The HCP record has been deleted successfully.",
       type: "success",
       redirect: "",
     });
@@ -699,7 +654,7 @@ const Table = (props, ref) => {
   const saveClicked = async () => {
     // setShowSaveReader(true);
 
-    // setIsOpenAdd(false);
+    setIsOpenAdd(false);
 
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
@@ -718,15 +673,13 @@ const Table = (props, ref) => {
         smart_list_id: getlistid,
       };
 
-      const status = body.data.map((data) => {
-        if (data.email == "") {
-          return "false";
-        } else {
-          return "true";
-        }
-      });
-
-      if (status.every((element) => element == "true")) {
+      if (
+        body.data[0].first_name &&
+        body.data[0].last_name &&
+        body.data[0].email &&
+        body.data[0].country &&
+        body.data[0].contact_type
+      ) {
         loader("show");
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         await axios
@@ -744,21 +697,23 @@ const Table = (props, ref) => {
               setEditList(combine_data_manual);
               props.sendDataToParent(combine_data_manual);
               setUpdatedData(combine_data_manual);
-              setIsOpen(false);
-              setIsOpenAdd(false);
             } else {
               toast.warning(res.data.message);
             }
             loader("hide");
           })
           .catch((err) => {
-            toast.error("Something went wrong");
+            // toast.error("Something went wrong");
             loader("hide");
           });
       } else {
-        toast.error("please input the email atleast");
+        popup_alert({
+          visible: "show",
+          message: "Please fill the necessary details",
+          type: "error",
+        });
       }
-
+      setIsOpen(false);
       //setIsOpen(false);
     } else {
       let formData = new FormData();
@@ -782,10 +737,6 @@ const Table = (props, ref) => {
               combine_data = [...new_data, ...old_data];
               // console.log(combine_data);
               setEditList(combine_data);
-              setIsOpenAdd(false);
-              setActiveManual("active");
-              setActiveExcel("");
-              setSelectedFile(null);
               props.sendDataToParent(combine_data);
               setUpdatedData(combine_data);
             } else {
@@ -797,55 +748,34 @@ const Table = (props, ref) => {
             toast.error("Something went wrong");
             loader("hide");
           });
-        setIsOpen(false);
-      } else {
-        toast.error("Please add a excel file");
       }
+      setIsOpen(false);
     }
+    setHpc([
+      {
+        firstname: "",
+        lastname: "",
+        email: "",
+        contact_type: "",
+        country: "",
+      },
+    ]);
   };
-  // const sortdata = () => {
-  //   setsortflag((getsortflag) => !getsortflag);
-  //   if (getsortflag) {
-  //     let sortedData = editList.sort((a, b) =>
-  //       a.first_name > b.first_name ? 1 : -1
-  //     );
-  //     setEditList(sortedData);
-  //     props.sendDataToParent(sortedData);
-  //   } else {
-  //     let sortedData = editList.sort((a, b) =>
-  //       a.first_name < b.first_name ? 1 : -1
-  //     );
-  //     setEditList(sortedData);
-  //     props.sendDataToParent(sortedData);
-  //   }
-  // };
-
-  const sortSelectedUsers = () => {
-    console.log("hi");
-    //console.log(readers);
-    let normalArr = [];
-    normalArr = editList;
-    if (sorting === 0) {
-      normalArr.sort((a, b) =>
-        a.first_name.toLowerCase() > b.first_name.toLowerCase()
-          ? 1
-          : b.first_name.toLowerCase() > a.first_name.toLowerCase()
-          ? -1
-          : 0
+  const sortdata = () => {
+    setsortflag((getsortflag) => !getsortflag);
+    if (getsortflag) {
+      let sortedData = editList.sort((a, b) =>
+        a.first_name > b.first_name ? 1 : -1
       );
+      setEditList(sortedData);
+      props.sendDataToParent(sortedData);
     } else {
-      normalArr.sort((a, b) =>
-        a.first_name.toLowerCase() < b.first_name.toLowerCase()
-          ? 1
-          : b.first_name.toLowerCase() < a.first_name.toLowerCase()
-          ? -1
-          : 0
+      let sortedData = editList.sort((a, b) =>
+        a.first_name < b.first_name ? 1 : -1
       );
+      setEditList(sortedData);
+      props.sendDataToParent(sortedData);
     }
-
-    setEditList(normalArr);
-    setSorting(1 - sorting);
-    setSortingCount(sortingCount + 1);
   };
 
   return (
@@ -880,7 +810,7 @@ const Table = (props, ref) => {
                     class="btn btn-primary btn-filled create"
                     onClick={showFileInReadersList}
                   >
-                    Create
+                    Craete
                   </button>
                 </div>
               </div>
@@ -901,104 +831,51 @@ const Table = (props, ref) => {
             )}
 
             <div class="selected-hcp-table-action">
-              {editable == false ? (
-                <>
-                  {" "}
-                  <a
-                    className="show-less-info"
-                    onClick={(e) => showMoreInfo(e)}
-                  >
-                    {showLessInfo == true ? (
-                      <p>Show More information</p>
-                    ) : (
-                      <p>Show less information</p>
-                    )}{" "}
-                  </a>
-                  <ReactHTMLTableToExcel
+              <a className="show-less-info" onClick={(e) => showMoreInfo(e)}>
+                {showLessInfo == true ? (
+                  <p>Show More information</p>
+                ) : (
+                  <p>Show less info</p>
+                )}{" "}
+              </a>
+
+              <ReactHTMLTableToExcel
                     id="test-table-xls-button"
                     className="btn btn-outline-primary"
                     table="table-to-xls"
                     filename="tablexls"
                     sheet="tablexls"
                     buttonText="Download "
-                  />
-                  <div class="hcp-new-user">
-                    <button
-                      class="btn btn-outline-primary"
-                      onClick={handleShow}
-                    >
-                      <img src={path + "new-user.svg"} alt="New User" />
-                    </button>
-                  </div>
-                  <div class="hcp-added">
-                    <button
-                      class="btn btn-outline-primary"
-                      onClick={editButtonClicked}
-                    >
-                      <img src={path + "edit-button.svg"} alt="Edit" />
-                    </button>
-                  </div>
-                  <div className="hcp-sort">
-                    {sortingCount == 0 ? (
-                      <>
-                        <button
-                          className="btn btn-outline-primary"
-                          onClick={sortSelectedUsers}
-                        >
-                          Sort By{" "}
-                          <img src={path_image + "sort.svg"} alt="Shorting" />
-                        </button>
-                      </>
-                    ) : sorting == 0 ? (
-                      <>
-                        <button
-                          className="btn btn-outline-primary"
-                          onClick={sortSelectedUsers}
-                        >
-                          Sort By{" "}
-                          <img
-                            src={path_image + "sort-decending.svg"}
-                            alt="Shorting"
-                          />
-                        </button>
-                      </>
-                    ) : (
-                      <>
-                        <button
-                          className="btn btn-outline-primary"
-                          onClick={sortSelectedUsers}
-                        >
-                          Sort By{" "}
-                          <img
-                            src={path_image + "sort-assending.svg"}
-                            alt="Shorting"
-                          />
-                        </button>
-                      </>
-                    )}
-                  </div>
-                </>
-              ) : null}
+                   
+                    />
 
-              {saveOpen ? (
-                <>
-                  <button
-                    className="btn btn-primary btn-filled"
-                    onClick={closeClicked}
-                  >
-                    Close
-                  </button>
-                  <button
-                    className="btn btn-primary btn-bordered"
-                    onClick={saveEditClicked}
-                  >
-                    Save
-                  </button>
-                </>
-              ) : null}
+              <div class="hcp-new-user">
+                <button class="btn btn-outline-primary" onClick={handleShow}>
+                  <img src={path + "new-user.svg"} alt="New User" />
+                </button>
+              </div>
+
+              <div class="hcp-added">
+                <button
+                  class="btn btn-outline-primary"
+                  onClick={editButtonClicked}
+                >
+                  <img src={path + "edit-button.svg"} alt="Edit" />
+                </button>
+              </div>
+
+              <div class="hcp-sort">
+                <button class="btn btn-outline-primary" onClick={sortdata}>
+                  Sort By <img src={path + "sort.svg"} alt="Sorting" />
+                </button>
+              </div>
             </div>
           </div>
           <div class="selected-hcp-list">
+         
+
+
+
             <table class="table" id="table-to-xls">
               <thead>
                 <tr>
@@ -1016,6 +893,22 @@ const Table = (props, ref) => {
                     </>
                   ) : null}
                 </tr>
+                {saveOpen ? (
+                  <>
+                    <button
+                      className="btn btn-outline-primary"
+                      onClick={saveEditClicked}
+                    >
+                      Save
+                    </button>
+                    <button
+                      className="btn btn-outline-primary"
+                      onClick={closeClicked}
+                    >
+                      Close
+                    </button>
+                  </>
+                ) : null}
               </thead>
               <tbody>
                 {editList.map((item, index) => (
@@ -1037,13 +930,41 @@ const Table = (props, ref) => {
                     }
                   >
                     <td id={`field_name` + index}>
-                      <span>{item.first_name + " " + item.last_name}</span>
+                      {inEditMode.status &&
+                      inEditMode.rowKey === item.profile_id ? (
+                        <input
+                          value={name}
+                          onChange={(event) => setName(event.target.value)}
+                        />
+                      ) : (
+                        item.first_name + " " + item.last_name
+                      )}
                     </td>
 
-                    <td id={`field_email` + index}>{item.email}</td>
-                    <td id={`field_bounced` + index}>NA</td>
+                    <td id={`field_email` + index}>
+                      {" "}
+                      {inEditMode.status &&
+                      inEditMode.rowKey === item.profile_id ? (
+                        <input
+                          value={email}
+                          type="email"
+                          onChange={(event) => setEmail(event.target.value)}
+                        />
+                      ) : (
+                        item.email
+                      )}
+                    </td>
+                    <td id={`field_bounced` + index}>No</td>
                     <td id={`field_country` + index}>
-                      <span>{item.country}</span>
+                      {inEditMode.status &&
+                      inEditMode.rowKey === item.profile_id ? (
+                        <input
+                          value={country}
+                          onChange={(event) => setCountry(event.target.value)}
+                        />
+                      ) : (
+                        item.country
+                      )}
                     </td>
                     {showLessInfo == false ? (
                       <td id="field_readers">NA</td>
@@ -1238,20 +1159,7 @@ const Table = (props, ref) => {
               Add New HCP
             </h5>
             <button
-              onClick={() => {
-                setIsOpenAdd(false);
-                setHpc([
-                  {
-                    firstname: "",
-                    lastname: "",
-                    email: "",
-                    contact_type: "",
-                    country: "",
-                  },
-                ]);
-                setActiveManual("active");
-                setActiveExcel("");
-              }}
+              onClick={() => setIsOpenAdd(false)}
               type="button"
               className="btn-close"
               data-bs-dismiss="modal"
@@ -1260,7 +1168,7 @@ const Table = (props, ref) => {
           </div>
           <div className="modal-body">
             <div className="hcp-add-box">
-              <div className="hcp-add-form tab-content">
+              <div className="hcp-add-form tab-content" id="upload-confirm">
                 <form id="add_hcp_form" className={"tab-pane" + activeManual}>
                   {hpc.map((val, i) => {
                     const fieldName = `hpc[${i}]`;
@@ -1293,7 +1201,7 @@ const Table = (props, ref) => {
                           </div>
                           <div className="col-12 col-md-6">
                             <div className="form-group">
-                              <label for="">Email *</label>
+                              <label for="">Email</label>
                               <input
                                 type="email"
                                 className="form-control"
@@ -1344,10 +1252,6 @@ const Table = (props, ref) => {
                                       }
                                     )}
                               </select>
-                            </div>
-                          </div>
-                          <div className="col-12 col-md-6 btn_rmv">
-                            <div className="form-group">
                               {i !== 0 && (
                                 <button
                                   type="button"
@@ -1365,29 +1269,36 @@ const Table = (props, ref) => {
                   })}
                 </form>
                 <form id="add_file" className={"tab-pane" + activeExcel}>
+                  <div className="upload-file-box">
                   <div className="form-group files">
-                    <input
-                      type="file"
-                      className="form-control"
-                      accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                      onChange={onFileChange}
-                    />
+                     <div className="box">
+                        <input
+                          type="file"
+                          id="file-4"
+                          className="form-control inputfile"
+                          accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                          onChange={onFileChange}
+                          ref={file_name}
+                      />
+                    {(file_name.current.files===undefined || file_name.current.files?.length===0 )? <><label for="file-4"><span>Choose Your File</span></label>
+                      <p>Upload your excel file</p></> : file_name.current.files[0].name }
+                    </div>
+                    </div>
                   </div>
+                  <div class="download-sample sample-file"><p>Download sample Excel file to upload new HCPs</p><div class="upload-btn"><label for="input-file">Download File</label></div></div>
                 </form>
               </div>
               <div className="hcp-modal-action">
                 <div className="hcp-action-block">
-                  {activeManual == "active" ? (
-                    <div className="hcp-remove">
-                      <button
-                        type="button"
-                        className="btn btn-filled"
-                        onClick={addMoreHcp}
-                      >
-                        <img src={path_image + "add-row.png"} alt="Add More" />
-                      </button>
-                    </div>
-                  ) : null}
+                  <div className="hcp-remove">
+                    <button
+                      type="button"
+                      className="btn btn-filled"
+                      onClick={addMoreHcp}
+                    >
+                      <img src={path_image + "add-row.png"} alt="Add More" />
+                    </button>
+                  </div>
                   <ul className="nav nav-tabs" role="tablist">
                     <li className="nav-item add_hcp">
                       <a
@@ -1474,9 +1385,8 @@ const Table = (props, ref) => {
         <Modal.Body>
           <img src={path + "alert.png"} alt="" />
           <h4>
-            The HCP record will be deleted from the list.
-            <br />
-            Are you sure you want to delete it?
+            The HCP record will be deleted from the list Are you sure you want
+            to delete it?{" "}
           </h4>
 
           <div class="modal-buttons">

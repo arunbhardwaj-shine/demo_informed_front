@@ -620,11 +620,11 @@ form#add_hcp_form .row:not(:first-child) { border-top: 1px dashed var(--light-bl
 
 /**Upload Modal**/
 #upload-confirm .modal-dialog { max-width: 576px; }
-#upload-confirm .upload-file-box { border: 1px dashed var(--light-blue); box-sizing: border-box; border-radius: 15px; padding: 31px 28px; }
+#upload-confirm .upload-file-box { border: 1px dashed var(--light-blue); box-sizing: border-box; border-radius: 15px; padding: 31px 28px; max-width: 500px; margin: 0 auto;}
 #upload-confirm  .inputfile { width: 0.1px; height: 0.1px; opacity: 0; overflow: hidden; position: absolute; z-index: -1; }
-#upload-confirm .inputfile ~ label { max-width: 80%; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; display: inline-block; overflow: hidden; padding: 11px; background: var(--light-blue); border-radius: 30px; color: var(--white); font-size: 16px; line-height: 1; font-family: 'Roboto-medium'; font-weight: 500; min-width: 171px; text-align: center; height: 39px; }
+#upload-confirm .inputfile ~ label { max-width: 80%; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; display: inline-block; overflow: hidden; padding: 11px; background: var(--light-blue); border-radius: 30px; color: var(--white) !important; font-size: 16px; line-height: 1; font-family: 'Roboto-medium'; font-weight: 500; min-width: 171px; text-align: center; height: 39px; }
 #upload-confirm.send-confirm .modal-body { padding: 0 32px 24px; }
-#upload-confirm .upload-file-box .box { display: flex; justify-content: space-between; flex-direction: row-reverse; align-items: center; }
+#upload-confirm .upload-file-box .box { display: flex; justify-content: space-between; flex-direction: row-reverse; align-items: center;width:100%; }
 #upload-confirm .upload-file-box .box p { margin: 0; font-size: 18px; line-height: 145.19%; color: #70899E; }
 #upload-confirm.send-confirm .modal-body .modal-buttons { justify-content: flex-end; margin-top: 20px; }
 #upload-confirm.send-confirm .modal-body .modal-buttons .light { min-width: 106px; background: rgba(151, 182, 207, 0.6); color: var(--white); border: none; }
@@ -779,4 +779,7 @@ a.show-less-info p:after { content: "<<"; padding-left: 7px; position: absolute;
 #mail-view.modal-dialog[custom-atr="scroll"] .modal-header {box-shadow: 0px 2px 18px rgba(0, 102, 190, 0.12);z-index: 10;position: relative;}   
 .add-new-field img{
   cursor: pointer;
+}
+.download-sample.sample-file {
+  margin: 22px 0;
 }

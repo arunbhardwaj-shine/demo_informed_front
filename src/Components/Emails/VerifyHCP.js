@@ -1148,7 +1148,7 @@ const VerifyHCP = (props) => {
                         onClick={addHcp}
                         className="nav-link active btn-bordered"
                         data-bs-toggle="tab"
-                        href="#add_hcp_form"
+                        href="javascript:;"
                       >
                         Add HCP +
                       </a>
@@ -1158,7 +1158,7 @@ const VerifyHCP = (props) => {
                         onClick={addFile}
                         className="nav-link btn-filled"
                         data-bs-toggle="tab"
-                        href="#add_file"
+                        href="javascript:;"
                       >
                         Add File
                       </a>
