@@ -347,11 +347,12 @@ const CreateEmail = (props) => {
     await axios
       .post(`emailapi/add_update_template`, body)
       .then((res) => {
+        toast.success("Template saved successfully");
         loader("hide");
-        // console.log(res);
+      
       })
       .catch((err) => {
-        // console.log(err);
+        toast.error("Something went wrong");
       });
   };
 
