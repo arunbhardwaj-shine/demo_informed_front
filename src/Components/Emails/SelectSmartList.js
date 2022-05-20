@@ -160,7 +160,7 @@ const SelectSmartList = (props) => {
                   <a href="javascript:void(0)">Select HCPs</a>
                 </li>
                 <li className="">
-                  <a href="javascript:void(0)">Verify Your HCPs</a>
+                  <a href="javascript:void(0)">Verify Your List</a>
                 </li>
 
                 <li className="">

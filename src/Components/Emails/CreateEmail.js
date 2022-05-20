@@ -222,10 +222,28 @@ const CreateEmail = (props) => {
   }, []);
 
   const addMoreHcp = () => {
-    setHpc([
-      ...hpc,
-      { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
-    ]);
+    const status = hpc.map((data) => {
+      if (data.email == "") {
+        return "false";
+      } else {
+        return "true";
+      }
+    });
+
+    if (status.every((element) => element == "true")) {
+      setHpc([
+        ...hpc,
+        {
+          firstname: "",
+          lastname: "",
+          email: "",
+          contact_type: "",
+          country: "",
+        },
+      ]);
+    } else {
+      toast.error("Please input the email atleast");
+    }
   };
 
   const deleteSelected = (index) => {
@@ -578,7 +596,18 @@ const CreateEmail = (props) => {
   const addNewContactClicked = () => {
     setIsOpenAdd(true);
     setIsOpensend(false);
-    console.log("hi");
+    setHpc([
+      {
+        firstname: "",
+        lastname: "",
+        email: "",
+        contact_type: "",
+        country: "",
+      },
+    ]);
+    setActiveManual("active");
+    setActiveExcel("");
+    //console.log("hi");
   };
 
   const removeTag = (index) => {
@@ -752,28 +781,43 @@ const CreateEmail = (props) => {
         user_id: 18207,
         smart_list_id: "",
       };
-      loader("show");
-      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      await axios
-        .post(`distributes/add_new_readers_in_list`, body)
-        .then((res) => {
-          if (res.data.status_code === 200) {
-            toast.success("User added successfuly");
 
-            res.data.response.data.map((data) => {
-              setSelectedHcp((oldArray) => [...oldArray, data]);
-            });
+      const status = body.data.map((data) => {
+        if (data.email == "") {
+          return "false";
+        } else {
+          return "true";
+        }
+      });
+
+      if (status.every((element) => element == "true")) {
+        loader("show");
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+        await axios
+          .post(`distributes/add_new_readers_in_list`, body)
+          .then((res) => {
+            if (res.data.status_code === 200) {
+              toast.success("User added successfuly");
+
+              res.data.response.data.map((data) => {
+                setSelectedHcp((oldArray) => [...oldArray, data]);
+              });
+              setIsOpenAdd(false);
+              setIsOpensend(true);
+            } else {
+              toast.warning(res.data.message);
+              loader("hide");
+            }
             loader("hide");
-          } else {
-            toast.warning(res.data.message);
-          }
-
-          //setSelectedHcp(res.data.response.data);
-        })
-        .catch((err) => {
-          toast.error("Something went wrong");
-        });
-      setIsOpen(false);
+            //setSelectedHcp(res.data.response.data);
+          })
+          .catch((err) => {
+            toast.error("Something went wrong");
+            loader("hide");
+          });
+      } else {
+        toast.error("please enter the email atleast");
+      }
     } else {
       let formData = new FormData();
       formData.append("user_id", 18207);
@@ -782,39 +826,38 @@ const CreateEmail = (props) => {
 
       console.log(formData);
 
-      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      loader("show");
-      await axios
-        .post(`distributes/update_reader_list`, formData)
-        .then((res) => {
-          if (res.data.status_code === 200) {
-            toast.success("User added successfuly");
+      if (selectedFile) {
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+        loader("show");
+        await axios
+          .post(`distributes/update_reader_list`, formData)
+          .then((res) => {
+            if (res.data.status_code === 200) {
+              toast.success("User added successfuly");
 
-            res.data.response.data.map((data) => {
-              setSelectedHcp((oldArray) => [...oldArray, data]);
-            });
+              res.data.response.data.map((data) => {
+                setSelectedHcp((oldArray) => [...oldArray, data]);
+              });
 
-            loader("hide");
-          } else {
-            toast.warning(res.data.message);
-          }
-        })
-        .catch((err) => {
-          console.log("something went wrong");
-        });
-      setIsOpen(false);
+              loader("hide");
+              setIsOpenAdd(false);
+              setActiveManual("active");
+              setActiveExcel("");
+              setSelectedFile(null);
+              setIsOpensend(true);
+            } else {
+              toast.warning(res.data.message);
+              loader("hide");
+            }
+          })
+          .catch((err) => {
+            console.log("something went wrong");
+          });
+        setIsOpen(false);
+      } else {
+        toast.error("Please add a excel file");
+      }
     }
-    setHpc([
-      {
-        firstname: "",
-        lastname: "",
-        email: "",
-        contact_type: "",
-        country: "",
-      },
-    ]);
-
-    setIsOpensend(true);
   };
 
   const searchChange = (e) => {
@@ -1584,7 +1627,20 @@ const CreateEmail = (props) => {
               Add New HCP
             </h5>
             <button
-              onClick={() => setIsOpenAdd(false)}
+              onClick={() => {
+                setIsOpenAdd(false);
+                setHpc([
+                  {
+                    firstname: "",
+                    lastname: "",
+                    email: "",
+                    contact_type: "",
+                    country: "",
+                  },
+                ]);
+                setActiveManual("active");
+                setActiveExcel("");
+              }}
               type="button"
               className="btn-close"
               data-bs-dismiss="modal"
@@ -1711,15 +1767,17 @@ const CreateEmail = (props) => {
               </div>
               <div className="hcp-modal-action">
                 <div className="hcp-action-block">
-                  <div className="hcp-remove">
-                    <button
-                      type="button"
-                      className="btn btn-filled"
-                      onClick={addMoreHcp}
-                    >
-                      <img src={path_image + "add-row.png"} alt="Add More" />
-                    </button>
-                  </div>
+                  {activeManual == "active" ? (
+                    <div className="hcp-remove">
+                      <button
+                        type="button"
+                        className="btn btn-filled"
+                        onClick={addMoreHcp}
+                      >
+                        <img src={path_image + "add-row.png"} alt="Add More" />
+                      </button>
+                    </div>
+                  ) : null}
                   <ul className="nav nav-tabs" role="tablist">
                     <li className="nav-item add_hcp">
                       <a

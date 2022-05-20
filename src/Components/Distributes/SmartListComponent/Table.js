@@ -135,6 +135,8 @@ const Table = (props, ref) => {
         country: "",
       },
     ]);
+    setActiveManual("active");
+    setActiveExcel("");
   };
   const handleCloseUploadMenu = () => setShowUploadMenu(false);
   const handleShowUploadMenu = () => {

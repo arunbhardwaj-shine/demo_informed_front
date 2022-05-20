@@ -230,6 +230,17 @@ const SelectSmartListUsers = (props) => {
 
   const addNewUser = () => {
     setIsOpenAdd(true);
+    setHpc([
+      {
+        firstname: "",
+        lastname: "",
+        email: "",
+        contact_type: "",
+        country: "",
+      },
+    ]);
+    setActiveManual("active");
+    setActiveExcel("");
   };
 
   const handleSelect = (e) => {
@@ -273,16 +284,28 @@ const SelectSmartListUsers = (props) => {
     // console.log(readers);
   };
   const addMoreHcp = () => {
-    setHpc([
-      ...hpc,
-      {
-        firstname: "",
-        lastname: "",
-        email: "",
-        contact_type: "",
-        country: "",
-      },
-    ]);
+    const status = hpc.map((data) => {
+      if (data.email == "") {
+        return "false";
+      } else {
+        return "true";
+      }
+    });
+
+    if (status.every((element) => element == "true")) {
+      setHpc([
+        ...hpc,
+        {
+          firstname: "",
+          lastname: "",
+          email: "",
+          contact_type: "",
+          country: "",
+        },
+      ]);
+    } else {
+      toast.error("Please input the email atleast");
+    }
   };
 
   const addHcp = (e) => {
@@ -455,7 +478,7 @@ const SelectSmartListUsers = (props) => {
   };
 
   const saveClicked = async () => {
-    setIsOpenAdd(false);
+    //   setIsOpenAdd(false);
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
         return {
@@ -473,13 +496,15 @@ const SelectSmartListUsers = (props) => {
         smart_list_id: "",
       };
 
-      if (
-        body.data[0].first_name &&
-        body.data[0].last_name &&
-        body.data[0].email &&
-        body.data[0].country &&
-        body.data[0].contact_type
-      ) {
+      const status = body.data.map((data) => {
+        if (data.email == "") {
+          return "false";
+        } else {
+          return "true";
+        }
+      });
+
+      if (status.every((element) => element == "true")) {
         loader("show");
 
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -491,10 +516,13 @@ const SelectSmartListUsers = (props) => {
               res.data.response.data.map((data) => {
                 setReadersNewlyAdded((oldArray) => [data, ...oldArray]);
               });
-              loader("hide");
+              setIsOpen(false);
+              setIsOpenAdd(false);
             } else {
               toast.warning(res.data.message);
+              loader("hide");
             }
+            loader("hide");
 
             //setSelectedHcp(res.data.response.data);
           })
@@ -503,14 +531,10 @@ const SelectSmartListUsers = (props) => {
             toast.error("Somwthing went wrong");
           });
       } else {
-        popup_alert({
-          visible: "show",
-          message: "Please fill the necessary details",
-          type: "error",
-        });
+        toast.error("please enter the email atleast");
       }
 
-      setIsOpen(false);
+      //  setIsOpen(false);
     } else {
       let formData = new FormData();
       formData.append("user_id", 18207);
@@ -525,27 +549,29 @@ const SelectSmartListUsers = (props) => {
         await axios
           .post(`distributes/update_reader_list`, formData)
           .then((res) => {
-            res.data.response.data.map((data) => {
-              setReaders((oldArray) => [...oldArray, data]);
-            });
-            loader("hide");
+            if (res.data.status_code === 200) {
+              res.data.response.data.map((data) => {
+                setReadersNewlyAdded((oldArray) => [...oldArray, data]);
+              });
+              setIsOpenAdd(false);
+              setActiveManual("active");
+              setActiveExcel("");
+              setSelectedFile(null);
+              loader("hide");
+              toast.success("user added successfully");
+            } else {
+              toast.warning(res.data.message);
+              loader("hide");
+            }
           })
           .catch((err) => {
             console.log(err);
           });
+        setIsOpen(false);
+      } else {
+        toast.error("Please add a excel file");
       }
-
-      setIsOpen(false);
     }
-    setHpc([
-      {
-        firstname: "",
-        lastname: "",
-        email: "",
-        contact_type: "",
-        country: "",
-      },
-    ]);
   };
 
   const editButtonClicked = () => {
@@ -905,7 +931,20 @@ const SelectSmartListUsers = (props) => {
               Add New HCP
             </h5>
             <button
-              onClick={() => setIsOpenAdd(false)}
+              onClick={() => {
+                setIsOpenAdd(false);
+                setHpc([
+                  {
+                    firstname: "",
+                    lastname: "",
+                    email: "",
+                    contact_type: "",
+                    country: "",
+                  },
+                ]);
+                setActiveManual("active");
+                setActiveExcel("");
+              }}
               type="button"
               className="btn-close"
               data-bs-dismiss="modal"
@@ -1032,15 +1071,18 @@ const SelectSmartListUsers = (props) => {
               </div>
               <div className="hcp-modal-action">
                 <div className="hcp-action-block">
-                  <div className="hcp-remove">
-                    <button
-                      type="button"
-                      className="btn btn-filled"
-                      onClick={addMoreHcp}
-                    >
-                      Add
-                    </button>
-                  </div>
+                  {activeManual == "active" ? (
+                    <div className="hcp-remove">
+                      <button
+                        type="button"
+                        className="btn btn-filled"
+                        onClick={addMoreHcp}
+                      >
+                        Add
+                      </button>
+                    </div>
+                  ) : null}
+
                   <ul className="nav nav-tabs" role="tablist">
                     <li className="nav-item add_hcp">
                       <a
