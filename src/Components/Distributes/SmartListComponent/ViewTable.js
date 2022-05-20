@@ -900,11 +900,11 @@ const ViewTable = (props) => {
                     />
                   </div>
                   <div className="hcp-new-user">
-                    <button className="btn btn-outline-primary" onClick={handleShow}>
-                      <img
-                        src={path + "new-user.svg"}
-                        alt="New User"
-                      />
+                    <button
+                      className="btn btn-outline-primary"
+                      onClick={handleShow}
+                    >
+                      <img src={path + "new-user.svg"} alt="New User" />
                     </button>
                   </div>
                   <div className="hcp-added">
@@ -1012,19 +1012,19 @@ const ViewTable = (props) => {
                   </button>
                 </>
               ) : null}
-            </div>
-            {showReaders ? (
-              <div className="row">
-                <div className="col-md-12">
-                  <button
-                    class="btn btn-primary btn-filled next"
-                    onClick={showFileInReadersList}
-                  >
-                    Save
-                  </button>
+              {showReaders ? (
+                <div className="row">
+                  <div className="col-md-12">
+                    <button
+                      class="btn btn-primary btn-filled next"
+                      onClick={showFileInReadersList}
+                    >
+                      Save
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ) : null}
+              ) : null}
+            </div>
           </div>
           <div className="selected-hcp-list">
             <table className="table" id="table-to-xls">
@@ -1249,7 +1249,7 @@ const ViewTable = (props) => {
                     country: "",
                   },
                 ]);
-                setActiveManual("Active");
+                setActiveManual("active");
                 setActiveExcel("");
               }}
               type="button"
