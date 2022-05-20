@@ -134,6 +134,8 @@ const ViewTable = (props) => {
         country: "",
       },
     ]);
+    setActiveManual("active");
+    setActiveExcel("");
   };
 
   const [showUploadMenu, setShowUploadMenu] = useState(false);

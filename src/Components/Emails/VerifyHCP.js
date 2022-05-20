@@ -37,6 +37,7 @@ const VerifyHCP = (props) => {
   const [activeExcel, setActiveExcel] = useState("");
   const [counterFlag, setCounterFlag] = useState(0);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [countryall, setCountryall] = useState([]);
   const [addFileReRender, setAddFileReRender] = useState(0);
   const [hpc, setHpc] = useState([
     { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
@@ -82,6 +83,25 @@ const VerifyHCP = (props) => {
     setTemplateId(selected);
   };
 
+  useEffect(() => {
+    const getalCountry = async () => {
+      let body = {
+        user_id: 18207,
+      };
+      await axios
+        .post(`distributes/filters_list`, body)
+        .then((res) => {
+          setCountryall(res.data.response.data.country);
+          //console.log(countryall)
+          // setCounter(counter + 1);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    getalCountry();
+  }, []);
+
   const nextClicked = () => {
     console.log(selectedHcp);
     navigate("/VerifyMAIL", {
@@ -94,6 +114,7 @@ const VerifyHCP = (props) => {
   };
 
   const closeModal = () => {
+    setIsOpen(false);
     setHpc([
       {
         firstname: "",
@@ -103,8 +124,8 @@ const VerifyHCP = (props) => {
         country: "",
       },
     ]);
-    console.log("closed");
-    setIsOpen(false);
+    setActiveManual("active");
+    setActiveExcel("");
   };
 
   const editablemade = () => {
@@ -117,7 +138,17 @@ const VerifyHCP = (props) => {
     // $('#myModal').modal('show'
     // document.getElementById("tagsModal").modal('show');
     setIsOpen(true);
-    setModalCounter(modalCounter + 1);
+    setHpc([
+      {
+        firstname: "",
+        lastname: "",
+        email: "",
+        contact_type: "",
+        country: "",
+      },
+    ]);
+    setActiveManual("active");
+    setActiveExcel("");
   };
 
   const selectHcp = (index) => {
@@ -250,7 +281,7 @@ const VerifyHCP = (props) => {
 
   const saveClicked = async () => {
     //  console.log(validator);
-    setIsOpen(false);
+    //setIsOpen(false);
 
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
@@ -269,13 +300,15 @@ const VerifyHCP = (props) => {
         smart_list_id: "",
       };
 
-      if (
-        body.data[0].first_name &&
-        body.data[0].last_name &&
-        body.data[0].email &&
-        body.data[0].country &&
-        body.data[0].contact_type
-      ) {
+      const status = body.data.map((data) => {
+        if (data.email == "") {
+          return "false";
+        } else {
+          return "true";
+        }
+      });
+
+      if (status.every((element) => element == "true")) {
         loader("show");
 
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -287,11 +320,12 @@ const VerifyHCP = (props) => {
               res.data.response.data.map((data) => {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
               });
+              setIsOpen(false);
               loader("hide");
             } else {
               toast.warning(res.data.message);
             }
-
+            loader("hide");
             //setSelectedHcp(res.data.response.data);
           })
           .catch((err) => {
@@ -299,11 +333,7 @@ const VerifyHCP = (props) => {
             toast.error("Somwthing went wrong");
           });
       } else {
-        popup_alert({
-          visible: "show",
-          message: "Please fill the necessary details",
-          type: "error",
-        });
+        toast.error("please enter the email atleast");
       }
       // setIsOpen(false);
     } else {
@@ -324,33 +354,52 @@ const VerifyHCP = (props) => {
               toast.success("User added successfuly");
               res.data.response.data.map((data) => {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
+                setIsOpen(false);
+                setActiveManual("active");
+                setActiveExcel("");
+                setSelectedFile(null);
+                loader("hide");
               });
+            } else {
+              toast.warning(res.data.message);
+              loader("hide");
             }
-
-            loader("hide");
           })
           .catch((err) => {
             console.log(err);
           });
         setIsOpen(false);
+      } else {
+        toast.error("Please add a excel file");
       }
     }
-    setHpc([
-      {
-        firstname: "",
-        lastname: "",
-        email: "",
-        contact_type: "",
-        country: "",
-      },
-    ]);
   };
 
   const addMoreHcp = () => {
-    setHpc([
-      ...hpc,
-      { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
-    ]);
+    console.log(hpc);
+
+    const status = hpc.map((data) => {
+      if (data.email == "") {
+        return "false";
+      } else {
+        return "true";
+      }
+    });
+
+    if (status.every((element) => element == "true")) {
+      setHpc([
+        ...hpc,
+        {
+          firstname: "",
+          lastname: "",
+          email: "",
+          contact_type: "",
+          country: "",
+        },
+      ]);
+    } else {
+      toast.error("Please input the email atleast");
+    }
   };
 
   const editing = (
@@ -1017,9 +1066,19 @@ const VerifyHCP = (props) => {
                                 onChange={(event) => onCountryChange(event, i)}
                               >
                                 <option selected>Select Country</option>
-                                <option value="India">India</option>
-                                <option value="USA">USA</option>
-                                <option value="Russia">Russia</option>
+                                {countryall.length === 0
+                                  ? ""
+                                  : Object.entries(countryall).map(
+                                      ([index, item]) => {
+                                        return (
+                                          <>
+                                            <option value={index}>
+                                              {item}
+                                            </option>
+                                          </>
+                                        );
+                                      }
+                                    )}
                               </select>
                             </div>
                           </div>
@@ -1055,15 +1114,17 @@ const VerifyHCP = (props) => {
               </div>
               <div className="hcp-modal-action">
                 <div className="hcp-action-block">
-                  <div className="hcp-remove">
-                    <button
-                      type="button"
-                      className="btn btn-filled"
-                      onClick={addMoreHcp}
-                    >
-                      <img src={path_image + "add-row.png"} alt="Add More" />
-                    </button>
-                  </div>
+                  {activeManual == "active" ? (
+                    <div className="hcp-remove">
+                      <button
+                        type="button"
+                        className="btn btn-filled"
+                        onClick={addMoreHcp}
+                      >
+                        <img src={path_image + "add-row.png"} alt="Add More" />
+                      </button>
+                    </div>
+                  ) : null}
                   {/* <div className="hcp-remove">
                     <button type="button" className="btn btn-filled">
                       <img src={path_image + "delete.svg"} alt="Delete HCP" />
