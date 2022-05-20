@@ -23,6 +23,9 @@
 }
 
 @media only screen and (max-width:1550px){
+	#add_hcp .modal-body .hcp-add-form form {
+		margin-bottom: 0;
+	}
 	.smartlist-result-block .smartlist_box_block { width: 33.3%; } 
 	.form-inline .form-group input { max-width: 400px; } 
 	.form-inline .form-group input#email-address { max-width: 315px; }
@@ -132,6 +135,9 @@
 	 } 
 	 
 	 @media only screen and (max-width:1365px){ 
+		#add_hcp .modal-body .hcp-add-form form .form-group button {
+			height: 41px;
+		}
 		 .mailbox-tags ul li { font-size: 10px; line-height: 11px; padding: 2px 4px; margin: 0 5px 5px 0; } 
 		 .email-block-add img, .smartlist-add.smartlist-view img { max-width: 50px; } 
 		 .dropdown-menu.filter-options .card-header a, .dropdown-menu.filter-options .card-header .accordion-button { font-size: 14px; line-height: 17px; padding: 9px 16px; } 
