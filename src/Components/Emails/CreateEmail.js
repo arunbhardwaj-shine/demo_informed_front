@@ -569,7 +569,7 @@ const CreateEmail = (props) => {
       emailSubject == "" ||
       emailSubject == 0
     ) {
-      toast.error("Plese select Mail template and Subject first");
+      toast.warning("Please select Mail template and Subject first");
     } else {
       setIsOpensend(true);
     }
