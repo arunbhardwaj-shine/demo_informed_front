@@ -67,6 +67,7 @@ const Table = (props, ref) => {
   const [sortingCount, setSortingCount] = useState(0);
   const [counter, setCounter] = useState([0]);
   const [saveOpen, setSaveOpen] = useState(false);
+  const [updateCounter, setUpdateCounter] = useState(0);
 
   const [hpc, setHpc] = useState([
     { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
@@ -123,7 +124,18 @@ const Table = (props, ref) => {
     setCounter([0]);
     setCounterData([]);
   };
-  const handleShow = () => setIsOpenAdd(true);
+  const handleShow = () => {
+    setIsOpenAdd(true);
+    setHpc([
+      {
+        firstname: "",
+        lastname: "",
+        email: "",
+        contact_type: "",
+        country: "",
+      },
+    ]);
+  };
   const handleCloseUploadMenu = () => setShowUploadMenu(false);
   const handleShowUploadMenu = () => {
     setShowUploadMenu(true);
@@ -463,6 +475,13 @@ const Table = (props, ref) => {
   const closeClicked = () => {
     setSaveOpen(false);
     setEditable(0);
+    let vr = editList;
+    setEditList([]);
+    setTimeout(() => {
+      setEditList(vr);
+      console.log("This will run after 1 second!");
+      setUpdateCounter(updateCounter + 1);
+    }, 50);
   };
 
   const updateReaderDetails = async ({
@@ -530,16 +549,30 @@ const Table = (props, ref) => {
   };
 
   const addMoreHcp = () => {
-    setHpc([
-      ...hpc,
-      {
-        firstname: "",
-        lastname: "",
-        email: "",
-        contact_type: "",
-        country: "",
-      },
-    ]);
+    console.log(hpc);
+
+    const status = hpc.map((data) => {
+      if (data.email == "") {
+        return "false";
+      } else {
+        return "true";
+      }
+    });
+
+    if (status.every((element) => element == "true")) {
+      setHpc([
+        ...hpc,
+        {
+          firstname: "",
+          lastname: "",
+          email: "",
+          contact_type: "",
+          country: "",
+        },
+      ]);
+    } else {
+      toast.error("Please input the email atleast");
+    }
   };
 
   const onSave = ({
@@ -664,7 +697,7 @@ const Table = (props, ref) => {
   const saveClicked = async () => {
     // setShowSaveReader(true);
 
-    setIsOpenAdd(false);
+    // setIsOpenAdd(false);
 
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
@@ -683,13 +716,15 @@ const Table = (props, ref) => {
         smart_list_id: getlistid,
       };
 
-      if (
-        body.data[0].first_name &&
-        body.data[0].last_name &&
-        body.data[0].email &&
-        body.data[0].country &&
-        body.data[0].contact_type
-      ) {
+      const status = body.data.map((data) => {
+        if (data.email == "") {
+          return "false";
+        } else {
+          return "true";
+        }
+      });
+
+      if (status.every((element) => element == "true")) {
         loader("show");
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         await axios
@@ -707,6 +742,8 @@ const Table = (props, ref) => {
               setEditList(combine_data_manual);
               props.sendDataToParent(combine_data_manual);
               setUpdatedData(combine_data_manual);
+              setIsOpen(false);
+              setIsOpenAdd(false);
             } else {
               toast.warning(res.data.message);
             }
@@ -717,13 +754,9 @@ const Table = (props, ref) => {
             loader("hide");
           });
       } else {
-        popup_alert({
-          visible: "show",
-          message: "Please fill the necessary details",
-          type: "error",
-        });
+        toast.error("please input the email atleast");
       }
-      setIsOpen(false);
+
       //setIsOpen(false);
     } else {
       let formData = new FormData();
@@ -747,6 +780,10 @@ const Table = (props, ref) => {
               combine_data = [...new_data, ...old_data];
               // console.log(combine_data);
               setEditList(combine_data);
+              setIsOpenAdd(false);
+              setActiveManual("active");
+              setActiveExcel("");
+              setSelectedFile(null);
               props.sendDataToParent(combine_data);
               setUpdatedData(combine_data);
             } else {
@@ -758,18 +795,11 @@ const Table = (props, ref) => {
             toast.error("Something went wrong");
             loader("hide");
           });
+        setIsOpen(false);
+      } else {
+        toast.error("Please add a excel file");
       }
-      setIsOpen(false);
     }
-    setHpc([
-      {
-        firstname: "",
-        lastname: "",
-        email: "",
-        contact_type: "",
-        country: "",
-      },
-    ]);
   };
   // const sortdata = () => {
   //   setsortflag((getsortflag) => !getsortflag);
@@ -795,11 +825,19 @@ const Table = (props, ref) => {
     normalArr = editList;
     if (sorting === 0) {
       normalArr.sort((a, b) =>
-        a.first_name > b.first_name ? 1 : b.first_name > a.first_name ? -1 : 0
+        a.first_name.toLowerCase() > b.first_name.toLowerCase()
+          ? 1
+          : b.first_name.toLowerCase() > a.first_name.toLowerCase()
+          ? -1
+          : 0
       );
     } else {
       normalArr.sort((a, b) =>
-        a.first_name < b.first_name ? 1 : b.first_name < a.first_name ? -1 : 0
+        a.first_name.toLowerCase() < b.first_name.toLowerCase()
+          ? 1
+          : b.first_name.toLowerCase() < a.first_name.toLowerCase()
+          ? -1
+          : 0
       );
     }
 
@@ -840,7 +878,7 @@ const Table = (props, ref) => {
                     class="btn btn-primary btn-filled create"
                     onClick={showFileInReadersList}
                   >
-                    Craete
+                    Create
                   </button>
                 </div>
               </div>
@@ -1198,7 +1236,20 @@ const Table = (props, ref) => {
               Add New HCP
             </h5>
             <button
-              onClick={() => setIsOpenAdd(false)}
+              onClick={() => {
+                setIsOpenAdd(false);
+                setHpc([
+                  {
+                    firstname: "",
+                    lastname: "",
+                    email: "",
+                    contact_type: "",
+                    country: "",
+                  },
+                ]);
+                setActiveManual("active");
+                setActiveExcel("");
+              }}
               type="button"
               className="btn-close"
               data-bs-dismiss="modal"
@@ -1325,15 +1376,17 @@ const Table = (props, ref) => {
               </div>
               <div className="hcp-modal-action">
                 <div className="hcp-action-block">
-                  <div className="hcp-remove">
-                    <button
-                      type="button"
-                      className="btn btn-filled"
-                      onClick={addMoreHcp}
-                    >
-                      <img src={path_image + "add-row.png"} alt="Add More" />
-                    </button>
-                  </div>
+                  {activeManual == "active" ? (
+                    <div className="hcp-remove">
+                      <button
+                        type="button"
+                        className="btn btn-filled"
+                        onClick={addMoreHcp}
+                      >
+                        <img src={path_image + "add-row.png"} alt="Add More" />
+                      </button>
+                    </div>
+                  ) : null}
                   <ul className="nav nav-tabs" role="tablist">
                     <li className="nav-item add_hcp">
                       <a
@@ -1421,7 +1474,8 @@ const Table = (props, ref) => {
           <img src={path + "alert.png"} alt="" />
           <h4>
             The HCP record will be deleted from the list.
-            <br/>Are you sure you want to delete it?
+            <br />
+            Are you sure you want to delete it?
           </h4>
 
           <div class="modal-buttons">

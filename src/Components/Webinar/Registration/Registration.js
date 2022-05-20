@@ -353,6 +353,7 @@ const Registration = () => {
                       </Col>
                       <Col xs={3}>
                         <div>
+                          {console.log(editdata.file)}
                           <img
                             id="imgVieww"
                             src={
