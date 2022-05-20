@@ -338,14 +338,16 @@ const FilterSegment = (props) => {
       await axios
         .post(`distributes/get_smart_list_with_filter_data`, payload)
         .then((res) => {
-          if ("response" in res.data) {
+          console.log(res.data.status_code);
+          if (res.data.status_code == 200) {
               setFilterData(res.data.response.data);
-            } else {
-                setFilterData();
-              }
-              setApiFilterFlag(1);
-              loader("hide");
+          } else {
+              setFilterData();
+          }
+            setApiFilterFlag(1);
+            loader("hide");
           }).catch((err) => {
+                loader("hide");
                 console.log(err);
           });
     }else{
@@ -422,9 +424,7 @@ const FilterSegment = (props) => {
                 <button
                   className="btn btn-primary btn-filled save"
                   onClick={() => showConfirmation()}
-                  disabled={
-                    getfilterapplied == 1 && getfilterdata.length > 0 ? false : true
-                  }
+                  disabled={ typeof getfilterapplied !== "undefined" && getfilterapplied == 1 && typeof getfilterdata != "undefined" && getfilterdata.length > 0 ? false : true}
                 >
                   Save
                 </button>
@@ -869,20 +869,24 @@ const FilterSegment = (props) => {
                             </li>
                           </ul>
                         </div>
-                        <div className="segmentation-button">
-                          <button
-                            className="btn btn-bordered btn-primary"
-                            onClick={clearFilter}
-                          >
-                            Clear
-                          </button>
-                          <button
-                            className="btn btn-filled btn-primary"
-                            onClick={applyFilter}
-                          >
-                            Apply
-                          </button>
-                        </div>
+                        {/*Display only in case of create*/}
+
+                          <div className="segmentation-button">
+                            {typeof props.action !== "undefined" && props.action !== "edit" && (
+                              <button
+                                className="btn btn-bordered btn-primary"
+                                onClick={clearFilter}
+                              >
+                                Clear
+                              </button>
+                            )}
+                            <button
+                              className="btn btn-filled btn-primary"
+                              onClick={applyFilter}
+                            >
+                              Apply
+                            </button>
+                          </div>
                       </div>
                     </Accordion.Body>
                   </Accordion.Item>
@@ -932,7 +936,7 @@ const FilterSegment = (props) => {
                 selectedcontacttype.length > 0 ? (
                   <div className="filter-div">
                     <div className="filter-div-title">
-                      <span>contact Type |</span>
+                      <span>Contact Type |</span>
                     </div>
                     <div className="filter-div-list">
                       {Object.entries(selectedcontacttype).map(
@@ -1100,7 +1104,7 @@ const FilterSegment = (props) => {
                 selectedregister ? (
                   <div className="filter-div">
                     <div className="filter-div-title">
-                      <span>Register |</span>
+                      <span>Registered |</span>
                     </div>
                     <div className="filter-div-list">
                       <div className="filter-result" onClick={() =>
@@ -1121,7 +1125,7 @@ const FilterSegment = (props) => {
                 selectedbounce ? (
                   <div className="filter-div">
                     <div className="filter-div-title">
-                      <span>Bounce |</span>
+                      <span>Bounced |</span>
                     </div>
                     <div className="filter-div-list">
                       <div className="filter-result" onClick={() =>

@@ -4,7 +4,8 @@ import ExportApi from "../../../Api/ExportApi";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast, ToastContainer } from "react-toastify";
-import CsvDownload from 'react-json-to-csv'
+import CsvDownload from "react-json-to-csv";
+import ReactHtmlTableToExcel from "react-html-table-to-excel";
 const EmailSand = () => {
   const [currentPage, setCurrentPage] = useState();
   const [type, setType] = useState();
@@ -27,6 +28,25 @@ const EmailSand = () => {
   const handeleimage = (e) => {
     setimage(e.target.files[0]);
   };
+  const downloadFile = () => {
+ 
+      // alert("okk")
+      // ExportApi.DownloadSampleFile().then((resp) => {
+      //   if (resp.ok) {
+      //     alert("okkin")
+      //      console.log(resp.data.data)
+        let link = document.createElement('a');
+        link.href = "http://51.89.210.56:8000/files/Sample.xlsx";
+        link.setAttribute('download', 'file.xlsx');
+        document.body.appendChild(link);
+        link.download = '';
+        link.click();
+        document.body.removeChild(link);
+        // }
+      // });
+  
+   
+  }
   const handleGetEventlist = () => {
     ExportApi.GetEventList().then((resp) => {
       if (resp.ok) {
@@ -35,7 +55,7 @@ const EmailSand = () => {
     });
   };
   const exampledata = [
-    { first_name: "ajay", last_name: "khan", email: "abcd@gmail.com" },
+    { first_name: "Goust", last_name: "khan", email: "abcd@gmail.com" },
     { first_name: "ram", last_name: "kumar", email: "absedcd@gmail.com" },
   ];
   const handeleSearch = (e) => {
@@ -48,10 +68,11 @@ const EmailSand = () => {
     ).then((resp) => {
       if (resp.ok) {
         if (resp.data.code === 404) {
-          //  setMassage("Data Not Found");
+            // setMassage("Data Not Found");
           setEmailData();
           setMassage("Data Not Found");
         } else {
+          setMassage(false)
           console.log(resp.data.data);
           let a = resp.data.data.data;
           for (let index = 0; index < a.length; index++) {
@@ -99,6 +120,7 @@ const EmailSand = () => {
       });
     }
   };
+
   const handleGetTemplateList = (id) => {
     ExportApi.UserTemplateList(id).then((resp) => {
       if (resp.ok) {
@@ -111,52 +133,56 @@ const EmailSand = () => {
     });
   };
   const handleGetTemplateListhtml = () => {
-    setModalShow(true)
+    setModalShow(true);
     ExportApi.UserTemplate(templateId).then((resp) => {
       if (resp.ok) {
-        console.log(resp.data.data.description);
+        console.log(resp.data.data.subject);
+        document.getElementById("title").innerText = resp.data.data.subject;
         document.getElementById("one").innerHTML = resp.data.data.description;
       }
     });
   };
   const handleGSendEmail = (id) => {
     let a = JSON.stringify(data);
-    ExportApi.sandAllmaik(templateId, a).then((resp) => {
-      if (resp.ok) {
-        if (resp.data.code == 200) {
-          setShow(false);
-          toast.success(resp.data.message, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
-        } else {
-          toast.error(resp.data.message, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
+    ExportApi.sandAllmaik(templateId, a, registeredNonRegistered).then(
+      (resp) => {
+        if (resp.ok) {
+          if (resp.data.code == 200) {
+            setShow(false);
+            toast.success(resp.data.message, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+          } else {
+            toast.error(resp.data.message, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+          }
+          console.log(resp.data.data);
         }
-        console.log(resp.data.data);
       }
-    });
+    );
   };
   const handleGetEmaildataRegistered = (value) => {
     ExportApi.EmailSandRegistered(value, eventId).then((resp) => {
       if (resp.ok) {
         if (resp.data.code === 404) {
           // setMassage("Data Not Found")
-          setMassage("Data Not Found");;
+          setMassage("Data Not Found");
           setEmailData();
         } else {
+          setMassage(false)
           console.log(resp.data.data);
           let a = resp.data.data.data;
           for (let index = 0; index < a.length; index++) {
@@ -164,32 +190,30 @@ const EmailSand = () => {
           }
           setPaginate(resp.data.data.paginate);
           setCurrentPage(resp.data.data.paginate.currentPage);
-          // setData(resp.data.data.data);
           setEmailData(resp.data.data.data);
         }
       }
     });
   };
   const handleGetEmaildataRegisteredUserType = (value) => {
-    // console.log(registeredNonRegistered)
     ExportApi.EmailSandRegisteredType(
       registeredNonRegistered,
       eventId,
       value
     ).then((resp) => {
       if (resp.ok) {
-        console.log(resp.data.data);
+        // console.log(resp.data);
         if (resp.data.code === 404) {
           setEmailData();
-         setMassage("Data Not Found")
+          setMassage("Data Not Found");
         } else {
+          setEmailData(resp.data.data.data);
+          let a = resp.data.data.data;
           for (let index = 0; index < a.length; index++) {
             if (a.length !== Checkbox.length) Checkbox.push({ Check: false });
           }
           setPaginate(resp.data.data.paginate);
           setCurrentPage(resp.data.data.paginate.currentPage);
-          let a = resp.data.data.data;
-          setEmailData(resp.data.data.data);
         }
       }
     });
@@ -259,23 +283,22 @@ const EmailSand = () => {
     const Check1 = Checkbox[i];
     Check1.Check = e.target.checked;
     Checkbox.splice(i, 1, Check1);
-    console.log(Checkbox)
+    console.log(Checkbox);
     setChecked([...Checkbox]);
     if (e.target.checked === true) {
       setData([...data, val]);
     } else {
       const index = data?.findIndex((v) => v.id == val.id);
-      const dataCopy=data
-      console.log(dataCopy)
+      const dataCopy = data;
+      console.log(dataCopy);
       dataCopy.splice(index, 1);
-      console.log(dataCopy)
+      console.log(dataCopy);
       setData(dataCopy);
-   }
+    }
   };
   const handleTempId = (e) => {
     console.log(e);
     if (e == "null") {
-      //  console.log("first,e",e)
       setTemplateId();
     } else {
       setTemplateId(e);
@@ -290,6 +313,7 @@ const EmailSand = () => {
             setEmailData();
             setMassage("Data Not Found");
           } else {
+            setMassage(false)
             setPaginate(resp.data.data.paginate);
             setCurrentPage(resp.data.data.paginate.currentPage);
             setEmailData(resp.data.data.data);
@@ -318,9 +342,13 @@ const EmailSand = () => {
       <Col md={{ span: 6, offset: 3 }}>
         <h2>Email Send</h2>
         <Row style={{ paddingTop: "20px" }}>
-          <Col>
-            <Button onClick={() => setShow(true)}>Add User</Button>
-          </Col>
+          {eventId === "null" ||
+          eventId === null ||
+          eventId === undefined ? null : (
+            <Col>
+              <Button onClick={() => setShow(true)}>Add User</Button>
+            </Col>
+          )}
           <Col>
             <Button
               onClick={() => {
@@ -342,7 +370,7 @@ const EmailSand = () => {
                 setEventName(e.target.options[e.target.selectedIndex].text);
               }}
             >
-              <option> Select Event</option>
+              <option value="null"> Select Event</option>
               {event?.map((val, i) => (
                 <React.Fragment key={i}>
                   <option value={val.id}>{val.title}</option>
@@ -351,7 +379,7 @@ const EmailSand = () => {
             </Form.Select>
           </Col>
           <Col>
-            {templateList != undefined || templateList != null ? (
+            {eventId==="null"||eventId===null||eventId===undefined?null: (
               <>
                 <Form.Label>Select Template </Form.Label>
                 <Form.Select
@@ -370,7 +398,7 @@ const EmailSand = () => {
                     : null}
                 </Form.Select>
               </>
-            ) : null}
+            )}
           </Col>
           <Col>
             {templateList != undefined || templateList != null ? (
@@ -388,7 +416,7 @@ const EmailSand = () => {
             ) : null}
           </Col>
           <Col>
-            {templateId != undefined || templateId != null ? (
+            {eventId==="null"||eventId===null||eventId===undefined?null:  (
               <>
                 <Form.Label>Select Users </Form.Label>
                 <Form.Select
@@ -398,15 +426,15 @@ const EmailSand = () => {
                   }}
                   aria-label="Default select example"
                 >
-                  <option>Select User</option>
+                  <option value="null">Select User</option>
                   <option value={0}>All Registered</option>
                   <option value={1}>All Non Registered</option>
                 </Form.Select>
               </>
-            ) : null}
+            )}
           </Col>
-          <Col>
-            {EmailData != undefined || EmailData != null ? (
+          {eventId==="null"||eventId===null||eventId===undefined?null:<Col>
+            {registeredNonRegistered==="null"||registeredNonRegistered===null||registeredNonRegistered===undefined?null: (
               <>
                 <Form.Label>Select User Type </Form.Label>
                 <Form.Select
@@ -421,37 +449,46 @@ const EmailSand = () => {
                   <option value="Test User">Test User</option>
                 </Form.Select>
               </>
-            ) : null}
+            ) }
           </Col>
+          }
         </Row>
         <Row>
-          <Col>
-            <Form.Group controlId="formFileLg" className="mb-3">
-              <Form.Label>Choice File</Form.Label>
-              <Form.Control
-                name="file"
-                onChange={(e) => {
-                  handeleimage(e);
-                }}
-                type="file"
-                size="md"
-                accept="application/vnd.ms-excel"
-              />
-              <p>Excel file should contain first name, last name and email</p>
-              <Button
-                onClick={() => {
-                  sendExcelFile();
-                }}
-              >
-                Upload
-              </Button>
-            </Form.Group>
-          </Col>
-
+          {eventId === "null" ||
+          eventId === null ||
+          eventId === undefined ? null : (
+            <Col>
+              <Form.Group controlId="formFileLg" className="mb-3">
+                <Form.Label>Choice File</Form.Label>
+                <Form.Control
+                  name="file"
+                  onChange={(e) => {
+                    handeleimage(e);
+                  }}
+                  type="file"
+                  size="md"
+                  accept="application/vnd.ms-excel"
+                />
+                <p>Excel file should contain first name, last name and email</p>
+                <Button
+                  onClick={() => {
+                    sendExcelFile();
+                  }}
+                >
+                  Upload
+                </Button>
+              </Form.Group>
+            </Col>
+          )}
           <>
             <Row>
               <Col>
-              <CsvDownload data={exampledata}>Download sample</CsvDownload>
+                <div class="download-sample">
+              <div class="upload-btn" onClick={downloadFile}>
+                <label for="input-file">Download Sample File</label>
+              </div>
+            </div>
+                {/* <CsvDownload data={exampledata}>Download sample</CsvDownload> */}
               </Col>
               <Col>
                 <Form.Control
@@ -470,7 +507,7 @@ const EmailSand = () => {
             <br />
             <h6>Selected User {data.length > 0 ? data.length : 0}</h6>
             <br />
-            <Table bordered hover>
+  {eventId==="null"||eventId===null||eventId===undefined?null:  <Table bordered hover>
               <thead>
                 <tr>
                   <th>
@@ -486,7 +523,7 @@ const EmailSand = () => {
                 </tr>
               </thead>
               <tbody>
-                {EmailData ? (
+                {EmailData==="null"||EmailData===null||EmailData===undefined?<h2>{massage}</h2>: (
                   EmailData?.map((val, i) => (
                     <tr key={i}>
                       <td>
@@ -507,8 +544,6 @@ const EmailSand = () => {
                       <td>{val.email}</td>
                     </tr>
                   ))
-                ) : (
-                  <h2>{massage}</h2>
                 )}
               </tbody>
               <Row style={{ color: "blue" }}>
@@ -521,7 +556,7 @@ const EmailSand = () => {
                         handleGetParticipantPage(currentPage - 1);
                       }}
                     >
-                      Previous{" "}
+                      Previous
                     </p>
                   </Col>
                 ) : null}
@@ -538,11 +573,10 @@ const EmailSand = () => {
                   </Col>
                 ) : null}
               </Row>
-            </Table>
+            </Table>}
           </>
         </Row>
       </Col>
-     
 
       <Modal
         size="sm"
@@ -611,13 +645,15 @@ const EmailSand = () => {
         show={modalShow}
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
-        centered >
-            <Modal.Header onClick={()=>setModalShow(false)} closeButton>
-               
-              </Modal.Header>
+        centered
+      >
+        <Modal.Header onClick={() => setModalShow(false)} closeButton>
+          <Modal.Title>
+            <div id="title"></div>
+          </Modal.Title>
+        </Modal.Header>
         <Modal.Body>
-        <div  id="one">
-        </div>
+          <div id="one"></div>
         </Modal.Body>
       </Modal>
       <Col></Col>

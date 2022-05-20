@@ -37,6 +37,8 @@ const SelectSmartListUsers = (props) => {
   const [addFileReRender, setAddFileReRender] = useState(0);
   const [saveOpen, setSaveOpen] = useState(false);
   const [editable, setEditable] = useState(0);
+  const [updateCounter, setUpdateCounter] = useState(0);
+  const [sortingCount, setSortingCount] = useState(0);
   const [hpc, setHpc] = useState([
     { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
   ]);
@@ -297,16 +299,25 @@ const SelectSmartListUsers = (props) => {
     normalArr = readers;
     if (sorting === 0) {
       normalArr.sort((a, b) =>
-        a.first_name > b.first_name ? 1 : b.first_name > a.first_name ? -1 : 0
+        a.first_name.toLowerCase() > b.first_name.toLowerCase()
+          ? 1
+          : b.first_name.toLowerCase() > a.first_name.toLowerCase()
+          ? -1
+          : 0
       );
     } else {
       normalArr.sort((a, b) =>
-        a.first_name < b.first_name ? 1 : b.first_name < a.first_name ? -1 : 0
+        a.first_name.toLowerCase() < b.first_name.toLowerCase()
+          ? 1
+          : b.first_name.toLowerCase() < a.first_name.toLowerCase()
+          ? -1
+          : 0
       );
     }
 
     setReaders(normalArr);
     setSorting(1 - sorting);
+    setSortingCount(sortingCount + 1);
   };
 
   const addFile = (e) => {
@@ -434,6 +445,13 @@ const SelectSmartListUsers = (props) => {
   const closeClicked = () => {
     setSaveOpen(false);
     setEditable(0);
+    let vr = readers;
+    setReaders([]);
+    setTimeout(() => {
+      setReaders(vr);
+      console.log("This will run after 1 second!");
+      setUpdateCounter(updateCounter + 1);
+    }, 50);
   };
 
   const saveClicked = async () => {
@@ -471,7 +489,7 @@ const SelectSmartListUsers = (props) => {
             if (res.data.status_code === 200) {
               toast.success("User added successfuly");
               res.data.response.data.map((data) => {
-                setReaders((oldArray) => [...oldArray, data]);
+                setReadersNewlyAdded((oldArray) => [data, ...oldArray]);
               });
               loader("hide");
             } else {
@@ -628,13 +646,43 @@ const SelectSmartListUsers = (props) => {
                       </button>
                     </div>
                     <div className="hcp-sort">
-                      <button
-                        className="btn btn-outline-primary"
-                        onClick={sortSelectedUsers}
-                      >
-                        Sort By{" "}
-                        <img src={path_image + "sort.svg"} alt="Shorting" />
-                      </button>
+                      {sortingCount == 0 ? (
+                        <>
+                          <button
+                            className="btn btn-outline-primary"
+                            onClick={sortSelectedUsers}
+                          >
+                            Sort By{" "}
+                            <img src={path_image + "sort.svg"} alt="Shorting" />
+                          </button>
+                        </>
+                      ) : sorting == 0 ? (
+                        <>
+                          <button
+                            className="btn btn-outline-primary"
+                            onClick={sortSelectedUsers}
+                          >
+                            Sort By{" "}
+                            <img
+                              src={path_image + "sort-decending.svg"}
+                              alt="Shorting"
+                            />
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <button
+                            className="btn btn-outline-primary"
+                            onClick={sortSelectedUsers}
+                          >
+                            Sort By{" "}
+                            <img
+                              src={path_image + "sort-assending.svg"}
+                              alt="Shorting"
+                            />
+                          </button>
+                        </>
+                      )}
                     </div>
                   </>
                 ) : null}
@@ -950,6 +998,11 @@ const SelectSmartListUsers = (props) => {
                                       }
                                     )}
                               </select>
+                              
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-6 btn_rmv">
+                            <div className="form-group">
                               {i !== 0 && (
                                 <button
                                   type="button"

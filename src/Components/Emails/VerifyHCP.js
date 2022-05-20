@@ -27,6 +27,7 @@ const VerifyHCP = (props) => {
   const [saveOpen, setSaveOpen] = useState(false);
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [editableData, setEditableData] = useState([]);
+  const [sortingCount, setSortingCount] = useState(0);
   const navigate = useNavigate();
 
   const [selectedHcp, setSelectedHcp] = useState([]);
@@ -40,6 +41,7 @@ const VerifyHCP = (props) => {
   const [hpc, setHpc] = useState([
     { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
   ]);
+  const [updateCounter, setUpdateCounter] = useState(0);
 
   const [validationReRender, setValidationReRender] = useState(0);
 
@@ -154,17 +156,26 @@ const VerifyHCP = (props) => {
     normalArr = selectedHcp;
     if (sorting === 0) {
       normalArr.sort((a, b) =>
-        a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+        a.name.toLowerCase() > b.name.toLowerCase()
+          ? 1
+          : b.name.toLowerCase() > a.name.toLowerCase()
+          ? -1
+          : 0
       );
     } else {
       normalArr.sort((a, b) =>
-        a.name < b.name ? 1 : b.name < a.name ? -1 : 0
+        a.name.toLowerCase() < b.name.toLowerCase()
+          ? 1
+          : b.name.toLowerCase() < a.name.toLowerCase()
+          ? -1
+          : 0
       );
     }
 
     console.log(normalArr);
     setSelectedHcp(normalArr);
     setSorting(1 - sorting);
+    setSortingCount(sortingCount + 1);
   };
 
   const emailChanged = (e) => {
@@ -472,6 +483,13 @@ const VerifyHCP = (props) => {
   const closeClicked = () => {
     setSaveOpen(false);
     setEditable(0);
+    let vr = selectedHcp;
+    setSelectedHcp([]);
+    setTimeout(() => {
+      setSelectedHcp(vr);
+      console.log("This will run after 1 second!");
+      setUpdateCounter(updateCounter + 1);
+    }, 50);
   };
 
   const saveAsDraft = async () => {
@@ -757,12 +775,43 @@ const VerifyHCP = (props) => {
                       </button>
                     </div>
                     <div className="hcp-sort">
-                      <button
-                        onClick={sortSelectedUsers}
-                        className="btn btn-outline-primary"
-                      >
-                        Sort By <img src={path_image + "sort.svg"} alt="" />
-                      </button>
+                      {sortingCount == 0 ? (
+                        <>
+                          <button
+                            className="btn btn-outline-primary"
+                            onClick={sortSelectedUsers}
+                          >
+                            Sort By{" "}
+                            <img src={path_image + "sort.svg"} alt="Shorting" />
+                          </button>
+                        </>
+                      ) : sorting == 0 ? (
+                        <>
+                          <button
+                            className="btn btn-outline-primary"
+                            onClick={sortSelectedUsers}
+                          >
+                            Sort By{" "}
+                            <img
+                              src={path_image + "sort-decending.svg"}
+                              alt="Shorting"
+                            />
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <button
+                            className="btn btn-outline-primary"
+                            onClick={sortSelectedUsers}
+                          >
+                            Sort By{" "}
+                            <img
+                              src={path_image + "sort-assending.svg"}
+                              alt="Shorting"
+                            />
+                          </button>
+                        </>
+                      )}
                     </div>
                   </>
                 ) : null}

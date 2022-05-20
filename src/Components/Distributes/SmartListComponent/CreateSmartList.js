@@ -88,7 +88,7 @@ const CreateSmartList = () => {
     element2.classList.remove("active");
 
     if (!smartListName.trim()) {
-      toast.warning("Please enter the samrt list name first");
+      toast.warning("Please enter the smart list name first.");
     } else if (!creatorName.trim()) {
       toast.warning("Please enter the creator name");
     } else {

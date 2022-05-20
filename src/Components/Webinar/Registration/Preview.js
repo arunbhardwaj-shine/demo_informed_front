@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Modal } from 'react-bootstrap';
 import { useParams } from 'react-router-dom'
-import { ensurePluginOrder } from 'react-table';
 import ExportApi from '../../../Api/ExportApi';
-import { browserName, browserVersion } from "react-device-detect";
+import { browserName } from "react-device-detect";
 const Preview = () => {
   const [data, setData] = useState();
   const [show, setShow] = useState(false);
@@ -68,7 +67,9 @@ const Preview = () => {
         <Button onClick={()=>setShow(false)}>Close</Button>
       </Modal.Footer>
     </Modal>
-    <div id="one"> </div>
+    <div id="one">
+      
+       </div>
     </>
   )
 }

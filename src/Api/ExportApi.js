@@ -29,6 +29,11 @@ const GetTimezoneregionData = () => BaseApi.get("timezone_region",{},{ headers: 
 }});
 const GetCountryData = () => BaseApi.get("country",{},{ headers: {
   'Authorization':localStorage.getItem("Token"),}});
+  ///......Sample File Download
+  const DownloadSampleFile  = () =>
+  BaseApi.get(`sample-download`,{},{ headers: {
+    'Authorization':localStorage.getItem("Token"),
+  }});
       //Event
 const GetEventList = () => BaseApi.get("events",{},{ headers: {
   'Authorization':localStorage.getItem("Token"),
@@ -153,7 +158,7 @@ BaseApi.get(`email-stats/${id}`,{template_id:template_id,search_key:search_key},
   'Authorization':localStorage.getItem("Token"),
 }});
 const EmailSand = (id,name,email) =>
-BaseApi.post(`create-unregistered-participant`,{event_id :id,name:name,email:email},{ headers: {
+BaseApi.post(`create-unregistered-participant`,{event_id :id,first_name:name,email:email},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
 const Excelsend = (form) =>
@@ -168,12 +173,12 @@ const EmailSandRegisteredType = (type,event_id,user_type) =>
 BaseApi.get(`participant-list`,{event_id:event_id,type:type,user_type:user_type},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
-const sandAllmaik = (template_id ,participants) =>
-BaseApi.post(`send-mail`,{template_id:template_id,participants:participants},{ headers: {
+const sandAllmaik = (template_id ,participants,registeredNonRegistered) =>
+BaseApi.post(`send-mail`,{template_id:template_id,participants:participants,type:registeredNonRegistered},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
 const CreateParticipant = (name,country,browser,email,alice,stats) =>
-BaseApi.post(`create-participant`,{name:name,email:email,country:country,browser:browser,alice:alice,status:stats},{ headers: {
+BaseApi.post(`create-participant`,{name:name,email:email,country_id:country,browser:browser,alice:alice,status:stats},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
 const ParticipantPage = (id,eventId,registeredNonRegistered) =>
@@ -200,6 +205,7 @@ export default {
   GetTimezoneregionData,
   GetCountryData,
   GetEventList,
+  DownloadSampleFile,
   GetEventListSerch,
   CreatEvent,
   GetEventListDataUpdate,

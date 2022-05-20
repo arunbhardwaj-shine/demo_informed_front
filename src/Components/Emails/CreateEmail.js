@@ -297,6 +297,9 @@ const CreateEmail = (props) => {
         toast.error("Something went wrong");
         console.log(err);
       });
+
+    setSelectedHcp([]);
+    setSearchedUsers([]);
   };
 
   const selectHcp = (index) => {
@@ -731,7 +734,7 @@ const CreateEmail = (props) => {
   const saveClicked = async () => {
     //  console.log(validator);
 
-    setIsOpenAdd(false);
+    // setIsOpenAdd(false);
 
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
@@ -1167,7 +1170,11 @@ const CreateEmail = (props) => {
               type="button"
               className="btn-close"
               data-bs-dismiss="modal"
-              onClick={() => setIsOpensend(false)}
+              onClick={() => {
+                setIsOpensend(false);
+                setSelectedHcp([]);
+                setSearchedUsers([]);
+              }}
             ></button>
           </Modal.Header>
           <Modal.Body>
@@ -1345,7 +1352,11 @@ const CreateEmail = (props) => {
               type="button"
               className="btn-close"
               data-bs-dismiss="modal"
-              onClick={() => setAddListOpen(false)}
+              onClick={() => {
+                setAddListOpen(false);
+                setSelectedHcp([]);
+                setSearchedUsers([]);
+              }}
             ></button>
           </Modal.Header>
           <Modal.Body>
