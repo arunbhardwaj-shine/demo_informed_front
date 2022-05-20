@@ -1095,12 +1095,15 @@ const EmailList = (props) => {
                               </button>
                             </div>
                             <div className="mailbox-buttons-list">
-                              <button
+
+                              { data.total_Opened_pr<100 ? <button
                                 className="btn btn-primary btn-bordered send"
                                 onClick={(e) => showModal("resend", data.id)}
                               >
                                 Resend
-                              </button>
+                              </button> : ""  }
+                              
+
                               <button
                                 className="btn btn-primary btn-filled edit"
                                 onClick={(e) => showViewEmailModal(data)}

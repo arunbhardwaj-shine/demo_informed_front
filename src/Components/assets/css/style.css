@@ -777,3 +777,6 @@ button#test-table-xls-button { font-size: 0; width: 40px; margin-right: 16px; ba
 a.show-less-info p:after { content: "<<"; padding-left: 7px; position: absolute; right: 0; border-bottom: 1px solid var(--skyblue); line-height: 14px; top: 2px; }
 .verify-email-detail h6 ul li img[alt="Close-filter"] {cursor: pointer;}
 #mail-view.modal-dialog[custom-atr="scroll"] .modal-header {box-shadow: 0px 2px 18px rgba(0, 102, 190, 0.12);z-index: 10;position: relative;}   
+.add-new-field img{
+  cursor: pointer;
+}
