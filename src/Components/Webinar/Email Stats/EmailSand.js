@@ -28,15 +28,25 @@ const EmailSand = () => {
   const handeleimage = (e) => {
     setimage(e.target.files[0]);
   };
-  // const downloadFile = () => {
-  //   let link = document.createElement('a');
-  //     link.href = "https://informed.pro/sample.xlsx";
-  //     link.setAttribute('download', 'file.xlsx');
-  //     document.body.appendChild(link);
-  //     link.download = '';
-  //     link.click();
-  //     document.body.removeChild(link);
-  // }
+  const downloadFile = () => {
+ 
+      // alert("okk")
+      // ExportApi.DownloadSampleFile().then((resp) => {
+      //   if (resp.ok) {
+      //     alert("okkin")
+      //      console.log(resp.data.data)
+        let link = document.createElement('a');
+        link.href = "http://51.89.210.56:8000/files/Sample.xlsx";
+        link.setAttribute('download', 'file.xlsx');
+        document.body.appendChild(link);
+        link.download = '';
+        link.click();
+        document.body.removeChild(link);
+        // }
+      // });
+  
+   
+  }
   const handleGetEventlist = () => {
     ExportApi.GetEventList().then((resp) => {
       if (resp.ok) {
@@ -58,10 +68,11 @@ const EmailSand = () => {
     ).then((resp) => {
       if (resp.ok) {
         if (resp.data.code === 404) {
-          //  setMassage("Data Not Found");
+            // setMassage("Data Not Found");
           setEmailData();
           setMassage("Data Not Found");
         } else {
+          setMassage(false)
           console.log(resp.data.data);
           let a = resp.data.data.data;
           for (let index = 0; index < a.length; index++) {
@@ -171,6 +182,7 @@ const EmailSand = () => {
           setMassage("Data Not Found");
           setEmailData();
         } else {
+          setMassage(false)
           console.log(resp.data.data);
           let a = resp.data.data.data;
           for (let index = 0; index < a.length; index++) {
@@ -190,18 +202,18 @@ const EmailSand = () => {
       value
     ).then((resp) => {
       if (resp.ok) {
-        console.log(resp.data.data);
+        // console.log(resp.data);
         if (resp.data.code === 404) {
           setEmailData();
           setMassage("Data Not Found");
         } else {
+          setEmailData(resp.data.data.data);
+          let a = resp.data.data.data;
           for (let index = 0; index < a.length; index++) {
             if (a.length !== Checkbox.length) Checkbox.push({ Check: false });
           }
           setPaginate(resp.data.data.paginate);
           setCurrentPage(resp.data.data.paginate.currentPage);
-          let a = resp.data.data.data;
-          setEmailData(resp.data.data.data);
         }
       }
     });
@@ -301,6 +313,7 @@ const EmailSand = () => {
             setEmailData();
             setMassage("Data Not Found");
           } else {
+            setMassage(false)
             setPaginate(resp.data.data.paginate);
             setCurrentPage(resp.data.data.paginate.currentPage);
             setEmailData(resp.data.data.data);
@@ -403,7 +416,7 @@ const EmailSand = () => {
             ) : null}
           </Col>
           <Col>
-            {templateId != undefined || templateId != null ? (
+            {eventId==="null"||eventId===null||eventId===undefined?null:  (
               <>
                 <Form.Label>Select Users </Form.Label>
                 <Form.Select
@@ -413,15 +426,15 @@ const EmailSand = () => {
                   }}
                   aria-label="Default select example"
                 >
-                  <option>Select User</option>
+                  <option value="null">Select User</option>
                   <option value={0}>All Registered</option>
                   <option value={1}>All Non Registered</option>
                 </Form.Select>
               </>
-            ) : null}
+            )}
           </Col>
-          <Col>
-            {EmailData != undefined || EmailData != null ? (
+          {eventId==="null"||eventId===null||eventId===undefined?null:<Col>
+            {registeredNonRegistered==="null"||registeredNonRegistered===null||registeredNonRegistered===undefined?null: (
               <>
                 <Form.Label>Select User Type </Form.Label>
                 <Form.Select
@@ -436,8 +449,9 @@ const EmailSand = () => {
                   <option value="Test User">Test User</option>
                 </Form.Select>
               </>
-            ) : null}
+            ) }
           </Col>
+          }
         </Row>
         <Row>
           {eventId === "null" ||
@@ -469,13 +483,12 @@ const EmailSand = () => {
           <>
             <Row>
               <Col>
-                {/* <div class="download-sample">
-              <p>Download sample Excel file to upload new participant</p>
+                <div class="download-sample">
               <div class="upload-btn" onClick={downloadFile}>
-                <label for="input-file">Download File</label>
+                <label for="input-file">Download Sample File</label>
               </div>
-            </div> */}
-                <CsvDownload data={exampledata}>Download sample</CsvDownload>
+            </div>
+                {/* <CsvDownload data={exampledata}>Download sample</CsvDownload> */}
               </Col>
               <Col>
                 <Form.Control
@@ -494,7 +507,7 @@ const EmailSand = () => {
             <br />
             <h6>Selected User {data.length > 0 ? data.length : 0}</h6>
             <br />
-            <Table bordered hover>
+  {eventId==="null"||eventId===null||eventId===undefined?null:  <Table bordered hover>
               <thead>
                 <tr>
                   <th>
@@ -510,7 +523,7 @@ const EmailSand = () => {
                 </tr>
               </thead>
               <tbody>
-                {EmailData ? (
+                {EmailData==="null"||EmailData===null||EmailData===undefined?<h2>{massage}</h2>: (
                   EmailData?.map((val, i) => (
                     <tr key={i}>
                       <td>
@@ -531,8 +544,6 @@ const EmailSand = () => {
                       <td>{val.email}</td>
                     </tr>
                   ))
-                ) : (
-                  <h2>{massage}</h2>
                 )}
               </tbody>
               <Row style={{ color: "blue" }}>
@@ -545,7 +556,7 @@ const EmailSand = () => {
                         handleGetParticipantPage(currentPage - 1);
                       }}
                     >
-                      Previous{" "}
+                      Previous
                     </p>
                   </Col>
                 ) : null}
@@ -562,7 +573,7 @@ const EmailSand = () => {
                   </Col>
                 ) : null}
               </Row>
-            </Table>
+            </Table>}
           </>
         </Row>
       </Col>

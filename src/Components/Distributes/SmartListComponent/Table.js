@@ -878,7 +878,7 @@ const Table = (props, ref) => {
                     class="btn btn-primary btn-filled create"
                     onClick={showFileInReadersList}
                   >
-                    Craete
+                    Create
                   </button>
                 </div>
               </div>
