@@ -1,31 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { toast, ToastContainer } from "react-toastify";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import ExportApi from "../../../Api/ExportApi";
-import { Checkbox } from "@material-ui/core";
 const StpDetails = () => {
-
-
+const [smtpData, setSmtpData] = useState()
+  const handleGetsmtpdata = () => {
+    ExportApi.getSMTP().then((resp) => {
+      if (resp.ok) {
+        console.log(resp.data.data)
+        setSmtpData(resp.data.data);
+      }
+    });
+  };
+  //  console.log(smtpData?(smtpData?.tls==1?true:false):false,)
   const formik = useFormik({
     initialValues: {
-      smtp_host: "",
-      smtp_port: "",
-      smtp_from_name: "",
-      smtp_email: "",
-      smtp_password: "",
-      encryption_type: "",
-      tls :false
+      smtp_host:smtpData?smtpData.smtp_host:"",
+      smtp_port: smtpData?smtpData.smtp_port:"",
+      smtp_from_name: smtpData?smtpData.smtp_from_name:"",
+      smtp_email: smtpData?smtpData.smtp_email:"",
+      smtp_password: smtpData?smtpData.smtp_password:"",
+      encryption_type: smtpData?smtpData.encryption_type:"",
+      tls:false,
     },
+    enableReinitialize: true,
     validationSchema: Yup.object({
-      // tls: Yup.boolean().oneOf(
-      //   [true],
-      //   "You must accept the terms and conditions"
-      //   ),
         smtp_host: Yup.string()
         .required("Host  is required"),
-        smtp_port: Yup.string().required("Port  is required"),
+        smtp_port: Yup.string()
+        .max(4,"Port must be at most 4 characters")
+        .required("Port  is required"),
         smtp_from_name: Yup.string().required("From Name  is required"),
         smtp_email: Yup.string()
         .email("Invalid email address")
@@ -35,8 +41,33 @@ const StpDetails = () => {
          tls: Yup.boolean().oneOf([true], "TLS is required"),
     }), 
     onSubmit: (values) => {
-      console.log(window)
-
+      if(smtpData){
+        ExportApi.UpdateSMTP(values.smtp_host,values.smtp_port,values.smtp_from_name,values.smtp_email,values.smtp_password,values.encryption_type,values.tls).then((resp) => {
+          if (resp.ok) {
+            if (resp.data.code == 200) {
+              toast.success(resp.data.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
+            } else {
+              toast.error(resp.data.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
+            }
+          }
+        });
+      }else{
         ExportApi.PostSMTP(values.smtp_host,values.smtp_port,values.smtp_from_name,values.smtp_email,values.smtp_password,values.encryption_type,values.tls).then((resp) => {
           if (resp.ok) {
             if (resp.data.code == 200) {
@@ -62,8 +93,12 @@ const StpDetails = () => {
             }
           }
         });
+      }
     },
   });
+  useEffect(() => {
+    handleGetsmtpdata()
+  }, [])
   return (
     <div>
       <Row>

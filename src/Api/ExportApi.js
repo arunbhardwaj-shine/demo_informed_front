@@ -194,6 +194,14 @@ const PostSMTP = (smtp_host,smtp_port,smtp_from_name,smtp_email,smtp_password,en
 BaseApi.post(`smtp`,{smtp_host:smtp_host,smtp_port:smtp_port,smtp_from_name:smtp_from_name,smtp_email:smtp_email,smtp_password:smtp_password,encryption_type:encryption_type,tls:tls},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
+const UpdateSMTP = (smtp_host,smtp_port,smtp_from_name,smtp_email,smtp_password,encryption_type,tls) =>
+BaseApi.post(`smtp-update`,{smtp_host:smtp_host,smtp_port:smtp_port,smtp_from_name:smtp_from_name,smtp_email:smtp_email,smtp_password:smtp_password,encryption_type:encryption_type,tls:tls},{ headers: {
+  'Authorization':localStorage.getItem("Token"),
+}});
+const getSMTP = () =>
+BaseApi.get(`smtp`,{},{ headers: {
+  'Authorization':localStorage.getItem("Token"),
+}});
 export default {
   UserLogin,
   UserForgot,
@@ -237,5 +245,7 @@ export default {
   CreateParticipant,
   ParticipantPage,
   ParticipantPageSearch,
-  PostSMTP
+  PostSMTP,
+  getSMTP,
+  UpdateSMTP
 };
