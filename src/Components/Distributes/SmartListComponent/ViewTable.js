@@ -374,6 +374,7 @@ const ViewTable = (props) => {
     await axios
       .post(`distributes/update_reders_details`, body)
       .then((res) => {
+        console.log(res);
         loader("hide");
         if (res.data.status_code === 200) {
           toast.success("List updated");
@@ -1367,14 +1368,19 @@ const ViewTable = (props) => {
                   })}
                 </form>
                 <form id="add_file" className={"tab-pane" + activeExcel}>
-                  <div className="form-group files">
-                    <input
-                      type="file"
-                      className="form-control"
-                      multiple=""
-                      onChange={onFileChange}
-                      accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                    />
+                  <div className="upload-file-box">
+                    <div className="box">
+                      <input
+                        type="file"
+                        name="file-4[]"
+                        id="file-4"
+                        class="inputfile inputfile-3"
+                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                        onChange={onFileChange}
+                        data-multiple-caption="{count} files selected"
+                        multiple
+                      />
+                    </div>
                   </div>
                 </form>
               </div>

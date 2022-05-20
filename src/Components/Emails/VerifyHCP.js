@@ -432,16 +432,16 @@ const VerifyHCP = (props) => {
 
         const arr = [];
         arr.push({
-          profile_id: profile_id,
+          profile_id: "",
           profile_user_id: profile_user_id,
           email: email,
           jobTitle: jobTitle,
           company: company,
           country: country_edit,
-          names: name_edit,
-          user_id: 18207,
+          username: name_edit,
         });
         setEditableData((oldArray) => [...oldArray, ...arr]);
+        console.log(arr);
       },
       { once: true }
     );
@@ -518,14 +518,29 @@ const VerifyHCP = (props) => {
 
   const saveEditClicked = async () => {
     console.log(editableData);
+    const body = {
+      user_id: 18207,
+      edit_list_array: editableData,
+    };
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    loader("show");
     await axios
-      .post(`distributes/update_reders_details`, editableData)
+      .post(`distributes/update_reders_details`, body)
       .then((res) => {
+        loader("hide");
         console.log(res);
+        if (res.data.status_code === 200) {
+          toast.success(res.data.message);
+        } else {
+          popup_alert({
+            visible: "show",
+            message: res.data.message,
+            type: "error",
+          });
+        }
       })
       .catch((err) => {
-        console.log(err);
+        console.log("something went wrong");
       });
   };
 
