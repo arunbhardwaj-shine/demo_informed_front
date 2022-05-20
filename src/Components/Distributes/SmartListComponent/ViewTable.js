@@ -1346,6 +1346,10 @@ const ViewTable = (props) => {
                                       }
                                     )}
                               </select>
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-6 btn_rmv">
+                            <div className="form-group">
                               {i !== 0 && (
                                 <button
                                   type="button"

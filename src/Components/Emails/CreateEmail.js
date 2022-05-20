@@ -640,7 +640,7 @@ const CreateEmail = (props) => {
   const searchHcp = async (e) => {
     e.preventDefault();
     if (name == "" || typeof name == "undefined") {
-      toast.error("data not found");
+      toast.warning("Please enter name or email first");
     } else {
       const body = {
         user_id: 18207,
@@ -659,7 +659,7 @@ const CreateEmail = (props) => {
           if (res.data.response) {
             setSearchedUsers(res.data.response.data);
           } else {
-            toast.error(res.data.message);
+            toast.warning(res.data.message);
           }
           // if (res.data.message) {
           //   setMessage(res.data.message);
