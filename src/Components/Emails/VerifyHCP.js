@@ -527,7 +527,7 @@ const VerifyHCP = (props) => {
         loader("hide");
         console.log(res);
         if (res.data.status_code === 200) {
-          toast.success(res.data.message);
+          toast.success("data updated successfully");
         } else {
           popup_alert({
             visible: "show",
@@ -1041,7 +1041,7 @@ const VerifyHCP = (props) => {
                           </div>
                           <div className="col-12 col-md-6">
                             <div className="form-group">
-                              <label for="">Email</label>
+                              <label for="">Email *</label>
                               <input
                                 type="email"
                                 className="form-control"

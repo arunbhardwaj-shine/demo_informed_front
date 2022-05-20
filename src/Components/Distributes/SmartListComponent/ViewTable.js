@@ -759,7 +759,7 @@ const ViewTable = (props) => {
             loader("hide");
           });
       } else {
-        toast.error("please enter the email atleast");
+        toast.error("Please enter the email atleast");
       }
     } else {
       let formData = new FormData();
@@ -1296,7 +1296,7 @@ const ViewTable = (props) => {
                           </div>
                           <div className="col-12 col-md-6">
                             <div className="form-group">
-                              <label for="">Email</label>
+                              <label for="">Email *</label>
                               <input
                                 type="email"
                                 className="form-control"
