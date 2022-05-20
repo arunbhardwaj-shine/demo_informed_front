@@ -986,7 +986,7 @@ const SelectSmartListUsers = (props) => {
                           </div>
                           <div className="col-12 col-md-6">
                             <div className="form-group">
-                              <label for="">Email</label>
+                              <label for="">Email *</label>
                               <input
                                 type="email"
                                 className="form-control"
@@ -1037,7 +1037,6 @@ const SelectSmartListUsers = (props) => {
                                       }
                                     )}
                               </select>
-                              
                             </div>
                           </div>
                           <div className="col-12 col-md-6 btn_rmv">

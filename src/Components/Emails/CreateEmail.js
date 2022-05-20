@@ -1242,7 +1242,7 @@ const CreateEmail = (props) => {
                           />
                         </div>
                         <div className="form-group col-sm-6">
-                          <label for="hcp-email">Email</label>
+                          <label for="hcp-email">Email </label>
                           <input
                             type="mail"
                             onChange={(e) => emailChanged(e)}
@@ -1682,7 +1682,7 @@ const CreateEmail = (props) => {
                           </div>
                           <div className="col-12 col-md-6">
                             <div className="form-group">
-                              <label for="">Email</label>
+                              <label for="">Email *</label>
                               <input
                                 type="email"
                                 className="form-control"
