@@ -48,21 +48,43 @@ const EmailStatsChart = (props) => {
   let valueupdate = options_ch;
   const handleGetEventlist = () => {
     if (props.eventid && props.templateId) {
-      ExportApi.getEmailStatsChart(props.eventid, props.templateId).then(
-        (resp) => {
-          if (resp.ok) {
-            //   console.log(resp.data.data)
-            setData(resp.data.data);
-            Object.entries(resp.data.data)?.map(([key, value]) => {
-              console.log(valueupdate.xAxis.categories);
-              valueupdate.xAxis.categories.push(key);
-              valueupdate.series[0].data.push(value);
-            });
+      if (options_ch.xAxis.categories.length > 0) {
+        valueupdate.series[0].data = [];
+        valueupdate.xAxis.categories = [];
+        setOptions_ch(valueupdate);
+
+        ExportApi.getEmailStatsChart(props.eventid, props.templateId).then(
+          (resp) => {
+            if (resp.ok) {
+              console.log(resp.data.data);
+              setData(resp.data.data);
+              Object.entries(resp.data.data)?.map(([key, value]) => {
+                console.log(valueupdate.xAxis.categories);
+                valueupdate.xAxis.categories.push(key);
+                valueupdate.series[0].data.push(value);
+              });
+            }
+            setOptions_ch(valueupdate);
+            setRender(render + 3);
           }
-          setOptions_ch(valueupdate);
-          setRender(render + 1);
-        }
-      );
+        );
+      } else {
+        ExportApi.getEmailStatsChart(props.eventid, props.templateId).then(
+          (resp) => {
+            if (resp.ok) {
+              console.log(resp.data.data);
+              setData(resp.data.data);
+              Object.entries(resp.data.data)?.map(([key, value]) => {
+                console.log(valueupdate.xAxis.categories);
+                valueupdate.xAxis.categories.push(key);
+                valueupdate.series[0].data.push(value);
+              });
+            }
+            setOptions_ch(valueupdate);
+            setRender(render + 3);
+          }
+        );
+      }
     }
   };
   console.log(options_ch);
@@ -79,18 +101,12 @@ const EmailStatsChart = (props) => {
               return (
                 <Col>
                   <h5>{key && key}</h5>
-                  <h5>
-                    {() => {
-                      if (key.includes("last")) {
-                      }
-                    }}
-                  </h5>
                   <p>{value}</p>
                 </Col>
               );
             })}
-            {console.log(options_ch)}
           </Row>
+
           {options_ch.xAxis.categories.length > 0 ? (
             <div className="chart-description-view">
               <HighchartsReact highcharts={Highcharts} options={options_ch} />
