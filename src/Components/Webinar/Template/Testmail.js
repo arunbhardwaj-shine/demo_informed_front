@@ -26,7 +26,6 @@ export const Testmail = (props) => {
     enableReinitialize: true,
 
     onSubmit: (values) => {
-
       let formData = new FormData();
       formData.append("template_id", props.data1);
       formData.append("email", values.Email);

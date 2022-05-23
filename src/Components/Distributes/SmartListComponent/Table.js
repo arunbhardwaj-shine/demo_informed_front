@@ -573,7 +573,7 @@ const Table = (props, ref) => {
         },
       ]);
     } else {
-      toast.error("Please input the email atleast");
+      toast.warning("Please input the email atleast");
     }
   };
 
@@ -756,7 +756,7 @@ const Table = (props, ref) => {
             loader("hide");
           });
       } else {
-        toast.error("please input the email atleast");
+        toast.warning("Please input the email atleast");
       }
 
       //setIsOpen(false);
@@ -799,7 +799,7 @@ const Table = (props, ref) => {
           });
         setIsOpen(false);
       } else {
-        toast.error("Please add a excel file");
+        toast.warning("Please add a excel file");
       }
     }
   };

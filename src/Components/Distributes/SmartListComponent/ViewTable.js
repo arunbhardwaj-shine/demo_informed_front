@@ -352,7 +352,7 @@ const ViewTable = (props) => {
         },
       ]);
     } else {
-      toast.error("Please input the email atleast");
+      toast.warning("Please input the email atleast");
     }
   };
 
@@ -759,7 +759,7 @@ const ViewTable = (props) => {
             loader("hide");
           });
       } else {
-        toast.error("Please enter the email atleast");
+        toast.warning("Please enter the email atleast");
       }
     } else {
       let formData = new FormData();
@@ -804,7 +804,7 @@ const ViewTable = (props) => {
           });
         setIsOpen(false);
       } else {
-        toast.error("Please add a excel file");
+        toast.warning("Please add a excel file");
       }
     }
   };
