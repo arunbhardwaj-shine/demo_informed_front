@@ -69,6 +69,7 @@ const Table = (props, ref) => {
   const [saveOpen, setSaveOpen] = useState(false);
   const [updateCounter, setUpdateCounter] = useState(0);
   const [getNewReaders, setNewReaders] = useState([]);
+  const [emailChanged, setEmailChanged] = useState("");
 
   const [hpc, setHpc] = useState([
     { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
@@ -80,8 +81,8 @@ const Table = (props, ref) => {
   useImperativeHandle(
     ref,
     () => ({
-      createSmartList(dd,newReaders) {
-        showFileInReadersList(dd,newReaders);
+      createSmartList(dd, newReaders) {
+        showFileInReadersList(dd, newReaders);
       },
     }),
     []
@@ -104,8 +105,11 @@ const Table = (props, ref) => {
       setListName(props.smartListName);
     }
 
-    if(typeof props.newAddedUser != "undefined" && props.newAddedUser.length > 0){
-        setNewReaders(props.newAddedUser);
+    if (
+      typeof props.newAddedUser != "undefined" &&
+      props.newAddedUser.length > 0
+    ) {
+      setNewReaders(props.newAddedUser);
     }
   }, [props.data]);
 
@@ -198,7 +202,7 @@ const Table = (props, ref) => {
           combine_data = [new_data, ...old_data];
           // console.log(combine_data);
           setEditList(combine_data);
-          props.sendDataToParent(combine_data,"existing");
+          props.sendDataToParent(combine_data, "existing");
           setUpdatedData(combine_data);
           loader("hide");
         })
@@ -233,6 +237,9 @@ const Table = (props, ref) => {
     names,
     index
   ) => {
+    console.log(profile_id);
+    console.log(profile_user_id);
+
     let ignoreClickOnMeElement = document.getElementById(
       "row-selected" + index
     );
@@ -302,7 +309,7 @@ const Table = (props, ref) => {
     // });
   };
 
-  const showFileInReadersList = async (fdata,newReaders) => {
+  const showFileInReadersList = async (fdata, newReaders) => {
     let body = {};
     if (typeof editList != "undefined" && editList.length > 0) {
       //for Normal flow
@@ -491,6 +498,7 @@ const Table = (props, ref) => {
         toast.error("Something went wrong");
       });
     setSaveOpen(false);
+    setEditableData([]);
   };
 
   const closeClicked = () => {
@@ -592,7 +600,7 @@ const Table = (props, ref) => {
         },
       ]);
     } else {
-      toast.error("Please input the email atleast");
+      toast.warning("Please input the email atleast");
     }
   };
 
@@ -630,7 +638,7 @@ const Table = (props, ref) => {
     });
 
     setEditList(filtered_list);
-    props.sendDataToParent(filtered_list,"existing");
+    props.sendDataToParent(filtered_list, "existing");
     popup_alert({
       visible: "show",
       message: "The HCP record has been deleted </br>successfully !",
@@ -687,6 +695,7 @@ const Table = (props, ref) => {
 
   const onEmailChange = (e, i) => {
     const { value } = e.target;
+    setEmailChanged(value);
     const list = [...hpc];
     const name = hpc[i].email;
     list[i].email = value;
@@ -738,12 +747,17 @@ const Table = (props, ref) => {
       };
 
       const status = body.data.map((data) => {
+        // let validRegex =
+        //   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
         if (data.email == "") {
           return "false";
         } else {
           return "true";
         }
       });
+
+      console.log(status);
 
       if (status.every((element) => element == "true")) {
         loader("show");
@@ -757,16 +771,19 @@ const Table = (props, ref) => {
               let old_data = editList;
 
               let new_data = res.data.response.data;
-              if(typeof getNewReaders != "undefined"){
+              if (typeof getNewReaders != "undefined") {
                 let added_prev_readers_array = getNewReaders;
-                let combine_new_readers_array  = [...new_data, ...added_prev_readers_array];
+                let combine_new_readers_array = [
+                  ...new_data,
+                  ...added_prev_readers_array,
+                ];
                 setNewReaders(combine_new_readers_array);
-                props.sendDataToParent(combine_new_readers_array,"new");
+                props.sendDataToParent(combine_new_readers_array, "new");
               }
               combine_data_manual = [...new_data, ...old_data];
 
               setEditList(old_data);
-              props.sendDataToParent(old_data,"existing");
+              props.sendDataToParent(old_data, "existing");
               setUpdatedData(old_data);
               setIsOpen(false);
               setIsOpenAdd(false);
@@ -780,7 +797,7 @@ const Table = (props, ref) => {
             loader("hide");
           });
       } else {
-        toast.error("please input the email atleast");
+        toast.warning("Please input the email atleast");
       }
 
       //setIsOpen(false);
@@ -801,11 +818,14 @@ const Table = (props, ref) => {
 
               let old_data = editList;
               let new_data = res.data.response.data;
-              if(typeof getNewReaders != "undefined"){
-              	let added_prev_readers_array = getNewReaders;
-              	let combine_new_readers_array  = [...new_data, ...added_prev_readers_array];
-              	setNewReaders(combine_new_readers_array);
-              	props.sendDataToParent(combine_new_readers_array,"new");
+              if (typeof getNewReaders != "undefined") {
+                let added_prev_readers_array = getNewReaders;
+                let combine_new_readers_array = [
+                  ...new_data,
+                  ...added_prev_readers_array,
+                ];
+                setNewReaders(combine_new_readers_array);
+                props.sendDataToParent(combine_new_readers_array, "new");
               }
               combine_data = [...new_data, ...old_data];
               // console.log(combine_data);
@@ -814,7 +834,7 @@ const Table = (props, ref) => {
               setActiveManual("active");
               setActiveExcel("");
               setSelectedFile(null);
-              props.sendDataToParent(old_data,"existing");
+              props.sendDataToParent(old_data, "existing");
               setUpdatedData(old_data);
             } else {
               toast.warning(res.data.message);
@@ -827,7 +847,7 @@ const Table = (props, ref) => {
           });
         setIsOpen(false);
       } else {
-        toast.error("Please add a excel file");
+        toast.warning("Please add a excel file");
       }
     }
   };
@@ -876,13 +896,12 @@ const Table = (props, ref) => {
     setSortingCount(sortingCount + 1);
   };
 
-
   const deleteNewlyAdded = (profile_user_id) => {
     const data = getNewReaders;
     const dataUpdated = data.filter((d) => {
       return d.profile_user_id != profile_user_id;
     });
-    props.sendDataToParent(dataUpdated,"new");
+    props.sendDataToParent(dataUpdated, "new");
     setNewReaders(dataUpdated);
   };
 
@@ -1056,13 +1075,25 @@ const Table = (props, ref) => {
                 </tr>
               </thead>
               <tbody>
-              {
-                typeof getNewReaders !== "undefined" && getNewReaders.length > 0 && (
-                  getNewReaders.map((item) => (
+                {typeof getNewReaders !== "undefined" &&
+                  getNewReaders.length > 0 &&
+                  getNewReaders.map((item, index) => (
                     <tr
                       className="hcps-added"
+                      id={`row-selected` + index}
                       contenteditable={editable === 0 ? "false" : "true"}
-                      onInput={(e) => editing(e, item.profile_id)}
+                      onClick={(e) =>
+                        editing(
+                          item.profile_id,
+                          item.profile_user_id,
+                          item.email,
+                          item.jobTitle,
+                          item.company,
+                          item.country,
+                          item.first_name + " " + item.last_name,
+                          index
+                        )
+                      }
                     >
                       <td>
                         {inEditMode.status &&
@@ -1111,76 +1142,72 @@ const Table = (props, ref) => {
                         />
                       </td>
                     </tr>
-                  ))
-                )
-              }
-              {
-                typeof getNewReaders !== "undefined" && getNewReaders.length > 0 && (
-                  <tr className="seprator-add">
-                    <td colspan="13"></td>
-                  </tr>
-                )
-              }
-                { typeof editList !== "undefined" && editList.length > 0 && (
-
+                  ))}
+                {typeof getNewReaders !== "undefined" &&
+                  getNewReaders.length > 0 && (
+                    <tr className="seprator-add">
+                      <td colspan="13"></td>
+                    </tr>
+                  )}
+                {typeof editList !== "undefined" &&
+                  editList.length > 0 &&
                   editList.map((item, index) => (
-                  <tr
-                    id={`row-selected` + index}
-                    contenteditable={editable === 0 ? "false" : "true"}
-                    onClick={(e) =>
-                      editing(
-                        //  e.currentTarget,
-                        item.profile_id,
-                        item.profile_user_id,
-                        item.email,
-                        item.jobTitle,
-                        item.company,
-                        item.country,
-                        item.first_name + " " + item.last_name,
-                        index
-                      )
-                    }
-                  >
-                    <td id={`field_name` + index}>
-                      <span>{item.first_name + " " + item.last_name}</span>
-                    </td>
-
-                    <td id={`field_email` + index}>{item.email}</td>
-                    <td id={`field_bounced` + index}>NA</td>
-                    <td id={`field_country` + index}>
-                      <span>{item.country}</span>
-                    </td>
-                    {showLessInfo == false ? (
-                      <td id="field_readers">NA</td>
-                    ) : null}
-                    {showLessInfo == false ? (
-                      <td id="field_business_unit">NA</td>
-                    ) : null}
-                    {showLessInfo == false ? (
-                      <td id="field_interest">NA</td>
-                    ) : null}
-                    <td
-                      className="delete_row"
-                      colspan="12"
-                      onClick={() =>
-                        onDelete({
-                          id: item.profile_id,
-                          currentName: item.first_name + " " + item.last_name,
-                          currentJobTitle: item.jobTitle,
-                          currentCompany: item.company,
-                          currentIndication: item.indication,
-                          currentProduct: item.product,
-                          currentCountry: item.country,
-                          currentEmail: item.email,
-                          profile_user_id: item.profile_user_id,
-                        })
+                    <tr
+                      id={`row-selected` + index}
+                      contenteditable={editable === 0 ? "false" : "true"}
+                      onClick={(e) =>
+                        editing(
+                          //  e.currentTarget,
+                          item.profile_id,
+                          item.profile_user_id,
+                          item.email,
+                          item.jobTitle,
+                          item.company,
+                          item.country,
+                          item.first_name + " " + item.last_name,
+                          index
+                        )
                       }
                     >
-                      <img src={path + "delete.svg"} alt="Delete Row" />
-                    </td>
-                  </tr>
-                )))
-              }
+                      <td id={`field_name` + index}>
+                        <span>{item.first_name + " " + item.last_name}</span>
+                      </td>
+
+                      <td id={`field_email` + index}>{item.email}</td>
+                      <td id={`field_bounced` + index}>NA</td>
+                      <td id={`field_country` + index}>
+                        <span>{item.country}</span>
+                      </td>
+                      {showLessInfo == false ? (
+                        <td id="field_readers">NA</td>
+                      ) : null}
+                      {showLessInfo == false ? (
+                        <td id="field_business_unit">NA</td>
+                      ) : null}
+                      {showLessInfo == false ? (
+                        <td id="field_interest">NA</td>
+                      ) : null}
+                      <td
+                        className="delete_row"
+                        colspan="12"
+                        onClick={() =>
+                          onDelete({
+                            id: item.profile_id,
+                            currentName: item.first_name + " " + item.last_name,
+                            currentJobTitle: item.jobTitle,
+                            currentCompany: item.company,
+                            currentIndication: item.indication,
+                            currentProduct: item.product,
+                            currentCountry: item.country,
+                            currentEmail: item.email,
+                            profile_user_id: item.profile_user_id,
+                          })
+                        }
+                      >
+                        <img src={path + "delete.svg"} alt="Delete Row" />
+                      </td>
+                    </tr>
+                  ))}
                 {validator3.message("email", email, "required|email")}
               </tbody>
             </table>

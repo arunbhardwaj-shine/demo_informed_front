@@ -54,8 +54,6 @@ import EmailStats from "./Components/Webinar/Email Stats/EmailStats";
 import EmailSend from "./Components/Webinar/Email Stats/EmailSend";
 import StpDetails from "./Components/Webinar/Smtp/StpDetails";
 
-
-
 let platform = 0;
 let show = 0;
 if (window.location.href.indexOf("/webinar") > -1) {

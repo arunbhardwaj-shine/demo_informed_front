@@ -304,7 +304,7 @@ const SelectSmartListUsers = (props) => {
         },
       ]);
     } else {
-      toast.error("Please input the email atleast");
+      toast.warning("Please input the email atleast");
     }
   };
 
@@ -531,7 +531,7 @@ const SelectSmartListUsers = (props) => {
             toast.error("Somwthing went wrong");
           });
       } else {
-        toast.error("Please enter the email atleast");
+        toast.warning("Please enter the email atleast");
       }
 
       //  setIsOpen(false);
@@ -569,7 +569,7 @@ const SelectSmartListUsers = (props) => {
           });
         setIsOpen(false);
       } else {
-        toast.error("Please add a excel file");
+        toast.warning("Please add a excel file");
       }
     }
   };

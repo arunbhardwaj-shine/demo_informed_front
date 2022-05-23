@@ -12,7 +12,7 @@ import { popup_alert } from "../../popup_alert";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { getSelectedSmartListData } from "../../actions";
-
+import { useBeforeunload } from "react-beforeunload";
 const EmailList = (props) => {
   const navigate = useNavigate();
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -79,6 +79,13 @@ const EmailList = (props) => {
         data: [2, 3, 0],
       },
     ],
+  });
+
+  useBeforeunload((event) => {
+    //console.log("before unload");
+    console.log(event);
+    event.preventDefault();
+    navigate("/EmailList");
   });
 
   const showViewEmailModal = (data) => {
@@ -317,14 +324,15 @@ const EmailList = (props) => {
       });
   };
 
-  const handleScroll = (ev)=>{
-     if(ev.target.scrollTop>20){
-       document.querySelector("#mail-view").setAttribute("custom-atr", "scroll");
-     }else{
-      document.querySelector("#mail-view").setAttribute("custom-atr", "non-scroll");
-     }
-
-  }
+  const handleScroll = (ev) => {
+    if (ev.target.scrollTop > 20) {
+      document.querySelector("#mail-view").setAttribute("custom-atr", "scroll");
+    } else {
+      document
+        .querySelector("#mail-view")
+        .setAttribute("custom-atr", "non-scroll");
+    }
+  };
 
   const handleOnFilterTags = (ftag) => {
     let tag_index = filtertags.indexOf(ftag);
@@ -1047,7 +1055,11 @@ const EmailList = (props) => {
                                     />
                                   </svg>
                                 </div>
-                                <span>{data.total_Opened_pr > 0 ? data.total_Opened_pr+"%" : 0} </span>
+                                <span>
+                                  {data.total_Opened_pr > 0
+                                    ? data.total_Opened_pr + "%"
+                                    : 0}{" "}
+                                </span>
                               </li>
                               <li>
                                 <div className="mail-status mail_click">
@@ -1068,7 +1080,11 @@ const EmailList = (props) => {
                                     />
                                   </svg>
                                 </div>
-                                <span>{data.total_Click_pr > 0 ? data.total_Click_pr+"%" : 0} </span>
+                                <span>
+                                  {data.total_Click_pr > 0
+                                    ? data.total_Click_pr + "%"
+                                    : 0}{" "}
+                                </span>
                               </li>
                             </ul>
                           </div>
@@ -1095,14 +1111,16 @@ const EmailList = (props) => {
                               </button>
                             </div>
                             <div className="mailbox-buttons-list">
-
-                              { data.total_Opened_pr<100 ? <button
-                                className="btn btn-primary btn-bordered send"
-                                onClick={(e) => showModal("resend", data.id)}
-                              >
-                                Resend
-                              </button> : ""  }
-                              
+                              {data.total_Opened_pr < 100 ? (
+                                <button
+                                  className="btn btn-primary btn-bordered send"
+                                  onClick={(e) => showModal("resend", data.id)}
+                                >
+                                  Resend
+                                </button>
+                              ) : (
+                                ""
+                              )}
 
                               <button
                                 className="btn btn-primary btn-filled edit"
@@ -1219,7 +1237,12 @@ const EmailList = (props) => {
       </div>
 
       <div>
-        <Modal id="mail-view" show={viewEmailModal} onHide={hideEmailModal}  custom-atr="non-scroll">
+        <Modal
+          id="mail-view"
+          show={viewEmailModal}
+          onHide={hideEmailModal}
+          custom-atr="non-scroll"
+        >
           <Modal.Header>
             <h4>Email View</h4>
             <button
@@ -1230,7 +1253,7 @@ const EmailList = (props) => {
             ></button>
           </Modal.Header>
 
-          <Modal.Body onScroll={handleScroll} >
+          <Modal.Body onScroll={handleScroll}>
             {typeof viewEmailData !== "undefined" && (
               <div className="modal-body-view">
                 <div className="mail-box-content">
