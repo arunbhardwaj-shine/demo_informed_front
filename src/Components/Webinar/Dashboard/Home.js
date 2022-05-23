@@ -1,3 +1,4 @@
+import { setNestedObjectValues } from "formik";
 import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import ExportApi from "../../../Api/ExportApi";
@@ -8,6 +9,7 @@ const Home = () => {
   const [eventid, setEventId] = useState();
   const [templateList, setTemplateList] = useState();
   const [templateId, setTemplateId] = useState();
+  const [status, setStatus] = useState();
   const handleGetEventlist = () => {
     ExportApi.GetEventList().then((resp) => {
       if (resp.ok) {
@@ -53,22 +55,22 @@ const Home = () => {
           </Row>
           <Row>
             <Col>
-              <Button>Dashboard</Button>
+              <Button onClick={() => setStatus(1)}>Dashboard</Button>
             </Col>
             <Col>
-              <Button>Poll Question</Button>
+              <Button onClick={() => setStatus(2)}>Poll Question</Button>
             </Col>
             <Col>
-              <Button>Webinar Question</Button>
+              <Button onClick={() => setStatus(3)}>Webinar Question</Button>
             </Col>
             <Col>
-              <Button>Email Stats</Button>
+              <Button onClick={() => setStatus(4)}>Email Stats</Button>
             </Col>
             <Col>
-              <Button>Region Stats</Button>
+              <Button onClick={() => setStatus(5)}>Region Stats</Button>
             </Col>
             <Col>
-              <Button>Links Stats</Button>
+              <Button onClick={() => setStatus(6)}>Links Stats</Button>
             </Col>
           </Row>
           <hr style={{ color: "#0066BE" }} size={4}></hr>
@@ -93,7 +95,9 @@ const Home = () => {
             </Col>
           </Row>
           <Row>
-            <EmailStatsChart eventid={eventid} templateId={templateId} />
+            {status == 4 ? (
+              <EmailStatsChart eventid={eventid} templateId={templateId} />
+            ) : null}
           </Row>
         </Col>
       </Row>
