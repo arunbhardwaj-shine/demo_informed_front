@@ -115,7 +115,7 @@ const [smtpData, setSmtpData] = useState()
         />
         <Col md={{ span: 9, offset: 2 }}>
           <h2 className="mt-3 mb-5" style={{ fontWeight: "bold" }}>
-            SMTP
+            SMTP Details 
           </h2>
           <Row>
             <form onSubmit={formik.handleSubmit}>
@@ -124,7 +124,7 @@ const [smtpData, setSmtpData] = useState()
                 className="mb-3"
               >
                 <Form.Label column sm={2}>
-                  SMTP Host
+                   Host
                 </Form.Label>
                 <Col sm={10}>
                   <Form.Control
@@ -145,7 +145,7 @@ const [smtpData, setSmtpData] = useState()
                 className="mb-3"
               >
                 <Form.Label column sm={2}>
-                  SMTP Port
+                   Port
                 </Form.Label>
                 <Col sm={10}>
                   <Form.Control
@@ -167,7 +167,7 @@ const [smtpData, setSmtpData] = useState()
                 className="mb-3"
               >
                 <Form.Label column sm={2}>
-                  SMTP From Name
+                    Name
                 </Form.Label>
                 <Col sm={10}>
                   <Form.Control
@@ -189,7 +189,7 @@ const [smtpData, setSmtpData] = useState()
                 className="mb-3"
               >
                 <Form.Label column sm={2}>
-                  SMTP Email
+                   Email
                 </Form.Label>
                 <Col sm={10}>
                   <Form.Control
@@ -210,7 +210,7 @@ const [smtpData, setSmtpData] = useState()
                 className="mb-3"
               >
                 <Form.Label column sm={2}>
-                  SMTP Password
+                   Password
                 </Form.Label>
                 <Col sm={10}>
                   <Form.Control
@@ -233,7 +233,7 @@ const [smtpData, setSmtpData] = useState()
                 className="mb-3"
               >
                 <Form.Label column sm={2}>
-                  SMTP Encryption
+                   Encryption
                 </Form.Label>
                 <Col >
                   <Form.Control

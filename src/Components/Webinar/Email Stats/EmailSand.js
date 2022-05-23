@@ -329,7 +329,7 @@ const EmailSand = () => {
               <Button onClick={() => setShow(true)}>Add User</Button>
             </Col>
           )}
-          <Col>
+          {data.length>0&&templateId?<Col>
             <Button
               onClick={() => {
                 handleGSendEmail();
@@ -337,7 +337,7 @@ const EmailSand = () => {
             >
               Send Mail
             </Button>
-          </Col>
+          </Col>:null}
         </Row>
         <Row style={{ paddingTop: "50px" }}>
           <Col>
@@ -486,7 +486,7 @@ const EmailSand = () => {
             <br />
             <h6>Selected User {data.length > 0 ? data.length : 0}</h6>
             <br />
-  {eventId==="null"||eventId===null||eventId===undefined?null:  <Table bordered hover>
+            {eventId==="null"||eventId===null||eventId===undefined?null:  <Table bordered hover>
               <thead>
                 <tr>
                   <th>
