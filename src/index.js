@@ -51,7 +51,7 @@ import Preview from "./Components/Webinar/Registration/Preview";
 import EditorEmail from "./Components/Webinar/Registration/EditorEmail";
 import Readers from "./Components/Webinar/Readers/Readers";
 import EmailStats from "./Components/Webinar/Email Stats/EmailStats";
-import EmailSand from "./Components/Webinar/Email Stats/EmailSand";
+import EmailSend from "./Components/Webinar/Email Stats/EmailSend";
 import StpDetails from "./Components/Webinar/Smtp/StpDetails";
 
 
@@ -176,7 +176,7 @@ ReactDOM.render(
                         />
                         <Route
                           path="/webinar/sendemail"
-                          element={<EmailSand />}
+                          element={<EmailSend />}
                         />
                         <Route
                           path="/webinar/stpdetails"
