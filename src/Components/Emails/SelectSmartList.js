@@ -5,6 +5,7 @@ import { loader } from "../../loader";
 import { connect } from "react-redux";
 import { getSelectedSmartListData } from "../../actions";
 import { Navigate } from "react-router-dom";
+import { Modal } from "react-bootstrap";
 
 const SelectSmartList = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -13,6 +14,7 @@ const SelectSmartList = (props) => {
   const [TemplateId, setTemplateId] = useState(0);
   const [getselecedlistid, setselecedlistid] = useState(0);
   const [smartListSelected, setSmartListSelected] = useState({});
+  const [getpopupopeningstatus, setpopupopeningstatus] = useState(false);
   const navigate = useNavigate();
   const campaign_id = props.getEmailData
     ? props.getEmailData.campaign_id
@@ -133,6 +135,10 @@ const SelectSmartList = (props) => {
     setTemplateId(selected);
   };
 
+  const redirectToList = () => {
+    navigate("/CreateSmartList");
+  };
+
   return (
     <>
       <div className="right-sidebar">
@@ -210,9 +216,7 @@ const SelectSmartList = (props) => {
                 </p>
                 <button
                   className="btn btn-primary btn-bordered"
-                  onClick={() => {
-                    navigate("/CreateSmartList");
-                  }}
+                  onClick={() => setpopupopeningstatus((getpopupopeningstatus) => !getpopupopeningstatus)}
                 >
                   Create new smart list | Upload Exel File
                 </button>
@@ -351,6 +355,29 @@ const SelectSmartList = (props) => {
           </div>
         </section>
       </div>
+
+
+      {/*Confrimation Popup start*/}
+      <Modal show={getpopupopeningstatus} className="send-confirm" id="resend-confirm">
+        <Modal.Header>
+          <button type="button" className="btn-close" data-bs-dismiss="modal" onClick={() => setpopupopeningstatus((getpopupopeningstatus) => !getpopupopeningstatus)}></button>
+        </Modal.Header>
+        <Modal.Body>
+          <img src={path_image + "alert.png"} alt="" />
+          <h4>
+            Your changes will be lost, <br/>if you don't save them in draft.
+          </h4>
+          <div className="modal-buttons">
+            <button type="button" className="btn btn-primary btn-filled" data-bs-dismiss="modal"   onClick={() => redirectToList()}>
+              Yes Please!
+            </button>
+            <button type="button" className="btn btn-primary btn-bordered light" data-bs-dismiss="modal"  onClick={() => setpopupopeningstatus((getpopupopeningstatus) => !getpopupopeningstatus)} >
+              Cancel
+            </button>
+          </div>
+        </Modal.Body>
+      </Modal>
+      {/*Confrimation Popup end*/}
     </>
   );
 };
