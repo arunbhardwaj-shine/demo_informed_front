@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef} from "react";
 import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
@@ -17,6 +17,7 @@ import { toast } from "react-toastify";
 import { getSelectedSmartListData } from "../../actions";
 
 const CreateEmail = (props) => {
+  let file_name  =useRef("");
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const navigate = useNavigate();
   const [SendListData, setSendListData] = useState([]);
@@ -347,11 +348,12 @@ const CreateEmail = (props) => {
     await axios
       .post(`emailapi/add_update_template`, body)
       .then((res) => {
+        toast.success("Template saved successfully");
         loader("hide");
-        // console.log(res);
+      
       })
       .catch((err) => {
-        // console.log(err);
+        toast.error("Something went wrong");
       });
   };
 
@@ -1649,7 +1651,7 @@ const CreateEmail = (props) => {
           </div>
           <div className="modal-body">
             <div className="hcp-add-box">
-              <div className="hcp-add-form tab-content">
+              <div className="hcp-add-form tab-content" id="upload-confirm">
                 <form id="add_hcp_form" className={"tab-pane" + activeManual}>
                   {hpc.map((val, i) => {
                     const fieldName = `hpc[${i}]`;
@@ -1753,16 +1755,29 @@ const CreateEmail = (props) => {
                       </>
                     );
                   })}
+                 
                 </form>
                 <form id="add_file" className={"tab-pane" + activeExcel}>
+                <div className="upload-file-box">
                   <div className="form-group files">
-                    <input
-                      type="file"
-                      className="form-control"
-                      multiple=""
-                      onChange={onFileChange}
-                    />
+                    <div className="box">
+                      <input
+                        type="file"
+                        id="file-4"
+                        className="form-control inputfile"
+                        multiple=""
+                        onChange={onFileChange}
+                        ref={file_name}
+                      />
+                    {(file_name.current.files===undefined || file_name.current.files?.length===0 )? <><label for="file-4"><span>Choose Your File</span></label>
+                      <p>Upload your excel file</p></> : file_name.current.files[0].name }
+                       
+
+                       
+                    </div>
                   </div>
+                  </div>
+                  <div class="download-sample sample-file"><p>Download sample Excel file to upload new HCPs</p><div class="upload-btn"><label for="input-file">Download File</label></div></div>
                 </form>
               </div>
               <div className="hcp-modal-action">

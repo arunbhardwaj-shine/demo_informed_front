@@ -333,7 +333,7 @@ const VerifyHCP = (props) => {
             toast.error("Somwthing went wrong");
           });
       } else {
-        toast.error("please enter the email atleast");
+        toast.warning("Please enter the email atleast");
       }
       // setIsOpen(false);
     } else {
@@ -341,9 +341,6 @@ const VerifyHCP = (props) => {
       formData.append("user_id", 18207);
       formData.append("smart_list_id", "");
       formData.append("reader_file", selectedFile);
-
-      console.log(formData);
-
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       if (selectedFile) {
         loader("show");
@@ -1151,7 +1148,7 @@ const VerifyHCP = (props) => {
                         onClick={addHcp}
                         className="nav-link active btn-bordered"
                         data-bs-toggle="tab"
-                        href="#add_hcp_form"
+                        href="javascript:;"
                       >
                         Add HCP +
                       </a>
@@ -1161,7 +1158,7 @@ const VerifyHCP = (props) => {
                         onClick={addFile}
                         className="nav-link btn-filled"
                         data-bs-toggle="tab"
-                        href="#add_file"
+                        href="javascript:;"
                       >
                         Add File
                       </a>

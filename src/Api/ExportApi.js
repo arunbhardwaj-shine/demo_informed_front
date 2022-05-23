@@ -332,7 +332,7 @@ const ReadersType = (id, type, search, countryvalue) =>
 const ReadersCountry = (id, name, type, search) =>
   BaseApi.get(
     `participants`,
-    { event_id: id, country: name, type: type, name_email: search },
+    { event_id: id, country_id: name, type: type, name_email: search },
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
@@ -353,6 +353,16 @@ const ReadersBlockt = (Participant_id, type) =>
   BaseApi.post(
     `participant`,
     { id: Participant_id, type: type },
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
+const ReadersDelete = (id, is_deleted) =>
+  BaseApi.post(
+    `delete-restore-participant`,
+    { id: id, is_deleted: is_deleted },
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
@@ -495,6 +505,42 @@ const PostSMTP = (
       },
     }
   );
+const UpdateSMTP = (
+  smtp_host,
+  smtp_port,
+  smtp_from_name,
+  smtp_email,
+  smtp_password,
+  encryption_type,
+  tls
+) =>
+  BaseApi.post(
+    `smtp-update`,
+    {
+      smtp_host: smtp_host,
+      smtp_port: smtp_port,
+      smtp_from_name: smtp_from_name,
+      smtp_email: smtp_email,
+      smtp_password: smtp_password,
+      encryption_type: encryption_type,
+      tls: tls,
+    },
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
+const getSMTP = () =>
+  BaseApi.get(
+    `smtp`,
+    {},
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
 export default {
   UserLogin,
   UserForgot,
@@ -529,6 +575,7 @@ export default {
   ReadersPage,
   ReadersBlock,
   ReadersBlockt,
+  ReadersDelete,
   EmailStatss,
   EmailSand,
   EmailSandRegistered,
@@ -539,4 +586,6 @@ export default {
   ParticipantPage,
   ParticipantPageSearch,
   PostSMTP,
+  getSMTP,
+  UpdateSMTP,
 };
