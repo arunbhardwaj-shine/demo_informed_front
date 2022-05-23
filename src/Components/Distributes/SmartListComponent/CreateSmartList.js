@@ -179,14 +179,14 @@ const CreateSmartList = () => {
   }, [smartListName]);
 
   const downloadFile = () => {
-    let link = document.createElement('a');
-      link.href = "https://informed.pro/sample.xls";
-      link.setAttribute('download', 'file.xlsx');
-      document.body.appendChild(link);
-      link.download = '';
-      link.click();
-      document.body.removeChild(link);
-  }
+    let link = document.createElement("a");
+    link.href = "https://informed.pro/sample.xls";
+    link.setAttribute("download", "file.xlsx");
+    document.body.appendChild(link);
+    link.download = "";
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <>

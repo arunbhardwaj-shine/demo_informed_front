@@ -52,23 +52,22 @@ const EmailStatsChart = (props) => {
         valueupdate.series[0].data = [];
         valueupdate.xAxis.categories = [];
         setOptions_ch(valueupdate);
-      
-          ExportApi.getEmailStatsChart(props.eventid, props.templateId).then(
-            (resp) => {
-              if (resp.ok) {
-                console.log(resp.data.data);
-                setData(resp.data.data);
-                Object.entries(resp.data.data)?.map(([key, value]) => {
-                  console.log(valueupdate.xAxis.categories);
-                  valueupdate.xAxis.categories.push(key);
-                  valueupdate.series[0].data.push(value);
-                });
-              }
-              setOptions_ch(valueupdate);
-              setRender(render + 3);
+
+        ExportApi.getEmailStatsChart(props.eventid, props.templateId).then(
+          (resp) => {
+            if (resp.ok) {
+              console.log(resp.data.data);
+              setData(resp.data.data);
+              Object.entries(resp.data.data)?.map(([key, value]) => {
+                console.log(valueupdate.xAxis.categories);
+                valueupdate.xAxis.categories.push(key);
+                valueupdate.series[0].data.push(value);
+              });
             }
-          );
-       
+            setOptions_ch(valueupdate);
+            setRender(render + 3);
+          }
+        );
       } else {
         ExportApi.getEmailStatsChart(props.eventid, props.templateId).then(
           (resp) => {

@@ -25,7 +25,7 @@ function EmailStats() {
     });
   };
   const handleGetEmaildata = (id) => {
-      // console.log(id)
+    // console.log(id)
     ExportApi.EmailStatss(eventId, id).then((resp) => {
       if (resp.ok) {
         console.log(resp.data.data.data);
@@ -94,9 +94,9 @@ function EmailStats() {
             </Col>
           </Row>
           <Row>
-              <Col></Col>
-              <Col></Col>
-              {/* <Col> <CsvDownload data={EmailData}>Excel Download</CsvDownload></Col> */}
+            <Col></Col>
+            <Col></Col>
+            {/* <Col> <CsvDownload data={EmailData}>Excel Download</CsvDownload></Col> */}
           </Row>
           {EmailData != undefined || EmailData != null ? (
             <Table bordered hover>
@@ -105,8 +105,7 @@ function EmailStats() {
                   <th> Name</th>
                   <th>Email</th>
                   <th>Open Link</th>
-          
-                   </tr>
+                </tr>
               </thead>
               {/* var obj = [{id:1,
            data:{EMAILOPENLINK: "http://51.89.210.56:8000/api/set-read",
@@ -120,9 +119,9 @@ for(let a of obj){
               <tbody>
                 {EmailData?.map((val, i) => (
                   <tr key={i}>
-                    <td >{val.name}</td>
-                    <td >{val.email}</td>
-                    <td >{val.opened_linked.is_clicked == 1 ? "Yes" : "No"}</td>
+                    <td>{val.name}</td>
+                    <td>{val.email}</td>
+                    <td>{val.opened_linked.is_clicked == 1 ? "Yes" : "No"}</td>
                     {/* <td></td> */}
                   </tr>
                 ))}
