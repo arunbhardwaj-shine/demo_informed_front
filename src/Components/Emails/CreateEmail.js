@@ -1769,8 +1769,8 @@ const CreateEmail = (props) => {
                         onChange={onFileChange}
                         ref={file_name}
                       />
-                    {(file_name.current.files===undefined || file_name.current.files?.length===0 )? <><label for="file-4"><span>Choose Your File</span></label>
-                      <p>Upload your excel file</p></> : file_name.current.files[0].name }
+                      {(file_name.current?.files===undefined || file_name.current.files?.length===0 )? <><label for="file-4"><span>Choose Your File</span></label>
+                      <p>Upload your excel file</p></> : <h5>{file_name.current.files[0].name}</h5> }
                        
 
                        
