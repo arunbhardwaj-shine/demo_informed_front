@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import { Link } from "react-router-dom";
 import { Button, Modal } from "react-bootstrap";
 import { confirmAlert } from "react-confirm-alert";
@@ -58,6 +58,7 @@ const ViewTable = (props) => {
   const [showLessUpdate, setShowLessUpdate] = useState(0);
   const [activeExcel, setActiveExcel] = useState("");
   const [editableData, setEditableData] = useState([]);
+  let file_name  =useRef("");
 
   useEffect(() => {
     setUpdatedData(props.data);
@@ -1263,7 +1264,7 @@ const ViewTable = (props) => {
           </div>
           <div className="modal-body">
             <div className="hcp-add-box">
-              <div className="hcp-add-form tab-content">
+              <div className="hcp-add-form tab-content" id="upload-confirm">
                 <form id="add_hcp_form" className={"tab-pane" + activeManual}>
                   {hpc.map((val, i) => {
                     const fieldName = `hpc[${i}]`;
@@ -1379,9 +1380,14 @@ const ViewTable = (props) => {
                         onChange={onFileChange}
                         data-multiple-caption="{count} files selected"
                         multiple
+                        ref={file_name}
                       />
+                    {(file_name.current.files===undefined || file_name.current.files?.length===0 )? <><label for="file-4"><span>Choose Your File</span></label>
+                      <p>Upload your excel file</p></> : file_name.current.files[0].name }
                     </div>
+                 
                   </div>
+                  <div class="download-sample sample-file"><p>Download sample Excel file to upload new HCPs</p><div class="upload-btn"><label for="input-file">Download File</label></div></div>
                 </form>
               </div>
               <div className="hcp-modal-action">
