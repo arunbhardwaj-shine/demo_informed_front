@@ -115,7 +115,7 @@ function Add(props) {
       var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
       var yyyy = today.getFullYear();
       let dateData=dd + '-'+ mm +'-'+yyyy
-      console.log()
+
       let a = JSON.stringify(Speakername);
       console.log(dateData);
 if(values.event_start_time>=values.eventendtime){

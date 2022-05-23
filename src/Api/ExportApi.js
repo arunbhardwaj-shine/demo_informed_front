@@ -206,6 +206,11 @@ const getSMTP = () =>
 BaseApi.get(`smtp`,{},{ headers: {
   'Authorization':localStorage.getItem("Token"),
 }});
+///....chart....//
+const getEmailStatsChart = (eventid,templateId) =>
+BaseApi.get(`email-stats`,{event_id:eventid,template_id:templateId},{ headers: {
+  'Authorization':localStorage.getItem("Token"),
+}});
 export default {
   UserLogin,
   UserForgot,
@@ -252,5 +257,6 @@ export default {
   ParticipantPageSearch,
   PostSMTP,
   getSMTP,
-  UpdateSMTP
+  UpdateSMTP,
+  getEmailStatsChart
 };

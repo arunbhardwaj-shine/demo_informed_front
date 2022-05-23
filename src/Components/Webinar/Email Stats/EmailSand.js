@@ -157,6 +157,10 @@ const EmailSand = () => {
     );
   };
   const handleGetEmaildataRegistered = (value) => {
+    if (value =="null") {
+      setMassage("Data Not Found");
+      setEmailData();
+    } else {
     ExportApi.EmailSandRegistered(value, eventId).then((resp) => {
       if (resp.ok) {
         if (resp.data.code === 404) {
@@ -175,6 +179,7 @@ const EmailSand = () => {
         }
       }
     });
+  }
   };
   const handleGetEmaildataRegisteredUserType = (value) => {
     ExportApi.EmailSandRegisteredType(
