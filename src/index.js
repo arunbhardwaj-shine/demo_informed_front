@@ -128,7 +128,7 @@ ReactDOM.render(
                 <>
                   {" "}
                   <Routes>
-                    <Route path="/webinar" element={<Home />} />
+                    <Route path="/webinar" element={<Dashboard />} />
                     <Route
                       path="/webinar/register/:code/:url/:stats"
                       element={<Preview />}
@@ -146,7 +146,7 @@ ReactDOM.render(
                       <Route path="/" element={<Proctected />}>
                         <Route
                           path="/webinar/dashboard"
-                          element={<Dashboard />}
+                          element={<Home />}
                         />
                         <Route
                           path="/webinar/resetpassword"
