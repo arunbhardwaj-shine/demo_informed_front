@@ -184,7 +184,6 @@ const ViewTable = (props) => {
   // }, [updateCounter]);
 
   useEffect(() => {
-    console.log("upatdedddddd");
   }, [editList]);
 
   useEffect(() => {
@@ -225,8 +224,9 @@ const ViewTable = (props) => {
           if (res.data.status_code === 200) {
             popup_alert({
               visible: "show",
-              message: "User added successfully",
+              message: "Smar list updated successfully",
               type: "success",
+              redirect: "/SmartList",
             });
           } else {
             popup_alert({
@@ -1127,7 +1127,6 @@ const ViewTable = (props) => {
                       )
                     }
                   >
-                    {console.log(item)}
                     <td id={`field_name` + index}>
                       <span> {item.first_name + " " + item.last_name} </span>
                     </td>

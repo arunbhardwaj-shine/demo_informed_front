@@ -68,6 +68,7 @@ const Table = (props, ref) => {
   const [counter, setCounter] = useState([0]);
   const [saveOpen, setSaveOpen] = useState(false);
   const [updateCounter, setUpdateCounter] = useState(0);
+  const [getNewReaders, setNewReaders] = useState([]);
 
   const [hpc, setHpc] = useState([
     { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
@@ -79,8 +80,8 @@ const Table = (props, ref) => {
   useImperativeHandle(
     ref,
     () => ({
-      createSmartList(dd) {
-        showFileInReadersList(dd);
+      createSmartList(dd,newReaders) {
+        showFileInReadersList(dd,newReaders);
       },
     }),
     []
@@ -89,6 +90,8 @@ const Table = (props, ref) => {
   useEffect(() => {
     setUpdatedData(props.data);
     setEditList(props.data);
+    // if(typeof props.data != "undefined" && props.data.length > 0){
+    // }
     if (typeof props.listId != "undefined" && props.listId != "") {
       setListId(props.listId);
     } else {
@@ -100,6 +103,13 @@ const Table = (props, ref) => {
     ) {
       setListName(props.smartListName);
     }
+
+    if(typeof props.newAddedUser != "undefined" && props.newAddedUser.length > 0){
+        setNewReaders(props.newAddedUser);
+    }
+  }, [props.data]);
+
+  useEffect(() => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const getalCountry = async () => {
       const body = {
@@ -188,7 +198,7 @@ const Table = (props, ref) => {
           combine_data = [new_data, ...old_data];
           // console.log(combine_data);
           setEditList(combine_data);
-          props.sendDataToParent(combine_data);
+          props.sendDataToParent(combine_data,"existing");
           setUpdatedData(combine_data);
           loader("hide");
         })
@@ -292,20 +302,25 @@ const Table = (props, ref) => {
     // });
   };
 
-  const showFileInReadersList = async (fdata) => {
+  const showFileInReadersList = async (fdata,newReaders) => {
     let body = {};
     if (typeof editList != "undefined" && editList.length > 0) {
       //for Normal flow
       const profile_user_id_array = editList.map((data) => {
         return data.profile_user_id;
       });
+
+      const new_user_id_array = getNewReaders.map((data) => {
+        return data.profile_user_id;
+      });
+
       body = {
         user_list: profile_user_id_array,
         smart_list_id: typeof getlistid !== "undefined" ? getlistid : "",
         user_id: 18207,
         smart_list_name: getlistname,
         submit_type: props.upload_by_filter,
-        new_users_list: [],
+        new_users_list: new_user_id_array,
         creator_name: typeof props.creator !== "undefined" ? props.creator : "",
       };
     } else if (
@@ -317,6 +332,10 @@ const Table = (props, ref) => {
       const profile_user_id_array = fdata.map((data) => {
         return data.profile_user_id;
       });
+
+      const new_user_id_array = newReaders.map((data) => {
+        return data.profile_user_id;
+      });
       body = {
         user_list: profile_user_id_array,
         smart_list_id:
@@ -324,7 +343,7 @@ const Table = (props, ref) => {
         user_id: 18207,
         smart_list_name: props.smartListName,
         submit_type: props.upload_by_filter,
-        new_users_list: [],
+        new_users_list: new_user_id_array,
         creator_name: typeof props.creator !== "undefined" ? props.creator : "",
       };
     }
@@ -334,7 +353,7 @@ const Table = (props, ref) => {
         Object.assign(body, { filters: props.filter_payload });
       }
     }
-    console.log(body);
+    // console.log(body);
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
@@ -611,7 +630,7 @@ const Table = (props, ref) => {
     });
 
     setEditList(filtered_list);
-    props.sendDataToParent(filtered_list);
+    props.sendDataToParent(filtered_list,"existing");
     popup_alert({
       visible: "show",
       message: "The HCP record has been deleted </br>successfully !",
@@ -738,12 +757,17 @@ const Table = (props, ref) => {
               let old_data = editList;
 
               let new_data = res.data.response.data;
-
+              if(typeof getNewReaders != "undefined"){
+                let added_prev_readers_array = getNewReaders;
+                let combine_new_readers_array  = [...new_data, ...added_prev_readers_array];
+                setNewReaders(combine_new_readers_array);
+                props.sendDataToParent(combine_new_readers_array,"new");
+              }
               combine_data_manual = [...new_data, ...old_data];
 
-              setEditList(combine_data_manual);
-              props.sendDataToParent(combine_data_manual);
-              setUpdatedData(combine_data_manual);
+              setEditList(old_data);
+              props.sendDataToParent(old_data,"existing");
+              setUpdatedData(old_data);
               setIsOpen(false);
               setIsOpenAdd(false);
             } else {
@@ -766,8 +790,6 @@ const Table = (props, ref) => {
       formData.append("smart_list_id", getlistid);
       formData.append("reader_file", selectedFile);
 
-      console.log(formData);
-
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       if (selectedFile) {
         loader("show");
@@ -776,18 +798,24 @@ const Table = (props, ref) => {
           .then((res) => {
             if (res.data.status_code === 200) {
               toast.success("User added successfuly");
-              console.log(res.data.response.data);
+
               let old_data = editList;
               let new_data = res.data.response.data;
+              if(typeof getNewReaders != "undefined"){
+              	let added_prev_readers_array = getNewReaders;
+              	let combine_new_readers_array  = [...new_data, ...added_prev_readers_array];
+              	setNewReaders(combine_new_readers_array);
+              	props.sendDataToParent(combine_new_readers_array,"new");
+              }
               combine_data = [...new_data, ...old_data];
               // console.log(combine_data);
-              setEditList(combine_data);
+              setEditList(old_data);
               setIsOpenAdd(false);
               setActiveManual("active");
               setActiveExcel("");
               setSelectedFile(null);
-              props.sendDataToParent(combine_data);
-              setUpdatedData(combine_data);
+              props.sendDataToParent(old_data,"existing");
+              setUpdatedData(old_data);
             } else {
               toast.warning(res.data.message);
             }
@@ -848,36 +876,46 @@ const Table = (props, ref) => {
     setSortingCount(sortingCount + 1);
   };
 
+
+  const deleteNewlyAdded = (profile_user_id) => {
+    const data = getNewReaders;
+    const dataUpdated = data.filter((d) => {
+      return d.profile_user_id != profile_user_id;
+    });
+    props.sendDataToParent(dataUpdated,"new");
+    setNewReaders(dataUpdated);
+  };
+
   return (
     <>
       {typeof props.upload_by_filter !== "undefined" &&
         props.upload_by_filter == 0 && (
-          <div class="page-top-nav smart_list_names">
-            <div class="row justify-content-end align-items-center">
-              <div class="col-12 col-md-1">
-                <div class="header-btn-left">
-                  <button class="btn btn-primary btn-bordered back">
+          <div className="page-top-nav smart_list_names">
+            <div className="row justify-content-end align-items-center">
+              <div className="col-12 col-md-1">
+                <div className="header-btn-left">
+                  <button className="btn btn-primary btn-bordered back">
                     <Link to={"/CreateSmartList"}>BACK</Link>
                   </button>
                 </div>
               </div>
-              <div class="col-12 col-md-9">
-                <ul class="tabnav-link">
-                  <li class="">
+              <div className="col-12 col-md-9">
+                <ul className="tabnav-link">
+                  <li className="">
                     <a href="javascript:void(0)">Create smart List</a>
                   </li>
-                  <li class="active">
+                  <li className="active">
                     <a href="javascript:void(0)">Verify Your List</a>
                   </li>
                 </ul>
               </div>
-              <div class="col-12 col-md-2">
-                <div class="header-btn">
-                  <button class="btn btn-primary btn-bordered move-draft">
+              <div className="col-12 col-md-2">
+                <div className="header-btn">
+                  <button className="btn btn-primary btn-bordered move-draft">
                     <Link to={{ pathname: "/CreateSmartList" }}>Cancel</Link>
                   </button>
                   <button
-                    class="btn btn-primary btn-filled create"
+                    className="btn btn-primary btn-filled create"
                     onClick={showFileInReadersList}
                   >
                     Create
@@ -888,9 +926,9 @@ const Table = (props, ref) => {
           </div>
         )}
 
-      <section class="search-hcp smart-list-view">
-        <div class="result-hcp-table">
-          <div class="table-title">
+      <section className="search-hcp smart-list-view">
+        <div className="result-hcp-table">
+          <div className="table-title">
             {props.upload_by_filter == 0 ? (
               <h4>
                 Uploaded HCPs for the smart list{" "}
@@ -900,7 +938,7 @@ const Table = (props, ref) => {
               <h4>Selected HCPs for the smart list</h4>
             )}
 
-            <div class="selected-hcp-table-action">
+            <div className="selected-hcp-table-action">
               {editable == false ? (
                 <>
                   {" "}
@@ -922,17 +960,17 @@ const Table = (props, ref) => {
                     sheet="tablexls"
                     buttonText="Download "
                   />
-                  <div class="hcp-new-user">
+                  <div className="hcp-new-user">
                     <button
-                      class="btn btn-outline-primary"
+                      className="btn btn-outline-primary"
                       onClick={handleShow}
                     >
                       <img src={path + "new-user.svg"} alt="New User" />
                     </button>
                   </div>
-                  <div class="hcp-added">
+                  <div className="hcp-added">
                     <button
-                      class="btn btn-outline-primary"
+                      className="btn btn-outline-primary"
                       onClick={editButtonClicked}
                     >
                       <img src={path + "edit-button.svg"} alt="Edit" />
@@ -998,8 +1036,8 @@ const Table = (props, ref) => {
               ) : null}
             </div>
           </div>
-          <div class="selected-hcp-list">
-            <table class="table" id="table-to-xls">
+          <div className="selected-hcp-list">
+            <table className="table" id="table-to-xls">
               <thead>
                 <tr>
                   <th scope="col">Name</th>
@@ -1018,7 +1056,74 @@ const Table = (props, ref) => {
                 </tr>
               </thead>
               <tbody>
-                {editList.map((item, index) => (
+              {
+                typeof getNewReaders !== "undefined" && getNewReaders.length > 0 && (
+                  getNewReaders.map((item) => (
+                    <tr
+                      className="hcps-added"
+                      contenteditable={editable === 0 ? "false" : "true"}
+                      onInput={(e) => editing(e, item.profile_id)}
+                    >
+                      <td>
+                        {inEditMode.status &&
+                        inEditMode.rowKey === item.profile_id ? (
+                          <input
+                            value={name}
+                            onChange={(event) => setName(event.target.value)}
+                          />
+                        ) : (
+                          item.first_name + " " + item.last_name
+                        )}
+                      </td>
+                      <td>
+                        {" "}
+                        {inEditMode.status &&
+                        inEditMode.rowKey === item.profile_id ? (
+                          <input
+                            value={email}
+                            type="email"
+                            onChange={(event) => setEmail(event.target.value)}
+                          />
+                        ) : (
+                          item.email
+                        )}
+                      </td>
+                      <td>No</td>
+                      <td>
+                        {inEditMode.status &&
+                        inEditMode.rowKey === item.profile_id ? (
+                          <input
+                            value={country}
+                            onChange={(event) => setCountry(event.target.value)}
+                          />
+                        ) : (
+                          item.country
+                        )}
+                      </td>
+                      {showLessInfo == false ? <td> NA</td> : null}
+                      {showLessInfo == false ? <td> NA</td> : null}
+                      {showLessInfo == false ? <td> NA</td> : null}
+                      <td className="delete_row" colspan="12">
+                        <img
+                          src={path + "delete.svg"}
+                          alt="Delete Row"
+                          onClick={() => deleteNewlyAdded(item.profile_user_id)}
+                        />
+                      </td>
+                    </tr>
+                  ))
+                )
+              }
+              {
+                typeof getNewReaders !== "undefined" && getNewReaders.length > 0 && (
+                  <tr className="seprator-add">
+                    <td colspan="13"></td>
+                  </tr>
+                )
+              }
+                { typeof editList !== "undefined" && editList.length > 0 && (
+
+                  editList.map((item, index) => (
                   <tr
                     id={`row-selected` + index}
                     contenteditable={editable === 0 ? "false" : "true"}
@@ -1055,7 +1160,7 @@ const Table = (props, ref) => {
                       <td id="field_interest">NA</td>
                     ) : null}
                     <td
-                      class="delete_row"
+                      className="delete_row"
                       colspan="12"
                       onClick={() =>
                         onDelete({
@@ -1074,7 +1179,8 @@ const Table = (props, ref) => {
                       <img src={path + "delete.svg"} alt="Delete Row" />
                     </td>
                   </tr>
-                ))}
+                )))
+              }
                 {validator3.message("email", email, "required|email")}
               </tbody>
             </table>
@@ -1464,7 +1570,7 @@ const Table = (props, ref) => {
         <Modal.Header>
           <button
             type="button"
-            class="btn-close"
+            className="btn-close"
             data-bs-dismiss="modal"
             onClick={() => {
               setIsOpen(false);
@@ -1479,10 +1585,10 @@ const Table = (props, ref) => {
             Are you sure you want to delete it?
           </h4>
 
-          <div class="modal-buttons">
+          <div className="modal-buttons">
             <button
               type="button"
-              class="btn btn-primary btn-filled"
+              className="btn btn-primary btn-filled"
               data-bs-dismiss="modal"
               onClick={() => {
                 deleteReader(profileUserId);
@@ -1497,7 +1603,7 @@ const Table = (props, ref) => {
 
             <button
               type="button"
-              class="btn btn-primary btn-bordered light"
+              className="btn btn-primary btn-bordered light"
               data-bs-dismiss="modal"
               onClick={() => {
                 setIsOpen(false);
