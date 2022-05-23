@@ -6,9 +6,7 @@ import { Link } from "react-router-dom";
 import '../webinar.css';
 import { toast, ToastContainer } from "react-toastify";
 function Rehearsal() {
-    const [Speaker, setSpeaker] = useState([
-        { name: "SpeakersName", email: "SpeakesrEmail" },
-      ]);
+  const [render, setRerender] = useState(0);
       const [addForm, setAddForm] = useState([
         { data: "SpeakersName"},
       ]);
@@ -16,16 +14,15 @@ function Rehearsal() {
       const [Timezone, setTimezone] = useState([]);
       const [event, setEvent] = useState([]);
       const handleMaltiInputAdd = () => {
-        setSpeaker([...Speaker, {name: "SpeakersName", email: "SpeakesrEmail" }]);
-        setSpeakerName([...Speakername,{name:'',email:""}])
+        setSpeakerName([...Speakername, { name: "", email: "" }]);
       };
       const handleSpeakerName = (e, i) => {
-        if (e.target.name === `SpeakersName${i}`) {
+        if (e.target.name === `name${i}`) {
           const speker = Speakername[i];
           speker.name = e.target.value;
-           Speakername.splice(i, 1,{...speker});
-           setSpeakerName([...Speakername]);
-        } else if (e.target.name === `SpeakesrEmail${i}`) {
+          Speakername.splice(i, 1, { ...speker });
+          setSpeakerName([...Speakername]);
+        } else if (e.target.name === `email${i}`) {
           const speker = Speakername[i];
           speker.email = e.target.value;
           Speakername.splice(i, 1, { ...speker });
@@ -33,15 +30,14 @@ function Rehearsal() {
         }
       };
       
-      const handleMaltiInputRumove = (i) => {
-        console.log("i",i);
-        if (Speakername.length > 1) {
-          Speaker.splice(i, 1);
-          setSpeaker([...Speaker]);
-          Speakername.splice(i, 1);
-           console.log(Speakername.length);
-        }
-      };
+      const handleMaltiInputRumove = (i) => {   
+        let data1=Speakername
+        Speakername.splice(0, 1);
+       setTimeout(()=>setSpeakerName([...Speakername]),1000) 
+       setRerender(render+1)      
+      console.log("after,",data1.length)
+         setSpeakerName(data1) 
+   };
       const handleGetTimezoneData = () => {
         ExportApi.GetTimezoneData().then((resp) => {
           if (resp.ok) {
@@ -64,9 +60,7 @@ function Rehearsal() {
         handleGetTimezoneData();
         handleGetEventlist()
       },[]);
-      const handleAddmore = () => {
-        setAddForm([...addForm, { name: "SpeakersName", email: "SpeakesrEmail" }]);
-      };
+   
       const formik = useFormik({
         initialValues: {
           EventTitle:'',
@@ -78,10 +72,15 @@ function Rehearsal() {
           Description:''
         },
         onSubmit: (values) => {
+          var today = new Date(values.event_date);
+          var dd = String(today.getDate()).padStart(2, '0');
+          var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+          var yyyy = today.getFullYear();
+          let dateData=dd + '-'+ mm +'-'+yyyy
           let a=JSON.stringify(Speakername)
           console.log(a)
           ExportApi.CreatRehearsal(values.EventTitle,values.Timezone,values.event_start_time,
-          values.eventendtime,values.event_date,values.type,values.Description,Speakername[0].name&&Speakername[0].email?a:null,)
+          values.eventendtime,dateData,values.type,values.Description,Speakername[0].name&&Speakername[0].email?a:null,)
             .then((resp) => {
               if (resp.data.code == 200) {
                 toast.success(resp.data.message, {
@@ -212,45 +211,56 @@ function Rehearsal() {
             </Form.Group>
             <br />
            
-              {Speaker.map((malti, i) => (
-                <fieldset class="border p-2">
-                <div key={i}>
-                  {Speaker.length > 1 ? (
-                      <button type="button" onClick={() => handleMaltiInputRumove(i)}  class="btn-close float-end" aria-label="Close" />
+            {Speakername.map((malti, i) => (
+                <fieldset className="border p-2">
+                  <div key={i}>
+                    {Speakername.length > 1 ? (
+                      <button
+                        type="button"
+                        onClick={() =>{ handleMaltiInputRumove(i)}}
+                        className="btn-close float-end"
+                        aria-label="Close"
+                      />
                     ) : null}
-                  <Form.Group as={Row} className="mb-3" controlId="exampleForm.ControlInput1">
-                  <Form.Label column sm={2}>Speaker Name</Form.Label>
-                  <Col sm={10}>
-                  <Form.Control
-                    name={Speaker.length === 0 ? malti.name : malti.name + i}
-                    onChange={(e) => {
-                      handleSpeakerName(e, i);
-                    }}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.email}
-                  /></Col>
-                  {formik.touched.email && formik.errors.email ? (
-                    <div style={{ color: "red" }}>{formik.errors.email}</div>
-                  ) : null}
-                  <div class="mt-2"></div>
-                  <Form.Label column sm={2}>Speaker Email</Form.Label>
-                  <Col sm={10}>
-                  <Form.Control
-                    type="email"
-                    name={Speaker.length === 0 ? malti.email : malti.email + i}
-                    onChange={(e) => {
-                      handleSpeakerName(e, i);
-                    }}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.email}
-                  />
-                  </Col>
-                  {formik.touched.email && formik.errors.email ? (
-                    <div style={{ color: "red" }}>{formik.errors.email}</div>
-                  ) : null}
-                  </Form.Group>
-                </div></fieldset>
-            ))}
+                    <Form.Group
+                      as={Row}
+                      className="mb-3"
+                      controlId="exampleForm.ControlInput1"
+                    >
+                      <Form.Label column sm={2}>
+                        Speaker Name
+                      </Form.Label>
+                      <Col sm={10}>
+                        <Form.Control
+                        type="text"
+                          name={
+                            Speakername.length === 0 ? "name" : "name" + i
+                          }
+                          value={malti.name}
+                          onChange={(e) => {
+                            handleSpeakerName(e, i);
+                          }}
+                        />
+                      </Col>
+                      <div className="mt-2"></div>
+                      <Form.Label column sm={2}>
+                        Speaker Email
+                      </Form.Label>
+                      <Col sm={10}>
+                        <Form.Control
+                          type="email"
+                          name={
+                            Speakername.length === 0 ? "email" : "email" + i
+                          }
+                          onChange={(e) => {
+                            handleSpeakerName(e, i);
+                          }}
+                        />
+                      </Col>
+                    </Form.Group>
+                  </div>
+                </fieldset>
+              ))}
             <div class="mt-2"></div>
             <Form.Group className="mb-3">
                 <Button onClick={handleMaltiInputAdd} className="speaker-button">Add More Speaker</Button>
@@ -313,7 +323,7 @@ function Rehearsal() {
             <Button type="submit" className="event-submit-button">Submit</Button>
               </form>
             </div>
-             <button className="btn btn-success btn-block" onClick={handleAddmore}>
+             <button className="btn btn-success btn-block" onClick={handleMaltiInputAdd}>
             Schedule another rehearsal
           </button>
           </div> 

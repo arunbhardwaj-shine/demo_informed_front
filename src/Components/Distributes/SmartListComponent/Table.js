@@ -1447,7 +1447,7 @@ const Table = (props, ref) => {
                                   onContactTypeChange(event, i)
                                 }
                               >
-                                <option selected>Select Type</option>
+                                <option selected value="">Select Type</option>
                                 <option value="HCP">HCP</option>
                                 <option value="Staff">Staff</option>
                                 <option value="Test Users">Test Users</option>
@@ -1462,7 +1462,7 @@ const Table = (props, ref) => {
                                 aria-label="select"
                                 onChange={(event) => onCountryChange(event, i)}
                               >
-                                <option selected>Select Country</option>
+                                <option value="" selected>Select Country</option>
                                 {countryall.length === 0
                                   ? ""
                                   : Object.entries(countryall).map(

@@ -532,6 +532,7 @@ const UpdateSMTP = (
     }
   );
 const getSMTP = () =>
+<<<<<<< HEAD
   BaseApi.get(
     `smtp`,
     {},
@@ -541,6 +542,16 @@ const getSMTP = () =>
       },
     }
   );
+=======
+BaseApi.get(`smtp`,{},{ headers: {
+  'Authorization':localStorage.getItem("Token"),
+}});
+///....chart....//
+const getEmailStatsChart = (eventid,templateId) =>
+BaseApi.get(`email-stats`,{event_id:eventid,template_id:templateId},{ headers: {
+  'Authorization':localStorage.getItem("Token"),
+}});
+>>>>>>> dbd62a8103daa363e978a77fb0b0347e3d54fe70
 export default {
   UserLogin,
   UserForgot,
@@ -588,4 +599,9 @@ export default {
   PostSMTP,
   getSMTP,
   UpdateSMTP,
+<<<<<<< HEAD
 };
+=======
+  getEmailStatsChart
+};
+>>>>>>> dbd62a8103daa363e978a77fb0b0347e3d54fe70
