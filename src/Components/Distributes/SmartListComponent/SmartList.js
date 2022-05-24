@@ -75,6 +75,7 @@ const SmartList = (props) => {
   };
 
   const submitHandler = (event) => {
+    setShowFilter(false);
     if(search.length > 2){
       getSmartListData(1);
     }else{
