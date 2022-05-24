@@ -1382,6 +1382,7 @@ const Table = (props, ref) => {
                   },
                 ]);
                 setActiveManual("active");
+                document.querySelector('#file-4').value = '';
                 setActiveExcel("");
               }}
               type="button"
