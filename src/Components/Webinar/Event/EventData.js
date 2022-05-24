@@ -6,12 +6,13 @@ import "../webinar.css";
 import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import { date } from "yup";
+import Add from "./Add";
 const EventData = () => {
   const [event, setEvent] = useState([]);
   const [message, setMessage] = useState();
   const [eventdata, setEventData] = useState([]);
   const [SpDataSingle, setSpDataSingle] = useState();
-
+  const [show, setShow] = useState(false);
   const [modalShow, setModalShow] = useState(false);
   const [Speakername, setSpeakerName] = useState([{ name: "", email: "" }]);
   const handleGetEventlist = () => {
@@ -510,9 +511,13 @@ const EventData = () => {
         <div class="smart-list-result">
           <div class="col smartlist-result-block">
             <div class="smartlist-add smartlist-view">
-              <Link to="/webinar/event/add">
-                <Button>Create New Webinar/Event</Button>
-              </Link>
+              <Button
+                onClick={() => {
+                  setShow(true);
+                }}
+              >
+                Create New Webinar/Event
+              </Button>
             </div>
             {event.map((event) => {
               return (
@@ -530,16 +535,7 @@ const EventData = () => {
                           {event.event_date} |{event.event_start_time}
                         </span>
                       </div>
-                      <div class="smart-list-added-user">
-                        days left{" "}
-                        {
-                          // new Date(
-                          //   (Date.now() -
-                          //     new Date(event.event_date).getTime()) *
-                          //     1000
-                          // )
-                        }
-                      </div>
+                      <div class="smart-list-added-user">days left {}</div>
                       <div class="mail-stats">
                         <ul>
                           <li></li>
@@ -555,6 +551,34 @@ const EventData = () => {
           </div>
         </div>
       </div>
+
+      <Modal
+        show={show}
+        onHide={() => {
+          setShow(false);
+        }}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>New HCP</Modal.Title>
+          <button className="btn btn-secondary" style={{ margin: "10px" }}>
+            Add HCP +{" "}
+          </button>
+          <button
+            className="btn-secondary"
+            variant="primary"
+            style={{ margin: "5px" }}
+          >
+            Upload Excel
+          </button>
+        </Modal.Header>{" "}
+        <div className="container">
+          <Add />
+
+          <button type="submit" className="btn btn-secondary">
+            Save
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 };
