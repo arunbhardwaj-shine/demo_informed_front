@@ -81,12 +81,10 @@ const EmailList = (props) => {
     ],
   });
 
-  useBeforeunload((event) => {
-    //console.log("before unload");
-    console.log(event);
-    event.preventDefault();
-    navigate("/EmailList");
-  });
+  useEffect(() => {
+    props.getEmailData(null);
+    props.getDraftData(null);
+  }, []);
 
   const showViewEmailModal = (data) => {
     let id = data.id;

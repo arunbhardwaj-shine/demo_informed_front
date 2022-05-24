@@ -1381,7 +1381,7 @@ const ViewTable = (props) => {
                         onChange={onFileChange}
                         data-multiple-caption="{count} files selected"
                         multiple
-                        //ref={file_name}
+                        // ref={file_name}
                       />
                       {file_name.current.files === undefined ||
                       file_name.current.files?.length === 0 ? (
