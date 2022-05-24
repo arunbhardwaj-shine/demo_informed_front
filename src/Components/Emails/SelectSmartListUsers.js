@@ -652,7 +652,7 @@ const SelectSmartListUsers = (props) => {
                       {showLessInfo == true ? (
                         <p>Show More information</p>
                       ) : (
-                        <p>Show less info</p>
+                        <p>Show less information</p>
                       )}{" "}
                     </a>
                     <div className="hcp-new-user">

@@ -75,10 +75,11 @@ const SmartList = (props) => {
   };
 
   const submitHandler = (event) => {
+    setShowFilter(false);
     if(search.length > 2){
       getSmartListData(1);
     }else{
-      toast.error("Please enter two letters minimum.");
+      toast.error("Please enter three letters minimum.");
     }
     event.preventDefault();
     return false;
