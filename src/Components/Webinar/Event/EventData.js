@@ -558,19 +558,7 @@ const EventData = () => {
           setShow(false);
         }}
       >
-        <Modal.Header closeButton>
-          <Modal.Title>New HCP</Modal.Title>
-          <button className="btn btn-secondary" style={{ margin: "10px" }}>
-            Add HCP +{" "}
-          </button>
-          <button
-            className="btn-secondary"
-            variant="primary"
-            style={{ margin: "5px" }}
-          >
-            Upload Excel
-          </button>
-        </Modal.Header>{" "}
+        <Modal.Header closeButton></Modal.Header>{" "}
         <div className="container">
           <Add />
 
