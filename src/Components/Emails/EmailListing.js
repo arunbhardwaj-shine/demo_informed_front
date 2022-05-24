@@ -12,7 +12,6 @@ import { popup_alert } from "../../popup_alert";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { getSelectedSmartListData } from "../../actions";
-import { useBeforeunload } from "react-beforeunload";
 const EmailList = (props) => {
   const navigate = useNavigate();
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -81,12 +80,6 @@ const EmailList = (props) => {
     ],
   });
 
-  useBeforeunload((event) => {
-    //console.log("before unload");
-    console.log(event);
-    event.preventDefault();
-    navigate("/EmailList");
-  });
 
   const showViewEmailModal = (data) => {
     let id = data.id;
