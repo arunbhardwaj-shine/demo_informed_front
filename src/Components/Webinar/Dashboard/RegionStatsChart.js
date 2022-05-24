@@ -114,9 +114,13 @@ const RegionStatsChart = (props) => {
   return (
     <>
       <div className="container">
-        <Tabs>
-          {regions.map((region) => {
-            return <Tab>{region}</Tab>;
+        <Tabs defaultActiveKey="0">
+          {regions.map((region, index) => {
+            return (
+              <Tab eventKey={index} title={region}>
+                <p>tabular data</p>
+              </Tab>
+            );
           })}
         </Tabs>
       </div>
