@@ -60,7 +60,6 @@ if (window.location.href.indexOf("/webinar") > -1) {
   platform = 1;
   show = 1;
 }
-// console.log(window.location.pathname)
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={createStore(reducers)}>

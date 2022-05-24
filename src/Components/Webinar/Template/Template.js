@@ -80,7 +80,6 @@ const Template = () => {
   const handleGetTemplateList = (id) => {
     ExportApi.UserTemplateList(id).then((resp) => {
       if (resp.ok) {
-        console.log(resp.data.data);
         setTemplateList(resp.data.data);
       }
     });

@@ -35,7 +35,6 @@ export const Testmail = (props) => {
       ExportApi.UserTemplateSandMail(formData)
         .then((resp) => {
           if (resp.data) {
-            console.log(resp.data);
             if (resp.data.code == 200) {
               props.data(false);
               toast.success(resp.data.message, {
@@ -47,7 +46,6 @@ export const Testmail = (props) => {
                 draggable: true,
                 progress: undefined,
               });
-              console.log(resp.data);
             } else {
               toast.error(resp.data.message, {
                 position: "top-right",

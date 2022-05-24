@@ -35,7 +35,7 @@ function Rehearsal() {
         Speakername.splice(0, 1);
        setTimeout(()=>setSpeakerName([...Speakername]),1000) 
        setRerender(render+1)      
-      console.log("after,",data1.length)
+
          setSpeakerName(data1) 
    };
       const handleGetTimezoneData = () => {
@@ -78,7 +78,6 @@ function Rehearsal() {
           var yyyy = today.getFullYear();
           let dateData=dd + '-'+ mm +'-'+yyyy
           let a=JSON.stringify(Speakername)
-          console.log(a)
           ExportApi.CreatRehearsal(values.EventTitle,values.Timezone,values.event_start_time,
           values.eventendtime,dateData,values.type,values.Description,Speakername[0].name&&Speakername[0].email?a:null,)
             .then((resp) => {

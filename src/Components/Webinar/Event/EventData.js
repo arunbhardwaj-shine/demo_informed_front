@@ -31,7 +31,6 @@ const EventData = () => {
   };
   const handleGetEventlistEdidData = (val) => {
     ExportApi.GetEventListData(val).then((resp) => {
-      console.log(resp);
       if (resp.ok) {
         setModalShow(true);
         setSpDataSingle(resp.data.data.speaker_data);
@@ -60,7 +59,6 @@ const EventData = () => {
     console.log("i", i);
     Speakername.splice(i, 1);
     setSpeakerName([...Speakername]);
-    console.log(Speakername.length);
   };
   const formik = useFormik({
     initialValues: {
@@ -157,7 +155,7 @@ const EventData = () => {
                   {event ? (
                     event?.map((val, i) => (
                       <tr key={i}>
-                        {console.log(val)}
+                     
                         <td>{val.event_date}</td>
                         <td>{val.title}</td>
                         <td>

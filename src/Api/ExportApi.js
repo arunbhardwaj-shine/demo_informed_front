@@ -380,6 +380,16 @@ const EmailStatss = (id, template_id, search_key) =>
       },
     }
   );
+  const EmailStatsPage = (id, eventId, template_id) =>
+  BaseApi.get(
+    `email-stats/${eventId}?page=${id}`,
+    {template_id:template_id },
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
 const EmailSand = (id, name, email) =>
   BaseApi.post(
     `create-unregistered-participant`,
@@ -447,10 +457,10 @@ const CreateParticipant = (name, country, browser, email, alice, stats) =>
       },
     }
   );
-const ParticipantPage = (id, eventId, registeredNonRegistered) =>
+const ParticipantPage = (id, eventId, registeredNonRegistered,search) =>
   BaseApi.get(
     `participant-list?page=${id}`,
-    { event_id: eventId, type: registeredNonRegistered },
+    { event_id: eventId, type: registeredNonRegistered,search:search },
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
@@ -470,7 +480,7 @@ const ParticipantPageSearch = (
       event_id: eventId,
       type: registeredNonRegistered,
       user_type: user_type,
-      search,
+      search:search,
     },
     {
       headers: {
@@ -588,6 +598,7 @@ export default {
   ReadersBlockt,
   ReadersDelete,
   EmailStatss,
+  EmailStatsPage,
   EmailSand,
   EmailSandRegistered,
   EmailSandRegisteredType,

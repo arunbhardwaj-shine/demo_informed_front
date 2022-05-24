@@ -40,7 +40,6 @@ const Registration = () => {
           },
           false
         );
-        console.log("profileImg", file);
         reader.readAsDataURL(file);
       }
     } else {
@@ -70,7 +69,6 @@ const Registration = () => {
     }
     ExportApi.RegistrationPageList(id).then((resp) => {
       if (resp.ok) {
-        console.log(resp.data.data);
         setRegistrationPageList(resp.data.data);
         if (resp.data.code === 404) {
           setMassage("Data Not Found");
@@ -83,7 +81,6 @@ const Registration = () => {
       if (resp.ok) {
         setimage(null);
         handleGetTemplateList();
-        console.log(resp.data.data);
         setEditdata(resp.data.data);
       }
     });
@@ -152,7 +149,6 @@ const Registration = () => {
   }, []);
   return (
     <div>
-      {/* {console.log(editdata[0].id)} */}
       <Row>
         <ToastContainer
           position="top-right"
@@ -201,7 +197,6 @@ const Registration = () => {
             {registrationPageList ? (
               <Row>
                 <Col className="mb-5">
-                  {/* {console.log("templateList",templateList)} */}
                   <Table bordered hover>
                     <thead>
                       <tr>
@@ -353,7 +348,6 @@ const Registration = () => {
                       </Col>
                       <Col xs={3}>
                         <div>
-                          {console.log(editdata.file)}
                           <img
                             id="imgVieww"
                             src={

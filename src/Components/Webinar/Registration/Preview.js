@@ -3,22 +3,18 @@ import { Button, Modal } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import ExportApi from "../../../Api/ExportApi";
 import { browserName } from "react-device-detect";
+import { loader } from "../../../loader";
 const Preview = () => {
   const [data, setData] = useState();
   const [browserData, setBrowserData] = useState(browserName,);
   const [show, setShow] = useState(false);
 
   let parms = useParams();
-  console.log(parms);
   const handleGetPublicPage = () => {
     ExportApi.PublicPage(parms.code, parms.url).then((resp) => {
       if (resp.ok) {
-        console.log(resp.data.data.body);
-
         document.getElementById("one").innerHTML = resp.data.data.body;
-
         let closePeer = document.getElementById("submit");
-        console.log("closePeer", closePeer);
         if (closePeer) {
           closePeer.addEventListener("click", handleFormData);
         }
@@ -31,9 +27,6 @@ const Preview = () => {
     let name = document.getElementById("fname").value;
     let country = document.getElementById("country").value;
     let email = document.getElementById("email").value;
-    console.log(name);
-    console.log(email);
-
     // bind function for close the popup
     if (name == null || name == undefined || name == "") {
       document.getElementById("Err").innerText = "Enter your name";
@@ -51,7 +44,8 @@ const Preview = () => {
     { document.getElementById("Err1").innerText = null;
       document.getElementById("Err2").innerText = null;
       document.getElementById("Err3").innerText = "Please select country";
-    }else {document.getElementById("Err1").innerText = null;
+    }else {loader("show")
+      document.getElementById("Err1").innerText = null;
     document.getElementById("Err2").innerText = null;
       document.getElementById("Err3").innerText = null;
       ExportApi.CreateParticipant(
@@ -63,9 +57,17 @@ const Preview = () => {
         parms.stats
       ).then((resp) => {
         if (resp.ok) {
-          console.log(resp.data);
-          if (resp.data.code == 200) setData(resp.data.message);
-          setShow(true);
+          console.log(resp.data.code)
+          if(resp.data.code == 404){
+            setShow(false);
+            loader("hide")
+            document.getElementById("Err2").innerText=resp.data.message;
+          }
+          else if (resp.data.code == 200){
+            loader("hide")
+            setShow(true);
+             setData(resp.data.message);
+          }
         }
       });
     }
@@ -76,6 +78,9 @@ const Preview = () => {
 
   return (
     <>
+     <div className="loader" id="custom_loader">
+	        <span className="loader-view"> </span>
+          </div>
       <Modal
         show={show}
         size="lg"
