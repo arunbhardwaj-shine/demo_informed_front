@@ -49,7 +49,7 @@ const Readers = () => {
   const handleGetReadersDataPage = (id) => {
     ExportApi.ReadersPage(id, eventId).then((resp) => {
       if (resp.ok) {
-        console.log(resp.data);
+
         if (resp.data.code === 404) {
           setMassage("Data Not Found");
           setData();
@@ -65,7 +65,7 @@ const Readers = () => {
     ExportApi.ReadersDataSearch(eventId, id, type, countryvalue).then(
       (resp) => {
         if (resp.ok) {
-          console.log(resp.data);
+         
           if (resp.data.code === 404) {
             setMassage("Data Not Found");
             setData();
@@ -84,7 +84,7 @@ const Readers = () => {
     } else {
       ExportApi.ReadersType(eventId, id, search, countryvalue).then((resp) => {
         if (resp.ok) {
-          // console.log(resp.data);
+          
           if (resp.data.code === 404) {
             setData();
             setMassage("Data Not Found");
@@ -103,7 +103,7 @@ const Readers = () => {
     } else {
       ExportApi.ReadersCountry(eventId, id, type, search).then((resp) => {
         if (resp.ok) {
-          // console.log(resp.data);
+          
           if (resp.data.code === 404) {
             setMassage("Data Not Found");
             setData();
@@ -124,7 +124,7 @@ const Readers = () => {
   const handleGetCountryData = () => {
     ExportApi.GetCountryData().then((resp) => {
       if (resp.ok) {
-        console.log(resp.data.data);
+      
         setCountryName(resp.data.data);
       }
     });
@@ -188,8 +188,6 @@ const Readers = () => {
     } else {
       ExportApi.ReadersBlock(id, 0).then((resp) => {
         if (resp.ok) {
-          // console.log(resp.data.data)
-          // setCountryName(resp.data.data);
           if (resp.data.code == 200) {
             handleGetReadersDataPage(currentPage);
             toast.success(resp.data.message, {
@@ -217,17 +215,15 @@ const Readers = () => {
     }
   };
   const handleSelect = (e, i) => {
-    // console.log(e,i)
     let copydata = data;
     copydata[i].type = e;
-    console.log(copydata);
     setData(copydata);
     setRender(render + 1);
   };
   const handleSelectChange = (id, val) => {
     ExportApi.ReadersBlockt(id, val).then((resp) => {
       if (resp.ok) {
-        console.log(resp.data);
+        
         handleGetReadersDataPage(currentPage);
         if (resp.data.code == 200) {
           toast.success(resp.data.message, {
@@ -424,7 +420,6 @@ const Readers = () => {
                       ) : (
                         <h2>{massage}</h2>
                       )}
-                      {/* {console.log(currentPage)} */}
                     </tbody>
                     <Row style={{ color: "blue" }}>
                       {/* <Col></Col> */}

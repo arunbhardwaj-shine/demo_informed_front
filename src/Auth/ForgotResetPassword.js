@@ -11,7 +11,6 @@ const ForgotResetPassword = () => {
     const [active, setActive] = useState(true)
     const [showPage, setShowPage] = useState(localStorage.getItem("showPage"))
     let parms=useParams()
-    console.log(parms)
     let navigate = useNavigate();
 // console.log("path",Token)
     const formik = useFormik({

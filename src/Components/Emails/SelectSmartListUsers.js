@@ -739,8 +739,8 @@ const SelectSmartListUsers = (props) => {
                     <th scope="col">Email</th>
                     <th scope="col">Bounced</th>
                     <th scope="col">Country</th>
-                    <th scope="col">Readers</th>
                     <th scope="col">Business Unit</th>
+                    <th scope="col">Contact Type</th>
                     {showLessInfo == false ? (
                       <>
                         <th scope="col">Interest</th>
@@ -762,8 +762,8 @@ const SelectSmartListUsers = (props) => {
                           <td>{rr.email}</td>
                           <td>NA</td>
                           <td>{rr.country}</td>
-                          <td>NA</td>
-                          <td>NA</td>
+                          <td>{rr.ibu}</td>
+                          <td>{rr.contact_type}</td>
                           {showLessInfo == false ? <td>NA</td> : null}
                           {showLessInfo == false ? <td>NA</td> : null}
                           {showLessInfo == false ? <td>NA</td> : null}
@@ -835,8 +835,8 @@ const SelectSmartListUsers = (props) => {
                           <td>{readers.email}</td>
                           <td>NA</td>
                           <td>{readers.country}</td>
-                          <td>NA</td>
-                          <td>NA</td>
+                          <td>{readers.ibu}</td>
+                          <td>{readers.contact_type}</td>
                           {showLessInfo == false ? <td>NA</td> : null}
                           {showLessInfo == false ? <td>NA</td> : null}
                           {showLessInfo == false ? <td>NA</td> : null}
@@ -887,8 +887,8 @@ const SelectSmartListUsers = (props) => {
                           <td id={`field_country` + i}>
                             <span>{readers.country}</span>
                           </td>
-                          <td>NA</td>
-                          <td>NA</td>
+                          <td>{readers.ibu}</td>
+                          <td>{readers.contact_type}</td>
                           {showLessInfo == false ? <td>NA</td> : null}
                           {showLessInfo == false ? <td>NA </td> : null}
                           {showLessInfo == false ? <td>NA</td> : null}

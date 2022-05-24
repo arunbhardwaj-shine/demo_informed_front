@@ -1254,6 +1254,7 @@ const ViewTable = (props) => {
                   },
                 ]);
                 setActiveManual("active");
+                document.querySelector('#file-4').value = '';
                 setActiveExcel("");
               }}
               type="button"

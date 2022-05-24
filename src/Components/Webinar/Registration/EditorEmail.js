@@ -7,10 +7,7 @@ const EditorEmail = () => {
     const emailEditorRef = useRef(null);
     const exportHtml = async () => {
        emailEditorRef.current.editor.exportHtml((data) => {
-         const { design, html } = data;
-        console.log('exportHtml', design);
-     
-      
+         const { design, html } = data;  
        })
      };
   

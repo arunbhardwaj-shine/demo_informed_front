@@ -9,12 +9,10 @@ const [smtpData, setSmtpData] = useState()
   const handleGetsmtpdata = () => {
     ExportApi.getSMTP().then((resp) => {
       if (resp.ok) {
-        console.log(resp.data.data)
         setSmtpData(resp.data.data);
       }
     });
   };
-  //  console.log(smtpData?(smtpData?.tls==1?true:false):false,)
   const formik = useFormik({
     initialValues: {
       smtp_host:smtpData?smtpData.smtp_host:"",

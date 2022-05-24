@@ -1640,6 +1640,7 @@ const CreateEmail = (props) => {
                     country: "",
                   },
                 ]);
+                document.querySelector('#file-4').value = '';
                 setActiveManual("active");
                 setActiveExcel("");
               }}

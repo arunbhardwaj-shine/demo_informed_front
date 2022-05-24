@@ -46,7 +46,6 @@ function Add(props) {
     Speakername.splice(0, 1);
     setTimeout(() => setSpeakerName([...Speakername]), 1000);
     setRerender(render + 1);
-    console.log("after,", data1.length);
     setSpeakerName(data1);
   };
   const handleGetDataBu = () => {
@@ -77,9 +76,11 @@ function Add(props) {
       }
     });
   };
-  const handleReset = (resetForm) => {
-    resetForm();
-  };
+  // const handleReset = (resetForm) => {
+  //   if (!window.confirm('Reset?')) {
+  // 
+  //   }
+  // };
   const formik = useFormik({
     initialValues: {
       EventTitle: "",
@@ -105,7 +106,10 @@ function Add(props) {
       event_date: Yup.string().required("Event date is required"),
       Description: Yup.string().required("Description is required"),
     }),
-    onSubmit: (values) => {
+    // onReset:( values,{resetForm})=>{
+    //    resetForm({values:''})
+    //     },
+    onSubmit: (values,{resetForm}) => {
       var today = new Date(values.event_date);
       var dd = String(today.getDate()).padStart(2, "0");
       var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
@@ -113,11 +117,12 @@ function Add(props) {
       let dateData = dd + "-" + mm + "-" + yyyy;
 
       let a = JSON.stringify(Speakername);
-      console.log(dateData);
+    
       if (values.event_start_time >= values.eventendtime) {
         setMassage("End time has to be greater start time");
       } else {
         setMassage(false);
+        resetForm({values:''})
         ExportApi.CreatEvent(
           values.EventTitle,
           Speakername[0].name && Speakername[0].email ? a : null,
@@ -135,6 +140,7 @@ function Add(props) {
             if (resp.data) {
               console.log(resp.data);
               if (resp.data.code == 200) {
+                resetForm({values:''})
                 toast.success(resp.data.message, {
                   position: "top-right",
                   autoClose: 5000,
@@ -181,8 +187,6 @@ function Add(props) {
 
   return (
     <Row>
-      {/* {console.log("Speakername",Speakername)} */}
-
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -201,7 +205,7 @@ function Add(props) {
         <div>
           <h2>Create Event </h2>
           <div>
-            <form onSubmit={formik.handleSubmit}>
+            <form onReset={formik.handleReset} onSubmit={formik.handleSubmit}>
               <Form.Group
                 as={Row}
                 className="mb-3"
@@ -526,15 +530,7 @@ function Add(props) {
                 </Col>
               </Form.Group>
               <Button
-                type="reset"
-                onClick={() => {
-                  handleReset.bind(null, formik.resetForm);
-                  setSpeakerName([{ name: "", email: "" }]);
-                  setSpeaker([
-                    { name: "SpeakersName", email: "SpeakesrEmail" },
-                  ]);
-                }}
-              >
+                type="reset">
                 Reset
               </Button>
               <Button type="submit" className="event-submit-button">

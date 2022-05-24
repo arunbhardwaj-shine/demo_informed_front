@@ -31,10 +31,8 @@ const Template = () => {
       const exportHtml = async () => {
         emailEditorRef.current.editor.exportHtml((data) => {
           const { design, html } = data;
-          // console.log("htmmmm",html)
           setDpc(design);
           localStorage.setItem("html", html);
-          localStorage.setItem("bodyaa", JSON.stringify(design));
           ExportApi.UpdateTemplate(
             values.Subject,
             design,
@@ -45,8 +43,6 @@ const Template = () => {
               if (resp.data.code == 200) {
                 setDpc();
                 setModalShow(false);
-                // handleGetEventlist()
-                //  handleGetTemplate(localStorage.getItem("idd"))
                 toast.success(resp.data.message, {
                   position: "top-right",
                   autoClose: 5000,
@@ -72,8 +68,6 @@ const Template = () => {
         });
       };
       exportHtml();
-      // setDpc (JSON.parse(dpc));
-      // let data1=JSON.parse(localStorage.getItem('bodyaa'))
     },
   });
   const handleGetEventlist = () => {
@@ -86,7 +80,6 @@ const Template = () => {
   const handleGetTemplateList = (id) => {
     ExportApi.UserTemplateList(id).then((resp) => {
       if (resp.ok) {
-        console.log(resp.data.data);
         setTemplateList(resp.data.data);
       }
     });
@@ -97,8 +90,6 @@ const Template = () => {
     setId(idd);
     ExportApi.UserTemplate(idd).then((resp) => {
       if (resp.ok) {
-        //   console.log('1',resp.data.data.json_description)
-        // setDpc(resp.data.data.json_description?JSON.parse(resp.data.data.json_description):"")
         setTemplate(resp.data.data);
         setTimeout(() => {
           emailEditorRef.current.editor.loadDesign(
