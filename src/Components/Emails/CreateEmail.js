@@ -1766,6 +1766,7 @@ const CreateEmail = (props) => {
                         id="file-4"
                         className="form-control inputfile"
                         multiple=""
+                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                         onChange={onFileChange}
                         ref={file_name}
                       />
