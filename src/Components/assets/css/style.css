@@ -789,3 +789,10 @@ a.show-less-info p:after { content: "<<"; padding-left: 7px; position: absolute;
   margin: 0;
   color: var(--violet);
 }
+a.color_blue {
+  color: #0066be;
+  text-decoration: none;
+}
+a.color_blue:hover {
+  color: white;
+}
