@@ -7,7 +7,6 @@ import "../webinar.css";
 import { toast, ToastContainer } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 function Add(props) {
-
   const [Speaker, setSpeaker] = useState([
     { name: "SpeakersName", email: "SpeakesrEmail" },
   ]);
@@ -42,13 +41,13 @@ function Add(props) {
     console.log("inside render");
   }, [render]);
 
-  const handleMaltiInputRumove = (i) => {   
-       let data1=Speakername
-       Speakername.splice(0, 1);
-      setTimeout(()=>setSpeakerName([...Speakername]),1000) 
-      setRerender(render+1)      
-     console.log("after,",data1.length)
-        setSpeakerName(data1) 
+  const handleMaltiInputRumove = (i) => {
+    let data1 = Speakername;
+    Speakername.splice(0, 1);
+    setTimeout(() => setSpeakerName([...Speakername]), 1000);
+    setRerender(render + 1);
+    console.log("after,", data1.length);
+    setSpeakerName(data1);
   };
   const handleGetDataBu = () => {
     ExportApi.GetBuData(token).then((resp) => {
@@ -74,13 +73,12 @@ function Add(props) {
   const handleGetCountry = () => {
     ExportApi.GetCountryData().then((resp) => {
       if (resp.ok) {
-
-         setCountry(resp.data.data);
+        setCountry(resp.data.data);
       }
     });
   };
   const handleReset = (resetForm) => {
-    resetForm();  
+    resetForm();
   };
   const formik = useFormik({
     initialValues: {
@@ -92,8 +90,8 @@ function Add(props) {
       eventendtime: "",
       event_date: "",
       Description: "",
-      code:'',
-      Country:''
+      code: "",
+      Country: "",
     },
     validationSchema: Yup.object({
       EventTitle: Yup.string().required("Event title is required"),
@@ -103,89 +101,88 @@ function Add(props) {
       Region: Yup.string().required("Region is required"),
       Country: Yup.string().required("Country is required"),
       Bu: Yup.string().required("Bu is required"),
-      eventendtime: Yup.string()
-      .required("Event ent time is required"),
-      event_date: Yup.string()
-      .required("Event date is required"),
+      eventendtime: Yup.string().required("Event ent time is required"),
+      event_date: Yup.string().required("Event date is required"),
       Description: Yup.string().required("Description is required"),
     }),
     onSubmit: (values) => {
       var today = new Date(values.event_date);
-      var dd = String(today.getDate()).padStart(2, '0');
-      var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      var dd = String(today.getDate()).padStart(2, "0");
+      var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
       var yyyy = today.getFullYear();
-      let dateData=dd + '-'+ mm +'-'+yyyy
-      console.log()
+      let dateData = dd + "-" + mm + "-" + yyyy;
+
       let a = JSON.stringify(Speakername);
       console.log(dateData);
-if(values.event_start_time>=values.eventendtime){
-  setMassage("End time has to be greater start time")
-}else{
-setMassage(false)
-  ExportApi.CreatEvent(
-       values.EventTitle,
-       Speakername[0].name&&Speakername[0].email?a:null,
-       values.event_start_time,
-       values.eventendtime,
-       values.Timezone,
-       values.code,
-       values.Bu,
-       dateData,
-       values.Description,
-       values.Region,
-       values.Country
-     )
-       .then((resp) => {
-         if (resp.data) {
-           console.log(resp.data);
-           if (resp.data.code == 200) {
-             toast.success(resp.data.message, {
-               position: "top-right",
-               autoClose: 5000,
-               hideProgressBar: false,
-               closeOnClick: true,
-               pauseOnHover: true,
-               draggable: true,
-               progress: undefined,
-               });
-               setTimeout(function(){
-                 navigate("/webinar/event/edit")
-               }, 5000);
-           } else {
-             toast.error(resp.data.message, {
-               position: "top-right",
-               autoClose: 5000,
-               hideProgressBar: false,
-               closeOnClick: true,
-               pauseOnHover: true,
-               draggable: true,
-               progress: undefined,
-               });
-           }
-         }
-       })
-       .catch((err) => console.log(err));
-   }
-}
+      if (values.event_start_time >= values.eventendtime) {
+        setMassage("End time has to be greater start time");
+      } else {
+        setMassage(false);
+        ExportApi.CreatEvent(
+          values.EventTitle,
+          Speakername[0].name && Speakername[0].email ? a : null,
+          values.event_start_time,
+          values.eventendtime,
+          values.Timezone,
+          values.code,
+          values.Bu,
+          dateData,
+          values.Description,
+          values.Region,
+          values.Country
+        )
+          .then((resp) => {
+            if (resp.data) {
+              console.log(resp.data);
+              if (resp.data.code == 200) {
+                toast.success(resp.data.message, {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                });
+                setTimeout(function () {
+                  navigate("/webinar/event/edit");
+                }, 5000);
+              } else {
+                toast.error(resp.data.message, {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                });
+              }
+            }
+          })
+          .catch((err) => console.log(err));
+      }
+    },
   });
   var today = new Date();
-var dd = String(today.getDate()).padStart(2, '0');
-var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-var yyyy = today.getFullYear();
+  var dd = String(today.getDate()).padStart(2, "0");
+  var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+  var yyyy = today.getFullYear();
   useEffect(() => {
     setToken(localStorage.getItem("Token"));
     handleGetDataBu();
     handleGetTimezoneData();
     handleGetTimezoneregionData();
-    handleGetCountry()
+    handleGetCountry();
   }, [props.token, localStorage.getItem("Token")]);
   useEffect(() => {
-   setSpeakerName(Speakername)
+    setSpeakerName(Speakername);
   }, [Speakername]);
 
   return (
     <Row>
       {/* {console.log("Speakername",Speakername)} */}
+
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -198,7 +195,9 @@ var yyyy = today.getFullYear();
         pauseOnHover
       />
       <Col md={{ span: 6, offset: 3 }}>
-          <Link to="/webinar/event/edit"><Button>Event List</Button></Link>
+        <Link to="/webinar/event/edit">
+          <Button>Event List</Button>
+        </Link>
         <div>
           <h2>Create Event </h2>
           <div>
@@ -231,7 +230,10 @@ var yyyy = today.getFullYear();
                     {Speakername.length > 1 ? (
                       <button
                         type="button"
-                        onClick={() =>{setIndex(i); handleMaltiInputRumove(i)}}
+                        onClick={() => {
+                          setIndex(i);
+                          handleMaltiInputRumove(i);
+                        }}
                         className="btn-close float-end"
                         aria-label="Close"
                       />
@@ -246,10 +248,8 @@ var yyyy = today.getFullYear();
                       </Form.Label>
                       <Col sm={10}>
                         <Form.Control
-                        type="text"
-                          name={
-                            Speakername.length === 0 ? "name" : "name" + i
-                          }
+                          type="text"
+                          name={Speakername.length === 0 ? "name" : "name" + i}
                           value={malti.name}
                           onChange={(e) => {
                             handleSpeakerName(e, i);
@@ -322,7 +322,7 @@ var yyyy = today.getFullYear();
                 controlId="exampleForm.ControlInput1"
               >
                 <Form.Label column sm={2}>
-                 Country
+                  Country
                 </Form.Label>
                 <Col sm={10}>
                   <Form.Select
@@ -417,7 +417,7 @@ var yyyy = today.getFullYear();
                   <Form.Control
                     name="event_date"
                     type="date"
-                    min={yyyy + '-'+ mm +'-'+dd}
+                    min={yyyy + "-" + mm + "-" + dd}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.event_date}
@@ -451,7 +451,6 @@ var yyyy = today.getFullYear();
                       {formik.errors.event_start_time}
                     </div>
                   ) : null}
-                  
                 </Col>
               </Form.Group>
               <Form.Group
@@ -476,9 +475,7 @@ var yyyy = today.getFullYear();
                       {formik.errors.eventendtime}
                     </div>
                   ) : null}
-                    <div style={{ color: "red" }}>
-                      { massage}
-                    </div>
+                  <div style={{ color: "red" }}>{massage}</div>
                 </Col>
               </Form.Group>
               <Form.Group
@@ -497,13 +494,11 @@ var yyyy = today.getFullYear();
                     value={formik.values.code}
                   />
                   {formik.touched.code && formik.errors.code ? (
-                    <div style={{ color: "red" }}>
-                      {formik.errors.code}
-                    </div>
+                    <div style={{ color: "red" }}>{formik.errors.code}</div>
                   ) : null}
                 </Col>
               </Form.Group>
-              <br/>
+              <br />
               <Form.Group
                 as={Row}
                 className="mb-3"
@@ -530,7 +525,18 @@ var yyyy = today.getFullYear();
                   ) : null}
                 </Col>
               </Form.Group>
-              <Button type="reset" onClick={()=>{handleReset.bind(null, formik.resetForm);setSpeakerName([{ name: "", email: "" }]);setSpeaker([{ name: "SpeakersName",email: "SpeakesrEmail"}])}}>Reset</Button>
+              <Button
+                type="reset"
+                onClick={() => {
+                  handleReset.bind(null, formik.resetForm);
+                  setSpeakerName([{ name: "", email: "" }]);
+                  setSpeaker([
+                    { name: "SpeakersName", email: "SpeakesrEmail" },
+                  ]);
+                }}
+              >
+                Reset
+              </Button>
               <Button type="submit" className="event-submit-button">
                 Submit
               </Button>

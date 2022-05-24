@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState,useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Button, Modal } from "react-bootstrap";
 import { confirmAlert } from "react-confirm-alert";
@@ -58,7 +58,7 @@ const ViewTable = (props) => {
   const [showLessUpdate, setShowLessUpdate] = useState(0);
   const [activeExcel, setActiveExcel] = useState("");
   const [editableData, setEditableData] = useState([]);
-  let file_name  =useRef("");
+  let file_name = useRef("");
 
   useEffect(() => {
     setUpdatedData(props.data);
@@ -184,9 +184,7 @@ const ViewTable = (props) => {
   //   setEditList(editList);
   // }, [updateCounter]);
 
-  useEffect(() => {
-    console.log("upatdedddddd");
-  }, [editList]);
+  useEffect(() => {}, [editList]);
 
   useEffect(() => {
     setEditList(props.data);
@@ -226,8 +224,9 @@ const ViewTable = (props) => {
           if (res.data.status_code === 200) {
             popup_alert({
               visible: "show",
-              message: "User added successfully",
+              message: "Smar list updated successfully",
               type: "success",
+              redirect: "/SmartList",
             });
           } else {
             popup_alert({
@@ -353,7 +352,7 @@ const ViewTable = (props) => {
         },
       ]);
     } else {
-      toast.error("Please input the email atleast");
+      toast.warning("Please input the email atleast");
     }
   };
 
@@ -392,6 +391,7 @@ const ViewTable = (props) => {
       });
 
     setSaveOpen(false);
+    setEditableData([]);
   };
 
   const updateReaderDetails = async ({
@@ -710,6 +710,8 @@ const ViewTable = (props) => {
         };
       });
 
+      var pattern = "^w+@[a-zA-Z_]+?.[a-zA-Z]{2,3}$";
+
       const body = {
         data: body_data,
         user_id: 18207,
@@ -760,7 +762,7 @@ const ViewTable = (props) => {
             loader("hide");
           });
       } else {
-        toast.error("Please enter the email atleast");
+        toast.warning("Please enter the email atleast");
       }
     } else {
       let formData = new FormData();
@@ -805,7 +807,7 @@ const ViewTable = (props) => {
           });
         setIsOpen(false);
       } else {
-        toast.error("Please add a excel file");
+        toast.warning("Please add a excel file");
       }
     }
   };
@@ -1128,7 +1130,6 @@ const ViewTable = (props) => {
                       )
                     }
                   >
-                    {console.log(item)}
                     <td id={`field_name` + index}>
                       <span> {item.first_name + " " + item.last_name} </span>
                     </td>
@@ -1380,15 +1381,13 @@ const ViewTable = (props) => {
                         onChange={onFileChange}
                         data-multiple-caption="{count} files selected"
                         multiple
-                        ref={file_name}
+                        //ref={file_name}
                       />
                       
                     {(file_name.current?.files===undefined || file_name.current.files?.length===0 )? <><label for="file-4"><span>Choose Your File</span></label>
                       <p>Upload your excel file</p></> : <h5>{file_name.current.files[0].name}</h5> }
                     </div>
-                 
                   </div>
-                  <div class="download-sample sample-file"><p>Download sample Excel file to upload new HCPs</p><div class="upload-btn"><label for="input-file">Download File</label></div></div>
                 </form>
               </div>
               <div className="hcp-modal-action">

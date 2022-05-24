@@ -30,6 +30,7 @@ const FilterSegment = (props) => {
   const [apifilterflag, setApiFilterFlag] = useState(0);
   const [getpayload, setPayload] = useState(0);
   const [updateflag, setUpdateFlag] = useState([]);
+  const [getNewAddedUser, setNewAddedUser] = useState([]);
   const [confirmationPopupStatus, setConfirmationPopupStatus] = useState(false);
   const [getfilterapplied, setfilterapplied] = useState(0);
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -224,6 +225,7 @@ const FilterSegment = (props) => {
     setSelectedReaderSelection();
     setSelectedRegister();
     setSelectedBounce();
+    setFilterData([]);
     let up = updateflag + 1;
     setUpdateFlag(up);
   };
@@ -359,8 +361,12 @@ const FilterSegment = (props) => {
     return Object.keys(object).find((key) => object[key] === value);
   };
 
-  const sendDataToParent = (childData) => {
-    setFilterData(childData);
+  const sendDataToParent = (childData,flag) => {
+    if(flag == "existing"){
+      setFilterData(childData);
+    }else if(flag == "new"){
+      setNewAddedUser(childData)
+    }
     setApiFilterFlag(1);
   };
 
@@ -374,7 +380,7 @@ const FilterSegment = (props) => {
 
   const createListWithFilters = () => {
     setConfirmationPopupStatus(false);
-    tableCompRef.current.createSmartList(getfilterdata);
+    tableCompRef.current.createSmartList(getfilterdata,getNewAddedUser);
   }
 
   const removeindividualfilter = (src, item) => {
@@ -424,7 +430,7 @@ const FilterSegment = (props) => {
                 <button
                   className="btn btn-primary btn-filled save"
                   onClick={() => showConfirmation()}
-                  disabled={ typeof getfilterapplied !== "undefined" && getfilterapplied == 1 && typeof getfilterdata != "undefined" && getfilterdata.length > 0 ? false : true}
+                  disabled={ typeof getfilterdata !== "undefined" && getfilterdata.length > 0 ? false : typeof getNewAddedUser !== "undefined" && getNewAddedUser.length > 0 ? false : true }
                 >
                   Save
                 </button>
@@ -438,20 +444,20 @@ const FilterSegment = (props) => {
         <div className="page-top-nav smart_list_names create_filter_list">
           <div className="row justify-content-end align-items-center">
             <div className="col-12 col-md-1">
-                <div class="header-btn-left">
-					        <button class="btn btn-primary btn-bordered back">
+                <div className="header-btn-left">
+					        <button className="btn btn-primary btn-bordered back">
                     <NavLink to="/CreateSmartList" className="active">
                       Back
                     </NavLink>
                   </button>
 							  </div>
             </div>
-            <div class="col-12 col-md-9">
-								<ul class="tabnav-link">
-									<li class="">
+            <div className="col-12 col-md-9">
+								<ul className="tabnav-link">
+									<li className="">
 										<a href="javascript:void(0)">Create smart list</a>
 									</li>
-									<li class="active">
+									<li className="active">
 										<a href="javascript:void(0)">Select & Verify your HCPs</a>
 									</li>
 								</ul>
@@ -465,12 +471,7 @@ const FilterSegment = (props) => {
                 <button
                   className="btn btn-primary btn-bordered save-as"
                   onClick={() => createListWithFilters()}
-                  disabled={
-                    typeof getfilterdata == "undefined" ||
-                    getfilterdata.length == 0
-                      ? true
-                      : false
-                  }
+                  disabled={ typeof getfilterdata !== "undefined" && getfilterdata.length > 0 ? false : typeof getNewAddedUser !== "undefined" && getNewAddedUser.length > 0 ? false : true }
                 >
                   Create
                 </button>
@@ -1146,16 +1147,18 @@ const FilterSegment = (props) => {
         </div>
 
         {apifilterflag > 0 ? (
-          typeof getfilterdata === "object" && getfilterdata.length > 0 ? (
+          (typeof getfilterdata === "object" && getfilterdata.length > 0) || (typeof getNewAddedUser === "object" && getNewAddedUser.length > 0) ? (
             <div className="box mt-2">
               <Table
                 ref={tableCompRef}
                 data={getfilterdata}
+                newAddedUser={getNewAddedUser}
                 smartListName={listname}
                 upload_by_filter="1"
                 filter_payload={getpayload}
                 creator={props.creator}
                 sendDataToParent={sendDataToParent}
+
               />
             </div>
           ) : (
@@ -1169,18 +1172,18 @@ const FilterSegment = (props) => {
       {/*Confrimation Popup start*/}
       <Modal show={confirmationPopupStatus} className="send-confirm" id="resend-confirm">
         <Modal.Header>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" onClick={() => {hideconfirmationpopup()}}></button>
+          <button type="button" className="btn-close" data-bs-dismiss="modal" onClick={() => {hideconfirmationpopup()}}></button>
         </Modal.Header>
         <Modal.Body>
           <img src={path_image + "alert.png"} alt="" />
           <h4>
             Are you sure you want to save the changes?
           </h4>
-          <div class="modal-buttons">
-            <button type="button" class="btn btn-primary btn-filled" data-bs-dismiss="modal" onClick={() => {createListWithFilters()}}>
+          <div className="modal-buttons">
+            <button type="button" className="btn btn-primary btn-filled" data-bs-dismiss="modal" onClick={() => {createListWithFilters()}}>
               Yes Please!
             </button>
-            <button type="button" class="btn btn-primary btn-bordered light" data-bs-dismiss="modal"  onClick={() => {hideconfirmationpopup()}} >
+            <button type="button" className="btn btn-primary btn-bordered light" data-bs-dismiss="modal"  onClick={() => {hideconfirmationpopup()}} >
               Cancel
             </button>
           </div>

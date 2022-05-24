@@ -54,8 +54,6 @@ import EmailStats from "./Components/Webinar/Email Stats/EmailStats";
 import EmailSand from "./Components/Webinar/Email Stats/EmailSand";
 import StpDetails from "./Components/Webinar/Smtp/StpDetails";
 
-
-
 let platform = 0;
 let show = 0;
 if (window.location.href.indexOf("/webinar") > -1) {
@@ -128,7 +126,7 @@ ReactDOM.render(
                 <>
                   {" "}
                   <Routes>
-                    <Route path="/webinar" element={<Home />} />
+                    <Route path="/webinar" element={<Dashboard />} />
                     <Route
                       path="/webinar/register/:code/:url/:stats"
                       element={<Preview />}
@@ -146,7 +144,7 @@ ReactDOM.render(
                       <Route path="/" element={<Proctected />}>
                         <Route
                           path="/webinar/dashboard"
-                          element={<Dashboard />}
+                          element={<Home />}
                         />
                         <Route
                           path="/webinar/resetpassword"

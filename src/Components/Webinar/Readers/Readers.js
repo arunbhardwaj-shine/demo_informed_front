@@ -1,4 +1,5 @@
 import Lock from "./Lock.png";
+import Delete from "./Delete.jpg";
 import Unlock from "./Unlock.png";
 import React, { useEffect, useState } from "react";
 import { Button, CloseButton, Col, Form, Row, Table } from "react-bootstrap";
@@ -9,7 +10,7 @@ import ReactDOM from "react-dom";
 import { ReactFormBuilder } from "react-form-builder2";
 import "react-form-builder2/dist/app.css";
 import { scryRenderedComponentsWithType } from "react-dom/test-utils";
-import CsvDownload from 'react-json-to-csv'
+import CsvDownload from "react-json-to-csv";
 const Readers = () => {
   const [data, setData] = useState();
   const [type, setType] = useState();
@@ -24,75 +25,94 @@ const Readers = () => {
   const [render, setRender] = useState(0);
   const [massage, setMassage] = useState("Please Select Event");
   const handleGetReadersData = (id) => {
-    ExportApi.ReadersData(id).then((resp) => {
-      if (resp.ok) {
-         console.log(resp.data.data.paginate.currentPage);
-        if (resp.data.code === 404) {
-          setMassage("Data Not Found");
-          setData();
-          setFlag(false);
-        } else {
-          setPaginate(resp.data.data.paginate)
-           setCurrentPage(resp.data.data.paginate.currentPage)
-          setData(resp.data.data.data);
-          setFlag(true);
+    if (id == "null") {
+      setMassage("Data Not Found");
+      setData();
+      setFlag(false);
+    } else {
+      ExportApi.ReadersData(id).then((resp) => {
+        if (resp.ok) {
+          if (resp.data.code === 404) {
+            setMassage("Data Not Found");
+            setData();
+            setFlag(false);
+          } else {
+            setPaginate(resp.data.data.paginate);
+            setCurrentPage(resp.data.data.paginate.currentPage);
+            setData(resp.data.data.data);
+            setFlag(true);
+          }
         }
-      }
-    });
+      });
+    }
   };
   const handleGetReadersDataPage = (id) => {
-    ExportApi.ReadersPage(id,eventId).then((resp) => {
+    ExportApi.ReadersPage(id, eventId).then((resp) => {
       if (resp.ok) {
         console.log(resp.data);
         if (resp.data.code === 404) {
           setMassage("Data Not Found");
           setData();
         } else {
-          setPaginate(resp.data.data.paginate)
-          setCurrentPage(resp.data.data.paginate.currentPage)
+          setPaginate(resp.data.data.paginate);
+          setCurrentPage(resp.data.data.paginate.currentPage);
           setData(resp.data.data.data);
         }
       }
     });
   };
   const handleGetReadersSearch = (id) => {
-    ExportApi.ReadersDataSearch(eventId, id,type,countryvalue).then((resp) => {
-      if (resp.ok) {
-        console.log(resp.data);
-        if (resp.data.code === 404) {
-          setMassage("Data Not Found");
-          setData();
-        } else {
-          setData(resp.data.data.data);
+    ExportApi.ReadersDataSearch(eventId, id, type, countryvalue).then(
+      (resp) => {
+        if (resp.ok) {
+          console.log(resp.data);
+          if (resp.data.code === 404) {
+            setMassage("Data Not Found");
+            setData();
+          } else {
+            setData(resp.data.data.data);
+          }
         }
       }
-    });
+    );
   };
   const handleGetReadersType = (id) => {
-    ExportApi.ReadersType(eventId, id,search,countryvalue).then((resp) => {
-      if (resp.ok) {
-        // console.log(resp.data);
-        if (resp.data.code === 404) {
-          setData();
-          setMassage("Data Not Found");
-        } else {
-          setData(resp.data.data.data);
+    if (id == "null") {
+      setMassage("Data Not Found");
+      setData();
+      setFlag(false);
+    } else {
+      ExportApi.ReadersType(eventId, id, search, countryvalue).then((resp) => {
+        if (resp.ok) {
+          // console.log(resp.data);
+          if (resp.data.code === 404) {
+            setData();
+            setMassage("Data Not Found");
+          } else {
+            setData(resp.data.data.data);
+          }
         }
-      }
-    });
+      });
+    }
   };
   const handleGetReadersCountry = (id) => {
-    ExportApi.ReadersCountry(eventId, id,type,search).then((resp) => {
-      if (resp.ok) {
-        // console.log(resp.data);
-        if (resp.data.code === 404) {
-          setMassage("Data Not Found");
-          setData();
-        } else {
-          setData(resp.data.data.data);
+    if (id == "null") {
+      setMassage("Data Not Found");
+      setData();
+      setFlag(false);
+    } else {
+      ExportApi.ReadersCountry(eventId, id, type, search).then((resp) => {
+        if (resp.ok) {
+          // console.log(resp.data);
+          if (resp.data.code === 404) {
+            setMassage("Data Not Found");
+            setData();
+          } else {
+            setData(resp.data.data.data);
+          }
         }
-      }
-    });
+      });
+    }
   };
   const handleGetEventlist = () => {
     ExportApi.GetEventList().then((resp) => {
@@ -109,77 +129,11 @@ const Readers = () => {
       }
     });
   };
-  const handleBlock = (id, isblocked) => {
-    if (isblocked == 0) {
-      ExportApi.ReadersBlock(id, 1).then((resp) => {
-        if (resp.ok) {
-          if (resp.data.code == 200) {
-            handleGetReadersDataPage(currentPage)
-            toast.success(resp.data.message, {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              });
-          } else {
-            toast.error(resp.data.message, {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              });}
-        }
-      });
-    } else {
-      ExportApi.ReadersBlock(id, 0).then((resp) => {
-        if (resp.ok) {
-          // console.log(resp.data.data)
-          // setCountryName(resp.data.data);
-          if (resp.data.code == 200) {
-            handleGetReadersDataPage(currentPage)
-            toast.success(resp.data.message, {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              });
-          } else {
-            toast.error(resp.data.message, {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              });}
-        }
-      });
-    }
-  }; 
-  const handleSelect=(e,i)=>{
-// console.log(e,i)
- let copydata= data
- copydata[i].type=e;
- console.log(copydata)
- setData(copydata)
- setRender(render+1)
-  }
-  const handleSelectChange=(id,val)=>{
-    ExportApi.ReadersBlockt(id,val).then((resp) => {
+  const handleDeleteData = (id) => {
+    ExportApi.ReadersDelete(id, 1).then((resp) => {
       if (resp.ok) {
-        console.log(resp.data);
-        handleGetReadersDataPage(currentPage)
         if (resp.data.code == 200) {
+          handleGetReadersDataPage(currentPage);
           toast.success(resp.data.message, {
             position: "top-right",
             autoClose: 5000,
@@ -188,7 +142,7 @@ const Readers = () => {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            });
+          });
         } else {
           toast.error(resp.data.message, {
             position: "top-right",
@@ -198,17 +152,113 @@ const Readers = () => {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            });}
+          });
+        }
       }
     });
-  }
+  };
+  const handleBlock = (id, isblocked) => {
+    if (isblocked == 0) {
+      ExportApi.ReadersBlock(id, 1).then((resp) => {
+        if (resp.ok) {
+          if (resp.data.code == 200) {
+            handleGetReadersDataPage(currentPage);
+            toast.success(resp.data.message, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+          } else {
+            toast.error(resp.data.message, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+          }
+        }
+      });
+    } else {
+      ExportApi.ReadersBlock(id, 0).then((resp) => {
+        if (resp.ok) {
+          // console.log(resp.data.data)
+          // setCountryName(resp.data.data);
+          if (resp.data.code == 200) {
+            handleGetReadersDataPage(currentPage);
+            toast.success(resp.data.message, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+          } else {
+            toast.error(resp.data.message, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+          }
+        }
+      });
+    }
+  };
+  const handleSelect = (e, i) => {
+    // console.log(e,i)
+    let copydata = data;
+    copydata[i].type = e;
+    console.log(copydata);
+    setData(copydata);
+    setRender(render + 1);
+  };
+  const handleSelectChange = (id, val) => {
+    ExportApi.ReadersBlockt(id, val).then((resp) => {
+      if (resp.ok) {
+        console.log(resp.data);
+        handleGetReadersDataPage(currentPage);
+        if (resp.data.code == 200) {
+          toast.success(resp.data.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        } else {
+          toast.error(resp.data.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        }
+      }
+    });
+  };
   useEffect(() => {
     handleGetCountryData();
     handleGetEventlist();
   }, []);
   return (
     <div>
-   
       <Row>
         <ToastContainer
           position="top-right"
@@ -232,7 +282,7 @@ const Readers = () => {
               <h2>Total Registration | {data ? data.length : null} </h2>
             </Col>
             <Col xs={4}>
-              <Form.Label>Select Event </Form.Label>
+              <Form.Label> Event </Form.Label>
               <Form.Select
                 onChange={(e) => {
                   handleGetReadersData(e.target.value);
@@ -240,7 +290,7 @@ const Readers = () => {
                 }}
                 name="type"
               >
-                <option> Select Event</option>
+                <option value="null"> Select Event</option>
                 {event?.map((val, i) => (
                   <React.Fragment key={i}>
                     <option value={val.id}>{val.title}</option>
@@ -253,29 +303,30 @@ const Readers = () => {
             <>
               <Row>
                 <Col>
-                  <Form.Label>Select Country </Form.Label>
+                  <Form.Label> Country </Form.Label>
                   <Form.Select
                     onChange={(e) => {
                       handleGetReadersCountry(e.target.value);
-                      setCountryValue(e.target.value)
+                      setCountryValue(e.target.value);
                     }}
                   >
-                    <option>select Country</option>
+                    <option>Select Country</option>
                     {countryName?.map((val, i) => (
                       <React.Fragment key={i}>
-                        <option value={val.country}>{val.country}</option>
+                        <option value={val.id}>{val.country}</option>
                       </React.Fragment>
                     ))}
                   </Form.Select>
                 </Col>
                 <Col>
-                  <Form.Label>Select User type </Form.Label>
+                  <Form.Label> User type </Form.Label>
                   <Form.Select
                     onChange={(e) => {
                       handleGetReadersType(e.target.value);
-                      setType(e.target.value)
+                      setType(e.target.value);
                     }}
                   >
+                    <option value="null">Select Type</option>
                     <option value="HCP">HCP</option>
                     <option value="Staff User">Staff User</option>
                     <option value="Test User">Test User</option>
@@ -286,13 +337,13 @@ const Readers = () => {
                   <Form.Control
                     onChange={(e) => {
                       handleGetReadersSearch(e.target.value);
-                      setSearch(e.target.value)
+                      setSearch(e.target.value);
                     }}
                     placeholder="By name or email"
                   />
                 </Col>
                 <Col>
-                <CsvDownload data={data}>Excel Download</CsvDownload>
+                  <CsvDownload data={data}>Excel Download</CsvDownload>
                 </Col>
               </Row>
 
@@ -303,33 +354,38 @@ const Readers = () => {
                   <Table bordered hover>
                     <thead>
                       <tr>
+                        <th> Sr.No</th>
                         <th> Name</th>
                         <th> Email</th>
-                        <th> State</th>
                         <th> Country</th>
-                        <th> Category</th>
                         <th> Signup Date</th>
                         <th> User Type</th>
                         <th> Action</th>
+                        <th> Delete</th>
                       </tr>
                     </thead>
                     <tbody>
                       {data ? (
                         data.map((val, i) => (
                           <tr key={i}>
+                            <td>{i + 1}</td>
                             <td>{val.name}</td>
                             <td>{val.email} </td>
-                            <td>{val.state} </td>
                             <td>{val.country} </td>
-                            <td>{val.category} </td>
                             <td>{val.signup_date} </td>
                             <td>
-                              <Form.Select onChange={(e)=>{handleSelect(e.target.value,i)}}  value={val.type} key={i}>
+                              <Form.Select
+                                onChange={(e) => {
+                                  handleSelect(e.target.value, i);
+                                  handleSelectChange(val.id, val.type);
+                                }}
+                                value={val.type}
+                                key={i}
+                              >
                                 <option value="HCP">HCP</option>
                                 <option value="Staff User">Staff User</option>
                                 <option value="Test User">Test User</option>
-                              </Form.Select>{" "}
-                              <Button onClick={()=>{handleSelectChange(val.id,val.type)}} >Save</Button>{" "}
+                              </Form.Select>
                             </td>
                             <td>
                               {val.is_blocked == 0 ? (
@@ -352,17 +408,50 @@ const Readers = () => {
                                 />
                               )}
                             </td>
+                            <td>
+                              {" "}
+                              <img
+                                src={Delete}
+                                onClick={() => {
+                                  handleDeleteData(val.id);
+                                  handleGetReadersDataPage(currentPage);
+                                }}
+                                width={90}
+                              />
+                            </td>
                           </tr>
                         ))
                       ) : (
                         <h2>{massage}</h2>
                       )}
-                      {console.log(currentPage)}
+                      {/* {console.log(currentPage)} */}
                     </tbody>
-                    <Row style={{color:"blue"}}>
+                    <Row style={{ color: "blue" }}>
                       {/* <Col></Col> */}
-                      {paginate.previousPageUrl? <Col><p style={{cursor:"pointer"}} onClick={()=>{handleGetReadersDataPage(currentPage-1)}}>Previous </p></Col>:null}
-                      {paginate.nextPageUrl? <Col><p style={{cursor:"pointer"}} onClick={()=>{handleGetReadersDataPage(currentPage+1)}}>Next</p></Col>:null}
+                      {paginate.previousPageUrl ? (
+                        <Col>
+                          <p
+                            style={{ cursor: "pointer" }}
+                            onClick={() => {
+                              handleGetReadersDataPage(currentPage - 1);
+                            }}
+                          >
+                            Previous{" "}
+                          </p>
+                        </Col>
+                      ) : null}
+                      {paginate.nextPageUrl ? (
+                        <Col>
+                          <p
+                            style={{ cursor: "pointer" }}
+                            onClick={() => {
+                              handleGetReadersDataPage(currentPage + 1);
+                            }}
+                          >
+                            Next
+                          </p>
+                        </Col>
+                      ) : null}
                     </Row>
                   </Table>
                 </Col>
