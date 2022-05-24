@@ -1043,9 +1043,9 @@ const ViewTable = (props) => {
                   {showLessInfo == false ? (
                     <>
                       {" "}
-                      <th scope="col">Readers</th>
+                      {/*<th scope="col">Readers</th>*/}
                       <th scope="col">Business Unit</th>
-                      <th scope="col">Interest</th>
+                      <th scope="col">Contact Type</th>
                       <th scope="col"></th>{" "}
                     </>
                   ) : null}
@@ -1094,9 +1094,8 @@ const ViewTable = (props) => {
                         item.country
                       )}
                     </td>
-                    {showLessInfo == false ? <td> NA</td> : null}
-                    {showLessInfo == false ? <td> NA</td> : null}
-                    {showLessInfo == false ? <td> NA</td> : null}
+                    {showLessInfo == false ? <td> {item.ibu}</td> : null}
+                    {showLessInfo == false ? <td> {item.contact_type}</td> : null}
 
                     <td class="delete_row" colspan="12">
                       <img
@@ -1139,14 +1138,14 @@ const ViewTable = (props) => {
                     <td id={`field_country` + index}>
                       <span>{item.country}</span>
                     </td>
-                    {showLessInfo == false ? (
+                    {/*showLessInfo == false ? (
                       <td id="field_readers">NA</td>
+                    ) : null*/}
+                    {showLessInfo == false ? (
+                      <td id="field_business_unit">{item.ibu}</td>
                     ) : null}
                     {showLessInfo == false ? (
-                      <td id="field_business_unit">NA</td>
-                    ) : null}
-                    {showLessInfo == false ? (
-                      <td id="field_interest">NA</td>
+                      <td id="field_interest">{item.contact_type}</td>
                     ) : null}
                     <td class="delete_row" colspan="12">
                       <img
@@ -1255,6 +1254,7 @@ const ViewTable = (props) => {
                   },
                 ]);
                 setActiveManual("active");
+                document.querySelector('#file-4').value = '';
                 setActiveExcel("");
               }}
               type="button"
@@ -1381,25 +1381,11 @@ const ViewTable = (props) => {
                         onChange={onFileChange}
                         data-multiple-caption="{count} files selected"
                         multiple
-                        //ref={file_name}
+                        // ref={file_name}
                       />
-                      {file_name.current.files === undefined ||
-                      file_name.current.files?.length === 0 ? (
-                        <>
-                          <label for="file-4">
-                            <span>Choose Your File</span>
-                          </label>
-                          <p>Upload your excel file</p>
-                        </>
-                      ) : (
-                        file_name.current.files[0].name
-                      )}
-                    </div>
-                  </div>
-                  <div class="download-sample sample-file">
-                    <p>Download sample Excel file to upload new HCPs</p>
-                    <div class="upload-btn">
-                      <label for="input-file">Download File</label>
+
+                    {(file_name.current?.files===undefined || file_name.current.files?.length===0 )? <><label for="file-4"><span>Choose Your File</span></label>
+                      <p>Upload your excel file</p></> : <h5>{file_name.current.files[0].name}</h5> }
                     </div>
                   </div>
                 </form>

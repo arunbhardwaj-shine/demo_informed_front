@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import ExportApi from "../../../Api/ExportApi";
 import EmailStatsChart from "./EmailStatsChart";
-
+import RegionStatsChart from "./RegionStatsChart";
+import { Tabs, Tab } from "react-bootstrap";
 const Home = () => {
   const [event, setEvent] = useState([]);
   const [eventid, setEventId] = useState();
@@ -55,27 +56,6 @@ const Home = () => {
           </Row>
           <Row>
             <Col>
-              <Button onClick={() => setStatus(1)}>Dashboard</Button>
-            </Col>
-            <Col>
-              <Button onClick={() => setStatus(2)}>Poll Question</Button>
-            </Col>
-            <Col>
-              <Button onClick={() => setStatus(3)}>Webinar Question</Button>
-            </Col>
-            <Col>
-              <Button onClick={() => setStatus(4)}>Email Stats</Button>
-            </Col>
-            <Col>
-              <Button onClick={() => setStatus(5)}>Region Stats</Button>
-            </Col>
-            <Col>
-              <Button onClick={() => setStatus(6)}>Links Stats</Button>
-            </Col>
-          </Row>
-          <hr style={{ color: "#0066BE" }} size={4}></hr>
-          <Row>
-            <Col>
               <Form.Label>Select Template </Form.Label>
               <Form.Select
                 name="type"
@@ -94,9 +74,40 @@ const Home = () => {
               </Form.Select>
             </Col>
           </Row>
+          <div className="container">
+            <Tabs defaultActiveKey="first">
+              <Tab eventKey="first" title="Dashboard">
+                Hii, I am 1st tab content
+              </Tab>
+              <Tab eventKey="second" title="Attended Dashboard">
+                Hii, I am 2nd tab content
+              </Tab>
+              <Tab eventKey="third" title="Poll Question">
+                Hii, I am 3rd tab content
+              </Tab>
+              <Tab eventKey="fourth" title="Webinar Questions">
+                Hii, I am 3rd tab content
+              </Tab>
+              <Tab eventKey="fifth" title="Email Stats">
+                <EmailStatsChart eventid={eventid} templateId={templateId} />
+              </Tab>
+              <Tab eventKey="sixth" title="Region Stats">
+                <RegionStatsChart eventid={eventid} templateId={templateId} />
+              </Tab>
+              <Tab eventKey="seventh" title="Link Stats">
+                Hii, I am 3rd tab content
+              </Tab>
+            </Tabs>
+          </div>
+          <hr style={{ color: "#0066BE" }} size={4}></hr>
+
           <Row>
             {status == 4 ? (
               <EmailStatsChart eventid={eventid} templateId={templateId} />
+            ) : null}
+
+            {status == 5 ? (
+              <RegionStatsChart eventid={eventid} templateId={templateId} />
             ) : null}
           </Row>
         </Col>

@@ -783,3 +783,16 @@ a.show-less-info p:after { content: "<<"; padding-left: 7px; position: absolute;
 .download-sample.sample-file {
   margin: 22px 0;
 }
+#upload-confirm .upload-file-box .box  h5 {
+  flex: 1 1 auto;
+  text-align: center;
+  margin: 0;
+  color: var(--violet);
+}
+a.color_blue {
+  color: #0066be;
+  text-decoration: none;
+}
+a.color_blue:hover {
+  color: white;
+}

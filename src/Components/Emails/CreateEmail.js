@@ -1640,6 +1640,7 @@ const CreateEmail = (props) => {
                     country: "",
                   },
                 ]);
+                document.querySelector('#file-4').value = '';
                 setActiveManual("active");
                 setActiveExcel("");
               }}
@@ -1766,11 +1767,12 @@ const CreateEmail = (props) => {
                         id="file-4"
                         className="form-control inputfile"
                         multiple=""
+                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                         onChange={onFileChange}
                         ref={file_name}
                       />
-                    {(file_name.current.files===undefined || file_name.current.files?.length===0 )? <><label for="file-4"><span>Choose Your File</span></label>
-                      <p>Upload your excel file</p></> : file_name.current.files[0].name }
+                      {(file_name.current?.files===undefined || file_name.current.files?.length===0 )? <><label for="file-4"><span>Choose Your File</span></label>
+                      <p>Upload your excel file</p></> : <h5>{file_name.current.files[0].name}</h5> }
                        
 
                        

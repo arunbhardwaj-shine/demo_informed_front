@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import { Modal } from "react-bootstrap";
 import SimpleReactValidator from "simple-react-validator";
 import { useNavigate } from "react-router-dom";
@@ -49,7 +49,7 @@ const VerifyHCP = (props) => {
   let [validator] = React.useState(new SimpleReactValidator());
 
   const [manualReRender, setManualReRender] = useState(0);
-
+  let file_name  =useRef("");
   useEffect(() => {
     console.log(props);
     // props.getDraftData.campaign_data.selectedHcp;
@@ -1008,7 +1008,7 @@ const VerifyHCP = (props) => {
           </Modal.Header>
           <Modal.Body>
             <div className="hcp-add-box">
-              <div className="hcp-add-form tab-content">
+              <div className="hcp-add-form tab-content"  id="upload-confirm">
                 <form id="add_hcp_form" className={"tab-pane" + activeManual}>
                   {hpc.map((val, i) => {
                     const fieldName = `hpc[${i}]`;
@@ -1113,14 +1113,22 @@ const VerifyHCP = (props) => {
                   })}
                 </form>
                 <form id="add_file" className={"tab-pane" + activeExcel}>
+                <div className="upload-file-box">
                   <div className="form-group files">
+                    <div className="box">
                     <input
                       type="file"
-                      className="form-control"
-                      multiple=""
-                      onChange={onFileChange}
+                      className="form-control inputfile"
+                     id="file-4"
+                     onChange={onFileChange}
                       accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                    />
+                      ref={file_name}
+                      />
+                      {(file_name.current?.files===undefined || file_name.current.files?.length===0 )? <><label for="file-4"><span>Choose Your File</span></label>
+                      <p>Upload your excel file</p></> : <h5>{file_name.current.files[0].name}</h5> }
+                       
+                  </div>
+                  </div>
                   </div>
                 </form>
               </div>

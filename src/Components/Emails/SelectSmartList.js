@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { getSelectedSmartListData } from "../../actions";
 import { Navigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
+import { toast } from "react-toastify";
 
 const SelectSmartList = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -40,15 +41,20 @@ const SelectSmartList = (props) => {
         console.log(err);
       });
   }, []);
-
   useEffect(() => {
-    if (PdfSelected !== 0) {
-      inputElement.current.classList.remove("disabled");
-    }
     let listid = props.getEmailData
       ? smartListSelected.id
       : props.getDraftData.campaign_data.smart_list_id;
     setselecedlistid(listid);
+    setPdfSelected(listid);
+  }, []);
+
+  useEffect(() => {
+    console.log("working in")
+    if (PdfSelected !== 0) {
+      inputElement.current.classList.remove("disabled");
+    }
+    
   }, [PdfSelected]);
 
   const handleSelect = (e) => {
@@ -68,8 +74,7 @@ const SelectSmartList = (props) => {
   };
 
   const saveAsDraft = async () => {
-    console.log("hi");
-    console.log(smartListSelected);
+   
     const body = {
       user_id: 18207,
       pdf_id: props.getEmailData
@@ -95,9 +100,7 @@ const SelectSmartList = (props) => {
         template_id: props.getEmailData
           ? props.getEmailData.templateId
           : props.getDraftData.campaign_data.template_id,
-        smart_list_id: props.getEmailData
-          ? smartListSelected.id
-          : props.getDraftData.campaign_data.smart_list_id,
+        smart_list_id: PdfSelected,
 
         // selectedHcp: selectedHcp,
       },
@@ -111,17 +114,19 @@ const SelectSmartList = (props) => {
     await axios
       .post(`emailapi/save_draft`, body)
       .then((res) => {
-        console.log(res);
-        //console.log(selectedHcp);
-        setCampaign_id(res.data.response.data.id);
-        //  setSelectedHcp(selectedHcp);
-        //  console.log(props.getCampaignId);
+        if (res.data.status_code === 200) {
+          toast.success("Draft saved successfuly");
+          setCampaign_id(res.data.response.data.id);
+        } else {
+          toast.warning(res.data.message);
+        }
+
         loader("hide");
 
         // console.log(res);
       })
       .catch((err) => {
-        //console.log(err);
+        toast.error("Something went wrong");
       });
   };
 
@@ -343,7 +348,7 @@ const SelectSmartList = (props) => {
                       </div> */}
                         <div className="smartlist-buttons">
                           <button className="btn btn-primary btn-bordered view">
-                            View
+                           <a href={"/ViewSmartList?listId="+template.id} className="color_blue" target="_blank">View</a> 
                           </button>
                         </div>
                       </div>
@@ -369,10 +374,10 @@ const SelectSmartList = (props) => {
           </h4>
           <div className="modal-buttons">
             <button type="button" className="btn btn-primary btn-filled" data-bs-dismiss="modal"   onClick={() => redirectToList()}>
-              Yes Please!
+              Continue
             </button>
             <button type="button" className="btn btn-primary btn-bordered light" data-bs-dismiss="modal"  onClick={() => setpopupopeningstatus((getpopupopeningstatus) => !getpopupopeningstatus)} >
-              Cancel
+              Close
             </button>
           </div>
         </Modal.Body>

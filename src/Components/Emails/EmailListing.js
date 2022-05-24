@@ -80,6 +80,11 @@ const EmailList = (props) => {
     ],
   });
 
+  useEffect(() => {
+    props.getEmailData(null);
+    props.getDraftData(null);
+    props.getSelectedSmartListData(null);
+  }, []);
 
   const showViewEmailModal = (data) => {
     let id = data.id;
