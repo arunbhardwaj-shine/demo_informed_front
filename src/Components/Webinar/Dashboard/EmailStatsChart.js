@@ -56,10 +56,8 @@ const EmailStatsChart = (props) => {
         ExportApi.getEmailStatsChart(props.eventid, props.templateId).then(
           (resp) => {
             if (resp.ok) {
-              console.log(resp.data.data);
               setData(resp.data.data);
               Object.entries(resp.data.data)?.map(([key, value]) => {
-                console.log(valueupdate.xAxis.categories);
                 valueupdate.xAxis.categories.push(key);
                 valueupdate.series[0].data.push(value);
               });
@@ -72,10 +70,8 @@ const EmailStatsChart = (props) => {
         ExportApi.getEmailStatsChart(props.eventid, props.templateId).then(
           (resp) => {
             if (resp.ok) {
-              console.log(resp.data.data);
               setData(resp.data.data);
               Object.entries(resp.data.data)?.map(([key, value]) => {
-                console.log(valueupdate.xAxis.categories);
                 valueupdate.xAxis.categories.push(key);
                 valueupdate.series[0].data.push(value);
               });
@@ -87,7 +83,7 @@ const EmailStatsChart = (props) => {
       }
     }
   };
-  console.log(options_ch);
+  //console.log(options_ch);
 
   useEffect(() => {
     handleGetEventlist();

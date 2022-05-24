@@ -1067,9 +1067,8 @@ const Table = (props, ref) => {
                   {showLessInfo == false ? (
                     <>
                       {" "}
-                      <th scope="col">Readers</th>
                       <th scope="col">Business Unit</th>
-                      <th scope="col">Interest</th>
+                      <th scope="col">Contact Type</th>
                       <th scope="col"></th>{" "}
                     </>
                   ) : null}
@@ -1132,9 +1131,8 @@ const Table = (props, ref) => {
                           item.country
                         )}
                       </td>
-                      {showLessInfo == false ? <td> NA</td> : null}
-                      {showLessInfo == false ? <td> NA</td> : null}
-                      {showLessInfo == false ? <td> NA</td> : null}
+                      {showLessInfo == false ? <td> {item.ibu}</td> : null}
+                      {showLessInfo == false ? <td> {item.contact_type}</td> : null}
                       <td className="delete_row" colspan="12">
                         <img
                           src={path + "delete.svg"}
@@ -1179,14 +1177,14 @@ const Table = (props, ref) => {
                       <td id={`field_country` + index}>
                         <span>{item.country}</span>
                       </td>
-                      {showLessInfo == false ? (
+                      {/*showLessInfo == false ? (
                         <td id="field_readers">NA</td>
+                      ) : null*/}
+                      {showLessInfo == false ? (
+                        <td id="field_business_unit">{item.ibu}</td>
                       ) : null}
                       {showLessInfo == false ? (
-                        <td id="field_business_unit">NA</td>
-                      ) : null}
-                      {showLessInfo == false ? (
-                        <td id="field_interest">NA</td>
+                        <td id="field_interest">{item.contact_type}</td>
                       ) : null}
                       <td
                         className="delete_row"
@@ -1514,7 +1512,7 @@ const Table = (props, ref) => {
                       <p>Upload your excel file</p></> : <h5>{file_name.current.files[0].name}</h5> }
                     </div>
                     </div>
-                
+
                 </form>
               </div>
               <div className="hcp-modal-action">
@@ -1568,7 +1566,7 @@ const Table = (props, ref) => {
         </div>
       </Modal>
 
-    
+
       <Modal show={showUploadMenu} onHide={handleCloseUploadMenu}>
         <Modal.Header closeButton>
           <Modal.Title>upload your new file</Modal.Title>
