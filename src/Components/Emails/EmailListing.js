@@ -178,6 +178,7 @@ const EmailList = (props) => {
   };
 
   const submitHandler = (event) => {
+    setShowFilter(false);
     getData("progress");
     setSubmiHandle(1);
     event.preventDefault();
@@ -421,6 +422,8 @@ const EmailList = (props) => {
     document.querySelectorAll("input").forEach((checkbox) => {
       checkbox.checked = false;
     });
+    document.getElementById("email_search").value = "";
+    setSearch('');
     setFilterTags([]);
     setFilterCreators([]);
     setFilterDate([]);
@@ -475,6 +478,7 @@ const EmailList = (props) => {
                   type="text"
                   placeholder="Search"
                   aria-label="Search"
+                  id="email_search"
                   onChange={(e) => searchChange(e)}
                 />
                 <button className="btn btn-outline-success" type="submit">
@@ -637,7 +641,7 @@ const EmailList = (props) => {
                       filterdata.created.length > 0 && (
                         <Accordion.Item className="card" eventKey="2">
                           <Accordion.Header className="card-header">
-                            Created
+                            Date
                           </Accordion.Header>
                           <Accordion.Body className="card-body">
                             <ul>
@@ -837,7 +841,7 @@ const EmailList = (props) => {
                   {filtercreator.length > 0 && (
                     <div className="filter-div">
                       <div className="filter-div-title">
-                        <span>Creators |</span>
+                        <span>Creator |</span>
                       </div>
                       <div className="filter-div-list">
                         {Object.entries(filtercreator).map(([index, item]) => (

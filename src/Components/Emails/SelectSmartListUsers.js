@@ -743,7 +743,6 @@ const SelectSmartListUsers = (props) => {
                     <th scope="col">Contact Type</th>
                     {showLessInfo == false ? (
                       <>
-                        <th scope="col">Interest</th>
                         <th scope="col">Consent</th>
                         <th scope="col">Email Received</th>
                         <th scope="col">Openings</th>
@@ -764,12 +763,11 @@ const SelectSmartListUsers = (props) => {
                           <td>{rr.country}</td>
                           <td>{rr.ibu}</td>
                           <td>{rr.contact_type}</td>
+                          {showLessInfo == false ? <td>NA </td> : null}
+                          {showLessInfo == false ? <td>{rr.email_received}</td> : null}
+                          {showLessInfo == false ? <td>{rr.email_opening}</td> : null}
                           {showLessInfo == false ? <td>NA</td> : null}
-                          {showLessInfo == false ? <td>NA</td> : null}
-                          {showLessInfo == false ? <td>NA</td> : null}
-                          {showLessInfo == false ? <td>NA</td> : null}
-                          {showLessInfo == false ? <td>NA</td> : null}
-                          {showLessInfo == false ? <td>NA</td> : null}
+                          {showLessInfo == false ? <td>{rr.last_email}</td> : null}
                           {/* <td>NA</td>
                           <td>
                             <span>NA</span>
@@ -837,12 +835,11 @@ const SelectSmartListUsers = (props) => {
                           <td>{readers.country}</td>
                           <td>{readers.ibu}</td>
                           <td>{readers.contact_type}</td>
+                          {showLessInfo == false ? <td>NA </td> : null}
+                          {showLessInfo == false ? <td>{readers.email_received}</td> : null}
+                          {showLessInfo == false ? <td>{readers.email_opening}</td> : null}
                           {showLessInfo == false ? <td>NA</td> : null}
-                          {showLessInfo == false ? <td>NA</td> : null}
-                          {showLessInfo == false ? <td>NA</td> : null}
-                          {showLessInfo == false ? <td>NA</td> : null}
-                          {showLessInfo == false ? <td>NA</td> : null}
-                          {showLessInfo == false ? <td>NA</td> : null}
+                          {showLessInfo == false ? <td>{readers.last_email}</td> : null}
                           <td className="delete_row" colspan="12">
                             <img
                               src={path_image + "delete.svg"}
@@ -889,12 +886,11 @@ const SelectSmartListUsers = (props) => {
                           </td>
                           <td>{readers.ibu}</td>
                           <td>{readers.contact_type}</td>
-                          {showLessInfo == false ? <td>NA</td> : null}
                           {showLessInfo == false ? <td>NA </td> : null}
+                          {showLessInfo == false ? <td>{readers.email_received}</td> : null}
+                          {showLessInfo == false ? <td>{readers.email_opening}</td> : null}
                           {showLessInfo == false ? <td>NA</td> : null}
-                          {showLessInfo == false ? <td>NA</td> : null}
-                          {showLessInfo == false ? <td>NA</td> : null}
-                          {showLessInfo == false ? <td>NA</td> : null}
+                          {showLessInfo == false ? <td>{readers.last_email}</td> : null}
                           <td className="delete_row" colspan="12">
                             <img
                               src={path_image + "delete.svg"}

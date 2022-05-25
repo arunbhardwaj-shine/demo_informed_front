@@ -78,7 +78,7 @@ function Add(props) {
   };
   // const handleReset = (resetForm) => {
   //   if (!window.confirm('Reset?')) {
-  // 
+  //
   //   }
   // };
   const formik = useFormik({
@@ -109,20 +109,20 @@ function Add(props) {
     // onReset:( values,{resetForm})=>{
     //    resetForm({values:''})
     //     },
-    onSubmit: (values,{resetForm}) => {
+    onSubmit: (values) => {
+      console.log(props);
       var today = new Date(values.event_date);
       var dd = String(today.getDate()).padStart(2, "0");
       var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
       var yyyy = today.getFullYear();
-      let dateData = dd + "-" + mm + "-" + yyyy;
+      let dateData = dd + "/" + mm + "/" + yyyy;
 
       let a = JSON.stringify(Speakername);
-    
+
       if (values.event_start_time >= values.eventendtime) {
         setMassage("End time has to be greater start time");
       } else {
         setMassage(false);
-        resetForm({values:''})
         ExportApi.CreatEvent(
           values.EventTitle,
           Speakername[0].name && Speakername[0].email ? a : null,
@@ -138,9 +138,8 @@ function Add(props) {
         )
           .then((resp) => {
             if (resp.data) {
-              console.log(resp.data);
+              //console.log(resp.data);
               if (resp.data.code == 200) {
-                resetForm({values:''})
                 toast.success(resp.data.message, {
                   position: "top-right",
                   autoClose: 5000,
@@ -168,6 +167,8 @@ function Add(props) {
           })
           .catch((err) => console.log(err));
       }
+      props.closePopup();
+      props.getEventList();
     },
   });
   var today = new Date();
@@ -199,9 +200,7 @@ function Add(props) {
         pauseOnHover
       />
       <Col md={{ span: 6, offset: 3 }}>
-        <Link to="/webinar/event/edit">
-          <Button>Event List</Button>
-        </Link>
+        <Link to="/webinar/event/edit"></Link>
         <div>
           <h2>Create Event </h2>
           <div>
@@ -338,7 +337,7 @@ function Add(props) {
                     <option>Select Country</option>
                     {country?.map((val, i) => (
                       <React.Fragment key={i}>
-                        <option key={i} value={val.country}>
+                        <option key={i} value={val.id}>
                           {val.country}
                         </option>
                       </React.Fragment>
@@ -529,10 +528,7 @@ function Add(props) {
                   ) : null}
                 </Col>
               </Form.Group>
-              <Button
-                type="reset">
-                Reset
-              </Button>
+              <Button type="reset">Reset</Button>
               <Button type="submit" className="event-submit-button">
                 Submit
               </Button>
