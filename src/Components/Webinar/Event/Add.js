@@ -110,11 +110,12 @@ function Add(props) {
     //    resetForm({values:''})
     //     },
     onSubmit: (values) => {
+      console.log(props);
       var today = new Date(values.event_date);
       var dd = String(today.getDate()).padStart(2, "0");
       var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
       var yyyy = today.getFullYear();
-      let dateData = dd + "-" + mm + "-" + yyyy;
+      let dateData = dd + "/" + mm + "/" + yyyy;
 
       let a = JSON.stringify(Speakername);
 
@@ -137,7 +138,7 @@ function Add(props) {
         )
           .then((resp) => {
             if (resp.data) {
-              console.log(resp.data);
+              //console.log(resp.data);
               if (resp.data.code == 200) {
                 toast.success(resp.data.message, {
                   position: "top-right",
@@ -166,6 +167,8 @@ function Add(props) {
           })
           .catch((err) => console.log(err));
       }
+      props.closePopup();
+      props.getEventList();
     },
   });
   var today = new Date();
@@ -197,9 +200,7 @@ function Add(props) {
         pauseOnHover
       />
       <Col md={{ span: 6, offset: 3 }}>
-        <Link to="/webinar/event/edit">
-          <Button>Event List</Button>
-        </Link>
+        <Link to="/webinar/event/edit"></Link>
         <div>
           <h2>Create Event </h2>
           <div>
