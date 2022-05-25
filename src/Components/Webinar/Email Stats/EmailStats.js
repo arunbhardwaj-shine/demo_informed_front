@@ -7,14 +7,20 @@ function EmailStats() {
   const [event, setEvent] = useState([]);
   const [eventId, setEventId] = useState();
   const [tempId, setTempId] = useState();
+  const [Label, setLabel] = useState();
   const [EmailData, setEmailData] = useState();
   const [templateList, setTemplateList] = useState();
+  const [templateId, setTemplateId] = useState();
   const [paginate, setPaginate] = useState();
   const [currentPage, setCurrentPage] = useState();
   const handleGetEventlist = () => {
     ExportApi.GetEventList().then((resp) => {
       if (resp.ok) {
         setEvent(resp.data.data);
+        if(eventId==null||eventId==undefined){
+          setEventId(resp.data.data[0].id)
+          handleGetTemplateList(resp.data.data[0].id)
+          }
       }
     });
   };
@@ -22,7 +28,12 @@ function EmailStats() {
     ExportApi.UserTemplateList(id).then((resp) => {
       if (resp.ok) {
         console.log(resp.data.data);
+        if(templateId==null||templateId==undefined){
+          handleGetEmaildata(resp.data.data[0].id)
+          setTemplateId(resp.data.data[0].id)
+        }
         setTemplateList(resp.data.data);
+
       }
     });
   };
@@ -33,6 +44,7 @@ function EmailStats() {
         console.log(resp.data.data.data);
         setEmailData(resp.data.data.data);
         setPaginate(resp.data.data.paginate);
+        setLabel(resp.data.data.paginate.label)
         setCurrentPage(resp.data.data.paginate.currentPage);
       }
     });
@@ -78,9 +90,10 @@ function EmailStats() {
               <Form.Label>Select Event </Form.Label>
               <Form.Select
                 name="type"
+                value={eventId}
                 onChange={(e) => {
-                  handleGetTemplateList(e.target.value);
                   setEventId(e.target.value);
+                  handleGetTemplateList(e.target.value);
                 }}
               >
                 <option> Select Event</option>
@@ -92,12 +105,12 @@ function EmailStats() {
               </Form.Select>
             </Col>
             <Col>
-              {templateList != undefined || templateList != null ? (
-                <>
                   <Form.Label>Select Template </Form.Label>
                   <Form.Select
+                  value={templateId}
                     onChange={(e) => {
                       handleGetEmaildata(e.target.value);
+                      setTemplateId(e.target.value)
                     }}
                     name="type"
                   >
@@ -108,11 +121,8 @@ function EmailStats() {
                             {console.log(val)}
                             <option value={val.id}>{val.name}</option>
                           </React.Fragment>
-                        ))
-                      : null}
+                        )):null}
                   </Form.Select>
-                </>
-              ) : null}
             </Col>
           </Row>
           <Row>
@@ -129,12 +139,17 @@ function EmailStats() {
                   <th>Email</th>
                   <th>Sent</th>
                   <th>Read</th>
-
-                  {Object.entries(EmailData?EmailData[0].opened_linked:null)?.map(([key, value]) => {
+                   {Label?.map((val,i)=>{
+                     {console.log(val)}
+                     return (
+                       <th>{val}</th>
+                     )
+                     })}
+                  {/* {Object.entries(EmailData?EmailData[0].opened_linked:null)?.map(([key, value]) => {
               return (
                   <th>{key && key}</th>
               );
-            })}
+            })} */}
                 </tr>
               </thead>
               <tbody>

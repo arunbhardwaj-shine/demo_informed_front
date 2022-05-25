@@ -7,6 +7,7 @@ const EmailStatsChart = (props) => {
   const [render, setRender] = useState(0);
   const [data, setData] = useState();
   const [templateList, setTemplateList] = useState();
+  const [TemplateId, setTemplateId] = useState();
   const [options_ch, setOptions_ch] = useState({
     chart: {
       type: "column",
@@ -53,7 +54,6 @@ const EmailStatsChart = (props) => {
         valueupdate.series[0].data = [];
         valueupdate.xAxis.categories = [];
         setOptions_ch(valueupdate);
-
         ExportApi.getEmailStatsChart(props.eventid, id).then(
           (resp) => {
             if (resp.ok) {
@@ -68,9 +68,6 @@ const EmailStatsChart = (props) => {
           }
         );
       } else {
-        alert(
-          "okk"
-        )
         ExportApi.getEmailStatsChart(props.eventid,id).then(
           (resp) => {
             if (resp.ok) {
@@ -92,12 +89,17 @@ const EmailStatsChart = (props) => {
       if (resp.ok) {
         console.log("first", resp.data.code);
         if (resp.data.code == 404) {
+          setTemplateList()
+        }else{
+          if(TemplateId==null||TemplateId==undefined){
+          setTemplateId(resp.data.data[0].id)
+          handleGetEventlist(resp.data.data[0].id)
+          }
+          setTemplateList(resp.data.data);
         }
-        setTemplateList(resp.data.data);
       }
     });
   };
-  //console.log(options_ch);
 
   useEffect(() => {
     handleGetTemplateList();
@@ -109,8 +111,10 @@ const EmailStatsChart = (props) => {
               <Form.Label>Select Template </Form.Label>
               <Form.Select
                 name="type"
+                value={TemplateId}
                 onChange={(e) => {
-                  handleGetEventlist(e.target.value);
+                  handleGetEventlist(e.target.value)
+                  setTemplateId(e.target.value);
                 }}
               >
                 <option value="null"> Select Template</option>

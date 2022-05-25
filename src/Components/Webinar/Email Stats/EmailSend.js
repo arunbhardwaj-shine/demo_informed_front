@@ -31,7 +31,7 @@ const EmailSand = () => {
   };
   const downloadFile = () => {
         let link = document.createElement('a');
-        link.href = "";
+        link.href = "http://51.89.210.56:8000/files/Sample.xlsx";
         link.setAttribute('download', 'file.xlsx');
         document.body.appendChild(link);
         link.download = '';
@@ -93,7 +93,7 @@ const EmailSand = () => {
                 progress: undefined,
               });
             } else {
-              setImageErr("Please Select your excel file")
+              setImageErr("Please select your excel file")
               toast.error(resp.data.message, {
                 position: "top-right",
                 autoClose: 5000,

@@ -14,6 +14,9 @@ const Home = () => {
     ExportApi.GetEventList().then((resp) => {
       if (resp.ok) {
         setEvent(resp.data.data);
+        if(eventid==null||eventid==undefined){
+        setEventId(resp.data.data[0].id)
+        }
       }
     });
   };
@@ -27,7 +30,8 @@ const Home = () => {
           <Row>
             <Col className="mb-5">
               <Form.Label>Select Event </Form.Label>
-              <Form.Select
+              <Form.Select 
+              value={eventid}
                 onChange={(e) => {
                   setEventId(e.target.value);
                 }}
