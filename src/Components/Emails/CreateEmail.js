@@ -421,14 +421,13 @@ const CreateEmail = (props) => {
       await axios
         .post(`emailapi/save_draft`, body)
         .then((res) => {
-          loader("hide");
-
-          setCampaign_id(res.data.response.data.id);
           if (res.data.status_code === 200) {
+            setCampaign_id(res.data.response.data.id);
             toast.success("Draft saved");
           } else {
             toast.warning(res.data.message);
           }
+          loader("hide");
         })
         .catch((err) => {
           toast.error("Something went wrong");
