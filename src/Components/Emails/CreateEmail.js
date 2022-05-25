@@ -138,8 +138,7 @@ const CreateEmail = (props) => {
         setTemplateId(props.getDraftData.campaign_data.template_id);
 
         setTimeout(() => {
-          document
-            .getElementById(
+          document.getElementById(
               "template_dyn" + props.getDraftData.campaign_data.template_id
             )
             .click();
@@ -358,7 +357,13 @@ const CreateEmail = (props) => {
   };
 
   const saveButtonClicked = () => {
-    setFinalTags(tagClickedFirst);
+    if(typeof finalTags != "undefined" && finalTags.length > 0){
+      let prev_tags = finalTags;
+      let new_tags = prev_tags.concat(tagClickedFirst);
+      setFinalTags(new_tags);
+    }else{
+      setFinalTags(tagClickedFirst);
+    }
     closeModal();
   };
 
