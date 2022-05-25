@@ -20,7 +20,29 @@ function Add(props) {
   const [country, setCountry] = useState([]);
   const [Timezoneregion, setTimezoneregion] = useState([]);
   const handleMaltiInputAdd = () => {
-    setSpeakerName([...Speakername, { name: "", email: "" }]);
+    let email_pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+    let name_pattern = /^[a-zA-Z ]{2,30}$/;
+    const status = Speakername.map((data) => {
+      console.log(data.email);
+      if (
+        data.email == "" ||
+        data.name == "" ||
+        !data.email.match(email_pattern) ||
+        !data.name.match(name_pattern)
+      ) {
+        return "false";
+      } else {
+        return "true";
+      }
+    });
+
+    //console.log(status);
+
+    if (status.every((element) => element == "true")) {
+      setSpeakerName([...Speakername, { name: "", email: "" }]);
+    } else {
+      toast.error("please input the Speaker name and Speaker email correctly");
+    }
   };
   const [token, setToken] = useState(localStorage.getItem("Token"));
   let navigate = useNavigate();
@@ -43,7 +65,7 @@ function Add(props) {
 
   const handleMaltiInputRumove = (i) => {
     let data1 = Speakername;
-    Speakername.splice(0, 1);
+    Speakername.splice(i, 1);
     setTimeout(() => setSpeakerName([...Speakername]), 1000);
     setRerender(render + 1);
     setSpeakerName(data1);
@@ -247,7 +269,7 @@ function Add(props) {
                       controlId="exampleForm.ControlInput1"
                     >
                       <Form.Label column sm={2}>
-                        Speaker Name
+                        Speaker Name*
                       </Form.Label>
                       <Col sm={10}>
                         <Form.Control
@@ -261,7 +283,7 @@ function Add(props) {
                       </Col>
                       <div className="mt-2"></div>
                       <Form.Label column sm={2}>
-                        Speaker Email
+                        Speaker Email*
                       </Form.Label>
                       <Col sm={10}>
                         <Form.Control

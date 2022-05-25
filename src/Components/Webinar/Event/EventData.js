@@ -5,10 +5,12 @@ import { useFormik } from "formik";
 import "../webinar.css";
 import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
+import axios from "axios";
 import { date } from "yup";
 import Add from "./Add";
 const EventData = () => {
   const [event, setEvent] = useState([]);
+  const [deletestatus, setDeleteStatus] = useState(false);
   const [message, setMessage] = useState();
   const [eventdata, setEventData] = useState([]);
   const [SpDataSingle, setSpDataSingle] = useState();
@@ -16,6 +18,8 @@ const EventData = () => {
   const [modalShow, setModalShow] = useState(false);
   const [update, setUpdate] = useState(0);
   const [sorting, setSorting] = useState(0);
+  const [deletecardid, setDeleteCardId] = useState();
+  const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [Speakername, setSpeakerName] = useState([{ name: "", email: "" }]);
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -93,11 +97,67 @@ const EventData = () => {
     console.log(normalArr);
   };
 
+  const showDeleteButtons = () => {
+    if (deletestatus) {
+      setDeleteStatus(false);
+    } else {
+      setDeleteStatus(true);
+    }
+  };
+
   const handleMaltiInputRumove = (i) => {
     console.log("i", i);
     Speakername.splice(i, 1);
     setSpeakerName([...Speakername]);
   };
+
+  const showConfirmationPopup = (id) => {
+    if (confirmationpopup) {
+      setConfirmationPopup(false);
+    } else {
+      setConfirmationPopup(true);
+    }
+    setDeleteCardId(id);
+  };
+
+  const hideConfirmationModal = () => {
+    setConfirmationPopup(false);
+  };
+
+  const deleteEvent = () => {
+    console.log("delete event");
+    hideConfirmationModal();
+
+    const body = {
+      event_id: deletecardid,
+    };
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `${localStorage.getItem("Token")}`,
+    };
+
+    console.log(headers);
+    //  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    //  loader("show");
+    axios
+      .post(`http://51.89.210.56:8000/api/delete-event`, body, { headers })
+      .then((res) => {
+        if (res.statusText == "OK") {
+          hideConfirmationModal();
+          let updatedArray = event.filter((item) => {
+            return item["id"] != deletecardid;
+          });
+          if (typeof updatedArray !== "undefined") {
+            setEvent(updatedArray);
+          }
+        }
+        console.log(res);
+      })
+      .catch((err) => {
+        toast.error("Something went wrong");
+      });
+  };
+
   const formik = useFormik({
     initialValues: {
       EventTitle: eventdata ? eventdata.title : "",
@@ -450,7 +510,11 @@ const EventData = () => {
             </div>
 
             <div class="clear-search">
-              <button class="btn btn-outline-primary" type="submit">
+              <button
+                class="btn btn-outline-primary"
+                type="submit"
+                onClick={showDeleteButtons}
+              >
                 <svg
                   width="24"
                   height="24"
@@ -514,12 +578,23 @@ const EventData = () => {
                           {event.event_date} |{event.event_start_time}
                         </span>
                       </div>
-                      <div class="smart-list-added-user">days left {}</div>
+                      <div class="smart-list-added-user">
+                        days left {event.days_left}
+                      </div>
+
                       <div class="mail-stats">
-                        <ul>
-                          <li></li>
-                          <li></li>
-                        </ul>
+                        {deletestatus && (
+                          <div className="dlt_btn">
+                            <button
+                              onClick={(e) => showConfirmationPopup(event.id)}
+                            >
+                              <img
+                                src={path_image + "delete.svg"}
+                                alt="Delete Row"
+                              />
+                            </button>
+                          </div>
+                        )}
                       </div>
                       <div class="smartlist-buttons"></div>
                     </div>
@@ -542,6 +617,49 @@ const EventData = () => {
           <Add closePopup={closePopup} getEventList={handleGetEventlist} />
         </div>
       </Modal>
+
+      <div className="delete">
+        <Modal
+          className="modal send-confirm"
+          id="delete-confirm"
+          show={confirmationpopup}
+        >
+          <Modal.Header>
+            {/* <Modal.Title>Heading Text</Modal.Title>*/}
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              onClick={(e) => hideConfirmationModal()}
+            ></button>
+          </Modal.Header>
+
+          <Modal.Body>
+            <img src={path_image + "alert.png"} alt="" />
+            <h4>
+              The Email Campaign will be deleted from the list.
+              <br />
+              Are you sure you want to delete it?
+            </h4>
+            <div className="modal-buttons">
+              <button
+                type="button"
+                className="btn btn-primary btn-filled"
+                onClick={(e) => deleteEvent()}
+              >
+                Yes Please!
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary btn-bordered light"
+                onClick={(e) => hideConfirmationModal()}
+              >
+                Cancel
+              </button>
+            </div>
+          </Modal.Body>
+        </Modal>
+      </div>
     </div>
   );
 };
