@@ -38,7 +38,6 @@ const Header = () => {
     ExportApi.UserLogout()
       .then((resp) => {
         if (resp.data) {
-          console.log(resp);
           if (resp.data.code == 200) {
             localStorage.removeItem("Token");
             navigate("/webinar");

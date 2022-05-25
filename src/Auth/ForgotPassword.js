@@ -22,7 +22,6 @@ function ForgotPassword(props) {
         ExportApi.UserForgot(values.email)
           .then((resp) => {
             if (resp.data) {
-              console.log(resp.data)
               if (resp.data.code == 200) {
                 localStorage.removeItem('showPage')
                 toast.success(resp.data.message, {

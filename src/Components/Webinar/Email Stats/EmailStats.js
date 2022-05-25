@@ -6,9 +6,11 @@ import ExportApi from "../../../Api/ExportApi";
 function EmailStats() {
   const [event, setEvent] = useState([]);
   const [eventId, setEventId] = useState();
+  const [tempId, setTempId] = useState();
   const [EmailData, setEmailData] = useState();
   const [templateList, setTemplateList] = useState();
-
+  const [paginate, setPaginate] = useState();
+  const [currentPage, setCurrentPage] = useState();
   const handleGetEventlist = () => {
     ExportApi.GetEventList().then((resp) => {
       if (resp.ok) {
@@ -25,14 +27,34 @@ function EmailStats() {
     });
   };
   const handleGetEmaildata = (id) => {
-    // console.log(id)
+    setTempId(id)
     ExportApi.EmailStatss(eventId, id).then((resp) => {
       if (resp.ok) {
         console.log(resp.data.data.data);
         setEmailData(resp.data.data.data);
+        setPaginate(resp.data.data.paginate);
+        setCurrentPage(resp.data.data.paginate.currentPage);
       }
     });
   };
+  const handleGetParticipantPage = (id) => {
+    ExportApi.EmailStatsPage(id,eventId,tempId).then(
+      (resp) => {
+        if (resp.ok) {
+          console.log(resp.data);
+          if (resp.data.code === 404) {
+                 
+          } else {
+        
+            setPaginate(resp.data.data.paginate);
+            setCurrentPage(resp.data.data.paginate.currentPage);
+            setEmailData(resp.data.data.data);
+          }
+        }
+      }
+    );
+  };
+
   useEffect(() => {
     handleGetEventlist();
   }, []);
@@ -98,34 +120,65 @@ function EmailStats() {
             <Col></Col>
             {/* <Col> <CsvDownload data={EmailData}>Excel Download</CsvDownload></Col> */}
           </Row>
+          {console.log(EmailData?EmailData[0].opened_linked:null)}
           {EmailData != undefined || EmailData != null ? (
             <Table bordered hover>
               <thead>
                 <tr>
                   <th> Name</th>
                   <th>Email</th>
-                  <th>Open Link</th>
+                  <th>Sent</th>
+                  <th>Read</th>
+
+                  {Object.entries(EmailData?EmailData[0].opened_linked:null)?.map(([key, value]) => {
+              return (
+                  <th>{key && key}</th>
+              );
+            })}
                 </tr>
               </thead>
-              {/* var obj = [{id:1,
-           data:{EMAILOPENLINK: "http://51.89.210.56:8000/api/set-read",
-           LINK_LOGIN_WEBINAR: "http://51.89.210.56:8000/api/track",
-          UNSUBSCRIBE_LINK: "http://51.89.210.56:8000/api/track" }}];
-
-for(let a of obj){
-  
-  console.log(Object.keys(a.data))
-} */}
               <tbody>
                 {EmailData?.map((val, i) => (
                   <tr key={i}>
                     <td>{val.name}</td>
                     <td>{val.email}</td>
-                    <td>{val.opened_linked.is_clicked == 1 ? "Yes" : "No"}</td>
-                    {/* <td></td> */}
+                    <td>{val.is_sent==1?"Yes":"No"}</td>
+                    <td>{val.is_read==1?"Yes":"No"}</td>
+                    {Object.entries(val.opened_linked)?.map(([key, value]) => {
+              return (
+                  <td>{value}</td>
+              );
+            })}    
                   </tr>
                 ))}
               </tbody>
+              <Row style={{ color: "blue" }}>
+                {/* <Col></Col> */}
+                {paginate?.previousPageUrl ? (
+                  <Col>
+                    <p
+                      style={{ cursor: "pointer" }}
+                      onClick={() => {
+                        handleGetParticipantPage(currentPage - 1);
+                      }}
+                    >
+                      Previous
+                    </p>
+                  </Col>
+                ) : null}
+                {paginate?.nextPageUrl ? (
+                  <Col>
+                    <p
+                      style={{ cursor: "pointer" }}
+                      onClick={() => {
+                        handleGetParticipantPage(currentPage + 1);
+                      }}
+                    >
+                      Next
+                    </p>
+                  </Col>
+                ) : null}
+              </Row>
             </Table>
           ) : (
             <h2

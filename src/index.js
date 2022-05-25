@@ -51,7 +51,7 @@ import Preview from "./Components/Webinar/Registration/Preview";
 import EditorEmail from "./Components/Webinar/Registration/EditorEmail";
 import Readers from "./Components/Webinar/Readers/Readers";
 import EmailStats from "./Components/Webinar/Email Stats/EmailStats";
-import EmailSand from "./Components/Webinar/Email Stats/EmailSand";
+import EmailSend from "./Components/Webinar/Email Stats/EmailSend";
 import StpDetails from "./Components/Webinar/Smtp/StpDetails";
 
 let platform = 0;
@@ -60,7 +60,6 @@ if (window.location.href.indexOf("/webinar") > -1) {
   platform = 1;
   show = 1;
 }
-// console.log(window.location.pathname)
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={createStore(reducers)}>
@@ -174,7 +173,7 @@ ReactDOM.render(
                         />
                         <Route
                           path="/webinar/sendemail"
-                          element={<EmailSand />}
+                          element={<EmailSend />}
                         />
                         <Route
                           path="/webinar/stpdetails"

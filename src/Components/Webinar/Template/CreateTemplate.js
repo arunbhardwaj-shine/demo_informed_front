@@ -5,7 +5,6 @@ import * as Yup from "yup";
 import { toast, ToastContainer } from "react-toastify";
 import { Button, Col, Form, Row } from 'react-bootstrap';
 function CreateTemplate(props) {
-    console.log(props )
     const [event, setEvent] = useState([]);
     const handleGetEventlist = () => {
         ExportApi.GetEventList().then((resp) => {
@@ -40,7 +39,6 @@ function CreateTemplate(props) {
                       draggable: true,
                       progress: undefined,
                     });
-                    console.log(resp.data);
                   } else {
                     toast.error(resp.data.message, {
                       position: "top-right",
