@@ -14,7 +14,7 @@ import { createStore } from "redux";
 import reducers from "./reducers";
 
 import Add from "./Components/Webinar/Event/Add";
-import Home from "./Components/Webinar/Dashboard/Home";
+import Home from "./Components/Webinar/Regionstats/Home";
 import Dashboard from "./Components/Webinar/Dashboard";
 import EventData from "./Components/Webinar/Event/EventData";
 import Rehearsal from "./Components/Webinar/Rehearsal/Rehearsal";
