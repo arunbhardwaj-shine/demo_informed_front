@@ -350,7 +350,7 @@ const CreateEmail = (props) => {
       .then((res) => {
         toast.success("Template saved successfully");
         loader("hide");
-      
+
       })
       .catch((err) => {
         toast.error("Something went wrong");
@@ -560,10 +560,7 @@ const CreateEmail = (props) => {
   };
 
   const addTag = () => {
-    console.log(newTag);
-    console.log(typeof newTag);
-    console.log(newTag.length);
-    if (newTag.length == 0 || typeof newTag == "undefined") {
+    if (typeof newTag == "undefined" || newTag.trim().length == 0 ) {
       toast.error("Plese input a tag");
     } else {
       setTagClickedFirst((oldArray) => [...oldArray, newTag]);
@@ -1756,7 +1753,7 @@ const CreateEmail = (props) => {
                       </>
                     );
                   })}
-                 
+
                 </form>
                 <form id="add_file" className={"tab-pane" + activeExcel}>
                 <div className="upload-file-box">
@@ -1773,9 +1770,9 @@ const CreateEmail = (props) => {
                       />
                       {(file_name.current?.files===undefined || file_name.current.files?.length===0 )? <><label for="file-4"><span>Choose Your File</span></label>
                       <p>Upload your excel file</p></> : <h5>{file_name.current.files[0].name}</h5> }
-                       
 
-                       
+
+
                     </div>
                   </div>
                   </div>
