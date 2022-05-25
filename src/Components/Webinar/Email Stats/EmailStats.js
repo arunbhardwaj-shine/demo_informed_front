@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Col, Form, Row, Table } from "react-bootstrap";
 import { ToastContainer } from "react-toastify";
 import ExportApi from "../../../Api/ExportApi";
+import { loader } from "../../../loader";
 // import CsvDownload from 'react-json-to-csv'
 function EmailStats() {
   const [event, setEvent] = useState([]);
@@ -13,22 +14,26 @@ function EmailStats() {
   const [templateId, setTemplateId] = useState();
   const [paginate, setPaginate] = useState();
   const [currentPage, setCurrentPage] = useState();
+  let eId;
   const handleGetEventlist = () => {
     ExportApi.GetEventList().then((resp) => {
       if (resp.ok) {
         setEvent(resp.data.data);
         if(eventId==null||eventId==undefined){
           setEventId(resp.data.data[0].id)
-          handleGetTemplateList(resp.data.data[0].id)
+          handleGetParticipantPage(resp.data.data[0].id)
           }
       }
     });
   };
   const handleGetTemplateList = (id) => {
+    eId=id
     ExportApi.UserTemplateList(id).then((resp) => {
       if (resp.ok) {
-        console.log(resp.data.data);
+        // console.log(resp.data.data);
         if(templateId==null||templateId==undefined){
+          console.log(id)
+          setEventId(id)
           handleGetEmaildata(resp.data.data[0].id)
           setTemplateId(resp.data.data[0].id)
         }
@@ -38,18 +43,22 @@ function EmailStats() {
     });
   };
   const handleGetEmaildata = (id) => {
-    setTempId(id)
-    ExportApi.EmailStatss(eventId, id).then((resp) => {
-      if (resp.ok) {
-        console.log(resp.data.data.data);
-        setEmailData(resp.data.data.data);
-        setPaginate(resp.data.data.paginate);
-        setLabel(resp.data.data.paginate.label)
-        setCurrentPage(resp.data.data.paginate.currentPage);
-      }
-    });
+    loader("show")
+    setTimeout(() => {
+      ExportApi.EmailStatss(eId, id).then((resp) => {
+        if (resp.ok) {
+          loader("hide")
+          // console.log(resp.data.data.data);
+          setEmailData(resp.data.data.data);
+          setPaginate(resp.data.data.paginate);
+          setLabel(resp.data.data.paginate.label)
+          setCurrentPage(resp.data.data.paginate.currentPage);
+        }
+      });
+    }, 2000);
   };
   const handleGetParticipantPage = (id) => {
+    
     ExportApi.EmailStatsPage(id,eventId,tempId).then(
       (resp) => {
         if (resp.ok) {
@@ -73,6 +82,9 @@ function EmailStats() {
   return (
     <div>
       <Row>
+      <div className="loader" id="custom_loader">
+	        <span className="loader-view"> </span>
+          </div>
         <ToastContainer
           position="top-right"
           autoClose={5000}
@@ -109,8 +121,8 @@ function EmailStats() {
                   <Form.Select
                   value={templateId}
                     onChange={(e) => {
-                      handleGetEmaildata(e.target.value);
                       setTemplateId(e.target.value)
+                      handleGetEmaildata(e.target.value);
                     }}
                     name="type"
                   >
@@ -118,7 +130,6 @@ function EmailStats() {
                     {templateList
                       ? templateList?.map((val, i) => (
                           <React.Fragment key={i}>
-                            {console.log(val)}
                             <option value={val.id}>{val.name}</option>
                           </React.Fragment>
                         )):null}
@@ -130,7 +141,6 @@ function EmailStats() {
             <Col></Col>
             {/* <Col> <CsvDownload data={EmailData}>Excel Download</CsvDownload></Col> */}
           </Row>
-          {console.log(EmailData?EmailData[0].opened_linked:null)}
           {EmailData != undefined || EmailData != null ? (
             <Table bordered hover>
               <thead>
@@ -140,7 +150,6 @@ function EmailStats() {
                   <th>Sent</th>
                   <th>Read</th>
                    {Label?.map((val,i)=>{
-                     {console.log(val)}
                      return (
                        <th>{val}</th>
                      )
