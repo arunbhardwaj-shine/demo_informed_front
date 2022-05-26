@@ -33,8 +33,8 @@ const EventData = () => {
   };
   const handleGetEventlistSerch = (data) => {
     ExportApi.GetEventListSerch(data).then((resp) => {
-      if (resp.ok) {
-        //  console.log(resp.data)
+      if (resp.data.code == 200) {
+        console.log(resp);
         console.log(resp.data.data);
         setEvent(resp.data.data);
       }
@@ -574,12 +574,10 @@ const EventData = () => {
                       <h5>{event.title}</h5>
 
                       <div class="mail-time">
-                        <span>
-                          {event.event_date} |{event.event_start_time}
-                        </span>
+                        <span>{event.event_date}</span>
                       </div>
                       <div class="smart-list-added-user">
-                        days left {event.days_left}
+                        {event.days_left} days left
                       </div>
 
                       <div class="mail-stats">
