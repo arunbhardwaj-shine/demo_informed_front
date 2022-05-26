@@ -70,6 +70,7 @@ const Table = (props, ref) => {
   const [updateCounter, setUpdateCounter] = useState(0);
   const [getNewReaders, setNewReaders] = useState([]);
   const [emailChanged, setEmailChanged] = useState("");
+  let file_name = useRef("");
 
   const [hpc, setHpc] = useState([
     { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
@@ -1066,9 +1067,8 @@ const Table = (props, ref) => {
                   {showLessInfo == false ? (
                     <>
                       {" "}
-                      <th scope="col">Readers</th>
                       <th scope="col">Business Unit</th>
-                      <th scope="col">Interest</th>
+                      <th scope="col">Contact Type</th>
                       <th scope="col"></th>{" "}
                     </>
                   ) : null}
@@ -1131,9 +1131,10 @@ const Table = (props, ref) => {
                           item.country
                         )}
                       </td>
-                      {showLessInfo == false ? <td> NA</td> : null}
-                      {showLessInfo == false ? <td> NA</td> : null}
-                      {showLessInfo == false ? <td> NA</td> : null}
+                      {showLessInfo == false ? <td> {item.ibu}</td> : null}
+                      {showLessInfo == false ? (
+                        <td> {item.contact_type}</td>
+                      ) : null}
                       <td className="delete_row" colspan="12">
                         <img
                           src={path + "delete.svg"}
@@ -1178,14 +1179,14 @@ const Table = (props, ref) => {
                       <td id={`field_country` + index}>
                         <span>{item.country}</span>
                       </td>
-                      {showLessInfo == false ? (
+                      {/*showLessInfo == false ? (
                         <td id="field_readers">NA</td>
+                      ) : null*/}
+                      {showLessInfo == false ? (
+                        <td id="field_business_unit">{item.ibu}</td>
                       ) : null}
                       {showLessInfo == false ? (
-                        <td id="field_business_unit">NA</td>
-                      ) : null}
-                      {showLessInfo == false ? (
-                        <td id="field_interest">NA</td>
+                        <td id="field_interest">{item.contact_type}</td>
                       ) : null}
                       <td
                         className="delete_row"
@@ -1383,6 +1384,7 @@ const Table = (props, ref) => {
                   },
                 ]);
                 setActiveManual("active");
+                document.querySelector("#file-4").value = "";
                 setActiveExcel("");
               }}
               type="button"
@@ -1447,7 +1449,9 @@ const Table = (props, ref) => {
                                   onContactTypeChange(event, i)
                                 }
                               >
-                                <option selected value="">Select Type</option>
+                                <option selected value="">
+                                  Select Type
+                                </option>
                                 <option value="HCP">HCP</option>
                                 <option value="Staff">Staff</option>
                                 <option value="Test Users">Test Users</option>
@@ -1462,7 +1466,9 @@ const Table = (props, ref) => {
                                 aria-label="select"
                                 onChange={(event) => onCountryChange(event, i)}
                               >
-                                <option value="" selected>Select Country</option>
+                                <option value="" selected>
+                                  Select Country
+                                </option>
                                 {countryall.length === 0
                                   ? ""
                                   : Object.entries(countryall).map(
@@ -1499,12 +1505,27 @@ const Table = (props, ref) => {
                 </form>
                 <form id="add_file" className={"tab-pane" + activeExcel}>
                   <div className="form-group files">
-                    <input
-                      type="file"
-                      className="form-control"
-                      accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                      onChange={onFileChange}
-                    />
+                    <div className="box">
+                      <input
+                        type="file"
+                        id="file-4"
+                        className="form-control inputfile"
+                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                        onChange={onFileChange}
+                        ref={file_name}
+                      />
+                      {file_name.current?.files === undefined ||
+                      file_name.current.files?.length === 0 ? (
+                        <>
+                          <label for="file-4">
+                            <span>Choose Your File</span>
+                          </label>
+                          <p>Upload your excel file</p>
+                        </>
+                      ) : (
+                        <h5>{file_name.current.files[0].name}</h5>
+                      )}
+                    </div>
                   </div>
                 </form>
               </div>
@@ -1559,7 +1580,6 @@ const Table = (props, ref) => {
         </div>
       </Modal>
 
-      {/*Upload Excel file*/}
       <Modal show={showUploadMenu} onHide={handleCloseUploadMenu}>
         <Modal.Header closeButton>
           <Modal.Title>upload your new file</Modal.Title>

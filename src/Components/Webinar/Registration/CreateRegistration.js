@@ -9,7 +9,6 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { Link } from "react-router-dom";
 const CreateRegistration = (props) => {
-    // console.log(props.id)
     const [body, setBody] = useState();
     const [err, setErr] = useState(false);
     const [templateList, setTemplateList] = useState();
@@ -27,7 +26,6 @@ const CreateRegistration = (props) => {
             reader.addEventListener("load", function () {
             preview.src = reader.result;
             }, false);
-            // console.log("profileImg",file)
             reader.readAsDataURL(file);
             }
       }else{

@@ -14,7 +14,7 @@ import { createStore } from "redux";
 import reducers from "./reducers";
 
 import Add from "./Components/Webinar/Event/Add";
-import Home from "./Components/Webinar/Dashboard/Home";
+import Home from "./Components/Webinar/Regionstats/Home";
 import Dashboard from "./Components/Webinar/Dashboard";
 import EventData from "./Components/Webinar/Event/EventData";
 import Rehearsal from "./Components/Webinar/Rehearsal/Rehearsal";
@@ -51,7 +51,7 @@ import Preview from "./Components/Webinar/Registration/Preview";
 import EditorEmail from "./Components/Webinar/Registration/EditorEmail";
 import Readers from "./Components/Webinar/Readers/Readers";
 import EmailStats from "./Components/Webinar/Email Stats/EmailStats";
-import EmailSand from "./Components/Webinar/Email Stats/EmailSand";
+import EmailSend from "./Components/Webinar/Email Stats/EmailSend";
 import StpDetails from "./Components/Webinar/Smtp/StpDetails";
 
 let platform = 0;
@@ -60,7 +60,6 @@ if (window.location.href.indexOf("/webinar") > -1) {
   platform = 1;
   show = 1;
 }
-// console.log(window.location.pathname)
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={createStore(reducers)}>
@@ -174,7 +173,7 @@ ReactDOM.render(
                         />
                         <Route
                           path="/webinar/sendemail"
-                          element={<EmailSand />}
+                          element={<EmailSend />}
                         />
                         <Route
                           path="/webinar/stpdetails"

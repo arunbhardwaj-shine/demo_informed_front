@@ -20,7 +20,36 @@ function Add(props) {
   const [country, setCountry] = useState([]);
   const [Timezoneregion, setTimezoneregion] = useState([]);
   const handleMaltiInputAdd = () => {
-    setSpeakerName([...Speakername, { name: "", email: "" }]);
+    let email_pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+    let name_pattern = /^[a-zA-Z ]{2,30}$/;
+    const status = Speakername.map((data) => {
+      console.log(data.email);
+      if (
+        data.name == ""
+
+        // !data.email.match(email_pattern) ||
+        // !data.name.match(name_pattern)
+      ) {
+        toast.error("Please specify the name");
+
+        return "false";
+      } else if (data.email == "") {
+        toast.error("Please specify the email");
+        return "false";
+      } else if (!data.name.match(name_pattern)) {
+        toast.error("Please specify the valid name");
+      } else if (!data.email.match(email_pattern)) {
+        toast.error("Please specify the valid email");
+      } else {
+        return "true";
+      }
+    });
+
+    //console.log(status);
+
+    if (status.every((element) => element == "true")) {
+      setSpeakerName([...Speakername, { name: "", email: "" }]);
+    }
   };
   const [token, setToken] = useState(localStorage.getItem("Token"));
   let navigate = useNavigate();
@@ -43,10 +72,9 @@ function Add(props) {
 
   const handleMaltiInputRumove = (i) => {
     let data1 = Speakername;
-    Speakername.splice(0, 1);
+    Speakername.splice(i, 1);
     setTimeout(() => setSpeakerName([...Speakername]), 1000);
     setRerender(render + 1);
-    console.log("after,", data1.length);
     setSpeakerName(data1);
   };
   const handleGetDataBu = () => {
@@ -77,9 +105,43 @@ function Add(props) {
       }
     });
   };
-  const handleReset = (resetForm) => {
-    resetForm();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    let email_pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+    let name_pattern = /^[a-zA-Z ]{2,30}$/;
+    const status = Speakername.map((data) => {
+      console.log(data.email);
+      if (
+        data.name == ""
+
+        // !data.email.match(email_pattern) ||
+        // !data.name.match(name_pattern)
+      ) {
+        toast.error("Please specify the name");
+
+        return "false";
+      } else if (data.email == "") {
+        toast.error("Please specify the email");
+        return "false";
+      } else if (!data.name.match(name_pattern)) {
+        toast.error("Please specify the valid name");
+      } else if (!data.email.match(email_pattern)) {
+        toast.error("Please specify the valid email");
+      } else {
+        return "true";
+      }
+    });
+
+    if (status.every((element) => element == "true")) {
+      formik.handleSubmit();
+    }
   };
+  // const handleReset = (resetForm) => {
+  //   if (!window.confirm('Reset?')) {
+  //
+  //   }
+  // };
   const formik = useFormik({
     initialValues: {
       EventTitle: "",
@@ -93,6 +155,7 @@ function Add(props) {
       code: "",
       Country: "",
     },
+
     validationSchema: Yup.object({
       EventTitle: Yup.string().required("Event title is required"),
       Timezone: Yup.string().required("Timezone is required"),
@@ -105,15 +168,18 @@ function Add(props) {
       event_date: Yup.string().required("Event date is required"),
       Description: Yup.string().required("Description is required"),
     }),
+    // onReset:( values,{resetForm})=>{
+    //    resetForm({values:''})
+    //     },
     onSubmit: (values) => {
       var today = new Date(values.event_date);
       var dd = String(today.getDate()).padStart(2, "0");
       var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
       var yyyy = today.getFullYear();
-      let dateData = dd + "-" + mm + "-" + yyyy;
+      let dateData = dd + "/" + mm + "/" + yyyy;
 
       let a = JSON.stringify(Speakername);
-      console.log(dateData);
+
       if (values.event_start_time >= values.eventendtime) {
         setMassage("End time has to be greater start time");
       } else {
@@ -133,7 +199,7 @@ function Add(props) {
         )
           .then((resp) => {
             if (resp.data) {
-              console.log(resp.data);
+              //console.log(resp.data);
               if (resp.data.code == 200) {
                 toast.success(resp.data.message, {
                   position: "top-right",
@@ -162,6 +228,9 @@ function Add(props) {
           })
           .catch((err) => console.log(err));
       }
+
+      props.closePopup();
+      props.getEventList();
     },
   });
   var today = new Date();
@@ -181,8 +250,6 @@ function Add(props) {
 
   return (
     <Row>
-      {/* {console.log("Speakername",Speakername)} */}
-
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -195,13 +262,14 @@ function Add(props) {
         pauseOnHover
       />
       <Col md={{ span: 6, offset: 3 }}>
-        <Link to="/webinar/event/edit">
-          <Button>Event List</Button>
-        </Link>
+        <Link to="/webinar/event/edit"></Link>
         <div>
           <h2>Create Event </h2>
           <div>
-            <form onSubmit={formik.handleSubmit}>
+            <form
+              onReset={formik.handleReset}
+              onSubmit={(e) => handleSubmit(e)}
+            >
               <Form.Group
                 as={Row}
                 className="mb-3"
@@ -244,7 +312,7 @@ function Add(props) {
                       controlId="exampleForm.ControlInput1"
                     >
                       <Form.Label column sm={2}>
-                        Speaker Name
+                        Speaker Name*
                       </Form.Label>
                       <Col sm={10}>
                         <Form.Control
@@ -258,7 +326,7 @@ function Add(props) {
                       </Col>
                       <div className="mt-2"></div>
                       <Form.Label column sm={2}>
-                        Speaker Email
+                        Speaker Email*
                       </Form.Label>
                       <Col sm={10}>
                         <Form.Control
@@ -334,7 +402,7 @@ function Add(props) {
                     <option>Select Country</option>
                     {country?.map((val, i) => (
                       <React.Fragment key={i}>
-                        <option key={i} value={val.country}>
+                        <option key={i} value={val.id}>
                           {val.country}
                         </option>
                       </React.Fragment>
@@ -525,18 +593,7 @@ function Add(props) {
                   ) : null}
                 </Col>
               </Form.Group>
-              <Button
-                type="reset"
-                onClick={() => {
-                  handleReset.bind(null, formik.resetForm);
-                  setSpeakerName([{ name: "", email: "" }]);
-                  setSpeaker([
-                    { name: "SpeakersName", email: "SpeakesrEmail" },
-                  ]);
-                }}
-              >
-                Reset
-              </Button>
+              <Button type="reset">Reset</Button>
               <Button type="submit" className="event-submit-button">
                 Submit
               </Button>

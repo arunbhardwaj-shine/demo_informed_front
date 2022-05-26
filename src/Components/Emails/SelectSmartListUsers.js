@@ -14,10 +14,7 @@ const SelectSmartListUsers = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const location = useLocation();
   const [readers, setReaders] = useState([]);
-  const campaign_id = props.getEmailData
-    ? props.getEmailData.campaign_id
-    : props.getDraftData.campaign_data.campaign_id;
-  const [campaign_id_st, setCampaign_id] = useState(campaign_id);
+  const [campaign_id_st, setCampaign_id] = useState();
   const [SendListData, setSendListData] = useState([]);
   const [PdfSelected, setPdfSelected] = useState(0);
   const [showLessInfo, setShowLessInfo] = useState(false);
@@ -48,6 +45,14 @@ const SelectSmartListUsers = (props) => {
   const smartListSelected = location.state
     ? location.state.smartListSelected
     : props.getDraftData.smart_list_data;
+
+
+  useEffect(() => {
+    let campaign_id = (typeof props.getEmailData === 'object' && props.getEmailData !== null)
+      ? props.getEmailData.campaign_id
+      : props.getDraftData.campaign_id;
+      setCampaign_id(campaign_id);
+  }, []);
 
   //console.log(smartListSelected);
 
@@ -99,7 +104,6 @@ const SelectSmartListUsers = (props) => {
   }, []);
 
   const saveAsDraft = async () => {
-    console.log("hi");
 
     const body = {
       user_id: 18207,
@@ -137,23 +141,25 @@ const SelectSmartListUsers = (props) => {
       status: 2,
     };
 
-    console.log(body);
+    // console.log(body);
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
       .post(`emailapi/save_draft`, body)
       .then((res) => {
-        console.log(res);
-        //console.log(selectedHcp);
-        setCampaign_id(res.data.response.data.id);
-        //  setSelectedHcp(selectedHcp);
-        //  console.log(props.getCampaignId);
-        loader("hide");
-
-        // console.log(res);
+        if (res.data.status_code == 200) {
+          setCampaign_id(res.data.response.data.id);
+          toast.success("Draft saved");
+          loader("hide");
+        } else {
+          toast.warning(res.data.message);
+          loader("hide");
+        }
+        // setCampaign_id(res.data.response.data.id);
       })
       .catch((err) => {
-        //console.log(err);
+        loader("hide");
+        toast.error("Something went wrong");
       });
   };
 
@@ -652,7 +658,7 @@ const SelectSmartListUsers = (props) => {
                       {showLessInfo == true ? (
                         <p>Show More information</p>
                       ) : (
-                        <p>Show less info</p>
+                        <p>Show less information</p>
                       )}{" "}
                     </a>
                     <div className="hcp-new-user">
@@ -739,11 +745,10 @@ const SelectSmartListUsers = (props) => {
                     <th scope="col">Email</th>
                     <th scope="col">Bounced</th>
                     <th scope="col">Country</th>
-                    <th scope="col">Readers</th>
                     <th scope="col">Business Unit</th>
+                    <th scope="col">Contact Type</th>
                     {showLessInfo == false ? (
                       <>
-                        <th scope="col">Interest</th>
                         <th scope="col">Consent</th>
                         <th scope="col">Email Received</th>
                         <th scope="col">Openings</th>
@@ -762,14 +767,13 @@ const SelectSmartListUsers = (props) => {
                           <td>{rr.email}</td>
                           <td>NA</td>
                           <td>{rr.country}</td>
-                          <td>NA</td>
-                          <td>NA</td>
+                          <td>{rr.ibu}</td>
+                          <td>{rr.contact_type}</td>
+                          {showLessInfo == false ? <td>NA </td> : null}
+                          {showLessInfo == false ? <td>{rr.email_received}</td> : null}
+                          {showLessInfo == false ? <td>{rr.email_opening}</td> : null}
                           {showLessInfo == false ? <td>NA</td> : null}
-                          {showLessInfo == false ? <td>NA</td> : null}
-                          {showLessInfo == false ? <td>NA</td> : null}
-                          {showLessInfo == false ? <td>NA</td> : null}
-                          {showLessInfo == false ? <td>NA</td> : null}
-                          {showLessInfo == false ? <td>NA</td> : null}
+                          {showLessInfo == false ? <td>{rr.last_email}</td> : null}
                           {/* <td>NA</td>
                           <td>
                             <span>NA</span>
@@ -835,14 +839,13 @@ const SelectSmartListUsers = (props) => {
                           <td>{readers.email}</td>
                           <td>NA</td>
                           <td>{readers.country}</td>
-                          <td>NA</td>
-                          <td>NA</td>
+                          <td>{readers.ibu}</td>
+                          <td>{readers.contact_type}</td>
+                          {showLessInfo == false ? <td>NA </td> : null}
+                          {showLessInfo == false ? <td>{readers.email_received}</td> : null}
+                          {showLessInfo == false ? <td>{readers.email_opening}</td> : null}
                           {showLessInfo == false ? <td>NA</td> : null}
-                          {showLessInfo == false ? <td>NA</td> : null}
-                          {showLessInfo == false ? <td>NA</td> : null}
-                          {showLessInfo == false ? <td>NA</td> : null}
-                          {showLessInfo == false ? <td>NA</td> : null}
-                          {showLessInfo == false ? <td>NA</td> : null}
+                          {showLessInfo == false ? <td>{readers.last_email}</td> : null}
                           <td className="delete_row" colspan="12">
                             <img
                               src={path_image + "delete.svg"}
@@ -887,14 +890,13 @@ const SelectSmartListUsers = (props) => {
                           <td id={`field_country` + i}>
                             <span>{readers.country}</span>
                           </td>
-                          <td>NA</td>
-                          <td>NA</td>
-                          {showLessInfo == false ? <td>NA</td> : null}
+                          <td>{readers.ibu}</td>
+                          <td>{readers.contact_type}</td>
                           {showLessInfo == false ? <td>NA </td> : null}
+                          {showLessInfo == false ? <td>{readers.email_received}</td> : null}
+                          {showLessInfo == false ? <td>{readers.email_opening}</td> : null}
                           {showLessInfo == false ? <td>NA</td> : null}
-                          {showLessInfo == false ? <td>NA</td> : null}
-                          {showLessInfo == false ? <td>NA</td> : null}
-                          {showLessInfo == false ? <td>NA</td> : null}
+                          {showLessInfo == false ? <td>{readers.last_email}</td> : null}
                           <td className="delete_row" colspan="12">
                             <img
                               src={path_image + "delete.svg"}

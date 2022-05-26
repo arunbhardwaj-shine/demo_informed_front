@@ -4,7 +4,10 @@ import ExportApi from "../../../Api/ExportApi";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast, ToastContainer } from "react-toastify";
+import { loader } from "../../../loader";
 const EmailSand = () => {
+  const [imageErr, setImageErr] = useState(false);
+  const [search, setSearch] = useState();
   const [currentPage, setCurrentPage] = useState();
   const [type, setType] = useState();
   const [paginate, setPaginate] = useState();
@@ -21,7 +24,7 @@ const EmailSand = () => {
   const [checked, setChecked] = React.useState([1]);
   const [Checkbox, setCheckbox] = React.useState([]);
   const [data, setData] = useState([]);
-  const [image, setimage] = useState("");
+  const [image, setimage] = useState();
   const [All, setAll] = useState([]);
   const handeleimage = (e) => {
     setimage(e.target.files[0]);
@@ -43,6 +46,7 @@ const EmailSand = () => {
     });
   };
   const handeleSearch = (e) => {
+    setSearch(e)
     ExportApi.ParticipantPageSearch(
       currentPage,
       eventId,
@@ -72,35 +76,42 @@ const EmailSand = () => {
     let formData = new FormData();
     formData.append("file", image);
     formData.append("event_id", eventId);
-    if (image) {
-      ExportApi.Excelsend(formData).then((resp) => {
-        if (resp.ok) {
-          if (resp.data.code == 200) {
-            setShow(false);
-            toast.success(resp.data.message, {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            });
-          } else {
-            toast.error(resp.data.message, {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            });
+    if(image){
+      setImageErr(false)
+      if (image) {
+        ExportApi.Excelsend(formData).then((resp) => {
+          if (resp.ok) {
+            if (resp.data.code == 200) {
+              setImageErr(false)
+              toast.success(resp.data.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
+            } else {
+              setImageErr("Please select your excel file")
+              toast.error(resp.data.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
+            }
+            console.log(resp.data);
           }
-          console.log(resp.data);
-        }
-      });
+        });
+      }
+    }else{
+      setImageErr("Please Select your excel file")
     }
+   
   };
 
   const handleGetTemplateList = (id) => {
@@ -125,11 +136,13 @@ const EmailSand = () => {
     });
   };
   const handleGSendEmail = (id) => {
+    loader("show")
     let a = JSON.stringify(data);
     ExportApi.sandAllmaik(templateId, a, registeredNonRegistered).then(
       (resp) => {
         if (resp.ok) {
           if (resp.data.code == 200) {
+            loader("hide")
             setShow(false);
             toast.success(resp.data.message, {
               position: "top-right",
@@ -150,6 +163,7 @@ const EmailSand = () => {
               draggable: true,
               progress: undefined,
             });
+           
           }
           console.log(resp.data.data);
         }
@@ -290,7 +304,7 @@ const EmailSand = () => {
     }
   };
   const handleGetParticipantPage = (id) => {
-    ExportApi.ParticipantPage(id, eventId, registeredNonRegistered).then(
+    ExportApi.ParticipantPage(id, eventId, registeredNonRegistered,search).then(
       (resp) => {
         if (resp.ok) {
           console.log(resp.data);
@@ -313,6 +327,9 @@ const EmailSand = () => {
   }, [checked, data]);
   return (
     <Row>
+      <div className="loader" id="custom_loader">
+	        <span className="loader-view"> </span>
+          </div>
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -455,6 +472,7 @@ const EmailSand = () => {
                   accept="application/vnd.ms-excel"
                 />
                 <p>Excel file should contain first name, last name and email</p>
+             {image?null:<p style={{color:"red"}}>{imageErr}</p>}   
                 <Button
                   onClick={() => {
                     sendExcelFile();

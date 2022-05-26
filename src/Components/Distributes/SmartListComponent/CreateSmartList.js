@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import axios from "axios";
 import { Link, NavigationType } from "react-router-dom";
 import Table from "./Table";
@@ -10,10 +10,11 @@ import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { loader } from "../../../loader";
 import { popup_alert } from "../../../popup_alert";
+
 const CreateSmartList = () => {
   const location = useLocation();
   const navigate = useNavigate();
-
+  let file_name  =useRef("");
   const { creator } = location.state != null ? location.state : "";
   const [show, setShow] = useState(false);
   const [smartListName, setSmartListName] = useState("");
@@ -338,23 +339,31 @@ const CreateSmartList = () => {
                 accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                 onChange={onFileChange}
                 data-multiple-caption="{count} files selected"
-                multiple
-              />
-              <label for="file-4">
-                <span>Choose Your File</span>
-              </label>
-              <p>Upload your new list file</p>
+                ref={file_name}
+                />
+                {(file_name.current?.files===undefined || file_name.current.files?.length===0 )? <><label for="file-4"><span>Choose Your File</span></label>
+                <p>Upload your excel file</p></> : <h5>{file_name.current.files[0].name}</h5> }
             </div>
           </div>
           <div class="modal-buttons">
-            <button
+           
+
+            {(file_name.current?.files===undefined || file_name.current.files?.length===0 )? <> <button
               type="button"
               class="btn btn-primary btn-bordered light"
+              data-bs-dismiss="modal"
+            >
+              Upload
+            </button></> :  <button
+              type="button"
+              class="btn btn-primary"
               onClick={uploadFile}
               data-bs-dismiss="modal"
             >
               Upload
-            </button>
+            </button> }
+
+
           </div>
         </Modal.Body>
       </Modal>

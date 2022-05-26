@@ -80,6 +80,11 @@ const EmailList = (props) => {
     ],
   });
 
+  useEffect(() => {
+    props.getEmailData(null);
+    props.getDraftData(null);
+    props.getSelectedSmartListData(null);
+  }, []);
 
   const showViewEmailModal = (data) => {
     let id = data.id;
@@ -173,6 +178,7 @@ const EmailList = (props) => {
   };
 
   const submitHandler = (event) => {
+    setShowFilter(false);
     getData("progress");
     setSubmiHandle(1);
     event.preventDefault();
@@ -416,6 +422,8 @@ const EmailList = (props) => {
     document.querySelectorAll("input").forEach((checkbox) => {
       checkbox.checked = false;
     });
+    document.getElementById("email_search").value = "";
+    setSearch('');
     setFilterTags([]);
     setFilterCreators([]);
     setFilterDate([]);
@@ -470,6 +478,7 @@ const EmailList = (props) => {
                   type="text"
                   placeholder="Search"
                   aria-label="Search"
+                  id="email_search"
                   onChange={(e) => searchChange(e)}
                 />
                 <button className="btn btn-outline-success" type="submit">
@@ -632,7 +641,7 @@ const EmailList = (props) => {
                       filterdata.created.length > 0 && (
                         <Accordion.Item className="card" eventKey="2">
                           <Accordion.Header className="card-header">
-                            Created
+                            Date
                           </Accordion.Header>
                           <Accordion.Body className="card-body">
                             <ul>
@@ -832,7 +841,7 @@ const EmailList = (props) => {
                   {filtercreator.length > 0 && (
                     <div className="filter-div">
                       <div className="filter-div-title">
-                        <span>Creators |</span>
+                        <span>Creator |</span>
                       </div>
                       <div className="filter-div-list">
                         {Object.entries(filtercreator).map(([index, item]) => (
@@ -1129,7 +1138,21 @@ const EmailList = (props) => {
                               {data.route_location == "VerifyMAIL" ? (
                                 <button
                                   className="btn btn-primary send btn-bordered"
-                                  onClick={(e) => showModal("send", data.id)}
+                                  onClick={() => {
+                                    getEmailData(null);
+                                    // getSelectedSmartListData(null);
+                                    draftNavigate(
+                                      data.id,
+                                      data.pdf_id,
+                                      data.route_location,
+                                      data.campaign,
+                                      data.creator,
+                                      data.discription,
+                                      data.subject,
+                                      data.tags
+                                    );
+                                  }}
+                                  // onClick={(e) => showModal("send", data.id)
                                 >
                                   Send
                                 </button>

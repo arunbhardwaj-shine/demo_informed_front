@@ -138,8 +138,7 @@ const CreateEmail = (props) => {
         setTemplateId(props.getDraftData.campaign_data.template_id);
 
         setTimeout(() => {
-          document
-            .getElementById(
+          document.getElementById(
               "template_dyn" + props.getDraftData.campaign_data.template_id
             )
             .click();
@@ -348,9 +347,12 @@ const CreateEmail = (props) => {
     await axios
       .post(`emailapi/add_update_template`, body)
       .then((res) => {
-        toast.success("Template saved successfully");
+        if (res.data.status_code === 200) {
+          toast.success("Template saved successfully");
+        } else {
+          toast.warning("Template not selected.");
+        }
         loader("hide");
-      
       })
       .catch((err) => {
         toast.error("Something went wrong");
@@ -358,7 +360,13 @@ const CreateEmail = (props) => {
   };
 
   const saveButtonClicked = () => {
-    setFinalTags(tagClickedFirst);
+    if(typeof finalTags != "undefined" && finalTags.length > 0){
+      let prev_tags = finalTags;
+      let new_tags = prev_tags.concat(tagClickedFirst);
+      setFinalTags(new_tags);
+    }else{
+      setFinalTags(tagClickedFirst);
+    }
     closeModal();
   };
 
@@ -416,14 +424,13 @@ const CreateEmail = (props) => {
       await axios
         .post(`emailapi/save_draft`, body)
         .then((res) => {
-          loader("hide");
-
-          setCampaign_id(res.data.response.data.id);
           if (res.data.status_code === 200) {
+            setCampaign_id(res.data.response.data.id);
             toast.success("Draft saved");
           } else {
             toast.warning(res.data.message);
           }
+          loader("hide");
         })
         .catch((err) => {
           toast.error("Something went wrong");
@@ -560,10 +567,7 @@ const CreateEmail = (props) => {
   };
 
   const addTag = () => {
-    console.log(newTag);
-    console.log(typeof newTag);
-    console.log(newTag.length);
-    if (newTag.length == 0 || typeof newTag == "undefined") {
+    if (typeof newTag == "undefined" || newTag.trim().length == 0 ) {
       toast.error("Plese input a tag");
     } else {
       setTagClickedFirst((oldArray) => [...oldArray, newTag]);
@@ -1640,6 +1644,7 @@ const CreateEmail = (props) => {
                     country: "",
                   },
                 ]);
+                document.querySelector('#file-4').value = '';
                 setActiveManual("active");
                 setActiveExcel("");
               }}
@@ -1755,7 +1760,7 @@ const CreateEmail = (props) => {
                       </>
                     );
                   })}
-                 
+
                 </form>
                 <form id="add_file" className={"tab-pane" + activeExcel}>
                 <div className="upload-file-box">
@@ -1766,14 +1771,15 @@ const CreateEmail = (props) => {
                         id="file-4"
                         className="form-control inputfile"
                         multiple=""
+                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                         onChange={onFileChange}
                         ref={file_name}
                       />
-                    {(file_name.current.files===undefined || file_name.current.files?.length===0 )? <><label for="file-4"><span>Choose Your File</span></label>
-                      <p>Upload your excel file</p></> : file_name.current.files[0].name }
-                       
+                      {(file_name.current?.files===undefined || file_name.current.files?.length===0 )? <><label for="file-4"><span>Choose Your File</span></label>
+                      <p>Upload your excel file</p></> : <h5>{file_name.current.files[0].name}</h5> }
 
-                       
+
+
                     </div>
                   </div>
                   </div>

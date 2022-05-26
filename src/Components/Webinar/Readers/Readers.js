@@ -2,7 +2,7 @@ import Lock from "./Lock.png";
 import Delete from "./Delete.jpg";
 import Unlock from "./Unlock.png";
 import React, { useEffect, useState } from "react";
-import { Button, CloseButton, Col, Form, Row, Table } from "react-bootstrap";
+import { Button, CloseButton, Col, Form, Modal, Row, Table } from "react-bootstrap";
 import "../webinar.css";
 import { toast, ToastContainer } from "react-toastify";
 import ExportApi from "../../../Api/ExportApi";
@@ -11,6 +11,7 @@ import { ReactFormBuilder } from "react-form-builder2";
 import "react-form-builder2/dist/app.css";
 import { scryRenderedComponentsWithType } from "react-dom/test-utils";
 import CsvDownload from "react-json-to-csv";
+import ReactHtmlTableToExcel from "react-html-table-to-excel";
 const Readers = () => {
   const [data, setData] = useState();
   const [type, setType] = useState();
@@ -21,15 +22,13 @@ const Readers = () => {
   const [eventId, setEventId] = useState();
   const [search, setSearch] = useState();
   const [flag, setFlag] = useState(false);
+  const [modalShow, setModalShow] = useState(false);
+  const [NewData, setNewData] = useState();
+  const [modalShow1, setModalShow1] = useState(false);
   const [countryName, setCountryName] = useState();
   const [render, setRender] = useState(0);
   const [massage, setMassage] = useState("Please Select Event");
   const handleGetReadersData = (id) => {
-    if (id == "null") {
-      setMassage("Data Not Found");
-      setData();
-      setFlag(false);
-    } else {
       ExportApi.ReadersData(id).then((resp) => {
         if (resp.ok) {
           if (resp.data.code === 404) {
@@ -40,16 +39,18 @@ const Readers = () => {
             setPaginate(resp.data.data.paginate);
             setCurrentPage(resp.data.data.paginate.currentPage);
             setData(resp.data.data.data);
+            const newArray = resp.data.data.data?.map(({ id,state,is_blocked,category,country_id, ...item }) => item)
+            setNewData(newArray)
             setFlag(true);
           }
         }
       });
-    }
+    
   };
   const handleGetReadersDataPage = (id) => {
     ExportApi.ReadersPage(id, eventId).then((resp) => {
       if (resp.ok) {
-        console.log(resp.data);
+
         if (resp.data.code === 404) {
           setMassage("Data Not Found");
           setData();
@@ -65,7 +66,7 @@ const Readers = () => {
     ExportApi.ReadersDataSearch(eventId, id, type, countryvalue).then(
       (resp) => {
         if (resp.ok) {
-          console.log(resp.data);
+         
           if (resp.data.code === 404) {
             setMassage("Data Not Found");
             setData();
@@ -84,7 +85,7 @@ const Readers = () => {
     } else {
       ExportApi.ReadersType(eventId, id, search, countryvalue).then((resp) => {
         if (resp.ok) {
-          // console.log(resp.data);
+          
           if (resp.data.code === 404) {
             setData();
             setMassage("Data Not Found");
@@ -103,7 +104,7 @@ const Readers = () => {
     } else {
       ExportApi.ReadersCountry(eventId, id, type, search).then((resp) => {
         if (resp.ok) {
-          // console.log(resp.data);
+          
           if (resp.data.code === 404) {
             setMassage("Data Not Found");
             setData();
@@ -118,19 +119,24 @@ const Readers = () => {
     ExportApi.GetEventList().then((resp) => {
       if (resp.ok) {
         setEvent(resp.data.data);
+        console.log(resp.data.data[0].id)
+        if(eventId==null||eventId==undefined){
+           setEventId(resp.data.data[0].id)
+          handleGetReadersData(resp.data.data[0].id)
+        }
       }
     });
   };
   const handleGetCountryData = () => {
     ExportApi.GetCountryData().then((resp) => {
       if (resp.ok) {
-        console.log(resp.data.data);
+      
         setCountryName(resp.data.data);
       }
     });
   };
-  const handleDeleteData = (id) => {
-    ExportApi.ReadersDelete(id, 1).then((resp) => {
+  const handleDeleteData = () => {
+    ExportApi.ReadersDelete(localStorage.getItem("DeleteData"), 1).then((resp) => {
       if (resp.ok) {
         if (resp.data.code == 200) {
           handleGetReadersDataPage(currentPage);
@@ -157,9 +163,9 @@ const Readers = () => {
       }
     });
   };
-  const handleBlock = (id, isblocked) => {
-    if (isblocked == 0) {
-      ExportApi.ReadersBlock(id, 1).then((resp) => {
+  const handleBlock = (is) => {
+    if (localStorage.getItem("is") == 0){
+      ExportApi.ReadersBlock(localStorage.getItem("blockId"), 1).then((resp) => {
         if (resp.ok) {
           if (resp.data.code == 200) {
             handleGetReadersDataPage(currentPage);
@@ -186,10 +192,8 @@ const Readers = () => {
         }
       });
     } else {
-      ExportApi.ReadersBlock(id, 0).then((resp) => {
+      ExportApi.ReadersBlock(localStorage.getItem("blockId"), 0).then((resp) => {
         if (resp.ok) {
-          // console.log(resp.data.data)
-          // setCountryName(resp.data.data);
           if (resp.data.code == 200) {
             handleGetReadersDataPage(currentPage);
             toast.success(resp.data.message, {
@@ -217,17 +221,15 @@ const Readers = () => {
     }
   };
   const handleSelect = (e, i) => {
-    // console.log(e,i)
     let copydata = data;
     copydata[i].type = e;
-    console.log(copydata);
     setData(copydata);
     setRender(render + 1);
   };
   const handleSelectChange = (id, val) => {
     ExportApi.ReadersBlockt(id, val).then((resp) => {
       if (resp.ok) {
-        console.log(resp.data);
+        
         handleGetReadersDataPage(currentPage);
         if (resp.data.code == 200) {
           toast.success(resp.data.message, {
@@ -253,9 +255,12 @@ const Readers = () => {
       }
     });
   };
+
+  useEffect(() => {
+    handleGetEventlist()
+  }, []);
   useEffect(() => {
     handleGetCountryData();
-    handleGetEventlist();
   }, []);
   return (
     <div>
@@ -284,13 +289,13 @@ const Readers = () => {
             <Col xs={4}>
               <Form.Label> Event </Form.Label>
               <Form.Select
+                 value={eventId}
                 onChange={(e) => {
                   handleGetReadersData(e.target.value);
                   setEventId(e.target.value);
                 }}
                 name="type"
               >
-                <option value="null"> Select Event</option>
                 {event?.map((val, i) => (
                   <React.Fragment key={i}>
                     <option value={val.id}>{val.title}</option>
@@ -343,7 +348,15 @@ const Readers = () => {
                   />
                 </Col>
                 <Col>
-                  <CsvDownload data={data}>Excel Download</CsvDownload>
+                <CsvDownload data={NewData}>Excel Download</CsvDownload>
+                {/* <ReactHtmlTableToExcel
+                    id="test-table-xls-button"
+                    className="btn btn-outline-primary"
+                    table="table-to-xls"
+                    filename="Readersxls"
+                    sheet="Readersxls"
+                    buttonText="Download"
+                  /> */}
                 </Col>
               </Row>
 
@@ -351,7 +364,7 @@ const Readers = () => {
               <br />
               <Row>
                 <Col>
-                  <Table bordered hover>
+                  <Table bordered hover id="table-to-xls">
                     <thead>
                       <tr>
                         <th> Sr.No</th>
@@ -393,7 +406,9 @@ const Readers = () => {
                                   src={Unlock}
                                   width={70}
                                   onClick={() => {
-                                    handleBlock(val.id, val.is_blocked);
+                                    setModalShow(true)
+                                    localStorage.setItem("blockId", val.id)
+                                    localStorage.setItem("is",val.is_blocked)
                                     handleGetReadersDataPage(currentPage);
                                   }}
                                 />
@@ -401,7 +416,9 @@ const Readers = () => {
                                 <img
                                   src={Lock}
                                   onClick={() => {
-                                    handleBlock(val.id, val.is_blocked);
+                                    localStorage.setItem("blockId", val.id)
+                                    localStorage.setItem("is",val.is_blocked)
+                                      handleBlock();
                                     handleGetReadersDataPage(currentPage);
                                   }}
                                   width={70}
@@ -413,7 +430,8 @@ const Readers = () => {
                               <img
                                 src={Delete}
                                 onClick={() => {
-                                  handleDeleteData(val.id);
+                                  localStorage.setItem("DeleteData",val.id)
+                                  setModalShow1(true)
                                   handleGetReadersDataPage(currentPage);
                                 }}
                                 width={90}
@@ -424,7 +442,6 @@ const Readers = () => {
                       ) : (
                         <h2>{massage}</h2>
                       )}
-                      {/* {console.log(currentPage)} */}
                     </tbody>
                     <Row style={{ color: "blue" }}>
                       {/* <Col></Col> */}
@@ -461,6 +478,40 @@ const Readers = () => {
             <h3>{massage}</h3>
           )}
         </Col>
+        <Modal
+      show={modalShow}
+      size="sm"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header onClick={()=>setModalShow(false)} closeButton>
+      </Modal.Header>
+      <Modal.Body>
+        <h6>The block action will remove the HCP from this event only</h6>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={()=>{ handleBlock();setTimeout(() => {
+          setModalShow(false);
+        }, 1000); }}>Block</Button>
+        <Button onClick={()=>{setModalShow(false)}}>Close</Button>
+      </Modal.Footer>
+    </Modal>
+        <Modal
+      show={modalShow1}
+      size="sm"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header onClick={()=>setModalShow1(false)} closeButton>
+      </Modal.Header>
+      <Modal.Body>
+        <h6>The Delete action will delete the HCP from your account entirly</h6>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={()=>{handleDeleteData();setModalShow1(false)}}>Delete</Button>
+        <Button onClick={()=>{setModalShow1(false)}}>Close</Button>
+      </Modal.Footer>
+    </Modal>
       </Row>
     </div>
   );
