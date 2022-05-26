@@ -32,7 +32,7 @@ function ResetPassword() {
           )
             .required("Enter your password"),
           confirm_pass: Yup.string()
-          .oneOf([Yup.ref("new_pass"), null], "Passwords must match")
+          .oneOf([Yup.ref("new_pass"), null], "Confirm password does not match")
             .min(8, "must be at least 8 characters")
             .required("Enter your password"),
       }),
