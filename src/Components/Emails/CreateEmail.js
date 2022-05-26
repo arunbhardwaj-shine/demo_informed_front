@@ -347,9 +347,12 @@ const CreateEmail = (props) => {
     await axios
       .post(`emailapi/add_update_template`, body)
       .then((res) => {
-        toast.success("Template saved successfully");
+        if (res.data.status_code === 200) {
+          toast.success("Template saved successfully");
+        } else {
+          toast.warning("Template not selected.");
+        }
         loader("hide");
-
       })
       .catch((err) => {
         toast.error("Something went wrong");
