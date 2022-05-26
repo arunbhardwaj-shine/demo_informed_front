@@ -486,31 +486,35 @@ const VerifyHCP = (props) => {
 
   const searchHcp = async (e) => {
     e.preventDefault();
-    const body = {
-      user_id: 18207,
-      name: name,
-      email: email,
-    };
+    if(name.length == 0 && email.length == 0){
+      toast.error("Please enter search criteria");
+    }else{
+        const body = {
+          user_id: 18207,
+          name: name,
+          email: email,
+        };
 
-    //console.log(body);
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    loader("show");
-    await axios
-      .post(`emailapi/search_hcp`, body)
-      .then((res) => {
-        console.log(res);
-        // console.log(res.data.response.data);
-        if (res.data.response) {
-          setSearchedUsers(res.data.response.data);
-        }
-        if (res.data.message) {
-          setMessage(res.data.message);
-        }
-        loader("hide");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+        //console.log(body);
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+        loader("show");
+        await axios
+        .post(`emailapi/search_hcp`, body)
+        .then((res) => {
+          console.log(res);
+          // console.log(res.data.response.data);
+          if (res.data.response) {
+            setSearchedUsers(res.data.response.data);
+          }
+          if (res.data.message) {
+            setMessage(res.data.message);
+          }
+          loader("hide");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   const saveEditClicked = async () => {
