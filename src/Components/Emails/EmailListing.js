@@ -497,7 +497,7 @@ const EmailList = (props) => {
                 </button>
               </form>
             </div>
-            <div className="filter-by nav-item dropdown">
+            <div className={showfilter ? "filter-by nav-item dropdown highlight" : "filter-by nav-item dropdown"}>
               <button
                 className="btn btn-secondary dropdown"
                 type="button"
@@ -1138,7 +1138,21 @@ const EmailList = (props) => {
                               {data.route_location == "VerifyMAIL" ? (
                                 <button
                                   className="btn btn-primary send btn-bordered"
-                                  onClick={(e) => showModal("send", data.id)}
+                                  onClick={() => {
+                                    getEmailData(null);
+                                    // getSelectedSmartListData(null);
+                                    draftNavigate(
+                                      data.id,
+                                      data.pdf_id,
+                                      data.route_location,
+                                      data.campaign,
+                                      data.creator,
+                                      data.discription,
+                                      data.subject,
+                                      data.tags
+                                    );
+                                  }}
+                                  // onClick={(e) => showModal("send", data.id)
                                 >
                                   Send
                                 </button>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getEmailData } from "../../actions";
 import { connect, connectAdvanced } from "react-redux";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -22,6 +23,7 @@ const VerifyMAIL = (props) => {
   const [UserData, setUserData] = useState([]);
   const [templateId, setTemplateId] = useState(0);
   const [tags, setTags] = useState([]);
+  const [getSmartListData, setSmartListData] = useState([]);
   const [reRender, setReRender] = useState(0);
   const [template_source_code, setTemplate] = useState(
     props.getEmailData
@@ -42,10 +44,16 @@ const VerifyMAIL = (props) => {
   const [getpdfdata,setPdfData]   = useState([]);
 
   useEffect(() => {
+
     let campaign_id = (typeof props.getEmailData === 'object' && props.getEmailData !== null)
         ? props.getEmailData.campaign_id
         : props.getDraftData.campaign_id;
         setCampaign_id(campaign_id);
+
+    let smart_list_data =  (typeof props.getSelectedSmartListData === 'object' && props.getSelectedSmartListData !== null) ? props.getSelectedSmartListData : props.getDraftData.smart_list_data;
+    console.log(smart_list_data);
+    setSmartListData(smart_list_data);
+
     getpdfData();
   }, []);
 
@@ -437,15 +445,13 @@ const VerifyMAIL = (props) => {
                         The recipients <span>| {selectedHcp.length}</span>
                       </h6>
                       <p>{/* Single HCP <span>| 1</span> */}</p>
-                      {props.getSelectedSmartListData ||
-                      props.getDraftData?.smart_list_data[0] ? (
+
+                      {typeof getSmartListData !== "undefined" && (
                         <div className="smartlist-view email_box_outer">
                           <div className="smartlist-view email_box">
                             <div className="mail-box-content">
                               <h5>
-                                {props.getSelectedSmartListData
-                                  ? props.getSelectedSmartListData.name
-                                  : props.getDraftData.smart_list_data.name}
+                                {getSmartListData.name}
                               </h5>
 
                               <div className="mailbox-table">
@@ -482,7 +488,7 @@ const VerifyMAIL = (props) => {
                                     <tr>
                                       <th>Created By</th>
                                       <td>
-                                        <span>NA</span>
+                                        <span>{getSmartListData.creator}</span>
                                       </td>
                                     </tr>
                                   </tbody>
@@ -490,17 +496,14 @@ const VerifyMAIL = (props) => {
                               </div>
 
                               <div className="mail-time">
-                                <span>Nov 18 | 9:00 AM</span>
+                                <span>{getSmartListData.created_at}</span>
                               </div>
                               <div className="smart-list-added-user">
                                 <img
                                   src={path_image + "smartlist-user.svg"}
                                   alt="User icon"
                                 />
-                                {props.getSelectedSmartListData
-                                  ? props.getSelectedSmartListData.readers_count
-                                  : props.getDraftData.smart_list_data
-                                      .readers_count}
+                                {getSmartListData.readers_count}
                               </div>
                               {/* <div className="mail-stats">
                               <ul>
@@ -545,14 +548,26 @@ const VerifyMAIL = (props) => {
                               </ul>
                             </div> */}
                               <div className="smartlist-buttons">
-                                <button className="btn btn-primary btn-bordered view">
+                                <Link
+                                  className="btn btn-primary btn-bordered view"
+                                  target="_blank"
+                                  to={{
+                                  pathname: "/ViewSmartList",
+                                  search: "?listId=" + getSmartListData.id,
+                                  }}
+                                >
                                   View
-                                </button>
+                                </Link>
+                                {/*
+                                  <button className="btn btn-primary btn-bordered view">
+                                    View
+                                  </button>
+                                */}
                               </div>
                             </div>
                           </div>
                         </div>
-                      ) : null}
+                      )}
                     </div>
                   </div>
                 </div>

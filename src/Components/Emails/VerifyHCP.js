@@ -316,7 +316,7 @@ const VerifyHCP = (props) => {
           .post(`distributes/add_new_readers_in_list`, body)
           .then((res) => {
             if (res.data.status_code === 200) {
-              toast.success("User added successfuly");
+              toast.success("User added successfully");
               res.data.response.data.map((data) => {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
               });
@@ -486,31 +486,35 @@ const VerifyHCP = (props) => {
 
   const searchHcp = async (e) => {
     e.preventDefault();
-    const body = {
-      user_id: 18207,
-      name: name,
-      email: email,
-    };
+    if(name.length == 0 && email.length == 0){
+      toast.error("Please enter search criteria");
+    }else{
+        const body = {
+          user_id: 18207,
+          name: name,
+          email: email,
+        };
 
-    //console.log(body);
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    loader("show");
-    await axios
-      .post(`emailapi/search_hcp`, body)
-      .then((res) => {
-        console.log(res);
-        // console.log(res.data.response.data);
-        if (res.data.response) {
-          setSearchedUsers(res.data.response.data);
-        }
-        if (res.data.message) {
-          setMessage(res.data.message);
-        }
-        loader("hide");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+        //console.log(body);
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+        loader("show");
+        await axios
+        .post(`emailapi/search_hcp`, body)
+        .then((res) => {
+          console.log(res);
+          // console.log(res.data.response.data);
+          if (res.data.response) {
+            setSearchedUsers(res.data.response.data);
+          }
+          if (res.data.message) {
+            setMessage(res.data.message);
+          }
+          loader("hide");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   const saveEditClicked = async () => {
@@ -1126,7 +1130,7 @@ const VerifyHCP = (props) => {
                       />
                       {(file_name.current?.files===undefined || file_name.current.files?.length===0 )? <><label for="file-4"><span>Choose Your File</span></label>
                       <p>Upload your excel file</p></> : <h5>{file_name.current.files[0].name}</h5> }
-                       
+
                   </div>
                   </div>
                   </div>

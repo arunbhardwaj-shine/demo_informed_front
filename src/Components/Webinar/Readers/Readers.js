@@ -103,8 +103,7 @@ const Readers = () => {
       setFlag(false);
     } else {
       ExportApi.ReadersCountry(eventId, id, type, search).then((resp) => {
-        if (resp.ok) {
-          
+        if (resp.ok) { 
           if (resp.data.code === 404) {
             setMassage("Data Not Found");
             setData();
@@ -139,7 +138,6 @@ const Readers = () => {
     ExportApi.ReadersDelete(localStorage.getItem("DeleteData"), 1).then((resp) => {
       if (resp.ok) {
         if (resp.data.code == 200) {
-          handleGetReadersDataPage(currentPage);
           toast.success(resp.data.message, {
             position: "top-right",
             autoClose: 5000,
@@ -168,7 +166,6 @@ const Readers = () => {
       ExportApi.ReadersBlock(localStorage.getItem("blockId"), 1).then((resp) => {
         if (resp.ok) {
           if (resp.data.code == 200) {
-            handleGetReadersDataPage(currentPage);
             toast.success(resp.data.message, {
               position: "top-right",
               autoClose: 5000,
@@ -195,7 +192,6 @@ const Readers = () => {
       ExportApi.ReadersBlock(localStorage.getItem("blockId"), 0).then((resp) => {
         if (resp.ok) {
           if (resp.data.code == 200) {
-            handleGetReadersDataPage(currentPage);
             toast.success(resp.data.message, {
               position: "top-right",
               autoClose: 5000,
@@ -229,8 +225,6 @@ const Readers = () => {
   const handleSelectChange = (id, val) => {
     ExportApi.ReadersBlockt(id, val).then((resp) => {
       if (resp.ok) {
-        
-        handleGetReadersDataPage(currentPage);
         if (resp.data.code == 200) {
           toast.success(resp.data.message, {
             position: "top-right",
@@ -359,7 +353,6 @@ const Readers = () => {
                   /> */}
                 </Col>
               </Row>
-
               <br />
               <br />
               <Row>
@@ -409,7 +402,6 @@ const Readers = () => {
                                     setModalShow(true)
                                     localStorage.setItem("blockId", val.id)
                                     localStorage.setItem("is",val.is_blocked)
-                                    handleGetReadersDataPage(currentPage);
                                   }}
                                 />
                               ) : (
@@ -419,20 +411,18 @@ const Readers = () => {
                                     localStorage.setItem("blockId", val.id)
                                     localStorage.setItem("is",val.is_blocked)
                                       handleBlock();
-                                    handleGetReadersDataPage(currentPage);
                                   }}
                                   width={70}
                                 />
                               )}
                             </td>
                             <td>
-                              {" "}
                               <img
                                 src={Delete}
                                 onClick={() => {
                                   localStorage.setItem("DeleteData",val.id)
                                   setModalShow1(true)
-                                  handleGetReadersDataPage(currentPage);
+                                  // handleGetReadersDataPage(currentPage);
                                 }}
                                 width={90}
                               />

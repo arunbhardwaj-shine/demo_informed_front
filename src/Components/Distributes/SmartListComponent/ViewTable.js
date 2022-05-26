@@ -224,7 +224,7 @@ const ViewTable = (props) => {
           if (res.data.status_code === 200) {
             popup_alert({
               visible: "show",
-              message: "Smar list updated successfully",
+              message: "Your changes has been saved <br/> successfully !",
               type: "success",
               redirect: "/SmartList",
             });

@@ -21,6 +21,7 @@ function EmailStats() {
         setEvent(resp.data.data);
         if (eventId == null || eventId == undefined) {
           setEventId(resp.data.data[0].id);
+          handleGetTemplateList(resp.data.data[0].id);
           handleGetParticipantPage(resp.data.data[0].id);
         }
       }
@@ -30,7 +31,7 @@ function EmailStats() {
     eId = id;
     ExportApi.UserTemplateList(id).then((resp) => {
       if (resp.ok) {
-        // console.log(resp.data.data);
+        console.log(resp.data.data);
         if (templateId == null || templateId == undefined) {
           console.log(id);
           setEventId(id);
