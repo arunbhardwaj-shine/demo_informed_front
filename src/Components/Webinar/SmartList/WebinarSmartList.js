@@ -2,15 +2,17 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import { loader } from "../../../loader";
+
 import { connect } from "react-redux";
 import { Button, Modal } from "react-bootstrap";
 import { getListId } from "../../../actions";
-import CreateSmartList from "./CreateSmartList";
+
 import { toast } from "react-toastify";
 import { popup_alert } from "../../../popup_alert";
+import ExportApi from "../../../Api/ExportApi";
 import Accordion from "react-bootstrap/Accordion";
-const SmartList = (props) => {
+
+const WebinarSmartList = () => {
   const [smartListData, setSmartListData] = useState([]);
   const [getUserDetails, setUserDetails] = useState([]);
   const [prevsmartListData, setPrevSmartListData] = useState([]);
@@ -37,31 +39,30 @@ const SmartList = (props) => {
   };
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const getSmartListData = async (flag) => {
-    loader("show");
-    await axios
-      .post(`distributes/get_smart_list`, body)
-      .then((res) => {
-        setLoading(false);
-        setSmartListData(res.data.response.data);
-        if (flag == 0) {
-          setFilterData(res.data.response.filter);
-          setPrevSmartListData(res.data.response.data);
-        }
-        setUserDetails(res.data.response.userdetails);
-        loader("hide");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // await axios
+    //   .post(`distributes/get_smart_list`, body)
+    //   .then((res) => {
+    //     console.log(res);
+    //     setLoading(false);
+    //     setSmartListData(res.data.response.data);
+    //     if (flag == 0) {
+    //       setFilterData(res.data.response.filter);
+    //       setPrevSmartListData(res.data.response.data);
+    //     }
+    //     setUserDetails(res.data.response.userdetails);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+
+    ExportApi.getSmartListData(18207, search, filter).then((resp) => {
+      //console.log(resp);
+    });
   };
 
   useEffect(() => {
     getSmartListData(0);
   }, []);
-
-  const linkClicked = (data) => {
-    props.getListId(data);
-  };
 
   const searchChange = (e) => {
     setSearch(e.target.value);
@@ -110,7 +111,6 @@ const SmartList = (props) => {
       smart_list_id: deletecardid,
     };
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    loader("show");
 
     axios
       .post(`distributes/delete_smart_list`, body)
@@ -131,10 +131,8 @@ const SmartList = (props) => {
         } else {
           toast.warning(res.data.message);
         }
-        loader("hide");
       })
       .catch((err) => {
-        loader("hide");
         toast.error("Something went wrong");
       });
   };
@@ -227,7 +225,6 @@ const SmartList = (props) => {
   };
 
   const removeindividualfilter = (src, item) => {
-    loader("show");
     if (src == "name") {
       handleNameChange(item);
     } else if (src == "date") {
@@ -238,7 +235,6 @@ const SmartList = (props) => {
     if (filterapplied) {
       getSmartListData(1);
     } else {
-      loader("hide");
     }
     setShowFilter(false);
   };
@@ -710,7 +706,6 @@ const SmartList = (props) => {
                                 pathname: "/EditList",
                                 search: "?listId=" + data.id,
                               }}
-                              onClick={() => linkClicked(data.id)}
                             >
                               Edit List
                             </Link>
@@ -721,7 +716,6 @@ const SmartList = (props) => {
                                 pathname: "/ViewSmartList",
                                 search: "?listId=" + data.id,
                               }}
-                              onClick={() => linkClicked(data.id)}
                             >
                               Edit List
                             </Link>
@@ -733,7 +727,6 @@ const SmartList = (props) => {
                               pathname: "/ViewSmartList",
                               search: "?listId=" + data.id,
                             }}
-                            onClick={() => linkClicked(data.id)}
                           >
                             View
                           </Link>
@@ -808,9 +801,4 @@ const SmartList = (props) => {
     </>
   );
 };
-
-const mapStateToProps = (state) => {
-  return state;
-};
-
-export default connect(mapStateToProps, { getListId: getListId })(SmartList);
+export default WebinarSmartList;
