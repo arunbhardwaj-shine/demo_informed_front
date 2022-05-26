@@ -316,7 +316,7 @@ const VerifyHCP = (props) => {
           .post(`distributes/add_new_readers_in_list`, body)
           .then((res) => {
             if (res.data.status_code === 200) {
-              toast.success("User added successfuly");
+              toast.success("User added successfully");
               res.data.response.data.map((data) => {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
               });
@@ -1126,7 +1126,7 @@ const VerifyHCP = (props) => {
                       />
                       {(file_name.current?.files===undefined || file_name.current.files?.length===0 )? <><label for="file-4"><span>Choose Your File</span></label>
                       <p>Upload your excel file</p></> : <h5>{file_name.current.files[0].name}</h5> }
-                       
+
                   </div>
                   </div>
                   </div>
