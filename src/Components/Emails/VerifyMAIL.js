@@ -16,11 +16,7 @@ const VerifyMAIL = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  const campaign_id = props.getEmailData
-    ? props.getEmailData.campaign_id
-    : props.getDraftData.campaign_data.campaign_id;
-  const [campaign_id_st, setCampaign_id] = useState(campaign_id);
-
+  const [campaign_id_st, setCampaign_id] = useState();
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
@@ -43,14 +39,41 @@ const VerifyMAIL = (props) => {
     ? location.state.PdfSelected
     : props.getDraftData.PdfSelected;
 
+  const [getpdfdata,setPdfData]   = useState([]);
+
   useEffect(() => {
-    //   console.log(emailData);
-    console.log(location);
-    console.log(props);
-    console.log(selectedHcp);
+    let campaign_id = (typeof props.getEmailData === 'object' && props.getEmailData !== null)
+        ? props.getEmailData.campaign_id
+        : props.getDraftData.campaign_id;
+        setCampaign_id(campaign_id);
+    getpdfData();
   }, []);
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+  const getpdfData = async() => {
+      let pdf_id  = props.getEmailData ? props.getEmailData.pdf_id : props.getDraftData.pdf_id;
+      if(typeof pdf_id !=="undefined" && pdf_id != 0){
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+        const body = {
+            user_id: 18207,
+            pdf_id: pdf_id
+        };
+        loader("show");
+        await axios
+          .post(`emailapi/get_pdf`, body)
+          .then((res) => {
+            if (res.data.status_code == 200) {
+              setPdfData(res.data.response.data);
+            }else{
+              toast.error(res.data.message);
+            }
+            loader("hide");
+          })
+          .catch((err) => {
+            toast.error("Something went wrong");
+          });
+      }
+  };
 
   const handleInputChange = (event, selected) => {
     const div = document.querySelector("div.active");
@@ -104,15 +127,16 @@ const VerifyMAIL = (props) => {
     await axios
       .post(`emailapi/save_draft`, body)
       .then((res) => {
-        console.log(res);
-        //   console.log(props.getCampaignId);
+        if (res.data.status_code === 200) {
+          setCampaign_id(res.data.response.data.id);
+          toast.success("Draft saved");
+        } else {
+          toast.warning(res.data.message);
+        }
         loader("hide");
-        setCampaign_id(res.data.response.data.id);
-
-        // console.log(res);
       })
       .catch((err) => {
-        //console.log(err);
+        toast.error("Something went wrong");
       });
   };
 
@@ -296,8 +320,6 @@ const VerifyMAIL = (props) => {
                   </h6>
                   <h6>
                     <strong>Creator | </strong>
-                    {console.log("props")}
-                    {console.log(props)}
                     {props.getEmailData
                       ? props.getEmailData.emailCreator
                       : props.getDraftData.creator}
@@ -345,65 +367,71 @@ const VerifyMAIL = (props) => {
                       <p>
                         Content <span>| 1</span>
                       </p>
-                      <div className="mail-content-select-box">
-                        <div className="mail-content-select-top">
-                          <div className="mail-preview-img">
-                            <img
-                              src={path_image + "dummy-img.png"}
-                              alt="Preview "
-                            />
-                          </div>
-                          <div className="mail-box-content">
-                            <h5>
-                              {props.getEmailData
-                                ? props.getEmailData.emailSubject
-                                : props.getDraftData.subject}
-                            </h5>
-                            <p>
-                              {props.getEmailData
-                                ? props.getEmailData.emailDescription
-                                : props.getDraftData.description}
-                            </p>
-                            <div className="mailbox-tags">
-                              <ul>
-                                <li className="list1">NA</li>
-                                <li className="list2">NA</li>
-                                <li className="list3">NA</li>
-                                <li className="list4">NA</li>
-                                <li className="list5">NA</li>
-                              </ul>
+                        {
+                          typeof getpdfdata !== "undefined" && (
+                            <div className="mail-content-select-box">
+                              <div className="mail-content-select-top">
+                                <div className="mail-preview-img">
+                                  <img
+                                    src={path_image + "dummy-img.png"}
+                                    alt="Preview "
+                                  />
+                                </div>
+                                <div className="mail-box-content">
+                                  <h5>
+                                    {getpdfdata.pdf_title}
+                                  </h5>
+                                  <p>
+                                    {getpdfdata.pdf_sub_title}
+                                  </p>
+                                  <div className="mailbox-tags">
+                                    <ul>
+                                      {typeof getpdfdata.pdf_tags !== "undefined" && getpdfdata.pdf_tags.length > 0  ? (
+                                        getpdfdata.pdf_tags.map((tag) => {
+                                          return <li className="list1">{tag}</li>;
+                                        })
+                                      ) : (
+                                        <li className="list1">N/A</li>
+                                      )}
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="mail-content-table">
+                                <table>
+                                  <tbody>
+                                    <tr>
+                                      <th>Upload Date</th>
+                                      <td>{getpdfdata.pdf_created}</td>
+                                    </tr>
+                                    <tr>
+                                      <th>Language</th>
+                                      <td>{getpdfdata.pdf_language}</td>
+                                    </tr>
+                                    <tr>
+                                      <th>SPC</th>
+                                      <td>{getpdfdata.pdf_spc_included === 0 ? "No" : "Yes"}</td>
+                                    </tr>
+                                    <tr>
+                                      <th>Last Email</th>
+                                      <td>{getpdfdata.pdf_last_sent == "" ? "N/A" : getpdfdata.pdf_last_sent}</td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                              <div className="mail-content-footer">
+                                <a href={getpdfdata.pdf_preview_link} target="_blank">
+                                  <button className="btn btn-primary btn-filled">
+                                    Preview
+                                  </button>
+                                </a>
+                              </div>
                             </div>
-                          </div>
-                        </div>
-                        <div className="mail-content-table">
-                          <table>
-                            <tbody>
-                              <tr>
-                                <th>Upload Date</th>
-                                <td>NA</td>
-                              </tr>
-                              <tr>
-                                <th>Language</th>
-                                <td>NA</td>
-                              </tr>
-                              <tr>
-                                <th>SPC</th>
-                                <td>NA</td>
-                              </tr>
-                              <tr>
-                                <th>Last Email</th>
-                                <td>NA</td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                        <div className="mail-content-footer">
-                          <button className="btn btn-primary btn-filled">
-                            Preview
-                          </button>
-                        </div>
+
+                          )
+                        }
                       </div>
-                    </div>
+
                     <div className="col-12 col-md-12 mail-recipt-left">
                       <h6>
                         The recipients <span>| {selectedHcp.length}</span>
@@ -413,7 +441,6 @@ const VerifyMAIL = (props) => {
                       props.getDraftData?.smart_list_data[0] ? (
                         <div className="smartlist-view email_box_outer">
                           <div className="smartlist-view email_box">
-                            {console.log(props.getDraftData)}
                             <div className="mail-box-content">
                               <h5>
                                 {props.getSelectedSmartListData
@@ -594,8 +621,6 @@ const VerifyMAIL = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state);
-  console.log("hi");
   //  let emailData = state.getEmailData;
   return state;
 };
