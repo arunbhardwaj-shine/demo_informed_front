@@ -568,7 +568,7 @@ const CreateEmail = (props) => {
 
   const addTag = () => {
     if (typeof newTag == "undefined" || newTag.trim().length == 0 ) {
-      toast.error("Plese input a tag");
+      toast.error("Please input a tag");
     } else {
       setTagClickedFirst((oldArray) => [...oldArray, newTag]);
       setNewTag("");

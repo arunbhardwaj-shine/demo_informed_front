@@ -54,7 +54,7 @@ const SelectSmartList = (props) => {
     if (PdfSelected !== 0) {
       inputElement.current.classList.remove("disabled");
     }
-    
+
   }, [PdfSelected]);
 
   const handleSelect = (e) => {
@@ -74,7 +74,7 @@ const SelectSmartList = (props) => {
   };
 
   const saveAsDraft = async () => {
-   
+
     const body = {
       user_id: 18207,
       pdf_id: props.getEmailData
@@ -223,7 +223,7 @@ const SelectSmartList = (props) => {
                   className="btn btn-primary btn-bordered"
                   onClick={() => setpopupopeningstatus((getpopupopeningstatus) => !getpopupopeningstatus)}
                 >
-                  Create new smart list | Upload Exel File
+                  Create new smart list | Upload Excel File
                 </button>
               </div>
             </div>
@@ -348,7 +348,7 @@ const SelectSmartList = (props) => {
                       </div> */}
                         <div className="smartlist-buttons">
                           <button className="btn btn-primary btn-bordered view">
-                           <a href={"/ViewSmartList?listId="+template.id} className="color_blue" target="_blank">View</a> 
+                           <a href={"/ViewSmartList?listId="+template.id} className="color_blue" target="_blank">View</a>
                           </button>
                         </div>
                       </div>
