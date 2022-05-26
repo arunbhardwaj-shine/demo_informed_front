@@ -106,6 +106,7 @@ const GetEventListSerch = (data) =>
       },
     }
   );
+
 const GetEventListData = (id) =>
   BaseApi.get(
     `event/${id}`,
@@ -380,10 +381,10 @@ const EmailStatss = (id, template_id, search_key) =>
       },
     }
   );
-  const EmailStatsPage = (id, eventId, template_id) =>
+const EmailStatsPage = (id, eventId, template_id) =>
   BaseApi.get(
     `email-stats/${eventId}?page=${id}`,
-    {template_id:template_id },
+    { template_id: template_id },
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
@@ -457,10 +458,10 @@ const CreateParticipant = (name, country, browser, email, alice, stats) =>
       },
     }
   );
-const ParticipantPage = (id, eventId, registeredNonRegistered,search) =>
+const ParticipantPage = (id, eventId, registeredNonRegistered, search) =>
   BaseApi.get(
     `participant-list?page=${id}`,
-    { event_id: eventId, type: registeredNonRegistered,search:search },
+    { event_id: eventId, type: registeredNonRegistered, search: search },
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
@@ -480,7 +481,7 @@ const ParticipantPageSearch = (
       event_id: eventId,
       type: registeredNonRegistered,
       user_type: user_type,
-      search:search,
+      search: search,
     },
     {
       headers: {
