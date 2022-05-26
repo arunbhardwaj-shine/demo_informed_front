@@ -25,12 +25,21 @@ function Add(props) {
     const status = Speakername.map((data) => {
       console.log(data.email);
       if (
-        data.email == "" ||
-        data.name == "" ||
-        !data.email.match(email_pattern) ||
-        !data.name.match(name_pattern)
+        data.name == ""
+
+        // !data.email.match(email_pattern) ||
+        // !data.name.match(name_pattern)
       ) {
+        toast.error("Please specify the name");
+
         return "false";
+      } else if (data.email == "") {
+        toast.error("Please specify the email");
+        return "false";
+      } else if (!data.name.match(name_pattern)) {
+        toast.error("Please specify the valid name");
+      } else if (!data.email.match(email_pattern)) {
+        toast.error("Please specify the valid email");
       } else {
         return "true";
       }
@@ -40,8 +49,6 @@ function Add(props) {
 
     if (status.every((element) => element == "true")) {
       setSpeakerName([...Speakername, { name: "", email: "" }]);
-    } else {
-      toast.error("please input the Speaker name and Speaker email correctly");
     }
   };
   const [token, setToken] = useState(localStorage.getItem("Token"));
@@ -98,6 +105,38 @@ function Add(props) {
       }
     });
   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    let email_pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+    let name_pattern = /^[a-zA-Z ]{2,30}$/;
+    const status = Speakername.map((data) => {
+      console.log(data.email);
+      if (
+        data.name == ""
+
+        // !data.email.match(email_pattern) ||
+        // !data.name.match(name_pattern)
+      ) {
+        toast.error("Please specify the name");
+
+        return "false";
+      } else if (data.email == "") {
+        toast.error("Please specify the email");
+        return "false";
+      } else if (!data.name.match(name_pattern)) {
+        toast.error("Please specify the valid name");
+      } else if (!data.email.match(email_pattern)) {
+        toast.error("Please specify the valid email");
+      } else {
+        return "true";
+      }
+    });
+
+    if (status.every((element) => element == "true")) {
+      formik.handleSubmit();
+    }
+  };
   // const handleReset = (resetForm) => {
   //   if (!window.confirm('Reset?')) {
   //
@@ -116,6 +155,7 @@ function Add(props) {
       code: "",
       Country: "",
     },
+
     validationSchema: Yup.object({
       EventTitle: Yup.string().required("Event title is required"),
       Timezone: Yup.string().required("Timezone is required"),
@@ -132,7 +172,6 @@ function Add(props) {
     //    resetForm({values:''})
     //     },
     onSubmit: (values) => {
-      console.log(props);
       var today = new Date(values.event_date);
       var dd = String(today.getDate()).padStart(2, "0");
       var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
@@ -189,6 +228,7 @@ function Add(props) {
           })
           .catch((err) => console.log(err));
       }
+
       props.closePopup();
       props.getEventList();
     },
@@ -226,7 +266,10 @@ function Add(props) {
         <div>
           <h2>Create Event </h2>
           <div>
-            <form onReset={formik.handleReset} onSubmit={formik.handleSubmit}>
+            <form
+              onReset={formik.handleReset}
+              onSubmit={(e) => handleSubmit(e)}
+            >
               <Form.Group
                 as={Row}
                 className="mb-3"
