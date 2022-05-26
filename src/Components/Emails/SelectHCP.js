@@ -201,7 +201,7 @@ const SelectHCP = (props) => {
                         alt="Group HCPs"
                       />
                     </div>
-                    <p>Group of HCP's</p>
+                    <p>Group of HCPs</p>
                   </li>
                   <li>
                     <div
