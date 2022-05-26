@@ -156,7 +156,7 @@ const Sidebar = () => {
                     Registrations
                   </Link>
                 </li>
-                <li
+                {/* <li
                   className={
                     location.pathname === "/webinar/RegistrationDetails"
                       ? "active"
@@ -182,7 +182,7 @@ const Sidebar = () => {
                     </svg>
                     Registration Details
                   </Link>
-                </li>
+                </li> */}
                 <li
                   className={
                     location.pathname === "/webinar/readers"
