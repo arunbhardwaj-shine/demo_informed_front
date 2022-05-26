@@ -233,7 +233,7 @@ form .input-group { border: 1px dashed var(--light-blue); box-sizing: border-box
 .form-buttons .approved-btn img, .form-buttons .btn.btn-large img { margin-left: 4px; }
 .form-buttons .btn.btn-large { padding: 9px 29px; }
 .form-buttons .approved-btn { border: 1px solid var(--green); color: var(--green); padding: 10px 29px; background: transparent; }
-.form-buttons .approved-btn:hover { background: var(--green); color: var(--white); }
+.form-buttons .approved-btn:hover, .form-buttons .approved-btn:active, .form-buttons .approved-btn:focus { background: var(--green); color: var(--white); }
 
 /**Modal Tags**/
 
