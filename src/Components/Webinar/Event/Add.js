@@ -43,7 +43,7 @@ function Add(props) {
 
   const handleMaltiInputRumove = (i) => {
     let data1 = Speakername;
-    Speakername.splice(0, 1);
+    Speakername.splice(i, 1);
     setTimeout(() => setSpeakerName([...Speakername]), 1000);
     setRerender(render + 1);
     setSpeakerName(data1);

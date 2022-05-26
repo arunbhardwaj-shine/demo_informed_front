@@ -229,7 +229,6 @@ const Readers = () => {
   const handleSelectChange = (id, val) => {
     ExportApi.ReadersBlockt(id, val).then((resp) => {
       if (resp.ok) {
-        
         handleGetReadersDataPage(currentPage);
         if (resp.data.code == 200) {
           toast.success(resp.data.message, {
@@ -359,7 +358,6 @@ const Readers = () => {
                   /> */}
                 </Col>
               </Row>
-
               <br />
               <br />
               <Row>
@@ -409,7 +407,6 @@ const Readers = () => {
                                     setModalShow(true)
                                     localStorage.setItem("blockId", val.id)
                                     localStorage.setItem("is",val.is_blocked)
-                                    handleGetReadersDataPage(currentPage);
                                   }}
                                 />
                               ) : (
@@ -419,20 +416,18 @@ const Readers = () => {
                                     localStorage.setItem("blockId", val.id)
                                     localStorage.setItem("is",val.is_blocked)
                                       handleBlock();
-                                    handleGetReadersDataPage(currentPage);
                                   }}
                                   width={70}
                                 />
                               )}
                             </td>
                             <td>
-                              {" "}
                               <img
                                 src={Delete}
                                 onClick={() => {
                                   localStorage.setItem("DeleteData",val.id)
                                   setModalShow1(true)
-                                  handleGetReadersDataPage(currentPage);
+                                  // handleGetReadersDataPage(currentPage);
                                 }}
                                 width={90}
                               />
