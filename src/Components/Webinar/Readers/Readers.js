@@ -103,8 +103,7 @@ const Readers = () => {
       setFlag(false);
     } else {
       ExportApi.ReadersCountry(eventId, id, type, search).then((resp) => {
-        if (resp.ok) {
-          
+        if (resp.ok) { 
           if (resp.data.code === 404) {
             setMassage("Data Not Found");
             setData();
@@ -139,7 +138,6 @@ const Readers = () => {
     ExportApi.ReadersDelete(localStorage.getItem("DeleteData"), 1).then((resp) => {
       if (resp.ok) {
         if (resp.data.code == 200) {
-          handleGetReadersDataPage(currentPage);
           toast.success(resp.data.message, {
             position: "top-right",
             autoClose: 5000,
@@ -168,7 +166,6 @@ const Readers = () => {
       ExportApi.ReadersBlock(localStorage.getItem("blockId"), 1).then((resp) => {
         if (resp.ok) {
           if (resp.data.code == 200) {
-            handleGetReadersDataPage(currentPage);
             toast.success(resp.data.message, {
               position: "top-right",
               autoClose: 5000,
@@ -195,7 +192,6 @@ const Readers = () => {
       ExportApi.ReadersBlock(localStorage.getItem("blockId"), 0).then((resp) => {
         if (resp.ok) {
           if (resp.data.code == 200) {
-            handleGetReadersDataPage(currentPage);
             toast.success(resp.data.message, {
               position: "top-right",
               autoClose: 5000,
@@ -229,7 +225,6 @@ const Readers = () => {
   const handleSelectChange = (id, val) => {
     ExportApi.ReadersBlockt(id, val).then((resp) => {
       if (resp.ok) {
-        handleGetReadersDataPage(currentPage);
         if (resp.data.code == 200) {
           toast.success(resp.data.message, {
             position: "top-right",
