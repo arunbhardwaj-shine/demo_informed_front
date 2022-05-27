@@ -1006,6 +1006,7 @@ const CreateEmail = (props) => {
                 <button
                   className="btn btn-primary btn-filled next"
                   onClick={nextClicked}
+                  disabled={typeof emailSubject == "undefined" || emailSubject.trim().length == 0  ||  typeof templateId == "undefined" || templateId == ""}
                 >
                   Next
                 </button>
