@@ -166,6 +166,7 @@ const Readers = () => {
       ExportApi.ReadersBlock(localStorage.getItem("blockId"), 1).then((resp) => {
         if (resp.ok) {
           if (resp.data.code == 200) {
+            handleGetReadersSearch()
             toast.success(resp.data.message, {
               position: "top-right",
               autoClose: 5000,
@@ -192,6 +193,7 @@ const Readers = () => {
       ExportApi.ReadersBlock(localStorage.getItem("blockId"), 0).then((resp) => {
         if (resp.ok) {
           if (resp.data.code == 200) {
+            handleGetReadersSearch()
             toast.success(resp.data.message, {
               position: "top-right",
               autoClose: 5000,

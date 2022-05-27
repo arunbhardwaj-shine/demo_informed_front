@@ -21,7 +21,7 @@ const [smtpData, setSmtpData] = useState()
       smtp_email: smtpData?smtpData.smtp_email:"",
       smtp_password: smtpData?smtpData.smtp_password:"",
       encryption_type: smtpData?smtpData.encryption_type:"",
-      tls:false,
+      tls:true,
     },
     enableReinitialize: true,
     validationSchema: Yup.object({
@@ -260,9 +260,10 @@ const [smtpData, setSmtpData] = useState()
                     name="tls"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                     value={formik.values.tls}
+                    //  value={formik.values.tls}
+                     checked={formik.values.tls}
                   />
-                   
+                   {console.log(formik.values.tls,"true")}
                   {formik.touched.tls &&
                   formik.errors.tls ? (
                     <div style={{ color: "red" }}>

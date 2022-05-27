@@ -313,7 +313,7 @@ const ReadersPage = (id, eventId) =>
 const ReadersDataSearch = (id, name_email, type, country) =>
   BaseApi.get(
     `participants`,
-    { event_id: id, name_email: name_email, type: type, country: country },
+    { event_id: id, name_email: name_email, type: type, country_id: country },
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
@@ -323,7 +323,7 @@ const ReadersDataSearch = (id, name_email, type, country) =>
 const ReadersType = (id, type, search, countryvalue) =>
   BaseApi.get(
     `participants`,
-    { event_id: id, type: type, name_email: search, country: countryvalue },
+    { event_id: id, type: type, name_email: search, country_id: countryvalue },
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
