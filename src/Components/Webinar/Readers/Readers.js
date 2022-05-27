@@ -276,7 +276,7 @@ const Readers = () => {
           <Row>
             <Col xs={2}>
               <h2>
-                <strong>HCPs</strong>
+                <strong>Participants</strong>
               </h2>
             </Col>
             <Col xs={6}>
