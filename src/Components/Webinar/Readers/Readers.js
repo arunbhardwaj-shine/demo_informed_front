@@ -80,8 +80,7 @@ const Readers = () => {
   const handleGetReadersType = (id) => {
     if (id == "null") {
       setMassage("Data Not Found");
-      setData();
-      setFlag(false);
+      handleGetReadersData(eventId)
     } else {
       ExportApi.ReadersType(eventId, id, search, countryvalue).then((resp) => {
         if (resp.ok) {

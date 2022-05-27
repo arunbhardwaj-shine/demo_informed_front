@@ -330,6 +330,16 @@ const ReadersType = (id, type, search, countryvalue) =>
       },
     }
   );
+const ReadersType1 = (id,  search, countryvalue) =>
+  BaseApi.get(
+    `participants`,
+    { event_id: id, name_email: search, country_id: countryvalue },
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
 const ReadersCountry = (id, name, type, search) =>
   BaseApi.get(
     `participants`,
@@ -605,6 +615,7 @@ export default {
   PublicPage,
   ReadersData,
   ReadersType,
+  ReadersType1,
   ReadersCountry,
   ReadersDataSearch,
   ReadersPage,
