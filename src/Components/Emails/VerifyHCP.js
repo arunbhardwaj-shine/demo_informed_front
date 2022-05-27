@@ -558,9 +558,9 @@ const VerifyHCP = (props) => {
   };
 
   const saveAsDraft = async () => {
-    console.log("hi");
-    console.log(props);
-    console.log(selectedHcp);
+    // console.log("hi");
+    // console.log(props);
+    // console.log(selectedHcp);
     // const body = {
     //   user_id: 18207,
     //   pdf_id: props.getDraftData.pdf_id,
@@ -616,17 +616,22 @@ const VerifyHCP = (props) => {
     await axios
       .post(`emailapi/save_draft`, body)
       .then((res) => {
-        console.log(res);
-        console.log(selectedHcp);
-        setCampaign_id(res.data.response.data.id);
-        setSelectedHcp(selectedHcp);
-        //  console.log(props.getCampaignId);
+        if (res.data.status_code === 200) {
+          setCampaign_id(res.data.response.data.id);
+          setSelectedHcp(selectedHcp);
+          popup_alert({
+            visible: "show",
+            message: "Your changes has been saved <br />successfully !",
+            type: "success",
+            redirect: "/EmailList",
+          });
+        }else{
+          toast.warning(res.data.message);
+        }
         loader("hide");
-
-        // console.log(res);
       })
       .catch((err) => {
-        //console.log(err);
+        toast.error("Something went wrong");
       });
   };
 

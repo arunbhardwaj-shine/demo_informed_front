@@ -137,7 +137,12 @@ const VerifyMAIL = (props) => {
       .then((res) => {
         if (res.data.status_code === 200) {
           setCampaign_id(res.data.response.data.id);
-          toast.success("Draft saved");
+          popup_alert({
+            visible: "show",
+            message: "Your changes has been saved <br />successfully !",
+            type: "success",
+            redirect: "/EmailList",
+          });
         } else {
           toast.warning(res.data.message);
         }
