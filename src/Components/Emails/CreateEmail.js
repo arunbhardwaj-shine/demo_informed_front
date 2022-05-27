@@ -622,7 +622,7 @@ const CreateEmail = (props) => {
       emailSubject == "" ||
       emailSubject == 0
     ) {
-      toast.warning("Please select Mail template and Subject first");
+      toast.warning("Please select mail template and subject first");
     } else {
       setIsOpensend(true);
     }
@@ -962,6 +962,16 @@ const CreateEmail = (props) => {
       toast.warning("Please enter template name.");
     }
   }
+
+  const downloadFile = () => {
+    let link = document.createElement("a");
+    link.href = "https://informed.pro/sample.xls";
+    link.setAttribute("download", "file.xlsx");
+    document.body.appendChild(link);
+    link.download = "";
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <>
@@ -1496,9 +1506,8 @@ const CreateEmail = (props) => {
                 <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
                   <input
                     className="form-control me-2"
-                    type="search"
+                    type="text"
                     placeholder="Search"
-                    aria-label="Search"
                     onChange={(e) => searchChange(e)}
                   />
                   <button
@@ -1807,7 +1816,7 @@ const CreateEmail = (props) => {
                                 aria-label="select"
                                 onChange={(event) => onCountryChange(event, i)}
                               >
-                                <option selected>Select Country</option>
+                                <option value="" selected>Select Country</option>
 
                                 {countryall.length === 0
                                   ? ""
@@ -1865,7 +1874,7 @@ const CreateEmail = (props) => {
                     </div>
                   </div>
                   </div>
-                  <div className="download-sample sample-file"><p>Download sample Excel file to upload new HCPs</p><div className="upload-btn"><label for="input-file">Download File</label></div></div>
+                  <div className="download-sample sample-file"><p>Download sample Excel file to upload new HCPs</p><div className="upload-btn" onClick={downloadFile}>Download File</div></div>
                 </form>
               </div>
               <div className="hcp-modal-action">
