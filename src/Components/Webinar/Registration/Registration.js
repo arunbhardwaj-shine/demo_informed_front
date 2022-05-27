@@ -113,7 +113,7 @@ const Registration = () => {
 
       formData.append("title", values.RegistrationPageTitle);
 
-      formData.append("file", image);
+      // formData.append("file", image);
       formData.append("url", values.url);
       formData.append("template_id", values.TemplateId);
       ExportApi.UpdateRegistrationPageData(formData).then((resp) => {
@@ -327,7 +327,7 @@ const Registration = () => {
                       ) : null}
                     </Form.Group>
                     <Row>
-                      <Col xs={9}>
+                      <Col xs={12}>
                         <Form.Label>Body Text</Form.Label>
                         <textarea
                           name="body"
@@ -337,7 +337,7 @@ const Registration = () => {
                           value={formik.values.body}
                           className="form-control"
                           id="exampleFormControlTextarea1"
-                          rows="5"
+                          rows="18"
                         ></textarea>
                         {formik.touched.body && formik.errors.body ? (
                           <div style={{ color: "red" }}>
@@ -346,7 +346,7 @@ const Registration = () => {
                         ) : null}
                         <p style={{ color: "red" }}>{err}</p>
                       </Col>
-                      <Col xs={3}>
+                      {/* <Col xs={3}>
                         <div>
                           <img
                             id="imgVieww"
@@ -359,9 +359,9 @@ const Registration = () => {
                             width={340}
                           />
                         </div>
-                      </Col>
+                      </Col> */}
                     </Row>
-                    <Form.Group controlId="formFileLg" className="mb-3">
+                    {/* <Form.Group controlId="formFileLg" className="mb-3">
                       <Form.Label>Choice File</Form.Label>
                       <Form.Control
                         name="file"
@@ -372,7 +372,7 @@ const Registration = () => {
                         size="md"
                       />
                       <p style={{ color: "red" }}>{errimage}</p>
-                    </Form.Group>
+                    </Form.Group> */}
                     <Button type="submit">Save</Button>
                   </Row>
                 </form>

@@ -28,7 +28,7 @@ function EmailStats() {
     });
   };
   const handleGetTemplateList = (id) => {
-    eId = id;
+   localStorage.setItem("emailstatseventid",id)
     ExportApi.UserTemplateList(id).then((resp) => {
       if (resp.ok) {
         console.log(resp.data.data);
@@ -43,12 +43,13 @@ function EmailStats() {
     });
   };
   const handleGetEmaildata = (id) => {
+
     loader("show");
     setTimeout(() => {
-      ExportApi.EmailStatss(eId, id).then((resp) => {
+      ExportApi.EmailStatss(localStorage.getItem("emailstatseventid"), id).then((resp) => {
         if (resp.ok) {
           loader("hide");
-          // console.log(resp.data.data.data);
+           console.log(resp.data.data);
           setEmailData(resp.data.data.data);
           setPaginate(resp.data.data.paginate);
           setLabel(resp.data.data.paginate.label);

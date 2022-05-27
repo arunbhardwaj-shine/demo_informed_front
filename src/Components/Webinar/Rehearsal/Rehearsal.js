@@ -23,10 +23,21 @@ function Rehearsal() {
       Description: "",
     },
   ]);
+  const [SpeakernameErr, setSpeakerNameErr] = useState([
+    {
+      EventTitle: "",
+      Timezone: "",
+      event_date: "",
+      eventendtime: "",
+      event_start_time: "",
+      speakerdata: [{ name: "", email: "" }],
+      type: "",
+      Description: "",
+    },
+  ]);
   const [Timezone, setTimezone] = useState([]);
   const [event, setEvent] = useState([]);
- 
-  
+
   const handleMaltiInputAdd = () => {
     setSpeakerName([
       ...Speakername,
@@ -36,31 +47,29 @@ function Rehearsal() {
         event_date: "",
         eventendtime: "",
         event_start_time: "",
-        speakerdata:[{ name: "", email: "" }],
+        speakerdata: [{ name: "", email: "" }],
+        type: "",
+        Description: "",
+      },
+    ]);
+    setSpeakerNameErr([
+      ...SpeakernameErr,
+      {
+        EventTitle: "",
+        Timezone: "",
+        event_date: "",
+        eventendtime: "",
+        event_start_time: "",
+        speakerdata: [{ name: "", email: "" }],
         type: "",
         Description: "",
       },
     ]);
   };
-  const handleSpeakerName = (e, i) => {
-    if (e.target.name === `name${i}`) {
-      const speker = Speakername[i];
-      speker.name = e.target.value;
-      Speakername.splice(i, 1, { ...speker });
-      setSpeakerName([...Speakername]);
-    } else if (e.target.name === `email${i}`) {
-      const speker = Speakername[i];
-      speker.email = e.target.value;
-      Speakername.splice(i, 1, { ...speker });
-      setSpeakerName([...Speakername]);
-    }
-  };
-
   const handleMaltiInputRumove = (i) => {
     let data1 = Speakername;
     Speakername.splice(i, 1);
     setTimeout(() => setSpeakerName([...Speakername]), 1000);
-   
 
     setSpeakerName(data1);
   };
@@ -87,6 +96,75 @@ function Rehearsal() {
     handleGetEventlist();
   }, []);
 
+  const handeleErr = () => {
+    let err;
+    for (let index = 0; index < Speakername.length; index++) {
+      if (Speakername[index].EventTitle.length == 0) {
+        err = false;
+        const copydataErr = SpeakernameErr[index];
+        copydataErr.EventTitle = "requred Field EventTitle";
+        setSpeakerNameErr([...SpeakernameErr]);
+      }
+      if (Speakername[index].Timezone.length == 0) {
+        err = false;
+        const copydataErr = SpeakernameErr[index];
+        copydataErr.Timezone = "requred Field Timezone";
+        setSpeakerNameErr([...SpeakernameErr]);
+      }
+      if (!Speakername[index].event_date) {
+        err = false;
+        const copydataErr = SpeakernameErr[index];
+        copydataErr.event_date = "requred Field event_date";
+        setSpeakerNameErr([...SpeakernameErr]);
+      }
+      if (Speakername[index].eventendtime.length == 0) {
+        err = false;
+        const copydataErr = SpeakernameErr[index];
+        copydataErr.eventendtime = "requred Field eventendtime";
+        setSpeakerNameErr([...SpeakernameErr]);
+      }
+      if (Speakername[index].event_start_time.length == 0) {
+        err = false;
+        const copydataErr = SpeakernameErr[index];
+        copydataErr.event_start_time = "requred Field eventendtime";
+        setSpeakerNameErr([...SpeakernameErr]);
+      }
+
+      for (let i = 0; i < Speakername[index].speakerdata.length; i++) {
+        if (Speakername[index].speakerdata[i].name.length == 0) {
+          err = false;
+          const copydataErr = SpeakernameErr[index];
+          copydataErr.speakerdata[i].name = "requred Field name";
+          setSpeakerNameErr([...SpeakernameErr]);
+        }
+        if (Speakername[index].speakerdata[i].email.length == 0) {
+          err = false;
+          const copydataErr = SpeakernameErr[index];
+          copydataErr.speakerdata[i].email = "requred Field email";
+          setSpeakerNameErr([...SpeakernameErr]);
+        }else if(Speakername[index].speakerdata[i].email.match(
+          /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i
+        )){
+          const copydataErr = SpeakernameErr[index];
+          copydataErr.speakerdata[i].email = "Invalid email address";
+          setSpeakerNameErr([...SpeakernameErr]);
+        }
+      }
+      if (Speakername[index].type.length == 0) {
+        err = false;
+        const copydataErr = SpeakernameErr[index];
+        copydataErr.type = "requred Field type";
+        setSpeakerNameErr([...SpeakernameErr]);
+      }
+      if (Speakername[index].Description.length == 0) {
+        err = false;
+        const copydataErr = SpeakernameErr[index];
+        copydataErr.Description = "requred Field Description";
+        setSpeakerNameErr([...SpeakernameErr]);
+      }
+    }
+    return err
+  };
   const formik = useFormik({
     initialValues: {
       EventTitle: "",
@@ -98,7 +176,9 @@ function Rehearsal() {
       Description: "",
     },
     onSubmit: (values) => {
-      handleValidation()
+      handeleErr()
+      
+    
       // var today = new Date(values.event_date);
       // var dd = String(today.getDate()).padStart(2, "0");
       // var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
@@ -146,85 +226,187 @@ function Rehearsal() {
     const { value } = e.target;
     const copydata = Speakername[i];
     copydata.EventTitle = value;
-    Speakername.splice(i,1,copydata)
-     setSpeakerName([...Speakername])
+    Speakername.splice(i, 1, copydata);
+    setSpeakerName([...Speakername]);
+    if (value.length == 0) {
+      const copydataErr = SpeakernameErr[i];
+      copydataErr.EventTitle = "requred Field EventTitle";
+      setSpeakerNameErr([...SpeakernameErr]);
+    } else {
+      const copydataErr = SpeakernameErr[i];
+      copydataErr.EventTitle = "";
+      setSpeakerNameErr([...SpeakernameErr]);
+    }
   };
   const handeledate = (e, i) => {
     const { value } = e.target;
     const copydata = Speakername[i];
     copydata.event_date = value;
-    Speakername.splice(i,1,copydata)
-     setSpeakerName([...Speakername])
+    Speakername.splice(i, 1, copydata);
+    setSpeakerName([...Speakername]);
+
+    if (value.length == 0) {
+      const copydataErr = SpeakernameErr[i];
+      copydataErr.event_date = "requred Field Date";
+      setSpeakerNameErr([...SpeakernameErr]);
+    } else {
+      const copydataErr = SpeakernameErr[i];
+      copydataErr.event_date = "";
+      setSpeakerNameErr([...SpeakernameErr]);
+    }
   };
-  const handleTimezone=(e,i)=>{
+  const handleTimezone = (e, i) => {
     const { value } = e.target;
     const copydata = Speakername[i];
     copydata.Timezone = value;
-    Speakername.splice(i,1,copydata)
-     setSpeakerName([...Speakername])
-  }
-  const handleStartTime=(e,i)=>{
+    Speakername.splice(i, 1, copydata);
+    setSpeakerName([...Speakername]);
+    if (value.length == 0) {
+      const copydataErr = SpeakernameErr[i];
+      copydataErr.Timezone = "requred Field time Zone";
+      setSpeakerNameErr([...SpeakernameErr]);
+    } else {
+      const copydataErr = SpeakernameErr[i];
+      copydataErr.Timezone = "";
+      setSpeakerNameErr([...SpeakernameErr]);
+    }
+  };
+  const handleStartTime = (e, i) => {
     const { value } = e.target;
     const copydata = Speakername[i];
     copydata.event_start_time = value;
-    Speakername.splice(i,1,copydata)
-     setSpeakerName([...Speakername])
-  }
-  const handleEndTime=(e,i)=>{
+    Speakername.splice(i, 1, copydata);
+    setSpeakerName([...Speakername]);
+    if (value.length == 0) {
+      const copydataErr = SpeakernameErr[i];
+      copydataErr.event_start_time = "requred Field start time";
+      setSpeakerNameErr([...SpeakernameErr]);
+    } else {
+      const copydataErr = SpeakernameErr[i];
+      copydataErr.event_start_time = "";
+      setSpeakerNameErr([...SpeakernameErr]);
+    }
+  };
+  const handleEndTime = (e, i) => {
     const { value } = e.target;
     const copydata = Speakername[i];
     copydata.eventendtime = value;
-    Speakername.splice(i,1,copydata)
-     setSpeakerName([...Speakername])
-  }
-  const handleChangeevent=(e,i)=>{
+    Speakername.splice(i, 1, copydata);
+    setSpeakerName([...Speakername]);
+    if (value.length == 0) {
+      const copydataErr = SpeakernameErr[i];
+      copydataErr.eventendtime = "requred Field eventendtime";
+      setSpeakerNameErr([...SpeakernameErr]);
+    } else {
+      const copydataErr = SpeakernameErr[i];
+      copydataErr.eventendtime = "";
+      setSpeakerNameErr([...SpeakernameErr]);
+    }
+  };
+  const handleChangeevent = (e, i) => {
     const { value } = e.target;
     const copydata = Speakername[i];
     copydata.type = value;
-    Speakername.splice(i,1,copydata)
-     setSpeakerName([...Speakername])
-  }
-  const handleChangeDecription=(e,i)=>{
+    Speakername.splice(i, 1, copydata);
+    setSpeakerName([...Speakername]);
+
+    if (value.length == 0) {
+      const copydataErr = SpeakernameErr[i];
+      copydataErr.type = "requred Field type";
+      setSpeakerNameErr([...SpeakernameErr]);
+    } else {
+      const copydataErr = SpeakernameErr[i];
+      copydataErr.type = "";
+      setSpeakerNameErr([...SpeakernameErr]);
+    }
+  };
+  const handleChangeDecription = (e, i) => {
     const { value } = e.target;
     const copydata = Speakername[i];
     copydata.Description = value;
-    Speakername.splice(i,1,copydata)
-     setSpeakerName([...Speakername])
-  }
-  const handleSpeakerdata=(e,i,index)=>{
+    Speakername.splice(i, 1, copydata);
+    setSpeakerName([...Speakername]);
+    if (value.length == 0) {
+      const copydataErr = SpeakernameErr[i];
+      copydataErr.Description = "requred Field Description";
+      setSpeakerNameErr([...SpeakernameErr]);
+    } else {
+      const copydataErr = SpeakernameErr[i];
+      copydataErr.Description = "";
+      setSpeakerNameErr([...SpeakernameErr]);
+    }
+  };
+  const handleSpeakerdata = (e, i, index) => {
     const { value } = e.target;
     const copydata = Speakername[i];
     copydata.speakerdata[index].name = value;
-    Speakername.splice(i,1,copydata)
-     setSpeakerName([...Speakername])
-  }
-  const handleSpeakerdataEmail=(e,i,index)=>{
+    console.log(copydata.speakerdata[index].name);
+    Speakername.splice(i, 1, copydata);
+    setSpeakerName([...Speakername]);
+    if (value.length == 0) {
+      const copydataErr = SpeakernameErr[i];
+      copydataErr.speakerdata[index].name = "requred Field name";
+      setSpeakerNameErr([...SpeakernameErr]);
+    } else {
+      const copydataErr = SpeakernameErr[i];
+      copydataErr.speakerdata[index].name = "";
+      setSpeakerNameErr([...SpeakernameErr]);
+    }
+  };
+  const handleSpeakerdataEmail = (e, i, index) => {
     const { value } = e.target;
     const copydata = Speakername[i];
     copydata.speakerdata[index].email = value;
-    Speakername.splice(i,1,copydata)
-     setSpeakerName([...Speakername])
-  }
-  const handleSpeakerdataInputAdd=(i)=>{
-    const copydata = Speakername[i];
-    copydata.speakerdata.push({name:'',email:''})
-    console.log(copydata)
-      setSpeakerName([...Speakername])
+    Speakername.splice(i, 1, copydata);
+    setSpeakerName([...Speakername]);
+    if (value.length == 0) {
+      const copydataErr = SpeakernameErr[i];
+      copydataErr.speakerdata[index].email = "requred Field email";
+      setSpeakerNameErr([...SpeakernameErr]);
+    }else if(!Speakername[index].speakerdata[i].email.match(
+      /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i
+    )){
+      const copydataErr = SpeakernameErr[index];
+      copydataErr.speakerdata[i].email = "Invalid email address";
+      setSpeakerNameErr([...SpeakernameErr]);
+    }
+     else {
+      const copydataErr = SpeakernameErr[i];
+      copydataErr.speakerdata[index].email = "";
+      setSpeakerNameErr([...SpeakernameErr]);
+    }
   };
-  const handleSpeakerdataInputRumove=(i,index)=>{
+  const handleSpeakerdataInputAdd = (i) => {
     const copydata = Speakername[i];
-    copydata.speakerdata.splice(index, 1)
-    console.log(copydata)
+    copydata.speakerdata.push({ name: "", email: "" });
+    setSpeakerName([...Speakername]);
+    const copydataErr = SpeakernameErr[i];
+    copydataErr.speakerdata.push({ name: "", email: "" });
+    console.log("copydataErr", copydataErr);
+    setSpeakerNameErr([...SpeakernameErr]);
+  };
+  const handleSpeakerdataInputRumove = (i, index) => {
+    const copydata = Speakername[i];
+    copydata.speakerdata.splice(index, 1);
+    console.log(copydata);
     setRerender(render + 1);
-      setSpeakerName([...copydata])
+    setSpeakerName([...copydata]);
   };
-  
-  const handleValidation=()=>{
-     Speakername.map((data) => {
-      if (data.EventTitle == ""||data.EventTitle==null||data.EventTitle==undefined) {
-        setErr("Please enter title")
-      } else if(data.Timezone == ""||data.Timezone==null||data.Timezone==undefined){
-        setErr("Please select timezone")
+
+  const handleValidation = () => {
+    Speakername.map((data) => {
+      if (
+        data.EventTitle == "" ||
+        data.EventTitle == null ||
+        data.EventTitle == undefined
+      ) {
+        setErr("Please enter title");
+      } else if (
+        data.Timezone == "" ||
+        data.Timezone == null ||
+        data.Timezone == undefined
+      ) {
+        setErr("Please select timezone");
       }
     });
     // if (Speakername.every((element) => element == "true")) {
@@ -241,7 +423,7 @@ function Rehearsal() {
     // } else {
     //   toast.warning("Please input the email atleast");
     // }
-  }
+  };
   return (
     <Row>
       {console.log(Speakername)}
@@ -263,18 +445,18 @@ function Rehearsal() {
             <form onReset={formik.handleReset} onSubmit={formik.handleSubmit}>
               {Speakername.map((val, i) => (
                 <div>
-                          {Speakername.length > 1 ? (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          // setIndex(i);
-                          handleMaltiInputRumove(i);
-                        }}
-                        className="btn-close float-end"
-                        aria-label="Close"
-                      />
-                    ) : null}
-                  <h4>Select the rehearsal Information:{i+1}</h4>
+                  {Speakername.length > 1 ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        // setIndex(i);
+                        handleMaltiInputRumove(i);
+                      }}
+                      className="btn-close float-end"
+                      aria-label="Close"
+                    />
+                  ) : null}
+                  <h4>Select the rehearsal Information:{i + 1}</h4>
                   <Form.Group
                     as={Row}
                     className="mb-3"
@@ -290,11 +472,14 @@ function Rehearsal() {
                         // onBlur={formik.handleBlur}
                         value={val.EventTitle}
                       />
-                      {Speakername[i].EventTitle == ""||Speakername[i].EventTitle==null||Speakername[i].EventTitle==undefined?(
-                        <div style={{ color: "red" }}>
-                          {Err}
-                        </div>
-                      ) : null}
+                      <div style={{ color: "red" }}>
+                        <p> {SpeakernameErr[i].EventTitle}</p>
+                      </div>
+                      {/* {Speakername[i].EventTitle == "" ||
+                      Speakername[i].EventTitle == null ||
+                      Speakername[i].EventTitle == undefined ? (
+                        <div style={{ color: "red" }}>{Err}</div>
+                      ) : null} */}
                     </Col>
                   </Form.Group>
                   <Form.Group
@@ -310,15 +495,14 @@ function Rehearsal() {
                         name="event_date"
                         type="date"
                         min={yyyy + "-" + mm + "-" + dd}
-                        onChange={(e)=>handeledate(e,i)}
+                        onChange={(e) => handeledate(e, i)}
                         // onBlur={formik.handleBlur}
                         value={val.event_date}
                       />
-                      {formik.touched.event_date && formik.errors.event_date ? (
-                        <div style={{ color: "red" }}>
-                          {formik.errors.event_date}
-                        </div>
-                      ) : null}
+
+                      <div style={{ color: "red" }}>
+                        {<p> {SpeakernameErr[i].event_date}</p>}
+                      </div>
                     </Col>
                   </Form.Group>
                   <Form.Group
@@ -332,22 +516,22 @@ function Rehearsal() {
                     <Col sm={10}>
                       <Form.Select
                         name="Timezone"
-                        onChange={(e)=>handleTimezone(e,i)}
+                        onChange={(e) => handleTimezone(e, i)}
                         // onBlur={formik.handleBlur}
                         value={val.Timezone}
                       >
-                        <option>Select Timezone</option>
+                        <option value="">Select Timezone</option>
                         {Timezone?.map((val, i) => (
                           <React.Fragment key={i}>
                             <option value={val.values}>{val.values}</option>
                           </React.Fragment>
                         ))}
                       </Form.Select>
-                      {formik.touched.Timezone && formik.errors.Timezone ? (
-                        <div style={{ color: "red" }}>
-                          {formik.errors.Timezone}
-                        </div>
-                      ) : null}
+
+                      <div style={{ color: "red" }}>
+                        {/* {formik.errors.Timezone} */}
+                        {SpeakernameErr[i].Timezone}
+                      </div>
                     </Col>
                   </Form.Group>
                   <Form.Group
@@ -355,6 +539,7 @@ function Rehearsal() {
                     as={Row}
                     controlId="exampleForm.ControlInput1"
                   >
+                    {console.log(SpeakernameErr)}
                     <Form.Label column sm={2}>
                       Event Start Time{" "}
                     </Form.Label>
@@ -362,7 +547,7 @@ function Rehearsal() {
                       <Form.Control
                         // name="event_start_time"
                         type="time"
-                        onChange={(e)=>handleStartTime(e,i)}
+                        onChange={(e) => handleStartTime(e, i)}
                         // onBlur={formik.handleBlur}
                         value={val.event_start_time}
                       />
@@ -372,6 +557,10 @@ function Rehearsal() {
                           {formik.errors.event_start_time}
                         </div>
                       ) : null}
+                      <div style={{ color: "red" }}>
+                        {/* {formik.errors.Timezone} */}
+                        {SpeakernameErr[i].event_start_time}
+                      </div>
                     </Col>
                   </Form.Group>
                   <Form.Group
@@ -386,7 +575,7 @@ function Rehearsal() {
                       <Form.Control
                         name="eventendtime"
                         type="time"
-                        onChange={(e)=>handleEndTime(e,i)}
+                        onChange={(e) => handleEndTime(e, i)}
                         // onBlur={formik.handleBlur}
                         value={val.eventendtime}
                       />
@@ -396,6 +585,10 @@ function Rehearsal() {
                           {formik.errors.eventendtime}
                         </div>
                       ) : null}
+                      <div style={{ color: "red" }}>
+                        {/* {formik.errors.Timezone} */}
+                        {SpeakernameErr[i].eventendtime}
+                      </div>
                     </Col>
                   </Form.Group>
                   <br />
@@ -407,7 +600,7 @@ function Rehearsal() {
                           <button
                             type="button"
                             onClick={() => {
-                              handleSpeakerdataInputRumove(i,index);
+                              handleSpeakerdataInputRumove(i, index);
                             }}
                             className="btn-close float-end"
                             aria-label="Close"
@@ -429,9 +622,14 @@ function Rehearsal() {
                               // }
                               value={malti.name}
                               onChange={(e) => {
-                                handleSpeakerdata(e, i,index);
+                                handleSpeakerdata(e, i, index);
                               }}
                             />
+
+                            <div style={{ color: "red" }}>
+                              {/* {formik.errors.Timezone} */}
+                              {SpeakernameErr[i].speakerdata[index].name}
+                            </div>
                           </Col>
                           <div className="mt-2"></div>
                           <Form.Label column sm={2}>
@@ -445,9 +643,14 @@ function Rehearsal() {
                               //   .speakerdata.length === 0 ? "email" : "email" + i
                               // }
                               onChange={(e) => {
-                                handleSpeakerdataEmail(e, i,index);
+                                handleSpeakerdataEmail(e, i, index);
                               }}
                             />
+
+                            <div style={{ color: "red" }}>
+                              {/* {formik.errors.Timezone} */}
+                              {SpeakernameErr[i].speakerdata[index].email}
+                            </div>
                           </Col>
                         </Form.Group>
                       </div>
@@ -456,7 +659,7 @@ function Rehearsal() {
                   <div class="mt-2"></div>
                   <Form.Group className="mb-3">
                     <Button
-                      onClick={()=>handleSpeakerdataInputAdd(i)}
+                      onClick={() => handleSpeakerdataInputAdd(i)}
                       className="speaker-button"
                     >
                       Add More Speaker
@@ -478,11 +681,11 @@ function Rehearsal() {
                       <Col sm={10}>
                         <Form.Select
                           name="type"
-                          onChange={(e)=>handleChangeevent(e,i)}
+                          onChange={(e) => handleChangeevent(e, i)}
                           onBlur={formik.handleBlur}
                           value={val.type}
                         >
-                          <option> Select Event</option>
+                          <option value=""> Select Event</option>
                           {event?.map((val, i) => (
                             <React.Fragment key={i}>
                               <option value={val.id}>{val.title}</option>
@@ -495,6 +698,10 @@ function Rehearsal() {
                             {formik.errors.Timezone}
                           </div>
                         ) : null}
+                        <div style={{ color: "red" }}>
+                          {/* {formik.errors.Timezone} */}
+                          {SpeakernameErr[i].type}
+                        </div>
                       </Col>
                     </Form.Group>
                   ) : (
@@ -518,13 +725,17 @@ function Rehearsal() {
                       <textarea
                         // name="Description"
                         type="text"
-                        onChange={(e)=>handleChangeDecription(e,i)}
+                        onChange={(e) => handleChangeDecription(e, i)}
                         onBlur={formik.handleBlur}
                         value={val.Description}
                         className="form-control"
                         id="exampleFormControlTextarea1"
                         rows="3"
                       ></textarea>
+                      <div style={{ color: "red" }}>
+                        {/* {formik.errors.Timezone} */}
+                        {SpeakernameErr[i].Description}
+                      </div>
                     </Col>
                   </Form.Group>
                 </div>
