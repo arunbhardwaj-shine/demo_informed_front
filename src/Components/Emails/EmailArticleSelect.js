@@ -85,6 +85,7 @@ const EmailArticleSelect = () => {
 
   const submitHandler = (event) => {
     getContentData(1, 1);
+    setShowFilter(false);
     event.preventDefault();
     return false;
   };
@@ -288,7 +289,7 @@ const EmailArticleSelect = () => {
               </form>
             </div>
 
-            <div className="filter-by nav-item dropdown">
+            <div className={showfilter ? "filter-by nav-item dropdown highlight" : "filter-by nav-item dropdown"}>
               <button
                 className="btn btn-secondary dropdown"
                 type="button"
