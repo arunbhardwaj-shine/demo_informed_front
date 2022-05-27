@@ -4,6 +4,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import ExportApi from "../../../Api/ExportApi";
+import { loader } from "../../../loader";
 const StpDetails = () => {
 const [smtpData, setSmtpData] = useState()
   const handleGetsmtpdata = () => {
@@ -39,59 +40,64 @@ const [smtpData, setSmtpData] = useState()
          tls: Yup.boolean().oneOf([true], "TLS is required"),
     }), 
     onSubmit: (values) => {
-      if(smtpData){
-        ExportApi.UpdateSMTP(values.smtp_host,values.smtp_port,values.smtp_from_name,values.smtp_email,values.smtp_password,values.encryption_type,values.tls).then((resp) => {
-          if (resp.ok) {
-            if (resp.data.code == 200) {
-              toast.success(resp.data.message, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-              });
-            } else {
-              toast.error(resp.data.message, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-              });
+      loader("show")
+      setTimeout(() => {
+        
+        if(smtpData){
+          ExportApi.UpdateSMTP(values.smtp_host,values.smtp_port,values.smtp_from_name,values.smtp_email,values.smtp_password,values.encryption_type,values.tls).then((resp) => {
+            if (resp.ok) {
+              if (resp.data.code == 200) {
+                loader("hide")
+                toast.success(resp.data.message, {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                });
+              } else {
+                toast.error(resp.data.message, {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                });
+              }
             }
-          }
-        });
-      }else{
-        ExportApi.PostSMTP(values.smtp_host,values.smtp_port,values.smtp_from_name,values.smtp_email,values.smtp_password,values.encryption_type,values.tls).then((resp) => {
-          if (resp.ok) {
-            if (resp.data.code == 200) {
-              toast.success(resp.data.message, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-              });
-            } else {
-              toast.error(resp.data.message, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-              });
+          });
+        }else{
+          ExportApi.PostSMTP(values.smtp_host,values.smtp_port,values.smtp_from_name,values.smtp_email,values.smtp_password,values.encryption_type,values.tls).then((resp) => {
+            if (resp.ok) {
+              if (resp.data.code == 200) {
+                toast.success(resp.data.message, {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                });
+              } else {
+                toast.error(resp.data.message, {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                });
+              }
             }
-          }
-        });
-      }
+          });
+        }
+      }, 1000);
     },
   });
   useEffect(() => {
@@ -99,6 +105,9 @@ const [smtpData, setSmtpData] = useState()
   }, [])
   return (
     <div>
+       <div className="loader" id="custom_loader">
+	        <span className="loader-view"> </span>
+          </div>
       <Row>
         <ToastContainer
           position="top-right"

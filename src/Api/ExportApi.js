@@ -236,10 +236,21 @@ const CreateTemplate = (name, id) =>
       },
     }
   );
-const UpdateTemplate = (subject, id, html, i) =>
+const DeleteTemplate = ( id) =>
+  BaseApi.post(
+    "delete-template",
+    {template_id : id },
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
+const UpdateTemplate = (subject,templateName,eventid, id, html, i) =>
   BaseApi.post(
     "update-template",
-    {
+    {name:templateName,
+      event_id:eventid,
       subject: subject,
       json_description: id,
       description: html,
@@ -607,6 +618,7 @@ export default {
   UserTemplate,
   UserTemplateSandMail,
   CreateTemplate,
+  DeleteTemplate,
   UpdateTemplate,
   CreateRegistrationPage,
   RegistrationPageList,
