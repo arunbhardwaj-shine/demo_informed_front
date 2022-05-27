@@ -134,7 +134,7 @@ const CreateEmail = (props) => {
         setemailCampaign(props.getDraftData.campaign);
         setEmailSubject(props.getDraftData.subject);
         setFinalTags(props.getDraftData.tags);
-
+        setTagClickedFirst(props.getDraftData.tags);
         setTemplateId(props.getDraftData.campaign_data.template_id);
 
         setTimeout(() => {
@@ -363,7 +363,8 @@ const CreateEmail = (props) => {
     if(typeof finalTags != "undefined" && finalTags.length > 0){
       let prev_tags = finalTags;
       let new_tags = prev_tags.concat(tagClickedFirst);
-      setFinalTags(new_tags);
+      const uniqueTags = new_tags.filter((x, i, a) => a.indexOf(x) == i);
+      setFinalTags(uniqueTags);
     }else{
       setFinalTags(tagClickedFirst);
     }
@@ -426,7 +427,13 @@ const CreateEmail = (props) => {
         .then((res) => {
           if (res.data.status_code === 200) {
             setCampaign_id(res.data.response.data.id);
-            toast.success("Draft saved");
+            popup_alert({
+              visible: "show",
+              message: "Your changes has been saved <br />successfully !",
+              type: "success",
+              redirect: "/EmailList",
+            });
+            // toast.success("Draft saved");
           } else {
             toast.warning(res.data.message);
           }
@@ -570,16 +577,21 @@ const CreateEmail = (props) => {
     if (typeof newTag == "undefined" || newTag.trim().length == 0 ) {
       toast.error("Please input a tag");
     } else {
-      setTagClickedFirst((oldArray) => [...oldArray, newTag]);
+      if (!tagClickedFirst.includes(newTag)) {
+        setTagClickedFirst((oldArray) => [...oldArray, newTag]);
+      }else{
+        toast.error("Tag already in list.");
+      }
       setNewTag("");
-
       setTagsCounter(tagsCounter + 1);
     }
   };
 
-  const tagClicked = (event) => {
-    if (!tagClickedFirst.includes(event.target)) {
-      setTagClickedFirst((oldArray) => [...oldArray, event.target]);
+  const tagClicked = (dd) => {
+    if (!tagClickedFirst.includes(dd)) {
+      setTagClickedFirst((oldArray) => [...oldArray, dd]);
+    }else{
+      toast.error("Tag already in list.");
     }
   };
 
@@ -1149,7 +1161,7 @@ const CreateEmail = (props) => {
                   {Object.values(allTags).map((data) => {
                     return (
                       <>
-                        <div onClick={(event) => tagClicked(event)}>
+                        <div onClick={(event) => tagClicked(data)}>
                           {data}{" "}
                         </div>
                       </>
