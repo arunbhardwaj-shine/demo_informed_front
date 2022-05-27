@@ -608,7 +608,7 @@ const EmailArticleSelect = () => {
                           className="select-mail-option"
                           onClick={handleSelect}
                         >
-                          <input type="radio" name="radio" value={data.id} />
+                          <input type="radio" name="radio" value={data.id} checked = {typeof PdfSelected !== "undefined" && PdfSelected == data.id}/>
                           <span className="checkmark"></span>
                         </div>
                       </div>
