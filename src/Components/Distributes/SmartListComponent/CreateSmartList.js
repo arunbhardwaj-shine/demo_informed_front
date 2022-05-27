@@ -306,7 +306,7 @@ const CreateSmartList = () => {
             <div class="download-sample">
               <p>Download sample Excel file to upload new HCPs</p>
               <div class="upload-btn" onClick={downloadFile}>
-                <label for="input-file">Download File</label>
+                Download File
               </div>
             </div>
           </div>
