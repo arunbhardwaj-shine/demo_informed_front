@@ -830,3 +830,22 @@ button.btn.btn-primary.btn.btn-primary.disabled {
   background: rgba(151, 182, 207, 0.6);
   border-color: rgba(151, 182, 207, 0.6);
 }
+#save_new_template_action_modal form .form-group {width: 100%;}
+
+.send-confirm #template_action_modal {max-width: 684px;}
+
+.send-confirm #template_action_modal .modal-body {padding-bottom: 61px;}
+
+.send-confirm #template_action_modal button.light {min-width: 106px;}
+
+#save_new_template_action_modal .modal-body {padding-top: 50px;padding-bottom: 27px;}
+
+#save_new_template_action_modal .modal-body label {font-size: 20px;line-height: 23px;color: #004A89;margin-bottom: 16px;}
+
+#save_new_template_action_modal .modal-body  input {background: #FFFFFF;box-shadow: 0px 1px 8px rgba(0, 102, 190, 0.2);border-radius: 30px;border: 0;height: 48px;}
+
+#save_new_template_action_modal form {max-width: 432px;margin: 0 auto;display: flex;justify-content: center;flex-direction: column;align-items: center;width: 100%;}
+
+#save_new_template_action_modal form button {filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));min-width: 106px;margin-top: 40px;}
+
+#save_new_template_action_modal form .form-group {width: 100%;}
