@@ -85,6 +85,7 @@ const EmailArticleSelect = () => {
 
   const submitHandler = (event) => {
     getContentData(1, 1);
+    setShowFilter(false);
     event.preventDefault();
     return false;
   };
@@ -288,7 +289,7 @@ const EmailArticleSelect = () => {
               </form>
             </div>
 
-            <div className="filter-by nav-item dropdown">
+            <div className={showfilter ? "filter-by nav-item dropdown highlight" : "filter-by nav-item dropdown"}>
               <button
                 className="btn btn-secondary dropdown"
                 type="button"
@@ -607,7 +608,7 @@ const EmailArticleSelect = () => {
                           className="select-mail-option"
                           onClick={handleSelect}
                         >
-                          <input type="radio" name="radio" value={data.id} />
+                          <input type="radio" name="radio" value={data.id} checked = {typeof PdfSelected !== "undefined" && PdfSelected == data.id}/>
                           <span className="checkmark"></span>
                         </div>
                       </div>
