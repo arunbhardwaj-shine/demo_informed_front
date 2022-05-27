@@ -20,6 +20,10 @@ function ResetPassword() {
         old_pass: Yup.string()
           .max(15, "Old Password Must be 15 characters or less")
           .min(8,"must be at least 8 characters")
+          .matches(
+            /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+            "Password must contain one symbol, uppercase and one integer value"
+          )
           .required("Enter your password"),
           new_pass: Yup.string()
           .matches(
@@ -28,8 +32,8 @@ function ResetPassword() {
           )
             .required("Enter your password"),
           confirm_pass: Yup.string()
-          .oneOf([Yup.ref("new_pass"), null], "Passwords must match")
-            .min(8, "Must be 8 characters or less")
+          .oneOf([Yup.ref("new_pass"), null], "Confirm password does not match")
+            .min(8, "must be at least 8 characters")
             .required("Enter your password"),
       }),
       onSubmit: (values) => {
@@ -101,6 +105,7 @@ function ResetPassword() {
        type="password"
        onChange={formik.handleChange}
        onBlur={formik.handleBlur}
+       placeholder="New Password"
        value={formik.values.new_pass}
        />
           {formik.touched.new_pass && formik.errors.new_pass ? (
@@ -114,6 +119,7 @@ function ResetPassword() {
        type="password"
        onChange={formik.handleChange}
        onBlur={formik.handleBlur}
+       placeholder="Confirm Password"
        value={formik.values.confirm_pass}
        />
           {formik.touched.confirm_pass && formik.errors.confirm_pass ? (

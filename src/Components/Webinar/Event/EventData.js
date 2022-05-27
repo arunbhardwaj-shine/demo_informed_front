@@ -33,10 +33,13 @@ const EventData = () => {
   };
   const handleGetEventlistSerch = (data) => {
     ExportApi.GetEventListSerch(data).then((resp) => {
+      console.log(resp);
       if (resp.data.code == 200) {
-        console.log(resp);
+        // console.log(resp);
         console.log(resp.data.data);
         setEvent(resp.data.data);
+      } else {
+        setEvent([]);
       }
     });
   };
@@ -563,43 +566,47 @@ const EventData = () => {
                 Create New Webinar/Event
               </Button>
             </div>
-            {event.map((event) => {
-              return (
-                <>
-                  <div
-                    class="smartlist-view email_box"
-                    style={{ margin: "8px" }}
-                  >
-                    <div class="mail-box-content">
-                      <h5>{event.title}</h5>
+            {event.length > 0 ? (
+              event.map((event) => {
+                return (
+                  <>
+                    <div
+                      class="smartlist-view email_box"
+                      style={{ margin: "8px" }}
+                    >
+                      <div class="mail-box-content">
+                        <h5>{event.title}</h5>
 
-                      <div class="mail-time">
-                        <span>{event.event_date}</span>
-                      </div>
-                      <div class="smart-list-added-user">
-                        {event.days_left} days left
-                      </div>
+                        <div class="mail-time">
+                          <span>{event.event_date}</span>
+                        </div>
+                        <div class="smart-list-added-user">
+                          {event.days_left} days left
+                        </div>
 
-                      <div class="mail-stats">
-                        {deletestatus && (
-                          <div className="dlt_btn">
-                            <button
-                              onClick={(e) => showConfirmationPopup(event.id)}
-                            >
-                              <img
-                                src={path_image + "delete.svg"}
-                                alt="Delete Row"
-                              />
-                            </button>
-                          </div>
-                        )}
+                        <div class="mail-stats">
+                          {deletestatus && (
+                            <div className="dlt_btn">
+                              <button
+                                onClick={(e) => showConfirmationPopup(event.id)}
+                              >
+                                <img
+                                  src={path_image + "delete.svg"}
+                                  alt="Delete Row"
+                                />
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                        <div class="smartlist-buttons"></div>
                       </div>
-                      <div class="smartlist-buttons"></div>
                     </div>
-                  </div>
-                </>
-              );
-            })}
+                  </>
+                );
+              })
+            ) : (
+              <h1>No data found</h1>
+            )}
           </div>
         </div>
       </div>

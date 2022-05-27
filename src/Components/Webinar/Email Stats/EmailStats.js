@@ -19,61 +19,56 @@ function EmailStats() {
     ExportApi.GetEventList().then((resp) => {
       if (resp.ok) {
         setEvent(resp.data.data);
-        if(eventId==null||eventId==undefined){
-          setEventId(resp.data.data[0].id)
-          handleGetParticipantPage(resp.data.data[0].id)
-          }
+        if (eventId == null || eventId == undefined) {
+          setEventId(resp.data.data[0].id);
+          handleGetTemplateList(resp.data.data[0].id);
+          handleGetParticipantPage(resp.data.data[0].id);
+        }
       }
     });
   };
   const handleGetTemplateList = (id) => {
-    eId=id
+    eId = id;
     ExportApi.UserTemplateList(id).then((resp) => {
       if (resp.ok) {
-        // console.log(resp.data.data);
-        if(templateId==null||templateId==undefined){
-          console.log(id)
-          setEventId(id)
-          handleGetEmaildata(resp.data.data[0].id)
-          setTemplateId(resp.data.data[0].id)
+        console.log(resp.data.data);
+        if (templateId == null || templateId == undefined) {
+          console.log(id);
+          setEventId(id);
+          handleGetEmaildata(resp.data.data[0].id);
+          setTemplateId(resp.data.data[0].id);
         }
         setTemplateList(resp.data.data);
-
       }
     });
   };
   const handleGetEmaildata = (id) => {
-    loader("show")
+    loader("show");
     setTimeout(() => {
       ExportApi.EmailStatss(eId, id).then((resp) => {
         if (resp.ok) {
-          loader("hide")
+          loader("hide");
           // console.log(resp.data.data.data);
           setEmailData(resp.data.data.data);
           setPaginate(resp.data.data.paginate);
-          setLabel(resp.data.data.paginate.label)
+          setLabel(resp.data.data.paginate.label);
           setCurrentPage(resp.data.data.paginate.currentPage);
         }
       });
     }, 2000);
   };
   const handleGetParticipantPage = (id) => {
-    
-    ExportApi.EmailStatsPage(id,eventId,tempId).then(
-      (resp) => {
-        if (resp.ok) {
-          console.log(resp.data);
-          if (resp.data.code === 404) {
-                 
-          } else {
-        
-            setPaginate(resp.data.data.paginate);
-            setCurrentPage(resp.data.data.paginate.currentPage);
-            setEmailData(resp.data.data.data);
-          }
+    ExportApi.EmailStatsPage(id, eventId, tempId).then((resp) => {
+      if (resp.ok) {
+        console.log(resp.data);
+        if (resp.data.code === 404) {
+        } else {
+          setPaginate(resp.data.data.paginate);
+          setCurrentPage(resp.data.data.paginate.currentPage);
+          setEmailData(resp.data.data.data);
         }
       }
-    );
+    });
   };
 
   useEffect(() => {
@@ -82,9 +77,9 @@ function EmailStats() {
   return (
     <div>
       <Row>
-      <div className="loader" id="custom_loader">
-	        <span className="loader-view"> </span>
-          </div>
+        <div className="loader" id="custom_loader">
+          <span className="loader-view"> </span>
+        </div>
         <ToastContainer
           position="top-right"
           autoClose={5000}
@@ -117,23 +112,24 @@ function EmailStats() {
               </Form.Select>
             </Col>
             <Col>
-                  <Form.Label>Select Template </Form.Label>
-                  <Form.Select
-                  value={templateId}
-                    onChange={(e) => {
-                      setTemplateId(e.target.value)
-                      handleGetEmaildata(e.target.value);
-                    }}
-                    name="type"
-                  >
-                    <option> Select template</option>
-                    {templateList
-                      ? templateList?.map((val, i) => (
-                          <React.Fragment key={i}>
-                            <option value={val.id}>{val.name}</option>
-                          </React.Fragment>
-                        )):null}
-                  </Form.Select>
+              <Form.Label>Select Template </Form.Label>
+              <Form.Select
+                value={templateId}
+                onChange={(e) => {
+                  setTemplateId(e.target.value);
+                  handleGetEmaildata(e.target.value);
+                }}
+                name="type"
+              >
+                <option> Select template</option>
+                {templateList
+                  ? templateList?.map((val, i) => (
+                      <React.Fragment key={i}>
+                        <option value={val.id}>{val.name}</option>
+                      </React.Fragment>
+                    ))
+                  : null}
+              </Form.Select>
             </Col>
           </Row>
           <Row>
@@ -149,11 +145,9 @@ function EmailStats() {
                   <th>Email</th>
                   <th>Sent</th>
                   <th>Read</th>
-                   {Label?.map((val,i)=>{
-                     return (
-                       <th>{val}</th>
-                     )
-                     })}
+                  {Label?.map((val, i) => {
+                    return <th>{val}</th>;
+                  })}
                   {/* {Object.entries(EmailData?EmailData[0].opened_linked:null)?.map(([key, value]) => {
               return (
                   <th>{key && key}</th>
@@ -166,13 +160,11 @@ function EmailStats() {
                   <tr key={i}>
                     <td>{val.name}</td>
                     <td>{val.email}</td>
-                    <td>{val.is_sent==1?"Yes":"No"}</td>
-                    <td>{val.is_read==1?"Yes":"No"}</td>
+                    <td>{val.is_sent == 1 ? "Yes" : "No"}</td>
+                    <td>{val.is_read == 1 ? "Yes" : "No"}</td>
                     {Object.entries(val.opened_linked)?.map(([key, value]) => {
-              return (
-                  <td>{value}</td>
-              );
-            })}    
+                      return <td>{value}</td>;
+                    })}
                   </tr>
                 ))}
               </tbody>

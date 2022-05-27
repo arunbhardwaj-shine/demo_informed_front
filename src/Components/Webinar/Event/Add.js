@@ -20,7 +20,8 @@ function Add(props) {
   const [country, setCountry] = useState([]);
   const [Timezoneregion, setTimezoneregion] = useState([]);
   const handleMaltiInputAdd = () => {
-    let email_pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+    let email_pattern =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     let name_pattern = /^[a-zA-Z ]{2,30}$/;
     const status = Speakername.map((data) => {
       console.log(data.email);
@@ -108,7 +109,8 @@ function Add(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let email_pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+    let email_pattern =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     let name_pattern = /^[a-zA-Z ]{2,30}$/;
     const status = Speakername.map((data) => {
       console.log(data.email);
@@ -118,11 +120,11 @@ function Add(props) {
         // !data.email.match(email_pattern) ||
         // !data.name.match(name_pattern)
       ) {
-        toast.error("Please specify the name");
+        toast.error("Please specify the speaker name");
 
         return "false";
       } else if (data.email == "") {
-        toast.error("Please specify the email");
+        toast.error("Please specify the speaker email");
         return "false";
       } else if (!data.name.match(name_pattern)) {
         toast.error("Please specify the valid name");
