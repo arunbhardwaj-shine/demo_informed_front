@@ -27,6 +27,9 @@
 		margin-bottom: 0;
 	}
 	.smartlist-result-block .smartlist_box_block { width: 33.3%; } 
+	.smartlist-result-block .not_found {
+		width: 66.6%;
+	}
 	.form-inline .form-group input { max-width: 400px; } 
 	.form-inline .form-group input#email-address { max-width: 315px; }
 }
@@ -122,7 +125,7 @@
 	 .dropdown-menu.filter-options .accordion .card .collapse, .dropdown-menu.filter-options .accordion .card .collapsing { margin-top: -38px; padding-top: 39px; } 
 	 .dropdown-menu.filter-options .accordion { padding-right: 5px; } 
 	 .filter-footer button.btn-bordered, .filter-footer button.btn-filled { font-size: 14px; line-height: 19px; min-width: 96px; padding: 8px 12px; } 
-	 .smartlist-add { min-height: initial; height: 100%; } 
+	 .smartlist-add { min-height: 320px; height: 100%; } 
 	 .smartlist-add p { font-size: 16px; line-height: 19px; margin: 9px 0 0; } 
 	 .create-smart-step-box ul li .send-option-img { width: 154px; height: 154px; margin: 0 auto; } 
 	 .create-smart-step-box ul li p { margin: 16px 0 12px; font-size: 16px; line-height: 18px; } 
@@ -137,6 +140,23 @@
 	 @media only screen and (max-width:1365px){ 
 		#add_hcp .modal-body .hcp-add-form form .form-group button {
 			height: 41px;
+		}
+		.search-bar form.d-flex input, .filter-by button {
+			height: 36px;
+		}
+		.filter-by button {
+			padding: 9px 26px;
+		}
+		.clear-search button {
+			width: 36px;
+			padding: 4px;
+			height: 36px;
+		}
+		.clear-search button svg {
+			width: 22px;
+		}
+		.smartlist-result-block .not_found {
+			font-size: 22px;
 		}
 		 .mailbox-tags ul li { font-size: 10px; line-height: 11px; padding: 2px 4px; margin: 0 5px 5px 0; } 
 		 .email-block-add img, .smartlist-add.smartlist-view img { max-width: 50px; } 
@@ -169,7 +189,7 @@
 		.page-top-nav .col-md-2 { padding-left: 0; } 
 		.header-btn { display: flex; align-items: center; justify-content: flex-end; } 
 		.search-hcp { padding-top: 10px; } 
-		.page-top-nav .btn.btn-primary { padding: 10px 5px; } 
+		.page-top-nav .btn.btn-primary { padding: 10px 9px; } 
 		.search-hcp-table table td, .selected-hcp-list table td { padding: 20px 8px; }
 		.selected-hcp-list { width: 100%; overflow-y: auto; padding: 0 3px; } 
 		.btn.btn-primary { min-width: 54px; } 

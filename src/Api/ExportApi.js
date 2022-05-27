@@ -552,6 +552,19 @@ const getSMTP = () =>
       },
     }
   );
+
+const getSmartListData = (id, search, filter) => {
+  BaseApi.get(
+    `get_smart_list`,
+    { id: id, search: search, filter: filter },
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
+};
+
 ///....chart....//
 const getEmailStatsChart = (eventid, templateId) =>
   BaseApi.get(
@@ -612,4 +625,5 @@ export default {
   getSMTP,
   UpdateSMTP,
   getEmailStatsChart,
+  getSmartListData,
 };

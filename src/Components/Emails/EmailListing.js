@@ -87,16 +87,16 @@ const EmailList = (props) => {
   }, []);
 
   const showViewEmailModal = (data) => {
-    let id = data.id;
+    let id = data;
     if (typeof SendListData !== "undefined") {
       let getSpecificKeyData = SendListData.filter((p) => p.id == id);
-      let vakueupdate = options_ch;
-      vakueupdate.series[0].data = [
+      let valueupdate = options_ch;
+      valueupdate.series[0].data = [
         getSpecificKeyData[0].total_Sent,
         getSpecificKeyData[0].total_Opened,
         getSpecificKeyData[0].total_Click,
       ];
-      setOptions_ch(vakueupdate);
+      setOptions_ch(valueupdate);
       setviewEmailData(getSpecificKeyData);
     }
     hideModal();
@@ -1126,7 +1126,7 @@ const EmailList = (props) => {
 
                               <button
                                 className="btn btn-primary btn-filled edit"
-                                onClick={(e) => showViewEmailModal(data)}
+                                onClick={(e) => showViewEmailModal(data.id)}
                               >
                                 View
                               </button>
