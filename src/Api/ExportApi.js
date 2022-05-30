@@ -448,13 +448,14 @@ const EmailSandRegisteredType = (type, event_id, user_type) =>
       },
     }
   );
-const sandAllmaik = (template_id, participants, registeredNonRegistered) =>
+const sandAllmaik = (template_id, participants, registeredNonRegistered,Templatesubject) =>
   BaseApi.post(
     `send-mail`,
     {
       template_id: template_id,
       participants: participants,
       type: registeredNonRegistered,
+      subject:Templatesubject
     },
     {
       headers: {

@@ -46,11 +46,13 @@ function Add(props) {
       }
     });
 
-    //console.log(status);
+    console.log(status);
 
     if (status.every((element) => element == "true")) {
       setSpeakerName([...Speakername, { name: "", email: "" }]);
     }
+
+    // setSpeakerName([...Speakername, { name: "", email: "" }]);
   };
   const [token, setToken] = useState(localStorage.getItem("Token"));
   let navigate = useNavigate();
@@ -139,11 +141,7 @@ function Add(props) {
       formik.handleSubmit();
     }
   };
-  // const handleReset = (resetForm) => {
-  //   if (!window.confirm('Reset?')) {
-  //
-  //   }
-  // };
+
   const formik = useFormik({
     initialValues: {
       EventTitle: "",
@@ -201,6 +199,7 @@ function Add(props) {
         )
           .then((resp) => {
             if (resp.data) {
+              console.log(resp.data);
               //console.log(resp.data);
               if (resp.data.code == 200) {
                 toast.success(resp.data.message, {
@@ -232,6 +231,7 @@ function Add(props) {
       }
 
       props.closePopup();
+      toast.success("Data added successfully");
       props.getEventList();
     },
   });
@@ -268,10 +268,7 @@ function Add(props) {
         <div>
           <h2>Create Event </h2>
           <div>
-            <form
-              onReset={formik.handleReset}
-              onSubmit={(e) => handleSubmit(e)}
-            >
+            <form onReset={formik.handleReset} onSubmit={handleSubmit}>
               <Form.Group
                 as={Row}
                 className="mb-3"

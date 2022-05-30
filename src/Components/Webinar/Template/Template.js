@@ -8,6 +8,7 @@ import { toast, ToastContainer } from "react-toastify";
 import CreateTemplate from "./CreateTemplate";
 import { Testmail } from "./Testmail";
 import Delete from './../Readers/Delete.jpg'
+import { loader } from "../../../loader";
 const Template = () => {
   const [testMail, SetTestMail] = useState(false);
   const [event, setEvent] = useState([]);
@@ -37,6 +38,7 @@ const Template = () => {
     }),
     enableReinitialize: true,
     onSubmit: (values) => {
+      loader("show")
       const exportHtml = async () => {
         emailEditorRef.current.editor.exportHtml((data) => {
           const { design, html } = data;
@@ -52,6 +54,7 @@ const Template = () => {
           ).then((resp) => {
             if (resp.ok) {
               if (resp.data.code == 200) {
+                loader("hide")
                 setDpc();
                 setModalShow(false);
                 toast.success(resp.data.message, {
@@ -85,6 +88,8 @@ const Template = () => {
     ExportApi.GetEventList().then((resp) => {
       if (resp.ok) {
         setEvent(resp.data.data);
+        setEventId(resp.data.data[0].id)
+        handleGetTemplateList(resp.data.data[0].id)
       }
     });
   };
@@ -147,6 +152,9 @@ const Template = () => {
   }, []);
   return (
     <div>
+       <div className="loader" id="custom_loader">
+	        <span className="loader-view"> </span>
+          </div>
       <Row>
         <ToastContainer
           position="top-right"
@@ -166,6 +174,7 @@ const Template = () => {
               <Form.Label>Select Event </Form.Label>
               <Form.Select
                 name="type"
+                value={eventid}
                 onChange={(e) => {
                   handleGetTemplateList(e.target.value);
                   setTemplateList(null);

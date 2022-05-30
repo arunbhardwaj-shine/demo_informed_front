@@ -7,6 +7,7 @@ import "../webinar.css";
 import { toast, ToastContainer } from "react-toastify";
 import CreateRegistration from "./CreateRegistration";
 import { Link } from "react-router-dom";
+import { loader } from "../../../loader";
 const Registration = () => {
   const [eventid, setEventId] = useState();
   const [event, setEvent] = useState([]);
@@ -59,7 +60,10 @@ const Registration = () => {
   const handleGetEventlist = () => {
     ExportApi.GetEventList().then((resp) => {
       if (resp.ok) {
+        loader("hide")
         setEvent(resp.data.data);
+        setEventId(resp.data.data[0].id)
+        handleGetRegistrationPageList(resp.data.data[0].id)
       }
     });
   };
@@ -149,10 +153,14 @@ const Registration = () => {
     },
   });
   useEffect(() => {
+    loader("show")
     handleGetEventlist();
   }, []);
   return (
     <div>
+       <div className="loader" id="custom_loader">
+	        <span className="loader-view"> </span>
+          </div>
       <Row>
         <ToastContainer
           position="top-right"
@@ -173,6 +181,7 @@ const Registration = () => {
                 <Form.Label>Select Event </Form.Label>
                 <Form.Select
                   name="type"
+                  value={eventid}
                   onChange={(e) => {
                     handleGetRegistrationPageList(e.target.value);
                     setEventId(e.target.value);
