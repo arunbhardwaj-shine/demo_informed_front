@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Form, Modal, Row, Table } from "react-bootstrap";
+import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import ExportApi from "../../../Api/ExportApi";
 import { useFormik } from "formik";
 import "../webinar.css";
-import { Link } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+
+import { toast } from "react-toastify";
 import axios from "axios";
 import { loader } from "../../../loader";
-import { date } from "yup";
+
 import Add from "./Add";
 const EventData = () => {
   const [event, setEvent] = useState([]);
   const [deletestatus, setDeleteStatus] = useState(false);
-  const [message, setMessage] = useState();
+
   const [eventdata, setEventData] = useState([]);
   const [SpDataSingle, setSpDataSingle] = useState();
   const [show, setShow] = useState(false);
@@ -437,27 +437,19 @@ const EventData = () => {
 
         <div class="smart-list-result">
           <div class="col smartlist-result-block">
-            {/* <Button
-                onClick={() => {
-                  setShow(true);
-                }}
-              >
-
-
-                Create New Webinar/Event
-              </Button> */}
-
             <div className="smartlist_box_block">
               <div className="smartlist-add smartlist-view">
                 {
                   <>
-                    <Link
-                      to="/CreateSmartList"
+                    <Button
+                      onClick={() => {
+                        setShow(true);
+                      }}
                       // state={{ creator: getUserDetails.username }}
                     >
                       <img src={path_image + "add-button.svg"} alt="" />
-                    </Link>
-                    <p>Create New Smart List</p>
+                    </Button>
+                    <p> Create New Webinar/Event</p>
                   </>
                 }
               </div>

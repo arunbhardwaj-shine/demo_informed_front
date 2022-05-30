@@ -18,10 +18,8 @@ function Add(props) {
   const [country, setCountry] = useState([]);
   const [Timezoneregion, setTimezoneregion] = useState([]);
   const handleMaltiInputAdd = () => {
-
-      setSpeakerName([...Speakername, { name: "", email: "" }]);
-      setSpeakerErr([...SpeakerErr, { name: "", email: "" }]);
-    
+    setSpeakerName([...Speakername, { name: "", email: "" }]);
+    setSpeakerErr([...SpeakerErr, { name: "", email: "" }]);
 
     // setSpeakerName([...Speakername, { name: "", email: "" }]);
   };
@@ -125,7 +123,7 @@ function Add(props) {
         copydataErr.email = "email is requred  ";
         setSpeakerErr([...SpeakerErr]);
       }
-      else if (
+      if (
         !Speakername[index].email.match(
           /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i
         )
@@ -137,9 +135,7 @@ function Add(props) {
       }
     }
 
-
-      // formik.handleSubmit();
-    
+    return err;
   };
 
   const formik = useFormik({
@@ -172,64 +168,62 @@ function Add(props) {
     //    resetForm({values:''})
     //     },
     onSubmit: (values) => {
-      if(handleSubmit()){
+      if (handleSubmit()) {
+        var today = new Date(values.event_date);
+        var dd = String(today.getDate()).padStart(2, "0");
+        var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+        var yyyy = today.getFullYear();
+        let dateData = dd + "/" + mm + "/" + yyyy;
 
-      
-      var today = new Date(values.event_date);
-      var dd = String(today.getDate()).padStart(2, "0");
-      var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-      var yyyy = today.getFullYear();
-      let dateData = dd + "/" + mm + "/" + yyyy;
+        let a = JSON.stringify(Speakername);
 
-      let a = JSON.stringify(Speakername);
-
-      if (values.event_start_time >= values.eventendtime) {
-        setMassage("End time has to be greater start time");
-      } else {
-        setMassage(false);
-        loader("show");
-        ExportApi.CreatEvent(
-          values.EventTitle,
-          Speakername[0].name && Speakername[0].email ? a : null,
-          values.event_start_time,
-          values.eventendtime,
-          values.Timezone,
-          values.code,
-          values.Bu,
-          dateData,
-          values.Description,
-          values.Region,
-          values.Country
-        )
-          .then((resp) => {
-            if (resp.data) {
-              console.log(resp.data);
-              //console.log(resp.data);
-              if (resp.data.code == 200) {
-                loader("hide");
-                console.log(typeof resp.data.message);
-                toast.success(resp.data.message);
-              } else {
-                toast.error(resp.data.message, {
-                  position: "top-right",
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                });
+        if (values.event_start_time >= values.eventendtime) {
+          setMassage("End time has to be greater start time");
+        } else {
+          setMassage(false);
+          loader("show");
+          ExportApi.CreatEvent(
+            values.EventTitle,
+            Speakername[0].name && Speakername[0].email ? a : null,
+            values.event_start_time,
+            values.eventendtime,
+            values.Timezone,
+            values.code,
+            values.Bu,
+            dateData,
+            values.Description,
+            values.Region,
+            values.Country
+          )
+            .then((resp) => {
+              if (resp.data) {
+                console.log(resp.data);
+                //console.log(resp.data);
+                if (resp.data.code == 200) {
+                  loader("hide");
+                  console.log(typeof resp.data.message);
+                  toast.success(resp.data.message);
+                } else {
+                  toast.error(resp.data.message, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                  });
+                }
               }
-            }
-          })
-          .catch((err) => console.log(err));
-      }
+            })
+            .catch((err) => console.log(err));
+        }
 
-      props.closePopup();
-      toast.success("Data added successfully");
-      props.getEventList();}
+        props.closePopup();
+        toast.success("Data added successfully");
+        props.getEventList();
+      }
     },
-  
   });
   var today = new Date();
   var dd = String(today.getDate()).padStart(2, "0");
@@ -311,9 +305,9 @@ function Add(props) {
                           }}
                         />
                         <div style={{ color: "red" }}>
-                        {/* {formik.errors.Timezone} */}
-                        {SpeakerErr[i].name}
-                      </div>
+                          {/* {formik.errors.Timezone} */}
+                          {SpeakerErr[i].name}
+                        </div>
                       </Col>
                       <div className="mt-2"></div>
                       <Form.Label column sm={2}>
