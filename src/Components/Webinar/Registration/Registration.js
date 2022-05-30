@@ -14,6 +14,7 @@ const Registration = () => {
   const [registrationPageList, setRegistrationPageList] = useState();
   const [template, setTemplate] = useState();
   const [editdata, setEditdata] = useState();
+  const [UrlAlias, setUrlAlias] = useState();
   const [errimage, setErrimage] = useState(false);
   const [massage, setMassage] = useState("Please Select Event");
   const [modalShow, setModalShow] = useState(false);
@@ -310,17 +311,14 @@ const Registration = () => {
                       <Form.Label>Url Alias </Form.Label>
                       <Form.Control
                         name="url"
-                        onChange={formik.handleChange}
+                        onChange={(e)=>setUrlAlias(e.target.value)}
                         onBlur={formik.handleBlur}
                         value={formik.values.url}
                         type="text"
                         placeholder="url"
                       />
                       <div>
-                        (Url will be like: https://abc.com/event-name/url-alias
-                        <br />
-                        Example:
-                        https://informed.pro/WFH-2022/virtual-symposium)
+                       {UrlAlias}
                       </div>
                       {formik.touched.url && formik.errors.url ? (
                         <div style={{ color: "red" }}>{formik.errors.url}</div>
