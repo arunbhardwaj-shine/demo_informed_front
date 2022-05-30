@@ -1055,10 +1055,9 @@ const ViewTable = (props) => {
                 {newData.map((item) => (
                   <tr
                     className="hcps-added"
-                    contenteditable={editable === 0 ? "false" : "true"}
                     onInput={(e) => editing(e, item.profile_id)}
                   >
-                    <td>
+                    <td  contenteditable={editable === 0 ? "false" : "true"}>
                       {inEditMode.status &&
                       inEditMode.rowKey === item.profile_id ? (
                         <input
@@ -1083,7 +1082,7 @@ const ViewTable = (props) => {
                       )}
                     </td>
                     <td>No</td>
-                    <td>
+                    <td  contenteditable={editable === 0 ? "false" : "true"}>
                       {inEditMode.status &&
                       inEditMode.rowKey === item.profile_id ? (
                         <input
@@ -1114,7 +1113,7 @@ const ViewTable = (props) => {
                 {editList.map((item, index) => (
                   <tr
                     id={`row-selected` + index}
-                    contenteditable={editable === 0 ? "false" : "true"}
+                   
                     onClick={(e) =>
                       editing(
                         //  e.currentTarget,
@@ -1129,13 +1128,13 @@ const ViewTable = (props) => {
                       )
                     }
                   >
-                    <td id={`field_name` + index}>
+                    <td id={`field_name` + index}  contenteditable={editable === 0 ? "false" : "true"}>
                       <span> {item.first_name + " " + item.last_name} </span>
                     </td>
 
                     <td id={`field_email` + index}>{item.email}</td>
                     <td id={`field_bounced` + index}>NA</td>
-                    <td id={`field_country` + index}>
+                    <td id={`field_country` + index}  contenteditable={editable === 0 ? "false" : "true"}>
                       <span>{item.country}</span>
                     </td>
                     {/*showLessInfo == false ? (
