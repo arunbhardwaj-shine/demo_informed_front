@@ -1370,24 +1370,26 @@ const ViewTable = (props) => {
                   })}
                 </form>
                 <form id="add_file" className={"tab-pane" + activeExcel}>
-                  <div className="upload-file-box">
-                    <div className="box">
-                      <input
-                        type="file"
-                        name="file-4[]"
-                        id="file-4"
-                        class="inputfile inputfile-3"
-                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                        onChange={onFileChange}
-                        data-multiple-caption="{count} files selected"
-                        multiple
-                        // ref={file_name}
-                      />
+                  <div class="file_upload-box">
+                      <div className="upload-file-box">
+                        <div className="box">
+                          <input
+                            type="file"
+                            name="file-4[]"
+                            id="file-4"
+                            class="inputfile inputfile-3"
+                            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                            onChange={onFileChange}
+                            data-multiple-caption="{count} files selected"
+                            multiple
+                            // ref={file_name}
+                          />
 
-                    {(file_name.current?.files===undefined || file_name.current.files?.length===0 )? <><label for="file-4"><span>Choose Your File</span></label>
-                      <p>Upload your excel file</p></> : <h5>{file_name.current.files[0].name}</h5> }
+                        {(file_name.current?.files===undefined || file_name.current.files?.length===0 )? <><label for="file-4"><span>Choose Your File</span></label>
+                          <p>Upload your excel file</p></> : <h5>{file_name.current.files[0].name}</h5> }
+                        </div>
+                      </div>
                     </div>
-                  </div>
                 </form>
               </div>
               <div className="hcp-modal-action">

@@ -36,6 +36,9 @@
 @media only screen and (max-width:1450px){
 	.page-title h2 { font-size: 30px; line-height: 38px; } 
 	.table-title .selected-hcp-table-action a.show-less-info { font-size: 14px; line-height: 16px; } 
+	a.show-less-info p:after {
+		line-height: 11px;
+	}
 	.filter-block .filter-div .filter-result { padding: 3px 9px 3px 12px; margin: 0 10px 10px 0; font-size: 12px; line-height: 14px; } 
 	.filter-div .filter-result img { margin-left: 10px; } 
 	#accordion-smart .card-body { padding: 0 10px 14px; } 
@@ -81,7 +84,7 @@
 	.search-hcp-table-inside { width:100%; overflow-y: auto; overflow-x: auto; } 
 	.segmentation-button .btn.btn-primary, .form-search-hcp .form-button .btn, #tagsModal .modal-footer form .form-group .btn, #tagsModal .modal-footer .save.btn, .send-confirm .modal-body .modal-buttons button, #mail-view .mail-view-btn .btn, .form-buttons .btn.btn-large, .form-buttons .btn-primary { font-size: 14px; }
 	 #tagsModal .modal-footer form .form-group label, .smartlist-buttons button.btn { font-size: 16px; } 
-	 .search-hcp-table table td:first-child, .selected-hcp-list table td:first-child { width: 110px; display: flex; } 
+	 /* .search-hcp-table table td:first-child, .selected-hcp-list table td:first-child { width: 110px; display: flex; }  */
 	 .selected-hcp-list .table tr.seprator-add td { display: table-cell; } 
 	 .form-buttons .approved-btn, .form-buttons .btn.btn-large { padding: 10px 20px; } 
 	 form .input-group { padding: 16px 20px; } 
@@ -214,7 +217,7 @@
 			font-size: 22px;
 		}
 		.input-group-prepend::after {
-			left: 147px;
+			left: 142px;
 		}
 		 .mailbox-tags ul li { font-size: 10px; line-height: 11px; padding: 2px 4px; margin: 0 5px 5px 0; } 
 		 .email-block-add img, .smartlist-add.smartlist-view img { max-width: 50px; } 

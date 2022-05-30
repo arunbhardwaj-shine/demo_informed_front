@@ -353,7 +353,7 @@ const SelectSmartList = (props) => {
                         </ul>
                       </div> */}
                         <div className="smartlist-buttons">
-                          <button className="btn btn-primary btn-bordered view">
+                          <button className="btn view">
                            <a href={"/ViewSmartList?listId="+template.id} className="color_blue" target="_blank">View</a>
                           </button>
                         </div>
