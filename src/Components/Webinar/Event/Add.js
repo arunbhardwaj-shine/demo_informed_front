@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import "../webinar.css";
 import { toast, ToastContainer } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
+import { loader } from "../../../loader";
 function Add(props) {
   const [render, setRerender] = useState(0);
   const [SpeakerErr, setSpeakerErr] = useState([{ name: "", email: "" }]);
@@ -166,7 +167,6 @@ function Add(props) {
     //     },
     onSubmit: (values) => {
       if (handleSubmit()){
-        alert("okk");
         var today = new Date(values.event_date);
         var dd = String(today.getDate()).padStart(2, "0");
         var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
@@ -236,6 +236,9 @@ function Add(props) {
 
   return (
     <Row>
+      <div className="loader" id="custom_loader">
+        <span className="loader-view"> </span>
+      </div>
       <Col md={{ span: 6, offset: 3 }}>
         <Link to="/webinar/event/edit"></Link>
         <div>

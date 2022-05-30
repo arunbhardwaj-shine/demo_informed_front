@@ -63,7 +63,7 @@ header { position: sticky; top: 0; z-index: 9; }
 .filter-by button svg { margin-left: 38px; }
 .search-bar form.d-flex button {border: 0;background: transparent;position: absolute;right: 0;top: 0;padding: 11px;height: 100%;border-radius: 0 20px 20px 0; width: 46px;}
 .search-bar form.d-flex input { width: 279px; background: var(--white); border-radius: 30px; box-shadow: 0px 2px 10px 0px rgb(0 102 190 / 15%); border: 0; padding: 13px 44px 13px 24px; font-weight: 400; font-size: 13px; line-height: 15px; color: var(--blue); height: 40px; margin: 0!important; }
-.search-bar form.d-flex input:focus{ /*filter: drop-shadow(0px 0px 5px rgba(0, 102, 190, 0.87));*/box-shadow: 0px 2px 10px -3px rgb(0 102 190 / 60%); }
+.search-bar form.d-flex input:focus{ /*filter: drop-shadow(0px 0px 5px rgba(0, 102, 190, 0.87));*/box-shadow: 0px 0px 6px 0px rgb(0 102 190 / 60%); }
 .search-bar form.d-flex { position: relative; }
 .filter-by, .clear-search { margin-left: 24px; }
 .search-bar input::-webkit-input-placeholder { color: var(--skyblue); opacity:1; }
@@ -306,7 +306,7 @@ form .input-group { /*border: 1px dashed var(--light-blue);*/ background-image:u
 .selected-hcp-list table tr td:nth-last-child(2) { border-radius: 0px 13px 13px 0px; }
 .table tr:hover td.add-new-hcp { background: transparent; }
 .table tr[contenteditable="true"]{ outline: 1px solid #b5b5b5; }
-.table tr[contenteditable="true"] td span { background: #dadada; color: #70899E; border-radius: 4px; padding: 1 3px; }
+.table td[contenteditable="true"] span { background: #dadada; color: #70899E; border-radius: 4px; padding: 1 3px; }
 .form-search-hcp .form-inline .form-group input { width: calc(100% - 77px); }
 .selected-hcp-list tbody td span, .search-hcp-table tbody td span { color: var(--light-blue); }
 .search-hcp-table .add-new-hcp, .result-hcp-table .add-new-hcp  { position: absolute; right: 17px; top: 57px; background: transparent; }
@@ -644,9 +644,10 @@ form#add_hcp_form .row:not(:first-child) { border-top: 1px dashed var(--light-bl
 
 /**Upload Modal**/
 #upload-confirm .modal-dialog { max-width: 576px; }
-#upload-confirm .upload-file-box { border: 1px dashed var(--light-blue); box-sizing: border-box; border-radius: 15px; padding: 31px 28px; max-width: 500px; margin: 0 auto;}
+#upload-confirm .upload-file-box { width:100%;border: 1px dashed var(--light-blue); box-sizing: border-box; border-radius: 15px; padding: 31px 28px; max-width: 500px; margin: 0 auto;}
 #upload-confirm  .inputfile { width: 0.1px; height: 0.1px; opacity: 0; overflow: hidden; position: absolute; z-index: -1; }
 #upload-confirm .inputfile ~ label { max-width: 80%; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; display: inline-block; overflow: hidden; padding: 11px; background: var(--light-blue); border-radius: 30px; color: var(--white) !important; font-size: 16px; line-height: 1; font-family: 'Roboto-medium'; font-weight: 500; min-width: 171px; text-align: center; height: 39px; }
+#upload-confirm .inputfile ~ label:hover{background: var(--blue);} 
 #upload-confirm.send-confirm .modal-body { padding: 0 32px 24px; }
 #upload-confirm .upload-file-box .box { display: flex; justify-content: space-between; flex-direction: row-reverse; align-items: center;width:100%; }
 #upload-confirm .upload-file-box .box p { margin: 0; font-size: 18px; line-height: 145.19%; color: #70899E; }
@@ -879,3 +880,29 @@ button.btn.btn-primary.btn.btn-primary.disabled {
   line-height: 1;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-background-color: 0 0 0 30px white inset !important;
+    transition: background-color 5000s ease-in-out 0s;   
+}
+input:-webkit-autofill{
+  -webkit-text-fill-color: #70899E !important;
+}
+.file_upload-box {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  width: 100%;
+  height: calc(100% - 70px);
+}
+.hcp-sort .btn.asc:hover, .hcp-sort .btn.desc:hover {
+  color: var(--white);
+}
+.hcp-sort .btn.asc, .hcp-sort .btn.desc {
+  color: var(--light-blue);
+}
+.email-draft .mail-box-content {
+  box-shadow: 0px -6px 6px -4px rgb(0 102 190 / 20%);
+}
