@@ -251,7 +251,7 @@
 		.header-btn { display: flex; align-items: center; justify-content: flex-end; } 
 		.search-hcp { padding-top: 10px; } 
 		.page-top-nav .btn.btn-primary { padding: 10px 9px; } 
-		.search-hcp-table table td, .selected-hcp-list table td { padding: 20px 8px; }
+		.search-hcp-table table td, .selected-hcp-list table td { padding: 20px 8px;font-size: 12px; }
 		.selected-hcp-list { width: 100%; overflow-y: auto; padding: 0 3px; } 
 		.btn.btn-primary { min-width: 54px; } 
 		#add_hcp.modal-dialog { max-width: 845px; width: 100%; } 
