@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import "../webinar.css";
 import { toast, ToastContainer } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
+import { loader } from "../../../loader";
 function Add(props) {
   const [render, setRerender] = useState(0);
   const [SpeakerErr, setSpeakerErr] = useState([{ name: "", email: "" }]);
@@ -186,6 +187,7 @@ function Add(props) {
         setMassage("End time has to be greater start time");
       } else {
         setMassage(false);
+        loader("show");
         ExportApi.CreatEvent(
           values.EventTitle,
           Speakername[0].name && Speakername[0].email ? a : null,
@@ -204,8 +206,9 @@ function Add(props) {
               console.log(resp.data);
               //console.log(resp.data);
               if (resp.data.code == 200) {
+                loader("hide");
                 console.log(typeof resp.data.message);
-                toast.error(resp.data.message);
+                toast.success(resp.data.message);
               } else {
                 toast.error(resp.data.message, {
                   position: "top-right",
@@ -245,6 +248,9 @@ function Add(props) {
 
   return (
     <Row>
+      <div className="loader" id="custom_loader">
+        <span className="loader-view"> </span>
+      </div>
       <Col md={{ span: 6, offset: 3 }}>
         <Link to="/webinar/event/edit"></Link>
         <div>
