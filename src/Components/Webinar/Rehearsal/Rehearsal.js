@@ -68,10 +68,14 @@ function Rehearsal() {
   };
   const handleMaltiInputRumove = (i) => {
     let data1 = Speakername;
+    let dataErr=SpeakernameErr
     Speakername.splice(i, 1);
+    SpeakernameErr.splice(i, 1);
     setTimeout(() => setSpeakerName([...Speakername]), 1000);
+    setTimeout(() => setSpeakerNameErr([...SpeakernameErr]), 1000);
 
     setSpeakerName(data1);
+    setSpeakerNameErr(dataErr);
   };
   const handleGetTimezoneData = () => {
     ExportApi.GetTimezoneData().then((resp) => {
@@ -97,7 +101,7 @@ function Rehearsal() {
   }, []);
 
   const handeleErr = () => {
-    let err;
+    let err=true;
     for (let index = 0; index < Speakername.length; index++) {
       if (Speakername[index].EventTitle.length == 0) {
         err = false;
@@ -142,7 +146,7 @@ function Rehearsal() {
           const copydataErr = SpeakernameErr[index];
           copydataErr.speakerdata[i].email = "requred Field email";
           setSpeakerNameErr([...SpeakernameErr]);
-        }else if(Speakername[index].speakerdata[i].email.match(
+        }else if(!Speakername[index].speakerdata[i].email.match(
           /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i
         )){
           const copydataErr = SpeakernameErr[index];
@@ -176,7 +180,9 @@ function Rehearsal() {
       Description: "",
     },
     onSubmit: (values) => {
-      handeleErr()
+     if(handeleErr()){
+       alert(true)
+     }
       
     
       // var today = new Date(values.event_date);
@@ -363,11 +369,11 @@ function Rehearsal() {
       const copydataErr = SpeakernameErr[i];
       copydataErr.speakerdata[index].email = "requred Field email";
       setSpeakerNameErr([...SpeakernameErr]);
-    }else if(!Speakername[index].speakerdata[i].email.match(
+    }else if(!Speakername[i].speakerdata[index].email.match(
       /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i
     )){
-      const copydataErr = SpeakernameErr[index];
-      copydataErr.speakerdata[i].email = "Invalid email address";
+      const copydataErr = SpeakernameErr[i];
+      copydataErr.speakerdata[index].email = "Invalid email address";
       setSpeakerNameErr([...SpeakernameErr]);
     }
      else {
@@ -387,10 +393,13 @@ function Rehearsal() {
   };
   const handleSpeakerdataInputRumove = (i, index) => {
     const copydata = Speakername[i];
+    const copydataErr = SpeakernameErr[i];
     copydata.speakerdata.splice(index, 1);
+    copydataErr.speakerdata.splice(index, 1);
     console.log(copydata);
     setRerender(render + 1);
     setSpeakerName([...copydata]);
+    setSpeakerNameErr([...copydataErr]);
   };
 
   const handleValidation = () => {
