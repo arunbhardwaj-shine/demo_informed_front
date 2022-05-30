@@ -236,10 +236,21 @@ const CreateTemplate = (name, id) =>
       },
     }
   );
-const UpdateTemplate = (subject, id, html, i) =>
+const DeleteTemplate = ( id) =>
+  BaseApi.post(
+    "delete-template",
+    {template_id : id },
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
+const UpdateTemplate = (subject,templateName,eventid, id, html, i) =>
   BaseApi.post(
     "update-template",
-    {
+    {name:templateName,
+      event_id:eventid,
       subject: subject,
       json_description: id,
       description: html,
@@ -313,7 +324,7 @@ const ReadersPage = (id, eventId) =>
 const ReadersDataSearch = (id, name_email, type, country) =>
   BaseApi.get(
     `participants`,
-    { event_id: id, name_email: name_email, type: type, country: country },
+    { event_id: id, name_email: name_email, type: type, country_id: country },
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
@@ -323,7 +334,17 @@ const ReadersDataSearch = (id, name_email, type, country) =>
 const ReadersType = (id, type, search, countryvalue) =>
   BaseApi.get(
     `participants`,
-    { event_id: id, type: type, name_email: search, country: countryvalue },
+    { event_id: id, type: type, name_email: search, country_id: countryvalue },
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
+const ReadersType1 = (id,  search, countryvalue) =>
+  BaseApi.get(
+    `participants`,
+    { event_id: id, name_email: search, country_id: countryvalue },
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
@@ -597,6 +618,7 @@ export default {
   UserTemplate,
   UserTemplateSandMail,
   CreateTemplate,
+  DeleteTemplate,
   UpdateTemplate,
   CreateRegistrationPage,
   RegistrationPageList,
@@ -605,6 +627,7 @@ export default {
   PublicPage,
   ReadersData,
   ReadersType,
+  ReadersType1,
   ReadersCountry,
   ReadersDataSearch,
   ReadersPage,

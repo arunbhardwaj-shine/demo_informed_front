@@ -7,6 +7,7 @@ import { getSelectedSmartListData } from "../../actions";
 import { Navigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
+import { popup_alert } from "../../popup_alert";
 
 const SelectSmartList = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -115,8 +116,13 @@ const SelectSmartList = (props) => {
       .post(`emailapi/save_draft`, body)
       .then((res) => {
         if (res.data.status_code === 200) {
-          toast.success("Draft saved successfuly");
           setCampaign_id(res.data.response.data.id);
+          popup_alert({
+            visible: "show",
+            message: "Your changes has been saved <br />successfully !",
+            type: "success",
+            redirect: "/EmailList",
+          });
         } else {
           toast.warning(res.data.message);
         }

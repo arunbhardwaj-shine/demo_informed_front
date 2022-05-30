@@ -61,11 +61,11 @@ const CreateRegistration = (props) => {
       let formData = new FormData();
       formData.append("event_id",props.id);
       formData.append("body", values.body);
-      formData.append("file", image);
+      // formData.append("file", image);
       formData.append("title", values.RegistrationPageTitle);
       formData.append("url", values.url);
       formData.append("template_id", values.TemplateId);
-      image ? ExportApi.CreateRegistrationPage(formData).then((resp) => {
+      ExportApi.CreateRegistrationPage(formData).then((resp) => {
             if (resp.ok) {
               props.hendletable(props.id)
               if (resp.data.code == 200) {
@@ -91,7 +91,7 @@ const CreateRegistration = (props) => {
                   });
               }
             }
-          }):setErrimage("Please update your image");
+          })
         },
       });
       useEffect(() => {
@@ -177,9 +177,9 @@ const CreateRegistration = (props) => {
                 </Col>
               </Col>
               <Row>          
-                  <Col xs={6}>
+                  <Col xs={12}>
                   <Form.Label>Body Text</Form.Label>
-                  <Form.Control as="textarea" rows={12} 
+                  <Form.Control as="textarea" rows={18} 
                     name="body"
                     type="text"
                     onChange={formik.handleChange}
@@ -194,12 +194,12 @@ const CreateRegistration = (props) => {
               ) : null}
                   </Col>
                   
-         <Col> <div>
+         {/* <Col> <div>
           <img id="imgView" src="" alt="Viewing the registration page image" width={340}/>
-    </div></Col>
+    </div></Col> */}
           </Row>
 
-          <Form.Group controlId="formFileLg" className="mb-3">
+          {/* <Form.Group controlId="formFileLg" className="mb-3">
                 <Form.Label>Choice File</Form.Label>
                 <Form.Control
                   name="file"
@@ -210,7 +210,7 @@ const CreateRegistration = (props) => {
                   size="md"
                 />
                  <p style={{color:"red"}}>{errimage}</p>
-              </Form.Group>
+              </Form.Group> */}
 
           <Button type="submit">
             Save

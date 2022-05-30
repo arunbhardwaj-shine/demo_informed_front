@@ -835,6 +835,7 @@ button.btn.btn-primary.btn.btn-primary.disabled {
   background: rgba(151, 182, 207, 0.6);
   border-color: rgba(151, 182, 207, 0.6);
 }
+
 .modal #add-list .smartlist-view .smartlist-buttons button.btn-filled.view {
   background: var(--light-blue);
   color: var(--white);
@@ -849,6 +850,7 @@ button.btn.btn-primary.btn.btn-primary.disabled {
 .select-mail-template .email-form form .input-group {display: flex;}
 
 .select-mail-template .email-form form .input-group .tags_added {flex: 1 1;}
+
 #save_new_template_action_modal form .form-group {width: 100%;}
 
 .send-confirm #template_action_modal {max-width: 684px;}
@@ -868,6 +870,8 @@ button.btn.btn-primary.btn.btn-primary.disabled {
 #save_new_template_action_modal form button {filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));min-width: 106px;margin-top: 40px;}
 
 #save_new_template_action_modal form .form-group {width: 100%;}
+
 #add_hcp .modal-body .hcp-add-form form .form-group.files label {
   line-height: 1;
 }
+

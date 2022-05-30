@@ -7,24 +7,33 @@ import * as Yup from "yup";
 import { toast, ToastContainer } from "react-toastify";
 import CreateTemplate from "./CreateTemplate";
 import { Testmail } from "./Testmail";
+import Delete from './../Readers/Delete.jpg'
 const Template = () => {
   const [testMail, SetTestMail] = useState(false);
   const [event, setEvent] = useState([]);
   const [id, setId] = useState();
+  const [eventid, setEventId] = useState();
   const [tName, setTName] = useState();
   const [templateList, setTemplateList] = useState();
   const [template, setTemplate] = useState();
+  const [templateId, setTemplateId] = useState();
   const [modalShow, setModalShow] = useState(false);
   const [modalShow2, setModalShow2] = useState(false);
   const [dpc, setDpc] = useState();
   const [render, setRender] = useState(0);
+  const [modalShow1, setModalShow1] = useState(false);
   const [hello, setHello] = useState(JSON.parse(localStorage.getItem("hello")));
+  
   const formik = useFormik({
     initialValues: {
       Subject: template ? template.subject : "",
+      tempName:template ? template.name : "",
+      eventid:template ? template.event_id : "",
     },
     validationSchema: Yup.object({
       Subject: Yup.string().required("Enter your subject"),
+      tempName: Yup.string().required("Enter your templete name"),
+      eventid: Yup.string().required("select event"),
     }),
     enableReinitialize: true,
     onSubmit: (values) => {
@@ -35,6 +44,8 @@ const Template = () => {
           localStorage.setItem("html", html);
           ExportApi.UpdateTemplate(
             values.Subject,
+            values.tempName,
+            values.event_id,
             design,
             html,
             localStorage.getItem("idd")
@@ -84,12 +95,24 @@ const Template = () => {
       }
     });
   };
+  const handleDeleteTemplate = () => {
+    console.log("yyy",templateId)
+    ExportApi.DeleteTemplate(templateId.id).then((resp) => {
+      if (resp.ok) {
+        console.log("yyy",templateId.id)
+        console.log("ywy",templateId.event_id)
+        handleGetTemplateList(eventid)
+        
+      }
+    });
+  };
 
   const handleGetTemplate = (idd) => {
     setDpc();
     setId(idd);
     ExportApi.UserTemplate(idd).then((resp) => {
       if (resp.ok) {
+        console.log("first,",resp.data.data)
         setTemplate(resp.data.data);
         setTimeout(() => {
           emailEditorRef.current.editor.loadDesign(
@@ -147,9 +170,8 @@ const Template = () => {
                   handleGetTemplateList(e.target.value);
                   setTemplateList(null);
                   setTemplate(null);
+                  setEventId(e.target.value)
                 }}
-                onBlur={formik.handleBlur}
-                value={formik.values.type}
               >
                 <option> Select Event</option>
                 {event?.map((val, i) => (
@@ -239,6 +261,15 @@ const Template = () => {
                           >
                             Edit
                           </Button>{" "}
+                          <img
+                                src={Delete}
+                                onClick={() => {
+                                  setModalShow1(true)
+                                  setTemplateId(val)
+                                  // handleGetReadersDataPage(currentPage);
+                                }}
+                                width={90}
+                              />
                         </td>
                       </tr>
                     ))
@@ -251,6 +282,22 @@ const Template = () => {
               <h2>Data Not Found</h2>
             )}
           </Col>
+          <Modal
+      show={modalShow1}
+      size="sm"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header onClick={()=>setModalShow1(false)} closeButton>
+      </Modal.Header>
+      <Modal.Body>
+        <h6>The Delete action will delete the HCP from your account entirly</h6>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={()=>{handleDeleteTemplate(); setModalShow1(false)}}>Delete</Button>
+        <Button onClick={()=>{setModalShow1(false)}}>Close</Button>
+      </Modal.Footer>
+    </Modal>
         </Row>
       </Col>
       {template ? (
@@ -261,16 +308,55 @@ const Template = () => {
               md={{ span: 8, offset: 3 }}
             >
               <Col>
-                <h4>
+                {/* <h4>
                   Template name :{" "}
                   {tName ? tName : localStorage.getItem("template")}
-                </h4>{" "}
+                </h4>{" "} */}
               </Col>
               <Row>
                 <Col className="mb-5">
                   <Button type="submit">Save</Button>
+                  <Col className="mb-5">
+              <Form.Label>Select Event </Form.Label>
+              <Form.Select
+                name="eventid"
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                value={formik.values.eventid}
+              >
+                <option> Select Event</option>
+                {event?.map((val, i) => (
+                  <React.Fragment key={i}>
+                    <option value={val.id}>{val.title}</option>
+                  </React.Fragment>
+                ))}
+              </Form.Select>
+              {formik.touched.eventid && formik.errors.eventid ? (
+                        <div style={{ color: "red" }}>
+                          {formik.errors.eventid}
+                        </div>
+                      ) : null}
+            </Col>
                   <Col>
                     <Form.Group className="mb-3">
+                      <Form.Label>Template name</Form.Label>
+                      <Form.Control
+                        name="tempName"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.tempName}
+                        type="text"
+                        placeholder="Template name"
+                      />
+                      {formik.touched.tempName && formik.errors.tempName ? (
+                        <div style={{ color: "red" }}>
+                          {formik.errors.tempName}
+                        </div>
+                      ) : null}
+                    </Form.Group>
+                  </Col>
+                  <Col>
+                  <Form.Group className="mb-3">
                       <Form.Label>Subject</Form.Label>
                       <Form.Control
                         name="Subject"
@@ -287,7 +373,6 @@ const Template = () => {
                       ) : null}
                     </Form.Group>
                   </Col>
-                  <Col></Col>
                 </Col>
               </Row>
               <div>
@@ -299,6 +384,7 @@ const Template = () => {
                 />
               </div>
             </Col>
+   
           </Row>
         </form>
       ) : null}

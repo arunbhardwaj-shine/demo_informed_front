@@ -53,6 +53,7 @@ import Readers from "./Components/Webinar/Readers/Readers";
 import EmailStats from "./Components/Webinar/Email Stats/EmailStats";
 import EmailSend from "./Components/Webinar/Email Stats/EmailSend";
 import StpDetails from "./Components/Webinar/Smtp/StpDetails";
+// import Rehearsal1 from "./Components/Webinar/Rehearsal/Rehearsal1";
 import WebinarSmartList from "./Components/Webinar/SmartList/WebinarSmartList";
 import RegistraionDetails from "./Components/Webinar/Registration/RegistrationDetails";
 
