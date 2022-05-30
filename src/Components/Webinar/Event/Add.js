@@ -133,7 +133,8 @@ function Add(props) {
         setSpeakerErr([...SpeakerErr]);
       }
     }
-    return err
+
+    return err;
   };
 
   const formik = useFormik({
@@ -166,13 +167,15 @@ function Add(props) {
     //    resetForm({values:''})
     //     },
     onSubmit: (values) => {
-      if (handleSubmit()){
+      if (handleSubmit()) {
         var today = new Date(values.event_date);
         var dd = String(today.getDate()).padStart(2, "0");
         var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
         var yyyy = today.getFullYear();
         let dateData = dd + "/" + mm + "/" + yyyy;
+
         let a = JSON.stringify(Speakername);
+
         if (values.event_start_time >= values.eventendtime) {
           setMassage("End time has to be greater start time");
         } else {
@@ -195,8 +198,9 @@ function Add(props) {
                 console.log(resp.data);
                 //console.log(resp.data);
                 if (resp.data.code == 200) {
+                  loader("hide");
                   console.log(typeof resp.data.message);
-                  toast.error(resp.data.message);
+                  toast.success(resp.data.message);
                 } else {
                   toast.error(resp.data.message, {
                     position: "top-right",

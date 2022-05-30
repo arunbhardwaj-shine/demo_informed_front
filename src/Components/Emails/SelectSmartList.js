@@ -499,8 +499,6 @@ const SelectSmartList = (props) => {
                                   {showLessInfo == false ? <td><span>{rr.email_opening}</span></td> : null}
                                   {showLessInfo == false ? <td><span>NA</span></td> : null}
                                   {showLessInfo == false ? <td><span>{rr.last_email}</span></td> : null}
-                                  <td className="add-new-hcp" colspan="12">
-                                  </td>
                                 </tr>
                               </>
                             );
