@@ -7,6 +7,7 @@ import "../webinar.css";
 import { toast, ToastContainer } from "react-toastify";
 import CreateRegistration from "./CreateRegistration";
 import { Link } from "react-router-dom";
+import { loader } from "../../../loader";
 const Registration = () => {
   const [eventid, setEventId] = useState();
   const [event, setEvent] = useState([]);
@@ -14,6 +15,7 @@ const Registration = () => {
   const [registrationPageList, setRegistrationPageList] = useState();
   const [template, setTemplate] = useState();
   const [editdata, setEditdata] = useState();
+  const [eventCode, setEventCode] = useState();
   const [UrlAlias, setUrlAlias] = useState();
   const [errimage, setErrimage] = useState(false);
   const [massage, setMassage] = useState("Please Select Event");
@@ -58,7 +60,10 @@ const Registration = () => {
   const handleGetEventlist = () => {
     ExportApi.GetEventList().then((resp) => {
       if (resp.ok) {
+        loader("hide")
         setEvent(resp.data.data);
+        setEventId(resp.data.data[0].id)
+        handleGetRegistrationPageList(resp.data.data[0].id)
       }
     });
   };
@@ -78,11 +83,13 @@ const Registration = () => {
     });
   };
   const handleGetRegistrationPagedata = (id) => {
-    ExportApi.RegistrationPageData(id).then((resp) => {
+      ExportApi.RegistrationPageData(id).then((resp) => {
       if (resp.ok) {
         setimage(null);
         handleGetTemplateList();
         setEditdata(resp.data.data);
+        setEventCode(resp.data.data.event.code)
+        setUrlAlias(resp.data.data.url)
       }
     });
   };
@@ -115,9 +122,9 @@ const Registration = () => {
       formData.append("title", values.RegistrationPageTitle);
 
       // formData.append("file", image);
-      formData.append("url", values.url);
+      formData.append("url", UrlAlias);
       formData.append("template_id", values.TemplateId);
-      ExportApi.UpdateRegistrationPageData(formData).then((resp) => {
+      UrlAlias?ExportApi.UpdateRegistrationPageData(formData).then((resp) => {
         if (resp.ok) {
           if (resp.data.code == 200) {
             handleGetRegistrationPageList(id);
@@ -142,14 +149,18 @@ const Registration = () => {
             });
           }
         }
-      });
+      }):console.log("errr");
     },
   });
   useEffect(() => {
+    loader("show")
     handleGetEventlist();
   }, []);
   return (
     <div>
+       <div className="loader" id="custom_loader">
+	        <span className="loader-view"> </span>
+          </div>
       <Row>
         <ToastContainer
           position="top-right"
@@ -170,6 +181,7 @@ const Registration = () => {
                 <Form.Label>Select Event </Form.Label>
                 <Form.Select
                   name="type"
+                  value={eventid}
                   onChange={(e) => {
                     handleGetRegistrationPageList(e.target.value);
                     setEventId(e.target.value);
@@ -308,21 +320,17 @@ const Registration = () => {
                       </Form.Group>
                     </Col>
                     <Form.Group className="mb-3">
-                      <Form.Label>Url Alias </Form.Label>
+                      <Form.Label>( http://51.89.210.56:3000/webinar/register/{eventCode}/{UrlAlias}/1) </Form.Label>
                       <Form.Control
                         name="url"
                         onChange={(e)=>setUrlAlias(e.target.value)}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.url}
+                        value={UrlAlias}
                         type="text"
                         placeholder="url"
                       />
-                      <div>
-                       {UrlAlias}
-                      </div>
-                      {formik.touched.url && formik.errors.url ? (
-                        <div style={{ color: "red" }}>{formik.errors.url}</div>
-                      ) : null}
+                      {UrlAlias ?null :(
+                        <div style={{ color: "red" }}>Enter url alias</div>
+                      ) }
                     </Form.Group>
                     <Row>
                       <Col xs={12}>

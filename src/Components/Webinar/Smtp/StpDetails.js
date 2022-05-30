@@ -8,8 +8,10 @@ import { loader } from "../../../loader";
 const StpDetails = () => {
 const [smtpData, setSmtpData] = useState()
   const handleGetsmtpdata = () => {
+    loader("show")
     ExportApi.getSMTP().then((resp) => {
       if (resp.ok) {
+        loader("hide")
         setSmtpData(resp.data.data);
       }
     });
