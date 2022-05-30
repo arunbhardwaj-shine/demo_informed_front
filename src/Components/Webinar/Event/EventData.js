@@ -6,6 +6,7 @@ import "../webinar.css";
 import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
+import { loader } from "../../../loader";
 import { date } from "yup";
 import Add from "./Add";
 const EventData = () => {
@@ -19,14 +20,17 @@ const EventData = () => {
   const [update, setUpdate] = useState(0);
   const [sorting, setSorting] = useState(0);
   const [deletecardid, setDeleteCardId] = useState();
+  const [sortingCount, setSortingCount] = useState(0);
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [Speakername, setSpeakerName] = useState([{ name: "", email: "" }]);
-  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   const handleGetEventlist = () => {
+    loader("show");
     ExportApi.GetEventList().then((resp) => {
       if (resp.ok) {
-        //  console.log(resp.data)
+        loader("hide");
+        console.log(resp.data);
         setEvent(resp.data.data);
       }
     });
@@ -96,6 +100,7 @@ const EventData = () => {
     setEvent(normalArr);
     setSorting(1 - sorting);
     setUpdate(update + 1);
+    setSortingCount(sortingCount + 1);
 
     console.log(normalArr);
   };
@@ -215,6 +220,9 @@ const EventData = () => {
   }, []);
   return (
     <div style={{ marginLeft: "300px" }}>
+      <div className="loader" id="custom_loader">
+        <span className="loader-view"> </span>
+      </div>
       {/* <Row>
         <ToastContainer
           position="top-right"
@@ -302,163 +310,7 @@ const EventData = () => {
               )}
             </tbody>
           </Table>
-          <Modal
-            show={modalShow}
-            size="lg"
-            aria-labelledby="contained-modal-title-vcenter"
-            centered
-          >
-            <Modal.Header
-              onClick={() => {
-                setSpeakerName([{ name: "", email: "" }]);
-                setModalShow(false);
-              }}
-              closeButton
-            >
-              <Modal.Title id="contained-modal-title-vcenter">
-                Edit Event
-              </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <form onSubmit={formik.handleSubmit}>
-                <Form.Group
-                  as={Row}
-                  className="mb-3"
-                  controlId="exampleForm.ControlInput1"
-                >
-                  <Form.Label column sm={2}>
-                    Event Title{" "}
-                  </Form.Label>
-                  <Col sm={10}>
-                    <Form.Control
-                      name="EventTitle"
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      value={formik.values.EventTitle}
-                    />
-                    {formik.touched.EventTitle && formik.errors.EventTitle ? (
-                      <div style={{ color: "red" }}>
-                        {formik.errors.EventTitle}
-                      </div>
-                    ) : null}
-                  </Col>
-                </Form.Group>
-                <fieldset className="border p-2">
-                  {SpDataSingle?.map((malti, i) => (
-                    <Form.Group className="edit-event" key={i}>
-                      <Form.Label column sm={3}>
-                        Name <h6>{malti.name}</h6>
-                      </Form.Label>
-                      <Form.Label column sm={3}>
-                        Email <h6>{malti.email}</h6>
-                      </Form.Label>
-                    </Form.Group>
-                  ))}
-                </fieldset>
-                <div class="mt-2 clearfix"></div>
-
-                {Speakername.map((malti, i) => (
-                  <fieldset class="border p-2">
-                    <div key={i}>
-                      {Speakername.length > 1 ? (
-                        <button
-                          type="button"
-                          onClick={() => handleMaltiInputRumove(i)}
-                          className="btn-close float-end"
-                          aria-label="Close"
-                        />
-                      ) : null}
-                      <Form.Group
-                        as={Row}
-                        className="mb-3"
-                        controlId="exampleForm.ControlInput1"
-                      >
-                        <Form.Label column sm={3}>
-                          Speaker Name
-                        </Form.Label>
-                        <Col sm={9}>
-                          <Form.Control
-                            name={
-                              Speakername.length === 0 ? "name" : "name" + i
-                            }
-                            value={malti.name}
-                            onChange={(e) => {
-                              handleSpeakerName(e, i);
-                            }}
-                          />
-                        </Col>
-                        <div class="mt-2 clearfix"></div>
-                        <Form.Label column sm={3}>
-                          Speaker Email
-                        </Form.Label>
-                        <Col sm={9}>
-                          <Form.Control
-                            type="email"
-                            name={
-                              Speakername.length === 0 ? "email" : "email" + i
-                            }
-                            onChange={(e) => {
-                              handleSpeakerName(e, i);
-                            }}
-                            value={malti.email}
-                          />
-                        </Col>
-                      </Form.Group>
-                    </div>
-                  </fieldset>
-                ))}
-                <div class="mt-2"></div>
-                <Form.Group className="mb-3">
-                  <Button
-                    onClick={handleMaltiInputAdd}
-                    className="speaker-button"
-                  >
-                    Add More Speaker
-                  </Button>
-                </Form.Group>
-                <div className="clearfix"></div>
-                <div className="mt-2"></div>
-                <Form.Group
-                  as={Row}
-                  className="mb-3"
-                  controlId="exampleForm.ControlInput1"
-                >
-                  <Form.Label column sm={2}>
-                    Description
-                  </Form.Label>
-                  <Col sm={10}>
-                    {" "}
-                    <textarea
-                      name="Description"
-                      type="text"
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      value={formik.values.Description}
-                      className="form-control"
-                      id="exampleFormControlTextarea1"
-                      rows="3"
-                    ></textarea>
-                  </Col>
-                </Form.Group>
-
-                <Modal.Footer>
-                  <Button
-                    variant="danger"
-                    onClick={() => {
-                      setSpeakerName([{ name: "", email: "" }]);
-                      setModalShow(false);
-                    }}
-                  >
-                    Close
-                  </Button>
-                  <Button type="submit" variant="success">
-                    Update
-                  </Button>
-                </Modal.Footer>
-              </form>
-            </Modal.Body>
-          </Modal>
-        </Col>
+                 </Col>
       </Row> */}
 
       <div class="right-sidebar">
@@ -500,15 +352,43 @@ const EventData = () => {
             </div>
             <div className="hcp-sort">
               <>
-                <button
-                  onClick={(e) => {
-                    sortSelectedUsers(e);
-                  }}
-                  className="btn btn-outline-primary"
-                >
-                  Sort By
-                  {/* Sort By <img src={path_image + "sort.svg"} /> */}
-                </button>
+                {sortingCount == 0 ? (
+                  <>
+                    <button
+                      className="btn btn-outline-primary"
+                      onClick={sortSelectedUsers}
+                    >
+                      Sort By{" "}
+                      <img src={path_image + "sort.svg"} alt="Shorting" />
+                    </button>
+                  </>
+                ) : sorting == 0 ? (
+                  <>
+                    <button
+                      className="btn btn-outline-primary"
+                      onClick={sortSelectedUsers}
+                    >
+                      Sort By{" "}
+                      <img
+                        src={path_image + "sort-decending.svg"}
+                        alt="Shorting"
+                      />
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      className="btn btn-outline-primary"
+                      onClick={sortSelectedUsers}
+                    >
+                      Sort By{" "}
+                      <img
+                        src={path_image + "sort-assending.svg"}
+                        alt="Shorting"
+                      />
+                    </button>
+                  </>
+                )}
               </>
             </div>
 
@@ -557,15 +437,32 @@ const EventData = () => {
 
         <div class="smart-list-result">
           <div class="col smartlist-result-block">
-            <div class="smartlist-add smartlist-view">
-              <Button
+            {/* <Button
                 onClick={() => {
                   setShow(true);
                 }}
               >
+
+
                 Create New Webinar/Event
-              </Button>
+              </Button> */}
+
+            <div className="smartlist_box_block">
+              <div className="smartlist-add smartlist-view">
+                {
+                  <>
+                    <Link
+                      to="/CreateSmartList"
+                      // state={{ creator: getUserDetails.username }}
+                    >
+                      <img src={path_image + "add-button.svg"} alt="" />
+                    </Link>
+                    <p>Create New Smart List</p>
+                  </>
+                }
+              </div>
             </div>
+
             {event.length > 0 ? (
               event.map((event) => {
                 return (
@@ -581,7 +478,7 @@ const EventData = () => {
                           <span>{event.event_date}</span>
                         </div>
                         <div class="smart-list-added-user">
-                          {event.days_left} days left
+                          {event.days_left} Days Left
                         </div>
 
                         <div class="mail-stats">
@@ -598,7 +495,13 @@ const EventData = () => {
                             </div>
                           )}
                         </div>
-                        <div class="smartlist-buttons"></div>
+                        <div>
+                          <Button
+                            onClick={() => handleGetEventlistEdidData(event.id)}
+                          >
+                            Edit
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   </>
@@ -642,7 +545,7 @@ const EventData = () => {
           <Modal.Body>
             <img src={path_image + "alert.png"} alt="" />
             <h4>
-              The Email Campaign will be deleted from the list.
+              The Event will be deleted from the list.
               <br />
               Are you sure you want to delete it?
             </h4>
@@ -662,6 +565,159 @@ const EventData = () => {
                 Cancel
               </button>
             </div>
+          </Modal.Body>
+        </Modal>
+        <Modal
+          show={modalShow}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header
+            onClick={() => {
+              setSpeakerName([{ name: "", email: "" }]);
+              setModalShow(false);
+            }}
+            closeButton
+          >
+            <Modal.Title id="contained-modal-title-vcenter">
+              Edit Event
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <form onSubmit={formik.handleSubmit}>
+              <Form.Group
+                as={Row}
+                className="mb-3"
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label column sm={2}>
+                  Event Title{" "}
+                </Form.Label>
+                <Col sm={10}>
+                  <Form.Control
+                    name="EventTitle"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.EventTitle}
+                  />
+                  {formik.touched.EventTitle && formik.errors.EventTitle ? (
+                    <div style={{ color: "red" }}>
+                      {formik.errors.EventTitle}
+                    </div>
+                  ) : null}
+                </Col>
+              </Form.Group>
+              <fieldset className="border p-2">
+                {SpDataSingle?.map((malti, i) => (
+                  <Form.Group className="edit-event" key={i}>
+                    <Form.Label column sm={3}>
+                      Name <h6>{malti.name}</h6>
+                    </Form.Label>
+                    <Form.Label column sm={3}>
+                      Email <h6>{malti.email}</h6>
+                    </Form.Label>
+                  </Form.Group>
+                ))}
+              </fieldset>
+              <div class="mt-2 clearfix"></div>
+
+              {Speakername.map((malti, i) => (
+                <fieldset class="border p-2">
+                  <div key={i}>
+                    {Speakername.length > 1 ? (
+                      <button
+                        type="button"
+                        onClick={() => handleMaltiInputRumove(i)}
+                        className="btn-close float-end"
+                        aria-label="Close"
+                      />
+                    ) : null}
+                    <Form.Group
+                      as={Row}
+                      className="mb-3"
+                      controlId="exampleForm.ControlInput1"
+                    >
+                      <Form.Label column sm={3}>
+                        Speaker Name
+                      </Form.Label>
+                      <Col sm={9}>
+                        <Form.Control
+                          name={Speakername.length === 0 ? "name" : "name" + i}
+                          value={malti.name}
+                          onChange={(e) => {
+                            handleSpeakerName(e, i);
+                          }}
+                        />
+                      </Col>
+                      <div class="mt-2 clearfix"></div>
+                      <Form.Label column sm={3}>
+                        Speaker Email
+                      </Form.Label>
+                      <Col sm={9}>
+                        <Form.Control
+                          type="email"
+                          name={
+                            Speakername.length === 0 ? "email" : "email" + i
+                          }
+                          onChange={(e) => {
+                            handleSpeakerName(e, i);
+                          }}
+                          value={malti.email}
+                        />
+                      </Col>
+                    </Form.Group>
+                  </div>
+                </fieldset>
+              ))}
+              <div class="mt-2"></div>
+              <Form.Group className="mb-3">
+                <Button
+                  onClick={handleMaltiInputAdd}
+                  className="speaker-button"
+                >
+                  Add More Speaker
+                </Button>
+              </Form.Group>
+              <div className="clearfix"></div>
+              <div className="mt-2"></div>
+              <Form.Group
+                as={Row}
+                className="mb-3"
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label column sm={2}>
+                  Description
+                </Form.Label>
+                <Col sm={10}>
+                  <textarea
+                    name="Description"
+                    type="text"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.Description}
+                    className="form-control"
+                    id="exampleFormControlTextarea1"
+                    rows="3"
+                  ></textarea>
+                </Col>
+              </Form.Group>
+
+              <Modal.Footer>
+                <Button
+                  variant="danger"
+                  onClick={() => {
+                    setSpeakerName([{ name: "", email: "" }]);
+                    setModalShow(false);
+                  }}
+                >
+                  Close
+                </Button>
+                <Button type="submit" variant="success">
+                  Update
+                </Button>
+              </Modal.Footer>
+            </form>
           </Modal.Body>
         </Modal>
       </div>

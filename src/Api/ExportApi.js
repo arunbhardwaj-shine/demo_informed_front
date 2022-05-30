@@ -236,10 +236,21 @@ const CreateTemplate = (name, id) =>
       },
     }
   );
-const UpdateTemplate = (subject, id, html, i) =>
+const DeleteTemplate = ( id) =>
+  BaseApi.post(
+    "delete-template",
+    {template_id : id },
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
+const UpdateTemplate = (subject,templateName,eventid, id, html, i) =>
   BaseApi.post(
     "update-template",
-    {
+    {name:templateName,
+      event_id:eventid,
       subject: subject,
       json_description: id,
       description: html,
@@ -437,13 +448,14 @@ const EmailSandRegisteredType = (type, event_id, user_type) =>
       },
     }
   );
-const sandAllmaik = (template_id, participants, registeredNonRegistered) =>
+const sandAllmaik = (template_id, participants, registeredNonRegistered,Templatesubject) =>
   BaseApi.post(
     `send-mail`,
     {
       template_id: template_id,
       participants: participants,
       type: registeredNonRegistered,
+      subject:Templatesubject
     },
     {
       headers: {
@@ -607,6 +619,7 @@ export default {
   UserTemplate,
   UserTemplateSandMail,
   CreateTemplate,
+  DeleteTemplate,
   UpdateTemplate,
   CreateRegistrationPage,
   RegistrationPageList,

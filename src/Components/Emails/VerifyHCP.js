@@ -486,7 +486,7 @@ const VerifyHCP = (props) => {
 
   const searchHcp = async (e) => {
     e.preventDefault();
-    if(name.length == 0 && email.length == 0){
+    if(name.trim().length == 0 && email.trim().length == 0){
       toast.error("Please enter search criteria");
     }else{
         const body = {
@@ -788,11 +788,11 @@ const VerifyHCP = (props) => {
                             <td>NA</td>
                             <td>NA</td>
                             <td>NA</td>
-                            <td>NA</td>
-                            <td>NA</td>
-                            <td>NA</td>
-                            <td>NA</td>
-                            <td>NA </td>
+                            <td><span>NA</span></td>
+                            <td><span>NA</span></td>
+                            <td><span>NA</span></td>
+                            <td><span>NA</span></td>
+                            <td><span>NA</span></td>
                             <td className="add-new-hcp">
                               <img
                                 src={path_image + "add-row.png"}
@@ -858,7 +858,7 @@ const VerifyHCP = (props) => {
                       ) : sorting == 0 ? (
                         <>
                           <button
-                            className="btn btn-outline-primary"
+                            className="btn btn-outline-primary desc"
                             onClick={sortSelectedUsers}
                           >
                             Sort By{" "}
@@ -871,7 +871,7 @@ const VerifyHCP = (props) => {
                       ) : (
                         <>
                           <button
-                            className="btn btn-outline-primary"
+                            className="btn btn-outline-primary asc"
                             onClick={sortSelectedUsers}
                           >
                             Sort By{" "}
@@ -961,11 +961,11 @@ const VerifyHCP = (props) => {
                             <td>NA</td>
                             <td>NA</td>
                             <td>NA</td>
-                            <td>NA</td>
-                            <td>NA</td>
-                            <td>NA</td>
-                            <td>NA</td>
-                            <td>NA</td>
+                            <td><span>NA</span></td>
+                            <td><span>NA</span></td>
+                            <td><span>NA</span></td>
+                            <td><span>NA</span></td>
+                            <td><span>NA</span></td>
                             <td className="delete_row" colSpan="12">
                               <img
                                 src={path_image + "delete.svg"}
@@ -1086,7 +1086,7 @@ const VerifyHCP = (props) => {
                                 aria-label="select"
                                 onChange={(event) => onCountryChange(event, i)}
                               >
-                                <option selected>Select Country</option>
+                                <option selected value="">Select Country</option>
                                 {countryall.length === 0
                                   ? ""
                                   : Object.entries(countryall).map(
@@ -1122,23 +1122,25 @@ const VerifyHCP = (props) => {
                   })}
                 </form>
                 <form id="add_file" className={"tab-pane" + activeExcel}>
-                <div className="upload-file-box">
-                  <div className="form-group files">
-                    <div className="box">
-                    <input
-                      type="file"
-                      className="form-control inputfile"
-                     id="file-4"
-                     onChange={onFileChange}
-                      accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                      ref={file_name}
-                      />
-                      {(file_name.current?.files===undefined || file_name.current.files?.length===0 )? <><label for="file-4"><span>Choose Your File</span></label>
-                      <p>Upload your excel file</p></> : <h5>{file_name.current.files[0].name}</h5> }
+                <div class="file_upload-box">
+                  <div className="upload-file-box">
+                    <div className="form-group files">
+                      <div className="box">
+                      <input
+                        type="file"
+                        className="form-control inputfile"
+                      id="file-4"
+                      onChange={onFileChange}
+                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                        ref={file_name}
+                        />
+                        {(file_name.current?.files===undefined || file_name.current.files?.length===0 )? <><label for="file-4"><span>Choose Your File</span></label>
+                        <p>Upload your excel file</p></> : <h5>{file_name.current.files[0].name}</h5> }
 
-                  </div>
-                  </div>
-                  </div>
+                    </div>
+                    </div>
+                    </div>
+                  </div> 
                 </form>
               </div>
               <div className="hcp-modal-action">

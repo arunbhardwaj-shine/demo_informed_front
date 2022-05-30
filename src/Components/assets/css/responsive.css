@@ -36,12 +36,15 @@
 @media only screen and (max-width:1450px){
 	.page-title h2 { font-size: 30px; line-height: 38px; } 
 	.table-title .selected-hcp-table-action a.show-less-info { font-size: 14px; line-height: 16px; } 
+	a.show-less-info p:after {
+		line-height: 11px;
+	}
 	.filter-block .filter-div .filter-result { padding: 3px 9px 3px 12px; margin: 0 10px 10px 0; font-size: 12px; line-height: 14px; } 
 	.filter-div .filter-result img { margin-left: 10px; } 
 	#accordion-smart .card-body { padding: 0 10px 14px; } 
 	.smart-list-name h5 { font-size: 18px; line-height: 20px; } 
 	.create_smart_list .create_smart_list_inset { max-width: 870px; } 
-	.create-smart-step-box ul li .send-option-img img { height: 65px; } 
+	.create-smart-step-box ul li .send-option-img img { height: 50px; } 
 	.smart-list-btns .smart-list-download, .smart-list-btns .hcp-new-user, .smart-list-btns .hcp-added { margin-right: 10px; } 
 	.smart_list_names .header-btn .btn { margin-left: 8px; } 
 	.send-confirm .modal-body h4 { font-size: 22px; margin-top: 24px; } 
@@ -66,8 +69,8 @@
 	.page-top-nav .tabnav-link li::after { width: 35px; right: -18px; top: 13px; }
 	.search-hcp-table table, .selected-hcp-list table { border-spacing: 0px 20px; } 
 	.result-hcp-table .table-title .selected-hcp-table-action .hcp-added, .table-title .hcp-new-user, .table-title .show-less-info { margin-right: 10px; } 
-	.send-option-list ul li .send-option-img { width: 154px; height: 154px; } 
-	.send-option-list ul li img { height: 65px; } 
+	.send-option-list ul li .send-option-img { width: 124px; height: 124px; } 
+	.send-option-list ul li img { height: 50px; } 
 	.send-option-list h5 { font-size: 21px; line-height: 20px; margin: 16px 0 30px; } 
 	.send-option-list ul li p { margin: 16px 0 8px; font-size: 16px; } 
 	.send-option-img.active { border: 3px solid var(--light-blue); } 
@@ -81,7 +84,7 @@
 	.search-hcp-table-inside { width:100%; overflow-y: auto; overflow-x: auto; } 
 	.segmentation-button .btn.btn-primary, .form-search-hcp .form-button .btn, #tagsModal .modal-footer form .form-group .btn, #tagsModal .modal-footer .save.btn, .send-confirm .modal-body .modal-buttons button, #mail-view .mail-view-btn .btn, .form-buttons .btn.btn-large, .form-buttons .btn-primary { font-size: 14px; }
 	 #tagsModal .modal-footer form .form-group label, .smartlist-buttons button.btn { font-size: 16px; } 
-	 .search-hcp-table table td:first-child, .selected-hcp-list table td:first-child { width: 110px; display: flex; } 
+	 /* .search-hcp-table table td:first-child, .selected-hcp-list table td:first-child { width: 110px; display: flex; }  */
 	 .selected-hcp-list .table tr.seprator-add td { display: table-cell; } 
 	 .form-buttons .approved-btn, .form-buttons .btn.btn-large { padding: 10px 20px; } 
 	 form .input-group { padding: 16px 20px; } 
@@ -127,7 +130,7 @@
 	 .filter-footer button.btn-bordered, .filter-footer button.btn-filled { font-size: 14px; line-height: 19px; min-width: 96px; padding: 8px 12px; } 
 	 .smartlist-add { min-height: 320px; height: 100%; } 
 	 .smartlist-add p { font-size: 16px; line-height: 19px; margin: 9px 0 0; } 
-	 .create-smart-step-box ul li .send-option-img { width: 154px; height: 154px; margin: 0 auto; } 
+	 .create-smart-step-box ul li .send-option-img { width: 124px; height: 124px; margin: 0 auto; } 
 	 .create-smart-step-box ul li p { margin: 16px 0 12px; font-size: 16px; line-height: 18px; } 
 	 .create-smart-step .create-smart-step-box h5 { font-size: 21px; line-height: 20px; } 
 	 .create_smart_list .create-smart-step .create-smart-step-box form label { font-size: 18px; line-height: 20px; margin-bottom: 10px; } 
@@ -135,11 +138,66 @@
 	 .mailbox-buttons { padding-top: 10px; }
 	 #mail-view .mail-view-btn .btn {min-width: 86px;height: 36px;}
 	 #mail-view .mail-time span {font-size: 13px;}
+	 .create-smart-list p {
+		font-size: 15px;
+	}
+	.create-smart-list {
+		margin-bottom: 60px;
+	}
+	#add-list .smartlist-view .mail-box-content {
+		width: 100%;
+		flex: 0 0 100%;
+	}
+	#add-list .smartlist-result-block {
+		margin-top: 0px;
+	}
 	 } 
 	 
 	 @media only screen and (max-width:1365px){ 
 		#add_hcp .modal-body .hcp-add-form form .form-group button {
 			height: 41px;
+		}
+		.form-inline .form-group input, #tagsModal .modal-footer form .form-group input {
+			height: 42px;
+		}
+		.mail-box-content {
+			height: initial;
+		}
+		#add-list .email_box {
+			margin-bottom: 0px;
+		}
+		.create_smart_list .create-smart-step .create-smart-step-box form .form-control {
+			padding: 10px 12px;
+		}
+		.selected-hcp-list .not-found {
+			min-height: 150px;
+		}
+		.sample_list_dt .not-found h4 {
+			font-size: 25px;
+		}
+		.smart-list-added-user img {
+			max-height: 16px;
+		}
+		.right-sidebar {
+			padding-top: 25px;
+		}
+		.create_smart_list .create-smart-step h2 {
+			font-size: 35px;
+			top: 28px;
+			left: -79px;
+		}
+		.create_smart_list .create-smart-step .create-smart-step-box form label {
+			font-size: 16px;
+			margin-bottom: 5px;
+		}
+		.download-sample p {
+			font-size: 16px;
+		}
+		.email-result-block {
+			margin: 0 -20px;
+		}
+		.email-result-block .email-block-add-box, .email-result-block .email_box_block {
+			padding: 0 20px;
 		}
 		.search-bar form.d-flex input, .filter-by button {
 			height: 36px;
@@ -157,6 +215,9 @@
 		}
 		.smartlist-result-block .not_found {
 			font-size: 22px;
+		}
+		.input-group-prepend::after {
+			left: 142px;
 		}
 		 .mailbox-tags ul li { font-size: 10px; line-height: 11px; padding: 2px 4px; margin: 0 5px 5px 0; } 
 		 .email-block-add img, .smartlist-add.smartlist-view img { max-width: 50px; } 
@@ -207,7 +268,7 @@
 		.send-confirm .modal-body h4 { font-size: 20px; margin-top: 22px; } 
 		.form-inline .form-group input { max-width: 380px; } 
 		.form-buttons .btn { height: 38px; } 
-		.form-buttons .approved-btn, .form-buttons .btn.btn-large, .form-buttons .btn-primary { padding: 10px 10px; font-size: 13px; } 
+		.form-buttons .approved-btn, .form-buttons .btn.btn-large, .form-buttons .btn-primary { padding: 10px 14px; font-size: 13px; } 
 		.form-inline .form-group label { width: 135px; flex: 0 0 135px; } 
 		.form-inline .form-group input#email-address { max-width: 235px; } 
 		.mail-preview-img img { max-height: 72px; max-width: 63px; } 

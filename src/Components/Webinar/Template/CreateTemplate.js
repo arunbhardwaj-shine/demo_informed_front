@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast, ToastContainer } from "react-toastify";
 import { Button, Col, Form, Row } from 'react-bootstrap';
+import { loader } from '../../../loader';
 function CreateTemplate(props) {
     const [event, setEvent] = useState([]);
     const handleGetEventlist = () => {
@@ -25,10 +26,12 @@ function CreateTemplate(props) {
         }),
         enableReinitialize: true,
         onSubmit: (values) => {
+          loader("show")
             ExportApi.CreateTemplate(values.Templatename, values.Selectevent).then((resp) => {
                 if (resp.ok) {
                  props.htTemplate(values.Selectevent)
                   if (resp.data.code == 200) {
+                    loader("hide")
                       props.data(false)
                     toast.success(resp.data.message, {
                       position: "top-right",
@@ -59,6 +62,9 @@ function CreateTemplate(props) {
       }, [])
   return (
     <div>
+       <div className="loader" id="custom_loader">
+	        <span className="loader-view"> </span>
+          </div>
           <ToastContainer
           position="top-right"
           autoClose={5000}

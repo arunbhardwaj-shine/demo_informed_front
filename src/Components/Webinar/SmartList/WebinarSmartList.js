@@ -701,7 +701,7 @@ const WebinarSmartList = () => {
                         <div className="smartlist-buttons">
                           {data.upload_by_filter == 1 ? (
                             <Link
-                              className="btn btn-primary edit_list"
+                              className="btn btn-primary btn-bordered edit_list"
                               to={{
                                 pathname: "/EditList",
                                 search: "?listId=" + data.id,
@@ -711,7 +711,7 @@ const WebinarSmartList = () => {
                             </Link>
                           ) : (
                             <Link
-                              className="btn btn-primary edit_list"
+                              className="btn btn-primary btn-bordered edit_list"
                               to={{
                                 pathname: "/ViewSmartList",
                                 search: "?listId=" + data.id,

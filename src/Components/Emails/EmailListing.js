@@ -977,7 +977,7 @@ const EmailList = (props) => {
                                 </tr>
                                 <tr>
                                   <th>List</th>
-                                  <td>{data.list}</td>
+                                  <td>{data.smart_list_name}</td>
                                 </tr>
                               </tbody>
                             </table>
@@ -1296,7 +1296,7 @@ const EmailList = (props) => {
                         </tr>
                         <tr>
                           <th>List</th>
-                          <td>{viewEmailData[0].list}</td>
+                          <td>{viewEmailData[0].smart_list_name}</td>
                         </tr>
                         <tr>
                           <th>Content Title </th>

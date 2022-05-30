@@ -20,6 +20,7 @@ const EmailSand = () => {
   const [templateList, setTemplateList] = useState();
   const [templateId, setTemplateId] = useState();
   const [massage, setMassage] = useState();
+  const [Templatesubject, setTemplatesubject] = useState();
   const [registeredNonRegistered, setRegisteredNonRegistered] = useState();
   const [checked, setChecked] = React.useState([1]);
   const [Checkbox, setCheckbox] = React.useState([]);
@@ -39,9 +40,13 @@ const EmailSand = () => {
         document.body.removeChild(link);
   }
   const handleGetEventlist = () => {
+    loader("show")
     ExportApi.GetEventList().then((resp) => {
       if (resp.ok) {
+        loader("hide")
         setEvent(resp.data.data);
+        setEventId(resp.data.data[0].id)
+        handleGetTemplateList(resp.data.data[0].id)
       }
     });
   };
@@ -115,9 +120,11 @@ const EmailSand = () => {
   };
 
   const handleGetTemplateList = (id) => {
+    loader("show")
     ExportApi.UserTemplateList(id).then((resp) => {
       if (resp.ok) {
-        console.log("first", resp.data.code);
+        loader("hide")
+        console.log("first", resp.data.data);
         if (resp.data.code == 404) {
           setTemplateId();
         }
@@ -135,10 +142,17 @@ const EmailSand = () => {
       }
     });
   };
+  const handleGetTemplatesubject = (id) => {
+    ExportApi.UserTemplate(id).then((resp) => {
+      if (resp.ok) {
+       setTemplatesubject(resp.data.data.subject);
+      }
+    });
+  };
   const handleGSendEmail = (id) => {
     loader("show")
     let a = JSON.stringify(data);
-    ExportApi.sandAllmaik(templateId, a, registeredNonRegistered).then(
+    ExportApi.sandAllmaik(templateId, a, registeredNonRegistered,Templatesubject).then(
       (resp) => {
         if (resp.ok) {
           if (resp.data.code == 200) {
@@ -224,7 +238,9 @@ const EmailSand = () => {
     },
     validationSchema: Yup.object({
       name: Yup.string().required("Name is required"),
-      email: Yup.string().required("Email is required"),
+      email: Yup.string()
+      .email("Invalid email address")
+      .required("Email is required"),
     }),
     onSubmit: (values) => {
       ExportApi.EmailSand(eventId, values.name, values.email)
@@ -359,13 +375,25 @@ const EmailSand = () => {
             >
               Send Mail
             </Button>
+          
           </Col>:null}
+          {data.length>0&&templateId?<Col>
+            <Form.Label> subject</Form.Label>
+            <Form.Control
+            value={Templatesubject}
+              name="type"
+              onChange={(e) => {
+                setTemplatesubject(e.target.value);
+              }}
+           />
+            </Col>:null}
         </Row>
         <Row style={{ paddingTop: "50px" }}>
           <Col>
             <Form.Label>Select Event </Form.Label>
             <Form.Select
               name="type"
+              value={eventId}
               onChange={(e) => {
                 handleGetTemplateList(e.target.value);
                 setEventId(e.target.value);
@@ -387,6 +415,7 @@ const EmailSand = () => {
                 <Form.Select
                   onChange={(e) => {
                     handleTempId(e.target.value);
+                    handleGetTemplatesubject(e.target.value)
                   }}
                   name="type"
                 >
