@@ -193,44 +193,7 @@ function Rehearsal() {
   //   }
   //   return err
   //   };
-  const formik = useFormik({
-    onSubmit: () => {
-      if (handeleErr()) {
-        alert("okk");
-        // var today = new Date(values.date);
-        // var dd = String(today.getDate()).padStart(2, "0");
-        // var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-        // var yyyy = today.getFullYear();
-        // let dateData = dd + "/" + mm + "/" + yyyy;
-        //   let rehearsalSpeakername = JSON.stringify(Speakername);
-        //     ExportApi.CreatRehearsal(rehearsalSpeakername)
-        //       .then((resp) => {
-        //         if (resp.data.code == 200) {
-        //           toast.success(resp.data.message, {
-        //             position: "top-right",
-        //             autoClose: 5000,
-        //             hideProgressBar: false,
-        //             closeOnClick: true,
-        //             pauseOnHover: true,
-        //             draggable: true,
-        //             progress: undefined,
-        //           });
-        //         } else {
-        //           toast.error(resp.data.message, {
-        //             position: "top-right",
-        //             autoClose: 5000,
-        //             hideProgressBar: false,
-        //             closeOnClick: true,
-        //             pauseOnHover: true,
-        //             draggable: true,
-        //             progress: undefined,
-        //           });
-        //         }
-        //       })
-        //       .catch((err) => console.log(err));
-      }
-    },
-  });
+
 
   const handleOnChange = (e, i) => {
     const { name, value } = e.target;
@@ -323,14 +286,44 @@ function Rehearsal() {
         <div>
           <h2> Rehearsal</h2>
           <div>
-            <form onReset={formik.handleReset} onSubmit={formik.handleSubmit}>
+            <form  onSubmit={
+             (e)=>{  
+              e.preventDefault() 
+              if (handeleErr()) {
+             let rehearsalSpeakername = JSON.stringify(Speakername);
+            ExportApi.CreatRehearsal(rehearsalSpeakername)
+              .then((resp) => {
+                if (resp.data.code == 200) {
+                  toast.success(resp.data.message, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                  });
+                } else {
+                  toast.error(resp.data.message, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                  });
+                }
+              })
+              .catch((err) => console.log(err));
+              }
+            }}>
               {Speakername.map((val, i) => (
                 <div>
                   {Speakername.length > 1 ? (
                     <button
                       type="button"
                       onClick={() => {
-                        // setIndex(i);
                         handleMaltiInputRumove(i);
                       }}
                       className="btn-close float-end"
@@ -350,17 +343,11 @@ function Rehearsal() {
                       <Form.Control
                         name="title"
                         onChange={(e) => handleOnChange(e, i)}
-                        // onBlur={formik.handleBlur}
                         value={val.title}
                       />
                       <div style={{ color: "red" }}>
                         <p> {SpeakernameErr[i].title}</p>
                       </div>
-                      {/* {Speakername[i].title == "" ||
-                      Speakername[i].title == null ||
-                      Speakername[i].title == undefined ? (
-                        <div style={{ color: "red" }}>{Err}</div>
-                      ) : null} */}
                     </Col>
                   </Form.Group>
                   <Form.Group
@@ -377,7 +364,6 @@ function Rehearsal() {
                         type="date"
                         min={yyyy + "-" + mm + "-" + dd}
                         onChange={(e) => handleOnChange(e, i)}
-                        // onBlur={formik.handleBlur}
                         value={val.date}
                       />
 
@@ -398,7 +384,6 @@ function Rehearsal() {
                       <Form.Select
                         name="timezone"
                         onChange={(e) => handleOnChange(e, i)}
-                        // onBlur={formik.handleBlur}
                         value={val.timezone}
                       >
                         <option value="">Select Timezone</option>
@@ -410,7 +395,6 @@ function Rehearsal() {
                       </Form.Select>
 
                       <div style={{ color: "red" }}>
-                        {/* {formik.errors.Timezone} */}
                         {SpeakernameErr[i].timezone}
                       </div>
                     </Col>
@@ -425,19 +409,12 @@ function Rehearsal() {
                     </Form.Label>
                     <Col sm={10}>
                       <Form.Control
-                        // name="start_time"
+                      name="start_time"
                         type="time"
                         onChange={(e) => handleOnChange(e, i)}
-                        // onBlur={formik.handleBlur}
                         value={val.start_time}
                       />
-                      {formik.touched.start_time && formik.errors.start_time ? (
-                        <div style={{ color: "red" }}>
-                          {formik.errors.start_time}
-                        </div>
-                      ) : null}
                       <div style={{ color: "red" }}>
-                        {/* {formik.errors.Timezone} */}
                         {SpeakernameErr[i].start_time}
                       </div>
                     </Col>
@@ -455,16 +432,9 @@ function Rehearsal() {
                         name="end_time"
                         type="time"
                         onChange={(e) => handleOnChange(e, i)}
-                        // onBlur={formik.handleBlur}
                         value={val.end_time}
                       />
-                      {formik.touched.end_time && formik.errors.end_time ? (
-                        <div style={{ color: "red" }}>
-                          {formik.errors.end_time}
-                        </div>
-                      ) : null}
                       <div style={{ color: "red" }}>
-                        {/* {formik.errors.Timezone} */}
                         {SpeakernameErr[i].end_time}
                       </div>
                     </Col>
@@ -495,9 +465,6 @@ function Rehearsal() {
                           <Col sm={10}>
                             <Form.Control
                               type="text"
-                              // name={
-                              //   Speakername.length === 0 ? "name" : "name" + i
-                              // }
                               value={malti.name}
                               onChange={(e) => {
                                 handleSpeakerdata(e, i, index);
@@ -505,7 +472,6 @@ function Rehearsal() {
                             />
 
                             <div style={{ color: "red" }}>
-                              {/* {formik.errors.Timezone} */}
                               {SpeakernameErr[i].invites_data[index].name}
                             </div>
                           </Col>
@@ -517,16 +483,12 @@ function Rehearsal() {
                             <Form.Control
                               type="email"
                               value={malti.email}
-                              // name={
-                              //   .invites_data.length === 0 ? "email" : "email" + i
-                              // }
                               onChange={(e) => {
                                 handleSpeakerdataEmail(e, i, index);
                               }}
                             />
 
                             <div style={{ color: "red" }}>
-                              {/* {formik.errors.Timezone} */}
                               {SpeakernameErr[i].invites_data[index].email}
                             </div>
                           </Col>
@@ -560,7 +522,6 @@ function Rehearsal() {
                         <Form.Select
                           name="event_id"
                           onChange={(e) => handleOnChange(e, i)}
-                          onBlur={formik.handleBlur}
                           value={val.event_id}
                         >
                           <option value=""> Select Event</option>
@@ -571,7 +532,6 @@ function Rehearsal() {
                           ))}
                         </Form.Select>
                         <div style={{ color: "red" }}>
-                          {/* {formik.errors.Timezone} */}
                           {SpeakernameErr[i].event_id}
                         </div>
                       </Col>

@@ -168,30 +168,12 @@ const CreatEvent = (
   );
 //Rehearsal
 const CreatRehearsal = (
-  EventTitle,
-  Timezone,
-  event_start_time,
-  eventendtime,
-  event_date,
-  type,
-  Description,
-  a
+  rehearsalSpeakername
 ) =>
   BaseApi.post(
     "rehearsal",
     {
-      code: 12,
-      event_id: 1,
-      company_id: 1,
-      title: EventTitle,
-      description: Description,
-      type: type,
-      date: event_date,
-      start_time: event_start_time,
-      end_time: eventendtime,
-      timezone: Timezone,
-      pdf_link: "htttps",
-      invites_data: a,
+      rehearsalSpeaker:rehearsalSpeakername
     },
     {
       headers: {
