@@ -13,26 +13,24 @@ function Rehearsal() {
   // const [Speakername, setSpeakerName] = useState([{name: "", email: "" }]);
   const [Speakername, setSpeakerName] = useState([
     {
-      EventTitle: "",
-      Timezone: "",
-      event_date: "",
-      eventendtime: "",
-      event_start_time: "",
-      speakerdata: [{ name: "", email: "" }],
-      type: "",
-      Description: "",
+      title: "",
+      timezone: "",
+      date: "",
+      end_time: "",
+      start_time: "",
+      invites_data: [{ name: "", email: "" }],
+      event_id: "",
     },
   ]);
   const [SpeakernameErr, setSpeakerNameErr] = useState([
     {
-      EventTitle: "",
-      Timezone: "",
-      event_date: "",
-      eventendtime: "",
-      event_start_time: "",
-      speakerdata: [{ name: "", email: "" }],
-      type: "",
-      Description: "",
+      title: "",
+      timezone: "",
+      date: "",
+      end_time: "",
+      start_time: "",
+      invites_data: [{ name: "", email: "" }],
+      event_id: "",
     },
   ]);
   const [Timezone, setTimezone] = useState([]);
@@ -42,27 +40,25 @@ function Rehearsal() {
     setSpeakerName([
       ...Speakername,
       {
-        EventTitle: "",
-        Timezone: "",
-        event_date: "",
-        eventendtime: "",
-        event_start_time: "",
-        speakerdata: [{ name: "", email: "" }],
-        type: "",
-        Description: "",
+        title: "",
+        timezone: "",
+        date: "",
+        end_time: "",
+        start_time: "",
+        invites_data: [{ name: "", email: "" }],
+        event_id: "",
       },
     ]);
     setSpeakerNameErr([
       ...SpeakernameErr,
       {
-        EventTitle: "",
-        Timezone: "",
-        event_date: "",
-        eventendtime: "",
-        event_start_time: "",
-        speakerdata: [{ name: "", email: "" }],
-        type: "",
-        Description: "",
+        title: "",
+        timezone: "",
+        date: "",
+        end_time: "",
+        start_time: "",
+        invites_data: [{ name: "", email: "" }],
+        event_id: "",
       },
     ]);
   };
@@ -100,345 +96,214 @@ function Rehearsal() {
     handleGetEventlist();
   }, []);
 
-  const handeleErr = () => {
-    let err;
-    for (let index = 0; index < Speakername.length; index++) {
-    if (Speakername[index].EventTitle.length == 0) {
-    err = false;
-    const copydataErr = SpeakernameErr[index];
-    copydataErr.EventTitle = "Title is required";
-    setSpeakerNameErr([...SpeakernameErr]);
-    }
-    if (Speakername[index].Timezone.length == 0) {
-    err = false;
-    const copydataErr = SpeakernameErr[index];
-    copydataErr.Timezone = "Timezone is required";
-    setSpeakerNameErr([...SpeakernameErr]);
-    }
-    if (!Speakername[index].event_date) {
-    err = false;
-    const copydataErr = SpeakernameErr[index];
-    copydataErr.event_date = "Event date is required";
-    setSpeakerNameErr([...SpeakernameErr]);
-    }
-    if (Speakername[index].eventendtime.length == 0) {
-    err = false;
-    const copydataErr = SpeakernameErr[index];
-    copydataErr.eventendtime = "Event end time is required";
-    setSpeakerNameErr([...SpeakernameErr]);
-    }
-    if (Speakername[index].event_start_time.length == 0) {
-    err = false;
-    const copydataErr = SpeakernameErr[index];
-    copydataErr.event_start_time = "Event end time is required";
-    setSpeakerNameErr([...SpeakernameErr]);
-    }
-    
-    
-    
-    for (let i = 0; i < Speakername[index].speakerdata.length; i++) {
-    if (Speakername[index].speakerdata[i].name.length == 0) {
-    err = false;
-    const copydataErr = SpeakernameErr[index];
-    copydataErr.speakerdata[i].name = "Name is required";
-    setSpeakerNameErr([...SpeakernameErr]);
-    }
-    
-    
-    
-    const regex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-    if(Speakername[index].speakerdata[i].email.length == 0 || regex.test(Speakername[index].speakerdata[i].email) === false){
-    
-    
-    
-    err = false;
-    const copydataErr = SpeakernameErr[index];
-    copydataErr.speakerdata[i].email = "Email address is required";
-    setSpeakerNameErr([...SpeakernameErr]);
-    }
-    }
-    
-    
-    
-    
-    if (Speakername[index].type.length == 0) {
-    err = false;
-    const copydataErr = SpeakernameErr[index];
-    copydataErr.type = "Type is required";
-    setSpeakerNameErr([...SpeakernameErr]);
-    }
-    if (Speakername[index].Description.length == 0) {
-    err = false;
-    const copydataErr = SpeakernameErr[index];
-    copydataErr.Description = "Description is required";
-    setSpeakerNameErr([...SpeakernameErr]);
-    }
+  let err;
+  function validateRehearsalData(index, field_name, message) {
+    err = true;
+    if (Speakername[index][field_name].length == 0) {
+      SpeakernameErr[index][field_name] = message;
+      setSpeakerNameErr([...SpeakernameErr]);
+      err = false;
     }
     return err
-    };
-  const formik = useFormik({
-    initialValues: {
-      EventTitle: "",
-      Timezone: "",
-      event_start_time: "",
-      eventendtime: "",
-      event_date: "",
-      type: "",
-      Description: "",
-    },
-    onSubmit: (values) => {
-      if (handeleErr()) {
-        alert(true);
+  }
+  const handeleErr = () => {
+    for (let index = 0; index < Speakername.length; index++) {
+      validateRehearsalData(index, "title", "Title is required");
+      validateRehearsalData(index, "timezone", "Timezone is required");
+      validateRehearsalData(index, "date", "Date is required");
+      validateRehearsalData(index, "end_time", " end time is required");
+      validateRehearsalData(index, "start_time", " end time is required");
+      for (let i = 0; i < Speakername[index].invites_data.length; i++) {
+        if (Speakername[index].invites_data[i].name.length == 0) {
+          err = false;
+          SpeakernameErr[index].invites_data[i].name = "Name is required";
+          setSpeakerNameErr([...SpeakernameErr]);
+        }
+        const regex =
+          /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+        if (
+          Speakername[index].invites_data[i].email.length == 0 ||
+          regex.test(Speakername[index].invites_data[i].email) === false
+        ) {
+          err = false;
+          SpeakernameErr[index].invites_data[i].email =
+            "Email address is required";
+          setSpeakerNameErr([...SpeakernameErr]);
+        }
       }
+      validateRehearsalData(index, "event_id", "Event is required");
+    }
+    return err;
+  };
 
-      // var today = new Date(values.event_date);
-      // var dd = String(today.getDate()).padStart(2, "0");
-      // var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-      // var yyyy = today.getFullYear();
-      // let dateData = dd + "-" + mm + "-" + yyyy;
-      // let a = JSON.stringify(Speakername);
-      // ExportApi.CreatRehearsal(
-      //   values.EventTitle,
-      //   values.Timezone,
-      //   values.event_start_time,
-      //   values.eventendtime,
-      //   dateData,
-      //   values.type,
-      //   values.Description,
-      //   Speakername[0].name && Speakername[0].email ? a : null
-      // )
-      //   .then((resp) => {
-      //     if (resp.data.code == 200) {
-      //       toast.success(resp.data.message, {
-      //         position: "top-right",
-      //         autoClose: 5000,
-      //         hideProgressBar: false,
-      //         closeOnClick: true,
-      //         pauseOnHover: true,
-      //         draggable: true,
-      //         progress: undefined,
-      //       });
-      //     } else {
-      //       toast.error(resp.data.message, {
-      //         position: "top-right",
-      //         autoClose: 5000,
-      //         hideProgressBar: false,
-      //         closeOnClick: true,
-      //         pauseOnHover: true,
-      //         draggable: true,
-      //         progress: undefined,
-      //       });
-      //     }
-      //   })
-      //   .catch((err) => console.log(err));
+  // const handeleErr = () => {
+  //   let err;
+  //   for (let index = 0; index < Speakername.length; index++) {
+  //   if (Speakername[index].title.length == 0) {
+  //   err = false;
+  //   const copydataErr = SpeakernameErr[index];
+  //   copydataErr.title = "Title is required";
+  //   setSpeakerNameErr([...SpeakernameErr]);
+  //   }
+  //   if (Speakername[index].timezone.length == 0) {
+  //   err = false;
+  //   const copydataErr = SpeakernameErr[index];
+  //   copydataErr.timezone = "timezone is required";
+  //   setSpeakerNameErr([...SpeakernameErr]);
+  //   }
+  //   if (Speakername[index].date) {
+  //   err = false;
+  //   const copydataErr = SpeakernameErr[index];
+  //   copydataErr.date = "date is required";
+  //   setSpeakerNameErr([...SpeakernameErr]);
+  //   }
+  //   if (Speakername[index].end_time.length == 0) {
+  //   err = false;
+  //   const copydataErr = SpeakernameErr[index];
+  //   copydataErr.end_time = "Event end time is required";
+  //   setSpeakerNameErr([...SpeakernameErr]);
+  //   }
+  //   if (Speakername[index].start_time.length == 0) {
+  //   err = false;
+  //   const copydataErr = SpeakernameErr[index];
+  //   copydataErr.start_time = "Event end time is required";
+  //   setSpeakerNameErr([...SpeakernameErr]);
+  //   }
+  //   for (let i = 0; i < Speakername[index].invites_data.length; i++) {
+  //   if (Speakername[index].invites_data[i].name.length == 0) {
+  //   err = false;
+  //   const copydataErr = SpeakernameErr[index];
+  //   copydataErr.invites_data[i].name = "Name is required";
+  //   setSpeakerNameErr([...SpeakernameErr]);
+  //   }
+  //   const regex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+  //   if(Speakername[index].invites_data[i].email.length == 0 || regex.test(Speakername[index].invites_data[i].email) === false){
+  //   err = false;
+  //   const copydataErr = SpeakernameErr[index];
+  //   copydataErr.invites_data[i].email = "Email address is required";
+  //   setSpeakerNameErr([...SpeakernameErr]);
+  //   }
+  //   }
+  //   if (Speakername[index].event_id.length == 0) {
+  //   err = false;
+  //   const copydataErr = SpeakernameErr[index];
+  //   copydataErr.event_id = "event is required";
+  //   setSpeakerNameErr([...SpeakernameErr]);
+  //   }
+  //   }
+  //   return err
+  //   };
+  const formik = useFormik({
+    onSubmit: () => {
+      if (handeleErr()) {
+        alert("okk");
+        // var today = new Date(values.date);
+        // var dd = String(today.getDate()).padStart(2, "0");
+        // var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+        // var yyyy = today.getFullYear();
+        // let dateData = dd + "/" + mm + "/" + yyyy;
+        //   let rehearsalSpeakername = JSON.stringify(Speakername);
+        //     ExportApi.CreatRehearsal(rehearsalSpeakername)
+        //       .then((resp) => {
+        //         if (resp.data.code == 200) {
+        //           toast.success(resp.data.message, {
+        //             position: "top-right",
+        //             autoClose: 5000,
+        //             hideProgressBar: false,
+        //             closeOnClick: true,
+        //             pauseOnHover: true,
+        //             draggable: true,
+        //             progress: undefined,
+        //           });
+        //         } else {
+        //           toast.error(resp.data.message, {
+        //             position: "top-right",
+        //             autoClose: 5000,
+        //             hideProgressBar: false,
+        //             closeOnClick: true,
+        //             pauseOnHover: true,
+        //             draggable: true,
+        //             progress: undefined,
+        //           });
+        //         }
+        //       })
+        //       .catch((err) => console.log(err));
+      }
     },
   });
 
-  const handeleEventTitle = (e, i) => {
-    const { value } = e.target;
-    const copydata = Speakername[i];
-    copydata.EventTitle = value;
-    Speakername.splice(i, 1, copydata);
+  const handleOnChange = (e, i) => {
+    const { name, value } = e.target;
+    Speakername[i][name] = value;
+    Speakername.splice(i, 1, Speakername[i]);
     setSpeakerName([...Speakername]);
     if (value.length == 0) {
-      const copydataErr = SpeakernameErr[i];
-      copydataErr.EventTitle = "requred Field EventTitle";
+      SpeakernameErr[i][name] = name + "is required";
       setSpeakerNameErr([...SpeakernameErr]);
     } else {
-      const copydataErr = SpeakernameErr[i];
-      copydataErr.EventTitle = "";
-      setSpeakerNameErr([...SpeakernameErr]);
-    }
-  };
-  const handeledate = (e, i) => {
-    const { value } = e.target;
-    const copydata = Speakername[i];
-    copydata.event_date = value;
-    Speakername.splice(i, 1, copydata);
-    setSpeakerName([...Speakername]);
-
-    if (value.length == 0) {
-      const copydataErr = SpeakernameErr[i];
-      copydataErr.event_date = "requred Field Date";
-      setSpeakerNameErr([...SpeakernameErr]);
-    } else {
-      const copydataErr = SpeakernameErr[i];
-      copydataErr.event_date = "";
-      setSpeakerNameErr([...SpeakernameErr]);
-    }
-  };
-  const handleTimezone = (e, i) => {
-    const { value } = e.target;
-    const copydata = Speakername[i];
-    copydata.Timezone = value;
-    Speakername.splice(i, 1, copydata);
-    setSpeakerName([...Speakername]);
-    if (value.length == 0) {
-      const copydataErr = SpeakernameErr[i];
-      copydataErr.Timezone = "requred Field time Zone";
-      setSpeakerNameErr([...SpeakernameErr]);
-    } else {
-      const copydataErr = SpeakernameErr[i];
-      copydataErr.Timezone = "";
-      setSpeakerNameErr([...SpeakernameErr]);
-    }
-  };
-  const handleStartTime = (e, i) => {
-    const { value } = e.target;
-    const copydata = Speakername[i];
-    copydata.event_start_time = value;
-    Speakername.splice(i, 1, copydata);
-    setSpeakerName([...Speakername]);
-    if (value.length == 0) {
-      const copydataErr = SpeakernameErr[i];
-      copydataErr.event_start_time = "requred Field start time";
-      setSpeakerNameErr([...SpeakernameErr]);
-    } else {
-      const copydataErr = SpeakernameErr[i];
-      copydataErr.event_start_time = "";
-      setSpeakerNameErr([...SpeakernameErr]);
-    }
-  };
-  const handleEndTime = (e, i) => {
-    const { value } = e.target;
-    const copydata = Speakername[i];
-    copydata.eventendtime = value;
-    Speakername.splice(i, 1, copydata);
-    setSpeakerName([...Speakername]);
-    if (value.length == 0) {
-      const copydataErr = SpeakernameErr[i];
-      copydataErr.eventendtime = "requred Field eventendtime";
-      setSpeakerNameErr([...SpeakernameErr]);
-    } else {
-      const copydataErr = SpeakernameErr[i];
-      copydataErr.eventendtime = "";
-      setSpeakerNameErr([...SpeakernameErr]);
-    }
-  };
-  const handleChangeevent = (e, i) => {
-    const { value } = e.target;
-    const copydata = Speakername[i];
-    copydata.type = value;
-    Speakername.splice(i, 1, copydata);
-    setSpeakerName([...Speakername]);
-
-    if (value.length == 0) {
-      const copydataErr = SpeakernameErr[i];
-      copydataErr.type = "requred Field type";
-      setSpeakerNameErr([...SpeakernameErr]);
-    } else {
-      const copydataErr = SpeakernameErr[i];
-      copydataErr.type = "";
-      setSpeakerNameErr([...SpeakernameErr]);
-    }
-  };
-  const handleChangeDecription = (e, i) => {
-    const { value } = e.target;
-    const copydata = Speakername[i];
-    copydata.Description = value;
-    Speakername.splice(i, 1, copydata);
-    setSpeakerName([...Speakername]);
-    if (value.length == 0) {
-      const copydataErr = SpeakernameErr[i];
-      copydataErr.Description = "requred Field Description";
-      setSpeakerNameErr([...SpeakernameErr]);
-    } else {
-      const copydataErr = SpeakernameErr[i];
-      copydataErr.Description = "";
+      SpeakernameErr[i][name] = "";
       setSpeakerNameErr([...SpeakernameErr]);
     }
   };
   const handleSpeakerdata = (e, i, index) => {
     const { value } = e.target;
     const copydata = Speakername[i];
-    copydata.speakerdata[index].name = value;
-    console.log(copydata.speakerdata[index].name);
+    copydata.invites_data[index].name = value;
+    console.log(copydata.invites_data[index].name);
     Speakername.splice(i, 1, copydata);
     setSpeakerName([...Speakername]);
     if (value.length == 0) {
       const copydataErr = SpeakernameErr[i];
-      copydataErr.speakerdata[index].name = "requred Field name";
+      copydataErr.invites_data[index].name = "requred Field name";
       setSpeakerNameErr([...SpeakernameErr]);
     } else {
       const copydataErr = SpeakernameErr[i];
-      copydataErr.speakerdata[index].name = "";
+      copydataErr.invites_data[index].name = "";
       setSpeakerNameErr([...SpeakernameErr]);
     }
   };
   const handleSpeakerdataEmail = (e, i, index) => {
     const { value } = e.target;
     const copydata = Speakername[i];
-    copydata.speakerdata[index].email = value;
+    copydata.invites_data[index].email = value;
     Speakername.splice(i, 1, copydata);
     setSpeakerName([...Speakername]);
     if (value.length == 0) {
       const copydataErr = SpeakernameErr[i];
-      copydataErr.speakerdata[index].email = "requred Field email";
+      copydataErr.invites_data[index].email = "requred Field email";
       setSpeakerNameErr([...SpeakernameErr]);
     } else if (
-      !Speakername[i].speakerdata[index].email.match(
+      !Speakername[i].invites_data[index].email.match(
         /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i
       )
     ) {
       const copydataErr = SpeakernameErr[i];
-      copydataErr.speakerdata[index].email = "Invalid email address";
+      copydataErr.invites_data[index].email = "Invalid email address";
       setSpeakerNameErr([...SpeakernameErr]);
     } else {
       const copydataErr = SpeakernameErr[i];
-      copydataErr.speakerdata[index].email = "";
+      copydataErr.invites_data[index].email = "";
       setSpeakerNameErr([...SpeakernameErr]);
     }
   };
   const handleSpeakerdataInputAdd = (i) => {
     const copydata = Speakername[i];
-    copydata.speakerdata.push({ name: "", email: "" });
+    copydata.invites_data.push({ name: "", email: "" });
     setSpeakerName([...Speakername]);
     const copydataErr = SpeakernameErr[i];
-    copydataErr.speakerdata.push({ name: "", email: "" });
+    copydataErr.invites_data.push({ name: "", email: "" });
     console.log("copydataErr", copydataErr);
     setSpeakerNameErr([...SpeakernameErr]);
   };
   const handleSpeakerdataInputRumove = (i, index) => {
     const copydata = Speakername[i];
     const copydataErr = SpeakernameErr[i];
-    copydata.speakerdata.splice(index, 1);
-    copydataErr.speakerdata.splice(index, 1);
+    copydata.invites_data.splice(index, 1);
+    copydataErr.invites_data.splice(index, 1);
     console.log(copydata);
     setRerender(render + 1);
     setSpeakerName([...copydata]);
     setSpeakerNameErr([...copydataErr]);
-  };
-
-  const handleValidation = () => {
-    Speakername.map((data) => {
-      if (
-        data.EventTitle == "" ||
-        data.EventTitle == null ||
-        data.EventTitle == undefined
-      ) {
-        setErr("Please enter title");
-      } else if (
-        data.Timezone == "" ||
-        data.Timezone == null ||
-        data.Timezone == undefined
-      ) {
-        setErr("Please select timezone");
-      }
-    });
-    // if (Speakername.every((element) => element == "true")) {
-    //   setHpc([
-    //     ...hpc,
-    //     {
-    //       firstname: "",
-    //       lastname: "",
-    //       email: "",
-    //       contact_type: "",
-    //       country: "",
-    //     },
-    //   ]);
-    // } else {
-    //   toast.warning("Please input the email atleast");
-    // }
   };
   return (
     <Row>
@@ -479,21 +344,21 @@ function Rehearsal() {
                     controlId="exampleForm.ControlInput1"
                   >
                     <Form.Label column sm={2}>
-                      Event Title{" "}
+                      Title{" "}
                     </Form.Label>
                     <Col sm={10}>
                       <Form.Control
-                        // name="EventTitle"
-                        onChange={(e) => handeleEventTitle(e, i)}
+                        name="title"
+                        onChange={(e) => handleOnChange(e, i)}
                         // onBlur={formik.handleBlur}
-                        value={val.EventTitle}
+                        value={val.title}
                       />
                       <div style={{ color: "red" }}>
-                        <p> {SpeakernameErr[i].EventTitle}</p>
+                        <p> {SpeakernameErr[i].title}</p>
                       </div>
-                      {/* {Speakername[i].EventTitle == "" ||
-                      Speakername[i].EventTitle == null ||
-                      Speakername[i].EventTitle == undefined ? (
+                      {/* {Speakername[i].title == "" ||
+                      Speakername[i].title == null ||
+                      Speakername[i].title == undefined ? (
                         <div style={{ color: "red" }}>{Err}</div>
                       ) : null} */}
                     </Col>
@@ -508,16 +373,16 @@ function Rehearsal() {
                     </Form.Label>
                     <Col sm={10}>
                       <Form.Control
-                        name="event_date"
+                        name="date"
                         type="date"
                         min={yyyy + "-" + mm + "-" + dd}
-                        onChange={(e) => handeledate(e, i)}
+                        onChange={(e) => handleOnChange(e, i)}
                         // onBlur={formik.handleBlur}
-                        value={val.event_date}
+                        value={val.date}
                       />
 
                       <div style={{ color: "red" }}>
-                        {<p> {SpeakernameErr[i].event_date}</p>}
+                        {<p> {SpeakernameErr[i].date}</p>}
                       </div>
                     </Col>
                   </Form.Group>
@@ -531,10 +396,10 @@ function Rehearsal() {
                     </Form.Label>
                     <Col sm={10}>
                       <Form.Select
-                        name="Timezone"
-                        onChange={(e) => handleTimezone(e, i)}
+                        name="timezone"
+                        onChange={(e) => handleOnChange(e, i)}
                         // onBlur={formik.handleBlur}
-                        value={val.Timezone}
+                        value={val.timezone}
                       >
                         <option value="">Select Timezone</option>
                         {Timezone?.map((val, i) => (
@@ -546,7 +411,7 @@ function Rehearsal() {
 
                       <div style={{ color: "red" }}>
                         {/* {formik.errors.Timezone} */}
-                        {SpeakernameErr[i].Timezone}
+                        {SpeakernameErr[i].timezone}
                       </div>
                     </Col>
                   </Form.Group>
@@ -555,27 +420,25 @@ function Rehearsal() {
                     as={Row}
                     controlId="exampleForm.ControlInput1"
                   >
-                    {console.log(SpeakernameErr)}
                     <Form.Label column sm={2}>
                       Event Start Time{" "}
                     </Form.Label>
                     <Col sm={10}>
                       <Form.Control
-                        // name="event_start_time"
+                        // name="start_time"
                         type="time"
-                        onChange={(e) => handleStartTime(e, i)}
+                        onChange={(e) => handleOnChange(e, i)}
                         // onBlur={formik.handleBlur}
-                        value={val.event_start_time}
+                        value={val.start_time}
                       />
-                      {formik.touched.event_start_time &&
-                      formik.errors.event_start_time ? (
+                      {formik.touched.start_time && formik.errors.start_time ? (
                         <div style={{ color: "red" }}>
-                          {formik.errors.event_start_time}
+                          {formik.errors.start_time}
                         </div>
                       ) : null}
                       <div style={{ color: "red" }}>
                         {/* {formik.errors.Timezone} */}
-                        {SpeakernameErr[i].event_start_time}
+                        {SpeakernameErr[i].start_time}
                       </div>
                     </Col>
                   </Form.Group>
@@ -589,30 +452,29 @@ function Rehearsal() {
                     </Form.Label>
                     <Col sm={10}>
                       <Form.Control
-                        name="eventendtime"
+                        name="end_time"
                         type="time"
-                        onChange={(e) => handleEndTime(e, i)}
+                        onChange={(e) => handleOnChange(e, i)}
                         // onBlur={formik.handleBlur}
-                        value={val.eventendtime}
+                        value={val.end_time}
                       />
-                      {formik.touched.eventendtime &&
-                      formik.errors.eventendtime ? (
+                      {formik.touched.end_time && formik.errors.end_time ? (
                         <div style={{ color: "red" }}>
-                          {formik.errors.eventendtime}
+                          {formik.errors.end_time}
                         </div>
                       ) : null}
                       <div style={{ color: "red" }}>
                         {/* {formik.errors.Timezone} */}
-                        {SpeakernameErr[i].eventendtime}
+                        {SpeakernameErr[i].end_time}
                       </div>
                     </Col>
                   </Form.Group>
                   <br />
 
-                  {val.speakerdata.map((malti, index) => (
+                  {val.invites_data.map((malti, index) => (
                     <fieldset className="border p-2">
                       <div key={i}>
-                        {val.speakerdata.length > 1 ? (
+                        {val.invites_data.length > 1 ? (
                           <button
                             type="button"
                             onClick={() => {
@@ -644,7 +506,7 @@ function Rehearsal() {
 
                             <div style={{ color: "red" }}>
                               {/* {formik.errors.Timezone} */}
-                              {SpeakernameErr[i].speakerdata[index].name}
+                              {SpeakernameErr[i].invites_data[index].name}
                             </div>
                           </Col>
                           <div className="mt-2"></div>
@@ -656,7 +518,7 @@ function Rehearsal() {
                               type="email"
                               value={malti.email}
                               // name={
-                              //   .speakerdata.length === 0 ? "email" : "email" + i
+                              //   .invites_data.length === 0 ? "email" : "email" + i
                               // }
                               onChange={(e) => {
                                 handleSpeakerdataEmail(e, i, index);
@@ -665,7 +527,7 @@ function Rehearsal() {
 
                             <div style={{ color: "red" }}>
                               {/* {formik.errors.Timezone} */}
-                              {SpeakernameErr[i].speakerdata[index].email}
+                              {SpeakernameErr[i].invites_data[index].email}
                             </div>
                           </Col>
                         </Form.Group>
@@ -696,10 +558,10 @@ function Rehearsal() {
                       </Form.Label>
                       <Col sm={10}>
                         <Form.Select
-                          name="type"
-                          onChange={(e) => handleChangeevent(e, i)}
+                          name="event_id"
+                          onChange={(e) => handleOnChange(e, i)}
                           onBlur={formik.handleBlur}
-                          value={val.type}
+                          value={val.event_id}
                         >
                           <option value=""> Select Event</option>
                           {event?.map((val, i) => (
@@ -708,15 +570,9 @@ function Rehearsal() {
                             </React.Fragment>
                           ))}
                         </Form.Select>
-
-                        {formik.touched.Timezone && formik.errors.Timezone ? (
-                          <div style={{ color: "red" }}>
-                            {formik.errors.Timezone}
-                          </div>
-                        ) : null}
                         <div style={{ color: "red" }}>
                           {/* {formik.errors.Timezone} */}
-                          {SpeakernameErr[i].type}
+                          {SpeakernameErr[i].event_id}
                         </div>
                       </Col>
                     </Form.Group>
@@ -727,33 +583,7 @@ function Rehearsal() {
                       </Link>
                     </h4>
                   )}
-
                   <br />
-                  <Form.Group
-                    as={Row}
-                    className="mb-3"
-                    controlId="exampleForm.ControlInput1"
-                  >
-                    <Form.Label column sm={2}>
-                      Description{" "}
-                    </Form.Label>
-                    <Col sm={10}>
-                      <textarea
-                        // name="Description"
-                        type="text"
-                        onChange={(e) => handleChangeDecription(e, i)}
-                        onBlur={formik.handleBlur}
-                        value={val.Description}
-                        className="form-control"
-                        id="exampleFormControlTextarea1"
-                        rows="3"
-                      ></textarea>
-                      <div style={{ color: "red" }}>
-                        {/* {formik.errors.Timezone} */}
-                        {SpeakernameErr[i].Description}
-                      </div>
-                    </Col>
-                  </Form.Group>
                 </div>
               ))}
               <Button type="submit" className="event-submit-button">
