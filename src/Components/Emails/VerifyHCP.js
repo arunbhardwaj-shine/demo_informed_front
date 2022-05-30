@@ -788,11 +788,11 @@ const VerifyHCP = (props) => {
                             <td>NA</td>
                             <td>NA</td>
                             <td>NA</td>
-                            <td>NA</td>
-                            <td>NA</td>
-                            <td>NA</td>
-                            <td>NA</td>
-                            <td>NA </td>
+                            <td><span>NA</span></td>
+                            <td><span>NA</span></td>
+                            <td><span>NA</span></td>
+                            <td><span>NA</span></td>
+                            <td><span>NA</span></td>
                             <td className="add-new-hcp">
                               <img
                                 src={path_image + "add-row.png"}
@@ -858,7 +858,7 @@ const VerifyHCP = (props) => {
                       ) : sorting == 0 ? (
                         <>
                           <button
-                            className="btn btn-outline-primary"
+                            className="btn btn-outline-primary desc"
                             onClick={sortSelectedUsers}
                           >
                             Sort By{" "}
@@ -871,7 +871,7 @@ const VerifyHCP = (props) => {
                       ) : (
                         <>
                           <button
-                            className="btn btn-outline-primary"
+                            className="btn btn-outline-primary asc"
                             onClick={sortSelectedUsers}
                           >
                             Sort By{" "}
@@ -961,11 +961,11 @@ const VerifyHCP = (props) => {
                             <td>NA</td>
                             <td>NA</td>
                             <td>NA</td>
-                            <td>NA</td>
-                            <td>NA</td>
-                            <td>NA</td>
-                            <td>NA</td>
-                            <td>NA</td>
+                            <td><span>NA</span></td>
+                            <td><span>NA</span></td>
+                            <td><span>NA</span></td>
+                            <td><span>NA</span></td>
+                            <td><span>NA</span></td>
                             <td className="delete_row" colSpan="12">
                               <img
                                 src={path_image + "delete.svg"}

@@ -696,7 +696,7 @@ const SelectSmartListUsers = (props) => {
                       ) : sorting == 0 ? (
                         <>
                           <button
-                            className="btn btn-outline-primary"
+                            className="btn btn-outline-primary desc"
                             onClick={sortSelectedUsers}
                           >
                             Sort By{" "}
@@ -709,7 +709,7 @@ const SelectSmartListUsers = (props) => {
                       ) : (
                         <>
                           <button
-                            className="btn btn-outline-primary"
+                            className="btn btn-outline-primary asc"
                             onClick={sortSelectedUsers}
                           >
                             Sort By{" "}
@@ -774,11 +774,11 @@ const SelectSmartListUsers = (props) => {
                           <td>{rr.country}</td>
                           <td>{rr.ibu}</td>
                           <td>{rr.contact_type}</td>
-                          {showLessInfo == false ? <td>NA </td> : null}
-                          {showLessInfo == false ? <td>{rr.email_received}</td> : null}
-                          {showLessInfo == false ? <td>{rr.email_opening}</td> : null}
-                          {showLessInfo == false ? <td>NA</td> : null}
-                          {showLessInfo == false ? <td>{rr.last_email}</td> : null}
+                          {showLessInfo == false ? <td><span>NA</span> </td> : null}
+                          {showLessInfo == false ? <td><span>{rr.email_received}</span></td> : null}
+                          {showLessInfo == false ? <td><span>{rr.email_opening}</span></td> : null}
+                          {showLessInfo == false ? <td><span>NA</span></td> : null}
+                          {showLessInfo == false ? <td><span>{rr.last_email}</span></td> : null}
                           {/* <td>NA</td>
                           <td>
                             <span>NA</span>
@@ -846,11 +846,11 @@ const SelectSmartListUsers = (props) => {
                           <td>{readers.country}</td>
                           <td>{readers.ibu}</td>
                           <td>{readers.contact_type}</td>
-                          {showLessInfo == false ? <td>NA </td> : null}
-                          {showLessInfo == false ? <td>{readers.email_received}</td> : null}
-                          {showLessInfo == false ? <td>{readers.email_opening}</td> : null}
-                          {showLessInfo == false ? <td>NA</td> : null}
-                          {showLessInfo == false ? <td>{readers.last_email}</td> : null}
+                          {showLessInfo == false ? <td><span>NA</span> </td> : null}
+                          {showLessInfo == false ? <td><span>{readers.email_received}</span></td> : null}
+                          {showLessInfo == false ? <td><span>{readers.email_opening}</span></td> : null}
+                          {showLessInfo == false ? <td><span>NA</span></td> : null}
+                          {showLessInfo == false ? <td><span>{readers.last_email}</span></td> : null}
                           <td className="delete_row" colspan="12">
                             <img
                               src={path_image + "delete.svg"}
@@ -897,11 +897,11 @@ const SelectSmartListUsers = (props) => {
                           </td>
                           <td>{readers.ibu}</td>
                           <td>{readers.contact_type}</td>
-                          {showLessInfo == false ? <td>NA </td> : null}
-                          {showLessInfo == false ? <td>{readers.email_received}</td> : null}
-                          {showLessInfo == false ? <td>{readers.email_opening}</td> : null}
-                          {showLessInfo == false ? <td>NA</td> : null}
-                          {showLessInfo == false ? <td>{readers.last_email}</td> : null}
+                          {showLessInfo == false ? <td><span>NA</span></td> : null}
+                          {showLessInfo == false ? <td><span>{readers.email_received}</span></td> : null}
+                          {showLessInfo == false ? <td><span>{readers.email_opening}</span></td> : null}
+                          {showLessInfo == false ? <td><span>NA</span></td> : null}
+                          {showLessInfo == false ? <td><span>{readers.last_email}</span></td> : null}
                           <td className="delete_row" colspan="12">
                             <img
                               src={path_image + "delete.svg"}
