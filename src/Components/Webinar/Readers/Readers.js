@@ -310,7 +310,7 @@ const Readers = () => {
                       setCountryValue(e.target.value);
                     }}
                   >
-                    <option>Select Country</option>
+                    <option value="">Select Country</option>
                     {countryName?.map((val, i) => (
                       <React.Fragment key={i}>
                         <option value={val.id}>{val.country}</option>
@@ -326,7 +326,7 @@ const Readers = () => {
                       setType(e.target.value);
                     }}
                   >
-                    <option value="null">Select Type</option>
+                    <option value="">Select Type</option>
                     <option value="HCP">HCP</option>
                     <option value="Staff User">Staff User</option>
                     <option value="Test User">Test User</option>
