@@ -897,3 +897,12 @@ input:-webkit-autofill{
   width: 100%;
   height: calc(100% - 70px);
 }
+.hcp-sort .btn.asc:hover, .hcp-sort .btn.desc:hover {
+  color: var(--white);
+}
+.hcp-sort .btn.asc, .hcp-sort .btn.desc {
+  color: var(--light-blue);
+}
+.email-draft .mail-box-content {
+  box-shadow: 0px -6px 6px -4px rgb(0 102 190 / 20%);
+}
