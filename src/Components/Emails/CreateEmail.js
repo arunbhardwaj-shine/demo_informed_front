@@ -616,13 +616,10 @@ const CreateEmail = (props) => {
     //  console.log(selectedHcp);
 
     event.preventDefault();
-    if (
-      templateId == "" ||
-      templateId == 0 ||
-      emailSubject == "" ||
-      emailSubject == 0
-    ) {
-      toast.warning("Please select mail template and subject first");
+    if (templateId == "" ||templateId == 0){
+      toast.warning("Please select email template first");
+    }else if(emailSubject == "" || emailSubject == 0){
+      toast.warning("Please select email subject first");
     } else {
       setIsOpensend(true);
     }
