@@ -306,7 +306,7 @@ form .input-group { /*border: 1px dashed var(--light-blue);*/ background-image:u
 .selected-hcp-list table tr td:nth-last-child(2) { border-radius: 0px 13px 13px 0px; }
 .table tr:hover td.add-new-hcp { background: transparent; }
 .table tr[contenteditable="true"]{ outline: 1px solid #b5b5b5; }
-.table tr[contenteditable="true"] td span { background: #dadada; color: #70899E; border-radius: 4px; padding: 1 3px; }
+.table td[contenteditable="true"] span { background: #dadada; color: #70899E; border-radius: 4px; padding: 1 3px; }
 .form-search-hcp .form-inline .form-group input { width: calc(100% - 77px); }
 .selected-hcp-list tbody td span, .search-hcp-table tbody td span { color: var(--light-blue); }
 .search-hcp-table .add-new-hcp, .result-hcp-table .add-new-hcp  { position: absolute; right: 17px; top: 57px; background: transparent; }
@@ -355,7 +355,7 @@ form#add_hcp_form .row:not(:first-child) { border-top: 1px dashed var(--light-bl
 .modal-dialog-scrollable .modal-body { padding-right: 24px; }
 #add_hcp .modal-dialog .modal-content .modal-header, .modal-dialog .modal-header { border: 0; text-align: center; justify-content: center; padding: 25px 20px 20px;margin:0 -17px; }
 .modal .top-right-action { display: flex; justify-content: flex-end; }
-#add_hcp .modal-header h5, .modal-header h4 { margin:0;font-size: 24px; line-height: 28px; text-transform: capitalize; color: var(--light-blue); font-family: 'Roboto-Medium'; }
+#add_hcp .modal-header h5, .modal-header h4, .modal-header h5 { margin:0;font-size: 24px; line-height: 28px; text-transform: capitalize; color: var(--light-blue); font-family: 'Roboto-Medium'; }
 .smartlist-view .mail-box-content { position: relative; }
 .modal .select-mail-option { top: -15px; right: -15px; }
 .modal .smartlist-result-block { margin-top: 40px; }
@@ -704,10 +704,24 @@ form#add_hcp_form .row:not(:first-child) { border-top: 1px dashed var(--light-bl
 
 
 /*Css for email filters end*/
-
+#smart_list_popup_id.modal-dialog {max-width: 1200px;width: 100%;}
+#smart_list_popup_id .search-hcp {
+  padding: 0px 15px 5px;
+}
+#smart_list_popup_id .search-hcp table {
+padding-left:5px;
+}
+#smart_list_popup_id .search-hcp-table table td {
+  padding: 24px 6px;
+  max-width: 240px;
+  word-break: break-word;
+}
+#smart_list_popup_id .search-hcp-table table tr td:last-child, #smart_list_popup_id .selected-hcp-list table tr td:last-child, #smart_list_popup_id .search-hcp-table table tr td:last-child {
+  padding: 24px 10px;
+}
 .select-mail-template .ck-editor, .ck.ck-editor{width:100%!important;margin-bottom:30px!important}
 #add_hcp .btn_rmv .form-group { justify-content: flex-end; }
-#add_hcp .modal-body .hcp-add-box .hcp-add-form.tab-content { max-height: 520px; overflow-y: auto; align-items: flex-start; padding-right: 10px; }
+#add_hcp .modal-body .hcp-add-box .hcp-add-form.tab-content, #smart_list_popup_id .search-hcp .selected-hcp-list { max-height: 520px; overflow-y: auto; align-items: flex-start; padding-right: 10px; }
 .create-smart-list .upload-btn, .create-smart-list .btn-bordered, .download-sample .upload-btn { background: rgba(255, 255, 255, 0.5); border: 1px solid var(--violet); box-sizing: border-box; border-radius: 30px; padding: 10px 13px; font-size: 16px; line-height: 19px; color: var(--violet); font-family: 'Roboto-Medium'; cursor: pointer; filter: none; }
 .download-sample .upload-btn:hover{background: var(--violet); color:var(--white);}
 .create-smart-list .upload-btn, .download-sample .upload-btn { position: relative; margin-left: 24px; }
@@ -896,4 +910,13 @@ input:-webkit-autofill{
   display: flex;
   width: 100%;
   height: calc(100% - 70px);
+}
+.hcp-sort .btn.asc:hover, .hcp-sort .btn.desc:hover {
+  color: var(--white);
+}
+.hcp-sort .btn.asc, .hcp-sort .btn.desc {
+  color: var(--light-blue);
+}
+.email-draft .mail-box-content {
+  box-shadow: 0px -6px 6px -4px rgb(0 102 190 / 20%);
 }

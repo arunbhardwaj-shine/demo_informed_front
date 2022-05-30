@@ -108,13 +108,13 @@ function Add(props) {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = () => {
     let err = true;
     for (let index = 0; index < Speakername.length; index++) {
       if (Speakername[index].name.length == 0) {
         err = false;
         const copydataErr = SpeakerErr[index];
-        copydataErr.name = "name is  requred  ";
+        copydataErr.name = "name is requred  ";
         setSpeakerErr([...SpeakerErr]);
       }
       if (Speakername[index].email.length == 0) {
@@ -128,7 +128,6 @@ function Add(props) {
           /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i
         )
       ) {
-        err = false;
         const copydataErr = SpeakerErr[index];
         copydataErr.speakerdata[index].email = "Invalid email address";
         setSpeakerErr([...SpeakerErr]);
@@ -181,7 +180,6 @@ function Add(props) {
           setMassage("End time has to be greater start time");
         } else {
           setMassage(false);
-          loader("show");
           ExportApi.CreatEvent(
             values.EventTitle,
             Speakername[0].name && Speakername[0].email ? a : null,

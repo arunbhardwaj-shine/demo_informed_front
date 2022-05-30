@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import ExportApi from "../../../Api/ExportApi";
 import { useFormik } from "formik";
+import * as Yup from "yup";
 import "../webinar.css";
 
 import { toast } from "react-toastify";
@@ -21,6 +22,8 @@ const EventData = () => {
   const [sorting, setSorting] = useState(0);
   const [deletecardid, setDeleteCardId] = useState();
   const [sortingCount, setSortingCount] = useState(0);
+
+  const [SpeakerErr, setSpeakerErr] = useState([{ name: "", email: "" }]);
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [Speakername, setSpeakerName] = useState([{ name: "", email: "" }]);
   let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -58,6 +61,7 @@ const EventData = () => {
   };
   const handleMaltiInputAdd = () => {
     setSpeakerName([...Speakername, { name: "", email: "" }]);
+    setSpeakerErr([...SpeakerErr, { name: "", email: "" }]);
   };
   const handleSpeakerName = (e, i) => {
     if (e.target.name === `name${i}`) {
@@ -65,11 +69,37 @@ const EventData = () => {
       speker.name = e.target.value;
       Speakername.splice(i, 1, { ...speker });
       setSpeakerName([...Speakername]);
+      if (e.target.value.length == 0) {
+        const copydataErr = SpeakerErr[i];
+        copydataErr.name = "requred Field name";
+        setSpeakerErr([...SpeakerErr]);
+      } else {
+        const copydataErr = SpeakerErr[i];
+        copydataErr.name = "";
+        setSpeakerErr([...SpeakerErr]);
+      }
     } else if (e.target.name === `email${i}`) {
       const speker = Speakername[i];
       speker.email = e.target.value;
       Speakername.splice(i, 1, { ...speker });
       setSpeakerName([...Speakername]);
+      if (e.target.value.length == 0) {
+        const copydataErr = SpeakerErr[i];
+        copydataErr.email = "requred Field email";
+        setSpeakerErr([...SpeakerErr]);
+      } else if (
+        !Speakername[i].email.match(
+          /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i
+        )
+      ) {
+        const copydataErr = SpeakerErr[i];
+        copydataErr.email = "Invalid email address";
+        setSpeakerErr([...SpeakerErr]);
+      } else {
+        const copydataErr = SpeakerErr[i];
+        copydataErr.email = "";
+        setSpeakerErr([...SpeakerErr]);
+      }
     }
   };
 
@@ -166,48 +196,85 @@ const EventData = () => {
       });
   };
 
+  const handleSubmit = (e) => {
+    let err = true;
+    for (let index = 0; index < Speakername.length; index++) {
+      if (Speakername[index].name.length == 0) {
+        err = false;
+        const copydataErr = SpeakerErr[index];
+        copydataErr.name = "name is  requred  ";
+        setSpeakerErr([...SpeakerErr]);
+      }
+      if (Speakername[index].email.length == 0) {
+        err = false;
+        const copydataErr = SpeakerErr[index];
+        copydataErr.email = "email is requred  ";
+        setSpeakerErr([...SpeakerErr]);
+      }
+      if (
+        !Speakername[index].email.match(
+          /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i
+        )
+      ) {
+        err = false;
+        const copydataErr = SpeakerErr[index];
+        copydataErr.speakerdata[index].email = "Invalid email address";
+        setSpeakerErr([...SpeakerErr]);
+      }
+    }
+
+    return err;
+  };
+
   const formik = useFormik({
     initialValues: {
       EventTitle: eventdata ? eventdata.title : "",
       Description: eventdata ? eventdata.description : "",
     },
+    validationSchema: Yup.object({
+      EventTitle: Yup.string().required("Event title is required"),
+
+      Description: Yup.string().required("Description is required"),
+    }),
     enableReinitialize: true,
     onSubmit: (values) => {
-      let a = JSON.stringify(Speakername);
-      ExportApi.GetEventListDataUpdate(
-        eventdata.id,
-        values.EventTitle,
-        Speakername[0].name && Speakername[0].email ? a : null,
-        values.Description
-      )
-        .then((resp) => {
-          if (resp.data) {
-            if (resp.data.code == 200) {
-              setModalShow(false);
-              handleGetEventlist();
-              toast.success(resp.data.message, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-              });
-            } else {
-              toast.error(resp.data.message, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-              });
+      if (handleSubmit()) {
+        let a = JSON.stringify(Speakername);
+        ExportApi.GetEventListDataUpdate(
+          eventdata.id,
+          values.EventTitle,
+          Speakername[0].name && Speakername[0].email ? a : null,
+          values.Description
+        )
+          .then((resp) => {
+            if (resp.data) {
+              if (resp.data.code == 200) {
+                setModalShow(false);
+                handleGetEventlist();
+                toast.success(resp.data.message, {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                });
+              } else {
+                toast.error(resp.data.message, {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                });
+              }
             }
-          }
-        })
-        .catch((err) => console.log(err));
+          })
+          .catch((err) => console.log(err));
+      }
     },
   });
 
@@ -641,6 +708,10 @@ const EventData = () => {
                             handleSpeakerName(e, i);
                           }}
                         />
+                        <div style={{ color: "red" }}>
+                          {/* {formik.errors.Timezone} */}
+                          {SpeakerErr[i].name}
+                        </div>
                       </Col>
                       <div class="mt-2 clearfix"></div>
                       <Form.Label column sm={3}>
@@ -657,6 +728,10 @@ const EventData = () => {
                           }}
                           value={malti.email}
                         />
+                        <div style={{ color: "red" }}>
+                          {/* {formik.errors.Timezone} */}
+                          {SpeakerErr[i].email}
+                        </div>
                       </Col>
                     </Form.Group>
                   </div>
