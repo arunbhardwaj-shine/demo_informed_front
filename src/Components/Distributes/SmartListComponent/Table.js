@@ -1081,7 +1081,6 @@ const Table = (props, ref) => {
                     <tr
                       className="hcps-added"
                       id={`row-selected` + index}
-                      contenteditable={editable === 0 ? "false" : "true"}
                       onClick={(e) =>
                         editing(
                           item.profile_id,
@@ -1095,7 +1094,7 @@ const Table = (props, ref) => {
                         )
                       }
                     >
-                      <td>
+                      <td  contenteditable={editable === 0 ? "false" : "true"}>
                         {inEditMode.status &&
                         inEditMode.rowKey === item.profile_id ? (
                           <input
@@ -1120,7 +1119,7 @@ const Table = (props, ref) => {
                         )}
                       </td>
                       <td>No</td>
-                      <td>
+                      <td  contenteditable={editable === 0 ? "false" : "true"}>
                         {inEditMode.status &&
                         inEditMode.rowKey === item.profile_id ? (
                           <input

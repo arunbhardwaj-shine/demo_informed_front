@@ -306,7 +306,7 @@ form .input-group { /*border: 1px dashed var(--light-blue);*/ background-image: 
 .selected-hcp-list table tr td:nth-last-child(2) { border-radius: 0px 13px 13px 0px; }
 .table tr:hover td.add-new-hcp { background: transparent; }
 .table tr[contenteditable="true"]{ outline: 1px solid #b5b5b5; }
-.table tr[contenteditable="true"] td span { background: #dadada; color: #70899E; border-radius: 4px; padding: 1 3px; }
+.table td[contenteditable="true"] span { background: #dadada; color: #70899E; border-radius: 4px; padding: 1 3px; }
 .form-search-hcp .form-inline .form-group input { width: calc(100% - 77px); }
 .selected-hcp-list tbody td span, .search-hcp-table tbody td span { color: var(--light-blue); }
 .search-hcp-table .add-new-hcp, .result-hcp-table .add-new-hcp  { position: absolute; right: 17px; top: 57px; background: transparent; }
