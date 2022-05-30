@@ -22,6 +22,10 @@ const SelectSmartList = (props) => {
     ? props.getEmailData.campaign_id
     : props.getDraftData.campaign_id;
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
+  const [getReaderDetails, setReaderDetails] = useState({});
+  const [getSmartListName, setSmartListName] = useState('');
+  const [getSmartListPopupStatus, setSmartListPopupStatus] = useState(false);
+  const [showLessInfo, setShowLessInfo] = useState(false);
 
   const inputElement = useRef();
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -148,6 +152,36 @@ const SelectSmartList = (props) => {
 
   const redirectToList = () => {
     navigate("/CreateSmartList");
+  };
+
+  const openSmartListPopup = async(smart_list_id) => {
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    const body = {
+      user_id: 18207,
+      list_id: smart_list_id,
+    };
+    loader("show");
+    await axios
+      .post(`distributes/get_reders_list`, body)
+      .then((res) => {
+        if(res.data.status_code == 200){
+          setReaderDetails(res.data.response.data);
+          setSmartListName(res.data.response.smart_list_name);
+          setSmartListPopupStatus(true);
+        }else{
+          toast.warning(res.data.message);
+        }
+        loader("hide");
+      })
+      .catch((err) => {
+        toast.warning("Something went wrong");
+        loader("hide");
+      });
+  }
+
+  const showMoreInfo = (e) => {
+    e.preventDefault();
+    setShowLessInfo(!showLessInfo);
   };
 
   return (
@@ -354,7 +388,7 @@ const SelectSmartList = (props) => {
                       </div> */}
                         <div className="smartlist-buttons">
                           <button className="btn view">
-                           <a href={"/ViewSmartList?listId="+template.id} className="color_blue" target="_blank">View</a>
+                           <a className="color_blue" onClick={() => openSmartListPopup(template.id)}>View</a>
                           </button>
                         </div>
                       </div>
@@ -389,6 +423,98 @@ const SelectSmartList = (props) => {
         </Modal.Body>
       </Modal>
       {/*Confrimation Popup end*/}
+
+
+      {/* Reader Details popup */}
+      <Modal show={getSmartListPopupStatus} className="smart_list_popup" id="smart_list_popup_id">
+        <Modal.Header>
+          <h5 className="modal-title" id="staticBackdropLabel">
+          { typeof getReaderDetails !== "undefined" && getReaderDetails.length > 0 && (
+              getSmartListName
+            )
+          }
+          </h5>
+          <button type="button" className="btn-close" data-bs-dismiss="modal" onClick={() => setSmartListPopupStatus((getSmartListPopupStatus) => !getSmartListPopupStatus)}></button>
+        </Modal.Header>
+        <Modal.Body>
+          <section className="search-hcp">
+            <div className="result-hcp-table">
+                <div className="table-title">
+                    <h4>
+                      HCPs <span>|
+                      { typeof getReaderDetails !== "undefined" && getReaderDetails.length > 0 && (
+                          getReaderDetails.length
+                        )
+                      }</span>
+                    </h4>
+                    <div className="selected-hcp-table-action">
+                      <a
+                        className="show-less-info"
+                        onClick={(e) => showMoreInfo(e)}
+                      >
+                        {showLessInfo == true ? (
+                          <p>Show More information</p>
+                        ) : (
+                          <p>Show less information</p>
+                        )}{" "}
+                      </a>
+                    </div>
+                </div>
+                <div className="selected-hcp-list">
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Bounced</th>
+                        <th scope="col">Country</th>
+                        <th scope="col">Business Unit</th>
+                        <th scope="col">Contact Type</th>
+                        {showLessInfo == false ? (
+                          <>
+                            <th scope="col">Consent</th>
+                            <th scope="col">Email Received</th>
+                            <th scope="col">Openings</th>
+                            <th scope="col">Registrations</th>
+                            <th scope="col">Last Email</th>
+                          </>
+                        ) : null}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {
+                        typeof getReaderDetails !== "undefined" && getReaderDetails.length > 0 && (
+                          getReaderDetails.map((rr, i) => {
+                            return (
+                              <>
+                                <tr>
+                                  <td>{rr.first_name}</td>
+                                  <td>{rr.email}</td>
+                                  <td>NA</td>
+                                  <td>{rr.country}</td>
+                                  <td>{rr.ibu}</td>
+                                  <td>{rr.contact_type}</td>
+                                  {showLessInfo == false ? <td><span>NA</span> </td> : null}
+                                  {showLessInfo == false ? <td><span>{rr.email_received}</span></td> : null}
+                                  {showLessInfo == false ? <td><span>{rr.email_opening}</span></td> : null}
+                                  {showLessInfo == false ? <td><span>NA</span></td> : null}
+                                  {showLessInfo == false ? <td><span>{rr.last_email}</span></td> : null}
+                                  <td className="add-new-hcp" colspan="12">
+                                  </td>
+                                </tr>
+                              </>
+                            );
+                          })
+                        )
+                      }
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+          </section>
+        </Modal.Body>
+      </Modal>
+      {/*Reader Details popup end*/}
     </>
   );
 };
