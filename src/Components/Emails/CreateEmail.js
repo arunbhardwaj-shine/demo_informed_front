@@ -1671,7 +1671,7 @@ const CreateEmail = (props) => {
                                   </div>
                                 */}
                             <div className="smartlist-buttons">
-                              <button className="btn btn-primary btn-filled view">
+                              <button className="btn btn-primary btn-bordered view">
                                 View
                               </button>
                             </div>
@@ -1874,6 +1874,7 @@ const CreateEmail = (props) => {
                     </div>
                   </div>
                   </div>
+                  
                   <div className="download-sample sample-file"><p>Download sample Excel file to upload new HCPs</p><div className="upload-btn" onClick={downloadFile}>Download File</div></div>
                 </form>
               </div>
