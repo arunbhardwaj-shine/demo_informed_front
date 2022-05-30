@@ -26,7 +26,7 @@ const EventData = () => {
   const handleGetEventlist = () => {
     ExportApi.GetEventList().then((resp) => {
       if (resp.ok) {
-        //  console.log(resp.data)
+        console.log(resp.data);
         setEvent(resp.data.data);
       }
     });
@@ -425,7 +425,7 @@ const EventData = () => {
                           <span>{event.event_date}</span>
                         </div>
                         <div class="smart-list-added-user">
-                          {event.days_left} Days left
+                          {event.days_left} Days Left
                         </div>
 
                         <div class="mail-stats">
@@ -442,8 +442,7 @@ const EventData = () => {
                             </div>
                           )}
                         </div>
-                        <div class="smartlist-buttons">
-                          {" "}
+                        <div>
                           <Button
                             onClick={() => handleGetEventlistEdidData(event.id)}
                           >
