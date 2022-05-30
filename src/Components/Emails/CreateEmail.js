@@ -75,6 +75,8 @@ const CreateEmail = (props) => {
   const [getTemplatePopup, setTemplatePopup] = useState(false);
   const [getNewTemplatePopup, setNewTemplatePopup] = useState(false);
 
+  const [getIsApprovedStatus, setIsApprovedStatus] = useState(0);
+
   const [hpc, setHpc] = useState([
     { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
   ]);
@@ -96,6 +98,7 @@ const CreateEmail = (props) => {
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
   useEffect(() => {
+    getTemplateListData(0);
     getSmartListData(0);
   }, []);
 
@@ -124,39 +127,6 @@ const CreateEmail = (props) => {
   };
 
   useEffect(() => {
-    //console.log(props);
-    // props.getDraftData.campaign_data.selectedHcp;
-    if (
-      typeof props !== "undefined" &&
-      props !== null &&
-      props.hasOwnProperty("getDraftData")
-    ) {
-      if (props.getDraftData !== null) {
-        setEmailDescription(props.getDraftData.description);
-        setEmailCreator(props.getDraftData.creator);
-        setemailCampaign(props.getDraftData.campaign);
-        setEmailSubject(props.getDraftData.subject);
-        setFinalTags(props.getDraftData.tags);
-        setTagClickedFirst(props.getDraftData.tags);
-        setTemplateId(props.getDraftData.campaign_data.template_id);
-
-        // setTimeout(() => {
-        //   document.getElementById(
-        //       "template_dyn" + props.getDraftData.campaign_data.template_id
-        //     )
-        //     .click();
-        //   setTemplate(props.getDraftData.source_code);
-        // }, "1000");
-
-        //  let reducHcp = props.getDraftData.campaign_data.selectedHcp;
-        //  if (typeof reducHcp != "undefined") {
-        //    setSelectedHcp(reducHcp);
-        //  }
-      }
-    }
-  }, []);
-
-  useEffect(() => {
     loader("show");
     const getalCountry = async () => {
       const body = {
@@ -178,7 +148,6 @@ const CreateEmail = (props) => {
     };
 
     getalCountry();
-    getTemplateListData(0);
   }, []);
 
 
@@ -195,6 +164,7 @@ const CreateEmail = (props) => {
       .post(`emailapi/get_template_list`, body)
       .then((res) => {
         setTemplateList(res.data.response.data);
+        getSelectedTemplateSource(res.data.response.data);
         setCounter(counter + 1);
       })
       .catch((err) => {
@@ -233,6 +203,37 @@ const CreateEmail = (props) => {
     getAllTags();
     // getCampaignData();
   }, []);
+
+
+  useEffect(() => {
+    if (
+      typeof props !== "undefined" &&
+      props !== null &&
+      props.hasOwnProperty("getDraftData")
+    ) {
+      if (props.getDraftData !== null) {
+        setEmailDescription(props.getDraftData.description);
+        setEmailCreator(props.getDraftData.creator);
+        setemailCampaign(props.getDraftData.campaign);
+        setEmailSubject(props.getDraftData.subject);
+        setFinalTags(props.getDraftData.tags);
+        setTagClickedFirst(props.getDraftData.tags);
+        setTemplateId(props.getDraftData.campaign_data.template_id);
+        setIsApprovedStatus(props.getDraftData.status);
+      }
+    }
+  }, []);
+
+  const getSelectedTemplateSource = (dd) => {
+    if (typeof props !== "undefined" && props !== null && props.hasOwnProperty("getDraftData")) {
+      if(typeof dd !== "undefined"){
+        let getSpecificKeyData = dd.find(e => e.id === props.getDraftData.campaign_data.template_id);
+        if(getSpecificKeyData && getSpecificKeyData.hasOwnProperty('source_code')){
+            setTemplate(getSpecificKeyData.source_code);
+        }
+      }
+    }
+  }
 
   const addMoreHcp = () => {
     const status = hpc.map((data) => {
@@ -514,6 +515,7 @@ const CreateEmail = (props) => {
   };
 
   const approvedClicked = async (e) => {
+    setIsApprovedStatus(3);
     e.preventDefault();
     let tagss = [];
     finalTags.map((tags) => {
@@ -616,13 +618,10 @@ const CreateEmail = (props) => {
     //  console.log(selectedHcp);
 
     event.preventDefault();
-    if (
-      templateId == "" ||
-      templateId == 0 ||
-      emailSubject == "" ||
-      emailSubject == 0
-    ) {
-      toast.warning("Please select mail template and subject first");
+    if (templateId == "" ||templateId == 0){
+      toast.warning("Please select email template first");
+    }else if(emailSubject == "" || emailSubject == 0){
+      toast.warning("Please select email subject first");
     } else {
       setIsOpensend(true);
     }
@@ -1164,7 +1163,7 @@ const CreateEmail = (props) => {
                     </div>
                     <div className="form-buttons right-side col-12 col-md-5">
                       <button
-                        className="btn btn-primary approved-btn btn-bordered"
+                        className={typeof getIsApprovedStatus !== "undefined" && getIsApprovedStatus == 3 ? "btn btn-primary approved-btn btn-bordered checked" : "btn btn-primary approved-btn btn-bordered"}
                         onClick={(e) => approvedClicked(e)}
                       >
                         Approved{" "}

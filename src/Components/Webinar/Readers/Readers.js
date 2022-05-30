@@ -12,6 +12,7 @@ import "react-form-builder2/dist/app.css";
 import { scryRenderedComponentsWithType } from "react-dom/test-utils";
 import CsvDownload from "react-json-to-csv";
 import ReactHtmlTableToExcel from "react-html-table-to-excel";
+import { loader } from "../../../loader";
 const Readers = () => {
   const [data, setData] = useState();
   const [type, setType] = useState();
@@ -114,8 +115,10 @@ const Readers = () => {
     }
   };
   const handleGetEventlist = () => {
+    loader("show")
     ExportApi.GetEventList().then((resp) => {
       if (resp.ok) {
+        loader("hide")
         setEvent(resp.data.data);
         console.log(resp.data.data[0].id)
         if(eventId==null||eventId==undefined){
@@ -259,6 +262,9 @@ const Readers = () => {
   }, []);
   return (
     <div>
+       <div className="loader" id="custom_loader">
+	        <span className="loader-view"> </span>
+          </div>
       <Row>
         <ToastContainer
           position="top-right"
@@ -310,7 +316,7 @@ const Readers = () => {
                       setCountryValue(e.target.value);
                     }}
                   >
-                    <option>Select Country</option>
+                    <option value="">Select Country</option>
                     {countryName?.map((val, i) => (
                       <React.Fragment key={i}>
                         <option value={val.id}>{val.country}</option>
@@ -326,7 +332,7 @@ const Readers = () => {
                       setType(e.target.value);
                     }}
                   >
-                    <option value="null">Select Type</option>
+                    <option value="">Select Type</option>
                     <option value="HCP">HCP</option>
                     <option value="Staff User">Staff User</option>
                     <option value="Test User">Test User</option>
