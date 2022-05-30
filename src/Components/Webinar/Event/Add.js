@@ -202,18 +202,8 @@ function Add(props) {
               console.log(resp.data);
               //console.log(resp.data);
               if (resp.data.code == 200) {
-                toast.success(resp.data.message, {
-                  position: "top-right",
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                });
-                setTimeout(function () {
-                  navigate("/webinar/event/edit");
-                }, 5000);
+                console.log(typeof resp.data.message);
+                toast.error(resp.data.message);
               } else {
                 toast.error(resp.data.message, {
                   position: "top-right",
@@ -252,17 +242,6 @@ function Add(props) {
 
   return (
     <Row>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
       <Col md={{ span: 6, offset: 3 }}>
         <Link to="/webinar/event/edit"></Link>
         <div>
