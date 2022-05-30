@@ -73,7 +73,7 @@ function Add(props) {
     let data1 = Speakername;
     let data1Err = SpeakerErr;
     Speakername.splice(i, 1);
-    SpeakerErr.splice(i, 1);
+    data1Err.splice(i, 1);
     setTimeout(() => setSpeakerName([...Speakername]), 1000);
     setTimeout(() => setSpeakerErr([...SpeakerErr]), 1000);
     setRerender(render + 1);
