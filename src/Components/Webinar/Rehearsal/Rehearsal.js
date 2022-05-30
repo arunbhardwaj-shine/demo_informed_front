@@ -101,76 +101,81 @@ function Rehearsal() {
   }, []);
 
   const handeleErr = () => {
-    let err = true;
+    let err;
     for (let index = 0; index < Speakername.length; index++) {
-      if (Speakername[index].EventTitle.length == 0) {
-        err = false;
-        const copydataErr = SpeakernameErr[index];
-        copydataErr.EventTitle = "requred Field EventTitle";
-        setSpeakerNameErr([...SpeakernameErr]);
-      }
-      if (Speakername[index].Timezone.length == 0) {
-        err = false;
-        const copydataErr = SpeakernameErr[index];
-        copydataErr.Timezone = "requred Field Timezone";
-        setSpeakerNameErr([...SpeakernameErr]);
-      }
-      if (!Speakername[index].event_date) {
-        err = false;
-        const copydataErr = SpeakernameErr[index];
-        copydataErr.event_date = "requred Field event_date";
-        setSpeakerNameErr([...SpeakernameErr]);
-      }
-      if (Speakername[index].eventendtime.length == 0) {
-        err = false;
-        const copydataErr = SpeakernameErr[index];
-        copydataErr.eventendtime = "requred Field eventendtime";
-        setSpeakerNameErr([...SpeakernameErr]);
-      }
-      if (Speakername[index].event_start_time.length == 0) {
-        err = false;
-        const copydataErr = SpeakernameErr[index];
-        copydataErr.event_start_time = "requred Field eventendtime";
-        setSpeakerNameErr([...SpeakernameErr]);
-      }
-
-      for (let i = 0; i < Speakername[index].speakerdata.length; i++) {
-        if (Speakername[index].speakerdata[i].name.length == 0) {
-          err = false;
-          const copydataErr = SpeakernameErr[index];
-          copydataErr.speakerdata[i].name = "requred Field name";
-          setSpeakerNameErr([...SpeakernameErr]);
-        }
-        if (Speakername[index].speakerdata[i].email.length == 0) {
-          err = false;
-          const copydataErr = SpeakernameErr[index];
-          copydataErr.speakerdata[i].email = "requred Field email";
-          setSpeakerNameErr([...SpeakernameErr]);
-        } else if (
-          !Speakername[index].speakerdata[i].email.match(
-            /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i
-          )
-        ) {
-          const copydataErr = SpeakernameErr[index];
-          copydataErr.speakerdata[i].email = "Invalid email address";
-          setSpeakerNameErr([...SpeakernameErr]);
-        }
-      }
-      if (Speakername[index].type.length == 0) {
-        err = false;
-        const copydataErr = SpeakernameErr[index];
-        copydataErr.type = "requred Field type";
-        setSpeakerNameErr([...SpeakernameErr]);
-      }
-      if (Speakername[index].Description.length == 0) {
-        err = false;
-        const copydataErr = SpeakernameErr[index];
-        copydataErr.Description = "requred Field Description";
-        setSpeakerNameErr([...SpeakernameErr]);
-      }
+    if (Speakername[index].EventTitle.length == 0) {
+    err = false;
+    const copydataErr = SpeakernameErr[index];
+    copydataErr.EventTitle = "Title is required";
+    setSpeakerNameErr([...SpeakernameErr]);
     }
-    return err;
-  };
+    if (Speakername[index].Timezone.length == 0) {
+    err = false;
+    const copydataErr = SpeakernameErr[index];
+    copydataErr.Timezone = "Timezone is required";
+    setSpeakerNameErr([...SpeakernameErr]);
+    }
+    if (!Speakername[index].event_date) {
+    err = false;
+    const copydataErr = SpeakernameErr[index];
+    copydataErr.event_date = "Event date is required";
+    setSpeakerNameErr([...SpeakernameErr]);
+    }
+    if (Speakername[index].eventendtime.length == 0) {
+    err = false;
+    const copydataErr = SpeakernameErr[index];
+    copydataErr.eventendtime = "Event end time is required";
+    setSpeakerNameErr([...SpeakernameErr]);
+    }
+    if (Speakername[index].event_start_time.length == 0) {
+    err = false;
+    const copydataErr = SpeakernameErr[index];
+    copydataErr.event_start_time = "Event end time is required";
+    setSpeakerNameErr([...SpeakernameErr]);
+    }
+    
+    
+    
+    for (let i = 0; i < Speakername[index].speakerdata.length; i++) {
+    if (Speakername[index].speakerdata[i].name.length == 0) {
+    err = false;
+    const copydataErr = SpeakernameErr[index];
+    copydataErr.speakerdata[i].name = "Name is required";
+    setSpeakerNameErr([...SpeakernameErr]);
+    }
+    
+    
+    
+    const regex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    if(Speakername[index].speakerdata[i].email.length == 0 || regex.test(Speakername[index].speakerdata[i].email) === false){
+    
+    
+    
+    err = false;
+    const copydataErr = SpeakernameErr[index];
+    copydataErr.speakerdata[i].email = "Email address is required";
+    setSpeakerNameErr([...SpeakernameErr]);
+    }
+    }
+    
+    
+    
+    
+    if (Speakername[index].type.length == 0) {
+    err = false;
+    const copydataErr = SpeakernameErr[index];
+    copydataErr.type = "Type is required";
+    setSpeakerNameErr([...SpeakernameErr]);
+    }
+    if (Speakername[index].Description.length == 0) {
+    err = false;
+    const copydataErr = SpeakernameErr[index];
+    copydataErr.Description = "Description is required";
+    setSpeakerNameErr([...SpeakernameErr]);
+    }
+    }
+    return err
+    };
   const formik = useFormik({
     initialValues: {
       EventTitle: "",

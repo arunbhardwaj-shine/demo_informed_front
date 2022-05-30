@@ -8,11 +8,8 @@ import { toast, ToastContainer } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { loader } from "../../../loader";
 function Add(props) {
-  const [Speaker, setSpeaker] = useState([
-    { name: "SpeakersName", email: "SpeakesrEmail" },
-  ]);
-
   const [render, setRerender] = useState(0);
+  const [SpeakerErr, setSpeakerErr] = useState([{ name: "", email: "" }]);
   const [Speakername, setSpeakerName] = useState([{ name: "", email: "" }]);
   const [bu, setBu] = useState([]);
   const [index, setIndex] = useState();
@@ -21,37 +18,10 @@ function Add(props) {
   const [country, setCountry] = useState([]);
   const [Timezoneregion, setTimezoneregion] = useState([]);
   const handleMaltiInputAdd = () => {
-    let email_pattern =
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    let name_pattern = /^[a-zA-Z ]{2,30}$/;
-    const status = Speakername.map((data) => {
-      console.log(data.email);
-      if (
-        data.name == ""
 
-        // !data.email.match(email_pattern) ||
-        // !data.name.match(name_pattern)
-      ) {
-        toast.error("Please specify the name");
-
-        return "false";
-      } else if (data.email == "") {
-        toast.error("Please specify the email");
-        return "false";
-      } else if (!data.name.match(name_pattern)) {
-        toast.error("Please specify the valid name");
-      } else if (!data.email.match(email_pattern)) {
-        toast.error("Please specify the valid email");
-      } else {
-        return "true";
-      }
-    });
-
-    console.log(status);
-
-    if (status.every((element) => element == "true")) {
       setSpeakerName([...Speakername, { name: "", email: "" }]);
-    }
+      setSpeakerErr([...SpeakerErr, { name: "", email: "" }]);
+    
 
     // setSpeakerName([...Speakername, { name: "", email: "" }]);
   };
@@ -63,11 +33,37 @@ function Add(props) {
       speker.name = e.target.value;
       Speakername.splice(i, 1, { ...speker });
       setSpeakerName([...Speakername]);
+      if (e.target.value.length == 0) {
+        const copydataErr = SpeakerErr[i];
+        copydataErr.name = "requred Field name";
+        setSpeakerErr([...SpeakerErr]);
+      } else {
+        const copydataErr = SpeakerErr[i];
+        copydataErr.name = "";
+        setSpeakerErr([...SpeakerErr]);
+      }
     } else if (e.target.name === `email${i}`) {
       const speker = Speakername[i];
       speker.email = e.target.value;
       Speakername.splice(i, 1, { ...speker });
       setSpeakerName([...Speakername]);
+      if (e.target.value.length == 0) {
+        const copydataErr = SpeakerErr[i];
+        copydataErr.email = "requred Field email";
+        setSpeakerErr([...SpeakerErr]);
+      } else if (
+        !Speakername[i].email.match(
+          /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i
+        )
+      ) {
+        const copydataErr = SpeakerErr[i];
+        copydataErr.email = "Invalid email address";
+        setSpeakerErr([...SpeakerErr]);
+      } else {
+        const copydataErr = SpeakerErr[i];
+        copydataErr.email = "";
+        setSpeakerErr([...SpeakerErr]);
+      }
     }
   };
   useEffect(() => {
@@ -76,10 +72,14 @@ function Add(props) {
 
   const handleMaltiInputRumove = (i) => {
     let data1 = Speakername;
+    let data1Err = SpeakerErr;
     Speakername.splice(i, 1);
+    data1Err.splice(i, 1);
     setTimeout(() => setSpeakerName([...Speakername]), 1000);
+    setTimeout(() => setSpeakerErr([...SpeakerErr]), 1000);
     setRerender(render + 1);
     setSpeakerName(data1);
+    setSpeakerErr(data1Err);
   };
   const handleGetDataBu = () => {
     ExportApi.GetBuData(token).then((resp) => {
@@ -111,36 +111,35 @@ function Add(props) {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    let email_pattern =
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    let name_pattern = /^[a-zA-Z ]{2,30}$/;
-    const status = Speakername.map((data) => {
-      console.log(data.email);
-      if (
-        data.name == ""
-
-        // !data.email.match(email_pattern) ||
-        // !data.name.match(name_pattern)
-      ) {
-        toast.error("Please specify the speaker name");
-
-        return "false";
-      } else if (data.email == "") {
-        toast.error("Please specify the speaker email");
-        return "false";
-      } else if (!data.name.match(name_pattern)) {
-        toast.error("Please specify the valid name");
-      } else if (!data.email.match(email_pattern)) {
-        toast.error("Please specify the valid email");
-      } else {
-        return "true";
+    let err = true;
+    for (let index = 0; index < Speakername.length; index++) {
+      if (Speakername[index].name.length == 0) {
+        err = false;
+        const copydataErr = SpeakerErr[index];
+        copydataErr.name = "name is  requred  ";
+        setSpeakerErr([...SpeakerErr]);
       }
-    });
-
-    if (status.every((element) => element == "true")) {
-      formik.handleSubmit();
+      if (Speakername[index].email.length == 0) {
+        err = false;
+        const copydataErr = SpeakerErr[index];
+        copydataErr.email = "email is requred  ";
+        setSpeakerErr([...SpeakerErr]);
+      }
+      else if (
+        !Speakername[index].email.match(
+          /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i
+        )
+      ) {
+        err = false;
+        const copydataErr = SpeakerErr[index];
+        copydataErr.speakerdata[index].email = "Invalid email address";
+        setSpeakerErr([...SpeakerErr]);
+      }
     }
+
+
+      // formik.handleSubmit();
+    
   };
 
   const formik = useFormik({
@@ -173,6 +172,9 @@ function Add(props) {
     //    resetForm({values:''})
     //     },
     onSubmit: (values) => {
+      if(handleSubmit()){
+
+      
       var today = new Date(values.event_date);
       var dd = String(today.getDate()).padStart(2, "0");
       var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
@@ -225,8 +227,9 @@ function Add(props) {
 
       props.closePopup();
       toast.success("Data added successfully");
-      props.getEventList();
+      props.getEventList();}
     },
+  
   });
   var today = new Date();
   var dd = String(today.getDate()).padStart(2, "0");
@@ -253,7 +256,7 @@ function Add(props) {
         <div>
           <h2>Create Event </h2>
           <div>
-            <form onReset={formik.handleReset} onSubmit={handleSubmit}>
+            <form onReset={formik.handleReset} onSubmit={formik.handleSubmit}>
               <Form.Group
                 as={Row}
                 className="mb-3"
@@ -307,6 +310,10 @@ function Add(props) {
                             handleSpeakerName(e, i);
                           }}
                         />
+                        <div style={{ color: "red" }}>
+                        {/* {formik.errors.Timezone} */}
+                        {SpeakerErr[i].name}
+                      </div>
                       </Col>
                       <div className="mt-2"></div>
                       <Form.Label column sm={2}>
@@ -323,6 +330,10 @@ function Add(props) {
                           }}
                         />
                       </Col>
+                      <div style={{ color: "red" }}>
+                        {/* {formik.errors.Timezone} */}
+                        {SpeakerErr[i].email}
+                      </div>
                     </Form.Group>
                   </div>
                 </fieldset>

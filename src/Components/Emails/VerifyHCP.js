@@ -1122,23 +1122,25 @@ const VerifyHCP = (props) => {
                   })}
                 </form>
                 <form id="add_file" className={"tab-pane" + activeExcel}>
-                <div className="upload-file-box">
-                  <div className="form-group files">
-                    <div className="box">
-                    <input
-                      type="file"
-                      className="form-control inputfile"
-                     id="file-4"
-                     onChange={onFileChange}
-                      accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                      ref={file_name}
-                      />
-                      {(file_name.current?.files===undefined || file_name.current.files?.length===0 )? <><label for="file-4"><span>Choose Your File</span></label>
-                      <p>Upload your excel file</p></> : <h5>{file_name.current.files[0].name}</h5> }
+                <div class="file_upload-box">
+                  <div className="upload-file-box">
+                    <div className="form-group files">
+                      <div className="box">
+                      <input
+                        type="file"
+                        className="form-control inputfile"
+                      id="file-4"
+                      onChange={onFileChange}
+                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                        ref={file_name}
+                        />
+                        {(file_name.current?.files===undefined || file_name.current.files?.length===0 )? <><label for="file-4"><span>Choose Your File</span></label>
+                        <p>Upload your excel file</p></> : <h5>{file_name.current.files[0].name}</h5> }
 
-                  </div>
-                  </div>
-                  </div>
+                    </div>
+                    </div>
+                    </div>
+                  </div> 
                 </form>
               </div>
               <div className="hcp-modal-action">
