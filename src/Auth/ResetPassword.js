@@ -18,7 +18,7 @@ function ResetPassword() {
       },
       validationSchema: Yup.object({
         old_pass: Yup.string()
-          .max(15, "Old Password Must be 15 characters or less")
+          .max(15, "Old Password Must be 15 characters")
           .min(8,"must be at least 8 characters")
           .matches(
             /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
@@ -26,6 +26,7 @@ function ResetPassword() {
           )
           .required("Enter your password"),
           new_pass: Yup.string()
+          .min(8,"must be at least 8 characters")
           .matches(
             /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
             "Password must contain one symbol, uppercase and one integer value"

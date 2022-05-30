@@ -14,6 +14,7 @@ const Registration = () => {
   const [registrationPageList, setRegistrationPageList] = useState();
   const [template, setTemplate] = useState();
   const [editdata, setEditdata] = useState();
+  const [UrlAlias, setUrlAlias] = useState();
   const [errimage, setErrimage] = useState(false);
   const [massage, setMassage] = useState("Please Select Event");
   const [modalShow, setModalShow] = useState(false);
@@ -113,7 +114,7 @@ const Registration = () => {
 
       formData.append("title", values.RegistrationPageTitle);
 
-      formData.append("file", image);
+      // formData.append("file", image);
       formData.append("url", values.url);
       formData.append("template_id", values.TemplateId);
       ExportApi.UpdateRegistrationPageData(formData).then((resp) => {
@@ -310,24 +311,21 @@ const Registration = () => {
                       <Form.Label>Url Alias </Form.Label>
                       <Form.Control
                         name="url"
-                        onChange={formik.handleChange}
+                        onChange={(e)=>setUrlAlias(e.target.value)}
                         onBlur={formik.handleBlur}
                         value={formik.values.url}
                         type="text"
                         placeholder="url"
                       />
                       <div>
-                        (Url will be like: https://abc.com/event-name/url-alias
-                        <br />
-                        Example:
-                        https://informed.pro/WFH-2022/virtual-symposium)
+                       {UrlAlias}
                       </div>
                       {formik.touched.url && formik.errors.url ? (
                         <div style={{ color: "red" }}>{formik.errors.url}</div>
                       ) : null}
                     </Form.Group>
                     <Row>
-                      <Col xs={9}>
+                      <Col xs={12}>
                         <Form.Label>Body Text</Form.Label>
                         <textarea
                           name="body"
@@ -337,7 +335,7 @@ const Registration = () => {
                           value={formik.values.body}
                           className="form-control"
                           id="exampleFormControlTextarea1"
-                          rows="5"
+                          rows="18"
                         ></textarea>
                         {formik.touched.body && formik.errors.body ? (
                           <div style={{ color: "red" }}>
@@ -346,7 +344,7 @@ const Registration = () => {
                         ) : null}
                         <p style={{ color: "red" }}>{err}</p>
                       </Col>
-                      <Col xs={3}>
+                      {/* <Col xs={3}>
                         <div>
                           <img
                             id="imgVieww"
@@ -359,9 +357,9 @@ const Registration = () => {
                             width={340}
                           />
                         </div>
-                      </Col>
+                      </Col> */}
                     </Row>
-                    <Form.Group controlId="formFileLg" className="mb-3">
+                    {/* <Form.Group controlId="formFileLg" className="mb-3">
                       <Form.Label>Choice File</Form.Label>
                       <Form.Control
                         name="file"
@@ -372,7 +370,7 @@ const Registration = () => {
                         size="md"
                       />
                       <p style={{ color: "red" }}>{errimage}</p>
-                    </Form.Group>
+                    </Form.Group> */}
                     <Button type="submit">Save</Button>
                   </Row>
                 </form>

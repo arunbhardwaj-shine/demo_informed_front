@@ -224,7 +224,9 @@ const EmailSand = () => {
     },
     validationSchema: Yup.object({
       name: Yup.string().required("Name is required"),
-      email: Yup.string().required("Email is required"),
+      email: Yup.string()
+      .email("Invalid email address")
+      .required("Email is required"),
     }),
     onSubmit: (values) => {
       ExportApi.EmailSand(eventId, values.name, values.email)

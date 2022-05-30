@@ -72,6 +72,9 @@ const CreateEmail = (props) => {
   const slideNext = () => setActiveIndex(activeIndex + 1);
   const syncActiveIndex = ({ item }) => setActiveIndex(item);
 
+  const [getTemplatePopup, setTemplatePopup] = useState(false);
+  const [getNewTemplatePopup, setNewTemplatePopup] = useState(false);
+
   const [hpc, setHpc] = useState([
     { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
   ]);
@@ -134,16 +137,16 @@ const CreateEmail = (props) => {
         setemailCampaign(props.getDraftData.campaign);
         setEmailSubject(props.getDraftData.subject);
         setFinalTags(props.getDraftData.tags);
-
+        setTagClickedFirst(props.getDraftData.tags);
         setTemplateId(props.getDraftData.campaign_data.template_id);
 
-        setTimeout(() => {
-          document.getElementById(
-              "template_dyn" + props.getDraftData.campaign_data.template_id
-            )
-            .click();
-          setTemplate(props.getDraftData.source_code);
-        }, "1000");
+        // setTimeout(() => {
+        //   document.getElementById(
+        //       "template_dyn" + props.getDraftData.campaign_data.template_id
+        //     )
+        //     .click();
+        //   setTemplate(props.getDraftData.source_code);
+        // }, "1000");
 
         //  let reducHcp = props.getDraftData.campaign_data.selectedHcp;
         //  if (typeof reducHcp != "undefined") {
@@ -155,33 +158,18 @@ const CreateEmail = (props) => {
 
   useEffect(() => {
     loader("show");
-
-    const body = {
-      user_id: 18207,
-      language: "",
-      ibu: "",
-    };
-
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    const getTemplateListData = async () => {
-      loader("show");
-      await axios
-        .post(`emailapi/get_template_list`, body)
-        .then((res) => {
-          setTemplateList(res.data.response.data);
-          setCounter(counter + 1);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-
     const getalCountry = async () => {
+      const body = {
+        user_id: 18207,
+        language: "",
+        ibu: "",
+      };
+
       await axios
         .post(`distributes/filters_list`, body)
         .then((res) => {
           setCountryall(res.data.response.data.country);
-          console.log(countryall);
+          // console.log(countryall);
           // setCounter(counter + 1);
         })
         .catch((err) => {
@@ -189,9 +177,34 @@ const CreateEmail = (props) => {
         });
     };
 
-    getTemplateListData();
     getalCountry();
+    getTemplateListData(0);
   }, []);
+
+
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+  const getTemplateListData = async (flag) => {
+    const body = {
+      user_id: 18207,
+      language: "",
+      ibu: "",
+    };
+
+    loader("show");
+    await axios
+      .post(`emailapi/get_template_list`, body)
+      .then((res) => {
+        setTemplateList(res.data.response.data);
+        setCounter(counter + 1);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+      if(flag == 1){
+        loader("hide");
+        toast.success("Template saved successfully");
+      }
+  };
 
   useEffect(() => {
     //console.log("sdsdsd");
@@ -348,22 +361,27 @@ const CreateEmail = (props) => {
       .post(`emailapi/add_update_template`, body)
       .then((res) => {
         if (res.data.status_code === 200) {
+          loader("hide");
           toast.success("Template saved successfully");
         } else {
+          loader("hide");
           toast.warning("Template not selected.");
         }
-        loader("hide");
       })
       .catch((err) => {
+        loader("hide");
         toast.error("Something went wrong");
       });
+      setNewTemplatePopup(false);
+      setTemplatePopup(false);
   };
 
   const saveButtonClicked = () => {
     if(typeof finalTags != "undefined" && finalTags.length > 0){
       let prev_tags = finalTags;
       let new_tags = prev_tags.concat(tagClickedFirst);
-      setFinalTags(new_tags);
+      const uniqueTags = new_tags.filter((x, i, a) => a.indexOf(x) == i);
+      setFinalTags(uniqueTags);
     }else{
       setFinalTags(tagClickedFirst);
     }
@@ -426,7 +444,13 @@ const CreateEmail = (props) => {
         .then((res) => {
           if (res.data.status_code === 200) {
             setCampaign_id(res.data.response.data.id);
-            toast.success("Draft saved");
+            popup_alert({
+              visible: "show",
+              message: "Your changes has been saved <br />successfully !",
+              type: "success",
+              redirect: "/EmailList",
+            });
+            // toast.success("Draft saved");
           } else {
             toast.warning(res.data.message);
           }
@@ -570,16 +594,21 @@ const CreateEmail = (props) => {
     if (typeof newTag == "undefined" || newTag.trim().length == 0 ) {
       toast.error("Please input a tag");
     } else {
-      setTagClickedFirst((oldArray) => [...oldArray, newTag]);
+      if (!tagClickedFirst.includes(newTag)) {
+        setTagClickedFirst((oldArray) => [...oldArray, newTag]);
+      }else{
+        toast.error("Tag already in list.");
+      }
       setNewTag("");
-
       setTagsCounter(tagsCounter + 1);
     }
   };
 
-  const tagClicked = (event) => {
-    if (!tagClickedFirst.includes(event.target)) {
-      setTagClickedFirst((oldArray) => [...oldArray, event.target]);
+  const tagClicked = (dd) => {
+    if (!tagClickedFirst.includes(dd)) {
+      setTagClickedFirst((oldArray) => [...oldArray, dd]);
+    }else{
+      toast.error("Tag already in list.");
     }
   };
 
@@ -593,7 +622,7 @@ const CreateEmail = (props) => {
       emailSubject == "" ||
       emailSubject == 0
     ) {
-      toast.warning("Please select Mail template and Subject first");
+      toast.warning("Please select mail template and subject first");
     } else {
       setIsOpensend(true);
     }
@@ -883,6 +912,67 @@ const CreateEmail = (props) => {
     return false;
   };
 
+
+  const hideTemplatePopup = () => {
+    setTemplatePopup(false);
+  }
+
+  const clickNewTemplate = () => {
+    setTemplatePopup(false);
+    setNewTemplatePopup(true);
+  }
+
+  const hideNewTemplatePopup = () => {
+    setNewTemplatePopup(false);
+  }
+
+  const savenewtemplate = async(e) => {
+    e.preventDefault();
+    let template_name = document.getElementById("template_name").value;
+    if(template_name !== "" && template_name.trim().length > 0){
+      const body = {
+        user_id: 18207,
+        source_code: template,
+        template_id: '',
+        name: template_name,
+        status: 1,
+        language: 2,
+      };
+
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      loader("show");
+      await axios
+        .post(`emailapi/add_update_template`, body)
+        .then((res) => {
+          if (res.data.status_code === 200) {
+            getTemplateListData(1);
+            setTemplateId(res.data.response.data.last_id);
+          } else {
+            loader("hide");
+            toast.warning("Template not selected.");
+          }
+        })
+        .catch((err) => {
+          loader("hide");
+          toast.error("Something went wrong");
+        });
+        setNewTemplatePopup(false);
+        setTemplatePopup(false);
+    }else{
+      toast.warning("Please enter template name.");
+    }
+  }
+
+  const downloadFile = () => {
+    let link = document.createElement("a");
+    link.href = "https://informed.pro/sample.xls";
+    link.setAttribute("download", "file.xlsx");
+    document.body.appendChild(link);
+    link.download = "";
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <>
       <div className="col right-sidebar">
@@ -926,6 +1016,7 @@ const CreateEmail = (props) => {
                 <button
                   className="btn btn-primary btn-filled next"
                   onClick={nextClicked}
+                  disabled={typeof emailSubject == "undefined" || emailSubject.trim().length == 0  ||  typeof templateId == "undefined" || templateId == ""}
                 >
                   Next
                 </button>
@@ -965,6 +1056,7 @@ const CreateEmail = (props) => {
                           id={"template_dyn" + template.id}
                           src={path_image + "content_added1.png"}
                           alt=""
+                          className={typeof templateId !== "undefined" && templateId == template.id ? "select_mm" : ""}
                         />
                         <p>{template.name}</p>
                       </div>
@@ -1087,8 +1179,8 @@ const CreateEmail = (props) => {
                       <button
                         className="btn btn-primary btn-filled"
                         onClick={(e) => {
-                          saveAsTemplateButtonClicked();
-                          e.preventDefault();
+                            setTemplatePopup((getTemplatePopup) => !getTemplatePopup);
+                            e.preventDefault();
                         }}
                       >
                         Save As template
@@ -1149,7 +1241,7 @@ const CreateEmail = (props) => {
                   {Object.values(allTags).map((data) => {
                     return (
                       <>
-                        <div onClick={(event) => tagClicked(event)}>
+                        <div onClick={(event) => tagClicked(data)}>
                           {data}{" "}
                         </div>
                       </>
@@ -1414,9 +1506,8 @@ const CreateEmail = (props) => {
                 <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
                   <input
                     className="form-control me-2"
-                    type="search"
+                    type="text"
                     placeholder="Search"
-                    aria-label="Search"
                     onChange={(e) => searchChange(e)}
                   />
                   <button
@@ -1580,7 +1671,7 @@ const CreateEmail = (props) => {
                                   </div>
                                 */}
                             <div className="smartlist-buttons">
-                              <button className="btn btn-primary btn-bordered view">
+                              <button className="btn btn-primary btn-filled view">
                                 View
                               </button>
                             </div>
@@ -1725,7 +1816,7 @@ const CreateEmail = (props) => {
                                 aria-label="select"
                                 onChange={(event) => onCountryChange(event, i)}
                               >
-                                <option selected>Select Country</option>
+                                <option value="" selected>Select Country</option>
 
                                 {countryall.length === 0
                                   ? ""
@@ -1783,7 +1874,7 @@ const CreateEmail = (props) => {
                     </div>
                   </div>
                   </div>
-                  <div class="download-sample sample-file"><p>Download sample Excel file to upload new HCPs</p><div class="upload-btn"><label for="input-file">Download File</label></div></div>
+                  <div className="download-sample sample-file"><p>Download sample Excel file to upload new HCPs</p><div className="upload-btn" onClick={downloadFile}>Download File</div></div>
                 </form>
               </div>
               <div className="hcp-modal-action">
@@ -1838,12 +1929,63 @@ const CreateEmail = (props) => {
         {/* </div>
         </div> */}
       </Modal>
+
+
+      {/*Modal for Template action start*/}
+      <div className="template_action">
+          <Modal
+            className="modal send-confirm"
+            id="template_action_modal"
+            show={getTemplatePopup}
+          >
+            <Modal.Header>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" onClick={hideTemplatePopup}></button>
+            </Modal.Header>
+
+            <Modal.Body>
+              <img src={path_image + "alert.png"} alt="" />
+  						<h4>Do you want to :</h4>
+
+  						<div className="modal-buttons">
+  							<button type="button" className="btn btn-primary btn-filled" onClick={saveAsTemplateButtonClicked}>Update the current template</button>
+  							<button type="button" className="btn btn-primary btn-bordered" onClick={clickNewTemplate}>Save as new template</button>
+  							<button type="button" className="btn btn-primary btn-bordered light" onClick={hideTemplatePopup}>Cancel</button>
+  						</div>
+            </Modal.Body>
+          </Modal>
+      </div>
+      {/*Modal for Template action end*/}
+
+
+      {/*Modal for save new template start*/}
+      <div className="save_new_template_action">
+          <Modal
+            className="modal send-confirm"
+            id="save_new_template_action_modal"
+            show={getNewTemplatePopup}
+          >
+            <Modal.Header>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" onClick={hideNewTemplatePopup}></button>
+            </Modal.Header>
+
+            <Modal.Body>
+  						<form>
+                <div className="form-group">
+                  <label>Enter new template name</label>
+                  <input type="text" className="form-control" id="template_name" />
+                </div>
+                <button type="submit" className="btn btn-primary btn-filled" onClick={savenewtemplate}>Save</button>
+              </form>
+            </Modal.Body>
+          </Modal>
+      </div>
+      {/*Modal for save new template end*/}
     </>
   );
 };
 
 const mapStateToProps = (state) => {
-  console.log(state);
+  // console.log(state);
   return state;
 };
 

@@ -34,6 +34,7 @@
 		"react-dom": "^18.0.0",
 		"react-email-editor": "^1.6.0",
 		"react-form-builder2": "^0.10.6",
+		"react-hook-form": "^7.31.2",
 		"react-html-table-to-excel": "^2.0.0",
 		"react-js-loader": "^0.1.0",
 		"react-json-to-csv": "^1.0.4",

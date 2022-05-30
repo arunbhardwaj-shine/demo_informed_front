@@ -80,8 +80,7 @@ const Readers = () => {
   const handleGetReadersType = (id) => {
     if (id == "null") {
       setMassage("Data Not Found");
-      setData();
-      setFlag(false);
+      handleGetReadersData(eventId)
     } else {
       ExportApi.ReadersType(eventId, id, search, countryvalue).then((resp) => {
         if (resp.ok) {
@@ -166,6 +165,7 @@ const Readers = () => {
       ExportApi.ReadersBlock(localStorage.getItem("blockId"), 1).then((resp) => {
         if (resp.ok) {
           if (resp.data.code == 200) {
+            handleGetReadersSearch()
             toast.success(resp.data.message, {
               position: "top-right",
               autoClose: 5000,
@@ -192,6 +192,7 @@ const Readers = () => {
       ExportApi.ReadersBlock(localStorage.getItem("blockId"), 0).then((resp) => {
         if (resp.ok) {
           if (resp.data.code == 200) {
+            handleGetReadersSearch()
             toast.success(resp.data.message, {
               position: "top-right",
               autoClose: 5000,
@@ -274,7 +275,7 @@ const Readers = () => {
           <Row>
             <Col xs={2}>
               <h2>
-                <strong>HCPs</strong>
+                <strong>Participants</strong>
               </h2>
             </Col>
             <Col xs={6}>
