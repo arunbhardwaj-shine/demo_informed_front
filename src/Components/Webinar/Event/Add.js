@@ -139,11 +139,7 @@ function Add(props) {
       formik.handleSubmit();
     }
   };
-  // const handleReset = (resetForm) => {
-  //   if (!window.confirm('Reset?')) {
-  //
-  //   }
-  // };
+
   const formik = useFormik({
     initialValues: {
       EventTitle: "",
@@ -268,10 +264,7 @@ function Add(props) {
         <div>
           <h2>Create Event </h2>
           <div>
-            <form
-              onReset={formik.handleReset}
-              onSubmit={(e) => handleSubmit(e)}
-            >
+            <form onReset={formik.handleReset} onSubmit={formik.handleSubmit}>
               <Form.Group
                 as={Row}
                 className="mb-3"

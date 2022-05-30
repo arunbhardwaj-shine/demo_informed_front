@@ -581,7 +581,7 @@ const EventData = () => {
                           <span>{event.event_date}</span>
                         </div>
                         <div class="smart-list-added-user">
-                          {event.days_left} days left
+                          {event.days_left} Days left
                         </div>
 
                         <div class="mail-stats">
@@ -598,7 +598,6 @@ const EventData = () => {
                             </div>
                           )}
                         </div>
-                        <div class="smartlist-buttons"></div>
                       </div>
                     </div>
                   </>
@@ -642,7 +641,7 @@ const EventData = () => {
           <Modal.Body>
             <img src={path_image + "alert.png"} alt="" />
             <h4>
-              The Email Campaign will be deleted from the list.
+              The Event will be deleted from the list.
               <br />
               Are you sure you want to delete it?
             </h4>
