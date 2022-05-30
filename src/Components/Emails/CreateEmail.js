@@ -1671,7 +1671,7 @@ const CreateEmail = (props) => {
                                   </div>
                                 */}
                             <div className="smartlist-buttons">
-                              <button className="btn btn-primary btn-bordered view">
+                              <button className="btn btn-primary btn-filled view">
                                 View
                               </button>
                             </div>
