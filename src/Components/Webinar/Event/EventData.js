@@ -6,6 +6,7 @@ import "../webinar.css";
 import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
+import { loader } from "../../../loader";
 import { date } from "yup";
 import Add from "./Add";
 const EventData = () => {
@@ -19,13 +20,16 @@ const EventData = () => {
   const [update, setUpdate] = useState(0);
   const [sorting, setSorting] = useState(0);
   const [deletecardid, setDeleteCardId] = useState();
+  const [sortingCount, setSortingCount] = useState(0);
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [Speakername, setSpeakerName] = useState([{ name: "", email: "" }]);
-  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   const handleGetEventlist = () => {
+    loader("show");
     ExportApi.GetEventList().then((resp) => {
       if (resp.ok) {
+        loader("hide");
         console.log(resp.data);
         setEvent(resp.data.data);
       }
@@ -96,6 +100,7 @@ const EventData = () => {
     setEvent(normalArr);
     setSorting(1 - sorting);
     setUpdate(update + 1);
+    setSortingCount(sortingCount + 1);
 
     console.log(normalArr);
   };
@@ -215,6 +220,9 @@ const EventData = () => {
   }, []);
   return (
     <div style={{ marginLeft: "300px" }}>
+      <div className="loader" id="custom_loader">
+        <span className="loader-view"> </span>
+      </div>
       {/* <Row>
         <ToastContainer
           position="top-right"
@@ -344,15 +352,43 @@ const EventData = () => {
             </div>
             <div className="hcp-sort">
               <>
-                <button
-                  onClick={(e) => {
-                    sortSelectedUsers(e);
-                  }}
-                  className="btn btn-outline-primary"
-                >
-                  Sort By
-                  {/* Sort By <img src={path_image + "sort.svg"} /> */}
-                </button>
+                {sortingCount == 0 ? (
+                  <>
+                    <button
+                      className="btn btn-outline-primary"
+                      onClick={sortSelectedUsers}
+                    >
+                      Sort By{" "}
+                      <img src={path_image + "sort.svg"} alt="Shorting" />
+                    </button>
+                  </>
+                ) : sorting == 0 ? (
+                  <>
+                    <button
+                      className="btn btn-outline-primary"
+                      onClick={sortSelectedUsers}
+                    >
+                      Sort By{" "}
+                      <img
+                        src={path_image + "sort-decending.svg"}
+                        alt="Shorting"
+                      />
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      className="btn btn-outline-primary"
+                      onClick={sortSelectedUsers}
+                    >
+                      Sort By{" "}
+                      <img
+                        src={path_image + "sort-assending.svg"}
+                        alt="Shorting"
+                      />
+                    </button>
+                  </>
+                )}
               </>
             </div>
 
@@ -401,15 +437,32 @@ const EventData = () => {
 
         <div class="smart-list-result">
           <div class="col smartlist-result-block">
-            <div class="smartlist-add smartlist-view">
-              <Button
+            {/* <Button
                 onClick={() => {
                   setShow(true);
                 }}
               >
+
+
                 Create New Webinar/Event
-              </Button>
+              </Button> */}
+
+            <div className="smartlist_box_block">
+              <div className="smartlist-add smartlist-view">
+                {
+                  <>
+                    <Link
+                      to="/CreateSmartList"
+                      // state={{ creator: getUserDetails.username }}
+                    >
+                      <img src={path_image + "add-button.svg"} alt="" />
+                    </Link>
+                    <p>Create New Smart List</p>
+                  </>
+                }
+              </div>
             </div>
+
             {event.length > 0 ? (
               event.map((event) => {
                 return (
