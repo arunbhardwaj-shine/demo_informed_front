@@ -75,6 +75,8 @@ const CreateEmail = (props) => {
   const [getTemplatePopup, setTemplatePopup] = useState(false);
   const [getNewTemplatePopup, setNewTemplatePopup] = useState(false);
 
+  const [getIsApprovedStatus, setIsApprovedStatus] = useState(0);
+
   const [hpc, setHpc] = useState([
     { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
   ]);
@@ -217,6 +219,7 @@ const CreateEmail = (props) => {
         setFinalTags(props.getDraftData.tags);
         setTagClickedFirst(props.getDraftData.tags);
         setTemplateId(props.getDraftData.campaign_data.template_id);
+        setIsApprovedStatus(props.getDraftData.status);
       }
     }
   }, []);
@@ -226,7 +229,6 @@ const CreateEmail = (props) => {
       if(typeof dd !== "undefined"){
         let getSpecificKeyData = dd.find(e => e.id === props.getDraftData.campaign_data.template_id);
         if(getSpecificKeyData && getSpecificKeyData.hasOwnProperty('source_code')){
-          console.log(getSpecificKeyData.source_code);
             setTemplate(getSpecificKeyData.source_code);
         }
       }
@@ -513,6 +515,7 @@ const CreateEmail = (props) => {
   };
 
   const approvedClicked = async (e) => {
+    setIsApprovedStatus(3);
     e.preventDefault();
     let tagss = [];
     finalTags.map((tags) => {
@@ -1160,7 +1163,7 @@ const CreateEmail = (props) => {
                     </div>
                     <div className="form-buttons right-side col-12 col-md-5">
                       <button
-                        className="btn btn-primary approved-btn btn-bordered"
+                        className={typeof getIsApprovedStatus !== "undefined" && getIsApprovedStatus == 3 ? "btn btn-primary approved-btn btn-bordered checked" : "btn btn-primary approved-btn btn-bordered"}
                         onClick={(e) => approvedClicked(e)}
                       >
                         Approved{" "}
