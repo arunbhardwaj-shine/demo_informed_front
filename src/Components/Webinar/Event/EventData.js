@@ -174,7 +174,7 @@ const EventData = () => {
       Authorization: `${localStorage.getItem("Token")}`,
     };
 
-    console.log(headers);
+    //console.log(headers);
     //  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     //  loader("show");
     axios
