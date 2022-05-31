@@ -92,6 +92,7 @@ const CreateEmail = (props) => {
   const [getSmartListName, setSmartListName] = useState('');
   const [getSmartListPopupStatus, setSmartListPopupStatus] = useState(false);
   const [showLessInfo, setShowLessInfo] = useState(false);
+  const [getSmartListId, setSmartListId] = useState(0);
 
   const newArr = [];
 
@@ -280,11 +281,38 @@ const CreateEmail = (props) => {
   };
 
   const addClicked = (e) => {
-    e.preventDefault();
-    setSelectedHcp((oldArray) => [...readers, ...oldArray]);
-    // setSelectedHcp(readers);
-    setIsOpensend(true);
-    setAddListOpen(false);
+    if(typeof getSmartListId != "undefined" && getSmartListId !== 0){
+      loader("show");
+      const body = {
+        user_id: 18207,
+        list_id: getSmartListId,
+      };
+      axios
+        .post(`distributes/get_reders_list`, body)
+        .then((res) => {
+          if (res.data.status_code == 200) {
+            setReaders(res.data.response.data);
+            setSelectedHcp(res.data.response.data);
+            loader("hide");
+          }else{
+            toast.warning(res.data.message);
+            loader("hide");
+          }
+          setIsOpensend(true);
+          setAddListOpen(false);
+        })
+        .catch((err) => {
+          toast.warning("Something went wrong");
+          loader("hide");
+        });
+
+    }else{
+      toast.warning("Please select smart list");
+    }
+    // e.preventDefault();
+    // setSelectedHcp((oldArray) => [...readers, ...oldArray]);
+    // setIsOpensend(true);
+    // setAddListOpen(false);
   };
 
   const sendsampeap = (event) => {
@@ -778,23 +806,7 @@ const CreateEmail = (props) => {
   };
 
   const handleSelect = (data, e) => {
-    console.log(data);
-
-    const body = {
-      user_id: 18207,
-      list_id: data.id,
-    };
-    // loader("show");
-    axios
-      .post(`distributes/get_reders_list`, body)
-      .then((res) => {
-        //   console.log(res)
-        setReaders(res.data.response.data);
-        //loader("hide");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    setSmartListId(data.id)
   };
 
   const saveClicked = async () => {
@@ -1608,6 +1620,7 @@ const CreateEmail = (props) => {
                                 type="radio"
                                 name="radio"
                                 onClick={(e) => handleSelect(data, e)}
+                                checked={typeof getSmartListId !== "undefined" && getSmartListId !== 0 && getSmartListId == data.id ? "checked" : ""}
                               />
                               <span className="checkmark"></span>
                             </div>
