@@ -105,7 +105,7 @@ function Rehearsal() {
   const handleError = () => {
     for (let index = 0; index < Speakername.length; index++) {
       validateRehearsalData(index, "title", "Title is required");
-      validateRehearsalData(index, "timezone", "Timezone is required");
+      validateRehearsalData(index, "timezone", "Please select  timezone");
       validateRehearsalData(index, "date", "Date is required");
       validateRehearsalData(index, "end_time", " end time is required");
       validateRehearsalData(index, "start_time", " end time is required");
@@ -127,7 +127,7 @@ function Rehearsal() {
           setSpeakerNameErr([...SpeakernameErr]);
         }
       }
-      validateRehearsalData(index, "event_id", "Event is required");
+      validateRehearsalData(index, "event_id", "Please select event");
     }
     return err;
   };
