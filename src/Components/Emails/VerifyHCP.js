@@ -765,9 +765,8 @@ const VerifyHCP = (props) => {
                       <th scope="col">Email</th>
                       <th scope="col">Bounced</th>
                       <th scope="col">Country</th>
-                      <th scope="col">Readers</th>
                       <th scope="col">Business Unit</th>
-                      <th scope="col">Interest</th>
+                      <th scope="col">Contact Type</th>
                       <th scope="col">Consent</th>
                       <th scope="col">Email Received</th>
                       <th scope="col">Openings</th>
@@ -783,16 +782,15 @@ const VerifyHCP = (props) => {
                           <tr>
                             <td>{users.name}</td>
                             <td>{users.email}</td>
-                            <td>NA</td>
+                            <td>{users.bounce}</td>
                             <td>{users.country}</td>
-                            <td>NA</td>
-                            <td>NA</td>
-                            <td>NA</td>
-                            <td><span>NA</span></td>
-                            <td><span>NA</span></td>
-                            <td><span>NA</span></td>
-                            <td><span>NA</span></td>
-                            <td><span>NA</span></td>
+                            <td>{users.ibu}</td>
+                            <td>{users.contact_type}</td>
+                            <td><span>{users.consent}</span></td>
+                            <td><span>{users.email_received}</span></td>
+                            <td><span>{users.email_opening}</span></td>
+                            <td><span>{users.registration}</span></td>
+                            <td><span>{users.last_email}</span></td>
                             <td className="add-new-hcp">
                               <img
                                 src={path_image + "add-row.png"}
@@ -917,7 +915,6 @@ const VerifyHCP = (props) => {
                       <th scope="col">Email</th>
                       <th scope="col">Bounced</th>
                       <th scope="col">Country</th>
-                      <th scope="col">Readers</th>
                       <th scope="col">Business Unit</th>
                       <th scope="col">Interest</th>
                       <th scope="col">Consent</th>
@@ -954,18 +951,17 @@ const VerifyHCP = (props) => {
                               <span>{data.name || data.first_name}</span>
                             </td>
                             <td id={`field_email` + index}>{data.email}</td>
-                            <td id={`field_bounced` + index}>NA</td>
+                            <td id={`field_bounced` + index}>{data.bounce}</td>
                             <td id={`field_country` + index}>
                               <span>{data.country}</span>
                             </td>
-                            <td>NA</td>
-                            <td>NA</td>
-                            <td>NA</td>
-                            <td><span>NA</span></td>
-                            <td><span>NA</span></td>
-                            <td><span>NA</span></td>
-                            <td><span>NA</span></td>
-                            <td><span>NA</span></td>
+                            <td>{data.ibu}</td>
+                            <td>{data.contact_type}</td>
+                            <td><span>{data.consent}</span></td>
+                            <td><span>{data.email_received}</span></td>
+                            <td><span>{data.email_opening}</span></td>
+                            <td><span>{data.registration}</span></td>
+                            <td><span>{data.last_email}</span></td>
                             <td className="delete_row" colSpan="12">
                               <img
                                 src={path_image + "delete.svg"}
@@ -1140,7 +1136,7 @@ const VerifyHCP = (props) => {
                     </div>
                     </div>
                     </div>
-                  </div> 
+                  </div>
                 </form>
               </div>
               <div className="hcp-modal-action">

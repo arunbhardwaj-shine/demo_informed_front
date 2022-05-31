@@ -1010,7 +1010,7 @@ const Table = (props, ref) => {
                     ) : sorting == 0 ? (
                       <>
                         <button
-                          className="btn btn-outline-primary"
+                          className="btn btn-outline-primary desc"
                           onClick={sortSelectedUsers}
                         >
                           Sort By{" "}
@@ -1023,7 +1023,7 @@ const Table = (props, ref) => {
                     ) : (
                       <>
                         <button
-                          className="btn btn-outline-primary"
+                          className="btn btn-outline-primary asc"
                           onClick={sortSelectedUsers}
                         >
                           Sort By{" "}

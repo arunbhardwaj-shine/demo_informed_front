@@ -87,6 +87,12 @@ const CreateEmail = (props) => {
   const [smartListData, setSmartListData] = useState([]);
   const [prevsmartListData, setPrevSmartListData] = useState([]);
 
+
+  const [getReaderDetails, setReaderDetails] = useState({});
+  const [getSmartListName, setSmartListName] = useState('');
+  const [getSmartListPopupStatus, setSmartListPopupStatus] = useState(false);
+  const [showLessInfo, setShowLessInfo] = useState(false);
+
   const newArr = [];
 
   useEffect(() => {
@@ -484,12 +490,9 @@ const CreateEmail = (props) => {
   };
 
   const nextClicked = () => {
-    console.log(finalTags);
     const tags = finalTags.map((finalTags) => {
       return finalTags.innerHTML == null ? finalTags : finalTags.innerHTML;
     });
-
-    console.log(tags);
 
     if (validator.allValid()) {
       props.getEmailData({
@@ -972,6 +975,39 @@ const CreateEmail = (props) => {
     document.body.removeChild(link);
   };
 
+
+  const openSmartListPopup = async(smart_list_id) => {
+   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+   const body = {
+     user_id: 18207,
+     list_id: smart_list_id,
+   };
+   loader("show");
+   await axios
+     .post(`distributes/get_reders_list`, body)
+     .then((res) => {
+       if(res.data.status_code == 200){
+         setAddListOpen(false);
+         setReaderDetails(res.data.response.data);
+         setSmartListName(res.data.response.smart_list_name);
+         setSmartListPopupStatus(true);
+       }else{
+         toast.warning(res.data.message);
+       }
+       loader("hide");
+     })
+     .catch((err) => {
+       toast.warning("Something went wrong");
+       loader("hide");
+     });
+ }
+
+ const showMoreInfo = (e) => {
+   e.preventDefault();
+   setShowLessInfo(!showLessInfo);
+ };
+
+
   return (
     <>
       <div className="col right-sidebar">
@@ -1078,11 +1114,11 @@ const CreateEmail = (props) => {
                         id="email-desc"
                         value={emailDescription}
                       />
-                      {validator.message(
+                      {/*validator.message(
                         "emailDesc",
                         emailDescription,
                         "required"
-                      )}
+                      )*/}
                     </div>
                     <div className="form-group right-side col-12 col-md-5">
                       <label for="exampleInputEmail1">Email Creator</label>
@@ -1093,7 +1129,7 @@ const CreateEmail = (props) => {
                         id="email-address"
                         value={emailCreator}
                       />
-                      {validator.message("creator", emailCreator, "required")}
+                      {/*validator.message("creator", emailCreator, "required")*/}
                     </div>
                   </div>
                   <div className="form-inline row justify-content-between align-items-center">
@@ -1494,6 +1530,7 @@ const CreateEmail = (props) => {
               data-bs-dismiss="modal"
               onClick={() => {
                 setAddListOpen(false);
+                setIsOpensend(true);
                 setSelectedHcp([]);
                 setSearchedUsers([]);
               }}
@@ -1671,7 +1708,7 @@ const CreateEmail = (props) => {
                                 */}
                             <div className="smartlist-buttons">
                               <button className="btn btn-primary btn-bordered view">
-                                View
+                                <a  onClick={() => openSmartListPopup(data.id)}>View</a>
                               </button>
                             </div>
                           </div>
@@ -1725,6 +1762,7 @@ const CreateEmail = (props) => {
             <button
               onClick={() => {
                 setIsOpenAdd(false);
+                setIsOpensend(true);
                 setHpc([
                   {
                     firstname: "",
@@ -1873,7 +1911,7 @@ const CreateEmail = (props) => {
                     </div>
                   </div>
                   </div>
-                  
+
                   <div className="download-sample sample-file"><p>Download sample Excel file to upload new HCPs</p><div className="upload-btn" onClick={downloadFile}>Download File</div></div>
                 </form>
               </div>
@@ -1980,6 +2018,99 @@ const CreateEmail = (props) => {
           </Modal>
       </div>
       {/*Modal for save new template end*/}
+
+
+      {/* Reader Details popup */}
+      <Modal show={getSmartListPopupStatus} className="smart_list_popup" id="smart_list_popup_id">
+        <Modal.Header>
+          <h5 className="modal-title" id="staticBackdropLabel">
+          { typeof getReaderDetails !== "undefined" && getReaderDetails.length > 0 && (
+              getSmartListName
+            )
+          }
+          </h5>
+          <button type="button" className="btn-close" data-bs-dismiss="modal" onClick={() => { setAddListOpen(true);
+            setSmartListPopupStatus((getSmartListPopupStatus) => !getSmartListPopupStatus)}}></button>
+        </Modal.Header>
+        <Modal.Body>
+          <section className="search-hcp">
+            <div className="result-hcp-table">
+                <div className="table-title">
+                    <h4>
+                      HCPs <span>|
+                      { typeof getReaderDetails !== "undefined" && getReaderDetails.length > 0 && (
+                          getReaderDetails.length
+                        )
+                      }</span>
+                    </h4>
+                    <div className="selected-hcp-table-action">
+                      <a
+                        className="show-less-info"
+                        onClick={(e) => showMoreInfo(e)}
+                      >
+                        {showLessInfo == true ? (
+                          <p>Show More information</p>
+                        ) : (
+                          <p>Show less information</p>
+                        )}{" "}
+                      </a>
+                    </div>
+                </div>
+                <div className="selected-hcp-list">
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Bounced</th>
+                        <th scope="col">Country</th>
+                        <th scope="col">Business Unit</th>
+                        <th scope="col">Contact Type</th>
+                        {showLessInfo == false ? (
+                          <>
+                            <th scope="col">Consent</th>
+                            <th scope="col">Email Received</th>
+                            <th scope="col">Openings</th>
+                            <th scope="col">Registrations</th>
+                            <th scope="col">Last Email</th>
+                          </>
+                        ) : null}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {
+                        typeof getReaderDetails !== "undefined" && getReaderDetails.length > 0 && (
+                          getReaderDetails.map((rr, i) => {
+                            return (
+                              <>
+                                <tr>
+                                  <td>{rr.first_name}</td>
+                                  <td>{rr.email}</td>
+                                  <td>{rr.bounce}</td>
+                                  <td>{rr.country}</td>
+                                  <td>{rr.ibu}</td>
+                                  <td>{rr.contact_type}</td>
+                                  {showLessInfo == false ? <td><span>{rr.consent}</span> </td> : null}
+                                  {showLessInfo == false ? <td><span>{rr.email_received}</span></td> : null}
+                                  {showLessInfo == false ? <td><span>{rr.email_opening}</span></td> : null}
+                                  {showLessInfo == false ? <td><span>{rr.registration}</span></td> : null}
+                                  {showLessInfo == false ? <td><span>{rr.last_email}</span></td> : null}
+                                  <td className="add-new-hcp" colspan="12">
+                                  </td>
+                                </tr>
+                              </>
+                            );
+                          })
+                        )
+                      }
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+          </section>
+        </Modal.Body>
+      </Modal>
+      {/*Reader Details popup end*/}
     </>
   );
 };

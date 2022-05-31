@@ -168,31 +168,35 @@ const CreatEvent = (
   );
 //Rehearsal
 const CreatRehearsal = (
-  EventTitle,
-  Timezone,
-  event_start_time,
-  eventendtime,
-  event_date,
-  type,
-  Description,
-  a
+  rehearsalSpeakername
 ) =>
   BaseApi.post(
     "rehearsal",
     {
-      code: 12,
-      event_id: 1,
-      company_id: 1,
-      title: EventTitle,
-      description: Description,
-      type: type,
-      date: event_date,
-      start_time: event_start_time,
-      end_time: eventendtime,
-      timezone: Timezone,
-      pdf_link: "htttps",
-      invites_data: a,
+      rehearsalSpeaker:rehearsalSpeakername
     },
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
+const RehearsalListData = (
+eventid
+) =>
+  BaseApi.get(
+    `rehearsal-list`, {event_id:eventid },
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
+const RehearsalDelete = (
+eventid
+) =>
+  BaseApi.post(
+    `delete-rehearsal`, {rehearsal_id:eventid },
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
@@ -615,6 +619,8 @@ export default {
   GetEventListDataUpdate,
   GetEventListData,
   CreatRehearsal,
+  RehearsalListData,
+  RehearsalDelete,
   UserTemplateList,
   UserTemplate,
   UserTemplateSandMail,
