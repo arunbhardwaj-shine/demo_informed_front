@@ -211,7 +211,7 @@ const EmailArticleSelect = () => {
             </div>
             <div className="col-12 col-md-9">
               <ul className="tabnav-link">
-                <li className="active">
+                <li className="active active-main">
                   <a href="">Select Content</a>
                 </li>
                 <li className="">

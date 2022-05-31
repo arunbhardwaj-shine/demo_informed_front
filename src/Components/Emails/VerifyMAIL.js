@@ -45,14 +45,19 @@ const VerifyMAIL = (props) => {
 
   useEffect(() => {
 
+    console.log(props);
+
     let campaign_id = (typeof props.getEmailData === 'object' && props.getEmailData !== null)
         ? props.getEmailData.campaign_id
         : props.getDraftData.campaign_id;
         setCampaign_id(campaign_id);
 
-    let smart_list_data =  (typeof props.getSelectedSmartListData === 'object' && props.getSelectedSmartListData !== null) ? props.getSelectedSmartListData : props.getDraftData.smart_list_data;
-    console.log(smart_list_data);
-    setSmartListData(smart_list_data);
+        if((typeof props.getSelectedSmartListData === 'object' && props.getSelectedSmartListData !== null) || (props.getDraftData!==null && props.getDraftData.smart_list_data)){
+          let smart_list_data =  (typeof props.getSelectedSmartListData === 'object' && props.getSelectedSmartListData !== null) ? props.getSelectedSmartListData : props.getDraftData.smart_list_data;
+          //console.log(smart_list_data);
+          setSmartListData(smart_list_data);
+        }
+    
 
     getpdfData();
   }, []);
@@ -284,18 +289,23 @@ const VerifyMAIL = (props) => {
             </div>
             <div className="col-12 col-md-9">
               <ul className="tabnav-link">
-                <li className="">
-                  <a href="javascript:void(0)">Select Content</a>
-                </li>
-                <li className="">
-                  <a href="javascript:void(0)">Create Your Email</a>
-                </li>
-
-                <li className="">
-                  <a href="javascript:void(0)">Select Verify Your HCPs</a>
-                </li>
-
+              
                 <li className="active">
+                    <Link to="/EmailArticleSelect">Select Content</Link>
+                  </li>
+                  <li className="active">
+                    <Link to="/CreateEmail">Create Your Email</Link>
+                  </li>
+                  <li className="active">
+                    <Link to="/SelectHCP">Select HCPs</Link>
+                  
+                  </li>
+                  <li className="active">
+                    <Link to="/SelectSmartList">Select Verify Your List</Link>
+                  </li>
+                
+
+                <li className="active active-main">
                   <a href="javascript:void(0)">Verify your Email</a>
                 </li>
               </ul>
@@ -451,7 +461,7 @@ const VerifyMAIL = (props) => {
                       </h6>
                       <p>{/* Single HCP <span>| 1</span> */}</p>
 
-                      {typeof getSmartListData !== "undefined" && (
+                      { getSmartListData.length !== 0 && (
                         <div className="smartlist-view email_box_outer">
                           <div className="smartlist-view email_box">
                             <div className="mail-box-content">
