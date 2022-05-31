@@ -986,8 +986,8 @@ const CreateEmail = (props) => {
             </div>
             <div className="col-12 col-md-9">
               <ul className="tabnav-link">
-                <li className="">
-                  <a href="">Select Content</a>
+                <li className="active">
+                  <Link to="/EmailArticleSelect">Select Content</Link>
                 </li>
                 <li className="active">
                   <a href="">Create Your Email</a>
