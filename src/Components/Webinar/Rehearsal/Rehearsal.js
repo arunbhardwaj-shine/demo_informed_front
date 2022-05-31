@@ -180,7 +180,7 @@ function Rehearsal() {
     setSpeakerName([...Speakername]);
     if (value.length == 0) {
       const copydataErr = SpeakernameErr[i];
-      copydataErr.invites_data[index].email = " email  is required";
+      copydataErr.invites_data[index].email = " Email  is required";
       setSpeakerNameErr([...SpeakernameErr]);
     } else if (
       !Speakername[i].invites_data[index].email.match(
