@@ -8,6 +8,7 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../popup_alert";
+import { Link } from "react-router-dom";
 
 const VerifyHCP = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -214,12 +215,30 @@ const VerifyHCP = (props) => {
   };
 
   const addFile = () => {
+
+    const addfile_btn = document.getElementById('add_file_btn');
+    if (document.querySelector('#add_file_btn .active') !== null) {
+        addfile_btn.classList.remove('active');
+    }else{
+       addfile_btn.classList.add('active');
+    }
+    document.querySelector('#add_hcp_btn').classList.remove('active');
+
     setActiveExcel("active");
     setActiveManual("");
     setAddFileReRender(addFileReRender + 1);
   };
 
   const addHcp = () => {
+
+    const addhcp_btn = document.getElementById('add_hcp_btn');
+    if (document.querySelector('#add_hcp_btn .active') !== null) {
+        addhcp_btn.classList.remove('active');
+    }else{
+       addhcp_btn.classList.add('active');
+    }
+     document.querySelector('#add_file_btn').classList.remove('active');
+
     setActiveExcel("");
     setActiveManual("active");
     setManualReRender(manualReRender + 1);
@@ -652,13 +671,13 @@ const VerifyHCP = (props) => {
             </div>
             <div className="col-12 col-md-9">
               <ul className="tabnav-link">
-                <li className="">
-                  <a href="javascript:void(0)">Select Content</a>
-                </li>
-                <li className="">
-                  <a href="javascript:void(0)">Create Your Email</a>
+              <li className="active">
+                  <Link to="/EmailArticleSelect">Select Content</Link>
                 </li>
                 <li className="active">
+                  <Link to="/CreateEmail">Create Your Email</Link>
+                </li>
+                <li className="active active-main">
                   <a href="javascript:void(0)">Select Verify Your HCPs</a>
                 </li>
 
@@ -1160,6 +1179,7 @@ const VerifyHCP = (props) => {
                   <ul className="nav nav-tabs" role="tablist">
                     <li className="nav-item add_hcp">
                       <a
+                        id="add_hcp_btn"
                         onClick={addHcp}
                         className="nav-link active btn-bordered"
                         data-bs-toggle="tab"
@@ -1170,6 +1190,7 @@ const VerifyHCP = (props) => {
                     </li>
                     <li className="nav-item add-file">
                       <a
+                        id="add_file_btn"
                         onClick={addFile}
                         className="nav-link btn-filled"
                         data-bs-toggle="tab"

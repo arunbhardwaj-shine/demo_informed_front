@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import "../webinar.css";
 
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 import { loader } from "../../../loader";
 
@@ -71,7 +71,7 @@ const EventData = () => {
       setSpeakerName([...Speakername]);
       if (e.target.value.length == 0) {
         const copydataErr = SpeakerErr[i];
-        copydataErr.name = "requred Field name";
+        copydataErr.name = "Name is requred";
         setSpeakerErr([...SpeakerErr]);
       } else {
         const copydataErr = SpeakerErr[i];
@@ -85,7 +85,7 @@ const EventData = () => {
       setSpeakerName([...Speakername]);
       if (e.target.value.length == 0) {
         const copydataErr = SpeakerErr[i];
-        copydataErr.email = "requred Field email";
+        copydataErr.email = "Email is requred";
         setSpeakerErr([...SpeakerErr]);
       } else if (
         !Speakername[i].email.match(
@@ -146,7 +146,9 @@ const EventData = () => {
   const handleMaltiInputRumove = (i) => {
     console.log("i", i);
     Speakername.splice(i, 1);
+    SpeakerErr.splice(i, 1);
     setSpeakerName([...Speakername]);
+    setSpeakerErr([...SpeakerErr]);
   };
 
   const showConfirmationPopup = (id) => {
@@ -174,9 +176,7 @@ const EventData = () => {
       Authorization: `${localStorage.getItem("Token")}`,
     };
 
-    //console.log(headers);
-    //  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    //  loader("show");
+    console.log(headers);
     axios
       .post(`http://51.89.210.56:8000/api/delete-event`, body, { headers })
       .then((res) => {
@@ -202,27 +202,16 @@ const EventData = () => {
       if (Speakername[index].name.length == 0) {
         err = false;
         const copydataErr = SpeakerErr[index];
-        copydataErr.name = "name is  requred  ";
+        copydataErr.name = "Name is requred ";
         setSpeakerErr([...SpeakerErr]);
       }
       if (Speakername[index].email.length == 0) {
         err = false;
         const copydataErr = SpeakerErr[index];
-        copydataErr.email = "email is requred  ";
-        setSpeakerErr([...SpeakerErr]);
-      }
-      if (
-        !Speakername[index].email.match(
-          /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i
-        )
-      ) {
-        err = false;
-        const copydataErr = SpeakerErr[index];
-        copydataErr.speakerdata[index].email = "Invalid email address";
+        copydataErr.email = "Email is requred  ";
         setSpeakerErr([...SpeakerErr]);
       }
     }
-
     return err;
   };
 
@@ -233,7 +222,6 @@ const EventData = () => {
     },
     validationSchema: Yup.object({
       EventTitle: Yup.string().required("Event title is required"),
-
       Description: Yup.string().required("Description is required"),
     }),
     enableReinitialize: true,
@@ -250,6 +238,7 @@ const EventData = () => {
             if (resp.data) {
               if (resp.data.code == 200) {
                 setModalShow(false);
+                setSpeakerName([{ name: "", email: "" }]);
                 handleGetEventlist();
                 toast.success(resp.data.message, {
                   position: "top-right",
@@ -287,98 +276,20 @@ const EventData = () => {
   }, []);
   return (
     <div style={{ marginLeft: "300px" }}>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
       </div>
-      {/* <Row>
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
-        <Col md={{ span: 6, offset: 3 }}>
-          <h2>Events</h2>
-          <Row>
-            <Col>
-              <Link to="/webinar/event/add">
-                <Button>Create Event</Button>
-              </Link>
-            </Col>
-            <Col>
-              <Form.Control
-                onChange={(e) => {
-                  handleGetEventlistSerch(e.target.value);
-                }}
-                name="Search"
-                placeholder="Search......"
-              />
-            </Col>
-          </Row>
-          <br />
-          <Table bordered hover>
-            <thead>
-              <tr>
-                <th>Event Date</th>
-                <th>Event Title</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {event ? (
-                <>
-                  {event ? (
-                    event?.map((val, i) => (
-                      <tr key={i}>
-                     
-                        <td>{val.event_date}</td>
-                        <td>{val.title}</td>
-                        <td>
-                          <Button
-                            onClick={() => handleGetEventlistEdidData(val.id)}
-                          >
-                            Edit
-                          </Button>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <Table bordered hover>
-                      <thead>
-                        <tr>
-                          <th>Event Date</th>
-                          <th>Event Title</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tr></tr>
-                      <tr>
-                        Data Not Found{" "}
-                        <Link to="/webinar/event/add" style={{ color: "red" }}>
-                          Please create event{" "}
-                        </Link>
-                      </tr>
-                    </Table>
-                  )}
-                </>
-              ) : (
-                <h2>
-                  Data Not Found{" "}
-                  <Link to="/webinar/event/add" style={{ color: "red" }}>
-                    Please create event{" "}
-                  </Link>
-                </h2>
-              )}
-            </tbody>
-          </Table>
-                 </Col>
-      </Row> */}
-
       <div class="right-sidebar">
         <div class="top-header">
           <div class="page-title"></div>
@@ -520,9 +431,8 @@ const EventData = () => {
                 }
               </div>
             </div>
-
-            {event.length > 0 ? (
-              event.map((event) => {
+            {event?.length > 0 ? (
+              event?.map((event) => {
                 return (
                   <>
                     <div
@@ -538,7 +448,6 @@ const EventData = () => {
                         <div class="smart-list-added-user">
                           {event.days_left} Days Left
                         </div>
-
                         <div class="mail-stats">
                           {deletestatus && (
                             <div className="dlt_btn">
@@ -634,6 +543,7 @@ const EventData = () => {
           <Modal.Header
             onClick={() => {
               setSpeakerName([{ name: "", email: "" }]);
+              setSpeakerErr([{ name: "", email: "" }]);
               setModalShow(false);
             }}
             closeButton
@@ -779,6 +689,7 @@ const EventData = () => {
                   variant="danger"
                   onClick={() => {
                     setSpeakerName([{ name: "", email: "" }]);
+                    setSpeakerErr([{ name: "", email: "" }]);
                     setModalShow(false);
                   }}
                 >

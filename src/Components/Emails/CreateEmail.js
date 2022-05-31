@@ -87,6 +87,13 @@ const CreateEmail = (props) => {
   const [smartListData, setSmartListData] = useState([]);
   const [prevsmartListData, setPrevSmartListData] = useState([]);
 
+
+  const [getReaderDetails, setReaderDetails] = useState({});
+  const [getSmartListName, setSmartListName] = useState('');
+  const [getSmartListPopupStatus, setSmartListPopupStatus] = useState(false);
+  const [showLessInfo, setShowLessInfo] = useState(false);
+  const [getSmartListId, setSmartListId] = useState(0);
+
   const newArr = [];
 
   useEffect(() => {
@@ -274,11 +281,38 @@ const CreateEmail = (props) => {
   };
 
   const addClicked = (e) => {
-    e.preventDefault();
-    setSelectedHcp((oldArray) => [...readers, ...oldArray]);
-    // setSelectedHcp(readers);
-    setIsOpensend(true);
-    setAddListOpen(false);
+    if(typeof getSmartListId != "undefined" && getSmartListId !== 0){
+      loader("show");
+      const body = {
+        user_id: 18207,
+        list_id: getSmartListId,
+      };
+      axios
+        .post(`distributes/get_reders_list`, body)
+        .then((res) => {
+          if (res.data.status_code == 200) {
+            setReaders(res.data.response.data);
+            setSelectedHcp(res.data.response.data);
+            loader("hide");
+          }else{
+            toast.warning(res.data.message);
+            loader("hide");
+          }
+          setIsOpensend(true);
+          setAddListOpen(false);
+        })
+        .catch((err) => {
+          toast.warning("Something went wrong");
+          loader("hide");
+        });
+
+    }else{
+      toast.warning("Please select smart list");
+    }
+    // e.preventDefault();
+    // setSelectedHcp((oldArray) => [...readers, ...oldArray]);
+    // setIsOpensend(true);
+    // setAddListOpen(false);
   };
 
   const sendsampeap = (event) => {
@@ -704,6 +738,14 @@ const CreateEmail = (props) => {
   };
 
   const addFile = (e) => {
+    const addfile_btn = document.getElementById('add_file_btn');
+    if (document.querySelector('#add_file_btn .active') !== null) {
+        addfile_btn.classList.remove('active');
+    }else{
+       addfile_btn.classList.add('active');
+    }
+     document.querySelector('#add_hcp_btn').classList.remove('active');
+
     e.preventDefault();
     setActiveExcel("active");
     setActiveManual("");
@@ -765,6 +807,14 @@ const CreateEmail = (props) => {
   };
 
   const addHcp = (e) => {
+    const addhcp_btn = document.getElementById('add_hcp_btn');
+    if (document.querySelector('#add_hcp_btn .active') !== null) {
+        addhcp_btn.classList.remove('active');
+    }else{
+       addhcp_btn.classList.add('active');
+    }
+     document.querySelector('#add_file_btn').classList.remove('active');
+
     e.preventDefault();
     setActiveExcel("");
     setActiveManual("active");
@@ -772,23 +822,7 @@ const CreateEmail = (props) => {
   };
 
   const handleSelect = (data, e) => {
-    console.log(data);
-
-    const body = {
-      user_id: 18207,
-      list_id: data.id,
-    };
-    // loader("show");
-    axios
-      .post(`distributes/get_reders_list`, body)
-      .then((res) => {
-        //   console.log(res)
-        setReaders(res.data.response.data);
-        //loader("hide");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    setSmartListId(data.id)
   };
 
   const saveClicked = async () => {
@@ -969,6 +1003,39 @@ const CreateEmail = (props) => {
     document.body.removeChild(link);
   };
 
+
+  const openSmartListPopup = async(smart_list_id) => {
+   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+   const body = {
+     user_id: 18207,
+     list_id: smart_list_id,
+   };
+   loader("show");
+   await axios
+     .post(`distributes/get_reders_list`, body)
+     .then((res) => {
+       if(res.data.status_code == 200){
+         setAddListOpen(false);
+         setReaderDetails(res.data.response.data);
+         setSmartListName(res.data.response.smart_list_name);
+         setSmartListPopupStatus(true);
+       }else{
+         toast.warning(res.data.message);
+       }
+       loader("hide");
+     })
+     .catch((err) => {
+       toast.warning("Something went wrong");
+       loader("hide");
+     });
+ }
+
+ const showMoreInfo = (e) => {
+   e.preventDefault();
+   setShowLessInfo(!showLessInfo);
+ };
+
+
   return (
     <>
       <div className="col right-sidebar">
@@ -983,10 +1050,10 @@ const CreateEmail = (props) => {
             </div>
             <div className="col-12 col-md-9">
               <ul className="tabnav-link">
-                <li className="">
-                  <a href="">Select Content</a>
-                </li>
                 <li className="active">
+                  <Link to="/EmailArticleSelect">Select Content</Link>
+                </li>
+                <li className="active active-main">
                   <a href="">Create Your Email</a>
                 </li>
                 <li className="">
@@ -1491,6 +1558,7 @@ const CreateEmail = (props) => {
               data-bs-dismiss="modal"
               onClick={() => {
                 setAddListOpen(false);
+                setIsOpensend(true);
                 setSelectedHcp([]);
                 setSearchedUsers([]);
               }}
@@ -1568,6 +1636,7 @@ const CreateEmail = (props) => {
                                 type="radio"
                                 name="radio"
                                 onClick={(e) => handleSelect(data, e)}
+                                checked={typeof getSmartListId !== "undefined" && getSmartListId !== 0 && getSmartListId == data.id ? "checked" : ""}
                               />
                               <span className="checkmark"></span>
                             </div>
@@ -1668,7 +1737,7 @@ const CreateEmail = (props) => {
                                 */}
                             <div className="smartlist-buttons">
                               <button className="btn btn-primary btn-bordered view">
-                                View
+                                <a  onClick={() => openSmartListPopup(data.id)}>View</a>
                               </button>
                             </div>
                           </div>
@@ -1722,6 +1791,7 @@ const CreateEmail = (props) => {
             <button
               onClick={() => {
                 setIsOpenAdd(false);
+                setIsOpensend(true);
                 setHpc([
                   {
                     firstname: "",
@@ -1890,6 +1960,7 @@ const CreateEmail = (props) => {
                   <ul className="nav nav-tabs" role="tablist">
                     <li className="nav-item add_hcp">
                       <a
+                        id="add_hcp_btn"
                         onClick={(e) => addHcp(e)}
                         className="nav-link active btn-bordered"
                         data-bs-toggle="tab"
@@ -1900,6 +1971,7 @@ const CreateEmail = (props) => {
                     </li>
                     <li className="nav-item add-file">
                       <a
+                        id="add_file_btn"
                         onClick={(e) => addFile(e)}
                         className="nav-link btn-filled"
                         data-bs-toggle="tab"
@@ -1977,6 +2049,99 @@ const CreateEmail = (props) => {
           </Modal>
       </div>
       {/*Modal for save new template end*/}
+
+
+      {/* Reader Details popup */}
+      <Modal show={getSmartListPopupStatus} className="smart_list_popup" id="smart_list_popup_id">
+        <Modal.Header>
+          <h5 className="modal-title" id="staticBackdropLabel">
+          { typeof getReaderDetails !== "undefined" && getReaderDetails.length > 0 && (
+              getSmartListName
+            )
+          }
+          </h5>
+          <button type="button" className="btn-close" data-bs-dismiss="modal" onClick={() => { setAddListOpen(true);
+            setSmartListPopupStatus((getSmartListPopupStatus) => !getSmartListPopupStatus)}}></button>
+        </Modal.Header>
+        <Modal.Body>
+          <section className="search-hcp">
+            <div className="result-hcp-table">
+                <div className="table-title">
+                    <h4>
+                      HCPs <span>|
+                      { typeof getReaderDetails !== "undefined" && getReaderDetails.length > 0 && (
+                          getReaderDetails.length
+                        )
+                      }</span>
+                    </h4>
+                    <div className="selected-hcp-table-action">
+                      <a
+                        className="show-less-info"
+                        onClick={(e) => showMoreInfo(e)}
+                      >
+                        {showLessInfo == true ? (
+                          <p>Show More information</p>
+                        ) : (
+                          <p>Show less information</p>
+                        )}{" "}
+                      </a>
+                    </div>
+                </div>
+                <div className="selected-hcp-list">
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Bounced</th>
+                        <th scope="col">Country</th>
+                        <th scope="col">Business Unit</th>
+                        <th scope="col">Contact Type</th>
+                        {showLessInfo == false ? (
+                          <>
+                            <th scope="col">Consent</th>
+                            <th scope="col">Email Received</th>
+                            <th scope="col">Openings</th>
+                            <th scope="col">Registrations</th>
+                            <th scope="col">Last Email</th>
+                          </>
+                        ) : null}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {
+                        typeof getReaderDetails !== "undefined" && getReaderDetails.length > 0 && (
+                          getReaderDetails.map((rr, i) => {
+                            return (
+                              <>
+                                <tr>
+                                  <td>{rr.first_name}</td>
+                                  <td>{rr.email}</td>
+                                  <td>{rr.bounce}</td>
+                                  <td>{rr.country}</td>
+                                  <td>{rr.ibu}</td>
+                                  <td>{rr.contact_type}</td>
+                                  {showLessInfo == false ? <td><span>{rr.consent}</span> </td> : null}
+                                  {showLessInfo == false ? <td><span>{rr.email_received}</span></td> : null}
+                                  {showLessInfo == false ? <td><span>{rr.email_opening}</span></td> : null}
+                                  {showLessInfo == false ? <td><span>{rr.registration}</span></td> : null}
+                                  {showLessInfo == false ? <td><span>{rr.last_email}</span></td> : null}
+                                  <td className="add-new-hcp" colspan="12">
+                                  </td>
+                                </tr>
+                              </>
+                            );
+                          })
+                        )
+                      }
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+          </section>
+        </Modal.Body>
+      </Modal>
+      {/*Reader Details popup end*/}
     </>
   );
 };

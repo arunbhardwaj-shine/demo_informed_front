@@ -17,7 +17,7 @@ function Add(props) {
   const [massage, setMassage] = useState();
   const [country, setCountry] = useState([]);
   const [Timezoneregion, setTimezoneregion] = useState([]);
-  const handleMaltiInputAdd = () => {
+  const handleMultiInputAdd = () => {
     setSpeakerName([...Speakername, { name: "", email: "" }]);
     setSpeakerErr([...SpeakerErr, { name: "", email: "" }]);
 
@@ -26,49 +26,38 @@ function Add(props) {
   const [token, setToken] = useState(localStorage.getItem("Token"));
   let navigate = useNavigate();
   const handleSpeakerName = (e, i) => {
+    const { name, value } = e.target;
+    Speakername.splice(i, 1, Speakername[i]);
+    setSpeakerName([...Speakername]);
     if (e.target.name === `name${i}`) {
-      const speker = Speakername[i];
-      speker.name = e.target.value;
-      Speakername.splice(i, 1, { ...speker });
-      setSpeakerName([...Speakername]);
+      Speakername[i].name = value
       if (e.target.value.length == 0) {
-        const copydataErr = SpeakerErr[i];
-        copydataErr.name = "requred Field name";
-        setSpeakerErr([...SpeakerErr]);
-      } else {
-        const copydataErr = SpeakerErr[i];
-        copydataErr.name = "";
-        setSpeakerErr([...SpeakerErr]);
+        SpeakerErr[i].name = "Name is  requred";
+      } else{
+        SpeakerErr[i].name=""
       }
     } else if (e.target.name === `email${i}`) {
-      const speker = Speakername[i];
-      speker.email = e.target.value;
-      Speakername.splice(i, 1, { ...speker });
-      setSpeakerName([...Speakername]);
+      Speakername[i].email =value
       if (e.target.value.length == 0) {
-        const copydataErr = SpeakerErr[i];
-        copydataErr.email = "requred Field email";
+        SpeakerErr[i].email = "Email is requred";
         setSpeakerErr([...SpeakerErr]);
-      } else if (
-        !Speakername[i].email.match(
+      } else if ( !Speakername[i].email.match(
           /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i
         )
       ) {
-        const copydataErr = SpeakerErr[i];
-        copydataErr.email = "Invalid email address";
-        setSpeakerErr([...SpeakerErr]);
-      } else {
-        const copydataErr = SpeakerErr[i];
-        copydataErr.email = "";
-        setSpeakerErr([...SpeakerErr]);
+        SpeakerErr[i].email = "Invalid email address";
+      } else{
+        SpeakerErr[i].email=""
       }
     }
+    setSpeakerErr([...SpeakerErr]);
+
   };
   useEffect(() => {
     console.log("inside render");
   }, [render]);
 
-  const handleMaltiInputRumove = (i) => {
+  const handleMultiInputRemove = (i) => {
     let data1 = Speakername;
     let data1Err = SpeakerErr;
     Speakername.splice(i, 1);
@@ -109,36 +98,21 @@ function Add(props) {
   };
 
   const handleSubmit = (handele) => {
-    // handele();
     let err = true;
-
     for (let index = 0; index < Speakername.length; index++) {
       if (Speakername[index].name.length == 0) {
         err = false;
         const copydataErr = SpeakerErr[index];
-        copydataErr.name = "name is requred ";
+        copydataErr.name = "Name is requred ";
         setSpeakerErr([...SpeakerErr]);
       }
       if (Speakername[index].email.length == 0) {
         err = false;
         const copydataErr = SpeakerErr[index];
-        copydataErr.email = "email is requred  ";
+        copydataErr.email = "Email is requred  ";
         setSpeakerErr([...SpeakerErr]);
       }
-      // if (
-      //   Speakername[index].email.match(
-      //     /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i
-      //   )
-      // ) {
-      //   const copydataErr = SpeakerErr[index];
-      //   copydataErr.speakerdata[index].email = "Invalid email address";
-      //   setSpeakerErr([...SpeakerErr]);
-      // }
     }
-    // if (err) {
-    //   handele();
-    // }
-
     return err;
   };
 
@@ -168,11 +142,7 @@ function Add(props) {
       event_date: Yup.string().required("Event date is required"),
       Description: Yup.string().required("Description is required"),
     }),
-    // onReset:( values,{resetForm})=>{
-    //    resetForm({values:''})
-    //     },
     onSubmit: (values) => {
-      alert(handleSubmit());
       if (handleSubmit()) {
         var today = new Date(values.event_date);
         var dd = String(today.getDate()).padStart(2, "0");
@@ -202,7 +172,6 @@ function Add(props) {
             .then((resp) => {
               if (resp.data) {
                 console.log(resp.data);
-                //console.log(resp.data);
                 if (resp.data.code == 200) {
                   loader("hide");
                   console.log(typeof resp.data.message);
@@ -224,7 +193,6 @@ function Add(props) {
         }
 
         props.closePopup();
-        toast.success("Data added successfully");
         props.getEventList();
       }
     },
@@ -246,6 +214,17 @@ function Add(props) {
 
   return (
     <Row>
+             <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       {console.log("SpeakerErr======>", SpeakerErr)}
       <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
@@ -258,15 +237,10 @@ function Add(props) {
             <form
               onReset={formik.handleReset}
               onSubmit={formik.handleSubmit}
-              // onSubmit={(e) => {
-              //   e.preventDefault();
-              //   handleSubmit(formik.handleSubmit());
-              // }}
             >
               <Form.Group
                 as={Row}
                 className="mb-3"
-                controlId="exampleForm.ControlInput1"
               >
                 <Form.Label column sm={2}>
                   Event Title{" "}
@@ -294,7 +268,7 @@ function Add(props) {
                         type="button"
                         onClick={() => {
                           setIndex(i);
-                          handleMaltiInputRumove(i);
+                          handleMultiInputRemove(i);
                         }}
                         className="btn-close float-end"
                         aria-label="Close"
@@ -303,7 +277,7 @@ function Add(props) {
                     <Form.Group
                       as={Row}
                       className="mb-3"
-                      controlId="exampleForm.ControlInput1"
+                    
                     >
                       <Form.Label column sm={2}>
                         Speaker Name*
@@ -348,7 +322,7 @@ function Add(props) {
               <div className="mt-2"></div>
               <Form.Group className="mb-3">
                 <Button
-                  onClick={handleMaltiInputAdd}
+                  onClick={handleMultiInputAdd}
                   className="speaker-button"
                 >
                   Add More Speaker
@@ -359,7 +333,7 @@ function Add(props) {
               <Form.Group
                 className="mb-3"
                 as={Row}
-                controlId="exampleForm.ControlInput1"
+              
               >
                 <Form.Label column sm={2}>
                   Region{" "}
@@ -389,7 +363,7 @@ function Add(props) {
               <Form.Group
                 className="mb-3"
                 as={Row}
-                controlId="exampleForm.ControlInput1"
+              
               >
                 <Form.Label column sm={2}>
                   Country
@@ -419,7 +393,7 @@ function Add(props) {
               <Form.Group
                 as={Row}
                 className="mb-3"
-                controlId="exampleForm.ControlInput1"
+              
               >
                 <Form.Label column sm={2}>
                   Bu{" "}
@@ -448,7 +422,7 @@ function Add(props) {
               <Form.Group
                 className="mb-3"
                 as={Row}
-                controlId="exampleForm.ControlInput1"
+              
               >
                 <Form.Label column sm={2}>
                   Timezone{" "}
@@ -478,7 +452,7 @@ function Add(props) {
               <Form.Group
                 className="mb-3"
                 as={Row}
-                controlId="exampleForm.ControlInput1"
+              
               >
                 <Form.Label column sm={2}>
                   Event Date
@@ -502,7 +476,7 @@ function Add(props) {
               <Form.Group
                 className="mb-3"
                 as={Row}
-                controlId="exampleForm.ControlInput1"
+              
               >
                 <Form.Label column sm={2}>
                   Event Start Time
@@ -526,7 +500,7 @@ function Add(props) {
               <Form.Group
                 className="mb-3"
                 as={Row}
-                controlId="exampleForm.ControlInput1"
+              
               >
                 <Form.Label column sm={2}>
                   Event End Time
@@ -551,7 +525,7 @@ function Add(props) {
               <Form.Group
                 as={Row}
                 className="mb-3"
-                controlId="exampleForm.ControlInput1"
+              
               >
                 <Form.Label column sm={2}>
                   Code
@@ -572,7 +546,7 @@ function Add(props) {
               <Form.Group
                 as={Row}
                 className="mb-3"
-                controlId="exampleForm.ControlInput1"
+              
               >
                 <Form.Label column sm={2}>
                   Description{" "}
