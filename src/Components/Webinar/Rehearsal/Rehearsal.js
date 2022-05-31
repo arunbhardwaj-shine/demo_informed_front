@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useFormik } from "formik";
 import ExportApi from "../../../Api/ExportApi";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "../webinar.css";
 import { toast, ToastContainer } from "react-toastify";
+import { loader } from "../../../loader";
 function Rehearsal() {
   const [render, setRerender] = useState(0);
-  const [Err, setErr] = useState(false);
-
-  const [addForm, setAddForm] = useState([{ data: "SpeakersName" }]);
-  // const [Speakername, setSpeakerName] = useState([{name: "", email: "" }]);
   const [Speakername, setSpeakerName] = useState([
     {
       title: "",
@@ -36,7 +32,7 @@ function Rehearsal() {
   const [Timezone, setTimezone] = useState([]);
   const [event, setEvent] = useState([]);
 
-  const handleMaltiInputAdd = () => {
+  const handleMultiInputAdd = () => {
     setSpeakerName([
       ...Speakername,
       {
@@ -62,7 +58,7 @@ function Rehearsal() {
       },
     ]);
   };
-  const handleMaltiInputRumove = (i) => {
+  const handleMultiInputRemove = (i) => {
     let data1 = Speakername;
     let dataErr = SpeakernameErr;
     Speakername.splice(i, 1);
@@ -106,10 +102,10 @@ function Rehearsal() {
     }
     return err
   }
-  const handeleErr = () => {
+  const handleError = () => {
     for (let index = 0; index < Speakername.length; index++) {
       validateRehearsalData(index, "title", "Title is required");
-      validateRehearsalData(index, "timezone", "Timezone is required");
+      validateRehearsalData(index, "timezone", "Please select  timezone");
       validateRehearsalData(index, "date", "Date is required");
       validateRehearsalData(index, "end_time", " end time is required");
       validateRehearsalData(index, "start_time", " end time is required");
@@ -131,82 +127,51 @@ function Rehearsal() {
           setSpeakerNameErr([...SpeakernameErr]);
         }
       }
-      validateRehearsalData(index, "event_id", "Event is required");
+      validateRehearsalData(index, "event_id", "Please select event");
     }
     return err;
   };
 
-  // const handeleErr = () => {
-  //   let err;
-  //   for (let index = 0; index < Speakername.length; index++) {
-  //   if (Speakername[index].title.length == 0) {
-  //   err = false;
-  //   const copydataErr = SpeakernameErr[index];
-  //   copydataErr.title = "Title is required";
-  //   setSpeakerNameErr([...SpeakernameErr]);
-  //   }
-  //   if (Speakername[index].timezone.length == 0) {
-  //   err = false;
-  //   const copydataErr = SpeakernameErr[index];
-  //   copydataErr.timezone = "timezone is required";
-  //   setSpeakerNameErr([...SpeakernameErr]);
-  //   }
-  //   if (Speakername[index].date) {
-  //   err = false;
-  //   const copydataErr = SpeakernameErr[index];
-  //   copydataErr.date = "date is required";
-  //   setSpeakerNameErr([...SpeakernameErr]);
-  //   }
-  //   if (Speakername[index].end_time.length == 0) {
-  //   err = false;
-  //   const copydataErr = SpeakernameErr[index];
-  //   copydataErr.end_time = "Event end time is required";
-  //   setSpeakerNameErr([...SpeakernameErr]);
-  //   }
-  //   if (Speakername[index].start_time.length == 0) {
-  //   err = false;
-  //   const copydataErr = SpeakernameErr[index];
-  //   copydataErr.start_time = "Event end time is required";
-  //   setSpeakerNameErr([...SpeakernameErr]);
-  //   }
-  //   for (let i = 0; i < Speakername[index].invites_data.length; i++) {
-  //   if (Speakername[index].invites_data[i].name.length == 0) {
-  //   err = false;
-  //   const copydataErr = SpeakernameErr[index];
-  //   copydataErr.invites_data[i].name = "Name is required";
-  //   setSpeakerNameErr([...SpeakernameErr]);
-  //   }
-  //   const regex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-  //   if(Speakername[index].invites_data[i].email.length == 0 || regex.test(Speakername[index].invites_data[i].email) === false){
-  //   err = false;
-  //   const copydataErr = SpeakernameErr[index];
-  //   copydataErr.invites_data[i].email = "Email address is required";
-  //   setSpeakerNameErr([...SpeakernameErr]);
-  //   }
-  //   }
-  //   if (Speakername[index].event_id.length == 0) {
-  //   err = false;
-  //   const copydataErr = SpeakernameErr[index];
-  //   copydataErr.event_id = "event is required";
-  //   setSpeakerNameErr([...SpeakernameErr]);
-  //   }
-  //   }
-  //   return err
-  //   };
-
-
+ 
   const handleOnChange = (e, i) => {
     const { name, value } = e.target;
+    if(name=="event_id"){
     Speakername[i][name] = value;
     Speakername.splice(i, 1, Speakername[i]);
     setSpeakerName([...Speakername]);
     if (value.length == 0) {
-      SpeakernameErr[i][name] = name + "is required";
+      SpeakernameErr[i][name] = " please select event" ;
       setSpeakerNameErr([...SpeakernameErr]);
     } else {
       SpeakernameErr[i][name] = "";
       setSpeakerNameErr([...SpeakernameErr]);
     }
+  }else if(name=="timezone"){
+  Speakername[i][name] = value;
+  Speakername.splice(i, 1, Speakername[i]);
+  setSpeakerName([...Speakername]);
+  if (value.length == 0) {
+    SpeakernameErr[i][name] = " please select timezone" ;
+    setSpeakerNameErr([...SpeakernameErr]);
+  } else {
+    SpeakernameErr[i][name] = "";
+    setSpeakerNameErr([...SpeakernameErr]);
+  }
+}
+  
+  else{
+    Speakername[i][name] = value;
+    console.log(value)
+    Speakername.splice(i, 1, Speakername[i]);
+    setSpeakerName([...Speakername]);
+    if (value.length == 0) {
+      SpeakernameErr[i][name] = name + " is required";
+      setSpeakerNameErr([...SpeakernameErr]);
+    } else {
+      SpeakernameErr[i][name] = "";
+      setSpeakerNameErr([...SpeakernameErr]);
+    }
+  }
   };
   const handleSpeakerdata = (e, i, index) => {
     const { value } = e.target;
@@ -217,7 +182,7 @@ function Rehearsal() {
     setSpeakerName([...Speakername]);
     if (value.length == 0) {
       const copydataErr = SpeakernameErr[i];
-      copydataErr.invites_data[index].name = "requred Field name";
+      copydataErr.invites_data[index].name = " name  is required";
       setSpeakerNameErr([...SpeakernameErr]);
     } else {
       const copydataErr = SpeakernameErr[i];
@@ -233,7 +198,7 @@ function Rehearsal() {
     setSpeakerName([...Speakername]);
     if (value.length == 0) {
       const copydataErr = SpeakernameErr[i];
-      copydataErr.invites_data[index].email = "requred Field email";
+      copydataErr.invites_data[index].email = " email  is required";
       setSpeakerNameErr([...SpeakernameErr]);
     } else if (
       !Speakername[i].invites_data[index].email.match(
@@ -270,6 +235,9 @@ function Rehearsal() {
   };
   return (
     <Row>
+          <div className="loader" id="custom_loader">
+        <span className="loader-view"> </span>
+      </div>
       {console.log(Speakername)}
       <ToastContainer
         position="top-right"
@@ -284,16 +252,18 @@ function Rehearsal() {
       />
       <Col md={{ span: 6, offset: 3 }}>
         <div>
-          <h2> Rehearsal</h2>
+         
           <div>
             <form  onSubmit={
              (e)=>{  
               e.preventDefault() 
-              if (handeleErr()) {
+              if (handleError()) {
+                loader("show")
              let rehearsalSpeakername = JSON.stringify(Speakername);
             ExportApi.CreatRehearsal(rehearsalSpeakername)
               .then((resp) => {
                 if (resp.data.code == 200) {
+                  loader("hide")
                   toast.success(resp.data.message, {
                     position: "top-right",
                     autoClose: 5000,
@@ -304,6 +274,7 @@ function Rehearsal() {
                     progress: undefined,
                   });
                 } else {
+                  loader("hide")
                   toast.error(resp.data.message, {
                     position: "top-right",
                     autoClose: 5000,
@@ -324,196 +295,19 @@ function Rehearsal() {
                     <button
                       type="button"
                       onClick={() => {
-                        handleMaltiInputRumove(i);
+                        handleMultiInputRemove(i);
                       }}
                       className="btn-close float-end"
                       aria-label="Close"
                     />
                   ) : null}
-                  <h4>Select the rehearsal Information:{i + 1}</h4>
-                  <Form.Group
-                    as={Row}
-                    className="mb-3"
-                    controlId="exampleForm.ControlInput1"
-                  >
-                    <Form.Label column sm={2}>
-                      Title{" "}
-                    </Form.Label>
-                    <Col sm={10}>
-                      <Form.Control
-                        name="title"
-                        onChange={(e) => handleOnChange(e, i)}
-                        value={val.title}
-                      />
-                      <div style={{ color: "red" }}>
-                        <p> {SpeakernameErr[i].title}</p>
-                      </div>
-                    </Col>
-                  </Form.Group>
-                  <Form.Group
-                    className="mb-3"
-                    as={Row}
-                    controlId="exampleForm.ControlInput1"
-                  >
-                    <Form.Label column sm={2}>
-                      Date{" "}
-                    </Form.Label>
-                    <Col sm={10}>
-                      <Form.Control
-                        name="date"
-                        type="date"
-                        min={yyyy + "-" + mm + "-" + dd}
-                        onChange={(e) => handleOnChange(e, i)}
-                        value={val.date}
-                      />
-
-                      <div style={{ color: "red" }}>
-                        {<p> {SpeakernameErr[i].date}</p>}
-                      </div>
-                    </Col>
-                  </Form.Group>
-                  <Form.Group
-                    className="mb-3"
-                    as={Row}
-                    controlId="exampleForm.ControlInput1"
-                  >
-                    <Form.Label column sm={2}>
-                      Timezone{" "}
-                    </Form.Label>
-                    <Col sm={10}>
-                      <Form.Select
-                        name="timezone"
-                        onChange={(e) => handleOnChange(e, i)}
-                        value={val.timezone}
-                      >
-                        <option value="">Select Timezone</option>
-                        {Timezone?.map((val, i) => (
-                          <React.Fragment key={i}>
-                            <option value={val.values}>{val.values}</option>
-                          </React.Fragment>
-                        ))}
-                      </Form.Select>
-
-                      <div style={{ color: "red" }}>
-                        {SpeakernameErr[i].timezone}
-                      </div>
-                    </Col>
-                  </Form.Group>
-                  <Form.Group
-                    className="mb-3"
-                    as={Row}
-                    controlId="exampleForm.ControlInput1"
-                  >
-                    <Form.Label column sm={2}>
-                      Event Start Time{" "}
-                    </Form.Label>
-                    <Col sm={10}>
-                      <Form.Control
-                      name="start_time"
-                        type="time"
-                        onChange={(e) => handleOnChange(e, i)}
-                        value={val.start_time}
-                      />
-                      <div style={{ color: "red" }}>
-                        {SpeakernameErr[i].start_time}
-                      </div>
-                    </Col>
-                  </Form.Group>
-                  <Form.Group
-                    className="mb-3"
-                    as={Row}
-                    controlId="exampleForm.ControlInput1"
-                  >
-                    <Form.Label column sm={2}>
-                      Event End Time{" "}
-                    </Form.Label>
-                    <Col sm={10}>
-                      <Form.Control
-                        name="end_time"
-                        type="time"
-                        onChange={(e) => handleOnChange(e, i)}
-                        value={val.end_time}
-                      />
-                      <div style={{ color: "red" }}>
-                        {SpeakernameErr[i].end_time}
-                      </div>
-                    </Col>
-                  </Form.Group>
-                  <br />
-
-                  {val.invites_data.map((malti, index) => (
-                    <fieldset className="border p-2">
-                      <div key={i}>
-                        {val.invites_data.length > 1 ? (
-                          <button
-                            type="button"
-                            onClick={() => {
-                              handleSpeakerdataInputRumove(i, index);
-                            }}
-                            className="btn-close float-end"
-                            aria-label="Close"
-                          />
-                        ) : null}
-                        <Form.Group
-                          as={Row}
-                          className="mb-3"
-                          controlId="exampleForm.ControlInput1"
-                        >
-                          <Form.Label column sm={2}>
-                            Speaker Name
-                          </Form.Label>
-                          <Col sm={10}>
-                            <Form.Control
-                              type="text"
-                              value={malti.name}
-                              onChange={(e) => {
-                                handleSpeakerdata(e, i, index);
-                              }}
-                            />
-
-                            <div style={{ color: "red" }}>
-                              {SpeakernameErr[i].invites_data[index].name}
-                            </div>
-                          </Col>
-                          <div className="mt-2"></div>
-                          <Form.Label column sm={2}>
-                            Speaker Email
-                          </Form.Label>
-                          <Col sm={10}>
-                            <Form.Control
-                              type="email"
-                              value={malti.email}
-                              onChange={(e) => {
-                                handleSpeakerdataEmail(e, i, index);
-                              }}
-                            />
-
-                            <div style={{ color: "red" }}>
-                              {SpeakernameErr[i].invites_data[index].email}
-                            </div>
-                          </Col>
-                        </Form.Group>
-                      </div>
-                    </fieldset>
-                  ))}
-                  <div class="mt-2"></div>
-                  <Form.Group className="mb-3">
-                    <Button
-                      onClick={() => handleSpeakerdataInputAdd(i)}
-                      className="speaker-button"
-                    >
-                      Add More Speaker
-                    </Button>
-                  </Form.Group>
-                  <div class="clearfix"></div>
-                  <div class="mt-2"></div>
-
-                  <br />
+                   <h2> Rehearsal {i + 1}</h2>
+                   <br />
                   {event ? (
                     <Form.Group
                       className="mb-3"
                       as={Row}
-                      controlId="exampleForm.ControlInput1"
+                      
                     >
                       <Form.Label column sm={2}>
                         Event{" "}
@@ -544,6 +338,178 @@ function Rehearsal() {
                     </h4>
                   )}
                   <br />
+                  <Form.Group
+                    as={Row}
+                    className="mb-3"
+                    
+                  >
+                    <Form.Label column sm={2}>
+                    Rehearsal Title{" "}
+                    </Form.Label>
+                    <Col sm={10}>
+                      <Form.Control
+                        name="title"
+                        onChange={(e) => handleOnChange(e, i)}
+                        value={val.title}
+                      />
+                      <div style={{ color: "red" }}>
+                        <p> {SpeakernameErr[i].title}</p>
+                      </div>
+                    </Col>
+                  </Form.Group>
+                  <Form.Group
+                    className="mb-3"
+                    as={Row}
+                    
+                  >
+                    <Form.Label column sm={2}>
+                      Date
+                    </Form.Label>
+                    <Col sm={10}>
+                      <Form.Control
+                        name="date"
+                        type="date"
+                        min={yyyy + "-" + mm + "-" + dd}
+                        onChange={(e) => handleOnChange(e, i)}
+                        value={val.date}
+                      />
+                      <div style={{ color: "red" }}>
+                        {<p> {SpeakernameErr[i].date}</p>}
+                      </div>
+                    </Col>
+                  </Form.Group>
+                  <Form.Group
+                    className="mb-3"
+                    as={Row}
+                    
+                  >
+                    <Form.Label column sm={2}>
+                      Timezone{" "}
+                    </Form.Label>
+                    <Col sm={10}>
+                      <Form.Select
+                        name="timezone"
+                        onChange={(e) => handleOnChange(e, i)}
+                        value={val.timezone}
+                      >
+                        <option value="">Select Timezone</option>
+                        {Timezone?.map((val, i) => (
+                          <React.Fragment key={i}>
+                            <option value={val.values}>{val.values}</option>
+                          </React.Fragment>
+                        ))}
+                      </Form.Select>
+                      <div style={{ color: "red" }}>
+                        {SpeakernameErr[i].timezone}
+                      </div>
+                    </Col>
+                  </Form.Group>
+                  <Form.Group
+                    className="mb-3"
+                    as={Row}
+                    
+                  >
+                    <Form.Label column sm={2}>
+                      Event Start Time
+                    </Form.Label>
+                    <Col sm={10}>
+                      <Form.Control
+                      name="start_time"
+                        type="time"
+                        onChange={(e) => handleOnChange(e, i)}
+                        value={val.start_time}
+                      />
+                      <div style={{ color: "red" }}>
+                        {SpeakernameErr[i].start_time}
+                      </div>
+                    </Col>
+                  </Form.Group>
+                  <Form.Group
+                    className="mb-3"
+                    as={Row}
+                    
+                  >
+                    <Form.Label column sm={2}>
+                      Event End Time{" "}
+                    </Form.Label>
+                    <Col sm={10}>
+                      <Form.Control
+                        name="end_time"
+                        type="time"
+                        onChange={(e) => handleOnChange(e, i)}
+                        value={val.end_time}
+                      />
+                      <div style={{ color: "red" }}>
+                        {SpeakernameErr[i].end_time}
+                      </div>
+                    </Col>
+                  </Form.Group>
+                  <br />
+                  {val.invites_data.map((malti, index) => (
+                    <fieldset className="border p-2">
+                      <div key={i}>
+                      <p>speaker’s information's</p>
+                        {val.invites_data.length > 1 ? (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              handleSpeakerdataInputRumove(i, index);
+                            }}
+                            className="btn-close float-end"
+                            aria-label="Close"
+                          />
+                        ) : null}
+                        <Form.Group
+                          as={Row}
+                          className="mb-3"
+                          
+                        >
+                          <Form.Label column sm={2}>
+                             Name
+                          </Form.Label>
+                          <Col sm={10}>
+                            <Form.Control
+                              type="text"
+                              value={malti.name}
+                              onChange={(e) => {
+                                handleSpeakerdata(e, i, index);
+                              }}
+                            />
+                            <div style={{ color: "red" }}>
+                              {SpeakernameErr[i].invites_data[index].name}
+                            </div>
+                          </Col>
+                          <div className="mt-2"></div>
+                          <Form.Label column sm={2}>
+                             Email
+                          </Form.Label>
+                          <Col sm={10}>
+                            <Form.Control
+                              type="email"
+                              value={malti.email}
+                              onChange={(e) => {
+                                handleSpeakerdataEmail(e, i, index);
+                              }}
+                            />
+                            <div style={{ color: "red" }}>
+                              {SpeakernameErr[i].invites_data[index].email}
+                            </div>
+                          </Col>
+                        </Form.Group>
+                      </div>
+                    </fieldset>
+                  ))}
+                  <div class="mt-2"></div>
+                  <Form.Group className="mb-3">
+                    <Button
+                      onClick={() => handleSpeakerdataInputAdd(i)}
+                      className="speaker-button"
+                    >
+                      Add Speaker
+                    </Button>
+                  </Form.Group>
+                  <div class="clearfix"></div>
+                  <div class="mt-2"></div>
                 </div>
               ))}
               <Button type="submit" className="event-submit-button">
@@ -553,7 +519,7 @@ function Rehearsal() {
           </div>
           <button
             className="btn btn-success btn-block"
-            onClick={handleMaltiInputAdd}
+            onClick={handleMultiInputAdd}
           >
             Schedule another rehearsal
           </button>

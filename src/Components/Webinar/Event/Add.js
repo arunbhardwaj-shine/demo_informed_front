@@ -114,7 +114,7 @@ function Add(props) {
       if (Speakername[index].name.length == 0) {
         err = false;
         const copydataErr = SpeakerErr[index];
-        copydataErr.name = "name is requred  ";
+        copydataErr.name = "name is requred ";
         setSpeakerErr([...SpeakerErr]);
       }
       if (Speakername[index].email.length == 0) {
@@ -162,7 +162,8 @@ function Add(props) {
       eventendtime: Yup.string().required("Event ent time is required"),
       event_date: Yup.string().required("Event date is required"),
       Description: Yup.string().required("Description is required"),
-    }),
+    }
+    ),
     // onReset:( values,{resetForm})=>{
     //    resetForm({values:''})
     //     },
@@ -274,6 +275,7 @@ function Add(props) {
               {Speakername.map((malti, i) => (
                 <fieldset className="border p-2">
                   <div key={i}>
+                    <p>speaker’s information's</p>
                     {Speakername.length > 1 ? (
                       <button
                         type="button"
