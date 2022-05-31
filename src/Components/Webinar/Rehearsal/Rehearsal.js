@@ -251,7 +251,7 @@ function Rehearsal() {
              (e)=>{  
               e.preventDefault() 
               if (handleError()) {
-                loader("show");
+                loader("show")
              let rehearsalSpeakername = JSON.stringify(Speakername);
             ExportApi.CreatRehearsal(rehearsalSpeakername)
               .then((resp) => {
@@ -267,6 +267,7 @@ function Rehearsal() {
                     progress: undefined,
                   });
                 } else {
+                  loader("hide")
                   toast.error(resp.data.message, {
                     position: "top-right",
                     autoClose: 5000,
