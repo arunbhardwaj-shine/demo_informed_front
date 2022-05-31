@@ -320,7 +320,6 @@ const EventData = () => {
               />
             </Col>
           </Row>
-
           <br />
           <Table bordered hover>
             <thead>
@@ -767,6 +766,11 @@ const EventData = () => {
                     id="exampleFormControlTextarea1"
                     rows="3"
                   ></textarea>
+                  {formik.touched.Description && formik.errors.Description ? (
+                    <div style={{ color: "red" }}>
+                      {formik.errors.Description}
+                    </div>
+                  ) : null}
                 </Col>
               </Form.Group>
 
