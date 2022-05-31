@@ -99,7 +99,7 @@ function Rehearsal() {
       setSpeakerNameErr([...SpeakernameErr]);
       err = false;
     }
-    return err
+    return err;
   }
   const handeleErr = () => {
     for (let index = 0; index < Speakername.length; index++) {
@@ -131,46 +131,49 @@ function Rehearsal() {
     return err;
   };
 
- 
   const handleOnChange = (e, i) => {
+    console.log("hi");
     const { name, value } = e.target;
-    if(name=="date"){
-      var today = new Date(value);
-      var dd = String(today.getDate()).padStart(2, "0");
-      var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-      var yyyy = today.getFullYear();
-      let dateData = dd + "/" + mm + "/" + yyyy;
-    Speakername[i][name] = dateData;
-    // console.log(value)
-    Speakername.splice(i, 1, Speakername[i]);
-    setSpeakerName([...Speakername]);
-    if (value.length == 0) {
-      SpeakernameErr[i][name] = name + "is required";
-      setSpeakerNameErr([...SpeakernameErr]);
+    if (name == "date") {
+      // var today = new Date(value);
+      // var dd = String(today.getDate()).padStart(2, "0");
+      // var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+      // var yyyy = today.getFullYear();
+      // let dateData = dd + "/" + mm + "/" + yyyy;'
+      Speakername[i][name] = value;
+      // console.log(value)
+      Speakername.splice(i, 1, Speakername[i]);
+      setSpeakerName([...Speakername]);
+      if (value.length == 0) {
+        SpeakernameErr[i][name] = name + "is required";
+        setSpeakerNameErr([...SpeakernameErr]);
+      } else {
+        SpeakernameErr[i][name] = "";
+        setSpeakerNameErr([...SpeakernameErr]);
+      }
     } else {
-      SpeakernameErr[i][name] = "";
-      setSpeakerNameErr([...SpeakernameErr]);
+      Speakername[i][name] = value;
+
+      Speakername.splice(i, 1, Speakername[i]);
+
+      setSpeakerName([...Speakername]);
+      if (value.length == 0) {
+        SpeakernameErr[i][name] = name + "is required";
+        setSpeakerNameErr([...SpeakernameErr]);
+      } else {
+        SpeakernameErr[i][name] = "";
+        setSpeakerNameErr([...SpeakernameErr]);
+      }
     }
-  }else{
-    Speakername[i][name] = value;
-    console.log(value)
-    Speakername.splice(i, 1, Speakername[i]);
-    setSpeakerName([...Speakername]);
-    if (value.length == 0) {
-      SpeakernameErr[i][name] = name + "is required";
-      setSpeakerNameErr([...SpeakernameErr]);
-    } else {
-      SpeakernameErr[i][name] = "";
-      setSpeakerNameErr([...SpeakernameErr]);
-    }
-  }
   };
   const handleSpeakerdata = (e, i, index) => {
     const { value } = e.target;
     const copydata = Speakername[i];
     copydata.invites_data[index].name = value;
     console.log(copydata.invites_data[index].name);
-    Speakername.splice(i, 1, copydata);
+    console.log(Speakername);
+    // Speakername.splice(i, 1, copydata);
+    // console.log(Speakername);
     setSpeakerName([...Speakername]);
     if (value.length == 0) {
       const copydataErr = SpeakernameErr[i];
@@ -241,42 +244,44 @@ function Rehearsal() {
       />
       <Col md={{ span: 6, offset: 3 }}>
         <div>
-         
           <div>
-            <form  onSubmit={
-             (e)=>{  
-              e.preventDefault() 
-              if (handeleErr()) {
-             let rehearsalSpeakername = JSON.stringify(Speakername);
-            ExportApi.CreatRehearsal(rehearsalSpeakername)
-              .then((resp) => {
-                if (resp.data.code == 200) {
-                  toast.success(resp.data.message, {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                  });
-                } else {
-                  toast.error(resp.data.message, {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                  });
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (handeleErr()) {
+                  let rehearsalSpeakername = JSON.stringify(Speakername);
+                  ExportApi.CreatRehearsal(rehearsalSpeakername)
+                    .then((resp) => {
+                      if (resp.data.code == 200) {
+                        toast.success(resp.data.message, {
+                          position: "top-right",
+                          autoClose: 5000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                        });
+                      } else {
+                        toast.error(resp.data.message, {
+                          position: "top-right",
+                          autoClose: 5000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                        });
+                      }
+                    })
+                    .catch((err) => console.log(err));
                 }
-              })
-              .catch((err) => console.log(err));
-              }
-            }}>
+                // alert("form submitted");
+              }}
+            >
               {Speakername.map((val, i) => (
                 <div>
+                  {console.log(val)}
                   {Speakername.length > 1 ? (
                     <button
                       type="button"
@@ -287,8 +292,8 @@ function Rehearsal() {
                       aria-label="Close"
                     />
                   ) : null}
-                   <h2> Rehearsal {i + 1}</h2>
-                   <br />
+                  <h2> Rehearsal {i + 1}</h2>
+                  <br />
                   {event ? (
                     <Form.Group
                       className="mb-3"
@@ -330,7 +335,7 @@ function Rehearsal() {
                     controlId="exampleForm.ControlInput1"
                   >
                     <Form.Label column sm={2}>
-                    Rehearsal Title{" "}
+                      Rehearsal Title{" "}
                     </Form.Label>
                     <Col sm={10}>
                       <Form.Control
@@ -400,7 +405,7 @@ function Rehearsal() {
                     </Form.Label>
                     <Col sm={10}>
                       <Form.Control
-                      name="start_time"
+                        name="start_time"
                         type="time"
                         onChange={(e) => handleOnChange(e, i)}
                         value={val.start_time}
@@ -434,7 +439,7 @@ function Rehearsal() {
                   {val.invites_data.map((malti, index) => (
                     <fieldset className="border p-2">
                       <div key={i}>
-                      <p>speaker’s information's</p>
+                        <p>speaker’s information's</p>
                         {val.invites_data.length > 1 ? (
                           <button
                             type="button"
@@ -451,7 +456,7 @@ function Rehearsal() {
                           controlId="exampleForm.ControlInput1"
                         >
                           <Form.Label column sm={2}>
-                             Name
+                            Name
                           </Form.Label>
                           <Col sm={10}>
                             <Form.Control
@@ -467,7 +472,7 @@ function Rehearsal() {
                           </Col>
                           <div className="mt-2"></div>
                           <Form.Label column sm={2}>
-                             Email
+                            Email
                           </Form.Label>
                           <Col sm={10}>
                             <Form.Control
