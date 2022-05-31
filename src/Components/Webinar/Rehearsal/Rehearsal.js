@@ -135,7 +135,7 @@ function Rehearsal() {
  
   const handleOnChange = (e, i) => {
     const { name, value } = e.target;
-    if(name=="date"){
+    if(name=="event_id"){
       // var today = new Date(value);
       // var dd = String(today.getDate()).padStart(2, "0");
       // var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
@@ -146,13 +146,32 @@ function Rehearsal() {
     Speakername.splice(i, 1, Speakername[i]);
     setSpeakerName([...Speakername]);
     if (value.length == 0) {
-      SpeakernameErr[i][name] = name + " is required";
+      SpeakernameErr[i][name] = " please select event" ;
       setSpeakerNameErr([...SpeakernameErr]);
     } else {
       SpeakernameErr[i][name] = "";
       setSpeakerNameErr([...SpeakernameErr]);
     }
-  }else{
+  }  if(name=="timezone"){
+    // var today = new Date(value);
+    // var dd = String(today.getDate()).padStart(2, "0");
+    // var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+    // var yyyy = today.getFullYear();
+    // let dateData = dd + "/" + mm + "/" + yyyy;
+  Speakername[i][name] = value;
+  // console.log(value)
+  Speakername.splice(i, 1, Speakername[i]);
+  setSpeakerName([...Speakername]);
+  if (value.length == 0) {
+    SpeakernameErr[i][name] = " please select timezone" ;
+    setSpeakerNameErr([...SpeakernameErr]);
+  } else {
+    SpeakernameErr[i][name] = "";
+    setSpeakerNameErr([...SpeakernameErr]);
+  }
+}
+  
+  else{
     Speakername[i][name] = value;
     console.log(value)
     Speakername.splice(i, 1, Speakername[i]);
