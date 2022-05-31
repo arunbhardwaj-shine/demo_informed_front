@@ -146,7 +146,9 @@ const EventData = () => {
   const handleMaltiInputRumove = (i) => {
     console.log("i", i);
     Speakername.splice(i, 1);
+    SpeakerErr.splice(i, 1);
     setSpeakerName([...Speakername]);
+    setSpeakerErr([...SpeakerErr]);
   };
 
   const showConfirmationPopup = (id) => {
@@ -175,8 +177,6 @@ const EventData = () => {
     };
 
     console.log(headers);
-    //  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    //  loader("show");
     axios
       .post(`http://51.89.210.56:8000/api/delete-event`, body, { headers })
       .then((res) => {
@@ -198,18 +198,17 @@ const EventData = () => {
 
   const handleSubmit = (e) => {
     let err = true;
-
     for (let index = 0; index < Speakername.length; index++) {
       if (Speakername[index].name.length == 0) {
         err = false;
         const copydataErr = SpeakerErr[index];
-        copydataErr.name = "name is requred ";
+        copydataErr.name = "Name is requred ";
         setSpeakerErr([...SpeakerErr]);
       }
       if (Speakername[index].email.length == 0) {
         err = false;
         const copydataErr = SpeakerErr[index];
-        copydataErr.email = "email is requred  ";
+        copydataErr.email = "Email is requred  ";
         setSpeakerErr([...SpeakerErr]);
       }
     }
@@ -432,7 +431,7 @@ const EventData = () => {
                 }
               </div>
             </div>
-            {event.length > 0 ? (
+            {event?.length > 0 ? (
               event?.map((event) => {
                 return (
                   <>
