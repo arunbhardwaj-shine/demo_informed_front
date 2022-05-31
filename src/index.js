@@ -56,6 +56,7 @@ import StpDetails from "./Components/Webinar/Smtp/StpDetails";
 // import Rehearsal1 from "./Components/Webinar/Rehearsal/Rehearsal1";
 import WebinarSmartList from "./Components/Webinar/SmartList/WebinarSmartList";
 import RegistraionDetails from "./Components/Webinar/Registration/RegistrationDetails";
+import RehearsalList from "./Components/Webinar/Rehearsal/RehearsalList";
 
 let platform = 0;
 let show = 0;
@@ -153,6 +154,10 @@ ReactDOM.render(
                         <Route
                           path="/webinar/rehearsal"
                           element={<Rehearsal />}
+                        />
+                        <Route
+                          path="/webinar/rehearsallist"
+                          element={<RehearsalList />}
                         />
                         <Route path="/webinar/readers" element={<Readers />} />
                         <Route

@@ -583,7 +583,7 @@ function Add(props) {
                 </Col>
               </Form.Group>
               <Button type="reset">Reset</Button>
-              <Button type="submit" className="event-submit-button">
+              <Button type="submit" className="event-submit-button" onClick={()=>handleSubmit()}>
                 Submit
               </Button>
             </form>

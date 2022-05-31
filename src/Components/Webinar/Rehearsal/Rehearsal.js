@@ -252,7 +252,7 @@ function Rehearsal() {
       />
       <Col md={{ span: 6, offset: 3 }}>
         <div>
-         
+         <Link to="/webinar/rehearsallist"><Button>Rehearsal List</Button> </Link>
           <div>
             <form  onSubmit={
              (e)=>{  
