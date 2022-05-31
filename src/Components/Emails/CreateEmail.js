@@ -1708,7 +1708,7 @@ const CreateEmail = (props) => {
                                 */}
                             <div className="smartlist-buttons">
                               <button className="btn btn-primary btn-bordered view">
-                                <a className="color_blue" onClick={() => openSmartListPopup(data.id)}>View</a>
+                                <a  onClick={() => openSmartListPopup(data.id)}>View</a>
                               </button>
                             </div>
                           </div>
