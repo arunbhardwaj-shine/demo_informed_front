@@ -136,13 +136,7 @@ function Rehearsal() {
   const handleOnChange = (e, i) => {
     const { name, value } = e.target;
     if(name=="event_id"){
-      // var today = new Date(value);
-      // var dd = String(today.getDate()).padStart(2, "0");
-      // var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-      // var yyyy = today.getFullYear();
-      // let dateData = dd + "/" + mm + "/" + yyyy;
     Speakername[i][name] = value;
-    // console.log(value)
     Speakername.splice(i, 1, Speakername[i]);
     setSpeakerName([...Speakername]);
     if (value.length == 0) {
@@ -152,14 +146,8 @@ function Rehearsal() {
       SpeakernameErr[i][name] = "";
       setSpeakerNameErr([...SpeakernameErr]);
     }
-  }  if(name=="timezone"){
-    // var today = new Date(value);
-    // var dd = String(today.getDate()).padStart(2, "0");
-    // var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-    // var yyyy = today.getFullYear();
-    // let dateData = dd + "/" + mm + "/" + yyyy;
+  }else if(name=="timezone"){
   Speakername[i][name] = value;
-  // console.log(value)
   Speakername.splice(i, 1, Speakername[i]);
   setSpeakerName([...Speakername]);
   if (value.length == 0) {
