@@ -133,13 +133,13 @@ const SelectHCP = (props) => {
             </div>
             <div className="col-12 col-md-9">
               <ul className="tabnav-link">
-                <li className="">
-                  <a href="javascript:void(0)">Select Content</a>
-                </li>
-                <li className="">
-                  <a href="javascript:void(0)">Create Your Email</a>
+                <li className="active">
+                  <Link to="/EmailArticleSelect">Select Content</Link>
                 </li>
                 <li className="active">
+                  <Link to="/CreateEmail">Create Your Email</Link>
+                </li>
+                <li className="active active-main">
                   <a href="javascript:void(0)">Select HCPs</a>
                 </li>
                 <li className="">

@@ -8,6 +8,7 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../popup_alert";
+import { Link } from "react-router-dom";
 
 const VerifyHCP = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -670,13 +671,13 @@ const VerifyHCP = (props) => {
             </div>
             <div className="col-12 col-md-9">
               <ul className="tabnav-link">
-                <li className="">
-                  <a href="javascript:void(0)">Select Content</a>
-                </li>
-                <li className="">
-                  <a href="javascript:void(0)">Create Your Email</a>
+              <li className="active">
+                  <Link to="/EmailArticleSelect">Select Content</Link>
                 </li>
                 <li className="active">
+                  <Link to="/CreateEmail">Create Your Email</Link>
+                </li>
+                <li className="active active-main">
                   <a href="javascript:void(0)">Select Verify Your HCPs</a>
                 </li>
 
