@@ -484,12 +484,9 @@ const CreateEmail = (props) => {
   };
 
   const nextClicked = () => {
-    console.log(finalTags);
     const tags = finalTags.map((finalTags) => {
       return finalTags.innerHTML == null ? finalTags : finalTags.innerHTML;
     });
-
-    console.log(tags);
 
     if (validator.allValid()) {
       props.getEmailData({
@@ -1078,11 +1075,11 @@ const CreateEmail = (props) => {
                         id="email-desc"
                         value={emailDescription}
                       />
-                      {validator.message(
+                      {/*validator.message(
                         "emailDesc",
                         emailDescription,
                         "required"
-                      )}
+                      )*/}
                     </div>
                     <div className="form-group right-side col-12 col-md-5">
                       <label for="exampleInputEmail1">Email Creator</label>
@@ -1093,7 +1090,7 @@ const CreateEmail = (props) => {
                         id="email-address"
                         value={emailCreator}
                       />
-                      {validator.message("creator", emailCreator, "required")}
+                      {/*validator.message("creator", emailCreator, "required")*/}
                     </div>
                   </div>
                   <div className="form-inline row justify-content-between align-items-center">
@@ -1873,7 +1870,7 @@ const CreateEmail = (props) => {
                     </div>
                   </div>
                   </div>
-                  
+
                   <div className="download-sample sample-file"><p>Download sample Excel file to upload new HCPs</p><div className="upload-btn" onClick={downloadFile}>Download File</div></div>
                 </form>
               </div>
