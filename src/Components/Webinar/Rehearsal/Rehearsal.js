@@ -100,7 +100,7 @@ function Rehearsal() {
       setSpeakerNameErr([...SpeakernameErr]);
       err = false;
     }
-    return err
+    return err;
   }
   const handleError = () => {
     for (let index = 0; index < Speakername.length; index++) {
@@ -132,47 +132,29 @@ function Rehearsal() {
     return err;
   };
 
- 
   const handleOnChange = (e, i) => {
     const { name, value } = e.target;
+    Speakername.splice(i, 1, Speakername[i]);
+    setSpeakerName([...Speakername]);
+    SpeakernameErr[i][name] = "";
     if(name=="event_id"){
     Speakername[i][name] = value;
-    Speakername.splice(i, 1, Speakername[i]);
-    setSpeakerName([...Speakername]);
     if (value.length == 0) {
-      SpeakernameErr[i][name] = " please select event" ;
-      setSpeakerNameErr([...SpeakernameErr]);
-    } else {
-      SpeakernameErr[i][name] = "";
-      setSpeakerNameErr([...SpeakernameErr]);
+    SpeakernameErr[i][name] = "Please select event" ;
     }
-  }else if(name=="timezone"){
-  Speakername[i][name] = value;
-  Speakername.splice(i, 1, Speakername[i]);
-  setSpeakerName([...Speakername]);
-  if (value.length == 0) {
-    SpeakernameErr[i][name] = " please select timezone" ;
-    setSpeakerNameErr([...SpeakernameErr]);
-  } else {
-    SpeakernameErr[i][name] = "";
-    setSpeakerNameErr([...SpeakernameErr]);
-  }
-}
-  
-  else{
+    } else if(name=="timezone"){
     Speakername[i][name] = value;
-    console.log(value)
-    Speakername.splice(i, 1, Speakername[i]);
-    setSpeakerName([...Speakername]);
     if (value.length == 0) {
-      SpeakernameErr[i][name] = name + " is required";
-      setSpeakerNameErr([...SpeakernameErr]);
-    } else {
-      SpeakernameErr[i][name] = "";
-      setSpeakerNameErr([...SpeakernameErr]);
+    SpeakernameErr[i][name] = "Please select timezone" ;
     }
-  }
-  };
+    } else{
+    Speakername[i][name] = value;
+    if (value.length == 0) {
+    SpeakernameErr[i][name] = name + " is required";
+    }
+    }
+    setSpeakerNameErr([...SpeakernameErr]);
+    }
   const handleSpeakerdata = (e, i, index) => {
     const { value } = e.target;
     const copydata = Speakername[i];
@@ -223,7 +205,7 @@ function Rehearsal() {
     console.log("copydataErr", copydataErr);
     setSpeakerNameErr([...SpeakernameErr]);
   };
-  const handleSpeakerdataInputRumove = (i, index) => {
+  const handleSpeakerDataInputRemove = (i, index) => {
     const copydata = Speakername[i];
     const copydataErr = SpeakernameErr[i];
     copydata.invites_data.splice(index, 1);
@@ -235,7 +217,7 @@ function Rehearsal() {
   };
   return (
     <Row>
-          <div className="loader" id="custom_loader">
+      <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
       </div>
       {console.log(Speakername)}
@@ -252,43 +234,44 @@ function Rehearsal() {
       />
       <Col md={{ span: 6, offset: 3 }}>
         <div>
-         
+         <Link to="/webinar/rehearsallist"><Button>Rehearsals</Button> </Link>
           <div>
-            <form  onSubmit={
-             (e)=>{  
-              e.preventDefault() 
-              if (handleError()) {
-                loader("show")
-             let rehearsalSpeakername = JSON.stringify(Speakername);
-            ExportApi.CreatRehearsal(rehearsalSpeakername)
-              .then((resp) => {
-                if (resp.data.code == 200) {
-                  loader("hide")
-                  toast.success(resp.data.message, {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                  });
-                } else {
-                  loader("hide")
-                  toast.error(resp.data.message, {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                  });
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (handleError()) {
+                  loader("show");
+                  let rehearsalSpeakername = JSON.stringify(Speakername);
+                  ExportApi.CreatRehearsal(rehearsalSpeakername)
+                    .then((resp) => {
+                      if (resp.data.code == 200) {
+                        loader("hide");
+                        toast.success(resp.data.message, {
+                          position: "top-right",
+                          autoClose: 5000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                        });
+                      } else {
+                        loader("hide");
+                        toast.error(resp.data.message, {
+                          position: "top-right",
+                          autoClose: 5000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                        });
+                      }
+                    })
+                    .catch((err) => console.log(err));
                 }
-              })
-              .catch((err) => console.log(err));
-              }
-            }}>
+              }}
+            >
               {Speakername.map((val, i) => (
                 <div>
                   {Speakername.length > 1 ? (
@@ -303,11 +286,13 @@ function Rehearsal() {
                   ) : null}
                    <h2> Rehearsal {i + 1}</h2>
                    <br />
+                   <br />
+                   <h2>Select the rehearsal information. </h2>
+                   <br />
                   {event ? (
                     <Form.Group
                       className="mb-3"
                       as={Row}
-                      
                     >
                       <Form.Label column sm={2}>
                         Event{" "}
@@ -338,13 +323,9 @@ function Rehearsal() {
                     </h4>
                   )}
                   <br />
-                  <Form.Group
-                    as={Row}
-                    className="mb-3"
-                    
-                  >
+                  <Form.Group as={Row} className="mb-3">
                     <Form.Label column sm={2}>
-                    Rehearsal Title{" "}
+                      Rehearsal Title{" "}
                     </Form.Label>
                     <Col sm={10}>
                       <Form.Control
@@ -357,11 +338,7 @@ function Rehearsal() {
                       </div>
                     </Col>
                   </Form.Group>
-                  <Form.Group
-                    className="mb-3"
-                    as={Row}
-                    
-                  >
+                  <Form.Group className="mb-3" as={Row}>
                     <Form.Label column sm={2}>
                       Date
                     </Form.Label>
@@ -378,11 +355,7 @@ function Rehearsal() {
                       </div>
                     </Col>
                   </Form.Group>
-                  <Form.Group
-                    className="mb-3"
-                    as={Row}
-                    
-                  >
+                  <Form.Group className="mb-3" as={Row}>
                     <Form.Label column sm={2}>
                       Timezone{" "}
                     </Form.Label>
@@ -404,17 +377,13 @@ function Rehearsal() {
                       </div>
                     </Col>
                   </Form.Group>
-                  <Form.Group
-                    className="mb-3"
-                    as={Row}
-                    
-                  >
+                  <Form.Group className="mb-3" as={Row}>
                     <Form.Label column sm={2}>
                       Event Start Time
                     </Form.Label>
                     <Col sm={10}>
                       <Form.Control
-                      name="start_time"
+                        name="start_time"
                         type="time"
                         onChange={(e) => handleOnChange(e, i)}
                         value={val.start_time}
@@ -424,11 +393,7 @@ function Rehearsal() {
                       </div>
                     </Col>
                   </Form.Group>
-                  <Form.Group
-                    className="mb-3"
-                    as={Row}
-                    
-                  >
+                  <Form.Group className="mb-3" as={Row}>
                     <Form.Label column sm={2}>
                       Event End Time{" "}
                     </Form.Label>
@@ -448,12 +413,12 @@ function Rehearsal() {
                   {val.invites_data.map((malti, index) => (
                     <fieldset className="border p-2">
                       <div key={i}>
-                      <p>speaker’s information's</p>
+                      <p>Enter the speaker’s information's</p>
                         {val.invites_data.length > 1 ? (
                           <button
                             type="button"
                             onClick={() => {
-                              handleSpeakerdataInputRumove(i, index);
+                              handleSpeakerDataInputRemove(i, index);
                             }}
                             className="btn-close float-end"
                             aria-label="Close"
@@ -462,10 +427,9 @@ function Rehearsal() {
                         <Form.Group
                           as={Row}
                           className="mb-3"
-                          
                         >
                           <Form.Label column sm={2}>
-                             Name
+                            Name
                           </Form.Label>
                           <Col sm={10}>
                             <Form.Control
@@ -481,7 +445,7 @@ function Rehearsal() {
                           </Col>
                           <div className="mt-2"></div>
                           <Form.Label column sm={2}>
-                             Email
+                            Email
                           </Form.Label>
                           <Col sm={10}>
                             <Form.Control
@@ -513,7 +477,7 @@ function Rehearsal() {
                 </div>
               ))}
               <Button type="submit" className="event-submit-button">
-                Submit
+                Create
               </Button>
             </form>
           </div>

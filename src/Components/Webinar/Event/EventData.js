@@ -71,7 +71,7 @@ const EventData = () => {
       setSpeakerName([...Speakername]);
       if (e.target.value.length == 0) {
         const copydataErr = SpeakerErr[i];
-        copydataErr.name = "requred Field name";
+        copydataErr.name = "Name is requred";
         setSpeakerErr([...SpeakerErr]);
       } else {
         const copydataErr = SpeakerErr[i];
@@ -85,7 +85,7 @@ const EventData = () => {
       setSpeakerName([...Speakername]);
       if (e.target.value.length == 0) {
         const copydataErr = SpeakerErr[i];
-        copydataErr.email = "requred Field email";
+        copydataErr.email = "Email is requred";
         setSpeakerErr([...SpeakerErr]);
       } else if (
         !Speakername[i].email.match(
@@ -198,11 +198,12 @@ const EventData = () => {
 
   const handleSubmit = (e) => {
     let err = true;
+
     for (let index = 0; index < Speakername.length; index++) {
       if (Speakername[index].name.length == 0) {
         err = false;
         const copydataErr = SpeakerErr[index];
-        copydataErr.name = "name is  requred  ";
+        copydataErr.name = "name is requred ";
         setSpeakerErr([...SpeakerErr]);
       }
       if (Speakername[index].email.length == 0) {
@@ -211,18 +212,7 @@ const EventData = () => {
         copydataErr.email = "email is requred  ";
         setSpeakerErr([...SpeakerErr]);
       }
-      if (
-        !Speakername[index].email.match(
-          /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i
-        )
-      ) {
-        err = false;
-        const copydataErr = SpeakerErr[index];
-        copydataErr.speakerdata[index].email = "Invalid email address";
-        setSpeakerErr([...SpeakerErr]);
-      }
     }
-
     return err;
   };
 
@@ -233,7 +223,6 @@ const EventData = () => {
     },
     validationSchema: Yup.object({
       EventTitle: Yup.string().required("Event title is required"),
-
       Description: Yup.string().required("Description is required"),
     }),
     enableReinitialize: true,
@@ -290,96 +279,6 @@ const EventData = () => {
       <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
       </div>
-      {/* <Row>
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
-        <Col md={{ span: 6, offset: 3 }}>
-          <h2>Events</h2>
-          <Row>
-            <Col>
-              <Link to="/webinar/event/add">
-                <Button>Create Event</Button>
-              </Link>
-            </Col>
-            <Col>
-              <Form.Control
-                onChange={(e) => {
-                  handleGetEventlistSerch(e.target.value);
-                }}
-                name="Search"
-                placeholder="Search......"
-              />
-            </Col>
-          </Row>
-
-          <br />
-          <Table bordered hover>
-            <thead>
-              <tr>
-                <th>Event Date</th>
-                <th>Event Title</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {event ? (
-                <>
-                  {event ? (
-                    event?.map((val, i) => (
-                      <tr key={i}>
-                     
-                        <td>{val.event_date}</td>
-                        <td>{val.title}</td>
-                        <td>
-                          <Button
-                            onClick={() => handleGetEventlistEdidData(val.id)}
-                          >
-                            Edit
-                          </Button>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <Table bordered hover>
-                      <thead>
-                        <tr>
-                          <th>Event Date</th>
-                          <th>Event Title</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tr></tr>
-                      <tr>
-                        Data Not Found{" "}
-                        <Link to="/webinar/event/add" style={{ color: "red" }}>
-                          Please create event{" "}
-                        </Link>
-                      </tr>
-                    </Table>
-                  )}
-                </>
-              ) : (
-                <h2>
-                  Data Not Found{" "}
-                  <Link to="/webinar/event/add" style={{ color: "red" }}>
-                    Please create event{" "}
-                  </Link>
-                </h2>
-              )}
-            </tbody>
-          </Table>
-                 </Col>
-      </Row> */}
-
       <div class="right-sidebar">
         <div class="top-header">
           <div class="page-title"></div>
@@ -521,7 +420,6 @@ const EventData = () => {
                 }
               </div>
             </div>
-
             {event.length > 0 ? (
               event.map((event) => {
                 return (
@@ -539,7 +437,6 @@ const EventData = () => {
                         <div class="smart-list-added-user">
                           {event.days_left} Days Left
                         </div>
-
                         <div class="mail-stats">
                           {deletestatus && (
                             <div className="dlt_btn">
@@ -635,6 +532,7 @@ const EventData = () => {
           <Modal.Header
             onClick={() => {
               setSpeakerName([{ name: "", email: "" }]);
+              setSpeakerErr([{ name: "", email: "" }]);
               setModalShow(false);
             }}
             closeButton
@@ -767,6 +665,11 @@ const EventData = () => {
                     id="exampleFormControlTextarea1"
                     rows="3"
                   ></textarea>
+                  {formik.touched.Description && formik.errors.Description ? (
+                    <div style={{ color: "red" }}>
+                      {formik.errors.Description}
+                    </div>
+                  ) : null}
                 </Col>
               </Form.Group>
 
@@ -775,6 +678,7 @@ const EventData = () => {
                   variant="danger"
                   onClick={() => {
                     setSpeakerName([{ name: "", email: "" }]);
+                    setSpeakerErr([{ name: "", email: "" }]);
                     setModalShow(false);
                   }}
                 >
