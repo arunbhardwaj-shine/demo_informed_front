@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import "../webinar.css";
 
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 import { loader } from "../../../loader";
 
@@ -239,6 +239,7 @@ const EventData = () => {
             if (resp.data) {
               if (resp.data.code == 200) {
                 setModalShow(false);
+                setSpeakerName([{ name: "", email: "" }]);
                 handleGetEventlist();
                 toast.success(resp.data.message, {
                   position: "top-right",
@@ -276,6 +277,17 @@ const EventData = () => {
   }, []);
   return (
     <div style={{ marginLeft: "300px" }}>
+             <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
       </div>
@@ -421,7 +433,7 @@ const EventData = () => {
               </div>
             </div>
             {event.length > 0 ? (
-              event.map((event) => {
+              event?.map((event) => {
                 return (
                   <>
                     <div
