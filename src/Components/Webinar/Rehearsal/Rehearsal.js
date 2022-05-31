@@ -4,6 +4,7 @@ import { Button, Col, Form, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "../webinar.css";
 import { toast, ToastContainer } from "react-toastify";
+import { loader } from "../../../loader";
 function Rehearsal() {
   const [render, setRerender] = useState(0);
   const [Speakername, setSpeakerName] = useState([
@@ -227,6 +228,9 @@ function Rehearsal() {
   };
   return (
     <Row>
+          <div className="loader" id="custom_loader">
+        <span className="loader-view"> </span>
+      </div>
       {console.log(Speakername)}
       <ToastContainer
         position="top-right"
@@ -247,10 +251,12 @@ function Rehearsal() {
              (e)=>{  
               e.preventDefault() 
               if (handleError()) {
+                loader("show");
              let rehearsalSpeakername = JSON.stringify(Speakername);
             ExportApi.CreatRehearsal(rehearsalSpeakername)
               .then((resp) => {
                 if (resp.data.code == 200) {
+                  loader("hide")
                   toast.success(resp.data.message, {
                     position: "top-right",
                     autoClose: 5000,
