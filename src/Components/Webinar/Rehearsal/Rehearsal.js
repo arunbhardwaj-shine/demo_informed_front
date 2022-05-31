@@ -31,7 +31,7 @@ function Rehearsal() {
   const [Timezone, setTimezone] = useState([]);
   const [event, setEvent] = useState([]);
 
-  const handleMaltiInputAdd = () => {
+  const handleMultiInputAdd = () => {
     setSpeakerName([
       ...Speakername,
       {
@@ -57,7 +57,7 @@ function Rehearsal() {
       },
     ]);
   };
-  const handleMaltiInputRumove = (i) => {
+  const handleMultiInputRemove = (i) => {
     let data1 = Speakername;
     let dataErr = SpeakernameErr;
     Speakername.splice(i, 1);
@@ -101,7 +101,7 @@ function Rehearsal() {
     }
     return err
   }
-  const handeleErr = () => {
+  const handleError = () => {
     for (let index = 0; index < Speakername.length; index++) {
       validateRehearsalData(index, "title", "Title is required");
       validateRehearsalData(index, "timezone", "Timezone is required");
@@ -135,17 +135,17 @@ function Rehearsal() {
   const handleOnChange = (e, i) => {
     const { name, value } = e.target;
     if(name=="date"){
-      var today = new Date(value);
-      var dd = String(today.getDate()).padStart(2, "0");
-      var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-      var yyyy = today.getFullYear();
-      let dateData = dd + "/" + mm + "/" + yyyy;
-    Speakername[i][name] = dateData;
+      // var today = new Date(value);
+      // var dd = String(today.getDate()).padStart(2, "0");
+      // var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+      // var yyyy = today.getFullYear();
+      // let dateData = dd + "/" + mm + "/" + yyyy;
+    Speakername[i][name] = value;
     // console.log(value)
     Speakername.splice(i, 1, Speakername[i]);
     setSpeakerName([...Speakername]);
     if (value.length == 0) {
-      SpeakernameErr[i][name] = name + "is required";
+      SpeakernameErr[i][name] = name + " is required";
       setSpeakerNameErr([...SpeakernameErr]);
     } else {
       SpeakernameErr[i][name] = "";
@@ -157,7 +157,7 @@ function Rehearsal() {
     Speakername.splice(i, 1, Speakername[i]);
     setSpeakerName([...Speakername]);
     if (value.length == 0) {
-      SpeakernameErr[i][name] = name + "is required";
+      SpeakernameErr[i][name] = name + " is required";
       setSpeakerNameErr([...SpeakernameErr]);
     } else {
       SpeakernameErr[i][name] = "";
@@ -174,7 +174,7 @@ function Rehearsal() {
     setSpeakerName([...Speakername]);
     if (value.length == 0) {
       const copydataErr = SpeakernameErr[i];
-      copydataErr.invites_data[index].name = "requred Field name";
+      copydataErr.invites_data[index].name = " name  is required";
       setSpeakerNameErr([...SpeakernameErr]);
     } else {
       const copydataErr = SpeakernameErr[i];
@@ -190,7 +190,7 @@ function Rehearsal() {
     setSpeakerName([...Speakername]);
     if (value.length == 0) {
       const copydataErr = SpeakernameErr[i];
-      copydataErr.invites_data[index].email = "requred Field email";
+      copydataErr.invites_data[index].email = " email  is required";
       setSpeakerNameErr([...SpeakernameErr]);
     } else if (
       !Speakername[i].invites_data[index].email.match(
@@ -246,7 +246,7 @@ function Rehearsal() {
             <form  onSubmit={
              (e)=>{  
               e.preventDefault() 
-              if (handeleErr()) {
+              if (handleError()) {
              let rehearsalSpeakername = JSON.stringify(Speakername);
             ExportApi.CreatRehearsal(rehearsalSpeakername)
               .then((resp) => {
@@ -281,7 +281,7 @@ function Rehearsal() {
                     <button
                       type="button"
                       onClick={() => {
-                        handleMaltiInputRumove(i);
+                        handleMultiInputRemove(i);
                       }}
                       className="btn-close float-end"
                       aria-label="Close"
@@ -293,7 +293,7 @@ function Rehearsal() {
                     <Form.Group
                       className="mb-3"
                       as={Row}
-                      controlId="exampleForm.ControlInput1"
+                      
                     >
                       <Form.Label column sm={2}>
                         Event{" "}
@@ -327,7 +327,7 @@ function Rehearsal() {
                   <Form.Group
                     as={Row}
                     className="mb-3"
-                    controlId="exampleForm.ControlInput1"
+                    
                   >
                     <Form.Label column sm={2}>
                     Rehearsal Title{" "}
@@ -346,7 +346,7 @@ function Rehearsal() {
                   <Form.Group
                     className="mb-3"
                     as={Row}
-                    controlId="exampleForm.ControlInput1"
+                    
                   >
                     <Form.Label column sm={2}>
                       Date
@@ -367,7 +367,7 @@ function Rehearsal() {
                   <Form.Group
                     className="mb-3"
                     as={Row}
-                    controlId="exampleForm.ControlInput1"
+                    
                   >
                     <Form.Label column sm={2}>
                       Timezone{" "}
@@ -393,7 +393,7 @@ function Rehearsal() {
                   <Form.Group
                     className="mb-3"
                     as={Row}
-                    controlId="exampleForm.ControlInput1"
+                    
                   >
                     <Form.Label column sm={2}>
                       Event Start Time
@@ -413,7 +413,7 @@ function Rehearsal() {
                   <Form.Group
                     className="mb-3"
                     as={Row}
-                    controlId="exampleForm.ControlInput1"
+                    
                   >
                     <Form.Label column sm={2}>
                       Event End Time{" "}
@@ -448,7 +448,7 @@ function Rehearsal() {
                         <Form.Group
                           as={Row}
                           className="mb-3"
-                          controlId="exampleForm.ControlInput1"
+                          
                         >
                           <Form.Label column sm={2}>
                              Name
@@ -505,7 +505,7 @@ function Rehearsal() {
           </div>
           <button
             className="btn btn-success btn-block"
-            onClick={handleMaltiInputAdd}
+            onClick={handleMultiInputAdd}
           >
             Schedule another rehearsal
           </button>
