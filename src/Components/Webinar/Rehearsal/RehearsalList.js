@@ -33,11 +33,11 @@ const RehearsalList = () => {
       };
     const handleRehearsaDelete = () => {
         loader("show");
-        alert(rehearsalid)
         ExportApi.RehearsalDelete(rehearsalid).then((resp) => {
           if (resp.ok) {
             loader("hide")
             handleGetRehearsalListData(eventid)
+            setModalShow1(false)
           }
         });
       };
