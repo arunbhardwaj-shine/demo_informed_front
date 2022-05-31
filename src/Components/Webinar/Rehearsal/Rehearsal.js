@@ -4,6 +4,7 @@ import { Button, Col, Form, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "../webinar.css";
 import { toast, ToastContainer } from "react-toastify";
+import { loader } from "../../../loader";
 function Rehearsal() {
   const [render, setRerender] = useState(0);
   const [Speakername, setSpeakerName] = useState([
@@ -31,7 +32,7 @@ function Rehearsal() {
   const [Timezone, setTimezone] = useState([]);
   const [event, setEvent] = useState([]);
 
-  const handleMaltiInputAdd = () => {
+  const handleMultiInputAdd = () => {
     setSpeakerName([
       ...Speakername,
       {
@@ -57,7 +58,7 @@ function Rehearsal() {
       },
     ]);
   };
-  const handleMaltiInputRumove = (i) => {
+  const handleMultiInputRemove = (i) => {
     let data1 = Speakername;
     let dataErr = SpeakernameErr;
     Speakername.splice(i, 1);
@@ -99,12 +100,12 @@ function Rehearsal() {
       setSpeakerNameErr([...SpeakernameErr]);
       err = false;
     }
-    return err
+    return err;
   }
-  const handeleErr = () => {
+  const handleError = () => {
     for (let index = 0; index < Speakername.length; index++) {
       validateRehearsalData(index, "title", "Title is required");
-      validateRehearsalData(index, "timezone", "Timezone is required");
+      validateRehearsalData(index, "timezone", "Please select  timezone");
       validateRehearsalData(index, "date", "Date is required");
       validateRehearsalData(index, "end_time", " end time is required");
       validateRehearsalData(index, "start_time", " end time is required");
@@ -126,44 +127,48 @@ function Rehearsal() {
           setSpeakerNameErr([...SpeakernameErr]);
         }
       }
-      validateRehearsalData(index, "event_id", "Event is required");
+      validateRehearsalData(index, "event_id", "Please select event");
     }
     return err;
   };
 
- 
   const handleOnChange = (e, i) => {
     const { name, value } = e.target;
-    if(name=="date"){
-      var today = new Date(value);
-      var dd = String(today.getDate()).padStart(2, "0");
-      var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-      var yyyy = today.getFullYear();
-      let dateData = dd + "/" + mm + "/" + yyyy;
-    Speakername[i][name] = dateData;
-    // console.log(value)
-    Speakername.splice(i, 1, Speakername[i]);
-    setSpeakerName([...Speakername]);
-    if (value.length == 0) {
-      SpeakernameErr[i][name] = name + "is required";
-      setSpeakerNameErr([...SpeakernameErr]);
+    if (name == "event_id") {
+      Speakername[i][name] = value;
+      Speakername.splice(i, 1, Speakername[i]);
+      setSpeakerName([...Speakername]);
+      if (value.length == 0) {
+        SpeakernameErr[i][name] = " please select event";
+        setSpeakerNameErr([...SpeakernameErr]);
+      } else {
+        SpeakernameErr[i][name] = "";
+        setSpeakerNameErr([...SpeakernameErr]);
+      }
+    } else if (name == "timezone") {
+      Speakername[i][name] = value;
+      Speakername.splice(i, 1, Speakername[i]);
+      setSpeakerName([...Speakername]);
+      if (value.length == 0) {
+        SpeakernameErr[i][name] = " please select timezone";
+        setSpeakerNameErr([...SpeakernameErr]);
+      } else {
+        SpeakernameErr[i][name] = "";
+        setSpeakerNameErr([...SpeakernameErr]);
+      }
     } else {
-      SpeakernameErr[i][name] = "";
-      setSpeakerNameErr([...SpeakernameErr]);
+      Speakername[i][name] = value;
+      console.log(value);
+      Speakername.splice(i, 1, Speakername[i]);
+      setSpeakerName([...Speakername]);
+      if (value.length == 0) {
+        SpeakernameErr[i][name] = name + " is required";
+        setSpeakerNameErr([...SpeakernameErr]);
+      } else {
+        SpeakernameErr[i][name] = "";
+        setSpeakerNameErr([...SpeakernameErr]);
+      }
     }
-  }else{
-    Speakername[i][name] = value;
-    console.log(value)
-    Speakername.splice(i, 1, Speakername[i]);
-    setSpeakerName([...Speakername]);
-    if (value.length == 0) {
-      SpeakernameErr[i][name] = name + "is required";
-      setSpeakerNameErr([...SpeakernameErr]);
-    } else {
-      SpeakernameErr[i][name] = "";
-      setSpeakerNameErr([...SpeakernameErr]);
-    }
-  }
   };
   const handleSpeakerdata = (e, i, index) => {
     const { value } = e.target;
@@ -174,7 +179,7 @@ function Rehearsal() {
     setSpeakerName([...Speakername]);
     if (value.length == 0) {
       const copydataErr = SpeakernameErr[i];
-      copydataErr.invites_data[index].name = "requred Field name";
+      copydataErr.invites_data[index].name = " name  is required";
       setSpeakerNameErr([...SpeakernameErr]);
     } else {
       const copydataErr = SpeakernameErr[i];
@@ -190,7 +195,7 @@ function Rehearsal() {
     setSpeakerName([...Speakername]);
     if (value.length == 0) {
       const copydataErr = SpeakernameErr[i];
-      copydataErr.invites_data[index].email = "requred Field email";
+      copydataErr.invites_data[index].email = " email  is required";
       setSpeakerNameErr([...SpeakernameErr]);
     } else if (
       !Speakername[i].invites_data[index].email.match(
@@ -227,6 +232,9 @@ function Rehearsal() {
   };
   return (
     <Row>
+      <div className="loader" id="custom_loader">
+        <span className="loader-view"> </span>
+      </div>
       {console.log(Speakername)}
       <ToastContainer
         position="top-right"
@@ -241,60 +249,62 @@ function Rehearsal() {
       />
       <Col md={{ span: 6, offset: 3 }}>
         <div>
-         
+          <Link to="/webinar/rehearsallist">
+            <Button>Rehearsal List</Button>{" "}
+          </Link>
           <div>
-            <form  onSubmit={
-             (e)=>{  
-              e.preventDefault() 
-              if (handeleErr()) {
-             let rehearsalSpeakername = JSON.stringify(Speakername);
-            ExportApi.CreatRehearsal(rehearsalSpeakername)
-              .then((resp) => {
-                if (resp.data.code == 200) {
-                  toast.success(resp.data.message, {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                  });
-                } else {
-                  toast.error(resp.data.message, {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                  });
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (handleError()) {
+                  loader("show");
+                  let rehearsalSpeakername = JSON.stringify(Speakername);
+                  ExportApi.CreatRehearsal(rehearsalSpeakername)
+                    .then((resp) => {
+                      if (resp.data.code == 200) {
+                        loader("hide");
+                        toast.success(resp.data.message, {
+                          position: "top-right",
+                          autoClose: 5000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                        });
+                      } else {
+                        loader("hide");
+                        toast.error(resp.data.message, {
+                          position: "top-right",
+                          autoClose: 5000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                        });
+                      }
+                    })
+                    .catch((err) => console.log(err));
                 }
-              })
-              .catch((err) => console.log(err));
-              }
-            }}>
+              }}
+            >
               {Speakername.map((val, i) => (
                 <div>
                   {Speakername.length > 1 ? (
                     <button
                       type="button"
                       onClick={() => {
-                        handleMaltiInputRumove(i);
+                        handleMultiInputRemove(i);
                       }}
                       className="btn-close float-end"
                       aria-label="Close"
                     />
                   ) : null}
-                   <h2> Rehearsal {i + 1}</h2>
-                   <br />
+                  <h2> Rehearsal {i + 1}</h2>
+                  <br />
                   {event ? (
-                    <Form.Group
-                      className="mb-3"
-                      as={Row}
-                      controlId="exampleForm.ControlInput1"
-                    >
+                    <Form.Group className="mb-3" as={Row}>
                       <Form.Label column sm={2}>
                         Event{" "}
                       </Form.Label>
@@ -324,13 +334,9 @@ function Rehearsal() {
                     </h4>
                   )}
                   <br />
-                  <Form.Group
-                    as={Row}
-                    className="mb-3"
-                    controlId="exampleForm.ControlInput1"
-                  >
+                  <Form.Group as={Row} className="mb-3">
                     <Form.Label column sm={2}>
-                    Rehearsal Title{" "}
+                      Rehearsal Title{" "}
                     </Form.Label>
                     <Col sm={10}>
                       <Form.Control
@@ -343,11 +349,7 @@ function Rehearsal() {
                       </div>
                     </Col>
                   </Form.Group>
-                  <Form.Group
-                    className="mb-3"
-                    as={Row}
-                    controlId="exampleForm.ControlInput1"
-                  >
+                  <Form.Group className="mb-3" as={Row}>
                     <Form.Label column sm={2}>
                       Date
                     </Form.Label>
@@ -364,11 +366,7 @@ function Rehearsal() {
                       </div>
                     </Col>
                   </Form.Group>
-                  <Form.Group
-                    className="mb-3"
-                    as={Row}
-                    controlId="exampleForm.ControlInput1"
-                  >
+                  <Form.Group className="mb-3" as={Row}>
                     <Form.Label column sm={2}>
                       Timezone{" "}
                     </Form.Label>
@@ -390,17 +388,13 @@ function Rehearsal() {
                       </div>
                     </Col>
                   </Form.Group>
-                  <Form.Group
-                    className="mb-3"
-                    as={Row}
-                    controlId="exampleForm.ControlInput1"
-                  >
+                  <Form.Group className="mb-3" as={Row}>
                     <Form.Label column sm={2}>
                       Event Start Time
                     </Form.Label>
                     <Col sm={10}>
                       <Form.Control
-                      name="start_time"
+                        name="start_time"
                         type="time"
                         onChange={(e) => handleOnChange(e, i)}
                         value={val.start_time}
@@ -410,11 +404,7 @@ function Rehearsal() {
                       </div>
                     </Col>
                   </Form.Group>
-                  <Form.Group
-                    className="mb-3"
-                    as={Row}
-                    controlId="exampleForm.ControlInput1"
-                  >
+                  <Form.Group className="mb-3" as={Row}>
                     <Form.Label column sm={2}>
                       Event End Time{" "}
                     </Form.Label>
@@ -434,7 +424,7 @@ function Rehearsal() {
                   {val.invites_data.map((malti, index) => (
                     <fieldset className="border p-2">
                       <div key={i}>
-                      <p>speaker’s information's</p>
+                        <p>speaker’s information's</p>
                         {val.invites_data.length > 1 ? (
                           <button
                             type="button"
@@ -445,13 +435,9 @@ function Rehearsal() {
                             aria-label="Close"
                           />
                         ) : null}
-                        <Form.Group
-                          as={Row}
-                          className="mb-3"
-                          controlId="exampleForm.ControlInput1"
-                        >
+                        <Form.Group as={Row} className="mb-3">
                           <Form.Label column sm={2}>
-                             Name
+                            Name
                           </Form.Label>
                           <Col sm={10}>
                             <Form.Control
@@ -467,7 +453,7 @@ function Rehearsal() {
                           </Col>
                           <div className="mt-2"></div>
                           <Form.Label column sm={2}>
-                             Email
+                            Email
                           </Form.Label>
                           <Col sm={10}>
                             <Form.Control
@@ -505,7 +491,7 @@ function Rehearsal() {
           </div>
           <button
             className="btn btn-success btn-block"
-            onClick={handleMaltiInputAdd}
+            onClick={handleMultiInputAdd}
           >
             Schedule another rehearsal
           </button>

@@ -108,8 +108,10 @@ function Add(props) {
     });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (handele) => {
+    // handele();
     let err = true;
+
     for (let index = 0; index < Speakername.length; index++) {
       if (Speakername[index].name.length == 0) {
         err = false;
@@ -123,16 +125,19 @@ function Add(props) {
         copydataErr.email = "email is requred  ";
         setSpeakerErr([...SpeakerErr]);
       }
-      if (
-        !Speakername[index].email.match(
-          /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i
-        )
-      ) {
-        const copydataErr = SpeakerErr[index];
-        copydataErr.speakerdata[index].email = "Invalid email address";
-        setSpeakerErr([...SpeakerErr]);
-      }
+      // if (
+      //   Speakername[index].email.match(
+      //     /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i
+      //   )
+      // ) {
+      //   const copydataErr = SpeakerErr[index];
+      //   copydataErr.speakerdata[index].email = "Invalid email address";
+      //   setSpeakerErr([...SpeakerErr]);
+      // }
     }
+    // if (err) {
+    //   handele();
+    // }
 
     return err;
   };
@@ -162,12 +167,12 @@ function Add(props) {
       eventendtime: Yup.string().required("Event ent time is required"),
       event_date: Yup.string().required("Event date is required"),
       Description: Yup.string().required("Description is required"),
-    }
-    ),
+    }),
     // onReset:( values,{resetForm})=>{
     //    resetForm({values:''})
     //     },
     onSubmit: (values) => {
+      alert(handleSubmit());
       if (handleSubmit()) {
         var today = new Date(values.event_date);
         var dd = String(today.getDate()).padStart(2, "0");
@@ -241,6 +246,7 @@ function Add(props) {
 
   return (
     <Row>
+      {console.log("SpeakerErr======>", SpeakerErr)}
       <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
       </div>
@@ -249,7 +255,14 @@ function Add(props) {
         <div>
           <h2>Create Event </h2>
           <div>
-            <form onReset={formik.handleReset} onSubmit={formik.handleSubmit}>
+            <form
+              onReset={formik.handleReset}
+              onSubmit={formik.handleSubmit}
+              // onSubmit={(e) => {
+              //   e.preventDefault();
+              //   handleSubmit(formik.handleSubmit());
+              // }}
+            >
               <Form.Group
                 as={Row}
                 className="mb-3"
@@ -583,7 +596,11 @@ function Add(props) {
                 </Col>
               </Form.Group>
               <Button type="reset">Reset</Button>
-              <Button type="submit" className="event-submit-button">
+              <Button
+                type="submit"
+                className="event-submit-button"
+                onClick={() => handleSubmit()}
+              >
                 Submit
               </Button>
             </form>
