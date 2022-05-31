@@ -1491,6 +1491,7 @@ const CreateEmail = (props) => {
               data-bs-dismiss="modal"
               onClick={() => {
                 setAddListOpen(false);
+                setIsOpensend(true);
                 setSelectedHcp([]);
                 setSearchedUsers([]);
               }}
@@ -1722,6 +1723,7 @@ const CreateEmail = (props) => {
             <button
               onClick={() => {
                 setIsOpenAdd(false);
+                setIsOpensend(true);
                 setHpc([
                   {
                     firstname: "",
