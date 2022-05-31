@@ -134,7 +134,6 @@ function Rehearsal() {
 
   const handleOnChange = (e, i) => {
     const { name, value } = e.target;
-<<<<<<< HEAD
     Speakername.splice(i, 1, Speakername[i]);
     setSpeakerName([...Speakername]);
     SpeakernameErr[i][name] = "";
@@ -156,44 +155,6 @@ function Rehearsal() {
     }
     setSpeakerNameErr([...SpeakernameErr]);
     }
-=======
-    if (name == "event_id") {
-      Speakername[i][name] = value;
-      Speakername.splice(i, 1, Speakername[i]);
-      setSpeakerName([...Speakername]);
-      if (value.length == 0) {
-        SpeakernameErr[i][name] = " please select event";
-        setSpeakerNameErr([...SpeakernameErr]);
-      } else {
-        SpeakernameErr[i][name] = "";
-        setSpeakerNameErr([...SpeakernameErr]);
-      }
-    } else if (name == "timezone") {
-      Speakername[i][name] = value;
-      Speakername.splice(i, 1, Speakername[i]);
-      setSpeakerName([...Speakername]);
-      if (value.length == 0) {
-        SpeakernameErr[i][name] = " please select timezone";
-        setSpeakerNameErr([...SpeakernameErr]);
-      } else {
-        SpeakernameErr[i][name] = "";
-        setSpeakerNameErr([...SpeakernameErr]);
-      }
-    } else {
-      Speakername[i][name] = value;
-      console.log(value);
-      Speakername.splice(i, 1, Speakername[i]);
-      setSpeakerName([...Speakername]);
-      if (value.length == 0) {
-        SpeakernameErr[i][name] = name + " is required";
-        setSpeakerNameErr([...SpeakernameErr]);
-      } else {
-        SpeakernameErr[i][name] = "";
-        setSpeakerNameErr([...SpeakernameErr]);
-      }
-    }
-  };
->>>>>>> eff6b6c67c43bf06564cc5c20fb4395fca88942b
   const handleSpeakerdata = (e, i, index) => {
     const { value } = e.target;
     const copydata = Speakername[i];
@@ -273,13 +234,7 @@ function Rehearsal() {
       />
       <Col md={{ span: 6, offset: 3 }}>
         <div>
-<<<<<<< HEAD
          <Link to="/webinar/rehearsallist"><Button>Rehearsals</Button> </Link>
-=======
-          <Link to="/webinar/rehearsallist">
-            <Button>Rehearsal List</Button>{" "}
-          </Link>
->>>>>>> eff6b6c67c43bf06564cc5c20fb4395fca88942b
           <div>
             <form
               onSubmit={(e) => {
@@ -329,7 +284,6 @@ function Rehearsal() {
                       aria-label="Close"
                     />
                   ) : null}
-<<<<<<< HEAD
                    <h2> Rehearsal {i + 1}</h2>
                    <br />
                    <br />
@@ -340,12 +294,6 @@ function Rehearsal() {
                       className="mb-3"
                       as={Row}
                     >
-=======
-                  <h2> Rehearsal {i + 1}</h2>
-                  <br />
-                  {event ? (
-                    <Form.Group className="mb-3" as={Row}>
->>>>>>> eff6b6c67c43bf06564cc5c20fb4395fca88942b
                       <Form.Label column sm={2}>
                         Event{" "}
                       </Form.Label>
@@ -465,11 +413,7 @@ function Rehearsal() {
                   {val.invites_data.map((malti, index) => (
                     <fieldset className="border p-2">
                       <div key={i}>
-<<<<<<< HEAD
                       <p>Enter the speaker’s information's</p>
-=======
-                        <p>speaker’s information's</p>
->>>>>>> eff6b6c67c43bf06564cc5c20fb4395fca88942b
                         {val.invites_data.length > 1 ? (
                           <button
                             type="button"
@@ -480,14 +424,10 @@ function Rehearsal() {
                             aria-label="Close"
                           />
                         ) : null}
-<<<<<<< HEAD
                         <Form.Group
                           as={Row}
                           className="mb-3"
                         >
-=======
-                        <Form.Group as={Row} className="mb-3">
->>>>>>> eff6b6c67c43bf06564cc5c20fb4395fca88942b
                           <Form.Label column sm={2}>
                             Name
                           </Form.Label>
