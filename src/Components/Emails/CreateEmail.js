@@ -1025,7 +1025,7 @@ const CreateEmail = (props) => {
                 <li className="active">
                   <Link to="/EmailArticleSelect">Select Content</Link>
                 </li>
-                <li className="active">
+                <li className="active active-main">
                   <a href="">Create Your Email</a>
                 </li>
                 <li className="">
