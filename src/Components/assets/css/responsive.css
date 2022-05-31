@@ -39,6 +39,9 @@
 	a.show-less-info p:after {
 		line-height: 11px;
 	}
+	.sidebar-menu button.toggle_btn {
+		margin: 44px 15px 0px;
+		}
 	.filter-block .filter-div .filter-result { padding: 3px 9px 3px 12px; margin: 0 10px 10px 0; font-size: 12px; line-height: 14px; } 
 	.filter-div .filter-result img { margin-left: 10px; } 
 	#accordion-smart .card-body { padding: 0 10px 14px; } 
@@ -156,6 +159,9 @@
 	 @media only screen and (max-width:1365px){ 
 		#add_hcp .modal-body .hcp-add-form form .form-group button {
 			height: 41px;
+		}
+		.sidebar-menu button.toggle_btn {
+			margin: 24px 15px 0px;
 		}
 		.form-inline .form-group input, #tagsModal .modal-footer form .form-group input {
 			height: 42px;
