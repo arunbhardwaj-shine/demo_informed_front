@@ -258,10 +258,6 @@ function Add(props) {
             <form
               onReset={formik.handleReset}
               onSubmit={formik.handleSubmit}
-              // onSubmit={(e) => {
-              //   e.preventDefault();
-              //   handleSubmit(formik.handleSubmit());
-              // }}
             >
               <Form.Group
                 as={Row}

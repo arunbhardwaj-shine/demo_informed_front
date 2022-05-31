@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Col, Form, Row } from 'react-bootstrap';
+import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import ExportApi from '../../../Api/ExportApi';
@@ -7,7 +7,9 @@ import { loader } from '../../../loader';
 let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const RehearsalList = () => {
     const [event, setEvent] = useState([]);
+    const [modalShow1, setModalShow1] = useState(false);
     const [eventid, setEventId] = useState();
+    const [rehearsalid, setRehearsalId] = useState();
     const [RehearsaltData, setRehearsalData] = useState();
     const handleGetEventlist = () => {
         ExportApi.GetEventList().then((resp) => {
@@ -29,12 +31,13 @@ const RehearsalList = () => {
           }
         });
       };
-    const handleRehearsaDelete = (id) => {
+    const handleRehearsaDelete = () => {
         loader("show");
-        ExportApi.RehearsalDelete(id).then((resp) => {
+        ExportApi.RehearsalDelete(rehearsalid).then((resp) => {
           if (resp.ok) {
             loader("hide")
             handleGetRehearsalListData(eventid)
+            setModalShow1(false)
           }
         });
       };
@@ -96,12 +99,14 @@ const RehearsalList = () => {
         </div>
         {RehearsaltData ? (
            <div className="border p-2">
+               <h4 style={{fontWeight:"bold"}}>The rehearsal information :</h4>
                 {RehearsaltData?.map((val, i) => (
             <div key={i}>
                  <button
                       type="button"
                       onClick={() => {
-                        handleRehearsaDelete(val.id);
+                        setRehearsalId(val.id);
+                        setModalShow1(true)
                       }}
                       className="float-end"
                     >
@@ -112,7 +117,7 @@ const RehearsalList = () => {
                             
                     </button>
             <fieldset>
-            <h4 style={{fontWeight:"bold"}}>The rehearsal information :</h4>
+            <h4 style={{fontWeight:"bold"}}>{val.title} :</h4>
                 <Row>
                     <Col>
                     <p>Date | {val.date}</p>
@@ -132,15 +137,29 @@ const RehearsalList = () => {
                 <p> Email | {item.email}</p>
                 </div>
                 </fieldset>
-            ))}
-            
+            ))} 
             </div>
             ))}
           </div>
         ) : (<h4>No Data Found</h4>
           )
-          
           }
+              <Modal
+      show={modalShow1}
+      size="sm"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header onClick={()=>setModalShow1(false)} closeButton>
+      </Modal.Header>
+      <Modal.Body>
+        <h6>The Delete action will delete the rehearsal from your account entirly</h6>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={()=>{handleRehearsaDelete()();setModalShow1(false)}}>Delete</Button>
+        <Button onClick={()=>{setModalShow1(false)}}>Close</Button>
+      </Modal.Footer>
+    </Modal>
         </Col>
         </Row>
     </div>
