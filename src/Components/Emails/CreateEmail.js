@@ -1035,6 +1035,26 @@ const CreateEmail = (props) => {
    setShowLessInfo(!showLessInfo);
  };
 
+ const handleScroll = (ev) => {
+   if (ev.target.scrollTop > 20) {
+     document.querySelector("#send-sample").setAttribute("custom-atr", "scroll");
+   } else {
+     document
+       .querySelector("#send-sample")
+       .setAttribute("custom-atr", "non-scroll");
+   }
+ };
+
+ const handleSmartListPopupScroll = (ev) => {
+   if (ev.target.scrollTop > 20) {
+     document.querySelector("#add-list").setAttribute("custom-atr", "scroll");
+   } else {
+     document
+       .querySelector("#add-list")
+       .setAttribute("custom-atr", "non-scroll");
+   }
+ };
+
 
   return (
     <>
@@ -1367,7 +1387,7 @@ const CreateEmail = (props) => {
           </Modal.Footer>
         </Modal>
 
-        <Modal id="send-sample" show={isOpen_send}>
+        <Modal id="send-sample" show={isOpen_send} custom-atr="non-scroll">
           <Modal.Header>
             <h4>Send a Sample</h4>
             <button
@@ -1381,7 +1401,7 @@ const CreateEmail = (props) => {
               }}
             ></button>
           </Modal.Header>
-          <Modal.Body>
+          <Modal.Body onScroll={handleScroll}>
             <div className="top-header">
               <div className="page-title">
                 <h4>Search For Contact By:</h4>
@@ -1549,7 +1569,7 @@ const CreateEmail = (props) => {
       </div>
 
       <div className="modal">
-        <Modal id="add-list" show={addListOpen}>
+        <Modal id="add-list" show={addListOpen} custom-atr="non-scroll">
           <Modal.Header>
             <h4>Add List</h4>
             <button
@@ -1564,7 +1584,7 @@ const CreateEmail = (props) => {
               }}
             ></button>
           </Modal.Header>
-          <Modal.Body>
+          <Modal.Body onScroll={handleSmartListPopupScroll}>
             <div className="top-right-action">
               <div className="search-bar">
                 <form className="d-flex" onSubmit={(e) => submitHandler(e)}>

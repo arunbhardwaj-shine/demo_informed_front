@@ -1,23 +1,56 @@
 import React, { useEffect, useState } from "react";
-import { Modal } from "react-bootstrap";
-
+import { Button, Col, Form, Modal, Row, Table } from "react-bootstrap";
+import { toast, ToastContainer } from "react-toastify";
 const RegistraionDetails = () => {
   const [inputbox, setInputBox] = useState([
-    { value: "A", name: "gender" },
-    { value: "B", name: "gender" },
-    { value: "C", name: "gender" },
+    { value: "Name", name: "Name" },
+    { value: "Email", name: "Email"},
+    { value: "Region", name: "Region"},
+    { value: "Dr Number", name: "Dr number" },
+    { value: "State", name: "State"},
+    { value: "Hospital", name: "Hospital"},
+    { value: "Profession", name: "Profession" },
+    { value: "ConSent", name: "ConSent"},
   ]);
 
   const [selectedFile, setSelectedFile] = useState(null);
+  const [checkboxData, setcheckboxData] = useState([]);
   const [show, setShow] = useState(false);
+  const [image, setimage] = useState();
   const [field, setField] = useState("");
-
+  const handeleimage = (e) => {
+    if (e?.target?.files[0].type.match(/\/(jpg|jpeg|png)$/)) {
+      let file = e.target.files[0];
+      setimage(e.target.files[0]);
+      if (file) {
+        const preview = document.getElementById("imgVieww");
+        const reader = new FileReader();
+        reader.addEventListener(
+          "load",
+          function () {
+            preview.src = reader.result;
+          },
+          false
+        );
+        reader.readAsDataURL(file);
+      }
+    } 
+  };
   useEffect(() => {
     console.log("Hello in Registraion Details");
   }, []);
 
+
   const handleRadioChange = (e) => {
-    console.log(e.target.value);
+    let data={name:"",required:""}
+    if(e.target.name=="required"){
+     data.required=e.target.checked
+    }else{
+      alert(e.target.value)
+      alert(e.target.checked)
+
+    }
+console.log(data)
   };
 
   const addData = () => {
@@ -32,14 +65,9 @@ const RegistraionDetails = () => {
 
   const saveClicked = () => {
     setShow(false);
-    setInputBox((oldArray) => [...oldArray, { value: field, name: "gender" }]);
+    setInputBox((oldArray) => [...oldArray, { value: field, name: field }]);
     setField("");
   };
-
-  const fileChanged = (event) => {
-    setSelectedFile(event.target.files[0]);
-  };
-
   const submitData = () => {
     const body = {};
 
@@ -63,21 +91,42 @@ const RegistraionDetails = () => {
   };
 
   return (
-    <div style={{ marginLeft: "500px" }}>
-      {" "}
-      <h1>Registration page</h1>
-      <br />
+    <div>
+    <div className="loader" id="custom_loader">
+      <span className="loader-view"> </span>
+    </div>
+    <Row>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+      <Col md={{ span: 7, offset: 3 }}>
+        <h2>Registration Details</h2>
+    <div>
+      <Row>
+        <Col xs={8}>
+        <br />
       Registration Page Title <input type="text" />
       <br />
       Body Text <textarea></textarea>
       <div>
         <h2>what data should be collected?</h2>
-        <div onChange={handleRadioChange}>
-          {inputbox.map((data) => {
+        <div>
+          {inputbox.map((data,i) => {
             return (
               <>
-                {data.value}
-                <input type="checkbox" value={data.value} name={data.name} />
+               <label>{data.value}</label> 
+                <input type="checkbox" onChange={(e)=>handleRadioChange(e,i)} value={data.value} name={data.name} />
+                <br/>
+               <label>required</label> 
+                <input type="checkbox"onChange={(e)=>handleRadioChange(e,i)}  name="required" />
               </>
             );
           })}
@@ -108,10 +157,26 @@ const RegistraionDetails = () => {
           ) : null}
         </div>
       </div>
-      <input type="file" onChange={(e) => fileChanged(e)} />
+
+        </Col>
+        <Col>
+        <div>
+                          <img
+                            id="imgVieww"
+                            src=""
+                            alt="Viewing the registration page image"
+                            width={340}
+                          />
+                        </div>
+        </Col>
+      </Row>
+      <input type="file" onChange={(e) => handeleimage(e)} />
       <button className="btn btn-primary" onClick={submitData}>
         Submit
       </button>
+    </div>
+    </Col>
+    </Row>
     </div>
   );
 };

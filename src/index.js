@@ -16,7 +16,7 @@ import reducers from "./reducers";
 import Add from "./Components/Webinar/Event/Add";
 import Home from "./Components/Webinar/Regionstats/Home";
 import Dashboard from "./Components/Webinar/Dashboard";
-import EventData from "./Components/Webinar/Event/EventData";
+import EventList from "./Components/Webinar/Event/List";
 import Rehearsal from "./Components/Webinar/Rehearsal/Rehearsal";
 import SidebarWebinar from "./Components/Webinar/Layout/Sidebar";
 import HeaderWebinar from "./Components/Webinar/Layout/Header";
@@ -60,6 +60,7 @@ import RehearsalList from "./Components/Webinar/Rehearsal/RehearsalList";
 import ViewSmartListWebinar from "./Components/Webinar/SmartList/ViewSmartListWebinar";
 import SmartListCreate from "./Components/Webinar/SmartList/SmartListCreate";
 import FilterList from "./Components/Webinar/SmartList/FilterList";
+import WebinarDashboard from "./Components/Webinar/WebinarDashboard";
 
 let platform = 0;
 let show = 0;
@@ -148,7 +149,11 @@ ReactDOM.render(
                     <React.Fragment>
                       {/* <Route path="/webinar" element={<App />} /> */}
                       <Route path="/" element={<Proctected />}>
-                        <Route path="/webinar/dashboard" element={<Home />} />
+                        <Route
+                          path="/webinar/dashboard"
+                          element={<WebinarDashboard />}
+                        />
+                        <Route path="/webinar/regionstats" element={<Home />} />
                         <Route
                           path="/webinar/resetpassword"
                           element={<ResetPassword />}
@@ -167,10 +172,7 @@ ReactDOM.render(
                           path="/webinar/template"
                           element={<Template />}
                         />
-                        <Route
-                          path="/webinar/event/edit"
-                          element={<EventData />}
-                        />
+                        <Route path="/webinar/events" element={<EventList />} />
                         <Route
                           path="/webinar/registration"
                           element={<Registration />}

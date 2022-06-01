@@ -83,7 +83,7 @@
 	 .selected-hcp-list .table tr.seprator-add td { display: table-cell; } 
 	 .form-buttons .approved-btn, .form-buttons .btn.btn-large { padding: 10px 20px; } 
 	 form .input-group { padding: 16px 20px; } 
-	 #tagsModal.modal-dialog, #add-list.modal-dialog, #send-sample.modal-dialog { max-width: 1000px; } 
+	 #tagsModal.modal-dialog, #add-list.modal-dialog, #send-sample.modal-dialog { max-width: 1080px; } 
 	 .selected-tags { margin-top: 20px; } 
 	 #tagsModal .modal-footer form .form-group #new-tag { padding: 7px 12px; } 
 	 .modal-body .tag-lists .tag-lists-view div { padding: 2px 12px; font-size: 12px; margin: 5px 10px 5px 0; } 
@@ -105,7 +105,8 @@
 	 .verify-mail-box { padding: 15px 15px 11px 15px; } 
 	 .header-btn .btn.send_btn { height: 34px; } 
 	 #send-sample .form-search-hcp .form-button .btn { min-width: 85px; } 
-	 #send-sample .form-search-hcp .form-button .btn-bordered { padding: 10px 8px; } 
+	 #send-sample .form-search-hcp .form-button .btn-bordered { padding: 6px 12px; } 
+	 .form-search-hcp .form-button .btn {height: 32px;padding: 6px 14px;}
 	 .form-search-hcp .form-button .btn-bordered { margin-left: 10px; } 
 	 .form-search-hcp .form-button .btn-filled { margin-right: 10px; } 
 	 .form-search-hcp .form-button .btn-filled::after { right: -12px; height: 40px; top: -2px; } 

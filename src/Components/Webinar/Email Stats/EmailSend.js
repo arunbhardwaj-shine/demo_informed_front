@@ -239,7 +239,7 @@ const EmailSand = () => {
     validationSchema: Yup.object({
       name: Yup.string().required("Name is required"),
       email: Yup.string()
-      .email("Invalid email address")
+      .email("Please enter valid email address")
       .required("Email is required"),
     }),
     onSubmit: (values) => {
@@ -498,7 +498,6 @@ const EmailSand = () => {
                   }}
                   type="file"
                   size="md"
-                  accept="application/vnd.ms-excel"
                 />
                 <p>Excel file should contain first name, last name and email</p>
              {image?null:<p style={{color:"red"}}>{imageErr}</p>}   
