@@ -146,7 +146,9 @@ const EventData = () => {
   const handleMaltiInputRumove = (i) => {
     console.log("i", i);
     Speakername.splice(i, 1);
+    SpeakerErr.splice(i, 1);
     setSpeakerName([...Speakername]);
+    setSpeakerErr([...SpeakerErr]);
   };
 
   const showConfirmationPopup = (id) => {
@@ -175,8 +177,6 @@ const EventData = () => {
     };
 
     console.log(headers);
-    //  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    //  loader("show");
     axios
       .post(`http://51.89.210.56:8000/api/delete-event`, body, { headers })
       .then((res) => {
@@ -198,20 +198,20 @@ const EventData = () => {
 
   const handleSubmit = (e) => {
     let err = true;
-
     for (let index = 0; index < Speakername.length; index++) {
       if (Speakername[index].name.length == 0) {
-        err = false;
-        const copydataErr = SpeakerErr[index];
-        copydataErr.name = "name is requred ";
-        setSpeakerErr([...SpeakerErr]);
+        err = true;
       }
       if (Speakername[index].email.length == 0) {
+        err = true;
+      } if (Speakername[index].name.length>1&&Speakername[index].email.length == 0) {
         err = false;
         const copydataErr = SpeakerErr[index];
-        copydataErr.email = "email is requred  ";
+        copydataErr.email = "Email is requred  ";
         setSpeakerErr([...SpeakerErr]);
+    
       }
+
     }
     return err;
   };
@@ -277,7 +277,7 @@ const EventData = () => {
   }, []);
   return (
     <div style={{ marginLeft: "300px" }}>
-             <ToastContainer
+      <ToastContainer
         position="top-right"
         autoClose={5000}
         hideProgressBar={false}
@@ -291,14 +291,14 @@ const EventData = () => {
       <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
       </div>
-      <div class="right-sidebar">
-        <div class="top-header">
-          <div class="page-title"></div>
-          <div class="top-right-action">
-            <div class="search-bar">
-              <form class="d-flex">
+      <div className="right-sidebar">
+        <div className="top-header">
+          <div className="page-title"></div>
+          <div className="top-right-action">
+            <div className="search-bar">
+              <form className="d-flex">
                 <input
-                  class="form-control me-2"
+                  className="form-control me-2"
                   type="search"
                   placeholder="Search"
                   aria-label="Search"
@@ -307,7 +307,7 @@ const EventData = () => {
                   }}
                 />
                 <button
-                  class="btn btn-outline-success"
+                  className="btn btn-outline-success"
                   type="submit"
                   onClick={(e) => {
                     e.preventDefault();
@@ -370,9 +370,9 @@ const EventData = () => {
               </>
             </div>
 
-            <div class="clear-search">
+            <div className="clear-search">
               <button
-                class="btn btn-outline-primary"
+                className="btn btn-outline-primary"
                 type="submit"
                 onClick={showDeleteButtons}
               >
@@ -432,24 +432,24 @@ const EventData = () => {
                 }
               </div>
             </div>
-            {event.length > 0 ? (
+            {event?.length > 0 ? (
               event?.map((event) => {
                 return (
                   <>
                     <div
-                      class="smartlist-view email_box"
+                      className="smartlist-view email_box"
                       style={{ margin: "8px" }}
                     >
-                      <div class="mail-box-content">
+                      <div className="mail-box-content">
                         <h5>{event.title}</h5>
 
-                        <div class="mail-time">
+                        <div className="mail-time">
                           <span>{event.event_date}</span>
                         </div>
-                        <div class="smart-list-added-user">
+                        <div className="smart-list-added-user">
                           {event.days_left} Days Left
                         </div>
-                        <div class="mail-stats">
+                        <div className="mail-stats">
                           {deletestatus && (
                             <div className="dlt_btn">
                               <button
@@ -589,10 +589,10 @@ const EventData = () => {
                   </Form.Group>
                 ))}
               </fieldset>
-              <div class="mt-2 clearfix"></div>
+              <div className="mt-2 clearfix"></div>
 
               {Speakername.map((malti, i) => (
-                <fieldset class="border p-2">
+                <fieldset className="border p-2">
                   <div key={i}>
                     {Speakername.length > 1 ? (
                       <button
@@ -623,7 +623,7 @@ const EventData = () => {
                           {SpeakerErr[i].name}
                         </div>
                       </Col>
-                      <div class="mt-2 clearfix"></div>
+                      <div className="mt-2 clearfix"></div>
                       <Form.Label column sm={3}>
                         Speaker Email
                       </Form.Label>
@@ -647,13 +647,13 @@ const EventData = () => {
                   </div>
                 </fieldset>
               ))}
-              <div class="mt-2"></div>
+              <div className="mt-2"></div>
               <Form.Group className="mb-3">
                 <Button
                   onClick={handleMaltiInputAdd}
                   className="speaker-button"
                 >
-                  Add More Speaker
+                  Add Speaker
                 </Button>
               </Form.Group>
               <div className="clearfix"></div>

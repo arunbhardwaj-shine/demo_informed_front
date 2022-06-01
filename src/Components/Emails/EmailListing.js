@@ -765,6 +765,15 @@ const EmailList = (props) => {
                  */}
             </div>
             <div className="clear-search">
+            {
+              deletestatus ?
+                <button
+                  className="btn btn-outline-primary cancel"
+                  onClick={(e) => showDeleteButtons()}
+                >
+                Cancel
+                </button>
+              :
               <button
                 className="btn btn-outline-primary"
                 onClick={(e) => showDeleteButtons()}
@@ -802,6 +811,8 @@ const EmailList = (props) => {
                   />
                 </svg>
               </button>
+            }
+
             </div>
           </div>
         </div>

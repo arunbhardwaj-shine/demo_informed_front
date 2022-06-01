@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Modal } from "react-bootstrap";
-
+import { Button, Col, Form, Modal, Row, Table } from "react-bootstrap";
+import { toast, ToastContainer } from "react-toastify";
 const RegistraionDetails = () => {
   const [inputbox, setInputBox] = useState([
-    { value: "A", name: "gender" },
+    { value: "Name", name: "Name" },
     { value: "B", name: "gender" },
     { value: "C", name: "gender" },
   ]);
@@ -63,9 +63,26 @@ const RegistraionDetails = () => {
   };
 
   return (
-    <div style={{ marginLeft: "500px" }}>
-      {" "}
-      <h1>Registration page</h1>
+    <div>
+    <div className="loader" id="custom_loader">
+      <span className="loader-view"> </span>
+    </div>
+    <Row>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+      <Col md={{ span: 6, offset: 3 }}>
+        <h2>Registration Details</h2>
+     
+    <div>
       <br />
       Registration Page Title <input type="text" />
       <br />
@@ -112,6 +129,9 @@ const RegistraionDetails = () => {
       <button className="btn btn-primary" onClick={submitData}>
         Submit
       </button>
+    </div>
+    </Col>
+    </Row>
     </div>
   );
 };

@@ -27,7 +27,7 @@ const ForgotResetPassword = () => {
           .required("Enter your password"),
         confirm_pass: Yup.string()
         .oneOf([Yup.ref("new_pass"), null], "Passwords must match")
-          .min(8, "Must be 8 characters or less")
+          .min(8, "Must be 8 characters")
           .required("Enter your password"),
       }),
       onSubmit: (values) => {
@@ -67,6 +67,9 @@ const ForgotResetPassword = () => {
       },
     });
     useEffect(() => {
+      if(localStorage.getItem("Token")){
+        navigate("/webinar")
+      }
     if(showPage){
       setActive(false)
       setTimeout(function(){

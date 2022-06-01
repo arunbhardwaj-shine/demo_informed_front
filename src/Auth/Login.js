@@ -17,10 +17,10 @@ const Login = (props) => {
     },
     validationSchema: Yup.object({
       password: Yup.string()
-        .min(8)
+        .min(8,"Must be 8 characters")
         .required("Enter your password"),
       email: Yup.string()
-        .email("Invalid email address")
+        .email("Please enter valid email address")
         .required("Enter your email"),
     }),
     onSubmit: (values) => {

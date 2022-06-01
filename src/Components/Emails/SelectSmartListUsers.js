@@ -320,6 +320,14 @@ const SelectSmartListUsers = (props) => {
   };
 
   const addHcp = (e) => {
+    const addhcp_btn = document.getElementById('add_hcp_btn');
+    if (document.querySelector('#add_hcp_btn .active') !== null) {
+        addhcp_btn.classList.remove('active');
+    }else{
+       addhcp_btn.classList.add('active');
+    }
+     document.querySelector('#add_file_btn').classList.remove('active');
+
     e.preventDefault();
     setActiveExcel("");
     setActiveManual("active");
@@ -355,6 +363,15 @@ const SelectSmartListUsers = (props) => {
   };
 
   const addFile = (e) => {
+
+    const addfile_btn = document.getElementById('add_file_btn');
+    if (document.querySelector('#add_file_btn .active') !== null) {
+        addfile_btn.classList.remove('active');
+    }else{
+       addfile_btn.classList.add('active');
+    }
+    document.querySelector('#add_hcp_btn').classList.remove('active');
+
     e.preventDefault();
     setActiveExcel("active");
     setActiveManual("");
@@ -1093,6 +1110,7 @@ const SelectSmartListUsers = (props) => {
                   <ul className="nav nav-tabs" role="tablist">
                     <li className="nav-item add_hcp">
                       <a
+                        id="add_hcp_btn"
                         onClick={(e) => addHcp(e)}
                         className="nav-link active btn-bordered"
                         data-bs-toggle="tab"
@@ -1103,6 +1121,7 @@ const SelectSmartListUsers = (props) => {
                     </li>
                     <li className="nav-item add-file">
                       <a
+                        id="add_file_btn"
                         onClick={(e) => addFile(e)}
                         className="nav-link btn-filled"
                         data-bs-toggle="tab"

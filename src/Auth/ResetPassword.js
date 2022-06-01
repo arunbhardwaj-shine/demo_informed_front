@@ -18,24 +18,23 @@ function ResetPassword() {
       },
       validationSchema: Yup.object({
         old_pass: Yup.string()
-          .max(15, "Old Password Must be 15 characters")
-          .min(8,"must be at least 8 characters")
+          .min(8,"Password must be at least 8 characters")
           .matches(
             /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
             "Password must contain one symbol, uppercase and one integer value"
           )
-          .required("Enter your password"),
+          .required("Enter your old password"),
           new_pass: Yup.string()
-          .min(8,"must be at least 8 characters")
+          .min(8,"Password must be at least 8 characters")
           .matches(
             /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
             "Password must contain one symbol, uppercase and one integer value"
           )
-            .required("Enter your password"),
+            .required("Enter your new password"),
           confirm_pass: Yup.string()
-          .oneOf([Yup.ref("new_pass"), null], "Confirm password does not match")
-            .min(8, "must be at least 8 characters")
-            .required("Enter your password"),
+          .oneOf([Yup.ref("new_pass"), null], "Confirm and new password should be same")
+            .min(8, "Password must be at least 8 characters")
+            .required("Enter your confirm  password"),
       }),
       onSubmit: (values) => {
         ExportApi.ResetPasswordPost(values.old_pass,values.new_pass,values.confirm_pass)
@@ -91,7 +90,7 @@ function ResetPassword() {
       </center>
 <hr/>
        <Form.Group className="mb-3">
-    <Form.Label>Old Password</Form.Label>
+    <Form.Label> Enter old password</Form.Label>
     <Form.Control  name="old_pass" onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         value={formik.values.old_pass} type="password" placeholder="Old Password" />
@@ -99,7 +98,7 @@ function ResetPassword() {
         <div style={{ color: "red" }}>{formik.errors.old_pass}</div>
       ) : null} 
     <p style={{color:"red"}}>  {err?err:null}</p>
-    <Form.Label>New Password</Form.Label>
+    <Form.Label>Enter new password</Form.Label>
     <Form.Control
        id="password"
        name="new_pass"
@@ -113,7 +112,7 @@ function ResetPassword() {
         <div style={{ color: "red" }}>{formik.errors.new_pass}</div>
       ) : null}
     <p style={{color:"red"}}>  {err?err:null}</p>
-    <Form.Label>Confirm Password</Form.Label>
+    <Form.Label>Enter confirm password</Form.Label>
     <Form.Control
        id="password"
        name="confirm_pass"

@@ -57,6 +57,8 @@ import StpDetails from "./Components/Webinar/Smtp/StpDetails";
 import WebinarSmartList from "./Components/Webinar/SmartList/WebinarSmartList";
 import RegistraionDetails from "./Components/Webinar/Registration/RegistrationDetails";
 import RehearsalList from "./Components/Webinar/Rehearsal/RehearsalList";
+import ViewSmartListWebinar from "./Components/Webinar/SmartList/ViewSmartListWebinar";
+import WebinarDashboard from "./Components/Webinar/WebinarDashboard";
 
 let platform = 0;
 let show = 0;
@@ -145,7 +147,9 @@ ReactDOM.render(
                     <React.Fragment>
                       {/* <Route path="/webinar" element={<App />} /> */}
                       <Route path="/" element={<Proctected />}>
-                        <Route path="/webinar/dashboard" element={<Home />} />
+                         
+                        <Route path="/webinar/dashboard" element={<WebinarDashboard />} />
+                        <Route path="/webinar/regionstats" element={<Home />} />
                         <Route
                           path="/webinar/resetpassword"
                           element={<ResetPassword />}
@@ -187,6 +191,10 @@ ReactDOM.render(
                         <Route
                           path="/webinar/WebinarSmartList"
                           element={<WebinarSmartList />}
+                        />
+                        <Route
+                          path="/webinar/ViewSmartListWebinar"
+                          element={<ViewSmartListWebinar />}
                         />
                         <Route
                           path="/webinar/RegistrationDetails"

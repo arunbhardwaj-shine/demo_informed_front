@@ -103,13 +103,13 @@ function Add(props) {
       if (Speakername[index].name.length == 0) {
         err = false;
         const copydataErr = SpeakerErr[index];
-        copydataErr.name = "name is requred ";
+        copydataErr.name = "Name is requred ";
         setSpeakerErr([...SpeakerErr]);
       }
       if (Speakername[index].email.length == 0) {
         err = false;
         const copydataErr = SpeakerErr[index];
-        copydataErr.email = "email is requred  ";
+        copydataErr.email = "Email is requred  ";
         setSpeakerErr([...SpeakerErr]);
       }
     }
@@ -325,7 +325,7 @@ function Add(props) {
                   onClick={handleMultiInputAdd}
                   className="speaker-button"
                 >
-                  Add More Speaker
+                  Add Speaker
                 </Button>
               </Form.Group>
               <div className="clearfix"></div>
@@ -569,7 +569,7 @@ function Add(props) {
                   ) : null}
                 </Col>
               </Form.Group>
-              <Button type="reset">Reset</Button>
+              <Button type="reset" onClick={()=>setSpeakerName([{ name: "", email: "" }])}>Reset</Button>
               <Button
                 type="submit"
                 className="event-submit-button"

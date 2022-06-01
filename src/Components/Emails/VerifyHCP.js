@@ -215,12 +215,30 @@ const VerifyHCP = (props) => {
   };
 
   const addFile = () => {
+
+    const addfile_btn = document.getElementById('add_file_btn');
+    if (document.querySelector('#add_file_btn .active') !== null) {
+        addfile_btn.classList.remove('active');
+    }else{
+       addfile_btn.classList.add('active');
+    }
+    document.querySelector('#add_hcp_btn').classList.remove('active');
+
     setActiveExcel("active");
     setActiveManual("");
     setAddFileReRender(addFileReRender + 1);
   };
 
   const addHcp = () => {
+
+    const addhcp_btn = document.getElementById('add_hcp_btn');
+    if (document.querySelector('#add_hcp_btn .active') !== null) {
+        addhcp_btn.classList.remove('active');
+    }else{
+       addhcp_btn.classList.add('active');
+    }
+     document.querySelector('#add_file_btn').classList.remove('active');
+
     setActiveExcel("");
     setActiveManual("active");
     setManualReRender(manualReRender + 1);
@@ -1161,6 +1179,7 @@ const VerifyHCP = (props) => {
                   <ul className="nav nav-tabs" role="tablist">
                     <li className="nav-item add_hcp">
                       <a
+                        id="add_hcp_btn"
                         onClick={addHcp}
                         className="nav-link active btn-bordered"
                         data-bs-toggle="tab"
@@ -1171,6 +1190,7 @@ const VerifyHCP = (props) => {
                     </li>
                     <li className="nav-item add-file">
                       <a
+                        id="add_file_btn"
                         onClick={addFile}
                         className="nav-link btn-filled"
                         data-bs-toggle="tab"

@@ -29,39 +29,33 @@ const WebinarSmartList = () => {
   const [updateflag, setUpdateFlag] = useState(0);
   const [showfilter, setShowFilter] = useState(false);
   const [filterapplied, setFilterApply] = useState(false);
+
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED;
-  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-  const body = {
-    user_id: 18207,
-    search: search,
-    filter: filter,
-  };
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-  const getSmartListData = async (flag) => {
-    // await axios
-    //   .post(`distributes/get_smart_list`, body)
-    //   .then((res) => {
-    //     console.log(res);
-    //     setLoading(false);
-    //     setSmartListData(res.data.response.data);
-    //     if (flag == 0) {
-    //       setFilterData(res.data.response.filter);
-    //       setPrevSmartListData(res.data.response.data);
-    //     }
-    //     setUserDetails(res.data.response.userdetails);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+  const getSmartListData = async () => {
+    // console.log(localStorage.getItem("Token"));
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `${localStorage.getItem("Token")}`,
+    };
 
-    ExportApi.getSmartListData(18207, search, filter).then((resp) => {
-      //console.log(resp);
-    });
+    console.log(headers);
+    await axios
+      .get(`http://51.89.210.56:8000/api/smart-list/lists`, { headers })
+      .then((res) => {
+        console.log(res.data.data);
+        setSmartListData(res.data.data);
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   useEffect(() => {
-    getSmartListData(0);
+    getSmartListData();
   }, []);
 
   const searchChange = (e) => {
@@ -241,7 +235,7 @@ const WebinarSmartList = () => {
 
   return (
     <>
-      <div className="col right-sidebar">
+      <div className="col right-sidebar" style={{ marginLeft: "70px" }}>
         <div className="top-header">
           <div className="page-title">
             <h2>Smart List</h2>
@@ -636,36 +630,36 @@ const WebinarSmartList = () => {
                             <tbody>
                               <tr>
                                 <th>Contact Type</th>
-                                <td>{data.contact_type}</td>
+                                <td>NA</td>
                               </tr>
                               <tr>
                                 <th>Speciality</th>
-                                <td>{data.speciality}</td>
+                                <td>NA</td>
                               </tr>
                               <tr>
                                 <th>Readers</th>
-                                <td>{data.reader_selection}</td>
+                                <td>NA</td>
                               </tr>
                               <tr>
                                 <th>IBU</th>
-                                <td>{data.ibu}</td>
+                                <td>NA</td>
                               </tr>
                               <tr>
                                 <th>Product</th>
-                                <td>{data.product}</td>
+                                <td>NA</td>
                               </tr>
                               <tr>
                                 <th>Country</th>
-                                <td>{data.country}</td>
+                                <td>NA</td>
                               </tr>
                               <tr>
                                 <th>Registered</th>
-                                <td>{data.registered}</td>
+                                <td>NA</td>
                               </tr>
                               <tr>
                                 <th>Created By</th>
                                 <td>
-                                  <span>{data.creator}</span>
+                                  <span>NA</span>
                                 </td>
                               </tr>
                             </tbody>
@@ -724,8 +718,8 @@ const WebinarSmartList = () => {
                           <Link
                             className="btn btn-primary btn-bordered view"
                             to={{
-                              pathname: "/ViewSmartList",
-                              search: "?listId=" + data.id,
+                              pathname: "/webinar/ViewSmartListWebinar",
+                              search: "?listId=" + data.event_id,
                             }}
                           >
                             View
