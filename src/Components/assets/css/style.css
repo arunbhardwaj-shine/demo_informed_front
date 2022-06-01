@@ -380,9 +380,10 @@ form#add_hcp_form .row:not(:first-child) { border-top: 1px dashed var(--light-bl
 .nav-item.add_hcp { width: 100px; text-align: center; }
 .nav-item.add-file { margin: 0 15px 0 0px; }
 .nav-item.add_hcp .nav-link { box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2); border-radius: 30px; background: var(--white); border: 1px solid var(--violet); box-sizing: border-box; font-size: 16px; line-height: 19px; color: var(--violet); font-family: 'Roboto-Medium'; padding: 9px 6px; min-width: 106px; height: 40px; }
-.nav-item.add_hcp .nav-link:hover, .nav-item.add_hcp .nav-link:active, .nav-item.add_hcp .nav-link:focus { background: var(--violet); color:var(--white); }
-.nav-item.add-file .nav-link { filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2)); border-radius: 30px; font-size: 16px; line-height: 18px; text-transform: capitalize; border: 1px solid var(--light-blue); font-family: 'Roboto-Medium'; color: var(--white); background: var(--light-blue); padding: 9px 6px; min-width: 90px; text-align: center; height: 40px; }
-.nav-item.add-file .nav-link:hover, .nav-item.add-file .nav-link:active, .nav-item.add-file .nav-link:focus { background: var(--blue); border-color:var(--blue); }
+.nav-item.add_hcp .nav-link:hover, .nav-item.add_hcp .nav-link:active, .nav-item.add_hcp .nav-link:focus, .nav-item.add_hcp .nav-link.active { background: var(--violet); color:var(--white); }
+.nav-item.add-file .nav-link { filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2)); border-radius: 30px; font-size: 16px; line-height: 18px; text-transform: capitalize; border: 1px solid var(--light-blue); font-family: 'Roboto-Medium'; color: var(--light-blue); background: transparent; padding: 9px 6px; min-width: 90px; text-align: center; height: 40px; }
+.nav-item.add-file .nav-link.active{background-color: var(--light-blue);color:var(--white);}
+.nav-item.add-file .nav-link:hover, .nav-item.add-file .nav-link:active, .nav-item.add-file .nav-link:focus { background: var(--blue); border-color:var(--blue);color:var(--white); }
 .hcp-action-block { display: flex; flex-direction: row-reverse; position: absolute;top: 225px; transform: rotate(-90deg) scaleX(1); transform-origin: bottom left; left: 53px; }
 .hcp-modal-action { position: relative; }
 .hcp-action-block .nav.nav-tabs { border: 0; margin: 0 15px 0 0px; flex-direction: row-reverse; width: 210px; }
