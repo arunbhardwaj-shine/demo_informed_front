@@ -114,7 +114,7 @@ header { position: sticky; top: 0; z-index: 9; }
 .mail-stats ul li {list-style: none;display: flex;align-items: center;}
 .mail-stats ul li .mail-status { width: 32px; height: 32px; border: 2px solid #C8D1D9; box-sizing: border-box; border-radius: 50%; text-align: center; margin-right: 8px; display: flex; align-items: center; justify-content: center; }
 .mail-stats ul li span {font-size: 12px; line-height: 14px; color: #C8D1D9;}
-.mailbox-buttons { position: relative; padding-top: 15px; margin-top: 13px; display: flex; justify-content: space-between; }
+.mailbox-buttons { position: relative; padding-top: 15px; margin-top: 13px; display: flex; justify-content: space-between;min-height: 47px; }
 .mailbox-buttons:before {position: absolute;border-top: 0.5px dashed var(--light-blue);content: "";height: 1px;left: -13px;right: -5px;top: 0;}
 .mailbox-buttons button { border: 0.5px solid var(--light-blue); box-sizing: border-box; border-radius: 30px; background: var(--light-blue); font-size: 16px; line-height: 19px; text-transform: capitalize; height: 32px; padding: 5px 21px; margin: 0px; font-family: 'Roboto-Medium'; }
 .mailbox-buttons .mailbox-buttons-list:first-child { width: 100%; display: flex; justify-content: flex-end; }
@@ -129,7 +129,7 @@ header { position: sticky; top: 0; z-index: 9; }
 .approved .mail-stats ul li .mail-status.mail_view svg path {fill: var(--yellow);}
 .approved .mail-stats ul li .mail-status.mail_click {border-color: var(--green);}
 .approved .mail-stats ul li .mail-status.mail_click svg path {fill: var(--green);}
-.send_new, .mailbox-buttons-list { display: inline-block; }.mailbox-buttons-list{min-height:30px;}
+.send_new, .mailbox-buttons-list { display: inline-block; }
 .user-login ul li a::after { content: ""; background-image: url(../images/dropdown-arrow.svg); border: 0; width: 16px; height: 10px; background-size: 16px; position: relative; top: 5px; margin-left: 7px; }
 .user-login ul li a:hover{color:var(--skyblue)}
 .sidebar-menu button.toggle_btn {border: 0;background: transparent;width: 24px;height: 24px;margin: 44px 15px 0px;}
