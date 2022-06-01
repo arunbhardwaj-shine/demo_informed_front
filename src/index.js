@@ -58,6 +58,8 @@ import WebinarSmartList from "./Components/Webinar/SmartList/WebinarSmartList";
 import RegistraionDetails from "./Components/Webinar/Registration/RegistrationDetails";
 import RehearsalList from "./Components/Webinar/Rehearsal/RehearsalList";
 import ViewSmartListWebinar from "./Components/Webinar/SmartList/ViewSmartListWebinar";
+import SmartListCreate from "./Components/Webinar/SmartList/SmartListCreate";
+import FilterList from "./Components/Webinar/SmartList/FilterList";
 
 let platform = 0;
 let show = 0;
@@ -196,6 +198,14 @@ ReactDOM.render(
                         <Route
                           path="/webinar/RegistrationDetails"
                           element={<RegistraionDetails />}
+                        />
+                        <Route
+                          path="/webinar/SmartListCreate"
+                          element={<SmartListCreate />}
+                        />
+                        <Route
+                          path="/webinar/FilterList"
+                          element={<FilterList />}
                         />
                       </Route>
                     </React.Fragment>
