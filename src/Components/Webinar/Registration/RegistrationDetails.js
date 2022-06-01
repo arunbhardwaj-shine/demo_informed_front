@@ -42,15 +42,15 @@ const RegistraionDetails = () => {
 
 
   const handleRadioChange = (e) => {
+    let data={name:"",required:""}
     if(e.target.name=="required"){
-       alert(e.target.checked)
-      console.log(e.target.checked)
+     data.required=e.target.checked
     }else{
       alert(e.target.value)
       alert(e.target.checked)
 
     }
-
+console.log(data)
   };
 
   const addData = () => {
