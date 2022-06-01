@@ -114,7 +114,7 @@ header { position: sticky; top: 0; z-index: 9; }
 .mail-stats ul li {list-style: none;display: flex;align-items: center;}
 .mail-stats ul li .mail-status { width: 32px; height: 32px; border: 2px solid #C8D1D9; box-sizing: border-box; border-radius: 50%; text-align: center; margin-right: 8px; display: flex; align-items: center; justify-content: center; }
 .mail-stats ul li span {font-size: 12px; line-height: 14px; color: #C8D1D9;}
-.mailbox-buttons { position: relative; padding-top: 15px; margin-top: 13px; display: flex; justify-content: space-between; }
+.mailbox-buttons { position: relative; padding-top: 15px; margin-top: 13px; display: flex; justify-content: space-between;min-height: 47px; }
 .mailbox-buttons:before {position: absolute;border-top: 0.5px dashed var(--light-blue);content: "";height: 1px;left: -13px;right: -5px;top: 0;}
 .mailbox-buttons button { border: 0.5px solid var(--light-blue); box-sizing: border-box; border-radius: 30px; background: var(--light-blue); font-size: 16px; line-height: 19px; text-transform: capitalize; height: 32px; padding: 5px 21px; margin: 0px; font-family: 'Roboto-Medium'; }
 .mailbox-buttons .mailbox-buttons-list:first-child { width: 100%; display: flex; justify-content: flex-end; }
@@ -290,7 +290,7 @@ form .input-group { /*border: 1px dashed var(--light-blue);*/ background-image:u
 .search-hcp-table { border: 1px dashed var(--light-blue); box-sizing: border-box; border-radius: 15px; padding: 10px 12px 15px 10px; min-height: 265px; }
 .search-hcp-table-inside { padding: 10px 25px 10px 15px; min-height: 265px; position: relative; max-height: 270px; overflow-y: auto; overflow-x:hidden; }
 .search-hcp-table table th, .selected-hcp-list table th { font-size: 13px; line-height: 15px; color: var(--blue); font-family: 'Roboto-Medium'; font-weight: 500; border: 0; padding-top: 0; padding-bottom: 0; }
-.search-hcp-table table td, .selected-hcp-list table td { font-size: 13px; line-height: 15px; color: #70899E; font-family: 'Roboto-Light'; padding: 24px 10px; border: 0; background: var(--white); }
+.search-hcp-table table td, .selected-hcp-list table td { vertical-align:middle;font-size: 13px; line-height: 15px; color: #70899E; font-family: 'Roboto-Light'; padding: 24px 10px; border: 0; background: var(--white); }
 .search-hcp-table tbody tr, .selected-hcp-list tbody tr { background: transparent; box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2); border-radius: 13px; border-spacing: 0px 10px; }
 .search-hcp-table table, .selected-hcp-list table{ border-collapse: separate; border-spacing: 0px 26px; }
 .selected-hcp-list .table tr.hcps-deleted { box-shadow: 0px 0px 10px #B91B68; }
@@ -333,7 +333,7 @@ form .input-group { /*border: 1px dashed var(--light-blue);*/ background-image:u
 .table-title .selected-hcp-table-action .btn-filled{margin-left: 16px;color: var(--white);background: var(--light-blue);justify-content: center;}
 .table-title .selected-hcp-table-action .hcp-added { margin-right: 25px; }
 .selected-hcp-list table tr td.delete_row{ border-radius:30px; padding:10px;background: var(--light-blue)}
-table tr td.delete_row, table tr:hover td.delete_row { padding: 0; position: absolute; background: var(--light-blue); right: -16px; color: var(--light-blue); width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; bottom: -12px; margin: 0; cursor:pointer; }
+table tr td.delete_row, table tr:hover td.delete_row { padding: 0; position: absolute; background: var(--light-blue); right: -10px; color: var(--light-blue); width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; bottom: -12px; margin: 0; cursor:pointer; }
 table tr td.delete_row:hover, table tr td.delete_row:active, table tr td.delete_row:focus{ background:var(--blue); }
 .selected-hcp-list table tr td.delete_row img { width: 20px; }
 .selected-hcp-list .table tr { position: relative; }
@@ -726,7 +726,7 @@ form#add_hcp_form .row:not(:first-child) { border-top: 1px dashed var(--light-bl
 .smart_list_names .header-btn .btn.light { filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2)); border-color: var(--skyblue); color: var(--skyblue); background: transparent; }
 .smart_list_names .header-btn .btn.light a { color: var(--skyblue); text-decoration: none; }
 .smart_list_names .header-btn .btn.light:hover a{ color: var(--white); }
- .smart_list_names .header-btn .btn.light:hover { background: var(--skyblue); }
+ .smart_list_names .header-btn .btn.light:hover { background: var(--skyblue); color: var(--white); }
  .smart_list_names .header-btn .btn.btn-bordered.save-as { border-color: var(--light-blue); background: transparent; color: var(--light-blue); }
  .smart_list_names .header-btn .btn.btn-bordered.save-as a { color: var(--light-blue); text-decoration: none; }
  .create_filter_list .col-md-6:first-child a { font-family: 'Roboto'; font-style: normal; font-size: 16px; line-height: 19px; text-transform: capitalize; color: var(--light-blue); border: 1px solid var(--light-blue); text-decoration: none; box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2); border-radius: 60px; padding: 10px 24px; }
@@ -798,7 +798,7 @@ button#test-table-xls-button { font-size: 0; width: 40px; margin-right: 16px; ba
 .table-title .selected-hcp-table-action a.show-less-info p { padding-right: 21px; position: relative; }
 a.show-less-info p:after { content: "<<"; padding-left: 7px; position: absolute; right: 0; border-bottom: 1px solid var(--skyblue); line-height: 14px; top: 2px; }
 .verify-email-detail h6 ul li img[alt="Close-filter"] {cursor: pointer;}
-#mail-view.modal-dialog[custom-atr="scroll"] .modal-header {box-shadow: 0px 2px 18px rgba(0, 102, 190, 0.12);z-index: 10;position: relative;}
+.modal-dialog[custom-atr="scroll"] .modal-header {box-shadow: 0px 2px 18px rgba(0, 102, 190, 0.12);z-index: 10;/*position: relative;*/}
 .add-new-field img{ cursor: pointer; } 
 .download-sample.sample-file { margin: 22px 0; } 
 #upload-confirm .upload-file-box .box  h5 { flex: 1 1 auto; text-align: center; margin: 0; color: var(--violet); } 
@@ -841,3 +841,18 @@ input:-webkit-autofill{ -webkit-text-fill-color: #70899E !important; }
 .file_upload-box { align-items: center; justify-content: center; display: flex; width: 100%; height: calc(100% - 70px); } 
 .hcp-sort .btn.asc:hover, .hcp-sort .btn.desc:hover { color: var(--white); } 
 .hcp-sort .btn.asc, .hcp-sort .btn.desc { color: var(--light-blue); }
+
+.clear-search button.cancel {
+  width: auto;
+  min-width: 70px;
+  font-weight: 400;
+  color: var(--white);
+  height: auto;
+  background-color: var(--light-blue);
+}
+
+@-moz-document url-prefix() {
+  a.show-less-info p::after {
+    top: 3px;
+  }
+}

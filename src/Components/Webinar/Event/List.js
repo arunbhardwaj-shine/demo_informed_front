@@ -10,7 +10,6 @@ import axios from "axios";
 import { loader } from "../../../loader";
 
 import Add from "./Add";
-//import Edit from "./Edit";
 const EventData = () => {
   const [event, setEvent] = useState([]);
   const [deletestatus, setDeleteStatus] = useState(false);
