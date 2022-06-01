@@ -187,7 +187,7 @@ ul.tabnav-link li { position: relative; pointer-events: none; }
 .header-btn .btn.next, .header-btn .btn.create { margin-left: 8px; }
 .page-top-nav .tabnav-link li::after { content: ""; border-top: 1px dashed var(--skyblue); position: absolute; height: 1px; width: 62px; right: -30px; top: 11px; }
 .page-top-nav .tabnav-link li:last-child::after { display:none; }
-.page-top-nav ul.tabnav-link li.active a:after{ content: ""; background: var(--violet); box-shadow: 0px 3px 7px rgba(138, 78, 156, 0.69); width:8px; height:8px; position: absolute; bottom:-14px; left:0; right:0; border-radius:50%; margin: 0 auto; }
+.page-top-nav ul.tabnav-link li.active-main a:after{ content: ""; background: var(--violet); box-shadow: 0px 3px 7px rgba(138, 78, 156, 0.69); width:8px; height:8px; position: absolute; bottom:-14px; left:0; right:0; border-radius:50%; margin: 0 auto; }
 .page-title h4 { color: var(--blue); font-family: 'Roboto-Medium'; }
 .page-top-nav { margin-bottom: 31px; }
 .mail-content-select-box { background: var(--white); border-radius: 15px; box-shadow: 0px 3px 10px -3px rgba(0, 102, 190, 0.2); padding: 16px 13px 13px 17px; display: flex; justify-content: space-between;flex-direction: column;height: 100%; }

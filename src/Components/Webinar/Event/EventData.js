@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import "../webinar.css";
 
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 import { loader } from "../../../loader";
 
@@ -146,7 +146,9 @@ const EventData = () => {
   const handleMaltiInputRumove = (i) => {
     console.log("i", i);
     Speakername.splice(i, 1);
+    SpeakerErr.splice(i, 1);
     setSpeakerName([...Speakername]);
+    setSpeakerErr([...SpeakerErr]);
   };
 
   const showConfirmationPopup = (id) => {
@@ -175,8 +177,6 @@ const EventData = () => {
     };
 
     console.log(headers);
-    //  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    //  loader("show");
     axios
       .post(`http://51.89.210.56:8000/api/delete-event`, body, { headers })
       .then((res) => {
@@ -198,18 +198,17 @@ const EventData = () => {
 
   const handleSubmit = (e) => {
     let err = true;
-
     for (let index = 0; index < Speakername.length; index++) {
       if (Speakername[index].name.length == 0) {
         err = false;
         const copydataErr = SpeakerErr[index];
-        copydataErr.name = "name is requred ";
+        copydataErr.name = "Name is requred ";
         setSpeakerErr([...SpeakerErr]);
       }
       if (Speakername[index].email.length == 0) {
         err = false;
         const copydataErr = SpeakerErr[index];
-        copydataErr.email = "email is requred  ";
+        copydataErr.email = "Email is requred  ";
         setSpeakerErr([...SpeakerErr]);
       }
     }
@@ -239,6 +238,7 @@ const EventData = () => {
             if (resp.data) {
               if (resp.data.code == 200) {
                 setModalShow(false);
+                setSpeakerName([{ name: "", email: "" }]);
                 handleGetEventlist();
                 toast.success(resp.data.message, {
                   position: "top-right",
@@ -276,6 +276,17 @@ const EventData = () => {
   }, []);
   return (
     <div style={{ marginLeft: "300px" }}>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
       </div>
@@ -420,8 +431,8 @@ const EventData = () => {
                 }
               </div>
             </div>
-            {event.length > 0 ? (
-              event.map((event) => {
+            {event?.length > 0 ? (
+              event?.map((event) => {
                 return (
                   <>
                     <div

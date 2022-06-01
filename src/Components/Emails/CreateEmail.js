@@ -92,6 +92,7 @@ const CreateEmail = (props) => {
   const [getSmartListName, setSmartListName] = useState('');
   const [getSmartListPopupStatus, setSmartListPopupStatus] = useState(false);
   const [showLessInfo, setShowLessInfo] = useState(false);
+  const [getSmartListId, setSmartListId] = useState(0);
 
   const newArr = [];
 
@@ -280,11 +281,38 @@ const CreateEmail = (props) => {
   };
 
   const addClicked = (e) => {
-    e.preventDefault();
-    setSelectedHcp((oldArray) => [...readers, ...oldArray]);
-    // setSelectedHcp(readers);
-    setIsOpensend(true);
-    setAddListOpen(false);
+    if(typeof getSmartListId != "undefined" && getSmartListId !== 0){
+      loader("show");
+      const body = {
+        user_id: 18207,
+        list_id: getSmartListId,
+      };
+      axios
+        .post(`distributes/get_reders_list`, body)
+        .then((res) => {
+          if (res.data.status_code == 200) {
+            setReaders(res.data.response.data);
+            setSelectedHcp(res.data.response.data);
+            loader("hide");
+          }else{
+            toast.warning(res.data.message);
+            loader("hide");
+          }
+          setIsOpensend(true);
+          setAddListOpen(false);
+        })
+        .catch((err) => {
+          toast.warning("Something went wrong");
+          loader("hide");
+        });
+
+    }else{
+      toast.warning("Please select smart list");
+    }
+    // e.preventDefault();
+    // setSelectedHcp((oldArray) => [...readers, ...oldArray]);
+    // setIsOpensend(true);
+    // setAddListOpen(false);
   };
 
   const sendsampeap = (event) => {
@@ -710,6 +738,14 @@ const CreateEmail = (props) => {
   };
 
   const addFile = (e) => {
+    const addfile_btn = document.getElementById('add_file_btn');
+    if (document.querySelector('#add_file_btn .active') !== null) {
+        addfile_btn.classList.remove('active');
+    }else{
+       addfile_btn.classList.add('active');
+    }
+     document.querySelector('#add_hcp_btn').classList.remove('active');
+
     e.preventDefault();
     setActiveExcel("active");
     setActiveManual("");
@@ -771,6 +807,14 @@ const CreateEmail = (props) => {
   };
 
   const addHcp = (e) => {
+    const addhcp_btn = document.getElementById('add_hcp_btn');
+    if (document.querySelector('#add_hcp_btn .active') !== null) {
+        addhcp_btn.classList.remove('active');
+    }else{
+       addhcp_btn.classList.add('active');
+    }
+     document.querySelector('#add_file_btn').classList.remove('active');
+
     e.preventDefault();
     setActiveExcel("");
     setActiveManual("active");
@@ -778,23 +822,7 @@ const CreateEmail = (props) => {
   };
 
   const handleSelect = (data, e) => {
-    console.log(data);
-
-    const body = {
-      user_id: 18207,
-      list_id: data.id,
-    };
-    // loader("show");
-    axios
-      .post(`distributes/get_reders_list`, body)
-      .then((res) => {
-        //   console.log(res)
-        setReaders(res.data.response.data);
-        //loader("hide");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    setSmartListId(data.id)
   };
 
   const saveClicked = async () => {
@@ -1022,10 +1050,10 @@ const CreateEmail = (props) => {
             </div>
             <div className="col-12 col-md-9">
               <ul className="tabnav-link">
-                <li className="">
-                  <a href="">Select Content</a>
-                </li>
                 <li className="active">
+                  <Link to="/EmailArticleSelect">Select Content</Link>
+                </li>
+                <li className="active active-main">
                   <a href="">Create Your Email</a>
                 </li>
                 <li className="">
@@ -1608,6 +1636,7 @@ const CreateEmail = (props) => {
                                 type="radio"
                                 name="radio"
                                 onClick={(e) => handleSelect(data, e)}
+                                checked={typeof getSmartListId !== "undefined" && getSmartListId !== 0 && getSmartListId == data.id ? "checked" : ""}
                               />
                               <span className="checkmark"></span>
                             </div>
@@ -1931,6 +1960,7 @@ const CreateEmail = (props) => {
                   <ul className="nav nav-tabs" role="tablist">
                     <li className="nav-item add_hcp">
                       <a
+                        id="add_hcp_btn"
                         onClick={(e) => addHcp(e)}
                         className="nav-link active btn-bordered"
                         data-bs-toggle="tab"
@@ -1941,6 +1971,7 @@ const CreateEmail = (props) => {
                     </li>
                     <li className="nav-item add-file">
                       <a
+                        id="add_file_btn"
                         onClick={(e) => addFile(e)}
                         className="nav-link btn-filled"
                         data-bs-toggle="tab"
