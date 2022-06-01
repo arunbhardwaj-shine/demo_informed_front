@@ -11,9 +11,9 @@ import { loader } from "../../../loader";
 
 import Add from "./Add";
 const EventData = () => {
+
   const [event, setEvent] = useState([]);
   const [deletestatus, setDeleteStatus] = useState(false);
-
   const [eventdata, setEventData] = useState([]);
   const [SpDataSingle, setSpDataSingle] = useState();
   const [show, setShow] = useState(false);
@@ -22,7 +22,6 @@ const EventData = () => {
   const [sorting, setSorting] = useState(0);
   const [deletecardid, setDeleteCardId] = useState();
   const [sortingCount, setSortingCount] = useState(0);
-
   const [SpeakerErr, setSpeakerErr] = useState([{ name: "", email: "" }]);
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [Speakername, setSpeakerName] = useState([{ name: "", email: "" }]);
@@ -33,17 +32,13 @@ const EventData = () => {
     ExportApi.GetEventList().then((resp) => {
       if (resp.ok) {
         loader("hide");
-        console.log(resp.data);
         setEvent(resp.data.data);
       }
     });
   };
   const handleGetEventlistSerch = (data) => {
     ExportApi.GetEventListSerch(data).then((resp) => {
-      console.log(resp);
       if (resp.data.code == 200) {
-        // console.log(resp);
-        console.log(resp.data.data);
         setEvent(resp.data.data);
       } else {
         setEvent([]);
@@ -59,80 +54,60 @@ const EventData = () => {
       }
     });
   };
-  const handleMaltiInputAdd = () => {
+
+  // add more speaker on click 
+  const handleMultiInputAdd = () => {
     setSpeakerName([...Speakername, { name: "", email: "" }]);
     setSpeakerErr([...SpeakerErr, { name: "", email: "" }]);
   };
-  const handleSpeakerName = (e, i) => {
+
+  // handle speaker name and email fields errors on key up
+  const handleEditSpeakerOnKeyUp = (e, i) => {
     if (e.target.name === `name${i}`) {
-      const speker = Speakername[i];
-      speker.name = e.target.value;
-      Speakername.splice(i, 1, { ...speker });
+      Speakername[i].name = e.target.value;
+      Speakername.splice(i, 1, { ...Speakername[i] });
       setSpeakerName([...Speakername]);
+      SpeakerErr[i].name = "";
       if (e.target.value.length == 0) {
-        const copydataErr = SpeakerErr[i];
-        copydataErr.name = "Name is requred";
-        setSpeakerErr([...SpeakerErr]);
-      } else {
-        const copydataErr = SpeakerErr[i];
-        copydataErr.name = "";
-        setSpeakerErr([...SpeakerErr]);
-      }
+        SpeakerErr[i].name = "Name is requred";
+      } 
+      setSpeakerErr([...SpeakerErr]);
     } else if (e.target.name === `email${i}`) {
-      const speker = Speakername[i];
-      speker.email = e.target.value;
-      Speakername.splice(i, 1, { ...speker });
+      Speakername[i].email = e.target.value;
+      Speakername.splice(i, 1, { ...Speakername[i] });
       setSpeakerName([...Speakername]);
+      SpeakerErr[i].email = "";
       if (e.target.value.length == 0) {
-        const copydataErr = SpeakerErr[i];
-        copydataErr.email = "Email is requred";
+        SpeakerErr[i].email = "Email is requred";
         setSpeakerErr([...SpeakerErr]);
-      } else if (
-        !Speakername[i].email.match(
-          /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i
-        )
-      ) {
-        const copydataErr = SpeakerErr[i];
-        copydataErr.email = "Invalid email address";
-        setSpeakerErr([...SpeakerErr]);
-      } else {
-        const copydataErr = SpeakerErr[i];
-        copydataErr.email = "";
-        setSpeakerErr([...SpeakerErr]);
-      }
+      } else if (!Speakername[i].email.match(/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i)) {
+        SpeakerErr[i].email = "Invalid email address";
+      } 
+      setSpeakerErr([...SpeakerErr]);
     }
   };
 
   const sortSelectedUsers = (e) => {
     e.preventDefault();
-    //  const dates = ["03/03/2014", "01/03/2014", "02/03/2014", "04/03/2014"];
     let normalArr = [];
     normalArr = event;
-
-    // console.log(normalArr);
-
     if (sorting == 0) {
       normalArr.sort(function (a, b) {
         let aa = a.event_date.split("/").reverse().join(),
           bb = b.event_date.split("/").reverse().join();
-
         return aa < bb ? -1 : aa > bb ? 1 : 0;
       });
     } else {
       normalArr.sort(function (a, b) {
         let aa = a.event_date.split("/").reverse().join(),
           bb = b.event_date.split("/").reverse().join();
-
         return aa > bb ? -1 : aa < bb ? 1 : 0;
       });
     }
-
     setEvent(normalArr);
     setSorting(1 - sorting);
     setUpdate(update + 1);
     setSortingCount(sortingCount + 1);
-
-    console.log(normalArr);
   };
 
   const showDeleteButtons = () => {
@@ -143,7 +118,7 @@ const EventData = () => {
     }
   };
 
-  const handleMaltiInputRumove = (i) => {
+  const handleMultiInputRemove = (i) => {
     console.log("i", i);
     Speakername.splice(i, 1);
     SpeakerErr.splice(i, 1);
@@ -165,9 +140,7 @@ const EventData = () => {
   };
 
   const deleteEvent = () => {
-    console.log("delete event");
     hideConfirmationModal();
-
     const body = {
       event_id: deletecardid,
     };
@@ -175,8 +148,6 @@ const EventData = () => {
       "Content-Type": "application/json",
       Authorization: `${localStorage.getItem("Token")}`,
     };
-
-    console.log(headers);
     axios
       .post(`http://51.89.210.56:8000/api/delete-event`, body, { headers })
       .then((res) => {
@@ -189,7 +160,6 @@ const EventData = () => {
             setEvent(updatedArray);
           }
         }
-        console.log(res);
       })
       .catch((err) => {
         toast.error("Something went wrong");
@@ -199,19 +169,12 @@ const EventData = () => {
   const handleSubmit = (e) => {
     let err = true;
     for (let index = 0; index < Speakername.length; index++) {
-      if (Speakername[index].name.length == 0) {
-        err = true;
-      }
-      if (Speakername[index].email.length == 0) {
-        err = true;
-      } if (Speakername[index].name.length>1&&Speakername[index].email.length == 0) {
+      if (Speakername[index].name.length > 1 && Speakername[index].email.length == 0) {
         err = false;
         const copydataErr = SpeakerErr[index];
         copydataErr.email = "Email is requred  ";
         setSpeakerErr([...SpeakerErr]);
-    
       }
-
     }
     return err;
   };
@@ -578,26 +541,26 @@ const EventData = () => {
                 </Col>
               </Form.Group>
               <fieldset className="border p-2">
-                {SpDataSingle?.map((malti, i) => (
+                {SpDataSingle?.map((multi, i) => (
                   <Form.Group className="edit-event" key={i}>
                     <Form.Label column sm={3}>
-                      Name <h6>{malti.name}</h6>
+                      Name <h6>{multi.name}</h6>
                     </Form.Label>
                     <Form.Label column sm={3}>
-                      Email <h6>{malti.email}</h6>
+                      Email <h6>{multi.email}</h6>
                     </Form.Label>
                   </Form.Group>
                 ))}
               </fieldset>
               <div className="mt-2 clearfix"></div>
 
-              {Speakername.map((malti, i) => (
+              {Speakername.map((multi, i) => (
                 <fieldset className="border p-2">
                   <div key={i}>
                     {Speakername.length > 1 ? (
                       <button
                         type="button"
-                        onClick={() => handleMaltiInputRumove(i)}
+                        onClick={() => handleMultiInputRemove(i)}
                         className="btn-close float-end"
                         aria-label="Close"
                       />
@@ -605,17 +568,16 @@ const EventData = () => {
                     <Form.Group
                       as={Row}
                       className="mb-3"
-                      controlId="exampleForm.ControlInput1"
                     >
                       <Form.Label column sm={3}>
-                        Speaker Name
+                        Name
                       </Form.Label>
                       <Col sm={9}>
                         <Form.Control
                           name={Speakername.length === 0 ? "name" : "name" + i}
-                          value={malti.name}
+                          value={multi.name}
                           onChange={(e) => {
-                            handleSpeakerName(e, i);
+                            handleEditSpeakerOnKeyUp(e, i);
                           }}
                         />
                         <div style={{ color: "red" }}>
@@ -625,7 +587,7 @@ const EventData = () => {
                       </Col>
                       <div className="mt-2 clearfix"></div>
                       <Form.Label column sm={3}>
-                        Speaker Email
+                        Email
                       </Form.Label>
                       <Col sm={9}>
                         <Form.Control
@@ -634,9 +596,9 @@ const EventData = () => {
                             Speakername.length === 0 ? "email" : "email" + i
                           }
                           onChange={(e) => {
-                            handleSpeakerName(e, i);
+                            handleEditSpeakerOnKeyUp(e, i);
                           }}
-                          value={malti.email}
+                          value={multi.email}
                         />
                         <div style={{ color: "red" }}>
                           {/* {formik.errors.Timezone} */}
@@ -650,7 +612,7 @@ const EventData = () => {
               <div className="mt-2"></div>
               <Form.Group className="mb-3">
                 <Button
-                  onClick={handleMaltiInputAdd}
+                  onClick={handleMultiInputAdd}
                   className="speaker-button"
                 >
                   Add Speaker
@@ -661,7 +623,6 @@ const EventData = () => {
               <Form.Group
                 as={Row}
                 className="mb-3"
-                controlId="exampleForm.ControlInput1"
               >
                 <Form.Label column sm={2}>
                   Description
