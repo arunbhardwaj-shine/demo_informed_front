@@ -325,7 +325,7 @@ function Add(props) {
                   onClick={handleMultiInputAdd}
                   className="speaker-button"
                 >
-                  Add More Speaker
+                  Add Speaker
                 </Button>
               </Form.Group>
               <div className="clearfix"></div>
@@ -569,7 +569,7 @@ function Add(props) {
                   ) : null}
                 </Col>
               </Form.Group>
-              <Button type="reset">Reset</Button>
+              <Button type="reset" onClick={()=>setSpeakerName([{ name: "", email: "" }])}>Reset</Button>
               <Button
                 type="submit"
                 className="event-submit-button"

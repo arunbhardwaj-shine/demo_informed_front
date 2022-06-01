@@ -45,7 +45,7 @@ const Sidebar = () => {
                         fill="#004A89"
                       />
                     </svg>
-                    Dashboard
+                    Region Stats
                   </Link>
                 </li>
                 <li
@@ -288,7 +288,7 @@ const Sidebar = () => {
                         fill="#004A89"
                       />
                     </svg>
-                    SMTP Details{" "}
+                    SMTP Details
                   </Link>
                 </li>
               </ul>

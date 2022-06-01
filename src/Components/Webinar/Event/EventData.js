@@ -196,24 +196,24 @@ const EventData = () => {
       });
   };
 
-  const handleSubmit = (e) => {
-    let err = true;
-    for (let index = 0; index < Speakername.length; index++) {
-      if (Speakername[index].name.length == 0) {
-        err = false;
-        const copydataErr = SpeakerErr[index];
-        copydataErr.name = "Name is requred ";
-        setSpeakerErr([...SpeakerErr]);
-      }
-      if (Speakername[index].email.length == 0) {
-        err = false;
-        const copydataErr = SpeakerErr[index];
-        copydataErr.email = "Email is requred  ";
-        setSpeakerErr([...SpeakerErr]);
-      }
-    }
-    return err;
-  };
+  // const handleSubmit = (e) => {
+  //   let err = true;
+  //   for (let index = 0; index < Speakername.length; index++) {
+  //     if (Speakername[index].name.length == 0) {
+  //       err = false;
+  //       const copydataErr = SpeakerErr[index];
+  //       copydataErr.name = "Name is requred ";
+  //       setSpeakerErr([...SpeakerErr]);
+  //     }
+  //     if (Speakername[index].email.length == 0) {
+  //       err = false;
+  //       const copydataErr = SpeakerErr[index];
+  //       copydataErr.email = "Email is requred  ";
+  //       setSpeakerErr([...SpeakerErr]);
+  //     }
+  //   }
+  //   return err;
+  // };
 
   const formik = useFormik({
     initialValues: {
@@ -226,7 +226,6 @@ const EventData = () => {
     }),
     enableReinitialize: true,
     onSubmit: (values) => {
-      if (handleSubmit()) {
         let a = JSON.stringify(Speakername);
         ExportApi.GetEventListDataUpdate(
           eventdata.id,
@@ -264,7 +263,7 @@ const EventData = () => {
           })
           .catch((err) => console.log(err));
       }
-    },
+    
   });
 
   const closePopup = () => {
@@ -652,7 +651,7 @@ const EventData = () => {
                   onClick={handleMaltiInputAdd}
                   className="speaker-button"
                 >
-                  Add More Speaker
+                  Add Speaker
                 </Button>
               </Form.Group>
               <div className="clearfix"></div>
