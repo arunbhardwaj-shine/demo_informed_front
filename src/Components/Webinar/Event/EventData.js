@@ -275,7 +275,7 @@ const EventData = () => {
   }, []);
   return (
     <div style={{ marginLeft: "300px" }}>
-             <ToastContainer
+      <ToastContainer
         position="top-right"
         autoClose={5000}
         hideProgressBar={false}

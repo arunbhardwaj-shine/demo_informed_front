@@ -167,13 +167,11 @@ const CreatEvent = (
     }
   );
 //Rehearsal
-const CreatRehearsal = (
-  rehearsalSpeakername
-) =>
+const CreatRehearsal = (rehearsalSpeakername) =>
   BaseApi.post(
     "rehearsal",
     {
-      rehearsalSpeaker:rehearsalSpeakername
+      rehearsalSpeaker: rehearsalSpeakername,
     },
     {
       headers: {
@@ -181,22 +179,20 @@ const CreatRehearsal = (
       },
     }
   );
-const RehearsalListData = (
-eventid
-) =>
+const RehearsalListData = (eventid) =>
   BaseApi.get(
-    `rehearsal-list`, {event_id:eventid },
+    `rehearsal-list`,
+    { event_id: eventid },
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
       },
     }
   );
-const RehearsalDelete = (
-eventid
-) =>
+const RehearsalDelete = (eventid) =>
   BaseApi.post(
-    `delete-rehearsal`, {rehearsal_id:eventid },
+    `delete-rehearsal`,
+    { rehearsal_id: eventid },
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
@@ -240,21 +236,22 @@ const CreateTemplate = (name, id) =>
       },
     }
   );
-const DeleteTemplate = ( id) =>
+const DeleteTemplate = (id) =>
   BaseApi.post(
     "delete-template",
-    {template_id : id },
+    { template_id: id },
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
       },
     }
   );
-const UpdateTemplate = (subject,templateName,eventid, id, html, i) =>
+const UpdateTemplate = (subject, templateName, eventid, id, html, i) =>
   BaseApi.post(
     "update-template",
-    {name:templateName,
-      event_id:eventid,
+    {
+      name: templateName,
+      event_id: eventid,
       subject: subject,
       json_description: id,
       description: html,
@@ -345,7 +342,7 @@ const ReadersType = (id, type, search, countryvalue) =>
       },
     }
   );
-const ReadersType1 = (id,  search, countryvalue) =>
+const ReadersType1 = (id, search, countryvalue) =>
   BaseApi.get(
     `participants`,
     { event_id: id, name_email: search, country_id: countryvalue },
@@ -452,14 +449,19 @@ const EmailSandRegisteredType = (type, event_id, user_type) =>
       },
     }
   );
-const sandAllmaik = (template_id, participants, registeredNonRegistered,Templatesubject) =>
+const sandAllmaik = (
+  template_id,
+  participants,
+  registeredNonRegistered,
+  Templatesubject
+) =>
   BaseApi.post(
     `send-mail`,
     {
       template_id: template_id,
       participants: participants,
       type: registeredNonRegistered,
-      subject:Templatesubject
+      subject: Templatesubject,
     },
     {
       headers: {
@@ -579,10 +581,11 @@ const getSMTP = () =>
     }
   );
 
-const getSmartListData = (id, search, filter) => {
+const getSmartListData = () => {
   BaseApi.get(
-    `get_smart_list`,
-    { id: id, search: search, filter: filter },
+    `smart-lists/lists`,
+    {},
+
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
