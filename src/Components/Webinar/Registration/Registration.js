@@ -325,8 +325,7 @@ const Registration = () => {
                     </Col>
                     <Form.Group className="mb-3">
                       <Form.Label>
-                        ( http://51.89.210.56:3000/webinar/register/{eventCode}/
-                        {UrlAlias}/1){" "}
+                      Url Alias
                       </Form.Label>
                       <Form.Control
                         name="url"
@@ -334,7 +333,11 @@ const Registration = () => {
                         value={UrlAlias}
                         type="text"
                         placeholder="url"
-                      />
+                        />
+                      <p>
+                        ( http://51.89.210.56:3000/webinar/register/{eventCode}/
+                        {UrlAlias}/1)
+                      </p>
                       {UrlAlias ? null : (
                         <div style={{ color: "red" }}>Enter url alias</div>
                       )}
