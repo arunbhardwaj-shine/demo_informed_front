@@ -292,7 +292,6 @@ const CreateSmartList = () => {
                     >
                       <input
                         type="radio"
-                        z
                         onClick={handleShow}
                         name="select-option-hcp"
                       />

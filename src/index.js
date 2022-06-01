@@ -61,6 +61,7 @@ import ViewSmartListWebinar from "./Components/Webinar/SmartList/ViewSmartListWe
 import SmartListCreate from "./Components/Webinar/SmartList/SmartListCreate";
 import FilterList from "./Components/Webinar/SmartList/FilterList";
 import WebinarDashboard from "./Components/Webinar/WebinarDashboard";
+import ExcelUpload from "./Components/Webinar/SmartList/ExcelUpload";
 
 let platform = 0;
 let show = 0;
@@ -208,6 +209,10 @@ ReactDOM.render(
                         <Route
                           path="/webinar/FilterList"
                           element={<FilterList />}
+                        />
+                        <Route
+                          path="/webinar/ExcelUpload"
+                          element={<ExcelUpload />}
                         />
                       </Route>
                     </React.Fragment>

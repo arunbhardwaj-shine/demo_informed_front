@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
 import { Modal } from "react-bootstrap";
-import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
 import { loader } from "../../../loader";
 
+import axios from "axios";
 import { popup_alert } from "../../../popup_alert";
 
 let path = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -13,10 +13,11 @@ const SmartListCreate = () => {
   const location = useLocation();
   const navigate = useNavigate();
   let file_name = useRef("");
-  const [api_flag, setapi_flag] = useState(0);
   const [selectedFile, setSelectedFile] = useState(null);
   const [show, setShow] = useState(false);
   const [smartListName, setSmartListName] = useState("");
+  const [smartListId, setSmartListId] = useState();
+  const [data, setData] = useState();
 
   const handleClose = () => {
     setShow(false);
@@ -32,20 +33,97 @@ const SmartListCreate = () => {
   };
 
   const segmentCohort = () => {
-    navigate("/webinar/FilterList", {
-      state: { smartListName: smartListName },
-    });
+    if (!smartListName.trim()) {
+      toast.warning("Please enter the smart list name first.");
+    } else {
+      navigate("/webinar/FilterList", {
+        state: { smartListName: smartListName },
+      });
+    }
   };
 
   const closeClicked = () => {
     navigate("/webinar/WebinarSmartList");
   };
 
+  const createSmartList = async () => {
+    if (!smartListName.trim()) {
+      toast.warning("Please enter the Smart list name first");
+      return;
+    }
+
+    const body = {
+      name: smartListName,
+    };
+
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `${localStorage.getItem("Token")}`,
+    };
+    await axios
+      .post(
+        `http://51.89.210.56:8000/api/smart-list/create`,
+
+        body,
+        { headers }
+      )
+      .then((res) => {
+        if (res.data.code == 200) {
+          console.log(res);
+          setSmartListId(res.data.data.smart_list_id);
+          handleShow();
+        } else {
+          toast.warning(res.data.message);
+        }
+
+        //  console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const createSmartListCohort = async () => {
+    if (!smartListName.trim()) {
+      toast.warning("Please enter the Smart list name first");
+      return;
+    }
+
+    const body = {
+      name: smartListName,
+    };
+
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `${localStorage.getItem("Token")}`,
+    };
+    await axios
+      .post(
+        `http://51.89.210.56:8000/api/smart-list/create`,
+
+        body,
+        { headers }
+      )
+      .then((res) => {
+        if (res.data.code == 200) {
+          console.log(res);
+          setSmartListId(res.data.data.smart_list_id);
+          segmentCohort();
+        } else {
+          toast.warning(res.data.message);
+        }
+
+        //  console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const handleShow = (e) => {
     // e.preventDefault();
     console.log("inside handle show");
     if (!smartListName.trim()) {
-      alert("Please enter the smart list name first");
       toast.warning("Please enter the smart list name first");
     } else {
       setShow(true);
@@ -67,7 +145,7 @@ const SmartListCreate = () => {
 
     let formData = new FormData();
 
-    formData.append("event_id", 1);
+    formData.append("smart_list_id", smartListId);
     formData.append("file", selectedFile);
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -75,17 +153,6 @@ const SmartListCreate = () => {
 
     console.log(formData);
 
-    // await axios
-    //   .get(`http://51.89.210.56:8000/api/smart-list/lists`, { headers })
-    //   .then((res) => {
-    //     console.log(res.data.data);
-    //     setSmartListData(res.data.data);
-    //     console.log(res);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-    loader("show");
     await axios
       .post(
         `http://51.89.210.56:8000/api/upload-unregistered-participant`,
@@ -94,26 +161,22 @@ const SmartListCreate = () => {
       )
       .then((res) => {
         console.log(res);
-        // if (res.data.code === 200) {
-        //   setData(res.data.response.data);
-        //   navigate("/UploadExcel", {
-        //     state: {
-        //       data: res.data.response.data,
-        //       smartListName: smartListName,
-        //       creator: creatorName,
-        //     },
-        //   });
-
-        //   setapi_flag(api_flag + 1);
-        // } else {
-        //   popup_alert({
-        //     visible: "show",
-        //     message: res.data.message,
-        //     type: "error",
-        //   });
-        // }
         if (res.data.code === 200) {
-          loader("hide");
+          setData(res.data.data);
+          navigate("/webinar/ExcelUpload", {
+            state: {
+              data: res.data.data,
+              smartListName: smartListName,
+            },
+          });
+
+          //setapi_flag(api_flag + 1);
+        } else {
+          popup_alert({
+            visible: "show",
+            message: res.data.message,
+            type: "error",
+          });
         }
       })
       .catch((err) => {
@@ -133,10 +196,22 @@ const SmartListCreate = () => {
 
   return (
     <>
+      <popup_alert />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+      <div className="loader" id="custom_loader">
+        <span className="loader-view"> </span>
+      </div>
       <div class="right-sidebar">
-        <div className="loader" id="custom_loader">
-          <span className="loader-view"> </span>
-        </div>
         <div class="page-top-nav smart_list_names">
           <div class="row justify-content-end align-items-center">
             <div class="col-12 col-md-11">
@@ -212,7 +287,9 @@ const SmartListCreate = () => {
                         type="radio"
                         name="select-option-hcp"
                         id="segment"
-                        onClick={segmentCohort}
+                        onClick={(e) => {
+                          createSmartListCohort();
+                        }}
                       />
                       <img src={path + "group-hcp.svg"} alt="Group HCPs" />
                     </div>
@@ -226,7 +303,9 @@ const SmartListCreate = () => {
                     >
                       <input
                         type="radio"
-                        onClick={(e) => handleShow(e)}
+                        onClick={(e) => {
+                          createSmartList();
+                        }}
                         name="select-option-hcp"
                       />
                       <img src={path + "upload-btn.svg"} alt="Single HCP" />{" "}
