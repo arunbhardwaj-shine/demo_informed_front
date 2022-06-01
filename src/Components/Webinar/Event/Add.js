@@ -20,35 +20,29 @@ function Add(props) {
   const handleMultiInputAdd = () => {
     setSpeakerName([...Speakername, { name: "", email: "" }]);
     setSpeakerErr([...SpeakerErr, { name: "", email: "" }]);
-
-    // setSpeakerName([...Speakername, { name: "", email: "" }]);
   };
   const [token, setToken] = useState(localStorage.getItem("Token"));
   let navigate = useNavigate();
+
+
   const handleSpeakerName = (e, i) => {
     const { name, value } = e.target;
     Speakername.splice(i, 1, Speakername[i]);
     setSpeakerName([...Speakername]);
     if (e.target.name === `name${i}`) {
       Speakername[i].name = value
+      SpeakerErr[i].name=""
       if (e.target.value.length == 0) {
         SpeakerErr[i].name = "Name is  requred";
-      } else{
-        SpeakerErr[i].name=""
-      }
+      } 
     } else if (e.target.name === `email${i}`) {
       Speakername[i].email =value
+      SpeakerErr[i].email=""
       if (e.target.value.length == 0) {
         SpeakerErr[i].email = "Email is requred";
-        setSpeakerErr([...SpeakerErr]);
-      } else if ( !Speakername[i].email.match(
-          /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i
-        )
-      ) {
+      } else if ( !Speakername[i].email.match(/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i)) {
         SpeakerErr[i].email = "Invalid email address";
-      } else{
-        SpeakerErr[i].email=""
-      }
+      } 
     }
     setSpeakerErr([...SpeakerErr]);
 
@@ -102,14 +96,12 @@ function Add(props) {
     for (let index = 0; index < Speakername.length; index++) {
       if (Speakername[index].name.length == 0) {
         err = false;
-        const copydataErr = SpeakerErr[index];
-        copydataErr.name = "Name is requred ";
+        SpeakerErr[index].name = "Name is requred ";
         setSpeakerErr([...SpeakerErr]);
       }
       if (Speakername[index].email.length == 0) {
         err = false;
-        const copydataErr = SpeakerErr[index];
-        copydataErr.email = "Email is requred  ";
+        SpeakerErr[index].email = "Email is requred  ";
         setSpeakerErr([...SpeakerErr]);
       }
     }
@@ -225,7 +217,6 @@ function Add(props) {
         draggable
         pauseOnHover
       />
-      {console.log("SpeakerErr======>", SpeakerErr)}
       <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
       </div>
@@ -259,10 +250,10 @@ function Add(props) {
                   ) : null}
                 </Col>
               </Form.Group>
-              {Speakername.map((malti, i) => (
+              {Speakername.map((multi, i) => (
                 <fieldset className="border p-2">
                   <div key={i}>
-                    <p>speaker’s information's</p>
+                    <p>Enter the speaker’s informations</p>
                     {Speakername.length > 1 ? (
                       <button
                         type="button"
@@ -280,13 +271,13 @@ function Add(props) {
                     
                     >
                       <Form.Label column sm={2}>
-                        Speaker Name*
+                        Name*
                       </Form.Label>
                       <Col sm={10}>
                         <Form.Control
                           type="text"
                           name={Speakername.length === 0 ? "name" : "name" + i}
-                          value={malti.name}
+                          value={multi.name}
                           onChange={(e) => {
                             handleSpeakerName(e, i);
                           }}
@@ -298,7 +289,7 @@ function Add(props) {
                       </Col>
                       <div className="mt-2"></div>
                       <Form.Label column sm={2}>
-                        Speaker Email*
+                        Email*
                       </Form.Label>
                       <Col sm={10}>
                         <Form.Control
@@ -559,7 +550,6 @@ function Add(props) {
                     onBlur={formik.handleBlur}
                     value={formik.values.Description}
                     className="form-control"
-                    id="exampleFormControlTextarea1"
                     rows="3"
                   ></textarea>
                   {formik.touched.Description && formik.errors.Description ? (
