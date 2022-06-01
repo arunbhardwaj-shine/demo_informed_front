@@ -616,7 +616,7 @@ const SelectSmartListUsers = (props) => {
                   <li className="active">
                     <Link to="/CreateEmail">Create Your Email</Link>
                   </li>
-                  <li className="active active-main">
+                  <li className="active">
                     <Link to="/SelectHCP">Select HCPs</Link>
                   
                   </li>
