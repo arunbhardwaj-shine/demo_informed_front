@@ -16,7 +16,7 @@ function ForgotPassword(props) {
 
       },
       validationSchema: Yup.object({
-        email: Yup.string().email("Invalid email address").required("Enter your email"),
+        email: Yup.string().email("Please enter valid email address").required("Enter your email"),
       }),
       onSubmit: (values) => {
         ExportApi.UserForgot(values.email)

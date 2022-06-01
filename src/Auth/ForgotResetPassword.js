@@ -67,6 +67,9 @@ const ForgotResetPassword = () => {
       },
     });
     useEffect(() => {
+      if(localStorage.getItem("Token")){
+        navigate("/webinar")
+      }
     if(showPage){
       setActive(false)
       setTimeout(function(){
