@@ -75,12 +75,12 @@ const Sidebar = () => {
                 </li>
                 <li
                   className={
-                    location.pathname.includes("/webinar/event/edit")
+                    location.pathname.includes("/webinar/events")
                       ? "active"
                       : "nav__link"
                   }
                 >
-                  <Link to="/webinar/event/edit">
+                  <Link to="/webinar/events">
                     <svg
                       width="24"
                       height="18"

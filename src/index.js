@@ -16,7 +16,7 @@ import reducers from "./reducers";
 import Add from "./Components/Webinar/Event/Add";
 import Home from "./Components/Webinar/Regionstats/Home";
 import Dashboard from "./Components/Webinar/Dashboard";
-import EventData from "./Components/Webinar/Event/EventData";
+import EventList from "./Components/Webinar/Event/List";
 import Rehearsal from "./Components/Webinar/Rehearsal/Rehearsal";
 import SidebarWebinar from "./Components/Webinar/Layout/Sidebar";
 import HeaderWebinar from "./Components/Webinar/Layout/Header";
@@ -169,8 +169,8 @@ ReactDOM.render(
                           element={<Template />}
                         />
                         <Route
-                          path="/webinar/event/edit"
-                          element={<EventData />}
+                          path="/webinar/events"
+                          element={<EventList />}
                         />
                         <Route
                           path="/webinar/registration"
