@@ -1251,7 +1251,8 @@ const CreateEmail = (props) => {
                         onClick={(e) => approvedClicked(e)}
                       >
                         Approved{" "}
-                        <img src={path_image + "approved-btn.svg"} alt="" />
+                        <img src={path_image + "approved-btn.svg"} className="approve_btn" alt="" />
+                        <img src={path_image + "/approved-by-btn.svg"} className="approved_btn" alt="" />
                       </button>
                       <button
                         className="btn btn-primary btn-filled btn-large"
