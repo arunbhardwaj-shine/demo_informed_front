@@ -1,13 +1,23 @@
 import React, { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import TableView from "./TableView";
 
 const ExcelUpload = () => {
-  useEffect(() => {
-    console.log("hi there");
-  });
+  const location = useLocation();
+  const { data } = location.state;
+  const { smartListName } = location.state;
 
   return (
     <>
-      <h1>hi</h1>
+      {
+        <div className="col right-sidebar">
+          <TableView
+            data={data}
+            smartListName={smartListName}
+            upload_by_filter="0"
+          />
+        </div>
+      }
     </>
   );
 };

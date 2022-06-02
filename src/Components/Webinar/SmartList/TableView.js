@@ -18,14 +18,14 @@ import queryString from "query-string";
 import { connect } from "react-redux";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 
-const Table = (props, ref) => {
+const TableView = (props, ref) => {
   const [inEditMode, setInEditMode] = useState({
     status: false,
     rowKey: null,
   });
-  let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   //let validator = new SimpleReactValidator();
-  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const queryParams = queryString.parse(window.location.search);
   const [validator] = React.useState(new SimpleReactValidator());
   const [validator2] = React.useState(new SimpleReactValidator());
@@ -925,7 +925,7 @@ const Table = (props, ref) => {
                     <a href="javascript:void(0)">Create smart List</a>
                   </li>
                   <li className="active">
-                    <a href="javascript:void(0)">Verify Your List</a>
+                    <a href="javascript:void(0)">Segmentation</a>
                   </li>
                 </ul>
               </div>
@@ -1668,4 +1668,4 @@ const mapStateToProps = (state) => {
   return state;
 };
 
-export default forwardRef(Table);
+export default forwardRef(TableView);
