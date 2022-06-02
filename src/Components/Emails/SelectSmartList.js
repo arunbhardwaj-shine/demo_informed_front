@@ -25,7 +25,7 @@ const SelectSmartList = (props) => {
   const [getReaderDetails, setReaderDetails] = useState({});
   const [getSmartListName, setSmartListName] = useState('');
   const [getSmartListPopupStatus, setSmartListPopupStatus] = useState(false);
-  const [showLessInfo, setShowLessInfo] = useState(false);
+  const [showLessInfo, setShowLessInfo] = useState(true);
 
   const inputElement = useRef();
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -209,7 +209,7 @@ const SelectSmartList = (props) => {
                 </li>
                 <li className="active active-main">
                   <Link to="/SelectHCP">Select HCPs</Link>
-                 
+
                 </li>
                 <li className="">
                   <a href="javascript:void(0)">Verify Your List</a>

@@ -91,7 +91,7 @@ const CreateEmail = (props) => {
   const [getReaderDetails, setReaderDetails] = useState({});
   const [getSmartListName, setSmartListName] = useState('');
   const [getSmartListPopupStatus, setSmartListPopupStatus] = useState(false);
-  const [showLessInfo, setShowLessInfo] = useState(false);
+  const [showLessInfo, setShowLessInfo] = useState(true);
   const [getSmartListId, setSmartListId] = useState(0);
 
   const newArr = [];
