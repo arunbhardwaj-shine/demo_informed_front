@@ -265,9 +265,11 @@ const VerifyMAIL = (props) => {
   };
 
   const backClicked = () => {
-    window.history.go(-1);
-
-    // return true;
+    if(typeof getSmartListData !== "undefined" && getSmartListData.hasOwnProperty('id')){
+      navigate("/SelectSmartListUsers");
+    }else{
+      navigate("/VerifyHCP");
+    }
   };
 
 

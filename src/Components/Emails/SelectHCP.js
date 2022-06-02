@@ -8,24 +8,27 @@ import { getDraftData } from "../../actions";
 import { getSelected } from "../../actions";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../popup_alert";
+import { useNavigate } from "react-router-dom";
 
 import { propTypes } from "react-bootstrap/esm/Image";
 
 const SelectHCP = (props) => {
+  const navigate = useNavigate();
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
   const [selection, setSelection] = useState(0);
-  const [templateId, setTemplateId] = useState(0);
-
+  const [templateId, setTemplateId] = useState(props.getDraftData
+    ? props.getDraftData.campaign_data.list_selection
+    : 0);
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const campaign_id = props.getEmailData
     ? props.getEmailData.campaign_id
-    : props.getDraftData.campaign_data.campaign_id;
+    : props.getDraftData.campaign_id;
   console.log(campaign_id);
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
 
-  const handleInputChange = (event, selected) => {
+  const handleInputChange = (event, selectede) => {
     setSelection(event.target.children[0].value);
     const div = document.querySelector("div.active");
 
@@ -33,13 +36,15 @@ const SelectHCP = (props) => {
       div.classList.remove("active");
     }
     event.target.classList.toggle("active");
-    setTemplateId(selected);
+    //alert(selectede);
+    setTemplateId(selectede);
   };
 
   const backClicked = () => {
-    window.history.go(-1);
-
-    // return true;
+    let pdfSelectedId = props.getEmailData ? props.getEmailData.pdf_id : props.getDraftData.pdf_id;
+    navigate("/CreateEmail", {
+     state: { PdfSelected: pdfSelectedId},
+   });
   };
 
   const saveAsDraft = async () => {
@@ -68,6 +73,7 @@ const SelectHCP = (props) => {
         template_id: props.getEmailData
           ? props.getEmailData.templateId
           : props.getDraftData.campaign_data.template_id,
+          list_selection:templateId
       },
       campaign_id: campaign_id_st,
       status: 2,
@@ -165,7 +171,7 @@ const SelectHCP = (props) => {
                 ) : (
                   <Link
                     to={
-                      selection === "Single HCP"
+                      templateId === 2
                         ? "/VerifyHCP"
                         : "/SelectSmartList"
                     }
@@ -191,7 +197,7 @@ const SelectHCP = (props) => {
                 <ul>
                   <li>
                     <div
-                      className="send-option-img"
+                      className={templateId===1 ? "send-option-img active" :  "send-option-img"}
                       onClick={(event) => handleInputChange(event, 1)}
                     >
                       <input
@@ -211,7 +217,7 @@ const SelectHCP = (props) => {
                   </li>
                   <li>
                     <div
-                      className="send-option-img"
+                      className={templateId===2 ? "send-option-img active" :  "send-option-img"}
                       onClick={(e) => handleInputChange(e, 2)}
                     >
                       <input

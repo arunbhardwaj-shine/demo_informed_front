@@ -229,17 +229,15 @@ const TableView = (props, ref) => {
   // };
 
   const editing = (
-    profile_id,
-    profile_user_id,
-    email,
-    jobTitle,
-    company,
-    country,
-    names,
+    id,
+    name,
+
     index
   ) => {
-    console.log(profile_id);
-    console.log(profile_user_id);
+    console.log(id);
+    console.log(name);
+    console.log(index);
+    console.log(props.smartListId);
 
     let ignoreClickOnMeElement = document.getElementById(
       "row-selected" + index
@@ -252,62 +250,24 @@ const TableView = (props, ref) => {
           "field_name" + index
         ).innerText;
 
-        const country_edit = document.getElementById(
-          "field_country" + index
-        ).innerText;
-
         console.log(name_edit);
-        console.log(country_edit);
+        //console.log(country_edit);
 
         const arr = [];
         arr.push({
-          profile_id: profile_id,
-          profile_user_id: profile_user_id,
-          email: email,
-          jobTitle: jobTitle,
-          company: company,
-          country: country_edit,
-          username: name_edit,
-          user_id: 18207,
+          id: id,
+          name: name_edit,
+          country: "",
+          hospital: "",
+          email: "",
+          profession: "",
+          interest: "",
+          consent: "",
         });
         setEditableData((oldArray) => [...oldArray, ...arr]);
       },
       { once: true }
     );
-
-    // ignoreClickOnMeElement.addEventListener("mouseleave", async (event) => {
-
-    //   console.log(event);
-    //   console.log(index);
-
-    //   const data = editList.find((x) => x.profile_id === profile_id);
-    //   console.log(data);
-
-    //   if (
-    //     data.first_name + " " + data.last_name != name_edit ||
-    //     data.email != email_edit ||
-    //     data.country != country_edit
-    //   ) {
-    //     const body = {
-    //       user_id: 18207,
-    //       profile_user_id: profile_user_id,
-    //       profile_id: profile_id,
-    //       email: email_edit,
-    //       country: country_edit,
-    //       username: name_edit,
-    //     };
-
-    //     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    //     await axios
-    //       .post(`distributes/update_reders_details`, body)
-    //       .then((res) => {
-    //         console.log(res);
-    //       })
-    //       .catch((err) => {
-    //         console.log(err);
-    //       });
-    //   }
-    // });
   };
 
   const showFileInReadersList = async (fdata, newReaders) => {
@@ -475,27 +435,37 @@ const TableView = (props, ref) => {
     setEditable(0);
     console.log(editableData);
     const body = {
-      user_id: 18207,
-      edit_list_array: editableData,
+      smart_list_id: props.smartListId,
+      upload: "",
+      participants: JSON.stringify(editableData),
+      // participants: editableData,
     };
+
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `${localStorage.getItem("Token")}`,
+    };
+
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    loader("show");
+    //  loader("show");
     await axios
-      .post(`distributes/update_reders_details`, body)
+      .post(`http://51.89.210.56:8000/api/smart-list/update`, body, { headers })
       .then((res) => {
-        loader("hide");
-        if (res.data.status_code === 200) {
-          toast.success("List updated");
-        } else {
-          popup_alert({
-            visible: "show",
-            message: res.data.message,
-            type: "error",
-          });
-        }
+        // loader("hide");
+        // if (res.data.status_code === 200) {
+        //   toast.success("List updated");
+        // } else {
+        //   popup_alert({
+        //     visible: "show",
+        //     message: res.data.message,
+        //     type: "error",
+        //   });
+        // }
+
+        console.log(res);
       })
       .catch((err) => {
-        loader("hide");
+        //    loader("hide");
         toast.error("Something went wrong");
       });
     setSaveOpen(false);
@@ -1154,22 +1124,20 @@ const TableView = (props, ref) => {
                   editList.map((item, index) => (
                     <tr
                       id={`row-selected` + index}
-                      contenteditable={editable === 0 ? "false" : "true"}
                       onClick={(e) =>
                         editing(
                           //  e.currentTarget,
-                          item.profile_id,
-                          item.profile_user_id,
-                          item.email,
-                          item.jobTitle,
-                          item.company,
-                          item.country,
+                          item.id,
+
                           item.first_name + " " + item.last_name,
                           index
                         )
                       }
                     >
-                      <td id={`field_name` + index}>
+                      <td
+                        id={`field_name` + index}
+                        contenteditable={editable === 0 ? "false" : "true"}
+                      >
                         <span>{item.first_name + " " + item.last_name}</span>
                       </td>
 
