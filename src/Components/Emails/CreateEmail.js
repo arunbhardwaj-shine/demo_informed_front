@@ -1864,6 +1864,7 @@ const CreateEmail = (props) => {
                     const fieldName = `hpc[${i}]`;
                     return (
                       <>
+                        <div className="add_hcp_boxes">
                           <div className="form_action">
                             <div className="row">
                               <div className="col-12 col-md-6">
@@ -2004,6 +2005,7 @@ const CreateEmail = (props) => {
                               </ul>
                             </div>
                           </div>
+                        </div>
                       </>
                     );
                   })}
