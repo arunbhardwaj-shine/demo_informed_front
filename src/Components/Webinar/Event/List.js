@@ -12,7 +12,6 @@ import { loader } from "../../../loader";
 import Add from "./Add";
 // import Edit from "./Edit";
 const EventData = () => {
-
   const [event, setEvent] = useState([]);
   const [deletestatus, setDeleteStatus] = useState(false);
   const [eventdata, setEventData] = useState([]);
@@ -56,7 +55,7 @@ const EventData = () => {
     });
   };
 
-  // add more speaker on click 
+  // add more speaker on click
   const handleMultiInputAdd = () => {
     setSpeakerName([...Speakername, { name: "", email: "" }]);
     setSpeakerErr([...SpeakerErr, { name: "", email: "" }]);
@@ -71,7 +70,7 @@ const EventData = () => {
       SpeakerErr[i].name = "";
       if (e.target.value.length == 0) {
         SpeakerErr[i].name = "Name is requred";
-      } 
+      }
       setSpeakerErr([...SpeakerErr]);
     } else if (e.target.name === `email${i}`) {
       Speakername[i].email = e.target.value;
@@ -81,9 +80,13 @@ const EventData = () => {
       if (e.target.value.length == 0) {
         SpeakerErr[i].email = "Email is requred";
         setSpeakerErr([...SpeakerErr]);
-      } else if (!Speakername[i].email.match(/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i)) {
+      } else if (
+        !Speakername[i].email.match(
+          /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i
+        )
+      ) {
         SpeakerErr[i].email = "Invalid email address";
-      } 
+      }
       setSpeakerErr([...SpeakerErr]);
     }
   };
@@ -170,7 +173,10 @@ const EventData = () => {
   const handleSubmit = (e) => {
     let err = true;
     for (let index = 0; index < Speakername.length; index++) {
-      if (Speakername[index].name.length > 1 && Speakername[index].email.length == 0) {
+      if (
+        Speakername[index].name.length > 1 &&
+        Speakername[index].email.length == 0
+      ) {
         err = false;
         const copydataErr = SpeakerErr[index];
         copydataErr.email = "Email is requred  ";
@@ -240,21 +246,8 @@ const EventData = () => {
     handleGetEventlist();
   }, []);
   return (
-    <div style={{ marginLeft: "300px" }}>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-      <div className="loader" id="custom_loader">
-        <span className="loader-view"> </span>
-      </div>
+
+
       <div className="right-sidebar">
         <div className="top-header">
           <div className="page-title"></div>
@@ -443,8 +436,22 @@ const EventData = () => {
               <h1>No data found</h1>
             )}
           </div>
-        </div>
+          <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+      <div className="loader" id="custom_loader">
+        <span className="loader-view"> </span>
       </div>
+        </div>
+    
 
       <Modal
         show={show}
@@ -566,10 +573,7 @@ const EventData = () => {
                         aria-label="Close"
                       />
                     ) : null}
-                    <Form.Group
-                      as={Row}
-                      className="mb-3"
-                    >
+                    <Form.Group as={Row} className="mb-3">
                       <Form.Label column sm={3}>
                         Name
                       </Form.Label>
@@ -621,10 +625,7 @@ const EventData = () => {
               </Form.Group>
               <div className="clearfix"></div>
               <div className="mt-2"></div>
-              <Form.Group
-                as={Row}
-                className="mb-3"
-              >
+              <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm={2}>
                   Description
                 </Form.Label>

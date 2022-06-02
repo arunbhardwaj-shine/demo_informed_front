@@ -13,13 +13,53 @@ import { Provider } from "react-redux";
 import { createStore } from "redux";
 import reducers from "./reducers";
 
-import Add from "./Components/Webinar/Event/Add";
-import Home from "./Components/Webinar/Regionstats/Home";
+// ----------START-------Webinar routes------------------------
+
+// Dashboard
 import Dashboard from "./Components/Webinar/Dashboard";
+import WebinarDashboard from "./Components/Webinar/WebinarDashboard";
+
+// Event
+import Add from "./Components/Webinar/Event/Add";
 import EventList from "./Components/Webinar/Event/List";
+
+// RegionStat
+import Home from "./Components/Webinar/Regionstats/Home";
+
+// Rehearsal
 import Rehearsal from "./Components/Webinar/Rehearsal/Rehearsal";
+// import Rehearsal1 from "./Components/Webinar/Rehearsal/Rehearsal1";
+import RehearsalList from "./Components/Webinar/Rehearsal/RehearsalList";
+
+// Layout
 import SidebarWebinar from "./Components/Webinar/Layout/Sidebar";
 import HeaderWebinar from "./Components/Webinar/Layout/Header";
+
+// Registration
+import Registration from "./Components/Webinar/Registration/Registration";
+import Preview from "./Components/Webinar/Registration/Preview";
+import EditorEmail from "./Components/Webinar/Registration/EditorEmail";
+import RegistraionDetails from "./Components/Webinar/Registration/RegistrationDetails";
+
+//Email Stats
+import EmailStats from "./Components/Webinar/Email Stats/EmailStats";
+import EmailSend from "./Components/Webinar/Email Stats/EmailSend";
+
+// Readers
+import Readers from "./Components/Webinar/Readers/Readers";
+
+// Templates
+import Template from "./Components/Webinar/Template/Template";
+
+// SmartList
+import WebinarSmartList from "./Components/Webinar/SmartList/WebinarSmartList";
+import ViewSmartListWebinar from "./Components/Webinar/SmartList/ViewSmartListWebinar";
+
+// More
+import StpDetails from "./Components/Webinar/Smtp/StpDetails";
+import Contacts from "./Components/Webinar/Contacts/List";
+
+// -------END----------Webinar routes------------------------
 
 import Header from "./Components/CommonComponent/HeaderComponent/Header";
 import Sidebar from "./Components/CommonComponent/SidebarComponent/Sidebar";
@@ -45,14 +85,7 @@ import Proctected from "./Auth/Proctected ";
 import ResetPassword from "./Auth/ResetPassword";
 import ForgotPassword from "./Auth/ForgotPassword";
 import ForgotResetPassword from "./Auth/ForgotResetPassword";
-import Template from "./Components/Webinar/Template/Template";
-import Registration from "./Components/Webinar/Registration/Registration";
-import Preview from "./Components/Webinar/Registration/Preview";
-import EditorEmail from "./Components/Webinar/Registration/EditorEmail";
-import Readers from "./Components/Webinar/Readers/Readers";
-import EmailStats from "./Components/Webinar/Email Stats/EmailStats";
-import EmailSend from "./Components/Webinar/Email Stats/EmailSend";
-import StpDetails from "./Components/Webinar/Smtp/StpDetails";
+
 // import Rehearsal1 from "./Components/Webinar/Rehearsal/Rehearsal1";
 import WebinarSmartList from "./Components/Webinar/SmartList/WebinarSmartList";
 import RegistraionDetails from "./Components/Webinar/Registration/RegistrationDetails";
@@ -60,6 +93,11 @@ import RehearsalList from "./Components/Webinar/Rehearsal/RehearsalList";
 import ViewSmartListWebinar from "./Components/Webinar/SmartList/ViewSmartListWebinar";
 import WebinarDashboard from "./Components/Webinar/WebinarDashboard";
 import RegistrationDetailsList from "./Components/Webinar/Registration/RegistraionDetailsList";
+
+import SmartListCreate from "./Components/Webinar/SmartList/SmartListCreate";
+import FilterList from "./Components/Webinar/SmartList/FilterList";
+
+import ExcelUpload from "./Components/Webinar/SmartList/ExcelUpload";
 
 let platform = 0;
 let show = 0;
@@ -148,8 +186,10 @@ ReactDOM.render(
                     <React.Fragment>
                       {/* <Route path="/webinar" element={<App />} /> */}
                       <Route path="/" element={<Proctected />}>
-                         
-                        <Route path="/webinar/dashboard" element={<WebinarDashboard />} />
+                        <Route
+                          path="/webinar/dashboard"
+                          element={<WebinarDashboard />}
+                        />
                         <Route path="/webinar/regionstats" element={<Home />} />
                         <Route
                           path="/webinar/resetpassword"
@@ -169,10 +209,7 @@ ReactDOM.render(
                           path="/webinar/template"
                           element={<Template />}
                         />
-                        <Route
-                          path="/webinar/events"
-                          element={<EventList />}
-                        />
+                        <Route path="/webinar/events" element={<EventList />} />
                         <Route
                           path="/webinar/registration"
                           element={<Registration />}
@@ -190,6 +227,10 @@ ReactDOM.render(
                           element={<StpDetails />}
                         />
                         <Route
+                          path="/webinar/contacts"
+                          element={<Contacts />}
+                        />
+                        <Route
                           path="/webinar/WebinarSmartList"
                           element={<WebinarSmartList />}
                         />
@@ -204,6 +245,18 @@ ReactDOM.render(
                         <Route
                           path="/webinar/registrationdetailslist"
                           element={<RegistrationDetailsList />}
+                          />
+                          <Route
+                          path="/webinar/SmartListCreate"
+                          element={<SmartListCreate />}
+                        />
+                        <Route
+                          path="/webinar/FilterList"
+                          element={<FilterList />}
+                        />
+                        <Route
+                          path="/webinar/ExcelUpload"
+                          element={<ExcelUpload />}
                         />
                       </Route>
                     </React.Fragment>
