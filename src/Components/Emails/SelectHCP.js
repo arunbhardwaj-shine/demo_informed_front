@@ -8,10 +8,12 @@ import { getDraftData } from "../../actions";
 import { getSelected } from "../../actions";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../popup_alert";
+import { useNavigate } from "react-router-dom";
 
 import { propTypes } from "react-bootstrap/esm/Image";
 
 const SelectHCP = (props) => {
+  const navigate = useNavigate();
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
@@ -39,9 +41,7 @@ const SelectHCP = (props) => {
   };
 
   const backClicked = () => {
-    window.history.go(-1);
-
-    // return true;
+    navigate("/CreateEmail");
   };
 
   const saveAsDraft = async () => {
@@ -194,7 +194,7 @@ const SelectHCP = (props) => {
                 <ul>
                   <li>
                     <div
-                      className={templateId===1 ? "send-option-img active" :  "send-option-img"} 
+                      className={templateId===1 ? "send-option-img active" :  "send-option-img"}
                       onClick={(event) => handleInputChange(event, 1)}
                     >
                       <input
@@ -214,7 +214,7 @@ const SelectHCP = (props) => {
                   </li>
                   <li>
                     <div
-                      className={templateId===2 ? "send-option-img active" :  "send-option-img"} 
+                      className={templateId===2 ? "send-option-img active" :  "send-option-img"}
                       onClick={(e) => handleInputChange(e, 2)}
                     >
                       <input
