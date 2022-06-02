@@ -16,16 +16,17 @@ const SelectHCP = (props) => {
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
   const [selection, setSelection] = useState(0);
-  const [templateId, setTemplateId] = useState(0);
-
+  const [templateId, setTemplateId] = useState(props.getDraftData
+    ? props.getDraftData.campaign_data.list_selection
+    : 0);
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const campaign_id = props.getEmailData
     ? props.getEmailData.campaign_id
-    : props.getDraftData.campaign_data.campaign_id;
+    : props.getDraftData.campaign_id;
   console.log(campaign_id);
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
 
-  const handleInputChange = (event, selected) => {
+  const handleInputChange = (event, selectede) => {
     setSelection(event.target.children[0].value);
     const div = document.querySelector("div.active");
 
@@ -33,7 +34,8 @@ const SelectHCP = (props) => {
       div.classList.remove("active");
     }
     event.target.classList.toggle("active");
-    setTemplateId(selected);
+    //alert(selectede);
+    setTemplateId(selectede);
   };
 
   const backClicked = () => {
@@ -68,6 +70,7 @@ const SelectHCP = (props) => {
         template_id: props.getEmailData
           ? props.getEmailData.templateId
           : props.getDraftData.campaign_data.template_id,
+          list_selection:templateId
       },
       campaign_id: campaign_id_st,
       status: 2,
@@ -165,7 +168,7 @@ const SelectHCP = (props) => {
                 ) : (
                   <Link
                     to={
-                      selection === "Single HCP"
+                      templateId === 2
                         ? "/VerifyHCP"
                         : "/SelectSmartList"
                     }
@@ -191,7 +194,7 @@ const SelectHCP = (props) => {
                 <ul>
                   <li>
                     <div
-                      className="send-option-img"
+                      className={templateId===1 ? "send-option-img active" :  "send-option-img"} 
                       onClick={(event) => handleInputChange(event, 1)}
                     >
                       <input
@@ -211,7 +214,7 @@ const SelectHCP = (props) => {
                   </li>
                   <li>
                     <div
-                      className="send-option-img"
+                      className={templateId===2 ? "send-option-img active" :  "send-option-img"} 
                       onClick={(e) => handleInputChange(e, 2)}
                     >
                       <input
