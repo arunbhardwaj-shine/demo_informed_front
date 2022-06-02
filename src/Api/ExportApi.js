@@ -271,6 +271,27 @@ const CreateRegistrationPage = (form) =>
       "Content-Type": "application/json",
     },
   });
+const CreateRegistrationPagedetail = (form) =>
+  BaseApi.post("create-registration-detail", form, {
+    headers: {
+      Authorization: localStorage.getItem("Token"),
+      "Content-Type": "application/json",
+    },
+  });
+const RegistrationPageDetailList = (id) =>
+  BaseApi.get("get-registration-detail-list", {event_id:id}, {
+    headers: {
+      Authorization: localStorage.getItem("Token"),
+      "Content-Type": "application/json",
+    },
+  });
+const RegistrationPageDetail = (id) =>
+  BaseApi.get("get-registration-detail", {register_detail_id:id}, {
+    headers: {
+      Authorization: localStorage.getItem("Token"),
+      "Content-Type": "application/json",
+    },
+  });
 const RegistrationPageList = (id) =>
   BaseApi.get(
     `registration-pages/${id}`,
@@ -585,7 +606,6 @@ const getSmartListData = () => {
   BaseApi.get(
     `smart-lists/lists`,
     {},
-
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
@@ -631,6 +651,9 @@ export default {
   DeleteTemplate,
   UpdateTemplate,
   CreateRegistrationPage,
+  CreateRegistrationPagedetail,
+  RegistrationPageDetailList,
+  RegistrationPageDetail,
   RegistrationPageList,
   RegistrationPageData,
   UpdateRegistrationPageData,

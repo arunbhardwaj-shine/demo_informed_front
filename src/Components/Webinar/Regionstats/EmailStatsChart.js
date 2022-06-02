@@ -105,7 +105,7 @@ const EmailStatsChart = (props) => {
     handleGetTemplateList();
   }, [props.eventid]);
   return (
-    <div>
+    <div class="right-sidebar">
             <Row>
             <Col>
               <Form.Label>Select Template </Form.Label>

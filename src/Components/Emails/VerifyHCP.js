@@ -498,9 +498,7 @@ const VerifyHCP = (props) => {
   };
 
   const backClicked = () => {
-    window.history.go(-1);
-
-    // return true;
+    navigate("/SelectHCP");
   };
 
   const searchHcp = async (e) => {
@@ -951,7 +949,6 @@ const VerifyHCP = (props) => {
                         <>
                           <tr
                             id={`row-selected` + index}
-                            contenteditable={editable === 0 ? "false" : "true"}
                             onClick={(e) =>
                               editing(
                                 //  e.currentTarget,
@@ -966,12 +963,16 @@ const VerifyHCP = (props) => {
                               )
                             }
                           >
-                            <td id={`field_name` + index}>
+                            <td id={`field_name` + index} 
+                            contenteditable={editable === 0 ? "false" : "true"}
+                            >
                               <span>{data.name || data.first_name}</span>
                             </td>
                             <td id={`field_email` + index}>{data.email}</td>
                             <td id={`field_bounced` + index}>{data.bounce}</td>
-                            <td id={`field_country` + index}>
+                            <td id={`field_country` + index}
+                            contenteditable={editable === 0 ? "false" : "true"}
+                            >
                               <span>{data.country}</span>
                             </td>
                             <td>{data.ibu}</td>

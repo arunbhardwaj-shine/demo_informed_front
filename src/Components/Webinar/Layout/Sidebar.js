@@ -16,7 +16,7 @@ const Sidebar = () => {
     }
   }, [localStorage.getItem("Token"), token]);
   return (
-    <div>
+    <div className="left-sidebar">
       {location.pathname.includes("/webinar/register") ||
       location.pathname.includes("/webinar/editor") ? null : (
         <div>

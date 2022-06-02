@@ -133,13 +133,13 @@ const VerifyMAIL = (props) => {
         template_id: props.getEmailData
           ? props.getEmailData.templateId
           : props.getDraftData.campaign_data.template_id,
+          smart_list_id: typeof getSmartListData !== "undefined" && getSmartListData.hasOwnProperty('id') ? getSmartListData.id : "",
         selectedHcp: selectedHcp,
       },
       campaign_id: campaign_id_st,
       status: 2,
     };
-
-    console.log(body);
+    // console.log(body);
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
@@ -164,7 +164,6 @@ const VerifyMAIL = (props) => {
   };
 
   const createEmail = async () => {
-    //setIsOpen(true);
     let finalTags = props.getEmailData
       ? props.getEmailData.tags.map((tags) => {
           return tags.innerHTML || tags;
@@ -182,8 +181,7 @@ const VerifyMAIL = (props) => {
             return userId.profile_user_id || userId.user_id;
           });
 
-    console.log(user_list);
-    //console.log(props.getEmailData.templateId);
+
     const body = {
       user_id: 18207,
       route_location: "VerifyMAIL",
@@ -207,19 +205,14 @@ const VerifyMAIL = (props) => {
         ? props.getEmailData.template
         : props.getDraftData.source_code,
       campaign_id: props.getEmailData ? "" : props.getDraftData.campaign_id,
-      //   campaign_data: {
-      //     user_list: [""],
-      //     template_id: ,
-      //   },
       campaign_data: {
         user_list: user_list,
+        smart_list_id: typeof getSmartListData !== "undefined" && getSmartListData.hasOwnProperty('id') ? getSmartListData.id : "",
         template_id: props.getEmailData
           ? props.getEmailData.templateId
           : props.getDraftData.campaign_data.template_id,
       },
     };
-
-    //console.log(body);
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
@@ -272,9 +265,11 @@ const VerifyMAIL = (props) => {
   };
 
   const backClicked = () => {
-    window.history.go(-1);
-
-    // return true;
+    if(typeof getSmartListData !== "undefined" && getSmartListData.hasOwnProperty('id')){
+      navigate("/SelectSmartListUsers");
+    }else{
+      navigate("/VerifyHCP");
+    }
   };
 
 

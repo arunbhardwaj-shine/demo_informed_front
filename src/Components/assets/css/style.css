@@ -475,7 +475,7 @@ form#add_hcp_form .row:not(:first-child) { border-top: 1px dashed var(--light-bl
 
 
 /**css loader End **/
-.create-smart-list { max-width: 924px; margin: 0 auto; border: 1px dashed var(--skyblue); box-sizing: border-box; border-radius: 57px; padding: 13px 20px 13px 24px; width: 100%; display: flex; align-items: center; justify-content: space-between; margin-bottom: 110px; }
+.create-smart-list { max-width: 924px; margin: 0 auto; border: 1px dashed var(--skyblue); box-sizing: border-box; border-radius: 57px; padding: 13px 20px 13px 24px; width: 100%; display: flex; align-items: center; justify-content: space-between; margin-bottom: 80px; }
 .selected-hcp-list .table tr.seprator-add td { padding: 0 0 1px; border-bottom: 1px dashed var(--light-blue); border-radius: 0; }
 .selected-hcp-list .table tr.seprator-add { box-shadow: none; height: 2px; border-radius: 0; }
 .create-smart-list p {margin: 0;font-size: 18px;line-height: 21px;color: var(--skyblue);font-family: 'Roboto-Medium';}
@@ -848,10 +848,12 @@ input:-webkit-autofill{ -webkit-text-fill-color: #70899E !important; }
   min-width: 70px;
   font-weight: 400;
   color: var(--white);
-  height: auto;
+  /* height: auto; */
   background-color: var(--light-blue);
 }
-
+.smartlist-refresh_div {
+  margin-bottom: 30px;
+}
 @-moz-document url-prefix() {
   a.show-less-info p::after {
     top: 3px;

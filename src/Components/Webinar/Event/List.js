@@ -10,6 +10,7 @@ import axios from "axios";
 import { loader } from "../../../loader";
 
 import Add from "./Add";
+// import Edit from "./Edit";
 const EventData = () => {
   const [event, setEvent] = useState([]);
   const [deletestatus, setDeleteStatus] = useState(false);
@@ -245,21 +246,8 @@ const EventData = () => {
     handleGetEventlist();
   }, []);
   return (
-    <div style={{ marginLeft: "300px" }}>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-      <div className="loader" id="custom_loader">
-        <span className="loader-view"> </span>
-      </div>
+
+
       <div className="right-sidebar">
         <div className="top-header">
           <div className="page-title"></div>
@@ -448,8 +436,22 @@ const EventData = () => {
               <h1>No data found</h1>
             )}
           </div>
-        </div>
+          <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+      <div className="loader" id="custom_loader">
+        <span className="loader-view"> </span>
       </div>
+        </div>
+    
 
       <Modal
         show={show}
