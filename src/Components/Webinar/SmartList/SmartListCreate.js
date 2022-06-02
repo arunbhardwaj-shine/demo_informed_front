@@ -1,129 +1,133 @@
 import React, { useEffect, useState, useRef } from "react";
-import axios from "axios";
-import { Link, NavigationType } from "react-router-dom";
-import Table from "./Table";
 import { useNavigate } from "react-router-dom";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import { Button, Modal } from "react-bootstrap";
-import SimpleReactValidator from "simple-react-validator";
 import { useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
+import { Modal } from "react-bootstrap";
+import { toast, ToastContainer } from "react-toastify";
 import { loader } from "../../../loader";
+
+import axios from "axios";
 import { popup_alert } from "../../../popup_alert";
 
-const CreateSmartList = () => {
+let path = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+const SmartListCreate = () => {
   const location = useLocation();
   const navigate = useNavigate();
   let file_name = useRef("");
-  const { creator } = location.state != null ? location.state : "";
+  const [selectedFile, setSelectedFile] = useState(null);
   const [show, setShow] = useState(false);
   const [smartListName, setSmartListName] = useState("");
-  const [creatorName, setCreatorName] = useState("");
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [api_flag, setapi_flag] = useState(0);
+  const [smartListId, setSmartListId] = useState();
   const [data, setData] = useState([]);
-  const [activeClass, setActiveClass] = useState();
-  const [filename, setFileName] = useState();
-  const [rendervalidation, setRenderValidation] = useState(0);
-  const [validator] = React.useState(new SimpleReactValidator());
-
-  let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   const handleClose = () => {
     setShow(false);
     setSelectedFile(null);
-  };
-  const handleShow = () => {
-    if (!smartListName.trim()) {
-      toast.warning("Please enter the smart list name first");
-    } else if (!creatorName.trim()) {
-      toast.warning("Please enter the creator name");
-    } else {
-      setShow(true);
-      var element = document.querySelector(".upload-opt");
-      var element2 = document.querySelector(".group-opt");
-      element2.classList.remove("active");
-      if (element.classList.contains("active")) {
-        element.classList.remove("active");
-      } else {
-        element.classList.add("active");
-      }
-    }
-  };
-
-  const handleSmartListName = async (event) => {
-    setSmartListName(event.target.value);
-  };
-
-  const handleCreatorName = async (event) => {
-    setCreatorName(event.target.value);
   };
 
   const onFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
 
-  const saveButtonClicked = () => {
-    console.log(data);
-    if (selectedFile != null) {
-      setShow(false);
-      setFileName(selectedFile.name);
-      toggleSelection("upload_excel");
-    } else {
-      toast.success("Please upload a file.", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        type: "error",
-      });
-    }
+  const handleSmartListName = async (event) => {
+    setSmartListName(event.target.value);
   };
 
-  const toggleSelection = (elm) => {
-    var element = document.querySelector("." + elm);
-    var element2 = document.querySelector(".upload-opt");
-    element2.classList.remove("active");
-
+  const segmentCohort = () => {
     if (!smartListName.trim()) {
       toast.warning("Please enter the smart list name first.");
-    } else if (!creatorName.trim()) {
-      toast.warning("Please enter the creator name");
     } else {
-      if (element.classList.contains("active")) {
-        element.classList.remove("active");
-      } else {
-        element.classList.add("active");
-      }
-      navigate("/SmartListFilter", {
-        state: { smartListName: smartListName, creatorName: creatorName },
+      navigate("/webinar/FilterList", {
+        state: { smartListName: smartListName },
       });
     }
-  };
-
-  const clickNext = (event) => {
-    if (validator.allValid()) {
-      if (activeClass == "upload_excel") {
-        uploadFile();
-      } else {
-        navigate("/SmartListFilter", {
-          state: { smartListName: smartListName },
-        });
-      }
-    } else {
-      console.log("show error messages");
-      console.log(validator.errorMessages);
-      validator.showMessages();
-      setRenderValidation(rendervalidation + 1);
-    }
-    // navigate("/SmartListFilter", {state: { smartListName: "My test" }});
   };
 
   const closeClicked = () => {
-    navigate("/SmartList");
+    navigate("/webinar/WebinarSmartList");
+  };
+
+  const createSmartList = async () => {
+    if (!smartListName.trim()) {
+      toast.warning("Please enter the Smart list name first");
+      return;
+    }
+
+    const body = {
+      name: smartListName,
+    };
+
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `${localStorage.getItem("Token")}`,
+    };
+    await axios
+      .post(
+        `http://51.89.210.56:8000/api/smart-list/create`,
+
+        body,
+        { headers }
+      )
+      .then((res) => {
+        if (res.data.code == 200) {
+          console.log(res);
+          setSmartListId(res.data.data.smart_list_id);
+          handleShow();
+        } else {
+          toast.warning(res.data.message);
+        }
+
+        //  console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const createSmartListCohort = async () => {
+    if (!smartListName.trim()) {
+      toast.warning("Please enter the Smart list name first");
+      return;
+    }
+
+    const body = {
+      name: smartListName,
+    };
+
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `${localStorage.getItem("Token")}`,
+    };
+    await axios
+      .post(
+        `http://51.89.210.56:8000/api/smart-list/create`,
+
+        body,
+        { headers }
+      )
+      .then((res) => {
+        if (res.data.code == 200) {
+          console.log(res);
+          setSmartListId(res.data.data.smart_list_id);
+          segmentCohort();
+        } else {
+          toast.warning(res.data.message);
+        }
+
+        //  console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleShow = (e) => {
+    // e.preventDefault();
+    console.log("inside handle show");
+    if (!smartListName.trim()) {
+      toast.warning("Please enter the smart list name first");
+    } else {
+      setShow(true);
+    }
   };
 
   const uploadFile = async () => {
@@ -134,31 +138,39 @@ const CreateSmartList = () => {
       return false;
     }
 
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `${localStorage.getItem("Token")}`,
+    };
+
     let formData = new FormData();
-    formData.append("user_id", 18207);
-    formData.append("smart_list_name", smartListName);
-    formData.append("reader_file", selectedFile);
+
+    formData.append("smart_list_id", smartListId);
+    formData.append("file", selectedFile);
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    loader("show");
+    // loader("show");
 
     console.log(formData);
-    console.log(creatorName);
 
     await axios
-      .post(`distributes/create_smart_list_with_excel`, formData)
+      .post(
+        `http://51.89.210.56:8000/api/upload-unregistered-participant`,
+        formData,
+        { headers }
+      )
       .then((res) => {
-        if (res.data.status_code === 200) {
-          setData(res.data.response.data);
-          navigate("/UploadExcel", {
+        console.log(res);
+        if (res.data.code === 200) {
+          setData(res.data.data);
+          navigate("/webinar/ExcelUpload", {
             state: {
-              data: res.data.response.data,
+              data: res.data.data,
               smartListName: smartListName,
-              creator: creatorName,
             },
           });
 
-          setapi_flag(api_flag + 1);
+          //setapi_flag(api_flag + 1);
         } else {
           popup_alert({
             visible: "show",
@@ -166,18 +178,11 @@ const CreateSmartList = () => {
             type: "error",
           });
         }
-        loader("hide");
       })
       .catch((err) => {
         console.log(err);
       });
   };
-
-  useEffect(() => {
-    if (typeof creator !== "undefined" && creator != "") {
-      setCreatorName(creator);
-    }
-  }, [smartListName]);
 
   const downloadFile = () => {
     let link = document.createElement("a");
@@ -191,6 +196,21 @@ const CreateSmartList = () => {
 
   return (
     <>
+      <popup_alert />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+      <div className="loader" id="custom_loader">
+        <span className="loader-view"> </span>
+      </div>
       <div class="right-sidebar">
         <div class="page-top-nav smart_list_names">
           <div class="row justify-content-end align-items-center">
@@ -233,16 +253,6 @@ const CreateSmartList = () => {
                       />
                     </div>
 
-                    <div class="form-group col">
-                      <label for="creator-name">Creator’s Name</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        value={creatorName}
-                        onChange={(event) => handleCreatorName(event)}
-                      />
-                    </div>
-
                     <div class="form-group col-sm-12">
                       <div class="form-group-content">
                         <p>
@@ -274,11 +284,12 @@ const CreateSmartList = () => {
                   <li>
                     <div class="send-option-img group-opt">
                       <input
-                        onClick={(event) => toggleSelection("group-opt")}
                         type="radio"
                         name="select-option-hcp"
                         id="segment"
-                        value={activeClass}
+                        onClick={(e) => {
+                          createSmartListCohort();
+                        }}
                       />
                       <img src={path + "group-hcp.svg"} alt="Group HCPs" />
                     </div>
@@ -292,11 +303,13 @@ const CreateSmartList = () => {
                     >
                       <input
                         type="radio"
-                        onClick={handleShow}
+                        onClick={(e) => {
+                          createSmartList();
+                        }}
                         name="select-option-hcp"
                       />
                       <img src={path + "upload-btn.svg"} alt="Single HCP" />{" "}
-                      {filename != "" ? <p>{filename}</p> : null}
+                      {/* {filename != "" ? <p>{filename}</p> : null} */}
                     </div>
                     <p>Upload new HCPs</p>
                   </li>
@@ -383,5 +396,4 @@ const CreateSmartList = () => {
     </>
   );
 };
-
-export default CreateSmartList;
+export default SmartListCreate;

@@ -79,9 +79,7 @@ const SelectSmartListUsers = (props) => {
   }, []);
 
   const backClicked = () => {
-    window.history.go(-1);
-
-    // return true;
+    navigate("/SelectSmartList");
   };
 
   useEffect(() => {
@@ -635,7 +633,7 @@ const SelectSmartListUsers = (props) => {
                   </li>
                   <li className="active">
                     <Link to="/SelectHCP">Select HCPs</Link>
-                  
+
                   </li>
                   <li className="active active-main">
                     <Link to="/SelectSmartList">Verify Your List</Link>

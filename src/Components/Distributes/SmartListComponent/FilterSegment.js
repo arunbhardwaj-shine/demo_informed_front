@@ -9,7 +9,6 @@ import { loader } from "../../../loader";
 import { Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
 
-
 const FilterSegment = (props) => {
   const tableCompRef = useRef();
   const Navigate = useNavigate();
@@ -331,7 +330,7 @@ const FilterSegment = (props) => {
       flag_to_check_data = true;
     }
 
-    if(flag_to_check_data){
+    if (flag_to_check_data) {
       setfilterapplied(1);
       setPayload(payload);
       setApiFilterFlag(0);
@@ -342,17 +341,18 @@ const FilterSegment = (props) => {
         .then((res) => {
           console.log(res.data.status_code);
           if (res.data.status_code == 200) {
-              setFilterData(res.data.response.data);
+            setFilterData(res.data.response.data);
           } else {
-              setFilterData();
+            setFilterData();
           }
-            setApiFilterFlag(1);
-            loader("hide");
-          }).catch((err) => {
-                loader("hide");
-                console.log(err);
-          });
-    }else{
+          setApiFilterFlag(1);
+          loader("hide");
+        })
+        .catch((err) => {
+          loader("hide");
+          console.log(err);
+        });
+    } else {
       toast.error("Please select any filter.");
     }
   };
@@ -361,52 +361,51 @@ const FilterSegment = (props) => {
     return Object.keys(object).find((key) => object[key] === value);
   };
 
-  const sendDataToParent = (childData,flag) => {
-    if(flag == "existing"){
+  const sendDataToParent = (childData, flag) => {
+    if (flag == "existing") {
       setFilterData(childData);
-    }else if(flag == "new"){
-      setNewAddedUser(childData)
+    } else if (flag == "new") {
+      setNewAddedUser(childData);
     }
     setApiFilterFlag(1);
   };
 
   const showConfirmation = () => {
-      setConfirmationPopupStatus(true);
+    setConfirmationPopupStatus(true);
   };
 
   const hideconfirmationpopup = () => {
     setConfirmationPopupStatus(false);
-  }
+  };
 
   const createListWithFilters = () => {
     setConfirmationPopupStatus(false);
-    tableCompRef.current.createSmartList(getfilterdata,getNewAddedUser);
-  }
+    tableCompRef.current.createSmartList(getfilterdata, getNewAddedUser);
+  };
 
   const removeindividualfilter = (src, item) => {
-    if(src == "country"){
+    if (src == "country") {
       handleOnCountryChange(item);
-    }else if (src == "contact_type") {
+    } else if (src == "contact_type") {
       handleOnContactTypeChange(item);
-    }else if (src == "speciality") {
+    } else if (src == "speciality") {
       handleOnSpecialityChange(item);
-    }else if (src == "product") {
+    } else if (src == "product") {
       handleOnProductChange(item);
-    }else if (src == "article") {
+    } else if (src == "article") {
       handleOnArticleChange(item);
-    }else if (src == "consent") {
+    } else if (src == "consent") {
       handleOnConsentChange(item);
-    }else if (src == "reader_selection") {
+    } else if (src == "reader_selection") {
       handleOnReaderSelectionChange(item);
-    }else if (src == "ibu") {
+    } else if (src == "ibu") {
       handleOnIbuChange(item);
-    }else if (src == "register") {
+    } else if (src == "register") {
       setSelectedRegister();
-    }else if (src == "bounce") {
+    } else if (src == "bounce") {
       setSelectedBounce();
     }
-  }
-
+  };
 
   return (
     <>
@@ -430,7 +429,15 @@ const FilterSegment = (props) => {
                 <button
                   className="btn btn-primary btn-filled save"
                   onClick={() => showConfirmation()}
-                  disabled={ typeof getfilterdata !== "undefined" && getfilterdata.length > 0 ? false : typeof getNewAddedUser !== "undefined" && getNewAddedUser.length > 0 ? false : true }
+                  disabled={
+                    typeof getfilterdata !== "undefined" &&
+                    getfilterdata.length > 0
+                      ? false
+                      : typeof getNewAddedUser !== "undefined" &&
+                        getNewAddedUser.length > 0
+                      ? false
+                      : true
+                  }
                 >
                   Save
                 </button>
@@ -444,24 +451,24 @@ const FilterSegment = (props) => {
         <div className="page-top-nav smart_list_names create_filter_list">
           <div className="row justify-content-end align-items-center">
             <div className="col-12 col-md-1">
-                <div className="header-btn-left">
-					        <button className="btn btn-primary btn-bordered back">
-                    <NavLink to="/CreateSmartList" className="active">
-                      Back
-                    </NavLink>
-                  </button>
-							  </div>
+              <div className="header-btn-left">
+                <button className="btn btn-primary btn-bordered back">
+                  <NavLink to="/CreateSmartList" className="active">
+                    Back
+                  </NavLink>
+                </button>
+              </div>
             </div>
             <div className="col-12 col-md-9">
-								<ul className="tabnav-link">
-									<li className="">
-										<a href="javascript:void(0)">Create smart list</a>
-									</li>
-									<li className="active">
-										<a href="javascript:void(0)">Select & Verify your HCPs</a>
-									</li>
-								</ul>
-							</div>
+              <ul className="tabnav-link">
+                <li className="">
+                  <a href="javascript:void(0)">Create smart list</a>
+                </li>
+                <li className="active">
+                  <a href="javascript:void(0)">Select & Verify your HCPs</a>
+                </li>
+              </ul>
+            </div>
 
             <div className="col-12 col-md-2">
               <div className="header-btn">
@@ -471,7 +478,15 @@ const FilterSegment = (props) => {
                 <button
                   className="btn btn-primary btn-bordered save-as"
                   onClick={() => createListWithFilters()}
-                  disabled={ typeof getfilterdata !== "undefined" && getfilterdata.length > 0 ? false : typeof getNewAddedUser !== "undefined" && getNewAddedUser.length > 0 ? false : true }
+                  disabled={
+                    typeof getfilterdata !== "undefined" &&
+                    getfilterdata.length > 0
+                      ? false
+                      : typeof getNewAddedUser !== "undefined" &&
+                        getNewAddedUser.length > 0
+                      ? false
+                      : true
+                  }
                 >
                   Create
                 </button>
@@ -872,8 +887,9 @@ const FilterSegment = (props) => {
                         </div>
                         {/*Display only in case of create*/}
 
-                          <div className="segmentation-button">
-                            {typeof props.action !== "undefined" && props.action !== "edit" && (
+                        <div className="segmentation-button">
+                          {typeof props.action !== "undefined" &&
+                            props.action !== "edit" && (
                               <button
                                 className="btn btn-bordered btn-primary"
                                 onClick={clearFilter}
@@ -881,13 +897,13 @@ const FilterSegment = (props) => {
                                 Clear
                               </button>
                             )}
-                            <button
-                              className="btn btn-filled btn-primary"
-                              onClick={applyFilter}
-                            >
-                              Apply
-                            </button>
-                          </div>
+                          <button
+                            className="btn btn-filled btn-primary"
+                            onClick={applyFilter}
+                          >
+                            Apply
+                          </button>
+                        </div>
                       </div>
                     </Accordion.Body>
                   </Accordion.Item>
@@ -917,9 +933,12 @@ const FilterSegment = (props) => {
                     </div>
                     <div className="filter-div-list">
                       {Object.entries(selectedcountry).map(([index, item]) => (
-                        <div className="filter-result" onClick={() =>
+                        <div
+                          className="filter-result"
+                          onClick={() =>
                             removeindividualfilter("country", item)
-                          }>
+                          }
+                        >
                           {item == "B&H" ? "Bosnia and Herzegovina" : item}{" "}
                           <img
                             src={path_image + "filter-close.svg"}
@@ -942,9 +961,12 @@ const FilterSegment = (props) => {
                     <div className="filter-div-list">
                       {Object.entries(selectedcontacttype).map(
                         ([index, item]) => (
-                          <div className="filter-result" onClick={() =>
+                          <div
+                            className="filter-result"
+                            onClick={() =>
                               removeindividualfilter("contact_type", item)
-                            }>
+                            }
+                          >
                             {item}{" "}
                             <img
                               src={path_image + "filter-close.svg"}
@@ -968,9 +990,12 @@ const FilterSegment = (props) => {
                     <div className="filter-div-list">
                       {Object.entries(selectedspeciality).map(
                         ([index, item]) => (
-                          <div className="filter-result" onClick={() =>
+                          <div
+                            className="filter-result"
+                            onClick={() =>
                               removeindividualfilter("speciality", item)
-                            }>
+                            }
+                          >
                             {item}{" "}
                             <img
                               src={path_image + "filter-close.svg"}
@@ -993,9 +1018,12 @@ const FilterSegment = (props) => {
                     </div>
                     <div className="filter-div-list">
                       {Object.entries(selectedproduct).map(([index, item]) => (
-                        <div className="filter-result" onClick={() =>
+                        <div
+                          className="filter-result"
+                          onClick={() =>
                             removeindividualfilter("product", item)
-                          }>
+                          }
+                        >
                           {item}{" "}
                           <img
                             src={path_image + "filter-close.svg"}
@@ -1017,9 +1045,12 @@ const FilterSegment = (props) => {
                     </div>
                     <div className="filter-div-list">
                       {Object.entries(selectedarticles).map(([index, item]) => (
-                        <div className="filter-result" onClick={() =>
+                        <div
+                          className="filter-result"
+                          onClick={() =>
                             removeindividualfilter("article", item)
-                          }>
+                          }
+                        >
                           {item}{" "}
                           <img
                             src={path_image + "filter-close.svg"}
@@ -1041,9 +1072,12 @@ const FilterSegment = (props) => {
                     </div>
                     <div className="filter-div-list">
                       {Object.entries(selectedconsent).map(([index, item]) => (
-                        <div className="filter-result" onClick={() =>
+                        <div
+                          className="filter-result"
+                          onClick={() =>
                             removeindividualfilter("consent", item)
-                          }>
+                          }
+                        >
                           {item}{" "}
                           <img
                             src={path_image + "filter-close.svg"}
@@ -1063,9 +1097,15 @@ const FilterSegment = (props) => {
                       <span>Reader Selection |</span>
                     </div>
                     <div className="filter-div-list">
-                      <div className="filter-result" onClick={() =>
-                          removeindividualfilter("reader_selection", selectedreaderselection)
-                        }>
+                      <div
+                        className="filter-result"
+                        onClick={() =>
+                          removeindividualfilter(
+                            "reader_selection",
+                            selectedreaderselection
+                          )
+                        }
+                      >
                         {selectedreaderselection}{" "}
                         <img
                           src={path_image + "filter-close.svg"}
@@ -1087,9 +1127,12 @@ const FilterSegment = (props) => {
                       <span>IBU |</span>
                     </div>
                     <div className="filter-div-list">
-                      <div className="filter-result" onClick={() =>
+                      <div
+                        className="filter-result"
+                        onClick={() =>
                           removeindividualfilter("ibu", selectedibu)
-                        }>
+                        }
+                      >
                         {selectedibu}{" "}
                         <img
                           src={path_image + "filter-close.svg"}
@@ -1108,9 +1151,12 @@ const FilterSegment = (props) => {
                       <span>Registered |</span>
                     </div>
                     <div className="filter-div-list">
-                      <div className="filter-result" onClick={() =>
+                      <div
+                        className="filter-result"
+                        onClick={() =>
                           removeindividualfilter("register", selectedregister)
-                        }>
+                        }
+                      >
                         {selectedregister}{" "}
                         <img
                           src={path_image + "filter-close.svg"}
@@ -1129,9 +1175,12 @@ const FilterSegment = (props) => {
                       <span>Bounced |</span>
                     </div>
                     <div className="filter-div-list">
-                      <div className="filter-result" onClick={() =>
+                      <div
+                        className="filter-result"
+                        onClick={() =>
                           removeindividualfilter("bounce", selectedbounce)
-                        }>
+                        }
+                      >
                         {selectedbounce}{" "}
                         <img
                           src={path_image + "filter-close.svg"}
@@ -1147,7 +1196,9 @@ const FilterSegment = (props) => {
         </div>
 
         {apifilterflag > 0 ? (
-          (typeof getfilterdata === "object" && getfilterdata.length > 0) || (typeof getNewAddedUser === "object" && getNewAddedUser.length > 0) ? (
+          (typeof getfilterdata === "object" && getfilterdata.length > 0) ||
+          (typeof getNewAddedUser === "object" &&
+            getNewAddedUser.length > 0) ? (
             <div className="box mt-2">
               <Table
                 ref={tableCompRef}
@@ -1158,7 +1209,6 @@ const FilterSegment = (props) => {
                 filter_payload={getpayload}
                 creator={props.creator}
                 sendDataToParent={sendDataToParent}
-
               />
             </div>
           ) : (
@@ -1170,20 +1220,43 @@ const FilterSegment = (props) => {
       </section>
 
       {/*Confrimation Popup start*/}
-      <Modal show={confirmationPopupStatus} className="send-confirm" id="resend-confirm">
+      <Modal
+        show={confirmationPopupStatus}
+        className="send-confirm"
+        id="resend-confirm"
+      >
         <Modal.Header>
-          <button type="button" className="btn-close" data-bs-dismiss="modal" onClick={() => {hideconfirmationpopup()}}></button>
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="modal"
+            onClick={() => {
+              hideconfirmationpopup();
+            }}
+          ></button>
         </Modal.Header>
         <Modal.Body>
           <img src={path_image + "alert.png"} alt="" />
-          <h4>
-            Are you sure you want to save the changes?
-          </h4>
+          <h4>Are you sure you want to save the changes?</h4>
           <div className="modal-buttons">
-            <button type="button" className="btn btn-primary btn-filled" data-bs-dismiss="modal" onClick={() => {createListWithFilters()}}>
+            <button
+              type="button"
+              className="btn btn-primary btn-filled"
+              data-bs-dismiss="modal"
+              onClick={() => {
+                createListWithFilters();
+              }}
+            >
               Yes Please!
             </button>
-            <button type="button" className="btn btn-primary btn-bordered light" data-bs-dismiss="modal"  onClick={() => {hideconfirmationpopup()}} >
+            <button
+              type="button"
+              className="btn btn-primary btn-bordered light"
+              data-bs-dismiss="modal"
+              onClick={() => {
+                hideconfirmationpopup();
+              }}
+            >
               Cancel
             </button>
           </div>

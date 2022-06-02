@@ -216,7 +216,9 @@ function Rehearsal() {
     setSpeakerNameErr([...copydataErr]);
   };
   return (
-    <Row>
+    <div class="right-sidebar">
+
+    <Row >
       <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
       </div>
@@ -232,8 +234,8 @@ function Rehearsal() {
         draggable
         pauseOnHover
       />
-      <Col md={{ span: 6, offset: 3 }}>
-        <div>
+      <Col class="right-sidebar" md={{ span: 6, offset: 3 }}>
+        <div >
          <Link to="/webinar/rehearsallist"><Button>Rehearsals</Button> </Link>
           <div>
             <form
@@ -311,7 +313,7 @@ function Rehearsal() {
                           ))}
                         </Form.Select>
                         <div style={{ color: "red" }}>
-                          {SpeakernameErr[i].event_id}
+                          {SpeakernameErr[i]?.event_id}
                         </div>
                       </Col>
                     </Form.Group>
@@ -334,7 +336,7 @@ function Rehearsal() {
                         value={val.title}
                       />
                       <div style={{ color: "red" }}>
-                        <p> {SpeakernameErr[i].title}</p>
+                        <p> {SpeakernameErr[i]?.title}</p>
                       </div>
                     </Col>
                   </Form.Group>
@@ -351,7 +353,7 @@ function Rehearsal() {
                         value={val.date}
                       />
                       <div style={{ color: "red" }}>
-                        {<p> {SpeakernameErr[i].date}</p>}
+                        {<p> {SpeakernameErr[i]?.date}</p>}
                       </div>
                     </Col>
                   </Form.Group>
@@ -373,7 +375,7 @@ function Rehearsal() {
                         ))}
                       </Form.Select>
                       <div style={{ color: "red" }}>
-                        {SpeakernameErr[i].timezone}
+                        {SpeakernameErr[i]?.timezone}
                       </div>
                     </Col>
                   </Form.Group>
@@ -389,7 +391,7 @@ function Rehearsal() {
                         value={val.start_time}
                       />
                       <div style={{ color: "red" }}>
-                        {SpeakernameErr[i].start_time}
+                        {SpeakernameErr[i]?.start_time}
                       </div>
                     </Col>
                   </Form.Group>
@@ -405,7 +407,7 @@ function Rehearsal() {
                         value={val.end_time}
                       />
                       <div style={{ color: "red" }}>
-                        {SpeakernameErr[i].end_time}
+                        {SpeakernameErr[i]?.end_time}
                       </div>
                     </Col>
                   </Form.Group>
@@ -440,7 +442,7 @@ function Rehearsal() {
                               }}
                             />
                             <div style={{ color: "red" }}>
-                              {SpeakernameErr[i].invites_data[index].name}
+                              {SpeakernameErr[i]?.invites_data[index]?.name}
                             </div>
                           </Col>
                           <div className="mt-2"></div>
@@ -456,7 +458,7 @@ function Rehearsal() {
                               }}
                             />
                             <div style={{ color: "red" }}>
-                              {SpeakernameErr[i].invites_data[index].email}
+                              {SpeakernameErr[i]?.invites_data[index]?.email}
                             </div>
                           </Col>
                         </Form.Group>
@@ -490,6 +492,7 @@ function Rehearsal() {
         </div>
       </Col>
     </Row>
+    </div>
   );
 }
 

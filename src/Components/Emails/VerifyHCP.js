@@ -498,9 +498,7 @@ const VerifyHCP = (props) => {
   };
 
   const backClicked = () => {
-    window.history.go(-1);
-
-    // return true;
+    navigate("/SelectHCP");
   };
 
   const searchHcp = async (e) => {

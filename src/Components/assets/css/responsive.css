@@ -33,7 +33,7 @@
 	.page-title h2 { font-size: 30px; line-height: 38px; } 
 	.table-title .selected-hcp-table-action a.show-less-info { font-size: 14px; line-height: 16px; } 
 	a.show-less-info p:after {line-height: 11px;}
-	.sidebar-menu button.toggle_btn {margin: 44px 15px 0px;}
+	.sidebar-menu button.toggle_btn {margin: 34px 15px 0px;}
 	.filter-block .filter-div .filter-result { padding: 3px 9px 3px 12px; margin: 0 10px 10px 0; font-size: 12px; line-height: 14px; } 
 	.filter-div .filter-result img { margin-left: 10px; } 
 	#accordion-smart .card-body { padding: 0 10px 14px; } 
@@ -60,9 +60,9 @@
 	header nav.navbar { padding: 12px 10px; } 
 	.sidebar-menu ul li { margin-top: 12px; margin-bottom: 12px; min-height: 45px; } 
 	.sidebar-menu ul li a svg { margin-right: 13px; width: 20px; } 
-	.page-top-nav .tabnav-link li { padding: 0 25px; } 
-	.page-top-nav .tabnav-link li::after { width: 35px; right: -18px; top: 13px; }
-	.search-hcp-table table, .selected-hcp-list table { border-spacing: 0px 20px; } 
+	.page-top-nav .tabnav-link li { padding: 0 24px; } 
+	.page-top-nav .tabnav-link li::after { width: 31px; right: -18px; top: 10px; }
+	.search-hcp-table table, .selected-hcp-list table { border-spacing: 0px 20px; padding-right:5px;} 
 	.result-hcp-table .table-title .selected-hcp-table-action .hcp-added, .table-title .hcp-new-user, .table-title .show-less-info { margin-right: 10px; } 
 	.send-option-list ul li .send-option-img { width: 124px; height: 124px; } 
 	.send-option-list ul li img { height: 50px; } 
@@ -70,7 +70,6 @@
 	.send-option-list ul li p { margin: 16px 0 8px; font-size: 16px; } 
 	.send-option-img.active { border: 3px solid var(--light-blue); } 
 	h4 { font-size: 22px; line-height: 25px; } 
-	.form-inline .form-group label { font-size: 16px; } 
 	.form-search-hcp .form-inline .form-group label { padding-right: 12px; } 
 	.form-search-hcp .form-inline .form-group input { width: calc(100% - 57px); padding: 8px 12px; } 
 	.form-search-hcp .form-button .btn { min-width: 120px; } 
@@ -109,7 +108,7 @@
 	 .form-search-hcp .form-button .btn {height: 32px;padding: 6px 14px;}
 	 .form-search-hcp .form-button .btn-bordered { margin-left: 10px; } 
 	 .form-search-hcp .form-button .btn-filled { margin-right: 10px; } 
-	 .form-search-hcp .form-button .btn-filled::after { right: -12px; height: 40px; top: -2px; } 
+	 .form-search-hcp .form-button .btn-filled::after { right: -12px; height: 34px; top: -2px; } 
 	 .form-search-hcp .form-button.col-md-5 { padding-left: 8px; } 
 	 #send-sample .selected-hcp-list .not-found h4 { font-size: 25px; } 
 	 .selected-hcp-list .not-found { min-height: 200px; } 
@@ -134,19 +133,86 @@
 	 .mailbox-buttons { padding-top: 10px; }
 	 #mail-view .mail-view-btn .btn {min-width: 86px;height: 36px;}
 	 #mail-view .mail-time span {font-size: 13px;}
-	 .create-smart-list p {font-size: 15px;}
-	.create-smart-list {margin-bottom: 60px;}
+	 .create-smart-list p {font-size: 15px;    flex: 1 1;}
+	.create-smart-list {margin-bottom: 60px;padding: 9px 20px 9px 20px;}
 	#add-list .smartlist-view .mail-box-content {width: 100%;flex: 0 0 100%;}
 	#add-list .smartlist-result-block {margin-top: 0px;}
+	.page-top-nav .tabnav-link {
+		justify-content: center;
+	}
+	.create-smart-list .upload-btn, .create-smart-list .btn-bordered, .download-sample .upload-btn {
+		padding: 7px 13px;
+	}
+	.table-title .selected-hcp-table-action .btn-filled, .table-title .selected-hcp-table-action .btn-bordered {
+		min-width: 80px;
+		height: 32px;
+	}
+	#add_hcp .modal-body .hcp-add-box .hcp-add-form.tab-content, #smart_list_popup_id .search-hcp .selected-hcp-list {
+		max-height: 400px;	
+	}
+	.mailbox-buttons {
+		min-height: 42px;
+	}
+	.modal .smartlist-result-block .smartlist_box_block {
+		margin-bottom: 25px;
+	}
+	.form-inline .form-group input, #tagsModal .modal-footer form .form-group input { height: 36px; } 
+	#add_hcp .modal-body .hcp-add-form form .form-group label {
+		font-size: 16px;
+	}
+	#add_hcp .modal-body .hcp-add-form form .form-group .form-control, #add_hcp .modal-body .hcp-add-form form .form-group select { padding: 6px 18px; font-size: 14px;height:36px; } 
+	.form-inline .form-group label {
+		font-size: 16px;
+		width: 134px;
+		flex: 0 0 134px;
+	}
+	.form-buttons .btn {
+		height: 36px;
+		padding: 6px 16px;
+	}
+	#send-sample .search-hcp-table-inside .search-hcp-box {
+		width: 31%;
+		margin-right: 2.3%;
+	}
+	#send-sample .search-hcp-table-inside.sample_list_dt {
+		padding: 20px 10px 20px 10px;
+	}
+	#send-sample .search-hcp-table-inside .search-hcp-box .add-new-field img {
+		width: 27px;
+	}
+	#send-sample .search-hcp-table-inside .search-hcp-box .add-new-field {
+		right: -14px;
+	}
+	table tr td.delete_row, table tr:hover td.delete_row {
+		right: -5px;
+	}
+	.create-smart-list .upload-btn:before {
+		left: -13px;
+		height: 35px;
+		top: 0;
+	}
 	 } 
 	 
 	 @media only screen and (max-width:1365px){ 
+		table tr td.delete_row, table tr:hover td.delete_row {
+			width: 28px;
+			height: 28px;
+		}
+		.mailbox-buttons {
+			min-height: 40px;
+		}
+		.clear-search button.cancel {
+			padding:6px;
+		}
+		.selected-hcp-list table tr td.delete_row img {
+			width: 16px;
+		}
+		header nav.navbar { padding: 3px 10px; } 
 		#add_hcp .modal-body .hcp-add-form form .form-group button { height: 41px; } 
-		.sidebar-menu button.toggle_btn { margin: 24px 15px 0px; } 
-		.form-inline .form-group input, #tagsModal .modal-footer form .form-group input { height: 42px; } 
+		.sidebar-menu button.toggle_btn { margin: 6px 15px 0px; } 
 		.mail-box-content { height: initial; } 
 		#add-list .email_box { margin-bottom: 0px; } 
-		.create_smart_list .create-smart-step .create-smart-step-box form .form-control { padding: 10px 12px; } 
+		.create_smart_list .create-smart-step .create-smart-step-box form .form-control { padding: 8px 12px; } 
 		.selected-hcp-list .not-found { min-height: 150px; } 
 		.sample_list_dt .not-found h4 { font-size: 25px; } 
 		.smart-list-added-user img { max-height: 16px; } 
@@ -158,7 +224,7 @@
 		.email-result-block .email-block-add-box, .email-result-block .email_box_block { padding: 0 20px; } 
 		.search-bar form.d-flex input, .filter-by button { height: 36px; } 
 		.filter-by button { padding: 9px 26px; } 
-		.clear-search button { width: 36px; padding: 4px; height: 36px; } 
+		.clear-search button { width: 36px; padding: 4px; height: 36px; font-size: 14px;} 
 		.clear-search button svg { width: 22px; } 
 		.smartlist-result-block .not_found { font-size: 22px; } 
 		.input-group-prepend::after { left: 142px; }
@@ -183,7 +249,7 @@
 		.dropdown-menu.filter-options { width: 270px; } 
 		.dropdown-menu.filter-options .accordion .card ul { max-height: 134px; } 
 		.page-title h2 { font-size: 24px; line-height: 28px; } 
-		#tagsModal .modal-footer form .form-group label, .smartlist-buttons button.btn { font-size: 12px; } 
+		#tagsModal .modal-footer form .form-group label, .smartlist-buttons button.btn { font-size: 12px;min-width:65px; } 
 		.smart-list-added-user { font-size: 16px; line-height: 18px; margin-bottom: 10px; } 
 		.email-block-add p { font-size: 18px; line-height: 20px; margin-top: 11px; } 
 		.mailbox-buttons button { height: 30px; } 
@@ -191,7 +257,7 @@
 		.right-sidebar { padding-left: 20px; padding-right: 20px; } 
 		.page-top-nav .tabnav-link li { padding: 0 21px; } 
 		.page-top-nav .tabnav-link li a { font-size: 13px; } 
-		.page-top-nav .tabnav-link li::after { width: 30px; right: -16px; top: 13px; } 
+		.page-top-nav .tabnav-link li::after { width: 28px; right: -14px; } 
 		.page-top-nav .col-md-2 { padding-left: 0; } 
 		.header-btn { display: flex; align-items: center; justify-content: flex-end; } 
 		.search-hcp { padding-top: 10px; } 
@@ -201,7 +267,7 @@
 		.btn.btn-primary { min-width: 54px; } 
 		#add_hcp.modal-dialog { max-width: 845px; width: 100%; } 
 		#add_hcp .modal-body .hcp-add-form form .form-group label { flex: 0 0 100px; font-size: 15px; } 
-		#add_hcp .modal-body .hcp-add-form form .form-group .form-control, #add_hcp .modal-body .hcp-add-form form .form-group select { padding: 10px 18px; font-size: 14px; } 
+		#add_hcp .modal-body .hcp-add-form form .form-group .form-control, #add_hcp .modal-body .hcp-add-form form .form-group select { font-size: 14px; } 
 		.hcp-action-block .hcp-remove .btn { width: 38px; height: 38px; } 
 		.nav-item.add_hcp .nav-link { font-size: 14px; min-width: 90px; height: 38px; } 
 		.nav-item.add-file .nav-link { font-size: 14px; min-width: 84px; height: 38px; } 

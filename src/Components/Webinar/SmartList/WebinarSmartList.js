@@ -604,10 +604,7 @@ const WebinarSmartList = () => {
                   <div className="smartlist-add smartlist-view">
                     {typeof getUserDetails !== "undefined" && (
                       <>
-                        <Link
-                          to="/CreateSmartList"
-                          state={{ creator: getUserDetails.username }}
-                        >
+                        <Link to="/webinar/SmartListCreate">
                           <img src={path_image + "add-button.svg"} alt="" />
                         </Link>
                         <p>Create New Smart List</p>

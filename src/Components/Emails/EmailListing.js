@@ -1104,51 +1104,83 @@ const EmailList = (props) => {
                         </div>
                         {data.status == 1 ? (
                           <div className="mailbox-buttons">
-                            <div className="send_new">
-                              <button
-                                className="btn btn-primary btn-bordered send-new"
-                                onClick={() =>
-                                  draftNavigate(
-                                    data.id,
-                                    data.pdf_id,
-                                    "CreateEmail",
-                                    data.campaign,
-                                    data.creator,
-                                    data.discription,
-                                    data.subject,
-                                    data.tags
-                                  )
-                                }
-                              >
-                                Send New
-                              </button>
-                            </div>
-                            <div className="mailbox-buttons-list">
-                              {data.total_Opened_pr < 100 ? (
-                                <button
-                                  className="btn btn-primary btn-bordered send"
-                                  onClick={(e) => showModal("resend", data.id)}
-                                >
-                                  Resend
-                                </button>
-                              ) : (
-                                ""
-                              )}
+                          {!deletestatus &&
+                              (
+                                <>
+                                <div className="send_new">
+                                    <button
+                                    className="btn btn-primary btn-bordered send-new"
+                                    onClick={() =>
+                                      draftNavigate(
+                                        data.id,
+                                        data.pdf_id,
+                                        "CreateEmail",
+                                        data.campaign,
+                                        data.creator,
+                                        data.discription,
+                                        data.subject,
+                                        data.tags
+                                      )
+                                    }
+                                    >
+                                    Send New
+                                    </button>
+                                  </div>
 
-                              <button
-                                className="btn btn-primary btn-filled edit"
-                                onClick={(e) => showViewEmailModal(data.id)}
-                              >
-                                View
-                              </button>
-                            </div>
+                                  <div className="mailbox-buttons-list">
+                                    {data.total_Opened_pr < 100 ? (
+                                      <button
+                                        className="btn btn-primary btn-bordered send"
+                                        onClick={(e) => showModal("resend", data.id)}
+                                      >
+                                        Resend
+                                      </button>
+                                    ) : (
+                                      ""
+                                    )}
+
+                                    <button
+                                      className="btn btn-primary btn-filled edit"
+                                      onClick={(e) => showViewEmailModal(data.id)}
+                                    >
+                                      View
+                                    </button>
+                                  </div>
+                                  </>
+                               )
+                          }
                           </div>
                         ) : (
                           <div className="mailbox-buttons">
-                            <div className="mailbox-buttons-list">
-                              {data.route_location == "VerifyMAIL" ? (
+                          {
+                            !deletestatus && (
+                              <div className="mailbox-buttons-list">
+                                {data.route_location == "VerifyMAIL" ? (
+                                  <button
+                                    className="btn btn-primary send btn-bordered"
+                                    onClick={() => {
+                                      getEmailData(null);
+                                      // getSelectedSmartListData(null);
+                                      draftNavigate(
+                                        data.id,
+                                        data.pdf_id,
+                                        data.route_location,
+                                        data.campaign,
+                                        data.creator,
+                                        data.discription,
+                                        data.subject,
+                                        data.tags
+                                      );
+                                    }}
+                                    // onClick={(e) => showModal("send", data.id)
+                                  >
+                                    Send
+                                  </button>
+                                ) : (
+                                  ""
+                                )}
                                 <button
-                                  className="btn btn-primary send btn-bordered"
+                                  className="btn btn-primary edit btn-filled"
                                   onClick={() => {
                                     getEmailData(null);
                                     // getSelectedSmartListData(null);
@@ -1163,33 +1195,12 @@ const EmailList = (props) => {
                                       data.tags
                                     );
                                   }}
-                                  // onClick={(e) => showModal("send", data.id)
                                 >
-                                  Send
+                                  Edit
                                 </button>
-                              ) : (
-                                ""
-                              )}
-                              <button
-                                className="btn btn-primary edit btn-filled"
-                                onClick={() => {
-                                  getEmailData(null);
-                                  // getSelectedSmartListData(null);
-                                  draftNavigate(
-                                    data.id,
-                                    data.pdf_id,
-                                    data.route_location,
-                                    data.campaign,
-                                    data.creator,
-                                    data.discription,
-                                    data.subject,
-                                    data.tags
-                                  );
-                                }}
-                              >
-                                Edit
-                              </button>
-                            </div>
+                              </div>
+                            )
+                          }
                           </div>
                         )}
                         {deletestatus && (

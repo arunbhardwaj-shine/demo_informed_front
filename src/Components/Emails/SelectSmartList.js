@@ -25,11 +25,15 @@ const SelectSmartList = (props) => {
   const [getReaderDetails, setReaderDetails] = useState({});
   const [getSmartListName, setSmartListName] = useState('');
   const [getSmartListPopupStatus, setSmartListPopupStatus] = useState(false);
-  const [showLessInfo, setShowLessInfo] = useState(false);
+  const [showLessInfo, setShowLessInfo] = useState(true);
 
   const inputElement = useRef();
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   useEffect(() => {
+    getSmartListData();
+  }, []);
+
+  const getSmartListData = () => {
     const body = {
       user_id: 18207,
       search: "",
@@ -45,7 +49,8 @@ const SelectSmartList = (props) => {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }
+
   useEffect(() => {
     let listid = props.getEmailData
       ? smartListSelected.id
@@ -73,9 +78,7 @@ const SelectSmartList = (props) => {
   };
 
   const backClicked = () => {
-    window.history.go(-1);
-
-    // return true;
+    navigate("/SelectHCP");
   };
 
   const saveAsDraft = async () => {
@@ -151,7 +154,9 @@ const SelectSmartList = (props) => {
   };
 
   const redirectToList = () => {
-    navigate("/CreateSmartList");
+    setpopupopeningstatus(false);
+    window.open("/CreateSmartList", "_blank")
+    // navigate("/CreateSmartList");
   };
 
   const openSmartListPopup = async(smart_list_id) => {
@@ -184,6 +189,10 @@ const SelectSmartList = (props) => {
     setShowLessInfo(!showLessInfo);
   };
 
+  const refreshSmartList = () => {
+    getSmartListData();
+  }
+
   return (
     <>
       <div className="right-sidebar">
@@ -209,7 +218,7 @@ const SelectSmartList = (props) => {
                 </li>
                 <li className="active active-main">
                   <Link to="/SelectHCP">Select HCPs</Link>
-                 
+
                 </li>
                 <li className="">
                   <a href="javascript:void(0)">Verify Your List</a>
@@ -264,9 +273,20 @@ const SelectSmartList = (props) => {
                   className="btn btn-primary btn-bordered"
                   onClick={() => setpopupopeningstatus((getpopupopeningstatus) => !getpopupopeningstatus)}
                 >
-                  Create new smart list | Upload Excel File
+                  Create new smart list
                 </button>
+                <button class="upload-btn btn btn-primary btn-bordered" onClick={() => setpopupopeningstatus((getpopupopeningstatus) => !getpopupopeningstatus)}>
+                  Upload excel file
+								</button>
               </div>
+            </div>
+            <div className="col smartlist-refresh_div">
+              <button
+                className="btn btn-primary btn-bordered back"
+                onClick={refreshSmartList}
+              >
+                Refresh List
+              </button>
             </div>
             <div className="col smartlist-result-block">
               {SendListData.map((template) => {

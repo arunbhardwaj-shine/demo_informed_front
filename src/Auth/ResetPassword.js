@@ -18,14 +18,14 @@ function ResetPassword() {
       },
       validationSchema: Yup.object({
         old_pass: Yup.string()
-          .min(8,"Password must be at least 8 characters")
+          .min(8,"Password must be 8 characters long")
           .matches(
             /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
             "Password must contain one symbol, uppercase and one integer value"
           )
           .required("Enter your old password"),
           new_pass: Yup.string()
-          .min(8,"Password must be at least 8 characters")
+          .min(8,"Password must be 8 characters long")
           .matches(
             /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
             "Password must contain one symbol, uppercase and one integer value"
@@ -33,7 +33,7 @@ function ResetPassword() {
             .required("Enter your new password"),
           confirm_pass: Yup.string()
           .oneOf([Yup.ref("new_pass"), null], "Confirm and new password should be same")
-            .min(8, "Password must be at least 8 characters")
+            .min(8, "Password must be 8 characters long")
             .required("Enter your confirm  password"),
       }),
       onSubmit: (values) => {
