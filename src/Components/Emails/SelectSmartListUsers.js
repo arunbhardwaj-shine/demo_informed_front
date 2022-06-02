@@ -17,7 +17,7 @@ const SelectSmartListUsers = (props) => {
   const [campaign_id_st, setCampaign_id] = useState();
   const [SendListData, setSendListData] = useState([]);
   const [PdfSelected, setPdfSelected] = useState(0);
-  const [showLessInfo, setShowLessInfo] = useState(false);
+  const [showLessInfo, setShowLessInfo] = useState(true);
   const [selectedFile, setSelectedFile] = useState(null);
   const [TemplateId, setTemplateId] = useState(0);
   const [removedReaders, setRemovedReaders] = useState([]);
