@@ -59,6 +59,7 @@ import RegistraionDetails from "./Components/Webinar/Registration/RegistrationDe
 import RehearsalList from "./Components/Webinar/Rehearsal/RehearsalList";
 import ViewSmartListWebinar from "./Components/Webinar/SmartList/ViewSmartListWebinar";
 import WebinarDashboard from "./Components/Webinar/WebinarDashboard";
+import RegistrationDetailsList from "./Components/Webinar/Registration/RegistraionDetailsList";
 
 let platform = 0;
 let show = 0;
@@ -199,6 +200,10 @@ ReactDOM.render(
                         <Route
                           path="/webinar/RegistrationDetails"
                           element={<RegistraionDetails />}
+                        />
+                        <Route
+                          path="/webinar/registrationdetailslist"
+                          element={<RegistrationDetailsList />}
                         />
                       </Route>
                     </React.Fragment>

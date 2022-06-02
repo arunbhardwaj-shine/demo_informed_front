@@ -21,7 +21,6 @@ const Preview = () => {
       }
     });
   };
-
   const handleFormData = (e) => {
     e.preventDefault();
     let name = document.getElementById("fname").value;
