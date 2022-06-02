@@ -345,7 +345,7 @@ const CreateEmail = (props) => {
         if (res.data.status_code === 200) {
           popup_alert({
             visible: "show",
-            message: "Test mail sent successfuly",
+            message: "Test mail sent <br/> successfuly",
             type: "success",
           });
         } else {
@@ -1499,7 +1499,7 @@ const CreateEmail = (props) => {
               <div className="selected-hcp-table">
                 <div className="table-title">
                   <h4>
-                    Selected HCPs <span>| {selectedHcp.length}</span>
+                    Selected Contact <span>| {selectedHcp.length}</span>
                   </h4>
                 </div>
                 <div className="selected-hcp-list">
@@ -1508,38 +1508,62 @@ const CreateEmail = (props) => {
                       <h4>No Contact selected yet!</h4>
                     </div>
                   ) : (
-                    <table className="table">
-                      <thead>
-                        <tr>
-                          <th scope="col">Name</th>
-                          <th scope="col">Email</th>
-                          <th scope="col">Country</th>
-                          <th scope="col"></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {selectedHcp.map((data, index2) => {
+                    <div className="search-hcp-box">
+                        {console.log(selectedHcp)}
+                        { selectedHcp.map((data, index2) => {
                           return (
                             <>
-                              <tr>
-                                <td>{data.name || data.first_name}</td>
-                                <td>{data.email}</td>
-
-                                <td>{data.country}</td>
-
-                                <td className="delete_row" colSpan="12">
-                                  <img
-                                    src={path_image + "delete.svg"}
-                                    alt="Delete Row"
-                                    onClick={() => deleteSelected(index2)}
-                                  />
-                                </td>
-                              </tr>
-                            </>
-                          );
-                        })}
-                      </tbody>
-                    </table>
+                              <p className="send-hcp-box-title">
+                                Name | <span>{data.name || data.first_name}</span>
+                              </p>
+                              <p className="send-hcp-box-title">
+                                Email | <span>{data.email}</span>
+                              </p>
+                              <p className="send-hcp-box-title">
+                                Contact Type | <span>N/A</span>
+                              </p>
+                              <div
+                                className="remove-existing-field"
+                              >
+                              <img src={path_image + "delete.svg"} alt="Delete Row" onClick={() => deleteSelected(index2)} />
+                              </div>
+                              </>
+                            );
+                          })
+                        }
+                    </div>
+                    // <table className="table">
+                    //   <thead>
+                    //     <tr>
+                    //       <th scope="col">Name</th>
+                    //       <th scope="col">Email</th>
+                    //       <th scope="col">Country</th>
+                    //       <th scope="col"></th>
+                    //     </tr>
+                    //   </thead>
+                    //   <tbody>
+                    //     {selectedHcp.map((data, index2) => {
+                    //       return (
+                    //         <>
+                    //           <tr>
+                    //             <td>{data.name || data.first_name}</td>
+                    //             <td>{data.email}</td>
+                    //
+                    //             <td>{data.country}</td>
+                    //
+                    //             <td className="delete_row" colSpan="12">
+                    //               <img
+                    //                 src={path_image + "delete.svg"}
+                    //                 alt="Delete Row"
+                    //                 onClick={() => deleteSelected(index2)}
+                    //               />
+                    //             </td>
+                    //           </tr>
+                    //         </>
+                    //       );
+                    //     })}
+                    //   </tbody>
+                    // </table>
                   )}
                 </div>
               </div>
