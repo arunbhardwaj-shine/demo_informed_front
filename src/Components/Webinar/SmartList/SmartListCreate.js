@@ -17,7 +17,7 @@ const SmartListCreate = () => {
   const [show, setShow] = useState(false);
   const [smartListName, setSmartListName] = useState("");
   const [smartListId, setSmartListId] = useState();
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
 
   const handleClose = () => {
     setShow(false);
