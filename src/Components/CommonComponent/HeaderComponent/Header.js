@@ -33,7 +33,7 @@ const Header = () => {
      	<header>
 			<nav className="navbar navbar-expand-sm navbar-light">
 			  <div className="container-fluid">
-				<a className="navbar-brand" ><img src={path+"inforMed_Logo_Blue_1.png"} alt="" /></a>
+				<a className="navbar-brand" ><img src={path+"inforMed_Logo_Blue_1.svg"} alt="" /></a>
 				<button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
 				  <span className="navbar-toggler-icon"></span>
 				</button>
