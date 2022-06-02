@@ -142,7 +142,7 @@ const RegistraionDetails = () => {
     setField("");
   };
   return (
-    <div>
+    <div class="right-sidebar">
       <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
       </div>

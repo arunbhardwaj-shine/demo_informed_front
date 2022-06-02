@@ -46,7 +46,7 @@ const RehearsalList = () => {
         handleGetEventlist();
       }, []);
   return (
-    <div>
+    <div class="right-sidebar">
          <Row>
           <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>

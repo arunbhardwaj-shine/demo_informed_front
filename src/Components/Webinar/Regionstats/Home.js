@@ -24,7 +24,7 @@ const Home = () => {
     handleGetEventlist();
   }, []);
   return (
-    <div>
+    <div class="right-sidebar">
       <Row>
         <Col md={{ span: 10, offset: 2 }}>
           <Row>
