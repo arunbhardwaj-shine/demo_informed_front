@@ -54,7 +54,7 @@ const SelectSmartListUsers = (props) => {
       setCampaign_id(campaign_id);
   }, []);
 
-  //console.log(smartListSelected);
+  console.log(smartListSelected);
 
   const inputElement = useRef();
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -883,7 +883,6 @@ const SelectSmartListUsers = (props) => {
                       <>
                         <tr
                           id={`row-selected` + i}
-                          contenteditable={editable === 0 ? "false" : "true"}
                           onClick={(e) =>
                             editing(
                               //  e.currentTarget,
@@ -898,17 +897,21 @@ const SelectSmartListUsers = (props) => {
                             )
                           }
                         >
-                          <td id={`field_name` + i}>
+                          <td id={`field_name` + i}
+                          contenteditable={editable === 0 ? "false" : "true"}
+                          >
                             <span>
                               {" "}
                               {readers.first_name +
                                 " " +
                                 readers.last_name}{" "}
                             </span>
-                          </td>
+                          </td >
                           <td id={`field_email` + i}>{readers.email}</td>
                           <td id={`field_bounced` + i}>{readers.bounce}</td>
-                          <td id={`field_country` + i}>
+                          <td id={`field_country` + i}
+                           contenteditable={editable === 0 ? "false" : "true"}
+                          >
                             <span>{readers.country}</span>
                           </td>
                           <td>{readers.ibu}</td>
