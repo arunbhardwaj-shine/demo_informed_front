@@ -1806,7 +1806,7 @@ const CreateEmail = (props) => {
             <div className="modal-content"> */}
           <div className="modal-header">
             <h5 className="modal-title" id="staticBackdropLabel">
-              Add New HCP
+              Add New Contact
             </h5>
             <button
               onClick={() => {
