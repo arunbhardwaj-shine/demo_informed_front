@@ -243,10 +243,6 @@ ReactDOM.render(
                           element={<RegistraionDetails />}
                         />
                         <Route
-                          path="/webinar/registrationdetailslist"
-                          element={<RegistrationDetailsList />}
-                          />
-                          <Route
                           path="/webinar/SmartListCreate"
                           element={<SmartListCreate />}
                         />
