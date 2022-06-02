@@ -107,6 +107,7 @@ const RegistrationDetailsList = () => {
           }
          
       });
+    //   console.log(fields)
     const handleGetEventlist = () => {
         ExportApi.GetEventList().then((resp) => {
           if (resp.ok) {
@@ -343,7 +344,7 @@ useEffect(() => {
                   <h5>what data should be collected?</h5>
                   <Row>
                   <div>
-                    {fields?.map((data, i) => {
+                    {inputbox?.map((data, i) => {
                       return (
                         <>
                          <Form.Label>{data.value}</Form.Label>
@@ -352,7 +353,7 @@ useEffect(() => {
                             onChange={(e) => handleRadioChange(e, i)}
                             value={data.value}
                             name={data.name}
-                            checked={data.required}
+                            //   checked={data.value==fields[i]?.value?fields[i]?.requred:data.isActive}
                           />
                           {data.isActive == true ? (
                             <>
