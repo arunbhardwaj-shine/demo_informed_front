@@ -5,7 +5,7 @@ import TableView from "./TableView";
 const ExcelUpload = () => {
   const location = useLocation();
   const { data } = location.state;
-  const { smartListName } = location.state;
+  const { smartListId } = location.state;
 
   return (
     <>
@@ -13,7 +13,7 @@ const ExcelUpload = () => {
         <div className="col right-sidebar">
           <TableView
             data={data}
-            smartListName={smartListName}
+            smartListId={smartListId}
             upload_by_filter="0"
           />
         </div>

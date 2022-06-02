@@ -1057,7 +1057,7 @@ const ViewTable = (props) => {
                     className="hcps-added"
                     onInput={(e) => editing(e, item.profile_id)}
                   >
-                    <td  contenteditable={editable === 0 ? "false" : "true"}>
+                    <td contenteditable={editable === 0 ? "false" : "true"}>
                       {inEditMode.status &&
                       inEditMode.rowKey === item.profile_id ? (
                         <input
@@ -1082,7 +1082,7 @@ const ViewTable = (props) => {
                       )}
                     </td>
                     <td>No</td>
-                    <td  contenteditable={editable === 0 ? "false" : "true"}>
+                    <td contenteditable={editable === 0 ? "false" : "true"}>
                       {inEditMode.status &&
                       inEditMode.rowKey === item.profile_id ? (
                         <input
@@ -1094,7 +1094,9 @@ const ViewTable = (props) => {
                       )}
                     </td>
                     {showLessInfo == false ? <td> {item.ibu}</td> : null}
-                    {showLessInfo == false ? <td> {item.contact_type}</td> : null}
+                    {showLessInfo == false ? (
+                      <td> {item.contact_type}</td>
+                    ) : null}
 
                     <td class="delete_row" colspan="12">
                       <img
@@ -1113,7 +1115,6 @@ const ViewTable = (props) => {
                 {editList.map((item, index) => (
                   <tr
                     id={`row-selected` + index}
-                   
                     onClick={(e) =>
                       editing(
                         //  e.currentTarget,
@@ -1128,13 +1129,19 @@ const ViewTable = (props) => {
                       )
                     }
                   >
-                    <td id={`field_name` + index}  contenteditable={editable === 0 ? "false" : "true"}>
+                    <td
+                      id={`field_name` + index}
+                      contenteditable={editable === 0 ? "false" : "true"}
+                    >
                       <span> {item.first_name + " " + item.last_name} </span>
                     </td>
 
                     <td id={`field_email` + index}>{item.email}</td>
                     <td id={`field_bounced` + index}>NA</td>
-                    <td id={`field_country` + index}  contenteditable={editable === 0 ? "false" : "true"}>
+                    <td
+                      id={`field_country` + index}
+                      contenteditable={editable === 0 ? "false" : "true"}
+                    >
                       <span>{item.country}</span>
                     </td>
                     {/*showLessInfo == false ? (
@@ -1253,7 +1260,7 @@ const ViewTable = (props) => {
                   },
                 ]);
                 setActiveManual("active");
-                document.querySelector('#file-4').value = '';
+                document.querySelector("#file-4").value = "";
                 setActiveExcel("");
               }}
               type="button"
@@ -1370,25 +1377,34 @@ const ViewTable = (props) => {
                 </form>
                 <form id="add_file" className={"tab-pane" + activeExcel}>
                   <div class="file_upload-box">
-                      <div className="upload-file-box">
-                        <div className="box">
-                          <input
-                            type="file"
-                            name="file-4[]"
-                            id="file-4"
-                            class="inputfile inputfile-3"
-                            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                            onChange={onFileChange}
-                            data-multiple-caption="{count} files selected"
-                            multiple
-                            // ref={file_name}
-                          />
+                    <div className="upload-file-box">
+                      <div className="box">
+                        <input
+                          type="file"
+                          name="file-4[]"
+                          id="file-4"
+                          class="inputfile inputfile-3"
+                          accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                          onChange={onFileChange}
+                          data-multiple-caption="{count} files selected"
+                          multiple
+                          // ref={file_name}
+                        />
 
-                        {(file_name.current?.files===undefined || file_name.current.files?.length===0 )? <><label for="file-4"><span>Choose Your File</span></label>
-                          <p>Upload your excel file</p></> : <h5>{file_name.current.files[0].name}</h5> }
-                        </div>
+                        {file_name.current?.files === undefined ||
+                        file_name.current.files?.length === 0 ? (
+                          <>
+                            <label for="file-4">
+                              <span>Choose Your File</span>
+                            </label>
+                            <p>Upload your excel file</p>
+                          </>
+                        ) : (
+                          <h5>{file_name.current.files[0].name}</h5>
+                        )}
                       </div>
                     </div>
+                  </div>
                 </form>
               </div>
               <div className="hcp-modal-action">

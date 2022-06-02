@@ -160,13 +160,14 @@ const SmartListCreate = () => {
         { headers }
       )
       .then((res) => {
+        //  console.log(smartListId);
         console.log(res);
         if (res.data.code === 200) {
           setData(res.data.data);
           navigate("/webinar/ExcelUpload", {
             state: {
               data: res.data.data,
-              smartListName: smartListName,
+              smartListId: smartListId,
             },
           });
 
