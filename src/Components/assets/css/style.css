@@ -848,7 +848,7 @@ input:-webkit-autofill{ -webkit-text-fill-color: #70899E !important; }
   min-width: 70px;
   font-weight: 400;
   color: var(--white);
-  height: auto;
+  /* height: auto; */
   background-color: var(--light-blue);
 }
 

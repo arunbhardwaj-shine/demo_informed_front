@@ -264,8 +264,12 @@ const SelectSmartList = (props) => {
                   className="btn btn-primary btn-bordered"
                   onClick={() => setpopupopeningstatus((getpopupopeningstatus) => !getpopupopeningstatus)}
                 >
-                  Create new smart list | Upload Excel File
+                  Create new smart list
                 </button>
+                <div class="upload-btn" onClick={() => setpopupopeningstatus((getpopupopeningstatus) => !getpopupopeningstatus)}>
+									  <label for="input-file">Upload Exel File</label>
+									  <input id="input-file" type="file" />
+								</div>
               </div>
             </div>
             <div className="col smartlist-result-block">

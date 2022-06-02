@@ -62,7 +62,7 @@
 	.sidebar-menu ul li a svg { margin-right: 13px; width: 20px; } 
 	.page-top-nav .tabnav-link li { padding: 0 24px; } 
 	.page-top-nav .tabnav-link li::after { width: 31px; right: -18px; top: 10px; }
-	.search-hcp-table table, .selected-hcp-list table { border-spacing: 0px 20px; } 
+	.search-hcp-table table, .selected-hcp-list table { border-spacing: 0px 20px; padding-right:5px;} 
 	.result-hcp-table .table-title .selected-hcp-table-action .hcp-added, .table-title .hcp-new-user, .table-title .show-less-info { margin-right: 10px; } 
 	.send-option-list ul li .send-option-img { width: 124px; height: 124px; } 
 	.send-option-list ul li img { height: 50px; } 
@@ -70,7 +70,6 @@
 	.send-option-list ul li p { margin: 16px 0 8px; font-size: 16px; } 
 	.send-option-img.active { border: 3px solid var(--light-blue); } 
 	h4 { font-size: 22px; line-height: 25px; } 
-	.form-inline .form-group label { font-size: 16px; } 
 	.form-search-hcp .form-inline .form-group label { padding-right: 12px; } 
 	.form-search-hcp .form-inline .form-group input { width: calc(100% - 57px); padding: 8px 12px; } 
 	.form-search-hcp .form-button .btn { min-width: 120px; } 
@@ -159,6 +158,31 @@
 		font-size: 16px;
 	}
 	#add_hcp .modal-body .hcp-add-form form .form-group .form-control, #add_hcp .modal-body .hcp-add-form form .form-group select { padding: 6px 18px; font-size: 14px;height:36px; } 
+	.form-inline .form-group label {
+		font-size: 16px;
+		width: 134px;
+		flex: 0 0 134px;
+	}
+	.form-buttons .btn {
+		height: 36px;
+		padding: 6px 16px;
+	}
+	#send-sample .search-hcp-table-inside .search-hcp-box {
+		width: 31%;
+		margin-right: 2.3%;
+	}
+	#send-sample .search-hcp-table-inside.sample_list_dt {
+		padding: 20px 10px 20px 10px;
+	}
+	#send-sample .search-hcp-table-inside .search-hcp-box .add-new-field img {
+		width: 27px;
+	}
+	#send-sample .search-hcp-table-inside .search-hcp-box .add-new-field {
+		right: -14px;
+	}
+	table tr td.delete_row, table tr:hover td.delete_row {
+		right: -5px;
+	}
 	 } 
 	 
 	 @media only screen and (max-width:1365px){ 
@@ -192,7 +216,7 @@
 		.email-result-block .email-block-add-box, .email-result-block .email_box_block { padding: 0 20px; } 
 		.search-bar form.d-flex input, .filter-by button { height: 36px; } 
 		.filter-by button { padding: 9px 26px; } 
-		.clear-search button { width: 36px; padding: 4px; height: 36px; } 
+		.clear-search button { width: 36px; padding: 4px; height: 36px; font-size: 14px;} 
 		.clear-search button svg { width: 22px; } 
 		.smartlist-result-block .not_found { font-size: 22px; } 
 		.input-group-prepend::after { left: 142px; }
