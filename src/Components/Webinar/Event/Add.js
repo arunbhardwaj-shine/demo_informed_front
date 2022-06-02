@@ -107,6 +107,12 @@ function Add(props) {
     }
     return err;
   };
+  const handleResetSp = () => {
+    // setRerender(render+1)
+    setSpeakerName([{name: "", email:"" }])
+    setSpeakerErr([{name: "", email:"" }])
+    // setRerender(render+1)
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -297,6 +303,7 @@ function Add(props) {
                           name={
                             Speakername.length === 0 ? "email" : "email" + i
                           }
+                          value={multi.email}
                           onChange={(e) => {
                             handleSpeakerName(e, i);
                           }}
@@ -559,7 +566,7 @@ function Add(props) {
                   ) : null}
                 </Col>
               </Form.Group>
-              <Button type="reset" onClick={()=>setSpeakerName([{ name: "", email: "" }])}>Reset</Button>
+              <Button type="reset" onClick={()=>handleResetSp()}>Reset</Button>
               <Button
                 type="submit"
                 className="event-submit-button"

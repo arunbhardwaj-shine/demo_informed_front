@@ -233,7 +233,7 @@ function Rehearsal() {
         pauseOnHover
       />
       <Col md={{ span: 6, offset: 3 }}>
-        <div>
+        <div class="right-sidebar">
          <Link to="/webinar/rehearsallist"><Button>Rehearsals</Button> </Link>
           <div>
             <form

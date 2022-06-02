@@ -87,6 +87,12 @@ import ForgotPassword from "./Auth/ForgotPassword";
 import ForgotResetPassword from "./Auth/ForgotResetPassword";
 
 // import Rehearsal1 from "./Components/Webinar/Rehearsal/Rehearsal1";
+import WebinarSmartList from "./Components/Webinar/SmartList/WebinarSmartList";
+import RegistraionDetails from "./Components/Webinar/Registration/RegistrationDetails";
+import RehearsalList from "./Components/Webinar/Rehearsal/RehearsalList";
+import ViewSmartListWebinar from "./Components/Webinar/SmartList/ViewSmartListWebinar";
+import WebinarDashboard from "./Components/Webinar/WebinarDashboard";
+import RegistrationDetailsList from "./Components/Webinar/Registration/RegistraionDetailsList";
 
 import SmartListCreate from "./Components/Webinar/SmartList/SmartListCreate";
 import FilterList from "./Components/Webinar/SmartList/FilterList";
@@ -237,6 +243,10 @@ ReactDOM.render(
                           element={<RegistraionDetails />}
                         />
                         <Route
+                          path="/webinar/registrationdetailslist"
+                          element={<RegistrationDetailsList />}
+                          />
+                          <Route
                           path="/webinar/SmartListCreate"
                           element={<SmartListCreate />}
                         />
