@@ -112,7 +112,7 @@ const RegionStatsChart = (props) => {
   }, []);
 
   return (
-    <>
+    <div class="right-sidebar">
       <div className="container">
         <Tabs defaultActiveKey="0">
           {regions.map((region, index) => {
@@ -125,7 +125,7 @@ const RegionStatsChart = (props) => {
         </Tabs>
       </div>
       {/* <HighchartsReact highcharts={Highcharts} options={options_ch} /> */}
-    </>
+    </div>
   );
 };
 

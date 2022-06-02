@@ -4,6 +4,8 @@ import { Button, Col, Form, Row, Table } from "react-bootstrap";
 
 const Contacts = () => {
   return (
+    <div >
+
   	<Col md={{ span: 10, offset: 2 }}>
           <Row>
             <Col xs={2}>
@@ -33,6 +35,7 @@ const Contacts = () => {
             </Row>    
 		</Row>    
     </Col>
+    </div>
   );
 }
 export default Contacts;
