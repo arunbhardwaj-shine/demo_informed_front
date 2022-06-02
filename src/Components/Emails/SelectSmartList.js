@@ -78,9 +78,7 @@ const SelectSmartList = (props) => {
   };
 
   const backClicked = () => {
-    window.history.go(-1);
-
-    // return true;
+    navigate("/SelectHCP");
   };
 
   const saveAsDraft = async () => {

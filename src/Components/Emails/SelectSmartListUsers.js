@@ -79,9 +79,7 @@ const SelectSmartListUsers = (props) => {
   }, []);
 
   const backClicked = () => {
-    window.history.go(-1);
-
-    // return true;
+    navigate("/SelectSmartList");
   };
 
   useEffect(() => {
