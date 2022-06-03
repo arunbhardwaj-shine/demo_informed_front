@@ -31,7 +31,7 @@ const Table = (props, ref) => {
   const [validator2] = React.useState(new SimpleReactValidator());
   const [validator3] = React.useState(new SimpleReactValidator());
   const [isOpen, setIsOpen] = useState(false);
-  const [showLessInfo, setShowLessInfo] = useState(false);
+  const [showLessInfo, setShowLessInfo] = useState(true);
   const [deleteConfirmation, setOpenDeleteConfirmation] = useState(false);
   const [profileUserId, setProfileUserId] = useState();
   const [data, setData] = useState(0);
@@ -1400,170 +1400,200 @@ const Table = (props, ref) => {
                     const fieldName = `hpc[${i}]`;
                     return (
                       <>
-                        <div className="row">
-                          <div className="col-12 col-md-6">
-                            <div className="form-group">
-                              <label for="">First Name</label>
-                              <input
-                                type="text"
-                                className="form-control"
-                                onChange={(event) =>
-                                  onFirstNameChange(event, i)
-                                }
-                                value={val.firstname}
-                              />
-                            </div>
-                          </div>
-                          <div className="col-12 col-md-6">
-                            <div className="form-group">
-                              <label for="">Last Name</label>
-                              <input
-                                type="text"
-                                className="form-control"
-                                onChange={(event) => onLastNameChange(event, i)}
-                                value={val.lastname}
-                              />
-                            </div>
-                          </div>
-                          <div className="col-12 col-md-6">
-                            <div className="form-group">
-                              <label for="">Email *</label>
-                              <input
-                                type="email"
-                                className="form-control"
-                                id="email-desc"
-                                name={`${fieldName}.email`}
-                                onChange={(event) => onEmailChange(event, i)}
-                                value={val.email}
-                              />
-                            </div>
-                          </div>
-                          <div className="col-12 col-md-6">
-                            <div className="form-group">
-                              <label for="">Contact Type</label>
-                              <select
-                                className="form-contact"
-                                aria-label="select"
-                                onChange={(event) =>
-                                  onContactTypeChange(event, i)
-                                }
-                              >
-                                <option selected value="">
-                                  Select Type
-                                </option>
-                                <option value="HCP">HCP</option>
-                                <option value="Staff">Staff</option>
-                                <option value="Test Users">Test Users</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div className="col-12 col-md-6">
-                            <div className="form-group">
-                              <label for="">Country</label>
-                              <select
-                                className="country-form"
-                                aria-label="select"
-                                onChange={(event) => onCountryChange(event, i)}
-                              >
-                                <option value="" selected>
-                                  Select Country
-                                </option>
-                                {countryall.length === 0
-                                  ? ""
-                                  : Object.entries(countryall).map(
-                                      ([index, item]) => {
-                                        return (
-                                          <>
-                                            <option value={index}>
-                                              {item}
-                                            </option>
-                                          </>
-                                        );
-                                      }
+                      <div className="add_hcp_boxes">
+                          <div className="form_action">
+                            <div className="row">
+                              <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                  <label for="">First Name</label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    onChange={(event) =>
+                                      onFirstNameChange(event, i)
+                                    }
+                                    value={val.firstname}
+                                  />
+                                </div>
+                              </div>
+                              <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                  <label for="">Last Name</label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    onChange={(event) => onLastNameChange(event, i)}
+                                    value={val.lastname}
+                                  />
+                                </div>
+                              </div>
+                              <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                  <label for="">Email *</label>
+                                  <input
+                                    type="email"
+                                    className="form-control"
+                                    id="email-desc"
+                                    name={`${fieldName}.email`}
+                                    onChange={(event) => onEmailChange(event, i)}
+                                    value={val.email}
+                                  />
+                                </div>
+                              </div>
+                              <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                  <label for="">Contact Type</label>
+                                  <select
+                                    className="form-contact"
+                                    aria-label="select"
+                                    onChange={(event) =>
+                                      onContactTypeChange(event, i)
+                                    }
+                                  >
+                                    <option selected value="">
+                                      Select Type
+                                    </option>
+                                    <option value="HCP">HCP</option>
+                                    <option value="Staff">Staff</option>
+                                    <option value="Test Users">Test Users</option>
+                                  </select>
+                                </div>
+                              </div>
+                              <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                  <label for="">Country</label>
+                                  <select
+                                    className="country-form"
+                                    aria-label="select"
+                                    onChange={(event) => onCountryChange(event, i)}
+                                  >
+                                    <option value="" selected>
+                                      Select Country
+                                    </option>
+                                    {countryall.length === 0
+                                      ? ""
+                                      : Object.entries(countryall).map(
+                                          ([index, item]) => {
+                                            return (
+                                              <>
+                                                <option value={index}>
+                                                  {item}
+                                                </option>
+                                              </>
+                                            );
+                                          }
+                                        )}
+                                  </select>
+                                </div>
+                              </div>
+
+                              {
+                                /*
+                                <div className="col-12 col-md-6 btn_rmv">
+                                  <div className="form-group">
+                                    {i !== 0 && (
+                                      <button
+                                        type="button"
+                                        className="btn btn-filled"
+                                        onClick={() => deleteRecord(i)}
+                                      >
+                                        Remove
+                                      </button>
                                     )}
-                              </select>
+                                  </div>
+                                </div>
+                                */
+                              }
+
                             </div>
-                          </div>
-                          <div className="col-12 col-md-6 btn_rmv">
-                            <div className="form-group">
-                              {i !== 0 && (
-                                <button
-                                  type="button"
-                                  className="btn btn-filled"
-                                  onClick={() => deleteRecord(i)}
-                                >
-                                  Remove
-                                </button>
-                              )}
                             </div>
-                          </div>
+
+                            <div className="hcp-modal-action">
+                              <div className="hcp-action-block">
+                                {activeManual == "active" ? (
+                                  <>
+                                  {
+                                    hpc.length > 1 && (
+                                        <div className="hcp-remove">
+                                          <button
+                                          type="button"
+                                          className="btn btn-filled"
+                                          onClick={() => deleteRecord(i)}
+                                          >
+                                            <img src={path_image + "delete.svg"} alt="Add More" />
+                                          </button>
+                                        </div>
+                                    )
+                                  }
+
+                                  </>
+                                ) : null}
+
+                                <ul className="nav nav-tabs" role="tablist">
+                                  <li className="nav-item add_hcp">
+                                    <a
+                                      onClick={addMoreHcp}
+                                      className="nav-link active btn-bordered"
+                                      data-bs-toggle="tab"
+                                      href="javascript:;"
+                                    >
+                                      Add HCP +
+                                    </a>
+                                  </li>
+
+                                  {
+                                    /*
+                                    <li className="nav-item add-file">
+                                      <a
+                                        onClick={(e) => addFile(e)}
+                                        className="nav-link btn-filled"
+                                        data-bs-toggle="tab"
+                                        href="javascript:;"
+                                      >
+                                        Add File
+                                      </a>
+                                    </li>
+                                    */
+                                  }
+                                </ul>
+                              </div>
+                            </div>
                         </div>
                       </>
                     );
                   })}
                 </form>
-                <form id="add_file" className={"tab-pane" + activeExcel}>
-                  <div className="form-group files">
-                    <div className="box">
-                      <input
-                        type="file"
-                        id="file-4"
-                        className="form-control inputfile"
-                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                        onChange={onFileChange}
-                        ref={file_name}
-                      />
-                      {file_name.current?.files === undefined ||
-                      file_name.current.files?.length === 0 ? (
-                        <>
-                          <label for="file-4">
-                            <span>Choose Your File</span>
-                          </label>
-                          <p>Upload your excel file</p>
-                        </>
-                      ) : (
-                        <h5>{file_name.current.files[0].name}</h5>
-                      )}
+
+                {
+                  /*
+                  <form id="add_file" className={"tab-pane" + activeExcel}>
+                    <div className="form-group files">
+                      <div className="box">
+                        <input
+                          type="file"
+                          id="file-4"
+                          className="form-control inputfile"
+                          accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                          onChange={onFileChange}
+                          ref={file_name}
+                        />
+                        {file_name.current?.files === undefined ||
+                        file_name.current.files?.length === 0 ? (
+                          <>
+                            <label for="file-4">
+                              <span>Choose Your File</span>
+                            </label>
+                            <p>Upload your excel file</p>
+                          </>
+                        ) : (
+                          <h5>{file_name.current.files[0].name}</h5>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                </form>
-              </div>
-              <div className="hcp-modal-action">
-                <div className="hcp-action-block">
-                  {activeManual == "active" ? (
-                    <div className="hcp-remove">
-                      <button
-                        type="button"
-                        className="btn btn-filled"
-                        onClick={addMoreHcp}
-                      >
-                        <img src={path_image + "add-row.png"} alt="Add More" />
-                      </button>
-                    </div>
-                  ) : null}
-                  <ul className="nav nav-tabs" role="tablist">
-                    <li className="nav-item add_hcp">
-                      <a
-                        onClick={(e) => addHcp(e)}
-                        className="nav-link active btn-bordered"
-                        data-bs-toggle="tab"
-                        href="javascript:;"
-                      >
-                        Add HCP +
-                      </a>
-                    </li>
-                    <li className="nav-item add-file">
-                      <a
-                        onClick={(e) => addFile(e)}
-                        className="nav-link btn-filled"
-                        data-bs-toggle="tab"
-                        href="javascript:;"
-                      >
-                        Add File
-                      </a>
-                    </li>
-                  </ul>
-                </div>
+                  </form>
+                  */
+                }
+
               </div>
             </div>
           </div>

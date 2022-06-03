@@ -263,7 +263,7 @@ const CreateEmail = (props) => {
         },
       ]);
     } else {
-      toast.error("Please input the email atleast");
+      toast.warning("Please input the email atleast");
     }
   };
 
@@ -1005,6 +1005,7 @@ const CreateEmail = (props) => {
 
 
   const openSmartListPopup = async(smart_list_id) => {
+    setShowLessInfo(true);
    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
    const body = {
      user_id: 18207,
@@ -1966,15 +1967,21 @@ const CreateEmail = (props) => {
                           <div className="hcp-modal-action">
                             <div className="hcp-action-block">
                               {activeManual == "active" ? (
-                                <div className="hcp-remove">
-                                  <button
-                                    type="button"
-                                    className="btn btn-filled"
-                                    onClick={() => deleteRecord(i)}
-                                  >
-                                    <img src={path_image + "delete.svg"} alt="Delete Row" />
-                                  </button>
-                                </div>
+                                <>
+                                {
+                                  hpc.length > 1 && (
+                                    <div className="hcp-remove">
+                                      <button
+                                        type="button"
+                                        className="btn btn-filled"
+                                        onClick={() => deleteRecord(i)}
+                                      >
+                                        <img src={path_image + "delete.svg"} alt="Delete Row" />
+                                      </button>
+                                    </div>
+                                  )
+                                }
+                                </>
                               ) : null}
                               <ul className="nav nav-tabs" role="tablist">
                                 <li className="nav-item add_hcp">

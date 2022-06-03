@@ -7,7 +7,6 @@ import * as Yup from "yup";
 import { toast, ToastContainer } from "react-toastify";
 import CreateTemplate from "./CreateTemplate";
 import { Testmail } from "./Testmail";
-import Delete from './../Readers/Delete.jpg'
 import { loader } from "../../../loader";
 const Template = () => {
   const [testMail, SetTestMail] = useState(false);
@@ -24,7 +23,8 @@ const Template = () => {
   const [render, setRender] = useState(0);
   const [modalShow1, setModalShow1] = useState(false);
   const [hello, setHello] = useState(JSON.parse(localStorage.getItem("hello")));
-  
+   let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN ;
+
   const formik = useFormik({
     initialValues: {
       Subject: template ? template.subject : "",
@@ -271,7 +271,7 @@ const Template = () => {
                             Edit
                           </Button>{" "}
                           <img
-                                src={Delete}
+                                src={path_image + "webinar/delete.jpg"}
                                 onClick={() => {
                                   setModalShow1(true)
                                   setTemplateId(val)

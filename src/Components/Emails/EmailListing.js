@@ -1114,7 +1114,7 @@ const EmailList = (props) => {
                                       draftNavigate(
                                         data.id,
                                         data.pdf_id,
-                                        "CreateEmail",
+                                        "SelectHCP",
                                         data.campaign,
                                         data.creator,
                                         data.discription,

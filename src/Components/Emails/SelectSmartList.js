@@ -160,6 +160,7 @@ const SelectSmartList = (props) => {
   };
 
   const openSmartListPopup = async(smart_list_id) => {
+    setShowLessInfo(true);
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
       user_id: 18207,
@@ -500,6 +501,7 @@ const SelectSmartList = (props) => {
                             <th scope="col">Last Email</th>
                           </>
                         ) : null}
+                        <th></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -511,15 +513,16 @@ const SelectSmartList = (props) => {
                                 <tr>
                                   <td>{rr.first_name}</td>
                                   <td>{rr.email}</td>
-                                  <td>NA</td>
+                                  <td>{rr.bounce}</td>
                                   <td>{rr.country}</td>
                                   <td>{rr.ibu}</td>
                                   <td>{rr.contact_type}</td>
-                                  {showLessInfo == false ? <td><span>NA</span> </td> : null}
+                                  {showLessInfo == false ? <td><span>{rr.consent}</span> </td> : null}
                                   {showLessInfo == false ? <td><span>{rr.email_received}</span></td> : null}
                                   {showLessInfo == false ? <td><span>{rr.email_opening}</span></td> : null}
-                                  {showLessInfo == false ? <td><span>NA</span></td> : null}
+                                  {showLessInfo == false ? <td><span>{rr.registration}</span></td> : null}
                                   {showLessInfo == false ? <td><span>{rr.last_email}</span></td> : null}
+                                  <td></td>
                                 </tr>
                               </>
                             );
