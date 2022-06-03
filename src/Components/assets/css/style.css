@@ -13,7 +13,7 @@
 }
 body{ font-family: 'Roboto'; background: var(--light-skyblue); }
 a{cursor: pointer;}
-.filter-by.nav-item.dropdown button:hover svg path, .filter-by.nav-item.dropdown button:hover svg rect, .filter-by.highlight > button svg rect  {fill: #fff;}
+.filter-by.nav-item.dropdown button:hover svg path, .filter-by.nav-item.dropdown button:hover svg rect, .filter-by.highlight > button svg rect  {fill: var(--white);}
 .filter-by.nav-item.dropdown > button:hover, .filter-by.highlight > button {background: var(--light-blue);color: var(--white);}
 .container-fluid > .row {justify-content: flex-end;}
 button:focus,.btn-primary:focus, .btn-primary:active:focus{box-shadow:none; outline:none;}
@@ -798,14 +798,13 @@ text.highcharts-credits { display: none; }
 .smart-list-name .box.no-data p {text-align: center;font-size: 20px;line-height: 22px;color: var(--blue);font-family: 'Roboto-Medium';margin-bottom: 20px;}
 .smart-list-name .box p{margin-bottom:0;}
 .smart-list-name .search-hcp.smart-list-view {margin-bottom: 20px;}
-
 button#test-table-xls-button { font-size: 0; width: 40px; margin-right: 16px; background-image: url(../images/download.svg); background-size: 20px; background-repeat: no-repeat; background-position: center; }
 .load_more {text-align: center;margin-bottom: 20px;}
 .load_more .btn { padding: 13px 20px; }
 .modal .smartlist-result-block .smartlist_box_block { padding: 0 15px 10px; margin-bottom: 45px; flex: 0 0 auto; box-sizing: border-box; width: 33.3%; box-shadow: none; }
 .modal #add-list .smartlist-view { flex: 0 0 auto; box-sizing: border-box; width: 100%; box-shadow: none; }
 .modal #add-list .smartlist-view .mail-box-content:hover { box-shadow: 0px 4px 10px -1px rgb(0 102 190 / 40%); }
-#add-list .modal-body { padding-right: 30px; padding-top:5px; overflow-y: auto; margin-right: 10px;}
+#add-list .modal-body { padding-right: 30px; padding-top:5px; overflow-y: auto; margin-right: 10px;margin-top:10px;}
 #add-list .smartlist-result-block .no_found { margin-bottom: 40px; }
 .btn-close { background: transparent url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjIuNzI3NTEiIGhlaWdodD0iMTkuNzQwMiIgcng9IjEuMzYzNzYiIHRyYW5zZm9ybT0ibWF0cml4KDAuNzAyMDQ2IDAuNzEyMTMyIC0wLjcwMjA0NiAwLjcxMjEzMiAxNC4wODQ2IDApIiBmaWxsPSIjNzA4OTlFIi8+CjxyZWN0IHdpZHRoPSIyLjcyNzUxIiBoZWlnaHQ9IjE5Ljc0MDIiIHJ4PSIxLjM2Mzc2IiB0cmFuc2Zvcm09Im1hdHJpeCgwLjcwMjA0NiAtMC43MTIxMzIgMC43MDIwNDYgMC43MTIxMzIgMCAxLjk0MjM4KSIgZmlsbD0iIzcwODk5RSIvPgo8L3N2Zz4K") center/1em auto no-repeat; opacity: 1; }
 .search-hcp-table-inside.sample_list_dt .not-found { width: 100%; text-align: center; }
@@ -821,7 +820,7 @@ a.show-less-info p:after { content: "<<"; padding-left: 7px; position: absolute;
 .download-sample.sample-file { margin: 22px 0; } 
 #upload-confirm .upload-file-box .box  h5 { flex: 1 1 auto; text-align: center; margin: 0; color: var(--violet); } 
 a.color_blue { color: var(--white); text-decoration: none; } 
-a.color_blue:hover { color: white; } 
+a.color_blue:hover { color: var(--white); } 
 .email-result .email_box_block.no_found { width: 66%; justify-content: flex-start; padding: 15px 15px 15px 9%; } 
 .search-hcp .search-hcp-table-inside.not-found { text-align: center; min-height: inherit; } 
 button.btn.btn-primary.btn.btn-primary.disabled { background: rgba(151, 182, 207, 0.6); border-color: rgba(151, 182, 207, 0.6); }
@@ -844,7 +843,7 @@ button.btn.btn-primary.btn.btn-primary.disabled { background: rgba(151, 182, 207
 
 #save_new_template_action_modal .modal-body label {font-size: 20px;line-height: 23px;color: #004A89;margin-bottom: 16px;}
 
-#save_new_template_action_modal .modal-body  input {background: #FFFFFF;box-shadow: 0px 1px 8px rgba(0, 102, 190, 0.2);border-radius: 30px;border: 0;height: 48px;}
+#save_new_template_action_modal .modal-body  input {background:  var(--white);box-shadow: 0px 1px 8px rgba(0, 102, 190, 0.2);border-radius: 30px;border: 0;height: 48px;}
 
 #save_new_template_action_modal form {max-width: 432px;margin: 0 auto;display: flex;justify-content: center;flex-direction: column;align-items: center;width: 100%;}
 
@@ -894,36 +893,12 @@ input:-webkit-autofill{ -webkit-text-fill-color: #70899E !important; }
 .modal-body .hcp-add-form form .form-group .dropdown-toggle::after {
   display: none;
 }
-.modal-body .hcp-add-form form .form-group .dropdown .dropdown-menu {
-  width: 100%;
-  border: 0.5px solid rgba(0,102,190,.06);
-  box-sizing: border-box;
-  box-shadow: 0 0 20px -3px rgb(0 102 190 / 18%);
-  border-radius: 15px;
-  width: 100%;
-  padding: 8px;
-  max-height: 150px;
-  overflow-y: auto;
-}
+.modal-body .hcp-add-form form .form-group .dropdown .dropdown-menu {width: 100%;border: 0.5px solid rgba(0,102,190,.06);box-sizing: border-box;box-shadow: 0 0 20px -3px rgb(0 102 190 / 18%);border-radius: 15px;width: 100%;padding: 8px;max-height: 150px;overflow-y: auto;}
 
-.modal-body .hcp-add-form form .form-group .dropdown .dropdown-menu a.dropdown-item {
-  color: var(--blue);
-  font-size: 15px;
-  line-height: 17px;
-  padding: .75rem 1rem;
-  border-radius: 15px;
-  cursor: pointer;
-  margin:0 0 3px
-}
-.modal-body .hcp-add-form form .form-group .dropdown .dropdown-menu a.dropdown-item:hover, .modal-body .hcp-add-form form .form-group .dropdown .dropdown-menu a.dropdown-item:active{
-  background-color: #e9ecef;
-}
-.modal form#add_hcp_form .add_hcp_boxes:first-child:last-child .hcp-action-block .hcp-remove {
-display:none;
-}
-.modal form#add_hcp_form .add_hcp_boxes:first-child:last-child .hcp-action-block {
-  top: 68px;
-}
+.modal-body .hcp-add-form form .form-group .dropdown .dropdown-menu a.dropdown-item {color: var(--blue);font-size: 15px;line-height: 17px;padding: .75rem 1rem;border-radius: 15px;cursor: pointer;margin:0 0 3px}
+.modal-body .hcp-add-form form .form-group .dropdown .dropdown-menu a.dropdown-item:hover, .modal-body .hcp-add-form form .form-group .dropdown .dropdown-menu a.dropdown-item:active{background-color: #e9ecef;}
+.modal form#add_hcp_form .add_hcp_boxes:first-child:last-child .hcp-action-block .hcp-remove {display:none;}
+.modal form#add_hcp_form .add_hcp_boxes:first-child:last-child .hcp-action-block {top: 68px;}
 
 
 @-moz-document url-prefix() {
