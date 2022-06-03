@@ -204,7 +204,8 @@ const VerifyMAIL = (props) => {
       template_source_code: props.getEmailData
         ? props.getEmailData.template
         : props.getDraftData.source_code,
-      campaign_id: props.getEmailData ? "" : props.getDraftData.campaign_id,
+      // campaign_id: props.getEmailData ? "" : props.getDraftData.campaign_id,
+      campaign_id: campaign_id_st,
       campaign_data: {
         user_list: user_list,
         smart_list_id: typeof getSmartListData !== "undefined" && getSmartListData.hasOwnProperty('id') ? getSmartListData.id : "",
@@ -213,7 +214,7 @@ const VerifyMAIL = (props) => {
           : props.getDraftData.campaign_data.template_id,
       },
     };
-
+    // console.log(body);
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
