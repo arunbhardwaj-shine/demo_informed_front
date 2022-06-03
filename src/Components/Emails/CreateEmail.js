@@ -263,7 +263,7 @@ const CreateEmail = (props) => {
         },
       ]);
     } else {
-      toast.error("Please input the email atleast");
+      toast.warning("Please input the email atleast");
     }
   };
 
