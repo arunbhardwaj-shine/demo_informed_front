@@ -76,7 +76,7 @@ const Header = () => {
             />
 
                <div className="modal send-confirm" id="resend-confirm" aria-modal="true" role="dialog" >
-				  <div className="modal-dialog modal-dialog-centered">
+				  <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 					<div className="modal-content">
 
 

@@ -1988,7 +1988,7 @@ const CreateEmail = (props) => {
                                   <a
                                     id="add_hcp_btn"
                                     onClick={addMoreHcp}
-                                    className="nav-link active btn-bordered"
+                                    className="nav-link btn-bordered"
                                     data-bs-toggle="tab"
                                     href="javascipt:;"
                                   >
