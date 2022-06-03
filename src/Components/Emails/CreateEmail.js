@@ -1005,6 +1005,7 @@ const CreateEmail = (props) => {
 
 
   const openSmartListPopup = async(smart_list_id) => {
+    setShowLessInfo(true);
    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
    const body = {
      user_id: 18207,
