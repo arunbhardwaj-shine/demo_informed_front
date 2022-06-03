@@ -609,7 +609,7 @@ form#add_hcp_form .row:not(:first-child) { border-top: 1px dashed var(--light-bl
 
 /**View-Smart-List**/
 .smart-list-btns { display: flex; justify-content: flex-end; }
-.smart-list-btns .smart-list-download, .smart-list-btns .hcp-new-user, .smart-list-btns .hcp-added { margin-right: 16px; }
+.smart-list-btns .hcp-new-user, .smart-list-btns .hcp-added { margin-right: 16px; }
 .smart-list-btns .smart-list-download button, .smart-list-btns .hcp-new-user button, .smart-list-btns .hcp-added button{ border: 0; filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2)); border-radius: 30px; background: var(--white); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; padding: 4px; }
 .hcp-new-user .btn:hover, .hcp-added .btn:hover, .hcp-sort .btn:hover { background: var(--light-blue);color:var(--white); }
 .hcp-new-user .btn:hover img, .hcp-added .btn:hover img, .hcp-sort .btn:hover img { filter: brightness(0) invert(1); }
@@ -657,7 +657,7 @@ form#add_hcp_form .row:not(:first-child) { border-top: 1px dashed var(--light-bl
 #upload-confirm .upload-file-box { width:100%;border: 1px dashed var(--light-blue); box-sizing: border-box; border-radius: 15px; padding: 31px 28px; max-width: 500px; margin: 0 auto;}
 #upload-confirm  .inputfile { width: 0.1px; height: 0.1px; opacity: 0; overflow: hidden; position: absolute; z-index: -1; }
 #upload-confirm .inputfile ~ label { max-width: 80%; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; display: inline-block; overflow: hidden; padding: 11px; background: var(--light-blue); border-radius: 30px; color: var(--white) !important; font-size: 16px; line-height: 1; font-family: 'Roboto-medium'; font-weight: 500; min-width: 171px; text-align: center; height: 39px; }
-#upload-confirm .inputfile ~ label:hover{background: var(--blue);} 
+#upload-confirm .inputfile ~ label:hover{background: var(--blue);}
 #upload-confirm.send-confirm .modal-body { padding: 0 32px 24px; }
 #upload-confirm .upload-file-box .box { display: flex; justify-content: space-between; flex-direction: row-reverse; align-items: center;width:100%; }
 #upload-confirm .upload-file-box .box p { margin: 0; font-size: 18px; line-height: 145.19%; color: #70899E; }
@@ -713,9 +713,9 @@ form#add_hcp_form .row:not(:first-child) { border-top: 1px dashed var(--light-bl
 
 /*Css for email filters end*/
 #smart_list_popup_id.modal-dialog {max-width: 1200px;width: 100%;}
-#smart_list_popup_id .search-hcp { padding: 0px 15px 5px; } 
-#smart_list_popup_id .search-hcp table { padding-left:5px; } 
-#smart_list_popup_id .search-hcp-table table td { padding: 24px 6px; max-width: 240px; word-break: break-word; } 
+#smart_list_popup_id .search-hcp { padding: 0px 15px 5px; }
+#smart_list_popup_id .search-hcp table { padding-left:5px; }
+#smart_list_popup_id .search-hcp-table table td { padding: 24px 6px; max-width: 240px; word-break: break-word; }
 #smart_list_popup_id .search-hcp-table table tr td:last-child, #smart_list_popup_id .selected-hcp-list table tr td:last-child, #smart_list_popup_id .search-hcp-table table tr td:last-child { padding: 24px 10px; }
 .modal #smart_list_popup_id .search-hcp-table table tr td:last-child, .modal #smart_list_popup_id .selected-hcp-list table tr td:last-child, .modal #smart_list_popup_id .search-hcp-table table tr td:last-child { display:none; }
 .select-mail-template .ck-editor, .ck.ck-editor{width:100%!important;margin-bottom:30px!important}
@@ -799,6 +799,7 @@ text.highcharts-credits { display: none; }
 .smart-list-name .box p{margin-bottom:0;}
 .smart-list-name .search-hcp.smart-list-view {margin-bottom: 20px;}
 button#test-table-xls-button { font-size: 0; width: 40px; margin-right: 16px; background-image: url(../images/download.svg); background-size: 20px; background-repeat: no-repeat; background-position: center; }
+button#test-table-xls-button:hover { background-image: url(../images/download-img-hover.svg);background-color:  var(--light-blue); }
 .load_more {text-align: center;margin-bottom: 20px;}
 .load_more .btn { padding: 13px 20px; }
 .modal .smartlist-result-block .smartlist_box_block { padding: 0 15px 10px; margin-bottom: 45px; flex: 0 0 auto; box-sizing: border-box; width: 33.3%; box-shadow: none; }
@@ -816,6 +817,7 @@ button#test-table-xls-button { font-size: 0; width: 40px; margin-right: 16px; ba
 a.show-less-info p:after { content: "<<"; padding-left: 7px; position: absolute; right: 0; border-bottom: 1px solid var(--skyblue); line-height: 14px; top: 2px; }
 .verify-email-detail h6 ul li img[alt="Close-filter"] {cursor: pointer;}
 .modal-dialog[custom-atr="scroll"] .modal-header {box-shadow: 0px 2px 18px rgba(0, 102, 190, 0.12);z-index: 10;/*position: relative;*/}
+<<<<<<< HEAD
 .add-new-field img{ cursor: pointer; } 
 .download-sample.sample-file { margin: 22px 0; } 
 #upload-confirm .upload-file-box .box  h5 { flex: 1 1 auto; text-align: center; margin: 0; color: var(--violet); } 
@@ -823,9 +825,18 @@ a.color_blue { color: var(--white); text-decoration: none; }
 a.color_blue:hover { color: var(--white); } 
 .email-result .email_box_block.no_found { width: 66%; justify-content: flex-start; padding: 15px 15px 15px 9%; } 
 .search-hcp .search-hcp-table-inside.not-found { text-align: center; min-height: inherit; } 
+=======
+.add-new-field img{ cursor: pointer; }
+.download-sample.sample-file { margin: 22px 0; }
+#upload-confirm .upload-file-box .box  h5 { flex: 1 1 auto; text-align: center; margin: 0; color: var(--violet); }
+a.color_blue { color: var(--white); text-decoration: none; }
+a.color_blue:hover { color: white; }
+.email-result .email_box_block.no_found { width: 66%; justify-content: flex-start; padding: 15px 15px 15px 9%; }
+.search-hcp .search-hcp-table-inside.not-found { text-align: center; min-height: inherit; }
+>>>>>>> 2cd36484f21d841e995544d62892a2d5f244731f
 button.btn.btn-primary.btn.btn-primary.disabled { background: rgba(151, 182, 207, 0.6); border-color: rgba(151, 182, 207, 0.6); }
-.modal #add-list .smartlist-view .smartlist-buttons button.btn-filled.view { background: var(--light-blue); color: var(--white); } 
-.modal #add-list .smartlist-view .smartlist-buttons button.btn-filled.view:hover { background: var(--blue); border-color: var(--blue); } 
+.modal #add-list .smartlist-view .smartlist-buttons button.btn-filled.view { background: var(--light-blue); color: var(--white); }
+.modal #add-list .smartlist-view .smartlist-buttons button.btn-filled.view:hover { background: var(--blue); border-color: var(--blue); }
 .modal #add-list .smartlist-view .smartlist-buttons { justify-content: flex-end; }
 .select-mail-template .email-form form .input-group {display: flex;}
 
@@ -853,18 +864,18 @@ button.btn.btn-primary.btn.btn-primary.disabled { background: rgba(151, 182, 207
 
 #add_hcp .modal-body .hcp-add-form form .form-group.files label {line-height: 1;}
 
-input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active{ -webkit-background-color: 0 0 0 30px white inset !important; transition: background-color 5000s ease-in-out 0s; } 
-input:-webkit-autofill{ -webkit-text-fill-color: #70899E !important; } 
-.file_upload-box { align-items: center; justify-content: center; display: flex; width: 100%; height: calc(100% - 70px); } 
-.hcp-sort .btn.asc:hover, .hcp-sort .btn.desc:hover { color: var(--white); } 
+input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active{ -webkit-background-color: 0 0 0 30px white inset !important; transition: background-color 5000s ease-in-out 0s; }
+input:-webkit-autofill{ -webkit-text-fill-color: #70899E !important; }
+.file_upload-box { align-items: center; justify-content: center; display: flex; width: 100%; height: calc(100% - 70px); }
+.hcp-sort .btn.asc:hover, .hcp-sort .btn.desc:hover { color: var(--white); }
 .hcp-sort .btn.asc, .hcp-sort .btn.desc { color: var(--light-blue); }
 
-.clear-search button.cancel { width: auto; min-width: 70px; font-weight: 400; color: var(--white); background-color: var(--light-blue); } 
-.smartlist-refresh_div { margin-bottom: 30px; } 
-#smart_list_popup_id tr td:last-child, #smart_list_popup_id tr td:nth-child(7), #smart_list_popup_id tr td:nth-child(8), #smart_list_popup_id tr td:nth-child(9), #smart_list_popup_id tr td:nth-child(10), #smart_list_popup_id tr td:nth-child(11) { text-align: center; } 
-.header-btn .btn[disabled] { background: rgba(151, 182, 207, 0.6); border-color: rgba(151, 182, 207, 0.1); filter: none; } 
-.form-buttons .approved-btn img.approved_btn { display: none; } 
-.form-buttons .approved-btn:hover img.approved_btn, .form-buttons .approved-btn:active img.approved_btn, .form-buttons .approved-btn:focus img.approved_btn { display: inline-block; } 
+.clear-search button.cancel { width: auto; min-width: 70px; font-weight: 400; color: var(--white); background-color: var(--light-blue); }
+.smartlist-refresh_div { margin-bottom: 30px; }
+#smart_list_popup_id tr td:last-child, #smart_list_popup_id tr td:nth-child(7), #smart_list_popup_id tr td:nth-child(8), #smart_list_popup_id tr td:nth-child(9), #smart_list_popup_id tr td:nth-child(10), #smart_list_popup_id tr td:nth-child(11) { text-align: center; }
+.header-btn .btn[disabled] { background: rgba(151, 182, 207, 0.6); border-color: rgba(151, 182, 207, 0.1); filter: none; }
+.form-buttons .approved-btn img.approved_btn { display: none; }
+.form-buttons .approved-btn:hover img.approved_btn, .form-buttons .approved-btn:active img.approved_btn, .form-buttons .approved-btn:focus img.approved_btn { display: inline-block; }
 .form-buttons .approved-btn:hover img.approve_btn, .form-buttons .approved-btn:active img.approve_btn, .form-buttons .approved-btn:focus img.approve_btn { display:none; }
 #mail-view .chart-description text {
   font-family: 'Roboto';
