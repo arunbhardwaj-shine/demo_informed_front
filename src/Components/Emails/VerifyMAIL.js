@@ -224,7 +224,7 @@ const VerifyMAIL = (props) => {
         if (res.data.status_code === 200) {
           popup_alert({
             visible: "show",
-            message: "Mail sent successfuly",
+            message: "Mail sent <br/>successfully",
             type: "success",
             redirect: "/EmailList",
           });
