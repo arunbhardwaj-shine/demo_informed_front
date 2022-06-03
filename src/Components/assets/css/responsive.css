@@ -155,6 +155,9 @@
 	} 
 	 
 	 @media only screen and (max-width:1365px){ 
+		#add_hcp .modal-body .hcp-add-box .hcp-add-form.tab-content, #smart_list_popup_id .search-hcp .selected-hcp-list {
+			max-height: 67vh;
+		}
 		table tr td.delete_row, table tr:hover td.delete_row { width: 28px; height: 28px; } 
 		.mailbox-buttons { min-height: 40px; } 
 		.clear-search button.cancel { padding:6px; } 
@@ -226,7 +229,7 @@
 		#add_hcp .modal-body { padding-top: 0; } 
 		#add_hcp .modal-header h5, .modal-header h4 { font-size: 20px; line-height: 24px; } 
 		#add_hcp .modal-body .hcp-add-form button { font-size: 14px; } 
-		#add_hcp .modal-body .hcp-add-box .hcp-add-form.tab-content { max-height: 460px; } 
+		/* #add_hcp .modal-body .hcp-add-box .hcp-add-form.tab-content { max-height: 460px; }  */
 		#add_hcp .modal-footer { padding: 10px 10px 20px; } 
 		.send-confirm .modal-body h4 { font-size: 20px; margin-top: 22px; } 
 		.form-inline .form-group input { max-width: 380px; } 

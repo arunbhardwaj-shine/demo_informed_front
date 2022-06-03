@@ -918,6 +918,14 @@ input:-webkit-autofill{ -webkit-text-fill-color: #70899E !important; }
 .modal-body .hcp-add-form form .form-group .dropdown .dropdown-menu a.dropdown-item:hover, .modal-body .hcp-add-form form .form-group .dropdown .dropdown-menu a.dropdown-item:active{
   background-color: #e9ecef;
 }
+.modal form#add_hcp_form .add_hcp_boxes:first-child:last-child .hcp-action-block .hcp-remove {
+display:none;
+}
+.modal form#add_hcp_form .add_hcp_boxes:first-child:last-child .hcp-action-block {
+  top: 68px;
+}
+
+
 @-moz-document url-prefix() {
   a.show-less-info p::after {
     top: 3px;
