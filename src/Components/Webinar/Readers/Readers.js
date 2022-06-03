@@ -1,6 +1,3 @@
-import Lock from "./Lock.png";
-import Delete from "./Delete.jpg";
-import Unlock from "./Unlock.png";
 import React, { useEffect, useState } from "react";
 import { Button, CloseButton, Col, Form, Modal, Row, Table } from "react-bootstrap";
 import "../webinar.css";
@@ -13,6 +10,7 @@ import { scryRenderedComponentsWithType } from "react-dom/test-utils";
 import CsvDownload from "react-json-to-csv";
 import ReactHtmlTableToExcel from "react-html-table-to-excel";
 import { loader } from "../../../loader";
+
 const Readers = () => {
   const [data, setData] = useState();
   const [type, setType] = useState();
@@ -29,6 +27,7 @@ const Readers = () => {
   const [countryName, setCountryName] = useState();
   const [render, setRender] = useState(0);
   const [massage, setMassage] = useState("Please Select Event");
+  let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN ;
   const handleGetReadersData = (id) => {
       ExportApi.ReadersData(id).then((resp) => {
         if (resp.ok) {
@@ -403,7 +402,7 @@ const Readers = () => {
                             <td>
                               {val.is_blocked == 0 ? (
                                 <img
-                                  src={Unlock}
+                                  src={path_image + "webinar/unlock.png"}
                                   width={70}
                                   onClick={() => {
                                     setModalShow(true)
@@ -413,7 +412,7 @@ const Readers = () => {
                                 />
                               ) : (
                                 <img
-                                  src={Lock}
+                                  src={path_image + "webinar/lock.png"}
                                   onClick={() => {
                                     localStorage.setItem("blockId", val.id)
                                     localStorage.setItem("is",val.is_blocked)
@@ -425,7 +424,7 @@ const Readers = () => {
                             </td>
                             <td>
                               <img
-                                src={Delete}
+                                src={path_image + "webinar/delete.jpg"}
                                 onClick={() => {
                                   localStorage.setItem("DeleteData",val.id)
                                   setModalShow1(true)
