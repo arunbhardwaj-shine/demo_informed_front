@@ -848,7 +848,7 @@ const ViewTable = (props) => {
   const showSucessPopup = () => {
     popup_alert({
       visible: "show",
-      message: "The HCP record has been deleted successfully !",
+      message: "The HCP record has been deleted <br/>successfully !",
       type: "success",
     });
 
