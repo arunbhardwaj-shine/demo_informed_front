@@ -34,7 +34,7 @@ const ViewTable = (props) => {
   const [fileValidationMessage, setFileValidationMeassage] = useState(0);
   const [emailData, setEmailData] = useState("");
   const [search, setSearch] = useState("");
-  const [showLessInfo, setShowLessInfo] = useState(false);
+  const [showLessInfo, setShowLessInfo] = useState(true);
   const [deleteConfirmation, setOpenDeleteConfirmation] = useState(false);
   const [showReaders, setShowSaveReader] = useState(false);
   const [save, setSave] = useState(false);
