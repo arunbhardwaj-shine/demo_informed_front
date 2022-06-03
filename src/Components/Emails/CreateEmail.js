@@ -1966,15 +1966,21 @@ const CreateEmail = (props) => {
                           <div className="hcp-modal-action">
                             <div className="hcp-action-block">
                               {activeManual == "active" ? (
-                                <div className="hcp-remove">
-                                  <button
-                                    type="button"
-                                    className="btn btn-filled"
-                                    onClick={() => deleteRecord(i)}
-                                  >
-                                    <img src={path_image + "delete.svg"} alt="Delete Row" />
-                                  </button>
-                                </div>
+                                <>
+                                {
+                                  hpc.length > 1 && (
+                                    <div className="hcp-remove">
+                                      <button
+                                        type="button"
+                                        className="btn btn-filled"
+                                        onClick={() => deleteRecord(i)}
+                                      >
+                                        <img src={path_image + "delete.svg"} alt="Delete Row" />
+                                      </button>
+                                    </div>
+                                  )
+                                }
+                                </>
                               ) : null}
                               <ul className="nav nav-tabs" role="tablist">
                                 <li className="nav-item add_hcp">
