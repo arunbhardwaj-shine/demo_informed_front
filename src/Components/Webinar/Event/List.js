@@ -459,7 +459,7 @@ const EventData = () => {
           setShow(false);
         }}
       >
-        <Modal.Header closeButton></Modal.Header>{" "}
+        <Modal.Header closeButton></Modal.Header><h2 className="text-center">New Webinar/Event</h2>
         <div className="container">
           <Add closePopup={closePopup} getEventList={handleGetEventlist} />
         </div>
