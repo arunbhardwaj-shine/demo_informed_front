@@ -580,7 +580,7 @@ form#add_hcp_form .row:not(:first-child) { border-top: 1px dashed var(--light-bl
 #mail-view.modal-dialog { max-width: 1052px; min-height: calc(100% - 3.5rem); height: calc(100% - 3.5rem); transform: none; }
 #mail-view .modal-content { padding: 0 17px 20px; }
  #mail-view .mail-box-content { padding: 0px 16px 6px 20px; display: flex; justify-content: space-between; flex-direction: column; height: auto; }
- #mail-view .modal-body { padding-top: 9px; overflow-y: auto; }
+ #mail-view .modal-body { padding-top: 9px; overflow-y: auto;margin-top:10px; }
  #mail-view .mail-box-content h5 { color: var(--light-blue); }
  #mail-view.modal-dialog .modal-content { max-height: 100%; overflow: hidden; }
 #mail-view .mail-box-heading-block { display: flex; justify-content: space-between; align-content: center; }
@@ -604,8 +604,8 @@ form#add_hcp_form .row:not(:first-child) { border-top: 1px dashed var(--light-bl
 #mail-view .mail-stats ul li .mail-stats-list span , #mail-view .mail-stats ul li .mail_click span{ font-size: 18px; line-height: 21px; color: #70899E; font-family: 'Roboto-medium'; margin-left: 7px; }
 #mail-view .chart-description { padding: 14px 16px 0px 20px; }
 #mail-view .chart-description .chart-description-view { box-shadow: 0px 1px 8px rgba(0, 102, 190, 0.24); border-radius: 15px; padding: 15px 49px 25px 25px; }
-#mail-view .mail-stats ul li .mail_click { display: flex; min-width: 250px; justify-content:space-between; }
-
+#mail-view .mail-stats ul li .mail_click { display: flex; min-width: 130px; justify-content:space-between; }
+#mail-view .mail-stats ul li .mail_click .mail_click_box{min-width: 98px; }
 
 /**View-Smart-List**/
 .smart-list-btns { display: flex; justify-content: flex-end; }
@@ -867,6 +867,57 @@ input:-webkit-autofill{ -webkit-text-fill-color: #70899E !important; }
 .form-buttons .approved-btn img.approved_btn { display: none; } 
 .form-buttons .approved-btn:hover img.approved_btn, .form-buttons .approved-btn:active img.approved_btn, .form-buttons .approved-btn:focus img.approved_btn { display: inline-block; } 
 .form-buttons .approved-btn:hover img.approve_btn, .form-buttons .approved-btn:active img.approve_btn, .form-buttons .approved-btn:focus img.approve_btn { display:none; }
+#mail-view .chart-description text {
+  font-family: 'Roboto';
+}
+.modal-body .hcp-add-form form .form-group .dropdown {
+  width: 100%;
+}
+
+.modal-body .hcp-add-form form .form-group .dropdown button {
+  background: var(--white) url(../images/dropdown-arrow.svg) no-repeat;
+  background-size: 16px;
+  background-position: 93% center;
+  box-shadow: 0px 1px 6px rgb(0 102 190 / 20%);
+  border-radius: 30px;
+  border: 0;
+  padding: 12px 27px;
+  width: 100%;
+  color: #70899E;
+  font-family: 'Roboto-Light';
+  text-align: left;;
+}
+.modal-body .hcp-add-form form .form-group .dropdown button:focus {
+  box-shadow: 0px 0px 5px rgb(0 102 190 / 87%);
+  color: var(--blue);
+}
+.modal-body .hcp-add-form form .form-group .dropdown-toggle::after {
+  display: none;
+}
+.modal-body .hcp-add-form form .form-group .dropdown .dropdown-menu {
+  width: 100%;
+  border: 0.5px solid rgba(0,102,190,.06);
+  box-sizing: border-box;
+  box-shadow: 0 0 20px -3px rgb(0 102 190 / 18%);
+  border-radius: 15px;
+  width: 100%;
+  padding: 8px;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.modal-body .hcp-add-form form .form-group .dropdown .dropdown-menu a.dropdown-item {
+  color: var(--blue);
+  font-size: 15px;
+  line-height: 17px;
+  padding: .75rem 1rem;
+  border-radius: 15px;
+  cursor: pointer;
+  margin:0 0 3px
+}
+.modal-body .hcp-add-form form .form-group .dropdown .dropdown-menu a.dropdown-item:hover, .modal-body .hcp-add-form form .form-group .dropdown .dropdown-menu a.dropdown-item:active{
+  background-color: #e9ecef;
+}
 @-moz-document url-prefix() {
   a.show-less-info p::after {
     top: 3px;
