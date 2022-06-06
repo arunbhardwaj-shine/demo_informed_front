@@ -304,8 +304,8 @@ const RegistrationPageList = (id) =>
   );
 const RegistrationPageData = (id) =>
   BaseApi.get(
-    `registration-page`,
-    { form_id: id },
+    `registration-page/${id}`,
+    {},
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
@@ -344,7 +344,7 @@ const ReadersPage = (id, eventId) =>
     }
   );
 const ReadersDataSearch = (id, name_email, type, country) =>
-  BaseApi.get(
+  BaseApi.post(
     `participants`,
     { event_id: id, name_email: name_email, type: type, country_id: country },
     {
@@ -354,7 +354,7 @@ const ReadersDataSearch = (id, name_email, type, country) =>
     }
   );
 const ReadersType = (id, type, search, countryvalue) =>
-  BaseApi.get(
+  BaseApi.post(
     `participants`,
     { event_id: id, type: type, name_email: search, country_id: countryvalue },
     {
@@ -364,7 +364,7 @@ const ReadersType = (id, type, search, countryvalue) =>
     }
   );
 const ReadersType1 = (id, search, countryvalue) =>
-  BaseApi.get(
+  BaseApi.post(
     `participants`,
     { event_id: id, name_email: search, country_id: countryvalue },
     {
@@ -374,7 +374,7 @@ const ReadersType1 = (id, search, countryvalue) =>
     }
   );
 const ReadersCountry = (id, name, type, search) =>
-  BaseApi.get(
+  BaseApi.post(
     `participants`,
     { event_id: id, country_id: name, type: type, name_email: search },
     {
