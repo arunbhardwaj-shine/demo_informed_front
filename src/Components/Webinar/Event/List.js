@@ -395,8 +395,19 @@ const EventData = () => {
                   <>
                     <div
                       className="smartlist-view email_box"
-                      style={{ margin: "8px" }}
-                    >
+                      style={{ margin: "8px"}}
+                    >     <img
+                    style={{marginTop:"20px" }}
+                    src={path_image + "webinar/Tracker.svg"}
+                 
+                    width={50}
+                  />
+                        <img
+                        style={{marginLeft:"340px",marginTop:"20px"}}
+                    src={path_image + "webinar/share.svg"}
+                 
+                    width={30}
+                  />
                       <div className="mail-box-content">
                         <h5>{event.title}</h5>
 
@@ -451,18 +462,18 @@ const EventData = () => {
         <span className="loader-view"> </span>
       </div>
         </div>
-    
-
       <Modal
         show={show}
         onHide={() => {
           setShow(false);
         }}
       >
-        <Modal.Header closeButton></Modal.Header>{" "}
+        <Modal.Header closeButton> <h2>New Webinar/Event</h2></Modal.Header>
+        <Modal.Body>  
         <div className="container">
           <Add closePopup={closePopup} getEventList={handleGetEventlist} />
         </div>
+        </Modal.Body>
       </Modal>
 
       <div className="delete">

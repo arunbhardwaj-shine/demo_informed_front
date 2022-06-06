@@ -5,27 +5,16 @@ import { ToastContainer } from 'react-toastify';
 import ExportApi from '../../../Api/ExportApi';
 import { loader } from '../../../loader';
 let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-const RehearsalList = () => {
-    const [event, setEvent] = useState([]);
+const RehearsalList = ({props,id}) => {
     const [modalShow1, setModalShow1] = useState(false);
-    const [eventid, setEventId] = useState();
+    const [EventIdHeader, setEventIdHeader] = useState(parseInt(localStorage.getItem("EventIdHeader")));
+
     const [rehearsalid, setRehearsalId] = useState();
     const [RehearsaltData, setRehearsalData] = useState();
-    const handleGetEventlist = () => {
-        ExportApi.GetEventList().then((resp) => {
-          if (resp.ok) {
-            loader("hide")
-            setEvent(resp.data.data);
-            setEventId(resp.data.data[0].id)
-            handleGetRehearsalListData(resp.data.data[0].id)
-          }
-        });
-      };
     const handleGetRehearsalListData = (id) => {
-        loader("show");
         ExportApi.RehearsalListData(id).then((resp) => {
           if (resp.ok) {
-              console.log(resp.data.data)
+              console.log(resp.data)
             loader("hide")
             setRehearsalData(resp.data.data);
           }
@@ -36,15 +25,17 @@ const RehearsalList = () => {
         ExportApi.RehearsalDelete(rehearsalid).then((resp) => {
           if (resp.ok) {
             loader("hide")
-            handleGetRehearsalListData(eventid)
+            handleGetRehearsalListData(localStorage.getItem("EventIdHeader"))
             setModalShow1(false)
           }
         });
       };
       useEffect(() => {
         loader("show");
-        handleGetEventlist();
-      }, []);
+        handleGetRehearsalListData(localStorage.getItem("EventIdHeader"))
+        console.log("call")
+        setEventIdHeader(parseInt(localStorage.getItem("EventIdHeader")))
+      }, [localStorage.getItem("EventIdHeader")]);
   return (
     <div class="right-sidebar">
          <Row>
@@ -65,30 +56,7 @@ const RehearsalList = () => {
       <Col md={{ span: 6, offset: 3 }}>
       <Link  to="/webinar/rehearsal"><Button>Back</Button></Link>
         <div style={{marginTop:"40px"}}>
-        {event ? (
-                    <Form.Group
-                      className="mb-3"
-                      as={Row}
-                    >
-                      <Form.Label column sm={2}>
-                        Event{" "}
-                      </Form.Label>
-                      <Col sm={10}>
-                        <Form.Select
-                          name="event_id"
-                          onChange={(e) =>{ handleGetRehearsalListData(e.target.value);setEventId(e.target.value)}}
-                           value={eventid}
-                        >
-                          <option value=""> Select Event</option>
-                          {event?.map((val, i) => (
-                            <React.Fragment key={i}>
-                              <option value={val.id}>{val.title}</option>
-                            </React.Fragment>
-                          ))}
-                        </Form.Select>
-                      </Col>
-                    </Form.Group>
-                  ) : (
+        {localStorage.getItem("EventIdHeader") ? null : (
                     <h4>
                       <Link to="/webinar/event/add" style={{ color: "red" }}>
                         Please create event{" "}
@@ -108,13 +76,11 @@ const RehearsalList = () => {
                         setRehearsalId(val.id);
                         setModalShow1(true)
                       }}
-                      className="float-end"
-                    >
+                      className="float-end" >
                                 <img
                                   src={path_image + "delete1.svg"}
                                   alt="Delete Row"
                                 />
-                            
                     </button>
             <fieldset>
             <h4 style={{fontWeight:"bold"}}>{val.title} :</h4>

@@ -90,7 +90,6 @@ const ForgotResetPassword = () => {
       draggable
       pauseOnHover
     />
-  <Col md={{ span: 6, offset: 3 }}>
   <div>
 <form onSubmit={formik.handleSubmit}>
     <center>
@@ -127,7 +126,7 @@ const ForgotResetPassword = () => {
     <Button type="submit">Submit</Button>
   </form>
   </div>
-  </Col></Row>
+</Row>
   <Modal
      show={modalShow}
     size="lg"

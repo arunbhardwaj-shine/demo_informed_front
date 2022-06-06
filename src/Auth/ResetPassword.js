@@ -82,7 +82,6 @@ function ResetPassword() {
         draggable
         pauseOnHover
       />
-    <Col md={{ span: 6, offset: 3 }}>
     <div>
   <form onSubmit={formik.handleSubmit}>
       <center>
@@ -142,7 +141,7 @@ function ResetPassword() {
           </center>
       </Modal.Body>
     </Modal>
-    </Col></Row>
+    </Row>
   )
 }
 

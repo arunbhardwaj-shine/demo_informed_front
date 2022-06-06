@@ -202,7 +202,7 @@ ReactDOM.render(
                         />
                         <Route
                           path="/webinar/rehearsallist"
-                          element={<RehearsalList />}
+                          element={<RehearsalList  />}
                         />
                         <Route path="/webinar/readers" element={<Readers />} />
                         <Route

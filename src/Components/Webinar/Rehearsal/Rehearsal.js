@@ -15,7 +15,7 @@ function Rehearsal() {
       end_time: "",
       start_time: "",
       invites_data: [{ name: "", email: "" }],
-      event_id: "",
+      event_id: localStorage.getItem("EventIdHeader"),
     },
   ]);
   const [SpeakernameErr, setSpeakerNameErr] = useState([
@@ -26,11 +26,9 @@ function Rehearsal() {
       end_time: "",
       start_time: "",
       invites_data: [{ name: "", email: "" }],
-      event_id: "",
     },
   ]);
   const [Timezone, setTimezone] = useState([]);
-  const [event, setEvent] = useState([]);
 
   const handleMultiInputAdd = () => {
     setSpeakerName([
@@ -42,7 +40,7 @@ function Rehearsal() {
         end_time: "",
         start_time: "",
         invites_data: [{ name: "", email: "" }],
-        event_id: "",
+        event_id: localStorage.getItem("EventIdHeader"),
       },
     ]);
     setSpeakerNameErr([
@@ -54,7 +52,6 @@ function Rehearsal() {
         end_time: "",
         start_time: "",
         invites_data: [{ name: "", email: "" }],
-        event_id: "",
       },
     ]);
   };
@@ -76,20 +73,12 @@ function Rehearsal() {
       }
     });
   };
-  const handleGetEventlist = () => {
-    ExportApi.GetEventList().then((resp) => {
-      if (resp.ok) {
-        setEvent(resp.data.data);
-      }
-    });
-  };
   var today = new Date();
   var dd = String(today.getDate()).padStart(2, "0");
   var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
   var yyyy = today.getFullYear();
   useEffect(() => {
     handleGetTimezoneData();
-    handleGetEventlist();
   }, []);
 
   let err;
@@ -127,7 +116,6 @@ function Rehearsal() {
           setSpeakerNameErr([...SpeakernameErr]);
         }
       }
-      validateRehearsalData(index, "event_id", "Please select event");
     }
     return err;
   };
@@ -137,12 +125,7 @@ function Rehearsal() {
     Speakername.splice(i, 1, Speakername[i]);
     setSpeakerName([...Speakername]);
     SpeakernameErr[i][name] = "";
-    if(name=="event_id"){
-    Speakername[i][name] = value;
-    if (value.length == 0) {
-    SpeakernameErr[i][name] = "Please select event" ;
-    }
-    } else if(name=="timezone"){
+    if(name=="timezone"){
     Speakername[i][name] = value;
     if (value.length == 0) {
     SpeakernameErr[i][name] = "Please select timezone" ;
@@ -291,33 +274,7 @@ function Rehearsal() {
                    <br />
                    <h2>Select the rehearsal information. </h2>
                    <br />
-                  {event ? (
-                    <Form.Group
-                      className="mb-3"
-                      as={Row}
-                    >
-                      <Form.Label column sm={2}>
-                        Event{" "}
-                      </Form.Label>
-                      <Col sm={10}>
-                        <Form.Select
-                          name="event_id"
-                          onChange={(e) => handleOnChange(e, i)}
-                          value={val.event_id}
-                        >
-                          <option value=""> Select Event</option>
-                          {event?.map((val, i) => (
-                            <React.Fragment key={i}>
-                              <option value={val.id}>{val.title}</option>
-                            </React.Fragment>
-                          ))}
-                        </Form.Select>
-                        <div style={{ color: "red" }}>
-                          {SpeakernameErr[i]?.event_id}
-                        </div>
-                      </Col>
-                    </Form.Group>
-                  ) : (
+                  {localStorage.getItem("EventIdHeader") ? null : (
                     <h4>
                       <Link to="/webinar/event/add" style={{ color: "red" }}>
                         Please create event{" "}

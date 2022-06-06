@@ -179,7 +179,7 @@ const CreateRegistration = (props) => {
               <Row>          
                   <Col xs={12}>
                   <Form.Label>Body Text</Form.Label>
-                  <Form.Control as="textarea" rows={18} 
+                  <Form.Control as="textarea" rows={10} 
                     name="body"
                     type="text"
                     onChange={formik.handleChange}

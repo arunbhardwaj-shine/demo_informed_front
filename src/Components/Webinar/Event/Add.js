@@ -212,6 +212,10 @@ function Add(props) {
 
   return (
     <Row>
+      <div className="loader" id="custom_loader">
+        <span className="loader-view"> </span>
+      </div>
+        <Link to="/webinar/event/edit"></Link>
              <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -223,14 +227,6 @@ function Add(props) {
         draggable
         pauseOnHover
       />
-      <div className="loader" id="custom_loader">
-        <span className="loader-view"> </span>
-      </div>
-      <Col md={{ span: 6, offset: 3 }}>
-        <Link to="/webinar/event/edit"></Link>
-        <div>
-          <h2>Create Event </h2>
-          <div>
             <form
               onReset={formik.handleReset}
               onSubmit={formik.handleSubmit}
@@ -240,7 +236,7 @@ function Add(props) {
                 className="mb-3"
               >
                 <Form.Label column sm={2}>
-                  Event Title{" "}
+                  Event Title*
                 </Form.Label>
                 <Col sm={10}>
                   <Form.Control
@@ -259,7 +255,6 @@ function Add(props) {
               {Speakername.map((multi, i) => (
                 <fieldset className="border p-2">
                   <div key={i}>
-                    <p>Enter the speaker’s informations</p>
                     {Speakername.length > 1 ? (
                       <button
                         type="button"
@@ -277,7 +272,7 @@ function Add(props) {
                     
                     >
                       <Form.Label column sm={2}>
-                        Name*
+                      Speaker’s Name*
                       </Form.Label>
                       <Col sm={10}>
                         <Form.Control
@@ -295,7 +290,7 @@ function Add(props) {
                       </Col>
                       <div className="mt-2"></div>
                       <Form.Label column sm={2}>
-                        Email*
+                      Speaker’s Email*
                       </Form.Label>
                       <Col sm={10}>
                         <Form.Control
@@ -575,9 +570,6 @@ function Add(props) {
                 Submit
               </Button>
             </form>
-          </div>
-        </div>
-      </Col>
     </Row>
   );
 }
