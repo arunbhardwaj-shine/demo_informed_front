@@ -71,7 +71,10 @@ const SelectHCP = (props) => {
   };
 
   const backClicked = () => {
-    navigate("/CreateEmail");
+    let pdfSelectedId = props.getEmailData ? props.getEmailData.pdf_id : props.getDraftData.pdf_id;
+    navigate("/CreateEmail", {
+     state: { PdfSelected: pdfSelectedId},
+   });
   };
 
   // console.log(props.getEmailData);

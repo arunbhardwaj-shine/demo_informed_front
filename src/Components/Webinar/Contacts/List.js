@@ -4,7 +4,7 @@ import { Button, Col, Form, Row, Table } from "react-bootstrap";
 
 const Contacts = () => {
   return (
-    <div >
+    <div className="right-sidebar">
 
   	<Col md={{ span: 10, offset: 2 }}>
           <Row>

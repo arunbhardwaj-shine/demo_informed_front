@@ -935,12 +935,12 @@ const FilterSegment = (props) => {
                       {Object.entries(selectedcountry).map(([index, item]) => (
                         <div
                           className="filter-result"
-                          onClick={() =>
-                            removeindividualfilter("country", item)
-                          }
                         >
                           {item == "B&H" ? "Bosnia and Herzegovina" : item}{" "}
                           <img
+                            onClick={() =>
+                              removeindividualfilter("country", item)
+                            }
                             src={path_image + "filter-close.svg"}
                             alt="Close-filter"
                           />
@@ -963,12 +963,12 @@ const FilterSegment = (props) => {
                         ([index, item]) => (
                           <div
                             className="filter-result"
-                            onClick={() =>
-                              removeindividualfilter("contact_type", item)
-                            }
                           >
                             {item}{" "}
                             <img
+                              onClick={() =>
+                                removeindividualfilter("contact_type", item)
+                              }
                               src={path_image + "filter-close.svg"}
                               alt="Close-filter"
                             />
@@ -992,12 +992,12 @@ const FilterSegment = (props) => {
                         ([index, item]) => (
                           <div
                             className="filter-result"
-                            onClick={() =>
-                              removeindividualfilter("speciality", item)
-                            }
                           >
                             {item}{" "}
                             <img
+                              onClick={() =>
+                                removeindividualfilter("speciality", item)
+                              }
                               src={path_image + "filter-close.svg"}
                               alt="Close-filter"
                             />
@@ -1020,12 +1020,12 @@ const FilterSegment = (props) => {
                       {Object.entries(selectedproduct).map(([index, item]) => (
                         <div
                           className="filter-result"
-                          onClick={() =>
-                            removeindividualfilter("product", item)
-                          }
                         >
                           {item}{" "}
                           <img
+                            onClick={() =>
+                              removeindividualfilter("product", item)
+                            }
                             src={path_image + "filter-close.svg"}
                             alt="Close-filter"
                           />
@@ -1047,12 +1047,13 @@ const FilterSegment = (props) => {
                       {Object.entries(selectedarticles).map(([index, item]) => (
                         <div
                           className="filter-result"
-                          onClick={() =>
-                            removeindividualfilter("article", item)
-                          }
+
                         >
                           {item}{" "}
                           <img
+                            onClick={() =>
+                              removeindividualfilter("article", item)
+                            }
                             src={path_image + "filter-close.svg"}
                             alt="Close-filter"
                           />
@@ -1074,12 +1075,12 @@ const FilterSegment = (props) => {
                       {Object.entries(selectedconsent).map(([index, item]) => (
                         <div
                           className="filter-result"
-                          onClick={() =>
-                            removeindividualfilter("consent", item)
-                          }
                         >
                           {item}{" "}
                           <img
+                            onClick={() =>
+                              removeindividualfilter("consent", item)
+                            }
                             src={path_image + "filter-close.svg"}
                             alt="Close-filter"
                           />
@@ -1099,15 +1100,15 @@ const FilterSegment = (props) => {
                     <div className="filter-div-list">
                       <div
                         className="filter-result"
-                        onClick={() =>
-                          removeindividualfilter(
-                            "reader_selection",
-                            selectedreaderselection
-                          )
-                        }
                       >
                         {selectedreaderselection}{" "}
                         <img
+                          onClick={() =>
+                            removeindividualfilter(
+                              "reader_selection",
+                              selectedreaderselection
+                            )
+                          }
                           src={path_image + "filter-close.svg"}
                           alt="Close-filter"
                         />
@@ -1129,12 +1130,12 @@ const FilterSegment = (props) => {
                     <div className="filter-div-list">
                       <div
                         className="filter-result"
-                        onClick={() =>
-                          removeindividualfilter("ibu", selectedibu)
-                        }
                       >
                         {selectedibu}{" "}
                         <img
+                          onClick={() =>
+                            removeindividualfilter("ibu", selectedibu)
+                          }
                           src={path_image + "filter-close.svg"}
                           alt="Close-filter"
                         />
@@ -1153,12 +1154,12 @@ const FilterSegment = (props) => {
                     <div className="filter-div-list">
                       <div
                         className="filter-result"
-                        onClick={() =>
-                          removeindividualfilter("register", selectedregister)
-                        }
                       >
                         {selectedregister}{" "}
                         <img
+                          onClick={() =>
+                            removeindividualfilter("register", selectedregister)
+                          }
                           src={path_image + "filter-close.svg"}
                           alt="Close-filter"
                         />
@@ -1177,12 +1178,12 @@ const FilterSegment = (props) => {
                     <div className="filter-div-list">
                       <div
                         className="filter-result"
-                        onClick={() =>
-                          removeindividualfilter("bounce", selectedbounce)
-                        }
                       >
                         {selectedbounce}{" "}
                         <img
+                          onClick={() =>
+                            removeindividualfilter("bounce", selectedbounce)
+                          }
                           src={path_image + "filter-close.svg"}
                           alt="Close-filter"
                         />

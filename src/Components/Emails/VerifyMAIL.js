@@ -219,7 +219,8 @@ const VerifyMAIL = (props) => {
       template_source_code: props.getEmailData
         ? props.getEmailData.template
         : props.getDraftData.source_code,
-      campaign_id: props.getEmailData ? "" : props.getDraftData.campaign_id,
+      // campaign_id: props.getEmailData ? "" : props.getDraftData.campaign_id,
+      campaign_id: campaign_id_st,
       campaign_data: {
         user_list: user_list,
         smart_list_id:
@@ -232,7 +233,7 @@ const VerifyMAIL = (props) => {
           : props.getDraftData.campaign_data.template_id,
       },
     };
-
+    // console.log(body);
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
@@ -242,7 +243,7 @@ const VerifyMAIL = (props) => {
         if (res.data.status_code === 200) {
           popup_alert({
             visible: "show",
-            message: "Mail sent successfuly",
+            message: "Mail sent successfully",
             type: "success",
             redirect: "/EmailList",
           });
@@ -295,6 +296,7 @@ const VerifyMAIL = (props) => {
   };
 
   const openSmartListPopup = async (smart_list_id) => {
+    setShowLessInfo(true);
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
       user_id: 18207,
@@ -734,9 +736,9 @@ const VerifyMAIL = (props) => {
                     onClick={(e) => showMoreInfo(e)}
                   >
                     {showLessInfo == true ? (
-                      <p>Show More information</p>
+                      <p className="show_more">Show More information</p>
                     ) : (
-                      <p>Show less information</p>
+                      <p className="show_less">Show less information</p>
                     )}{" "}
                   </a>
                 </div>

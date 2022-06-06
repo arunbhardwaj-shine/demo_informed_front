@@ -19,7 +19,7 @@ const SelectSmartListUsers = (props) => {
   const [campaign_id_st, setCampaign_id] = useState();
   const [SendListData, setSendListData] = useState([]);
   const [PdfSelected, setPdfSelected] = useState(0);
-  const [showLessInfo, setShowLessInfo] = useState(false);
+  const [showLessInfo, setShowLessInfo] = useState(true);
   const [selectedFile, setSelectedFile] = useState(null);
   const [TemplateId, setTemplateId] = useState(0);
   const [removedReaders, setRemovedReaders] = useState([]);
@@ -676,9 +676,9 @@ const SelectSmartListUsers = (props) => {
                       onClick={(e) => showMoreInfo(e)}
                     >
                       {showLessInfo == true ? (
-                        <p>Show More information</p>
+                        <p className="show_more">Show More information</p>
                       ) : (
-                        <p>Show less information</p>
+                        <p className="show_less">Show less information</p>
                       )}{" "}
                     </a>
                     <div className="hcp-new-user">
@@ -1046,6 +1046,8 @@ const SelectSmartListUsers = (props) => {
                     const fieldName = `hpc[${i}]`;
                     return (
                       <>
+                      <div className="add_hcp_boxes">
+                        <div className="form_action">
                         <div className="row">
                           <div className="col-12 col-md-6">
                             <div className="form-group">
@@ -1094,107 +1096,128 @@ const SelectSmartListUsers = (props) => {
                                   onContactTypeChange(event, i)
                                 }
                               >
-                                <option selected>Select Type</option>
-                                <option value="HCP">HCP</option>
-                                <option value="Staff">Staff</option>
-                                <option value="Test Users">Test Users</option>
-                              </select>
+                                  <option selected>Select Type</option>
+                                  <option value="HCP">HCP</option>
+                                  <option value="Staff">Staff</option>
+                                  <option value="Test Users">Test Users</option>
+                                </select>
+                              </div>
                             </div>
-                          </div>
-                          <div className="col-12 col-md-6">
-                            <div className="form-group">
-                              <label for="">Country</label>
-                              <select
-                                className="country-form"
-                                aria-label="select"
-                                onChange={(event) => onCountryChange(event, i)}
-                              >
-                                <option selected>Select Country</option>
-                                {countryall.length === 0
-                                  ? ""
-                                  : Object.entries(countryall).map(
-                                      ([index, item]) => {
-                                        return (
-                                          <>
-                                            <option value={index}>
-                                              {item}
-                                            </option>
-                                          </>
-                                        );
-                                      }
-                                    )}
-                              </select>
-                            </div>
-                          </div>
-                          <div className="col-12 col-md-6 btn_rmv">
-                            <div className="form-group">
-                              {i !== 0 && (
-                                <button
-                                  type="button"
-                                  className="btn btn-filled"
-                                  onClick={() => deleteRecord(i)}
+                            <div className="col-12 col-md-6">
+                              <div className="form-group">
+                                <label for="">Country</label>
+                                <select
+                                  className="country-form"
+                                  aria-label="select"
+                                  onChange={(event) => onCountryChange(event, i)}
                                 >
-                                  Remove
-                                </button>
-                              )}
+                                  <option selected>Select Country</option>
+                                  {countryall.length === 0
+                                    ? ""
+                                    : Object.entries(countryall).map(
+                                        ([index, item]) => {
+                                          return (
+                                            <>
+                                              <option value={index}>
+                                                {item}
+                                              </option>
+                                            </>
+                                          );
+                                        }
+                                      )}
+                                </select>
+                              </div>
                             </div>
+                            {
+                              /*
+                              <div className="col-12 col-md-6 btn_rmv">
+                                <div className="form-group">
+                                  {i !== 0 && (
+                                    <button
+                                      type="button"
+                                      className="btn btn-filled"
+                                      onClick={() => deleteRecord(i)}
+                                    >
+                                      Remove
+                                    </button>
+                                  )}
+                                </div>
+                              </div>
+                              */
+                            }
                           </div>
+                        </div>
+                        <div className="hcp-modal-action">
+                          <div className="hcp-action-block">
+                            {activeManual == "active" ? (
+                              <>
+                              {
+                                hpc.length > 1 && (
+                                  <div className="hcp-remove">
+                                    <button
+                                      type="button"
+                                      className="btn btn-filled"
+                                      onClick={() => deleteRecord(i)}
+                                    >
+                                      <img src={path_image + "delete.svg"} alt="Delete Row" />
+                                    </button>
+                                  </div>
+                                )
+                              }
+                              </>
+                            ) : null}
+
+                            <ul className="nav nav-tabs" role="tablist">
+                              <li className="nav-item add_hcp">
+                                <a
+                                  id="add_hcp_btn"
+                                  onClick={addMoreHcp}
+                                  className="nav-link active btn-bordered"
+                                  data-bs-toggle="tab"
+                                  href="#add_hcp_form"
+                                >
+                                  Add HCP +
+                                </a>
+                              </li>
+                               {/*
+                                 <li className="nav-item add-file">
+                                   <a
+                                     id="add_file_btn"
+                                     onClick={(e) => addFile(e)}
+                                     className="nav-link btn-filled"
+                                     data-bs-toggle="tab"
+                                     href="#add_file"
+                                   >
+                                     Add File
+                                   </a>
+                                 </li>
+                              */}
+                            </ul>
+                          </div>
+                        </div>
                         </div>
                       </>
                     );
                   })}
                 </form>
-                <form id="add_file" className={"tab-pane" + activeExcel}>
-                  <div className="form-group files">
-                    <input
-                      type="file"
-                      className="form-control"
-                      multiple=""
-                      onChange={onFileChange}
-                    />
-                  </div>
-                </form>
-              </div>
-              <div className="hcp-modal-action">
-                <div className="hcp-action-block">
-                  {activeManual == "active" ? (
-                    <div className="hcp-remove">
-                      <button
-                        type="button"
-                        className="btn btn-filled"
-                        onClick={addMoreHcp}
-                      >
-                        Add
-                      </button>
+                {/*
+                  <form id="add_file" className={"tab-pane" + activeExcel}>
+                    <div className="form-group files">
+                      <input
+                        type="file"
+                        className="form-control"
+                        multiple=""
+                        onChange={onFileChange}
+                      />
                     </div>
-                  ) : null}
-
-                  <ul className="nav nav-tabs" role="tablist">
-                    <li className="nav-item add_hcp">
-                      <a
-                        id="add_hcp_btn"
-                        onClick={(e) => addHcp(e)}
-                        className="nav-link active btn-bordered"
-                        data-bs-toggle="tab"
-                        href="#add_hcp_form"
-                      >
-                        Add HCP +
-                      </a>
-                    </li>
-                    <li className="nav-item add-file">
-                      <a
-                        id="add_file_btn"
-                        onClick={(e) => addFile(e)}
-                        className="nav-link btn-filled"
-                        data-bs-toggle="tab"
-                        href="#add_file"
-                      >
-                        Add File
-                      </a>
-                    </li>
-                  </ul>
-                </div>
+                  </form>
+                */}
               </div>
+
+
+
+
+
             </div>
           </div>
           <div className="modal-footer">
