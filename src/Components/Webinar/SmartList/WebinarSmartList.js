@@ -10,6 +10,7 @@ import { getListId } from "../../../actions";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../../popup_alert";
 import ExportApi from "../../../Api/ExportApi";
+import { loader } from "../../../loader";
 import Accordion from "react-bootstrap/Accordion";
 
 const WebinarSmartList = () => {
@@ -34,8 +35,12 @@ const WebinarSmartList = () => {
   let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-  const getSmartListData = async () => {
+  const getSmartListData = async (flag) => {
     // console.log(localStorage.getItem("Token"));
+
+    const body = {
+      search: search,
+    };
     const headers = {
       "Content-Type": "application/json",
       Authorization: `${localStorage.getItem("Token")}`,
@@ -43,10 +48,14 @@ const WebinarSmartList = () => {
 
     console.log(headers);
     await axios
-      .get(`http://51.89.210.56:8000/api/smart-list/lists`, { headers })
+      .post(`http://51.89.210.56:8000/api/smart-list/lists`, body, { headers })
       .then((res) => {
         console.log(res.data.data);
         setSmartListData(res.data.data);
+        if (flag == 0) {
+          //setFilterData(res.data.response.filter);
+          setPrevSmartListData(res.data.data);
+        }
         console.log(res);
       })
       .catch((err) => {
@@ -55,7 +64,7 @@ const WebinarSmartList = () => {
   };
 
   useEffect(() => {
-    getSmartListData();
+    getSmartListData(0);
   }, []);
 
   const searchChange = (e) => {
@@ -86,6 +95,7 @@ const WebinarSmartList = () => {
   };
 
   const showConfirmationPopup = (id) => {
+    console.log(id);
     if (confirmationpopup) {
       setConfirmationPopup(false);
     } else {
@@ -100,19 +110,28 @@ const WebinarSmartList = () => {
 
   const deleteEmail = () => {
     hideConfirmationModal();
+
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `${localStorage.getItem("Token")}`,
+    };
+
     const body = {
-      user_id: 18207,
       smart_list_id: deletecardid,
     };
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
+    loader("show");
     axios
-      .post(`distributes/delete_smart_list`, body)
+      .post(`http://51.89.210.56:8000/api/smart-list/delete`, body, { headers })
       .then((res) => {
-        if (res.data.status_code == 200) {
+        console.log(res);
+        loader("hide");
+        if (res.data.code == 200) {
           var updatedArray = smartListData.filter(function (item) {
             return item["id"] != deletecardid;
           });
+          console.log(updatedArray);
           if (typeof updatedArray !== "undefined") {
             setSmartListData(updatedArray);
           }
@@ -236,6 +255,9 @@ const WebinarSmartList = () => {
   return (
     <>
       <div className="col right-sidebar" style={{ marginLeft: "70px" }}>
+        <div className="loader" id="custom_loader">
+          <span className="loader-view"> </span>
+        </div>
         <div className="top-header">
           <div className="page-title">
             <h2>Smart List</h2>
@@ -716,7 +738,7 @@ const WebinarSmartList = () => {
                             className="btn btn-primary btn-bordered view"
                             to={{
                               pathname: "/webinar/ViewSmartListWebinar",
-                              search: "?listId=" + data.event_id,
+                              search: "?listId=" + data.id,
                             }}
                           >
                             View
