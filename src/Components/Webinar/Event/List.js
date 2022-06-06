@@ -251,7 +251,8 @@ const EventData = () => {
       <div className="right-sidebar">
         <div className="top-header">
           <div className="page-title"></div>
-          <div className="top-right-action">
+          <div className="top-right-action webinar-header-action-tool">
+
             <div className="search-bar">
               <form className="d-flex">
                 <input
@@ -284,6 +285,48 @@ const EventData = () => {
                   </svg>
                 </button>
               </form>
+            </div>
+            <div className="">
+            <div className="filter-by">
+              <>
+                {sortingCount == 0 ? (
+                  <>
+                    <button
+                      className="btn btn-outline-primary"
+                      onClick={sortSelectedUsers}
+                    >
+                      Sort By{" "}
+                      <img src={path_image + "sort.svg"} alt="Shorting" />
+                    </button>
+                  </>
+                ) : sorting == 0 ? (
+                  <>
+                    <button
+                      className="btn btn-outline-primary"
+                      onClick={sortSelectedUsers}
+                    >
+                      Sort By{" "}
+                      <img
+                        src={path_image + "sort-decending.svg"}
+                        alt="Shorting"
+                      />
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      className="btn btn-outline-primary"
+                      onClick={sortSelectedUsers}
+                    >
+                      Sort By{" "}
+                      <img
+                        src={path_image + "sort-assending.svg"}
+                        alt="Shorting"
+                      />
+                    </button>
+                  </>
+                )}
+              </>
             </div>
             <div className="hcp-sort">
               <>
@@ -367,13 +410,14 @@ const EventData = () => {
                 </svg>
               </button>
             </div>
+            </div>
           </div>
         </div>
 
-        <div class="smart-list-result">
-          <div class="col smartlist-result-block">
-            <div className="smartlist_box_block">
-              <div className="smartlist-add smartlist-view">
+        <div class="email-result">
+          <div class="col email-result-block">
+            <div className="email_box_block">
+              <div className="email-block-add">
                 {
                   <>
                     <Button
@@ -393,48 +437,35 @@ const EventData = () => {
               event?.map((event) => {
                 return (
                   <>
-                    <div
-                      className="smartlist-view email_box"
-                      style={{ margin: "8px"}}
-                    >     <img
-                    style={{marginTop:"20px" }}
-                    src={path_image + "webinar/Tracker.svg"}
-                 
-                    width={50}
-                  />
-                        <img
-                        style={{marginLeft:"340px",marginTop:"20px"}}
-                    src={path_image + "webinar/share.svg"}
-                 
-                    width={30}
-                  />
-                      <div className="mail-box-content">
+                    <div  className="email_box_block">     
+                      <div className="mail-box-content webinar-box">
+                        <img src={path_image + "webinar/Tracker.svg"}/>
+                        <img src={path_image + "webinar/share.svg"}/>
                         <h5>{event.title}</h5>
-
-                        <div className="mail-time">
-                          <span>{event.event_date}</span>
-                        </div>
-                        <div className="smart-list-added-user">
-                          {event.days_left} Days Left
-                        </div>
-                        <div className="mail-stats">
-                          {deletestatus && (
-                            <div className="dlt_btn">
-                              <button
-                                onClick={(e) => showConfirmationPopup(event.id)}
-                              >
-                                <img
-                                  src={path_image + "delete.svg"}
-                                  alt="Delete Row"
-                                />
-                              </button>
+                        <div className="webinar-box-content-detail">
+                            <div className="smart-list-added-user">
+                              {event.days_left} Days Left
                             </div>
-                          )}
-                        </div>
+                            <div className="mail-time">
+                              <span>{event.event_date}</span>
+                            </div>
+                            <div className="mail-stats">
+                              {deletestatus && (
+                                <div className="dlt_btn">
+                                  <button
+                                    onClick={(e) => showConfirmationPopup(event.id)}
+                                  >
+                                    <img
+                                      src={path_image + "delete.svg"}
+                                      alt="Delete Row"
+                                    />
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+                          </div>
                         <div>
-                          <Button
-                            onClick={() => handleGetEventlistEdidData(event.id)}
-                          >
+                          <Button onClick={() => handleGetEventlistEdidData(event.id)}>
                             Edit
                           </Button>
                         </div>

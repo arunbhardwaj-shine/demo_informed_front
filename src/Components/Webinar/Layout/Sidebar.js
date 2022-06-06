@@ -57,7 +57,7 @@ const Sidebar = () => {
                         fill="#004A89"
                       />
                     </svg>
-                    Dashboard
+                    <p>Dashboard</p>
                   </Link>
                 </li>
                 
@@ -85,7 +85,7 @@ const Sidebar = () => {
                         fill="#004A89"
                       />
                     </svg>
-                    Events
+                    <p>Events</p>
                   </Link>
                 </li>
                 <li
@@ -112,7 +112,7 @@ const Sidebar = () => {
                         fill="#004A89"
                       />
                     </svg>
-                    Rehearsal
+                    <p>Rehearsal</p>
                   </Link>
                 </li>
                 <li
@@ -139,7 +139,7 @@ const Sidebar = () => {
                         fill="#004A89"
                       />
                     </svg>
-                    Templates
+                    <p>Templates</p>
                   </Link>
                 </li>
                 <li
@@ -166,7 +166,7 @@ const Sidebar = () => {
                         fill="#004A89"
                       />
                     </svg>
-                    Registrations
+                    <p>Registrations</p>
                   </Link>
                 </li>
                 <li
@@ -193,7 +193,7 @@ const Sidebar = () => {
                         fill="#004A89"
                       />
                     </svg>
-                    Registration Details
+                    <p>Registration Details</p>
                   </Link>
                 </li>
                 <li
@@ -220,7 +220,7 @@ const Sidebar = () => {
                         fill="#004A89"
                       />
                     </svg>
-                    Readers
+                    <p>Readers</p>
                   </Link>
                 </li>
                 <li
@@ -247,7 +247,7 @@ const Sidebar = () => {
                         fill="#004A89"
                       />
                     </svg>
-                    Email Stats
+                    <p>Email Stats</p>
                   </Link>
                 </li>
                 <li
@@ -274,7 +274,7 @@ const Sidebar = () => {
                         fill="#004A89"
                       />
                     </svg>
-                    Send Email{" "}
+                    <p>Send Email{" "}</p>
                   </Link>
                 </li>
                 <li
@@ -299,7 +299,7 @@ const Sidebar = () => {
                         fill="#004A89"
                       />
                     </svg>
-                    Region Stats
+                    <p>Region Stats</p>
                   </Link>
                 </li>
                 <li
@@ -326,7 +326,7 @@ const Sidebar = () => {
                         fill="#004A89"
                       />
                     </svg>
-                    Contacts
+                    <p>Contacts</p>
                   </Link>
                 </li>
                 <li
@@ -353,7 +353,7 @@ const Sidebar = () => {
                         fill="#004A89"
                       />
                     </svg>
-                    SMTP Details
+                    <p>SMTP Details</p>
                   </Link>
                 </li>
                 <li
@@ -380,7 +380,7 @@ const Sidebar = () => {
                         fill="#004A89"
                       />
                     </svg>
-                    Smart List
+                    <p>Smart List</p>
                   </Link>
                 </li>
               </ul>
