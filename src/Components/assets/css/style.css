@@ -909,6 +909,12 @@ input:-webkit-autofill{ -webkit-text-fill-color: #4E718E !important; }
 .modal form#add_hcp_form .add_hcp_boxes:first-child:last-child .hcp-action-block .hcp-remove {display:none;}
 .modal form#add_hcp_form .add_hcp_boxes:first-child:last-child .hcp-action-block {top: 68px;}
 
+.mail-box-content .mail-box-content-top {
+  height: 100%;
+  justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+}
 
 @-moz-document url-prefix() {
   a.show-less-info p::after {

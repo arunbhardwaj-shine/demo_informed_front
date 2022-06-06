@@ -252,6 +252,7 @@ const Registration = () => {
             )}
           </Row>
           <Modal
+          className="overflow-hidden"
             show={modalShow}
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"

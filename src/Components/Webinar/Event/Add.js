@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import ExportApi from "../../../Api/ExportApi";
-import { Button, CloseButton, Col, Form, Row } from "react-bootstrap";
+import { Button, Col, Form, Row } from "react-bootstrap";
 import * as Yup from "yup";
 import "../webinar.css";
 import { toast, ToastContainer } from "react-toastify";
@@ -14,7 +14,7 @@ function Add(props) {
   const [bu, setBu] = useState([]);
   const [index, setIndex] = useState();
   const [Timezone, setTimezone] = useState([]);
-  const [massage, setMassage] = useState();
+  const [message, setMassage] = useState();
   const [country, setCountry] = useState([]);
   const [Timezoneregion, setTimezoneregion] = useState([]);
   const handleMultiInputAdd = () => {
@@ -22,11 +22,8 @@ function Add(props) {
     setSpeakerErr([...SpeakerErr, { name: "", email: "" }]);
   };
   const [token, setToken] = useState(localStorage.getItem("Token"));
-  let navigate = useNavigate();
-
-
   const handleSpeakerName = (e, i) => {
-    const { name, value } = e.target;
+    const { value } = e.target;
     Speakername.splice(i, 1, Speakername[i]);
     setSpeakerName([...Speakername]);
     if (e.target.name === `name${i}`) {
@@ -124,19 +121,17 @@ function Add(props) {
       eventendtime: "",
       event_date: "",
       Description: "",
-      code: "",
       Country: "",
     },
 
     validationSchema: Yup.object({
       EventTitle: Yup.string().required("Event title is required"),
       Timezone: Yup.string().required("Timezone is required"),
-      code: Yup.string().required("Code is required"),
       event_start_time: Yup.string().required("Event start time is required"),
       Region: Yup.string().required("Region is required"),
       Country: Yup.string().required("Country is required"),
       Bu: Yup.string().required("Bu is required"),
-      eventendtime: Yup.string().required("Event ent time is required"),
+      eventendtime: Yup.string().required("Event end time is required"),
       event_date: Yup.string().required("Event date is required"),
       Description: Yup.string().required("Description is required"),
     }),
@@ -160,7 +155,6 @@ function Add(props) {
             values.event_start_time,
             values.eventendtime,
             values.Timezone,
-            values.code,
             values.Bu,
             dateData,
             values.Description,
@@ -277,25 +271,11 @@ function Add(props) {
           <a href="javascript:void(0);" onClick={handleMultiInputAdd} className="speaker-button">Add Speaker + </a>
           
           </fieldset>
-          
-          <div className="clearfix"></div>
-          <div className="mt-2"></div>
-          <Form.Group
-            className="mb-3"
-            as={Row}
-          
-          >
-            <Form.Label column sm={2}>
-              Region{" "}
-            </Form.Label>
-            <Col sm={10}>
-              <Form.Select
-                name="Region"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.Region}
-              >
-                <option>Select Region</option>
+          <div className="form-inline row justify-content-between align-items-center">
+            <div className="form-group col-12 col-md-12">
+              <label>Region </label>
+              <select name="Region" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.Region} class="form-select-lg mb-3" aria-label=".form-select-lg example">
+                <option selected>Select Region</option>
                 {Timezoneregion?.map((val, i) => (
                   <React.Fragment key={i}>
                     <option key={i} value={val.values}>
@@ -303,29 +283,17 @@ function Add(props) {
                     </option>
                   </React.Fragment>
                 ))}
-              </Form.Select>
+              </select>
               {formik.touched.Region && formik.errors.Region ? (
                 <div style={{ color: "red" }}>{formik.errors.Region}</div>
               ) : null}
-            </Col>
-            <br />
-          </Form.Group>
-          <Form.Group
-            className="mb-3"
-            as={Row}
-          
-          >
-            <Form.Label column sm={2}>
-              Country
-            </Form.Label>
-            <Col sm={10}>
-              <Form.Select
-                name="Country"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.Country}
-              >
-                <option>Select Country</option>
+            </div>
+          </div>
+          <div className="form-inline row justify-content-between align-items-center">
+            <div className="form-group col-12 col-md-12">
+              <label>Country </label>
+              <select name="Country" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.Country} class="form-select-lg mb-3" aria-label=".form-select-lg example">
+                <option selected>Select Country</option>
                 {country?.map((val, i) => (
                   <React.Fragment key={i}>
                     <option key={i} value={val.id}>
@@ -333,29 +301,17 @@ function Add(props) {
                     </option>
                   </React.Fragment>
                 ))}
-              </Form.Select>
+              </select>
               {formik.touched.Country && formik.errors.Country ? (
                 <div style={{ color: "red" }}>{formik.errors.Country}</div>
               ) : null}
-            </Col>
-            <br />
-          </Form.Group>
-          <Form.Group
-            as={Row}
-            className="mb-3"
-          
-          >
-            <Form.Label column sm={2}>
-              Bu{" "}
-            </Form.Label>
-            <Col sm={10}>
-              <Form.Select
-                name="Bu"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.Bu}
-              >
-                <option>Select Bu</option>
+            </div>
+          </div>
+          <div className="form-inline row justify-content-between align-items-center">
+            <div className="form-group col-12 col-md-12">
+              <label>Bu </label>
+              <select name="Bu" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.Bu} class="form-select-lg mb-3" aria-label=".form-select-lg example">
+                <option selected>Select Bu</option>
                 {bu?.map((val, i) => (
                   <React.Fragment key={i}>
                     <option key={i} value={val.values}>
@@ -363,28 +319,17 @@ function Add(props) {
                     </option>
                   </React.Fragment>
                 ))}
-              </Form.Select>
+              </select>
               {formik.touched.Bu && formik.errors.Bu ? (
                 <div style={{ color: "red" }}>{formik.errors.Bu}</div>
               ) : null}
-            </Col>
-          </Form.Group>
-          <Form.Group
-            className="mb-3"
-            as={Row}
-          
-          >
-            <Form.Label column sm={2}>
-              Timezone{" "}
-            </Form.Label>
-            <Col sm={10}>
-              <Form.Select
-                name="Timezone"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.Timezone}
-              >
-                <option>Select Timezone</option>
+            </div>
+          </div>
+          <div className="form-inline row justify-content-between align-items-center">
+            <div className="form-group col-12 col-md-12">
+              <label>Select Timezone </label>
+              <select name="Timezone" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.Timezone} class="form-select-lg mb-3" aria-label=".form-select-lg example">
+                <option selected>Select Timezone</option>
                 {Timezone?.map((val, i) => (
                   <React.Fragment key={i}>
                     <option key={i} value={val.values}>
@@ -392,22 +337,15 @@ function Add(props) {
                     </option>
                   </React.Fragment>
                 ))}
-              </Form.Select>
-
+              </select>
               {formik.touched.Timezone && formik.errors.Timezone ? (
                 <div style={{ color: "red" }}>{formik.errors.Timezone}</div>
               ) : null}
-            </Col>
-          </Form.Group>
-          <Form.Group
-            className="mb-3"
-            as={Row}
-          
-          >
-            <Form.Label column sm={2}>
-              Event Date
-            </Form.Label>
-            <Col sm={10}>
+            </div>
+          </div>
+          <div className="form-inline row justify-content-between align-items-center">
+            <div className="form-group col-12 col-md-12">
+              <label>Event Date </label>
               <Form.Control
                 name="event_date"
                 type="date"
@@ -421,17 +359,11 @@ function Add(props) {
                   {formik.errors.event_date}
                 </div>
               ) : null}
-            </Col>
-          </Form.Group>
-          <Form.Group
-            className="mb-3"
-            as={Row}
-          
-          >
-            <Form.Label column sm={2}>
-              Event Start Time
-            </Form.Label>
-            <Col sm={10}>
+            </div>
+          </div>
+          <div className="form-inline row justify-content-between align-items-center">
+            <div className="form-group col-12 col-md-12">
+              <label>Event Start Time </label>
               <Form.Control
                 name="event_start_time"
                 type="time"
@@ -439,27 +371,19 @@ function Add(props) {
                 onBlur={formik.handleBlur}
                 value={formik.values.event_start_time}
               />
-              {formik.touched.event_start_time &&
-              formik.errors.event_start_time ? (
+              {formik.touched.event_start_time && formik.errors.event_start_time ? (
                 <div style={{ color: "red" }}>
                   {formik.errors.event_start_time}
                 </div>
               ) : null}
-            </Col>
-          </Form.Group>
-          <Form.Group
-            className="mb-3"
-            as={Row}
-          
-          >
-            <Form.Label column sm={2}>
-              Event End Time
-            </Form.Label>
-            <Col sm={10}>
+            </div>
+          </div>
+          <div className="form-inline row justify-content-between align-items-center">
+            <div className="form-group col-12 col-md-12">
+              <label>Event End Time </label>
               <Form.Control
                 name="eventendtime"
                 type="time"
-                // min={formik.values.event_start_time}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.eventendtime}
@@ -469,39 +393,11 @@ function Add(props) {
                   {formik.errors.eventendtime}
                 </div>
               ) : null}
-              <div style={{ color: "red" }}>{massage}</div>
-            </Col>
-          </Form.Group>
-          <Form.Group
-            as={Row}
-            className="mb-3"
-          
-          >
-            <Form.Label column sm={2}>
-              Code
-            </Form.Label>
-            <Col sm={10}>
-              <Form.Control
-                name="code"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.code}
-              />
-              {formik.touched.code && formik.errors.code ? (
-                <div style={{ color: "red" }}>{formik.errors.code}</div>
-              ) : null}
-            </Col>
-          </Form.Group>
-          <br />
-          <Form.Group
-            as={Row}
-            className="mb-3"
-          
-          >
-            <Form.Label column sm={2}>
-              Description{" "}
-            </Form.Label>
-            <Col sm={10}>
+            </div>
+          </div>
+          <div className="form-inline row justify-content-between align-items-center">
+            <div className="form-group col-12 col-md-12">
+              <label>Description </label>
               <textarea
                 name="Description"
                 type="text"
@@ -511,21 +407,16 @@ function Add(props) {
                 className="form-control"
                 rows="3"
               ></textarea>
-              {formik.touched.Description && formik.errors.Description ? (
+               {formik.touched.Description && formik.errors.Description ? (
                 <div style={{ color: "red" }}>
                   {formik.errors.Description}
                 </div>
               ) : null}
-            </Col>
-          </Form.Group>
+            </div>
+          </div>
           <Button type="reset" onClick={()=>handleResetSp()}>Reset</Button>
-          <Button
-            type="submit"
-            className="event-submit-button"
-            onClick={() => handleSubmit()}
-          >
-            Submit
-          </Button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <Button type="submit" className="event-submit-button" onClick={() => handleSubmit()} >Create</Button>
         </form>
       </Col>
     </Row>

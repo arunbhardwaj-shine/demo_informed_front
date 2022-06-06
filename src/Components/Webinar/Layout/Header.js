@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { Button, Dropdown, Modal } from "react-bootstrap";
+import { Button, Dropdown, Form, Modal } from "react-bootstrap";
 import "../../assets/css/style.css";
 import '../../assets/css/responsive.css';
-import "../../assets/css/webinar-style.css";
+import "../assets/css/webinar-style.css";
 import Login from "../../../Auth/Login";
 import { toast, ToastContainer } from "react-toastify";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import ForgotPassword from "../../../Auth/ForgotPassword";
 import ExportApi from "../../../Api/ExportApi";
-
+import { handleGetRehearsalListData } from "../Rehearsal/RehearsalList";
+export let EventId;
 const Header = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [smShowLogin, setSmShowLogin] = useState(false);
   const [smShowForgot, setSmShowForgot] = useState(false);
   const [smShow, setSmShow] = useState(false);
+  const [eventId, setEventId] = useState();
+  const [event, setEvent] = useState([]);
   const [token, setToken] = useState(localStorage.getItem("Token"));
   const [usernameget, setUsernameget] = useState(
     localStorage.getItem("username")
@@ -46,6 +49,21 @@ const Header = () => {
       })
       .catch((err) => console.log(err));
   };
+  const handleGetEventlist = () => {
+    ExportApi.GetEventList().then((resp) => {
+      if (resp.ok) {
+        setEvent(resp.data.data);
+        console.log(resp.data.data[0].id)
+        if(eventId==null||eventId==undefined){
+           setEventId(resp.data.data[0].id)
+           localStorage.setItem("EventIdHeader",resp.data.data[0].id)
+        }
+      }
+    });
+  };
+  useEffect(() => {
+    handleGetEventlist()
+  }, []);
   const location = useLocation();
   return (
     <>
@@ -96,6 +114,24 @@ const Header = () => {
 					  </li> */}
               </ul>
             </div>
+            
+            {token? (
+              <Form.Select
+              style={{width:"270px"}}
+                 value={eventId}
+                onChange={(e) => {
+                  localStorage.setItem("EventIdHeader",e.target.value)
+                  setEventId(e.target.value);
+                  window.dispatchEvent(new Event("EventId"));
+                }}
+              >
+                {event?.map((val, i) => (
+                  <React.Fragment key={i}>
+                    <option value={val.id}>{val.title}</option>
+                  </React.Fragment>
+                ))}
+              </Form.Select>
+            ):null}
             <div className="user-login">
               {token ? (
                 <Dropdown>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 const Sidebar = () => {
+  let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN ;
   const [token, setToken] = useState(true);
   const location = useLocation();
   useEffect(() => {
@@ -10,6 +11,9 @@ const Sidebar = () => {
       setToken(false);
     }
   }, [localStorage.getItem("Token")]);
+  const toggleClassToBody = () => {
+    document.body.classList.toggle('toggle_sidebar');
+  }
   useEffect(() => {
     if (token === null || token === undefined) {
       setToken(false);
@@ -22,10 +26,18 @@ const Sidebar = () => {
         <div>
           {token ? (
             <div className="sidebar-menu">
+                 <button className="toggle_btn" onClick={() =>
+            toggleClassToBody()
+          }>
+            <img
+              src={path_image + "webinar/arrow-left.svg"}
+              alt="toggle-sidebar"
+            />
+          </button>
               <ul>
                 <li
                   className={
-                    location.pathname === "/webinar/dashboard" ? "active" : ""
+                    location.pathname === "/webinar/dashboard" ? "active" : "side_li"
                   }
                 >
                   <Link to="/webinar/dashboard">
@@ -45,7 +57,7 @@ const Sidebar = () => {
                         fill="#004A89"
                       />
                     </svg>
-                    Dashboard
+                    <p>Dashboard</p>
                   </Link>
                 </li>
                 
@@ -73,7 +85,7 @@ const Sidebar = () => {
                         fill="#004A89"
                       />
                     </svg>
-                    Events
+                    <p>Events</p>
                   </Link>
                 </li>
                 <li
@@ -84,23 +96,9 @@ const Sidebar = () => {
                   }
                 >
                   <Link to="/webinar/rehearsal">
-                    <svg
-                      width="24"
-                      height="18"
-                      viewBox="0 0 24 18"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M23.92 2.28564L12.8457 8.8685C12.5899 9.01484 12.3004 9.09183 12.0057 9.09183C11.711 9.09183 11.4215 9.01484 11.1657 8.8685L0.0799999 2.28564C0.0270091 2.51424 0.000170336 2.74813 0 2.98279V14.1599C0 14.951 0.314264 15.7097 0.873659 16.2691C1.43305 16.8285 2.19175 17.1428 2.98286 17.1428H21.0171C21.8082 17.1428 22.5669 16.8285 23.1263 16.2691C23.6857 15.7097 24 14.951 24 14.1599V2.98279C23.9998 2.74813 23.973 2.51424 23.92 2.28564Z"
-                        fill="#004A89"
-                      />
-                      <path
-                        d="M12.2745 7.92L23.4517 1.26857C23.1772 0.877654 22.8128 0.558387 22.3891 0.33763C21.9655 0.116872 21.4951 0.00108202 21.0174 0H2.98311C2.50543 0.00108202 2.03499 0.116872 1.61138 0.33763C1.18776 0.558387 0.823359 0.877654 0.548828 1.26857L11.7374 7.92C11.8198 7.96501 11.9121 7.98861 12.006 7.98861C12.0998 7.98861 12.1922 7.96501 12.2745 7.92Z"
-                        fill="#004A89"
-                      />
-                    </svg>
-                    Rehearsal
+                  <img src={path_image + "webinar/Rehearsal.svg"}/>
+                    
+                    <p>Rehearsal</p>
                   </Link>
                 </li>
                 <li
@@ -127,7 +125,7 @@ const Sidebar = () => {
                         fill="#004A89"
                       />
                     </svg>
-                    Templates
+                    <p>Templates</p>
                   </Link>
                 </li>
                 <li
@@ -154,7 +152,7 @@ const Sidebar = () => {
                         fill="#004A89"
                       />
                     </svg>
-                    Registrations
+                    <p>Registrations</p>
                   </Link>
                 </li>
                 <li
@@ -181,7 +179,7 @@ const Sidebar = () => {
                         fill="#004A89"
                       />
                     </svg>
-                    Registration Details
+                    <p>Registration Details</p>
                   </Link>
                 </li>
                 <li
@@ -208,7 +206,7 @@ const Sidebar = () => {
                         fill="#004A89"
                       />
                     </svg>
-                    Readers
+                    <p>Readers</p>
                   </Link>
                 </li>
                 <li
@@ -235,7 +233,7 @@ const Sidebar = () => {
                         fill="#004A89"
                       />
                     </svg>
-                    Email Stats
+                    <p>Email Stats</p>
                   </Link>
                 </li>
                 <li
@@ -262,7 +260,7 @@ const Sidebar = () => {
                         fill="#004A89"
                       />
                     </svg>
-                    Send Email{" "}
+                    <p>Send Email{" "}</p>
                   </Link>
                 </li>
                 <li
@@ -287,7 +285,7 @@ const Sidebar = () => {
                         fill="#004A89"
                       />
                     </svg>
-                    Region Stats
+                    <p>Region Stats</p>
                   </Link>
                 </li>
                 <li
@@ -314,7 +312,7 @@ const Sidebar = () => {
                         fill="#004A89"
                       />
                     </svg>
-                    Contacts
+                    <p>Contacts</p>
                   </Link>
                 </li>
                 <li
@@ -341,7 +339,7 @@ const Sidebar = () => {
                         fill="#004A89"
                       />
                     </svg>
-                    SMTP Details
+                    <p>SMTP Details</p>
                   </Link>
                 </li>
                 <li
@@ -368,7 +366,7 @@ const Sidebar = () => {
                         fill="#004A89"
                       />
                     </svg>
-                    Smart List
+                    <p>Smart List</p>
                   </Link>
                 </li>
               </ul>

@@ -62,7 +62,6 @@ function ForgotPassword(props) {
         draggable
         pauseOnHover
       />
-    <Col md={{ span: 6, offset: 3 }}>
     <div><form onSubmit={formik.handleSubmit}>
     <center>
        <h3>Forgot Password</h3>
@@ -81,7 +80,7 @@ function ForgotPassword(props) {
     
     <Button type="submit">Submit</Button>
   </form></div>
-  </Col>
+
   <Modal
        show={modalShow}
       size="lg"
