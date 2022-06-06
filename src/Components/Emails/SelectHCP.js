@@ -12,24 +12,54 @@ import { useNavigate } from "react-router-dom";
 
 import { propTypes } from "react-bootstrap/esm/Image";
 
+var old_object = {};
+
 const SelectHCP = (props) => {
+  //console.log(props);
   const navigate = useNavigate();
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
   const [selection, setSelection] = useState(0);
-  const [templateId, setTemplateId] = useState(props.getDraftData
-    ? props.getDraftData.campaign_data.list_selection
-    : 0);
+
+  // const [templateId, setTemplateId] = useState(
+  //   props.getDraftData ? props.getDraftData.campaign_data.list_selection : 0
+  // );
+
+  // console.log(props.getEmailData);
+
+  // const [templateId, setTemplateId] = useState(
+  //   old_object ? old_object.selected : 0
+  // );
+
+  const [templateId, setTemplateId] = useState(
+    old_object?.selected
+      ? old_object.selected
+      : props.getDraftData?.campaign_data?.list_selection
+      ? props.getDraftData.campaign_data.list_selection
+      : 0
+  );
+
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-  const campaign_id = props.getEmailData
-    ? props.getEmailData.campaign_id
-    : props.getDraftData.campaign_id;
-  console.log(campaign_id);
+  const campaign_id = old_object
+    ? old_object.campaign_id
+    : props.getDraftData
+    ? props.getDraftData.campaign_id
+    : 0;
+  //console.log(campaign_id);
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
 
   const handleInputChange = (event, selectede) => {
+    console.log(old_object);
+    if (old_object) {
+      old_object.selected = selectede;
+      props.getEmailData(old_object);
+    } else {
+      props.getEmailData({ selected: selectede });
+    }
+
     setSelection(event.target.children[0].value);
+    //  console.log(event.target.children[0].value);
     const div = document.querySelector("div.active");
 
     if (div) {
@@ -47,33 +77,34 @@ const SelectHCP = (props) => {
    });
   };
 
+  // console.log(props.getEmailData);
+  // console.log(props.getDraftData);
   const saveAsDraft = async () => {
+    console.log(props.getEmailData);
     const body = {
       user_id: 18207,
-      pdf_id: props.getEmailData
-        ? props.getEmailData.pdf_id
+      pdf_id: old_object?.PdfSelected
+        ? old_object.PdfSelected
         : props.getDraftData.pdf_id,
-      description: props.getEmailData
-        ? props.getEmailData.emailDescription
+      description: old_object?.emailDescription
+        ? old_object.emailDescription
         : props.getDraftData.description,
-      creator: props.getEmailData
-        ? props.getEmailData.emailCreator
+      creator: old_object?.emailCreator
+        ? old_object.emailCreator
         : props.getDraftData.creator,
-      campaign_name: props.getEmailData
-        ? props.getEmailData.emailCampaign
+      campaign_name: old_object?.emailCampaign
+        ? old_object.emailCampaign
         : props.getDraftData.campaign,
-      subject: props.getEmailData
-        ? props.getEmailData.emailSubject
+      subject: old_object?.emailSubject
+        ? old_object.emailSubject
         : props.getDraftData.subject,
       route_location: "SelectHCP",
-      tags: props.getEmailData
-        ? props.getEmailData.tags
-        : props.getDraftData.tags,
+      tags: old_object?.tags ? old_object.tags : props.getDraftData.tags,
       campaign_data: {
-        template_id: props.getEmailData
-          ? props.getEmailData.templateId
+        template_id: old_object?.templateId
+          ? old_object.templateId
           : props.getDraftData.campaign_data.template_id,
-          list_selection:templateId
+        list_selection: templateId,
       },
       campaign_id: campaign_id_st,
       status: 2,
@@ -104,22 +135,9 @@ const SelectHCP = (props) => {
   };
 
   const nextClicked = () => {
-    //console.log(props.getEmailData)
-    //console.log(props.getEmailData());
-    //const obj =  Object.assign(props.getEmailData(), {selected:selection} );
-    // console.log(obj)
-    //console.log(props);
-    console.log(props.getEmailData);
-    const obj = props.getEmailData;
-    console.log(obj);
-    //Object.assign(props.getEmailData(), {selected:selection} );
-    obj.selected = selection;
-
-    console.log(obj);
-    //            console.log(obj);
-    props.getEmailData(obj);
-
-    console.log(props);
+    console.log(old_object);
+    props.getEmailData(old_object);
+    props.getSelected(null);
   };
 
   return (
@@ -170,11 +188,7 @@ const SelectHCP = (props) => {
                   </button>
                 ) : (
                   <Link
-                    to={
-                      templateId === 2
-                        ? "/VerifyHCP"
-                        : "/SelectSmartList"
-                    }
+                    to={templateId === 2 ? "/VerifyHCP" : "/SelectSmartList"}
                     state={{ UserSelected: templateId }}
                   >
                     <button
@@ -197,7 +211,11 @@ const SelectHCP = (props) => {
                 <ul>
                   <li>
                     <div
-                      className={templateId===1 ? "send-option-img active" :  "send-option-img"}
+                      className={
+                        templateId === 1
+                          ? "send-option-img active"
+                          : "send-option-img"
+                      }
                       onClick={(event) => handleInputChange(event, 1)}
                     >
                       <input
@@ -217,7 +235,11 @@ const SelectHCP = (props) => {
                   </li>
                   <li>
                     <div
-                      className={templateId===2 ? "send-option-img active" :  "send-option-img"}
+                      className={
+                        templateId === 2
+                          ? "send-option-img active"
+                          : "send-option-img"
+                      }
                       onClick={(e) => handleInputChange(e, 2)}
                     >
                       <input
@@ -246,7 +268,12 @@ const SelectHCP = (props) => {
 
 const mapStateToProps = (state) => {
   console.log(state);
+
+  old_object = state.getEmailData;
+
   return state;
 };
 
-export default connect(mapStateToProps)(SelectHCP);
+export default connect(mapStateToProps, { getEmailData, getSelected })(
+  SelectHCP
+);
