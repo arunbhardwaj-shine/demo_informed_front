@@ -275,80 +275,64 @@ function Rehearsal() {
                    <h2>Select the rehearsal information. </h2>
                    <br />
                    <div className="form-inline row justify-content-between align-items-center">
-                    <div className="form-group col-12 col-md-7">
-                      <label for="exampleInputEmail1">Email Description </label>
+
+                   <div className="form-group col-12 col-md-12">
+                      <label for="exampleInputEmail1"> Rehearsal Title </label>
                       <input
-                       onChange={(e) => handleOnChange(e, i)}
-                       value={val.title}
-                        type="text"
-                        className="form-control"
-                        id="email-desc"
+                         className="form-control"
+                          name="title"
+                          onChange={(e) => handleOnChange(e, i)}
+                          value={val.title}
                        
                       />
+                         <div style={{ color: "red" }}>
+                        <p> {SpeakernameErr[i]?.title}</p>
+                      </div>
+                      </div>
+                      </div>
+                   <div className="form-inline row justify-content-between align-items-center">
+                    <div className="form-group col-12 col-md-5">
+                      <label for="exampleInputEmail1">Date </label>
+                      <input
+                       className="form-control"
+                         name="date"
+                         type="date"
+                         min={yyyy + "-" + mm + "-" + dd}
+                         onChange={(e) => handleOnChange(e, i)}
+                         value={val.date}
+                       
+                      />
+                       <div style={{ color: "red" }}>
+                        {<p> {SpeakernameErr[i]?.date}</p>}
+                      </div>
                       {/*validator.message(
                         "emailDesc",
                         emailDescription,
                         "required"
                       )*/}
                     </div>
-                    <div className="form-group right-side col-12 col-md-5">
-                      <label for="exampleInputEmail1">Email Creator</label>
+                   
+                    <div className="form-group right-side col-12 col-md-7">
+                      <label for="exampleInputEmail1">Event Start Time</label>
                       <input
                          onChange={(e) => handleOnChange(e, i)}
-                         value={val.title}
-                        type="text"
+                         name="start_time"
+                         type="time"
+                         value={val.start_time}
                         className="form-control"
-                        id="email-address"
+                       
                       />
-                      {/*validator.message("creator", emailCreator, "required")*/}
-                    </div>
+                       <div style={{ color: "red" }}>
+                        {SpeakernameErr[i]?.start_time}
+                      </div>
+                      </div>
+                   
                   </div>
-                  {localStorage.getItem("EventIdHeader") ? null : (
-                    <h4>
-                      <Link to="/webinar/event/add" style={{ color: "red" }}>
-                        Please create event{" "}
-                      </Link>
-                    </h4>
-                  )}
-                  <br />
-                  <Form.Group as={Row} className="mb-3">
-                    <Form.Label column sm={2}>
-                      Rehearsal Title{" "}
-                    </Form.Label>
-                    <Col sm={10}>
-                      <Form.Control
-                        name="title"
-                        onChange={(e) => handleOnChange(e, i)}
-                        value={val.title}
-                      />
-                      <div style={{ color: "red" }}>
-                        <p> {SpeakernameErr[i]?.title}</p>
-                      </div>
-                    </Col>
-                  </Form.Group>
-                  <Form.Group className="mb-3" as={Row}>
-                    <Form.Label column sm={2}>
-                      Date
-                    </Form.Label>
-                    <Col sm={10}>
-                      <Form.Control
-                        name="date"
-                        type="date"
-                        min={yyyy + "-" + mm + "-" + dd}
-                        onChange={(e) => handleOnChange(e, i)}
-                        value={val.date}
-                      />
-                      <div style={{ color: "red" }}>
-                        {<p> {SpeakernameErr[i]?.date}</p>}
-                      </div>
-                    </Col>
-                  </Form.Group>
-                  <Form.Group className="mb-3" as={Row}>
-                    <Form.Label column sm={2}>
-                      Timezone{" "}
-                    </Form.Label>
-                    <Col sm={10}>
-                      <Form.Select
+                   <div className="form-inline row justify-content-between align-items-center">
+                  <div className="form-group col-12 col-md-5">
+                  <label for="exampleInputEmail1">Select Timezone</label>
+                  <select
+                    className="form-control"
                         name="timezone"
                         onChange={(e) => handleOnChange(e, i)}
                         value={val.timezone}
@@ -359,47 +343,28 @@ function Rehearsal() {
                             <option value={val.values}>{val.values}</option>
                           </React.Fragment>
                         ))}
-                      </Form.Select>
+                      </select>
                       <div style={{ color: "red" }}>
                         {SpeakernameErr[i]?.timezone}
                       </div>
-                    </Col>
-                  </Form.Group>
-                  <Form.Group className="mb-3" as={Row}>
-                    <Form.Label column sm={2}>
-                      Event Start Time
-                    </Form.Label>
-                    <Col sm={10}>
-                      <Form.Control
-                        name="start_time"
-                        type="time"
-                        onChange={(e) => handleOnChange(e, i)}
-                        value={val.start_time}
+                      </div>
+                      <div className="form-group right-side col-12 col-md-7">
+                      <label for="exampleInputEmail1">Event Start Time</label>
+                      <input
+                         onChange={(e) => handleOnChange(e, i)}
+                         name="start_time"
+                         type="time"
+                         value={val.start_time}
+                        className="form-control"
+                       
                       />
-                      <div style={{ color: "red" }}>
+                       <div style={{ color: "red" }}>
                         {SpeakernameErr[i]?.start_time}
                       </div>
-                    </Col>
-                  </Form.Group>
-                  <Form.Group className="mb-3" as={Row}>
-                    <Form.Label column sm={2}>
-                      Event End Time{" "}
-                    </Form.Label>
-                    <Col sm={10}>
-                      <Form.Control
-                        name="end_time"
-                        type="time"
-                        onChange={(e) => handleOnChange(e, i)}
-                        value={val.end_time}
-                      />
-                      <div style={{ color: "red" }}>
-                        {SpeakernameErr[i]?.end_time}
                       </div>
-                    </Col>
-                  </Form.Group>
-                  <br />
-                  {val.invites_data.map((malti, index) => (
-                    <fieldset className="border p-2">
+                      </div>
+                      {val.invites_data.map((malti, index) => (
+                    <fieldset className="border p-2 form-group">
                       <div key={i}>
                       <p>Enter the speaker’s information's</p>
                         {val.invites_data.length > 1 ? (
@@ -414,7 +379,7 @@ function Rehearsal() {
                         ) : null}
                         <Form.Group
                           as={Row}
-                          className="mb-3"
+                          className="mb-3 form-group"
                         >
                           <Form.Label column sm={2}>
                             Name
@@ -460,8 +425,14 @@ function Rehearsal() {
                       Add Speaker
                     </Button>
                   </Form.Group>
-                  <div class="clearfix"></div>
-                  <div class="mt-2"></div>
+                  {localStorage.getItem("EventIdHeader") ? null : (
+                    <h4>
+                      <Link to="/webinar/event/add" style={{ color: "red" }}>
+                        Please create event
+                      </Link>
+                    </h4>
+                  )}
+                  <br />
                 </div>
               ))}
               <Button type="submit" className="event-submit-button">
