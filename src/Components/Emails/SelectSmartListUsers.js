@@ -67,7 +67,7 @@ const SelectSmartListUsers = (props) => {
     };
   
 
-    if(props.getDraftData?.campaign_data){
+    if(props.getDraftData?.campaign_data?.selectedHcp){
       setReaders(props.getDraftData.campaign_data.selectedHcp);
 
     }else{
