@@ -475,7 +475,6 @@ const EventData = () => {
         </div>
         </Modal.Body>
       </Modal>
-
       <div className="delete">
         <Modal
           className="modal send-confirm"
@@ -537,28 +536,23 @@ const EventData = () => {
           </Modal.Header>
           <Modal.Body>
             <form onSubmit={formik.handleSubmit}>
-              <Form.Group
-                as={Row}
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label column sm={2}>
-                  Event Title{" "}
-                </Form.Label>
-                <Col sm={10}>
-                  <Form.Control
-                    name="EventTitle"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.EventTitle}
-                  />
-                  {formik.touched.EventTitle && formik.errors.EventTitle ? (
-                    <div style={{ color: "red" }}>
-                      {formik.errors.EventTitle}
-                    </div>
-                  ) : null}
-                </Col>
-              </Form.Group>
+            <div className="form-inline row justify-content-between align-items-center">
+              <div className="form-group col-12 col-md-12">
+                <label>Event Title </label>
+                <Form.Control
+                  name="EventTitle"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.EventTitle}
+                />
+                {formik.touched.EventTitle && formik.errors.EventTitle ? (
+                  <div style={{ color: "red" }}>{formik.errors.EventTitle}</div>
+                ) : null}
+              </div>
+            </div>
+
+
+              
               <fieldset className="border p-2">
                 {SpDataSingle?.map((multi, i) => (
                   <Form.Group className="edit-event" key={i}>
@@ -572,102 +566,63 @@ const EventData = () => {
                 ))}
               </fieldset>
               <div className="mt-2 clearfix"></div>
-
-              {Speakername.map((multi, i) => (
-                <fieldset className="border p-2">
-                  <div key={i}>
-                    {Speakername.length > 1 ? (
-                      <button
-                        type="button"
-                        onClick={() => handleMultiInputRemove(i)}
-                        className="btn-close float-end"
-                        aria-label="Close"
-                      />
+              <fieldset class="border p-2">
+                {Speakername.map((multi, i) => (
+                  <div key={i} className="form-inline row justify-content-between align-items-center">
+                  {Speakername.length > 1 ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        handleMultiInputRemove(i);
+                      }}
+                      className="btn-close float-end"
+                      aria-label="Close"
+                    />
                     ) : null}
-                    <Form.Group as={Row} className="mb-3">
-                      <Form.Label column sm={3}>
-                        Name
-                      </Form.Label>
-                      <Col sm={9}>
-                        <Form.Control
-                          name={Speakername.length === 0 ? "name" : "name" + i}
-                          value={multi.name}
-                          onChange={(e) => {
-                            handleEditSpeakerOnKeyUp(e, i);
-                          }}
-                        />
-                        <div style={{ color: "red" }}>
-                          {/* {formik.errors.Timezone} */}
-                          {SpeakerErr[i].name}
-                        </div>
-                      </Col>
-                      <div className="mt-2 clearfix"></div>
-                      <Form.Label column sm={3}>
-                        Email
-                      </Form.Label>
-                      <Col sm={9}>
-                        <Form.Control
-                          type="email"
-                          name={
-                            Speakername.length === 0 ? "email" : "email" + i
-                          }
-                          onChange={(e) => {
-                            handleEditSpeakerOnKeyUp(e, i);
-                          }}
-                          value={multi.email}
-                        />
-                        <div style={{ color: "red" }}>
-                          {/* {formik.errors.Timezone} */}
-                          {SpeakerErr[i].email}
-                        </div>
-                      </Col>
-                    </Form.Group>
-                  </div>
-                </fieldset>
-              ))}
-              <div className="mt-2"></div>
-              <Form.Group className="mb-3">
-                <Button
-                  onClick={handleMultiInputAdd}
-                  className="speaker-button"
-                >
-                  Add Speaker
-                </Button>
-              </Form.Group>
-              <div className="clearfix"></div>
-              <div className="mt-2"></div>
-              <Form.Group as={Row} className="mb-3">
-                <Form.Label column sm={2}>
-                  Description
-                </Form.Label>
-                <Col sm={10}>
-                  <textarea
-                    name="Description"
-                    type="text"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.Description}
-                    className="form-control"
-                    id="exampleFormControlTextarea1"
-                    rows="3"
-                  ></textarea>
-                  {formik.touched.Description && formik.errors.Description ? (
-                    <div style={{ color: "red" }}>
-                      {formik.errors.Description}
+                    <div className="form-group col-12 col-md-7">
+                      <label>Name</label>
+                      <input type="text" placeholder="Speaker's Name" className="form-control" name={Speakername.length === 0 ? "name" : "name" + i} value={multi.name}
+                        onChange={(e) => {
+                          handleEditSpeakerOnKeyUp(e, i);
+                        }}
+                      />
+                      <div style={{ color: "red" }}>{SpeakerErr[i].name}</div>
                     </div>
-                  ) : null}
-                </Col>
-              </Form.Group>
-
-              <Modal.Footer>
-                <Button
-                  variant="danger"
-                  onClick={() => {
-                    setSpeakerName([{ name: "", email: "" }]);
-                    setSpeakerErr([{ name: "", email: "" }]);
-                    setModalShow(false);
-                  }}
-                >
+                    <div className="form-group col-12 col-md-5">
+                      <label>Speaker's Email</label>
+                      <input type="text" placeholder="Speaker's Email" className="form-control" name={Speakername.length === 0 ? "email" : "email" + i} value={multi.email}
+                        onChange={(e) => {
+                          handleEditSpeakerOnKeyUp(e, i);
+                        }}
+                      />
+                      <div style={{ color: "red" }}>{SpeakerErr[i].email}</div>
+                    </div>
+                    </div>
+                  ))}
+                <a href="javascript:void(0);" onClick={handleMultiInputAdd} className="speaker-button">Add Speaker + </a>
+                </fieldset>
+          <div className="form-inline row justify-content-between align-items-center">
+            <div className="form-group col-12 col-md-12">
+              <label>Description </label>
+              <textarea
+                name="Description"
+                type="text"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.Description}
+                className="form-control"
+                rows="3"
+              ></textarea>
+               {formik.touched.Description && formik.errors.Description ? (
+                <div style={{ color: "red" }}>
+                  {formik.errors.Description}
+                </div>
+              ) : null}
+            </div>
+          </div>
+              
+                <Modal.Footer>
+                <Button variant="danger" onClick={() => { setSpeakerName([{ name: "", email: "" }]); setSpeakerErr([{ name: "", email: "" }]);setModalShow(false);}}>
                   Close
                 </Button>
                 <Button type="submit" variant="success">

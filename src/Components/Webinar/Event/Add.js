@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import ExportApi from "../../../Api/ExportApi";
-import { Button, CloseButton, Col, Form, Row } from "react-bootstrap";
+import { Button, Col, Form, Row } from "react-bootstrap";
 import * as Yup from "yup";
 import "../webinar.css";
 import { toast, ToastContainer } from "react-toastify";
@@ -14,7 +14,7 @@ function Add(props) {
   const [bu, setBu] = useState([]);
   const [index, setIndex] = useState();
   const [Timezone, setTimezone] = useState([]);
-  const [massage, setMassage] = useState();
+  const [message, setMassage] = useState();
   const [country, setCountry] = useState([]);
   const [Timezoneregion, setTimezoneregion] = useState([]);
   const handleMultiInputAdd = () => {
@@ -22,11 +22,8 @@ function Add(props) {
     setSpeakerErr([...SpeakerErr, { name: "", email: "" }]);
   };
   const [token, setToken] = useState(localStorage.getItem("Token"));
-  let navigate = useNavigate();
-
-
   const handleSpeakerName = (e, i) => {
-    const { name, value } = e.target;
+    const { value } = e.target;
     Speakername.splice(i, 1, Speakername[i]);
     setSpeakerName([...Speakername]);
     if (e.target.name === `name${i}`) {
@@ -124,19 +121,17 @@ function Add(props) {
       eventendtime: "",
       event_date: "",
       Description: "",
-      code: "",
       Country: "",
     },
 
     validationSchema: Yup.object({
       EventTitle: Yup.string().required("Event title is required"),
       Timezone: Yup.string().required("Timezone is required"),
-      code: Yup.string().required("Code is required"),
       event_start_time: Yup.string().required("Event start time is required"),
       Region: Yup.string().required("Region is required"),
       Country: Yup.string().required("Country is required"),
       Bu: Yup.string().required("Bu is required"),
-      eventendtime: Yup.string().required("Event ent time is required"),
+      eventendtime: Yup.string().required("Event end time is required"),
       event_date: Yup.string().required("Event date is required"),
       Description: Yup.string().required("Description is required"),
     }),
@@ -160,7 +155,6 @@ function Add(props) {
             values.event_start_time,
             values.eventendtime,
             values.Timezone,
-            values.code,
             values.Bu,
             dateData,
             values.Description,
