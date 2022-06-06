@@ -937,9 +937,9 @@ const TableView = (props, ref) => {
                     onClick={(e) => showMoreInfo(e)}
                   >
                     {showLessInfo == true ? (
-                      <p>Show More information</p>
+                      <p className="show_more">Show More information</p>
                     ) : (
-                      <p>Show less information</p>
+                      <p className="show_less">Show less information</p>
                     )}{" "}
                   </a>
                   <ReactHTMLTableToExcel
