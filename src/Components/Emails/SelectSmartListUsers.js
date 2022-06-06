@@ -65,8 +65,14 @@ const SelectSmartListUsers = (props) => {
         ? props.getSelectedSmartListData.id
         : props.getDraftData.campaign_data.smart_list_id,
     };
-    loader("show");
-    axios
+  
+
+    if(props.getDraftData?.campaign_data?.selectedHcp){
+      setReaders(props.getDraftData.campaign_data.selectedHcp);
+
+    }else{
+      loader("show");
+      axios
       .post(`distributes/get_reders_list`, body)
       .then((res) => {
         //   console.log(res)
@@ -76,6 +82,8 @@ const SelectSmartListUsers = (props) => {
       .catch((err) => {
         console.log(err);
       });
+    }
+   
   }, []);
 
   const backClicked = () => {
