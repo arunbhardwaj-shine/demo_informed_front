@@ -44,9 +44,9 @@ const SelectSmartListUsers = (props) => {
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  const smartListSelected = location.state
-    ? location.state.smartListSelected
-    : props.getDraftData.smart_list_data;
+  // const smartListSelected = location.state
+  //   ? location.state.smartListSelected
+  //   : props.getDraftData.smart_list_data;
 
   useEffect(() => {
     let campaign_id =
@@ -56,15 +56,13 @@ const SelectSmartListUsers = (props) => {
     setCampaign_id(campaign_id);
   }, []);
 
-  console.log(smartListSelected);
-
   const inputElement = useRef();
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   useEffect(() => {
     const body = {
       user_id: 18207,
-      list_id: props.getEmailData
-        ? smartListSelected.id
+      list_id: props.getSelectedSmartListData?.id
+        ? props.getSelectedSmartListData.id
         : props.getDraftData.campaign_data.smart_list_id,
     };
     loader("show");
@@ -130,7 +128,7 @@ const SelectSmartListUsers = (props) => {
           ? props.getEmailData.templateId
           : props.getDraftData.campaign_data.template_id,
         smart_list_id: props.getEmailData
-          ? smartListSelected.id
+          ? props.getSelectedSmartListData.id
           : props.getDraftData.campaign_data.smart_list_id,
         //smart_list_data: readers,
         // users_list : smartListSelected,
@@ -666,7 +664,7 @@ const SelectSmartListUsers = (props) => {
           <div className="result-hcp-table">
             <div className="table-title">
               <h4>
-                HCPs <span>| {smartListSelected.readers_count}</span>
+                {/* HCPs <span>| {smartListSelected.readers_count}</span> */}
               </h4>
               <div className="selected-hcp-table-action">
                 {editable == false ? (
@@ -1046,90 +1044,97 @@ const SelectSmartListUsers = (props) => {
                     const fieldName = `hpc[${i}]`;
                     return (
                       <>
-                      <div className="add_hcp_boxes">
-                        <div className="form_action">
-                        <div className="row">
-                          <div className="col-12 col-md-6">
-                            <div className="form-group">
-                              <label for="">First Name</label>
-                              <input
-                                type="text"
-                                className="form-control"
-                                onChange={(event) =>
-                                  onFirstNameChange(event, i)
-                                }
-                                value={val.firstname}
-                              />
-                            </div>
-                          </div>
-                          <div className="col-12 col-md-6">
-                            <div className="form-group">
-                              <label for="">Last Name</label>
-                              <input
-                                type="text"
-                                className="form-control"
-                                onChange={(event) => onLastNameChange(event, i)}
-                                value={val.lastname}
-                              />
-                            </div>
-                          </div>
-                          <div className="col-12 col-md-6">
-                            <div className="form-group">
-                              <label for="">Email *</label>
-                              <input
-                                type="email"
-                                className="form-control"
-                                id="email-desc"
-                                name={`${fieldName}.email`}
-                                onChange={(event) => onEmailChange(event, i)}
-                                value={val.email}
-                              />
-                            </div>
-                          </div>
-                          <div className="col-12 col-md-6">
-                            <div className="form-group">
-                              <label for="">Contact Type</label>
-                              <select
-                                className="form-contact"
-                                aria-label="select"
-                                onChange={(event) =>
-                                  onContactTypeChange(event, i)
-                                }
-                              >
-                                  <option selected>Select Type</option>
-                                  <option value="HCP">HCP</option>
-                                  <option value="Staff">Staff</option>
-                                  <option value="Test Users">Test Users</option>
-                                </select>
+                        <div className="add_hcp_boxes">
+                          <div className="form_action">
+                            <div className="row">
+                              <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                  <label for="">First Name</label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    onChange={(event) =>
+                                      onFirstNameChange(event, i)
+                                    }
+                                    value={val.firstname}
+                                  />
+                                </div>
                               </div>
-                            </div>
-                            <div className="col-12 col-md-6">
-                              <div className="form-group">
-                                <label for="">Country</label>
-                                <select
-                                  className="country-form"
-                                  aria-label="select"
-                                  onChange={(event) => onCountryChange(event, i)}
-                                >
-                                  <option selected>Select Country</option>
-                                  {countryall.length === 0
-                                    ? ""
-                                    : Object.entries(countryall).map(
-                                        ([index, item]) => {
-                                          return (
-                                            <>
-                                              <option value={index}>
-                                                {item}
-                                              </option>
-                                            </>
-                                          );
-                                        }
-                                      )}
-                                </select>
+                              <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                  <label for="">Last Name</label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    onChange={(event) =>
+                                      onLastNameChange(event, i)
+                                    }
+                                    value={val.lastname}
+                                  />
+                                </div>
                               </div>
-                            </div>
-                            {
-                              /*
+                              <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                  <label for="">Email *</label>
+                                  <input
+                                    type="email"
+                                    className="form-control"
+                                    id="email-desc"
+                                    name={`${fieldName}.email`}
+                                    onChange={(event) =>
+                                      onEmailChange(event, i)
+                                    }
+                                    value={val.email}
+                                  />
+                                </div>
+                              </div>
+                              <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                  <label for="">Contact Type</label>
+                                  <select
+                                    className="form-contact"
+                                    aria-label="select"
+                                    onChange={(event) =>
+                                      onContactTypeChange(event, i)
+                                    }
+                                  >
+                                    <option selected>Select Type</option>
+                                    <option value="HCP">HCP</option>
+                                    <option value="Staff">Staff</option>
+                                    <option value="Test Users">
+                                      Test Users
+                                    </option>
+                                  </select>
+                                </div>
+                              </div>
+                              <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                  <label for="">Country</label>
+                                  <select
+                                    className="country-form"
+                                    aria-label="select"
+                                    onChange={(event) =>
+                                      onCountryChange(event, i)
+                                    }
+                                  >
+                                    <option selected>Select Country</option>
+                                    {countryall.length === 0
+                                      ? ""
+                                      : Object.entries(countryall).map(
+                                          ([index, item]) => {
+                                            return (
+                                              <>
+                                                <option value={index}>
+                                                  {item}
+                                                </option>
+                                              </>
+                                            );
+                                          }
+                                        )}
+                                  </select>
+                                </div>
+                              </div>
+                              {/*
                               <div className="col-12 col-md-6 btn_rmv">
                                 <div className="form-group">
                                   {i !== 0 && (
@@ -1143,43 +1148,43 @@ const SelectSmartListUsers = (props) => {
                                   )}
                                 </div>
                               </div>
-                              */
-                            }
+                              */}
+                            </div>
                           </div>
-                        </div>
-                        <div className="hcp-modal-action">
-                          <div className="hcp-action-block">
-                            {activeManual == "active" ? (
-                              <>
-                              {
-                                hpc.length > 1 && (
-                                  <div className="hcp-remove">
-                                    <button
-                                      type="button"
-                                      className="btn btn-filled"
-                                      onClick={() => deleteRecord(i)}
-                                    >
-                                      <img src={path_image + "delete.svg"} alt="Delete Row" />
-                                    </button>
-                                  </div>
-                                )
-                              }
-                              </>
-                            ) : null}
+                          <div className="hcp-modal-action">
+                            <div className="hcp-action-block">
+                              {activeManual == "active" ? (
+                                <>
+                                  {hpc.length > 1 && (
+                                    <div className="hcp-remove">
+                                      <button
+                                        type="button"
+                                        className="btn btn-filled"
+                                        onClick={() => deleteRecord(i)}
+                                      >
+                                        <img
+                                          src={path_image + "delete.svg"}
+                                          alt="Delete Row"
+                                        />
+                                      </button>
+                                    </div>
+                                  )}
+                                </>
+                              ) : null}
 
-                            <ul className="nav nav-tabs" role="tablist">
-                              <li className="nav-item add_hcp">
-                                <a
-                                  id="add_hcp_btn"
-                                  onClick={addMoreHcp}
-                                  className="nav-link active btn-bordered"
-                                  data-bs-toggle="tab"
-                                  href="#add_hcp_form"
-                                >
-                                  Add HCP +
-                                </a>
-                              </li>
-                               {/*
+                              <ul className="nav nav-tabs" role="tablist">
+                                <li className="nav-item add_hcp">
+                                  <a
+                                    id="add_hcp_btn"
+                                    onClick={addMoreHcp}
+                                    className="nav-link active btn-bordered"
+                                    data-bs-toggle="tab"
+                                    href="#add_hcp_form"
+                                  >
+                                    Add HCP +
+                                  </a>
+                                </li>
+                                {/*
                                  <li className="nav-item add-file">
                                    <a
                                      id="add_file_btn"
@@ -1192,9 +1197,9 @@ const SelectSmartListUsers = (props) => {
                                    </a>
                                  </li>
                               */}
-                            </ul>
+                              </ul>
+                            </div>
                           </div>
-                        </div>
                         </div>
                       </>
                     );
@@ -1213,11 +1218,6 @@ const SelectSmartListUsers = (props) => {
                   </form>
                 */}
               </div>
-
-
-
-
-
             </div>
           </div>
           <div className="modal-footer">

@@ -4,6 +4,9 @@ import "../../../App.css";
 import queryString from "query-string";
 import { Link } from "react-router-dom";
 import { loader } from "../../../loader";
+import { popup_alert } from "../../../popup_alert";
+import ViewTable from "../../Distributes/SmartListComponent/ViewTable";
+import ViewData from "./ViewData";
 
 const ViewSmartListWebinar = () => {
   const queryParams = queryString.parse(window.location.search);
@@ -16,45 +19,50 @@ const ViewSmartListWebinar = () => {
   const [getlistcount, setListCount] = useState("");
   const [creatorName, setCreatorName] = useState("");
 
-  const [data, setData] = useState([]);
+  //const [data, setData] = useState([]);
 
   const body = {
     smart_list_id: queryParams.listId,
-  };
-  const headers = {
-    "Content-Type": "application/json",
-    Authorization: `${localStorage.getItem("Token")}`,
+    type: "",
+    bounced: "",
+    country_id: "",
   };
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const getSmartListData = async () => {
     // loader("show");
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `${localStorage.getItem("Token")}`,
+    };
+
     await axios
-      .get(`http://51.89.210.56:8000/api/smart-list/data?smart_list_id=` + 7, {
+      .post(`http://51.89.210.56:8000/api/smart-list/data`, body, {
         headers,
       })
       .then((res) => {
         console.log(res);
 
-        // if (res.data.response) {
-        //   if (res.data.response.data.length > 0) {
-        //     setCreatorName(res.data.response.creator_name);
-        //     setEditListData(res.data.response.data);
-        //     setLoading(false);
-        //     setUploadedBy(res.data.response.upload_by_filter);
-        //     setSmartListName(res.data.response.smart_list_name);
-        //     setListCount(res.data.response.list_count);
-        //     setapi_flag(api_flag + 1);
-        //     loader("hide");
-        //   }
-        // } else {
-        //   popup_alert({
-        //     visible: "show",
-        //     message: "No readers in the smart list",
-        //     type: "error",
-        //   });
-        // }
-        // loader("hide");
+        if (res.data.data) {
+          if (res.data.data.length > 0) {
+            console.log(res.data.data);
+            setEditListData(res.data.data);
+            setapi_flag(api_flag + 1);
+            // setLoading(false);
+            // setUploadedBy(res.data.response.upload_by_filter);
+            // setSmartListName(res.data.response.smart_list_name);
+            // setListCount(res.data.response.list_count);
+            // setapi_flag(api_flag + 1);
+            // loader("hide");
+          }
+        } else {
+          // popup_alert({
+          //   visible: "show",
+          //   message: "No readers in the smart list",
+          //   type: "error",
+          // });
+        }
+        //    loader("hide");
       })
       .catch((err) => {
         console.log(err);
@@ -72,23 +80,18 @@ const ViewSmartListWebinar = () => {
    * @param currentUnitPrice - The current unit price of the product
    */
 
-  return (
-    <>
-      <div className="col right-sidebar">
-        hi
-        {/* <ViewTable
-            data={editList}
-            smartListDatafn={getSmartListData}
-            api_flag={api_flag}
-            list_count={getlistcount}
-            listId={queryParams.listId}
-            upload_by_filter={getuploadedby}
-            smartListName={smartListName}
-            creatorName={creatorName}
-          /> */}
-      </div>
-    </>
-  );
+  if (api_flag > 0) {
+    return (
+      <>
+        <div className="loader" id="custom_loader">
+          <span className="loader-view"> </span>
+        </div>
+        <div className="col right-sidebar">
+          <ViewData data={editList} />
+        </div>
+      </>
+    );
+  }
 };
 
 export default ViewSmartListWebinar;

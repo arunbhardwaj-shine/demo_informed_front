@@ -3,13 +3,15 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { loader } from "../../loader";
 import { connect } from "react-redux";
-import { getSelectedSmartListData } from "../../actions";
+import { getSelectedSmartListData, getEmailData } from "../../actions";
 import { Navigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../popup_alert";
 
+var new_object;
 const SelectSmartList = (props) => {
+  //console.log(new_object);
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
   const [PdfSelected, setPdfSelected] = useState(0);
@@ -52,8 +54,9 @@ const SelectSmartList = (props) => {
   };
 
   useEffect(() => {
-    let listid = props.getEmailData
-      ? smartListSelected.id
+    //console.log(props.getSelectedSmartListData);
+    let listid = new_object?.id
+      ? new_object.id
       : props.getDraftData.campaign_data.smart_list_id;
     setselecedlistid(listid);
     setPdfSelected(listid);
@@ -72,6 +75,7 @@ const SelectSmartList = (props) => {
     setSmartListSelected(e);
 
     props.getSelectedSmartListData(e);
+    //props.getEmailData({ selected_smart_list: e });
     setPdfSelected(e.id);
     // e.preventDefault();
   };
@@ -614,10 +618,11 @@ const SelectSmartList = (props) => {
 
 const mapStateToProps = (state) => {
   console.log(state);
-
+  new_object = state.getSelectedSmartListData;
   return state;
 };
 
 export default connect(mapStateToProps, {
   getSelectedSmartListData: getSelectedSmartListData,
+  getEmailData: getEmailData,
 })(SelectSmartList);
