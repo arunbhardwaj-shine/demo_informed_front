@@ -676,7 +676,7 @@ const VerifyHCP = (props) => {
                   <Link to="/CreateEmail">Create Your Email</Link>
                 </li>
                 <li className="active active-main">
-                  <a href="javascript:void(0)">Select Verify Your HCPs</a>
+                  <a href="javascript:void(0)">Select Verify & Your HCPs</a>
                 </li>
 
                 <li className="">
