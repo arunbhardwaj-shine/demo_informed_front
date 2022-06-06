@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import { Button, Modal } from "react-bootstrap";
-import SidebarWebinar from "./../../Webinar/Layout/Sidebar";
+
 import { useLocation } from 'react-router-dom';
 
 const Sidebar = () => {
