@@ -57,7 +57,7 @@ const SelectSmartList = (props) => {
     //console.log(props.getSelectedSmartListData);
     let listid = new_object?.id
       ? new_object.id
-      : props.getDraftData.campaign_data.smart_list_id;
+      : (props.getDraftData?.campaign_data?.smart_list_id) ? props.getDraftData.campaign_data.smart_list_id : 0;
     setselecedlistid(listid);
     setPdfSelected(listid);
   }, []);
