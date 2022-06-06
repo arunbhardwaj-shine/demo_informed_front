@@ -1,22 +1,37 @@
-import React, { useEffect, useState,useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Modal } from "react-bootstrap";
 import SimpleReactValidator from "simple-react-validator";
 import { useNavigate } from "react-router-dom";
 import { loader } from "../../loader";
-import { getCampaignId } from "../../actions";
+import {
+  getCampaignId,
+  getSelected,
+  getSelectedSmartListData,
+} from "../../actions";
 import axios from "axios";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../popup_alert";
 import { Link } from "react-router-dom";
+import { getEmailData } from "../../actions";
 
+var old_object = {};
+var selected_Data = [];
 const VerifyHCP = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
-  const campaign_id = props.getEmailData
-    ? props.getEmailData.campaign_id
-    : props.getDraftData.campaign_data.campaign_id;
+  var campaign_id = "0";
+  if (props.getEmailData) {
+    var campaign_id = props.getEmailData?.campaign_id
+      ? props.getEmailData.campaign_id
+      : "";
+  } else {
+    var campaign_id = props.getEmailData?.campaign_id
+      ? props.getEmailData.campaign_id
+      : props.getDraftData.campaign_id;
+  }
+
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
   const [templateId, setTemplateId] = useState(0);
   const [name, setName] = useState("");
@@ -31,7 +46,9 @@ const VerifyHCP = (props) => {
   const [sortingCount, setSortingCount] = useState(0);
   const navigate = useNavigate();
 
-  const [selectedHcp, setSelectedHcp] = useState([]);
+  const [selectedHcp, setSelectedHcp] = useState(
+    selected_Data ? selected_Data : []
+  );
   const [modalCounter, setModalCounter] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [activeManual, setActiveManual] = useState("active");
@@ -50,7 +67,9 @@ const VerifyHCP = (props) => {
   let [validator] = React.useState(new SimpleReactValidator());
 
   const [manualReRender, setManualReRender] = useState(0);
-  let file_name  =useRef("");
+  let file_name = useRef("");
+  console.log(selectedHcp);
+  console.log(selected_Data);
   useEffect(() => {
     console.log(props);
     // props.getDraftData.campaign_data.selectedHcp;
@@ -105,6 +124,9 @@ const VerifyHCP = (props) => {
 
   const nextClicked = () => {
     console.log(selectedHcp);
+
+    props.getSelected(selectedHcp);
+
     navigate("/VerifyMAIL", {
       // data: data,
       // smartListName: smartListName,
@@ -215,14 +237,13 @@ const VerifyHCP = (props) => {
   };
 
   const addFile = () => {
-
-    const addfile_btn = document.getElementById('add_file_btn');
-    if (document.querySelector('#add_file_btn .active') !== null) {
-        addfile_btn.classList.remove('active');
-    }else{
-       addfile_btn.classList.add('active');
+    const addfile_btn = document.getElementById("add_file_btn");
+    if (document.querySelector("#add_file_btn .active") !== null) {
+      addfile_btn.classList.remove("active");
+    } else {
+      addfile_btn.classList.add("active");
     }
-    document.querySelector('#add_hcp_btn').classList.remove('active');
+    document.querySelector("#add_hcp_btn").classList.remove("active");
 
     setActiveExcel("active");
     setActiveManual("");
@@ -230,14 +251,13 @@ const VerifyHCP = (props) => {
   };
 
   const addHcp = () => {
-
-    const addhcp_btn = document.getElementById('add_hcp_btn');
-    if (document.querySelector('#add_hcp_btn .active') !== null) {
-        addhcp_btn.classList.remove('active');
-    }else{
-       addhcp_btn.classList.add('active');
+    const addhcp_btn = document.getElementById("add_hcp_btn");
+    if (document.querySelector("#add_hcp_btn .active") !== null) {
+      addhcp_btn.classList.remove("active");
+    } else {
+      addhcp_btn.classList.add("active");
     }
-     document.querySelector('#add_file_btn').classList.remove('active');
+    document.querySelector("#add_file_btn").classList.remove("active");
 
     setActiveExcel("");
     setActiveManual("active");
@@ -503,19 +523,19 @@ const VerifyHCP = (props) => {
 
   const searchHcp = async (e) => {
     e.preventDefault();
-    if(name.trim().length == 0 && email.trim().length == 0){
+    if (name.trim().length == 0 && email.trim().length == 0) {
       toast.error("Please enter search criteria");
-    }else{
-        const body = {
-          user_id: 18207,
-          name: name,
-          email: email,
-        };
+    } else {
+      const body = {
+        user_id: 18207,
+        name: name,
+        email: email,
+      };
 
-        //console.log(body);
-        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-        loader("show");
-        await axios
+      //console.log(body);
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      loader("show");
+      await axios
         .post(`emailapi/search_hcp`, body)
         .then((res) => {
           console.log(res);
@@ -598,31 +618,33 @@ const VerifyHCP = (props) => {
 
     const body = {
       user_id: 18207,
-      pdf_id: props.getEmailData
-        ? props.getEmailData.pdf_id
+      pdf_id: old_object?.PdfSelected
+        ? old_object.PdfSelected
         : props.getDraftData.pdf_id,
-      description: props.getEmailData
-        ? props.getEmailData.emailDescription
+      description: old_object?.emailDescription
+        ? old_object.emailDescription
         : props.getDraftData.description,
-      creator: props.getEmailData
-        ? props.getEmailData.emailCreator
+      creator: old_object?.emailCreator
+        ? old_object.emailCreator
         : props.getDraftData.creator,
-      campaign_name: props.getEmailData
-        ? props.getEmailData.emailCampaign
+      campaign_name: old_object?.emailCampaign
+        ? old_object.emailCampaign
         : props.getDraftData.campaign,
-      subject: props.getEmailData
-        ? props.getEmailData.emailSubject
+      subject: old_object?.emailSubject
+        ? old_object.emailSubject
         : props.getDraftData.subject,
       route_location: "VerifyHCP",
-      tags: props.getEmailData
-        ? props.getEmailData.tags
-        : props.getDraftData.tags,
+      tags: old_object?.tags ? old_object.tags : props.getDraftData.tags,
       campaign_data: {
-        template_id: props.getEmailData
-          ? props.getEmailData.templateId
+        template_id: old_object?.templateId
+          ? old_object.templateId
           : props.getDraftData.campaign_data.template_id,
         selectedHcp: selectedHcp,
+        list_selection: old_object?.selected
+          ? old_object.selected
+          : props.getDraftData.campaign_data.list_selection,
       },
+
       campaign_id: campaign_id_st,
       status: 2,
     };
@@ -642,7 +664,7 @@ const VerifyHCP = (props) => {
             type: "success",
             redirect: "/EmailList",
           });
-        }else{
+        } else {
           toast.warning(res.data.message);
         }
         loader("hide");
@@ -669,7 +691,7 @@ const VerifyHCP = (props) => {
             </div>
             <div className="col-12 col-md-9">
               <ul className="tabnav-link">
-              <li className="active">
+                <li className="active">
                   <Link to="/EmailArticleSelect">Select Content</Link>
                 </li>
                 <li className="active">
@@ -803,11 +825,21 @@ const VerifyHCP = (props) => {
                             <td>{users.country}</td>
                             <td>{users.ibu}</td>
                             <td>{users.contact_type}</td>
-                            <td><span>{users.consent}</span></td>
-                            <td><span>{users.email_received}</span></td>
-                            <td><span>{users.email_opening}</span></td>
-                            <td><span>{users.registration}</span></td>
-                            <td><span>{users.last_email}</span></td>
+                            <td>
+                              <span>{users.consent}</span>
+                            </td>
+                            <td>
+                              <span>{users.email_received}</span>
+                            </td>
+                            <td>
+                              <span>{users.email_opening}</span>
+                            </td>
+                            <td>
+                              <span>{users.registration}</span>
+                            </td>
+                            <td>
+                              <span>{users.last_email}</span>
+                            </td>
                             <td className="add-new-hcp">
                               <img
                                 src={path_image + "add-row.png"}
@@ -963,25 +995,41 @@ const VerifyHCP = (props) => {
                               )
                             }
                           >
-                            <td id={`field_name` + index}
-                            contenteditable={editable === 0 ? "false" : "true"}
+                            <td
+                              id={`field_name` + index}
+                              contenteditable={
+                                editable === 0 ? "false" : "true"
+                              }
                             >
                               <span>{data.name || data.first_name}</span>
                             </td>
                             <td id={`field_email` + index}>{data.email}</td>
                             <td id={`field_bounced` + index}>{data.bounce}</td>
-                            <td id={`field_country` + index}
-                            contenteditable={editable === 0 ? "false" : "true"}
+                            <td
+                              id={`field_country` + index}
+                              contenteditable={
+                                editable === 0 ? "false" : "true"
+                              }
                             >
                               <span>{data.country}</span>
                             </td>
                             <td>{data.ibu}</td>
                             <td>{data.contact_type}</td>
-                            <td><span>{data.consent}</span></td>
-                            <td><span>{data.email_received}</span></td>
-                            <td><span>{data.email_opening}</span></td>
-                            <td><span>{data.registration}</span></td>
-                            <td><span>{data.last_email}</span></td>
+                            <td>
+                              <span>{data.consent}</span>
+                            </td>
+                            <td>
+                              <span>{data.email_received}</span>
+                            </td>
+                            <td>
+                              <span>{data.email_opening}</span>
+                            </td>
+                            <td>
+                              <span>{data.registration}</span>
+                            </td>
+                            <td>
+                              <span>{data.last_email}</span>
+                            </td>
                             <td className="delete_row" colSpan="12">
                               <img
                                 src={path_image + "delete.svg"}
@@ -1033,14 +1081,14 @@ const VerifyHCP = (props) => {
           </Modal.Header>
           <Modal.Body>
             <div className="hcp-add-box">
-              <div className="hcp-add-form tab-content"  id="upload-confirm">
+              <div className="hcp-add-form tab-content" id="upload-confirm">
                 <form id="add_hcp_form" className={"tab-pane" + activeManual}>
                   {hpc.map((val, i) => {
                     const fieldName = `hpc[${i}]`;
                     return (
                       <>
-                      <div className="add_hcp_boxes">
-                        <div className="form_action">
+                        <div className="add_hcp_boxes">
+                          <div className="form_action">
                             <div className="row">
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
@@ -1061,7 +1109,9 @@ const VerifyHCP = (props) => {
                                   <input
                                     type="text"
                                     className="form-control"
-                                    onChange={(event) => onLastNameChange(event, i)}
+                                    onChange={(event) =>
+                                      onLastNameChange(event, i)
+                                    }
                                     value={val.lastname}
                                   />
                                 </div>
@@ -1074,7 +1124,9 @@ const VerifyHCP = (props) => {
                                     className="form-control"
                                     id="email-desc"
                                     name={`${fieldName}.email`}
-                                    onChange={(event) => onEmailChange(event, i)}
+                                    onChange={(event) =>
+                                      onEmailChange(event, i)
+                                    }
                                     value={val.email}
                                   />
                                 </div>
@@ -1092,7 +1144,9 @@ const VerifyHCP = (props) => {
                                     <option selected>Select Type</option>
                                     <option value="HCP">HCP</option>
                                     <option value="Staff">Staff</option>
-                                    <option value="Test Users">Test Users</option>
+                                    <option value="Test Users">
+                                      Test Users
+                                    </option>
                                   </select>
                                 </div>
                               </div>
@@ -1102,9 +1156,13 @@ const VerifyHCP = (props) => {
                                   <select
                                     className="country-form"
                                     aria-label="select"
-                                    onChange={(event) => onCountryChange(event, i)}
+                                    onChange={(event) =>
+                                      onCountryChange(event, i)
+                                    }
                                   >
-                                    <option selected value="">Select Country</option>
+                                    <option selected value="">
+                                      Select Country
+                                    </option>
                                     {countryall.length === 0
                                       ? ""
                                       : Object.entries(countryall).map(
@@ -1122,8 +1180,7 @@ const VerifyHCP = (props) => {
                                 </div>
                               </div>
 
-                              {
-                                /*
+                              {/*
                                 <div className="col-12 col-md-6 btn-last">
                                   <div className="form-group">
                                     {i !== 0 && (
@@ -1137,28 +1194,27 @@ const VerifyHCP = (props) => {
                                     )}
                                   </div>
                                 </div>
-                                */
-                              }
+                                */}
                             </div>
                           </div>
                           <div className="hcp-modal-action">
                             <div className="hcp-action-block">
                               {activeManual == "active" ? (
                                 <>
-                                {
-                                  hpc.length > 1 && (
+                                  {hpc.length > 1 && (
                                     <div className="hcp-remove">
                                       <button
                                         type="button"
                                         className="btn btn-filled"
                                         onClick={() => deleteRecord(i)}
                                       >
-                                        <img src={path_image + "delete.svg"} alt="Add More" />
+                                        <img
+                                          src={path_image + "delete.svg"}
+                                          alt="Add More"
+                                        />
                                       </button>
                                     </div>
-                                  )
-                                }
-
+                                  )}
                                 </>
                               ) : null}
 
@@ -1175,8 +1231,7 @@ const VerifyHCP = (props) => {
                                   </a>
                                 </li>
 
-                                {
-                                  /*
+                                {/*
                                   <li className="nav-item add-file">
                                     <a
                                       id="add_file_btn"
@@ -1188,9 +1243,7 @@ const VerifyHCP = (props) => {
                                       Add File
                                     </a>
                                   </li>
-                                  */
-                                }
-
+                                  */}
                               </ul>
                             </div>
                           </div>
@@ -1200,8 +1253,7 @@ const VerifyHCP = (props) => {
                   })}
                 </form>
 
-                {
-                  /*
+                {/*
                   <form id="add_file" className={"tab-pane" + activeExcel}>
                   <div class="file_upload-box">
                     <div className="upload-file-box">
@@ -1223,13 +1275,8 @@ const VerifyHCP = (props) => {
                       </div>
                     </div>
                   </form>
-                  */
-                }
+                  */}
               </div>
-
-
-
-
             </div>
           </Modal.Body>
 
@@ -1465,7 +1512,12 @@ const VerifyHCP = (props) => {
 
 const mapStateToProps = (state) => {
   console.log(state);
+  old_object = state.getEmailData;
+  selected_Data = state.getSelected;
   return state;
 };
 
-export default connect(mapStateToProps)(VerifyHCP);
+export default connect(mapStateToProps, {
+  getEmailData,
+  getSelected,
+})(VerifyHCP);

@@ -4,15 +4,19 @@ import { loader } from "../../loader";
 import { toast } from "react-toastify";
 import Accordion from "react-bootstrap/Accordion";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-
-const EmailArticleSelect = () => {
+import { connect } from "react-redux";
+import { getEmailData } from "../../actions";
+import { propTypes } from "react-bootstrap/esm/Image";
+var dxr = 0;
+const EmailArticleSelect = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
   const [previousSendListData, setPreviousSendListData] = useState([]);
   const [filterdata, setFilterData] = useState([]);
   const navigate = useNavigate();
   const [filter, setFilter] = useState("");
-  const [PdfSelected, setPdfSelected] = useState(0);
+
+  const [PdfSelected, setPdfSelected] = useState(dxr ? dxr : 0);
   const [showfilter, setShowFilter] = useState(false);
   const [filtertags, setFilterTags] = useState([]);
   const [filterdate, setFilterDate] = useState([]);
@@ -26,7 +30,7 @@ const EmailArticleSelect = () => {
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   useEffect(() => {
     getContentData(0, 1);
-  }, []);
+  }, [props]);
 
   const getContentData = (flag, page) => {
     const body = {
@@ -131,6 +135,10 @@ const EmailArticleSelect = () => {
     setFilter(getfilter);
     let up = updateflag + 1;
     setUpdateFlag(up);
+  };
+
+  const nextClicked = () => {
+    props.getEmailData({ PdfSelected: PdfSelected });
   };
 
   const handleOnfilterlngguage = (lan) => {
@@ -244,7 +252,11 @@ const EmailArticleSelect = () => {
                     Next
                   </button>
                 ) : (
-                  <Link to="/CreateEmail" state={{ PdfSelected: PdfSelected }}>
+                  <Link
+                    to="/CreateEmail"
+                    state={{ PdfSelected: PdfSelected }}
+                    onClick={nextClicked}
+                  >
                     <button
                       ref={inputElement}
                       className="btn btn-primary btn-filled next disabled"
@@ -289,7 +301,13 @@ const EmailArticleSelect = () => {
               </form>
             </div>
 
-            <div className={showfilter ? "filter-by nav-item dropdown highlight" : "filter-by nav-item dropdown"}>
+            <div
+              className={
+                showfilter
+                  ? "filter-by nav-item dropdown highlight"
+                  : "filter-by nav-item dropdown"
+              }
+            >
               <button
                 className="btn btn-secondary dropdown"
                 type="button"
@@ -608,7 +626,15 @@ const EmailArticleSelect = () => {
                           className="select-mail-option"
                           onClick={handleSelect}
                         >
-                          <input type="radio" name="radio" value={data.id} checked = {typeof PdfSelected !== "undefined" && PdfSelected == data.id}/>
+                          <input
+                            type="radio"
+                            name="radio"
+                            value={data.id}
+                            checked={
+                              typeof PdfSelected !== "undefined" &&
+                              PdfSelected == data.id
+                            }
+                          />
                           <span className="checkmark"></span>
                         </div>
                       </div>
@@ -672,4 +698,11 @@ const EmailArticleSelect = () => {
   );
 };
 
-export default EmailArticleSelect;
+const mapStateToProps = (state) => {
+  dxr = state.getEmailData?.PdfSelected;
+  return state;
+};
+
+export default connect(mapStateToProps, { getEmailData: getEmailData })(
+  EmailArticleSelect
+);
