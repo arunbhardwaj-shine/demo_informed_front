@@ -41,56 +41,65 @@ const VerifyMAIL = (props) => {
     ? location.state.PdfSelected
     : props.getDraftData.PdfSelected;
 
-  const [getpdfdata,setPdfData]   = useState([]);
+  const [getpdfdata, setPdfData] = useState([]);
 
   const [getReaderDetails, setReaderDetails] = useState({});
-  const [getSmartListName, setSmartListName] = useState('');
+  const [getSmartListName, setSmartListName] = useState("");
   const [getSmartListPopupStatus, setSmartListPopupStatus] = useState(false);
   const [showLessInfo, setShowLessInfo] = useState(true);
 
   useEffect(() => {
-
     console.log(props);
 
-    let campaign_id = (typeof props.getEmailData === 'object' && props.getEmailData !== null)
+    let campaign_id =
+      typeof props.getEmailData === "object" && props.getEmailData !== null
         ? props.getEmailData.campaign_id
         : props.getDraftData.campaign_id;
-        setCampaign_id(campaign_id);
+    setCampaign_id(campaign_id);
 
-        if((typeof props.getSelectedSmartListData === 'object' && props.getSelectedSmartListData !== null) || (props.getDraftData!==null && props.getDraftData.smart_list_data)){
-          let smart_list_data =  (typeof props.getSelectedSmartListData === 'object' && props.getSelectedSmartListData !== null) ? props.getSelectedSmartListData : props.getDraftData.smart_list_data;
-          //console.log(smart_list_data);
-          setSmartListData(smart_list_data);
-        }
-
+    if (
+      (typeof props.getSelectedSmartListData === "object" &&
+        props.getSelectedSmartListData !== null) ||
+      (props.getDraftData !== null && props.getDraftData.smart_list_data)
+    ) {
+      let smart_list_data =
+        typeof props.getSelectedSmartListData === "object" &&
+        props.getSelectedSmartListData !== null
+          ? props.getSelectedSmartListData
+          : props.getDraftData.smart_list_data;
+      //console.log(smart_list_data);
+      setSmartListData(smart_list_data);
+    }
 
     getpdfData();
   }, []);
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-  const getpdfData = async() => {
-      let pdf_id  = props.getEmailData ? props.getEmailData.pdf_id : props.getDraftData.pdf_id;
-      if(typeof pdf_id !=="undefined" && pdf_id != 0){
-        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-        const body = {
-            user_id: 18207,
-            pdf_id: pdf_id
-        };
-        loader("show");
-        await axios
-          .post(`emailapi/get_pdf`, body)
-          .then((res) => {
-            if (res.data.status_code == 200) {
-              setPdfData(res.data.response.data);
-            }else{
-              toast.error(res.data.message);
-            }
-            loader("hide");
-          })
-          .catch((err) => {
-            toast.error("Something went wrong");
-          });
-      }
+  const getpdfData = async () => {
+    let pdf_id = props.getEmailData
+      ? props.getEmailData.PdfSelected
+      : props.getDraftData.pdf_id;
+    if (typeof pdf_id !== "undefined" && pdf_id != 0) {
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      const body = {
+        user_id: 18207,
+        pdf_id: pdf_id,
+      };
+      loader("show");
+      await axios
+        .post(`emailapi/get_pdf`, body)
+        .then((res) => {
+          if (res.data.status_code == 200) {
+            setPdfData(res.data.response.data);
+          } else {
+            toast.error(res.data.message);
+          }
+          loader("hide");
+        })
+        .catch((err) => {
+          toast.error("Something went wrong");
+        });
+    }
   };
 
   const handleInputChange = (event, selected) => {
@@ -111,7 +120,7 @@ const VerifyMAIL = (props) => {
     const body = {
       user_id: 18207,
       pdf_id: props.getEmailData
-        ? props.getEmailData.pdf_id
+        ? props.getEmailData.PdfSelected
         : props.getDraftData.pdf_id,
       description: props.getEmailData
         ? props.getEmailData.emailDescription
@@ -133,8 +142,15 @@ const VerifyMAIL = (props) => {
         template_id: props.getEmailData
           ? props.getEmailData.templateId
           : props.getDraftData.campaign_data.template_id,
-          smart_list_id: typeof getSmartListData !== "undefined" && getSmartListData.hasOwnProperty('id') ? getSmartListData.id : "",
+        smart_list_id:
+          typeof getSmartListData !== "undefined" &&
+          getSmartListData.hasOwnProperty("id")
+            ? getSmartListData.id
+            : "",
         selectedHcp: selectedHcp,
+        list_selection: props.getEmailData
+          ? props.getEmailData.selected
+          : props.getDraftData.campaign_data.list_selection,
       },
       campaign_id: campaign_id_st,
       status: 2,
@@ -181,12 +197,11 @@ const VerifyMAIL = (props) => {
             return userId.profile_user_id || userId.user_id;
           });
 
-
     const body = {
       user_id: 18207,
       route_location: "VerifyMAIL",
       pdf_id: props.getEmailData
-        ? props.getEmailData.pdf_id
+        ? props.getEmailData.PdfSelected
         : props.getDraftData.pdf_id,
       subject: props.getEmailData
         ? props.getEmailData.emailSubject
@@ -208,7 +223,11 @@ const VerifyMAIL = (props) => {
       campaign_id: campaign_id_st,
       campaign_data: {
         user_list: user_list,
-        smart_list_id: typeof getSmartListData !== "undefined" && getSmartListData.hasOwnProperty('id') ? getSmartListData.id : "",
+        smart_list_id:
+          typeof getSmartListData !== "undefined" &&
+          getSmartListData.hasOwnProperty("id")
+            ? getSmartListData.id
+            : "",
         template_id: props.getEmailData
           ? props.getEmailData.templateId
           : props.getDraftData.campaign_data.template_id,
@@ -224,7 +243,7 @@ const VerifyMAIL = (props) => {
         if (res.data.status_code === 200) {
           popup_alert({
             visible: "show",
-            message: "Mail sent <br/>successfully",
+            message: "Mail sent successfully",
             type: "success",
             redirect: "/EmailList",
           });
@@ -266,45 +285,46 @@ const VerifyMAIL = (props) => {
   };
 
   const backClicked = () => {
-    if(typeof getSmartListData !== "undefined" && getSmartListData.hasOwnProperty('id')){
+    if (
+      typeof getSmartListData !== "undefined" &&
+      getSmartListData.hasOwnProperty("id")
+    ) {
       navigate("/SelectSmartListUsers");
-    }else{
+    } else {
       navigate("/VerifyHCP");
     }
   };
 
-
-  const openSmartListPopup = async(smart_list_id) => {
+  const openSmartListPopup = async (smart_list_id) => {
     setShowLessInfo(true);
-   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-   const body = {
-     user_id: 18207,
-     list_id: smart_list_id,
-   };
-   loader("show");
-   await axios
-     .post(`distributes/get_reders_list`, body)
-     .then((res) => {
-       if(res.data.status_code == 200){
-         setReaderDetails(res.data.response.data);
-         setSmartListName(res.data.response.smart_list_name);
-         setSmartListPopupStatus(true);
-       }else{
-         toast.warning(res.data.message);
-       }
-       loader("hide");
-     })
-     .catch((err) => {
-       toast.warning("Something went wrong");
-       loader("hide");
-     });
- }
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    const body = {
+      user_id: 18207,
+      list_id: smart_list_id,
+    };
+    loader("show");
+    await axios
+      .post(`distributes/get_reders_list`, body)
+      .then((res) => {
+        if (res.data.status_code == 200) {
+          setReaderDetails(res.data.response.data);
+          setSmartListName(res.data.response.smart_list_name);
+          setSmartListPopupStatus(true);
+        } else {
+          toast.warning(res.data.message);
+        }
+        loader("hide");
+      })
+      .catch((err) => {
+        toast.warning("Something went wrong");
+        loader("hide");
+      });
+  };
 
- const showMoreInfo = (e) => {
-   e.preventDefault();
-   setShowLessInfo(!showLessInfo);
- };
-
+  const showMoreInfo = (e) => {
+    e.preventDefault();
+    setShowLessInfo(!showLessInfo);
+  };
 
   return (
     <>
@@ -323,21 +343,18 @@ const VerifyMAIL = (props) => {
             </div>
             <div className="col-12 col-md-9">
               <ul className="tabnav-link">
-
                 <li className="active">
-                    <Link to="/EmailArticleSelect">Select Content</Link>
-                  </li>
-                  <li className="active">
-                    <Link to="/CreateEmail">Create Your Email</Link>
-                  </li>
-                  <li className="active">
-                    <Link to="/SelectHCP">Select HCPs</Link>
-
-                  </li>
-                  <li className="active">
-                    <Link to="/SelectSmartList">Select Verify Your List</Link>
-                  </li>
-
+                  <Link to="/EmailArticleSelect">Select Content</Link>
+                </li>
+                <li className="active">
+                  <Link to="/CreateEmail">Create Your Email</Link>
+                </li>
+                <li className="active">
+                  <Link to="/SelectHCP">Select HCPs</Link>
+                </li>
+                <li className="active">
+                  <Link to="/SelectSmartList">Select Verify Your List</Link>
+                </li>
 
                 <li className="active active-main">
                   <a href="javascript:void(0)">Verify your Email</a>
@@ -424,70 +441,75 @@ const VerifyMAIL = (props) => {
                       <p>
                         Content <span>| 1</span>
                       </p>
-                        {
-                          typeof getpdfdata !== "undefined" && (
-                            <div className="mail-content-select-box">
-                              <div className="mail-content-select-top">
-                                <div className="mail-preview-img">
-                                  <img
-                                    src={path_image + "dummy-img.png"}
-                                    alt="Preview "
-                                  />
-                                </div>
-                                <div className="mail-box-content">
-                                  <h5>
-                                    {getpdfdata.pdf_title}
-                                  </h5>
-                                  <p>
-                                    {getpdfdata.pdf_sub_title}
-                                  </p>
-                                  <div className="mailbox-tags">
-                                    <ul>
-                                      {typeof getpdfdata.pdf_tags !== "undefined" && getpdfdata.pdf_tags.length > 0  ? (
-                                        getpdfdata.pdf_tags.map((tag) => {
-                                          return <li className="list1">{tag}</li>;
-                                        })
-                                      ) : (
-                                        <li className="list1">N/A</li>
-                                      )}
-                                    </ul>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="mail-content-table">
-                                <table>
-                                  <tbody>
-                                    <tr>
-                                      <th>Upload Date</th>
-                                      <td>{getpdfdata.pdf_created}</td>
-                                    </tr>
-                                    <tr>
-                                      <th>Language</th>
-                                      <td>{getpdfdata.pdf_language}</td>
-                                    </tr>
-                                    <tr>
-                                      <th>SPC</th>
-                                      <td>{getpdfdata.pdf_spc_included === 0 ? "No" : "Yes"}</td>
-                                    </tr>
-                                    <tr>
-                                      <th>Last Email</th>
-                                      <td>{getpdfdata.pdf_last_sent == "" ? "N/A" : getpdfdata.pdf_last_sent}</td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                              </div>
-                              <div className="mail-content-footer">
-                                <a href={getpdfdata.pdf_preview_link} target="_blank">
-                                  <button className="btn btn-primary btn-filled">
-                                    Preview
-                                  </button>
-                                </a>
+                      {typeof getpdfdata !== "undefined" && (
+                        <div className="mail-content-select-box">
+                          <div className="mail-content-select-top">
+                            <div className="mail-preview-img">
+                              <img
+                                src={path_image + "dummy-img.png"}
+                                alt="Preview "
+                              />
+                            </div>
+                            <div className="mail-box-content">
+                              <h5>{getpdfdata.pdf_title}</h5>
+                              <p>{getpdfdata.pdf_sub_title}</p>
+                              <div className="mailbox-tags">
+                                <ul>
+                                  {typeof getpdfdata.pdf_tags !== "undefined" &&
+                                  getpdfdata.pdf_tags.length > 0 ? (
+                                    getpdfdata.pdf_tags.map((tag) => {
+                                      return <li className="list1">{tag}</li>;
+                                    })
+                                  ) : (
+                                    <li className="list1">N/A</li>
+                                  )}
+                                </ul>
                               </div>
                             </div>
-
-                          )
-                        }
-                      </div>
+                          </div>
+                          <div className="mail-content-table">
+                            <table>
+                              <tbody>
+                                <tr>
+                                  <th>Upload Date</th>
+                                  <td>{getpdfdata.pdf_created}</td>
+                                </tr>
+                                <tr>
+                                  <th>Language</th>
+                                  <td>{getpdfdata.pdf_language}</td>
+                                </tr>
+                                <tr>
+                                  <th>SPC</th>
+                                  <td>
+                                    {getpdfdata.pdf_spc_included === 0
+                                      ? "No"
+                                      : "Yes"}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th>Last Email</th>
+                                  <td>
+                                    {getpdfdata.pdf_last_sent == ""
+                                      ? "N/A"
+                                      : getpdfdata.pdf_last_sent}
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                          <div className="mail-content-footer">
+                            <a
+                              href={getpdfdata.pdf_preview_link}
+                              target="_blank"
+                            >
+                              <button className="btn btn-primary btn-filled">
+                                Preview
+                              </button>
+                            </a>
+                          </div>
+                        </div>
+                      )}
+                    </div>
 
                     <div className="col-12 col-md-12 mail-recipt-left">
                       <h6>
@@ -495,13 +517,11 @@ const VerifyMAIL = (props) => {
                       </h6>
                       <p>{/* Single HCP <span>| 1</span> */}</p>
 
-                      { getSmartListData.length !== 0 && (
+                      {getSmartListData.length !== 0 && (
                         <div className="smartlist-view email_box_outer">
                           <div className="smartlist-view email_box">
                             <div className="mail-box-content">
-                              <h5>
-                                {getSmartListData.name}
-                              </h5>
+                              <h5>{getSmartListData.name}</h5>
 
                               <div className="mailbox-table">
                                 <table>
@@ -597,7 +617,12 @@ const VerifyMAIL = (props) => {
                               </ul>
                             </div> */}
                               <div className="smartlist-buttons">
-                                <button className="btn btn-primary btn-bordered view" onClick={() => openSmartListPopup(getSmartListData.id)}>
+                                <button
+                                  className="btn btn-primary btn-bordered view"
+                                  onClick={() =>
+                                    openSmartListPopup(getSmartListData.id)
+                                  }
+                                >
                                   View
                                 </button>
                               </div>
@@ -669,102 +694,134 @@ const VerifyMAIL = (props) => {
         </div> */}
       </Modal>
 
-
       {/* Reader Details popup */}
-     <Modal show={getSmartListPopupStatus} className="smart_list_popup" id="smart_list_popup_id">
-       <Modal.Header>
-         <h5 className="modal-title" id="staticBackdropLabel">
-         { typeof getReaderDetails !== "undefined" && getReaderDetails.length > 0 && (
-             getSmartListName
-           )
-         }
-         </h5>
-         <button type="button" className="btn-close" data-bs-dismiss="modal" onClick={() => setSmartListPopupStatus((getSmartListPopupStatus) => !getSmartListPopupStatus)}></button>
-       </Modal.Header>
-       <Modal.Body>
-         <section className="search-hcp">
-           <div className="result-hcp-table">
-               <div className="table-title">
-                   <h4>
-                     HCPs <span>|
-                     { typeof getReaderDetails !== "undefined" && getReaderDetails.length > 0 && (
-                         getReaderDetails.length
-                       )
-                     }</span>
-                   </h4>
-                   <div className="selected-hcp-table-action">
-                     <a
-                       className="show-less-info"
-                       onClick={(e) => showMoreInfo(e)}
-                     >
-                       {showLessInfo == true ? (
-                         <p>Show More information</p>
-                       ) : (
-                         <p>Show less information</p>
-                       )}{" "}
-                     </a>
-                   </div>
-               </div>
-               <div className="selected-hcp-list">
-                 <table className="table">
-                   <thead>
-                     <tr>
-                       <th scope="col">Name</th>
-                       <th scope="col">Email</th>
-                       <th scope="col">Bounced</th>
-                       <th scope="col">Country</th>
-                       <th scope="col">Business Unit</th>
-                       <th scope="col">Contact Type</th>
-                       {showLessInfo == false ? (
-                         <>
-                           <th scope="col">Consent</th>
-                           <th scope="col">Email Received</th>
-                           <th scope="col">Openings</th>
-                           <th scope="col">Registrations</th>
-                           <th scope="col">Last Email</th>
-                         </>
-                       ) : null}
-                     </tr>
-                   </thead>
-                   <tbody>
-                     {
-                       typeof getReaderDetails !== "undefined" && getReaderDetails.length > 0 && (
-                         getReaderDetails.map((rr, i) => {
-                           return (
-                             <>
-                               <tr>
-                                 <td>{rr.first_name}</td>
-                                 <td>{rr.email}</td>
-                                 <td>{rr.bounce}</td>
-                                 <td>{rr.country}</td>
-                                 <td>{rr.ibu}</td>
-                                 <td>{rr.contact_type}</td>
-                                 {showLessInfo == false ? <td><span>{rr.consent}</span> </td> : null}
-                                 {showLessInfo == false ? <td><span>{rr.email_received}</span></td> : null}
-                                 {showLessInfo == false ? <td><span>{rr.email_opening}</span></td> : null}
-                                 {showLessInfo == false ? <td><span>{rr.registration}</span></td> : null}
-                                 {showLessInfo == false ? <td><span>{rr.last_email}</span></td> : null}
-                                 <td className="add-new-hcp" colspan="12">
-                                 </td>
-                               </tr>
-                             </>
-                           );
-                         })
-                       )
-                     }
-                   </tbody>
-                 </table>
-               </div>
-           </div>
-         </section>
-       </Modal.Body>
-     </Modal>
-     {/*Reader Details popup end*/}
+      <Modal
+        show={getSmartListPopupStatus}
+        className="smart_list_popup"
+        id="smart_list_popup_id"
+      >
+        <Modal.Header>
+          <h5 className="modal-title" id="staticBackdropLabel">
+            {typeof getReaderDetails !== "undefined" &&
+              getReaderDetails.length > 0 &&
+              getSmartListName}
+          </h5>
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="modal"
+            onClick={() =>
+              setSmartListPopupStatus(
+                (getSmartListPopupStatus) => !getSmartListPopupStatus
+              )
+            }
+          ></button>
+        </Modal.Header>
+        <Modal.Body>
+          <section className="search-hcp">
+            <div className="result-hcp-table">
+              <div className="table-title">
+                <h4>
+                  HCPs{" "}
+                  <span>
+                    |
+                    {typeof getReaderDetails !== "undefined" &&
+                      getReaderDetails.length > 0 &&
+                      getReaderDetails.length}
+                  </span>
+                </h4>
+                <div className="selected-hcp-table-action">
+                  <a
+                    className="show-less-info"
+                    onClick={(e) => showMoreInfo(e)}
+                  >
+                    {showLessInfo == true ? (
+                      <p className="show_more">Show More information</p>
+                    ) : (
+                      <p className="show_less">Show less information</p>
+                    )}{" "}
+                  </a>
+                </div>
+              </div>
+              <div className="selected-hcp-list">
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Name</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Bounced</th>
+                      <th scope="col">Country</th>
+                      <th scope="col">Business Unit</th>
+                      <th scope="col">Contact Type</th>
+                      {showLessInfo == false ? (
+                        <>
+                          <th scope="col">Consent</th>
+                          <th scope="col">Email Received</th>
+                          <th scope="col">Openings</th>
+                          <th scope="col">Registrations</th>
+                          <th scope="col">Last Email</th>
+                        </>
+                      ) : null}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {typeof getReaderDetails !== "undefined" &&
+                      getReaderDetails.length > 0 &&
+                      getReaderDetails.map((rr, i) => {
+                        return (
+                          <>
+                            <tr>
+                              <td>{rr.first_name}</td>
+                              <td>{rr.email}</td>
+                              <td>{rr.bounce}</td>
+                              <td>{rr.country}</td>
+                              <td>{rr.ibu}</td>
+                              <td>{rr.contact_type}</td>
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>{rr.consent}</span>{" "}
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>{rr.email_received}</span>
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>{rr.email_opening}</span>
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>{rr.registration}</span>
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>{rr.last_email}</span>
+                                </td>
+                              ) : null}
+                              <td className="add-new-hcp" colspan="12"></td>
+                            </tr>
+                          </>
+                        );
+                      })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+        </Modal.Body>
+      </Modal>
+      {/*Reader Details popup end*/}
     </>
   );
 };
 
 const mapStateToProps = (state) => {
+  console.log(state);
+
   //  let emailData = state.getEmailData;
   return state;
 };
