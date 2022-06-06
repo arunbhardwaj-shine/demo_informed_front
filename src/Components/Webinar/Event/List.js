@@ -251,7 +251,8 @@ const EventData = () => {
       <div className="right-sidebar">
         <div className="top-header">
           <div className="page-title"></div>
-          <div className="top-right-action">
+          <div className="top-right-action webinar-header-action-tool">
+
             <div className="search-bar">
               <form className="d-flex">
                 <input
@@ -284,6 +285,48 @@ const EventData = () => {
                   </svg>
                 </button>
               </form>
+            </div>
+            <div className="">
+            <div className="filter-by">
+              <>
+                {sortingCount == 0 ? (
+                  <>
+                    <button
+                      className="btn btn-outline-primary"
+                      onClick={sortSelectedUsers}
+                    >
+                      Sort By{" "}
+                      <img src={path_image + "sort.svg"} alt="Shorting" />
+                    </button>
+                  </>
+                ) : sorting == 0 ? (
+                  <>
+                    <button
+                      className="btn btn-outline-primary"
+                      onClick={sortSelectedUsers}
+                    >
+                      Sort By{" "}
+                      <img
+                        src={path_image + "sort-decending.svg"}
+                        alt="Shorting"
+                      />
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      className="btn btn-outline-primary"
+                      onClick={sortSelectedUsers}
+                    >
+                      Sort By{" "}
+                      <img
+                        src={path_image + "sort-assending.svg"}
+                        alt="Shorting"
+                      />
+                    </button>
+                  </>
+                )}
+              </>
             </div>
             <div className="hcp-sort">
               <>
@@ -367,13 +410,14 @@ const EventData = () => {
                 </svg>
               </button>
             </div>
+            </div>
           </div>
         </div>
 
-        <div class="smart-list-result">
-          <div class="col smartlist-result-block">
-            <div className="smartlist_box_block">
-              <div className="smartlist-add smartlist-view">
+        <div class="email-result">
+          <div class="col email-result-block">
+            <div className="email_box_block">
+              <div className="email-block-add">
                 {
                   <>
                     <Button
@@ -393,37 +437,35 @@ const EventData = () => {
               event?.map((event) => {
                 return (
                   <>
-                    <div
-                      className="smartlist-view email_box"
-                      style={{ margin: "8px" }}
-                    >
-                      <div className="mail-box-content">
+                    <div  className="email_box_block">     
+                      <div className="mail-box-content webinar-box">
+                        <img src={path_image + "webinar/Tracker.svg"}/>
+                        <img src={path_image + "webinar/share.svg"}/>
                         <h5>{event.title}</h5>
-
-                        <div className="mail-time">
-                          <span>{event.event_date}</span>
-                        </div>
-                        <div className="smart-list-added-user">
-                          {event.days_left} Days Left
-                        </div>
-                        <div className="mail-stats">
-                          {deletestatus && (
-                            <div className="dlt_btn">
-                              <button
-                                onClick={(e) => showConfirmationPopup(event.id)}
-                              >
-                                <img
-                                  src={path_image + "delete.svg"}
-                                  alt="Delete Row"
-                                />
-                              </button>
+                        <div className="webinar-box-content-detail">
+                            <div className="smart-list-added-user">
+                              {event.days_left} Days Left
                             </div>
-                          )}
-                        </div>
+                            <div className="mail-time">
+                              <span>{event.event_date}</span>
+                            </div>
+                            <div className="mail-stats">
+                              {deletestatus && (
+                                <div className="dlt_btn">
+                                  <button
+                                    onClick={(e) => showConfirmationPopup(event.id)}
+                                  >
+                                    <img
+                                      src={path_image + "delete.svg"}
+                                      alt="Delete Row"
+                                    />
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+                          </div>
                         <div>
-                          <Button
-                            onClick={() => handleGetEventlistEdidData(event.id)}
-                          >
+                          <Button onClick={() => handleGetEventlistEdidData(event.id)}>
                             Edit
                           </Button>
                         </div>
@@ -451,20 +493,19 @@ const EventData = () => {
         <span className="loader-view"> </span>
       </div>
         </div>
-    
-
       <Modal
         show={show}
         onHide={() => {
           setShow(false);
         }}
       >
-        <Modal.Header closeButton></Modal.Header><h2 className="text-center">New Webinar/Event</h2>
+        <Modal.Header closeButton> <h2>New Webinar/Event</h2></Modal.Header>
+        <Modal.Body>  
         <div className="container">
           <Add closePopup={closePopup} getEventList={handleGetEventlist} />
         </div>
+        </Modal.Body>
       </Modal>
-
       <div className="delete">
         <Modal
           className="modal send-confirm"
@@ -526,28 +567,23 @@ const EventData = () => {
           </Modal.Header>
           <Modal.Body>
             <form onSubmit={formik.handleSubmit}>
-              <Form.Group
-                as={Row}
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label column sm={2}>
-                  Event Title{" "}
-                </Form.Label>
-                <Col sm={10}>
-                  <Form.Control
-                    name="EventTitle"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.EventTitle}
-                  />
-                  {formik.touched.EventTitle && formik.errors.EventTitle ? (
-                    <div style={{ color: "red" }}>
-                      {formik.errors.EventTitle}
-                    </div>
-                  ) : null}
-                </Col>
-              </Form.Group>
+            <div className="form-inline row justify-content-between align-items-center">
+              <div className="form-group col-12 col-md-12">
+                <label>Event Title </label>
+                <Form.Control
+                  name="EventTitle"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.EventTitle}
+                />
+                {formik.touched.EventTitle && formik.errors.EventTitle ? (
+                  <div style={{ color: "red" }}>{formik.errors.EventTitle}</div>
+                ) : null}
+              </div>
+            </div>
+
+
+              
               <fieldset className="border p-2">
                 {SpDataSingle?.map((multi, i) => (
                   <Form.Group className="edit-event" key={i}>
@@ -561,102 +597,63 @@ const EventData = () => {
                 ))}
               </fieldset>
               <div className="mt-2 clearfix"></div>
-
-              {Speakername.map((multi, i) => (
-                <fieldset className="border p-2">
-                  <div key={i}>
-                    {Speakername.length > 1 ? (
-                      <button
-                        type="button"
-                        onClick={() => handleMultiInputRemove(i)}
-                        className="btn-close float-end"
-                        aria-label="Close"
-                      />
+              <fieldset class="border p-2">
+                {Speakername.map((multi, i) => (
+                  <div key={i} className="form-inline row justify-content-between align-items-center">
+                  {Speakername.length > 1 ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        handleMultiInputRemove(i);
+                      }}
+                      className="btn-close float-end"
+                      aria-label="Close"
+                    />
                     ) : null}
-                    <Form.Group as={Row} className="mb-3">
-                      <Form.Label column sm={3}>
-                        Name
-                      </Form.Label>
-                      <Col sm={9}>
-                        <Form.Control
-                          name={Speakername.length === 0 ? "name" : "name" + i}
-                          value={multi.name}
-                          onChange={(e) => {
-                            handleEditSpeakerOnKeyUp(e, i);
-                          }}
-                        />
-                        <div style={{ color: "red" }}>
-                          {/* {formik.errors.Timezone} */}
-                          {SpeakerErr[i].name}
-                        </div>
-                      </Col>
-                      <div className="mt-2 clearfix"></div>
-                      <Form.Label column sm={3}>
-                        Email
-                      </Form.Label>
-                      <Col sm={9}>
-                        <Form.Control
-                          type="email"
-                          name={
-                            Speakername.length === 0 ? "email" : "email" + i
-                          }
-                          onChange={(e) => {
-                            handleEditSpeakerOnKeyUp(e, i);
-                          }}
-                          value={multi.email}
-                        />
-                        <div style={{ color: "red" }}>
-                          {/* {formik.errors.Timezone} */}
-                          {SpeakerErr[i].email}
-                        </div>
-                      </Col>
-                    </Form.Group>
-                  </div>
-                </fieldset>
-              ))}
-              <div className="mt-2"></div>
-              <Form.Group className="mb-3">
-                <Button
-                  onClick={handleMultiInputAdd}
-                  className="speaker-button"
-                >
-                  Add Speaker
-                </Button>
-              </Form.Group>
-              <div className="clearfix"></div>
-              <div className="mt-2"></div>
-              <Form.Group as={Row} className="mb-3">
-                <Form.Label column sm={2}>
-                  Description
-                </Form.Label>
-                <Col sm={10}>
-                  <textarea
-                    name="Description"
-                    type="text"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.Description}
-                    className="form-control"
-                    id="exampleFormControlTextarea1"
-                    rows="3"
-                  ></textarea>
-                  {formik.touched.Description && formik.errors.Description ? (
-                    <div style={{ color: "red" }}>
-                      {formik.errors.Description}
+                    <div className="form-group col-12 col-md-7">
+                      <label>Name</label>
+                      <input type="text" placeholder="Speaker's Name" className="form-control" name={Speakername.length === 0 ? "name" : "name" + i} value={multi.name}
+                        onChange={(e) => {
+                          handleEditSpeakerOnKeyUp(e, i);
+                        }}
+                      />
+                      <div style={{ color: "red" }}>{SpeakerErr[i].name}</div>
                     </div>
-                  ) : null}
-                </Col>
-              </Form.Group>
-
-              <Modal.Footer>
-                <Button
-                  variant="danger"
-                  onClick={() => {
-                    setSpeakerName([{ name: "", email: "" }]);
-                    setSpeakerErr([{ name: "", email: "" }]);
-                    setModalShow(false);
-                  }}
-                >
+                    <div className="form-group col-12 col-md-5">
+                      <label>Speaker's Email</label>
+                      <input type="text" placeholder="Speaker's Email" className="form-control" name={Speakername.length === 0 ? "email" : "email" + i} value={multi.email}
+                        onChange={(e) => {
+                          handleEditSpeakerOnKeyUp(e, i);
+                        }}
+                      />
+                      <div style={{ color: "red" }}>{SpeakerErr[i].email}</div>
+                    </div>
+                    </div>
+                  ))}
+                <a href="javascript:void(0);" onClick={handleMultiInputAdd} className="speaker-button">Add Speaker + </a>
+                </fieldset>
+          <div className="form-inline row justify-content-between align-items-center">
+            <div className="form-group col-12 col-md-12">
+              <label>Description </label>
+              <textarea
+                name="Description"
+                type="text"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.Description}
+                className="form-control"
+                rows="3"
+              ></textarea>
+               {formik.touched.Description && formik.errors.Description ? (
+                <div style={{ color: "red" }}>
+                  {formik.errors.Description}
+                </div>
+              ) : null}
+            </div>
+          </div>
+              
+                <Modal.Footer>
+                <Button variant="danger" onClick={() => { setSpeakerName([{ name: "", email: "" }]); setSpeakerErr([{ name: "", email: "" }]);setModalShow(false);}}>
                   Close
                 </Button>
                 <Button type="submit" variant="success">

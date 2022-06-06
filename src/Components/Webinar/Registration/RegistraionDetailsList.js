@@ -318,7 +318,6 @@ useEffect(() => {
               <Form.Group
                 as={Row}
                 className="mb-3"
-              
               >
                 <Form.Label column sm={3}>
                 Body Text{" "}
