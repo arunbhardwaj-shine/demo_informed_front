@@ -973,6 +973,7 @@ const EmailList = (props) => {
                       </div>
                       <div className="mail-box-content">
                         <div className="mail-box-content-top">
+                        <div className="mail-box-content-top-view">
                           <h5>{data.subject}</h5>
                           <p>{data.description}</p>
                           <div className="mailbox-table">
@@ -1006,6 +1007,7 @@ const EmailList = (props) => {
                           </div>
                           <div className="mail-time">
                             <span>{data.created_at}</span>
+                          </div>
                           </div>
                           <div className="mail-stats">
                             <ul>
