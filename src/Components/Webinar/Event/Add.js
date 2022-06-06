@@ -506,7 +506,7 @@ function Add(props) {
                       {formik.errors.eventendtime}
                     </div>
                   ) : null}
-                  <div style={{ color: "red" }}>{massage}</div>
+                  {/* <div style={{ color: "red" }}>{massage}</div> */}
                 </Col>
               </Form.Group>
               <Form.Group
