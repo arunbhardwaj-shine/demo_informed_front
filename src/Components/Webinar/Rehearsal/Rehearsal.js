@@ -274,6 +274,35 @@ function Rehearsal() {
                    <br />
                    <h2>Select the rehearsal information. </h2>
                    <br />
+                   <div className="form-inline row justify-content-between align-items-center">
+                    <div className="form-group col-12 col-md-7">
+                      <label for="exampleInputEmail1">Email Description </label>
+                      <input
+                       onChange={(e) => handleOnChange(e, i)}
+                       value={val.title}
+                        type="text"
+                        className="form-control"
+                        id="email-desc"
+                       
+                      />
+                      {/*validator.message(
+                        "emailDesc",
+                        emailDescription,
+                        "required"
+                      )*/}
+                    </div>
+                    <div className="form-group right-side col-12 col-md-5">
+                      <label for="exampleInputEmail1">Email Creator</label>
+                      <input
+                         onChange={(e) => handleOnChange(e, i)}
+                         value={val.title}
+                        type="text"
+                        className="form-control"
+                        id="email-address"
+                      />
+                      {/*validator.message("creator", emailCreator, "required")*/}
+                    </div>
+                  </div>
                   {localStorage.getItem("EventIdHeader") ? null : (
                     <h4>
                       <Link to="/webinar/event/add" style={{ color: "red" }}>
