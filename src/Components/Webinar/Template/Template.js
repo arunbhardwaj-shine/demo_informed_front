@@ -8,8 +8,8 @@ import { toast, ToastContainer } from "react-toastify";
 import CreateTemplate from "./CreateTemplate";
 import { Testmail } from "./Testmail";
 import { loader } from "../../../loader";
+import AliceCarousel from "react-alice-carousel";
 const Template = () => {
-  const [testMail, SetTestMail] = useState(false);
   const [id, setId] = useState();
   const [FormShow, setFormShow] = useState(false);
   const [tName, setTName] = useState();
@@ -22,7 +22,19 @@ const Template = () => {
   const [render, setRender] = useState(0);
   const [modalShow1, setModalShow1] = useState(false);
   const [hello, setHello] = useState(JSON.parse(localStorage.getItem("hello")));
-   let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN ;
+  let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN ;
+
+   // ----------------added for new design implementations
+  const [activeIndex, setActiveIndex] = useState(0);
+  const syncActiveIndex = ({ item }) => setActiveIndex(item);
+ 
+  const responsive = {
+    0: { items: 1 },
+    568: { items: 2 },
+    1024: { items: 5 },
+  };
+
+  // ---------------------ended---------------
 
   const formik = useFormik({
     initialValues: {
@@ -158,197 +170,120 @@ const Template = () => {
           draggable
           pauseOnHover
         />
-        <Col md={{ span: 8, offset: 3 }}>
-          <h2>Templates</h2>
-          <Row>
-            <Col className="mb-5">
-              <Button
-                onClick={() => {
-                  setModalShow(true);
-                }}
-              >
-                Create New Template
-              </Button>
-            </Col>
-          </Row>
+        <Col md={{ span: 8, offset: 0 }}>
+          <h2>Auto Emails</h2>
+          <div className="top-header">
+            <div className="custom-container">
+              <div className="row">
+                <div className="page-title">
+                  <h4>Select your Template</h4>
+                </div>
+                <Button onClick={() => { setModalShow(true); }} >
+                  Create New Template
+                </Button>
+              </div>
+            </div>
+          </div>
+          <section className="select-mail-template">
+            <div className="custom-container">
+              <div className="row">
+              <AliceCarousel mouseTracking disableDotsControls activeIndex={activeIndex} responsive={responsive} onSlideChanged={syncActiveIndex} >
+                {templateList ? (
+                  templateList ?.map((val, i) => (
+                    <div key={i} className="item">
+                      <img src={path_image + "content_added1.png"} alt="" onClick={(e) => {
+                        localStorage.setItem("idd", val.id);
+                        handleGetTemplate(val.id);
+                        localStorage.setItem("template", val.name);
+                        setTName(val.name);
+                        setFormShow(true)
+                      }}/>
+                      <td>{val.name}</td>
+                    </div>
+                  ))
+                ) : (
+                  <h2>Data Not Found</h2>
+                )}  
+              </AliceCarousel> 
+              </div>
+            </div>  
+          </section> 
         </Col>
       </Row>
-      <Modal
-        show={modalShow}
-        size="md"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header onClick={() => setModalShow(false)} closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-            Create Template
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <CreateTemplate
-            htTemplate={handleGetTemplateList}
-            data={setModalShow}
-          />
-        </Modal.Body>
-      </Modal>
-      <Modal
-        show={modalShow2}
-        size="md"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header onClick={() => setModalShow2(false)} closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-            Test Mail
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Testmail data={setModalShow2} data1={id} />
-        </Modal.Body>
-      </Modal>
-      <Col md={{ span: 8, offset: 3 }}>
-        <Row>
-          <Col className="mb-5">
-            {templateList != undefined || templateList != null ? (
-              <Table bordered hover>
-                <thead>
-                  <tr>
-                    <th>Template Name</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {templateList ? (
-                    templateList?.map((val, i) => (
-                      <tr key={i}>
-                        <td>{val.name}</td>
-                        <td>
-                          <Button
-                            onClick={(e) => {
-                              setModalShow2(true);
-                              setId(val.id);
-                            }}
-                          >
-                            Test Mail
-                          </Button>
-                          <Button
-                            onClick={(e) => {
-                              localStorage.setItem("idd", val.id);
-                              handleGetTemplate(val.id);
-                              localStorage.setItem("template", val.name);
-                              setTName(val.name);
-                              setFormShow(true)
-                            }}
-                          >
-                            Edit
-                          </Button>{" "}
-                          <img
-                                src={path_image + "webinar/delete.jpg"}
-                                onClick={() => {
-                                  setModalShow1(true)
-                                  setTemplateId(val)
-                                  // handleGetReadersDataPage(currentPage);
-                                }}
-                                width={90}
-                              />
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <h2>Data Not Found</h2>
-                  )}
-                </tbody>
-              </Table>
-            ) : (
-              <h2>Data Not Found</h2>
-            )}
-          </Col>
-          <Modal
-      show={modalShow1}
-      size="sm"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header onClick={()=>setModalShow1(false)} closeButton>
-      </Modal.Header>
-      <Modal.Body>
-        <h6>The Delete action will delete the HCP from your account entirly</h6>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={()=>{handleDeleteTemplate(); setModalShow1(false)}}>Delete</Button>
-        <Button onClick={()=>{setModalShow1(false)}}>Close</Button>
-      </Modal.Footer>
-    </Modal>
-        </Row>
-      </Col>
+
+  {/* start of create template modal code ------------------  */}     
+  <Modal show={modalShow} size="md" aria-labelledby="contained-modal-title-vcenter" centered>
+    <Modal.Header onClick={() => setModalShow(false)} closeButton>
+      <Modal.Title id="contained-modal-title-vcenter">
+        Create Template
+      </Modal.Title>
+    </Modal.Header>
+    <Modal.Body>
+      <CreateTemplate
+        htTemplate={handleGetTemplateList}
+        data={setModalShow}
+      />
+    </Modal.Body>
+  </Modal>
+  {/* end of create template modal code ------------------  */} 
+
+  {/*  start of test email modal code ------------------  */}
+  <Modal show={modalShow2} size="md" aria-labelledby="contained-modal-title-vcenter" centered >
+    <Modal.Header onClick={() => setModalShow2(false)} closeButton>
+      <Modal.Title id="contained-modal-title-vcenter">Test Mail</Modal.Title>
+    </Modal.Header>
+    <Modal.Body>
+      <Testmail data={setModalShow2} data1={id} />
+    </Modal.Body>
+  </Modal>
+  {/* end of test email modal code ------------------  */} 
+
+  {/* start of delete modal code ------------------  */} 
+  <Modal show={modalShow1} size="sm" aria-labelledby="contained-modal-title-vcenter" centered >
+    <Modal.Header onClick={()=>setModalShow1(false)} closeButton>
+    </Modal.Header>
+    <Modal.Body>
+      <h6>The Delete action will delete the HCP from your account entirly</h6>
+    </Modal.Body>
+    <Modal.Footer>
+      <Button onClick={()=>{handleDeleteTemplate(); setModalShow1(false)}}>Delete</Button>
+      <Button onClick={()=>{setModalShow1(false)}}>Close</Button>
+    </Modal.Footer>
+  </Modal>
+  {/* end of delete modal code ------------------ */}  
+
       {FormShow?<> {template ? (
         <form onSubmit={formik.handleSubmit}>
           <Row>
-            <Col
-              className="shadow-lg p-3 mb-5 bg-white rounded"
-              md={{ span: 8, offset: 3 }}
-            >
-              <Col>
-                {/* <h4>
-                  Template name :{" "}
-                  {tName ? tName : localStorage.getItem("template")}
-                </h4>{" "} */}
-              </Col>
-              <Row>
-                <Col className="mb-5">
-                  <Button type="submit">Save</Button>
-                  <Col>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Template name</Form.Label>
-                      <Form.Control
-                        name="tempName"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.tempName}
-                        type="text"
-                        placeholder="Template name"
-                      />
-                      {formik.touched.tempName && formik.errors.tempName ? (
-                        <div style={{ color: "red" }}>
-                          {formik.errors.tempName}
-                        </div>
-                      ) : null}
-                    </Form.Group>
-                  </Col>
-                  <Col>
-                  <Form.Group className="mb-3">
-                      <Form.Label>Subject</Form.Label>
-                      <Form.Control
-                        name="Subject"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.Subject}
-                        type="text"
-                        placeholder="Subject"
-                      />
-                      {formik.touched.Subject && formik.errors.Subject ? (
-                        <div style={{ color: "red" }}>
-                          {formik.errors.Subject}
-                        </div>
-                      ) : null}
-                    </Form.Group>
-                  </Col>
-                </Col>
-              </Row>
-              <div>
-                <Form.Label>Description</Form.Label>
-                <EmailEditor
-                  ref={emailEditorRef}
-                  onLoad={onLoad}
-                  onReady={onReady}
+            <div className="shadow-lg p-3 mb-5 bg-white rounded md={{ span: 8, offset: 3 }} form-inline row justify-content-between align-items-center">
+              <div className="form-group col-12 col-md-7">
+                <Form.Label>Subject</Form.Label>
+                <Form.Control
+                  name="Subject"
+                  className="form-control"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.Subject}
+                  type="text"
+                  placeholder="Subject"
                 />
+                {formik.touched.Subject && formik.errors.Subject ? (
+                  <div style={{ color: "red" }}>
+                    {formik.errors.Subject}
+                  </div>
+                ) : null}
+                <Button onClick={(e) => { setModalShow2(true); setId(localStorage.getItem('idd')); }} >
+                  Send A Sample
+                </Button>  
+                <Button type="submit">Save</Button>
               </div>
-            </Col>
-   
+              <div className="form-group col-12 col-md-7">
+                <EmailEditor ref={emailEditorRef} onLoad={onLoad} onReady={onReady}></EmailEditor>
+              </div>  
+            </div>
           </Row>
         </form>
       ) : null}</>:null}
-    
     </div>
   );
 };
