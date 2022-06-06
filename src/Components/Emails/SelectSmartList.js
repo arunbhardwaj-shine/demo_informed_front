@@ -23,7 +23,7 @@ const SelectSmartList = (props) => {
     : props.getDraftData.campaign_id;
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
   const [getReaderDetails, setReaderDetails] = useState({});
-  const [getSmartListName, setSmartListName] = useState('');
+  const [getSmartListName, setSmartListName] = useState("");
   const [getSmartListPopupStatus, setSmartListPopupStatus] = useState(false);
   const [showLessInfo, setShowLessInfo] = useState(true);
 
@@ -49,7 +49,7 @@ const SelectSmartList = (props) => {
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
 
   useEffect(() => {
     let listid = props.getEmailData
@@ -60,11 +60,10 @@ const SelectSmartList = (props) => {
   }, []);
 
   useEffect(() => {
-    console.log("working in")
+    console.log("working in");
     if (PdfSelected !== 0) {
       inputElement.current.classList.remove("disabled");
     }
-
   }, [PdfSelected]);
 
   const handleSelect = (e) => {
@@ -82,11 +81,10 @@ const SelectSmartList = (props) => {
   };
 
   const saveAsDraft = async () => {
-
     const body = {
       user_id: 18207,
       pdf_id: props.getEmailData
-        ? props.getEmailData.pdf_id
+        ? props.getEmailData.PdfSelected
         : props.getDraftData.pdf_id,
       description: props.getEmailData
         ? props.getEmailData.emailDescription
@@ -155,11 +153,11 @@ const SelectSmartList = (props) => {
 
   const redirectToList = () => {
     setpopupopeningstatus(false);
-    window.open("/CreateSmartList", "_blank")
+    window.open("/CreateSmartList", "_blank");
     // navigate("/CreateSmartList");
   };
 
-  const openSmartListPopup = async(smart_list_id) => {
+  const openSmartListPopup = async (smart_list_id) => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
       user_id: 18207,
@@ -169,11 +167,11 @@ const SelectSmartList = (props) => {
     await axios
       .post(`distributes/get_reders_list`, body)
       .then((res) => {
-        if(res.data.status_code == 200){
+        if (res.data.status_code == 200) {
           setReaderDetails(res.data.response.data);
           setSmartListName(res.data.response.smart_list_name);
           setSmartListPopupStatus(true);
-        }else{
+        } else {
           toast.warning(res.data.message);
         }
         loader("hide");
@@ -182,7 +180,7 @@ const SelectSmartList = (props) => {
         toast.warning("Something went wrong");
         loader("hide");
       });
-  }
+  };
 
   const showMoreInfo = (e) => {
     e.preventDefault();
@@ -191,7 +189,7 @@ const SelectSmartList = (props) => {
 
   const refreshSmartList = () => {
     getSmartListData();
-  }
+  };
 
   return (
     <>
@@ -218,7 +216,6 @@ const SelectSmartList = (props) => {
                 </li>
                 <li className="active active-main">
                   <Link to="/SelectHCP">Select HCPs</Link>
-
                 </li>
                 <li className="">
                   <a href="javascript:void(0)">Verify Your List</a>
@@ -271,13 +268,24 @@ const SelectSmartList = (props) => {
                 </p>
                 <button
                   className="btn btn-primary btn-bordered"
-                  onClick={() => setpopupopeningstatus((getpopupopeningstatus) => !getpopupopeningstatus)}
+                  onClick={() =>
+                    setpopupopeningstatus(
+                      (getpopupopeningstatus) => !getpopupopeningstatus
+                    )
+                  }
                 >
                   Create new smart list
                 </button>
-                <button class="upload-btn btn btn-primary btn-bordered" onClick={() => setpopupopeningstatus((getpopupopeningstatus) => !getpopupopeningstatus)}>
+                <button
+                  class="upload-btn btn btn-primary btn-bordered"
+                  onClick={() =>
+                    setpopupopeningstatus(
+                      (getpopupopeningstatus) => !getpopupopeningstatus
+                    )
+                  }
+                >
                   Upload excel file
-								</button>
+                </button>
               </div>
             </div>
             <div className="col smartlist-refresh_div">
@@ -409,7 +417,12 @@ const SelectSmartList = (props) => {
                       </div> */}
                         <div className="smartlist-buttons">
                           <button className="btn view">
-                           <a className="color_blue" onClick={() => openSmartListPopup(template.id)}>View</a>
+                            <a
+                              className="color_blue"
+                              onClick={() => openSmartListPopup(template.id)}
+                            >
+                              View
+                            </a>
                           </button>
                         </div>
                       </div>
@@ -422,22 +435,49 @@ const SelectSmartList = (props) => {
         </section>
       </div>
 
-
       {/*Confrimation Popup start*/}
-      <Modal show={getpopupopeningstatus} className="send-confirm" id="resend-confirm">
+      <Modal
+        show={getpopupopeningstatus}
+        className="send-confirm"
+        id="resend-confirm"
+      >
         <Modal.Header>
-          <button type="button" className="btn-close" data-bs-dismiss="modal" onClick={() => setpopupopeningstatus((getpopupopeningstatus) => !getpopupopeningstatus)}></button>
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="modal"
+            onClick={() =>
+              setpopupopeningstatus(
+                (getpopupopeningstatus) => !getpopupopeningstatus
+              )
+            }
+          ></button>
         </Modal.Header>
         <Modal.Body>
           <img src={path_image + "alert.png"} alt="" />
           <h4>
-            Your changes will be lost, <br/>if you don't save them in draft.
+            Your changes will be lost, <br />
+            if you don't save them in draft.
           </h4>
           <div className="modal-buttons">
-            <button type="button" className="btn btn-primary btn-filled" data-bs-dismiss="modal"   onClick={() => redirectToList()}>
+            <button
+              type="button"
+              className="btn btn-primary btn-filled"
+              data-bs-dismiss="modal"
+              onClick={() => redirectToList()}
+            >
               Continue
             </button>
-            <button type="button" className="btn btn-primary btn-bordered light" data-bs-dismiss="modal"  onClick={() => setpopupopeningstatus((getpopupopeningstatus) => !getpopupopeningstatus)} >
+            <button
+              type="button"
+              className="btn btn-primary btn-bordered light"
+              data-bs-dismiss="modal"
+              onClick={() =>
+                setpopupopeningstatus(
+                  (getpopupopeningstatus) => !getpopupopeningstatus
+                )
+              }
+            >
               Close
             </button>
           </div>
@@ -445,90 +485,121 @@ const SelectSmartList = (props) => {
       </Modal>
       {/*Confrimation Popup end*/}
 
-
       {/* Reader Details popup */}
-      <Modal show={getSmartListPopupStatus} className="smart_list_popup" id="smart_list_popup_id">
+      <Modal
+        show={getSmartListPopupStatus}
+        className="smart_list_popup"
+        id="smart_list_popup_id"
+      >
         <Modal.Header>
           <h5 className="modal-title" id="staticBackdropLabel">
-          { typeof getReaderDetails !== "undefined" && getReaderDetails.length > 0 && (
-              getSmartListName
-            )
-          }
+            {typeof getReaderDetails !== "undefined" &&
+              getReaderDetails.length > 0 &&
+              getSmartListName}
           </h5>
-          <button type="button" className="btn-close" data-bs-dismiss="modal" onClick={() => setSmartListPopupStatus((getSmartListPopupStatus) => !getSmartListPopupStatus)}></button>
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="modal"
+            onClick={() =>
+              setSmartListPopupStatus(
+                (getSmartListPopupStatus) => !getSmartListPopupStatus
+              )
+            }
+          ></button>
         </Modal.Header>
         <Modal.Body>
           <section className="search-hcp">
             <div className="result-hcp-table">
-                <div className="table-title">
-                    <h4>
-                      HCPs <span>|
-                      { typeof getReaderDetails !== "undefined" && getReaderDetails.length > 0 && (
-                          getReaderDetails.length
-                        )
-                      }</span>
-                    </h4>
-                    <div className="selected-hcp-table-action">
-                      <a
-                        className="show-less-info"
-                        onClick={(e) => showMoreInfo(e)}
-                      >
-                        {showLessInfo == true ? (
-                          <p>Show More information</p>
-                        ) : (
-                          <p>Show less information</p>
-                        )}{" "}
-                      </a>
-                    </div>
+              <div className="table-title">
+                <h4>
+                  HCPs{" "}
+                  <span>
+                    |
+                    {typeof getReaderDetails !== "undefined" &&
+                      getReaderDetails.length > 0 &&
+                      getReaderDetails.length}
+                  </span>
+                </h4>
+                <div className="selected-hcp-table-action">
+                  <a
+                    className="show-less-info"
+                    onClick={(e) => showMoreInfo(e)}
+                  >
+                    {showLessInfo == true ? (
+                      <p>Show More information</p>
+                    ) : (
+                      <p>Show less information</p>
+                    )}{" "}
+                  </a>
                 </div>
-                <div className="selected-hcp-list">
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Bounced</th>
-                        <th scope="col">Country</th>
-                        <th scope="col">Business Unit</th>
-                        <th scope="col">Contact Type</th>
-                        {showLessInfo == false ? (
+              </div>
+              <div className="selected-hcp-list">
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Name</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Bounced</th>
+                      <th scope="col">Country</th>
+                      <th scope="col">Business Unit</th>
+                      <th scope="col">Contact Type</th>
+                      {showLessInfo == false ? (
+                        <>
+                          <th scope="col">Consent</th>
+                          <th scope="col">Email Received</th>
+                          <th scope="col">Openings</th>
+                          <th scope="col">Registrations</th>
+                          <th scope="col">Last Email</th>
+                        </>
+                      ) : null}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {typeof getReaderDetails !== "undefined" &&
+                      getReaderDetails.length > 0 &&
+                      getReaderDetails.map((rr, i) => {
+                        return (
                           <>
-                            <th scope="col">Consent</th>
-                            <th scope="col">Email Received</th>
-                            <th scope="col">Openings</th>
-                            <th scope="col">Registrations</th>
-                            <th scope="col">Last Email</th>
+                            <tr>
+                              <td>{rr.first_name}</td>
+                              <td>{rr.email}</td>
+                              <td>NA</td>
+                              <td>{rr.country}</td>
+                              <td>{rr.ibu}</td>
+                              <td>{rr.contact_type}</td>
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>NA</span>{" "}
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>{rr.email_received}</span>
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>{rr.email_opening}</span>
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>NA</span>
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>{rr.last_email}</span>
+                                </td>
+                              ) : null}
+                            </tr>
                           </>
-                        ) : null}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {
-                        typeof getReaderDetails !== "undefined" && getReaderDetails.length > 0 && (
-                          getReaderDetails.map((rr, i) => {
-                            return (
-                              <>
-                                <tr>
-                                  <td>{rr.first_name}</td>
-                                  <td>{rr.email}</td>
-                                  <td>NA</td>
-                                  <td>{rr.country}</td>
-                                  <td>{rr.ibu}</td>
-                                  <td>{rr.contact_type}</td>
-                                  {showLessInfo == false ? <td><span>NA</span> </td> : null}
-                                  {showLessInfo == false ? <td><span>{rr.email_received}</span></td> : null}
-                                  {showLessInfo == false ? <td><span>{rr.email_opening}</span></td> : null}
-                                  {showLessInfo == false ? <td><span>NA</span></td> : null}
-                                  {showLessInfo == false ? <td><span>{rr.last_email}</span></td> : null}
-                                </tr>
-                              </>
-                            );
-                          })
-                        )
-                      }
-                    </tbody>
-                  </table>
-                </div>
+                        );
+                      })}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </section>
         </Modal.Body>

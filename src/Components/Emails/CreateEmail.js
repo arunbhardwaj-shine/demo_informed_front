@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useRef} from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
@@ -15,9 +15,13 @@ import { loader } from "../../loader";
 import { popup_alert } from "../../popup_alert";
 import { toast } from "react-toastify";
 import { getSelectedSmartListData } from "../../actions";
+var dxr = 0;
+var state_object = {};
 
 const CreateEmail = (props) => {
-  let file_name  =useRef("");
+  console.log(state_object);
+  console.log(props);
+  let file_name = useRef("");
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const navigate = useNavigate();
   const [SendListData, setSendListData] = useState([]);
@@ -25,10 +29,7 @@ const CreateEmail = (props) => {
   const location = useLocation();
   const [uniqueId, setUniqueId] = useState("");
   const [getsearch, setSearch] = useState("");
-  const PdfSelected = location.state
-    ? location.state.PdfSelected
-    : props.getDraftData.pdf_id;
-  //console.log(PdfSelected);
+  const PdfSelected = props.getEmailData ? dxr : props.getDraftData.pdf_id;
 
   const [manualReRender, setManualReRender] = useState(0);
   const campaign_id = props.getDraftData ? props.getDraftData.campaign_id : "";
@@ -41,13 +42,55 @@ const CreateEmail = (props) => {
   const [template, setTemplate] = useState("");
   const [readers, setReaders] = useState([]);
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
-  const [emailDescription, setEmailDescription] = useState("");
-  const [emailCreator, setEmailCreator] = useState("");
+  console.log(props.getDraftData);
+  console.log(state_object);
+  const [emailDescription, setEmailDescription] = useState(
+    state_object != null &&
+      state_object != "undefined" &&
+      state_object.emailDescription
+      ? state_object.emailDescription
+      : props.getDraftData
+      ? props.getDraftData.description
+      : ""
+  );
+  const [emailCreator, setEmailCreator] = useState(
+    state_object != null &&
+      state_object != "undefined" &&
+      state_object.emailCreator
+      ? state_object.emailCreator
+      : props.getDraftData
+      ? props.getDraftData.creator
+      : ""
+  );
   const [counter, setCounter] = useState(0);
   const [modalCounter, setModalCounter] = useState(0);
-  const [emailCampaign, setemailCampaign] = useState("");
-  const [emailSubject, setEmailSubject] = useState("");
-  const [templateId, setTemplateId] = useState("");
+  const [emailCampaign, setemailCampaign] = useState(
+    state_object != null &&
+      state_object != "undefined" &&
+      state_object.emailCampaign
+      ? state_object.emailCampaign
+      : props.getDraftData
+      ? props.getDraftData.campaign
+      : ""
+  );
+  const [emailSubject, setEmailSubject] = useState(
+    state_object != null &&
+      state_object != "undefined" &&
+      state_object.emailSubject
+      ? state_object.emailSubject
+      : props.getDraftData
+      ? props.getDraftData.subject
+      : ""
+  );
+  const [templateId, setTemplateId] = useState(
+    state_object != null &&
+      state_object != "undefined" &&
+      state_object.templateId
+      ? state_object.templateId
+      : props.getDraftData
+      ? props.getDraftData.campaign_data.template_id
+      : ""
+  );
   const [templateName, setTemplateName] = useState("");
   const [renderAfterValidation, setRenderAfterValidation] = useState(0);
   const [tagClickedFirst, setTagClickedFirst] = useState([]);
@@ -55,7 +98,14 @@ const CreateEmail = (props) => {
   const [isOpen_send, setIsOpensend] = useState(false);
   const [allTags, setAllTags] = useState({});
   const [newTag, setNewTag] = useState("");
-  const [finalTags, setFinalTags] = useState([]);
+  console.log(state_object);
+  const [finalTags, setFinalTags] = useState(
+    state_object != null && state_object != "undefined" && state_object.tags
+      ? state_object.tags
+      : props.getDraftData
+      ? props.getDraftData.tags
+      : []
+  );
   const [tagsReRender, setTagsReRender] = useState(0);
   const [tagsCounter, setTagsCounter] = useState(0);
   const [validator] = React.useState(new SimpleReactValidator());
@@ -87,9 +137,8 @@ const CreateEmail = (props) => {
   const [smartListData, setSmartListData] = useState([]);
   const [prevsmartListData, setPrevSmartListData] = useState([]);
 
-
   const [getReaderDetails, setReaderDetails] = useState({});
-  const [getSmartListName, setSmartListName] = useState('');
+  const [getSmartListName, setSmartListName] = useState("");
   const [getSmartListPopupStatus, setSmartListPopupStatus] = useState(false);
   const [showLessInfo, setShowLessInfo] = useState(true);
   const [getSmartListId, setSmartListId] = useState(0);
@@ -157,7 +206,6 @@ const CreateEmail = (props) => {
     getalCountry();
   }, []);
 
-
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const getTemplateListData = async (flag) => {
     const body = {
@@ -177,10 +225,10 @@ const CreateEmail = (props) => {
       .catch((err) => {
         console.log(err);
       });
-      if(flag == 1){
-        loader("hide");
-        toast.success("Template saved successfully");
-      }
+    if (flag == 1) {
+      loader("hide");
+      toast.success("Template saved successfully");
+    }
   };
 
   useEffect(() => {
@@ -211,7 +259,6 @@ const CreateEmail = (props) => {
     // getCampaignData();
   }, []);
 
-
   useEffect(() => {
     if (
       typeof props !== "undefined" &&
@@ -232,15 +279,24 @@ const CreateEmail = (props) => {
   }, []);
 
   const getSelectedTemplateSource = (dd) => {
-    if (typeof props !== "undefined" && props !== null && props.hasOwnProperty("getDraftData")) {
-      if(typeof dd !== "undefined"){
-        let getSpecificKeyData = dd.find(e => e.id === props.getDraftData.campaign_data.template_id);
-        if(getSpecificKeyData && getSpecificKeyData.hasOwnProperty('source_code')){
-            setTemplate(getSpecificKeyData.source_code);
+    if (
+      typeof props !== "undefined" &&
+      props !== null &&
+      props.hasOwnProperty("getDraftData")
+    ) {
+      if (typeof dd !== "undefined") {
+        let getSpecificKeyData = dd.find(
+          (e) => e.id === props.getDraftData.campaign_data.template_id
+        );
+        if (
+          getSpecificKeyData &&
+          getSpecificKeyData.hasOwnProperty("source_code")
+        ) {
+          setTemplate(getSpecificKeyData.source_code);
         }
       }
     }
-  }
+  };
 
   const addMoreHcp = () => {
     const status = hpc.map((data) => {
@@ -281,7 +337,7 @@ const CreateEmail = (props) => {
   };
 
   const addClicked = (e) => {
-    if(typeof getSmartListId != "undefined" && getSmartListId !== 0){
+    if (typeof getSmartListId != "undefined" && getSmartListId !== 0) {
       loader("show");
       const body = {
         user_id: 18207,
@@ -294,7 +350,7 @@ const CreateEmail = (props) => {
             setReaders(res.data.response.data);
             setSelectedHcp(res.data.response.data);
             loader("hide");
-          }else{
+          } else {
             toast.warning(res.data.message);
             loader("hide");
           }
@@ -305,8 +361,7 @@ const CreateEmail = (props) => {
           toast.warning("Something went wrong");
           loader("hide");
         });
-
-    }else{
+    } else {
       toast.warning("Please select smart list");
     }
     // e.preventDefault();
@@ -407,17 +462,17 @@ const CreateEmail = (props) => {
         loader("hide");
         toast.error("Something went wrong");
       });
-      setNewTemplatePopup(false);
-      setTemplatePopup(false);
+    setNewTemplatePopup(false);
+    setTemplatePopup(false);
   };
 
   const saveButtonClicked = () => {
-    if(typeof finalTags != "undefined" && finalTags.length > 0){
+    if (typeof finalTags != "undefined" && finalTags.length > 0) {
       let prev_tags = finalTags;
       let new_tags = prev_tags.concat(tagClickedFirst);
       const uniqueTags = new_tags.filter((x, i, a) => a.indexOf(x) == i);
       setFinalTags(uniqueTags);
-    }else{
+    } else {
       setFinalTags(tagClickedFirst);
     }
     closeModal();
@@ -449,9 +504,9 @@ const CreateEmail = (props) => {
     if (typeof campaign !== "undefined" && campaign !== "") {
       const body = {
         user_id: 18207,
-        pdf_id: props.getEmailData
-          ? PdfSelected
-          : props.getDraftData.pdf_selected,
+        pdf_id: state_object?.PdfSelected
+          ? state_object.PdfSelected
+          : props.getDraftData.pdf_id,
         description: props.getEmailData
           ? emailDescription
           : props.getDraftData.description,
@@ -523,6 +578,7 @@ const CreateEmail = (props) => {
     });
 
     if (validator.allValid()) {
+      console.log(PdfSelected);
       props.getEmailData({
         //uniqueId: uniqueId,
         emailDescription: emailDescription,
@@ -532,7 +588,7 @@ const CreateEmail = (props) => {
         templateId: templateId,
         tags: tags,
         template: template,
-        pdf_id: PdfSelected,
+        PdfSelected: PdfSelected,
         campaign_id: campaign_id_st,
       });
 
@@ -624,12 +680,12 @@ const CreateEmail = (props) => {
   };
 
   const addTag = () => {
-    if (typeof newTag == "undefined" || newTag.trim().length == 0 ) {
+    if (typeof newTag == "undefined" || newTag.trim().length == 0) {
       toast.error("Please input a tag");
     } else {
       if (!tagClickedFirst.includes(newTag)) {
         setTagClickedFirst((oldArray) => [...oldArray, newTag]);
-      }else{
+      } else {
         toast.error("Tag already in list.");
       }
       setNewTag("");
@@ -640,7 +696,7 @@ const CreateEmail = (props) => {
   const tagClicked = (dd) => {
     if (!tagClickedFirst.includes(dd)) {
       setTagClickedFirst((oldArray) => [...oldArray, dd]);
-    }else{
+    } else {
       toast.error("Tag already in list.");
     }
   };
@@ -649,9 +705,9 @@ const CreateEmail = (props) => {
     //  console.log(selectedHcp);
 
     event.preventDefault();
-    if (templateId == "" ||templateId == 0){
+    if (templateId == "" || templateId == 0) {
       toast.warning("Please select email template first");
-    }else if(emailSubject == "" || emailSubject == 0){
+    } else if (emailSubject == "" || emailSubject == 0) {
       toast.warning("Please select email subject first");
     } else {
       setIsOpensend(true);
@@ -738,13 +794,13 @@ const CreateEmail = (props) => {
   };
 
   const addFile = (e) => {
-    const addfile_btn = document.getElementById('add_file_btn');
-    if (document.querySelector('#add_file_btn .active') !== null) {
-        addfile_btn.classList.remove('active');
-    }else{
-       addfile_btn.classList.add('active');
+    const addfile_btn = document.getElementById("add_file_btn");
+    if (document.querySelector("#add_file_btn .active") !== null) {
+      addfile_btn.classList.remove("active");
+    } else {
+      addfile_btn.classList.add("active");
     }
-     document.querySelector('#add_hcp_btn').classList.remove('active');
+    document.querySelector("#add_hcp_btn").classList.remove("active");
 
     e.preventDefault();
     setActiveExcel("active");
@@ -807,13 +863,13 @@ const CreateEmail = (props) => {
   };
 
   const addHcp = (e) => {
-    const addhcp_btn = document.getElementById('add_hcp_btn');
-    if (document.querySelector('#add_hcp_btn .active') !== null) {
-        addhcp_btn.classList.remove('active');
-    }else{
-       addhcp_btn.classList.add('active');
+    const addhcp_btn = document.getElementById("add_hcp_btn");
+    if (document.querySelector("#add_hcp_btn .active") !== null) {
+      addhcp_btn.classList.remove("active");
+    } else {
+      addhcp_btn.classList.add("active");
     }
-     document.querySelector('#add_file_btn').classList.remove('active');
+    document.querySelector("#add_file_btn").classList.remove("active");
 
     e.preventDefault();
     setActiveExcel("");
@@ -822,7 +878,7 @@ const CreateEmail = (props) => {
   };
 
   const handleSelect = (data, e) => {
-    setSmartListId(data.id)
+    setSmartListId(data.id);
   };
 
   const saveClicked = async () => {
@@ -942,28 +998,27 @@ const CreateEmail = (props) => {
     return false;
   };
 
-
   const hideTemplatePopup = () => {
     setTemplatePopup(false);
-  }
+  };
 
   const clickNewTemplate = () => {
     setTemplatePopup(false);
     setNewTemplatePopup(true);
-  }
+  };
 
   const hideNewTemplatePopup = () => {
     setNewTemplatePopup(false);
-  }
+  };
 
-  const savenewtemplate = async(e) => {
+  const savenewtemplate = async (e) => {
     e.preventDefault();
     let template_name = document.getElementById("template_name").value;
-    if(template_name !== "" && template_name.trim().length > 0){
+    if (template_name !== "" && template_name.trim().length > 0) {
       const body = {
         user_id: 18207,
         source_code: template,
-        template_id: '',
+        template_id: "",
         name: template_name,
         status: 1,
         language: 2,
@@ -986,12 +1041,12 @@ const CreateEmail = (props) => {
           loader("hide");
           toast.error("Something went wrong");
         });
-        setNewTemplatePopup(false);
-        setTemplatePopup(false);
-    }else{
+      setNewTemplatePopup(false);
+      setTemplatePopup(false);
+    } else {
       toast.warning("Please enter template name.");
     }
-  }
+  };
 
   const downloadFile = () => {
     let link = document.createElement("a");
@@ -1003,58 +1058,58 @@ const CreateEmail = (props) => {
     document.body.removeChild(link);
   };
 
+  const openSmartListPopup = async (smart_list_id) => {
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    const body = {
+      user_id: 18207,
+      list_id: smart_list_id,
+    };
+    loader("show");
+    await axios
+      .post(`distributes/get_reders_list`, body)
+      .then((res) => {
+        if (res.data.status_code == 200) {
+          setAddListOpen(false);
+          setReaderDetails(res.data.response.data);
+          setSmartListName(res.data.response.smart_list_name);
+          setSmartListPopupStatus(true);
+        } else {
+          toast.warning(res.data.message);
+        }
+        loader("hide");
+      })
+      .catch((err) => {
+        toast.warning("Something went wrong");
+        loader("hide");
+      });
+  };
 
-  const openSmartListPopup = async(smart_list_id) => {
-   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-   const body = {
-     user_id: 18207,
-     list_id: smart_list_id,
-   };
-   loader("show");
-   await axios
-     .post(`distributes/get_reders_list`, body)
-     .then((res) => {
-       if(res.data.status_code == 200){
-         setAddListOpen(false);
-         setReaderDetails(res.data.response.data);
-         setSmartListName(res.data.response.smart_list_name);
-         setSmartListPopupStatus(true);
-       }else{
-         toast.warning(res.data.message);
-       }
-       loader("hide");
-     })
-     .catch((err) => {
-       toast.warning("Something went wrong");
-       loader("hide");
-     });
- }
+  const showMoreInfo = (e) => {
+    e.preventDefault();
+    setShowLessInfo(!showLessInfo);
+  };
 
- const showMoreInfo = (e) => {
-   e.preventDefault();
-   setShowLessInfo(!showLessInfo);
- };
+  const handleScroll = (ev) => {
+    if (ev.target.scrollTop > 20) {
+      document
+        .querySelector("#send-sample")
+        .setAttribute("custom-atr", "scroll");
+    } else {
+      document
+        .querySelector("#send-sample")
+        .setAttribute("custom-atr", "non-scroll");
+    }
+  };
 
- const handleScroll = (ev) => {
-   if (ev.target.scrollTop > 20) {
-     document.querySelector("#send-sample").setAttribute("custom-atr", "scroll");
-   } else {
-     document
-       .querySelector("#send-sample")
-       .setAttribute("custom-atr", "non-scroll");
-   }
- };
-
- const handleSmartListPopupScroll = (ev) => {
-   if (ev.target.scrollTop > 20) {
-     document.querySelector("#add-list").setAttribute("custom-atr", "scroll");
-   } else {
-     document
-       .querySelector("#add-list")
-       .setAttribute("custom-atr", "non-scroll");
-   }
- };
-
+  const handleSmartListPopupScroll = (ev) => {
+    if (ev.target.scrollTop > 20) {
+      document.querySelector("#add-list").setAttribute("custom-atr", "scroll");
+    } else {
+      document
+        .querySelector("#add-list")
+        .setAttribute("custom-atr", "non-scroll");
+    }
+  };
 
   return (
     <>
@@ -1099,7 +1154,12 @@ const CreateEmail = (props) => {
                 <button
                   className="btn btn-primary btn-filled next"
                   onClick={nextClicked}
-                  disabled={typeof emailSubject == "undefined" || emailSubject.trim().length == 0  ||  typeof templateId == "undefined" || templateId == ""}
+                  disabled={
+                    typeof emailSubject == "undefined" ||
+                    emailSubject.trim().length == 0 ||
+                    typeof templateId == "undefined" ||
+                    templateId == ""
+                  }
                 >
                   Next
                 </button>
@@ -1139,7 +1199,12 @@ const CreateEmail = (props) => {
                           id={"template_dyn" + template.id}
                           src={path_image + "content_added1.png"}
                           alt=""
-                          className={typeof templateId !== "undefined" && templateId == template.id ? "select_mm" : ""}
+                          className={
+                            typeof templateId !== "undefined" &&
+                            templateId == template.id
+                              ? "select_mm"
+                              : ""
+                          }
                         />
                         <p>{template.name}</p>
                       </div>
@@ -1247,7 +1312,12 @@ const CreateEmail = (props) => {
                     </div>
                     <div className="form-buttons right-side col-12 col-md-5">
                       <button
-                        className={typeof getIsApprovedStatus !== "undefined" && getIsApprovedStatus == 3 ? "btn btn-primary approved-btn btn-bordered checked" : "btn btn-primary approved-btn btn-bordered"}
+                        className={
+                          typeof getIsApprovedStatus !== "undefined" &&
+                          getIsApprovedStatus == 3
+                            ? "btn btn-primary approved-btn btn-bordered checked"
+                            : "btn btn-primary approved-btn btn-bordered"
+                        }
                         onClick={(e) => approvedClicked(e)}
                       >
                         Approved{" "}
@@ -1262,8 +1332,10 @@ const CreateEmail = (props) => {
                       <button
                         className="btn btn-primary btn-filled"
                         onClick={(e) => {
-                            setTemplatePopup((getTemplatePopup) => !getTemplatePopup);
-                            e.preventDefault();
+                          setTemplatePopup(
+                            (getTemplatePopup) => !getTemplatePopup
+                          );
+                          e.preventDefault();
                         }}
                       >
                         Save As template
@@ -1324,9 +1396,7 @@ const CreateEmail = (props) => {
                   {Object.values(allTags).map((data) => {
                     return (
                       <>
-                        <div onClick={(event) => tagClicked(data)}>
-                          {data}{" "}
-                        </div>
+                        <div onClick={(event) => tagClicked(data)}>{data} </div>
                       </>
                     );
                   })}
@@ -1509,28 +1579,29 @@ const CreateEmail = (props) => {
                     </div>
                   ) : (
                     <div className="search-hcp-box">
-                        {console.log(selectedHcp)}
-                        { selectedHcp.map((data, index2) => {
-                          return (
-                            <>
-                              <p className="send-hcp-box-title">
-                                Name | <span>{data.name || data.first_name}</span>
-                              </p>
-                              <p className="send-hcp-box-title">
-                                Email | <span>{data.email}</span>
-                              </p>
-                              <p className="send-hcp-box-title">
-                                Contact Type | <span>N/A</span>
-                              </p>
-                              <div
-                                className="remove-existing-field"
-                              >
-                              <img src={path_image + "delete.svg"} alt="Delete Row" onClick={() => deleteSelected(index2)} />
-                              </div>
-                              </>
-                            );
-                          })
-                        }
+                      {console.log(selectedHcp)}
+                      {selectedHcp.map((data, index2) => {
+                        return (
+                          <>
+                            <p className="send-hcp-box-title">
+                              Name | <span>{data.name || data.first_name}</span>
+                            </p>
+                            <p className="send-hcp-box-title">
+                              Email | <span>{data.email}</span>
+                            </p>
+                            <p className="send-hcp-box-title">
+                              Contact Type | <span>N/A</span>
+                            </p>
+                            <div className="remove-existing-field">
+                              <img
+                                src={path_image + "delete.svg"}
+                                alt="Delete Row"
+                                onClick={() => deleteSelected(index2)}
+                              />
+                            </div>
+                          </>
+                        );
+                      })}
                     </div>
                     // <table className="table">
                     //   <thead>
@@ -1680,7 +1751,13 @@ const CreateEmail = (props) => {
                                 type="radio"
                                 name="radio"
                                 onClick={(e) => handleSelect(data, e)}
-                                checked={typeof getSmartListId !== "undefined" && getSmartListId !== 0 && getSmartListId == data.id ? "checked" : ""}
+                                checked={
+                                  typeof getSmartListId !== "undefined" &&
+                                  getSmartListId !== 0 &&
+                                  getSmartListId == data.id
+                                    ? "checked"
+                                    : ""
+                                }
                               />
                               <span className="checkmark"></span>
                             </div>
@@ -1781,7 +1858,9 @@ const CreateEmail = (props) => {
                                 */}
                             <div className="smartlist-buttons">
                               <button className="btn btn-primary btn-bordered view">
-                                <a  onClick={() => openSmartListPopup(data.id)}>View</a>
+                                <a onClick={() => openSmartListPopup(data.id)}>
+                                  View
+                                </a>
                               </button>
                             </div>
                           </div>
@@ -1845,7 +1924,7 @@ const CreateEmail = (props) => {
                     country: "",
                   },
                 ]);
-                document.querySelector('#file-4').value = '';
+                document.querySelector("#file-4").value = "";
                 setActiveManual("active");
                 setActiveExcel("");
               }}
@@ -1926,7 +2005,9 @@ const CreateEmail = (props) => {
                                 aria-label="select"
                                 onChange={(event) => onCountryChange(event, i)}
                               >
-                                <option value="" selected>Select Country</option>
+                                <option value="" selected>
+                                  Select Country
+                                </option>
 
                                 {countryall.length === 0
                                   ? ""
@@ -1961,31 +2042,41 @@ const CreateEmail = (props) => {
                       </>
                     );
                   })}
-
                 </form>
                 <form id="add_file" className={"tab-pane" + activeExcel}>
-                <div className="upload-file-box">
-                  <div className="form-group files">
-                    <div className="box">
-                      <input
-                        type="file"
-                        id="file-4"
-                        className="form-control inputfile"
-                        multiple=""
-                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                        onChange={onFileChange}
-                        ref={file_name}
-                      />
-                      {(file_name.current?.files===undefined || file_name.current.files?.length===0 )? <><label for="file-4"><span>Choose Your File</span></label>
-                      <p>Upload your excel file</p></> : <h5>{file_name.current.files[0].name}</h5> }
-
-
-
+                  <div className="upload-file-box">
+                    <div className="form-group files">
+                      <div className="box">
+                        <input
+                          type="file"
+                          id="file-4"
+                          className="form-control inputfile"
+                          multiple=""
+                          accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                          onChange={onFileChange}
+                          ref={file_name}
+                        />
+                        {file_name.current?.files === undefined ||
+                        file_name.current.files?.length === 0 ? (
+                          <>
+                            <label for="file-4">
+                              <span>Choose Your File</span>
+                            </label>
+                            <p>Upload your excel file</p>
+                          </>
+                        ) : (
+                          <h5>{file_name.current.files[0].name}</h5>
+                        )}
+                      </div>
                     </div>
                   </div>
-                  </div>
 
-                  <div className="download-sample sample-file"><p>Download sample Excel file to upload new HCPs</p><div className="upload-btn" onClick={downloadFile}>Download File</div></div>
+                  <div className="download-sample sample-file">
+                    <p>Download sample Excel file to upload new HCPs</p>
+                    <div className="upload-btn" onClick={downloadFile}>
+                      Download File
+                    </div>
+                  </div>
                 </form>
               </div>
               <div className="hcp-modal-action">
@@ -2043,144 +2134,210 @@ const CreateEmail = (props) => {
         </div> */}
       </Modal>
 
-
       {/*Modal for Template action start*/}
       <div className="template_action">
-          <Modal
-            className="modal send-confirm"
-            id="template_action_modal"
-            show={getTemplatePopup}
-          >
-            <Modal.Header>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" onClick={hideTemplatePopup}></button>
-            </Modal.Header>
+        <Modal
+          className="modal send-confirm"
+          id="template_action_modal"
+          show={getTemplatePopup}
+        >
+          <Modal.Header>
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              onClick={hideTemplatePopup}
+            ></button>
+          </Modal.Header>
 
-            <Modal.Body>
-              <img src={path_image + "alert.png"} alt="" />
-  						<h4>Do you want to :</h4>
+          <Modal.Body>
+            <img src={path_image + "alert.png"} alt="" />
+            <h4>Do you want to :</h4>
 
-  						<div className="modal-buttons">
-  							<button type="button" className="btn btn-primary btn-filled" onClick={saveAsTemplateButtonClicked}>Update the current template</button>
-  							<button type="button" className="btn btn-primary btn-bordered" onClick={clickNewTemplate}>Save as new template</button>
-  							<button type="button" className="btn btn-primary btn-bordered light" onClick={hideTemplatePopup}>Cancel</button>
-  						</div>
-            </Modal.Body>
-          </Modal>
+            <div className="modal-buttons">
+              <button
+                type="button"
+                className="btn btn-primary btn-filled"
+                onClick={saveAsTemplateButtonClicked}
+              >
+                Update the current template
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary btn-bordered"
+                onClick={clickNewTemplate}
+              >
+                Save as new template
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary btn-bordered light"
+                onClick={hideTemplatePopup}
+              >
+                Cancel
+              </button>
+            </div>
+          </Modal.Body>
+        </Modal>
       </div>
       {/*Modal for Template action end*/}
 
-
       {/*Modal for save new template start*/}
       <div className="save_new_template_action">
-          <Modal
-            className="modal send-confirm"
-            id="save_new_template_action_modal"
-            show={getNewTemplatePopup}
-          >
-            <Modal.Header>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" onClick={hideNewTemplatePopup}></button>
-            </Modal.Header>
+        <Modal
+          className="modal send-confirm"
+          id="save_new_template_action_modal"
+          show={getNewTemplatePopup}
+        >
+          <Modal.Header>
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              onClick={hideNewTemplatePopup}
+            ></button>
+          </Modal.Header>
 
-            <Modal.Body>
-  						<form>
-                <div className="form-group">
-                  <label>Enter new template name</label>
-                  <input type="text" className="form-control" id="template_name" />
-                </div>
-                <button type="submit" className="btn btn-primary btn-filled" onClick={savenewtemplate}>Save</button>
-              </form>
-            </Modal.Body>
-          </Modal>
+          <Modal.Body>
+            <form>
+              <div className="form-group">
+                <label>Enter new template name</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="template_name"
+                />
+              </div>
+              <button
+                type="submit"
+                className="btn btn-primary btn-filled"
+                onClick={savenewtemplate}
+              >
+                Save
+              </button>
+            </form>
+          </Modal.Body>
+        </Modal>
       </div>
       {/*Modal for save new template end*/}
 
-
       {/* Reader Details popup */}
-      <Modal show={getSmartListPopupStatus} className="smart_list_popup" id="smart_list_popup_id">
+      <Modal
+        show={getSmartListPopupStatus}
+        className="smart_list_popup"
+        id="smart_list_popup_id"
+      >
         <Modal.Header>
           <h5 className="modal-title" id="staticBackdropLabel">
-          { typeof getReaderDetails !== "undefined" && getReaderDetails.length > 0 && (
-              getSmartListName
-            )
-          }
+            {typeof getReaderDetails !== "undefined" &&
+              getReaderDetails.length > 0 &&
+              getSmartListName}
           </h5>
-          <button type="button" className="btn-close" data-bs-dismiss="modal" onClick={() => { setAddListOpen(true);
-            setSmartListPopupStatus((getSmartListPopupStatus) => !getSmartListPopupStatus)}}></button>
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="modal"
+            onClick={() => {
+              setAddListOpen(true);
+              setSmartListPopupStatus(
+                (getSmartListPopupStatus) => !getSmartListPopupStatus
+              );
+            }}
+          ></button>
         </Modal.Header>
         <Modal.Body>
           <section className="search-hcp">
             <div className="result-hcp-table">
-                <div className="table-title">
-                    <h4>
-                      HCPs <span>|
-                      { typeof getReaderDetails !== "undefined" && getReaderDetails.length > 0 && (
-                          getReaderDetails.length
-                        )
-                      }</span>
-                    </h4>
-                    <div className="selected-hcp-table-action">
-                      <a
-                        className="show-less-info"
-                        onClick={(e) => showMoreInfo(e)}
-                      >
-                        {showLessInfo == true ? (
-                          <p>Show More information</p>
-                        ) : (
-                          <p>Show less information</p>
-                        )}{" "}
-                      </a>
-                    </div>
+              <div className="table-title">
+                <h4>
+                  HCPs{" "}
+                  <span>
+                    |
+                    {typeof getReaderDetails !== "undefined" &&
+                      getReaderDetails.length > 0 &&
+                      getReaderDetails.length}
+                  </span>
+                </h4>
+                <div className="selected-hcp-table-action">
+                  <a
+                    className="show-less-info"
+                    onClick={(e) => showMoreInfo(e)}
+                  >
+                    {showLessInfo == true ? (
+                      <p>Show More information</p>
+                    ) : (
+                      <p>Show less information</p>
+                    )}{" "}
+                  </a>
                 </div>
-                <div className="selected-hcp-list">
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Bounced</th>
-                        <th scope="col">Country</th>
-                        <th scope="col">Business Unit</th>
-                        <th scope="col">Contact Type</th>
-                        {showLessInfo == false ? (
+              </div>
+              <div className="selected-hcp-list">
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Name</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Bounced</th>
+                      <th scope="col">Country</th>
+                      <th scope="col">Business Unit</th>
+                      <th scope="col">Contact Type</th>
+                      {showLessInfo == false ? (
+                        <>
+                          <th scope="col">Consent</th>
+                          <th scope="col">Email Received</th>
+                          <th scope="col">Openings</th>
+                          <th scope="col">Registrations</th>
+                          <th scope="col">Last Email</th>
+                        </>
+                      ) : null}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {typeof getReaderDetails !== "undefined" &&
+                      getReaderDetails.length > 0 &&
+                      getReaderDetails.map((rr, i) => {
+                        return (
                           <>
-                            <th scope="col">Consent</th>
-                            <th scope="col">Email Received</th>
-                            <th scope="col">Openings</th>
-                            <th scope="col">Registrations</th>
-                            <th scope="col">Last Email</th>
+                            <tr>
+                              <td>{rr.first_name}</td>
+                              <td>{rr.email}</td>
+                              <td>{rr.bounce}</td>
+                              <td>{rr.country}</td>
+                              <td>{rr.ibu}</td>
+                              <td>{rr.contact_type}</td>
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>{rr.consent}</span>{" "}
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>{rr.email_received}</span>
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>{rr.email_opening}</span>
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>{rr.registration}</span>
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>{rr.last_email}</span>
+                                </td>
+                              ) : null}
+                              <td className="add-new-hcp" colspan="12"></td>
+                            </tr>
                           </>
-                        ) : null}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {
-                        typeof getReaderDetails !== "undefined" && getReaderDetails.length > 0 && (
-                          getReaderDetails.map((rr, i) => {
-                            return (
-                              <>
-                                <tr>
-                                  <td>{rr.first_name}</td>
-                                  <td>{rr.email}</td>
-                                  <td>{rr.bounce}</td>
-                                  <td>{rr.country}</td>
-                                  <td>{rr.ibu}</td>
-                                  <td>{rr.contact_type}</td>
-                                  {showLessInfo == false ? <td><span>{rr.consent}</span> </td> : null}
-                                  {showLessInfo == false ? <td><span>{rr.email_received}</span></td> : null}
-                                  {showLessInfo == false ? <td><span>{rr.email_opening}</span></td> : null}
-                                  {showLessInfo == false ? <td><span>{rr.registration}</span></td> : null}
-                                  {showLessInfo == false ? <td><span>{rr.last_email}</span></td> : null}
-                                  <td className="add-new-hcp" colspan="12">
-                                  </td>
-                                </tr>
-                              </>
-                            );
-                          })
-                        )
-                      }
-                    </tbody>
-                  </table>
-                </div>
+                        );
+                      })}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </section>
         </Modal.Body>
@@ -2191,7 +2348,9 @@ const CreateEmail = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  // console.log(state);
+  console.log(state);
+  dxr = state.getEmailData?.PdfSelected;
+  state_object = state.getEmailData;
   return state;
 };
 

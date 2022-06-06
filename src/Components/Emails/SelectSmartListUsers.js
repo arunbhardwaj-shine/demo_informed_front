@@ -10,6 +10,8 @@ import { toast } from "react-toastify";
 import { popup_alert } from "../../popup_alert";
 import { Modal } from "react-bootstrap";
 const SelectSmartListUsers = (props) => {
+  console.log(props);
+
   const navigate = useNavigate();
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const location = useLocation();
@@ -46,12 +48,12 @@ const SelectSmartListUsers = (props) => {
     ? location.state.smartListSelected
     : props.getDraftData.smart_list_data;
 
-
   useEffect(() => {
-    let campaign_id = (typeof props.getEmailData === 'object' && props.getEmailData !== null)
-      ? props.getEmailData.campaign_id
-      : props.getDraftData.campaign_id;
-      setCampaign_id(campaign_id);
+    let campaign_id =
+      typeof props.getEmailData === "object" && props.getEmailData !== null
+        ? props.getEmailData.campaign_id
+        : props.getDraftData.campaign_id;
+    setCampaign_id(campaign_id);
   }, []);
 
   console.log(smartListSelected);
@@ -102,11 +104,10 @@ const SelectSmartListUsers = (props) => {
   }, []);
 
   const saveAsDraft = async () => {
-
     const body = {
       user_id: 18207,
       pdf_id: props.getEmailData
-        ? props.getEmailData.pdf_id
+        ? props.getEmailData.PdfSelected
         : props.getDraftData.pdf_id,
       description: props.getEmailData
         ? props.getEmailData.emailDescription
@@ -318,13 +319,13 @@ const SelectSmartListUsers = (props) => {
   };
 
   const addHcp = (e) => {
-    const addhcp_btn = document.getElementById('add_hcp_btn');
-    if (document.querySelector('#add_hcp_btn .active') !== null) {
-        addhcp_btn.classList.remove('active');
-    }else{
-       addhcp_btn.classList.add('active');
+    const addhcp_btn = document.getElementById("add_hcp_btn");
+    if (document.querySelector("#add_hcp_btn .active") !== null) {
+      addhcp_btn.classList.remove("active");
+    } else {
+      addhcp_btn.classList.add("active");
     }
-     document.querySelector('#add_file_btn').classList.remove('active');
+    document.querySelector("#add_file_btn").classList.remove("active");
 
     e.preventDefault();
     setActiveExcel("");
@@ -361,14 +362,13 @@ const SelectSmartListUsers = (props) => {
   };
 
   const addFile = (e) => {
-
-    const addfile_btn = document.getElementById('add_file_btn');
-    if (document.querySelector('#add_file_btn .active') !== null) {
-        addfile_btn.classList.remove('active');
-    }else{
-       addfile_btn.classList.add('active');
+    const addfile_btn = document.getElementById("add_file_btn");
+    if (document.querySelector("#add_file_btn .active") !== null) {
+      addfile_btn.classList.remove("active");
+    } else {
+      addfile_btn.classList.add("active");
     }
-    document.querySelector('#add_hcp_btn').classList.remove('active');
+    document.querySelector("#add_hcp_btn").classList.remove("active");
 
     e.preventDefault();
     setActiveExcel("active");
@@ -625,19 +625,18 @@ const SelectSmartListUsers = (props) => {
             </div>
             <div className="col-12 col-md-9">
               <ul className="tabnav-link">
-                 <li className="active">
-                    <Link to="/EmailArticleSelect">Select Content</Link>
-                  </li>
-                  <li className="active">
-                    <Link to="/CreateEmail">Create Your Email</Link>
-                  </li>
-                  <li className="active">
-                    <Link to="/SelectHCP">Select HCPs</Link>
-
-                  </li>
-                  <li className="active active-main">
-                    <Link to="/SelectSmartList">Verify Your List</Link>
-                  </li>
+                <li className="active">
+                  <Link to="/EmailArticleSelect">Select Content</Link>
+                </li>
+                <li className="active">
+                  <Link to="/CreateEmail">Create Your Email</Link>
+                </li>
+                <li className="active">
+                  <Link to="/SelectHCP">Select HCPs</Link>
+                </li>
+                <li className="active active-main">
+                  <Link to="/SelectSmartList">Verify Your List</Link>
+                </li>
 
                 <li className="">
                   <a href="javascript:void(0)">Verify Your Email</a>
@@ -790,11 +789,31 @@ const SelectSmartListUsers = (props) => {
                           <td>{rr.country}</td>
                           <td>{rr.ibu}</td>
                           <td>{rr.contact_type}</td>
-                          {showLessInfo == false ? <td><span>{rr.consent}</span> </td> : null}
-                          {showLessInfo == false ? <td><span>{rr.email_received}</span></td> : null}
-                          {showLessInfo == false ? <td><span>{rr.email_opening}</span></td> : null}
-                          {showLessInfo == false ? <td><span>{rr.registration}</span></td> : null}
-                          {showLessInfo == false ? <td><span>{rr.last_email}</span></td> : null}
+                          {showLessInfo == false ? (
+                            <td>
+                              <span>{rr.consent}</span>{" "}
+                            </td>
+                          ) : null}
+                          {showLessInfo == false ? (
+                            <td>
+                              <span>{rr.email_received}</span>
+                            </td>
+                          ) : null}
+                          {showLessInfo == false ? (
+                            <td>
+                              <span>{rr.email_opening}</span>
+                            </td>
+                          ) : null}
+                          {showLessInfo == false ? (
+                            <td>
+                              <span>{rr.registration}</span>
+                            </td>
+                          ) : null}
+                          {showLessInfo == false ? (
+                            <td>
+                              <span>{rr.last_email}</span>
+                            </td>
+                          ) : null}
                           {/* <td>NA</td>
                           <td>
                             <span>NA</span>
@@ -862,11 +881,31 @@ const SelectSmartListUsers = (props) => {
                           <td>{readers.country}</td>
                           <td>{readers.ibu}</td>
                           <td>{readers.contact_type}</td>
-                          {showLessInfo == false ? <td><span>{readers.consent}</span> </td> : null}
-                          {showLessInfo == false ? <td><span>{readers.email_received}</span></td> : null}
-                          {showLessInfo == false ? <td><span>{readers.email_opening}</span></td> : null}
-                          {showLessInfo == false ? <td><span>{readers.registration}</span></td> : null}
-                          {showLessInfo == false ? <td><span>{readers.last_email}</span></td> : null}
+                          {showLessInfo == false ? (
+                            <td>
+                              <span>{readers.consent}</span>{" "}
+                            </td>
+                          ) : null}
+                          {showLessInfo == false ? (
+                            <td>
+                              <span>{readers.email_received}</span>
+                            </td>
+                          ) : null}
+                          {showLessInfo == false ? (
+                            <td>
+                              <span>{readers.email_opening}</span>
+                            </td>
+                          ) : null}
+                          {showLessInfo == false ? (
+                            <td>
+                              <span>{readers.registration}</span>
+                            </td>
+                          ) : null}
+                          {showLessInfo == false ? (
+                            <td>
+                              <span>{readers.last_email}</span>
+                            </td>
+                          ) : null}
                           <td className="delete_row" colspan="12">
                             <img
                               src={path_image + "delete.svg"}
@@ -897,8 +936,9 @@ const SelectSmartListUsers = (props) => {
                             )
                           }
                         >
-                          <td id={`field_name` + i}
-                          contenteditable={editable === 0 ? "false" : "true"}
+                          <td
+                            id={`field_name` + i}
+                            contenteditable={editable === 0 ? "false" : "true"}
                           >
                             <span>
                               {" "}
@@ -906,21 +946,42 @@ const SelectSmartListUsers = (props) => {
                                 " " +
                                 readers.last_name}{" "}
                             </span>
-                          </td >
+                          </td>
                           <td id={`field_email` + i}>{readers.email}</td>
                           <td id={`field_bounced` + i}>{readers.bounce}</td>
-                          <td id={`field_country` + i}
-                           contenteditable={editable === 0 ? "false" : "true"}
+                          <td
+                            id={`field_country` + i}
+                            contenteditable={editable === 0 ? "false" : "true"}
                           >
                             <span>{readers.country}</span>
                           </td>
                           <td>{readers.ibu}</td>
                           <td>{readers.contact_type}</td>
-                          {showLessInfo == false ? <td><span>{readers.consent}</span></td> : null}
-                          {showLessInfo == false ? <td><span>{readers.email_received}</span></td> : null}
-                          {showLessInfo == false ? <td><span>{readers.email_opening}</span></td> : null}
-                          {showLessInfo == false ? <td><span>{readers.registration}</span></td> : null}
-                          {showLessInfo == false ? <td><span>{readers.last_email}</span></td> : null}
+                          {showLessInfo == false ? (
+                            <td>
+                              <span>{readers.consent}</span>
+                            </td>
+                          ) : null}
+                          {showLessInfo == false ? (
+                            <td>
+                              <span>{readers.email_received}</span>
+                            </td>
+                          ) : null}
+                          {showLessInfo == false ? (
+                            <td>
+                              <span>{readers.email_opening}</span>
+                            </td>
+                          ) : null}
+                          {showLessInfo == false ? (
+                            <td>
+                              <span>{readers.registration}</span>
+                            </td>
+                          ) : null}
+                          {showLessInfo == false ? (
+                            <td>
+                              <span>{readers.last_email}</span>
+                            </td>
+                          ) : null}
                           <td className="delete_row" colspan="12">
                             <img
                               src={path_image + "delete.svg"}
@@ -1153,6 +1214,7 @@ const SelectSmartListUsers = (props) => {
 
 const mapStateToProps = (state) => {
   console.log(state);
+
   return state;
 };
 
