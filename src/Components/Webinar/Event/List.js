@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Form, Modal, Row } from "react-bootstrap";
+import { Button, Col, Form, Modal, Row, Dropdown } from "react-bootstrap";
 import ExportApi from "../../../Api/ExportApi";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -250,7 +250,6 @@ const EventData = () => {
 
       <div className="right-sidebar">
         <div className="top-header">
-          <div className="page-title"></div>
           <div className="top-right-action webinar-header-action-tool">
 
             <div className="search-bar">
@@ -286,46 +285,19 @@ const EventData = () => {
                 </button>
               </form>
             </div>
-            <div className="">
+            <div className="Webinar-header-right-tools">
             <div className="filter-by">
               <>
-                {sortingCount == 0 ? (
-                  <>
-                    <button
-                      className="btn btn-outline-primary"
-                      onClick={sortSelectedUsers}
-                    >
-                      Sort By{" "}
-                      <img src={path_image + "sort.svg"} alt="Shorting" />
-                    </button>
-                  </>
-                ) : sorting == 0 ? (
-                  <>
-                    <button
-                      className="btn btn-outline-primary"
-                      onClick={sortSelectedUsers}
-                    >
-                      Sort By{" "}
-                      <img
-                        src={path_image + "sort-decending.svg"}
-                        alt="Shorting"
-                      />
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <button
-                      className="btn btn-outline-primary"
-                      onClick={sortSelectedUsers}
-                    >
-                      Sort By{" "}
-                      <img
-                        src={path_image + "sort-assending.svg"}
-                        alt="Shorting"
-                      />
-                    </button>
-                  </>
-                )}
+              <Dropdown>
+                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                 Filter By
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  <Dropdown.Item href="#/">Name</Dropdown.Item>
+                  <Dropdown.Item href="#/">Name</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
               </>
             </div>
             <div className="hcp-sort">
@@ -333,37 +305,28 @@ const EventData = () => {
                 {sortingCount == 0 ? (
                   <>
                     <button
-                      className="btn btn-outline-primary"
+                      className="btn btn-secondary dropdown"
                       onClick={sortSelectedUsers}
                     >
                       Sort By{" "}
-                      <img src={path_image + "sort.svg"} alt="Shorting" />
                     </button>
                   </>
                 ) : sorting == 0 ? (
                   <>
                     <button
-                      className="btn btn-outline-primary"
+                      className="btn btn-secondary dropdown"
                       onClick={sortSelectedUsers}
                     >
                       Sort By{" "}
-                      <img
-                        src={path_image + "sort-decending.svg"}
-                        alt="Shorting"
-                      />
                     </button>
                   </>
                 ) : (
                   <>
                     <button
-                      className="btn btn-outline-primary"
+                      className="btn btn-secondary dropdown"
                       onClick={sortSelectedUsers}
                     >
                       Sort By{" "}
-                      <img
-                        src={path_image + "sort-assending.svg"}
-                        alt="Shorting"
-                      />
                     </button>
                   </>
                 )}
@@ -414,7 +377,7 @@ const EventData = () => {
           </div>
         </div>
 
-        <div class="email-result">
+        <div class="email-result webinar-result">
           <div class="col email-result-block">
             <div className="email_box_block">
               <div className="email-block-add">
@@ -439,16 +402,19 @@ const EventData = () => {
                   <>
                     <div  className="email_box_block">     
                       <div className="mail-box-content webinar-box">
-                        <img src={path_image + "webinar/Tracker.svg"}/>
-                        <img src={path_image + "webinar/share.svg"}/>
+                      <div className="webinar-img-box">
+                        <img classname="webinar-box-track" src={path_image + "webinar/Tracker.svg"}/>
+                        <img classname="webinar-box-share" src={path_image + "webinar/share.svg"}/>
+                      </div>
                         <h5>{event.title}</h5>
                         <div className="webinar-box-content-detail">
                             <div className="smart-list-added-user">
-                              {event.days_left} Days Left
+                              <span>{event.days_left}</span> Days Left
                             </div>
                             <div className="mail-time">
                               <span>{event.event_date}</span>
                             </div>
+                          </div>
                             <div className="mail-stats">
                               {deletestatus && (
                                 <div className="dlt_btn">
@@ -463,12 +429,9 @@ const EventData = () => {
                                 </div>
                               )}
                             </div>
-                          </div>
-                        <div>
                           <Button onClick={() => handleGetEventlistEdidData(event.id)}>
                             Edit
                           </Button>
-                        </div>
                       </div>
                     </div>
                   </>
@@ -493,18 +456,23 @@ const EventData = () => {
         <span className="loader-view"> </span>
       </div>
         </div>
-      <Modal
+      <Modal id="webinar_event"
         show={show}
         onHide={() => {
           setShow(false);
         }}
       >
-        <Modal.Header closeButton> <h2>New Webinar/Event</h2></Modal.Header>
+        <Modal.Header closeButton> <h4>New Webinar/Event</h4></Modal.Header>
         <Modal.Body>  
         <div className="container">
           <Add closePopup={closePopup} getEventList={handleGetEventlist} />
         </div>
         </Modal.Body>
+        {/* <Modal.Footer>
+            <Button type="reset" onClick={()=>handleResetSp()}>Reset</Button>
+            <Button type="button" class="btn btn-secondary" data-dismiss="modal">Close</Button>
+            <Button type="submit" className="event-submit-button" onClick={() => handleSubmit()} >Create</Button>
+          </Modal.Footer> */}
       </Modal>
       <div className="delete">
         <Modal
@@ -562,11 +530,12 @@ const EventData = () => {
             closeButton
           >
             <Modal.Title id="contained-modal-title-vcenter">
-              Edit Event
+              <h4>Edit Event</h4>
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <form onSubmit={formik.handleSubmit}>
+            <div classname="modal-body-content">
             <div className="form-inline row justify-content-between align-items-center">
               <div className="form-group col-12 col-md-12">
                 <label>Event Title </label>
@@ -651,15 +620,15 @@ const EventData = () => {
               ) : null}
             </div>
           </div>
-              
-                <Modal.Footer>
+          </div>
+                <div classname="modal-footer-btn">
                 <Button variant="danger" onClick={() => { setSpeakerName([{ name: "", email: "" }]); setSpeakerErr([{ name: "", email: "" }]);setModalShow(false);}}>
                   Close
                 </Button>
                 <Button type="submit" variant="success">
                   Update
                 </Button>
-              </Modal.Footer>
+              </div>
             </form>
           </Modal.Body>
         </Modal>

@@ -2,3 +2,277 @@
     height: 100%;
     overflow-y: auto;
 } */
+.top-header .webinar-header-action-tool {
+    width: 100%;
+    justify-content: space-between;
+}
+
+.top-header .webinar-header-action-tool .search-bar form.d-flex input {
+    max-width: 452px;
+    width: 425px;
+}
+.top-header .webinar-header-action-tool {
+    width: 100%;
+    justify-content: space-between;
+}
+
+
+.top-header .webinar-header-action-tool .search-bar form.d-flex input {
+    max-width: 425px;
+    width: 425px;
+}
+
+.Webinar-header-right-tools {
+    display: flex;
+    flex-direction: row;
+}
+
+.Webinar-header-right-tools .filter-by, .Webinar-header-right-tools .hcp-sort {
+    max-width: 188px;
+    width: 188px;
+    margin-left: 24px;
+}
+
+.Webinar-header-right-tools .filter-by button, .Webinar-header-right-tools .hcp-sort button {
+    width: 100%;
+    text-align: left;
+    height: 40px;
+    background: var(--white) url(http://localhost:3000/static/media/dropdown-arrow.6ca490ef1efe3175ec81.svg);
+    background-repeat: no-repeat;
+    background-size: 16px;
+    background-position: 93% center;
+}
+.hcp-sort button {
+    background: var(--white);
+    font-family: 'Roboto';
+    border-radius: 30px;
+    box-shadow: 0px 2px 10px 0px rgb(0 102 190 / 15%);
+    filter: none;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 15px;
+    color: var(--skyblue);
+    padding: 11px 18px 12px 24px;
+    border: 0.5px solid transparent;
+    position: relative;
+    z-index: 8;
+}
+.mail-box-content.webinar-box img {
+    max-width: 44px;
+}
+.email-result.webinar-result {
+    margin-top: 48px;
+}
+.email-block-add {
+    margin: 0 auto;
+}
+.email-result-block .email_box_block .mail-box-content.webinar-box {
+    max-width: 430px;
+    margin: 0 auto;
+    background: #eeeeee;
+    padding: 17px 32px 24px 32px;
+}
+.webinar-result .email-block-add  button.btn.btn-primary {
+    width: 80px;
+    height: 80px;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    margin-bottom: 10px;
+}
+.webinar-result .email-block-add {
+    max-width: 430px;
+    min-height: 258px;
+}
+.webinar-img-box, .webinar-box-content-detail {
+    display: flex;
+    justify-content: space-between;
+}
+.webinar-box-content-detail .smart-list-added-user span {
+    font-family: 'Roboto-Medium';
+    margin-right: 4px;
+}
+.webinar-box-content-detail .mail-time span {
+    font-size: 18px;
+    line-height: 21px;
+}
+.mail-box-content.webinar-box button.btn {
+    padding: 7px;
+    display: inline-block;
+    width: auto;
+    max-width: 100px;
+    margin: 0 auto;
+}
+.mail-box-content.webinar-box h5 {
+    font-size: 24px;
+    line-height: 28px;
+}
+.webinar-img-box {
+    margin-bottom: 38px;
+}
+.webinar-box-content-detail {
+    margin-top: 20px;
+}
+.Webinar-header-right-tools .filter-by button:hover, .Webinar-header-right-tools .hcp-sort button:hover, 
+.Webinar-header-right-tools .filter-by button:active, .Webinar-header-right-tools .hcp-sort button:active, 
+.Webinar-header-right-tools .filter-by button:focus, .Webinar-header-right-tools .hcp-sort button:focus  {
+    background-color: var(--light-blue);
+    border-color:var(--light-blue);
+    background-image:url(http://localhost:3000/static/media/dropdown-arrow.6ca490ef1efe3175ec81.svg);
+    background-repeat: no-repeat;
+    outline:none;
+    background-size: 16px;
+    background-position: 93% center;
+}
+.btn-check:active+.btn-success:focus, .btn-check:checked+.btn-success:focus, .btn-success.active:focus, .btn-success:active:focus, .show>.btn-success.dropdown-toggle:focus {
+    box-shadow: inherit;
+}
+.Webinar-header-right-tools .filter-by .dropdown-menu {
+    z-index: 7;
+    padding: 31px 4px 5px;
+}
+.filter-by .dropdown-menu a.dropdown-item {
+    border-radius: 35px;
+    font-size: 14px;
+    margin-bottom: 3px;
+    text-transform: capitalize;
+}
+
+#webinar_event {
+    max-width: 1339px;
+    width: 100%;
+}
+/* #webinar_event .form-inline .form-group label {
+    max-width: 341px;
+    flex: 0 0 341px;
+    width: 100%;
+} */
+
+.modal #webinar_event  .modal-body {
+    overflow-y: auto;
+    margin-right: 10px;
+    margin-bottom: 9px;
+    padding-left: 25px;
+    padding-right: 10px;
+}
+#webinar_event form fieldset.border {
+    border: 1px dashed #C4C4C4!important;
+    border-radius: 15px;
+    padding: 12px!important;
+    margin-bottom: 24px;
+}
+#webinar_event .form-inline .form-group label {
+    max-width: 235px;
+    flex: 0 0 235px;
+    width: 100%;
+    padding:12px;
+}
+#webinar_event form fieldset .form-inline .form-group label {
+    max-width: initial;
+    flex: 1 1;
+    padding:0;
+}
+#webinar_event form fieldset .form-inline .form-group:nth-child(2n) label {
+    padding-left: 40px;
+}
+#webinar_event form fieldset .form-inline {
+    margin: 0 0 10px;
+}
+#webinar_event form fieldset a.speaker-button {
+    width: auto;
+    font-size: 13px;
+    line-height: 15px;
+    text-transform: capitalize;
+    color: #C4C4C4;
+    text-decoration: none;
+    padding-right: 12px;
+
+}
+#webinar_event form fieldset a.speaker-button span {
+    background: #C4C4C4;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: inline-block;
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    text-align: center;
+    padding: 1px 3px 0 4px;
+}
+#webinar_event .form-inline .form-group input, #webinar_event .form-inline .form-group textarea {
+    max-width: 382px;
+    width: 100%;
+    font-size: 16px;
+}
+#webinar_event .form-inline .form-group label span {
+    color: #f58289;
+}
+#webinar_event .form-inline .form-group .error {
+    display: block;
+    width: 100%;
+    margin-left: 235px;
+    font-size: 14px;
+}
+#webinar_event select::-ms-expand {
+    display: none;
+}
+#webinar_event .form-inline .form-group select, #webinar_event .form-inline .form-group textarea {
+    height: 48px;
+    font-size: 16px;
+    color: #4E718E;
+    box-shadow: 0px 1px 6px rgb(0 102 190 / 20%);
+    border-radius: 30px;
+    border: 0;
+    padding: 12px 17px;
+    background: var(--white) url(../images/dropdown-arrow.svg);
+    background-repeat: no-repeat;
+    background-size: 16px;
+    background-position: 93% center;
+    max-width: 251px;
+    width: 100%;
+    -moz-appearance: none;
+        -webkit-appearance: none;
+        margin: 0!important;
+}
+#webinar_event .form-inline .form-group textarea{
+background-image: none;
+height:127px;
+resize: none;
+width:100%;
+max-width:382px;
+}
+.modal #webinar_event .modal-body form .modal-body-content {
+    height: 430px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-right: 10px;
+}
+.modal #webinar_event .modal-body form .modal-footer-btn button.btn {
+    min-width: 112px;
+    height: 51px;
+    margin-left: 24px;
+}
+.modal #webinar_event .modal-body form .modal-footer-btn {
+    background: #fff;
+    width: 100%;
+    padding-top: 10px;
+    text-align: right;
+}
+
+.modal #webinar_event .modal-body form {
+    position: relative;
+    margin: 0;
+}
+
+.modal #webinar_event .modal-body form .modal-footer-btn {
+    background: #fff;
+    width: 100%;
+    margin-top: 0px;
+}
