@@ -10,9 +10,8 @@ import { Testmail } from "./Testmail";
 import { loader } from "../../../loader";
 const Template = () => {
   const [testMail, SetTestMail] = useState(false);
-  const [event, setEvent] = useState([]);
   const [id, setId] = useState();
-  const [eventid, setEventId] = useState();
+  const [FormShow, setFormShow] = useState(false);
   const [tName, setTName] = useState();
   const [templateList, setTemplateList] = useState();
   const [template, setTemplate] = useState();
@@ -29,12 +28,10 @@ const Template = () => {
     initialValues: {
       Subject: template ? template.subject : "",
       tempName:template ? template.name : "",
-      eventid:template ? template.event_id : "",
     },
     validationSchema: Yup.object({
       Subject: Yup.string().required("Enter your subject"),
       tempName: Yup.string().required("Enter your templete name"),
-      eventid: Yup.string().required("select event"),
     }),
     enableReinitialize: true,
     onSubmit: (values) => {
@@ -47,7 +44,7 @@ const Template = () => {
           ExportApi.UpdateTemplate(
             values.Subject,
             values.tempName,
-            values.event_id,
+            localStorage.getItem("EventIdHeader"),
             design,
             html,
             localStorage.getItem("idd")
@@ -56,6 +53,8 @@ const Template = () => {
               if (resp.data.code == 200) {
                 loader("hide")
                 setDpc();
+                handleGetTemplateList(localStorage.getItem("EventIdHeader"))
+                setFormShow(false)
                 setModalShow(false);
                 toast.success(resp.data.message, {
                   position: "top-right",
@@ -84,15 +83,6 @@ const Template = () => {
       exportHtml();
     },
   });
-  const handleGetEventlist = () => {
-    ExportApi.GetEventList().then((resp) => {
-      if (resp.ok) {
-        setEvent(resp.data.data);
-        setEventId(resp.data.data[0].id)
-        handleGetTemplateList(resp.data.data[0].id)
-      }
-    });
-  };
   const handleGetTemplateList = (id) => {
     ExportApi.UserTemplateList(id).then((resp) => {
       if (resp.ok) {
@@ -106,7 +96,7 @@ const Template = () => {
       if (resp.ok) {
         console.log("yyy",templateId.id)
         console.log("ywy",templateId.event_id)
-        handleGetTemplateList(eventid)
+        handleGetTemplateList(localStorage.getItem("EventIdHeader"))
         
       }
     });
@@ -148,7 +138,8 @@ const Template = () => {
     handleError();
   }, [template]);
   useEffect(() => {
-    handleGetEventlist();
+    window.addEventListener('EventId',()=> handleGetTemplateList(localStorage.getItem("EventIdHeader")))
+    handleGetTemplateList(localStorage.getItem("EventIdHeader"))
   }, []);
   return (
     <div class="right-sidebar">
@@ -170,26 +161,6 @@ const Template = () => {
         <Col md={{ span: 8, offset: 3 }}>
           <h2>Templates</h2>
           <Row>
-            <Col className="mb-5">
-              <Form.Label>Select Event </Form.Label>
-              <Form.Select
-                name="type"
-                value={eventid}
-                onChange={(e) => {
-                  handleGetTemplateList(e.target.value);
-                  setTemplateList(null);
-                  setTemplate(null);
-                  setEventId(e.target.value)
-                }}
-              >
-                <option> Select Event</option>
-                {event?.map((val, i) => (
-                  <React.Fragment key={i}>
-                    <option value={val.id}>{val.title}</option>
-                  </React.Fragment>
-                ))}
-              </Form.Select>
-            </Col>
             <Col className="mb-5">
               <Button
                 onClick={() => {
@@ -266,6 +237,7 @@ const Template = () => {
                               handleGetTemplate(val.id);
                               localStorage.setItem("template", val.name);
                               setTName(val.name);
+                              setFormShow(true)
                             }}
                           >
                             Edit
@@ -309,7 +281,7 @@ const Template = () => {
     </Modal>
         </Row>
       </Col>
-      {template ? (
+      {FormShow?<> {template ? (
         <form onSubmit={formik.handleSubmit}>
           <Row>
             <Col
@@ -325,27 +297,6 @@ const Template = () => {
               <Row>
                 <Col className="mb-5">
                   <Button type="submit">Save</Button>
-                  <Col className="mb-5">
-              <Form.Label>Select Event </Form.Label>
-              <Form.Select
-                name="eventid"
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                value={formik.values.eventid}
-              >
-                <option> Select Event</option>
-                {event?.map((val, i) => (
-                  <React.Fragment key={i}>
-                    <option value={val.id}>{val.title}</option>
-                  </React.Fragment>
-                ))}
-              </Form.Select>
-              {formik.touched.eventid && formik.errors.eventid ? (
-                        <div style={{ color: "red" }}>
-                          {formik.errors.eventid}
-                        </div>
-                      ) : null}
-            </Col>
                   <Col>
                     <Form.Group className="mb-3">
                       <Form.Label>Template name</Form.Label>
@@ -396,7 +347,8 @@ const Template = () => {
    
           </Row>
         </form>
-      ) : null}
+      ) : null}</>:null}
+    
     </div>
   );
 };

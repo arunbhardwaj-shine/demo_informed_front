@@ -6,14 +6,6 @@ import { toast, ToastContainer } from "react-toastify";
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { loader } from '../../../loader';
 function CreateTemplate(props) {
-    const [event, setEvent] = useState([]);
-    const handleGetEventlist = () => {
-        ExportApi.GetEventList().then((resp) => {
-          if (resp.ok) {
-            setEvent(resp.data.data);
-          }
-        });
-      };
     const formik = useFormik({
         initialValues: {
             Templatename:'',
@@ -21,15 +13,13 @@ function CreateTemplate(props) {
         },
         validationSchema: Yup.object({
             Templatename: Yup.string().required("Enter your template name"),
-            Selectevent: Yup.string()
-            .required("Please select event"),
         }),
         enableReinitialize: true,
         onSubmit: (values) => {
           loader("show")
-            ExportApi.CreateTemplate(values.Templatename, values.Selectevent).then((resp) => {
+            ExportApi.CreateTemplate(values.Templatename, localStorage.getItem("EventIdHeader")).then((resp) => {
                 if (resp.ok) {
-                 props.htTemplate(values.Selectevent)
+                 props.htTemplate(localStorage.getItem("EventIdHeader"))
                   if (resp.data.code == 200) {
                     loader("hide")
                       props.data(false)
@@ -57,9 +47,6 @@ function CreateTemplate(props) {
               });    
         },
       });
-      useEffect(() => {
-        handleGetEventlist()
-      }, [])
   return (
     <div>
        <div className="loader" id="custom_loader">
@@ -78,25 +65,6 @@ function CreateTemplate(props) {
         />
             <form onSubmit={formik.handleSubmit}>
            <Row>
-            <Col className="mb-3">
-            <Form.Label>Select Event </Form.Label>
-                  <Form.Select
-                    name="Selectevent"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.Selectevent}
-                  >
-                    <option> Select Event</option>
-                    {event?.map((val, i) => (
-                      <React.Fragment key={i}>
-                        <option value={val.id}>{val.title}</option>
-                      </React.Fragment>
-                    ))}
-                  </Form.Select>
-                  {formik.touched.Selectevent && formik.errors.Selectevent ? (
-                  <div style={{ color: "red" }}>{formik.errors.Selectevent}</div>
-                ) : null}
-            </Col>
             <Col className="mb-3">
               <Form.Label>Template Name </Form.Label>
               <Form.Control

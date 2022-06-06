@@ -347,7 +347,7 @@ const CreateSmartList = () => {
                   <label for="file-4">
                     <span>Choose Your File</span>
                   </label>
-                  <p>Upload your excel file</p>
+                  <p>Upload your new list file</p>
                 </>
               ) : (
                 <h5>{file_name.current.files[0].name}</h5>

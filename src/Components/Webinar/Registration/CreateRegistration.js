@@ -14,26 +14,26 @@ const CreateRegistration = (props) => {
     const [templateList, setTemplateList] = useState();
     const [image, setimage] = useState("");
     const [errimage, setErrimage] = useState(false);
-    const handeleimage = (e) => {
-      if (e?.target?.files[0].type.match(/\/(jpg|jpeg|png)$/)){
-        setErrimage(false)
-        let file = e.target.files[0];
-        setimage(e.target.files[0]);
+    // const handeleimage = (e) => {
+    //   if (e?.target?.files[0].type.match(/\/(jpg|jpeg|png)$/)){
+    //     setErrimage(false)
+    //     let file = e.target.files[0];
+    //     setimage(e.target.files[0]);
        
-        if (file) {
-            const preview = document.getElementById('imgView');
-            const reader = new FileReader();
-            reader.addEventListener("load", function () {
-            preview.src = reader.result;
-            }, false);
-            reader.readAsDataURL(file);
-            }
-      }else{
-        setErrimage(true)
-        setErrimage("Only jpeg, png, jpg, are allowed")
-      }
+    //     if (file) {
+    //         const preview = document.getElementById('imgView');
+    //         const reader = new FileReader();
+    //         reader.addEventListener("load", function () {
+    //         preview.src = reader.result;
+    //         }, false);
+    //         reader.readAsDataURL(file);
+    //         }
+    //   }else{
+    //     setErrimage(true)
+    //     setErrimage("Only jpeg, png, jpg, are allowed")
+    //   }
        
-     };
+    //  };
      const handleGetTemplateList = (props) => {
       ExportApi.UserTemplateList(props.id).then((resp) => {
         if (resp.ok) {

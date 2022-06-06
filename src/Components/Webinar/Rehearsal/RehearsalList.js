@@ -31,6 +31,7 @@ const RehearsalList = ({props,id}) => {
         });
       };
       useEffect(() => {
+        window.addEventListener('EventId',()=> handleGetRehearsalListData(localStorage.getItem("EventIdHeader")))
         loader("show");
         handleGetRehearsalListData(localStorage.getItem("EventIdHeader"))
         console.log("call")

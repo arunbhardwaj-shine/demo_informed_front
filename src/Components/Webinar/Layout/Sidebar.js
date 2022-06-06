@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 const Sidebar = () => {
+  let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN ;
   const [token, setToken] = useState(true);
   const location = useLocation();
   useEffect(() => {
@@ -10,6 +11,9 @@ const Sidebar = () => {
       setToken(false);
     }
   }, [localStorage.getItem("Token")]);
+  const toggleClassToBody = () => {
+    document.body.classList.toggle('toggle_sidebar');
+  }
   useEffect(() => {
     if (token === null || token === undefined) {
       setToken(false);
@@ -22,10 +26,18 @@ const Sidebar = () => {
         <div>
           {token ? (
             <div className="sidebar-menu">
+                 <button className="toggle_btn" onClick={() =>
+            toggleClassToBody()
+          }>
+            <img
+              src={path_image + "webinar/arrow-left.svg"}
+              alt="toggle-sidebar"
+            />
+          </button>
               <ul>
                 <li
                   className={
-                    location.pathname === "/webinar/dashboard" ? "active" : ""
+                    location.pathname === "/webinar/dashboard" ? "active" : "side_li"
                   }
                 >
                   <Link to="/webinar/dashboard">

@@ -1154,7 +1154,7 @@ const Table = (props, ref) => {
                   editList.map((item, index) => (
                     <tr
                       id={`row-selected` + index}
-                      contenteditable={editable === 0 ? "false" : "true"}
+
                       onClick={(e) =>
                         editing(
                           //  e.currentTarget,
@@ -1169,13 +1169,17 @@ const Table = (props, ref) => {
                         )
                       }
                     >
-                      <td id={`field_name` + index}>
+                      <td id={`field_name` + index}
+                        contenteditable={editable === 0 ? "false" : "true"}
+                      >
                         <span>{item.first_name + " " + item.last_name}</span>
                       </td>
 
                       <td id={`field_email` + index}>{item.email}</td>
                       <td id={`field_bounced` + index}>NA</td>
-                      <td id={`field_country` + index}>
+                      <td id={`field_country` + index}
+                        contenteditable={editable === 0 ? "false" : "true"
+                    }>
                         <span>{item.country}</span>
                       </td>
                       {/*showLessInfo == false ? (
