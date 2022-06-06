@@ -3,13 +3,15 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { loader } from "../../loader";
 import { connect } from "react-redux";
-import { getSelectedSmartListData } from "../../actions";
+import { getSelectedSmartListData, getEmailData } from "../../actions";
 import { Navigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../popup_alert";
 
+var new_object;
 const SelectSmartList = (props) => {
+  //console.log(new_object);
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
   const [PdfSelected, setPdfSelected] = useState(0);
@@ -52,9 +54,10 @@ const SelectSmartList = (props) => {
   };
 
   useEffect(() => {
-    let listid = props.getEmailData
-      ? smartListSelected.id
-      : props.getDraftData.campaign_data.smart_list_id;
+    //console.log(props.getSelectedSmartListData);
+    let listid = new_object?.id
+      ? new_object.id
+      : (props.getDraftData?.campaign_data?.smart_list_id) ? props.getDraftData.campaign_data.smart_list_id : 0;
     setselecedlistid(listid);
     setPdfSelected(listid);
   }, []);
@@ -72,6 +75,7 @@ const SelectSmartList = (props) => {
     setSmartListSelected(e);
 
     props.getSelectedSmartListData(e);
+    //props.getEmailData({ selected_smart_list: e });
     setPdfSelected(e.id);
     // e.preventDefault();
   };
@@ -80,7 +84,7 @@ const SelectSmartList = (props) => {
     navigate("/SelectHCP");
   };
 
-  const saveAsDraft = async () => {
+  const saveAsDraft = async (flag) => {
     const body = {
       user_id: 18207,
       pdf_id: props.getEmailData
@@ -122,12 +126,16 @@ const SelectSmartList = (props) => {
       .then((res) => {
         if (res.data.status_code === 200) {
           setCampaign_id(res.data.response.data.id);
-          popup_alert({
-            visible: "show",
-            message: "Your changes has been saved <br />successfully !",
-            type: "success",
-            redirect: "/EmailList",
-          });
+          if(flag == "draft"){
+            popup_alert({
+              visible: "show",
+              message: "Your changes has been saved <br />successfully !",
+              type: "success",
+              redirect: "/EmailList",
+            });
+          }else{
+            navigate("/CreateSmartList");
+          }
         } else {
           toast.warning(res.data.message);
         }
@@ -231,7 +239,7 @@ const SelectSmartList = (props) => {
               <div className="header-btn">
                 <button
                   className="btn btn-primary btn-bordered move-draft"
-                  onClick={saveAsDraft}
+                  onClick={() => saveAsDraft("draft")}
                 >
                   Save As Draft
                 </button>
@@ -289,14 +297,19 @@ const SelectSmartList = (props) => {
                 </button>
               </div>
             </div>
-            <div className="col smartlist-refresh_div">
-              <button
-                className="btn btn-primary btn-bordered back"
-                onClick={refreshSmartList}
-              >
-                Refresh List
-              </button>
-            </div>
+            {
+              /*
+              <div className="col smartlist-refresh_div">
+                <button
+                  className="btn btn-primary btn-bordered back"
+                  onClick={refreshSmartList}
+                >
+                  Refresh List
+                </button>
+              </div>
+              */
+            }
+
             <div className="col smartlist-result-block">
               {SendListData.map((template) => {
                 //   console.log(template);
@@ -443,6 +456,8 @@ const SelectSmartList = (props) => {
         id="resend-confirm"
       >
         <Modal.Header>
+        {
+          /*
           <button
             type="button"
             className="btn-close"
@@ -453,34 +468,40 @@ const SelectSmartList = (props) => {
               )
             }
           ></button>
+          */
+        }
+
         </Modal.Header>
         <Modal.Body>
           <img src={path_image + "alert.png"} alt="" />
           <h4>
-            Your changes will be lost, <br />
-            if you don't save them in draft.
+            Your changes saved in draft.
           </h4>
           <div className="modal-buttons">
             <button
               type="button"
               className="btn btn-primary btn-filled"
               data-bs-dismiss="modal"
-              onClick={() => redirectToList()}
+              onClick={() => saveAsDraft("continue")}
             >
               Continue
             </button>
-            <button
-              type="button"
-              className="btn btn-primary btn-bordered light"
-              data-bs-dismiss="modal"
-              onClick={() =>
-                setpopupopeningstatus(
-                  (getpopupopeningstatus) => !getpopupopeningstatus
-                )
-              }
-            >
-              Close
-            </button>
+            {
+              /*
+              <button
+                type="button"
+                className="btn btn-primary btn-bordered light"
+                data-bs-dismiss="modal"
+                onClick={() =>
+                  setpopupopeningstatus(
+                    (getpopupopeningstatus) => !getpopupopeningstatus
+                  )
+                }
+              >
+                Close
+              </button>
+              */
+            }
           </div>
         </Modal.Body>
       </Modal>
@@ -614,10 +635,11 @@ const SelectSmartList = (props) => {
 
 const mapStateToProps = (state) => {
   console.log(state);
-
+  new_object = state.getSelectedSmartListData;
   return state;
 };
 
 export default connect(mapStateToProps, {
   getSelectedSmartListData: getSelectedSmartListData,
+  getEmailData: getEmailData,
 })(SelectSmartList);

@@ -432,6 +432,7 @@ const TableView = (props, ref) => {
   };
 
   const saveEditClicked = async () => {
+    console.log(props.smartListId);
     setEditable(0);
     console.log(editableData);
     const body = {

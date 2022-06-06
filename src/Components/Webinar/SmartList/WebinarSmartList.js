@@ -716,7 +716,7 @@ const WebinarSmartList = () => {
                             className="btn btn-primary btn-bordered view"
                             to={{
                               pathname: "/webinar/ViewSmartListWebinar",
-                              search: "?listId=" + data.event_id,
+                              search: "?listId=" + data.id,
                             }}
                           >
                             View
