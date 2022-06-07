@@ -98,6 +98,7 @@ import SmartListCreate from "./Components/Webinar/SmartList/SmartListCreate";
 import FilterList from "./Components/Webinar/SmartList/FilterList";
 
 import ExcelUpload from "./Components/Webinar/SmartList/ExcelUpload";
+import CustomizeRehearsalInvites from "./Components/Webinar/Rehearsal/CustomizeRehearsalInvites";
 
 let platform = 0;
 let show = 0;
@@ -203,6 +204,10 @@ ReactDOM.render(
                         <Route
                           path="/webinar/rehearsallist"
                           element={<RehearsalList  />}
+                        />
+                        <Route
+                          path="/webinar/customizerehearsalinvites"
+                          element={<CustomizeRehearsalInvites  />}
                         />
                         <Route path="/webinar/readers" element={<Readers />} />
                         <Route

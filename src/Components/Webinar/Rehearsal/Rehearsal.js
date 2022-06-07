@@ -256,7 +256,8 @@ function Rehearsal() {
       />
       <Col class="right-sidebar" md={{ span: 6, offset: 3 }}>
         <div >
-         <Link to="/webinar/rehearsal"><Button>Back</Button> </Link>
+         <Link to="/webinar/rehearsallist"><Button>Back</Button> </Link>
+         <h3 className="title_create">Rehearsal</h3>
           <div>
             <form
               onSubmit={(e) => {
@@ -294,8 +295,15 @@ function Rehearsal() {
                 }
               }}
             >
+               <div className="create_reheasal">
               {Speakername.map((val, i) => (
-                <div>
+                <>
+                  <div className="reheasal_info">
+                  <div className="reheasal_info_inside">
+                  <div className="reheasal-box">
+                    <h4 className="reheasal-box-title">Select the rehearsal information.</h4>
+                 <div key={i}>
+                 <fieldset className="reheasal-box-first">
                   {Speakername.length > 1 ? (
                     <button
                       type="button"
@@ -306,10 +314,6 @@ function Rehearsal() {
                       aria-label="Close"
                     />
                   ) : null}
-                   <h2> Rehearsal {i + 1}</h2>
-                   <br />
-                   <br />
-                   <h2>Select the rehearsal information. </h2>
                    <br />
                    <div className="form-inline row justify-content-between align-items-center">
 
@@ -471,9 +475,10 @@ function Rehearsal() {
                       </div>
                       </div>
                       </div>
+                      <fieldset class="border p-2">
                       {val.invites_data.map((malti, index) => (
-                    <fieldset className="border p-2 form-group">
-                      <div key={i}  className="form-inline row justify-content-between align-items-center">
+                     <div key={i} className="form-inline row justify-content-between align-items-center">
+
                       <label>Enter the speaker’s information's</label>
                         {val.invites_data.length > 1 ? (
                           <button
@@ -517,8 +522,8 @@ function Rehearsal() {
                          
                         </div>
                       </div>
-                    </fieldset>
                   ))}
+                  </fieldset>
                   <div class="mt-2"></div>
                   <Form.Group className="mb-3">
                     <Button
@@ -536,8 +541,18 @@ function Rehearsal() {
                     </h4>
                   )}
                   <br />
+                  </fieldset>
                 </div>
+              </div>
+              </div>
+           <div className="reheasal_name">
+           <h2>Rehearsal {i+1}</h2>
+         </div>
+              
+           </div>
+         </>
               ))}
+              </div>
               <Button type="submit" className="event-submit-button">
                 Create
               </Button>

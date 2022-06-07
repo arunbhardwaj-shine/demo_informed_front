@@ -26,7 +26,7 @@ const Readers = () => {
   const [modalShow1, setModalShow1] = useState(false);
   const [countryName, setCountryName] = useState();
   const [render, setRender] = useState(0);
-  const [massage, setMassage] = useState("Please Select Event");
+  const [massage, setMassage] = useState(false);
   let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN ;
   const handleGetReadersData = (id) => {
       ExportApi.ReadersData(id).then((resp) => {

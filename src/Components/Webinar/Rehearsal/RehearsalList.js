@@ -112,7 +112,7 @@ const RehearsalList = ({props,id}) => {
           </div>
           </div>
           <div className="reheasal_name">
-            <h2>Rehearsal 1</h2>
+            <h2>Rehearsal {i+1}</h2>
           </div>
           </div>
           </>
