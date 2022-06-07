@@ -197,18 +197,6 @@ const SmartListCreate = () => {
 
   return (
     <>
-      <popup_alert />
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
       <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
       </div>
@@ -326,7 +314,18 @@ const SmartListCreate = () => {
           </div>
         </section>
       </div>
-
+      <popup_alert />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <Modal
         className="send-confirm"
         id="upload-confirm"
