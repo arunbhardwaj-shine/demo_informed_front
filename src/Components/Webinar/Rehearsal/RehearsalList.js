@@ -55,7 +55,7 @@ const RehearsalList = ({props,id}) => {
         pauseOnHover
       />
       <Col md={{ span: 6, offset: 3 }}>
-      <Link  to="/webinar/rehearsal"><Button>Back</Button></Link>
+      <Link  to="/webinar/rehearsal"><Button>Create Rehearsal</Button></Link>
         <div style={{marginTop:"40px"}}>
         {localStorage.getItem("EventIdHeader") ? null : (
                     <h4>
