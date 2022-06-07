@@ -1587,11 +1587,11 @@ const CreateEmail = (props) => {
                       <h4>No Contact selected yet!</h4>
                     </div>
                   ) : (
-                    <div className="search-hcp-box">
-                      {console.log(selectedHcp)}
-                      {selectedHcp.map((data, index2) => {
+                    <>
+                     {selectedHcp.map((data, index2) => {
                         return (
                           <>
+                          <div className="search-hcp-box">
                             <p className="send-hcp-box-title">
                               Name | <span>{data.name || data.first_name}</span>
                             </p>
@@ -1608,10 +1608,13 @@ const CreateEmail = (props) => {
                                 onClick={() => deleteSelected(index2)}
                               />
                             </div>
+                            </div>
                           </>
                         );
                       })}
-                    </div>
+                    </>
+                     
+                    
                     // <table className="table">
                     //   <thead>
                     //     <tr>

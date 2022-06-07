@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { loader } from "../../loader";
 import { connect } from "react-redux";
-import { getCampaignId, getEmailData } from "../../actions";
+import { getCampaignId, getEmailData,getSelectedSmartListData  } from "../../actions";
 import { getDraftData } from "../../actions";
 import { getSelected } from "../../actions";
 import { toast } from "react-toastify";
@@ -56,6 +56,10 @@ const SelectHCP = (props) => {
       props.getEmailData(old_object);
     } else {
       props.getEmailData({ selected: selectede });
+    }
+
+    if(selectede===2){
+      props.getSelectedSmartListData(null);
     }
 
     setSelection(event.target.children[0].value);
@@ -274,6 +278,6 @@ const mapStateToProps = (state) => {
   return state;
 };
 
-export default connect(mapStateToProps, { getEmailData, getSelected })(
+export default connect(mapStateToProps, { getEmailData, getSelected,getSelectedSmartListData  })(
   SelectHCP
 );

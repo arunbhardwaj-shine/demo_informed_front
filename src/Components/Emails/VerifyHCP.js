@@ -68,8 +68,36 @@ const VerifyHCP = (props) => {
 
   const [manualReRender, setManualReRender] = useState(0);
   let file_name = useRef("");
-  console.log(selectedHcp);
-  console.log(selected_Data);
+
+  let reducHcp = selectedHcp.map( 
+    (item) => {
+      return item.profile_user_id;
+    }
+  );
+
+
+  const updateReader = ()=>{
+    let reducHcp = selectedHcp.map( 
+      (item) => {
+        return item.profile_user_id;
+      }
+    );
+    let body = {
+      user_id: 18207,
+      readers_id: reducHcp
+    };
+    axios
+    .post(`emailapi/get_user_details`, body)
+    .then((res) => {
+      setSelectedHcp(res.data.response.data);
+      console.log(res.data.response.data)
+      // setCounter(counter + 1);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }
+ 
   useEffect(() => {
     console.log(props);
     // props.getDraftData.campaign_data.selectedHcp;
@@ -79,19 +107,30 @@ const VerifyHCP = (props) => {
       props.hasOwnProperty("getDraftData")
     ) {
       if (props.getDraftData !== null) {
-        let reducHcp = props.getDraftData.campaign_data.selectedHcp;
+        //let reducHcp = props.getDraftData.campaign_data.selectedHcp;
+
+         let reducHcp = selectedHcp.map( 
+            (item) => {
+              return item.profile_user_id;
+            }
+          );
+
         if (typeof reducHcp != "undefined") {
-          setSelectedHcp(reducHcp);
+         // setSelectedHcp(reducHcp);
         }
       }
     }
+     //console.log(reducHcp); 
+     
+    updateReader();
+
   }, []);
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
   useEffect(() => {
     console.log("sdsdsd");
-  }, [selectedHcp, sorting]);
+  }, [sorting]);
 
   const handleInputChange = (event, selected) => {
     const div = document.querySelector("div.active");
@@ -589,6 +628,7 @@ const VerifyHCP = (props) => {
     setSelectedHcp([]);
     setTimeout(() => {
       setSelectedHcp(vr);
+      updateReader();
       console.log("This will run after 1 second!");
       setUpdateCounter(updateCounter + 1);
     }, 50);

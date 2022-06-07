@@ -147,7 +147,7 @@
 	#add-list .smartlist-view .mail-box-content {width: 100%;flex: 0 0 100%;}
 	#add-list .smartlist-result-block {margin-top: 0px;}
 	.page-top-nav .tabnav-link { justify-content: center; } 
-	.create-smart-list .upload-btn, .create-smart-list .btn-bordered, .download-sample .upload-btn { padding: 7px 13px; } 
+	.create-smart-list .upload-btn, .create-smart-list .btn-bordered, .download-sample .upload-btn { padding: 6px 13px; height:32px;} 
 	.table-title .selected-hcp-table-action .btn-filled, .table-title .selected-hcp-table-action .btn-bordered { min-width: 80px; height: 32px; } 
 	#add_hcp .modal-body .hcp-add-box .hcp-add-form.tab-content, #smart_list_popup_id .search-hcp .selected-hcp-list { max-height: 400px; } 
 	.mailbox-buttons { min-height: 42px; } .modal .smartlist-result-block .smartlist_box_block { margin-bottom: 25px; } 
@@ -174,13 +174,47 @@
 	}	
 	.create-smart-list {
 		max-width: 755px;
-	}																													
+	}
+	.smartlist-buttons button.btn {
+		padding: 2px 14px;
+		height:26px;
+		font-size: 14px;
+	}
+	form .input-group #tags-add {
+		line-height: 20px;
+		padding: 5px 20px;
+	}	
+	.form-buttons .approved-btn, .form-buttons .btn.btn-large, .form-buttons .btn-primary {
+		padding: 5px 14px;
+		font-size: 13px;
+		height: 32px;
+	}	
+	.send-confirm .modal-body .modal-buttons button {
+		height: 36px;
+	}	
+	.smart-list-btns .smart-list-download button, .smart-list-btns .hcp-new-user button, .smart-list-btns .hcp-added button,button#test-table-xls-button {
+		width: 36px;
+		height: 36px;
+	}	
+	.table-title .selected-hcp-table-action .btn {
+		height: 36px;
+		padding: 8px;
+	}		
+	#add_hcp .modal-footer .btn {
+		height: 32px;
+	}	
+	#add_hcp .modal-body .hcp-add-box .hcp-add-form.tab-content, #smart_list_popup_id .search-hcp .selected-hcp-list {
+		min-height: 190px;
+	}	
+	.smartlist-buttons {
+		min-height: 48px;
+	}																					
 	} 
 	 
 	 @media only screen and (max-width:1365px){ 
 		#add_hcp .modal-body .hcp-add-box .hcp-add-form.tab-content, #smart_list_popup_id .search-hcp .selected-hcp-list {max-height: 67vh;}
 		table tr td.delete_row, table tr:hover td.delete_row { width: 28px; height: 28px; } 
-		.mailbox-buttons { min-height: 40px; } 
+		.mailbox-buttons { min-height: 36px; } 
 		.clear-search button.cancel { padding:6px; } 
 		.selected-hcp-list table tr td.delete_row img { width: 16px; }
 		header nav.navbar { padding: 3px 10px; } 
@@ -255,7 +289,7 @@
 		.send-confirm .modal-body h4 { font-size: 20px; margin-top: 22px; } 
 		.form-inline .form-group input { max-width: 380px; } 
 		.form-buttons .btn { height: 38px; } 
-		.form-buttons .approved-btn, .form-buttons .btn.btn-large, .form-buttons .btn-primary { padding: 10px 14px; font-size: 13px; } 
+		.form-buttons .approved-btn, .form-buttons .btn.btn-large, .form-buttons .btn-primary { padding: 6px 14px; font-size: 13px;height:32px; } 
 		.form-inline .form-group label { width: 135px; flex: 0 0 135px; } 
 		.form-inline .form-group input#email-address { max-width: 235px; } 
 		.mail-preview-img img { max-height: 72px; max-width: 63px; } 

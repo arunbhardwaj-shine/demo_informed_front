@@ -147,164 +147,128 @@ const RegistraionDetails = () => {
         <span className="loader-view"> </span>
       </div>
       <Row>
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
-        <Col md={{ span: 7, offset: 3 }}>
-          <h2>Registration Details</h2>
+        <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+        <Col md={{ span: 7, offset:1 }}>
+          <h2>Registration Page</h2>
           <div>
             <Link to="/webinar/registrationdetailslist"><Button> List</Button> </Link>
             <Row>
-            <form onSubmit={formik.handleSubmit}>
-              <Col xs={8}>
-              <Col className="mb-3">
-            <Form.Label>Select Event </Form.Label>
-                  <Form.Select
-                    name="Selectevent"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.Selectevent}
-                  >
-                    <option value=""> Select Event</option>
-                    {event?.map((val, i) => (
-                      <React.Fragment key={i}>
-                        <option value={val.id}>{val.title}</option>
-                      </React.Fragment>
-                    ))}
-                  </Form.Select>
-                  {formik.touched.Selectevent && formik.errors.Selectevent ? (
-                  <div style={{ color: "red" }}>{formik.errors.Selectevent}</div>
-                ) : null}
-            </Col>
-                <Form.Group
-                as={Row}
-                className="mb-3"
-              >
-                <Form.Label column sm={3}>
-                  Registration Page  Title{" "}
-                </Form.Label>
-                <Col sm={9}>
-                  <Form.Control
-                    name="Title"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.Title}
-                  />
-                  {formik.touched.Title && formik.errors.Title ? (
-                    <div style={{ color: "red" }}>
-                      {formik.errors.Title}
+              <form onSubmit={formik.handleSubmit}>
+                <Col xs={8}>
+
+                  <div className="form-inline row justify-content-between align-items-center">
+                    <div className="form-group col-12 col-md-12">
+                      <Col className="mb-3">
+                        <Form.Label>Select Event </Form.Label>
+                          <Form.Select
+                            name="Selectevent"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.Selectevent}
+                            className="form-control"
+                          >
+                            <option value=""> Select Event</option>
+                            {event?.map((val, i) => (
+                              <React.Fragment key={i}>
+                                <option value={val.id}>{val.title}</option>
+                              </React.Fragment>
+                            ))}
+                          </Form.Select>
+                          {formik.touched.Selectevent && formik.errors.Selectevent ? (
+                          <div style={{ color: "red" }}>{formik.errors.Selectevent}</div>
+                        ) : null}
+                      </Col>
                     </div>
-                  ) : null}
-                </Col>
-              </Form.Group>
-              <Form.Group
-                as={Row}
-                className="mb-3"
-              
-              >
-                <Form.Label column sm={3}>
-                Body Text{" "}
-                </Form.Label>
-                <Col sm={9}>
-                  <textarea
-                    name="Body"
-                    type="text"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.Body}
-                    className="form-control"
-                    rows="6"
-                  ></textarea>
-                  {formik.touched.Body && formik.errors.Body ? (
-                    <div style={{ color: "red" }}>
-                      {formik.errors.Body}
+                  </div>
+
+                  <div className="form-inline row justify-content-between align-items-center">
+                    <div className="form-group col-12 col-md-12">   
+                      <Form.Label> Registration Page  Title</Form.Label>
+                      <Form.Control
+                        name="Title"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.Title}
+                      />
+                      {formik.touched.Title && formik.errors.Title ? (
+                        <div style={{ color: "red" }}>
+                          {formik.errors.Title}
+                        </div>
+                      ) : null}
                     </div>
-                  ) : null}
-                </Col>
-              </Form.Group>
-                <div>
-                  <h5>what data should be collected?</h5>
-                  <Row>
-                  <div>
+                  </div>
+
+                  <div className="form-inline row justify-content-between align-items-center">
+                    <div className="form-group col-12 col-md-12">   
+                      <Form.Label> Body Text</Form.Label>
+                      <textarea name="Body" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.Body} className="form-control" rows="6"></textarea>
+                        {formik.touched.Body && formik.errors.Body ? (
+                          <div style={{ color: "red" }}>
+                            {formik.errors.Body}
+                          </div>
+                        ) : null}
+                    </div>
+                  </div>
+
+                  <h5>What data should be collected?</h5>
+                  <div className="form-inline">
                     {inputbox.map((data, i) => {
                       return (
                         <>
-                         <Form.Label>{data.value}</Form.Label>
-                          <Form.Check
-                            type="checkbox"
-                            onChange={(e) => handleRadioChange(e, i)}
-                            value={data.value}
-                            name={data.name}
-                          />
-                          {data.isActive == true ? (
-                            <>
-                              <Form.Label >required</Form.Label>
-                              <Form.Check
-                                name={data.name}
-                                type="checkbox"
-                                onChange={(e) => handleRadioChangedata(e, i)}
-                                // name="required"
-                              />
-                            </>
-                          ) : null}
+                          <div class="form-check">
+                            <Form.Label>{data.value}</Form.Label>
+                            <Form.Control
+                              type="checkbox"
+                              onChange={(e) => handleRadioChange(e, i)}
+                              value={data.value}
+                              name={data.name}
+                              className="form-check-input"
+                            />
+                          
+                            {data.isActive == true ? (
+                              <>
+                                  <br/><span>Required</span>
+                                  <Form.Control
+                                    name={data.name}
+                                    type="checkbox"
+                                    className="form-check-input"
+                                    onChange={(e) => handleRadioChangedata(e, i)}
+                                    // name="required"
+                                  />
+                              </>
+                            ) : null}
+                          </div>
+
                         </>
                       );
                     })}
                   </div>
-                  </Row>
+
                   <button onClick={addData}>Add data field</button>
+
                   <div>
                     {show == true ? (
                       <>
-                        <input
-                          type="text"
-                          onChange={(e) => {
-                            setField(e.target.value);
-                          }}
-                        />
-                        <button type="button" onClick={saveClicked}>
-                          Save
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setShow(false);
-                            setField("");
-                          }}
-                        >
+                        <input type="text" className="form-group" onChange={(e) => { setField(e.target.value); }} className="form-control" />
+                        <button type="button" onClick={saveClicked}> Save </button>
+                        <button type="button" onClick={() => { setShow(false);setField("");}}>
                           Close
                         </button>
-
                       </>
                     ) : null}
                   </div>
-                </div>
-              </Col>
-              <Col>
-                <div>
-                  <img
-                    id="imgVieww"
-                    src=""
-                    alt="Viewing the registration page image"
-                    width={340}
-                  />
-                </div>
-              </Col>
-            <input type="file" onChange={(e) => handeleimage(e)} />
-                  <div style={{ color: "red" }}>
-                      {errimage}
-                    </div>
-            <button className="btn btn-primary" type="submit">
-              Submit
-            </button>
+
+                </Col>
+
+                <Col>
+                  <div>
+                    <img id="imgVieww" src="" alt="Viewing the registration page image" width={340} />
+                  </div>
+                </Col>
+                
+                <input type="file" onChange={(e) => handeleimage(e)} />
+                <div style={{ color: "red" }}>{errimage}</div>
+                <button className="btn btn-primary" type="submit">Submit</button>
               </form>
             </Row>
           </div>
