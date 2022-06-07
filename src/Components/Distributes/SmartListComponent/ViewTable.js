@@ -1277,90 +1277,97 @@ const ViewTable = (props) => {
                     const fieldName = `hpc[${i}]`;
                     return (
                       <>
-                      <div className="add_hcp_boxes">
-                        <div className="form_action">
-                          <div className="row">
-                            <div className="col-12 col-md-6">
-                              <div className="form-group">
-                                <label for="">First Name</label>
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  onChange={(event) =>
-                                    onFirstNameChange(event, i)
-                                  }
-                                  value={val.firstname}
-                                />
+                        <div className="add_hcp_boxes">
+                          <div className="form_action">
+                            <div className="row">
+                              <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                  <label for="">First Name</label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    onChange={(event) =>
+                                      onFirstNameChange(event, i)
+                                    }
+                                    value={val.firstname}
+                                  />
+                                </div>
                               </div>
-                            </div>
-                            <div className="col-12 col-md-6">
-                              <div className="form-group">
-                                <label for="">Last Name</label>
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  onChange={(event) => onLastNameChange(event, i)}
-                                  value={val.lastname}
-                                />
+                              <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                  <label for="">Last Name</label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    onChange={(event) =>
+                                      onLastNameChange(event, i)
+                                    }
+                                    value={val.lastname}
+                                  />
+                                </div>
                               </div>
-                            </div>
-                            <div className="col-12 col-md-6">
-                              <div className="form-group">
-                                <label for="">Email *</label>
-                                <input
-                                  type="email"
-                                  className="form-control"
-                                  id="email-desc"
-                                  name={`${fieldName}.email`}
-                                  onChange={(event) => onEmailChange(event, i)}
-                                  value={val.email}
-                                />
+                              <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                  <label for="">Email *</label>
+                                  <input
+                                    type="email"
+                                    className="form-control"
+                                    id="email-desc"
+                                    name={`${fieldName}.email`}
+                                    onChange={(event) =>
+                                      onEmailChange(event, i)
+                                    }
+                                    value={val.email}
+                                  />
+                                </div>
                               </div>
-                            </div>
-                            <div className="col-12 col-md-6">
-                              <div className="form-group">
-                                <label for="">Contact Type</label>
-                                <select
-                                  className="form-contact"
-                                  aria-label="select"
-                                  onChange={(event) =>
-                                    onContactTypeChange(event, i)
-                                  }
-                                >
-                                  <option selected>Select Type</option>
-                                  <option value="HCP">HCP</option>
-                                  <option value="Staff">Staff</option>
-                                  <option value="Test Users">Test Users</option>
-                                </select>
+                              <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                  <label for="">Contact Type</label>
+                                  <select
+                                    className="form-contact"
+                                    aria-label="select"
+                                    onChange={(event) =>
+                                      onContactTypeChange(event, i)
+                                    }
+                                  >
+                                    <option selected>Select Type</option>
+                                    <option value="HCP">HCP</option>
+                                    <option value="Staff">Staff</option>
+                                    <option value="Test Users">
+                                      Test Users
+                                    </option>
+                                  </select>
+                                </div>
                               </div>
-                            </div>
-                            <div className="col-12 col-md-6">
-                              <div className="form-group">
-                                <label for="">Country</label>
-                                <select
-                                  className="country-form"
-                                  aria-label="select"
-                                  onChange={(event) => onCountryChange(event, i)}
-                                >
-                                  <option selected>Select Country</option>
-                                  {countryall.length === 0
-                                    ? ""
-                                    : Object.entries(countryall).map(
-                                        ([index, item]) => {
-                                          return (
-                                            <>
-                                              <option value={index}>
-                                                {item}
-                                              </option>
-                                            </>
-                                          );
-                                        }
-                                      )}
-                                </select>
+                              <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                  <label for="">Country</label>
+                                  <select
+                                    className="country-form"
+                                    aria-label="select"
+                                    onChange={(event) =>
+                                      onCountryChange(event, i)
+                                    }
+                                  >
+                                    <option selected>Select Country</option>
+                                    {countryall.length === 0
+                                      ? ""
+                                      : Object.entries(countryall).map(
+                                          ([index, item]) => {
+                                            return (
+                                              <>
+                                                <option value={index}>
+                                                  {item}
+                                                </option>
+                                              </>
+                                            );
+                                          }
+                                        )}
+                                  </select>
+                                </div>
                               </div>
-                            </div>
-                            {
-                              /*
+                              {/*
                               <div className="col-12 col-md-6 btn_rmv">
                                 <div className="form-group">
                                   {i !== 0 && (
@@ -1374,47 +1381,43 @@ const ViewTable = (props) => {
                                   )}
                                 </div>
                               </div>
-                              */
-                            }
-
-
+                              */}
+                            </div>
                           </div>
-                        </div>
 
-                        <div className="hcp-modal-action">
-                          <div className="hcp-action-block">
-                            {activeManual == "active" ? (
-                              <>
-                              {
-                                hpc.length > 1 && (
-                                  <div className="hcp-remove">
-                                    <button
-                                      type="button"
-                                      className="btn btn-filled"
-                                      onClick={() => deleteRecord(i)}
-                                    >
-                                      <img src={path_image + "delete.svg"} alt="Add More" />
-                                    </button>
-                                  </div>
-                                )
-                              }
+                          <div className="hcp-modal-action">
+                            <div className="hcp-action-block">
+                              {activeManual == "active" ? (
+                                <>
+                                  {hpc.length > 1 && (
+                                    <div className="hcp-remove">
+                                      <button
+                                        type="button"
+                                        className="btn btn-filled"
+                                        onClick={() => deleteRecord(i)}
+                                      >
+                                        <img
+                                          src={path_image + "delete.svg"}
+                                          alt="Add More"
+                                        />
+                                      </button>
+                                    </div>
+                                  )}
+                                </>
+                              ) : null}
+                              <ul className="nav nav-tabs" role="tablist">
+                                <li className="nav-item add_hcp">
+                                  <a
+                                    onClick={addMoreHcp}
+                                    className="nav-link active btn-bordered"
+                                    data-bs-toggle="tab"
+                                    href="javascript:;"
+                                  >
+                                    Add HCP +
+                                  </a>
+                                </li>
 
-                              </>
-                            ) : null}
-                            <ul className="nav nav-tabs" role="tablist">
-                              <li className="nav-item add_hcp">
-                                <a
-                                  onClick={addMoreHcp}
-                                  className="nav-link active btn-bordered"
-                                  data-bs-toggle="tab"
-                                  href="javascript:;"
-                                >
-                                  Add HCP +
-                                </a>
-                              </li>
-
-                              {
-                                /*
+                                {/*
                                 <li className="nav-item add-file">
                                   <a
                                     onClick={(e) => addFile(e)}
@@ -1425,20 +1428,17 @@ const ViewTable = (props) => {
                                     Add File
                                   </a>
                                 </li>
-                                */
-                              }
-
-                            </ul>
+                                */}
+                              </ul>
+                            </div>
                           </div>
-                        </div>
                         </div>
                       </>
                     );
                   })}
                 </form>
 
-                {
-                  /*
+                {/*
                   <form id="add_file" className={"tab-pane" + activeExcel}>
                     <div class="file_upload-box">
                       <div className="upload-file-box">
@@ -1470,12 +1470,8 @@ const ViewTable = (props) => {
                       </div>
                     </div>
                   </form>
-                  */
-                }
+                  */}
               </div>
-
-
-
             </div>
           </div>
           <div className="modal-footer">

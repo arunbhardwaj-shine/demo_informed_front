@@ -8,6 +8,8 @@ import { popup_alert } from "../../../popup_alert";
 import ViewTable from "../../Distributes/SmartListComponent/ViewTable";
 import ViewData from "./ViewData";
 
+import { ToastContainer } from "react-toastify";
+
 const ViewSmartListWebinar = () => {
   const queryParams = queryString.parse(window.location.search);
   const [smartListName, setSmartListName] = useState("");
@@ -17,6 +19,7 @@ const ViewSmartListWebinar = () => {
   const [isLoading, setLoading] = useState(true);
   const [getuploadedby, setUploadedBy] = useState();
   const [getlistcount, setListCount] = useState("");
+
   const [creatorName, setCreatorName] = useState("");
 
   //const [data, setData] = useState([]);
@@ -29,6 +32,7 @@ const ViewSmartListWebinar = () => {
   };
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+
   const getSmartListData = async () => {
     // loader("show");
     const headers = {
@@ -84,11 +88,9 @@ const ViewSmartListWebinar = () => {
     return (
       <>
         {console.log(editList)}
-        <div className="loader" id="custom_loader">
-          <span className="loader-view"> </span>
-        </div>
+
         <div className="col right-sidebar">
-          <ViewData data={editList} />
+          <ViewData data={editList} smartListId={queryParams.listId} />
         </div>
       </>
     );

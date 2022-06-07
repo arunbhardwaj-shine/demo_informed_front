@@ -14,6 +14,7 @@ import Add from "./Add";
 const EventData = () => {
   const [event, setEvent] = useState([]);
   const [deletestatus, setDeleteStatus] = useState(false);
+  const [message, setMessage] = useState(false);
   const [eventdata, setEventData] = useState([]);
   const [SpDataSingle, setSpDataSingle] = useState();
   const [show, setShow] = useState(false);
@@ -32,7 +33,12 @@ const EventData = () => {
     ExportApi.GetEventList().then((resp) => {
       if (resp.ok) {
         loader("hide");
-        setEvent(resp.data.data);
+        if (resp.data.code == 200){
+
+          setEvent(resp.data.data);
+        }else{
+          setMessage("Please create event");
+        }
       }
     });
   };
@@ -42,6 +48,7 @@ const EventData = () => {
         setEvent(resp.data.data);
       } else {
         setEvent([]);
+        setMessage("No data found");
       }
     });
   };
@@ -438,7 +445,7 @@ const EventData = () => {
                 );
               })
             ) : (
-              <h1>No data found</h1>
+              <h1>{message}</h1>
             )}
           </div>
           <ToastContainer

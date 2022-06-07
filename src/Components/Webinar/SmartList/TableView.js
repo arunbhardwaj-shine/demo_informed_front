@@ -886,7 +886,7 @@ const TableView = (props, ref) => {
               <div className="col-12 col-md-1">
                 <div className="header-btn-left">
                   <button className="btn btn-primary btn-bordered back">
-                    <Link to={"/CreateSmartList"}>BACK</Link>
+                    <Link to={"/webinar/SmartListCreate"}>BACK</Link>
                   </button>
                 </div>
               </div>
@@ -903,7 +903,9 @@ const TableView = (props, ref) => {
               <div className="col-12 col-md-2">
                 <div className="header-btn">
                   <button className="btn btn-primary btn-bordered move-draft">
-                    <Link to={{ pathname: "/CreateSmartList" }}>Cancel</Link>
+                    <Link to={{ pathname: "/webinar/SmartListCreate" }}>
+                      Cancel
+                    </Link>
                   </button>
                   <button
                     className="btn btn-primary btn-filled create"
@@ -1139,7 +1141,7 @@ const TableView = (props, ref) => {
                         id={`field_name` + index}
                         contenteditable={editable === 0 ? "false" : "true"}
                       >
-                        <span>{item.first_name + " " + item.last_name}</span>
+                        <span>{item.name}</span>
                       </td>
 
                       <td id={`field_email` + index}>{item.email}</td>

@@ -8,7 +8,8 @@ import { Navigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../popup_alert";
-import { Modal } from "react-bootstrap";
+import { Modal, Dropdown } from "react-bootstrap";
+import DropdownButton from 'react-bootstrap/DropdownButton';
 const SelectSmartListUsers = (props) => {
   console.log(props);
 
@@ -65,7 +66,7 @@ const SelectSmartListUsers = (props) => {
         ? props.getSelectedSmartListData.id
         : props.getDraftData.campaign_data.smart_list_id,
     };
-  
+
 
     if(props.getDraftData?.campaign_data?.selectedHcp){
       setReaders(props.getDraftData.campaign_data.selectedHcp);
@@ -83,7 +84,7 @@ const SelectSmartListUsers = (props) => {
         console.log(err);
       });
     }
-   
+
   }, []);
 
   const backClicked = () => {
@@ -219,8 +220,7 @@ const SelectSmartListUsers = (props) => {
   };
 
   const onContactTypeChange = (e, i) => {
-    const { value } = e.target;
-    // console.log(value);
+    const value = e;
     const list = [...hpc];
     const name = hpc[i].contact_type;
     list[i].contact_type = value;
@@ -228,7 +228,7 @@ const SelectSmartListUsers = (props) => {
   };
 
   const onCountryChange = (e, i) => {
-    const { value } = e.target;
+    const value = e;
     const list = [...hpc];
     const name = hpc[i].country;
     list[i].country = value;
@@ -765,7 +765,7 @@ const SelectSmartListUsers = (props) => {
             </div>
             <div className="selected-hcp-list">
               <table className="table">
-                <thead>
+                <thead className="sticky-header">
                   <tr>
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
@@ -1099,47 +1099,35 @@ const SelectSmartListUsers = (props) => {
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label for="">Contact Type</label>
-                                  <select
-                                    className="form-contact"
-                                    aria-label="select"
-                                    onChange={(event) =>
-                                      onContactTypeChange(event, i)
-                                    }
-                                  >
-                                    <option selected>Select Type</option>
-                                    <option value="HCP">HCP</option>
-                                    <option value="Staff">Staff</option>
-                                    <option value="Test Users">
-                                      Test Users
-                                    </option>
-                                  </select>
+                                  <DropdownButton className="dropdown-basic-button split-button-dropup"
+                                   title= {hpc[i].contact_type != "" &&  hpc[i].contact_type != "undefined" ? hpc[i].contact_type : "Select Type" }
+                                   onSelect={(event) => onContactTypeChange(event, i)}
+                                   >
+                                    <Dropdown.Item eventKey="HCP" className = {hpc[i].contact_type == "HCP" ? "active" : "" }>HCP</Dropdown.Item>
+                                    <Dropdown.Item eventKey="Staff" className = {hpc[i].contact_type == "Staff" ? "active" : "" }>Staff</Dropdown.Item>
+                                    <Dropdown.Item eventKey="Test Users" className = {hpc[i].contact_type == "Test Users" ? "active" : "" }>Test Users</Dropdown.Item>
+                                  </DropdownButton>
                                 </div>
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label for="">Country</label>
-                                  <select
-                                    className="country-form"
-                                    aria-label="select"
-                                    onChange={(event) =>
-                                      onCountryChange(event, i)
-                                    }
-                                  >
-                                    <option selected>Select Country</option>
-                                    {countryall.length === 0
-                                      ? ""
-                                      : Object.entries(countryall).map(
-                                          ([index, item]) => {
-                                            return (
-                                              <>
-                                                <option value={index}>
-                                                  {item}
-                                                </option>
-                                              </>
-                                            );
-                                          }
-                                        )}
-                                  </select>
+                                    <DropdownButton className="dropdown-basic-button split-button-dropup"
+                                     title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
+                                     onSelect={(event) => onCountryChange(event, i)}
+                                     >
+                                     {countryall.length === 0
+                                       ? ""
+                                       : Object.entries(countryall).map(
+                                           ([index, item]) => {
+                                             return (
+                                               <>
+                                                <Dropdown.Item eventKey={index} className = {hpc[i].country == index ? "active" : "" }>{item == "B&H" ? "Bosnia and Herzegovina" : item}</Dropdown.Item>
+                                               </>
+                                             );
+                                           }
+                                         )}
+                                    </DropdownButton>
                                 </div>
                               </div>
                               {/*
