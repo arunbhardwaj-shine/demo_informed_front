@@ -8,7 +8,7 @@ import { loader } from "../../../loader";
 function Rehearsal() {
   const [render, setRerender] = useState(0);
   const [EventTime, setEventTime] = useState([
-    {Hour:[{Hour:"00"},{Hour:"01"},{Hour:"02"},{Hour:"03"},{Hour:"04"},{Hour:"05"},{Hour:"06"},{Hour:"07"},{Hour:"08"},{Hour:"09"},{Hour:"10"},{Hour:"11"}],
+    {Hour:[{Hour:"01"},{Hour:"02"},{Hour:"03"},{Hour:"04"},{Hour:"05"},{Hour:"06"},{Hour:"07"},{Hour:"08"},{Hour:"09"},{Hour:"10"},{Hour:"11"},{Hour:"12"},],
       mints:[{mints:"00"},{mints:"05"},{mints:10},{mints:15},{mints:20},{mints:25},{mints:30},{mints:35},{mints:40},{mints:45},{mints:50},{mints:55}]}]);
   const [Speakername, setSpeakerName] = useState([
     {
@@ -256,7 +256,7 @@ function Rehearsal() {
       />
       <Col class="right-sidebar" md={{ span: 6, offset: 3 }}>
         <div >
-         <Link to="/webinar/rehearsallist"><Button>Rehearsals</Button> </Link>
+         <Link to="/webinar/rehearsal"><Button>Back</Button> </Link>
           <div>
             <form
               onSubmit={(e) => {
@@ -473,8 +473,8 @@ function Rehearsal() {
                       </div>
                       {val.invites_data.map((malti, index) => (
                     <fieldset className="border p-2 form-group">
-                      <div key={i}>
-                      <p>Enter the speaker’s information's</p>
+                      <div key={i}  className="form-inline row justify-content-between align-items-center">
+                      <label>Enter the speaker’s information's</label>
                         {val.invites_data.length > 1 ? (
                           <button
                             type="button"
@@ -485,16 +485,10 @@ function Rehearsal() {
                             aria-label="Close"
                           />
                         ) : null}
-                        <Form.Group
-                          as={Row}
-                          className="mb-3 form-group"
-                        >
-                          <Form.Label column sm={2}>
-                            Name
-                          </Form.Label>
-                          <Col sm={10}>
-                            <Form.Control
-                              type="text"
+                        <div className="form-group col-12 col-md-6">
+                            <label>Name</label>
+                          
+                            <input type="text" placeholder="Speaker's Name" className="form-control"
                               value={malti.name}
                               onChange={(e) => {
                                 handleSpeakerdata(e, i, index);
@@ -503,13 +497,14 @@ function Rehearsal() {
                             <div style={{ color: "red" }}>
                               {SpeakernameErr[i]?.invites_data[index]?.name}
                             </div>
-                          </Col>
+                       </div>
+                       <div className="form-group col-12 col-md-6">
                           <div className="mt-2"></div>
-                          <Form.Label column sm={2}>
+                          <label column sm={2}>
                             Email
-                          </Form.Label>
-                          <Col sm={10}>
-                            <Form.Control
+                          </label>
+                         
+                            <input  placeholder="Speaker's Name" className="form-control"
                               type="email"
                               value={malti.email}
                               onChange={(e) => {
@@ -519,8 +514,8 @@ function Rehearsal() {
                             <div style={{ color: "red" }}>
                               {SpeakernameErr[i]?.invites_data[index]?.email}
                             </div>
-                          </Col>
-                        </Form.Group>
+                         
+                        </div>
                       </div>
                     </fieldset>
                   ))}

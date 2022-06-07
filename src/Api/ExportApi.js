@@ -181,8 +181,8 @@ const CreatRehearsal = (rehearsalSpeakername) =>
   );
 const RehearsalListData = (eventid) =>
   BaseApi.get(
-    `rehearsal-list`,
-    { event_id: eventid },
+    `rehearsal-list/${eventid}`,
+    {},
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
