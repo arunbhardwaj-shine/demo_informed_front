@@ -9,7 +9,8 @@ import "react-alice-carousel/lib/alice-carousel.css";
 
 import { getCampaignId, getEmailData } from "../../actions";
 import { useNavigate } from "react-router-dom";
-import { Modal, ModalDialog } from "react-bootstrap";
+import { Modal, ModalDialog, Dropdown } from "react-bootstrap";
+import DropdownButton from 'react-bootstrap/DropdownButton';
 import SimpleReactValidator from "simple-react-validator";
 import { loader } from "../../loader";
 import { popup_alert } from "../../popup_alert";
@@ -98,7 +99,6 @@ const CreateEmail = (props) => {
   const [isOpen_send, setIsOpensend] = useState(false);
   const [allTags, setAllTags] = useState({});
   const [newTag, setNewTag] = useState("");
-  console.log(state_object);
   const [finalTags, setFinalTags] = useState(
     state_object != null && state_object != "undefined" && state_object.tags
       ? state_object.tags
@@ -837,17 +837,17 @@ const CreateEmail = (props) => {
   };
 
   const onContactTypeChange = (e, i) => {
-    const { value } = e.target;
-    //console.log(value);
+    const value = e;
     const list = [...hpc];
     const name = hpc[i].contact_type;
     list[i].contact_type = value;
     setHpc(list);
-    //console.log(hpc);
+    console.log(hpc);
   };
 
   const onCountryChange = (e, i) => {
-    const { value } = e.target;
+    // const { value } = e.target;
+    const value = e;
     const list = [...hpc];
     const name = hpc[i].country;
     list[i].country = value;
@@ -1558,7 +1558,7 @@ const CreateEmail = (props) => {
                             Email | <span>{data.email}</span>
                           </p>
                           <p className="send-hcp-box-title">
-                            Contact Type | <span>N/A</span>
+                            Contact Type | <span>{data.contact_type}</span>
                           </p>
                           <div
                             className="add-new-field"
@@ -1599,7 +1599,7 @@ const CreateEmail = (props) => {
                               Email | <span>{data.email}</span>
                             </p>
                             <p className="send-hcp-box-title">
-                              Contact Type | <span>N/A</span>
+                              Contact Type | <span>{data.contact_type}</span>
                             </p>
                             <div className="remove-existing-field">
                               <img
@@ -1613,8 +1613,8 @@ const CreateEmail = (props) => {
                         );
                       })}
                     </>
-                     
-                    
+
+
                     // <table className="table">
                     //   <thead>
                     //     <tr>
@@ -2001,50 +2001,88 @@ const CreateEmail = (props) => {
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label for="">Contact Type</label>
-                                  <select
-                                    className="form-contact"
-                                    aria-label="select"
-                                    onChange={(event) =>
-                                      onContactTypeChange(event, i)
-                                    }
-                                  >
-                                    <option selected>Select Type</option>
-                                    <option value="HCP">HCP</option>
-                                    <option value="Staff">Staff</option>
-                                    <option value="Test Users">
-                                      Test Users
-                                    </option>
-                                  </select>
+                                  <DropdownButton className="dropdown-basic-button split-button-dropup"
+                                   title= {hpc[i].contact_type != "" &&  hpc[i].contact_type != "undefined" ? hpc[i].contact_type : "Select Type" }
+                                   onSelect={(event) => onContactTypeChange(event, i)}
+                                   >
+                                    <Dropdown.Item eventKey="HCP" className = {hpc[i].contact_type == "HCP" ? "active" : "" }>HCP</Dropdown.Item>
+                                    <Dropdown.Item eventKey="Staff" className = {hpc[i].contact_type == "Staff" ? "active" : "" }>Staff</Dropdown.Item>
+                                    <Dropdown.Item eventKey="Test Users" className = {hpc[i].contact_type == "Test Users" ? "active" : "" }>Test Users</Dropdown.Item>
+                                  </DropdownButton>
+
+
+                                  {
+                                    /*
+                                    onSelect={(event) => handleEventOnDropDown(event)}
+                                    <Dropdown.Item value="HCP" className="dropdown_list">HCP</Dropdown.Item>
+                                    <Dropdown.Item value="Staff" className="dropdown_list">Staff</Dropdown.Item>
+                                    <Dropdown.Item value="Test Users" className="dropdown_list">Test Users</Dropdown.Item>
+                                    <select
+                                      className="form-contact"
+                                      aria-label="select"
+                                      onChange={(event) =>
+                                        onContactTypeChange(event, i)
+                                      }
+                                    >
+                                      <option selected>Select Type</option>
+                                      <option value="HCP">HCP</option>
+                                      <option value="Staff">Staff</option>
+                                      <option value="Test Users">
+                                        Test Users
+                                      </option>
+                                    </select>
+                                    */
+                                  }
                                 </div>
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label for="">Country</label>
-                                  <select
-                                    className="country-form"
-                                    aria-label="select"
-                                    onChange={(event) =>
-                                      onCountryChange(event, i)
-                                    }
-                                  >
-                                    <option value="" selected>
-                                      Select Country
-                                    </option>
+                                  <DropdownButton className="dropdown-basic-button split-button-dropup"
+                                   title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
+                                   onSelect={(event) => onCountryChange(event, i)}
+                                   >
+                                   {countryall.length === 0
+                                     ? ""
+                                     : Object.entries(countryall).map(
+                                         ([index, item]) => {
+                                           return (
+                                             <>
+                                              <Dropdown.Item eventKey={index} className = {hpc[i].country == index ? "active" : "" }>{item == "B&H" ? "Bosnia and Herzegovina" : item}</Dropdown.Item>
+                                             </>
+                                           );
+                                         }
+                                       )}
+                                  </DropdownButton>
+                                  {
+                                    /*
+                                    <select
+                                      className="country-form"
+                                      aria-label="select"
+                                      onChange={(event) =>
+                                        onCountryChange(event, i)
+                                      }
+                                    >
+                                      <option value="" selected>
+                                        Select Country
+                                      </option>
 
-                                    {countryall.length === 0
-                                      ? ""
-                                      : Object.entries(countryall).map(
-                                          ([index, item]) => {
-                                            return (
-                                              <>
-                                                <option value={index}>
-                                                  {item}
-                                                </option>
-                                              </>
-                                            );
-                                          }
-                                        )}
-                                  </select>
+                                      {countryall.length === 0
+                                        ? ""
+                                        : Object.entries(countryall).map(
+                                            ([index, item]) => {
+                                              return (
+                                                <>
+                                                  <option value={index}>
+                                                    {item}
+                                                  </option>
+                                                </>
+                                              );
+                                            }
+                                          )}
+                                    </select>
+                                    */
+                                  }
                                 </div>
                               </div>
                               {/*<div className="col-12 col-md-6 btn_rmv">
