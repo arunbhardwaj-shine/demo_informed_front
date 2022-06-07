@@ -119,27 +119,27 @@ const VerifyMAIL = (props) => {
   const saveAsDraft = async () => {
     const body = {
       user_id: 18207,
-      pdf_id: props.getEmailData
+      pdf_id: props.getEmailData?.PdfSelected
         ? props.getEmailData.PdfSelected
         : props.getDraftData.pdf_id,
-      description: props.getEmailData
+      description: props.getEmailData?.emailDescription
         ? props.getEmailData.emailDescription
         : props.getDraftData.description,
-      creator: props.getEmailData
+      creator: props.getEmailData?.emailCreator
         ? props.getEmailData.emailCreator
         : props.getDraftData.creator,
-      campaign_name: props.getEmailData
+      campaign_name: props.getEmailData?.emailCampaign
         ? props.getEmailData.emailCampaign
         : props.getDraftData.campaign,
-      subject: props.getEmailData
+      subject: props.getEmailData?.emailSubject
         ? props.getEmailData.emailSubject
         : props.getDraftData.subject,
       route_location: "VerifyMAIL",
-      tags: props.getEmailData
+      tags: props.getEmailData?.tags
         ? props.getEmailData.tags
         : props.getDraftData.tags,
       campaign_data: {
-        template_id: props.getEmailData
+        template_id: props.getEmailData?.templateId
           ? props.getEmailData.templateId
           : props.getDraftData.campaign_data.template_id,
         smart_list_id:
@@ -148,7 +148,7 @@ const VerifyMAIL = (props) => {
             ? getSmartListData.id
             : "",
         selectedHcp: selectedHcp,
-        list_selection: props.getEmailData
+        list_selection: props.getEmailData?.selected
           ? props.getEmailData.selected
           : props.getDraftData.campaign_data.list_selection,
       },
@@ -200,23 +200,23 @@ const VerifyMAIL = (props) => {
     const body = {
       user_id: 18207,
       route_location: "VerifyMAIL",
-      pdf_id: props.getEmailData
+      pdf_id: props.getEmailData?.PdfSelected
         ? props.getEmailData.PdfSelected
         : props.getDraftData.pdf_id,
-      subject: props.getEmailData
+      subject: props.getEmailData?.emailSubject
         ? props.getEmailData.emailSubject
         : props.getDraftData.subject,
-      description: props.getEmailData
+      description: props.getEmailData?.emailDescription
         ? props.getEmailData.emailDescription
         : props.getDraftData.description,
-      creator: props.getEmailData
+      creator: props.getEmailData?.emailCreator
         ? props.getEmailData.emailCreator
         : props.getDraftData.creator,
-      campaign_name: props.getEmailData
+      campaign_name: props.getEmailData?.emailCampaign
         ? props.getEmailData.emailCampaign
         : props.getDraftData.campaign,
       tags: finalTags,
-      template_source_code: props.getEmailData
+      template_source_code: props.getEmailData?.template
         ? props.getEmailData.template
         : props.getDraftData.source_code,
       // campaign_id: props.getEmailData ? "" : props.getDraftData.campaign_id,
@@ -228,7 +228,7 @@ const VerifyMAIL = (props) => {
           getSmartListData.hasOwnProperty("id")
             ? getSmartListData.id
             : "",
-        template_id: props.getEmailData
+        template_id: props.getEmailData?.templateId
           ? props.getEmailData.templateId
           : props.getDraftData.campaign_data.template_id,
       },

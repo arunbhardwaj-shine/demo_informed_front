@@ -112,30 +112,30 @@ const SelectSmartListUsers = (props) => {
   const saveAsDraft = async () => {
     const body = {
       user_id: 18207,
-      pdf_id: props.getEmailData
+      pdf_id: props.getEmailData?.PdfSelected
         ? props.getEmailData.PdfSelected
         : props.getDraftData.pdf_id,
-      description: props.getEmailData
+      description: props.getEmailData?.emailDescription
         ? props.getEmailData.emailDescription
         : props.getDraftData.description,
-      creator: props.getEmailData
+      creator: props.getEmailData?.emailCreator
         ? props.getEmailData.emailCreator
         : props.getDraftData.creator,
-      campaign_name: props.getEmailData
+      campaign_name: props.getEmailData?.emailCampaign
         ? props.getEmailData.emailCampaign
         : props.getDraftData.campaign,
-      subject: props.getEmailData
+      subject: props.getEmailData?.emailSubject
         ? props.getEmailData.emailSubject
         : props.getDraftData.subject,
       route_location: "SelectSmartListUsers",
-      tags: props.getEmailData
+      tags: props.getEmailData?.tags
         ? props.getEmailData.tags
         : props.getDraftData.tags,
       campaign_data: {
-        template_id: props.getEmailData
+        template_id: props.getEmailData?.templateId
           ? props.getEmailData.templateId
           : props.getDraftData.campaign_data.template_id,
-        smart_list_id: props.getEmailData
+        smart_list_id: props.getSelectedSmartListData?.id
           ? props.getSelectedSmartListData.id
           : props.getDraftData.campaign_data.smart_list_id,
         //smart_list_data: readers,
