@@ -998,7 +998,7 @@ const VerifyHCP = (props) => {
                 </div>
               ) : (
                 <table className="table">
-                  <thead>
+                  <thead className="sticky-header">
                     <tr>
                       <th scope="col">Name</th>
                       <th scope="col">Email</th>
