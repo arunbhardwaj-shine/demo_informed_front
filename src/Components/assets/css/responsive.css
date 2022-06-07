@@ -224,10 +224,16 @@
 	.modal-body .hcp-add-form form .form-group .dropdown button {
 		padding: 6px 27px;
 		height: 36px;
+	}
+	.mail-box-content {
+		min-height: 352px;
 	}																		
 	} 
 	 
 	 @media only screen and (max-width:1365px){ 
+		.mail-box-content {
+			min-height: 343px;
+		}	
 		#add_hcp .modal-body .hcp-add-box .hcp-add-form.tab-content, #smart_list_popup_id .search-hcp .selected-hcp-list {max-height: 67vh;}
 		table tr td.delete_row, table tr:hover td.delete_row { width: 28px; height: 28px; } 
 		.mailbox-buttons { min-height: 36px; } 
