@@ -85,7 +85,7 @@ const SelectSmartList = (props) => {
     navigate("/SelectHCP");
   };
 
-  const saveAsDraft = async () => {
+  const saveAsDraft = async (flag) => {
     const body = {
       user_id: 18207,
       pdf_id: old_object?.PdfSelected
@@ -125,12 +125,16 @@ const SelectSmartList = (props) => {
       .then((res) => {
         if (res.data.status_code === 200) {
           setCampaign_id(res.data.response.data.id);
-          popup_alert({
-            visible: "show",
-            message: "Your changes has been saved <br />successfully !",
-            type: "success",
-            redirect: "/EmailList",
-          });
+          if(flag == "draft"){
+            popup_alert({
+              visible: "show",
+              message: "Your changes has been saved <br />successfully !",
+              type: "success",
+              redirect: "/EmailList",
+            });
+          }else{
+            navigate("/CreateSmartList");
+          }
         } else {
           toast.warning(res.data.message);
         }
@@ -234,7 +238,7 @@ const SelectSmartList = (props) => {
               <div className="header-btn">
                 <button
                   className="btn btn-primary btn-bordered move-draft"
-                  onClick={saveAsDraft}
+                  onClick={() => saveAsDraft("draft")}
                 >
                   Save As Draft
                 </button>
@@ -292,14 +296,19 @@ const SelectSmartList = (props) => {
                 </button>
               </div>
             </div>
-            <div className="col smartlist-refresh_div">
-              <button
-                className="btn btn-primary btn-bordered back"
-                onClick={refreshSmartList}
-              >
-                Refresh List
-              </button>
-            </div>
+            {
+              /*
+              <div className="col smartlist-refresh_div">
+                <button
+                  className="btn btn-primary btn-bordered back"
+                  onClick={refreshSmartList}
+                >
+                  Refresh List
+                </button>
+              </div>
+              */
+            }
+
             <div className="col smartlist-result-block">
               {SendListData.map((template) => {
                 //   console.log(template);
@@ -446,6 +455,8 @@ const SelectSmartList = (props) => {
         id="resend-confirm"
       >
         <Modal.Header>
+        {
+          /*
           <button
             type="button"
             className="btn-close"
@@ -456,34 +467,40 @@ const SelectSmartList = (props) => {
               )
             }
           ></button>
+          */
+        }
+
         </Modal.Header>
         <Modal.Body>
           <img src={path_image + "alert.png"} alt="" />
           <h4>
-            Your changes will be lost, <br />
-            if you don't save them in draft.
+            Your changes saved in draft.
           </h4>
           <div className="modal-buttons">
             <button
               type="button"
               className="btn btn-primary btn-filled"
               data-bs-dismiss="modal"
-              onClick={() => redirectToList()}
+              onClick={() => saveAsDraft("continue")}
             >
               Continue
             </button>
-            <button
-              type="button"
-              className="btn btn-primary btn-bordered light"
-              data-bs-dismiss="modal"
-              onClick={() =>
-                setpopupopeningstatus(
-                  (getpopupopeningstatus) => !getpopupopeningstatus
-                )
-              }
-            >
-              Close
-            </button>
+            {
+              /*
+              <button
+                type="button"
+                className="btn btn-primary btn-bordered light"
+                data-bs-dismiss="modal"
+                onClick={() =>
+                  setpopupopeningstatus(
+                    (getpopupopeningstatus) => !getpopupopeningstatus
+                  )
+                }
+              >
+                Close
+              </button>
+              */
+            }
           </div>
         </Modal.Body>
       </Modal>

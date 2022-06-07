@@ -83,6 +83,7 @@ const ViewSmartListWebinar = () => {
   if (api_flag > 0) {
     return (
       <>
+        {console.log(editList)}
         <div className="loader" id="custom_loader">
           <span className="loader-view"> </span>
         </div>

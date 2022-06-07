@@ -7,13 +7,21 @@ import { toast, ToastContainer } from "react-toastify";
 import { loader } from "../../../loader";
 function Rehearsal() {
   const [render, setRerender] = useState(0);
+  const [EventTime, setEventTime] = useState([
+    {Hour:[{Hour:"00"},{Hour:"01"},{Hour:"02"},{Hour:"03"},{Hour:"04"},{Hour:"05"},{Hour:"06"},{Hour:"07"},{Hour:"08"},{Hour:"09"},{Hour:"10"},{Hour:"11"}],
+      mints:[{mints:"00"},{mints:"05"},{mints:10},{mints:15},{mints:20},{mints:25},{mints:30},{mints:35},{mints:40},{mints:45},{mints:50},{mints:55}]}]);
   const [Speakername, setSpeakerName] = useState([
     {
       title: "",
       timezone: "",
       date: "",
-      end_time: "",
-      start_time: "",
+      start_hour:"",
+      start_min:"",
+      start_am_pm:"",
+      end_hour:"",
+      end_min:"",
+      end_am_pm:"",
+
       invites_data: [{ name: "", email: "" }],
       event_id: localStorage.getItem("EventIdHeader"),
     },
@@ -23,8 +31,12 @@ function Rehearsal() {
       title: "",
       timezone: "",
       date: "",
-      end_time: "",
-      start_time: "",
+      start_hour:"",
+      start_min:"",
+      start_am_pm:"",
+      end_hour:"",
+      end_min:"",
+      end_am_pm:"",
       invites_data: [{ name: "", email: "" }],
     },
   ]);
@@ -37,8 +49,12 @@ function Rehearsal() {
         title: "",
         timezone: "",
         date: "",
-        end_time: "",
-        start_time: "",
+        start_hour:"",
+        start_min:"",
+        start_am_pm:"",
+        end_hour:"",
+        end_min:"",
+        end_am_pm:"",
         invites_data: [{ name: "", email: "" }],
         event_id: localStorage.getItem("EventIdHeader"),
       },
@@ -49,8 +65,12 @@ function Rehearsal() {
         title: "",
         timezone: "",
         date: "",
-        end_time: "",
-        start_time: "",
+        start_hour:"",
+        start_min:"",
+        start_am_pm:"",
+        end_hour:"",
+        end_min:"",
+        end_am_pm:"",
         invites_data: [{ name: "", email: "" }],
       },
     ]);
@@ -96,8 +116,12 @@ function Rehearsal() {
       validateRehearsalData(index, "title", "Title is required");
       validateRehearsalData(index, "timezone", "Please select  timezone");
       validateRehearsalData(index, "date", "Date is required");
-      validateRehearsalData(index, "end_time", " end time is required");
-      validateRehearsalData(index, "start_time", " end time is required");
+      validateRehearsalData(index, "start_hour", " Start time is required ");
+      validateRehearsalData(index, "start_min", " Start time is required ");
+      validateRehearsalData(index, "start_am_pm", "Start time is required  ");
+      validateRehearsalData(index, "end_hour", " End time is required");
+      validateRehearsalData(index, "end_min", " End time is required");
+      validateRehearsalData(index, "end_am_pm", "End time is required ");
       for (let i = 0; i < Speakername[index].invites_data.length; i++) {
         if (Speakername[index].invites_data[i].name.length == 0) {
           err = false;
@@ -125,9 +149,22 @@ function Rehearsal() {
     Speakername.splice(i, 1, Speakername[i]);
     setSpeakerName([...Speakername]);
     SpeakernameErr[i][name] = "";
+    
+    if(name=="start_hour"){
+      Speakername[i][name] = value;
+      if (value == "00"){
+      SpeakernameErr[i][name] = "Please select start time" ;
+      }
+      }else if(name=="end_hour"){
+        Speakername[i][name] = value;
+        if (value == "00"){
+        SpeakernameErr[i][name] = "Please select end time" ;
+        }
+      }
+      else{
     if(name=="timezone"){
     Speakername[i][name] = value;
-    if (value.length == 0) {
+    if (value.length == 0){
     SpeakernameErr[i][name] = "Please select timezone" ;
     }
     } else{
@@ -135,7 +172,7 @@ function Rehearsal() {
     if (value.length == 0) {
     SpeakernameErr[i][name] = name + " is required";
     }
-    }
+    }}
     setSpeakerNameErr([...SpeakernameErr]);
     }
   const handleSpeakerdata = (e, i, index) => {
@@ -147,7 +184,7 @@ function Rehearsal() {
     setSpeakerName([...Speakername]);
     if (value.length == 0) {
       const copydataErr = SpeakernameErr[i];
-      copydataErr.invites_data[index].name = " name  is required";
+      copydataErr.invites_data[index].name = "Name  is required";
       setSpeakerNameErr([...SpeakernameErr]);
     } else {
       const copydataErr = SpeakernameErr[i];
@@ -314,16 +351,52 @@ function Rehearsal() {
                    
                     <div className="form-group right-side col-12 col-md-7">
                       <label for="exampleInputEmail1">Event Start Time</label>
-                      <input
+                       <div className="form-inline row justify-content-between align-items-center">
+                       <div className="form-group col-12 col-md-4">
+                       <select
+                    className="form-control"
+                        name="start_hour"
                          onChange={(e) => handleOnChange(e, i)}
-                         name="start_time"
-                         type="time"
-                         value={val.start_time}
-                        className="form-control"
-                       
-                      />
+                         value={val.start_hour}
+                      >
+                        {EventTime[0].Hour?.map((val, i) => (
+                          <React.Fragment key={i}>
+                            <option value={val.Hour}>{val.Hour}</option>
+                          </React.Fragment>
+                        ))}
+                      </select>
+                         </div>
+                       <div className="form-group col-12 col-md-4">
+                       <select
+                    className="form-control"
+                        name="start_min"
+                        onChange={(e) => handleOnChange(e, i)}
+                         value={val.start_min}
+                      >
+                        {EventTime[0].mints?.map((val, i) => (
+                          <React.Fragment key={i}>
+                            <option value={val.mints}>{val.mints}</option>
+                          </React.Fragment>
+                        ))}
+                      </select>
+                         </div>
+                       <div className="form-group col-12 col-md-4">
+                       <select
+                         className="form-control"
+                        name="start_am_pm"
+                         onChange={(e) => handleOnChange(e, i)}
+                         value={val.start_am_pm}
+                      >
+                          <React.Fragment key={i}>
+                            <option value={"AM"}>AM</option>
+                            <option value={"PM"}>PM</option>
+                          </React.Fragment>
+                      </select>
+                         </div>
+                       </div>
+                    
                        <div style={{ color: "red" }}>
-                        {SpeakernameErr[i]?.start_time}
+                        {SpeakernameErr[i].start_hour}
                       </div>
                       </div>
                    
@@ -349,17 +422,52 @@ function Rehearsal() {
                       </div>
                       </div>
                       <div className="form-group right-side col-12 col-md-7">
-                      <label for="exampleInputEmail1">Event Start Time</label>
-                      <input
+                      <label for="exampleInputEmail1">Event End Time</label>
+                      <div className="form-inline row justify-content-between align-items-center">
+                       <div className="form-group col-12 col-md-4">
+                       <select
+                         className="form-control"
+                        name="end_hour"
                          onChange={(e) => handleOnChange(e, i)}
-                         name="start_time"
-                         type="time"
-                         value={val.start_time}
-                        className="form-control"
-                       
-                      />
+                         value={val.end_hour}
+                      >
+                        {EventTime[0].Hour?.map((val, i) => (
+                          <React.Fragment key={i}>
+                            <option value={val.Hour}>{val.Hour}</option>
+                          </React.Fragment>
+                        ))}
+                      </select>
+                         </div>
+                       <div className="form-group col-12 col-md-4">
+                       <select
+                    className="form-control"
+                        name="end_min"
+                        onChange={(e) => handleOnChange(e, i)}
+                         value={val.end_min}
+                      >
+                        {EventTime[0].mints?.map((val, i) => (
+                          <React.Fragment key={i}>
+                            <option value={val.mints}>{val.mints}</option>
+                          </React.Fragment>
+                        ))}
+                      </select>
+                         </div>
+                       <div className="form-group col-12 col-md-4">
+                       <select
+                         className="form-control"
+                        name="end_am_pm"
+                         onChange={(e) => handleOnChange(e, i)}
+                         value={val.end_am_pm}
+                      >
+                          <React.Fragment key={i}>
+                            <option value={"AM"}>AM</option>
+                            <option value={"PM"}>PM</option>
+                          </React.Fragment>
+                      </select>
+                         </div>
+                       </div>
                        <div style={{ color: "red" }}>
-                        {SpeakernameErr[i]?.start_time}
+                        {SpeakernameErr[i]?.end_hour}
                       </div>
                       </div>
                       </div>

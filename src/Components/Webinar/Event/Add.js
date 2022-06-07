@@ -220,15 +220,16 @@ function Add(props) {
       <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
       </div>
-      <Col md={{ span: 10, offset: 1 }}>
+      <div className="webinar-modal-data">
         <Link to="/webinar/event/edit"></Link>
         <form onReset={formik.handleReset} onSubmit={formik.handleSubmit} > 
+          <div className="modal-body-content">
           <div className="form-inline row justify-content-between align-items-center">
             <div className="form-group col-12 col-md-7">
-              <label>Event Title *</label>
+              <label>Event Title <span>*</span></label>
               <input name="EventTitle" placeholder="Event Title" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.EventTitle} />
               {formik.touched.EventTitle && formik.errors.EventTitle ? (
-                <div style={{ color: "red" }}>
+                <div className="error" style={{ color: "red" }}>
                   {formik.errors.EventTitle}
                 </div>
               ) : null}
@@ -248,27 +249,27 @@ function Add(props) {
                 aria-label="Close"
               />
               ) : null}
-              <div className="form-group col-12 col-md-7">
+              <div className="form-group col-12 col-md-6">
                 <label>Speaker's Name</label>
                 <input type="text" placeholder="Speaker's Name" className="form-control" name={Speakername.length === 0 ? "name" : "name" + i} value={multi.name}
                   onChange={(e) => {
                     handleSpeakerName(e, i);
                   }}
                 />
-                <div style={{ color: "red" }}>{SpeakerErr[i].name}</div>
+                <div className="error" style={{ color: "red" }}>{SpeakerErr[i].name}</div>
               </div>
-              <div className="form-group col-12 col-md-5">
+              <div className="form-group col-12 col-md-6">
                 <label>Speaker's Email</label>
                 <input type="text" placeholder="Speaker's Email" className="form-control" name={Speakername.length === 0 ? "email" : "email" + i} value={multi.email}
                   onChange={(e) => {
                     handleSpeakerName(e, i);
                   }}
                 />
-                <div style={{ color: "red" }}>{SpeakerErr[i].email}</div>
+                <div className="error" style={{ color: "red" }}>{SpeakerErr[i].email}</div>
               </div>
             </div>
           ))}
-          <a href="javascript:void(0);" onClick={handleMultiInputAdd} className="speaker-button">Add Speaker + </a>
+          <a href="javascript:void(0);" onClick={handleMultiInputAdd} className="speaker-button">Add Speaker <span>+</span> </a>
           
           </fieldset>
           <div className="form-inline row justify-content-between align-items-center">
@@ -285,7 +286,7 @@ function Add(props) {
                 ))}
               </select>
               {formik.touched.Region && formik.errors.Region ? (
-                <div style={{ color: "red" }}>{formik.errors.Region}</div>
+                <div className="error" style={{ color: "red" }}>{formik.errors.Region}</div>
               ) : null}
             </div>
           </div>
@@ -303,7 +304,7 @@ function Add(props) {
                 ))}
               </select>
               {formik.touched.Country && formik.errors.Country ? (
-                <div style={{ color: "red" }}>{formik.errors.Country}</div>
+                <div className="error" style={{ color: "red" }}>{formik.errors.Country}</div>
               ) : null}
             </div>
           </div>
@@ -321,7 +322,7 @@ function Add(props) {
                 ))}
               </select>
               {formik.touched.Bu && formik.errors.Bu ? (
-                <div style={{ color: "red" }}>{formik.errors.Bu}</div>
+                <div className="error" style={{ color: "red" }}>{formik.errors.Bu}</div>
               ) : null}
             </div>
           </div>
@@ -339,7 +340,7 @@ function Add(props) {
                 ))}
               </select>
               {formik.touched.Timezone && formik.errors.Timezone ? (
-                <div style={{ color: "red" }}>{formik.errors.Timezone}</div>
+                <div className="error" style={{ color: "red" }}>{formik.errors.Timezone}</div>
               ) : null}
             </div>
           </div>
@@ -355,7 +356,7 @@ function Add(props) {
                 value={formik.values.event_date}
               />
               {formik.touched.event_date && formik.errors.event_date ? (
-                <div style={{ color: "red" }}>
+                <div className="error" style={{ color: "red" }}>
                   {formik.errors.event_date}
                 </div>
               ) : null}
@@ -372,7 +373,7 @@ function Add(props) {
                 value={formik.values.event_start_time}
               />
               {formik.touched.event_start_time && formik.errors.event_start_time ? (
-                <div style={{ color: "red" }}>
+                <div className="error" style={{ color: "red" }}>
                   {formik.errors.event_start_time}
                 </div>
               ) : null}
@@ -389,7 +390,7 @@ function Add(props) {
                 value={formik.values.eventendtime}
               />
               {formik.touched.eventendtime && formik.errors.eventendtime ? (
-                <div style={{ color: "red" }}>
+                <div className="error" style={{ color: "red" }}>
                   {formik.errors.eventendtime}
                 </div>
               ) : null}
@@ -408,17 +409,20 @@ function Add(props) {
                 rows="3"
               ></textarea>
                {formik.touched.Description && formik.errors.Description ? (
-                <div style={{ color: "red" }}>
+                <div className="error" style={{ color: "red" }}>
                   {formik.errors.Description}
                 </div>
               ) : null}
             </div>
           </div>
-          <Button type="reset" onClick={()=>handleResetSp()}>Reset</Button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <Button type="submit" className="event-submit-button" onClick={() => handleSubmit()} >Create</Button>
+          </div>
+          <div className="modal-footer-btn">
+              <Button type="reset" onClick={()=>handleResetSp()}>Reset</Button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <Button type="submit" className="event-submit-button" onClick={() => handleSubmit()} >Create</Button>
+          </div>
         </form>
-      </Col>
+      </div>
     </Row>
   );
 }
