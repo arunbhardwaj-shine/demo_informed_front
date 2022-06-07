@@ -324,7 +324,7 @@ const PublicPage = (event_code, str_slug) =>
 
 //Readers
 const ReadersData = (id) =>
-  BaseApi.get(
+  BaseApi.post(
     `participants`,
     { event_id: id },
     {

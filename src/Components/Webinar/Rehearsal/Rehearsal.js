@@ -254,9 +254,40 @@ function Rehearsal() {
         draggable
         pauseOnHover
       />
-      <Col class="right-sidebar" md={{ span: 6, offset: 3 }}>
+      <Col class="right-sidebar">
         <div >
-         <Link to="/webinar/rehearsal"><Button>Back</Button> </Link>
+         <Link to="/webinar/rehearsallist"><Button>Back</Button> </Link>
+         <Row>
+
+         <Col>
+         <h3 className="title_create">Rehearsal</h3>
+         </Col>
+         <Col>
+         <Form.Group controlId="formFileLg" className="mb-3">
+                <Form.Label>Choice File</Form.Label>
+                <Form.Control
+                  name="file"
+                  // onChange={(e) => {
+                  //   handeleimage(e);
+                  // }}
+                  type="file"
+                  size="md"
+                />
+                <p>Would you like upload any file to the speaker</p>
+            {/* <p style={{color:"red"}}>{imageErr}</p>    */}
+                <Button
+                  // onClick={() => {
+                  //   sendExcelFile();
+                  // }}
+                >
+                  Upload
+                </Button>
+              </Form.Group>
+         </Col>
+         <Col>
+         <Button>SpeakerZone</Button>
+         </Col>
+         </Row>
           <div>
             <form
               onSubmit={(e) => {
@@ -294,8 +325,15 @@ function Rehearsal() {
                 }
               }}
             >
+               <div className="create_reheasal">
               {Speakername.map((val, i) => (
-                <div>
+                <>
+                  <div className="reheasal_info">
+                  <div className="reheasal_info_inside">
+                  <div className="reheasal-box">
+                    <h4 className="reheasal-box-title">Select the rehearsal information.</h4>
+                 <div key={i}>
+                 <fieldset className="reheasal-box-first">
                   {Speakername.length > 1 ? (
                     <button
                       type="button"
@@ -306,10 +344,6 @@ function Rehearsal() {
                       aria-label="Close"
                     />
                   ) : null}
-                   <h2> Rehearsal {i + 1}</h2>
-                   <br />
-                   <br />
-                   <h2>Select the rehearsal information. </h2>
                    <br />
                    <div className="form-inline row justify-content-between align-items-center">
 
@@ -471,9 +505,10 @@ function Rehearsal() {
                       </div>
                       </div>
                       </div>
+                      <fieldset class="border p-2">
                       {val.invites_data.map((malti, index) => (
-                    <fieldset className="border p-2 form-group">
-                      <div key={i}  className="form-inline row justify-content-between align-items-center">
+                     <div key={i} className="form-inline row justify-content-between align-items-center">
+
                       <label>Enter the speaker’s information's</label>
                         {val.invites_data.length > 1 ? (
                           <button
@@ -517,8 +552,8 @@ function Rehearsal() {
                          
                         </div>
                       </div>
-                    </fieldset>
                   ))}
+                  </fieldset>
                   <div class="mt-2"></div>
                   <Form.Group className="mb-3">
                     <Button
@@ -536,8 +571,18 @@ function Rehearsal() {
                     </h4>
                   )}
                   <br />
+                  </fieldset>
                 </div>
+              </div>
+              </div>
+           <div className="reheasal_name">
+           <h2>Rehearsal {i+1}</h2>
+         </div>
+              
+           </div>
+         </>
               ))}
+              </div>
               <Button type="submit" className="event-submit-button">
                 Create
               </Button>
@@ -549,6 +594,9 @@ function Rehearsal() {
           >
             Schedule another rehearsal
           </button>
+        </div>
+        <div className="title_create">
+         <p>Click on invitation Email to customize the email</p><button><Link to="/webinar/customizerehearsalinvites">invitation Email</Link> </button>
         </div>
       </Col>
     </Row>
