@@ -254,10 +254,40 @@ function Rehearsal() {
         draggable
         pauseOnHover
       />
-      <Col class="right-sidebar" md={{ span: 6, offset: 3 }}>
+      <Col class="right-sidebar">
         <div >
          <Link to="/webinar/rehearsallist"><Button>Back</Button> </Link>
+         <Row>
+
+         <Col>
          <h3 className="title_create">Rehearsal</h3>
+         </Col>
+         <Col>
+         <Form.Group controlId="formFileLg" className="mb-3">
+                <Form.Label>Choice File</Form.Label>
+                <Form.Control
+                  name="file"
+                  // onChange={(e) => {
+                  //   handeleimage(e);
+                  // }}
+                  type="file"
+                  size="md"
+                />
+                <p>Would you like upload any file to the speaker</p>
+            {/* <p style={{color:"red"}}>{imageErr}</p>    */}
+                <Button
+                  // onClick={() => {
+                  //   sendExcelFile();
+                  // }}
+                >
+                  Upload
+                </Button>
+              </Form.Group>
+         </Col>
+         <Col>
+         <Button>SpeakerZone</Button>
+         </Col>
+         </Row>
           <div>
             <form
               onSubmit={(e) => {
@@ -564,6 +594,9 @@ function Rehearsal() {
           >
             Schedule another rehearsal
           </button>
+        </div>
+        <div className="title_create">
+         <p>Click on invitation Email to customize the email</p><button><Link to="/webinar/customizerehearsalinvites">invitation Email</Link> </button>
         </div>
       </Col>
     </Row>
