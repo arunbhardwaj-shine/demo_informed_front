@@ -1558,7 +1558,7 @@ const CreateEmail = (props) => {
                             Email | <span>{data.email}</span>
                           </p>
                           <p className="send-hcp-box-title">
-                            Contact Type | <span>N/A</span>
+                            Contact Type | <span>{data.contact_type}</span>
                           </p>
                           <div
                             className="add-new-field"
@@ -1599,7 +1599,7 @@ const CreateEmail = (props) => {
                               Email | <span>{data.email}</span>
                             </p>
                             <p className="send-hcp-box-title">
-                              Contact Type | <span>N/A</span>
+                              Contact Type | <span>{data.contact_type}</span>
                             </p>
                             <div className="remove-existing-field">
                               <img
@@ -1613,8 +1613,8 @@ const CreateEmail = (props) => {
                         );
                       })}
                     </>
-                     
-                    
+
+
                     // <table className="table">
                     //   <thead>
                     //     <tr>
