@@ -20,7 +20,7 @@ const RehearsalList = ({props,id}) => {
             loader("hide")
             setRehearsalData(resp.data.data);
               }else{
-                setMessage("No data found");
+                 setMessage("No data found");
               }
           }
         });
