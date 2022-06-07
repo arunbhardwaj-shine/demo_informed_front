@@ -91,12 +91,12 @@ const SelectSmartList = (props) => {
       pdf_id: old_object?.PdfSelected
       ? old_object.PdfSelected
       : props.getDraftData.pdf_id,
-      description:old_object?.emailDescription
+      description: old_object?.emailDescription
       ? old_object.emailDescription
-      : props.getDraftData.description,
-      creator: old_object?.emailCreator
+      : props.getDraftData?.description ? props.getDraftData.description : '',
+    creator: old_object?.emailCreator
       ? old_object.emailCreator
-      : props.getDraftData.creator,
+      : props.getDraftData?.creator ? props.getDraftData.creator : '',
       campaign_name: old_object?.emailCampaign
       ? old_object.emailCampaign
       : props.getDraftData.campaign,
@@ -113,7 +113,7 @@ const SelectSmartList = (props) => {
 
         // selectedHcp: selectedHcp,
       },
-      campaign_id: campaign_id_st,
+      campaign_id: campaign_id_st ? campaign_id_st : '',
       status: 2,
     };
 
