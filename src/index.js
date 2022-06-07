@@ -48,6 +48,10 @@ import EmailSend from "./Components/Webinar/Email Stats/EmailSend";
 // Emails
 import SendEmails from "./Components/Webinar/Emails/Emails";
 import CreateEmailWebinar from "./Components/Webinar/Emails/Create";
+import CreateSmartListWebinar from "./Components/Webinar/Emails/SmartList";
+import SmartListUsersWebinar from "./Components/Webinar/Emails/SmartListUsers";
+
+
 
 // Readers
 import Readers from "./Components/Webinar/Readers/Readers";
@@ -234,6 +238,14 @@ ReactDOM.render(
                         <Route
                           path="/webinar/emails/create"
                           element={<CreateEmailWebinar />}
+                        />
+                        <Route
+                          path="/webinar/emails/smart-list"
+                          element={<CreateSmartListWebinar />}
+                        />
+                        <Route
+                          path="/webinar/emails/smart-list-users"
+                          element={<SmartListUsersWebinar />}
                         />
                         <Route
                           path="/webinar/sendemail"

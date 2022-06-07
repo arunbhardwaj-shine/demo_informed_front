@@ -113,12 +113,18 @@ const ViewData = (props) => {
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [show, setShow] = useState(false);
   const [hpc, setHpc] = useState([
-    { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
+    {
+      name: "",
+      email: "",
+      hospital: "",
+      profession: "",
+      country: "",
+      interest: "",
+    },
   ]);
+
   const [renderCounterData, setCounterData] = useState([]);
-
   const [countryall, setCountryall] = useState([]);
-
   const handleClose = () => {
     setShow(false);
     setCounter([0]);
@@ -128,11 +134,12 @@ const ViewData = (props) => {
     setIsOpenAdd(true);
     setHpc([
       {
-        firstname: "",
-        lastname: "",
+        name: "",
         email: "",
-        contact_type: "",
+        hospital: "",
+        profession: "",
         country: "",
+        interest: "",
       },
     ]);
     setActiveManual("active");
@@ -344,11 +351,12 @@ const ViewData = (props) => {
       setHpc([
         ...hpc,
         {
-          firstname: "",
-          lastname: "",
+          name: "",
           email: "",
-          contact_type: "",
+          hospital: "",
+          profession: "",
           country: "",
+          interest: "",
         },
       ]);
     } else {
@@ -366,25 +374,39 @@ const ViewData = (props) => {
     console.log(editableData);
     setEditable(0);
     const body = {
-      user_id: 18207,
-      edit_list_array: editableData,
+      smart_list_id: props.smartListId,
+      upload: "",
+      participants: JSON.stringify(editableData),
+      // participants: editableData,
     };
+
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `${localStorage.getItem("Token")}`,
+    };
+
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
-      .post(`distributes/update_reders_details`, body)
+      .post(`http://51.89.210.56:8000/api/smart-list/update`, body, { headers })
       .then((res) => {
         console.log(res);
-        loader("hide");
-        if (res.data.status_code === 200) {
-          toast.success("List updated");
-        } else {
-          popup_alert({
-            visible: "show",
-            message: res.data.message,
-            type: "error",
-          });
+
+        if (res.data.code == 200) {
+          toast.success("Data updated successfully");
         }
+
+        loader("hide");
+
+        // if (res.data.status_code === 200) {
+        //   toast.success("List updated");
+        // } else {
+        //   popup_alert({
+        //     visible: "show",
+        //     message: res.data.message,
+        //     type: "error",
+        //   });
+        // }
       })
       .catch((err) => {
         toast.error("Something went wrong");
@@ -513,13 +535,9 @@ const ViewData = (props) => {
   };
 
   const editing = (
-    profile_id,
-    profile_user_id,
-    email,
-    jobTitle,
-    company,
-    country,
-    names,
+    id,
+    name,
+
     index
   ) => {
     let ignoreClickOnMeElement = document.getElementById(
@@ -542,13 +560,14 @@ const ViewData = (props) => {
 
         const arr = [];
         arr.push({
-          profile_id: profile_id,
-          profile_user_id: profile_user_id,
-          email: email,
-          jobTitle: jobTitle,
-          company: company,
-          country: country_edit,
-          username: name_edit,
+          id: id,
+          name: name_edit,
+          country: "",
+          hospital: "",
+          email: "",
+          profession: "",
+          interest: "",
+          consent: "",
         });
         setEditableData((oldArray) => [...oldArray, ...arr]);
       },
@@ -620,17 +639,27 @@ const ViewData = (props) => {
   const onFirstNameChange = (e, i) => {
     const { value } = e.target;
     const list = [...hpc];
-    const name = hpc[i].firstname;
-    list[i].firstname = value;
+    console.log(list);
+    const name = hpc[i].name;
+    list[i].name = value;
     setHpc(list);
   };
 
-  const onLastNameChange = (e, i) => {
+  const onInterestChange = (e, i) => {
     const { value } = e.target;
     const list = [...hpc];
-    const name = hpc[i].lastname;
-    list[i].lastname = value;
+    const name = hpc[i].interest;
+    list[i].interest = value;
     setHpc(list);
+  };
+
+  const onHospitalChange = (e, i) => {
+    const { value } = e.target;
+    const list = [...hpc];
+    const name = hpc[i].hospital;
+    list[i].hospital = value;
+    setHpc(list);
+    //setEmailData(e.target.value);
   };
 
   const onEmailChange = (e, i) => {
@@ -642,12 +671,12 @@ const ViewData = (props) => {
     setEmailData(e.target.value);
   };
 
-  const onContactTypeChange = (e, i) => {
+  const onProfessionChange = (e, i) => {
     const { value } = e.target;
     // console.log(value);
     const list = [...hpc];
-    const name = hpc[i].contact_type;
-    list[i].contact_type = value;
+    const name = hpc[i].profession;
+    list[i].profession = value;
     setHpc(list);
   };
 
@@ -675,6 +704,7 @@ const ViewData = (props) => {
   const submitHandler = (event) => {
     let r_table = [];
     updateData.find(function (item) {
+      console.log(item);
       if (
         item.first_name.includes(search) ||
         item.last_name.includes(search) ||
@@ -698,59 +728,68 @@ const ViewData = (props) => {
 
   const saveClicked = async (e) => {
     //  setIsOpenAdd(false);
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `${localStorage.getItem("Token")}`,
+    };
 
+    console.log(hpc);
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
         return {
-          first_name: data.firstname,
-          last_name: data.lastname,
+          name: data.name,
           email: data.email,
+          hospital: data.hospital,
           country: data.country,
-          contact_type: data.contact_type,
+          profession: data.profession,
+          interest: data.interest,
+          consent: "",
         };
       });
 
       var pattern = "^w+@[a-zA-Z_]+?.[a-zA-Z]{2,3}$";
-
       const body = {
-        data: body_data,
-        user_id: 18207,
-        smart_list_id: getlistid,
+        smart_list_id: props.smartListId,
+        participants: JSON.stringify(body_data),
       };
 
-      const status = body.data.map((data) => {
+      console.log(body);
+      const status = body_data.map((data) => {
         if (data.email == "") {
           return "false";
         } else {
           return "true";
         }
       });
-
       console.log(status);
 
-      console.log(body.data);
       if (status.every((element) => element == "true")) {
         loader("show");
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         await axios
-          .post(`distributes/add_new_readers_in_list`, body)
+          .post(
+            `http://51.89.210.56:8000/api/create-unregistered-participant`,
+            body,
+            {
+              headers,
+            }
+          )
           .then((res) => {
             console.log(res);
-            if (res.data.status_code === 200) {
+            if (res.data.code === 200) {
               //toast.success("User added successfuly");
               console.log("res");
               let old_data = editList;
-              let new_data = res.data.response.data;
-              setNewData((oldArray) => [...new_data, ...oldArray]);
+              let new_data = JSON.parse(res.data.data);
+              //setNewData((oldArray) => [...new_data, ...oldArray]);
               //setNewData(new_data);
-
               combine_data_manual = [...new_data, ...old_data];
-
-              setEditList(old_data);
+              setEditList(combine_data_manual);
               // setUpdatedData(combine_data_manual);
               setIsOpen(false);
               setShowSaveReader(true);
               setIsOpenAdd(false);
+              toast.success("New user added successfully");
             } else {
               toast.warning(res.data.message);
               loader("hide");
@@ -769,7 +808,6 @@ const ViewData = (props) => {
       formData.append("user_id", 18207);
       formData.append("smart_list_id", getlistid);
       formData.append("reader_file", selectedFile);
-
       console.log(formData);
       if (selectedFile) {
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -779,12 +817,10 @@ const ViewData = (props) => {
           .then((res) => {
             if (res.data.status_code === 200) {
               toast.success("User added successfuly");
-
               let old_data = editList;
               let new_data = res.data.response.data;
               setNewData(new_data);
               combine_data = [...new_data, ...old_data];
-
               console.log(new_data);
               // console.log(combine_data);
               setEditList(old_data);
@@ -794,7 +830,6 @@ const ViewData = (props) => {
               setActiveExcel("");
               setSelectedFile(null);
               //    setUpdatedData(combine_data);
-
               loader("hide");
             } else {
               toast.warning(res.data.message);
@@ -811,16 +846,13 @@ const ViewData = (props) => {
       }
     }
   };
-
   const uploadFile = async (event) => {
     if (validator2.allValid()) {
       setShowUploadMenu(!showUploadMenu);
-
       let formData = new FormData();
       formData.append("user_id", 18207);
       formData.append("smart_list_id", getlistid);
       formData.append("reader_file", selectedFile);
-
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
       await axios
@@ -828,9 +860,7 @@ const ViewData = (props) => {
         .then((res) => {
           let old_data = editList;
           let new_data = res.data.response.data[0];
-
           combine_data = [new_data, ...old_data];
-
           setEditList(combine_data);
           setUpdatedData(combine_data);
           loader("hide");
@@ -980,6 +1010,17 @@ const ViewData = (props) => {
               <div className="loader" id="custom_loader">
                 <span className="loader-view"> </span>
               </div>
+              <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+              />
             </div>
           </div>
         </div>
@@ -1122,12 +1163,8 @@ const ViewData = (props) => {
                     onClick={(e) =>
                       editing(
                         //  e.currentTarget,
-                        item.profile_id,
-                        item.profile_user_id,
-                        item.email,
-                        item.jobTitle,
-                        item.company,
-                        item.country,
+                        item.id,
+
                         item.first_name + " " + item.last_name,
                         index
                       )
@@ -1142,10 +1179,7 @@ const ViewData = (props) => {
 
                     <td id={`field_email` + index}>{item.email}</td>
                     <td id={`field_bounced` + index}>NA</td>
-                    <td
-                      id={`field_country` + index}
-                      contenteditable={editable === 0 ? "false" : "true"}
-                    >
+                    <td id={`field_country` + index}>
                       <span>{item.country}</span>
                     </td>
                     {/*showLessInfo == false ? (
@@ -1264,7 +1298,7 @@ const ViewData = (props) => {
                   },
                 ]);
                 setActiveManual("active");
-                document.querySelector("#file-4").value = "";
+
                 setActiveExcel("");
               }}
               type="button"
@@ -1286,30 +1320,18 @@ const ViewData = (props) => {
                             <div className="row">
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">First Name</label>
+                                  <label for=""> Name</label>
                                   <input
                                     type="text"
                                     className="form-control"
                                     onChange={(event) =>
                                       onFirstNameChange(event, i)
                                     }
-                                    value={val.firstname}
+                                    value={val.name}
                                   />
                                 </div>
                               </div>
-                              <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label for="">Last Name</label>
-                                  <input
-                                    type="text"
-                                    className="form-control"
-                                    onChange={(event) =>
-                                      onLastNameChange(event, i)
-                                    }
-                                    value={val.lastname}
-                                  />
-                                </div>
-                              </div>
+
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label for="">Email *</label>
@@ -1325,23 +1347,34 @@ const ViewData = (props) => {
                                   />
                                 </div>
                               </div>
+
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Contact Type</label>
-                                  <select
-                                    className="form-contact"
-                                    aria-label="select"
+                                  <label for="">Hospital</label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    name={`${fieldName}.hospital`}
                                     onChange={(event) =>
-                                      onContactTypeChange(event, i)
+                                      onHospitalChange(event, i)
                                     }
-                                  >
-                                    <option selected>Select Type</option>
-                                    <option value="HCP">HCP</option>
-                                    <option value="Staff">Staff</option>
-                                    <option value="Test Users">
-                                      Test Users
-                                    </option>
-                                  </select>
+                                    value={val.hospital}
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                  <label for="">Profession</label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    name={`${fieldName}.profession`}
+                                    onChange={(event) =>
+                                      onProfessionChange(event, i)
+                                    }
+                                    value={val.profession}
+                                  />
                                 </div>
                               </div>
                               <div className="col-12 col-md-6">
@@ -1371,6 +1404,22 @@ const ViewData = (props) => {
                                   </select>
                                 </div>
                               </div>
+
+                              <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                  <label for="">Interest</label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    name={`${fieldName}.interest`}
+                                    onChange={(event) =>
+                                      onInterestChange(event, i)
+                                    }
+                                    value={val.interest}
+                                  />
+                                </div>
+                              </div>
+
                               {/*
                               <div className="col-12 col-md-6 btn_rmv">
                                 <div className="form-group">

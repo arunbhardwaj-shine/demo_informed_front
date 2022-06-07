@@ -11,6 +11,7 @@ const ExcelUpload = () => {
     <>
       {
         <div className="col right-sidebar">
+          {console.log(data)}
           <TableView
             data={data}
             smartListId={smartListId}

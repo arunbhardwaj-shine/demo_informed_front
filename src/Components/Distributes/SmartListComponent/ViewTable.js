@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { Button, Modal, Dropdown } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import SimpleReactValidator from "simple-react-validator";
@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import { connect } from "react-redux";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { popup_alert } from "../../../popup_alert";
-import DropdownButton from 'react-bootstrap/DropdownButton';
+
 const ViewTable = (props) => {
   const [inEditMode, setInEditMode] = useState({
     status: false,
@@ -643,7 +643,8 @@ const ViewTable = (props) => {
   };
 
   const onContactTypeChange = (e, i) => {
-    const value = e;
+    const { value } = e.target;
+    // console.log(value);
     const list = [...hpc];
     const name = hpc[i].contact_type;
     list[i].contact_type = value;
@@ -651,7 +652,7 @@ const ViewTable = (props) => {
   };
 
   const onCountryChange = (e, i) => {
-    const value = e;
+    const { value } = e.target;
     const list = [...hpc];
     const name = hpc[i].country;
     list[i].country = value;
@@ -1080,7 +1081,7 @@ const ViewTable = (props) => {
                         item.email
                       )}
                     </td>
-                    <td>{item.bounce}</td>
+                    <td>No</td>
                     <td contenteditable={editable === 0 ? "false" : "true"}>
                       {inEditMode.status &&
                       inEditMode.rowKey === item.profile_id ? (
@@ -1136,7 +1137,7 @@ const ViewTable = (props) => {
                     </td>
 
                     <td id={`field_email` + index}>{item.email}</td>
-                    <td id={`field_bounced` + index}>{item.bounce}</td>
+                    <td id={`field_bounced` + index}>NA</td>
                     <td
                       id={`field_country` + index}
                       contenteditable={editable === 0 ? "false" : "true"}
@@ -1276,82 +1277,97 @@ const ViewTable = (props) => {
                     const fieldName = `hpc[${i}]`;
                     return (
                       <>
-                      <div className="add_hcp_boxes">
-                        <div className="form_action">
-                          <div className="row">
-                            <div className="col-12 col-md-6">
-                              <div className="form-group">
-                                <label for="">First Name</label>
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  onChange={(event) =>
-                                    onFirstNameChange(event, i)
-                                  }
-                                  value={val.firstname}
-                                />
+                        <div className="add_hcp_boxes">
+                          <div className="form_action">
+                            <div className="row">
+                              <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                  <label for="">First Name</label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    onChange={(event) =>
+                                      onFirstNameChange(event, i)
+                                    }
+                                    value={val.firstname}
+                                  />
+                                </div>
                               </div>
-                            </div>
-                            <div className="col-12 col-md-6">
-                              <div className="form-group">
-                                <label for="">Last Name</label>
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  onChange={(event) => onLastNameChange(event, i)}
-                                  value={val.lastname}
-                                />
+                              <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                  <label for="">Last Name</label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    onChange={(event) =>
+                                      onLastNameChange(event, i)
+                                    }
+                                    value={val.lastname}
+                                  />
+                                </div>
                               </div>
-                            </div>
-                            <div className="col-12 col-md-6">
-                              <div className="form-group">
-                                <label for="">Email *</label>
-                                <input
-                                  type="email"
-                                  className="form-control"
-                                  id="email-desc"
-                                  name={`${fieldName}.email`}
-                                  onChange={(event) => onEmailChange(event, i)}
-                                  value={val.email}
-                                />
+                              <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                  <label for="">Email *</label>
+                                  <input
+                                    type="email"
+                                    className="form-control"
+                                    id="email-desc"
+                                    name={`${fieldName}.email`}
+                                    onChange={(event) =>
+                                      onEmailChange(event, i)
+                                    }
+                                    value={val.email}
+                                  />
+                                </div>
                               </div>
-                            </div>
-                            <div className="col-12 col-md-6">
-                              <div className="form-group">
-                                <label for="">Contact Type</label>
-                                <DropdownButton className="dropdown-basic-button split-button-dropup"
-                                 title= {hpc[i].contact_type != "" &&  hpc[i].contact_type != "undefined" ? hpc[i].contact_type : "Select Type" }
-                                 onSelect={(event) => onContactTypeChange(event, i)}
-                                 >
-                                  <Dropdown.Item eventKey="HCP" className = {hpc[i].contact_type == "HCP" ? "active" : "" }>HCP</Dropdown.Item>
-                                  <Dropdown.Item eventKey="Staff" className = {hpc[i].contact_type == "Staff" ? "active" : "" }>Staff</Dropdown.Item>
-                                  <Dropdown.Item eventKey="Test Users" className = {hpc[i].contact_type == "Test Users" ? "active" : "" }>Test Users</Dropdown.Item>
-                                </DropdownButton>
+                              <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                  <label for="">Contact Type</label>
+                                  <select
+                                    className="form-contact"
+                                    aria-label="select"
+                                    onChange={(event) =>
+                                      onContactTypeChange(event, i)
+                                    }
+                                  >
+                                    <option selected>Select Type</option>
+                                    <option value="HCP">HCP</option>
+                                    <option value="Staff">Staff</option>
+                                    <option value="Test Users">
+                                      Test Users
+                                    </option>
+                                  </select>
+                                </div>
                               </div>
-                            </div>
-                            <div className="col-12 col-md-6">
-                              <div className="form-group">
-                                <label for="">Country</label>
-                                <DropdownButton className="dropdown-basic-button split-button-dropup"
-                                 title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
-                                 onSelect={(event) => onCountryChange(event, i)}
-                                 >
-                                 {countryall.length === 0
-                                   ? ""
-                                   : Object.entries(countryall).map(
-                                       ([index, item]) => {
-                                         return (
-                                           <>
-                                            <Dropdown.Item eventKey={index} className = {hpc[i].country == index ? "active" : "" }>{item == "B&H" ? "Bosnia and Herzegovina" : item}</Dropdown.Item>
-                                           </>
-                                         );
-                                       }
-                                     )}
-                                </DropdownButton>
+                              <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                  <label for="">Country</label>
+                                  <select
+                                    className="country-form"
+                                    aria-label="select"
+                                    onChange={(event) =>
+                                      onCountryChange(event, i)
+                                    }
+                                  >
+                                    <option selected>Select Country</option>
+                                    {countryall.length === 0
+                                      ? ""
+                                      : Object.entries(countryall).map(
+                                          ([index, item]) => {
+                                            return (
+                                              <>
+                                                <option value={index}>
+                                                  {item}
+                                                </option>
+                                              </>
+                                            );
+                                          }
+                                        )}
+                                  </select>
+                                </div>
                               </div>
-                            </div>
-                            {
-                              /*
+                              {/*
                               <div className="col-12 col-md-6 btn_rmv">
                                 <div className="form-group">
                                   {i !== 0 && (
@@ -1365,47 +1381,43 @@ const ViewTable = (props) => {
                                   )}
                                 </div>
                               </div>
-                              */
-                            }
-
-
+                              */}
+                            </div>
                           </div>
-                        </div>
 
-                        <div className="hcp-modal-action">
-                          <div className="hcp-action-block">
-                            {activeManual == "active" ? (
-                              <>
-                              {
-                                hpc.length > 1 && (
-                                  <div className="hcp-remove">
-                                    <button
-                                      type="button"
-                                      className="btn btn-filled"
-                                      onClick={() => deleteRecord(i)}
-                                    >
-                                      <img src={path_image + "delete.svg"} alt="Add More" />
-                                    </button>
-                                  </div>
-                                )
-                              }
+                          <div className="hcp-modal-action">
+                            <div className="hcp-action-block">
+                              {activeManual == "active" ? (
+                                <>
+                                  {hpc.length > 1 && (
+                                    <div className="hcp-remove">
+                                      <button
+                                        type="button"
+                                        className="btn btn-filled"
+                                        onClick={() => deleteRecord(i)}
+                                      >
+                                        <img
+                                          src={path_image + "delete.svg"}
+                                          alt="Add More"
+                                        />
+                                      </button>
+                                    </div>
+                                  )}
+                                </>
+                              ) : null}
+                              <ul className="nav nav-tabs" role="tablist">
+                                <li className="nav-item add_hcp">
+                                  <a
+                                    onClick={addMoreHcp}
+                                    className="nav-link active btn-bordered"
+                                    data-bs-toggle="tab"
+                                    href="javascript:;"
+                                  >
+                                    Add HCP +
+                                  </a>
+                                </li>
 
-                              </>
-                            ) : null}
-                            <ul className="nav nav-tabs" role="tablist">
-                              <li className="nav-item add_hcp">
-                                <a
-                                  onClick={addMoreHcp}
-                                  className="nav-link active btn-bordered"
-                                  data-bs-toggle="tab"
-                                  href="javascript:;"
-                                >
-                                  Add HCP +
-                                </a>
-                              </li>
-
-                              {
-                                /*
+                                {/*
                                 <li className="nav-item add-file">
                                   <a
                                     onClick={(e) => addFile(e)}
@@ -1416,20 +1428,17 @@ const ViewTable = (props) => {
                                     Add File
                                   </a>
                                 </li>
-                                */
-                              }
-
-                            </ul>
+                                */}
+                              </ul>
+                            </div>
                           </div>
-                        </div>
                         </div>
                       </>
                     );
                   })}
                 </form>
 
-                {
-                  /*
+                {/*
                   <form id="add_file" className={"tab-pane" + activeExcel}>
                     <div class="file_upload-box">
                       <div className="upload-file-box">
@@ -1461,12 +1470,8 @@ const ViewTable = (props) => {
                       </div>
                     </div>
                   </form>
-                  */
-                }
+                  */}
               </div>
-
-
-
             </div>
           </div>
           <div className="modal-footer">
