@@ -417,9 +417,9 @@ function Add(props) {
           </div>
           </div>
           <div className="modal-footer-btn">
-              <Button type="reset" onClick={()=>handleResetSp()}>Reset</Button>
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <Button type="submit" className="event-submit-button" onClick={() => handleSubmit()} >Create</Button>
+              <Button type="reset" className="btn btn-primary btn-filled"onClick={()=>handleResetSp()}>Reset</Button>
+              <button type="button" className="btn btn-primary btn-bordered" data-dismiss="modal">Close</button>
+              <Button type="submit" className="event-submit-button btn btn-primary btn-filled" onClick={() => handleSubmit()} >Create</Button>
           </div>
         </form>
       </div>
