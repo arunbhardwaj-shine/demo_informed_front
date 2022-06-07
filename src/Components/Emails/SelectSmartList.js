@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { popup_alert } from "../../popup_alert";
 
 var new_object;
+var old_object = {};
 const SelectSmartList = (props) => {
   //console.log(new_object);
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -87,29 +88,27 @@ const SelectSmartList = (props) => {
   const saveAsDraft = async (flag) => {
     const body = {
       user_id: 18207,
-      pdf_id: props.getEmailData
-        ? props.getEmailData.PdfSelected
-        : props.getDraftData.pdf_id,
-      description: props.getEmailData
-        ? props.getEmailData.emailDescription
-        : props.getDraftData.description,
-      creator: props.getEmailData
-        ? props.getEmailData.emailCreator
-        : props.getDraftData.creator,
-      campaign_name: props.getEmailData
-        ? props.getEmailData.emailCampaign
-        : props.getDraftData.campaign,
-      subject: props.getEmailData
-        ? props.getEmailData.emailSubject
-        : props.getDraftData.subject,
+      pdf_id: old_object?.PdfSelected
+      ? old_object.PdfSelected
+      : props.getDraftData.pdf_id,
+      description:old_object?.emailDescription
+      ? old_object.emailDescription
+      : props.getDraftData.description,
+      creator: old_object?.emailCreator
+      ? old_object.emailCreator
+      : props.getDraftData.creator,
+      campaign_name: old_object?.emailCampaign
+      ? old_object.emailCampaign
+      : props.getDraftData.campaign,
+      subject: old_object?.emailSubject
+      ? old_object.emailSubject
+      : props.getDraftData.subject,
       route_location: "SelectSmartList",
-      tags: props.getEmailData
-        ? props.getEmailData.tags
-        : props.getDraftData.tags,
+      tags: old_object?.tags ? old_object.tags : props.getDraftData.tags,
       campaign_data: {
-        template_id: props.getEmailData
-          ? props.getEmailData.templateId
-          : props.getDraftData.campaign_data.template_id,
+        template_id: old_object?.templateId
+        ? old_object.templateId
+        : props.getDraftData.campaign_data.template_id,
         smart_list_id: PdfSelected,
 
         // selectedHcp: selectedHcp,
@@ -558,7 +557,7 @@ const SelectSmartList = (props) => {
               </div>
               <div className="selected-hcp-list">
                 <table className="table">
-                  <thead>
+                  <thead className="sticky-header">
                     <tr>
                       <th scope="col">Name</th>
                       <th scope="col">Email</th>
@@ -634,8 +633,8 @@ const SelectSmartList = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state);
   new_object = state.getSelectedSmartListData;
+  old_object =  state.getEmailData;
   return state;
 };
 

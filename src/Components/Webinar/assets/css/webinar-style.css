@@ -2,3 +2,480 @@
     height: 100%;
     overflow-y: auto;
 } */
+a{text-decoration: none;}
+.top-header .webinar-header-action-tool {
+    width: 100%;
+    justify-content: space-between;
+}
+
+.top-header .webinar-header-action-tool .search-bar form.d-flex input {
+    max-width: 452px;
+    width: 425px;
+}
+.top-header .webinar-header-action-tool {
+    width: 100%;
+    justify-content: space-between;
+}
+
+
+.top-header .webinar-header-action-tool .search-bar form.d-flex input {
+    max-width: 425px;
+    width: 425px;
+}
+
+.Webinar-header-right-tools {
+    display: flex;
+    flex-direction: row;
+}
+
+.Webinar-header-right-tools .filter-by, .Webinar-header-right-tools .hcp-sort {
+    max-width: 188px;
+    width: 188px;
+    margin-left: 24px;
+}
+
+.Webinar-header-right-tools .filter-by button, .Webinar-header-right-tools .hcp-sort button {
+    width: 100%;
+    text-align: left;
+    height: 40px;
+    background: var(--white) url(http://localhost:3000/static/media/dropdown-arrow.6ca490ef1efe3175ec81.svg);
+    background-repeat: no-repeat;
+    background-size: 16px;
+    background-position: 93% center;
+}
+.hcp-sort button {
+    background: var(--white);
+    font-family: 'Roboto';
+    border-radius: 30px;
+    box-shadow: 0px 2px 10px 0px rgb(0 102 190 / 15%);
+    filter: none;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 15px;
+    color: var(--skyblue);
+    padding: 11px 18px 12px 24px;
+    border: 0.5px solid transparent;
+    position: relative;
+    z-index: 8;
+}
+.mail-box-content.webinar-box img {
+    max-width: 44px;
+}
+.email-result.webinar-result {
+    margin-top: 48px;
+}
+.email-block-add {
+    margin: 0 auto;
+}
+.email-result-block .email_box_block .mail-box-content.webinar-box {
+    max-width: 430px;
+    margin: 0 auto;
+    background: #eeeeee;
+    padding: 17px 32px 24px 32px;
+}
+.webinar-result .email-block-add  button.btn.btn-primary {
+    width: 80px;
+    height: 80px;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    margin-bottom: 10px;
+}
+.webinar-result .email-block-add {
+    max-width: 430px;
+    min-height: 258px;
+}
+.webinar-img-box, .webinar-box-content-detail {
+    display: flex;
+    justify-content: space-between;
+}
+.webinar-box-content-detail .smart-list-added-user span {
+    font-family: 'Roboto-Medium';
+    margin-right: 4px;
+}
+.webinar-box-content-detail .mail-time span {
+    font-size: 18px;
+    line-height: 21px;
+}
+.mail-box-content.webinar-box button.btn {
+    padding: 7px;
+    display: inline-block;
+    width: auto;
+    max-width: 100px;
+    margin: 0 auto;
+}
+.mail-box-content.webinar-box h5 {
+    font-size: 24px;
+    line-height: 28px;
+}
+.webinar-img-box {
+    margin-bottom: 38px;
+}
+.webinar-box-content-detail {
+    margin-top: 20px;
+}
+.Webinar-header-right-tools .filter-by button:hover, .Webinar-header-right-tools .hcp-sort button:hover, 
+.Webinar-header-right-tools .filter-by button:active, .Webinar-header-right-tools .hcp-sort button:active, 
+.Webinar-header-right-tools .filter-by button:focus, .Webinar-header-right-tools .hcp-sort button:focus  {
+    background-color: var(--light-blue);
+    border-color:var(--light-blue);
+    background-image:url(http://localhost:3000/static/media/dropdown-arrow.6ca490ef1efe3175ec81.svg);
+    background-repeat: no-repeat;
+    outline:none;
+    background-size: 16px;
+    background-position: 93% center;
+}
+.btn-check:active+.btn-success:focus, .btn-check:checked+.btn-success:focus, .btn-success.active:focus, .btn-success:active:focus, .show>.btn-success.dropdown-toggle:focus {
+    box-shadow: inherit;
+}
+.Webinar-header-right-tools .filter-by .dropdown-menu {
+    z-index: 7;
+    padding: 31px 4px 5px;
+}
+.filter-by .dropdown-menu a.dropdown-item {
+    border-radius: 35px;
+    font-size: 14px;
+    margin-bottom: 3px;
+    text-transform: capitalize;
+}
+
+#webinar_event, #webinar-edit-event {
+    max-width: 1339px;
+    width: 100%;
+}
+/* #webinar_event .form-inline .form-group label {
+    max-width: 341px;
+    flex: 0 0 341px;
+    width: 100%;
+} */
+
+.modal #webinar_event  .modal-body, #webinar-edit-event .modal-body {
+    margin-right: 10px;
+    margin-bottom: 9px;
+    padding-left: 25px;
+    padding-right: 10px;
+}
+#webinar_event form fieldset.border, #webinar-edit-event form fieldset.border{
+    border: 1px dashed #C4C4C4!important;
+    border-radius: 15px;
+    padding: 12px!important;
+    margin-bottom: 24px;
+}
+#webinar_event .form-inline .form-group label, #webinar-edit-event .form-inline .form-group label {
+    max-width: 235px;
+    flex: 0 0 235px;
+    width: 100%;
+    padding:12px;
+}
+#webinar_event form fieldset .form-inline .form-group label {
+    max-width: initial;
+    flex: 1 1;
+    padding:0;
+}
+#webinar_event form fieldset .form-inline .form-group:nth-child(2n) label, #webinar-edit-event form fieldset .form-inline .form-group:nth-child(2n) label{
+    padding-left: 40px;
+}
+#webinar_event form fieldset .form-inline, #webinar-edit-event form fieldset .form-inline {
+    margin: 0 0 14px;
+    position: relative;
+}
+#webinar_event form fieldset a.speaker-button, #webinar-edit-event form fieldset a.speaker-button  {
+    width: auto;
+    font-size: 13px;
+    line-height: 15px;
+    text-transform: capitalize;
+    color: #C4C4C4;
+    text-decoration: none;
+    padding-right: 12px;
+
+}
+#webinar_event form fieldset a.speaker-button span, #webinar-edit-event form fieldset a.speaker-button span {
+    background: #C4C4C4;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: inline-block;
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    text-align: center;
+    padding: 1px 3px 0 4px;
+}
+#webinar_event .form-inline .form-group input, #webinar_event .form-inline .form-group textarea, #webinar-edit-event .form-inline .form-group input, #webinar-edit-event .form-inline .form-group textarea {
+    max-width: 382px;
+    width: 100%;
+    font-size: 16px;
+}
+#webinar_event .form-inline .form-group label span {
+    color: #f58289;
+}
+#webinar_event .form-inline .form-group .error, #webinar-edit-event .form-inline .form-group .error {
+    display: block;
+    width: 100%;
+    margin-left: 235px;
+    font-size: 14px;
+}
+#webinar_event select::-ms-expand {
+    display: none;
+}
+#webinar_event .form-inline .form-group select, #webinar_event .form-inline .form-group textarea,
+ #webinar-edit-event .form-inline .form-group textarea  {
+    height: 48px;
+    font-size: 16px;
+    color: #4E718E;
+    box-shadow: 0px 1px 6px rgb(0 102 190 / 20%);
+    border-radius: 30px;
+    border: 0;
+    padding: 12px 17px;
+    background: var(--white) url(../images/dropdown-arrow.svg);
+    background-repeat: no-repeat;
+    background-size: 16px;
+    background-position: 93% center;
+    max-width: 251px;
+    width: 100%;
+    -moz-appearance: none;
+        -webkit-appearance: none;
+        margin: 0!important;
+}
+#webinar_event .form-inline .form-group textarea,  #webinar-edit-event .form-inline .form-group textarea{
+background-image: none;
+height:127px;
+resize: none;
+width:100%;
+max-width:382px;
+}
+.modal #webinar_event .modal-body form .modal-body-content, #webinar-edit-event .modal-body form .modal-body-content{
+    height: 430px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;     
+    overflow-x: hidden;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-right: 10px;
+}
+.modal #webinar_event .modal-body form .modal-footer-btn button.btn, #webinar-edit-event .modal-body form .modal-footer-btn button.btn{
+    min-width: 112px;
+    height: 51px;
+    margin-left: 24px;
+}
+.modal #webinar_event .modal-body form .modal-footer-btn, #webinar-edit-event .modal-body form .modal-footer-btn {
+    width: 100%;
+    padding-top: 10px;
+    text-align: right;
+    margin-top: 0px;
+}
+
+.modal #webinar_event .modal-body form, .modal #webinar-edit-event .modal-body form {
+    position: relative;
+    margin: 0;
+}
+#webinar-edit-event fieldset .form-inline .form-group{padding:0;}
+#webinar_event form fieldset .form-inline .form-group label, #webinar-edit-event form fieldset .form-inline .form-group label {
+    max-width: 220px;
+    flex: 1 1;
+    padding: 0;
+}
+#webinar-edit-event form fieldset .edit-event {
+    width: 50%;
+    margin-bottom: 10px;
+}
+#webinar-edit-event form fieldset .edit-event label.form-label {
+    width: 100%;
+    max-width: 67px;
+    margin: 0;
+    font-size: 18px;
+    line-height: 21px;
+    color: #4E718E;
+    font-family: 'Roboto-Medium';
+    margin: 0 0 7px;
+}
+#webinar-edit-event form fieldset .edit-event  h6 {
+    margin: 0;
+    font-size: 18px;
+    line-height: 20px;
+    color: #4E718E;
+    font-family: 'Roboto-Light';
+    margin: 0 0 7px;
+}
+#webinar-edit-event form fieldset .edit-event .edit-event-list {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+
+#webinar-edit-event .form-inline .btn-close, #webinar_event .form-inline .btn-close {
+    background: var(--light-blue);
+    border: 0;
+    width: 22px;
+    height: 22px;
+    text-align: center;
+    border-radius: 50%;
+    position: absolute;
+    right: 0;
+}
+#webinar-edit-event .form-inline .btn-close:hover, #webinar_event .form-inline .btn-close:hover {
+    background: var(--blue);
+    opacity: 1;
+}
+#webinar-edit-event .form-inline .btn-close svg, #webinar_event .form-inline .btn-close svg {
+    width: 20px;
+    height: 20px;
+}
+
+
+/**Reheasal**/
+.create_reheasal {
+    max-width: 1315px;
+    margin: 0 auto 30px;
+    padding-left: 75px;
+}
+
+.create_reheasal .reheasal_info {
+    background: #FFFFFF;
+    border: 1px solid #F0F0F0;
+    box-shadow: 0px 0px 19px rgba(0, 0, 0, 0.07);
+    border-radius: 15px;
+    padding: 32px 32px 55px 32px;
+    margin-bottom: 30px;
+    position:relative;
+}
+.create_reheasal .reheasal_info .reheasal_name {
+    position: absolute;
+    transform: rotate(-90deg) scaleX(1);
+    top: 87px;
+    left: -170px;
+}
+.create_reheasal .reheasal_info .reheasal_name h2 {
+    font-size: 48px;
+    line-height: 56px;
+    text-transform: capitalize;
+    color: rgba(0, 102, 190, 0.16);
+    font-family: 'Roboto-Bold';
+}
+.rehasal_block {
+    position: absolute;
+    bottom: -25px;
+    right: -25px;
+}
+.rehasal_block button {
+    background: var(--light-blue);
+    border: 0;
+    width: 52px;
+    height: 52px;
+    text-align: center;
+    border-radius: 50%;
+}
+.rehasal_block button:hover{
+    background: var(--blue);
+}
+
+.reheasal-box fieldset.border {
+    border: 1px dashed #C4C4C4!important;
+    border-radius: 15px;
+    padding: 19px 24px 13px!important;
+}
+
+.reheasal-box  h4 {
+    color: #959595;
+    font-family: 'Roboto-Medium';
+    font-weight: 500;
+    margin-bottom: 23px;
+}
+
+.reheasal-box fieldset p {
+    font-size: 18px;
+    line-height: 21px;
+    text-transform: capitalize;
+    color: #848484;
+    font-family: 'Roboto';
+    margin-bottom: 21px;
+}
+
+.reheasal-box fieldset p span {
+    font-family: 'Roboto-Medium';
+    margin-right: 24px;
+}
+.reheasal-box fieldset.reheasal-box-first, .reheasal-box h4.reheasal-box-title {
+    padding: 0 25px;
+}
+.reheasal-box fieldset.reheasal-box-first h6 {
+    font-family: 'Roboto-Medium';
+    color: var(--light-blue);
+    font-size: 18px;
+    margin-bottom: 16px;
+}
+
+
+.reheasal-box {}
+
+.reheasal-box fieldset.border {
+    border: 1px dashed #C4C4C4!important;
+    border-radius: 15px;
+    padding: 19px 24px 13px!important;
+}
+
+.reheasal-box fieldset h4 {
+    /* font-size: 24px; */
+    /* line-height: 28px; */
+    color: #959595;
+    font-family: 'Roboto-Medium';
+    font-weight: 500;
+    margin-bottom: 23px;
+}
+
+.reheasal-box fieldset p {
+    font-size: 18px;
+    line-height: 21px;
+    text-transform: capitalize;
+    color: #848484;
+    font-family: 'Roboto';
+    margin-bottom: 21px;
+}
+
+.reheasal-box fieldset p span {
+    font-family: 'Roboto-Medium';
+    margin-right: 24px;
+}
+
+.reheasal-box fieldset.reheasal-box-first {
+    padding: 0 25px;
+}
+
+.reheasal-box fieldset.reheasal-box-first h6 {
+    font-family: 'Roboto-Medium';
+    color: var(--light-blue);
+    font-size: 18px;
+    margin-bottom: 16px;
+}
+
+.schedule_reheasal h6 {
+    font-size: 14px;
+    line-height: 16px;
+    color: #C4C4C4;
+}
+
+.schedule_reheasal a {
+    text-decoration: none;
+}
+
+.schedule_reheasal h6 span {
+    color: #fff;
+    background: #C4C4C4;
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 16px;
+    margin-left: 5px;
+}
+
+.schedule_reheasal {
+    text-align: right;
+    padding-right: 45px;
+}
+/**Reheasal End**/

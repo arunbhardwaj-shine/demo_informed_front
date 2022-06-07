@@ -19,6 +19,7 @@ const Template = () => {
   const [modalShow, setModalShow] = useState(false);
   const [modalShow2, setModalShow2] = useState(false);
   const [dpc, setDpc] = useState();
+  const [message, setMessage] = useState(false);
   const [render, setRender] = useState(0);
   const [modalShow1, setModalShow1] = useState(false);
   const [hello, setHello] = useState(JSON.parse(localStorage.getItem("hello")));
@@ -98,7 +99,12 @@ const Template = () => {
   const handleGetTemplateList = (id) => {
     ExportApi.UserTemplateList(id).then((resp) => {
       if (resp.ok) {
-        setTemplateList(resp.data.data);
+        if (resp.data.code == 200){
+
+          setTemplateList(resp.data.data);
+        }else{
+          setMessage("Please create template");
+        }
       }
     });
   };
@@ -202,7 +208,7 @@ const Template = () => {
                     </div>
                   ))
                 ) : (
-                  <h2>Data Not Found</h2>
+                  <h2>{message}</h2>
                 )}  
               </AliceCarousel> 
               </div>

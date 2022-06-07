@@ -181,8 +181,8 @@ const CreatRehearsal = (rehearsalSpeakername) =>
   );
 const RehearsalListData = (eventid) =>
   BaseApi.get(
-    `rehearsal-list`,
-    { event_id: eventid },
+    `rehearsal-list/${eventid}`,
+    {},
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
@@ -324,7 +324,7 @@ const PublicPage = (event_code, str_slug) =>
 
 //Readers
 const ReadersData = (id) =>
-  BaseApi.get(
+  BaseApi.post(
     `participants`,
     { event_id: id },
     {
