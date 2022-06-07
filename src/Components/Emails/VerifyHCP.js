@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal, Dropdown } from "react-bootstrap";
 import SimpleReactValidator from "simple-react-validator";
 import { useNavigate } from "react-router-dom";
 import { loader } from "../../loader";
@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import { popup_alert } from "../../popup_alert";
 import { Link } from "react-router-dom";
 import { getEmailData } from "../../actions";
+import DropdownButton from 'react-bootstrap/DropdownButton';
 
 var old_object = {};
 var selected_Data = [];
@@ -69,7 +70,7 @@ const VerifyHCP = (props) => {
   const [manualReRender, setManualReRender] = useState(0);
   let file_name = useRef("");
 
-  let reducHcp = selectedHcp.map( 
+  let reducHcp = selectedHcp.map(
     (item) => {
       return item.profile_user_id;
     }
@@ -77,7 +78,7 @@ const VerifyHCP = (props) => {
 
 
   const updateReader = ()=>{
-    let reducHcp = selectedHcp.map( 
+    let reducHcp = selectedHcp.map(
       (item) => {
         return item.profile_user_id;
       }
@@ -97,7 +98,7 @@ const VerifyHCP = (props) => {
       console.log(err);
     });
   }
- 
+
   useEffect(() => {
     console.log(props);
     // props.getDraftData.campaign_data.selectedHcp;
@@ -109,7 +110,7 @@ const VerifyHCP = (props) => {
       if (props.getDraftData !== null) {
         //let reducHcp = props.getDraftData.campaign_data.selectedHcp;
 
-         let reducHcp = selectedHcp.map( 
+         let reducHcp = selectedHcp.map(
             (item) => {
               return item.profile_user_id;
             }
@@ -120,8 +121,8 @@ const VerifyHCP = (props) => {
         }
       }
     }
-     //console.log(reducHcp); 
-     
+     //console.log(reducHcp);
+
     updateReader();
 
   }, []);
@@ -332,7 +333,7 @@ const VerifyHCP = (props) => {
   };
 
   const onContactTypeChange = (e, i) => {
-    const { value } = e.target;
+    const value  = e;
     //console.log(value);
     const list = [...hpc];
     const name = hpc[i].contact_type;
@@ -342,12 +343,11 @@ const VerifyHCP = (props) => {
   };
 
   const onCountryChange = (e, i) => {
-    const { value } = e.target;
+    const  value  = e;
     const list = [...hpc];
     const name = hpc[i].country;
     list[i].country = value;
     setHpc(list);
-    console.log(hpc);
   };
 
   const deleteRecord = (i) => {
@@ -502,8 +502,8 @@ const VerifyHCP = (props) => {
           "field_country" + index
         ).innerText;
 
-        console.log(name_edit);
-        console.log(country_edit);
+        // console.log(name_edit);
+        // console.log(country_edit);
 
         const arr = [];
         arr.push({
@@ -998,7 +998,7 @@ const VerifyHCP = (props) => {
                 </div>
               ) : (
                 <table className="table">
-                  <thead>
+                  <thead className="sticky-header">
                     <tr>
                       <th scope="col">Name</th>
                       <th scope="col">Email</th>
@@ -1174,49 +1174,81 @@ const VerifyHCP = (props) => {
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label for="">Contact Type</label>
-                                  <select
-                                    className="form-contact"
-                                    aria-label="select"
-                                    onChange={(event) =>
+                                  <DropdownButton className="dropdown-basic-button split-button-dropup"
+                                   title= {hpc[i].contact_type != "" &&  hpc[i].contact_type != "undefined" ? hpc[i].contact_type : "Select Type" }
+                                   onSelect={(event) => onContactTypeChange(event, i)}
+                                   >
+                                    <Dropdown.Item eventKey="HCP" className = {hpc[i].contact_type == "HCP" ? "active" : "" }>HCP</Dropdown.Item>
+                                    <Dropdown.Item eventKey="Staff" className = {hpc[i].contact_type == "Staff" ? "active" : "" }>Staff</Dropdown.Item>
+                                    <Dropdown.Item eventKey="Test Users" className = {hpc[i].contact_type == "Test Users" ? "active" : "" }>Test Users</Dropdown.Item>
+                                  </DropdownButton>
+                                  {
+                                      /*
+                                      <select
+                                      className="form-contact"
+                                      aria-label="select"
+                                      onChange={(event) =>
                                       onContactTypeChange(event, i)
                                     }
-                                  >
+                                    >
                                     <option selected>Select Type</option>
                                     <option value="HCP">HCP</option>
                                     <option value="Staff">Staff</option>
                                     <option value="Test Users">
-                                      Test Users
+                                    Test Users
                                     </option>
-                                  </select>
+                                    </select>
+                                      */
+                                  }
                                 </div>
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label for="">Country</label>
-                                  <select
-                                    className="country-form"
-                                    aria-label="select"
-                                    onChange={(event) =>
-                                      onCountryChange(event, i)
+                                  <DropdownButton className="dropdown-basic-button split-button-dropup"
+                                   title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
+                                   onSelect={(event) => onCountryChange(event, i)}
+                                   >
+                                   {countryall.length === 0
+                                     ? ""
+                                     : Object.entries(countryall).map(
+                                         ([index, item]) => {
+                                           return (
+                                             <>
+                                              <Dropdown.Item eventKey={index} className = {hpc[i].country == index ? "active" : "" }>{item == "B&H" ? "Bosnia and Herzegovina" : item}</Dropdown.Item>
+                                             </>
+                                           );
+                                         }
+                                       )}
+                                  </DropdownButton>
+                                  {
+                                    /*
+                                          <select
+                                          className="country-form"
+                                          aria-label="select"
+                                          onChange={(event) =>
+                                          onCountryChange(event, i)
+                                        }
+                                        >
+                                        <option selected value="">
+                                        Select Country
+                                        </option>
+                                        {countryall.length === 0
+                                        ? ""
+                                        : Object.entries(countryall).map(
+                                        ([index, item]) => {
+                                        return (
+                                        <>
+                                        <option value={index}>
+                                        {item}
+                                        </option>
+                                        </>
+                                      );
                                     }
-                                  >
-                                    <option selected value="">
-                                      Select Country
-                                    </option>
-                                    {countryall.length === 0
-                                      ? ""
-                                      : Object.entries(countryall).map(
-                                          ([index, item]) => {
-                                            return (
-                                              <>
-                                                <option value={index}>
-                                                  {item}
-                                                </option>
-                                              </>
-                                            );
-                                          }
-                                        )}
+                                  )}
                                   </select>
+                                    */
+                                  }
                                 </div>
                               </div>
 
