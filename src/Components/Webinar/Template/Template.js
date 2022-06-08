@@ -298,7 +298,7 @@ const Template = (props) => {
        <div className="loader" id="custom_loader">
 	        <span className="loader-view"> </span>
           </div>
-      <Row>
+          {localStorage.getItem("EventIdHeader")?<Row>
         <ToastContainer
           position="top-right"
           autoClose={5000}
@@ -349,7 +349,8 @@ const Template = (props) => {
             </div>  
           </section> 
         </Col>
-      </Row>
+      </Row>:null}
+      
 
   {/* start of create template modal code ------------------  */}     
   <Modal show={modalShow} size="md" aria-labelledby="contained-modal-title-vcenter" centered>
@@ -391,9 +392,7 @@ const Template = (props) => {
     </Modal.Footer>
   </Modal>
   {/* end of delete modal code ------------------ */}  
-
-   
-        <form onSubmit={formik.handleSubmit}>
+  {localStorage.getItem("EventIdHeader")?  <form onSubmit={formik.handleSubmit}>
           <Row>
             
             <div className="shadow-lg p-3 mb-5 bg-white rounded md={{ span: 8, offset: 3 }} form-inline row justify-content-between align-items-center">
@@ -467,7 +466,9 @@ const Template = (props) => {
               </div>  
             </div>
           </Row>
-        </form>
+        </form>:<h3>Please create event</h3>}
+   
+      
         <Modal id="tagsModal" show={isOpen}>
           <Modal.Header>
             <h5 className="modal-title" id="staticBackdropLabel">
