@@ -751,15 +751,21 @@ const Table = (props, ref) => {
       const status = body.data.map((data) => {
         // let validRegex =
         //   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-
         if (data.email == "") {
-          return "false";
+          return "Please enter the email atleast";
+        } else if(data.email != ""){
+          let email = data.email;
+          let useremail = email.trim();
+          var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+          if (regex.test(String(useremail).toLowerCase())) {
+            return "true";
+          }else{
+            return "Email format is not valid";
+          }
         } else {
           return "true";
         }
       });
-
-      console.log(status);
 
       if (status.every((element) => element == "true")) {
         loader("show");
@@ -799,7 +805,7 @@ const Table = (props, ref) => {
             loader("hide");
           });
       } else {
-        toast.warning("Please input the email atleast");
+        toast.warning(status[0]);
       }
 
       //setIsOpen(false);

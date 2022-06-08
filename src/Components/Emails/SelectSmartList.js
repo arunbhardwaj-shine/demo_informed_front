@@ -21,7 +21,7 @@ const SelectSmartList = (props) => {
   const [smartListSelected, setSmartListSelected] = useState({});
   const [getpopupopeningstatus, setpopupopeningstatus] = useState(false);
   const navigate = useNavigate();
-  const campaign_id = props.getEmailData
+  const campaign_id = props.getEmailData?.campaign_id
     ? props.getEmailData.campaign_id
     : props.getDraftData.campaign_id;
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
@@ -222,9 +222,13 @@ const SelectSmartList = (props) => {
                 <li className="active">
                   <Link to="/CreateEmail">Create Your Email</Link>
                 </li>
-                <li className="active active-main">
+                <li className="active">
                   <Link to="/SelectHCP">Select HCPs</Link>
                 </li>
+                <li className="active active-main">
+                  <Link to="/SelectSmartList">Select Smart List</Link>
+                </li>
+                
                 <li className="">
                   <a href="javascript:void(0)">Verify Your List</a>
                 </li>

@@ -23,7 +23,7 @@ const VerifyHCP = (props) => {
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
   var campaign_id = "0";
-  if (props.getEmailData) {
+  if (props.getEmailData?.campaign_id) {
     var campaign_id = props.getEmailData?.campaign_id
       ? props.getEmailData.campaign_id
       : "";
@@ -110,7 +110,7 @@ const VerifyHCP = (props) => {
       if (props.getDraftData !== null) {
         let reducHcp = props.getDraftData.campaign_data.selectedHcp;
 
-        //  let reducHcp = selectedHcp.map( 
+        //  let reducHcp = selectedHcp.map(
         //     (item) => {
         //       return item.profile_user_id;
         //     }
@@ -380,7 +380,16 @@ const VerifyHCP = (props) => {
 
       const status = body.data.map((data) => {
         if (data.email == "") {
-          return "false";
+          return "Please enter the email atleast";
+        } else if(data.email != ""){
+          let email = data.email;
+          let useremail = email.trim();
+          var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+          if (regex.test(String(useremail).toLowerCase())) {
+            return "true";
+          }else{
+            return "Email format is not valid";
+          }
         } else {
           return "true";
         }
@@ -411,7 +420,7 @@ const VerifyHCP = (props) => {
             toast.error("Somwthing went wrong");
           });
       } else {
-        toast.warning("Please enter the email atleast");
+        toast.warning(status[0]);
       }
       // setIsOpen(false);
     } else {
@@ -737,8 +746,11 @@ const VerifyHCP = (props) => {
                 <li className="active">
                   <Link to="/CreateEmail">Create Your Email</Link>
                 </li>
+                <li className="active">
+                  <Link to="/SelectHCP">Select HCPs</Link>
+                </li>
                 <li className="active active-main">
-                  <a href="javascript:void(0)">Select Verify & Your HCPs</a>
+                  <a href="javascript:void(0)">Verify Your List</a>
                 </li>
 
                 <li className="">

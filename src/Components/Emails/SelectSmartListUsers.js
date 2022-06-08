@@ -51,7 +51,7 @@ const SelectSmartListUsers = (props) => {
 
   useEffect(() => {
     let campaign_id =
-      typeof props.getEmailData === "object" && props.getEmailData !== null
+      typeof props.getEmailData === "object" && props.getEmailData !== null && props.getEmailData?.campaign_id
         ? props.getEmailData.campaign_id
         : props.getDraftData.campaign_id;
     setCampaign_id(campaign_id);
@@ -530,7 +530,16 @@ const SelectSmartListUsers = (props) => {
 
       const status = body.data.map((data) => {
         if (data.email == "") {
-          return "false";
+          return "Please enter the email atleast";
+        } else if(data.email != ""){
+          let email = data.email;
+          let useremail = email.trim();
+          var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+          if (regex.test(String(useremail).toLowerCase())) {
+            return "true";
+          }else{
+            return "Email format is not valid";
+          }
         } else {
           return "true";
         }
@@ -563,7 +572,7 @@ const SelectSmartListUsers = (props) => {
             toast.error("Somwthing went wrong");
           });
       } else {
-        toast.warning("Please enter the email atleast");
+        toast.warning(status[0]);
       }
 
       //  setIsOpen(false);
@@ -640,8 +649,12 @@ const SelectSmartListUsers = (props) => {
                 <li className="active">
                   <Link to="/SelectHCP">Select HCPs</Link>
                 </li>
+                <li className="active">
+                  <Link to="/SelectSmartList">Select Smart List</Link>
+                </li>
+                
                 <li className="active active-main">
-                  <Link to="/SelectSmartList">Verify Your List</Link>
+                  <Link to="/SelectSmartListUsers">Verify Your List</Link>
                 </li>
 
                 <li className="">
