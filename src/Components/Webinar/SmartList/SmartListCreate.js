@@ -197,9 +197,9 @@ const SmartListCreate = () => {
 
   return (
     <>
-      <div className="loader" id="custom_loader">
+      {/* <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
-      </div>
+      </div> */}
       <div class="right-sidebar">
         <div class="page-top-nav smart_list_names">
           <div class="row justify-content-end align-items-center">
