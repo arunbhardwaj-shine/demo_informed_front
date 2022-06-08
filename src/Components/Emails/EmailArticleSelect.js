@@ -5,9 +5,10 @@ import { toast } from "react-toastify";
 import Accordion from "react-bootstrap/Accordion";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
-import { getEmailData } from "../../actions";
+import { getEmailData,getDraftData } from "../../actions";
 import { propTypes } from "react-bootstrap/esm/Image";
 var dxr = 0;
+var pdf_id = 0;
 const EmailArticleSelect = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
@@ -15,8 +16,11 @@ const EmailArticleSelect = (props) => {
   const [filterdata, setFilterData] = useState([]);
   const navigate = useNavigate();
   const [filter, setFilter] = useState("");
+  
 
-  const [PdfSelected, setPdfSelected] = useState(dxr ? dxr : 0);
+  const [PdfSelected, setPdfSelected] = useState((dxr!==0 && dxr) ? dxr : pdf_id);
+
+
   const [showfilter, setShowFilter] = useState(false);
   const [filtertags, setFilterTags] = useState([]);
   const [filterdate, setFilterDate] = useState([]);
@@ -699,10 +703,12 @@ const EmailArticleSelect = (props) => {
 };
 
 const mapStateToProps = (state) => {
+  
   dxr = state.getEmailData?.PdfSelected;
+  pdf_id = state.getDraftData?.pdf_id;
   return state;
 };
 
-export default connect(mapStateToProps, { getEmailData: getEmailData })(
+export default connect(mapStateToProps, { getEmailData: getEmailData,getDraftData: getDraftData })(
   EmailArticleSelect
 );
