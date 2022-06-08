@@ -19,8 +19,17 @@ const RehearsalList = ({props,id}) => {
               if (resp.data.code == 200){
             loader("hide")
             setRehearsalData(resp.data.data);
-              }else{
-                 setMessage("No data found");
+              }
+              else{
+                if(localStorage.getItem("EventIdHeader")){
+                  loader("hide")
+                  setMessage("Please create rehearsal");
+                }
+                else{
+                  loader("hide")
+                  setMessage(false)
+                }
+                
               }
           }
         });
@@ -41,6 +50,12 @@ const RehearsalList = ({props,id}) => {
         handleGetRehearsalListData(localStorage.getItem("EventIdHeader"))
         console.log("call")
         setEventIdHeader(parseInt(localStorage.getItem("EventIdHeader")))
+        if(localStorage.getItem("EventIdHeader")){
+          console.log("done")
+        }else{
+          loader("hide")
+          setMessage(false)
+        }
       }, [localStorage.getItem("EventIdHeader")]);
   return (
     <div class="right-sidebar">
@@ -65,7 +80,7 @@ const RehearsalList = ({props,id}) => {
 <Col>
 <h3 className="title_create">Rehearsal</h3>
 </Col>
-<Col>
+{localStorage.getItem("EventIdHeader")?<Col>
 <Form.Group controlId="formFileLg" className="mb-3">
        <Form.Label>Choice File</Form.Label>
        <Form.Control
@@ -86,7 +101,8 @@ const RehearsalList = ({props,id}) => {
          Upload
        </Button>
      </Form.Group>
-</Col>
+</Col>:null}
+
 <Col>
 <Button>SpeakerZone</Button>
 </Col>
@@ -95,8 +111,8 @@ const RehearsalList = ({props,id}) => {
         <div className="title_create">
         {localStorage.getItem("EventIdHeader") ? null : (
                     <h4>
-                      <Link to="/webinar/event/add" style={{ color: "red" }}>
-                        Please create event{" "}
+                      <Link to="/webinar/events" style={{ color: "red" }}>
+                        Please create Event
                       </Link>
                     </h4>
                   )}
@@ -157,10 +173,11 @@ const RehearsalList = ({props,id}) => {
         ) : (<h4>{message}</h4>
           )
           }
-                       <div className="schedule_reheasal">
+          {localStorage.getItem("EventIdHeader")?       <div className="schedule_reheasal">
              <Link  to="/webinar/rehearsal"><h6>Schedule another rehearsal <span>+</span></h6></Link>
                   
-             </div>
+             </div>:null}
+                
               <Modal
       show={modalShow1}
       size="sm"

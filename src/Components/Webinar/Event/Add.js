@@ -420,7 +420,7 @@ function Add(props) {
           </div>
           <div className="modal-footer-btn">
               <Button type="reset" className="btn btn-primary btn-filled"onClick={()=>handleResetSp()}>Reset</Button>
-              <button type="button" className="btn btn-primary btn-bordered" data-dismiss="modal">Close</button>
+              <button type="button" className="btn btn-primary btn-bordered" data-dismiss="modal" onClick={() =>props.closePopup()} >Close</button>
               <Button type="submit" className="event-submit-button btn btn-primary btn-filled" onClick={() => handleSubmit()} >Create</Button>
           </div>
         </form>

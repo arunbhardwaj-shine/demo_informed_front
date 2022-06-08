@@ -256,7 +256,7 @@ const DeleteTemplate = (id) =>
       },
     }
   );
-const UpdateTemplate = (subject, templateName, eventid, id, html, i) =>
+const UpdateTemplate = (subject, templateName, eventid, id, html, i,tagClickedFirst) =>
   BaseApi.post(
     "update-template",
     {
@@ -266,6 +266,7 @@ const UpdateTemplate = (subject, templateName, eventid, id, html, i) =>
       json_description: id,
       description: html,
       template_id: i,
+      tags:tagClickedFirst
     },
     {
       headers: {

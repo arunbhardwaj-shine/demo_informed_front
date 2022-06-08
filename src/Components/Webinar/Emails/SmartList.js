@@ -167,7 +167,7 @@ const SelectSmartList = () => {
                         </div>
                         <div className="smartlist-buttons">
                           <Link
-                            className="btn btn-primary btn-bordered view"
+                            className="btn btn-primary btn-filled view"
                             to={{
                               pathname: "/webinar/ViewSmartListWebinar",
                               search: "?listId=" + data.id,

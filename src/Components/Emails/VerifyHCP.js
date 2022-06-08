@@ -23,7 +23,7 @@ const VerifyHCP = (props) => {
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
   var campaign_id = "0";
-  if (props.getEmailData) {
+  if (props.getEmailData?.campaign_id) {
     var campaign_id = props.getEmailData?.campaign_id
       ? props.getEmailData.campaign_id
       : "";
