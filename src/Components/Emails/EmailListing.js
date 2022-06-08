@@ -1530,6 +1530,14 @@ const EmailList = (props) => {
                     />
                   </div>
                 </div>
+
+                <div
+                  className="preview-mail-box"
+                  dangerouslySetInnerHTML={{
+                    __html: viewEmailData[0].template,
+                  }}
+                >
+                </div>
               </div>
             )}
           </Modal.Body>
