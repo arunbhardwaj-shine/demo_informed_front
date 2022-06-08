@@ -2,7 +2,7 @@ import React,{useState} from "react";
 import { Link } from "react-router-dom";
 const SendEmails = () => {
 	const [showfilter, setShowFilter] = useState(false);
-	let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+	let path_image = '/' + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 	return (
 	    <>

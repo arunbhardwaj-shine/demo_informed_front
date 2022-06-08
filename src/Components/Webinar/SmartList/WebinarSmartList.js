@@ -254,7 +254,7 @@ const WebinarSmartList = () => {
 
   return (
     <>
-      <div className="col right-sidebar" style={{ marginLeft: "70px" }}>
+      <div className="col right-sidebar">
         <div className="loader" id="custom_loader">
           <span className="loader-view"> </span>
         </div>
