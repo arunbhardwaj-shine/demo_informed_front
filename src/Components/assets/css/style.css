@@ -629,7 +629,7 @@ form#add_hcp_form .row:not(:first-child) { border-top: 1px dashed var(--light-bl
 .create_smart_list .create-smart-step .create-smart-step-box form label { font-size: 20px; line-height: 23px; color: var(--blue); margin-bottom: 16px; }
 .create_smart_list .create-smart-step .create-smart-step-box form .form-control { background: var(--white); box-shadow: 0px 1px 6px rgb(0 102 190 / 20%); border-radius: 30px; border: 0; padding: 12px; max-width: 433px; width: 100%;color: #4E718E;font-size: 14px; }
 .create-smart-step-box .form-group.col { max-width: 456px; }
-.create-smart-step-box .form-group-content { display: flex; justify-content: flex-end; align-items: center; margin-top: 6px; }
+.create-smart-step-box .form-group-content { display: flex; justify-content: flex-end; align-items: center; margin-top: 6px; position: relative;}
 .create-smart-step-box .form-group-content p { margin: 0; font-size: 14px; line-height: 16px; color: #4E718E; }
 .create-smart-step-box .form-group-content p span { color: var(--violet); }
 .select-demo-option { position: relative; line-height: 1; margin: 0 10px 0 9px; }
@@ -938,7 +938,7 @@ input:-webkit-autofill{ -webkit-text-fill-color: #4E718E !important; }
   overflow: hidden;
   z-index: 100;
   top: 0;
-  background: #fff;
+  background: var(--white);
 }
 /* #smart_list_popup_id .search-hcp .selected-hcp-list table td:nth-child(3) {
   text-align: center;
@@ -950,7 +950,21 @@ input:-webkit-autofill{ -webkit-text-fill-color: #4E718E !important; }
     background-color: var(--light-blue);
     color:var(--white);
 }
-
+.form-group-content a[data-bs-toggle]:hover + .tooltip {
+  opacity: 1;
+}
+.form-group-content .tooltip {
+  width: 180px;
+  font-size: 11px;
+  background: var(--white);
+  padding: 4px 6px;
+  color: var(--violet);
+  box-shadow: 0px 1px 4px rgb(0 102 190 / 20%);
+  border-radius: 4px;
+  top: 18px;
+  right: -5px;
+}
+.form-group-content .tooltip span{font-family: 'Roboto-Medium';}
 @-moz-document url-prefix() {
   a.show-less-info p::after {
     top: 3px;
