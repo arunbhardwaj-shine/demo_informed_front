@@ -9,7 +9,9 @@ import CreateTemplate from "./CreateTemplate";
 import { Testmail } from "./Testmail";
 import { loader } from "../../../loader";
 import AliceCarousel from "react-alice-carousel";
-const Template = () => {
+import axios from "axios";
+var state_object = {};
+const Template = (props) => {
   const [id, setId] = useState();
   const [FormShow, setFormShow] = useState(false);
   const [tName, setTName] = useState();
@@ -29,14 +31,108 @@ const Template = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const syncActiveIndex = ({ item }) => setActiveIndex(item);
  
+  // const responsive = {
+  //   0: { items: 1 },
+  //   568: { items: 2 },
+  //   1024: { items: 5 },
+  // };
+
+  // ---------------------ended---------------
+  // const [id, setId] = useState();
+  const [isOpen, setIsOpen] = useState(false);
+	// const [activeIndex, setActiveIndex] = useState(0);
+	// const [templateList, setTemplateList] = useState();
+  // const syncActiveIndex = ({ item }) => setActiveIndex(item);
+  // const [template, setTemplate] = useState();
+  // const [tName, setTName] = useState();
+  // const [FormShow, setFormShow] = useState(false);
+  const [allTags, setAllTags] = useState({});
+  const [tagClickedFirst, setTagClickedFirst] = useState([]);
+  const [tagsReRender, setTagsReRender] = useState(0);
+  const [newTag, setNewTag] = useState("");
+  // const [modalShow, setModalShow] = useState(false);
+  const [modalSampleEmail, setModalSampleEmail] = useState(false);
   const responsive = {
     0: { items: 1 },
     568: { items: 2 },
     1024: { items: 5 },
   };
+  // let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-  // ---------------------ended---------------
+  const emailSubjectChanged = (e) => {
+    setEmailSubject(e.target.value);
+  };
+  const [emailSubject, setEmailSubject] = useState(
+    state_object != null &&
+      state_object != "undefined" &&
+      state_object.emailSubject
+      ? state_object.emailSubject
+      : props.getDraftData
+      ? props.getDraftData.subject
+      : ""
+  );
+  const addTag = () => {
+    if (typeof newTag == "undefined" || newTag.trim().length == 0) {
+      toast.error("Please input a tag");
+    } else {
+      if (!tagClickedFirst.includes(newTag)) {
+        setTagClickedFirst((oldArray) => [...oldArray, newTag]);
+      } else {
+        toast.error("Tag already in list.");
+      }
+      setNewTag("");
+      //setTagsCounter(tagsCounter + 1);
+    }
+  };
 
+  const newTagChanged = (e) => {
+    setNewTag(e.target.value);
+    e.target.value = "";
+    const new_atg = document.getElementById("new-tag");
+    new_atg.value = "";
+    //console.log(new_atg);
+  };
+  
+  const tagClicked = (dd) => {
+    if (!tagClickedFirst.includes(dd)) {
+      setTagClickedFirst((oldArray) => [...oldArray, dd]);
+    } else {
+      toast.error("Tag already in list.");
+    }
+  };
+  const tagButtonClicked = () => {
+    setIsOpen(true);
+  };
+  const closeModal = () => {
+    //console.log("closed");
+    setIsOpen(false);
+  };
+  const [finalTags, setFinalTags] = useState(
+    state_object != null && state_object != "undefined" && state_object.tags
+      ? state_object.tags
+      : props.getDraftData
+      ? props.getDraftData.tags
+      : []
+  );
+  const removeTag = (index) => {
+    const tags = tagClickedFirst;
+    console.log("tag",tags)
+    tags.splice(index, 1);
+    setTagClickedFirst(tags);
+    setTagsReRender(tagsReRender + 1);
+    finalTags(tags)
+    console.log("2",tags)
+  };
+  const removeTagFinal = (index) => {
+    const tags = finalTags;
+    const tagsClickedFirst = tagClickedFirst;
+    tags.splice(index, 1);
+    tagsClickedFirst.splice(index, 1);
+    setFinalTags(tags);
+    setTagClickedFirst(tagsClickedFirst);
+
+    setTagsReRender(tagsReRender + 1);
+  };
   const formik = useFormik({
     initialValues: {
       Subject: template ? template.subject : "",
@@ -60,7 +156,8 @@ const Template = () => {
             localStorage.getItem("EventIdHeader"),
             design,
             html,
-            localStorage.getItem("idd")
+            localStorage.getItem("idd"),
+            tagClickedFirst
           ).then((resp) => {
             if (resp.ok) {
               if (resp.data.code == 200) {
@@ -100,10 +197,16 @@ const Template = () => {
     ExportApi.UserTemplateList(id).then((resp) => {
       if (resp.ok) {
         if (resp.data.code == 200){
-
           setTemplateList(resp.data.data);
+          handleGetTemplate(resp.data.data[0].id)
         }else{
-          setMessage("Please create template");
+          if(localStorage.getItem("EventIdHeader")){
+            setMessage("Please create template");
+          }else{
+            loader("hide")
+            setMessage("Please create Event")
+          }
+       
         }
       }
     });
@@ -158,13 +261,44 @@ const Template = () => {
   useEffect(() => {
     window.addEventListener('EventId',()=> handleGetTemplateList(localStorage.getItem("EventIdHeader")))
     handleGetTemplateList(localStorage.getItem("EventIdHeader"))
+    if(localStorage.getItem("EventIdHeader")){
+      console.log("done")
+    }else{
+      loader("hide")
+      setMessage("Please create Event")
+    }
+
+  }, []);
+  const saveButtonClicked = () => {
+    if (typeof finalTags != "undefined" && finalTags.length > 0) {
+      let prev_tags = finalTags;
+      let new_tags = prev_tags.concat(tagClickedFirst);
+      const uniqueTags = new_tags.filter((x, i, a) => a.indexOf(x) == i);
+      setFinalTags(uniqueTags);
+    } else {
+      setFinalTags(tagClickedFirst);
+    }
+    closeModal();
+  };
+  const GetTagsAll = () => {
+    ExportApi.GetTags().then((resp) => {
+      if (resp.ok) {
+        loader("hide")
+        setAllTags(JSON.parse( resp.data.data[0].values));
+        // setTemplateList(resp.data.data);
+      }
+    });
+  };
+  useEffect(() => {
+    loader("show")
+    GetTagsAll()
   }, []);
   return (
     <div class="right-sidebar">
        <div className="loader" id="custom_loader">
 	        <span className="loader-view"> </span>
           </div>
-      <Row>
+          {localStorage.getItem("EventIdHeader")?<Row>
         <ToastContainer
           position="top-right"
           autoClose={5000}
@@ -215,7 +349,8 @@ const Template = () => {
             </div>  
           </section> 
         </Col>
-      </Row>
+      </Row>:null}
+      
 
   {/* start of create template modal code ------------------  */}     
   <Modal show={modalShow} size="md" aria-labelledby="contained-modal-title-vcenter" centered>
@@ -257,11 +392,19 @@ const Template = () => {
     </Modal.Footer>
   </Modal>
   {/* end of delete modal code ------------------ */}  
-
-      {FormShow?<> {template ? (
-        <form onSubmit={formik.handleSubmit}>
+  {localStorage.getItem("EventIdHeader")?  <form onSubmit={formik.handleSubmit}>
           <Row>
+            
             <div className="shadow-lg p-3 mb-5 bg-white rounded md={{ span: 8, offset: 3 }} form-inline row justify-content-between align-items-center">
+            <Row><div className="form-group col-12 col-md-5"> <Button onClick={(e) => { setModalShow2(true); setId(localStorage.getItem('idd')); }} >
+                  Send A Sample
+                </Button>  
+                </div>
+                <div className="form-group col-12 col-md-5">
+
+                <Button type="submit">Save</Button>
+                </div>
+                </Row>
               <div className="form-group col-12 col-md-7">
                 <Form.Label>Subject</Form.Label>
                 <Form.Control
@@ -278,18 +421,132 @@ const Template = () => {
                     {formik.errors.Subject}
                   </div>
                 ) : null}
-                <Button onClick={(e) => { setModalShow2(true); setId(localStorage.getItem('idd')); }} >
-                  Send A Sample
-                </Button>  
-                <Button type="submit">Save</Button>
+              
               </div>
+              <div className="email-form">
+                <form>
+                  <div className="input-group w-100">
+                    <div className="input-group-prepend">
+                      <button
+                        className="btn btn-bordered btn-primary"
+                        type="button"
+                        id="tags-add"
+                        data-bs-toggle="modal"
+                        data-bs-target="#tagsModal"
+                        onClick={tagButtonClicked}
+                      >
+                        + Add Tag
+                      </button>
+                    </div>
+                   
+                    <div className="tags_added">
+                      <ul>
+                        {finalTags.map((tags, index) => {
+                          return (
+                            <>
+                              <li className="list1">
+                                {tags.innerHTML || tags}{" "}
+                                <img
+                                  src={path_image + "filter-close.svg"}
+                                  alt="Close-filter"
+                                  onClick={() => removeTag(index)}
+                                />
+                              </li>
+                            </>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  </div>
+                </form>
+                </div>
+               
               <div className="form-group col-12 col-md-7">
                 <EmailEditor ref={emailEditorRef} onLoad={onLoad} onReady={onReady}></EmailEditor>
               </div>  
             </div>
           </Row>
-        </form>
-      ) : null}</>:null}
+        </form>:<h3>Please create event</h3>}
+   
+      
+        <Modal id="tagsModal" show={isOpen}>
+          <Modal.Header>
+            <h5 className="modal-title" id="staticBackdropLabel">
+              Add Tags
+            </h5>
+            <button
+              type="button"
+              className="btn-close"
+              onClick={closeModal}
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="select-tags">
+              <h6>Select Tag :</h6>
+              <div className="tag-lists">
+                <div className="tag-lists-view">
+                  {Object.values(allTags).map((data) => {
+                    return (
+                      <>
+                        <div onClick={(event) => tagClicked(data)}>{data} </div>
+                      </>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+            <div className="selected-tags">
+              <h6>
+                Selected Tag <span>| {tagClickedFirst.length}</span>
+              </h6>
+
+              <div className="total-selected">
+                {tagClickedFirst.map((data, index) => {
+                  return (
+                    <>
+                      <div className="tag-cross">
+                        {data.innerHTML || data}
+                        <img
+                          src={path_image + "filter-close.svg"}
+                          alt="Close-filter"
+                          onClick={() => removeTagFinal(index)}
+                        />
+                      </div>
+                    </>
+                  );
+                })}
+              </div>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <form>
+              <div className="form-group">
+                <label for="new-tag">New Tag</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="new-tag"
+                  value={newTag}
+                  onChange={(e) => newTagChanged(e)}
+                />
+
+                <button
+                  onClick={addTag}
+                  type="button"
+                  className="btn btn-primary add btn-bordered"
+               
+                >
+                  Add
+                </button>
+              </div>
+            </form>
+            <button type="button"    onClick={saveButtonClicked}className="btn btn-primary save btn-filled">
+              Save
+            </button>
+          </Modal.Footer>
+      </Modal>
     </div>
   );
 };

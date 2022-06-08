@@ -530,7 +530,16 @@ const SelectSmartListUsers = (props) => {
 
       const status = body.data.map((data) => {
         if (data.email == "") {
-          return "false";
+          return "Please enter the email atleast";
+        } else if(data.email != ""){
+          let email = data.email;
+          let useremail = email.trim();
+          var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+          if (regex.test(String(useremail).toLowerCase())) {
+            return "true";
+          }else{
+            return "Email format is not valid";
+          }
         } else {
           return "true";
         }
@@ -563,7 +572,7 @@ const SelectSmartListUsers = (props) => {
             toast.error("Somwthing went wrong");
           });
       } else {
-        toast.warning("Please enter the email atleast");
+        toast.warning(status[0]);
       }
 
       //  setIsOpen(false);
