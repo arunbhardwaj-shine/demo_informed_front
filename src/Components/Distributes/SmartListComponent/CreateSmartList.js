@@ -252,15 +252,10 @@ const CreateSmartList = () => {
                           <input type="radio" name="radio" />
                           <span class="checkmark"></span>
                         </div>
-                        <a
-                          href="#"
-                          data-bs-toggle="tooltip"
-                          data-bs-placement="top"
-
-                        >
+                        <a  href="#" data-bs-toggle="tooltip" data-bs-placement="top">
                           <img src={path + "question.svg"} alt="" />
-                          <div className="tooltip">A list that will appeare when you select smart list to <span>send a sample.</span></div>
                         </a>
+                          <div className="tooltip">A list that will appeare when you select smart list to <span>send a sample.</span></div>
                       </div>
                     </div>
                   </div>
