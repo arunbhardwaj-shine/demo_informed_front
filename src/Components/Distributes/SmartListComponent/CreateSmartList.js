@@ -169,6 +169,8 @@ const CreateSmartList = () => {
         loader("hide");
       })
       .catch((err) => {
+        loader("hide");
+        toast.error("Something went wrong.")
         console.log(err);
       });
   };
