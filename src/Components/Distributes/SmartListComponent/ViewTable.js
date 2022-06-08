@@ -1081,7 +1081,7 @@ const ViewTable = (props) => {
                         item.email
                       )}
                     </td>
-                    <td>No</td>
+                    <td>{item.bounce}</td>
                     <td contenteditable={editable === 0 ? "false" : "true"}>
                       {inEditMode.status &&
                       inEditMode.rowKey === item.profile_id ? (
@@ -1137,7 +1137,7 @@ const ViewTable = (props) => {
                     </td>
 
                     <td id={`field_email` + index}>{item.email}</td>
-                    <td id={`field_bounced` + index}>NA</td>
+                    <td id={`field_bounced` + index}>{item.bounce}</td>
                     <td
                       id={`field_country` + index}
                       contenteditable={editable === 0 ? "false" : "true"}

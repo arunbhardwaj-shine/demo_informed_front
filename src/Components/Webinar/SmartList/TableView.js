@@ -907,12 +907,12 @@ const TableView = (props, ref) => {
                       Cancel
                     </Link>
                   </button>
-                  <button
+                  {/* <button
                     className="btn btn-primary btn-filled create"
                     onClick={showFileInReadersList}
                   >
                     Create
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </div>
@@ -934,7 +934,7 @@ const TableView = (props, ref) => {
             <div className="selected-hcp-table-action">
               {editable == false ? (
                 <>
-                  {" "}
+                  {/* {" "}
                   <a
                     className="show-less-info"
                     onClick={(e) => showMoreInfo(e)}
@@ -952,15 +952,15 @@ const TableView = (props, ref) => {
                     filename="tablexls"
                     sheet="tablexls"
                     buttonText="Download "
-                  />
-                  <div className="hcp-new-user">
+                  /> */}
+                  {/* <div className="hcp-new-user">
                     <button
                       className="btn btn-outline-primary"
                       onClick={handleShow}
                     >
                       <img src={path + "new-user.svg"} alt="New User" />
                     </button>
-                  </div>
+                  </div> */}
                   <div className="hcp-added">
                     <button
                       className="btn btn-outline-primary"
@@ -969,7 +969,7 @@ const TableView = (props, ref) => {
                       <img src={path + "edit-button.svg"} alt="Edit" />
                     </button>
                   </div>
-                  <div className="hcp-sort">
+                  {/* <div className="hcp-sort">
                     {sortingCount == 0 ? (
                       <>
                         <button
@@ -1007,7 +1007,7 @@ const TableView = (props, ref) => {
                         </button>
                       </>
                     )}
-                  </div>
+                  </div> */}
                 </>
               ) : null}
 

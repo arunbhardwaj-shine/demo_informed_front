@@ -8,7 +8,7 @@ import { popup_alert } from "../../../popup_alert";
 import ViewTable from "../../Distributes/SmartListComponent/ViewTable";
 import ViewData from "./ViewData";
 
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 const ViewSmartListWebinar = () => {
   const queryParams = queryString.parse(window.location.search);
@@ -60,6 +60,7 @@ const ViewSmartListWebinar = () => {
             // loader("hide");
           }
         } else {
+          toast.error(res.data.message);
           // popup_alert({
           //   visible: "show",
           //   message: "No readers in the smart list",
@@ -92,6 +93,22 @@ const ViewSmartListWebinar = () => {
         <div className="col right-sidebar">
           <ViewData data={editList} smartListId={queryParams.listId} />
         </div>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
       </>
     );
   }

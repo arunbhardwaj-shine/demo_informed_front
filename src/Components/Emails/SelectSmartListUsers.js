@@ -51,7 +51,7 @@ const SelectSmartListUsers = (props) => {
 
   useEffect(() => {
     let campaign_id =
-      typeof props.getEmailData === "object" && props.getEmailData !== null
+      typeof props.getEmailData === "object" && props.getEmailData !== null && props.getEmailData?.campaign_id
         ? props.getEmailData.campaign_id
         : props.getDraftData.campaign_id;
     setCampaign_id(campaign_id);

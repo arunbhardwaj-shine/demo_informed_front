@@ -21,7 +21,7 @@ const SelectSmartList = (props) => {
   const [smartListSelected, setSmartListSelected] = useState({});
   const [getpopupopeningstatus, setpopupopeningstatus] = useState(false);
   const navigate = useNavigate();
-  const campaign_id = props.getEmailData
+  const campaign_id = props.getEmailData?.campaign_id
     ? props.getEmailData.campaign_id
     : props.getDraftData.campaign_id;
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
