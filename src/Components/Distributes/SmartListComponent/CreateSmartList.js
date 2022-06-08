@@ -256,9 +256,10 @@ const CreateSmartList = () => {
                           href="#"
                           data-bs-toggle="tooltip"
                           data-bs-placement="top"
-                          title="Step to create smart list"
+
                         >
                           <img src={path + "question.svg"} alt="" />
+                          <div className="tooltip">A list that will appeare when you select smart list to <span>send a sample.</span></div>
                         </a>
                       </div>
                     </div>
