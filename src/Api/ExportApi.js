@@ -143,32 +143,30 @@ const GetEventListDataUpdate = (id, EventTitle, a, Description) =>
     }
   );
 const CreatEvent = (
-  EventTitle,
-  a,
-  event_start_time,
-  eventendtime,
-  Timezone,
-  code,
-  Bu,
-  event_date,
-  Description,
-  Region,
-  Country
+     EventTitle,
+            a ,
+      event_start_time,
+          eventendtime,
+            Timezone,
+            Bu,
+            dateData,
+            Description,
+            Region,
+            Country
 ) =>
   BaseApi.post(
     "event",
     {
       title: EventTitle,
-      description: Description,
+      speaker_data: a,
       event_start_time: event_start_time,
       event_end_time: eventendtime,
-      location: Country,
       timezone: Timezone,
-      code: code,
       type: Bu,
+      event_date: dateData,
+      description: Description,
       country_timezone: Region,
-      speaker_data: a,
-      event_date: event_date,
+      location: Country,
     },
     {
       headers: {

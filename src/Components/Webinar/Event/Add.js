@@ -144,10 +144,6 @@ function Add(props) {
         let dateData = dd + "/" + mm + "/" + yyyy;
 
         let a = JSON.stringify(Speakername);
-
-        if (values.event_start_time >= values.eventendtime) {
-          setMassage("End time has to be greater start time");
-        } else {
           setMassage(false);
           ExportApi.CreatEvent(
             values.EventTitle,
@@ -166,6 +162,8 @@ function Add(props) {
                 console.log(resp.data);
                 if (resp.data.code == 200) {
                   loader("hide");
+                  props.getEventList();
+                  props.closePopup()
                   console.log(typeof resp.data.message);
                   toast.success(resp.data.message);
                 } else {
@@ -184,10 +182,10 @@ function Add(props) {
             .catch((err) => console.log(err));
         }
 
-        props.closePopup();
-        props.getEventList();
+        // props.closePopup();
+       
       }
-    },
+    
   });
   var today = new Date();
   var dd = String(today.getDate()).padStart(2, "0");
