@@ -112,6 +112,7 @@ let platform = 0;
 let show = 0;
 if (window.location.href.indexOf("/webinar") > -1) {
   require("./Components/Webinar/assets/css/webinar-style.css");
+  require("./Components/assets/fonts/fonts.css");
   platform = 1;
   show = 1;
 }else{
