@@ -640,8 +640,12 @@ const SelectSmartListUsers = (props) => {
                 <li className="active">
                   <Link to="/SelectHCP">Select HCPs</Link>
                 </li>
+                <li className="active">
+                  <Link to="/SelectSmartList">Select Smart List</Link>
+                </li>
+                
                 <li className="active active-main">
-                  <Link to="/SelectSmartList">Verify Your List</Link>
+                  <Link to="/SelectSmartListUsers">Verify Your List</Link>
                 </li>
 
                 <li className="">
