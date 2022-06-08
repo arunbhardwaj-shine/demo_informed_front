@@ -977,6 +977,9 @@ input:-webkit-autofill{ -webkit-text-fill-color: #4E718E !important; }
     border-radius: 15px;
     max-width: 70%;
     margin: 40px auto;
+    box-shadow: 0px 1px 8px rgb(0 102 190 / 24%);
+    border-radius: 15px;
+    padding: 15px 49px 25px 25px;
 }
 .modal-body-view .preview-mail-box table {
     width: 100%;
