@@ -370,17 +370,17 @@ const Table = (props, ref) => {
       .then((res) => {
         loader("hide");
         if (res.data.status_code == 200) {
-          if(flag == "create"){
+          if(flag == "update"){
             popup_alert({
               visible: "show",
-              message: "Your smart list has been created <br />successfully !",
+              message: "Your changes has been saved <br />successfully !",
               type: "success",
               redirect: "/SmartList",
             });
           }else{
             popup_alert({
               visible: "show",
-              message: "Your changes has been saved <br />successfully !",
+              message: "Your smart list has been created <br />successfully !",
               type: "success",
               redirect: "/SmartList",
             });
