@@ -110,7 +110,7 @@ const VerifyHCP = (props) => {
       if (props.getDraftData !== null) {
         let reducHcp = props.getDraftData.campaign_data.selectedHcp;
 
-        //  let reducHcp = selectedHcp.map( 
+        //  let reducHcp = selectedHcp.map(
         //     (item) => {
         //       return item.profile_user_id;
         //     }
@@ -380,7 +380,16 @@ const VerifyHCP = (props) => {
 
       const status = body.data.map((data) => {
         if (data.email == "") {
-          return "false";
+          return "Please enter the email atleast";
+        } else if(data.email != ""){
+          let email = data.email;
+          let useremail = email.trim();
+          var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+          if (regex.test(String(useremail).toLowerCase())) {
+            return "true";
+          }else{
+            return "Email format is not valid";
+          }
         } else {
           return "true";
         }
@@ -411,7 +420,7 @@ const VerifyHCP = (props) => {
             toast.error("Somwthing went wrong");
           });
       } else {
-        toast.warning("Please enter the email atleast");
+        toast.warning(status[0]);
       }
       // setIsOpen(false);
     } else {
