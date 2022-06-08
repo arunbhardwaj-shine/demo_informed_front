@@ -64,7 +64,7 @@ a{text-decoration: none;}
 .email-result.webinar-result {
     margin-top: 48px;
 }
-.email-block-add {
+.webinar-result .email-block-add {
     margin: 0 auto;
 }
 .email-result-block .email_box_block .mail-box-content.webinar-box {

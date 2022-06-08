@@ -64,6 +64,16 @@ const GetTimezoneregionData = () =>
       },
     }
   );
+const GetTags = () =>
+  BaseApi.get(
+    "tags",
+    {},
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
 const GetCountryData = () =>
   BaseApi.get(
     "country",
@@ -634,6 +644,7 @@ export default {
   GetBuData,
   GetTimezoneData,
   GetTimezoneregionData,
+  GetTags,
   GetCountryData,
   GetEventList,
   DownloadSampleFile,

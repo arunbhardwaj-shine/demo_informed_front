@@ -124,10 +124,10 @@ const VerifyMAIL = (props) => {
         : props.getDraftData.pdf_id,
       description: props.getEmailData?.emailDescription
         ? props.getEmailData.emailDescription
-        : props.getDraftData.description,
+        : props.getDraftData?.description ? props.getDraftData.description : '',
       creator: props.getEmailData?.emailCreator
         ? props.getEmailData.emailCreator
-        : props.getDraftData.creator,
+        : props.getDraftData?.creator ? props.getDraftData.creator : '',
       campaign_name: props.getEmailData?.emailCampaign
         ? props.getEmailData.emailCampaign
         : props.getDraftData.campaign,
@@ -206,12 +206,12 @@ const VerifyMAIL = (props) => {
       subject: props.getEmailData?.emailSubject
         ? props.getEmailData.emailSubject
         : props.getDraftData.subject,
-      description: props.getEmailData?.emailDescription
+        description: props.getEmailData?.emailDescription
         ? props.getEmailData.emailDescription
-        : props.getDraftData.description,
+        : props.getDraftData?.description ? props.getDraftData.description : '',
       creator: props.getEmailData?.emailCreator
         ? props.getEmailData.emailCreator
-        : props.getDraftData.creator,
+        : props.getDraftData?.creator ? props.getDraftData.creator : '',
       campaign_name: props.getEmailData?.emailCampaign
         ? props.getEmailData.emailCampaign
         : props.getDraftData.campaign,

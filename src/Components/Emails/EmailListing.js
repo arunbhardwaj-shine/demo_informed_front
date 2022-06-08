@@ -938,10 +938,10 @@ const EmailList = (props) => {
           )}
         <div className="email-result">
           <div className="col email-result-block">
-            {filtertags.length == 0 &&
+            {(filtertags.length == 0 &&
               filtercreator.length == 0 &&
               filterdate.length == 0 &&
-              filtercampaign.length == 0 && (
+              filtercampaign.length == 0) && (!deletestatus) && (
                 <div className="email_box_block">
                   <div className="email-block-add">
                     <Link to="/EmailArticleSelect" onClick={createNewEmail}>
@@ -1529,6 +1529,14 @@ const EmailList = (props) => {
                       options={options_ch}
                     />
                   </div>
+                </div>
+
+                <div
+                  className="preview-mail-box"
+                  dangerouslySetInnerHTML={{
+                    __html: viewEmailData[0].template,
+                  }}
+                >
                 </div>
               </div>
             )}

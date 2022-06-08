@@ -679,12 +679,46 @@ const CreateEmail = (props) => {
     setemailCampaign(e.target.value);
   };
 
-  const addTag = () => {
+  const addTag = async() => {
     if (typeof newTag == "undefined" || newTag.trim().length == 0) {
       toast.error("Please input a tag");
     } else {
-      if (!tagClickedFirst.includes(newTag)) {
+      let temp_tags = tagClickedFirst.map((data) => {
+        return data.toLowerCase();
+      });
+    //  console.log(allTags)
+     let alltemp_tags = [];
+       Object.entries(allTags).map((data) => {
+          return alltemp_tags.push(...data);
+       
+      });
+      alltemp_tags = alltemp_tags.map((data) => {
+         return data.toLowerCase();
+      });
+      console.log(alltemp_tags);
+
+      if (!temp_tags.includes(newTag.toLowerCase()) && !alltemp_tags.includes(newTag.toLowerCase())) {
         setTagClickedFirst((oldArray) => [...oldArray, newTag]);
+
+        const body = {
+          user_id: 18207,
+          tags:newTag
+        };
+  
+        //console.log(body);
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+        loader("show");
+        await axios
+          .post(`emailapi/save_tags`, body)
+          .then((res) => {
+          
+            loader("hide");
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        
+
       } else {
         toast.error("Tag already in list.");
       }

@@ -616,9 +616,9 @@ const SmartList = (props) => {
 
         <div className="smart-list-result">
           <div className="col smartlist-result-block">
-            {getfiltername.length == 0 &&
+            {(getfiltername.length == 0 &&
               getFilterCreator.length == 0 &&
-              filterdate.length == 0 && (
+              filterdate.length == 0) && (!deletestatus) && (
                 <div className="smartlist_box_block">
                   <div className="smartlist-add smartlist-view">
                     {typeof getUserDetails !== "undefined" && (

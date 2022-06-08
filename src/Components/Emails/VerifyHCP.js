@@ -108,16 +108,16 @@ const VerifyHCP = (props) => {
       props.hasOwnProperty("getDraftData")
     ) {
       if (props.getDraftData !== null) {
-        //let reducHcp = props.getDraftData.campaign_data.selectedHcp;
+        let reducHcp = props.getDraftData.campaign_data.selectedHcp;
 
-         let reducHcp = selectedHcp.map(
-            (item) => {
-              return item.profile_user_id;
-            }
-          );
+        //  let reducHcp = selectedHcp.map( 
+        //     (item) => {
+        //       return item.profile_user_id;
+        //     }
+        //   );
 
         if (typeof reducHcp != "undefined") {
-         // setSelectedHcp(reducHcp);
+          setSelectedHcp(reducHcp);
         }
       }
     }
@@ -663,10 +663,10 @@ const VerifyHCP = (props) => {
         : props.getDraftData.pdf_id,
       description: old_object?.emailDescription
         ? old_object.emailDescription
-        : props.getDraftData.description,
+        : props.getDraftData?.description ? props.getDraftData.description : '',
       creator: old_object?.emailCreator
         ? old_object.emailCreator
-        : props.getDraftData.creator,
+        : props.getDraftData?.creator ? props.getDraftData.creator : '',
       campaign_name: old_object?.emailCampaign
         ? old_object.emailCampaign
         : props.getDraftData.campaign,
