@@ -48,7 +48,7 @@ const EventData = () => {
         setEvent(resp.data.data);
       } else {
         setEvent([]);
-        setMessage("No data found");
+        setMessage("No event found");
       }
     });
   };
@@ -300,10 +300,10 @@ const EventData = () => {
                  Filter By
                 </Dropdown.Toggle>
 
-                <Dropdown.Menu>
+                {/* <Dropdown.Menu>
                   <Dropdown.Item href="#/">Name</Dropdown.Item>
                   <Dropdown.Item href="#/">Name</Dropdown.Item>
-                </Dropdown.Menu>
+                </Dropdown.Menu> */}
               </Dropdown>
               </>
             </div>
@@ -416,7 +416,7 @@ const EventData = () => {
                         <h5>{event.title}</h5>
                         <div className="webinar-box-content-detail">
                             <div className="smart-list-added-user">
-                              <span>{event.days_left}</span> Days Left
+                          {event.days_left==1?<><span>{event.days_left}</span> Day Left</>:<><span>{event.days_left}</span> Days Left</>}    
                             </div>
                             <div className="mail-time">
                               <span>{event.event_date}</span>
