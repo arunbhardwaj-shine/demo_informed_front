@@ -690,7 +690,7 @@ const CreateEmail = (props) => {
      let alltemp_tags = [];
        Object.entries(allTags).map((data) => {
           return alltemp_tags.push(...data);
-       
+
       });
       alltemp_tags = alltemp_tags.map((data) => {
          return data.toLowerCase();
@@ -704,20 +704,20 @@ const CreateEmail = (props) => {
           user_id: 18207,
           tags:newTag
         };
-  
+
         //console.log(body);
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
         await axios
           .post(`emailapi/save_tags`, body)
           .then((res) => {
-          
+
             loader("hide");
           })
           .catch((err) => {
             console.log(err);
           });
-        
+
 
       } else {
         toast.error("Tag already in list.");
@@ -939,7 +939,16 @@ const CreateEmail = (props) => {
 
       const status = body.data.map((data) => {
         if (data.email == "") {
-          return "false";
+          return "Please enter the email atleast";
+        } else if(data.email != ""){
+          let email = data.email;
+          let useremail = email.trim();
+          var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+          if (regex.test(String(useremail).toLowerCase())) {
+            return "true";
+          }else{
+            return "Email format is not valid";
+          }
         } else {
           return "true";
         }
@@ -971,7 +980,7 @@ const CreateEmail = (props) => {
             loader("hide");
           });
       } else {
-        toast.error("please enter the email atleast");
+        toast.warning(status[0]);
       }
     } else {
       let formData = new FormData();
