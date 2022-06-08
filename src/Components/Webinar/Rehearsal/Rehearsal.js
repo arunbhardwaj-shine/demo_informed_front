@@ -575,6 +575,9 @@ function Rehearsal() {
                     </h4>
                   )}
                   <br />
+                  <div className="title_create">
+         <p>Click on invitation Email to customize the email</p><button><Link to="/webinar/customizerehearsalinvites">invitation Email</Link> </button>
+        </div>
                   </fieldset>
                 </div>
               </div>
@@ -597,9 +600,7 @@ function Rehearsal() {
             </form>
           </div>
         </div>
-        <div className="title_create">
-         <p>Click on invitation Email to customize the email</p><button><Link to="/webinar/customizerehearsalinvites">invitation Email</Link> </button>
-        </div>
+       
       </Col>
     </Row>
     </div>
