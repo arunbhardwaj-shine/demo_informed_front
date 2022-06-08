@@ -202,6 +202,8 @@ const Template = (props) => {
         }else{
           if(localStorage.getItem("EventIdHeader")){
             setMessage("Please create template");
+            setTemplateList()
+            setTemplate()
           }else{
             loader("hide")
             setMessage("Please create Event")
@@ -222,14 +224,11 @@ const Template = (props) => {
       }
     });
   };
-
   const handleGetTemplate = (idd) => {
     setDpc();
     setId(idd);
     ExportApi.UserTemplate(idd).then((resp) => {
       if (resp.ok) {
-        console.log("first,",resp.data.data)
-        setTemplate(resp.data.data);
         setTimeout(() => {
           emailEditorRef.current.editor.loadDesign(
             resp.data.data.json_description
@@ -237,6 +236,9 @@ const Template = (props) => {
               : hello
           );
         }, 1000);
+        setFinalTags(JSON.parse(resp.data.data.tags))
+        setTagClickedFirst(JSON.parse(resp.data.data.tags))
+        setTemplate(resp.data.data);
       }
     });
   };
@@ -342,7 +344,7 @@ const Template = (props) => {
                     </div>
                   ))
                 ) : (
-                  <h2>{message}</h2>
+                  <h2>{null}</h2>
                 )}  
               </AliceCarousel> 
               </div>
@@ -392,7 +394,7 @@ const Template = (props) => {
     </Modal.Footer>
   </Modal>
   {/* end of delete modal code ------------------ */}  
-  {localStorage.getItem("EventIdHeader")?  <form onSubmit={formik.handleSubmit}>
+  {templateList?  <form onSubmit={formik.handleSubmit}>
           <Row>
             
             <div className="shadow-lg p-3 mb-5 bg-white rounded md={{ span: 8, offset: 3 }} form-inline row justify-content-between align-items-center">
@@ -466,7 +468,7 @@ const Template = (props) => {
               </div>  
             </div>
           </Row>
-        </form>:<h3>Please create event</h3>}
+        </form>:<h2>{message}</h2>}
    
       
         <Modal id="tagsModal" show={isOpen}>

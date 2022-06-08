@@ -65,6 +65,7 @@ const Header = () => {
     });
   };
   useEffect(() => {
+    window.addEventListener('EventData',()=> handleGetEventlist())
     handleGetEventlist()
   }, []);
   const location = useLocation();
