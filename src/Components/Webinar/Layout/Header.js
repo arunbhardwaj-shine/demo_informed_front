@@ -53,11 +53,17 @@ const Header = () => {
     ExportApi.GetEventList().then((resp) => {
       if (resp.ok) {
         setEvent(resp.data.data);
-        console.log(resp.data.data[0].id)
+        console.log(resp.data.code)
+
+        if (resp.data.code == 404) {
+          localStorage.removeItem("EventIdHeader")
+       
+      }else{
         if(eventId==null||eventId==undefined){
-           setEventId(resp.data.data[0].id)
-           localStorage.setItem("EventIdHeader",resp.data.data[0].id)
-        }
+          setEventId(resp.data.data[0].id)
+          localStorage.setItem("EventIdHeader",resp.data.data[0].id)
+       }
+      } 
       }
     });
   };
