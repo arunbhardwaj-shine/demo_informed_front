@@ -22,12 +22,19 @@ const Sidebar = () => {
   }, [localStorage.getItem("Token"), token]);
 
   const showHideHome = () => {
-    document.body.classList.toggle('sub_menu_toggle_sidebar');
-    if(getHomeStatus){
-      setHomeStatus(false);
-    }else{
-      setHomeStatus(true);
+    const bodyHasClass = document.body.classList.contains(
+      'sub_menu_toggle_sidebar'
+     );
+
+     if (!bodyHasClass) {
+        document.body.classList.toggle('sub_menu_toggle_sidebar');
     }
+    // if(getHomeStatus){
+    //   setHomeStatus(false);
+    // }
+    // else{
+      setHomeStatus(true);
+    // }
     
   }
   return (
@@ -330,13 +337,12 @@ const Sidebar = () => {
                       />
                     </button>
                     <ul>
-                      
-                      <li className={location.pathname === "/webinar" ? "active" : "side_li"}>
-                        <img src={path_image + "webinar/home.svg"} /> 
+                    <li className={location.pathname === "/webinar" ? "active" : "side_li"} onClick={showHideHome}>
+                        <Link to="/webinar"><img src={path_image + "webinar/home.svg"} /> 
                         <p> Home</p>
-                      </li>
-                      
-          
+                        </Link>
+                    </li>
+                    
                       <li className={location.pathname === "/webinar/dashboard" ? "active" : "side_li"}>
                         <Link to="/webinar/dashboard"><img src={path_image + "webinar/dashboard.svg"} /> 
                         <p>Dashboard</p>
