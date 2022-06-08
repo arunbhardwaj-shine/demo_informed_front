@@ -198,7 +198,7 @@ const CreateSmartList = () => {
           <div class="row justify-content-end align-items-center">
             <div class="col-12 col-md-11">
               <ul class="tabnav-link">
-                <li class="active">
+                <li class="active active-main">
                   <a href="javascript:void(0)">Create smart list</a>
                 </li>
                 <li class="">
@@ -251,7 +251,7 @@ const CreateSmartList = () => {
                           I want this to be a <span>Demo list</span>
                         </p>
                         <div class="select-demo-option">
-                          <input type="radio" name="radio" />
+                          <input type="checkbox" name="cherk" />
                           <span class="checkmark"></span>
                         </div>
                         <a  href="#" data-bs-toggle="tooltip" data-bs-placement="top">
