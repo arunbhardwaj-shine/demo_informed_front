@@ -125,7 +125,9 @@ function Add(props) {
     },
 
     validationSchema: Yup.object({
-      EventTitle: Yup.string().required("Event title is required"),
+      EventTitle: Yup.string()
+       .max(30,"Event title must be at most 30 characters")
+      .required("Event title is required"),
       Timezone: Yup.string().required("Timezone is required"),
       event_start_time: Yup.string().required("Event start time is required"),
       Region: Yup.string().required("Region is required"),
