@@ -509,26 +509,37 @@ const ViewData = (props) => {
 
   const deleteReader = async (profile_user_id) => {
     const body = {
-      smart_list_id: getlistid,
-      user_id: 18207,
-      profile_user_id: profile_user_id,
+      smart_list_id: props.smartListId,
+
+      participant_id: profile_user_id,
+    };
+
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `${localStorage.getItem("Token")}`,
     };
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    loader("show");
+    //  loader("show");
     await axios
-      .post(`distributes/delete_reader`, body)
+      .post(
+        `http://51.89.210.56:8000/api/smart-list/delete-participants`,
+        body,
+        {
+          headers,
+        }
+      )
       .then((res) => {
         console.log(res);
 
-        loader("hide");
+        //    loader("hide");
       })
       .catch((err) => {
         console.log(err);
       });
 
     const filtered_list = editList.filter((data) => {
-      return data.profile_user_id != profile_user_id;
+      return data.id != profile_user_id;
     });
 
     setEditList(filtered_list);
@@ -615,24 +626,18 @@ const ViewData = (props) => {
     setAddFileReRender(addFileReRender + 1);
   };
 
-  const onDelete = async ({
-    profile_id,
-    newName,
-    email,
-    jobTitle,
-    company,
-    country,
-    profile_user_id,
-  }) => {
+  const onDelete = async ({ participants_id }) => {
+    console.log(participants_id);
+
     if (editList.length > 1) {
       setIsOpen(true);
-      setProfileUserId(profile_user_id);
+      setProfileUserId(participants_id);
     } else {
-      popup_alert({
-        visible: "show",
-        message: "Please keep atleast one reader or delete the smart list",
-        type: "error",
-      });
+      // popup_alert({
+      //   visible: "show",
+      //   message: "Please keep atleast one reader or delete the smart list",
+      //   type: "error",
+      // });
     }
   };
 
@@ -705,22 +710,14 @@ const ViewData = (props) => {
     let r_table = [];
     updateData.find(function (item) {
       console.log(item);
-      if (
-        item.first_name.includes(search) ||
-        item.last_name.includes(search) ||
-        item.email.includes(search)
-      ) {
+      if (item.name.includes(search) || item.email.includes(search)) {
         r_table.push(item);
       }
     });
     if (r_table.length > 0) {
       setEditList(r_table);
     } else {
-      popup_alert({
-        visible: "show",
-        message: "Data not found",
-        type: "error",
-      });
+      toast.error("Data not found");
     }
     event.preventDefault();
     return false;
@@ -876,11 +873,11 @@ const ViewData = (props) => {
   };
 
   const showSucessPopup = () => {
-    popup_alert({
-      visible: "show",
-      message: "The HCP record has been deleted <br/>successfully !",
-      type: "success",
-    });
+    // popup_alert({
+    //   visible: "show",
+    //   message: "The HCP record has been deleted <br/>successfully !",
+    //   type: "success",
+    // });
 
     setOpenDeleteConfirmation(false);
   };
@@ -1197,15 +1194,7 @@ const ViewData = (props) => {
                         alt="Delete Row"
                         onClick={() =>
                           onDelete({
-                            id: item.profile_id,
-                            currentName: item.first_name + " " + item.last_name,
-                            currentJobTitle: item.jobTitle,
-                            currentCompany: item.company,
-                            currentIndication: item.indication,
-                            currentProduct: item.product,
-                            currentCountry: item.country,
-                            currentEmail: item.email,
-                            profile_user_id: item.profile_user_id,
+                            participants_id: item.id,
                           })
                         }
                       />
@@ -1233,7 +1222,7 @@ const ViewData = (props) => {
         <Modal.Body>
           <img src={path + "alert.png"} alt="" />
           <h4>
-            The HCP record will be deleted from the list.
+            The record will be deleted from the list.
             <br /> Are you sure you want to delete it?{" "}
           </h4>
 
