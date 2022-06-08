@@ -83,8 +83,8 @@ const Table = (props, ref) => {
   useImperativeHandle(
     ref,
     () => ({
-      createSmartList(dd, newReaders) {
-        showFileInReadersList(dd, newReaders);
+      createSmartList(dd, newReaders,flag) {
+        showFileInReadersList(dd, newReaders,flag);
       },
     }),
     []
@@ -311,7 +311,7 @@ const Table = (props, ref) => {
     // });
   };
 
-  const showFileInReadersList = async (fdata, newReaders) => {
+  const showFileInReadersList = async (fdata, newReaders,flag) => {
     let body = {};
     if (typeof editList != "undefined" && editList.length > 0) {
       //for Normal flow
@@ -370,12 +370,21 @@ const Table = (props, ref) => {
       .then((res) => {
         loader("hide");
         if (res.data.status_code == 200) {
-          popup_alert({
-            visible: "show",
-            message: "Your changes has been saved <br />successfully !",
-            type: "success",
-            redirect: "/SmartList",
-          });
+          if(flag == "create"){
+            popup_alert({
+              visible: "show",
+              message: "Your smart list has been created <br />successfully !",
+              type: "success",
+              redirect: "/SmartList",
+            });
+          }else{
+            popup_alert({
+              visible: "show",
+              message: "Your changes has been saved <br />successfully !",
+              type: "success",
+              redirect: "/SmartList",
+            });
+          }
         } else {
           toast.warning(res.data.message);
           loader("hide");
