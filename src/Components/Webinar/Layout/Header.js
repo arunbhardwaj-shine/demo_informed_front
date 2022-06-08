@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Button, Dropdown, Form, Modal } from "react-bootstrap";
-import "../../assets/css/style.css";
-import '../../assets/css/responsive.css';
-import "../assets/css/webinar-style.css";
 import Login from "../../../Auth/Login";
 import { toast, ToastContainer } from "react-toastify";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -114,7 +111,7 @@ const Header = () => {
 					  </li> */}
               </ul>
             </div>
-            
+
             {token? (
               <Form.Select
               style={{width:"270px"}}
@@ -227,7 +224,7 @@ const Header = () => {
             </div>
           </div>
         </nav>
-     
+
       </header>}
     </>
   );

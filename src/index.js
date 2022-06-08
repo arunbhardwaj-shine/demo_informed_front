@@ -111,8 +111,14 @@ import CustomizeRehearsalInvites from "./Components/Webinar/Rehearsal/CustomizeR
 let platform = 0;
 let show = 0;
 if (window.location.href.indexOf("/webinar") > -1) {
+  require("./Components/Webinar/assets/css/webinar-style.css");
   platform = 1;
   show = 1;
+}else{
+  require("./Components/assets/css/style.css");
+  require("./Components/assets/css/responsive.css");
+  require("./Components/assets/css/custom.css");
+  require("./Components/assets/fonts/fonts.css");
 }
 ReactDOM.render(
   <React.StrictMode>
