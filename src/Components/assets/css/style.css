@@ -93,7 +93,7 @@ header { position: sticky; top: 0; z-index: 9; }
 .email-result-block .email_box_block:nth-child(3n) .email_box { margin-right: 0; }
 .email-result-block .email_box_block:nth-child(3n + 1) .email_box { margin-left: 0; }
 .email_box:hover, .mail-content-select-box:hover { box-shadow: 0px 4px 10px -1px rgba(0, 102, 190, 0.4); }
-.mail-box-content { min-height:423px;padding: 27px 16px 16px 24px; background: var(--white); border-radius: 20px 20px; z-index: 5; position: relative; display: flex; flex-direction: column; justify-content: space-between; height: 100%; }
+.mail-box-content {padding: 27px 16px 16px 24px; background: var(--white); border-radius: 20px 20px; z-index: 5; position: relative; display: flex; flex-direction: column; justify-content: space-between; height: 100%; }
 .email-draft .mail-box-content, .draft-approved .mail-box-content{ height: calc(100% - 22px); box-shadow: 0px -6px 6px -4px rgb(0 102 190 / 20%); }
 .dlt_btn { position: absolute; right: -15px; bottom: -15px; }
 .dlt_btn button { background: var(--light-blue); border: 0; width: 32px; height: 32px; text-align: center; border-radius: 50%; }
@@ -148,7 +148,7 @@ header { position: sticky; top: 0; z-index: 9; }
 .smart-list-result { margin-top: 40px; }
 .smartlist-view .mail-box-content h5 { color: var(--light-blue); margin: 0 0 6px; }
 .smartlist-view .mailbox-table th { font-weight: 400; font-family: 'Roboto'; color: var(--blue); padding: 4px 13px 5px 0; }
-.smartlist-view .mail-box-content { padding: 16px 16px 16px 16px; }
+.smartlist-view .mail-box-content {  min-height:423px; padding: 16px 16px 16px 16px; }
 .mailbox-table td span { background: #E7F4FF; border-radius: 3px; font-size: 14px; line-height: 16px; color: var(--light-blue); font-family: 'Roboto-Light'; padding: 1px 29px; }
 .smartlist-view .mail-stats ul li { width: 32%; }
 .smartlist-view .mail-stats ul { justify-content: flex-start; margin: 0px 0 15px; }
@@ -629,7 +629,7 @@ form#add_hcp_form .row:not(:first-child) { border-top: 1px dashed var(--light-bl
 .create_smart_list .create-smart-step .create-smart-step-box form label { font-size: 20px; line-height: 23px; color: var(--blue); margin-bottom: 16px; }
 .create_smart_list .create-smart-step .create-smart-step-box form .form-control { background: var(--white); box-shadow: 0px 1px 6px rgb(0 102 190 / 20%); border-radius: 30px; border: 0; padding: 12px; max-width: 433px; width: 100%;color: #4E718E;font-size: 14px; }
 .create-smart-step-box .form-group.col { max-width: 456px; }
-.create-smart-step-box .form-group-content { display: flex; justify-content: flex-end; align-items: center; margin-top: 6px; }
+.create-smart-step-box .form-group-content { display: flex; justify-content: flex-end; align-items: center; margin-top: 6px; position: relative;}
 .create-smart-step-box .form-group-content p { margin: 0; font-size: 14px; line-height: 16px; color: #4E718E; }
 .create-smart-step-box .form-group-content p span { color: var(--violet); }
 .select-demo-option { position: relative; line-height: 1; margin: 0 10px 0 9px; }
@@ -938,7 +938,7 @@ input:-webkit-autofill{ -webkit-text-fill-color: #4E718E !important; }
   overflow: hidden;
   z-index: 100;
   top: 0;
-  background: #fff;
+  background: var(--white);
 }
 /* #smart_list_popup_id .search-hcp .selected-hcp-list table td:nth-child(3) {
   text-align: center;
@@ -950,7 +950,21 @@ input:-webkit-autofill{ -webkit-text-fill-color: #4E718E !important; }
     background-color: var(--light-blue);
     color:var(--white);
 }
-
+.form-group-content a[data-bs-toggle]:hover + .tooltip {
+  opacity: 1;
+}
+.form-group-content .tooltip {
+  width: 180px;
+  font-size: 11px;
+  background: var(--white);
+  padding: 4px 6px;
+  color: var(--violet);
+  box-shadow: 0px 1px 4px rgb(0 102 190 / 20%);
+  border-radius: 4px;
+  top: 18px;
+  right: -5px;
+}
+.form-group-content .tooltip span{font-family: 'Roboto-Medium';}
 @-moz-document url-prefix() {
   a.show-less-info p::after {
     top: 3px;

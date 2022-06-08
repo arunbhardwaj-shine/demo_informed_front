@@ -225,13 +225,13 @@
 		padding: 6px 27px;
 		height: 36px;
 	}
-	.mail-box-content {
+	.smartlist-view .mail-box-content {
 		min-height: 352px;
 	}																		
 	} 
 	 
 	 @media only screen and (max-width:1365px){ 
-		.mail-box-content {
+		.smartlist-view .mail-box-content {
 			min-height: 343px;
 		}	
 		#add_hcp .modal-body .hcp-add-box .hcp-add-form.tab-content, #smart_list_popup_id .search-hcp .selected-hcp-list {max-height: 67vh;}
