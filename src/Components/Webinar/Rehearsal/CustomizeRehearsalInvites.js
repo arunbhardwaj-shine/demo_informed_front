@@ -6,9 +6,20 @@ import { Button, Col, Modal, Row } from "react-bootstrap";
 import { loader } from "../../../loader";
 import { Link } from "react-router-dom";
 import EmailEditor from "react-email-editor";
+var state_object = {};
 function CustomizeRehearsalInvites() {
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [isOpen, setIsOpen] = useState(false);
   const [allTags, setAllTags] = useState({});
+  const [tagsReRender, setTagsReRender] = useState(0);
+  const [finalTags, setFinalTags] = useState([]);
+  const [tagClickedFirst, setTagClickedFirst] = useState([]);
+  const removeTag = (index) => {
+    const tags = tagClickedFirst;
+    tags.splice(index, 1);
+    setTagClickedFirst(tags);
+    setTagsReRender(tagsReRender + 1);
+  };
   const openTags = () => {
     setIsOpen(true);
   };
@@ -34,7 +45,7 @@ function CustomizeRehearsalInvites() {
         .post(`emailapi/get_tags`, body)
         .then((res) => {
           setAllTags(res.data.response.data);
-          // console.log(campaign_id_st);
+           console.log(res.data.response.data);
           // if (typeof campaign_id_st === "undefined" || campaign_id_st == 0) {
          loader("hide");
           // }
@@ -46,7 +57,9 @@ function CustomizeRehearsalInvites() {
     getAllTags();
     // getCampaignData();
   }, []);
-
+  const tagButtonClicked = () => {
+    setIsOpen(true);
+  };
   return (
     <div className="right-sidebar">
         <div className="loader" id="custom_loader">
@@ -59,29 +72,31 @@ function CustomizeRehearsalInvites() {
           </h6>
         </Link>
       </div>
+     
+      <form>
       <Row>
+
         <Col ><h3>Rehearsal</h3></Col>
         <Col><Button>Save</Button></Col>
       </Row>
-      <form>
-        <div className="form-inline row justify-content-between align-items-center">
-          <div className="form-inline row justify-content-between align-items-center">
-            <div className="input-group w-100">
-              <div className="input-group-prepend">
-                <button
-                  className="btn btn-bordered btn-primary"
-                  type="button"
-                  id="tags-add"
-                  data-bs-toggle="modal"
-                  data-bs-target="#tagsModal"
-                  onClick={() => setIsOpen(true)}
-                >
-                  + Add Tag
-                </button>
-              </div>
-              <div className="tags_added">
-                <ul>
-                  {/* {finalTags.map((tags, index) => {
+      <div className="email-form">
+                <form>
+                  <div className="input-group w-100">
+                    <div className="input-group-prepend">
+                      <button
+                        className="btn btn-bordered btn-primary"
+                        type="button"
+                        id="tags-add"
+                        data-bs-toggle="modal"
+                        data-bs-target="#tagsModal"
+                        onClick={tagButtonClicked}
+                      >
+                        + Add Tag
+                      </button>
+                    </div>
+                    <div className="tags_added">
+                      <ul>
+                        {finalTags.map((tags, index) => {
                           return (
                             <>
                               <li className="list1">
@@ -94,30 +109,12 @@ function CustomizeRehearsalInvites() {
                               </li>
                             </>
                           );
-                        })} */}
-                </ul>
-              </div>
-            </div>
-            <div className="form-group">
-              <label for="exampleInputEmail1">Subject</label>
-              <input
-                type="text"
-                className="form-control"
-                id="email-campaign"
-                // value={emailCampaign}
-                // onChange={changeEmailCampaign}
-              />
-              {/* {validator.message(
-                        "emailCampaign",
-                        emailCampaign,
-                        "required"
-                      )} */}
-            </div>
-          </div>
-            <div className="form-group col-12 col-md-7">
-                <EmailEditor ref={emailEditorRef} onLoad={onLoad} onReady={onReady}></EmailEditor>
-              </div>  
-        </div>
+                        })}
+                      </ul>
+                    </div>
+                  </div>
+                </form>
+                </div>
       </form>
 
       <Modal id="tagsModal" show={isOpen}>

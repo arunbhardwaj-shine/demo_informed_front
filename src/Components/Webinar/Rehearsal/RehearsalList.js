@@ -60,6 +60,37 @@ const RehearsalList = ({props,id}) => {
         pauseOnHover
       />
       <div className="create_reheasal">
+      <Row>
+
+<Col>
+<h3 className="title_create">Rehearsal</h3>
+</Col>
+<Col>
+<Form.Group controlId="formFileLg" className="mb-3">
+       <Form.Label>Choice File</Form.Label>
+       <Form.Control
+         name="file"
+         // onChange={(e) => {
+         //   handeleimage(e);
+         // }}
+         type="file"
+         size="md"
+       />
+       <p>Would you like upload any file to the speaker</p>
+   {/* <p style={{color:"red"}}>{imageErr}</p>    */}
+       <Button
+         // onClick={() => {
+         //   sendExcelFile();
+         // }}
+       >
+         Upload
+       </Button>
+     </Form.Group>
+</Col>
+<Col>
+<Button>SpeakerZone</Button>
+</Col>
+</Row>
       {/* <Link  to="/webinar/rehearsal"><Button>Create Rehearsal</Button></Link> */}
         <div className="title_create">
         {localStorage.getItem("EventIdHeader") ? null : (
