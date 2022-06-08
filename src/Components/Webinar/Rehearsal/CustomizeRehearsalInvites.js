@@ -72,15 +72,13 @@ function CustomizeRehearsalInvites() {
           </h6>
         </Link>
       </div>
-     
       <form>
       <Row>
-
         <Col ><h3>Rehearsal</h3></Col>
         <Col><Button>Save</Button></Col>
       </Row>
       <div className="email-form">
-                <form>
+         
                   <div className="input-group w-100">
                     <div className="input-group-prepend">
                       <button
@@ -113,9 +111,29 @@ function CustomizeRehearsalInvites() {
                       </ul>
                     </div>
                   </div>
-                </form>
-                </div>
-      </form>
+                  <div className="form-inline row justify-content-between align-items-center">
+                  <div className="form-group col-12 col-md-12">
+                  <div className="form-group col-12 col-md-12">
+                          <div className="mt-2"></div>
+                          <label column sm={2}>
+                            Email
+                          </label>
+                         
+                            <input  placeholder="Speaker's Name" className="form-control"
+                              type="email"
+                              // value={malti.email}
+                              // onChange={(e) => {
+                              //   handleSpeakerdataEmail(e, i, index);
+                              // }}
+                            />  
+                         </div>
+                         </div>
+                        </div>
+                       </div>
+                       <div className="form-group col-12 col-md-7">
+                    <EmailEditor ref={emailEditorRef} onLoad={onLoad} onReady={onReady}></EmailEditor>
+                  </div>  
+                         </form>
 
       <Modal id="tagsModal" show={isOpen}>
         <Modal.Header>
@@ -152,6 +170,28 @@ function CustomizeRehearsalInvites() {
               {/* Selected Tag <span>| {tagClickedFirst.length}</span> */}
             </h6>
           </div>
+          <div className="selected-tags">
+              <h6>
+                Selected Tag <span>| {tagClickedFirst.length}</span>
+              </h6>
+
+              <div className="total-selected">
+                {tagClickedFirst.map((data, index) => {
+                  return (
+                    <>
+                      <div className="tag-cross">
+                        {data.innerHTML || data}
+                        <img
+                          src={path_image + "filter-close.svg"}
+                          alt="Close-filter"
+                          // onClick={() => removeTagFinal(index)}
+                        />
+                      </div>
+                    </>
+                  );
+                })}
+              </div>
+            </div>
         </Modal.Body>
         <Modal.Footer>
           <form>
