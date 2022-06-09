@@ -30,7 +30,7 @@ const Login = (props) => {
             if (resp.data.code == 200) {
               localStorage.setItem("Token", resp.data.data[0].token);
               localStorage.setItem("username", resp.data.data[0].first_name);
-              navigate("/webinar/dashboard");
+              navigate("/webinar");
               props.active(false);
             } else {
               setErr(true);
