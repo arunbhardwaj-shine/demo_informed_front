@@ -30,7 +30,7 @@ const CreateEmail = (props) => {
   const location = useLocation();
   const [uniqueId, setUniqueId] = useState("");
   const [getsearch, setSearch] = useState("");
-  const PdfSelected = props.getEmailData?.pdf_PdfSelectedid ? dxr : props.getDraftData.pdf_id;
+  const PdfSelected = (dxr || dxr!==0) ? dxr : props.getDraftData?.pdf_id ? props.getDraftData.pdf_id : 0;
 
   const [manualReRender, setManualReRender] = useState(0);
   const campaign_id = props.getDraftData ? props.getDraftData.campaign_id : "";
