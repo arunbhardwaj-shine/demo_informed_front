@@ -22,8 +22,11 @@ const Sidebar = () => {
     }
   }, [localStorage.getItem("Token"), token]);
 
-  const showHideHome = () => {
-    if (location.pathname.includes("/portal/")) {
+  const showHideHome = (index) => {
+    const bodyHasClass = document.body.classList.contains(
+      "sub_menu_toggle_sidebar"
+    );
+    if(1==index){
       setHomeStatus(true);
       const bodyHasClass = document.body.classList.contains(
         "sub_menu_toggle_sidebar"
@@ -32,8 +35,7 @@ const Sidebar = () => {
       if (!bodyHasClass) {
         document.body.classList.toggle("sub_menu_toggle_sidebar");
       }
-      alert("portal");
-    } else if (location.pathname.includes("/email/")) {
+    } else if (2==index) {
       const bodyHasClass = document.body.classList.contains(
         "sub_menu_toggle_sidebar"
       );
@@ -41,10 +43,11 @@ const Sidebar = () => {
       if (!bodyHasClass) {
         document.body.classList.toggle("sub_menu_toggle_sidebar");
       }
-      alert("email");
       setEmailStatus(true);
       setHomeStatus(false);
     } else {
+        document.body.classList.remove("sub_menu_toggle_sidebar");
+      
       setEmailStatus(false);
       setHomeStatus(false);
     }
@@ -55,34 +58,33 @@ const Sidebar = () => {
       location.pathname.includes("/webinar/editor") ? null : (
         <>
           {token ? (
-            <>
-              <div className="sidebar-menu">
-                <ul>
-                  <li
-                    className={
-                      location.pathname === "/webinar" ? "active" : "side_li"
-                    }
-                    onClick={showHideHome}
-                  >
-                    <Link to="/webinar">
-                      <img src={path_image + "webinar/home.svg"} />
-                    </Link>
-                  </li>
-                  <li
-                    className={
-                      location.pathname === "/webinar/dashboard"
-                        ? "active"
-                        : "side_li"
-                    }
-                    onClick={showHideHome}
-                  >
-                    <Link to="/webinar/dashboard">
-                      <img src={path_image + "webinar/dashboard.svg"} />
-                      {/* <p>Dashboard</p> */}
-                    </Link>
-                  </li>
+                <>   
+            <div className="sidebar-menu">
+              <ul>  
+                <li className={location.pathname === "/webinar" ? "active" : "side_li"} onClick={showHideHome}>
+                  <Link to="/webinar"><img src={path_image + "webinar/home.svg"} /> 
+                  </Link>
+                </li>
+                <li className={location.pathname === "/webinar/dashboard" ? "active" : "side_li"}onClick={showHideHome} >
+                  <Link to="/webinar/dashboard"><img src={path_image + "webinar/dashboard.svg"} /> 
+                  {/* <p>Dashboard</p> */}
+                  </Link>
+                </li>
+                
+                <li
+                  className={location.pathname.includes("/webinar/events")  ? "active" : "side_li"}onClick={showHideHome}>
+                  <Link to="/webinar/events"><img src={path_image + "webinar/event.svg"} />
+                  {/* <p>Event Details</p> */}
+                  </Link>
+                </li>
+                <li
+                  className={location.pathname.includes("/webinar/portal/")  ? "active" : "side_li"}onClick={()=>showHideHome(1)}>
+                  <Link to="/webinar/portal/polls"><img src={path_image + "webinar/portal.svg"} />
+                  {/* <p>Portal Preparation</p> */}
+                  </Link>
+                </li>
 
-                  <li
+                  {/* <li
                     className={
                       location.pathname.includes("/webinar/events")
                         ? "active"
@@ -92,10 +94,10 @@ const Sidebar = () => {
                   >
                     <Link to="/webinar/events">
                       <img src={path_image + "webinar/event.svg"} />
-                      {/* <p>Event Details</p> */}
+                      {/* <p>Event Details</p> 
                     </Link>
-                  </li>
-                  <li
+                  </li> */}
+                  {/* <li
                     className={
                       location.pathname.includes("/webinar/portal/")
                         ? "active"
@@ -105,9 +107,9 @@ const Sidebar = () => {
                   >
                     <Link to="/webinar/portal/portalpreparation">
                       <img src={path_image + "webinar/portal.svg"} />
-                      {/* <p>Portal Preparation</p> */}
+                      {/* <p>Portal Preparation</p> 
                     </Link>
-                  </li>
+                  </li> */}
 
                   <li
                     className={
@@ -125,11 +127,11 @@ const Sidebar = () => {
 
                   <li
                     className={
-                      location.pathname.includes("/webinar/email/template")
+                      location.pathname.includes("/webinar/email/")
                         ? "active"
                         : "side_li"
                     }
-                    onClick={showHideHome}
+                    onClick={()=>showHideHome(2)}
                   >
                     <Link to="/webinar/email/template">
                       <img src={path_image + "webinar/mail.svg"} />
@@ -165,13 +167,13 @@ const Sidebar = () => {
                   </li>
                   <li
                     className={
-                      location.pathname === "/webinar/livetools"
+                      location.pathname === "/webinar/LiveTools"
                         ? "active"
                         : "side_li"
                     }
                     onClick={showHideHome}
                   >
-                    <Link to="/webinar/livetools">
+                    <Link to="/webinar/LiveTools">
                       <img src={path_image + "webinar/live.svg"} />
                       {/* <p>Live Tools</p> */}
                     </Link>
@@ -408,8 +410,6 @@ const Sidebar = () => {
                 </li> */}
                 </ul>
               </div>
-              {console.log(getHomeStatus)}
-              {console.log(EmailStatus)}
               {getHomeStatus && (
                 <div className="sidebar_submenu">
                   <button
@@ -428,7 +428,6 @@ const Sidebar = () => {
                           ? "active"
                           : "side_li"
                       }
-                      onClick={showHideHome}
                     >
                       <Link to="/webinar/portal/polls">
                         <img src={path_image + "webinar/home.svg"} />
@@ -500,7 +499,7 @@ const Sidebar = () => {
                           : "side_li"
                       }
                     >
-                      <Link to="/webinar/portal/polls">
+                      <Link to="/webinar/email/template">
                         <img src={path_image + "webinar/home.svg"} />
                         <p>Auto Email</p>
                       </Link>
@@ -511,41 +510,41 @@ const Sidebar = () => {
                         <p>Dashboard</p>
                         </Link>
                       </li> */}
+                         <li
+                      className={
+                        location.pathname === "/webinar/email/emails"
+                          ? "active"
+                          : "side_li"
+                      }
+                    >
+                      <Link to="/webinar/email/emails">
+                        <img src={path_image + "webinar/dashboard.svg"} />
+                        <p>Emails</p>
+                      </Link>
+                    </li>
                     <li
                       className={
                         location.pathname ===
-                        "/webinar/portal/portalpreparation"
+                        "/webinar/email/SmartListCreate"
                           ? "active"
                           : "side_li"
                       }
                     >
-                      <Link to="/webinar/portal/portalpreparation">
+                      <Link to="/webinar/email/SmartListCreate">
                         <img src={path_image + "webinar/portal.svg"} />
-                        <p>Portal Preparation</p>
+                        <p>Smart List</p>
                       </Link>
                     </li>
                     <li
                       className={
-                        location.pathname === "/webinar/portal/portalfeatures"
+                        location.pathname === "/webinar/email/EmailsAnalaytics"
                           ? "active"
                           : "side_li"
                       }
                     >
-                      <Link to="/webinar/portal/portalfeatures">
-                        <img src={path_image + "webinar/dashboard.svg"} />
-                        <p>Portal Features</p>
-                      </Link>
-                    </li>
-                    <li
-                      className={
-                        location.pathname === "/webinar/portal/registration"
-                          ? "active"
-                          : "side_li"
-                      }
-                    >
-                      <Link to="/webinar/portal/registration">
+                      <Link to="/webinar/email/EmailsAnalaytics">
                         <img src={path_image + "webinar/event.svg"} />
-                        <p>Registration Page</p>
+                        <p>Emails Analaytics</p>
                       </Link>
                     </li>
                   </ul>
