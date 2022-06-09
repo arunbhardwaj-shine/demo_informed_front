@@ -10,6 +10,7 @@ import { Testmail } from "./Testmail";
 import { loader } from "../../../loader";
 import AliceCarousel from "react-alice-carousel";
 import axios from "axios";
+//import "./TemplateStyle.css"
 var state_object = {};
 const Template = (props) => {
   const [id, setId] = useState();
@@ -116,21 +117,21 @@ const Template = (props) => {
   );
   const removeTag = (index) => {
     const tags = tagClickedFirst;
-    console.log("tag",tags)
-    tags.splice(index, 1);
-    setTagClickedFirst(tags);
+    console.log("tag",tagClickedFirst)
+    tagClickedFirst.splice(index, 1);
+    setFinalTags(tagClickedFirst);
+    // setTagsReRender(tagsReRender + 1);
+     setTagClickedFirst(tagClickedFirst);
     setTagsReRender(tagsReRender + 1);
-    finalTags(tags)
-    console.log("2",tags)
+    console.log("2",tagClickedFirst)
   };
   const removeTagFinal = (index) => {
-    const tags = finalTags;
-    const tagsClickedFirst = tagClickedFirst;
-    tags.splice(index, 1);
-    tagsClickedFirst.splice(index, 1);
-    setFinalTags(tags);
-    setTagClickedFirst(tagsClickedFirst);
 
+    finalTags.splice(index, 1);
+    tagClickedFirst.splice(index, 1);
+    // setTagsReRender(tagsReRender + 1);
+    setFinalTags(finalTags);
+    setTagClickedFirst(tagClickedFirst);
     setTagsReRender(tagsReRender + 1);
   };
   const formik = useFormik({
@@ -202,6 +203,8 @@ const Template = (props) => {
         }else{
           if(localStorage.getItem("EventIdHeader")){
             setMessage("Please create template");
+            setTemplateList()
+            setTemplate()
           }else{
             loader("hide")
             setMessage("Please create Event")
@@ -222,14 +225,11 @@ const Template = (props) => {
       }
     });
   };
-
   const handleGetTemplate = (idd) => {
     setDpc();
     setId(idd);
     ExportApi.UserTemplate(idd).then((resp) => {
       if (resp.ok) {
-        console.log("first,",resp.data.data)
-        setTemplate(resp.data.data);
         setTimeout(() => {
           emailEditorRef.current.editor.loadDesign(
             resp.data.data.json_description
@@ -237,6 +237,9 @@ const Template = (props) => {
               : hello
           );
         }, 1000);
+        resp.data.data.tags? setFinalTags(JSON.parse(resp.data.data.tags)):setFinalTags([])
+        resp.data.data.tags?  setTagClickedFirst(JSON.parse(resp.data.data.tags)):setTagClickedFirst([])
+        setTemplate(resp.data.data);
       }
     });
   };
@@ -338,11 +341,11 @@ const Template = (props) => {
                         setTName(val.name);
                         setFormShow(true)
                       }}/>
-                      <td>{val.name}</td>
+                      <p>{val.name}</p>
                     </div>
                   ))
                 ) : (
-                  <h2>{message}</h2>
+                  <h2>{null}</h2>
                 )}  
               </AliceCarousel> 
               </div>
@@ -392,7 +395,7 @@ const Template = (props) => {
     </Modal.Footer>
   </Modal>
   {/* end of delete modal code ------------------ */}  
-  {localStorage.getItem("EventIdHeader")?  <form onSubmit={formik.handleSubmit}>
+  {templateList?  <form onSubmit={formik.handleSubmit}>
           <Row>
             
             <div className="shadow-lg p-3 mb-5 bg-white rounded md={{ span: 8, offset: 3 }} form-inline row justify-content-between align-items-center">
@@ -466,7 +469,7 @@ const Template = (props) => {
               </div>  
             </div>
           </Row>
-        </form>:<h3>Please create event</h3>}
+        </form>:<h2>{message}</h2>}
    
       
         <Modal id="tagsModal" show={isOpen}>

@@ -34,8 +34,9 @@ const EventData = () => {
       if (resp.ok) {
         loader("hide");
         if (resp.data.code == 200){
-
+          window.dispatchEvent(new Event("EventData"));
           setEvent(resp.data.data);
+
         }else{
           setMessage("Please create event");
         }
