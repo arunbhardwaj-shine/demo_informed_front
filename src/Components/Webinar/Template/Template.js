@@ -10,6 +10,7 @@ import { Testmail } from "./Testmail";
 import { loader } from "../../../loader";
 import AliceCarousel from "react-alice-carousel";
 import axios from "axios";
+//import "./TemplateStyle.css"
 var state_object = {};
 const Template = (props) => {
   const [id, setId] = useState();
@@ -129,9 +130,10 @@ const Template = (props) => {
     tags.splice(index, 1);
     tagsClickedFirst.splice(index, 1);
     setFinalTags(tags);
-    setTagClickedFirst(tagsClickedFirst);
-
+    finalTags(tags)
+    
     setTagsReRender(tagsReRender + 1);
+    setTagClickedFirst(tagsClickedFirst);
   };
   const formik = useFormik({
     initialValues: {
@@ -236,8 +238,8 @@ const Template = (props) => {
               : hello
           );
         }, 1000);
-        setFinalTags(JSON.parse(resp.data.data.tags))
-        setTagClickedFirst(JSON.parse(resp.data.data.tags))
+        resp.data.data.tags? setFinalTags(JSON.parse(resp.data.data.tags)):setFinalTags([])
+        resp.data.data.tags?  setTagClickedFirst(JSON.parse(resp.data.data.tags)):setTagClickedFirst([])
         setTemplate(resp.data.data);
       }
     });
@@ -340,7 +342,7 @@ const Template = (props) => {
                         setTName(val.name);
                         setFormShow(true)
                       }}/>
-                      <td>{val.name}</td>
+                      <p>{val.name}</p>
                     </div>
                   ))
                 ) : (

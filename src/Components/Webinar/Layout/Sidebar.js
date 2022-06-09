@@ -65,8 +65,8 @@ const Sidebar = () => {
                   </Link>
                 </li>
                 <li
-                  className={location.pathname === "/webinar/rehearsallist" ? "active" : "side_li"}>
-                  <Link to="/webinar/events"><img src={path_image + "webinar/portal.svg"} />
+                  className={location.pathname === "/webinar/portalpreparation" ? "active" : "side_li"}>
+                  <Link to="/webinar/portalpreparation"><img src={path_image + "webinar/portal.svg"} />
                   {/* <p>Portal Preparation</p> */}
                   </Link>
                 </li>
@@ -102,18 +102,18 @@ const Sidebar = () => {
                 {/* <p>HCPs</p> */}
                   </Link>
                 </li>
-                <li className={location.pathname === "/webinar/readers" ? "active" : "side_li" }>
-                <Link to="/webinar/readers"><img src={path_image + "webinar/live.svg"} />
+                <li className={location.pathname === "/webinar/livetools" ? "active" : "side_li" }>
+                <Link to="/webinar/livetools"><img src={path_image + "webinar/live.svg"} />
                 {/* <p>Live Tools</p> */}
                   </Link>
                 </li>
-                <li className={location.pathname === "/webinar/readers" ? "active" : "side_li" }>
-                <Link to="/webinar/readers"><img src={path_image + "webinar/data-analytics.svg"} />
+                <li className={location.pathname === "/webinar/analytics" ? "active" : "side_li" }>
+                <Link to="/webinar/analytics"><img src={path_image + "webinar/data-analytics.svg"} />
                 {/* <p>Analytics</p> */}
                   </Link>
                 </li>
-                <li className={location.pathname === "/webinar/readers" ? "active" : "side_li" }>
-                <Link to="/webinar/readers"><img src={path_image + "webinar/files.svg"} />
+                <li className={location.pathname === "/webinar/files" ? "active" : "side_li" }>
+                <Link to="/webinar/files"><img src={path_image + "webinar/files.svg"} />
                 {/* <p>Files</p> */}
                   </Link>
                 </li>
