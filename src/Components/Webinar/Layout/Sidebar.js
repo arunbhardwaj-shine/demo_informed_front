@@ -53,7 +53,7 @@ const Sidebar = () => {
     <div className="left-sidebar">
       {location.pathname.includes("/webinar/register") ||
       location.pathname.includes("/webinar/editor") ? null : (
-        <div>
+        <>
           {token ? (
             <>
               <div className="sidebar-menu">
@@ -553,7 +553,7 @@ const Sidebar = () => {
               )}
             </>
           ) : null}
-        </div>
+        </>
       )}
     </div>
   );
