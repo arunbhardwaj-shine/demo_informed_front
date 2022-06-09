@@ -604,48 +604,55 @@ const TableView = (props, ref) => {
     }
   };
 
-  const deleteReader = (profile_user_id) => {
+  const deleteReader = async (profile_user_id) => {
+    const body = {
+      smart_list_id: props.smartListId,
+
+      participant_id: profile_user_id,
+    };
+
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `${localStorage.getItem("Token")}`,
+    };
+
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    //  loader("show");
+    await axios
+      .post(
+        `http://51.89.210.56:8000/api/smart-list/delete-participants`,
+        body,
+        {
+          headers,
+        }
+      )
+      .then((res) => {
+        console.log(res);
+
+        //    loader("hide");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
     const filtered_list = editList.filter((data) => {
-      return data.profile_user_id != profile_user_id;
+      return data.id != profile_user_id;
     });
 
     setEditList(filtered_list);
-    props.sendDataToParent(filtered_list, "existing");
-    popup_alert({
-      visible: "show",
-      message: "The HCP record has been deleted </br>successfully !",
-      type: "success",
-      redirect: "",
-    });
-
-    // const body = {
-    //   user_list: filtered_list.map((data) => {
-    //     return data.profile_user_id;
-    //   }),
-    //   smart_list_id: getlistid,
-    //   user_id: 18207,
-    // };
   };
 
-  const onDelete = async ({
-    profile_id,
-    newName,
-    email,
-    jobTitle,
-    company,
-    country,
-    profile_user_id,
-  }) => {
+  const onDelete = async ({ participants_id }) => {
     if (editList.length > 1) {
       setIsOpen(true);
-      setProfileUserId(profile_user_id);
+      setProfileUserId(participants_id);
     } else {
-      popup_alert({
-        visible: "show",
-        message: "Please keep atleast one reader or delete the smart list",
-        type: "error",
-        redirect: "",
-      });
+      // popup_alert({
+      //   visible: "show",
+      //   message: "Please keep atleast one reader or delete the smart list",
+      //   type: "error",
+      //   redirect: "",
+      // });
     }
   };
 
@@ -1163,15 +1170,7 @@ const TableView = (props, ref) => {
                         colspan="12"
                         onClick={() =>
                           onDelete({
-                            id: item.profile_id,
-                            currentName: item.first_name + " " + item.last_name,
-                            currentJobTitle: item.jobTitle,
-                            currentCompany: item.company,
-                            currentIndication: item.indication,
-                            currentProduct: item.product,
-                            currentCountry: item.country,
-                            currentEmail: item.email,
-                            profile_user_id: item.profile_user_id,
+                            participants_id: item.id,
                           })
                         }
                       >

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { loader } from "../../../loader";
 import FilterSegment from "./FilterSegment";
-import { useLocation } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 
 const SmartListFilter = () => {
   const location = useLocation();
@@ -31,22 +31,21 @@ const SmartListFilter = () => {
     getfilterlist();
   }, []);
 
-
   return (
     <>
-    <div className="col right-sidebar">
-      {'country' in filterList && Object.keys(filterList.country).length > 0 &&
-        <FilterSegment
-        filters={filterList}
-        listname={smartListName}
-        creator={creatorName}
-        action="create"
-        />
-      }
-    </div>
+      <div className="col right-sidebar">
+        {"country" in filterList &&
+          Object.keys(filterList.country).length > 0 && (
+            <FilterSegment
+              filters={filterList}
+              listname={smartListName}
+              creator={creatorName}
+              action="create"
+            />
+          )}
+      </div>
     </>
   );
-
 };
 
 export default SmartListFilter;

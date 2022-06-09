@@ -252,7 +252,7 @@ ReactDOM.render(
                           element={<EmailStats />}
                         />
                         <Route
-                          path="/webinar/emails"
+                          path="/webinar/email/emails"
                           element={<SendEmails />}
                         />
                         <Route
@@ -296,7 +296,7 @@ ReactDOM.render(
                           element={<RegistrationDetailsList />}
                         />
                         <Route
-                          path="/webinar/SmartListCreate"
+                          path="/webinar/email/SmartListCreate"
                           element={<SmartListCreate />}
                         />
                         <Route
