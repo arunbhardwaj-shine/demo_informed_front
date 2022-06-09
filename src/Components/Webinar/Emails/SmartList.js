@@ -8,7 +8,7 @@ const SelectSmartList = () => {
   const [search, setSearch] = useState("");
   const [prevsmartListData, setPrevSmartListData] = useState([]);
   const [deletecardid, setDeleteCardId] = useState();
-  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = '/' + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   const showConfirmationPopup = (id) => {
     console.log(id);
@@ -167,7 +167,7 @@ const SelectSmartList = () => {
                         </div>
                         <div className="smartlist-buttons">
                           <Link
-                            className="btn btn-primary btn-bordered view"
+                            className="btn btn-primary btn-filled view"
                             to={{
                               pathname: "/webinar/ViewSmartListWebinar",
                               search: "?listId=" + data.id,

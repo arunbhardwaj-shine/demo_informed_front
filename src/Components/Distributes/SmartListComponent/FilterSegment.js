@@ -378,9 +378,9 @@ const FilterSegment = (props) => {
     setConfirmationPopupStatus(false);
   };
 
-  const createListWithFilters = () => {
+  const createListWithFilters = (flag) => {
     setConfirmationPopupStatus(false);
-    tableCompRef.current.createSmartList(getfilterdata, getNewAddedUser);
+    tableCompRef.current.createSmartList(getfilterdata, getNewAddedUser,flag);
   };
 
   const removeindividualfilter = (src, item) => {
@@ -477,7 +477,7 @@ const FilterSegment = (props) => {
                 </button>
                 <button
                   className="btn btn-primary btn-bordered save-as"
-                  onClick={() => createListWithFilters()}
+                  onClick={() => createListWithFilters("create")}
                   disabled={
                     typeof getfilterdata !== "undefined" &&
                     getfilterdata.length > 0
@@ -1224,7 +1224,7 @@ const FilterSegment = (props) => {
               className="btn btn-primary btn-filled"
               data-bs-dismiss="modal"
               onClick={() => {
-                createListWithFilters();
+                createListWithFilters("update");
               }}
             >
               Yes Please!

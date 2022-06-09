@@ -720,25 +720,32 @@ const ViewTable = (props) => {
 
       const status = body.data.map((data) => {
         if (data.email == "") {
-          return "false";
+          return "Please enter the email atleast";
+        } else if(data.email != ""){
+          let email = data.email;
+          let useremail = email.trim();
+          // var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+          // if (!regex.test(String(useremail).toLowerCase())) {
+          var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+          if (regex.test(String(useremail).toLowerCase())) {
+            return "true";
+          }else{
+            return "Email format is not valid";
+          }
         } else {
           return "true";
         }
       });
 
-      console.log(status);
 
-      console.log(body.data);
       if (status.every((element) => element == "true")) {
         loader("show");
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         await axios
           .post(`distributes/add_new_readers_in_list`, body)
           .then((res) => {
-            console.log(res);
             if (res.data.status_code === 200) {
               //toast.success("User added successfuly");
-              console.log("res");
               let old_data = editList;
               let new_data = res.data.response.data;
               setNewData((oldArray) => [...new_data, ...oldArray]);
@@ -762,7 +769,7 @@ const ViewTable = (props) => {
             loader("hide");
           });
       } else {
-        toast.warning("Please enter the email atleast");
+        toast.warning(status[0]);
       }
     } else {
       let formData = new FormData();
@@ -1081,7 +1088,7 @@ const ViewTable = (props) => {
                         item.email
                       )}
                     </td>
-                    <td>No</td>
+                    <td>{item.bounce}</td>
                     <td contenteditable={editable === 0 ? "false" : "true"}>
                       {inEditMode.status &&
                       inEditMode.rowKey === item.profile_id ? (
@@ -1137,7 +1144,7 @@ const ViewTable = (props) => {
                     </td>
 
                     <td id={`field_email` + index}>{item.email}</td>
-                    <td id={`field_bounced` + index}>NA</td>
+                    <td id={`field_bounced` + index}>{item.bounce}</td>
                     <td
                       id={`field_country` + index}
                       contenteditable={editable === 0 ? "false" : "true"}

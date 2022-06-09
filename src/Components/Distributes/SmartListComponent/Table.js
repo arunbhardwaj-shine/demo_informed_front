@@ -83,8 +83,8 @@ const Table = (props, ref) => {
   useImperativeHandle(
     ref,
     () => ({
-      createSmartList(dd, newReaders) {
-        showFileInReadersList(dd, newReaders);
+      createSmartList(dd, newReaders,flag) {
+        showFileInReadersList(dd, newReaders,flag);
       },
     }),
     []
@@ -311,7 +311,7 @@ const Table = (props, ref) => {
     // });
   };
 
-  const showFileInReadersList = async (fdata, newReaders) => {
+  const showFileInReadersList = async (fdata, newReaders,flag) => {
     let body = {};
     if (typeof editList != "undefined" && editList.length > 0) {
       //for Normal flow
@@ -370,12 +370,21 @@ const Table = (props, ref) => {
       .then((res) => {
         loader("hide");
         if (res.data.status_code == 200) {
-          popup_alert({
-            visible: "show",
-            message: "Your changes has been saved <br />successfully !",
-            type: "success",
-            redirect: "/SmartList",
-          });
+          if(flag == "update"){
+            popup_alert({
+              visible: "show",
+              message: "Your changes has been saved <br />successfully !",
+              type: "success",
+              redirect: "/SmartList",
+            });
+          }else{
+            popup_alert({
+              visible: "show",
+              message: "Your smart list has been created <br />successfully !",
+              type: "success",
+              redirect: "/SmartList",
+            });
+          }
         } else {
           toast.warning(res.data.message);
           loader("hide");
@@ -751,15 +760,21 @@ const Table = (props, ref) => {
       const status = body.data.map((data) => {
         // let validRegex =
         //   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-
         if (data.email == "") {
-          return "false";
+          return "Please enter the email atleast";
+        } else if(data.email != ""){
+          let email = data.email;
+          let useremail = email.trim();
+          var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+          if (regex.test(String(useremail).toLowerCase())) {
+            return "true";
+          }else{
+            return "Email format is not valid";
+          }
         } else {
           return "true";
         }
       });
-
-      console.log(status);
 
       if (status.every((element) => element == "true")) {
         loader("show");
@@ -799,7 +814,7 @@ const Table = (props, ref) => {
             loader("hide");
           });
       } else {
-        toast.warning("Please input the email atleast");
+        toast.warning(status[0]);
       }
 
       //setIsOpen(false);
@@ -1461,7 +1476,7 @@ const Table = (props, ref) => {
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label for="">Country</label>
-                                  <DropdownButton className="dropdown-basic-button split-button-dropup"
+                                  <DropdownButton className="dropdown-basic-button split-button-dropup country"
                                    title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
                                    onSelect={(event) => onCountryChange(event, i)}
                                    >

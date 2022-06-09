@@ -125,7 +125,9 @@ function Add(props) {
     },
 
     validationSchema: Yup.object({
-      EventTitle: Yup.string().required("Event title is required"),
+      EventTitle: Yup.string()
+       .max(30,"Event title must be at most 30 characters")
+      .required("Event title is required"),
       Timezone: Yup.string().required("Timezone is required"),
       event_start_time: Yup.string().required("Event start time is required"),
       Region: Yup.string().required("Region is required"),
@@ -144,10 +146,6 @@ function Add(props) {
         let dateData = dd + "/" + mm + "/" + yyyy;
 
         let a = JSON.stringify(Speakername);
-
-        if (values.event_start_time >= values.eventendtime) {
-          setMassage("End time has to be greater start time");
-        } else {
           setMassage(false);
           ExportApi.CreatEvent(
             values.EventTitle,
@@ -166,6 +164,8 @@ function Add(props) {
                 console.log(resp.data);
                 if (resp.data.code == 200) {
                   loader("hide");
+                  props.getEventList();
+                  props.closePopup()
                   console.log(typeof resp.data.message);
                   toast.success(resp.data.message);
                 } else {
@@ -184,10 +184,10 @@ function Add(props) {
             .catch((err) => console.log(err));
         }
 
-        props.closePopup();
-        props.getEventList();
+        // props.closePopup();
+       
       }
-    },
+    
   });
   var today = new Date();
   var dd = String(today.getDate()).padStart(2, "0");
@@ -420,7 +420,7 @@ function Add(props) {
           </div>
           <div className="modal-footer-btn">
               <Button type="reset" className="btn btn-primary btn-filled"onClick={()=>handleResetSp()}>Reset</Button>
-              <button type="button" className="btn btn-primary btn-bordered" data-dismiss="modal">Close</button>
+              <button type="button" className="btn btn-primary btn-bordered" data-dismiss="modal" onClick={() =>props.closePopup()} >Close</button>
               <Button type="submit" className="event-submit-button btn btn-primary btn-filled" onClick={() => handleSubmit()} >Create</Button>
           </div>
         </form>

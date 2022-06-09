@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Button, Dropdown, Form, Modal } from "react-bootstrap";
-import "../../assets/css/style.css";
-import '../../assets/css/responsive.css';
-import "../assets/css/webinar-style.css";
 import Login from "../../../Auth/Login";
 import { toast, ToastContainer } from "react-toastify";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -53,15 +50,22 @@ const Header = () => {
     ExportApi.GetEventList().then((resp) => {
       if (resp.ok) {
         setEvent(resp.data.data);
-        console.log(resp.data.data[0].id)
+        console.log(resp.data.code)
+
+        if (resp.data.code == 404) {
+          localStorage.removeItem("EventIdHeader")
+       
+      }else{
         if(eventId==null||eventId==undefined){
-           setEventId(resp.data.data[0].id)
-           localStorage.setItem("EventIdHeader",resp.data.data[0].id)
-        }
+          setEventId(resp.data.data[0].id)
+          localStorage.setItem("EventIdHeader",resp.data.data[0].id)
+       }
+      } 
       }
     });
   };
   useEffect(() => {
+    window.addEventListener('EventData',()=> handleGetEventlist())
     handleGetEventlist()
   }, []);
   const location = useLocation();
@@ -114,7 +118,7 @@ const Header = () => {
 					  </li> */}
               </ul>
             </div>
-            
+
             {token? (
               <Form.Select
               style={{width:"270px"}}
@@ -227,7 +231,7 @@ const Header = () => {
             </div>
           </div>
         </nav>
-     
+
       </header>}
     </>
   );

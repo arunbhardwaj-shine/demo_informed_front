@@ -26,7 +26,7 @@ const VerifyMAIL = (props) => {
   const [getSmartListData, setSmartListData] = useState([]);
   const [reRender, setReRender] = useState(0);
   const [template_source_code, setTemplate] = useState(
-    props.getEmailData
+    props.getEmailData?.template
       ? props.getEmailData.template
       : props.getDraftData.source_code
   );
@@ -52,7 +52,7 @@ const VerifyMAIL = (props) => {
     console.log(props);
 
     let campaign_id =
-      typeof props.getEmailData === "object" && props.getEmailData !== null
+      typeof props.getEmailData === "object" && props.getEmailData !== null && props.getEmailData?.campaign_id
         ? props.getEmailData.campaign_id
         : props.getDraftData.campaign_id;
     setCampaign_id(campaign_id);
@@ -76,7 +76,7 @@ const VerifyMAIL = (props) => {
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const getpdfData = async () => {
-    let pdf_id = props.getEmailData
+    let pdf_id = props.getEmailData?.PdfSelected
       ? props.getEmailData.PdfSelected
       : props.getDraftData.pdf_id;
     if (typeof pdf_id !== "undefined" && pdf_id != 0) {
@@ -180,7 +180,7 @@ const VerifyMAIL = (props) => {
   };
 
   const createEmail = async () => {
-    let finalTags = props.getEmailData
+    let finalTags = props.getEmailData?.tags
       ? props.getEmailData.tags.map((tags) => {
           return tags.innerHTML || tags;
         })
@@ -189,7 +189,7 @@ const VerifyMAIL = (props) => {
         });
 
     let user_list =
-      props.getEmailData || location.state
+      props.getEmailData?.selectedHcp || location.state
         ? selectedHcp.map((userId) => {
             return userId.profile_user_id || userId.user_id;
           })
@@ -262,7 +262,7 @@ const VerifyMAIL = (props) => {
   };
 
   const removeTag = (i) => {
-    const allTags = props.getEmailData
+    const allTags = props.getEmailData?.tags
       ? props.getEmailData.tags
       : props.getDraftData.tags;
     console.log(allTags);
@@ -352,8 +352,19 @@ const VerifyMAIL = (props) => {
                 <li className="active">
                   <Link to="/SelectHCP">Select HCPs</Link>
                 </li>
+               
+                {
+                   typeof getSmartListData !== "undefined" &&
+                   getSmartListData.hasOwnProperty("id")
+                     ? <li className="active">
+                     <Link to="/SelectSmartList">Select Smart List</Link>
+                   </li>
+                     :  ""
+
+                }
+
                 <li className="active">
-                  <Link to="/SelectSmartList">Select Verify Your List</Link>
+                  <Link to="/SelectSmartListUsers">Verify Your List</Link>
                 </li>
 
                 <li className="active active-main">
@@ -388,20 +399,20 @@ const VerifyMAIL = (props) => {
                   <h4>Email Details</h4>
                   <h6>
                     <strong>Campaign Title | </strong>
-                    {props.getEmailData
+                    {props.getEmailData?.emailCampaign
                       ? props.getEmailData.emailCampaign
                       : props.getDraftData.campaign}
                   </h6>
                   <h6>
                     <strong>Creator | </strong>
-                    {props.getEmailData
+                    {props.getEmailData?.emailCreator
                       ? props.getEmailData.emailCreator
                       : props.getDraftData.creator}
                   </h6>
                   <h6>
                     <strong>Tags | </strong>
                     <ul>
-                      {props.getEmailData
+                      {props.getEmailData?.tags
                         ? props.getEmailData.tags.map((tags, i) => {
                             console.log(tags);
                             return (
@@ -639,7 +650,7 @@ const VerifyMAIL = (props) => {
               <div className="preview_mail">
                 <h4>Preview Your Email</h4>
                 <p>
-                  {props.getEmailData
+                  {props.getEmailData?.emailSubject
                     ? props.getEmailData.emailSubject
                     : props.getDraftData.subject}
                 </p>
