@@ -117,23 +117,22 @@ const Template = (props) => {
   );
   const removeTag = (index) => {
     const tags = tagClickedFirst;
-    console.log("tag",tags)
-    tags.splice(index, 1);
-    setTagClickedFirst(tags);
+    console.log("tag",tagClickedFirst)
+    tagClickedFirst.splice(index, 1);
+    setFinalTags(tagClickedFirst);
+    // setTagsReRender(tagsReRender + 1);
+     setTagClickedFirst(tagClickedFirst);
     setTagsReRender(tagsReRender + 1);
-    finalTags(tags)
-    console.log("2",tags)
+    console.log("2",tagClickedFirst)
   };
   const removeTagFinal = (index) => {
-    const tags = finalTags;
-    const tagsClickedFirst = tagClickedFirst;
-    tags.splice(index, 1);
-    tagsClickedFirst.splice(index, 1);
-    setFinalTags(tags);
-    finalTags(tags)
-    
+
+    finalTags.splice(index, 1);
+    tagClickedFirst.splice(index, 1);
+    // setTagsReRender(tagsReRender + 1);
+    setFinalTags(finalTags);
+    setTagClickedFirst(tagClickedFirst);
     setTagsReRender(tagsReRender + 1);
-    setTagClickedFirst(tagsClickedFirst);
   };
   const formik = useFormik({
     initialValues: {

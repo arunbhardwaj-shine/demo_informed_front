@@ -4,8 +4,7 @@ import React from "react";
 const Dashboard = () => {
 
   return (
-    <div>
-      {/* <Sidebar/> */}
+    <div className="right-sidebar">
         <center>Webinar home </center>
     </div>
   );
