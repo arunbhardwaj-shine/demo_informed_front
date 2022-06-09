@@ -38,8 +38,8 @@ header { position: sticky; top: 0; z-index: 9; }
 .sidebar-menu {align-items:flex-end; flex-direction: column; /*background: var(--light-skyblue) url(../../images/informed-symbol.svg) no-repeat;*/ height: 100%; max-width: 75px; border-radius: 0 0 29px 0; display: flex; position: fixed; top: 83px; left: 0; width: 100%; z-index: 3; padding-right: 0px; background-position: 0 91%; }
 .left-sidebar {  width: 75px; padding: 0; height: calc(100vh - 84px); background: var(--light-skyblue); border-radius: 28.5107px; margin-right: 10px; }
 .toggle_sidebar .left-sidebar .sidebar-menu { max-width: 82px;}
-.sidebar-menu ul { padding:0;margin:0px -19px 0 0; width: 100%; }
-.sidebar-menu ul li { text-align: left;list-style: none; border-radius: 47px 0 0 47px; margin: 34px 0; position: relative; z-index: 99; min-height:36px; padding: 6px;width: 66px;}
+.sidebar-menu ul { padding:0;margin:0px -20px 0 0; width: 100%; }
+.sidebar-menu ul li { text-align: left;list-style: none; border-radius: 47px 0 0 47px; margin: 34px 0; position: relative; z-index: 99; min-height:37px; padding: 6px;width: 66px;}
 .sidebar-menu ul li.active { background: rgba(255, 255, 255, 0.83); position: relative; z-index: 999999; box-shadow: -11px 0px 15px rgba(0, 102, 190, 0.1); }
 .sidebar-menu ul li.active:before, .sidebar_submenu ul li.active:before { background-image: url(../images/menu-icon2.png); top: -27px; }
 .sidebar-menu ul li.active:before, .sidebar-menu ul li.active:after, .sidebar_submenu ul li.active:after, .sidebar_submenu ul li.active:before { content: ""; position: absolute; right: -0px; background-size: 27px; width: 27px; height: 27px; background-repeat: no-repeat; }
