@@ -22,12 +22,8 @@ const Sidebar = () => {
     }
   }, [localStorage.getItem("Token"), token]);
 
-  const showHideHome = () => {
- 
-   
-
-
-    if(location.pathname.includes("/portal/")){
+  const showHideHome = (index) => {
+    if(1==index){
       setHomeStatus(true);
       const bodyHasClass = document.body.classList.contains(
         'sub_menu_toggle_sidebar'
@@ -83,7 +79,7 @@ const Sidebar = () => {
                   </Link>
                 </li>
                 <li
-                  className={location.pathname.includes("/webinar/portal/")  ? "active" : "side_li"}onClick={showHideHome}>
+                  className={location.pathname.includes("/webinar/portal/")  ? "active" : "side_li"}onClick={()=>showHideHome(1)}>
                   <Link to="/webinar/portal/portalpreparation"><img src={path_image + "webinar/portal.svg"} />
                   {/* <p>Portal Preparation</p> */}
                   </Link>
