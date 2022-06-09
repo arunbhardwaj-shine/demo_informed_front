@@ -107,6 +107,8 @@ import FilterList from "./Components/Webinar/SmartList/FilterList";
 
 import ExcelUpload from "./Components/Webinar/SmartList/ExcelUpload";
 import CustomizeRehearsalInvites from "./Components/Webinar/Rehearsal/CustomizeRehearsalInvites";
+import PortalPreparation from "./Components/Webinar/PortalPreparation/PortalPreparation";
+import Polls from "./Components/Webinar/PortalPreparation/Polls";
 
 let platform = 0;
 let show = 0;
@@ -184,7 +186,6 @@ ReactDOM.render(
               <div className="row">
                 <SidebarWebinar />
                 <>
-                  {" "}
                   <Routes>
                     <Route path="/webinar" element={<Dashboard />} />
                     <Route
@@ -221,18 +222,30 @@ ReactDOM.render(
                           element={<RehearsalList  />}
                         />
                         <Route
+                          path="/webinar/portal/portalpreparation"
+                          element={<PortalPreparation  />}
+                        />
+                        <Route
+                          path="/webinar/portal/portalfeatures"
+                          element={<PortalPreparation  />}
+                        />
+                        <Route
                           path="/webinar/customizerehearsalinvites"
                           element={<CustomizeRehearsalInvites  />}
                         />
                         <Route path="/webinar/readers" element={<Readers />} />
                         <Route
-                          path="/webinar/template"
+                          path="/webinar/email/template"
                           element={<Template />}
                         />
                         <Route path="/webinar/events" element={<EventList />} />
                         <Route
-                          path="/webinar/registration"
+                          path="/webinar/portal/registration"
                           element={<Registration />}
+                        />
+                        <Route
+                          path="/webinar/portal/polls"
+                          element={<Polls />}
                         />
                         <Route
                           path="/webinar/emailstats"
