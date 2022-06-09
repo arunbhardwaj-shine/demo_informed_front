@@ -109,6 +109,10 @@ import ExcelUpload from "./Components/Webinar/SmartList/ExcelUpload";
 import CustomizeRehearsalInvites from "./Components/Webinar/Rehearsal/CustomizeRehearsalInvites";
 import PortalPreparation from "./Components/Webinar/PortalPreparation/PortalPreparation";
 import Polls from "./Components/Webinar/PortalPreparation/Polls";
+import EmailsAnalaytics from "./Components/Webinar/Emails/EmailsAnalaytics";
+import LiveTools from "./Components/Webinar/LiveTools/LiveTools";
+import Analytics from "./Components/Webinar/Analytics/Analytics";
+import Files from "./Components/Webinar/File/Files";
 
 let platform = 0;
 let show = 0;
@@ -256,6 +260,10 @@ ReactDOM.render(
                           element={<SendEmails />}
                         />
                         <Route
+                          path="/webinar/email/EmailsAnalaytics"
+                          element={<EmailsAnalaytics />}
+                        />
+                        <Route
                           path="/webinar/emails/create"
                           element={<CreateEmailWebinar />}
                         />
@@ -278,6 +286,18 @@ ReactDOM.render(
                         <Route
                           path="/webinar/contacts"
                           element={<Contacts />}
+                        />
+                        <Route
+                          path="/webinar/LiveTools"
+                          element={<LiveTools />}
+                        />
+                        <Route
+                          path="/webinar/analytics"
+                          element={<Analytics />}
+                        />
+                        <Route
+                          path="/webinar/files"
+                          element={<Files />}
                         />
                         <Route
                           path="/webinar/WebinarSmartList"
