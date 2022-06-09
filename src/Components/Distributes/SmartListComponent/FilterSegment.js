@@ -933,9 +933,7 @@ const FilterSegment = (props) => {
                     </div>
                     <div className="filter-div-list">
                       {Object.entries(selectedcountry).map(([index, item]) => (
-                        <div
-                          className="filter-result"
-                        >
+                        <div className="filter-result">
                           {item == "B&H" ? "Bosnia and Herzegovina" : item}{" "}
                           <img
                             onClick={() =>
@@ -961,9 +959,7 @@ const FilterSegment = (props) => {
                     <div className="filter-div-list">
                       {Object.entries(selectedcontacttype).map(
                         ([index, item]) => (
-                          <div
-                            className="filter-result"
-                          >
+                          <div className="filter-result">
                             {item}{" "}
                             <img
                               onClick={() =>
@@ -990,9 +986,7 @@ const FilterSegment = (props) => {
                     <div className="filter-div-list">
                       {Object.entries(selectedspeciality).map(
                         ([index, item]) => (
-                          <div
-                            className="filter-result"
-                          >
+                          <div className="filter-result">
                             {item}{" "}
                             <img
                               onClick={() =>
@@ -1018,9 +1012,7 @@ const FilterSegment = (props) => {
                     </div>
                     <div className="filter-div-list">
                       {Object.entries(selectedproduct).map(([index, item]) => (
-                        <div
-                          className="filter-result"
-                        >
+                        <div className="filter-result">
                           {item}{" "}
                           <img
                             onClick={() =>
@@ -1045,10 +1037,7 @@ const FilterSegment = (props) => {
                     </div>
                     <div className="filter-div-list">
                       {Object.entries(selectedarticles).map(([index, item]) => (
-                        <div
-                          className="filter-result"
-
-                        >
+                        <div className="filter-result">
                           {item}{" "}
                           <img
                             onClick={() =>
@@ -1073,9 +1062,7 @@ const FilterSegment = (props) => {
                     </div>
                     <div className="filter-div-list">
                       {Object.entries(selectedconsent).map(([index, item]) => (
-                        <div
-                          className="filter-result"
-                        >
+                        <div className="filter-result">
                           {item}{" "}
                           <img
                             onClick={() =>
@@ -1098,9 +1085,7 @@ const FilterSegment = (props) => {
                       <span>Reader Selection |</span>
                     </div>
                     <div className="filter-div-list">
-                      <div
-                        className="filter-result"
-                      >
+                      <div className="filter-result">
                         {selectedreaderselection}{" "}
                         <img
                           onClick={() =>
@@ -1128,9 +1113,7 @@ const FilterSegment = (props) => {
                       <span>IBU |</span>
                     </div>
                     <div className="filter-div-list">
-                      <div
-                        className="filter-result"
-                      >
+                      <div className="filter-result">
                         {selectedibu}{" "}
                         <img
                           onClick={() =>
@@ -1152,9 +1135,7 @@ const FilterSegment = (props) => {
                       <span>Registered |</span>
                     </div>
                     <div className="filter-div-list">
-                      <div
-                        className="filter-result"
-                      >
+                      <div className="filter-result">
                         {selectedregister}{" "}
                         <img
                           onClick={() =>
@@ -1176,9 +1157,7 @@ const FilterSegment = (props) => {
                       <span>Bounced |</span>
                     </div>
                     <div className="filter-div-list">
-                      <div
-                        className="filter-result"
-                      >
+                      <div className="filter-result">
                         {selectedbounce}{" "}
                         <img
                           onClick={() =>

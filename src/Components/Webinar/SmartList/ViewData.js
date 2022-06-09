@@ -1220,7 +1220,7 @@ const ViewData = (props) => {
           ></button>
         </Modal.Header>
         <Modal.Body>
-          <img src={path + "alert.png"} alt="" />
+          <img src={"/" + path + "alert.png"} alt="" />
           <h4>
             The record will be deleted from the list.
             <br /> Are you sure you want to delete it?{" "}
