@@ -41,7 +41,7 @@ const ViewSmartListWebinar = () => {
     };
 
     await axios
-      .post(`http://51.89.210.56:8000/api/smart-list/data`, body, {
+      .post(`http://51.89.210.56:8000/api/smart-list/single-record`, body, {
         headers,
       })
       .then((res) => {
