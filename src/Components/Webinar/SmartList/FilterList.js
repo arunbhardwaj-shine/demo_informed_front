@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 
 import { NavLink } from "react-router-dom";
 import Filters from "./Filters";
 import { Accordion } from "react-bootstrap";
+import TableView from "./TableView";
 
 const FilterList = () => {
+  const inputElement = useRef();
   const location = useLocation();
   const [selectedCountryName, setSelectedCountryName] = useState([]);
   const { smartListName } = location.state;
@@ -14,6 +16,7 @@ const FilterList = () => {
   const [countryall, setCountryall] = useState([]);
   const [update, setUpdate] = useState(0);
   const [reRender, setReRender] = useState(0);
+  const [filterData, setFiltersData] = useState([]);
   let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [filterList, setFilterList] = useState({
     profession: ["doctor", "nurse", "engineer"],
@@ -125,7 +128,7 @@ const FilterList = () => {
     console.log(selectedCountryName);
 
     let country_selected_name = selectedCountryName;
-    country_selected_name.splice(index, 1);
+    const data = country_selected_name.splice(index, 1);
     console.log(country_selected_name);
     setSelectedCountryName(country_selected_name);
 
@@ -134,6 +137,15 @@ const FilterList = () => {
     setSelectedCountry(selected_country);
     setReRender(reRender + 1);
 
+    console.log(data);
+
+    const ddd = countryall.find((item) => {
+      return item.country == data;
+    });
+
+    console.log(ddd);
+
+    console.log(inputElement.currents);
     // document.querySelectorAll("input").forEach((checkbox) => {
     //   checkbox.checked = false;
     // });
@@ -146,11 +158,11 @@ const FilterList = () => {
     };
 
     const body = {
-      profession: JSON.stringify([]),
-      interest: JSON.stringify([]),
+      profession: JSON.stringify(selectedProfession),
+      interest: JSON.stringify(selectedInterest),
       state: JSON.stringify([]),
-      bounced: JSON.stringify(1),
-      consent: JSON.stringify(0),
+      bounced: JSON.stringify(selectedbounce),
+      consent: JSON.stringify(selectedConsent),
       country_id: JSON.stringify(selectedCountry),
     };
 
@@ -163,6 +175,7 @@ const FilterList = () => {
         //  console.log(res.data.status_code);
         //  if (res.data.status_code == 200) {
         //    setFilterData(res.data.response.data);
+        setFiltersData(res.data.data);
         //  } else {
         //    setFilterData();
         //  }
@@ -254,6 +267,7 @@ const FilterList = () => {
                                       <li>
                                         <div className="select-multiple-option">
                                           <input
+                                            ref={inputElement}
                                             type="checkbox"
                                             id={`custom-checkbox-contact_type-${index}`}
                                             name="contact_type[]"
@@ -597,7 +611,7 @@ const FilterList = () => {
                                     //   typeof selectedregister !== "undefined" &&
                                     //   selectedregister == "yes"
                                     // }
-                                    onChange={() => handleConsent("yes")}
+                                    onChange={() => handleConsent(1)}
                                   />
                                   <span className="checkmark"></span>
                                 </div>
@@ -614,7 +628,7 @@ const FilterList = () => {
                                     //   typeof selectedregister !== "undefined" &&
                                     //   selectedregister == "no"
                                     // }
-                                    onChange={() => handleConsent("no")}
+                                    onChange={() => handleConsent(0)}
                                   />
                                   <span className="checkmark"></span>
                                 </div>
@@ -634,7 +648,7 @@ const FilterList = () => {
                                     //   typeof selectedbounce !== "undefined" &&
                                     //   selectedbounce == "yes"
                                     // }
-                                    onChange={() => handleBounce("yes")}
+                                    onChange={() => handleBounce(1)}
                                   />
                                   <span className="checkmark"></span>
                                 </div>
@@ -651,7 +665,7 @@ const FilterList = () => {
                                     //   typeof selectedbounce !== "undefined" &&
                                     //   selectedbounce == "no"
                                     // }
-                                    onChange={() => handleBounce("no")}
+                                    onChange={() => handleBounce(0)}
                                   />
                                   <span className="checkmark"></span>
                                 </div>
@@ -951,29 +965,23 @@ const FilterList = () => {
               </div> */}
             </div>
           </div>
-          {/* 
-          {apifilterflag > 0 ? (
-            (typeof getfilterdata === "object" && getfilterdata.length > 0) ||
-            (typeof getNewAddedUser === "object" &&
-              getNewAddedUser.length > 0) ? (
-              <div className="box mt-2">
-                <Table
-                  ref={tableCompRef}
-                  data={getfilterdata}
-                  newAddedUser={getNewAddedUser}
-                  smartListName={listname}
-                  upload_by_filter="1"
-                  filter_payload={getpayload}
-                  creator={props.creator}
-                  sendDataToParent={sendDataToParent}
-                />
-              </div>
-            ) : (
-              <div className="box mt-2 no-data">
-                <p>No Data Found</p>
-              </div>
-            )
-          ) : null} */}
+
+          {filterData?.length > 0 ? (
+            <div className="box mt-2">
+              <TableView
+                data={filterData}
+                // smartListName={listname}
+                // upload_by_filter="1"
+                // filter_payload={getpayload}
+                // creator={props.creator}
+                // sendDataToParent={sendDataToParent}
+              />
+            </div>
+          ) : (
+            <div className="box mt-2 no-data">
+              <p>No Data Found</p>
+            </div>
+          )}
         </section>
       </div>
     </>
