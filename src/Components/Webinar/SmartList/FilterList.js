@@ -721,11 +721,11 @@ const FilterList = () => {
                       {selectedCountryName.map((item, index) => (
                         <div className="filter-result">
                           {item}{" "}
-                          <img
+                          {/* <img
                             onClick={() => removeSelectedCountryFilter(index)}
                             src={path_image + "filter-close.svg"}
                             alt="Close-filter"
-                          />
+                          /> */}
                         </div>
                       ))}
                     </div>
