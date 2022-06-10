@@ -102,7 +102,7 @@
 	 .select-smart-list .email_box { margin-bottom: 0px; } 
 	 .smart-list-added-user img { margin-right: 9px; max-height: 20px; } 
 	 .select-mail-template .alice-carousel .item p { font-size: 14px; line-height: 17px; } 
-	 .mail-content-select { margin-top: 20px; } 
+	 .mail-content-select { margin-top: 30px; } 
 	 .preview_mail h4, .verify-email-detail h4 { font-size: 18px; } 
 	 .verify-email-detail h6 { font-size: 16px; line-height: 19px; margin-bottom: 8px; } 
 	 .mail-recipt  .smartlist-view { width: 100%; flex: 1 1 auto; } 
@@ -145,7 +145,7 @@
 	 .create-smart-list p {font-size: 15px; flex: 1 1;}
 	.create-smart-list {margin-bottom: 60px;padding: 9px 20px 9px 20px;}
 	#add-list .smartlist-view .mail-box-content {width: 100%;flex: 0 0 100%;}
-	#add-list .smartlist-result-block {margin-top: 0px;}
+	#add-list .smartlist-result-block {margin-top: 10px;}
 	.page-top-nav .tabnav-link { justify-content: center; } 
 	.create-smart-list .upload-btn, .create-smart-list .btn-bordered, .download-sample .upload-btn { padding: 6px 13px; height:32px;font-size: 14px;} 
 	.table-title .selected-hcp-table-action .btn-filled, .table-title .selected-hcp-table-action .btn-bordered { min-width: 80px; height: 32px; } 
@@ -159,7 +159,7 @@
 	#send-sample .search-hcp-table-inside.sample_list_dt { padding: 20px 10px 20px 10px; } 
 	#send-sample .search-hcp-table-inside .search-hcp-box { width: 31%; margin-right: 2.3%; } 
 	#send-sample .search-hcp-table-inside .search-hcp-box .add-new-field { right: -14px; } 
-	#send-sample .search-hcp-table-inside .search-hcp-box .add-new-field img { width: 27px; } 
+	#send-sample .search-hcp-table-inside .search-hcp-box .add-new-field img { width: 32px; } 
 	table tr td.delete_row, table tr:hover td.delete_row { right: -5px; } 
 	.create-smart-list .upload-btn:before { left: -13px; height: 35px; top: 0; }
 	.modal .hcp-action-block .hcp-remove img {
@@ -169,8 +169,8 @@
 		width: 19px;
 	}
 	.selected-hcp-table .search-hcp-box .remove-existing-field {
-		width: 30px;
-		height: 30px;
+		width: 32px;
+		height: 32px;
 		right: -15px;
     bottom: -10px;
 	}
