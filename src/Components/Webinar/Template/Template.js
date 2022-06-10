@@ -108,13 +108,7 @@ const Template = (props) => {
     //console.log("closed");
     setIsOpen(false);
   };
-  const [finalTags, setFinalTags] = useState(
-    state_object != null && state_object != "undefined" && state_object.tags
-      ? state_object.tags
-      : props.getDraftData
-      ? props.getDraftData.tags
-      : []
-  );
+  
   const removeTag = (index) => {
     const tags = tagClickedFirst;
     console.log("tag",tagClickedFirst)
@@ -225,6 +219,16 @@ const Template = (props) => {
       }
     });
   };
+
+  const [finalTags, setFinalTags] = useState(
+    
+    state_object != null && state_object != "undefined" && state_object.tags
+      ? state_object.tags
+      : props.getDraftData
+      ? props.getDraftData.tags
+      : []
+  );
+
   const handleGetTemplate = (idd) => {
     setDpc();
     setId(idd);
@@ -298,21 +302,11 @@ const Template = (props) => {
   }, []);
   return (
     <div class="right-sidebar">
-       <div className="loader" id="custom_loader">
-	        <span className="loader-view"> </span>
-          </div>
-          {localStorage.getItem("EventIdHeader")?<Row>
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
+      <div className="loader" id="custom_loader">
+	      <span className="loader-view"> </span>
+      </div>
+      {localStorage.getItem("EventIdHeader")?<Row>
+        <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
         <Col md={{ span: 8, offset: 0 }}>
           <h2>Auto Emails</h2>
           <div className="top-header">
@@ -353,7 +347,77 @@ const Template = (props) => {
           </section> 
         </Col>
       </Row>:null}
-      
+  {templateList ? <form onSubmit={formik.handleSubmit}>
+    <Row>
+      <div className="shadow-lg p-3 mb-5 bg-white rounded md={{ span: 8, offset: 3 }} form-inline row justify-content-between align-items-center">
+        <Row>
+          <div className="form-group col-12 col-md-5"> 
+            <Button onClick={(e) => { setModalShow2(true); setId(localStorage.getItem('idd')); }} >
+            Send A Sample
+            </Button>  
+          </div>
+          <div className="form-group col-12 col-md-5">
+            <Button type="submit">Save</Button>
+          </div>
+        </Row>
+
+        <div className="form-group col-12 col-md-7">
+          <Form.Label>Subject</Form.Label>
+          <Form.Control name="Subject" className="form-control" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.Subject} type="text" placeholder="Subject" />
+          {formik.touched.Subject && formik.errors.Subject ? (
+            <div style={{ color: "red" }}>
+              {formik.errors.Subject}
+            </div>
+          ) : null}
+        </div>
+        
+        <div className="email-form">
+          <form>
+            <div className="input-group w-100">
+
+              <div className="input-group-prepend">
+                <button
+                  className="btn btn-bordered btn-primary"
+                  type="button"
+                  id="tags-add"
+                  data-bs-toggle="modal"
+                  data-bs-target="#tagsModal"
+                  onClick={tagButtonClicked}
+                >
+                + Add Tag
+                </button>
+              </div>
+              
+              <div className="tags_added">
+                <ul>
+                  {finalTags.map((tags, index) => {
+                    return (
+                      <>
+                        <li className="list1">
+                          {tags.innerHTML || tags}{" "}
+                          <img
+                            src={path_image + "filter-close.svg"}
+                            alt="Close-filter"
+                            onClick={() => removeTag(index)}
+                          />
+                        </li>
+                      </>
+                    );
+                  })}
+                </ul>
+              </div>
+
+            </div>
+          </form>
+        </div>
+          
+        <div className="form-group col-12 col-md-7">
+          <EmailEditor ref={emailEditorRef} onLoad={onLoad} onReady={onReady}></EmailEditor>
+        </div>
+
+      </div>
+    </Row>
+    </form> : <h2>{message}</h2>}
 
   {/* start of create template modal code ------------------  */}     
   <Modal show={modalShow} size="md" aria-labelledby="contained-modal-title-vcenter" centered>
@@ -394,162 +458,75 @@ const Template = (props) => {
       <Button onClick={()=>{setModalShow1(false)}}>Close</Button>
     </Modal.Footer>
   </Modal>
-  {/* end of delete modal code ------------------ */}  
-  {templateList?  <form onSubmit={formik.handleSubmit}>
-          <Row>
-            
-            <div className="shadow-lg p-3 mb-5 bg-white rounded md={{ span: 8, offset: 3 }} form-inline row justify-content-between align-items-center">
-            <Row><div className="form-group col-12 col-md-5"> <Button onClick={(e) => { setModalShow2(true); setId(localStorage.getItem('idd')); }} >
-                  Send A Sample
-                </Button>  
-                </div>
-                <div className="form-group col-12 col-md-5">
+  {/* end of delete modal code ------------------ */} 
 
-                <Button type="submit">Save</Button>
+  {/* start of add tag modal code ------------------  */}   
+  <Modal id="tagsModal" show={isOpen}>
+    <Modal.Header>
+      <h5 className="modal-title" id="staticBackdropLabel">
+        Add Tags
+      </h5>
+      <button
+        type="button"
+        className="btn-close"
+        onClick={closeModal}
+        data-bs-dismiss="modal"
+        aria-label="Close"
+      ></button>
+    </Modal.Header>
+    <Modal.Body>
+      <div className="select-tags">
+        <h6>Select Tag :</h6>
+        <div className="tag-lists">
+          <div className="tag-lists-view">
+            {Object.values(allTags).map((data) => {
+              return (
+                <>
+                  <div onClick={(event) => tagClicked(data)}>{data} </div>
+                </>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+      <div className="selected-tags">
+        <h6>
+          Selected Tag <span>| {tagClickedFirst.length}</span>
+        </h6>
+        <div className="total-selected">
+          {tagClickedFirst.map((data, index) => {
+            return (
+              <>
+                <div className="tag-cross">
+                  {data.innerHTML || data}
+                  <img
+                    src={path_image + "filter-close.svg"}
+                    alt="Close-filter"
+                    onClick={() => removeTagFinal(index)}
+                  />
                 </div>
-                </Row>
-              <div className="form-group col-12 col-md-7">
-                <Form.Label>Subject</Form.Label>
-                <Form.Control
-                  name="Subject"
-                  className="form-control"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.Subject}
-                  type="text"
-                  placeholder="Subject"
-                />
-                {formik.touched.Subject && formik.errors.Subject ? (
-                  <div style={{ color: "red" }}>
-                    {formik.errors.Subject}
-                  </div>
-                ) : null}
-              
-              </div>
-              <div className="email-form">
-                <form>
-                  <div className="input-group w-100">
-                    <div className="input-group-prepend">
-                      <button
-                        className="btn btn-bordered btn-primary"
-                        type="button"
-                        id="tags-add"
-                        data-bs-toggle="modal"
-                        data-bs-target="#tagsModal"
-                        onClick={tagButtonClicked}
-                      >
-                        + Add Tag
-                      </button>
-                    </div>
-                   
-                    <div className="tags_added">
-                      <ul>
-                        {finalTags.map((tags, index) => {
-                          return (
-                            <>
-                              <li className="list1">
-                                {tags.innerHTML || tags}{" "}
-                                <img
-                                  src={path_image + "filter-close.svg"}
-                                  alt="Close-filter"
-                                  onClick={() => removeTag(index)}
-                                />
-                              </li>
-                            </>
-                          );
-                        })}
-                      </ul>
-                    </div>
-                  </div>
-                </form>
-                </div>
-               
-              <div className="form-group col-12 col-md-7">
-                <EmailEditor ref={emailEditorRef} onLoad={onLoad} onReady={onReady}></EmailEditor>
-              </div>  
-            </div>
-          </Row>
-        </form>:<h2>{message}</h2>}
-   
-      
-        <Modal id="tagsModal" show={isOpen}>
-          <Modal.Header>
-            <h5 className="modal-title" id="staticBackdropLabel">
-              Add Tags
-            </h5>
-            <button
-              type="button"
-              className="btn-close"
-              onClick={closeModal}
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </Modal.Header>
-          <Modal.Body>
-            <div className="select-tags">
-              <h6>Select Tag :</h6>
-              <div className="tag-lists">
-                <div className="tag-lists-view">
-                  {Object.values(allTags).map((data) => {
-                    return (
-                      <>
-                        <div onClick={(event) => tagClicked(data)}>{data} </div>
-                      </>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-            <div className="selected-tags">
-              <h6>
-                Selected Tag <span>| {tagClickedFirst.length}</span>
-              </h6>
-
-              <div className="total-selected">
-                {tagClickedFirst.map((data, index) => {
-                  return (
-                    <>
-                      <div className="tag-cross">
-                        {data.innerHTML || data}
-                        <img
-                          src={path_image + "filter-close.svg"}
-                          alt="Close-filter"
-                          onClick={() => removeTagFinal(index)}
-                        />
-                      </div>
-                    </>
-                  );
-                })}
-              </div>
-            </div>
-          </Modal.Body>
-          <Modal.Footer>
-            <form>
-              <div className="form-group">
-                <label for="new-tag">New Tag</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="new-tag"
-                  value={newTag}
-                  onChange={(e) => newTagChanged(e)}
-                />
-
-                <button
-                  onClick={addTag}
-                  type="button"
-                  className="btn btn-primary add btn-bordered"
-               
-                >
-                  Add
-                </button>
-              </div>
-            </form>
-            <button type="button"    onClick={saveButtonClicked}className="btn btn-primary save btn-filled">
-              Save
-            </button>
-          </Modal.Footer>
-      </Modal>
+              </>
+            );
+          })}
+        </div>
+      </div>
+    </Modal.Body>
+    <Modal.Footer>
+      <form>
+        <div className="form-group">
+          <label for="new-tag">New Tag</label>
+          <input type="text" className="form-control" id="new-tag" value={newTag} onChange={(e) => newTagChanged(e)} />
+          <button onClick={addTag} type="button" className="btn btn-primary add btn-bordered" >
+            Add
+          </button>
+        </div>
+      </form>
+      <button type="button"    onClick={saveButtonClicked}className="btn btn-primary save btn-filled">
+        Save
+      </button>
+    </Modal.Footer>
+  </Modal>
+  {/* end of add tag modal code ------------------  */}    
     </div>
   );
 };
