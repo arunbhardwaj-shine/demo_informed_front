@@ -46,9 +46,8 @@ const Sidebar = () => {
       setEmailStatus(true);
       setHomeStatus(false);
     } else {
-      if (!bodyHasClass) {
-        document.body.classList.toggle("sub_menu_toggle_sidebar");
-      }
+        document.body.classList.remove("sub_menu_toggle_sidebar");
+      
       setEmailStatus(false);
       setHomeStatus(false);
     }
@@ -62,7 +61,6 @@ const Sidebar = () => {
                 <>   
             <div className="sidebar-menu">
               <ul>  
-                {console.log(location.pathname)}
                 <li className={location.pathname === "/webinar" ? "active" : "side_li"} onClick={showHideHome}>
                   <Link to="/webinar"><img src={path_image + "webinar/home.svg"} /> 
                   </Link>
