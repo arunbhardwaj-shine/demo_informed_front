@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
 import { NavLink } from "react-router-dom";
 import Filters from "./Filters";
@@ -10,6 +10,7 @@ import TableView from "./TableView";
 
 const FilterList = () => {
   const inputElement = useRef();
+  const navigate = useNavigate();
   const location = useLocation();
   const [selectedCountryName, setSelectedCountryName] = useState([]);
   const { smartListName } = location.state;
@@ -186,7 +187,7 @@ const FilterList = () => {
   const createListWithFilters = async () => {
     console.log(filterData);
     const participants_id = filterData.map((data) => {
-      return data.participants_id;
+      return data.id;
     });
 
     console.log(smartListId);
@@ -208,6 +209,10 @@ const FilterList = () => {
       .post(`http://51.89.210.56:8000/api/smart-list/create`, body, { headers })
       .then((res) => {
         console.log(res);
+
+        if (res.data.code == 200) {
+          navigate("/webinar/email/WebinarSmartList");
+        }
         //  console.log(res.data.status_code);
         //  if (res.data.status_code == 200) {
         //    setFilterData(res.data.response.data);
@@ -244,7 +249,7 @@ const FilterList = () => {
     await axios
       .post(`http://51.89.210.56:8000/api/smart-list/filter`, body, { headers })
       .then((res) => {
-        console.log(res);
+        console.log(res.data.data);
         //  console.log(res.data.status_code);
         //  if (res.data.status_code == 200) {
         //    setFilterData(res.data.response.data);
