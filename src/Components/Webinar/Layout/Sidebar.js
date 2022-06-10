@@ -6,6 +6,7 @@ const Sidebar = () => {
   const [getHomeStatus, setHomeStatus] = useState(false);
   const [EmailStatus, setEmailStatus] = useState(false);
   const location = useLocation();
+
   useEffect(() => {
     if (localStorage.getItem("Token")) {
       setToken(true);
@@ -13,41 +14,38 @@ const Sidebar = () => {
       setToken(false);
     }
   }, [localStorage.getItem("Token")]);
-  const toggleClassToBody = () => {
-    document.body.classList.toggle("toggle_sidebar");
-  };
+  
   useEffect(() => {
     if (token === null || token === undefined) {
       setToken(false);
     }
   }, [localStorage.getItem("Token"), token]);
 
+  
+  const toggleClassToBody = () => {
+    document.body.classList.toggle("toggle_sidebar");
+  };
+
   const showHideHome = (index) => {
-    const bodyHasClass = document.body.classList.contains(
-      "sub_menu_toggle_sidebar"
-    );
+
+    console.log(location.pathname)
+    const bodyHasClass = document.body.classList.contains("sub_menu_toggle_sidebar");
+    console.log(index);
     if(1==index){
       setHomeStatus(true);
-      const bodyHasClass = document.body.classList.contains(
-        "sub_menu_toggle_sidebar"
-      );
-
+      const bodyHasClass = document.body.classList.contains("sub_menu_toggle_sidebar");
       if (!bodyHasClass) {
         document.body.classList.toggle("sub_menu_toggle_sidebar");
       }
     } else if (2==index) {
-      const bodyHasClass = document.body.classList.contains(
-        "sub_menu_toggle_sidebar"
-      );
-
+      const bodyHasClass = document.body.classList.contains("sub_menu_toggle_sidebar");
       if (!bodyHasClass) {
         document.body.classList.toggle("sub_menu_toggle_sidebar");
       }
       setEmailStatus(true);
       setHomeStatus(false);
     } else {
-        document.body.classList.remove("sub_menu_toggle_sidebar");
-      
+      document.body.classList.remove("sub_menu_toggle_sidebar");
       setEmailStatus(false);
       setHomeStatus(false);
     }
@@ -83,35 +81,7 @@ const Sidebar = () => {
                   {/* <p>Portal Preparation</p> */}
                   </Link>
                 </li>
-
-                  {/* <li
-                    className={
-                      location.pathname.includes("/webinar/events")
-                        ? "active"
-                        : "side_li"
-                    }
-                    onClick={showHideHome}
-                  >
-                    <Link to="/webinar/events">
-                      <img src={path_image + "webinar/event.svg"} />
-                      {/* <p>Event Details</p> 
-                    </Link>
-                  </li> */}
-                  {/* <li
-                    className={
-                      location.pathname.includes("/webinar/portal/")
-                        ? "active"
-                        : "side_li"
-                    }
-                    onClick={showHideHome}
-                  >
-                    <Link to="/webinar/portal/portalpreparation">
-                      <img src={path_image + "webinar/portal.svg"} />
-                      {/* <p>Portal Preparation</p> 
-                    </Link>
-                  </li> */}
-
-                  <li
+                <li
                     className={
                       location.pathname === "/webinar/rehearsallist"
                         ? "active"
@@ -138,20 +108,6 @@ const Sidebar = () => {
                       {/* <p>Email</p> */}
                     </Link>
                   </li>
-
-                  {/* <li className={location.pathname === "/webinar/RegistrationDetails" ? "active": "nav__link"}>
-                  <Link to="/webinar/RegistrationDetails">
-                    <svg  width="24"  height="18" viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        d="M23.92 2.28564L12.8457 8.8685C12.5899 9.01484 12.3004 9.09183 12.0057 9.09183C11.711 9.09183 11.4215 9.01484 11.1657 8.8685L0.0799999 2.28564C0.0270091 2.51424 0.000170336 2.74813 0 2.98279V14.1599C0 14.951 0.314264 15.7097 0.873659 16.2691C1.43305 16.8285 2.19175 17.1428 2.98286 17.1428H21.0171C21.8082 17.1428 22.5669 16.8285 23.1263 16.2691C23.6857 15.7097 24 14.951 24 14.1599V2.98279C23.9998 2.74813 23.973 2.51424 23.92 2.28564Z"
-                        fill="#004A89"/>
-                      <path
-                        d="M12.2745 7.92L23.4517 1.26857C23.1772 0.877654 22.8128 0.558387 22.3891 0.33763C21.9655 0.116872 21.4951 0.00108202 21.0174 0H2.98311C2.50543 0.00108202 2.03499 0.116872 1.61138 0.33763C1.18776 0.558387 0.823359 0.877654 0.548828 1.26857L11.7374 7.92C11.8198 7.96501 11.9121 7.98861 12.006 7.98861C12.0998 7.98861 12.1922 7.96501 12.2745 7.92Z"
-                        fill="#004A89"/>
-                    </svg>
-                    <p>Registration Page</p>
-                  </Link>
-                </li> */}
                   <li
                     className={
                       location.pathname === "/webinar/readers"
@@ -205,209 +161,6 @@ const Sidebar = () => {
                     </Link>
                   </li>
 
-                  {/* <li className={location.pathname === "/webinar/WebinarSmartList" ? "active" : "nav__link"} >
-                  <Link to="/webinar/WebinarSmartList">
-                    <svg width="24" height="18"  viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        d="M23.92 2.28564L12.8457 8.8685C12.5899 9.01484 12.3004 9.09183 12.0057 9.09183C11.711 9.09183 11.4215 9.01484 11.1657 8.8685L0.0799999 2.28564C0.0270091 2.51424 0.000170336 2.74813 0 2.98279V14.1599C0 14.951 0.314264 15.7097 0.873659 16.2691C1.43305 16.8285 2.19175 17.1428 2.98286 17.1428H21.0171C21.8082 17.1428 22.5669 16.8285 23.1263 16.2691C23.6857 15.7097 24 14.951 24 14.1599V2.98279C23.9998 2.74813 23.973 2.51424 23.92 2.28564Z"
-                        fill="#004A89"/>
-                      <path
-                        d="M12.2745 7.92L23.4517 1.26857C23.1772 0.877654 22.8128 0.558387 22.3891 0.33763C21.9655 0.116872 21.4951 0.00108202 21.0174 0H2.98311C2.50543 0.00108202 2.03499 0.116872 1.61138 0.33763C1.18776 0.558387 0.823359 0.877654 0.548828 1.26857L11.7374 7.92C11.8198 7.96501 11.9121 7.98861 12.006 7.98861C12.0998 7.98861 12.1922 7.96501 12.2745 7.92Z"
-                        fill="#004A89" />
-                    </svg>
-                    <p>Smart List</p>
-                  </Link>
-                </li> */}
-                  {/* <li
-                  className={
-                    location.pathname === "/webinar/emails"
-                      ? "active"
-                      : "nav__link"
-                  }
-                >
-                  <Link to="/webinar/emails">
-                    <svg
-                      width="24"
-                      height="18"
-                      viewBox="0 0 24 18"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M23.92 2.28564L12.8457 8.8685C12.5899 9.01484 12.3004 9.09183 12.0057 9.09183C11.711 9.09183 11.4215 9.01484 11.1657 8.8685L0.0799999 2.28564C0.0270091 2.51424 0.000170336 2.74813 0 2.98279V14.1599C0 14.951 0.314264 15.7097 0.873659 16.2691C1.43305 16.8285 2.19175 17.1428 2.98286 17.1428H21.0171C21.8082 17.1428 22.5669 16.8285 23.1263 16.2691C23.6857 15.7097 24 14.951 24 14.1599V2.98279C23.9998 2.74813 23.973 2.51424 23.92 2.28564Z"
-                        fill="#004A89"
-                      />
-                      <path
-                        d="M12.2745 7.92L23.4517 1.26857C23.1772 0.877654 22.8128 0.558387 22.3891 0.33763C21.9655 0.116872 21.4951 0.00108202 21.0174 0H2.98311C2.50543 0.00108202 2.03499 0.116872 1.61138 0.33763C1.18776 0.558387 0.823359 0.877654 0.548828 1.26857L11.7374 7.92C11.8198 7.96501 11.9121 7.98861 12.006 7.98861C12.0998 7.98861 12.1922 7.96501 12.2745 7.92Z"
-                        fill="#004A89"
-                      />
-                    </svg>
-                    <p>Email{" "}</p>
-                  </Link>
-                </li> */}
-                  {/* <li
-                  className={
-                    location.pathname === "/webinar/emailstats"
-                      ? "active"
-                      : "nav__link"
-                  }
-                >
-                  <Link to="/webinar/emailstats">
-                    <svg
-                      width="24"
-                      height="18"
-                      viewBox="0 0 24 18"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M23.92 2.28564L12.8457 8.8685C12.5899 9.01484 12.3004 9.09183 12.0057 9.09183C11.711 9.09183 11.4215 9.01484 11.1657 8.8685L0.0799999 2.28564C0.0270091 2.51424 0.000170336 2.74813 0 2.98279V14.1599C0 14.951 0.314264 15.7097 0.873659 16.2691C1.43305 16.8285 2.19175 17.1428 2.98286 17.1428H21.0171C21.8082 17.1428 22.5669 16.8285 23.1263 16.2691C23.6857 15.7097 24 14.951 24 14.1599V2.98279C23.9998 2.74813 23.973 2.51424 23.92 2.28564Z"
-                        fill="#004A89"
-                      />
-                      <path
-                        d="M12.2745 7.92L23.4517 1.26857C23.1772 0.877654 22.8128 0.558387 22.3891 0.33763C21.9655 0.116872 21.4951 0.00108202 21.0174 0H2.98311C2.50543 0.00108202 2.03499 0.116872 1.61138 0.33763C1.18776 0.558387 0.823359 0.877654 0.548828 1.26857L11.7374 7.92C11.8198 7.96501 11.9121 7.98861 12.006 7.98861C12.0998 7.98861 12.1922 7.96501 12.2745 7.92Z"
-                        fill="#004A89"
-                      />
-                    </svg>
-                    <p>Email Stats</p>
-                  </Link>
-                </li> */}
-
-                  {/* <li
-                  className={
-                    location.pathname === "/webinar/regionstats" ? "active" : ""
-                  }
-                >
-                  <Link to="/webinar/regionstats">
-                    <svg
-                      width="24"
-                      height="18"
-                      viewBox="0 0 24 18"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M23.92 2.28564L12.8457 8.8685C12.5899 9.01484 12.3004 9.09183 12.0057 9.09183C11.711 9.09183 11.4215 9.01484 11.1657 8.8685L0.0799999 2.28564C0.0270091 2.51424 0.000170336 2.74813 0 2.98279V14.1599C0 14.951 0.314264 15.7097 0.873659 16.2691C1.43305 16.8285 2.19175 17.1428 2.98286 17.1428H21.0171C21.8082 17.1428 22.5669 16.8285 23.1263 16.2691C23.6857 15.7097 24 14.951 24 14.1599V2.98279C23.9998 2.74813 23.973 2.51424 23.92 2.28564Z"
-                        fill="#004A89"
-                      />
-                      <path
-                        d="M12.2745 7.92L23.4517 1.26857C23.1772 0.877654 22.8128 0.558387 22.3891 0.33763C21.9655 0.116872 21.4951 0.00108202 21.0174 0H2.98311C2.50543 0.00108202 2.03499 0.116872 1.61138 0.33763C1.18776 0.558387 0.823359 0.877654 0.548828 1.26857L11.7374 7.92C11.8198 7.96501 11.9121 7.98861 12.006 7.98861C12.0998 7.98861 12.1922 7.96501 12.2745 7.92Z"
-                        fill="#004A89"
-                      />
-                    </svg>
-                    <p>Region Stats</p>
-                  </Link>
-                </li> */}
-                  {/* <li
-                  className={
-                    location.pathname === "/webinar/registration"
-                      ? "active"
-                      : "nav__link"
-                  }
-                >
-                  <Link to="/webinar/registration">
-                    <svg
-                      width="24"
-                      height="18"
-                      viewBox="0 0 24 18"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M23.92 2.28564L12.8457 8.8685C12.5899 9.01484 12.3004 9.09183 12.0057 9.09183C11.711 9.09183 11.4215 9.01484 11.1657 8.8685L0.0799999 2.28564C0.0270091 2.51424 0.000170336 2.74813 0 2.98279V14.1599C0 14.951 0.314264 15.7097 0.873659 16.2691C1.43305 16.8285 2.19175 17.1428 2.98286 17.1428H21.0171C21.8082 17.1428 22.5669 16.8285 23.1263 16.2691C23.6857 15.7097 24 14.951 24 14.1599V2.98279C23.9998 2.74813 23.973 2.51424 23.92 2.28564Z"
-                        fill="#004A89"
-                      />
-                      <path
-                        d="M12.2745 7.92L23.4517 1.26857C23.1772 0.877654 22.8128 0.558387 22.3891 0.33763C21.9655 0.116872 21.4951 0.00108202 21.0174 0H2.98311C2.50543 0.00108202 2.03499 0.116872 1.61138 0.33763C1.18776 0.558387 0.823359 0.877654 0.548828 1.26857L11.7374 7.92C11.8198 7.96501 11.9121 7.98861 12.006 7.98861C12.0998 7.98861 12.1922 7.96501 12.2745 7.92Z"
-                        fill="#004A89"
-                      />
-                    </svg>
-                    <p>Registrations</p>
-                  </Link>
-                </li> */}
-                  {/* <li
-                  className={
-                    location.pathname === "/webinar/sendemail"
-                      ? "active"
-                      : "nav__link"
-                  }
-                >
-                  <Link to="/webinar/sendemail">
-                    <svg
-                      width="24"
-                      height="18"
-                      viewBox="0 0 24 18"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M23.92 2.28564L12.8457 8.8685C12.5899 9.01484 12.3004 9.09183 12.0057 9.09183C11.711 9.09183 11.4215 9.01484 11.1657 8.8685L0.0799999 2.28564C0.0270091 2.51424 0.000170336 2.74813 0 2.98279V14.1599C0 14.951 0.314264 15.7097 0.873659 16.2691C1.43305 16.8285 2.19175 17.1428 2.98286 17.1428H21.0171C21.8082 17.1428 22.5669 16.8285 23.1263 16.2691C23.6857 15.7097 24 14.951 24 14.1599V2.98279C23.9998 2.74813 23.973 2.51424 23.92 2.28564Z"
-                        fill="#004A89"
-                      />
-                      <path
-                        d="M12.2745 7.92L23.4517 1.26857C23.1772 0.877654 22.8128 0.558387 22.3891 0.33763C21.9655 0.116872 21.4951 0.00108202 21.0174 0H2.98311C2.50543 0.00108202 2.03499 0.116872 1.61138 0.33763C1.18776 0.558387 0.823359 0.877654 0.548828 1.26857L11.7374 7.92C11.8198 7.96501 11.9121 7.98861 12.006 7.98861C12.0998 7.98861 12.1922 7.96501 12.2745 7.92Z"
-                        fill="#004A89"
-                      />
-                    </svg>
-                    <p>Send Email{" "}</p>
-                  </Link>
-                </li> */}
-                  {/* 
-                
-                <li
-                  className={
-                    location.pathname === "/webinar/contacts"
-                      ? "active"
-                      : "nav__link"
-                  }
-                >
-                  <Link to="/webinar/contacts">
-                    <svg
-                      width="24"
-                      height="18"
-                      viewBox="0 0 24 18"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M23.92 2.28564L12.8457 8.8685C12.5899 9.01484 12.3004 9.09183 12.0057 9.09183C11.711 9.09183 11.4215 9.01484 11.1657 8.8685L0.0799999 2.28564C0.0270091 2.51424 0.000170336 2.74813 0 2.98279V14.1599C0 14.951 0.314264 15.7097 0.873659 16.2691C1.43305 16.8285 2.19175 17.1428 2.98286 17.1428H21.0171C21.8082 17.1428 22.5669 16.8285 23.1263 16.2691C23.6857 15.7097 24 14.951 24 14.1599V2.98279C23.9998 2.74813 23.973 2.51424 23.92 2.28564Z"
-                        fill="#004A89"
-                      />
-                      <path
-                        d="M12.2745 7.92L23.4517 1.26857C23.1772 0.877654 22.8128 0.558387 22.3891 0.33763C21.9655 0.116872 21.4951 0.00108202 21.0174 0H2.98311C2.50543 0.00108202 2.03499 0.116872 1.61138 0.33763C1.18776 0.558387 0.823359 0.877654 0.548828 1.26857L11.7374 7.92C11.8198 7.96501 11.9121 7.98861 12.006 7.98861C12.0998 7.98861 12.1922 7.96501 12.2745 7.92Z"
-                        fill="#004A89"
-                      />
-                    </svg>
-                    <p>Contacts</p>
-                  </Link>
-                </li> */}
-                  {/* <li
-                  className={
-                    location.pathname === "/webinar/stpdetails"
-                      ? "active"
-                      : "nav__link"
-                  }
-                >
-                  <Link to="/webinar/stpdetails">
-                    <svg
-                      width="24"
-                      height="18"
-                      viewBox="0 0 24 18"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M23.92 2.28564L12.8457 8.8685C12.5899 9.01484 12.3004 9.09183 12.0057 9.09183C11.711 9.09183 11.4215 9.01484 11.1657 8.8685L0.0799999 2.28564C0.0270091 2.51424 0.000170336 2.74813 0 2.98279V14.1599C0 14.951 0.314264 15.7097 0.873659 16.2691C1.43305 16.8285 2.19175 17.1428 2.98286 17.1428H21.0171C21.8082 17.1428 22.5669 16.8285 23.1263 16.2691C23.6857 15.7097 24 14.951 24 14.1599V2.98279C23.9998 2.74813 23.973 2.51424 23.92 2.28564Z"
-                        fill="#004A89"
-                      />
-                      <path
-                        d="M12.2745 7.92L23.4517 1.26857C23.1772 0.877654 22.8128 0.558387 22.3891 0.33763C21.9655 0.116872 21.4951 0.00108202 21.0174 0H2.98311C2.50543 0.00108202 2.03499 0.116872 1.61138 0.33763C1.18776 0.558387 0.823359 0.877654 0.548828 1.26857L11.7374 7.92C11.8198 7.96501 11.9121 7.98861 12.006 7.98861C12.0998 7.98861 12.1922 7.96501 12.2745 7.92Z"
-                        fill="#004A89"
-                      />
-                    </svg>
-                    <p>SMTP Details</p>
-                  </Link>
-                </li> */}
                 </ul>
               </div>
               {getHomeStatus && (
@@ -435,11 +188,6 @@ const Sidebar = () => {
                       </Link>
                     </li>
 
-                    {/* <li className={location.pathname === "/webinar/dashboard" ? "active" : "side_li"}>
-                        <Link to="/webinar/dashboard"><img src={path_image + "webinar/dashboard.svg"} /> 
-                        <p>Dashboard</p>
-                        </Link>
-                      </li> */}
                     <li
                       className={
                         location.pathname ===
@@ -505,11 +253,6 @@ const Sidebar = () => {
                       </Link>
                     </li>
 
-                    {/* <li className={location.pathname === "/webinar/dashboard" ? "active" : "side_li"}>
-                        <Link to="/webinar/dashboard"><img src={path_image + "webinar/dashboard.svg"} /> 
-                        <p>Dashboard</p>
-                        </Link>
-                      </li> */}
                          <li
                       className={
                         location.pathname === "/webinar/email/emails"
