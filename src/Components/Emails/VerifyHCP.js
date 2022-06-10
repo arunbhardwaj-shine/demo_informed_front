@@ -30,7 +30,7 @@ const VerifyHCP = (props) => {
   } else {
     var campaign_id = props.getEmailData?.campaign_id
       ? props.getEmailData.campaign_id
-      : props.getDraftData.campaign_id;
+      : props.getDraftData?.campaign_id ? props.getDraftData.campaign_id : "";
   }
 
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);

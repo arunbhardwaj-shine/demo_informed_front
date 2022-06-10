@@ -552,7 +552,7 @@ form#add_hcp_form .row:not(:first-child) { border-top: 1px dashed var(--light-bl
 /**modal-add list**/
 #add-list.modal-dialog, #send-sample.modal-dialog { max-width: 1230px; }
 #send-sample.modal-dialog { height: calc(100% - 3.5rem); display: flex; align-items: center; }
-#send-sample .modal-body{overflow-y: auto;overflow-x: hidden;}
+#send-sample .modal-body{overflow-y: auto;overflow-x: hidden;margin-top:8px;}
 #add-list .smartlist-view { flex: 0 0 auto; box-sizing: border-box; width: 33.3%; box-shadow:none; }
 #add-list .smartlist-result-block { justify-content: flex-start; /*overflow-y: auto;*/ max-height: 490px; padding-top: 18px; margin-top: 22px;min-height:200px; }
 #add-list .modal-dialog-scrollable .modal-body { padding-right: 14px; padding-left: 0; }
