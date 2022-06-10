@@ -626,7 +626,7 @@ const WebinarSmartList = () => {
                   <div className="smartlist-add smartlist-view">
                     {typeof getUserDetails !== "undefined" && (
                       <>
-                        <Link to="/webinar/SmartListCreate">
+                        <Link to="/webinar/email/SmartListCreate">
                           <img src={path_image + "add-button.svg"} alt="" />
                         </Link>
                         <p>Create New Smart List</p>
@@ -737,7 +737,7 @@ const WebinarSmartList = () => {
                           <Link
                             className="btn btn-primary btn-filled view"
                             to={{
-                              pathname: "/webinar/ViewSmartListWebinar",
+                              pathname: "/webinar/email/ViewSmartListWebinar",
                               search: "?listId=" + data.id,
                             }}
                           >
