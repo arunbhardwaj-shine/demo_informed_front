@@ -32,18 +32,19 @@ const SmartListCreate = () => {
     setSmartListName(event.target.value);
   };
 
-  const segmentCohort = () => {
+  const segmentCohort = (listId) => {
+    //console.log(smartListId);
     if (!smartListName.trim()) {
       toast.warning("Please enter the smart list name first.");
     } else {
-      navigate("/webinar/FilterList", {
-        state: { smartListName: smartListName },
+      navigate("/webinar/email/SmartListCreate/FilterList", {
+        state: { smartListName: smartListName, smartListId: listId },
       });
     }
   };
 
   const closeClicked = () => {
-    navigate("/webinar/WebinarSmartList");
+    navigate("/webinar/email/WebinarSmartList");
   };
 
   const createSmartList = async () => {
@@ -107,8 +108,9 @@ const SmartListCreate = () => {
       .then((res) => {
         if (res.data.code == 200) {
           console.log(res);
+          console.log(res.data.data.smart_list_id);
           setSmartListId(res.data.data.smart_list_id);
-          segmentCohort();
+          segmentCohort(res.data.data.smart_list_id);
         } else {
           toast.warning(res.data.message);
         }
@@ -164,7 +166,7 @@ const SmartListCreate = () => {
         console.log(res);
         if (res.data.code === 200) {
           setData(res.data.data);
-          navigate("/webinar/ExcelUpload", {
+          navigate("/webinar/email/SmartListCreate/ExcelUpload", {
             state: {
               data: res.data.data,
               smartListId: smartListId,

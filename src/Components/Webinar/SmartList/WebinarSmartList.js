@@ -35,6 +35,7 @@ const WebinarSmartList = () => {
   let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+
   const getSmartListData = async (flag) => {
     // console.log(localStorage.getItem("Token"));
 
@@ -47,6 +48,7 @@ const WebinarSmartList = () => {
     };
 
     console.log(headers);
+
     await axios
       .post(`http://51.89.210.56:8000/api/smart-list/lists`, body, { headers })
       .then((res) => {
@@ -56,7 +58,9 @@ const WebinarSmartList = () => {
           //setFilterData(res.data.response.filter);
           setPrevSmartListData(res.data.data);
         }
+
         console.log(res);
+        loader("hide");
       })
       .catch((err) => {
         console.log(err);
@@ -626,7 +630,7 @@ const WebinarSmartList = () => {
                   <div className="smartlist-add smartlist-view">
                     {typeof getUserDetails !== "undefined" && (
                       <>
-                        <Link to="/webinar/SmartListCreate">
+                        <Link to="/webinar/email/SmartListCreate">
                           <img src={path_image + "add-button.svg"} alt="" />
                         </Link>
                         <p>Create New Smart List</p>
@@ -712,7 +716,7 @@ const WebinarSmartList = () => {
                             </ul>
                           </div> */}
                         <div className="smartlist-buttons">
-                          {data.upload_by_filter == 1 ? (
+                          {/* {data.upload_by_filter == 1 ? (
                             <Link
                               className="btn btn-primary btn-bordered edit_list"
                               to={{
@@ -732,12 +736,12 @@ const WebinarSmartList = () => {
                             >
                               Edit List
                             </Link>
-                          )}
+                          )} */}
 
                           <Link
                             className="btn btn-primary btn-filled view"
                             to={{
-                              pathname: "/webinar/ViewSmartListWebinar",
+                              pathname: "/webinar/email/ViewSmartListWebinar",
                               search: "?listId=" + data.id,
                             }}
                           >

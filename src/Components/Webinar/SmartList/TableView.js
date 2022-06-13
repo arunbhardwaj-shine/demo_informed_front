@@ -893,7 +893,7 @@ const TableView = (props, ref) => {
               <div className="col-12 col-md-1">
                 <div className="header-btn-left">
                   <button className="btn btn-primary btn-bordered back">
-                    <Link to={"/webinar/SmartListCreate"}>BACK</Link>
+                    <Link to={"/webinar/email/SmartListCreate"}>BACK</Link>
                   </button>
                 </div>
               </div>
@@ -910,7 +910,7 @@ const TableView = (props, ref) => {
               <div className="col-12 col-md-2">
                 <div className="header-btn">
                   <button className="btn btn-primary btn-bordered move-draft">
-                    <Link to={{ pathname: "/webinar/SmartListCreate" }}>
+                    <Link to={{ pathname: "/webinar/email/SmartListCreate" }}>
                       Cancel
                     </Link>
                   </button>

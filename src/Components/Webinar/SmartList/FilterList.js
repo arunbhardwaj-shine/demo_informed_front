@@ -1,18 +1,34 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
 import { NavLink } from "react-router-dom";
 import Filters from "./Filters";
 import { Accordion } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
+import TableView from "./TableView";
 
 const FilterList = () => {
+  const inputElement = useRef();
+  const navigate = useNavigate();
   const location = useLocation();
+  const [selectedCountryName, setSelectedCountryName] = useState([]);
   const { smartListName } = location.state;
+  const { smartListId } = location.state;
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [countryall, setCountryall] = useState([]);
   const [update, setUpdate] = useState(0);
+  const [reRender, setReRender] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
+  const [filterData, setFiltersData] = useState([]);
+  const [selectedConsentVal, setSelectedConsentVal] = useState("");
+  const [selectedBounceVal, setSelectedBounceVal] = useState("");
 
+  const [indexToRemove, setIndexToRemove] = useState();
+
+  const [updateFilterData, setUpdataFilterData] = useState(0);
+
+  let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [filterList, setFilterList] = useState({
     profession: ["doctor", "nurse", "engineer"],
     interest: ["surgery", "psychatrist", "neuro"],
@@ -33,8 +49,9 @@ const FilterList = () => {
       await axios
         .get(`http://51.89.210.56:8000/api/country`, { headers })
         .then((res) => {
+          console.log(res);
           const countrys = res.data.data.map((data) => {
-            return data.country;
+            return data;
           });
           setCountryall(countrys);
         })
@@ -51,6 +68,8 @@ const FilterList = () => {
     });
 
     setSelectedBounce();
+    setSelectedConsentVal();
+    setSelectedBounceVal();
     setSelectedConsent();
     setSelectedCountry([]);
     setSelectedProfession([]);
@@ -61,26 +80,43 @@ const FilterList = () => {
 
   const handleConsent = (consent_val) => {
     setSelectedConsent(consent_val);
+    if (consent_val == 1) {
+      setSelectedConsentVal("Yes");
+    } else {
+      setSelectedConsentVal("No");
+    }
   };
 
   const handleBounce = (bounce_val) => {
     setSelectedBounce(bounce_val);
+
+    if (bounce_val == 1) {
+      setSelectedBounceVal("Yes");
+    } else {
+      setSelectedBounceVal("No");
+    }
   };
 
-  const handleOnCountryChange = (e, country) => {
-    console.log(country);
+  const handleOnCountryChange = (e, item) => {
+    console.log(item);
     const { value, checked } = e.target;
     console.log(value);
     console.log(checked);
 
     if (checked) {
-      setSelectedCountry((oldArray) => [...oldArray, country]);
+      setSelectedCountry((oldArray) => [...oldArray, item.id]);
+      setSelectedCountryName((oldArray) => [...oldArray, item.country]);
     } else {
       const country_selected = selectedCountry.filter((data) => {
-        return data != country;
+        return data != item.id;
+      });
+
+      const country_selected_name = selectedCountryName.filter((data) => {
+        return data != item.country;
       });
 
       setSelectedCountry(country_selected);
+      setSelectedCountryName(country_selected_name);
     }
   };
 
@@ -112,30 +148,75 @@ const FilterList = () => {
     }
   };
 
-  const applyFilter = async () => {
+  const removeSelectedCountryFilter = (index) => {
+    console.log(selectedCountryName);
+
+    let country_selected_name = selectedCountryName;
+    const data = country_selected_name.splice(index, 1);
+    console.log(country_selected_name);
+    setSelectedCountryName(country_selected_name);
+
+    let selected_country = selectedCountry;
+    selected_country.splice(index, 1);
+    setSelectedCountry(selected_country);
+    setReRender(reRender + 1);
+
+    console.log(data);
+
+    const ddd = countryall.find((item) => {
+      return item.country == data;
+    });
+
+    console.log(ddd);
+
+    console.log(inputElement.currents);
+    // document.querySelectorAll("input").forEach((checkbox) => {
+    //   checkbox.checked = false;
+    // });
+  };
+
+  const deleteReader = async (index) => {
+    const data = filterData;
+    data.splice(index, 1);
+
+    setFiltersData(data);
+
+    setUpdataFilterData(updateFilterData + 1);
+  };
+
+  const createListWithFilters = async () => {
+    console.log(filterData);
+    const participants_id = filterData.map((data) => {
+      return data.id;
+    });
+
+    console.log(smartListId);
+    console.log(smartListName);
+    console.log(participants_id);
+
     const headers = {
       "Content-Type": "application/json",
       Authorization: `${localStorage.getItem("Token")}`,
     };
 
     const body = {
-      profession: JSON.stringify([]),
-      interest: JSON.stringify([]),
-      state: JSON.stringify([]),
-      bounced: JSON.stringify(1),
-      consent: JSON.stringify(0),
-      country_id: JSON.stringify([1]),
+      id: JSON.stringify(smartListId),
+      name: smartListName,
+      participants: JSON.stringify(participants_id),
     };
 
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-
     await axios
-      .post(`http://51.89.210.56:8000/api/smart-list/filter`, body, { headers })
+      .post(`http://51.89.210.56:8000/api/smart-list/create`, body, { headers })
       .then((res) => {
         console.log(res);
+
+        if (res.data.code == 200) {
+          navigate("/webinar/email/WebinarSmartList");
+        }
         //  console.log(res.data.status_code);
         //  if (res.data.status_code == 200) {
         //    setFilterData(res.data.response.data);
+        //  setFiltersData(res.data.data);
         //  } else {
         //    setFilterData();
         //  }
@@ -148,16 +229,61 @@ const FilterList = () => {
       });
   };
 
+  const applyFilter = async () => {
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `${localStorage.getItem("Token")}`,
+    };
+
+    const body = {
+      profession: JSON.stringify(selectedProfession),
+      interest: JSON.stringify(selectedInterest),
+      state: JSON.stringify([]),
+      bounced: JSON.stringify(selectedbounce),
+      consent: JSON.stringify(selectedConsent),
+      country_id: JSON.stringify(selectedCountry),
+    };
+
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+
+    await axios
+      .post(`http://51.89.210.56:8000/api/smart-list/filter`, body, { headers })
+      .then((res) => {
+        console.log(res.data.data);
+        //  console.log(res.data.status_code);
+        //  if (res.data.status_code == 200) {
+        //    setFilterData(res.data.response.data);
+        setFiltersData(res.data.data);
+        //  } else {
+        //    setFilterData();
+        //  }
+        //  setApiFilterFlag(1);
+        //  loader("hide");
+      })
+      .catch((err) => {
+        //loader("hide");
+        console.log(err);
+      });
+  };
+
+  const onDelete = async (index) => {
+    setIsOpen(true);
+    setIndexToRemove(index);
+  };
+
   return (
     <>
-      {console.log(selectedInterest)}
+      {console.log(selectedCountry)}
       <div className="right-sidebar">
         <div className="page-top-nav smart_list_names create_filter_list">
           <div className="row justify-content-end align-items-center">
             <div className="col-12 col-md-1">
               <div className="header-btn-left">
                 <button className="btn btn-primary btn-bordered back">
-                  <NavLink to="/CreateSmartList" className="active">
+                  <NavLink
+                    to="/webinar/email/SmartListCreate"
+                    className="active"
+                  >
                     Back
                   </NavLink>
                 </button>
@@ -177,20 +303,16 @@ const FilterList = () => {
             <div className="col-12 col-md-2">
               <div className="header-btn">
                 <button className="btn btn-primary btn-bordered light">
-                  <NavLink to="/CreateSmartList">Cancel</NavLink>
+                  <NavLink to="/webinar/email/SmartListCreate">Cancel</NavLink>
                 </button>
                 <button
                   className="btn btn-primary btn-bordered save-as"
-                  // onClick={() => createListWithFilters()}
-                  // disabled={
-                  //   typeof getfilterdata !== "undefined" &&
-                  //   getfilterdata.length > 0
-                  //     ? false
-                  //     : typeof getNewAddedUser !== "undefined" &&
-                  //       getNewAddedUser.length > 0
-                  //     ? false
-                  //     : true
-                  // }
+                  onClick={() => createListWithFilters()}
+                  disabled={
+                    typeof filterData !== "undefined" && filterData.length > 0
+                      ? false
+                      : true
+                  }
                 >
                   Create
                 </button>
@@ -217,7 +339,6 @@ const FilterList = () => {
                       </div>
                       <Accordion.Body>
                         <div className="card-body">
-                          {console.log(countryall.data)}
                           {countryall.length > 0 && (
                             <>
                               <div className="col block-smart-name">
@@ -228,10 +349,11 @@ const FilterList = () => {
                                       <li>
                                         <div className="select-multiple-option">
                                           <input
+                                            ref={inputElement}
                                             type="checkbox"
                                             id={`custom-checkbox-contact_type-${index}`}
                                             name="contact_type[]"
-                                            value={item}
+                                            value={item.country}
                                             // checked={
                                             //   typeof selectedcontacttype !==
                                             //     "undefined" &&
@@ -245,7 +367,7 @@ const FilterList = () => {
                                           />
                                           <span className="checkmark"></span>
                                         </div>
-                                        {item}
+                                        {item.country}
                                       </li>
                                     ))}
                                   </ul>
@@ -571,7 +693,7 @@ const FilterList = () => {
                                     //   typeof selectedregister !== "undefined" &&
                                     //   selectedregister == "yes"
                                     // }
-                                    onChange={() => handleConsent("yes")}
+                                    onChange={() => handleConsent(1)}
                                   />
                                   <span className="checkmark"></span>
                                 </div>
@@ -588,7 +710,7 @@ const FilterList = () => {
                                     //   typeof selectedregister !== "undefined" &&
                                     //   selectedregister == "no"
                                     // }
-                                    onChange={() => handleConsent("no")}
+                                    onChange={() => handleConsent(0)}
                                   />
                                   <span className="checkmark"></span>
                                 </div>
@@ -608,7 +730,7 @@ const FilterList = () => {
                                     //   typeof selectedbounce !== "undefined" &&
                                     //   selectedbounce == "yes"
                                     // }
-                                    onChange={() => handleBounce("yes")}
+                                    onChange={() => handleBounce(1)}
                                   />
                                   <span className="checkmark"></span>
                                 </div>
@@ -625,7 +747,7 @@ const FilterList = () => {
                                     //   typeof selectedbounce !== "undefined" &&
                                     //   selectedbounce == "no"
                                     // }
-                                    onChange={() => handleBounce("no")}
+                                    onChange={() => handleBounce(0)}
                                   />
                                   <span className="checkmark"></span>
                                 </div>
@@ -659,47 +781,80 @@ const FilterList = () => {
               </div>
             </div>
           </div>
-          {/* <div className="apply-filter">
+          <div className="apply-filter">
             <h6>
               Selected Criterias{" "}
-              <span>
+              {/* <span>
                 |
                 {typeof getfilterdata !== "undefined" &&
                 getfilterdata.length > 0
                   ? getfilterdata.length
                   : 0}
-              </span>
+              </span> */}
             </h6>
             <div className="filter-block">
               <div className="filter-block-left">
-                {updateflag > 0 ? (
-                  typeof selectedcountry === "object" &&
-                  selectedcountry.length > 0 ? (
-                    <div className="filter-div">
-                      <div className="filter-div-title">
-                        <span>Country |</span>
-                      </div>
-                      <div className="filter-div-list">
-                        {Object.entries(selectedcountry).map(
-                          ([index, item]) => (
-                            <div className="filter-result">
-                              {item == "B&H" ? "Bosnia and Herzegovina" : item}{" "}
-                              <img
-                                onClick={() =>
-                                  removeindividualfilter("country", item)
-                                }
-                                src={path_image + "filter-close.svg"}
-                                alt="Close-filter"
-                              />
-                            </div>
-                          )
-                        )}
-                      </div>
+                {selectedCountryName.length > 0 ? (
+                  <div className="filter-div">
+                    <div className="filter-div-title">
+                      <span>Country |</span>
                     </div>
-                  ) : null
+                    <div className="filter-div-list">
+                      {selectedCountryName.map((item, index) => (
+                        <div className="filter-result">
+                          {item}{" "}
+                          {/* <img
+                            onClick={() => removeSelectedCountryFilter(index)}
+                            src={path_image + "filter-close.svg"}
+                            alt="Close-filter"
+                          /> */}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 ) : null}
 
-                {updateflag > 0 ? (
+                {selectedProfession.length > 0 ? (
+                  <div className="filter-div">
+                    <div className="filter-div-title">
+                      <span>Profession |</span>
+                    </div>
+                    <div className="filter-div-list">
+                      {selectedProfession.map((item, index) => (
+                        <div className="filter-result">
+                          {item}{" "}
+                          {/* <img
+                            onClick={() => removeSelectedCountryFilter(index)}
+                            src={path_image + "filter-close.svg"}
+                            alt="Close-filter"
+                          /> */}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+
+                {selectedInterest.length > 0 ? (
+                  <div className="filter-div">
+                    <div className="filter-div-title">
+                      <span>Interest |</span>
+                    </div>
+                    <div className="filter-div-list">
+                      {selectedInterest.map((item, index) => (
+                        <div className="filter-result">
+                          {item}{" "}
+                          {/* <img
+                            onClick={() => removeSelectedCountryFilter(index)}
+                            src={path_image + "filter-close.svg"}
+                            alt="Close-filter"
+                          /> */}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+
+                {/* {updateflag > 0 ? (
                   typeof selectedcontacttype === "object" &&
                   selectedcontacttype.length > 0 ? (
                     <div className="filter-div">
@@ -726,7 +881,7 @@ const FilterList = () => {
                   ) : null
                 ) : null}
 
-                {updateflag > 0 ? (
+               /* {updateflag > 0 ? (
                   typeof selectedspeciality === "object" &&
                   selectedspeciality.length > 0 ? (
                     <div className="filter-div">
@@ -857,11 +1012,50 @@ const FilterList = () => {
                       </div>
                     </div>
                   ) : null
+                ) : null} */}
+              </div>
+              <div className="filter-block-right">
+                {selectedConsentVal ? (
+                  <div className="filter-div">
+                    <div className="filter-div-title">
+                      <span>Consent |</span>
+                    </div>
+                    <div className="filter-div-list">
+                      <div className="filter-result">
+                        {selectedConsentVal}{" "}
+                        {/* <img
+                            onClick={() =>
+                              removeindividualfilter("ibu", selectedibu)
+                            }
+                            src={path_image + "filter-close.svg"}
+                            alt="Close-filter"
+                          /> */}
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
+
+                {selectedBounceVal ? (
+                  <div className="filter-div">
+                    <div className="filter-div-title">
+                      <span>Bounce |</span>
+                    </div>
+                    <div className="filter-div-list">
+                      <div className="filter-result">
+                        {selectedBounceVal}{" "}
+                        {/* <img
+                            onClick={() =>
+                              removeindividualfilter("ibu", selectedibu)
+                            }
+                            src={path_image + "filter-close.svg"}
+                            alt="Close-filter"
+                          /> */}
+                      </div>
+                    </div>
+                  </div>
                 ) : null}
               </div>
-
-           
-              <div className="filter-block-right">
+              {/* <div className="filter-block-right">
                 {updateflag > 0 ? (
                   selectedibu ? (
                     <div className="filter-div">
@@ -930,34 +1124,110 @@ const FilterList = () => {
                     </div>
                   ) : null
                 ) : null}
+              </div> */}
+            </div>
+          </div>
+
+          {filterData?.length > 0 ? (
+            <div className="box mt-2">
+              <div class="selected-hcp-list">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Name</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Bounced</th>
+                      <th scope="col">Country</th>
+                      <th scope="col">Hospital</th>
+                      <th scope="col">Profession</th>
+                      <th scope="col">Interest</th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filterData.map((item, index) => {
+                      return (
+                        <tr>
+                          <td>{item.name}</td>
+                          <td>{item.email}</td>
+                          <td>NA</td>
+                          <td>NA</td>
+                          <td>NA</td>
+                          <td>NA</td>
+                          <td>NA</td>
+                          <td
+                            class="delete_row"
+                            colspan="12"
+                            onClick={() => onDelete(index)}
+                          >
+                            <img
+                              src={path_image + "delete.svg"}
+                              alt="Delete Row"
+                            />
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
               </div>
             </div>
-          </div> */}
-          {/* 
-          {apifilterflag > 0 ? (
-            (typeof getfilterdata === "object" && getfilterdata.length > 0) ||
-            (typeof getNewAddedUser === "object" &&
-              getNewAddedUser.length > 0) ? (
-              <div className="box mt-2">
-                <Table
-                  ref={tableCompRef}
-                  data={getfilterdata}
-                  newAddedUser={getNewAddedUser}
-                  smartListName={listname}
-                  upload_by_filter="1"
-                  filter_payload={getpayload}
-                  creator={props.creator}
-                  sendDataToParent={sendDataToParent}
-                />
-              </div>
-            ) : (
-              <div className="box mt-2 no-data">
-                <p>No Data Found</p>
-              </div>
-            )
-          ) : null} */}
+          ) : (
+            <div className="box mt-2 no-data">
+              <p>No Data Found</p>
+            </div>
+          )}
         </section>
       </div>
+
+      <Modal show={isOpen} className="send-confirm" id="resend-confirm">
+        <Modal.Header>
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="modal"
+            onClick={() => {
+              setIsOpen(false);
+            }}
+          ></button>
+        </Modal.Header>
+        <Modal.Body>
+          <img src={path_image + "alert.png"} alt="" />
+          <h4>
+            The record will be deleted from the list.
+            <br />
+            Are you sure you want to delete it?
+          </h4>
+
+          <div className="modal-buttons">
+            <button
+              type="button"
+              className="btn btn-primary btn-filled"
+              data-bs-dismiss="modal"
+              onClick={() => {
+                deleteReader(indexToRemove);
+                setIsOpen(false);
+
+                //    setOpenDeleteConfirmation(true);
+                // setUpdatedData(update + 1);
+              }}
+            >
+              Yes Please!
+            </button>
+
+            <button
+              type="button"
+              className="btn btn-primary btn-bordered light"
+              data-bs-dismiss="modal"
+              onClick={() => {
+                setIsOpen(false);
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </Modal.Body>
+      </Modal>
     </>
   );
 };
