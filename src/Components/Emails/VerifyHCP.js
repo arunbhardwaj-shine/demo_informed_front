@@ -23,13 +23,16 @@ const VerifyHCP = (props) => {
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
   var campaign_id = "0";
-  if (props.getEmailData?.campaign_id) {
-    var campaign_id = props.getEmailData?.campaign_id
-      ? props.getEmailData.campaign_id
+  console.log(old_object?.campaign_id) 
+  console.log(old_object.campaign_id) 
+  if (old_object?.campaign_id || old_object?.campaign_id==='') {
+    console.log("sds")
+    var campaign_id = old_object?.campaign_id
+      ? old_object.campaign_id
       : "";
   } else {
-    var campaign_id = props.getEmailData?.campaign_id
-      ? props.getEmailData.campaign_id
+    var campaign_id = old_object?.campaign_id
+      ? old_object.campaign_id
       : props.getDraftData.campaign_id;
   }
 

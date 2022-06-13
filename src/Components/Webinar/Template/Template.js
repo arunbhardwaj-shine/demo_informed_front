@@ -473,7 +473,6 @@ const Template = (props) => {
               <div class="tags_added">
                 {finalTags.length > 0 ? (
                   <ul>
-                    {" "}
                     {finalTags.map((tags, index) => {
                       return (
                         <li className={"list" + index}>
