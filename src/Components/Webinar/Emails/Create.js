@@ -275,7 +275,8 @@ const CreateEmails = (props) => {
     alert("okk")
     ExportApi.GetTags().then((resp) => {
       if (resp.ok) {
-        loader("hide");
+
+        
         console.log("ksisiswdd",resp.data.data[0].values)
         setAllTags(JSON.parse(resp.data.data[0].values));
         // setTemplateList(resp.data.data);
