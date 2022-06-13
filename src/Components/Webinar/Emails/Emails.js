@@ -162,58 +162,56 @@ const SendEmails = () => {
                   </svg>
                 )}
               </button>
-			  {console.log(filterdata.hasOwnProperty("index"))}
+              {console.log(showfilter)}
               {showfilter && (
-                <div
-                  class="dropdown-menu filter-options"
-                  aria-labelledby="dropdownMenuButton2"
-                >
-                  <h4>Filter By</h4>
-                  <Accordion defaultActiveKey="0" flush>
-                    {filterdata &&
-                      filterdata > 0 && (
-                        <Accordion.Item className="card" eventKey="0">
-                          <Accordion.Header className="card-header">
-                            Tags
-                          </Accordion.Header>
-                          <Accordion.Body className="card-body">
-                            <ul>
-                              {Object.entries(filterdata).map(
-                                ([index, item]) => (
-                                  <li>
-                                    {item != "" ? (
-                                      <label className="select-multiple-option">
-                                        <input
-                                          type="checkbox"
-                                          id={`custom-checkbox-tags-${index}`}
-                                          name="tags[]"
-                                          value={item}
-                                          checked={
-                                            updateflag > 0 &&
-                                            typeof filtertags !== "undefined" &&
-                                            filtertags.indexOf(item) !== -1
-                                          }
-                                          onChange={() =>
-                                            handleOnFilterTags(item)
-                                          }
-                                        />
-                                        {item}
-                                        <span className="checkmark"></span>
-                                      </label>
-                                    ) : null}
-                                  </li>
-                                )
-                              )}
-                            </ul>
-                          </Accordion.Body>
-                        </Accordion.Item>
-                      )}
-                  </Accordion>
-                  <div class="filter-footer">
-                    <button class="btn btn-primary btn-bordered">Clear</button>
-                    <button class="btn btn-primary btn-filled">Apply</button>
-                  </div>
-                </div>
+            <>
+            
+            <h4>Filter By</h4>
+            <Accordion defaultActiveKey="0" flush>
+             
+                  <Accordion.Item className="card" eventKey="0">
+                    <Accordion.Header className="card-header">
+                      Tags
+                    </Accordion.Header>
+                    <Accordion.Body className="card-body">
+                      <ul>
+                        {Object.entries(filterdata).map(
+                          ([index, item]) => (
+                            <li>
+                              {item != "" ? (
+                                <label className="select-multiple-option">
+                                  <input
+                                    type="checkbox"
+                                    id={`custom-checkbox-tags-${index}`}
+                                    name="tags[]"
+                                    value={item}
+                                    checked={
+                                      updateflag > 0 &&
+                                      typeof filtertags !== "undefined" &&
+                                      filtertags.indexOf(item) !== -1
+                                    }
+                                    onChange={() =>
+                                      handleOnFilterTags(item)
+                                    }
+                                  />
+                                  {item}
+                                  <span className="checkmark"></span>
+                                </label>
+                              ) : null}
+                            </li>
+                          )
+                        )}
+                      </ul>
+                    </Accordion.Body>
+                  </Accordion.Item>
+               
+            </Accordion>
+            <div class="filter-footer">
+              <button class="btn btn-primary btn-bordered">Clear</button>
+              <button class="btn btn-primary btn-filled">Apply</button>
+            </div>
+         
+            </>
               )}
             </div>
             <div class="clear-search">

@@ -323,7 +323,6 @@ const Template = (props) => {
               </div>
             </div>
           </div>
-
           {/* <div className="top-header">
           <div className="custom-container">
             <div className="row">
@@ -335,11 +334,13 @@ const Template = (props) => {
               </Button>
             </div>
           </div>
-        </div> */}
-          <section className="select-mail-template">
-            <div class="container">
+        </div>  */}
+         
+        </>
+      ) : null}
+               <section className="select-mail-template">
+            <div class="custom-container">
               <div className="row">
-                <div class="owl-carousel owl-theme">
                   <AliceCarousel
                     mouseTracking
                     disableDotsControls
@@ -350,10 +351,9 @@ const Template = (props) => {
                     {templateList ? (
                       templateList?.map((val, i) => (
                         <div key={i} className="item">
-                          <div class="item-list">
-                            <div class="item-top-schedule">
-                              {/* <img src={path_image + "content_added1.png"} alt="" /> */}
-                            </div>
+                          
+                        {/* <img src={path_image + "content_added1.png"} alt="" /> */}
+                            
                             <img
                               src={path_image + "webinar/mail-format.png"}
                               alt=""
@@ -364,8 +364,9 @@ const Template = (props) => {
                                 setTName(val.name);
                                 setFormShow(true);
                               }}
+                              className="select_mm"
                             />
-                          </div>
+                          
                           <p>{val.name}</p>
                         </div>
                       ))
@@ -375,29 +376,9 @@ const Template = (props) => {
                   </AliceCarousel>
                 </div>
               </div>
-            </div>
+        
           </section>
-        </>
-      ) : null}
-      {/* <AliceCarousel mouseTracking disableDotsControls activeIndex={activeIndex} responsive={responsive} onSlideChanged={syncActiveIndex} >
-                {templateList ? (
-                  templateList ?.map((val, i) => (
-                    <div key={i} className="item">
-                      <img src={path_image + "content_added1.png"} alt="" onClick={(e) => {
-                        localStorage.setItem("idd", val.id);
-                        handleGetTemplate(val.id);
-                        localStorage.setItem("template", val.name);
-                        setTName(val.name);
-                        setFormShow(true)
-                      }}/>
-                      <p>{val.name}</p>
-                    </div>
-                  ))
-                ) : (
-                  <h2>{null}</h2>
-                )}  
-              </AliceCarousel>  */}
-
+     
       {/* start of create template modal code ------------------  */}
       <Modal
         show={modalShow}
@@ -581,81 +562,7 @@ const Template = (props) => {
                 </button>
               </div>
             </div>
-            {/* <Row>
-              <div className="shadow-lg p-3 mb-5 bg-white rounded md={{ span: 8, offset: 3 }} form-inline row justify-content-between align-items-center">
-                <Row>
-                  <div className="form-group col-12 col-md-5">
-                    {" "}
-                    <Button
-                      onClick={(e) => {
-                        setModalShow2(true);
-                        setId(localStorage.getItem("idd"));
-                      }}
-                    >
-                      Send A Sample
-                    </Button>
-                  </div>
-                  <div className="form-group col-12 col-md-5">
-                    <Button type="submit">Save</Button>
-                  </div>
-                </Row>
-                <div className="form-group col-12 col-md-7">
-                  <Form.Label>Subject</Form.Label>
-                  <Form.Control
-                    name="Subject"
-                    className="form-control"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.Subject}
-                    type="text"
-                    placeholder="Subject"
-                  />
-                  {formik.touched.Subject && formik.errors.Subject ? (
-                    <div style={{ color: "red" }}>{formik.errors.Subject}</div>
-                  ) : null}
-                </div>
-                <div className="email-form">
-                  <form>
-                    <div className="input-group w-100">
-                    <div className="input-group-prepend">
-                      <button
-                        className="btn btn-bordered btn-primary"
-                        type="button"
-                        id="tags-add"
-                        data-bs-toggle="modal"
-                        data-bs-target="#tagsModal"
-                        onClick={tagButtonClicked}
-                      >
-                        + Add Tag
-                      </button>
-                    </div>
-                       <div className="tags_added">
-                      <ul>
-                        {finalTags.map((tags, index) => {
-                          return (
-                            <>
-                              <li className="list1">
-                                {tags.innerHTML || tags}{" "}
-                                <img
-                                  src={path_image + "filter-close.svg"}
-                                  alt="Close-filter"
-                                  onClick={() => removeTag(index)}
-                                />
-                              </li>
-                            </>
-                          );
-                        })}
-                      </ul>
-                    </div>
-                  </div>
-                  </form>
-                </div>
-              
-                <div className="form-group col-12 col-md-7">
-               
-                </div>
-              </div>
-            </Row> */}
+           
           </form>
           <div class="sample-mail-templates">
 											<div class="select-sample-template">
@@ -671,15 +578,20 @@ const Template = (props) => {
       ) : (
         <h2>{message}</h2>
       )}
-
- <div class="modal fade" id="tagsModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="tagsModal" aria-hidden="true">
-		  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-			<div class="modal-content">
-			  <div class="modal-header">
-				<h5 class="modal-title" id="staticBackdropLabel">Add Tags</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal"  onClick={closeModal} aria-label="Close"></button>
-			  </div>
-			  <div class="modal-body">
+      <Modal id="tagsModal" show={isOpen}>
+        <Modal.Header>
+          <h5 className="modal-title" id="staticBackdropLabel">
+            Add Tags
+          </h5>
+          <button
+            type="button"
+            className="btn-close"
+            onClick={closeModal}
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </Modal.Header>
+        <Modal.Body>
 				<div class="select-tags">
 					<h6>Select Tag :</h6>
 					<div class="tag-lists">
@@ -713,77 +625,7 @@ const Template = (props) => {
               })}
 					</div>
 				</div>
-			  </div>
-			  <div class="modal-footer">
-			  <form>
-				<div class="form-group">
-					<label for="new-tag">New Tag</label>
-					<input type="text" class="form-control" id="new-tag"  value={newTag}
-                onChange={(e) => newTagChanged(e)}/>
-					<button type="button" class="btn btn-primary add btn-bordered" onClick={addTag}>Add</button>
-				 </div>
-			  </form>
-				<button type="button" class="btn btn-primary save btn-filled" onClick={saveButtonClicked}>Save</button>
-			  </div>
-			</div>
-		  </div>
-	</div>
-   
-
-
-
-
-
-      {/* <Modal id="tagsModal" show={isOpen}>
-        <Modal.Header>
-          <h5 className="modal-title" id="staticBackdropLabel">
-            Add Tags
-          </h5>
-          <button
-            type="button"
-            className="btn-close"
-            onClick={closeModal}
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="select-tags">
-            <h6>Select Tag :</h6>
-            <div className="tag-lists">
-              <div className="tag-lists-view">
-                {Object.values(allTags).map((data) => {
-                  return (
-                    <>
-                      <div onClick={(event) => tagClicked(data)}>{data} </div>
-                    </>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-          <div className="selected-tags">
-            <h6>
-              Selected Tag <span>| {tagClickedFirst.length}</span>
-            </h6>
-
-            <div className="total-selected">
-              {tagClickedFirst.map((data, index) => {
-                return (
-                  <>
-                    <div className="tag-cross">
-                      {data.innerHTML || data}
-                      <img
-                        src={path_image + "filter-close.svg"}
-                        alt="Close-filter"
-                        onClick={() => removeTagFinal(index)}
-                      />
-                    </div>
-                  </>
-                );
-              })}
-            </div>
-          </div>
+			  
         </Modal.Body>
         <Modal.Footer>
           <form>
@@ -814,7 +656,7 @@ const Template = (props) => {
             Save
           </button>
         </Modal.Footer>
-      </Modal> */}
+      </Modal>
     </div>
   );
 };
