@@ -222,12 +222,46 @@
 		padding: 8px 14px;
 	}	
 	.modal-body .hcp-add-form form .form-group .dropdown button {
-		padding: 6px 27px;
+		padding: 6px 33px 6px 18px;
 		height: 36px;
 	}
 	.smartlist-view .mail-box-content {
 		min-height: 352px;
-	}																		
+	}
+	.modal-body .hcp-add-form form .form-group .dropdown .dropdown-menu {
+		padding: 6px;
+	}	
+	.modal-body .hcp-add-form form .form-group .dropdown.split-button-dropup .dropdown-menu {
+		top: -95px!important;
+	}	
+	.modal-body .hcp-add-form form .form-group .dropdown button {
+		max-width: 229px;
+	}	
+	.modal-body .hcp-add-form form .form-group .dropdown .dropdown-menu a.dropdown-item {
+		font-size: 13px;
+		line-height: 15px;
+		padding: .3rem 0.5rem;
+	}	
+	.modal #add-list .smartlist-view .smartlist-buttons {
+		padding-top: 8px;
+		min-height: 30px;
+	}
+	/* .modal .smartlist-view .mail-box-content {
+		min-height: 325px;
+	}	 */
+	.modal .mail-time {
+		margin-bottom: 5px;
+		margin-top: 2px;
+	}
+	.modal #add-list .smartlist-result-block {
+		margin-top: 15px;
+	}	
+	.modal .smartlist-view .mailbox-table th {
+		font-weight: 400;
+		font-family: 'Roboto';
+		color: var(--blue);
+		padding: 3px 13px 3px 0;
+	}												
 	} 
 	 
 	 @media only screen and (max-width:1365px){ 

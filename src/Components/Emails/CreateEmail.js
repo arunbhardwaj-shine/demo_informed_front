@@ -402,7 +402,7 @@ const CreateEmail = (props) => {
         if (res.data.status_code === 200) {
           popup_alert({
             visible: "show",
-            message: "Test mail sent <br/> successfuly",
+            message: "Test mail sent successfully",
             type: "success",
           });
         } else {
@@ -2087,7 +2087,8 @@ const CreateEmail = (props) => {
                                    title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
                                    onSelect={(event) => onCountryChange(event, i)}
                                    >
-                                   {countryall.length === 0
+                                    <div className="scroll_div">
+                                    {countryall.length === 0
                                      ? ""
                                      : Object.entries(countryall).map(
                                          ([index, item]) => {
@@ -2098,6 +2099,8 @@ const CreateEmail = (props) => {
                                            );
                                          }
                                        )}
+                                    </div>
+                                   
                                   </DropdownButton>
                                   {
                                     /*
