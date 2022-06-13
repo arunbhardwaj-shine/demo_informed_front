@@ -145,6 +145,7 @@ const Template = (props) => {
     }),
     enableReinitialize: true,
     onSubmit: (values) => {
+      console.log("hello")
       loader("show")
       const exportHtml = async () => {
         emailEditorRef.current.editor.exportHtml((data) => {
@@ -237,8 +238,9 @@ const Template = (props) => {
               : hello
           );
         }, 1000);
-        resp.data.data.tags? setFinalTags(JSON.parse(resp.data.data.tags)):setFinalTags([])
-        resp.data.data.tags?  setTagClickedFirst(JSON.parse(resp.data.data.tags)):setTagClickedFirst([])
+        console.log(resp.data.data.tags)
+        // resp.data.data.tags? setFinalTags(JSON.parse(resp.data.data.tags)):setFinalTags([])
+        // resp.data.data.tags?  setTagClickedFirst(JSON.parse(resp.data.data.tags)):setTagClickedFirst([])
         setTemplate(resp.data.data);
       }
     });
@@ -397,7 +399,6 @@ const Template = (props) => {
   {/* end of delete modal code ------------------ */}  
   {templateList?  <form onSubmit={formik.handleSubmit}>
           <Row>
-            
             <div className="shadow-lg p-3 mb-5 bg-white rounded md={{ span: 8, offset: 3 }} form-inline row justify-content-between align-items-center">
             <Row><div className="form-group col-12 col-md-5"> <Button onClick={(e) => { setModalShow2(true); setId(localStorage.getItem('idd')); }} >
                   Send A Sample
@@ -424,7 +425,6 @@ const Template = (props) => {
                     {formik.errors.Subject}
                   </div>
                 ) : null}
-              
               </div>
               <div className="email-form">
                 <form>
