@@ -100,13 +100,7 @@ const SendEmails = () => {
                 </button>
               </form>
             </div>
-            <div
-              className={
-                showfilter
-                  ? "filter-by nav-item dropdown highlight"
-                  : "filter-by nav-item dropdown"
-              }
-            >
+            <div className={showfilter ? "filter-by nav-item dropdown highlight" : "filter-by nav-item dropdown"}>
               <button
                 class="btn btn-secondary dropdown"
                 type="button"
@@ -164,8 +158,10 @@ const SendEmails = () => {
               </button>
               {console.log(showfilter)}
               {showfilter && (
-            <>
-            
+              <div
+              className="dropdown-menu filter-options"
+              aria-labelledby="dropdownMenuButton2"
+            >
             <h4>Filter By</h4>
             <Accordion defaultActiveKey="0" flush>
              
@@ -210,8 +206,8 @@ const SendEmails = () => {
               <button class="btn btn-primary btn-bordered">Clear</button>
               <button class="btn btn-primary btn-filled">Apply</button>
             </div>
-         
-            </>
+
+              </div>
               )}
             </div>
             <div class="clear-search">

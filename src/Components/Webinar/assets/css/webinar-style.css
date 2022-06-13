@@ -560,22 +560,22 @@ form#add_hcp_form .row:not(:first-child) { border-top: 1px dashed var(--light-bl
 /**Ck Editor And Alise carousel End**/
 
 /**Filter Dropdown**/
-.dropdown-menu.filter-options { top: 53px!important; width: 340px; right: 0; background: var(--white); box-shadow: 0px 3px 16px -3px rgb(0 102 190 / 51%); border-radius: 30px 0px 30px 30px; padding: 19px 18px 72px 29px; max-height: 720px; display:none; z-index: 7; }
+.dropdown-menu.filter-options { top: 53px!important; width: 340px; right: 0; background: var(--white); box-shadow: 0px 3px 16px -3px rgb(0 102 190 / 51%); border-radius: 30px 0px 30px 30px; padding: 19px 18px 72px 29px; max-height: 720px; display:block; z-index: 7; }
 .dropdown-menu.filter-options h4 { font-size: 20px; color: var(--light-blue); font-family: 'Roboto-Medium'; }
 .dropdown-menu.filter-options .accordion { overflow-y: auto; max-height: 630px; padding-right:17px; height:100%; }
 .dropdown-menu.filter-options .card-header { background: var(--white); box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2); border-radius: 40px; padding: 0; border: 0; z-index:5; }
 .accordion-body { padding: 1rem 1rem; }
-.dropdown-menu.filter-options #accordion .card, .dropdown-menu.filter-options #accordion .card {border: 0;background: transparent;border-radius: 30px;padding: 3px;margin-bottom: 10px;}
+.dropdown-menu.filter-options .accordion .card, .dropdown-menu.filter-options .accordion .card {border: 0;background: transparent;border-radius: 30px;padding: 3px;margin-bottom: 10px;}
 .dropdown-menu.filter-options .card-header a, .dropdown-menu.filter-options .card-header .accordion-button { font-size: 18px; line-height: 21px; color: var(--blue); padding: 12px 20px; width: 100%; text-align: left; font-family: 'Roboto-Medium'; border-radius: 30px; background: var(--white) url("../images/dropdown-arrow.svg"); background-repeat: no-repeat; background-size: 16px; transition: transform .2s ease-in-out; background-origin: content-box; background-position: right center; box-shadow: none; border:0; }
-.dropdown-menu.filter-options #accordion .card .collapse, .dropdown-menu.filter-options #accordion .card .collapsing { box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2); border-radius: 25px 25px 30px 30px; margin-top: -45px; padding-top: 43px; padding-left: 10px; }
-.dropdown-menu.filter-options #accordion .card ul { padding: 0; margin: 0; overflow-y: auto; max-height: 142px; }
-.dropdown-menu.filter-options #accordion .card ul li, .approved_list ul li { list-style: none; position: relative; font-size: 14px; line-height: 16px; color: #4E718E; font-family: 'Roboto-Light'; padding-bottom: 14px; }
-.dropdown-menu.filter-options #accordion .card .select-multiple-option, .select-multiple-option {display: inline-block;padding-left: 14px;cursor: pointer;}
-.dropdown-menu.filter-options #accordion .card .select-multiple-option input,.select-multiple-option input[type="radio"] {opacity: 0; z-index: 1;position: absolute;width: 16px;height: 16px;border-radius: 50%;top: 3px;cursor:pointer;}
-.dropdown-menu.filter-options #accordion .card .select-multiple-option .checkmark, .select-multiple-option .checkmark { width: 16px; border: 1px solid var(--skyblue); height: 16px; border-radius: 50%; position: absolute; display: inline-block; top: 0px; left: 0; }
-.dropdown-menu.filter-options #accordion .select-multiple-option .checkmark:after, .select-multiple-option .checkmark:after { left: 5px; top: 2px; width: 5px; height: 9px; border: solid var(--white); border-width: 0 2px 2px 0; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg); content: ""; position: absolute; }
-.dropdown-menu.filter-options #accordion .select-multiple-option input:checked ~ .checkmark:after, .select-multiple-option input:checked ~ .checkmark:after { display: block; }
-.dropdown-menu.filter-options #accordion .select-multiple-option input:checked ~ .checkmark, .approved_list ul li .select-multiple-option input:checked ~ .checkmark { background-color: var(--green); border-color:var(--green); }
+.dropdown-menu.filter-options .accordion .card .collapse, .dropdown-menu.filter-options .accordion .card .collapsing { box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2); border-radius: 25px 25px 30px 30px; margin-top: -45px; padding-top: 43px; padding-left: 10px; }
+.dropdown-menu.filter-options .accordion .card ul { padding: 0; margin: 0; overflow-y: auto; max-height: 142px; }
+.dropdown-menu.filter-options .accordion .card ul li, .approved_list ul li { list-style: none; position: relative; font-size: 14px; line-height: 16px; color: #4E718E; font-family: 'Roboto-Light'; padding-bottom: 14px; }
+.dropdown-menu.filter-options .accordion .card .select-multiple-option, .select-multiple-option {display: inline-block;padding-left: 29px;cursor: pointer;}
+.dropdown-menu.filter-options .accordion .card .select-multiple-option input,.select-multiple-option input[type="radio"] {opacity: 0; z-index: 1;position: absolute;width: 16px;height: 16px;border-radius: 50%;top: 3px;cursor:pointer;}
+.dropdown-menu.filter-options .accordion .card .select-multiple-option .checkmark, .select-multiple-option .checkmark { width: 16px; border: 1px solid var(--skyblue); height: 16px; border-radius: 50%; position: absolute; display: inline-block; top: 0px; left: 0; }
+.dropdown-menu.filter-options .accordion .select-multiple-option .checkmark:after, .select-multiple-option .checkmark:after { left: 5px; top: 2px; width: 5px; height: 9px; border: solid var(--white); border-width: 0 2px 2px 0; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg); content: ""; position: absolute; }
+.dropdown-menu.filter-options .accordion .select-multiple-option input:checked ~ .checkmark:after, .select-multiple-option input:checked ~ .checkmark:after { display: block; }
+.dropdown-menu.filter-options .accordion .select-multiple-option input:checked ~ .checkmark, .approved_list ul li .select-multiple-option input:checked ~ .checkmark { background-color: var(--green); border-color:var(--green); }
 .card-header .accordion-button:not(.collapsed)::after { top: 11px; }
 .card-header.aaccordion-header::after { flex-shrink: 0; width: 16px; height: 16px; margin-left: auto; content: ""; background-image: url("../images/dropdown-arrow.svg"); background-repeat: no-repeat; background-size: 16px; transition: transform .2s ease-in-out; position: absolute; right: 17px; top: 18px; }
 .filter-footer { position: fixed; bottom: 0; background: var(--white); width: 100%; left: 0; right: 0; box-shadow: 0px -4px 15px rgba(0, 102, 190, 0.1); border-radius: 0px 0px 30px 30px; padding: 16px; z-index: 9; display: flex; justify-content: space-between; }
@@ -586,7 +586,7 @@ form#add_hcp_form .row:not(:first-child) { border-top: 1px dashed var(--light-bl
 .approved_list ul { display: flex; padding: 0; }
 .approved_list { padding: 0 25px; }
 .dropdown-menu.filter-options .approved_list h4 { font-size: 18px; line-height: 21px; color: var(--blue); margin: 0 0 9px; }
-/** Filter dropdown End**/ 
+/** Filter dropdown End**/
 
 
 /**create-smart-list**/
