@@ -8,13 +8,11 @@ import { Accordion } from "react-bootstrap";
 
 const FilterList = () => {
   const location = useLocation();
-  const [selectedCountryName, setSelectedCountryName] = useState([]);
   const { smartListName } = location.state;
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [countryall, setCountryall] = useState([]);
   const [update, setUpdate] = useState(0);
-  const [reRender, setReRender] = useState(0);
-  let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+
   const [filterList, setFilterList] = useState({
     profession: ["doctor", "nurse", "engineer"],
     interest: ["surgery", "psychatrist", "neuro"],
@@ -35,9 +33,8 @@ const FilterList = () => {
       await axios
         .get(`http://51.89.210.56:8000/api/country`, { headers })
         .then((res) => {
-          console.log(res);
           const countrys = res.data.data.map((data) => {
-            return data;
+            return data.country;
           });
           setCountryall(countrys);
         })
@@ -70,26 +67,20 @@ const FilterList = () => {
     setSelectedBounce(bounce_val);
   };
 
-  const handleOnCountryChange = (e, item) => {
-    console.log(item);
+  const handleOnCountryChange = (e, country) => {
+    console.log(country);
     const { value, checked } = e.target;
     console.log(value);
     console.log(checked);
 
     if (checked) {
-      setSelectedCountry((oldArray) => [...oldArray, item.id]);
-      setSelectedCountryName((oldArray) => [...oldArray, item.country]);
+      setSelectedCountry((oldArray) => [...oldArray, country]);
     } else {
       const country_selected = selectedCountry.filter((data) => {
-        return data != item.id;
-      });
-
-      const country_selected_name = selectedCountryName.filter((data) => {
-        return data != item.country;
+        return data != country;
       });
 
       setSelectedCountry(country_selected);
-      setSelectedCountryName(country_selected_name);
     }
   };
 
@@ -121,24 +112,6 @@ const FilterList = () => {
     }
   };
 
-  const removeSelectedCountryFilter = (index) => {
-    console.log(selectedCountryName);
-
-    let country_selected_name = selectedCountryName;
-    country_selected_name.splice(index, 1);
-    console.log(country_selected_name);
-    setSelectedCountryName(country_selected_name);
-
-    let selected_country = selectedCountry;
-    selected_country.splice(index, 1);
-    setSelectedCountry(selected_country);
-    setReRender(reRender + 1);
-
-    // document.querySelectorAll("input").forEach((checkbox) => {
-    //   checkbox.checked = false;
-    // });
-  };
-
   const applyFilter = async () => {
     const headers = {
       "Content-Type": "application/json",
@@ -151,7 +124,7 @@ const FilterList = () => {
       state: JSON.stringify([]),
       bounced: JSON.stringify(1),
       consent: JSON.stringify(0),
-      country_id: JSON.stringify(selectedCountry),
+      country_id: JSON.stringify([1]),
     };
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -177,7 +150,7 @@ const FilterList = () => {
 
   return (
     <>
-      {console.log(selectedCountry)}
+      {console.log(selectedInterest)}
       <div className="right-sidebar">
         <div className="page-top-nav smart_list_names create_filter_list">
           <div className="row justify-content-end align-items-center">
@@ -244,6 +217,7 @@ const FilterList = () => {
                       </div>
                       <Accordion.Body>
                         <div className="card-body">
+                          {console.log(countryall.data)}
                           {countryall.length > 0 && (
                             <>
                               <div className="col block-smart-name">
@@ -257,7 +231,7 @@ const FilterList = () => {
                                             type="checkbox"
                                             id={`custom-checkbox-contact_type-${index}`}
                                             name="contact_type[]"
-                                            value={item.country}
+                                            value={item}
                                             // checked={
                                             //   typeof selectedcontacttype !==
                                             //     "undefined" &&
@@ -271,7 +245,7 @@ const FilterList = () => {
                                           />
                                           <span className="checkmark"></span>
                                         </div>
-                                        {item.country}
+                                        {item}
                                       </li>
                                     ))}
                                   </ul>
@@ -685,40 +659,47 @@ const FilterList = () => {
               </div>
             </div>
           </div>
-          <div className="apply-filter">
+          {/* <div className="apply-filter">
             <h6>
               Selected Criterias{" "}
-              {/* <span>
+              <span>
                 |
                 {typeof getfilterdata !== "undefined" &&
                 getfilterdata.length > 0
                   ? getfilterdata.length
                   : 0}
-              </span> */}
+              </span>
             </h6>
             <div className="filter-block">
               <div className="filter-block-left">
-                {selectedCountryName.length > 0 ? (
-                  <div className="filter-div">
-                    <div className="filter-div-title">
-                      <span>Country |</span>
+                {updateflag > 0 ? (
+                  typeof selectedcountry === "object" &&
+                  selectedcountry.length > 0 ? (
+                    <div className="filter-div">
+                      <div className="filter-div-title">
+                        <span>Country |</span>
+                      </div>
+                      <div className="filter-div-list">
+                        {Object.entries(selectedcountry).map(
+                          ([index, item]) => (
+                            <div className="filter-result">
+                              {item == "B&H" ? "Bosnia and Herzegovina" : item}{" "}
+                              <img
+                                onClick={() =>
+                                  removeindividualfilter("country", item)
+                                }
+                                src={path_image + "filter-close.svg"}
+                                alt="Close-filter"
+                              />
+                            </div>
+                          )
+                        )}
+                      </div>
                     </div>
-                    <div className="filter-div-list">
-                      {selectedCountryName.map((item, index) => (
-                        <div className="filter-result">
-                          {item}{" "}
-                          <img
-                            onClick={() => removeSelectedCountryFilter(index)}
-                            src={path_image + "filter-close.svg"}
-                            alt="Close-filter"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+                  ) : null
                 ) : null}
 
-                {/* {updateflag > 0 ? (
+                {updateflag > 0 ? (
                   typeof selectedcontacttype === "object" &&
                   selectedcontacttype.length > 0 ? (
                     <div className="filter-div">
@@ -876,10 +857,11 @@ const FilterList = () => {
                       </div>
                     </div>
                   ) : null
-                ) : null} */}
+                ) : null}
               </div>
 
-              {/* <div className="filter-block-right">
+           
+              <div className="filter-block-right">
                 {updateflag > 0 ? (
                   selectedibu ? (
                     <div className="filter-div">
@@ -948,9 +930,9 @@ const FilterList = () => {
                     </div>
                   ) : null
                 ) : null}
-              </div> */}
+              </div>
             </div>
-          </div>
+          </div> */}
           {/* 
           {apifilterflag > 0 ? (
             (typeof getfilterdata === "object" && getfilterdata.length > 0) ||

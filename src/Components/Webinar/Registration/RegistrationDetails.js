@@ -249,7 +249,7 @@ const RegistraionDetails = () => {
                   <div>
                     {show == true ? (
                       <>
-                        <input type="text" className="form-group" onChange={(e) => { setField(e.target.value); }} className="form-control" />
+                        <input type="text"  onChange={(e) => { setField(e.target.value); }} className="form-control" />
                         <button type="button" onClick={saveClicked}> Save </button>
                         <button type="button" onClick={() => { setShow(false);setField("");}}>
                           Close

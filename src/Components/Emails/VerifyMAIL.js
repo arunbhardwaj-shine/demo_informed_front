@@ -54,7 +54,7 @@ const VerifyMAIL = (props) => {
     let campaign_id =
       typeof props.getEmailData === "object" && props.getEmailData !== null && props.getEmailData?.campaign_id
         ? props.getEmailData.campaign_id
-        : props.getDraftData?.campaign_id ? props.getDraftData.campaign_id : "";
+        : props.getDraftData.campaign_id;
     setCampaign_id(campaign_id);
 
     if (
@@ -407,7 +407,7 @@ const VerifyMAIL = (props) => {
                     <strong>Creator | </strong>
                     {props.getEmailData?.emailCreator
                       ? props.getEmailData.emailCreator
-                      : props.getDraftData?.creator ? props.getDraftData.creator : ""}
+                      : props.getDraftData.creator}
                   </h6>
                   <h6>
                     <strong>Tags | </strong>

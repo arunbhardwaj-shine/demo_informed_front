@@ -23,7 +23,7 @@ const SelectSmartList = (props) => {
   const navigate = useNavigate();
   const campaign_id = props.getEmailData?.campaign_id
     ? props.getEmailData.campaign_id
-    : props.getDraftData?.campaign_id ? props.getDraftData.campaign_id : "";
+    : props.getDraftData.campaign_id;
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
   const [getReaderDetails, setReaderDetails] = useState({});
   const [getSmartListName, setSmartListName] = useState("");

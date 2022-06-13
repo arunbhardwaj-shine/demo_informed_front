@@ -244,7 +244,7 @@ ReactDOM.render(
                         />
                         <Route path="/webinar/events" element={<EventList />} />
                         <Route
-                          path="/webinar/portal/registration"
+                          path="/webinar/registration"
                           element={<Registration />}
                         />
                         <Route
@@ -308,7 +308,7 @@ ReactDOM.render(
                           element={<ViewSmartListWebinar />}
                         />
                         <Route
-                          path="/webinar/RegistrationDetails"
+                          path="/webinar/portal/RegistrationDetails"
                           element={<RegistraionDetails />}
                         />
                         <Route
