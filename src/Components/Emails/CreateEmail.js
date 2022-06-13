@@ -35,7 +35,7 @@ const CreateEmail = (props) => {
   const [manualReRender, setManualReRender] = useState(0);
   const campaign_id = props.getDraftData ? props.getDraftData.campaign_id : "";
   const [selectedFile, setSelectedFile] = useState(null);
-  const [activeExcel, setActiveExcel] = useState("");
+  const [activeExcel, setActiveExcel] = useState(""); 
   const [addFileReRender, setAddFileReRender] = useState(0);
   const [counterFlag, setCounterFlag] = useState(0);
   const [activeManual, setActiveManual] = useState("active");
@@ -382,7 +382,9 @@ const CreateEmail = (props) => {
     loader("show");
     const body = {
       user_id: 18207,
-      pdf_id: PdfSelected,
+      pdf_id: state_object?.PdfSelected
+      ? state_object.PdfSelected
+      : props.getDraftData.pdf_id,
       subject: emailSubject,
       template_id: templateId,
       user_list: selected_ids,
@@ -502,6 +504,7 @@ const CreateEmail = (props) => {
       : props.getDraftData.campaign;
 
     if (typeof campaign !== "undefined" && campaign !== "") {
+      console.log(props.getDraftData);
       const body = {
         user_id: 18207,
         pdf_id: state_object?.PdfSelected
@@ -611,10 +614,9 @@ const CreateEmail = (props) => {
 
     const body = {
       user_id: 18207,
-      pdf_id:
-        props.getEmailData || PdfSelected
-          ? PdfSelected
-          : props.getDraftData.pdf_selected,
+      pdf_id: state_object?.PdfSelected
+      ? state_object.PdfSelected
+      : props.getDraftData.pdf_id,
       description: props.getEmailData
         ? emailDescription
         : props.getDraftData.description,
