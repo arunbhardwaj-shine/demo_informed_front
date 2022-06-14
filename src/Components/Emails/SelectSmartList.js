@@ -21,9 +21,9 @@ const SelectSmartList = (props) => {
   const [smartListSelected, setSmartListSelected] = useState({});
   const [getpopupopeningstatus, setpopupopeningstatus] = useState(false);
   const navigate = useNavigate();
-  const campaign_id = props.getEmailData?.campaign_id
-    ? props.getEmailData.campaign_id
-    : props.getDraftData.campaign_id;
+  const campaign_id = old_object?.campaign_id
+    ? old_object.campaign_id
+    : props.getDraftData?.campaign_id ? props.getDraftData.campaign_id : "";
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
   const [getReaderDetails, setReaderDetails] = useState({});
   const [getSmartListName, setSmartListName] = useState("");
@@ -228,7 +228,7 @@ const SelectSmartList = (props) => {
                 <li className="active active-main">
                   <Link to="/SelectSmartList">Select Smart List</Link>
                 </li>
-                
+
                 <li className="">
                   <a href="javascript:void(0)">Verify Your List</a>
                 </li>
@@ -459,8 +459,6 @@ const SelectSmartList = (props) => {
         id="resend-confirm"
       >
         <Modal.Header>
-        {
-          /*
           <button
             type="button"
             className="btn-close"
@@ -471,14 +469,11 @@ const SelectSmartList = (props) => {
               )
             }
           ></button>
-          */
-        }
-
         </Modal.Header>
         <Modal.Body>
           <img src={path_image + "alert.png"} alt="" />
           <h4>
-            Your changes saved in draft.
+            Your changes will be save in draft.
           </h4>
           <div className="modal-buttons">
             <button
@@ -638,7 +633,7 @@ const SelectSmartList = (props) => {
 
 const mapStateToProps = (state) => {
   new_object = state.getSelectedSmartListData;
-  old_object =  state.getEmailData;
+  old_object =  state.getEmailData ? state.getEmailData : {};
   return state;
 };
 

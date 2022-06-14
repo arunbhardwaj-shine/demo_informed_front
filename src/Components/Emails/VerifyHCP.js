@@ -23,10 +23,9 @@ const VerifyHCP = (props) => {
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
   var campaign_id = "0";
-  console.log(old_object?.campaign_id) 
-  console.log(old_object.campaign_id) 
+  console.log(old_object?.campaign_id)
+  console.log(old_object.campaign_id)
   if (old_object?.campaign_id || old_object?.campaign_id==='') {
-    console.log("sds")
     var campaign_id = old_object?.campaign_id
       ? old_object.campaign_id
       : "";
@@ -218,15 +217,18 @@ const VerifyHCP = (props) => {
   };
 
   const selectHcp = (index) => {
-    // console.log(index);
     let arr = [];
     arr = searchedUsers;
-    const removedArray = arr.splice(index, 1);
-    // console.log(removedArray);
-
-    setSelectedHcp((oldArray) => [...oldArray, removedArray[0]]);
-    setSearchedUsers(arr);
-    setReRender(reRender + 1);
+    let added_user_id = arr[index].profile_user_id;
+    let prev_obj = selectedHcp.find(x => x.profile_user_id === added_user_id);
+    if(typeof (prev_obj) == "undefined"){
+      const removedArray = arr.splice(index, 1);
+      setSelectedHcp((oldArray) => [...oldArray, removedArray[0]]);
+      setSearchedUsers(arr);
+      setReRender(reRender + 1);
+    }else{
+      toast.error("User with same email already added in list.");
+    }
   };
 
   const nameChanged = (e) => {
@@ -389,7 +391,12 @@ const VerifyHCP = (props) => {
           let useremail = email.trim();
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
           if (regex.test(String(useremail).toLowerCase())) {
-            return "true";
+            let prev_obj = selectedHcp.find(x => x.email === useremail);
+            if(typeof prev_obj != "undefined"){
+              return "User with same email already added in list.";
+            }else{
+              return "true";
+            }
           }else{
             return "Email format is not valid";
           }
@@ -397,7 +404,7 @@ const VerifyHCP = (props) => {
           return "true";
         }
       });
-
+      status.sort();
       if (status.every((element) => element == "true")) {
         loader("show");
 

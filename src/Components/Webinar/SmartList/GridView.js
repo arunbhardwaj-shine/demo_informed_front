@@ -175,52 +175,52 @@ const GridView = (props) => {
 
   const saveEditClicked = async () => {
     console.log(editableData);
-    //  setEditable(0);
-    //  const body = {
-    //    smart_list_id: props.smartListId,
-    //    upload: "",
-    //    participants: JSON.stringify(editableData),
-    //    // participants: editableData,
-    //  };
+    setEditable(0);
+    const body = {
+      smart_list_id: props.smartListId,
+      upload: "",
+      participants: JSON.stringify(editableData),
+      // participants: editableData,
+    };
 
-    //  const headers = {
-    //    "Content-Type": "application/json",
-    //    Authorization: `${localStorage.getItem("Token")}`,
-    //  };
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `${localStorage.getItem("Token")}`,
+    };
 
-    //  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    //  loader("show");
-    //  await axios
-    //    .post(
-    //      `http://51.89.210.56:8000/api/smart-list/update-participants`,
-    //      body,
-    //      { headers }
-    //    )
-    //    .then((res) => {
-    //      console.log(res);
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    // loader("show");
+    await axios
+      .post(
+        `http://51.89.210.56:8000/api/smart-list/update-participants`,
+        body,
+        { headers }
+      )
+      .then((res) => {
+        console.log(res);
 
-    //      if (res.data.code == 200) {
-    //        toast.success("Data updated successfully");
-    //      }
+        if (res.data.code == 200) {
+          toast.success("Data updated successfully");
+        }
 
-    //      loader("hide");
+        //    loader("hide");
 
-    //      // if (res.data.status_code === 200) {
-    //      //   toast.success("List updated");
-    //      // } else {
-    //      //   popup_alert({
-    //      //     visible: "show",
-    //      //     message: res.data.message,
-    //      //     type: "error",
-    //      //   });
-    //      // }
-    //    })
-    //    .catch((err) => {
-    //      toast.error("Something went wrong");
-    //    });
+        // if (res.data.status_code === 200) {
+        //   toast.success("List updated");
+        // } else {
+        //   popup_alert({
+        //     visible: "show",
+        //     message: res.data.message,
+        //     type: "error",
+        //   });
+        // }
+      })
+      .catch((err) => {
+        toast.error("Something went wrong");
+      });
 
-    //  setSaveOpen(false);
-    //  setEditableData([]);
+    setSaveOpen(false);
+    setEditableData([]);
   };
 
   const saveClicked = async (e) => {

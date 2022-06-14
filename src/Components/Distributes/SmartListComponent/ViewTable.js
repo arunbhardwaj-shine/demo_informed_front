@@ -1,18 +1,19 @@
 import axios from "axios";
 import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Modal, Dropdown } from "react-bootstrap";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import SimpleReactValidator from "simple-react-validator";
 import { loader } from "../../../loader";
+import EditCountry from "../../CommonComponent/EditCountry";
 
 import { toast } from "react-toastify";
 
 import { connect } from "react-redux";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { popup_alert } from "../../../popup_alert";
-
+import DropdownButton from "react-bootstrap/DropdownButton";
 const ViewTable = (props) => {
   const [inEditMode, setInEditMode] = useState({
     status: false,
@@ -84,8 +85,19 @@ const ViewTable = (props) => {
         .post(`distributes/filters_list`, body)
         .then((res) => {
           setCountryall(res.data.response.data.country);
-          //console.log(countryall)
-          // setCounter(counter + 1);
+          // let country_opt = res.data.response.data.country;
+          // var country_options = "<option>Select Country</option>";
+          //   Object.entries(country_opt).map((item) => {
+          //     let opt = "<option>"+item[0]+"</option>";
+          //     country_options = country_options+opt;
+          //   });
+          //
+          //   let x=document.querySelectorAll(".country-form_edit");  // Find the elements
+          //     [].forEach.call(x, function(op) {
+          //       op.innerHTML = country_options;
+          //       op.value = op.getAttribute("data-id");
+          //     });
+          //     loader("hide");
         })
         .catch((err) => {
           console.log(err);
@@ -104,6 +116,7 @@ const ViewTable = (props) => {
   const [updateData, setUpdatedData] = useState(null);
 
   const [editList, setEditList] = useState([]);
+  const [getCopyEditList, setCopyEditList] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [counterFlag, setCounterFlag] = useState(0);
   const [getlistid, setListId] = useState("");
@@ -171,7 +184,15 @@ const ViewTable = (props) => {
   const closeClicked = () => {
     setSaveOpen(false);
     setEditable(0);
-    let vr = editList;
+    let vr = [];
+    console.log(getCopyEditList);
+    if (getCopyEditList.length > 0) {
+      vr = getCopyEditList;
+      setCopyEditList([]);
+    } else {
+      vr = editList;
+    }
+    console.log(vr);
     setEditList([]);
     setTimeout(() => {
       setEditList(vr);
@@ -184,17 +205,20 @@ const ViewTable = (props) => {
   //   setEditList(editList);
   // }, [updateCounter]);
 
-  useEffect(() => {}, [editList]);
+  //useEffect(() => {}, [editList]);
 
   useEffect(() => {
     setEditList(props.data);
+    let a = props.data;
+    if (getCopyEditList.length == 0) {
+      setCopyEditList(a);
+      console.log(a);
+    }
   }, [props.api_flag]);
 
   useEffect(() => {
-    console.log(props);
     setNewData([]);
     const showFileInList = async () => {
-      console.log(editList);
       const profile_user_id_array = editList.map((data) => {
         return data.profile_user_id;
       });
@@ -363,8 +387,21 @@ const ViewTable = (props) => {
   };
 
   const saveEditClicked = async () => {
-    console.log(editableData);
     setEditable(0);
+    if (editableData.length > 0) {
+      editableData.map((data) => {
+        const name_edit = document.getElementById(
+          "field_name" + data.profile_user_id
+        ).innerText;
+        const country_edit = document.getElementById(
+          "field_country" + data.profile_user_id
+        ).value;
+
+        data.country = country_edit;
+        data.username = name_edit;
+      });
+    }
+
     const body = {
       user_id: 18207,
       edit_list_array: editableData,
@@ -374,7 +411,6 @@ const ViewTable = (props) => {
     await axios
       .post(`distributes/update_reders_details`, body)
       .then((res) => {
-        console.log(res);
         loader("hide");
         if (res.data.status_code === 200) {
           toast.success("List updated");
@@ -414,11 +450,6 @@ const ViewTable = (props) => {
       username: name,
     };
 
-    console.log("body");
-    console.log(body);
-
-    console.log("edit list");
-    console.log(editList);
     loader("show");
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     await axios
@@ -519,41 +550,57 @@ const ViewTable = (props) => {
     jobTitle,
     company,
     country,
-    names,
-    index
+    names
   ) => {
-    let ignoreClickOnMeElement = document.getElementById(
-      "row-selected" + index
-    );
+    // let ignoreClickOnMeElement = document.getElementById(
+    //   "row-selected" + index
+    // );
 
-    ignoreClickOnMeElement.addEventListener(
-      "mouseleave",
-      async (event) => {
-        const name_edit = document.getElementById(
-          "field_name" + index
-        ).innerText;
+    if (editable != 0) {
+      // ignoreClickOnMeElement.addEventListener(
+      //   "mouseleave",
+      //   async (event) => {
+      const name_edit = document.getElementById(
+        "field_name" + profile_user_id
+      ).innerText;
+      const country_edit = document.getElementById(
+        "field_country" + profile_user_id
+      ).value;
 
-        const country_edit = document.getElementById(
-          "field_country" + index
-        ).innerText;
+      var arr = [];
+      arr.push({
+        profile_id: profile_id,
+        profile_user_id: profile_user_id,
+        email: email,
+        jobTitle: jobTitle,
+        company: company,
+        country: country_edit,
+        username: name_edit,
+      });
 
-        console.log(name_edit);
-        console.log(country_edit);
-
-        const arr = [];
-        arr.push({
-          profile_id: profile_id,
-          profile_user_id: profile_user_id,
-          email: email,
-          jobTitle: jobTitle,
-          company: company,
-          country: country_edit,
-          username: name_edit,
-        });
+      // if(editableData.length > 0){
+      let prev_obj = editableData.find(
+        (x) => x.profile_user_id === profile_user_id
+      );
+      if (typeof prev_obj != "undefined") {
+        //update existing
+        editableData.map(
+          (obj) => arr.find((o) => o.profile_user_id === profile_user_id) || obj
+        );
+      } else {
+        //create new
         setEditableData((oldArray) => [...oldArray, ...arr]);
-      },
-      { once: true }
-    );
+      }
+      // }else{
+      //     //create new
+      //     setEditableData((oldArray) => [...oldArray, ...arr]);
+      // }
+      // console.log(name_edit);
+      // console.log(editableData);
+      // },
+      // { once: true }
+      // );
+    }
 
     // ignoreClickOnMeElement.addEventListener("mouseleave", async (event) => {
 
@@ -643,7 +690,7 @@ const ViewTable = (props) => {
   };
 
   const onContactTypeChange = (e, i) => {
-    const { value } = e.target;
+    const value = e;
     // console.log(value);
     const list = [...hpc];
     const name = hpc[i].contact_type;
@@ -652,7 +699,7 @@ const ViewTable = (props) => {
   };
 
   const onCountryChange = (e, i) => {
-    const { value } = e.target;
+    const value = e;
     const list = [...hpc];
     const name = hpc[i].country;
     list[i].country = value;
@@ -721,15 +768,20 @@ const ViewTable = (props) => {
       const status = body.data.map((data) => {
         if (data.email == "") {
           return "Please enter the email atleast";
-        } else if(data.email != ""){
+        } else if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();
           // var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
           // if (!regex.test(String(useremail).toLowerCase())) {
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
           if (regex.test(String(useremail).toLowerCase())) {
-            return "true";
-          }else{
+            let prev_obj = editList.find((x) => x.email === useremail);
+            if (typeof prev_obj != "undefined") {
+              return "User with same email already added in list.";
+            } else {
+              return "true";
+            }
+          } else {
             return "Email format is not valid";
           }
         } else {
@@ -737,7 +789,7 @@ const ViewTable = (props) => {
         }
       });
 
-
+      status.sort();
       if (status.every((element) => element == "true")) {
         loader("show");
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -869,6 +921,20 @@ const ViewTable = (props) => {
       return d.profile_user_id != profile_user_id;
     });
     setNewData(dataUpdated);
+  };
+
+  const changeEditCountry = (e, profile_user_id, ch_index, flag) => {
+    if (flag == "existing_hcp") {
+      if (typeof editList[ch_index] != "undefined") {
+        editList[ch_index].country = e;
+        console.log(editList[ch_index].country);
+      }
+    } else {
+      if (typeof newData[ch_index] != "undefined") {
+        newData[ch_index].country = e;
+        console.log(editList[ch_index].country);
+      }
+    }
   };
 
   return (
@@ -1029,7 +1095,7 @@ const ViewTable = (props) => {
                 <div className="row">
                   <div className="col-md-12">
                     <button
-                      class="btn btn-primary btn-filled next"
+                      className="btn btn-primary btn-filled next"
                       onClick={showFileInReadersList}
                     >
                       Save
@@ -1059,12 +1125,25 @@ const ViewTable = (props) => {
                 </tr>
               </thead>
               <tbody className="form-group">
-                {newData.map((item) => (
+                {newData.map((item, index) => (
                   <tr
                     className="hcps-added"
-                    onInput={(e) => editing(e, item.profile_id)}
+                    onClick={(e) =>
+                      editing(
+                        item.profile_id,
+                        item.profile_user_id,
+                        item.email,
+                        item.jobTitle,
+                        item.company,
+                        item.country,
+                        item.first_name + " " + item.last_name
+                      )
+                    }
                   >
-                    <td contenteditable={editable === 0 ? "false" : "true"}>
+                    <td
+                      contenteditable={editable === 0 ? "false" : "true"}
+                      id={`field_name` + item.profile_user_id}
+                    >
                       {inEditMode.status &&
                       inEditMode.rowKey === item.profile_id ? (
                         <input
@@ -1089,13 +1168,15 @@ const ViewTable = (props) => {
                       )}
                     </td>
                     <td>{item.bounce}</td>
-                    <td contenteditable={editable === 0 ? "false" : "true"}>
-                      {inEditMode.status &&
-                      inEditMode.rowKey === item.profile_id ? (
-                        <input
-                          value={country}
-                          onChange={(event) => setCountry(event.target.value)}
-                        />
+                    <td>
+                      {editable ? (
+                        <EditCountry
+                          selected_country={item.country}
+                          profile_user={item.profile_user_id}
+                          edit_index={index}
+                          changeEditCountry={changeEditCountry}
+                          flag="new-hcp"
+                        ></EditCountry>
                       ) : (
                         item.country
                       )}
@@ -1105,7 +1186,7 @@ const ViewTable = (props) => {
                       <td> {item.contact_type}</td>
                     ) : null}
 
-                    <td class="delete_row" colspan="12">
+                    <td className="delete_row" colspan="12">
                       <img
                         src={path + "delete.svg"}
                         alt="Delete Row"
@@ -1131,25 +1212,35 @@ const ViewTable = (props) => {
                         item.jobTitle,
                         item.company,
                         item.country,
-                        item.first_name + " " + item.last_name,
-                        index
+                        item.first_name + " " + item.last_name
                       )
                     }
                   >
                     <td
-                      id={`field_name` + index}
+                      id={`field_name` + item.profile_user_id}
                       contenteditable={editable === 0 ? "false" : "true"}
                     >
                       <span> {item.first_name + " " + item.last_name} </span>
                     </td>
 
-                    <td id={`field_email` + index}>{item.email}</td>
-                    <td id={`field_bounced` + index}>{item.bounce}</td>
-                    <td
-                      id={`field_country` + index}
-                      contenteditable={editable === 0 ? "false" : "true"}
-                    >
-                      <span>{item.country}</span>
+                    <td id={`field_email` + item.profile_user_id}>
+                      {item.email}
+                    </td>
+                    <td id={`field_bounced` + item.profile_user_id}>
+                      {item.bounce}
+                    </td>
+                    <td>
+                      {editable ? (
+                        <EditCountry
+                          selected_country={item.country}
+                          profile_user={item.profile_user_id}
+                          edit_index={index}
+                          changeEditCountry={changeEditCountry}
+                          flag="existing_hcp"
+                        ></EditCountry>
+                      ) : (
+                        item.country
+                      )}
                     </td>
                     {/*showLessInfo == false ? (
                       <td id="field_readers">NA</td>
@@ -1160,7 +1251,7 @@ const ViewTable = (props) => {
                     {showLessInfo == false ? (
                       <td id="field_interest">{item.contact_type}</td>
                     ) : null}
-                    <td class="delete_row" colspan="12">
+                    <td className="delete_row" colspan="12">
                       <img
                         src={path + "delete.svg"}
                         alt="Delete Row"
@@ -1192,7 +1283,7 @@ const ViewTable = (props) => {
         <Modal.Header>
           <button
             type="button"
-            class="btn-close"
+            className="btn-close"
             data-bs-dismiss="modal"
             onClick={() => {
               setIsOpen(false);
@@ -1206,10 +1297,10 @@ const ViewTable = (props) => {
             <br /> Are you sure you want to delete it?{" "}
           </h4>
 
-          <div class="modal-buttons">
+          <div className="modal-buttons">
             <button
               type="button"
-              class="btn btn-primary btn-filled"
+              className="btn btn-primary btn-filled"
               data-bs-dismiss="modal"
               onClick={() => {
                 deleteReader(profile_user_id);
@@ -1223,7 +1314,7 @@ const ViewTable = (props) => {
 
             <button
               type="button"
-              class="btn btn-primary btn-bordered light"
+              className="btn btn-primary btn-bordered light"
               data-bs-dismiss="modal"
               onClick={() => {
                 setIsOpen(false);
@@ -1331,47 +1422,91 @@ const ViewTable = (props) => {
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label for="">Contact Type</label>
-                                  <select
-                                    className="form-contact"
-                                    aria-label="select"
-                                    onChange={(event) =>
+                                  <DropdownButton
+                                    className="dropdown-basic-button split-button-dropup"
+                                    title={
+                                      hpc[i].contact_type != "" &&
+                                      hpc[i].contact_type != "undefined"
+                                        ? hpc[i].contact_type
+                                        : "Select Type"
+                                    }
+                                    onSelect={(event) =>
                                       onContactTypeChange(event, i)
                                     }
                                   >
-                                    <option selected>Select Type</option>
-                                    <option value="HCP">HCP</option>
-                                    <option value="Staff">Staff</option>
-                                    <option value="Test Users">
+                                    <Dropdown.Item
+                                      eventKey="HCP"
+                                      className={
+                                        hpc[i].contact_type == "HCP"
+                                          ? "active"
+                                          : ""
+                                      }
+                                    >
+                                      HCP
+                                    </Dropdown.Item>
+                                    <Dropdown.Item
+                                      eventKey="Staff"
+                                      className={
+                                        hpc[i].contact_type == "Staff"
+                                          ? "active"
+                                          : ""
+                                      }
+                                    >
+                                      Staff
+                                    </Dropdown.Item>
+                                    <Dropdown.Item
+                                      eventKey="Test Users"
+                                      className={
+                                        hpc[i].contact_type == "Test Users"
+                                          ? "active"
+                                          : ""
+                                      }
+                                    >
                                       Test Users
-                                    </option>
-                                  </select>
+                                    </Dropdown.Item>
+                                  </DropdownButton>
                                 </div>
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label for="">Country</label>
-                                  <select
-                                    className="country-form"
-                                    aria-label="select"
-                                    onChange={(event) =>
+                                  <DropdownButton
+                                    className="dropdown-basic-button split-button-dropup"
+                                    title={
+                                      hpc[i].country != "" &&
+                                      hpc[i].country != "undefined"
+                                        ? hpc[i].country == "B&H"
+                                          ? "Bosnia and Herzegovina"
+                                          : hpc[i].country
+                                        : "Select Country"
+                                    }
+                                    onSelect={(event) =>
                                       onCountryChange(event, i)
                                     }
                                   >
-                                    <option selected>Select Country</option>
                                     {countryall.length === 0
                                       ? ""
                                       : Object.entries(countryall).map(
                                           ([index, item]) => {
                                             return (
                                               <>
-                                                <option value={index}>
-                                                  {item}
-                                                </option>
+                                                <Dropdown.Item
+                                                  eventKey={index}
+                                                  className={
+                                                    hpc[i].country == index
+                                                      ? "active"
+                                                      : ""
+                                                  }
+                                                >
+                                                  {item == "B&H"
+                                                    ? "Bosnia and Herzegovina"
+                                                    : item}
+                                                </Dropdown.Item>
                                               </>
                                             );
                                           }
                                         )}
-                                  </select>
+                                  </DropdownButton>
                                 </div>
                               </div>
                               {/*
@@ -1447,14 +1582,14 @@ const ViewTable = (props) => {
 
                 {/*
                   <form id="add_file" className={"tab-pane" + activeExcel}>
-                    <div class="file_upload-box">
+                    <div className="file_upload-box">
                       <div className="upload-file-box">
                         <div className="box">
                           <input
                             type="file"
                             name="file-4[]"
                             id="file-4"
-                            class="inputfile inputfile-3"
+                            className="inputfile inputfile-3"
                             accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                             onChange={onFileChange}
                             data-multiple-caption="{count} files selected"

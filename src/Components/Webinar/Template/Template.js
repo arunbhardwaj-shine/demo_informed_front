@@ -32,21 +32,9 @@ const Template = (props) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const syncActiveIndex = ({ item }) => setActiveIndex(item);
 
-  // const responsive = {
-  //   0: { items: 1 },
-  //   568: { items: 2 },
-  //   1024: { items: 5 },
-  // };
-
   // ---------------------ended---------------
   // const [id, setId] = useState();
   const [isOpen, setIsOpen] = useState(false);
-  // const [activeIndex, setActiveIndex] = useState(0);
-  // const [templateList, setTemplateList] = useState();
-  // const syncActiveIndex = ({ item }) => setActiveIndex(item);
-  // const [template, setTemplate] = useState();
-  // const [tName, setTName] = useState();
-  // const [FormShow, setFormShow] = useState(false);
   const [allTags, setAllTags] = useState({});
   const [tagClickedFirst, setTagClickedFirst] = useState([]);
   const [tagsReRender, setTagsReRender] = useState(0);
@@ -137,6 +125,7 @@ const Template = (props) => {
     initialValues: {
       Subject: template ? template.subject : "",
       tempName: template ? template.name : "",
+      is_approved: 1,
     },
     validationSchema: Yup.object({
       Subject: Yup.string().required("Enter your subject"),
@@ -158,7 +147,8 @@ const Template = (props) => {
             design,
             html,
             localStorage.getItem("idd"),
-            tagClickedFirst
+            tagClickedFirst,
+            0
           ).then((resp) => {
             if (resp.ok) {
               if (resp.data.code == 200) {
@@ -194,6 +184,56 @@ const Template = (props) => {
       exportHtml();
     },
   });
+  const handleUpdateis_approved=()=>{
+      loader("show");
+      let approved=1
+      const exportHtml = async () => {
+        emailEditorRef.current.editor.exportHtml((data) => {
+          const { design, html } = data;
+          setDpc(design);
+          ExportApi.UpdateTemplate(
+            formik.values.Subject,
+            formik.values.tempName,
+            localStorage.getItem("EventIdHeader"),
+            design,
+            html,
+            localStorage.getItem("idd"),
+            tagClickedFirst,
+            formik.values.is_approved,
+          ).then((resp) => {
+            if (resp.ok) {
+              if (resp.data.code == 200) {
+                loader("hide");
+                setDpc();
+                handleGetTemplateList(localStorage.getItem("EventIdHeader"));
+                setFormShow(false);
+                setModalShow(false);
+                toast.success(resp.data.message, {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                });
+              } else {
+                toast.error(resp.data.message, {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                });
+              }
+            }
+          });
+        });
+      };
+      exportHtml();
+  }
   const handleGetTemplateList = (id) => {
     ExportApi.UserTemplateList(id).then((resp) => {
       if (resp.ok) {
@@ -235,9 +275,9 @@ const Template = (props) => {
               : hello
           );
         }, 1000);
-        console.log(resp.data.data.tags);
-        // resp.data.data.tags? setFinalTags(JSON.parse(resp.data.data.tags)):setFinalTags([])
-        // resp.data.data.tags?  setTagClickedFirst(JSON.parse(resp.data.data.tags)):setTagClickedFirst([])
+
+     setFinalTags(resp.data.data.tags)
+       resp.data.data.tags?  setTagClickedFirst(resp.data.data.tags):setTagClickedFirst([])
         setTemplate(resp.data.data);
       }
     });
@@ -289,6 +329,7 @@ const Template = (props) => {
         loader("hide");
         setAllTags(JSON.parse(resp.data.data[0].values));
         // setTemplateList(resp.data.data);
+        console.log(JSON.parse(resp.data.data[0].values))
       }
     });
   };
@@ -352,8 +393,10 @@ const Template = (props) => {
                       templateList?.map((val, i) => (
                         <div key={i} className="item">
                           
-                        {/* <img src={path_image + "content_added1.png"} alt="" /> */}
-                            
+                          <div class="item-list">
+												<div class="item-top-schedule">
+                        <img  src={path_image + "webinar/mail-schedule.png"} alt="" />
+												</div>
                             <img
                               src={path_image + "webinar/mail-format.png"}
                               alt=""
@@ -366,7 +409,7 @@ const Template = (props) => {
                               }}
                               className="select_mm"
                             />
-                          
+											</div>
                           <p>{val.name}</p>
                         </div>
                       ))
@@ -374,10 +417,7 @@ const Template = (props) => {
                       <h2>{null}</h2>
                     )}
                   </AliceCarousel>
-                </div>
-              </div>
-        
-          </section>
+
      
       {/* start of create template modal code ------------------  */}
       <Modal
@@ -504,15 +544,16 @@ const Template = (props) => {
                   id="email-subject"
                 />
               </div>
-              <div class="form-buttons right-side col-12 col-md-5">
+              <div className="form-buttons right-side col-12 col-md-5">
                 <button
-                  class="btn btn-primary btn-filled btn-large"
+                 type="button"
+                  className="btn btn-primary btn-filled btn-large"
                   onClick={(e) => {
                     setModalShow2(true);
                     setId(localStorage.getItem("idd"));
                   }}
                 >
-                  Send A Sample{" "}
+                  Send A Sample
                   <svg
                     width="24"
                     height="24"
@@ -540,7 +581,7 @@ const Template = (props) => {
                     />
                   </svg>
                 </button>
-                <button class="btn btn-primary approved-btn btn-bordered">
+                <button  type="button" onClick={()=>handleUpdateis_approved()} className="btn btn-primary approved-btn btn-bordered">
                   Approved{" "}
                   <svg
                     width="16"
@@ -656,6 +697,10 @@ const Template = (props) => {
           </button>
         </Modal.Footer>
       </Modal>
+    </div>
+              </div>
+        
+          </section>
     </div>
   );
 };
