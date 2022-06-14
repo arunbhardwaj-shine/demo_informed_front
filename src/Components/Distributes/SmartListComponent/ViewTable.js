@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 import { connect } from "react-redux";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { popup_alert } from "../../../popup_alert";
-import DropdownButton from 'react-bootstrap/DropdownButton';
+import DropdownButton from "react-bootstrap/DropdownButton";
 const ViewTable = (props) => {
   const [inEditMode, setInEditMode] = useState({
     status: false,
@@ -186,10 +186,10 @@ const ViewTable = (props) => {
     setEditable(0);
     let vr = [];
     console.log(getCopyEditList);
-    if(getCopyEditList.length > 0){
+    if (getCopyEditList.length > 0) {
       vr = getCopyEditList;
       setCopyEditList([]);
-    }else{
+    } else {
       vr = editList;
     }
     console.log(vr);
@@ -210,7 +210,7 @@ const ViewTable = (props) => {
   useEffect(() => {
     setEditList(props.data);
     let a = props.data;
-    if(getCopyEditList.length == 0){
+    if (getCopyEditList.length == 0) {
       setCopyEditList(a);
       console.log(a);
     }
@@ -388,10 +388,14 @@ const ViewTable = (props) => {
 
   const saveEditClicked = async () => {
     setEditable(0);
-    if(editableData.length > 0){
+    if (editableData.length > 0) {
       editableData.map((data) => {
-        const name_edit    = document.getElementById("field_name" + data.profile_user_id).innerText;
-        const country_edit = document.getElementById("field_country" + data.profile_user_id).value;
+        const name_edit = document.getElementById(
+          "field_name" + data.profile_user_id
+        ).innerText;
+        const country_edit = document.getElementById(
+          "field_country" + data.profile_user_id
+        ).value;
 
         data.country = country_edit;
         data.username = name_edit;
@@ -552,42 +556,50 @@ const ViewTable = (props) => {
     //   "row-selected" + index
     // );
 
-    if(editable != 0){
-        // ignoreClickOnMeElement.addEventListener(
-        //   "mouseleave",
-        //   async (event) => {
-            const name_edit    = document.getElementById("field_name" + profile_user_id).innerText;
-            const country_edit = document.getElementById("field_country" + profile_user_id).value;
+    if (editable != 0) {
+      // ignoreClickOnMeElement.addEventListener(
+      //   "mouseleave",
+      //   async (event) => {
+      const name_edit = document.getElementById(
+        "field_name" + profile_user_id
+      ).innerText;
+      const country_edit = document.getElementById(
+        "field_country" + profile_user_id
+      ).value;
 
-            var arr = [];
-            arr.push({
-              profile_id: profile_id,
-              profile_user_id: profile_user_id,
-              email: email,
-              jobTitle: jobTitle,
-              company: company,
-              country: country_edit,
-              username: name_edit,
-            });
+      var arr = [];
+      arr.push({
+        profile_id: profile_id,
+        profile_user_id: profile_user_id,
+        email: email,
+        jobTitle: jobTitle,
+        company: company,
+        country: country_edit,
+        username: name_edit,
+      });
 
-            // if(editableData.length > 0){
-                let prev_obj = editableData.find(x => x.profile_user_id === profile_user_id);
-                if(typeof (prev_obj) != "undefined") {
-                    //update existing
-                   editableData.map(obj => arr.find(o => o.profile_user_id === profile_user_id) || obj);
-                }else{
-                  //create new
-                  setEditableData((oldArray) => [...oldArray, ...arr]);
-                }
-            // }else{
-            //     //create new
-            //     setEditableData((oldArray) => [...oldArray, ...arr]);
-            // }
-            // console.log(name_edit);
-            // console.log(editableData);
-          // },
-          // { once: true }
-        // );
+      // if(editableData.length > 0){
+      let prev_obj = editableData.find(
+        (x) => x.profile_user_id === profile_user_id
+      );
+      if (typeof prev_obj != "undefined") {
+        //update existing
+        editableData.map(
+          (obj) => arr.find((o) => o.profile_user_id === profile_user_id) || obj
+        );
+      } else {
+        //create new
+        setEditableData((oldArray) => [...oldArray, ...arr]);
+      }
+      // }else{
+      //     //create new
+      //     setEditableData((oldArray) => [...oldArray, ...arr]);
+      // }
+      // console.log(name_edit);
+      // console.log(editableData);
+      // },
+      // { once: true }
+      // );
     }
 
     // ignoreClickOnMeElement.addEventListener("mouseleave", async (event) => {
@@ -756,20 +768,20 @@ const ViewTable = (props) => {
       const status = body.data.map((data) => {
         if (data.email == "") {
           return "Please enter the email atleast";
-        } else if(data.email != ""){
+        } else if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();
           // var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
           // if (!regex.test(String(useremail).toLowerCase())) {
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
           if (regex.test(String(useremail).toLowerCase())) {
-            let prev_obj = editList.find(x => x.email === useremail);
-            if(typeof prev_obj != "undefined"){
+            let prev_obj = editList.find((x) => x.email === useremail);
+            if (typeof prev_obj != "undefined") {
               return "User with same email already added in list.";
-            }else{
+            } else {
               return "true";
             }
-          }else{
+          } else {
             return "Email format is not valid";
           }
         } else {
@@ -911,21 +923,19 @@ const ViewTable = (props) => {
     setNewData(dataUpdated);
   };
 
-
-  const changeEditCountry = (e,profile_user_id,ch_index,flag) => {
-    if(flag == "existing_hcp"){
-        if(typeof editList[ch_index] != "undefined"){
-          editList[ch_index].country = e;
-          console.log(editList[ch_index].country);
-        }
-    }else{
-      if(typeof newData[ch_index] != "undefined"){
+  const changeEditCountry = (e, profile_user_id, ch_index, flag) => {
+    if (flag == "existing_hcp") {
+      if (typeof editList[ch_index] != "undefined") {
+        editList[ch_index].country = e;
+        console.log(editList[ch_index].country);
+      }
+    } else {
+      if (typeof newData[ch_index] != "undefined") {
         newData[ch_index].country = e;
         console.log(editList[ch_index].country);
       }
-
     }
-  }
+  };
 
   return (
     <>
@@ -1118,17 +1128,22 @@ const ViewTable = (props) => {
                 {newData.map((item, index) => (
                   <tr
                     className="hcps-added"
-                    onClick={(e) => editing(
-                      item.profile_id,
-                      item.profile_user_id,
-                      item.email,
-                      item.jobTitle,
-                      item.company,
-                      item.country,
-                      item.first_name + " " + item.last_name,
-                    )}
+                    onClick={(e) =>
+                      editing(
+                        item.profile_id,
+                        item.profile_user_id,
+                        item.email,
+                        item.jobTitle,
+                        item.company,
+                        item.country,
+                        item.first_name + " " + item.last_name
+                      )
+                    }
                   >
-                    <td contenteditable={editable === 0 ? "false" : "true"} id={`field_name` + item.profile_user_id}>
+                    <td
+                      contenteditable={editable === 0 ? "false" : "true"}
+                      id={`field_name` + item.profile_user_id}
+                    >
                       {inEditMode.status &&
                       inEditMode.rowKey === item.profile_id ? (
                         <input
@@ -1154,9 +1169,17 @@ const ViewTable = (props) => {
                     </td>
                     <td>{item.bounce}</td>
                     <td>
-                    {
-                      editable ? <EditCountry selected_country={item.country} profile_user={item.profile_user_id} edit_index={index} changeEditCountry={changeEditCountry} flag="new-hcp"></EditCountry> : item.country
-                    }
+                      {editable ? (
+                        <EditCountry
+                          selected_country={item.country}
+                          profile_user={item.profile_user_id}
+                          edit_index={index}
+                          changeEditCountry={changeEditCountry}
+                          flag="new-hcp"
+                        ></EditCountry>
+                      ) : (
+                        item.country
+                      )}
                     </td>
                     {showLessInfo == false ? <td> {item.ibu}</td> : null}
                     {showLessInfo == false ? (
@@ -1177,8 +1200,7 @@ const ViewTable = (props) => {
                   <td colspan="13"></td>
                 </tr>
 
-                {
-                  editList.map((item, index) => (
+                {editList.map((item, index) => (
                   <tr
                     id={`row-selected` + index}
                     onClick={(e) =>
@@ -1190,7 +1212,7 @@ const ViewTable = (props) => {
                         item.jobTitle,
                         item.company,
                         item.country,
-                        item.first_name + " " + item.last_name,
+                        item.first_name + " " + item.last_name
                       )
                     }
                   >
@@ -1201,12 +1223,24 @@ const ViewTable = (props) => {
                       <span> {item.first_name + " " + item.last_name} </span>
                     </td>
 
-                    <td id={`field_email` + item.profile_user_id}>{item.email}</td>
-                    <td id={`field_bounced` + item.profile_user_id}>{item.bounce}</td>
+                    <td id={`field_email` + item.profile_user_id}>
+                      {item.email}
+                    </td>
+                    <td id={`field_bounced` + item.profile_user_id}>
+                      {item.bounce}
+                    </td>
                     <td>
-                      {
-                        editable ? <EditCountry selected_country={item.country} profile_user={item.profile_user_id} edit_index={index} changeEditCountry={changeEditCountry} flag="existing_hcp"></EditCountry> : item.country
-                      }
+                      {editable ? (
+                        <EditCountry
+                          selected_country={item.country}
+                          profile_user={item.profile_user_id}
+                          edit_index={index}
+                          changeEditCountry={changeEditCountry}
+                          flag="existing_hcp"
+                        ></EditCountry>
+                      ) : (
+                        item.country
+                      )}
                     </td>
                     {/*showLessInfo == false ? (
                       <td id="field_readers">NA</td>
@@ -1237,8 +1271,7 @@ const ViewTable = (props) => {
                       />
                     </td>
                   </tr>
-                ))
-              }
+                ))}
               </tbody>
             </table>
           </div>
@@ -1389,35 +1422,91 @@ const ViewTable = (props) => {
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label for="">Contact Type</label>
-                                  <DropdownButton className="dropdown-basic-button split-button-dropup"
-                                    title= {hpc[i].contact_type != "" &&  hpc[i].contact_type != "undefined" ? hpc[i].contact_type : "Select Type" }
-                                    onSelect={(event) => onContactTypeChange(event, i)}
+                                  <DropdownButton
+                                    className="dropdown-basic-button split-button-dropup"
+                                    title={
+                                      hpc[i].contact_type != "" &&
+                                      hpc[i].contact_type != "undefined"
+                                        ? hpc[i].contact_type
+                                        : "Select Type"
+                                    }
+                                    onSelect={(event) =>
+                                      onContactTypeChange(event, i)
+                                    }
+                                  >
+                                    <Dropdown.Item
+                                      eventKey="HCP"
+                                      className={
+                                        hpc[i].contact_type == "HCP"
+                                          ? "active"
+                                          : ""
+                                      }
                                     >
-                                  <Dropdown.Item eventKey="HCP" className = {hpc[i].contact_type == "HCP" ? "active" : "" }>HCP</Dropdown.Item>
-                                  <Dropdown.Item eventKey="Staff" className = {hpc[i].contact_type == "Staff" ? "active" : "" }>Staff</Dropdown.Item>
-                                  <Dropdown.Item eventKey="Test Users" className = {hpc[i].contact_type == "Test Users" ? "active" : "" }>Test Users</Dropdown.Item>
-                                </DropdownButton>
+                                      HCP
+                                    </Dropdown.Item>
+                                    <Dropdown.Item
+                                      eventKey="Staff"
+                                      className={
+                                        hpc[i].contact_type == "Staff"
+                                          ? "active"
+                                          : ""
+                                      }
+                                    >
+                                      Staff
+                                    </Dropdown.Item>
+                                    <Dropdown.Item
+                                      eventKey="Test Users"
+                                      className={
+                                        hpc[i].contact_type == "Test Users"
+                                          ? "active"
+                                          : ""
+                                      }
+                                    >
+                                      Test Users
+                                    </Dropdown.Item>
+                                  </DropdownButton>
                                 </div>
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label for="">Country</label>
-                                  <DropdownButton className="dropdown-basic-button split-button-dropup"
-                                 title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
-                                 onSelect={(event) => onCountryChange(event, i)}
-                                 >
-                                 {countryall.length === 0
-                                   ? ""
-                                   : Object.entries(countryall).map(
-                                       ([index, item]) => {
-                                         return (
-                                           <>
-                                            <Dropdown.Item eventKey={index} className = {hpc[i].country == index ? "active" : "" }>{item == "B&H" ? "Bosnia and Herzegovina" : item}</Dropdown.Item>
-                                           </>
-                                         );
-                                       }
-                                     )}
-                                </DropdownButton>
+                                  <DropdownButton
+                                    className="dropdown-basic-button split-button-dropup"
+                                    title={
+                                      hpc[i].country != "" &&
+                                      hpc[i].country != "undefined"
+                                        ? hpc[i].country == "B&H"
+                                          ? "Bosnia and Herzegovina"
+                                          : hpc[i].country
+                                        : "Select Country"
+                                    }
+                                    onSelect={(event) =>
+                                      onCountryChange(event, i)
+                                    }
+                                  >
+                                    {countryall.length === 0
+                                      ? ""
+                                      : Object.entries(countryall).map(
+                                          ([index, item]) => {
+                                            return (
+                                              <>
+                                                <Dropdown.Item
+                                                  eventKey={index}
+                                                  className={
+                                                    hpc[i].country == index
+                                                      ? "active"
+                                                      : ""
+                                                  }
+                                                >
+                                                  {item == "B&H"
+                                                    ? "Bosnia and Herzegovina"
+                                                    : item}
+                                                </Dropdown.Item>
+                                              </>
+                                            );
+                                          }
+                                        )}
+                                  </DropdownButton>
                                 </div>
                               </div>
                               {/*
