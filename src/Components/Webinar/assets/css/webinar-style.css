@@ -4309,6 +4309,7 @@ a {
 }
 .search-hcp .list-tab {
   padding: 0 45px;
+  flex-wrap: wrap; 
 }
 #modal-add .modal-dialog {
   max-width: 507px;
