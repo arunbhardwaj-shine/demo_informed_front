@@ -254,17 +254,18 @@ const DeleteTemplate = (id) =>
       },
     }
   );
-const UpdateTemplate = (subject, templateName, eventid, id, html, i,tagClickedFirst) =>
+const UpdateTemplate = (subject, templateName, eventid, id, html, i,tagClickedFirst,is_approved) =>
   BaseApi.post(
     "update-template",
     {
+      is_approved:is_approved,
       name: templateName,
       event_id: eventid,
       subject: subject,
       json_description: id,
       description: html,
       template_id: i,
-      tags:tagClickedFirst
+      tags:tagClickedFirst,
     },
     {
       headers: {
@@ -634,6 +635,17 @@ const getEmailStatsChart = (eventid, templateId) =>
       },
     }
   );
+  ///....CreateEmail.....\\\\
+const EmailSCreate = (template_id,eventid,subject ,tags,smart_list_id  ) =>
+  BaseApi.post(
+    `emails-create`,
+    {template_id: template_id,smart_list_id:smart_list_id,event_id: eventid,subject :subject,tags :tags  },
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
 export default {
   UserLogin,
   UserForgot,
@@ -692,4 +704,5 @@ export default {
   UpdateSMTP,
   getEmailStatsChart,
   getSmartListData,
+  EmailSCreate,
 };

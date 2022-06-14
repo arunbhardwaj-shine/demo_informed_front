@@ -495,7 +495,7 @@ const Sidebar = () => {
                     </li>
                     <li
                       className={
-                        location.pathname === "/webinar/portal/registration"
+                        location.pathname === "/webinar/portal/registrationDetails"
                           ? "active"
                           : "side_li"
                       }
