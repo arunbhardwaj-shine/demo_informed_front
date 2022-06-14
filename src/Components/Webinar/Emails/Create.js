@@ -294,9 +294,9 @@ const CreateEmails = (props) => {
             <div className="col-12 col-md-1">
               <div className="header-btn-left">
                 <Link to="/webinar/email/emails">
-                  <button className="btn btn-primary btn-bordered back">
-                    Back
-                  </button>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5.15966 12.0001C5.15966 12.4302 5.3239 12.8603 5.65167 13.1882L15.9712 23.5077C16.6277 24.1641 17.692 24.1641 18.3482 23.5077C19.0044 22.8515 19.0044 21.7874 18.3482 21.1309L9.21688 12.0001L18.3479 2.86923C19.0041 2.21277 19.0041 1.14877 18.3479 0.492636C17.6917 -0.164135 16.6274 -0.164135 15.9709 0.492636L5.65135 10.8119C5.32352 11.14 5.15966 11.5701 5.15966 12.0001Z" fill="#97B6CF"/>
+</svg>
                 </Link>
               </div>
             </div>
@@ -321,9 +321,9 @@ const CreateEmails = (props) => {
                   Save As Draft
                 </button>
                 <Link to="/webinar/emails/smart-list">
-                  <button className="btn btn-primary btn-filled next" >
-                      Next
-                  </button>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M18.8403 12.0001C18.8403 12.4302 18.6761 12.8603 18.3483 13.1882L8.02877 23.5077C7.37232 24.1641 6.30799 24.1641 5.65181 23.5077C4.99562 22.8515 4.99562 21.7874 5.65181 21.1309L14.7831 12.0001L5.65213 2.86923C4.99594 2.21277 4.99594 1.14877 5.65213 0.492636C6.30831 -0.164135 7.37264 -0.164135 8.02909 0.492636L18.3486 10.8119C18.6765 11.14 18.8403 11.5701 18.8403 12.0001Z" fill="#97B6CF"/>
+</svg>
                 </Link>
               </div>
             </div>

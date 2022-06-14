@@ -358,8 +358,6 @@ const Template = (props) => {
                               className="select_mm"
                             />
 											</div>
-                            
-                          
                           <p>{val.name}</p>
                         </div>
                       ))
