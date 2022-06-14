@@ -363,9 +363,19 @@ const VerifyMAIL = (props) => {
 
                 }
 
-                <li className="active">
-                  <Link to="/SelectSmartListUsers">Verify Your List</Link>
-                </li>
+                {
+                   typeof getSmartListData !== "undefined" &&
+                   getSmartListData.hasOwnProperty("id")
+                     ? <li className="active">
+                     <Link to="/SelectSmartListUsers">Verify Your List</Link>
+                   </li>
+                     :  <li className="active">
+                     <Link to="/VerifyHCP">Verify Your List</Link>
+                   </li>
+
+                }
+
+                
 
                 <li className="active active-main">
                   <a href="javascript:void(0)">Verify your Email</a>
@@ -404,10 +414,11 @@ const VerifyMAIL = (props) => {
                       : props.getDraftData.campaign}
                   </h6>
                   <h6>
+          
                     <strong>Creator | </strong>
                     {props.getEmailData?.emailCreator
-                      ? props.getEmailData.emailCreator
-                      : props.getDraftData.creator}
+        ? props.getEmailData.emailCreator
+        : props.getDraftData?.creator ? props.getDraftData.creator : ''}
                   </h6>
                   <h6>
                     <strong>Tags | </strong>

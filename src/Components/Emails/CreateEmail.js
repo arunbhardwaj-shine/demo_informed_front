@@ -616,12 +616,22 @@ const CreateEmail = (props) => {
   };
 
   const approvedClicked = async (e) => {
-    setIsApprovedStatus(3);
+    let ab = getIsApprovedStatus;
+    console.log(ab)
+    if(getIsApprovedStatus===3){
+     await setIsApprovedStatus(2);
+     ab = 2;
+    }else{
+      await setIsApprovedStatus(3);
+      ab = 3;
+    }
+    //setIsApprovedStatus(3);
     e.preventDefault();
     let tagss = [];
     finalTags.map((tags) => {
       tagss.push(tags.innerText || tags);
     });
+  
 
     const body = {
       user_id: 18207,
@@ -645,9 +655,10 @@ const CreateEmail = (props) => {
       },
 
       campaign_id: campaign_id_st,
-      status: 3,
+      status: ab,
+      approved_page:1,
     };
-
+    
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
@@ -657,7 +668,12 @@ const CreateEmail = (props) => {
 
         setCampaign_id(res.data.response.data.id);
         if (res.data.status_code === 200) {
-          toast.success("Approved Draft saved");
+          if(ab===3){
+            toast.success("Approved Draft saved");
+          }else{
+            toast.success("Draft saved");
+          }
+          
         } else {
           toast.warning(res.data.message);
         }
