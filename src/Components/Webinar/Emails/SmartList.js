@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 const SelectSmartList = () => {
   const [smartListData, setSmartListData] = useState([]);
+  const [smartListDataId, setSmartListDataId] = useState();
   const [deletestatus, setDeleteStatus] = useState(false);
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [search, setSearch] = useState("");
@@ -43,7 +44,7 @@ const SelectSmartList = () => {
     await axios
       .post(`http://51.89.210.56:8000/api/smart-list/lists`, body, { headers })
       .then((res) => {
-        console.log(res.data.data);
+        console.log("res.data.data", res.data.data);
         setSmartListData(res.data.data);
         if (flag == 0) {
           //setFilterData(res.data.response.filter);
@@ -66,10 +67,10 @@ const SelectSmartList = () => {
             
             <div className="col-12 col-md-1">
               <div className="header-btn-left">
-                <Link to="/webinar/emails/create">
-                  <button className="btn btn-primary btn-bordered back">
-                    Back
-                  </button>
+                <Link to="/webinar/email/create">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5.15966 12.0001C5.15966 12.4302 5.3239 12.8603 5.65167 13.1882L15.9712 23.5077C16.6277 24.1641 17.692 24.1641 18.3482 23.5077C19.0044 22.8515 19.0044 21.7874 18.3482 21.1309L9.21688 12.0001L18.3479 2.86923C19.0041 2.21277 19.0041 1.14877 18.3479 0.492636C17.6917 -0.164135 16.6274 -0.164135 15.9709 0.492636L5.65135 10.8119C5.32352 11.14 5.15966 11.5701 5.15966 12.0001Z" fill="#97B6CF"/>
+</svg>
                 </Link>
               </div>
             </div>
@@ -93,7 +94,7 @@ const SelectSmartList = () => {
                 <button className="btn btn-primary btn-bordered move-draft" >
                   Save As Draft
                 </button>
-                <Link to="/webinar/emails/smart-list-users">
+                <Link to="/webinar/email/smart-list-users">
                   <button className="btn btn-primary btn-filled next" >
                       Next
                   </button>
@@ -111,7 +112,7 @@ const SelectSmartList = () => {
                       <div className="mail-box-content">
                         <h5>{data.name}</h5>
                         <div className="select-mail-option">
-                          <input type="radio" name="radio" />
+                          <input type="radio" name="radio"onClick={()=>setSmartListDataId(data.id)} />
                           <span className="checkmark"></span>
                         </div>
                         <div className="mailbox-table">

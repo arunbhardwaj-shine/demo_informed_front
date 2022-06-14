@@ -70,6 +70,7 @@ function ResetPassword() {
       },
     });
   return (
+    <div className="right-sidebar">
     <Row>
        <ToastContainer
         position="top-right"
@@ -142,6 +143,7 @@ function ResetPassword() {
       </Modal.Body>
     </Modal>
     </Row>
+    </div>
   )
 }
 

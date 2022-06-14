@@ -30,12 +30,6 @@ const CreateEmails = (props) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const syncActiveIndex = ({ item }) => setActiveIndex(item);
 
-  // const responsive = {
-  //   0: { items: 1 },
-  //   568: { items: 2 },
-  //   1024: { items: 5 },
-  // };
-
   // ---------------------ended---------------
   // const [id, setId] = useState();
   const [isOpen, setIsOpen] = useState(false);
@@ -129,6 +123,8 @@ const CreateEmails = (props) => {
     initialValues: {
       Subject: template ? template.subject : "",
       tempName: template ? template.name : "",
+      is_approved: 1,
+      
     },
     validationSchema: Yup.object({
       Subject: Yup.string().required("Enter your subject"),
@@ -149,7 +145,8 @@ const CreateEmails = (props) => {
             design,
             html,
             localStorage.getItem("idd"),
-            tagClickedFirst
+            tagClickedFirst,
+            0
           ).then((resp) => {
             if (resp.ok) {
               if (resp.data.code == 200) {
@@ -184,6 +181,63 @@ const CreateEmails = (props) => {
       exportHtml();
     },
   });
+  const handleUpdateis_approved=()=>{
+    // loader("show");
+
+    const exportHtml = async () => {
+      emailEditorRef.current.editor.exportHtml((data) => {
+        const { design, html } = data;
+        setDpc(design);
+        ExportApi.UpdateTemplate(
+          formik.values.Subject,
+          formik.values.tempName,
+          localStorage.getItem("EventIdHeader"),
+          design,
+          html,
+          localStorage.getItem("idd"),
+          tagClickedFirst,
+          formik.values.is_approved,
+        ).then((resp) => {
+          if (resp.ok) {
+            if (resp.data.code == 200) {
+           
+              setDpc();
+              handleGetTemplateList(localStorage.getItem("EventIdHeader"));
+              setFormShow(false);
+              setModalShow(false);
+              toast.success(resp.data.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
+            } else {
+              toast.error(resp.data.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
+            }
+          }
+        });
+      });
+    };
+    exportHtml();
+}
+const handleEmailSCreate = () => {
+  ExportApi.EmailSCreate(localStorage.getItem("idd"),localStorage.getItem("EventIdHeader"),formik.values.Subject,tagClickedFirst,).then((resp) => {
+    if (resp.ok) {
+      // setAllTags(JSON.parse(resp.data.data[0].values));
+    }
+  });
+};
   const handleGetTemplateList = (id) => {
     ExportApi.UserTemplateList(id).then((resp) => {
       if (resp.ok) {
@@ -213,6 +267,7 @@ const CreateEmails = (props) => {
     });
   };
   const handleGetTemplate = (idd) => {
+    localStorage.setItem("TEMPLATEID",id)
     setDpc();
     setId(idd);
     ExportApi.UserTemplate(idd).then((resp) => {
@@ -271,8 +326,7 @@ const CreateEmails = (props) => {
     }
     closeModal();
   };
-  const GetTagsAll = () => {
-  
+  const GetTagsAll = () => { 
     ExportApi.GetTags().then((resp) => {
       if (resp.ok) {
         setAllTags(JSON.parse(resp.data.data[0].values));
@@ -280,6 +334,7 @@ const CreateEmails = (props) => {
       }
     });
   };
+
   useEffect(() => {
     GetTagsAll();
   }, []);
@@ -317,10 +372,10 @@ const CreateEmails = (props) => {
             
             <div className="col-12 col-md-2">
               <div className="header-btn">
-                <button className="btn btn-primary btn-bordered move-draft" >
+                <button type="button" onClick={()=>{handleEmailSCreate()}} className="btn btn-primary btn-bordered move-draft" >
                   Save As Draft
                 </button>
-                <Link to="/webinar/emails/smart-list">
+                <Link to="/webinar/email/smart-list" onClick={()=>{handleEmailSCreate()}}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M18.8403 12.0001C18.8403 12.4302 18.6761 12.8603 18.3483 13.1882L8.02877 23.5077C7.37232 24.1641 6.30799 24.1641 5.65181 23.5077C4.99562 22.8515 4.99562 21.7874 5.65181 21.1309L14.7831 12.0001L5.65213 2.86923C4.99594 2.21277 4.99594 1.14877 5.65213 0.492636C6.30831 -0.164135 7.37264 -0.164135 8.02909 0.492636L18.3486 10.8119C18.6765 11.14 18.8403 11.5701 18.8403 12.0001Z" fill="#97B6CF"/>
 </svg>
@@ -351,9 +406,6 @@ const CreateEmails = (props) => {
                     {templateList ? (
                       templateList?.map((val, i) => (
                         <div key={i} className="item">
-                          
-
-                            
                             <img
                               src={path_image + "webinar/mail-format.png"}
                               alt=""
@@ -466,7 +518,7 @@ const CreateEmails = (props) => {
                 />
               </div>
               <div class="form-buttons right-side col-12 col-md-5">
-                <button
+                <button type="button"
                   class="btn btn-primary btn-filled btn-large"
                   onClick={(e) => {
                     setModalShow2(true);
@@ -501,7 +553,7 @@ const CreateEmails = (props) => {
                     />
                   </svg>
                 </button>
-                <button class="btn btn-primary approved-btn btn-bordered">
+                <button type="button" onClick={()=>handleUpdateis_approved()} class="btn btn-primary approved-btn btn-bordered">
                   Approved{" "}
                   <svg
                     width="16"

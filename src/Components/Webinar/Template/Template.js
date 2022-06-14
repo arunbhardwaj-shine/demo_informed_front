@@ -125,6 +125,7 @@ const Template = (props) => {
     initialValues: {
       Subject: template ? template.subject : "",
       tempName: template ? template.name : "",
+      is_approved: 1,
     },
     validationSchema: Yup.object({
       Subject: Yup.string().required("Enter your subject"),
@@ -146,7 +147,8 @@ const Template = (props) => {
             design,
             html,
             localStorage.getItem("idd"),
-            tagClickedFirst
+            tagClickedFirst,
+            0
           ).then((resp) => {
             if (resp.ok) {
               if (resp.data.code == 200) {
@@ -182,6 +184,56 @@ const Template = (props) => {
       exportHtml();
     },
   });
+  const handleUpdateis_approved=()=>{
+      loader("show");
+      let approved=1
+      const exportHtml = async () => {
+        emailEditorRef.current.editor.exportHtml((data) => {
+          const { design, html } = data;
+          setDpc(design);
+          ExportApi.UpdateTemplate(
+            formik.values.Subject,
+            formik.values.tempName,
+            localStorage.getItem("EventIdHeader"),
+            design,
+            html,
+            localStorage.getItem("idd"),
+            tagClickedFirst,
+            formik.values.is_approved,
+          ).then((resp) => {
+            if (resp.ok) {
+              if (resp.data.code == 200) {
+                loader("hide");
+                setDpc();
+                handleGetTemplateList(localStorage.getItem("EventIdHeader"));
+                setFormShow(false);
+                setModalShow(false);
+                toast.success(resp.data.message, {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                });
+              } else {
+                toast.error(resp.data.message, {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                });
+              }
+            }
+          });
+        });
+      };
+      exportHtml();
+  }
   const handleGetTemplateList = (id) => {
     ExportApi.UserTemplateList(id).then((resp) => {
       if (resp.ok) {
@@ -365,10 +417,7 @@ const Template = (props) => {
                       <h2>{null}</h2>
                     )}
                   </AliceCarousel>
-                </div>
-              </div>
-        
-          </section>
+
      
       {/* start of create template modal code ------------------  */}
       <Modal
@@ -532,7 +581,7 @@ const Template = (props) => {
                     />
                   </svg>
                 </button>
-                <button  type="button" className="btn btn-primary approved-btn btn-bordered">
+                <button  type="button" onClick={()=>handleUpdateis_approved()} className="btn btn-primary approved-btn btn-bordered">
                   Approved{" "}
                   <svg
                     width="16"
@@ -648,6 +697,10 @@ const Template = (props) => {
           </button>
         </Modal.Footer>
       </Modal>
+    </div>
+              </div>
+        
+          </section>
     </div>
   );
 };
