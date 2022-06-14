@@ -35,7 +35,7 @@ const CreateEmail = (props) => {
   const [manualReRender, setManualReRender] = useState(0);
   const campaign_id = props.getDraftData ? props.getDraftData.campaign_id : "";
   const [selectedFile, setSelectedFile] = useState(null);
-  const [activeExcel, setActiveExcel] = useState(""); 
+  const [activeExcel, setActiveExcel] = useState("");
   const [addFileReRender, setAddFileReRender] = useState(0);
   const [counterFlag, setCounterFlag] = useState(0);
   const [activeManual, setActiveManual] = useState("active");
@@ -347,8 +347,16 @@ const CreateEmail = (props) => {
         .post(`distributes/get_reders_list`, body)
         .then((res) => {
           if (res.data.status_code == 200) {
+
             setReaders(res.data.response.data);
-            setSelectedHcp(res.data.response.data);
+
+            res.data.response.data.map((data) => {
+              let prev_obj = selectedHcp.find(x => x.email === data.email);
+              if(typeof prev_obj === "undefined"){
+                setSelectedHcp((oldArray) => [...oldArray, data]);
+              }
+            });
+            // setSelectedHcp(res.data.response.data);
             loader("hide");
           } else {
             toast.warning(res.data.message);
@@ -402,7 +410,7 @@ const CreateEmail = (props) => {
         if (res.data.status_code === 200) {
           popup_alert({
             visible: "show",
-            message: "Test mail sent <br/> successfuly",
+            message: "Test mail sent successfully",
             type: "success",
           });
         } else {
@@ -426,15 +434,18 @@ const CreateEmail = (props) => {
   };
 
   const selectHcp = (index) => {
-    // console.log(index);
     let arr = [];
     arr = searchedUsers;
-    const removedArray = arr.splice(index, 1);
-    // console.log(removedArray);
-
-    setSelectedHcp((oldArray) => [...oldArray, removedArray[0]]);
-    setSearchedUsers(arr);
-    setReRender(reRender + 1);
+    let added_user_id = arr[index].profile_user_id;
+    let prev_obj = selectedHcp.find(x => x.profile_user_id === added_user_id);
+    if(typeof (prev_obj) == "undefined"){
+      const removedArray = arr.splice(index, 1);
+      setSelectedHcp((oldArray) => [...oldArray, removedArray[0]]);
+      setSearchedUsers(arr);
+      setReRender(reRender + 1);
+    }else{
+      toast.error("User with same email already added in list.");
+    }
   };
 
   const saveAsTemplateButtonClicked = async () => {
@@ -807,7 +818,7 @@ const CreateEmail = (props) => {
 
   const searchHcp = async (e) => {
     e.preventDefault();
-    if (name == "" || typeof name == "undefined") {
+    if (name == "" && email == "") {
       toast.warning("Please enter name or email first");
     } else {
       const body = {
@@ -958,7 +969,12 @@ const CreateEmail = (props) => {
           let useremail = email.trim();
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
           if (regex.test(String(useremail).toLowerCase())) {
-            return "true";
+            let prev_obj = selectedHcp.find(x => x.email === useremail);
+            if(typeof prev_obj != "undefined"){
+              return "User with same email already added in list.";
+            }else{
+              return "true";
+            }
           }else{
             return "Email format is not valid";
           }
@@ -966,7 +982,7 @@ const CreateEmail = (props) => {
           return "true";
         }
       });
-
+      status.sort();
       if (status.every((element) => element == "true")) {
         loader("show");
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -2098,7 +2114,8 @@ const CreateEmail = (props) => {
                                    title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
                                    onSelect={(event) => onCountryChange(event, i)}
                                    >
-                                   {countryall.length === 0
+                                    <div className="scroll_div">
+                                    {countryall.length === 0
                                      ? ""
                                      : Object.entries(countryall).map(
                                          ([index, item]) => {
@@ -2109,6 +2126,8 @@ const CreateEmail = (props) => {
                                            );
                                          }
                                        )}
+                                    </div>
+
                                   </DropdownButton>
                                   {
                                     /*

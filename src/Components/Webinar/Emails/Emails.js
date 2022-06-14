@@ -336,10 +336,11 @@ const SendEmails = () => {
           <div className="col email-result-block">
             <div className="email_box_block">
               <div className="email-block-add">
-                <Link to="/webinar/emails/create">
+                <Link to="/webinar/email/create">
                   <img src={path_image + "add-button.svg"} alt="" />
                   <p>Create New Email</p>
                 </Link>
+              </div>
               </div>
               <div class="email_box_block">
 									<div class="email-draft email_box">
@@ -363,16 +364,16 @@ const SendEmails = () => {
 											<div class="mail-stats">
 												<ul>
 													<li><div class="mail-status mail_send">
-														<img src={path_image +"assets/images/mail-send.png"} alt=""/>
+														<img src={path_image +"/webinar/mail-send.png"} alt=""/>
 													</div><span>0</span></li>
 													<li><div class="mail-status mail_view">
-														<img src="assets/images/mail-open.png" alt=""/>
+														<img src={path_image +"/webinar/mail-open.png"} alt=""/>
 													</div><span>10%</span></li>
 													<li><div class="mail-status mail_click">
-														<img src="assets/images/mail-check.png" alt=""/>
+														<img src={path_image +"/webinar/mail-check.png"} alt=""/>
 													</div><span>40%</span></li>
 													<li><div class="mail-status mail_click">
-														<img src="assets/images/mail-group.png" alt=""/>
+														<img src={path_image +"/webinar/mail-group.png"} alt=""/>
 													</div><span>0%</span></li>
 												</ul>
 											</div>
@@ -385,10 +386,94 @@ const SendEmails = () => {
 										</div>
 									</div>
 								</div>
+                <div class="email_box_block">
+									<div class="draft-approved email_box">
+										<div class="mail-top-title">
+											<span>Approved Draft</span>
+										</div>
+										<div class="mail-box-content">
+											<h5>Email Subject</h5>
+											<p>Email Type</p>
+											<div class="mailbox-tags">
+												<ul>
+													<li class="list1">tag1</li>
+													<li class="list2">tag2</li>
+													<li class="list3">tag3</li>
+													<li class="list4">tag4</li>
+													<li class="list5">tag5</li>
+												</ul>
+											</div>
+											<div class="name-list"><span>List |  Name of the list</span></div>
+											<div class="mail-time"><span>Nov 18 | 9:00 AM</span></div>
+											<div class="mail-stats">
+                      <ul>
+													<li><div class="mail-status mail_send">
+														<img src={path_image +"/webinar/mail-send.png"} alt=""/>
+													</div><span>0</span></li>
+													<li><div class="mail-status mail_view">
+														<img src={path_image +"/webinar/mail-open.png"} alt=""/>
+													</div><span>10%</span></li>
+													<li><div class="mail-status mail_click">
+														<img src={path_image +"/webinar/mail-check.png"} alt=""/>
+													</div><span>40%</span></li>
+													<li><div class="mail-status mail_click">
+														<img src={path_image +"/webinar/mail-group.png"} alt=""/>
+													</div><span>0%</span></li>
+												</ul>
+											</div>
+											<div class="mailbox-buttons">
+												<div class="mailbox-buttons-list">
+													<button class="btn btn-primary btn-bordered edit">Edit</button>
+													<button class="btn btn-primary btn-filled send">Send</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+                <div class="email_box_block">
+									<div class="email_box approved">
+										<div class="mail-box-content">
+											<h5>Email Subject</h5>
+											<p>Email Type</p>
+											<div class="mailbox-tags">
+												<ul>
+													<li class="list1">tag1</li>
+													<li class="list2">tag2</li>
+													<li class="list3">tag3</li>
+													<li class="list4">tag4</li>
+													<li class="list5">tag5</li>
+												</ul>
+											</div>
+											<div class="name-list"><span>List |  Name of the list</span></div>
+											<div class="mail-time"><span>Nov 18 | 9:00 AM</span></div>
+											<div class="mail-stats">
+                      <ul>
+													<li><div class="mail-status mail_send">
+														<img src={path_image +"/webinar/mail-send.png"} alt=""/>
+													</div><span>0</span></li>
+													<li><div class="mail-status mail_view">
+														<img src={path_image +"/webinar/mail-open.png"} alt=""/>
+													</div><span>10%</span></li>
+													<li><div class="mail-status mail_click">
+														<img src={path_image +"/webinar/mail-check.png"} alt=""/>
+													</div><span>40%</span></li>
+													<li><div class="mail-status mail_click">
+														<img src={path_image +"/webinar/mail-group.png"} alt=""/>
+													</div><span>0%</span></li>
+												</ul>
+											</div>
+											<div class="mailbox-buttons">
+												<div class="mailbox-buttons-list">
+													<button class="btn btn-primary btn-bordered edit">View</button>
+													<button class="btn btn-primary btn-filled send">Resend</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
             </div>
           </div>
         </div>
-      </div>
     </>
   );
 };

@@ -32,21 +32,9 @@ const Template = (props) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const syncActiveIndex = ({ item }) => setActiveIndex(item);
 
-  // const responsive = {
-  //   0: { items: 1 },
-  //   568: { items: 2 },
-  //   1024: { items: 5 },
-  // };
-
   // ---------------------ended---------------
   // const [id, setId] = useState();
   const [isOpen, setIsOpen] = useState(false);
-  // const [activeIndex, setActiveIndex] = useState(0);
-  // const [templateList, setTemplateList] = useState();
-  // const syncActiveIndex = ({ item }) => setActiveIndex(item);
-  // const [template, setTemplate] = useState();
-  // const [tName, setTName] = useState();
-  // const [FormShow, setFormShow] = useState(false);
   const [allTags, setAllTags] = useState({});
   const [tagClickedFirst, setTagClickedFirst] = useState([]);
   const [tagsReRender, setTagsReRender] = useState(0);
@@ -235,9 +223,9 @@ const Template = (props) => {
               : hello
           );
         }, 1000);
-        console.log(resp.data.data.tags);
-        // resp.data.data.tags? setFinalTags(JSON.parse(resp.data.data.tags)):setFinalTags([])
-        // resp.data.data.tags?  setTagClickedFirst(JSON.parse(resp.data.data.tags)):setTagClickedFirst([])
+
+     setFinalTags(resp.data.data.tags)
+       resp.data.data.tags?  setTagClickedFirst(resp.data.data.tags):setTagClickedFirst([])
         setTemplate(resp.data.data);
       }
     });
@@ -289,6 +277,7 @@ const Template = (props) => {
         loader("hide");
         setAllTags(JSON.parse(resp.data.data[0].values));
         // setTemplateList(resp.data.data);
+        console.log(JSON.parse(resp.data.data[0].values))
       }
     });
   };
@@ -352,8 +341,10 @@ const Template = (props) => {
                       templateList?.map((val, i) => (
                         <div key={i} className="item">
                           
-                        {/* <img src={path_image + "content_added1.png"} alt="" /> */}
-                            
+                          <div class="item-list">
+												<div class="item-top-schedule">
+                        <img  src={path_image + "webinar/mail-schedule.png"} alt="" />
+												</div>
                             <img
                               src={path_image + "webinar/mail-format.png"}
                               alt=""
@@ -366,7 +357,7 @@ const Template = (props) => {
                               }}
                               className="select_mm"
                             />
-                          
+											</div>
                           <p>{val.name}</p>
                         </div>
                       ))
@@ -473,7 +464,6 @@ const Template = (props) => {
               <div class="tags_added">
                 {finalTags.length > 0 ? (
                   <ul>
-                    {" "}
                     {finalTags.map((tags, index) => {
                       return (
                         <li className={"list" + index}>
@@ -505,15 +495,16 @@ const Template = (props) => {
                   id="email-subject"
                 />
               </div>
-              <div class="form-buttons right-side col-12 col-md-5">
+              <div className="form-buttons right-side col-12 col-md-5">
                 <button
-                  class="btn btn-primary btn-filled btn-large"
+                 type="button"
+                  className="btn btn-primary btn-filled btn-large"
                   onClick={(e) => {
                     setModalShow2(true);
                     setId(localStorage.getItem("idd"));
                   }}
                 >
-                  Send A Sample{" "}
+                  Send A Sample
                   <svg
                     width="24"
                     height="24"
@@ -541,7 +532,7 @@ const Template = (props) => {
                     />
                   </svg>
                 </button>
-                <button class="btn btn-primary approved-btn btn-bordered">
+                <button  type="button" className="btn btn-primary approved-btn btn-bordered">
                   Approved{" "}
                   <svg
                     width="16"

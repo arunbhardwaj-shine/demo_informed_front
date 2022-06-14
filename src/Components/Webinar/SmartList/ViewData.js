@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Button, Modal } from "react-bootstrap";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
@@ -21,6 +21,8 @@ const ViewData = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   //let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   //let validator = new SimpleReactValidator();
+
+  const navigate = useNavigate();
   const [editable, setEditable] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [addFileReRender, setAddFileReRender] = useState(0);
@@ -694,8 +696,9 @@ const ViewData = (props) => {
   };
 
   const backClicked = () => {
-    window.history.go(-1);
+    //  window.history.go(-1);
     //props.api_flag(0);
+    navigate("/webinar/email/WebinarSmartList");
   };
 
   const searchChange = (e) => {
@@ -900,7 +903,7 @@ const ViewData = (props) => {
               {props.url ? (
                 <Link
                   to={{
-                    pathname: "/CreateSmartList",
+                    pathname: "/webinar/email/WebinarSmartList",
                   }}
                   onClick={backClicked}
                 >
@@ -1149,10 +1152,6 @@ const ViewData = (props) => {
                     </td>
                   </tr>
                 ))}
-
-                <tr className="seprator-add">
-                  <td colspan="13"></td>
-                </tr>
 
                 {editList.map((item, index) => (
                   <tr

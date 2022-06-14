@@ -51,8 +51,6 @@ import CreateEmailWebinar from "./Components/Webinar/Emails/Create";
 import CreateSmartListWebinar from "./Components/Webinar/Emails/SmartList";
 import SmartListUsersWebinar from "./Components/Webinar/Emails/SmartListUsers";
 
-
-
 // Readers
 import Readers from "./Components/Webinar/Readers/Readers";
 
@@ -121,7 +119,7 @@ if (window.location.href.indexOf("/webinar") > -1) {
   require("./Components/assets/fonts/fonts.css");
   platform = 1;
   show = 1;
-}else{
+} else {
   require("./Components/assets/css/style.css");
   require("./Components/assets/css/responsive.css");
   require("./Components/assets/css/custom.css");
@@ -223,19 +221,19 @@ ReactDOM.render(
                         />
                         <Route
                           path="/webinar/rehearsallist"
-                          element={<RehearsalList  />}
+                          element={<RehearsalList />}
                         />
                         <Route
                           path="/webinar/portal/portalpreparation"
-                          element={<PortalPreparation  />}
+                          element={<PortalPreparation />}
                         />
                         <Route
                           path="/webinar/portal/portalfeatures"
-                          element={<PortalPreparation  />}
+                          element={<PortalPreparation />}
                         />
                         <Route
                           path="/webinar/customizerehearsalinvites"
-                          element={<CustomizeRehearsalInvites  />}
+                          element={<CustomizeRehearsalInvites />}
                         />
                         <Route path="/webinar/readers" element={<Readers />} />
                         <Route
@@ -244,7 +242,7 @@ ReactDOM.render(
                         />
                         <Route path="/webinar/events" element={<EventList />} />
                         <Route
-                          path="/webinar/registration"
+                          path="/webinar/portal/registration"
                           element={<Registration />}
                         />
                         <Route
@@ -264,7 +262,7 @@ ReactDOM.render(
                           element={<EmailsAnalaytics />}
                         />
                         <Route
-                          path="/webinar/emails/create"
+                          path="/webinar/email/create"
                           element={<CreateEmailWebinar />}
                         />
                         <Route
@@ -295,20 +293,17 @@ ReactDOM.render(
                           path="/webinar/analytics"
                           element={<Analytics />}
                         />
+                        <Route path="/webinar/files" element={<Files />} />
                         <Route
-                          path="/webinar/files"
-                          element={<Files />}
-                        />
-                        <Route
-                          path="/webinar/WebinarSmartList"
+                          path="/webinar/email/WebinarSmartList"
                           element={<WebinarSmartList />}
                         />
                         <Route
-                          path="/webinar/ViewSmartListWebinar"
+                          path="/webinar/email/ViewSmartListWebinar"
                           element={<ViewSmartListWebinar />}
                         />
                         <Route
-                          path="/webinar/portal/RegistrationDetails"
+                          path="/webinar/portal/registrationDetails"
                           element={<RegistraionDetails />}
                         />
                         <Route
@@ -320,11 +315,11 @@ ReactDOM.render(
                           element={<SmartListCreate />}
                         />
                         <Route
-                          path="/webinar/FilterList"
+                          path="/webinar/email/SmartListCreate/FilterList"
                           element={<FilterList />}
                         />
                         <Route
-                          path="/webinar/ExcelUpload"
+                          path="/webinar/email/SmartListCreate/ExcelUpload"
                           element={<ExcelUpload />}
                         />
                       </Route>
