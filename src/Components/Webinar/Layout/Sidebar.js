@@ -500,9 +500,9 @@ const Sidebar = () => {
                           : "side_li"
                       }
                     >
-                      <Link to="/webinar/portal/registration">
+                      <Link to="/webinar/portal/registrationDetails">
                         <img src={path_image + "webinar/event.svg"} />
-                        <p>Registration Page</p>
+                        <p>Registration Details</p>
                       </Link>
                     </li>
                   </ul>
