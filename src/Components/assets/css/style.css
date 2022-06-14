@@ -958,6 +958,7 @@ input:-webkit-autofill{ -webkit-text-fill-color: #4E718E !important; }
 } */
 .search-hcp-table table th, .selected-hcp-list table thead.sticky-header  th {
   padding-bottom: 10px;
+  background: #fbfcfd;
 }
 .dropdown-item.active, .dropdown-item:active, .modal-body .hcp-add-form form .form-group .dropdown .dropdown-menu a.dropdown-item.active {
     background-color: var(--light-blue);

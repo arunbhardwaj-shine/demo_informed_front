@@ -495,15 +495,16 @@ const Template = (props) => {
                   id="email-subject"
                 />
               </div>
-              <div class="form-buttons right-side col-12 col-md-5">
+              <div className="form-buttons right-side col-12 col-md-5">
                 <button
-                  class="btn btn-primary btn-filled btn-large"
+                 type="button"
+                  className="btn btn-primary btn-filled btn-large"
                   onClick={(e) => {
                     setModalShow2(true);
                     setId(localStorage.getItem("idd"));
                   }}
                 >
-                  Send A Sample{" "}
+                  Send A Sample
                   <svg
                     width="24"
                     height="24"
@@ -531,7 +532,7 @@ const Template = (props) => {
                     />
                   </svg>
                 </button>
-                <button class="btn btn-primary approved-btn btn-bordered">
+                <button  type="button" className="btn btn-primary approved-btn btn-bordered">
                   Approved{" "}
                   <svg
                     width="16"
