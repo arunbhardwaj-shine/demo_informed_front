@@ -48,20 +48,6 @@ header { position: sticky; top: 0; z-index: 9; }
 .sidebar-menu ul li.active:after, .sidebar_submenu ul li.active:after { background-image: url(../images/menu-icon2.png); bottom: -27px; -moz-transform: rotateX(180deg); -webkit-transform: rotateX(180deg);transform: rotateX(180deg); }
 .sidebar-menu ul li.active a{color:var(--light-blue);}
 .sidebar-menu ul li:hover a{color:var(--light-blue);}
-.sidebar-menu ul li:first-child a {
-/* .sidebar-menu ul li:first-child a {
-    padding: 0 5px;
-    background: transparent;
-    box-shadow: none;
-}
-.sidebar-menu ul li:first-child{
-    background: transparent;
-    box-shadow: none;  
-}
-.sidebar-menu ul li:first-child a::before, .sidebar-menu ul li:first-child:before, .sidebar-menu ul li:first-child:after {
-display:none;
-}
-} */
 .sidebar-menu ul li:first-child a{background-color: transparent;box-shadow: none;padding:6px;}
 .sidebar-menu ul li.side_li:first-child a::before, .sidebar-menu ul li.active:first-child a:before{display:none;}
 .sidebar-menu ul li.active a {
@@ -103,7 +89,6 @@ display:none;
 .toggle_sidebar .right-sidebar {width: calc(100% - 90px);}
 .right-sidebar { 
     min-height:100vh;padding-top: 34px; padding-right: 70px; padding-left: 75px; width: calc(100% - 85px); background: rgba(255, 255, 255, 0.83); backdrop-filter: blur(254px); z-index: 1; box-shadow: -11px 0px 15px rgba(0, 102, 190, 0.1); border-radius: 25px 0 0 25px; }
-    min-height:calc(100vh - 86px);padding-top: 34px; padding-right: 70px; padding-left: 75px; width: calc(100% - 85px); background: rgb(251, 252, 253); backdrop-filter: blur(254px); z-index: 1; box-shadow: -11px 0px 15px rgba(0, 102, 190, 0.1); border-radius: 25px 0 0 25px; }
 .clear-search button { width: 52px; text-align: center; background: var(--white); border-radius: 30px; box-shadow: 0px 2px 10px -3px rgba(0, 102, 190, 0.15); border: 0; padding: 6px; height: 52px; display: flex; align-items: center; justify-content: center; }
 .clear-search button:hover, .clear-search button:active, .clear-search button:focus { background: var(--light-blue); }
 .clear-search button:hover svg path, .clear-search button:active svg path, .clear-search button:focus svg path{ fill: var(--white); }
@@ -1665,6 +1650,7 @@ top: 0;
 }
 .search-hcp .list-tab {
     padding: 0 45px;
+    flex-wrap: wrap;
 }
 #modal-add .modal-dialog {
 	max-width: 507px;
