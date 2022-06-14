@@ -147,11 +147,12 @@ const RegistraionDetails = () => {
         <span className="loader-view"> </span>
       </div>
       <Row>
-        <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
-        <Col md={{ span: 7, offset:1 }}>
-          <h2>Registration Page</h2>
-          <div>
+        <div className="page-title d-flex justify-content-between">
+            <h2>Registration Page</h2>
             <Link to="/webinar/registrationdetailslist"><Button> List</Button> </Link>
+        </div>
+        <Col className="registration_left">
+          <div>
             <Row>
               <form onSubmit={formik.handleSubmit}>
                 <Col xs={8}>
@@ -260,11 +261,11 @@ const RegistraionDetails = () => {
 
                 </Col>
 
-                <Col>
+                {/* <Col>
                   <div>
                     <img id="imgVieww" src="" alt="Viewing the registration page image" width={340} />
                   </div>
-                </Col>
+                </Col> */}
                 
                 <input type="file" onChange={(e) => handeleimage(e)} />
                 <div style={{ color: "red" }}>{errimage}</div>
@@ -273,7 +274,20 @@ const RegistraionDetails = () => {
             </Row>
           </div>
         </Col>
+        <Col className="registration_right">
+          <div>
+              <img id="imgVieww" src="" alt="Viewing the registration page image" width={340} />
+            </div>
+        </Col>
       </Row>
+      <div class="download-sample">
+          <p>Download sample Excel file to upload new HCPs</p>
+          <div class="upload-btn">
+              <label for="input-file">Download File</label>
+              <input id="input-file" type="file" />
+          </div>
+			</div>
+      <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
     </div>
   );
 };
