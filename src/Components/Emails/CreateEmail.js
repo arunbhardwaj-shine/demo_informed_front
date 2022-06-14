@@ -668,7 +668,12 @@ const CreateEmail = (props) => {
 
         setCampaign_id(res.data.response.data.id);
         if (res.data.status_code === 200) {
-          toast.success("Approved Draft saved");
+          if(ab===3){
+            toast.success("Approved Draft saved");
+          }else{
+            toast.success("Draft saved");
+          }
+          
         } else {
           toast.warning(res.data.message);
         }
