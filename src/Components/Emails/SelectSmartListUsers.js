@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { popup_alert } from "../../popup_alert";
 import { Modal, Dropdown } from "react-bootstrap";
 import DropdownButton from 'react-bootstrap/DropdownButton';
+var old_object = {};
 const SelectSmartListUsers = (props) => {
   console.log(props);
 
@@ -44,16 +45,16 @@ const SelectSmartListUsers = (props) => {
   ]);
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-
+  
   // const smartListSelected = location.state
   //   ? location.state.smartListSelected
   //   : props.getDraftData.smart_list_data;
 
   useEffect(() => {
     let campaign_id =
-      typeof props.getEmailData === "object" && props.getEmailData !== null && props.getEmailData?.campaign_id
-        ? props.getEmailData.campaign_id
-        : props.getDraftData.campaign_id;
+      typeof old_object === "object" && old_object !== null && old_object?.campaign_id
+        ? old_object.campaign_id
+        : props.getDraftData?.campaign_id ? props.getDraftData.campaign_id : "";
     setCampaign_id(campaign_id);
   }, []);
 
@@ -113,28 +114,28 @@ const SelectSmartListUsers = (props) => {
   const saveAsDraft = async () => {
     const body = {
       user_id: 18207,
-      pdf_id: props.getEmailData?.PdfSelected
-        ? props.getEmailData.PdfSelected
+      pdf_id: old_object?.PdfSelected
+        ? old_object.PdfSelected
         : props.getDraftData.pdf_id,
-      description: props.getEmailData?.emailDescription
-        ? props.getEmailData.emailDescription
+      description: old_object?.emailDescription
+        ? old_object.emailDescription
         : props.getDraftData?.description ? props.getDraftData.description : '',
-      creator: props.getEmailData?.emailCreator
-        ? props.getEmailData.emailCreator
+      creator: old_object?.emailCreator
+        ? old_object.emailCreator
         : props.getDraftData?.creator ? props.getDraftData.creator : '',
-      campaign_name: props.getEmailData?.emailCampaign
-        ? props.getEmailData.emailCampaign
+      campaign_name: old_object?.emailCampaign
+        ? old_object.emailCampaign
         : props.getDraftData.campaign,
-      subject: props.getEmailData?.emailSubject
-        ? props.getEmailData.emailSubject
+      subject: old_object?.emailSubject
+        ? old_object.emailSubject
         : props.getDraftData.subject,
       route_location: "SelectSmartListUsers",
-      tags: props.getEmailData?.tags
-        ? props.getEmailData.tags
+      tags: old_object?.tags
+        ? old_object.tags
         : props.getDraftData.tags,
       campaign_data: {
-        template_id: props.getEmailData?.templateId
-          ? props.getEmailData.templateId
+        template_id: old_object?.templateId
+          ? old_object.templateId
           : props.getDraftData.campaign_data.template_id,
         smart_list_id: props.getSelectedSmartListData?.id
           ? props.getSelectedSmartListData.id
@@ -1245,8 +1246,7 @@ const SelectSmartListUsers = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state);
-
+  old_object =  state.getEmailData ? state.getEmailData : {};
   return state;
 };
 
