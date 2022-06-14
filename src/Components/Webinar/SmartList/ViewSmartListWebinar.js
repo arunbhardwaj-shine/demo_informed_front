@@ -7,6 +7,7 @@ import { loader } from "../../../loader";
 import { popup_alert } from "../../../popup_alert";
 import ViewTable from "../../Distributes/SmartListComponent/ViewTable";
 import ViewData from "./ViewData";
+import GridView from "./GridView";
 
 import { toast, ToastContainer } from "react-toastify";
 
@@ -90,9 +91,7 @@ const ViewSmartListWebinar = () => {
       <>
         {console.log(editList)}
 
-        <div className="col right-sidebar">
-          <ViewData data={editList} smartListId={queryParams.listId} />
-        </div>
+        <GridView data={editList} smartListId={queryParams.listId} />
       </>
     );
   } else {
