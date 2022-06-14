@@ -265,7 +265,7 @@ const RegistraionDetails = () => {
                   <div>
                     <img id="imgVieww" src="" alt="Viewing the registration page image" width={340} />
                   </div>
-                </Col> */}
+                </Col> */}       
                 
                 <input type="file" onChange={(e) => handeleimage(e)} />
                 <div style={{ color: "red" }}>{errimage}</div>
