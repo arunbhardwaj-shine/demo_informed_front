@@ -7,7 +7,7 @@ import ExportApi from "../../../Api/ExportApi";
 import { toast, ToastContainer } from "react-toastify";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-
+import { useNavigate } from "react-router-dom";
 
 
 var state_object = {};
@@ -45,7 +45,7 @@ const CreateEmails = (props) => {
     1024: { items: 5 },
   };
   // let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-
+  let navigate = useNavigate();
   const emailSubjectChanged = (e) => {
     setEmailSubject(e.target.value);
   };
@@ -232,11 +232,16 @@ const CreateEmails = (props) => {
     exportHtml();
 }
 const handleEmailSCreate = () => {
-  ExportApi.EmailSCreate(localStorage.getItem("idd"),localStorage.getItem("EventIdHeader"),formik.values.Subject,tagClickedFirst,).then((resp) => {
-    if (resp.ok) {
-      // setAllTags(JSON.parse(resp.data.data[0].values));
-    }
-  });
+  formik.handleSubmit()
+  setTimeout(() => {
+    ExportApi.EmailSCreate(localStorage.getItem("idd"),localStorage.getItem("EventIdHeader"),formik.values.Subject,tagClickedFirst,).then((resp) => {
+      if (resp.ok) {
+       console.log( resp.data.data.collection_id)
+        localStorage.setItem("collection_id",resp.data.data.collection_id)
+         navigate("/webinar/email/smart-list");
+      }
+    });
+  },500);
 };
   const handleGetTemplateList = (id) => {
     ExportApi.UserTemplateList(id).then((resp) => {
@@ -375,11 +380,11 @@ const handleEmailSCreate = () => {
                 <button type="button" onClick={()=>{handleEmailSCreate()}} className="btn btn-primary btn-bordered move-draft" >
                   Save As Draft
                 </button>
-                <Link to="/webinar/email/smart-list" onClick={()=>{handleEmailSCreate()}}>
+                <p onClick={()=>{handleEmailSCreate()}}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M18.8403 12.0001C18.8403 12.4302 18.6761 12.8603 18.3483 13.1882L8.02877 23.5077C7.37232 24.1641 6.30799 24.1641 5.65181 23.5077C4.99562 22.8515 4.99562 21.7874 5.65181 21.1309L14.7831 12.0001L5.65213 2.86923C4.99594 2.21277 4.99594 1.14877 5.65213 0.492636C6.30831 -0.164135 7.37264 -0.164135 8.02909 0.492636L18.3486 10.8119C18.6765 11.14 18.8403 11.5701 18.8403 12.0001Z" fill="#97B6CF"/>
 </svg>
-                </Link>
+                </p>
               </div>
             </div>
 

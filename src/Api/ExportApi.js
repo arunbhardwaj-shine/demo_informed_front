@@ -636,10 +636,20 @@ const getEmailStatsChart = (eventid, templateId) =>
     }
   );
   ///....CreateEmail.....\\\\
-const EmailSCreate = (template_id,eventid,subject ,tags,smart_list_id  ) =>
+const EmailSCreate = (template_id,eventid,subject ,tags,smart_list_id,) =>
   BaseApi.post(
-    `emails-create`,
-    {template_id: template_id,smart_list_id:smart_list_id,event_id: eventid,subject :subject,tags :tags  },
+    `emails/create`,
+    {template_id: template_id,smart_list_id:smart_list_id,event_id: eventid,subject :subject,tags :tags },
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
+const EmailSCreateCollection = (smart_list_id,collection_id  ) =>
+  BaseApi.post(
+    `emails/create`,
+    {smart_list_id:smart_list_id,collection_id:collection_id },
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
@@ -705,4 +715,5 @@ export default {
   getEmailStatsChart,
   getSmartListData,
   EmailSCreate,
+  EmailSCreateCollection,
 };
