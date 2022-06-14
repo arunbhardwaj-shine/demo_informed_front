@@ -45,7 +45,7 @@ const SelectSmartListUsers = (props) => {
   ]);
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  
+
   // const smartListSelected = location.state
   //   ? location.state.smartListSelected
   //   : props.getDraftData.smart_list_data;
@@ -537,6 +537,12 @@ const SelectSmartListUsers = (props) => {
           let useremail = email.trim();
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
           if (regex.test(String(useremail).toLowerCase())) {
+            let prev_obj = readers.find(x => x.email === useremail);
+            if(typeof prev_obj != "undefined"){
+              return "User with same email already added in list.";
+            }else{
+              return "true";
+            }
             return "true";
           }else{
             return "Email format is not valid";
@@ -545,7 +551,7 @@ const SelectSmartListUsers = (props) => {
           return "true";
         }
       });
-
+      status.sort();
       if (status.every((element) => element == "true")) {
         loader("show");
 
@@ -653,7 +659,7 @@ const SelectSmartListUsers = (props) => {
                 <li className="active">
                   <Link to="/SelectSmartList">Select Smart List</Link>
                 </li>
-                
+
                 <li className="active active-main">
                   <Link to="/SelectSmartListUsers">Verify Your List</Link>
                 </li>
