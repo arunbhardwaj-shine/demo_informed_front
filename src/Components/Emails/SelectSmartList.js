@@ -228,7 +228,7 @@ const SelectSmartList = (props) => {
                 <li className="active active-main">
                   <Link to="/SelectSmartList">Select Smart List</Link>
                 </li>
-                
+
                 <li className="">
                   <a href="javascript:void(0)">Verify Your List</a>
                 </li>
@@ -459,8 +459,6 @@ const SelectSmartList = (props) => {
         id="resend-confirm"
       >
         <Modal.Header>
-        {
-          /*
           <button
             type="button"
             className="btn-close"
@@ -471,14 +469,11 @@ const SelectSmartList = (props) => {
               )
             }
           ></button>
-          */
-        }
-
         </Modal.Header>
         <Modal.Body>
           <img src={path_image + "alert.png"} alt="" />
           <h4>
-            Your changes saved in draft.
+            Your changes will be save in draft.
           </h4>
           <div className="modal-buttons">
             <button
