@@ -116,7 +116,6 @@ const ViewTable = (props) => {
   const [updateData, setUpdatedData] = useState(null);
 
   const [editList, setEditList] = useState([]);
-  const [getCopyEditList, setCopyEditList] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [counterFlag, setCounterFlag] = useState(0);
   const [getlistid, setListId] = useState("");
@@ -184,18 +183,13 @@ const ViewTable = (props) => {
   const closeClicked = () => {
     setSaveOpen(false);
     setEditable(0);
-    let vr = [];
-    console.log(getCopyEditList);
-    if(getCopyEditList.length > 0){
-      vr = getCopyEditList;
-      setCopyEditList([]);
-    }else{
-      vr = editList;
-    }
-    console.log(vr);
+    let vr = editList;
+    let new_add_arr = newData;
     setEditList([]);
+    setNewData([]);
     setTimeout(() => {
       setEditList(vr);
+      setNewData(new_add_arr)
       console.log("This will run after 1 second!");
       setUpdateCounter(updateCounter + 1);
     }, 50);
@@ -209,11 +203,6 @@ const ViewTable = (props) => {
 
   useEffect(() => {
     setEditList(props.data);
-    let a = props.data;
-    if(getCopyEditList.length == 0){
-      setCopyEditList(a);
-      console.log(a);
-    }
   }, [props.api_flag]);
 
   useEffect(() => {
@@ -392,38 +381,57 @@ const ViewTable = (props) => {
       editableData.map((data) => {
         const name_edit    = document.getElementById("field_name" + data.profile_user_id).innerText;
         const country_edit = document.getElementById("field_country" + data.profile_user_id).value;
+        const edit_index = document.getElementById("field_index" + data.profile_user_id).value;
+
+        let prev_obj = editList.find(x => x.profile_user_id === data.profile_user_id);
+        if(typeof prev_obj != "undefined"){
+          if(typeof editList[edit_index] != "undefined"){
+              editList[edit_index].country = country_edit;
+          }
+        }else{
+          if(typeof newData[edit_index] != "undefined"){
+            newData[edit_index].country = country_edit;
+          }
+        }
 
         data.country = country_edit;
         data.username = name_edit;
       });
     }
 
-    const body = {
-      user_id: 18207,
-      edit_list_array: editableData,
-    };
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    loader("show");
-    await axios
-      .post(`distributes/update_reders_details`, body)
-      .then((res) => {
-        loader("hide");
-        if (res.data.status_code === 200) {
-          toast.success("List updated");
-        } else {
-          popup_alert({
-            visible: "show",
-            message: res.data.message,
-            type: "error",
-          });
-        }
-      })
-      .catch((err) => {
-        toast.error("Something went wrong");
-      });
+    if(editableData.length > 0){
 
-    setSaveOpen(false);
-    setEditableData([]);
+      const body = {
+        user_id: 18207,
+        edit_list_array: editableData,
+      };
+      // console.log(body);
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      loader("show");
+      await axios
+        .post(`distributes/update_reders_details`, body)
+        .then((res) => {
+            loader("hide");
+            if (res.data.status_code === 200) {
+                toast.success("List updated");
+              } else {
+                  popup_alert({
+                      visible: "show",
+                      message: res.data.message,
+                      type: "error",
+                    });
+                  }
+                })
+                .catch((err) => {
+                    toast.error("Something went wrong");
+                  });
+
+                setSaveOpen(false);
+                setEditableData([]);
+    }else{
+      setSaveOpen(false);
+      toast.warning("No row update");
+    }
   };
 
   const updateReaderDetails = async ({
@@ -911,22 +919,6 @@ const ViewTable = (props) => {
     setNewData(dataUpdated);
   };
 
-
-  const changeEditCountry = (e,profile_user_id,ch_index,flag) => {
-    if(flag == "existing_hcp"){
-        if(typeof editList[ch_index] != "undefined"){
-          editList[ch_index].country = e;
-          console.log(editList[ch_index].country);
-        }
-    }else{
-      if(typeof newData[ch_index] != "undefined"){
-        newData[ch_index].country = e;
-        console.log(editList[ch_index].country);
-      }
-
-    }
-  }
-
   return (
     <>
       <div className="page-top-nav smart_list_names">
@@ -1136,7 +1128,7 @@ const ViewTable = (props) => {
                           onChange={(event) => setName(event.target.value)}
                         />
                       ) : (
-                        item.first_name + " " + item.last_name
+                        <span>{item.first_name + " " + item.last_name}</span>
                       )}
                     </td>
                     <td>
@@ -1152,10 +1144,11 @@ const ViewTable = (props) => {
                         item.email
                       )}
                     </td>
+                    <input type="hidden" id={`field_index` + item.profile_user_id} value={index} />
                     <td>{item.bounce}</td>
                     <td>
                     {
-                      editable ? <EditCountry selected_country={item.country} profile_user={item.profile_user_id} edit_index={index} changeEditCountry={changeEditCountry} flag="new-hcp"></EditCountry> : item.country
+                      editable ? <EditCountry selected_country={item.country} profile_user={item.profile_user_id}></EditCountry> : item.country
                     }
                     </td>
                     {showLessInfo == false ? <td> {item.ibu}</td> : null}
@@ -1202,10 +1195,11 @@ const ViewTable = (props) => {
                     </td>
 
                     <td id={`field_email` + item.profile_user_id}>{item.email}</td>
+                    <input type="hidden" id={`field_index` + item.profile_user_id} value={index} />
                     <td id={`field_bounced` + item.profile_user_id}>{item.bounce}</td>
                     <td>
                       {
-                        editable ? <EditCountry selected_country={item.country} profile_user={item.profile_user_id} edit_index={index} changeEditCountry={changeEditCountry} flag="existing_hcp"></EditCountry> : item.country
+                        editable ? <EditCountry selected_country={item.country} profile_user={item.profile_user_id}></EditCountry> : item.country
                       }
                     </td>
                     {/*showLessInfo == false ? (
@@ -1214,9 +1208,11 @@ const ViewTable = (props) => {
                     {showLessInfo == false ? (
                       <td id="field_business_unit">{item.ibu}</td>
                     ) : null}
+
                     {showLessInfo == false ? (
                       <td id="field_interest">{item.contact_type}</td>
                     ) : null}
+
                     <td className="delete_row" colspan="12">
                       <img
                         src={path + "delete.svg"}
@@ -1236,6 +1232,7 @@ const ViewTable = (props) => {
                         }
                       />
                     </td>
+
                   </tr>
                 ))
               }
@@ -1393,30 +1390,34 @@ const ViewTable = (props) => {
                                     title= {hpc[i].contact_type != "" &&  hpc[i].contact_type != "undefined" ? hpc[i].contact_type : "Select Type" }
                                     onSelect={(event) => onContactTypeChange(event, i)}
                                     >
-                                  <Dropdown.Item eventKey="HCP" className = {hpc[i].contact_type == "HCP" ? "active" : "" }>HCP</Dropdown.Item>
-                                  <Dropdown.Item eventKey="Staff" className = {hpc[i].contact_type == "Staff" ? "active" : "" }>Staff</Dropdown.Item>
-                                  <Dropdown.Item eventKey="Test Users" className = {hpc[i].contact_type == "Test Users" ? "active" : "" }>Test Users</Dropdown.Item>
+                                  <div className="scroll_div">
+                                      <Dropdown.Item eventKey="HCP" className = {hpc[i].contact_type == "HCP" ? "active" : "" }>HCP</Dropdown.Item>
+                                      <Dropdown.Item eventKey="Staff" className = {hpc[i].contact_type == "Staff" ? "active" : "" }>Staff</Dropdown.Item>
+                                      <Dropdown.Item eventKey="Test Users" className = {hpc[i].contact_type == "Test Users" ? "active" : "" }>Test Users</Dropdown.Item>
+                                  </div>
                                 </DropdownButton>
                                 </div>
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label for="">Country</label>
-                                  <DropdownButton className="dropdown-basic-button split-button-dropup"
+                                  <DropdownButton className="dropdown-basic-button split-button-dropup country"
                                  title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
                                  onSelect={(event) => onCountryChange(event, i)}
                                  >
-                                 {countryall.length === 0
-                                   ? ""
-                                   : Object.entries(countryall).map(
-                                       ([index, item]) => {
-                                         return (
-                                           <>
-                                            <Dropdown.Item eventKey={index} className = {hpc[i].country == index ? "active" : "" }>{item == "B&H" ? "Bosnia and Herzegovina" : item}</Dropdown.Item>
-                                           </>
-                                         );
-                                       }
-                                     )}
+                                 <div className="scroll_div">
+                                   {countryall.length === 0
+                                     ? ""
+                                     : Object.entries(countryall).map(
+                                         ([index, item]) => {
+                                           return (
+                                             <>
+                                              <Dropdown.Item eventKey={index} className = {hpc[i].country == index ? "active" : "" }>{item == "B&H" ? "Bosnia and Herzegovina" : item}</Dropdown.Item>
+                                             </>
+                                           );
+                                         }
+                                       )}
+                                  </div>
                                 </DropdownButton>
                                 </div>
                               </div>
