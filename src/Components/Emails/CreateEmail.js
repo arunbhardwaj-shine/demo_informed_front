@@ -444,7 +444,7 @@ const CreateEmail = (props) => {
       setSearchedUsers(arr);
       setReRender(reRender + 1);
     }else{
-      toast.error("User already added in list");
+      toast.error("User with same email already added in list.");
     }
   };
 
@@ -960,7 +960,7 @@ const CreateEmail = (props) => {
           if (regex.test(String(useremail).toLowerCase())) {
             let prev_obj = selectedHcp.find(x => x.email === useremail);
             if(typeof prev_obj != "undefined"){
-              return "Email already added in list.";
+              return "User with same email already added in list.";
             }else{
               return "true";
             }
@@ -971,7 +971,7 @@ const CreateEmail = (props) => {
           return "true";
         }
       });
-
+      status.sort();
       if (status.every((element) => element == "true")) {
         loader("show");
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
