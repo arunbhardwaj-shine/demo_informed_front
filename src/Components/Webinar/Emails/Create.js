@@ -225,8 +225,8 @@ const CreateEmails = (props) => {
           );
         }, 2000);
         console.log(resp.data.data.tags);
-        // resp.data.data.tags? setFinalTags(JSON.parse(resp.data.data.tags)):setFinalTags([])
-        // resp.data.data.tags?  setTagClickedFirst(JSON.parse(resp.data.data.tags)):setTagClickedFirst([])
+        resp.data.data.tags? setFinalTags(resp.data.data.tags):setFinalTags([])
+        resp.data.data.tags?  setTagClickedFirst(resp.data.data.tags):setTagClickedFirst([])
         setTemplate(resp.data.data);
       }
     });
@@ -272,12 +272,9 @@ const CreateEmails = (props) => {
     closeModal();
   };
   const GetTagsAll = () => {
-    alert("okk")
+  
     ExportApi.GetTags().then((resp) => {
       if (resp.ok) {
-
-        
-        console.log("ksisiswdd",resp.data.data[0].values)
         setAllTags(JSON.parse(resp.data.data[0].values));
         // setTemplateList(resp.data.data);
       }
@@ -698,7 +695,7 @@ const CreateEmails = (props) => {
                 </button>
               </div>
             </form>
-            <button type="button"className="btn btn-primary save btn-filled">
+            <button type="button"className="btn btn-primary save btn-filled"  onClick={saveButtonClicked}>
               Save
             </button>
           </Modal.Footer>

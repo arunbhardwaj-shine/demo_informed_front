@@ -262,7 +262,7 @@ ReactDOM.render(
                           element={<EmailsAnalaytics />}
                         />
                         <Route
-                          path="/webinar/emails/create"
+                          path="/webinar/email/create"
                           element={<CreateEmailWebinar />}
                         />
                         <Route

@@ -82,7 +82,6 @@ function Rehearsal() {
     SpeakernameErr.splice(i, 1);
     setTimeout(() => setSpeakerName([...Speakername]), 1000);
     setTimeout(() => setSpeakerNameErr([...SpeakernameErr]), 1000);
-
     setSpeakerName(data1);
     setSpeakerNameErr(dataErr);
   };
