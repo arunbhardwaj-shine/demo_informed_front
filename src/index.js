@@ -85,7 +85,7 @@ import VerifyHCP from "./Components/Emails/VerifyHCP";
 import SelectHCP from "./Components/Emails/SelectHCP";
 import VerifyMAIL from "./Components/Emails/VerifyMAIL";
 import SelectSmartList from "./Components/Emails/SelectSmartList";
-import SelectSmartListUsers from "./Components/Emails/SelectSmartListUsers";
+ import SelectSmartListUsers from "./Components/Emails/SelectSmartListUsers";
 import UploadExcel from "./Components/Distributes/SmartListComponent/UploadExcel";
 import Proctected from "./Auth/Proctected ";
 import ResetPassword from "./Auth/ResetPassword";
@@ -111,6 +111,7 @@ import EmailsAnalaytics from "./Components/Webinar/Emails/EmailsAnalaytics";
 import LiveTools from "./Components/Webinar/LiveTools/LiveTools";
 import Analytics from "./Components/Webinar/Analytics/Analytics";
 import Files from "./Components/Webinar/File/Files";
+import SmartListUsers from "./Components/Webinar/Emails/SmartListUsers";
 
 let platform = 0;
 let show = 0;
@@ -256,6 +257,10 @@ ReactDOM.render(
                         <Route
                           path="/webinar/email/emails"
                           element={<SendEmails />}
+                        />
+                        <Route
+                          path="/webinar/email/smart-list-users"
+                          element={<SmartListUsers />}
                         />
                         <Route
                           path="/webinar/email/EmailsAnalaytics"
