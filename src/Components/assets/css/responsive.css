@@ -115,7 +115,7 @@
 	 .mail-recipt .mail-recipt-left { padding-right: 15px; min-height: initial; } 
 	 .mailbox-tags ul li.list3, .mailbox-tags ul li.list5, .mailbox-tags ul li.list4 { padding: 2px 10px; } 
 	 .mail-recipt h6 { font-size: 16px; line-height: 19px; } 
-	 .smartlist-view .mail-box-content { padding: 12px 12px; } 
+	 .smartlist-view .mail-box-content { padding: 12px 12px 10px; } 
 	 .verify-mail-box { padding: 15px 15px 11px 15px; } 
 	 .header-btn .btn.send_btn { height: 34px; } 
 	 #send-sample .form-search-hcp .form-button .btn { min-width: 85px; } 
@@ -232,7 +232,8 @@
 		min-height: 190px;
 	}	
 	.smartlist-buttons {
-		min-height: 48px;
+		min-height: 36px;
+		padding-top: 10px;
 	}		
 	#tagsModal .modal-footer .save.btn, #tagsModal .modal-footer form .form-group .btn {
 		padding: 8px 14px;

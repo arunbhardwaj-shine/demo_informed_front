@@ -1055,3 +1055,13 @@ display: none;
 .table-title .selected-hcp-table-action .btn.btn-bordered:hover, .table-title .selected-hcp-table-action .btn.btn-bordered:active , .table-title .selected-hcp-table-action .btn.btn-bordered:focus {
   background: var(--light-blue);
 }
+.form-buttons .approved-btn.checked {
+  background: var(--green);
+  color: var(--white);
+}
+.form-buttons .approved-btn.checked  img.approved_btn {
+  display: inline-block;
+}
+.form-buttons .approved-btn.checked  img.approve_btn {
+  display: none;
+}

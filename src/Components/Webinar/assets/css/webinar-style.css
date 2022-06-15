@@ -1771,6 +1771,7 @@ display:none;
     padding: 23px 28px;
     box-sizing: border-box;
     max-width: 1053px;
+    margin-top: 20px;
 }
 .registration_form {
     display: flex;
@@ -1819,8 +1820,6 @@ display:none;
     font-family: 'Roboto-Medium';
     margin-bottom: 37px;
 }
-
-.form-inline.box-added.form-group {}
 
 .form-inline.box-added.form-group .form-check {
     width: calc(33.3% - 27px);
@@ -1896,6 +1895,7 @@ display:none;
 .registration_form .form-inline .form-group label {
     width: 187px;
     flex: 0 0 187px;
+    color: #848484;
 }
 .registration_form .form-inline .form-group input, .registration_form .form-inline .form-group textarea, .registration_form .form-inline .form-group select {
     flex: 1 1;
@@ -1937,4 +1937,14 @@ display:none;
     font-family: 'Roboto-Light';
     padding: 12px 17px;
     margin-bottom: 20px;
+}
+.registration_form .add_field_new {
+    margin-bottom: 20px;
+}
+.registration_form .add_field_new button.btn-filled {
+    margin-right: 16px;
+}
+.registration_form .add_field_new button, .registration_left form .btn{
+padding: 15px 16px;
+min-width: 110px;
 }
