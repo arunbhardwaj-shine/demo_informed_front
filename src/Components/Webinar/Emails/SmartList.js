@@ -83,7 +83,7 @@ const SelectSmartList = () => {
               </div>
             </div>
             
-            <div class="col-12 col-md-9">
+            <div class="col-12 col-md-8">
 								<ul class="tabnav-link">
 									<li class="active">
 										<a href="javascript:void(0)">Prepare your email</a>
@@ -98,13 +98,15 @@ const SelectSmartList = () => {
 								</ul>
 							</div>
             
-            <div className="col-12 col-md-2">
+            <div className="col-12 col-md-3">
               <div className="header-btn">
                 <button type="button" className="btn btn-primary btn-bordered move-draft" onClick={()=>handleEmailSCreateCollection()}>
                   Save As Draft
                 </button>
-                <Link to={smartListDataId?"/webinar/email/smart-list-users":"/webinar/email/smart-list"}>
-                <button type="button"class="btn btn-primary btn-filled back">
+
+                <Link to={smartListDataId?`/webinar/email/smart-list-users/${smartListDataId}`:"/webinar/email/smart-list"}>
+                <button type="button"class="btn btn-primary btn-filled next"onClick={()=>handleEmailSCreateCollection()}>
+
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M18.8403 12.0001C18.8403 12.4302 18.6761 12.8603 18.3483 13.1882L8.02877 23.5077C7.37232 24.1641 6.30799 24.1641 5.65181 23.5077C4.99562 22.8515 4.99562 21.7874 5.65181 21.1309L14.7831 12.0001L5.65213 2.86923C4.99594 2.21277 4.99594 1.14877 5.65213 0.492636C6.30831 -0.164135 7.37264 -0.164135 8.02909 0.492636L18.3486 10.8119C18.6765 11.14 18.8403 11.5701 18.8403 12.0001Z" fill="#97B6CF"/>
                 </svg>
@@ -116,7 +118,7 @@ const SelectSmartList = () => {
           <div class="smart-list-result">
 						<div class="custom-container">
 						<div class="row">
-						<div class="col smartlist-result-block">
+						<div class="smartlist-result-block">
           {typeof smartListData !== "undefined" &&
             smartListData.length > 0 ? (
               smartListData.map((data) => {

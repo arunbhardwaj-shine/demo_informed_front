@@ -363,7 +363,7 @@ const handleEmailSCreate = () => {
               </div>
             </div>
             
-            <div className="col-12 col-md-9">
+            <div className="col-12 col-md-8">
               <ul className="tabnav-link">
                 <li className="active active-main">
                   <Link to="/EmailArticleSelect">Prepare Your Email</Link>
@@ -377,19 +377,20 @@ const handleEmailSCreate = () => {
 							</ul>
             </div>
             
-            <div className="col-12 col-md-2">
+            <div className="col-12 col-md-3">
               <div className="header-btn">
                 <button type="button" onClick={()=>{handleEmailSCreate()}} className="btn btn-primary btn-bordered move-draft" >
                   Save As Draft
                 </button>
-                <button type="button"class="btn btn-primary btn-filled back"onClick={()=>{handleEmailSCreate()}}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M18.8403 12.0001C18.8403 12.4302 18.6761 12.8603 18.3483 13.1882L8.02877 23.5077C7.37232 24.1641 6.30799 24.1641 5.65181 23.5077C4.99562 22.8515 4.99562 21.7874 5.65181 21.1309L14.7831 12.0001L5.65213 2.86923C4.99594 2.21277 4.99594 1.14877 5.65213 0.492636C6.30831 -0.164135 7.37264 -0.164135 8.02909 0.492636L18.3486 10.8119C18.6765 11.14 18.8403 11.5701 18.8403 12.0001Z" fill="#97B6CF"/>
-</svg>
+                <button type="button"class="btn btn-primary btn-filled next"onClick={()=>{handleEmailSCreate()}}>
+                <svg width="12" height="19" viewBox="0 0 12 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path fill-rule="evenodd" clip-rule="evenodd" d="M3.69224 17.82C3.03616 18.476 1.97244 18.476 1.31636 17.82C0.660279 17.1639 0.660279 16.1002 1.31636 15.4441L7.25561 9.50484L1.31508 3.56431C0.658998 2.90823 0.658998 1.84451 1.31508 1.18843C1.97116 0.532347 3.03488 0.532347 3.69096 1.18843L10.7866 8.28409C10.7978 8.29469 10.8089 8.30548 10.8199 8.31646C11.476 8.97254 11.476 10.0363 10.8199 10.6923L3.69224 17.82Z" fill="white"></path>
+									</svg>
 								</button>
               </div>
             </div>
-
+            </div>
+        </div>
             <div className="top-header">
 		          <div className="custom-container">
 		            <div className="row">
@@ -429,8 +430,8 @@ const handleEmailSCreate = () => {
                               }}
                               className="select_mm"
                             />
-                          <p>{val.name}</p>
                         </div>
+                          <p>{val.name}</p>
                         </div>
                       ))
                     ) : (
@@ -681,8 +682,7 @@ const handleEmailSCreate = () => {
           </div>
         
         </section>
-          </div>
-        </div>
+       
       
 
 
