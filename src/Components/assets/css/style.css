@@ -11,7 +11,7 @@
   --green:#39CABC;
   --black:#000000;
 }
-body{ font-family: 'Roboto'; background: var(--light-skyblue); }
+body{ font-family: 'Roboto'; background: var(--light-skyblue); overflow-x: hidden;}
 a{cursor: pointer;}
 .filter-by.nav-item.dropdown button:hover svg path, .filter-by.nav-item.dropdown button:hover svg rect, .filter-by.highlight > button svg rect  {fill: var(--white);}
 .filter-by.nav-item.dropdown > button:hover, .filter-by.highlight > button {background: var(--light-blue);color: var(--white);}
@@ -907,6 +907,7 @@ input:-webkit-autofill{ -webkit-text-fill-color: #4E718E !important; }
     font-size: 13px;
     line-height: 15px;
     background-size: 12px;
+		background-color: #dadada;
 }
 .table .dropdown.edit-country-dropdown button:after{
 display: none;
@@ -941,6 +942,15 @@ display: none;
   display: flex;
   flex-direction: column;
 }
+ table thead.sticky-header:after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    background: #fbfcfd;
+    height: 25px;
+    right: -11px;
+    top: 0;
+}
 .navbar-expand-sm .navbar-nav {
   align-items: center;
 }
@@ -967,7 +977,7 @@ display: none;
   position: sticky;
   overflow: hidden;
   z-index: 100;
-  top: 0;
+  top: -10px;
   background: var(--white);
 }
 /* #smart_list_popup_id .search-hcp .selected-hcp-list table td:nth-child(3) {

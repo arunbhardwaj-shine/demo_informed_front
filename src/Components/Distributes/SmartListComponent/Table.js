@@ -242,7 +242,7 @@ const Table = (props, ref) => {
   ) => {
     if(editable != 0){
         const name_edit    = document.getElementById("field_name" + profile_user_id).innerText;
-        const country_edit = document.getElementById("field_country" + profile_user_id).innerText;
+        const country_edit = document.getElementById("field_country" + profile_user_id).value;
 
         const arr = [];
         arr.push({
