@@ -152,11 +152,11 @@ const RegistraionDetails = () => {
             <h2>Registration Page</h2>
             <Link to="/webinar/registrationdetailslist"><Button> List</Button> </Link>
         </div>
+        <div className="registration_form">
         <Col className="registration_left">
               <form onSubmit={formik.handleSubmit}>
-                <div className="form-inline row justify-content-between align-items-center">
-                    <div className="form-group col-12 col-md-12">
-                      <Col className="mb-3">
+                <div className="form-inline row">
+                    <div className="form-group col-12 col-md-12 d-flex justify-content-between align-items-center">
                         <Form.Label>Select Event </Form.Label>
                           <Form.Select
                             name="Selectevent"
@@ -173,14 +173,13 @@ const RegistraionDetails = () => {
                             ))}
                           </Form.Select>
                           {formik.touched.Selectevent && formik.errors.Selectevent ? (
-                          <div style={{ color: "red" }}>{formik.errors.Selectevent}</div>
+                          <div className="error" style={{ color: "red" }}>{formik.errors.Selectevent}</div>
                         ) : null}
-                      </Col>
                     </div>
                   </div>
 
-                  <div className="form-inline row justify-content-between align-items-center">
-                    <div className="form-group col-12 col-md-12">   
+                  <div className="form-inline row ">
+                    <div className="form-group col-12 col-md-12 d-flex justify-content-between align-items-center">   
                       <Form.Label> Registration Page  Title</Form.Label>
                       <Form.Control
                         name="Title"
@@ -189,19 +188,19 @@ const RegistraionDetails = () => {
                         value={formik.values.Title}
                       />
                       {formik.touched.Title && formik.errors.Title ? (
-                        <div style={{ color: "red" }}>
+                        <div className="error" style={{ color: "red" }}>
                           {formik.errors.Title}
                         </div>
                       ) : null}
                     </div>
                   </div>
 
-                  <div className="form-inline row justify-content-between align-items-center">
-                    <div className="form-group col-12 col-md-12">   
+                  <div className="form-inline row ">
+                    <div className="form-group col-12 col-md-12 d-flex justify-content-between align-items-center">   
                       <Form.Label> Body Text</Form.Label>
                       <textarea name="Body" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.Body} className="form-control" rows="6"></textarea>
                         {formik.touched.Body && formik.errors.Body ? (
-                          <div style={{ color: "red" }}>
+                          <div className="error" style={{ color: "red" }}>
                             {formik.errors.Body}
                           </div>
                         ) : null}
@@ -240,17 +239,18 @@ const RegistraionDetails = () => {
                         </>
                       );
                     })}
-                  </div>
-                  </div>
-
                   <button onClick={addData}>Add data field <span>+</span></button>
+                  </div>
+                  </div>
 
-                  <div>
+                  
+
+                  <div className="add_field_new">
                     {show == true ? (
                       <>
                         <input type="text"  onChange={(e) => { setField(e.target.value); }} className="form-control" />
-                        <button type="button" onClick={saveClicked}> Save </button>
-                        <button type="button" onClick={() => { setShow(false);setField("");}}>
+                        <button type="button" className="btn btn-primary btn-filled" onClick={saveClicked}> Save </button>
+                        <button type="button" className="btn btn-primary btn-bordered" onClick={() => { setShow(false);setField("");}}>
                           Close
                         </button>
                       </>
@@ -269,11 +269,11 @@ const RegistraionDetails = () => {
         </Col>
         <Col className="registration_right">
           <div className="registration_right-view">
-              <img id="imgVieww" src="" alt="Viewing the registration page image" />
+                <span>Viewing the registration page image</span>
+              {/* <img id="imgVieww" src="" alt="Viewing the registration page image" /> */}
             </div>
         </Col>
-        </Row>
-        <Row>
+        </div>
         <div className="upload-file-box">
 							<div className="box">
 								<input type="file" name="file-4[]" id="file-4" className="inputfile inputfile-3" data-multiple-caption="{count} files selected" multiple="" />
