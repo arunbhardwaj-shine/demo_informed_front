@@ -259,7 +259,7 @@ ReactDOM.render(
                           element={<SendEmails />}
                         />
                         <Route
-                          path="/webinar/email/smart-list-users"
+                          path="/webinar/email/smart-list-users/:id"
                           element={<SmartListUsers />}
                         />
                         <Route
