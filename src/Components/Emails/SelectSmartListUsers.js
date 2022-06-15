@@ -61,6 +61,7 @@ const SelectSmartListUsers = (props) => {
   const inputElement = useRef();
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   useEffect(() => {
+    console.log(props)
     const body = {
       user_id: 18207,
       list_id: props.getSelectedSmartListData?.id
@@ -69,10 +70,8 @@ const SelectSmartListUsers = (props) => {
     };
 
 
-    if(props.getDraftData?.campaign_data?.selectedHcp){
-      setReaders(props.getDraftData.campaign_data.selectedHcp);
-
-    }else{
+    if(props.getSelectedSmartListData?.id){
+     
       loader("show");
       axios
       .post(`distributes/get_reders_list`, body)
@@ -84,6 +83,9 @@ const SelectSmartListUsers = (props) => {
       .catch((err) => {
         console.log(err);
       });
+
+    }else{
+      setReaders(props.getDraftData.campaign_data.selectedHcp);
     }
 
   }, []);
