@@ -12,6 +12,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { connect } from "react-redux";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { popup_alert } from "../../../popup_alert";
+import GridView from "./GridView";
 
 const ViewData = (props) => {
   const [inEditMode, setInEditMode] = useState({
@@ -19,10 +20,12 @@ const ViewData = (props) => {
     rowKey: null,
   });
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const paths = process.env.REACT_APP_ASSETS_PATH_WEBINAR;
   //let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   //let validator = new SimpleReactValidator();
 
   const navigate = useNavigate();
+  const [view, setView] = useState(1);
   const [editable, setEditable] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [addFileReRender, setAddFileReRender] = useState(0);
@@ -390,7 +393,11 @@ const ViewData = (props) => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
-      .post(`http://51.89.210.56:8000/api/smart-list/update`, body, { headers })
+      .post(
+        `http://51.89.210.56:8000/api/smart-list/update-participants`,
+        body,
+        { headers }
+      )
       .then((res) => {
         console.log(res);
 
@@ -785,7 +792,7 @@ const ViewData = (props) => {
               //setNewData(new_data);
               combine_data_manual = [...new_data, ...old_data];
               setEditList(combine_data_manual);
-              // setUpdatedData(combine_data_manual);
+              setUpdatedData(combine_data_manual);
               setIsOpen(false);
               setShowSaveReader(true);
               setIsOpenAdd(false);
@@ -894,93 +901,141 @@ const ViewData = (props) => {
     setNewData(dataUpdated);
   };
 
-  return (
-    <>
-      <div className="page-top-nav smart_list_names">
-        <div className="row justify-content-end align-items-center">
-          <div className="col-12 col-md-1">
-            <div className="header-btn-left">
-              {props.url ? (
-                <Link
-                  to={{
-                    pathname: "/webinar/email/WebinarSmartList",
-                  }}
-                  onClick={backClicked}
-                >
-                  <button className="btn btn-primary btn-bordered back">
-                    Back
-                  </button>
-                </Link>
-              ) : (
-                <button
-                  className="btn btn-primary btn-bordered back"
-                  onClick={backClicked}
-                >
-                  Back
-                </button>
-              )}
-            </div>
-          </div>
-          <div className="col-12 col-md-11">
-            <div className="smart-list-btns">
-              {editable == false ? (
-                <>
-                  <div className="smart-list-download">
-                    <ReactHTMLTableToExcel
-                      id="test-table-xls-button"
-                      className="btn btn-outline-primary"
-                      table="table-to-xls"
-                      filename="tablexls"
-                      sheet="tablexls"
-                      buttonText="Download"
-                    />
-                  </div>
-                  <div className="hcp-new-user">
-                    <button
-                      className="btn btn-outline-primary"
-                      onClick={handleShow}
+  if (view == 0) {
+    return (
+      <>
+        <GridView data={editList} smartListId={props.smartListId} />
+      </>
+    );
+  } else {
+    return (
+      <>
+        <div className="right-sidebar">
+          <div className="page-top-nav smart_list_names">
+            <div className="row justify-content-end align-items-center">
+              <div className="col-12 col-md-1">
+                <div className="header-btn-left">
+                  {props.url ? (
+                    <Link
+                      to={{
+                        pathname: "/webinar/email/WebinarSmartList",
+                      }}
+                      onClick={backClicked}
                     >
-                      <img src={"/" + path + "new-user.svg"} alt="New User" />
-                    </button>
-                  </div>
-                  <div className="hcp-added">
+                      <button className="btn btn-primary btn-bordered back">
+                        Back
+                      </button>
+                    </Link>
+                  ) : (
                     <button
-                      className="btn btn-outline-primary"
-                      onClick={editButtonClicked}
+                      className="btn btn-primary btn-bordered back"
+                      onClick={backClicked}
                     >
-                      <img src={"/" + path + "edit-button.svg"} alt="Edit" />
+                      Back
                     </button>
-                  </div>
-                </>
-              ) : null}
-
-              <div className="top-right-action">
-                <div className="search-bar">
-                  <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
-                    <input
-                      className="form-control me-2"
-                      type="text"
-                      placeholder="Search"
-                      aria-label="Search"
-                      onChange={(e) => searchChange(e)}
-                    />
-                    <button className="btn btn-outline-success" type="submit">
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 16 16"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M15.8045 14.862L11.2545 10.312C12.1359 9.22334 12.6665 7.84 12.6665 6.33334C12.6665 2.84134 9.82522 0 6.33325 0C2.84128 0 0 2.84131 0 6.33331C0 9.82531 2.84132 12.6667 6.33328 12.6667C7.83992 12.6667 9.22325 12.136 10.3119 11.2547L14.8619 15.8047C14.9919 15.9347 15.1625 16 15.3332 16C15.5039 16 15.6745 15.9347 15.8045 15.8047C16.0652 15.544 16.0652 15.1227 15.8045 14.862ZM6.33328 11.3333C3.57597 11.3333 1.33333 9.09066 1.33333 6.33331C1.33333 3.57597 3.57597 1.33331 6.33328 1.33331C9.0906 1.33331 11.3332 3.57597 11.3332 6.33331C11.3332 9.09066 9.09057 11.3333 6.33328 11.3333Z"
-                          fill="#97B6CF"
-                        ></path>
-                      </svg>
-                    </button>
-                  </form>
+                  )}
                 </div>
-                {/* <div className="filter-by">
+              </div>
+              <div className="col-12 col-md-11">
+                <div className="smart-list-btns">
+                  {editable == false ? (
+                    <>
+                      <div class="collection-view">
+                        <a
+                          class="change-view grid"
+                          id="grid"
+                          rel="tooltip"
+                          title="Grid view"
+                        >
+                          <div class="togglelines">
+                            <img
+                              src={paths + "grid-view.png"}
+                              onClick={() => setView(0)}
+                              alt=""
+                            />
+                          </div>
+                        </a>
+
+                        <a
+                          class="change-view list active"
+                          id="list"
+                          rel="tooltip"
+                          title="List view"
+                        >
+                          <div class="togglelines">
+                            <img src={paths + "list-view.png"} alt="" />
+                          </div>
+                        </a>
+                      </div>
+
+                      <div className="smart-list-download">
+                        <ReactHTMLTableToExcel
+                          id="test-table-xls-button"
+                          className="btn btn-outline-primary"
+                          table="table-to-xls"
+                          filename="tablexls"
+                          sheet="tablexls"
+                          buttonText="Download"
+                        />
+                      </div>
+                      <div className="hcp-new-user">
+                        <button
+                          className="btn btn-outline-primary"
+                          onClick={handleShow}
+                        >
+                          <img
+                            src={"/" + path + "new-user.svg"}
+                            alt="New User"
+                          />
+                        </button>
+                      </div>
+                      <div className="hcp-added">
+                        <button
+                          className="btn btn-outline-primary"
+                          onClick={editButtonClicked}
+                        >
+                          <img
+                            src={"/" + path + "edit-button.svg"}
+                            alt="Edit"
+                          />
+                        </button>
+                      </div>
+                    </>
+                  ) : null}
+
+                  <div className="top-right-action">
+                    <div className="search-bar">
+                      <form
+                        className="d-flex"
+                        onSubmit={(e) => submitHandler(e)}
+                      >
+                        <input
+                          className="form-control me-2"
+                          type="text"
+                          placeholder="Search"
+                          aria-label="Search"
+                          onChange={(e) => searchChange(e)}
+                        />
+                        <button
+                          className="btn btn-outline-success"
+                          type="submit"
+                        >
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 16 16"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M15.8045 14.862L11.2545 10.312C12.1359 9.22334 12.6665 7.84 12.6665 6.33334C12.6665 2.84134 9.82522 0 6.33325 0C2.84128 0 0 2.84131 0 6.33331C0 9.82531 2.84132 12.6667 6.33328 12.6667C7.83992 12.6667 9.22325 12.136 10.3119 11.2547L14.8619 15.8047C14.9919 15.9347 15.1625 16 15.3332 16C15.5039 16 15.6745 15.9347 15.8045 15.8047C16.0652 15.544 16.0652 15.1227 15.8045 14.862ZM6.33328 11.3333C3.57597 11.3333 1.33333 9.09066 1.33333 6.33331C1.33333 3.57597 3.57597 1.33331 6.33328 1.33331C9.0906 1.33331 11.3332 3.57597 11.3332 6.33331C11.3332 9.09066 9.09057 11.3333 6.33328 11.3333Z"
+                              fill="#97B6CF"
+                            ></path>
+                          </svg>
+                        </button>
+                      </form>
+                    </div>
+                    {/* <div className="filter-by">
                   <button className="btn btn-outline-primary" type="submit">
                     Filter By{" "}
                     <svg
@@ -1005,410 +1060,417 @@ const ViewData = (props) => {
                     </svg>
                   </button>
                 </div> */}
-              </div>
-
-              <div className="loader" id="custom_loader">
-                <span className="loader-view"> </span>
-              </div>
-              <ToastContainer
-                position="top-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-      <section className="search-hcp smart-list-view">
-        <div className="result-hcp-table">
-          <div className="table-title">
-            <h4>
-              {getlistname} <span>| {editList.length}</span>
-            </h4>
-            <div className="selected-hcp-table-action">
-              {editable == false ? (
-                <>
-                  <a
-                    className="show-less-info"
-                    onClick={(e) => showMoreInfo(e)}
-                  >
-                    {showLessInfo == true ? (
-                      <p className="show_more">Show More information</p>
-                    ) : (
-                      <p className="show_less">Show less information</p>
-                    )}{" "}
-                  </a>
-                </>
-              ) : null}
-              {saveOpen ? (
-                <>
-                  <button
-                    className="btn btn-primary btn-filled"
-                    onClick={closeClicked}
-                  >
-                    Close
-                  </button>
-
-                  <button
-                    className="btn btn-primary btn-bordered"
-                    onClick={saveEditClicked}
-                  >
-                    Save
-                  </button>
-                </>
-              ) : null}
-              {showReaders ? (
-                <div className="row">
-                  <div className="col-md-12">
-                    <button
-                      class="btn btn-primary btn-filled next"
-                      onClick={showFileInReadersList}
-                    >
-                      Save
-                    </button>
                   </div>
+
+                  <div className="loader" id="custom_loader">
+                    <span className="loader-view"> </span>
+                  </div>
+                  <ToastContainer
+                    position="top-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                  />
                 </div>
-              ) : null}
+              </div>
             </div>
           </div>
-          <div className="selected-hcp-list">
-            <table className="table" id="table-to-xls">
-              <thead>
-                <tr>
-                  <th scope="col">Name</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">Bounced</th>
-                  <th scope="col">Country</th>
-                  {showLessInfo == false ? (
+          <section className="search-hcp smart-list-view">
+            <div className="result-hcp-table">
+              <div className="table-title">
+                <h4>
+                  {getlistname} <span>| {editList.length}</span>
+                </h4>
+                <div className="selected-hcp-table-action">
+                  {editable == false ? (
                     <>
-                      {" "}
-                      {/*<th scope="col">Readers</th>*/}
-                      <th scope="col">Business Unit</th>
-                      <th scope="col">Contact Type</th>
-                      <th scope="col"></th>{" "}
+                      <a
+                        className="show-less-info"
+                        onClick={(e) => showMoreInfo(e)}
+                      >
+                        {showLessInfo == true ? (
+                          <p className="show_more">Show More information</p>
+                        ) : (
+                          <p className="show_less">Show less information</p>
+                        )}{" "}
+                      </a>
                     </>
                   ) : null}
-                </tr>
-              </thead>
-              <tbody className="form-group">
-                {newData.map((item) => (
-                  <tr
-                    className="hcps-added"
-                    onInput={(e) => editing(e, item.profile_id)}
-                  >
-                    <td contenteditable={editable === 0 ? "false" : "true"}>
-                      {inEditMode.status &&
-                      inEditMode.rowKey === item.profile_id ? (
-                        <input
-                          value={name}
-                          onChange={(event) => setName(event.target.value)}
-                        />
-                      ) : (
-                        item.first_name + " " + item.last_name
-                      )}
-                    </td>
-                    <td>
-                      {" "}
-                      {inEditMode.status &&
-                      inEditMode.rowKey === item.profile_id ? (
-                        <input
-                          value={email}
-                          type="email"
-                          onChange={(event) => setEmail(event.target.value)}
-                        />
-                      ) : (
-                        item.email
-                      )}
-                    </td>
-                    <td>No</td>
-                    <td contenteditable={editable === 0 ? "false" : "true"}>
-                      {inEditMode.status &&
-                      inEditMode.rowKey === item.profile_id ? (
-                        <input
-                          value={country}
-                          onChange={(event) => setCountry(event.target.value)}
-                        />
-                      ) : (
-                        item.country
-                      )}
-                    </td>
-                    {showLessInfo == false ? <td> {item.ibu}</td> : null}
-                    {showLessInfo == false ? (
-                      <td> {item.contact_type}</td>
-                    ) : null}
+                  {saveOpen ? (
+                    <>
+                      <button
+                        className="btn btn-primary btn-filled"
+                        onClick={closeClicked}
+                      >
+                        Close
+                      </button>
 
-                    <td class="delete_row" colspan="12">
-                      <img
-                        src={path + "delete.svg"}
-                        alt="Delete Row"
-                        onClick={() => deleteNewlyAdded(item.profile_user_id)}
-                      />
-                    </td>
-                  </tr>
-                ))}
+                      <button
+                        className="btn btn-primary btn-bordered"
+                        onClick={saveEditClicked}
+                      >
+                        Save
+                      </button>
+                    </>
+                  ) : null}
+                  {showReaders ? (
+                    <div className="row">
+                      <div className="col-md-12">
+                        <button
+                          class="btn btn-primary btn-filled next"
+                          onClick={showFileInReadersList}
+                        >
+                          Save
+                        </button>
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+              <div className="selected-hcp-list">
+                <table className="table" id="table-to-xls">
+                  <thead>
+                    <tr>
+                      <th scope="col">Name</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Bounced</th>
+                      <th scope="col">Country</th>
+                      {showLessInfo == false ? (
+                        <>
+                          {" "}
+                          {/*<th scope="col">Readers</th>*/}
+                          <th scope="col">Business Unit</th>
+                          <th scope="col">Contact Type</th>
+                          <th scope="col"></th>{" "}
+                        </>
+                      ) : null}
+                    </tr>
+                  </thead>
+                  <tbody className="form-group">
+                    {newData.map((item) => (
+                      <tr
+                        className="hcps-added"
+                        onInput={(e) => editing(e, item.profile_id)}
+                      >
+                        <td contenteditable={editable === 0 ? "false" : "true"}>
+                          {inEditMode.status &&
+                          inEditMode.rowKey === item.profile_id ? (
+                            <input
+                              value={name}
+                              onChange={(event) => setName(event.target.value)}
+                            />
+                          ) : (
+                            item.first_name + " " + item.last_name
+                          )}
+                        </td>
+                        <td>
+                          {" "}
+                          {inEditMode.status &&
+                          inEditMode.rowKey === item.profile_id ? (
+                            <input
+                              value={email}
+                              type="email"
+                              onChange={(event) => setEmail(event.target.value)}
+                            />
+                          ) : (
+                            item.email
+                          )}
+                        </td>
+                        <td>No</td>
+                        <td contenteditable={editable === 0 ? "false" : "true"}>
+                          {inEditMode.status &&
+                          inEditMode.rowKey === item.profile_id ? (
+                            <input
+                              value={country}
+                              onChange={(event) =>
+                                setCountry(event.target.value)
+                              }
+                            />
+                          ) : (
+                            item.country
+                          )}
+                        </td>
+                        {showLessInfo == false ? <td> {item.ibu}</td> : null}
+                        {showLessInfo == false ? (
+                          <td> {item.contact_type}</td>
+                        ) : null}
 
-                {editList.map((item, index) => (
-                  <tr
-                    id={`row-selected` + index}
-                    onClick={(e) =>
-                      editing(
-                        //  e.currentTarget,
-                        item.id,
+                        <td class="delete_row" colspan="12">
+                          <img
+                            src={path + "delete.svg"}
+                            alt="Delete Row"
+                            onClick={() =>
+                              deleteNewlyAdded(item.profile_user_id)
+                            }
+                          />
+                        </td>
+                      </tr>
+                    ))}
 
-                        item.first_name + " " + item.last_name,
-                        index
-                      )
-                    }
-                  >
-                    <td
-                      id={`field_name` + index}
-                      contenteditable={editable === 0 ? "false" : "true"}
-                    >
-                      <span> {item.name} </span>
-                    </td>
+                    {editList.map((item, index) => (
+                      <tr
+                        id={`row-selected` + index}
+                        onClick={(e) =>
+                          editing(
+                            //  e.currentTarget,
+                            item.id,
 
-                    <td id={`field_email` + index}>{item.email}</td>
-                    <td id={`field_bounced` + index}>NA</td>
-                    <td id={`field_country` + index}>
-                      <span>{item.country}</span>
-                    </td>
-                    {/*showLessInfo == false ? (
+                            item.first_name + " " + item.last_name,
+                            index
+                          )
+                        }
+                      >
+                        <td
+                          id={`field_name` + index}
+                          contenteditable={editable === 0 ? "false" : "true"}
+                        >
+                          <span> {item.name} </span>
+                        </td>
+
+                        <td id={`field_email` + index}>{item.email}</td>
+                        <td id={`field_bounced` + index}>NA</td>
+                        <td id={`field_country` + index}>
+                          <span>{item.country}</span>
+                        </td>
+                        {/*showLessInfo == false ? (
                       <td id="field_readers">NA</td>
                     ) : null*/}
-                    {showLessInfo == false ? (
-                      <td id="field_business_unit">{item.ibu}</td>
-                    ) : null}
-                    {showLessInfo == false ? (
-                      <td id="field_interest">{item.contact_type}</td>
-                    ) : null}
-                    <td class="delete_row" colspan="12">
-                      <img
-                        src={"/" + path + "delete.svg"}
-                        alt="Delete Row"
-                        onClick={() =>
-                          onDelete({
-                            participants_id: item.id,
-                          })
-                        }
-                      />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <input type="hidden" value={updateCounter} />
-      </section>
+                        {showLessInfo == false ? (
+                          <td id="field_business_unit">{item.ibu}</td>
+                        ) : null}
+                        {showLessInfo == false ? (
+                          <td id="field_interest">{item.contact_type}</td>
+                        ) : null}
+                        <td class="delete_row" colspan="12">
+                          <img
+                            src={"/" + path + "delete.svg"}
+                            alt="Delete Row"
+                            onClick={() =>
+                              onDelete({
+                                participants_id: item.id,
+                              })
+                            }
+                          />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <input type="hidden" value={updateCounter} />
+          </section>
 
-      <Modal show={isOpen} className="send-confirm" id="resend-confirm">
-        <Modal.Header>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            onClick={() => {
-              setIsOpen(false);
-            }}
-          ></button>
-        </Modal.Header>
-        <Modal.Body>
-          <img src={"/" + path + "alert.png"} alt="" />
-          <h4>
-            The record will be deleted from the list.
-            <br /> Are you sure you want to delete it?{" "}
-          </h4>
+          <Modal show={isOpen} className="send-confirm" id="resend-confirm">
+            <Modal.Header>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                onClick={() => {
+                  setIsOpen(false);
+                }}
+              ></button>
+            </Modal.Header>
+            <Modal.Body>
+              <img src={"/" + path + "alert.png"} alt="" />
+              <h4>
+                The record will be deleted from the list.
+                <br /> Are you sure you want to delete it?{" "}
+              </h4>
 
-          <div class="modal-buttons">
-            <button
-              type="button"
-              class="btn btn-primary btn-filled"
-              data-bs-dismiss="modal"
-              onClick={() => {
-                deleteReader(profile_user_id);
-                setIsOpen(false);
+              <div class="modal-buttons">
+                <button
+                  type="button"
+                  class="btn btn-primary btn-filled"
+                  data-bs-dismiss="modal"
+                  onClick={() => {
+                    deleteReader(profile_user_id);
+                    setIsOpen(false);
 
-                setOpenDeleteConfirmation(true);
-              }}
+                    setOpenDeleteConfirmation(true);
+                  }}
+                >
+                  Yes Please!
+                </button>
+
+                <button
+                  type="button"
+                  class="btn btn-primary btn-bordered light"
+                  data-bs-dismiss="modal"
+                  onClick={() => {
+                    setIsOpen(false);
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </Modal.Body>
+          </Modal>
+
+          {deleteConfirmation == true ? showSucessPopup() : null}
+
+          <Modal
+            id="add_hcp"
+            show={isOpenAdd}
+            size="lg"
+            aria-labelledby="contained-modal-title-vcenter"
+            centered
+          >
+            <div
+              data-bs-backdrop="static"
+              data-bs-keyboard="false"
+              tabindex="-1"
+              aria-hidden="true"
             >
-              Yes Please!
-            </button>
+              <div className="modal-header">
+                <h5 className="modal-title" id="staticBackdropLabel">
+                  Add New HCP
+                </h5>
+                <button
+                  onClick={() => {
+                    setIsOpenAdd(false);
+                    setHpc([
+                      {
+                        firstname: "",
+                        lastname: "",
+                        email: "",
+                        contact_type: "",
+                        country: "",
+                      },
+                    ]);
+                    setActiveManual("active");
 
-            <button
-              type="button"
-              class="btn btn-primary btn-bordered light"
-              data-bs-dismiss="modal"
-              onClick={() => {
-                setIsOpen(false);
-              }}
-            >
-              Cancel
-            </button>
-          </div>
-        </Modal.Body>
-      </Modal>
+                    setActiveExcel("");
+                  }}
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div className="modal-body">
+                <div className="hcp-add-box">
+                  <div className="hcp-add-form tab-content" id="upload-confirm">
+                    <form
+                      id="add_hcp_form"
+                      className={"tab-pane" + activeManual}
+                    >
+                      {hpc.map((val, i) => {
+                        const fieldName = `hpc[${i}]`;
+                        return (
+                          <>
+                            <div className="add_hcp_boxes">
+                              <div className="form_action">
+                                <div className="row">
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for=""> Name</label>
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        onChange={(event) =>
+                                          onFirstNameChange(event, i)
+                                        }
+                                        value={val.name}
+                                      />
+                                    </div>
+                                  </div>
 
-      {deleteConfirmation == true ? showSucessPopup() : null}
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Email *</label>
+                                      <input
+                                        type="email"
+                                        className="form-control"
+                                        id="email-desc"
+                                        name={`${fieldName}.email`}
+                                        onChange={(event) =>
+                                          onEmailChange(event, i)
+                                        }
+                                        value={val.email}
+                                      />
+                                    </div>
+                                  </div>
 
-      <Modal
-        id="add_hcp"
-        show={isOpenAdd}
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <div
-          data-bs-backdrop="static"
-          data-bs-keyboard="false"
-          tabindex="-1"
-          aria-hidden="true"
-        >
-          <div className="modal-header">
-            <h5 className="modal-title" id="staticBackdropLabel">
-              Add New HCP
-            </h5>
-            <button
-              onClick={() => {
-                setIsOpenAdd(false);
-                setHpc([
-                  {
-                    firstname: "",
-                    lastname: "",
-                    email: "",
-                    contact_type: "",
-                    country: "",
-                  },
-                ]);
-                setActiveManual("active");
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Hospital</label>
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        name={`${fieldName}.hospital`}
+                                        onChange={(event) =>
+                                          onHospitalChange(event, i)
+                                        }
+                                        value={val.hospital}
+                                      />
+                                    </div>
+                                  </div>
 
-                setActiveExcel("");
-              }}
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div className="modal-body">
-            <div className="hcp-add-box">
-              <div className="hcp-add-form tab-content" id="upload-confirm">
-                <form id="add_hcp_form" className={"tab-pane" + activeManual}>
-                  {hpc.map((val, i) => {
-                    const fieldName = `hpc[${i}]`;
-                    return (
-                      <>
-                        <div className="add_hcp_boxes">
-                          <div className="form_action">
-                            <div className="row">
-                              <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label for=""> Name</label>
-                                  <input
-                                    type="text"
-                                    className="form-control"
-                                    onChange={(event) =>
-                                      onFirstNameChange(event, i)
-                                    }
-                                    value={val.name}
-                                  />
-                                </div>
-                              </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Profession</label>
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        name={`${fieldName}.profession`}
+                                        onChange={(event) =>
+                                          onProfessionChange(event, i)
+                                        }
+                                        value={val.profession}
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Country</label>
+                                      <select
+                                        className="country-form"
+                                        aria-label="select"
+                                        onChange={(event) =>
+                                          onCountryChange(event, i)
+                                        }
+                                      >
+                                        <option selected>Select Country</option>
+                                        {countryall.length === 0
+                                          ? ""
+                                          : Object.entries(countryall).map(
+                                              ([index, item]) => {
+                                                return (
+                                                  <>
+                                                    <option value={index}>
+                                                      {item}
+                                                    </option>
+                                                  </>
+                                                );
+                                              }
+                                            )}
+                                      </select>
+                                    </div>
+                                  </div>
 
-                              <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label for="">Email *</label>
-                                  <input
-                                    type="email"
-                                    className="form-control"
-                                    id="email-desc"
-                                    name={`${fieldName}.email`}
-                                    onChange={(event) =>
-                                      onEmailChange(event, i)
-                                    }
-                                    value={val.email}
-                                  />
-                                </div>
-                              </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Interest</label>
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        name={`${fieldName}.interest`}
+                                        onChange={(event) =>
+                                          onInterestChange(event, i)
+                                        }
+                                        value={val.interest}
+                                      />
+                                    </div>
+                                  </div>
 
-                              <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label for="">Hospital</label>
-                                  <input
-                                    type="text"
-                                    className="form-control"
-                                    name={`${fieldName}.hospital`}
-                                    onChange={(event) =>
-                                      onHospitalChange(event, i)
-                                    }
-                                    value={val.hospital}
-                                  />
-                                </div>
-                              </div>
-
-                              <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label for="">Profession</label>
-                                  <input
-                                    type="text"
-                                    className="form-control"
-                                    name={`${fieldName}.profession`}
-                                    onChange={(event) =>
-                                      onProfessionChange(event, i)
-                                    }
-                                    value={val.profession}
-                                  />
-                                </div>
-                              </div>
-                              <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label for="">Country</label>
-                                  <select
-                                    className="country-form"
-                                    aria-label="select"
-                                    onChange={(event) =>
-                                      onCountryChange(event, i)
-                                    }
-                                  >
-                                    <option selected>Select Country</option>
-                                    {countryall.length === 0
-                                      ? ""
-                                      : Object.entries(countryall).map(
-                                          ([index, item]) => {
-                                            return (
-                                              <>
-                                                <option value={index}>
-                                                  {item}
-                                                </option>
-                                              </>
-                                            );
-                                          }
-                                        )}
-                                  </select>
-                                </div>
-                              </div>
-
-                              <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label for="">Interest</label>
-                                  <input
-                                    type="text"
-                                    className="form-control"
-                                    name={`${fieldName}.interest`}
-                                    onChange={(event) =>
-                                      onInterestChange(event, i)
-                                    }
-                                    value={val.interest}
-                                  />
-                                </div>
-                              </div>
-
-                              {/*
+                                  {/*
                               <div className="col-12 col-md-6 btn_rmv">
                                 <div className="form-group">
                                   {i !== 0 && (
@@ -1423,43 +1485,45 @@ const ViewData = (props) => {
                                 </div>
                               </div>
                               */}
-                            </div>
-                          </div>
+                                </div>
+                              </div>
 
-                          <div className="hcp-modal-action">
-                            <div className="hcp-action-block">
-                              {activeManual == "active" ? (
-                                <>
-                                  {hpc.length > 1 && (
-                                    <div className="hcp-remove">
-                                      <button
-                                        type="button"
-                                        className="btn btn-filled"
-                                        onClick={() => deleteRecord(i)}
+                              <div className="hcp-modal-action">
+                                <div className="hcp-action-block">
+                                  {activeManual == "active" ? (
+                                    <>
+                                      {hpc.length > 1 && (
+                                        <div className="hcp-remove">
+                                          <button
+                                            type="button"
+                                            className="btn btn-filled"
+                                            onClick={() => deleteRecord(i)}
+                                          >
+                                            <img
+                                              src={
+                                                "/" + path_image + "delete.svg"
+                                              }
+                                              alt="Add More"
+                                            />
+                                          </button>
+                                        </div>
+                                      )}
+                                    </>
+                                  ) : null}
+
+                                  <ul className="nav nav-tabs" role="tablist">
+                                    <li className="nav-item add_hcp">
+                                      <a
+                                        onClick={addMoreHcp}
+                                        className="nav-link active btn-bordered"
+                                        data-bs-toggle="tab"
+                                        href="javascript:;"
                                       >
-                                        <img
-                                          src={"/" + path_image + "delete.svg"}
-                                          alt="Add More"
-                                        />
-                                      </button>
-                                    </div>
-                                  )}
-                                </>
-                              ) : null}
+                                        Add HCP +
+                                      </a>
+                                    </li>
 
-                              <ul className="nav nav-tabs" role="tablist">
-                                <li className="nav-item add_hcp">
-                                  <a
-                                    onClick={addMoreHcp}
-                                    className="nav-link active btn-bordered"
-                                    data-bs-toggle="tab"
-                                    href="javascript:;"
-                                  >
-                                    Add HCP +
-                                  </a>
-                                </li>
-
-                                {/*
+                                    {/*
                                 <li className="nav-item add-file">
                                   <a
                                     onClick={(e) => addFile(e)}
@@ -1471,16 +1535,16 @@ const ViewData = (props) => {
                                   </a>
                                 </li>
                                 */}
-                              </ul>
+                                  </ul>
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                        </div>
-                      </>
-                    );
-                  })}
-                </form>
+                          </>
+                        );
+                      })}
+                    </form>
 
-                {/*
+                    {/*
                   <form id="add_file" className={"tab-pane" + activeExcel}>
                     <div class="file_upload-box">
                       <div className="upload-file-box">
@@ -1513,24 +1577,26 @@ const ViewData = (props) => {
                     </div>
                   </form>
                   */}
+                  </div>
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-primary save btn-filled"
+                  onClick={(e) => {
+                    saveClicked(e);
+                  }}
+                >
+                  Save
+                </button>
               </div>
             </div>
-          </div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-primary save btn-filled"
-              onClick={(e) => {
-                saveClicked(e);
-              }}
-            >
-              Save
-            </button>
-          </div>
+          </Modal>
         </div>
-      </Modal>
-    </>
-  );
+      </>
+    );
+  }
 };
 const mapStateToProps = (state) => {
   return state;

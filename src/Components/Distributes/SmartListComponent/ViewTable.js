@@ -195,10 +195,6 @@ const ViewTable = (props) => {
     }, 50);
   };
 
-  // useEffect(() => {
-  //   setEditList(editList);
-  // }, [updateCounter]);
-
   //useEffect(() => {}, [editList]);
 
   useEffect(() => {
