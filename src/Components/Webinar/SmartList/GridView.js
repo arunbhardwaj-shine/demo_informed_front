@@ -6,6 +6,7 @@ import Tab from "react-bootstrap/Tab";
 import { Modal } from "react-bootstrap";
 import ViewData from "./ViewData";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const GridView = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_WEBINAR;
@@ -35,6 +36,7 @@ const GridView = (props) => {
       interest: "",
     },
   ]);
+  const navigate = useNavigate();
   const [activeManual, setActiveManual] = useState("active");
   const [activeExcel, setActiveExcel] = useState("");
   let combine_data;
@@ -380,6 +382,41 @@ const GridView = (props) => {
       },
       { once: true }
     );
+
+    // if (editable != 0) {
+
+    //   const name_edit = document.getElementById(
+    //     "field_name" + profile_user_id
+    //   ).innerText;
+    //   const country_edit = document.getElementById(
+    //     "field_country" + profile_user_id
+    //   ).value;
+
+    //   var arr = [];
+    //   arr.push({
+    //     profile_id: profile_id,
+    //     profile_user_id: profile_user_id,
+    //     email: email,
+    //     jobTitle: jobTitle,
+    //     company: company,
+    //     country: country_edit,
+    //     username: name_edit,
+    //   });
+
+    //   let prev_obj = editableData.find(
+    //     (x) => x.profile_user_id === profile_user_id
+    //   );
+    //   if (typeof prev_obj != "undefined") {
+
+    //     editableData.map(
+    //       (obj) => arr.find((o) => o.profile_user_id === profile_user_id) || obj
+    //     );
+    //   } else {
+
+    //     setEditableData((oldArray) => [...oldArray, ...arr]);
+    //   }
+
+    // }
   };
 
   if (view == 1) {
@@ -396,8 +433,14 @@ const GridView = (props) => {
             <div class="page-title">
               <div class="header-btn-right back_btn">
                 <ToastContainer />
-                <a class="btn btn-primary btn-filled light" href="#">
-                  <img src={path_image + "arrow-left.svg"} alt="" />
+                <a class="btn btn-primary btn-filled light">
+                  <img
+                    src={path_image + "arrow-left.svg"}
+                    onClick={() => {
+                      navigate("/webinar/email/WebinarSmartList");
+                    }}
+                    alt=""
+                  />
                 </a>
               </div>
               <h2>Name of the list</h2>
