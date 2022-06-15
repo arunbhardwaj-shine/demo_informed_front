@@ -134,7 +134,7 @@ const SelectSmartList = () => {
                       <div class="mail-time"><span>Nov 18 | 9:00 AM</span></div>
                       <div class="smart-list-added-user"><svg width="19" height="25" viewBox="0 0 19 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M9.63149 10.5145C12.5428 10.5145 14.9024 8.16048 14.9024 5.25705C14.9024 2.35362 12.5423 0 9.63149 0C6.72065 0 4.35968 2.35406 4.35968 5.2575C4.35968 8.16093 6.72065 10.5145 9.63149 10.5145ZM11.8673 10.8729H7.39476C3.67345 10.8729 0.645996 13.8931 0.645996 17.6049V23.0606L0.6599 23.146L1.03665 23.2637C4.58797 24.3705 7.67329 24.7396 10.2128 24.7396C15.1729 24.7396 18.0478 23.329 18.225 23.2391L18.5771 23.0615H18.6147V17.6049C18.6161 13.8931 15.5886 10.8729 11.8673 10.8729Z" fill="#0066BE"/>
-                          </svg>203</div>
+                          </svg>{data.count}</div>
                       <div class="mail-stats">
                         <ul>
                           <li><div class="mail-status smartlist_view">
@@ -154,7 +154,7 @@ const SelectSmartList = () => {
                 );
               })
             ) : (
-              <div className="not_found">No Data Found</div>
+              null
             )}
             </div>
             </div>
