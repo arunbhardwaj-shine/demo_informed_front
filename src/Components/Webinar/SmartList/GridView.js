@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { propTypes } from "react-bootstrap/esm/Image";
 import { ToastContainer, toast } from "react-toastify";
 import Tabs from "react-bootstrap/Tabs";
@@ -6,11 +6,15 @@ import Tab from "react-bootstrap/Tab";
 import { Modal } from "react-bootstrap";
 import ViewData from "./ViewData";
 import axios from "axios";
+
 import { useNavigate } from "react-router-dom";
 
 const GridView = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_WEBINAR;
   const [view, setView] = useState(0);
+  const [show, setShow] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [profile_user_id, setProfileUserId] = useState();
   const [saveOpen, setSaveOpen] = useState(false);
   const [update, setUpdate] = useState(0);
   const [activeInfo, setActiveInfo] = useState("active");
@@ -22,10 +26,12 @@ const GridView = (props) => {
   const [emailData, setEmailData] = useState("");
   const [search, setSearch] = useState("");
   const [counterFlag, setCounterFlag] = useState(0);
+  const [selectedFile, setSelectedFile] = useState(null);
   const [updateCounter, setUpdateCounter] = useState(0);
   const [editableData, setEditableData] = useState([]);
   const [inputType, setInputType] = useState("hidden");
   const [editable, setEditable] = useState(0);
+  let file_name = useRef("");
   const [hpc, setHpc] = useState([
     {
       name: "",
@@ -72,6 +78,10 @@ const GridView = (props) => {
     if (e.target.value === "") {
       setEditList(updateData);
     }
+  };
+  const handleClose = () => {
+    setShow(false);
+    setSelectedFile(null);
   };
 
   const editButtonClicked = () => {
@@ -175,6 +185,29 @@ const GridView = (props) => {
     }
   };
 
+  const onDelete = async ({ participants_id }) => {
+    console.log(participants_id);
+
+    if (editList.length > 1) {
+      setIsOpen(true);
+      setProfileUserId(participants_id);
+    } else {
+      // popup_alert({
+      //   visible: "show",
+      //   message: "Please keep atleast one reader or delete the smart list",
+      //   type: "error",
+      // });
+    }
+  };
+
+  const onFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const uploadButtonClicked = () => {
+    setShow("true");
+  };
+
   const saveEditClicked = async () => {
     console.log(editableData);
     setEditable(0);
@@ -223,6 +256,55 @@ const GridView = (props) => {
 
     setSaveOpen(false);
     setEditableData([]);
+  };
+
+  const uploadFile = async () => {
+    setShow(false);
+    if (selectedFile === null) {
+      toast.warning("Please upload file first");
+
+      return false;
+    }
+
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `${localStorage.getItem("Token")}`,
+    };
+
+    let formData = new FormData();
+
+    formData.append("smart_list_id", props.smartListId);
+    formData.append("file", selectedFile);
+
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    // loader("show");
+
+    console.log(formData);
+
+    await axios
+      .post(
+        `http://51.89.210.56:8000/api/upload-unregistered-participant`,
+        formData,
+        { headers }
+      )
+      .then((res) => {
+        //  console.log(smartListId);
+        console.log(res);
+        if (res.data.code === 200) {
+          setEditList(res.data.data);
+
+          //setapi_flag(api_flag + 1);
+        } else {
+          // popup_alert({
+          //   visible: "show",
+          //   message: res.data.message,
+          //   type: "error",
+          // });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const saveClicked = async (e) => {
@@ -320,6 +402,44 @@ const GridView = (props) => {
     ]);
     setActiveManual("active");
     setActiveExcel("");
+  };
+
+  const deleteReader = async (profile_user_id) => {
+    const body = {
+      smart_list_id: props.smartListId,
+
+      participant_id: profile_user_id,
+    };
+
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `${localStorage.getItem("Token")}`,
+    };
+
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    //  loader("show");
+    await axios
+      .post(
+        `http://51.89.210.56:8000/api/smart-list/delete-participants`,
+        body,
+        {
+          headers,
+        }
+      )
+      .then((res) => {
+        console.log(res);
+
+        //    loader("hide");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    const filtered_list = editList.filter((data) => {
+      return data.id != profile_user_id;
+    });
+
+    setEditList(filtered_list);
   };
 
   const submitHandler = (event) => {
@@ -584,7 +704,10 @@ const GridView = (props) => {
                 </ul>
               </div>
               <div class="hcp-user-download">
-                <button class="btn btn-outline-primary">
+                <button
+                  class="btn btn-outline-primary"
+                  onClick={uploadButtonClicked}
+                >
                   <img src={path_image + "upload-btn.svg"} alt="Upload" />
                 </button>
               </div>
@@ -760,6 +883,17 @@ const GridView = (props) => {
                           </div>
                         </Tab>
                       </Tabs>
+                      <td className="delete_row" colspan="12">
+                        <img
+                          src={path_image + "delete.svg"}
+                          alt="Delete Row"
+                          onClick={() =>
+                            onDelete({
+                              participants_id: data.id,
+                            })
+                          }
+                        />
+                      </td>
                     </div>
                   </div>
                 );
@@ -1259,6 +1393,118 @@ const GridView = (props) => {
             </div>
           </Modal>
         </div>
+        <Modal show={isOpen} className="send-confirm" id="resend-confirm">
+          <Modal.Header>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              onClick={() => {
+                setIsOpen(false);
+              }}
+            ></button>
+          </Modal.Header>
+          <Modal.Body>
+            <img src={path_image + "alert.png"} alt="" />
+            <h4>
+              The record will be deleted from the list.
+              <br /> Are you sure you want to delete it?{" "}
+            </h4>
+
+            <div class="modal-buttons">
+              <button
+                type="button"
+                class="btn btn-primary btn-filled"
+                data-bs-dismiss="modal"
+                onClick={() => {
+                  deleteReader(profile_user_id);
+                  setIsOpen(false);
+                }}
+              >
+                Yes Please!
+              </button>
+
+              <button
+                type="button"
+                class="btn btn-primary btn-bordered light"
+                data-bs-dismiss="modal"
+                onClick={() => {
+                  setIsOpen(false);
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </Modal.Body>
+        </Modal>
+
+        <Modal
+          className="send-confirm"
+          id="upload-confirm"
+          show={show}
+          onHide={handleClose}
+        >
+          <Modal.Header>
+            <h4>Upload File</h4>
+            <button
+              type="button"
+              onClick={handleClose}
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </Modal.Header>
+          <Modal.Body>
+            <div class="upload-file-box">
+              <div class="box">
+                <input
+                  type="file"
+                  name="file-4[]"
+                  id="file-4"
+                  class="inputfile inputfile-3"
+                  accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                  onChange={onFileChange}
+                  data-multiple-caption="{count} files selected"
+                  ref={file_name}
+                />
+                {file_name.current?.files === undefined ||
+                file_name.current.files?.length === 0 ? (
+                  <>
+                    <label for="file-4">
+                      <span>Choose Your File</span>
+                    </label>
+                    <p>Upload your excel file</p>
+                  </>
+                ) : (
+                  <h5>{file_name.current.files[0].name}</h5>
+                )}
+              </div>
+            </div>
+            <div class="modal-buttons">
+              {file_name.current?.files === undefined ||
+              file_name.current.files?.length === 0 ? (
+                <>
+                  {" "}
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-bordered light"
+                    data-bs-dismiss="modal"
+                  >
+                    Upload
+                  </button>
+                </>
+              ) : (
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  onClick={uploadFile}
+                  data-bs-dismiss="modal"
+                >
+                  Upload
+                </button>
+              )}
+            </div>
+          </Modal.Body>
+        </Modal>
       </>
     );
   }

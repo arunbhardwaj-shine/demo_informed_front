@@ -5,6 +5,12 @@
 	#accordion-smart .card-body .col { margin-bottom: 20px; } 
 	.segmentation-button { padding-top: 22px; } 
 	.result-hcp-table .selected-hcp-list { padding: 0 0; overflow-x: auto; }
+	.selected-hcp-list .table tr.hcps-deleted:after, .selected-hcp-list .table tr.hcps-added:after {
+		transform: rotate(0deg);
+		left: 0;
+		top: -19px;
+    	font-size: 12px;
+	}	
 }
 @media only screen and (max-width:1650px){
 	.right-sidebar { padding-left: 30px; padding-right: 30px; } 
@@ -109,7 +115,7 @@
 	 .mail-recipt .mail-recipt-left { padding-right: 15px; min-height: initial; } 
 	 .mailbox-tags ul li.list3, .mailbox-tags ul li.list5, .mailbox-tags ul li.list4 { padding: 2px 10px; } 
 	 .mail-recipt h6 { font-size: 16px; line-height: 19px; } 
-	 .smartlist-view .mail-box-content { padding: 12px 12px; } 
+	 .smartlist-view .mail-box-content { padding: 12px 12px 10px; } 
 	 .verify-mail-box { padding: 15px 15px 11px 15px; } 
 	 .header-btn .btn.send_btn { height: 34px; } 
 	 #send-sample .form-search-hcp .form-button .btn { min-width: 85px; } 
@@ -143,7 +149,7 @@
 	 #mail-view .mail-view-btn .btn {min-width: 86px;height: 36px;}
 	 #mail-view .mail-time span {font-size: 13px;}
 	 .create-smart-list p {font-size: 15px; flex: 1 1;}
-	.create-smart-list {margin-bottom: 60px;padding: 9px 20px 9px 20px;}
+	.create-smart-list {margin-bottom: 60px;padding: 9px 9px 9px 20px;}
 	#add-list .smartlist-view .mail-box-content {width: 100%;flex: 0 0 100%;}
 	#add-list .smartlist-result-block {margin-top: 0px;}
 	.page-top-nav .tabnav-link { justify-content: center; } 
@@ -226,7 +232,8 @@
 		min-height: 190px;
 	}	
 	.smartlist-buttons {
-		min-height: 48px;
+		min-height: 36px;
+		padding-top: 10px;
 	}		
 	#tagsModal .modal-footer .save.btn, #tagsModal .modal-footer form .form-group .btn {
 		padding: 8px 14px;
@@ -277,7 +284,8 @@
 	}	
 	.table-title .selected-hcp-table-action .btn img {
 		max-width: 16px;
-	}										
+	}	
+								
 	} 
 	 
 	 @media only screen and (max-width:1365px){ 
