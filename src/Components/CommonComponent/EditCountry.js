@@ -7,13 +7,9 @@ import axios from "axios";
 const EditCountry = (props) => {
   const [getSelectedCountry, setSelectedCountry] = useState(props.selected_country);
   const [getProfileUserId, setProfileUserId] = useState(props.profile_user);
-  const [getChangeIndex, setChangeIndex] = useState(props.edit_index);
-  const [getFlag, setFlag] = useState(props.flag);
-
 
   const onCountryChange = (e,profile_user_id) => {
     setSelectedCountry(e);
-    props.changeEditCountry(e,profile_user_id,getChangeIndex,getFlag);
   };
   return(
     <>
@@ -22,6 +18,8 @@ const EditCountry = (props) => {
       title= {getSelectedCountry != "" &&  getSelectedCountry != "undefined" ? getSelectedCountry == "B&H" ? "Bosnia and Herzegovina" : getSelectedCountry : "Select Country" }
       onSelect={(event) => onCountryChange(event,getProfileUserId)}
       >
+
+      <div className="scroll_div">
           <Dropdown.Item eventKey="Afghanistan">Afghanistan</Dropdown.Item>
           <Dropdown.Item eventKey="Albania">Albania</Dropdown.Item>
           <Dropdown.Item eventKey="Algeria">Algeria</Dropdown.Item>
@@ -263,6 +261,7 @@ const EditCountry = (props) => {
           <Dropdown.Item eventKey="Yemen">Yemen</Dropdown.Item>
           <Dropdown.Item eventKey="Zambia">Zambia</Dropdown.Item>
           <Dropdown.Item eventKey="Zimbabwe">Zimbabwe</Dropdown.Item>
+      </div>    
     </DropdownButton>
 
         <input type="hidden" id={`field_country` + getProfileUserId} value={getSelectedCountry} />

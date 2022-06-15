@@ -146,17 +146,15 @@ const RegistraionDetails = () => {
       <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
       </div>
+      <div className="custom-container">
       <Row>
-        <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
-        <Col md={{ span: 7, offset:1 }}>
-          <h2>Registration Page</h2>
-          <div>
+        <div className="page-title d-flex justify-content-between">
+            <h2>Registration Page</h2>
             <Link to="/webinar/registrationdetailslist"><Button> List</Button> </Link>
-            <Row>
+        </div>
+        <Col className="registration_left">
               <form onSubmit={formik.handleSubmit}>
-                <Col xs={8}>
-
-                  <div className="form-inline row justify-content-between align-items-center">
+                <div className="form-inline row justify-content-between align-items-center">
                     <div className="form-group col-12 col-md-12">
                       <Col className="mb-3">
                         <Form.Label>Select Event </Form.Label>
@@ -209,7 +207,7 @@ const RegistraionDetails = () => {
                         ) : null}
                     </div>
                   </div>
-
+                  <div className="form-inline box-added form-group">
                   <h5>What data should be collected?</h5>
                   <div className="form-inline">
                     {inputbox.map((data, i) => {
@@ -243,8 +241,9 @@ const RegistraionDetails = () => {
                       );
                     })}
                   </div>
+                  </div>
 
-                  <button onClick={addData}>Add data field</button>
+                  <button onClick={addData}>Add data field <span>+</span></button>
 
                   <div>
                     {show == true ? (
@@ -257,24 +256,44 @@ const RegistraionDetails = () => {
                       </>
                     ) : null}
                   </div>
-
-                </Col>
-
-                <Col>
+                {/* <Col>
                   <div>
                     <img id="imgVieww" src="" alt="Viewing the registration page image" width={340} />
                   </div>
-                </Col>
+                </Col> */}       
                 
-                <input type="file" onChange={(e) => handeleimage(e)} />
+                {/* <input type="file" onChange={(e) => handeleimage(e)} /> */}
                 <div style={{ color: "red" }}>{errimage}</div>
                 <button className="btn btn-primary" type="submit">Submit</button>
               </form>
-            </Row>
-          </div>
         </Col>
+        <Col className="registration_right">
+          <div className="registration_right-view">
+              <img id="imgVieww" src="" alt="Viewing the registration page image" />
+            </div>
+        </Col>
+        </Row>
+        <Row>
+        <div className="upload-file-box">
+							<div className="box">
+								<input type="file" name="file-4[]" id="file-4" className="inputfile inputfile-3" data-multiple-caption="{count} files selected" multiple="" />
+								<label for="file-4"><span>Choose Your File</span></label>
+								<p>Upload your registration page design file</p>
+							</div>
+			</div>
+      <div className="download-sample">
+          <p>Download registration page design guide file to design yours</p>
+          <div className="upload-btn">
+              <label for="input-file">Download File</label>
+              <input id="input-file" type="file" />
+          </div>
+			</div>
+      <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+    
       </Row>
-    </div>
+      </div>
+      
+     </div>
   );
 };
 export default RegistraionDetails;

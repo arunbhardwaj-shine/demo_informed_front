@@ -18,6 +18,7 @@ import queryString from "query-string";
 import { connect } from "react-redux";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import DropdownButton from 'react-bootstrap/DropdownButton';
+import EditCountry from "../../CommonComponent/EditCountry";
 
 const Table = (props, ref) => {
   const [inEditMode, setInEditMode] = useState({
@@ -125,7 +126,7 @@ const Table = (props, ref) => {
         .post(`distributes/filters_list`, body)
         .then((res) => {
           setCountryall(res.data.response.data.country);
-          console.log(countryall);
+          // console.log(countryall);
           // setCounter(counter + 1);
         })
         .catch((err) => {
@@ -239,26 +240,9 @@ const Table = (props, ref) => {
     names,
     index
   ) => {
-    console.log(profile_id);
-    console.log(profile_user_id);
-
-    let ignoreClickOnMeElement = document.getElementById(
-      "row-selected" + index
-    );
-
-    ignoreClickOnMeElement.addEventListener(
-      "mouseleave",
-      async (event) => {
-        const name_edit = document.getElementById(
-          "field_name" + index
-        ).innerText;
-
-        const country_edit = document.getElementById(
-          "field_country" + index
-        ).innerText;
-
-        console.log(name_edit);
-        console.log(country_edit);
+    if(editable != 0){
+        const name_edit    = document.getElementById("field_name" + profile_user_id).innerText;
+        const country_edit = document.getElementById("field_country" + profile_user_id).value;
 
         const arr = [];
         arr.push({
@@ -269,46 +253,16 @@ const Table = (props, ref) => {
           company: company,
           country: country_edit,
           username: name_edit,
-          user_id: 18207,
         });
-        setEditableData((oldArray) => [...oldArray, ...arr]);
-      },
-      { once: true }
-    );
-
-    // ignoreClickOnMeElement.addEventListener("mouseleave", async (event) => {
-
-    //   console.log(event);
-    //   console.log(index);
-
-    //   const data = editList.find((x) => x.profile_id === profile_id);
-    //   console.log(data);
-
-    //   if (
-    //     data.first_name + " " + data.last_name != name_edit ||
-    //     data.email != email_edit ||
-    //     data.country != country_edit
-    //   ) {
-    //     const body = {
-    //       user_id: 18207,
-    //       profile_user_id: profile_user_id,
-    //       profile_id: profile_id,
-    //       email: email_edit,
-    //       country: country_edit,
-    //       username: name_edit,
-    //     };
-
-    //     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    //     await axios
-    //       .post(`distributes/update_reders_details`, body)
-    //       .then((res) => {
-    //         console.log(res);
-    //       })
-    //       .catch((err) => {
-    //         console.log(err);
-    //       });
-    //   }
-    // });
+        let prev_obj = editableData.find(x => x.profile_user_id === profile_user_id);
+        if(typeof (prev_obj) != "undefined") {
+            //update existing
+           editableData.map(obj => arr.find(o => o.profile_user_id === profile_user_id) || obj);
+        }else{
+          //create new
+          setEditableData((oldArray) => [...oldArray, ...arr]);
+        }
+    }
   };
 
   const showFileInReadersList = async (fdata, newReaders,flag) => {
@@ -483,33 +437,60 @@ const Table = (props, ref) => {
 
   const saveEditClicked = async () => {
     setEditable(0);
-    console.log(editableData);
-    const body = {
-      user_id: 18207,
-      edit_list_array: editableData,
-    };
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    loader("show");
-    await axios
-      .post(`distributes/update_reders_details`, body)
-      .then((res) => {
-        loader("hide");
-        if (res.data.status_code === 200) {
-          toast.success("List updated");
-        } else {
-          popup_alert({
-            visible: "show",
-            message: res.data.message,
-            type: "error",
-          });
+
+    if(editableData.length > 0){
+      editableData.map((data) => {
+        const name_edit    = document.getElementById("field_name" + data.profile_user_id).innerText;
+        const country_edit = document.getElementById("field_country" + data.profile_user_id).value;
+        const edit_index = document.getElementById("field_index" + data.profile_user_id).value;
+
+        let prev_obj = editList.find(x => x.profile_user_id === data.profile_user_id);
+        if(typeof prev_obj != "undefined"){
+          if(typeof editList[edit_index] != "undefined"){
+              editList[edit_index].country = country_edit;
+          }
+        }else{
+          if(typeof getNewReaders[edit_index] != "undefined"){
+            getNewReaders[edit_index].country = country_edit;
+          }
         }
-      })
-      .catch((err) => {
-        loader("hide");
-        toast.error("Something went wrong");
+
+        data.country = country_edit;
+        data.username = name_edit;
       });
-    setSaveOpen(false);
-    setEditableData([]);
+
+
+      const body = {
+        user_id: 18207,
+        edit_list_array: editableData,
+      };
+
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      loader("show");
+      await axios
+        .post(`distributes/update_reders_details`, body)
+        .then((res) => {
+          loader("hide");
+          if (res.data.status_code === 200) {
+            toast.success("List updated");
+          } else {
+            popup_alert({
+              visible: "show",
+              message: res.data.message,
+              type: "error",
+            });
+          }
+        })
+        .catch((err) => {
+          loader("hide");
+          toast.error("Something went wrong");
+        });
+      setSaveOpen(false);
+      setEditableData([]);
+    }else{
+      setSaveOpen(false);
+      toast.warning("No row update");
+    }
   };
 
   const closeClicked = () => {
@@ -767,6 +748,13 @@ const Table = (props, ref) => {
           let useremail = email.trim();
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
           if (regex.test(String(useremail).toLowerCase())) {
+            let prev_obj = editList.find(x => x.email === useremail);
+            if(typeof prev_obj != "undefined"){
+              return "User with same email already added in list.";
+            }else{
+              return "true";
+            }
+
             return "true";
           }else{
             return "Email format is not valid";
@@ -1106,11 +1094,10 @@ const Table = (props, ref) => {
                           item.company,
                           item.country,
                           item.first_name + " " + item.last_name,
-                          index
                         )
                       }
                     >
-                      <td contenteditable={editable === 0 ? "false" : "true"}>
+                      <td contenteditable={editable === 0 ? "false" : "true"} id={`field_name` + item.profile_user_id}>
                         {inEditMode.status &&
                         inEditMode.rowKey === item.profile_id ? (
                           <input
@@ -1134,17 +1121,12 @@ const Table = (props, ref) => {
                           item.email
                         )}
                       </td>
+                      <input type="hidden" id={`field_index` + item.profile_user_id} value={index} />
                       <td>{item.bounce}</td>
-                      <td contenteditable={editable === 0 ? "false" : "true"}>
-                        {inEditMode.status &&
-                        inEditMode.rowKey === item.profile_id ? (
-                          <input
-                            value={country}
-                            onChange={(event) => setCountry(event.target.value)}
-                          />
-                        ) : (
-                          item.country
-                        )}
+                      <td>
+                      {
+                        editable ? <EditCountry selected_country={item.country} profile_user={item.profile_user_id}></EditCountry> : <span>{item.country}</span>
+                      }
                       </td>
                       {showLessInfo == false ? <td> {item.ibu}</td> : null}
                       {showLessInfo == false ? (
@@ -1181,22 +1163,22 @@ const Table = (props, ref) => {
                           item.company,
                           item.country,
                           item.first_name + " " + item.last_name,
-                          index
                         )
                       }
                     >
-                      <td id={`field_name` + index}
+                      <td id={`field_name` + item.profile_user_id}
                         contenteditable={editable === 0 ? "false" : "true"}
                       >
                         <span>{item.first_name + " " + item.last_name}</span>
                       </td>
 
-                      <td id={`field_email` + index}>{item.email}</td>
-                      <td id={`field_bounced` + index}>{item.bounce}</td>
-                      <td id={`field_country` + index}
-                        contenteditable={editable === 0 ? "false" : "true"
-                    }>
-                        <span>{item.country}</span>
+                      <td id={`field_email` + item.profile_user_id}>{item.email}</td>
+                      <input type="hidden" id={`field_index` + item.profile_user_id} value={index} />
+                      <td id={`field_bounced` + item.profile_user_id}>{item.bounce}</td>
+                      <td>
+                      {
+                        editable ? <EditCountry selected_country={item.country} profile_user={item.profile_user_id}></EditCountry> : <span>{item.country}</span>
+                      }
                       </td>
                       {/*showLessInfo == false ? (
                         <td id="field_readers">NA</td>
@@ -1480,17 +1462,19 @@ const Table = (props, ref) => {
                                    title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
                                    onSelect={(event) => onCountryChange(event, i)}
                                    >
-                                   {countryall.length === 0
-                                     ? ""
-                                     : Object.entries(countryall).map(
-                                         ([index, item]) => {
-                                           return (
-                                             <>
-                                              <Dropdown.Item eventKey={index} className = {hpc[i].country == index ? "active" : "" }>{item == "B&H" ? "Bosnia and Herzegovina" : item}</Dropdown.Item>
-                                             </>
-                                           );
-                                         }
-                                       )}
+                                   <div className="scroll_div">
+                                     {countryall.length === 0
+                                       ? ""
+                                       : Object.entries(countryall).map(
+                                           ([index, item]) => {
+                                             return (
+                                               <>
+                                                <Dropdown.Item eventKey={index} className = {hpc[i].country == index ? "active" : "" }>{item == "B&H" ? "Bosnia and Herzegovina" : item}</Dropdown.Item>
+                                               </>
+                                             );
+                                           }
+                                         )}
+                                    </div>
                                   </DropdownButton>
                                 </div>
                               </div>

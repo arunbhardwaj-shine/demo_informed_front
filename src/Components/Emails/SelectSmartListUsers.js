@@ -809,10 +809,10 @@ const SelectSmartListUsers = (props) => {
                     return (
                       <>
                         <tr className="hcps-deleted">
-                          <td>{rr.first_name}</td>
+                          <td><span>{rr.first_name}</span></td>
                           <td>{rr.email}</td>
                           <td>{rr.bounce}</td>
-                          <td>{rr.country}</td>
+                          <td><span>{rr.country}</span></td>
                           <td>{rr.ibu}</td>
                           <td>{rr.contact_type}</td>
                           {showLessInfo == false ? (
@@ -901,10 +901,10 @@ const SelectSmartListUsers = (props) => {
                     return (
                       <>
                         <tr className="hcps-added">
-                          <td>{readers.first_name}</td>
+                          <td><span>{readers.first_name}</span></td>
                           <td>{readers.email}</td>
                           <td>{readers.bounce}</td>
-                          <td>{readers.country}</td>
+                          <td><span>{readers.country}</span></td>
                           <td>{readers.ibu}</td>
                           <td>{readers.contact_type}</td>
                           {showLessInfo == false ? (
