@@ -24,7 +24,7 @@ const VerifyHCP = (props) => {
   const [UserData, setUserData] = useState([]);
   var campaign_id = "0";
   console.log(old_object?.campaign_id)
-  console.log(old_object.campaign_id)
+ 
   if (old_object?.campaign_id || old_object?.campaign_id==='') {
     var campaign_id = old_object?.campaign_id
       ? old_object.campaign_id
