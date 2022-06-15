@@ -1148,7 +1148,7 @@ const ViewTable = (props) => {
                     <td>{item.bounce}</td>
                     <td>
                     {
-                      editable ? <EditCountry selected_country={item.country} profile_user={item.profile_user_id}></EditCountry> : item.country
+                      editable ? <EditCountry selected_country={item.country} profile_user={item.profile_user_id}></EditCountry> : <span>{item.country}</span>
                     }
                     </td>
                     {showLessInfo == false ? <td> {item.ibu}</td> : null}
@@ -1199,7 +1199,7 @@ const ViewTable = (props) => {
                     <td id={`field_bounced` + item.profile_user_id}>{item.bounce}</td>
                     <td>
                       {
-                        editable ? <EditCountry selected_country={item.country} profile_user={item.profile_user_id}></EditCountry> : item.country
+                        editable ? <EditCountry selected_country={item.country} profile_user={item.profile_user_id}></EditCountry> : <span>{item.country}</span>
                       }
                     </td>
                     {/*showLessInfo == false ? (
