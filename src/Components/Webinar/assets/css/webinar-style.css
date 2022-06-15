@@ -1948,3 +1948,109 @@ display:none;
 padding: 15px 16px;
 min-width: 110px;
 }
+
+
+/***HCP PAge***/
+
+.hcp-table-heading {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.hcp-table-heading ul, .hcp-table-content ul {
+    margin: 0;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    width: calc(100% - 536px);
+    align-items: center;
+    padding: 28px 34px 28px 40px;
+    margin-right: 16px;
+}
+.hcp-table-content {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+.hcp-table-content ul.hcp-table-content-right, .hcp-table-heading ul.hcp-table-heading-right {
+    width: 520px;
+}
+.hcp-table-content ul.hcp-table-content-left{
+	border: 0.5px solid #C4C4C4;
+	border-radius: 50px;
+}
+.hcp-table-content ul.hcp-table-content-right{
+	border: 1px dashed #C4C4C4;
+	border-radius: 50px;
+}
+.hcp-table-heading ul li, .hcp-table-content ul li {
+    flex:1 1 0;
+}
+.hcp-table-heading ul.hcp-table-heading-left li, .hcp-table-heading ul.hcp-table-heading-right li {
+    font-family: 'Roboto-Medium';
+}
+.hcp-table-content ul.hcp-table-content-left li {
+    font-family: 'Roboto-Light';
+}
+.hcp-table-content ul.hcp-table-content-left li, .hcp-table-heading ul.hcp-table-heading-left li, .hcp-table-heading ul.hcp-table-heading-right li  {
+        font-size: 14px;
+    line-height: 16px;
+    color: #959595;
+}
+.hcp-table {
+	margin-top: 32px;
+}
+ul.hcp-table-content-right .user-type-action button {
+    background: #EEEEEE;
+    border-radius: 30px;
+    border-color: #EEEEEE;
+    width: 40px;
+    height: 40px;
+    min-width: initial;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.hcp-table-content ul.hcp-table-content-right {
+    border: 1px dashed #C4C4C4;
+    border-radius: 50px;
+    padding: 11px;
+}
+.hcp-table-content ul.hcp-table-content-right .user-type-option {
+    display: flex;
+}
+ul.hcp-table-content-right .user-type-action button img {
+    width: 20px;
+}
+.hcp-table-content ul.hcp-table-content-right .user-type-option button.btn-bordered {
+    border: 1px solid #C4C4C4;
+    border-radius: 30px;
+    color: #C4C4C4;
+    line-height: 19px;
+    margin: 0 8px;
+    min-width: 83px;
+}
+.hcp-table-content ul.hcp-table-content-right .user-type-option {
+    display: flex;
+    border-right: 1px solid #C4C4C4;
+}
+.user-type-action button {
+    margin-left: 8px;
+}
+.user-type-action {
+    display: flex;
+}
+.hcp-table-content ul.hcp-table-content-right .user-type-option select.form-select {
+    background-color: #EEEEEE;
+    border-radius: 30px;
+    border: 0;
+    font-size: 14px;
+    line-height: 16px;
+    color: #969696;
+    padding: 18px 24px;
+}
+/***HCP PAge End***/
