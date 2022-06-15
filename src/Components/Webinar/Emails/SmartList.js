@@ -73,7 +73,7 @@ const SelectSmartList = () => {
             <div className="col-12 col-md-1">
               <div className="header-btn-left">
                 
-                <Link to="/webinar/email/create">
+                <Link to={"/webinar/email/create"}>
                 <button class="btn btn-primary btn-filled back">
 									<svg width="12" height="19" viewBox="0 0 12 19" fill="none" xmlns="http://www.w3.org/2000/svg">
 										<path fill-rule="evenodd" clip-rule="evenodd" d="M8.31557 17.82C8.97165 18.476 10.0354 18.476 10.6915 17.82C11.3475 17.1639 11.3475 16.1002 10.6915 15.4441L4.7522 9.50484L10.6927 3.56431C11.3488 2.90823 11.3488 1.84451 10.6927 1.18843C10.0367 0.532347 8.97294 0.532347 8.31686 1.18843L1.2212 8.28409C1.21 8.29469 1.19891 8.30548 1.18794 8.31646C0.531858 8.97254 0.531858 10.0363 1.18794 10.6923L8.31557 17.82Z" fill="white"/>
@@ -103,7 +103,7 @@ const SelectSmartList = () => {
                 <button type="button" className="btn btn-primary btn-bordered move-draft" onClick={()=>handleEmailSCreateCollection()}>
                   Save As Draft
                 </button>
-                <Link to="/webinar/email/smart-list-users">
+                <Link to={smartListDataId?"/webinar/email/smart-list-users":"/webinar/email/smart-list"}>
                 <button type="button"class="btn btn-primary btn-filled back">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M18.8403 12.0001C18.8403 12.4302 18.6761 12.8603 18.3483 13.1882L8.02877 23.5077C7.37232 24.1641 6.30799 24.1641 5.65181 23.5077C4.99562 22.8515 4.99562 21.7874 5.65181 21.1309L14.7831 12.0001L5.65213 2.86923C4.99594 2.21277 4.99594 1.14877 5.65213 0.492636C6.30831 -0.164135 7.37264 -0.164135 8.02909 0.492636L18.3486 10.8119C18.6765 11.14 18.8403 11.5701 18.8403 12.0001Z" fill="#97B6CF"/>
