@@ -289,7 +289,7 @@ const SelectSmartList = (props) => {
                   Create new smart list
                 </button>
                 <button
-                  class="upload-btn btn btn-primary btn-bordered"
+                  className="upload-btn btn btn-primary btn-bordered"
                   onClick={() =>
                     setpopupopeningstatus(
                       (getpopupopeningstatus) => !getpopupopeningstatus

@@ -24,8 +24,8 @@ const VerifyHCP = (props) => {
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
   var campaign_id = "0";
-  console.log(old_object?.campaign_id)
- 
+
+
   if (old_object?.campaign_id || old_object?.campaign_id==='') {
     var campaign_id = old_object?.campaign_id
       ? old_object.campaign_id
@@ -33,7 +33,7 @@ const VerifyHCP = (props) => {
   } else {
     var campaign_id = old_object?.campaign_id
       ? old_object.campaign_id
-      : props.getDraftData.campaign_id;
+      : props.getDraftData?.campaign_id ? props.getDraftData.campaign_id : "";
   }
 
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
@@ -1202,6 +1202,7 @@ const VerifyHCP = (props) => {
                                    title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
                                    onSelect={(event) => onCountryChange(event, i)}
                                    >
+                                   <div className="scroll_div">
                                    {countryall.length === 0
                                      ? ""
                                      : Object.entries(countryall).map(
@@ -1213,6 +1214,7 @@ const VerifyHCP = (props) => {
                                            );
                                          }
                                        )}
+                                    </div>
                                   </DropdownButton>
                                   {
                                     /*

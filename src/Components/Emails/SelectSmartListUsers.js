@@ -10,10 +10,9 @@ import { toast } from "react-toastify";
 import { popup_alert } from "../../popup_alert";
 import { Modal, Dropdown } from "react-bootstrap";
 import DropdownButton from 'react-bootstrap/DropdownButton';
+import EditCountry from "../CommonComponent/EditCountry";
 var old_object = {};
 const SelectSmartListUsers = (props) => {
-  console.log(props);
-
   const navigate = useNavigate();
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const location = useLocation();
@@ -392,27 +391,11 @@ const SelectSmartListUsers = (props) => {
     jobTitle,
     company,
     country,
-    names,
-    index
+    names
   ) => {
-    let ignoreClickOnMeElement = document.getElementById(
-      "row-selected" + index
-    );
-
-    ignoreClickOnMeElement.addEventListener(
-      "mouseleave",
-      async (event) => {
-        const name_edit = document.getElementById(
-          "field_name" + index
-        ).innerText;
-
-        const country_edit = document.getElementById(
-          "field_country" + index
-        ).innerText;
-
-        console.log(name_edit);
-        console.log(country_edit);
-
+    if(editable != 0){
+      const name_edit    = document.getElementById("field_name" + profile_user_id).innerText;
+      const country_edit = document.getElementById("field_country" + profile_user_id).value;
         const arr = [];
         arr.push({
           profile_id: profile_id,
@@ -423,44 +406,16 @@ const SelectSmartListUsers = (props) => {
           country: country_edit,
           username: name_edit,
         });
-        setEditableData((oldArray) => [...oldArray, ...arr]);
-      },
-      { once: true }
-    );
 
-    // ignoreClickOnMeElement.addEventListener("mouseleave", async (event) => {
-
-    //   console.log(event);
-    //   console.log(index);
-
-    //   const data = editList.find((x) => x.profile_id === profile_id);
-    //   console.log(data);
-
-    //   if (
-    //     data.first_name + " " + data.last_name != name_edit ||
-    //     data.email != email_edit ||
-    //     data.country != country_edit
-    //   ) {
-    //     const body = {
-    //       user_id: 18207,
-    //       profile_user_id: profile_user_id,
-    //       profile_id: profile_id,
-    //       email: email_edit,
-    //       country: country_edit,
-    //       username: name_edit,
-    //     };
-
-    //     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    //     await axios
-    //       .post(`distributes/update_reders_details`, body)
-    //       .then((res) => {
-    //         console.log(res);
-    //       })
-    //       .catch((err) => {
-    //         console.log(err);
-    //       });
-    //   }
-    // });
+        let prev_obj = editableData.find(x => x.profile_user_id === profile_user_id);
+        if(typeof (prev_obj) != "undefined") {
+            //update existing
+           editableData.map(obj => arr.find(o => o.profile_user_id === profile_user_id) || obj);
+        }else{
+          //create new
+          setEditableData((oldArray) => [...oldArray, ...arr]);
+        }
+    }
   };
   const deleteReader = (i) => {
     const readersList = readers;
@@ -472,15 +427,35 @@ const SelectSmartListUsers = (props) => {
 
   const saveEditClicked = async () => {
     setEditable(0);
-    console.log(editableData);
-    const body = {
-      user_id: 18207,
-      edit_list_array: editableData,
-    };
+    if(editableData.length > 0){
 
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    loader("show");
-    await axios
+      editableData.map((data) => {
+        const name_edit    = document.getElementById("field_name" + data.profile_user_id).innerText;
+        const country_edit = document.getElementById("field_country" + data.profile_user_id).value;
+        const edit_index = document.getElementById("field_index" + data.profile_user_id).value;
+
+        let prev_obj = readers.find(x => x.profile_user_id === data.profile_user_id);
+        if(typeof prev_obj != "undefined"){
+          if(typeof readers[edit_index] != "undefined"){
+              readers[edit_index].country = country_edit;
+          }
+        }else{
+          if(typeof readersNewlyAdded[edit_index] != "undefined"){
+            readersNewlyAdded[edit_index].country = country_edit;
+          }
+        }
+        data.country = country_edit;
+        data.username = name_edit;
+      });
+
+      const body = {
+        user_id: 18207,
+        edit_list_array: editableData,
+      };
+      setSaveOpen(false);
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      loader("show");
+      await axios
       .post(`distributes/update_reders_details`, body)
       .then((res) => {
         loader("hide");
@@ -497,7 +472,11 @@ const SelectSmartListUsers = (props) => {
       .catch((err) => {
         toast.error("Something went wrong");
       });
-    setSaveOpen(false);
+      setEditableData([]);
+    }else{
+      setSaveOpen(false);
+      toast.warning("No row update");
+    }
   };
 
   const closeClicked = () => {
@@ -902,11 +881,33 @@ const SelectSmartListUsers = (props) => {
                   {readersNewlyAdded.map((readers, i) => {
                     return (
                       <>
-                        <tr className="hcps-added">
-                          <td><span>{readers.first_name}</span></td>
+                        <tr className="hcps-added"
+                        onClick={(e) =>
+                          editing(
+                            readers.profile_id,
+                            readers.profile_user_id,
+                            readers.email,
+                            readers.jobTitle,
+                            readers.company,
+                            readers.country,
+                            readers.first_name + " " + readers.last_name,
+                          )
+                        }
+                        >
+                          <td
+                            id={`field_name` + readers.profile_user_id}
+                            contenteditable={editable === 0 ? "false" : "true"}
+                          >
+                            <span>{readers.first_name + " " + readers.last_name}</span>
+                          </td>
                           <td>{readers.email}</td>
+                          <input type="hidden" id={`field_index` + readers.profile_user_id} value={i} />
                           <td>{readers.bounce}</td>
-                          <td><span>{readers.country}</span></td>
+                          <td>
+                          {
+                            editable ? <EditCountry selected_country={readers.country} profile_user={readers.profile_user_id}></EditCountry> : <span>{readers.country}</span>
+                          }
+                          </td>
                           <td>{readers.ibu}</td>
                           <td>{readers.contact_type}</td>
                           {showLessInfo == false ? (
@@ -952,7 +953,6 @@ const SelectSmartListUsers = (props) => {
                           id={`row-selected` + i}
                           onClick={(e) =>
                             editing(
-                              //  e.currentTarget,
                               readers.profile_id,
                               readers.profile_user_id,
                               readers.email,
@@ -960,12 +960,11 @@ const SelectSmartListUsers = (props) => {
                               readers.company,
                               readers.country,
                               readers.first_name + " " + readers.last_name,
-                              i
                             )
                           }
                         >
                           <td
-                            id={`field_name` + i}
+                            id={`field_name` + readers.profile_user_id}
                             contenteditable={editable === 0 ? "false" : "true"}
                           >
                             <span>
@@ -975,13 +974,13 @@ const SelectSmartListUsers = (props) => {
                                 readers.last_name}{" "}
                             </span>
                           </td>
-                          <td id={`field_email` + i}>{readers.email}</td>
-                          <td id={`field_bounced` + i}>{readers.bounce}</td>
-                          <td
-                            id={`field_country` + i}
-                            contenteditable={editable === 0 ? "false" : "true"}
-                          >
-                            <span>{readers.country}</span>
+                          <td id={`field_email` + readers.profile_user_id}>{readers.email}</td>
+                          <input type="hidden" id={`field_index` + readers.profile_user_id} value={i} />
+                          <td id={`field_bounced` + readers.profile_user_id}>{readers.bounce}</td>
+                          <td>
+                          {
+                            editable ? <EditCountry selected_country={readers.country} profile_user={readers.profile_user_id}></EditCountry> : <span>{readers.country}</span>
+                          }
                           </td>
                           <td>{readers.ibu}</td>
                           <td>{readers.contact_type}</td>
@@ -1138,6 +1137,7 @@ const SelectSmartListUsers = (props) => {
                                      title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
                                      onSelect={(event) => onCountryChange(event, i)}
                                      >
+                                     <div className="scroll_div">
                                      {countryall.length === 0
                                        ? ""
                                        : Object.entries(countryall).map(
@@ -1149,6 +1149,7 @@ const SelectSmartListUsers = (props) => {
                                              );
                                            }
                                          )}
+                                    </div>
                                     </DropdownButton>
                                 </div>
                               </div>
