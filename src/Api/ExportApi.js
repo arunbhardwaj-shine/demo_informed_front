@@ -656,6 +656,16 @@ const EmailSCreateCollection = (smart_list_id,collection_id  ) =>
       },
     }
   );
+const GetSmartListSingleRecord = (id ) =>
+  BaseApi.post(
+    `smart-list/single-record`,
+    {smart_list_id:id },
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
 export default {
   UserLogin,
   UserForgot,
@@ -716,4 +726,5 @@ export default {
   getSmartListData,
   EmailSCreate,
   EmailSCreateCollection,
+  GetSmartListSingleRecord
 };

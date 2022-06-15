@@ -389,7 +389,8 @@ const handleEmailSCreate = () => {
 								</button>
               </div>
             </div>
-
+            </div>
+        </div>
             <div className="top-header">
 		          <div className="custom-container">
 		            <div className="row">
@@ -429,8 +430,8 @@ const handleEmailSCreate = () => {
                               }}
                               className="select_mm"
                             />
-                          <p>{val.name}</p>
                         </div>
+                          <p>{val.name}</p>
                         </div>
                       ))
                     ) : (
@@ -681,8 +682,7 @@ const handleEmailSCreate = () => {
           </div>
         
         </section>
-          </div>
-        </div>
+       
       
 
 
