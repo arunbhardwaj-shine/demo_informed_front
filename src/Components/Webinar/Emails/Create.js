@@ -346,7 +346,7 @@ const handleEmailSCreate = () => {
  
 
 	return ( 
-	  <>
+
       <div className="right-sidebar">
         <div className="page-top-nav">
           <div className="row justify-content-end align-items-center">
@@ -413,6 +413,10 @@ const handleEmailSCreate = () => {
                     {templateList ? (
                       templateList?.map((val, i) => (
                         <div key={i} className="item">
+                             <div class="item-list">
+												<div class="item-top-schedule">
+                        <img  src={path_image + "webinar/mail-schedule.png"} alt="" />
+												</div>
                             <img
                               src={path_image + "webinar/mail-format.png"}
                               alt=""
@@ -425,8 +429,8 @@ const handleEmailSCreate = () => {
                               }}
                               className="select_mm"
                             />
-                          
                           <p>{val.name}</p>
+                        </div>
                         </div>
                       ))
                     ) : (
@@ -434,9 +438,7 @@ const handleEmailSCreate = () => {
                     )}
                   </AliceCarousel>
                 </div>
-              </div>
         
-          </section>
 
       {/* start of delete modal code ------------------  */}
       <Modal
@@ -677,8 +679,11 @@ const handleEmailSCreate = () => {
         </Modal.Footer>
       </Modal>
           </div>
+        
+        </section>
+          </div>
         </div>
-      </div>  
+      
 
 
       {/* ---- start model code for Add tags -----------*/}                
@@ -761,7 +766,7 @@ const handleEmailSCreate = () => {
       </Modal>   
       {/* ---- start model code for Add tags -----------*/}          
 
-		</>
+	</div>
 	)
 }
 export default CreateEmails;
