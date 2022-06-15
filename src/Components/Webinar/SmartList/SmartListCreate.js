@@ -8,8 +8,8 @@ import { loader } from "../../../loader";
 import axios from "axios";
 import { popup_alert } from "../../../popup_alert";
 
-let path = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const SmartListCreate = () => {
+  let path_image = process.env.REACT_APP_ASSETS_PATH_WEBINAR;
   const location = useLocation();
   const navigate = useNavigate();
   let file_name = useRef("");
@@ -199,59 +199,78 @@ const SmartListCreate = () => {
 
   return (
     <>
-      {/* <div className="loader" id="custom_loader">
-        <span className="loader-view"> </span>
-      </div> */}
-      <div class="right-sidebar">
-        <div class="page-top-nav smart_list_names">
-          <div class="row justify-content-end align-items-center">
-            <div class="col-12 col-md-11">
-              <ul class="tabnav-link">
-                <li class="active">
+      <div className="right-sidebar">
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+        <div className="page-top-nav smart_list_names">
+          <div className="row justify-content-end align-items-center">
+            <div className="col-12 col-md-1">
+              <div className="header-btn-right back_btn">
+                <a className="btn btn-primary btn-filled light" href="#">
+                  <img
+                    src={path_image + "arrow-left.svg"}
+                    alt=""
+                    onClick={closeClicked}
+                  />
+                </a>
+              </div>
+            </div>
+            <div className="col-12 col-md-10">
+              <ul className="tabnav-link">
+                <li className="active active-main">
                   <a href="javascript:void(0)">Create smart list</a>
                 </li>
-                <li class="">
-                  <a href="javascript:void(0)">?</a>
+                <li className="">
+                  <a href="javascript:void(0)">Segmentation</a>
                 </li>
               </ul>
             </div>
-            <div class="col-12 col-md-1">
-              <div class="header-btn-right">
+            <div className="col-12 col-md-1">
+              <div className="header-btn-right">
                 <button
-                  class="btn btn-primary btn-bordered light"
+                  className="btn btn-primary btn-bordered light"
                   onClick={closeClicked}
                 >
-                  Cancel
+                  Close
                 </button>
               </div>
             </div>
           </div>
         </div>
-        <section class="create_smart_list">
-          <div class="create_smart_list_inset">
-            <div class="create-smart-step">
+        <section className="create_smart_list">
+          <div className="create_smart_list_inset">
+            <div className="create-smart-step">
               <h2>STEP1</h2>
-              <div class="create-smart-step-box">
+              <div className="create-smart-step-box">
                 <form>
-                  <div class="row justify-content-between align-items-center">
-                    <div class="form-group col">
+                  <div className="row justify-content-between align-items-end">
+                    <div className="form-group col-md-8">
                       <label for="smart-list-name">Enter smart list name</label>
                       <input
                         type="text"
-                        class="form-control"
+                        className="form-control"
+                        id=""
                         value={smartListName}
                         onChange={(event) => handleSmartListName(event)}
                       />
                     </div>
-
-                    <div class="form-group col-sm-12">
-                      <div class="form-group-content">
+                    <div className="form-group col no-padding">
+                      <div className="form-group-content">
                         <p>
                           I want this to be a <span>Demo list</span>
                         </p>
-                        <div class="select-demo-option">
-                          <input type="radio" name="radio" />
-                          <span class="checkmark"></span>
+                        <div className="select-demo-option">
+                          <input type="checkbox" name="checkbox" />
+                          <span className="checkmark"></span>
                         </div>
                         <a
                           href="#"
@@ -259,7 +278,7 @@ const SmartListCreate = () => {
                           data-bs-placement="top"
                           title="Step to create smart list"
                         >
-                          <img src={path + "question.svg"} alt="" />
+                          <img src={path_image + "question.svg"} alt="" />
                         </a>
                       </div>
                     </div>
@@ -267,67 +286,63 @@ const SmartListCreate = () => {
                 </form>
               </div>
             </div>
-            <div class="create-smart-step">
+            <div className="create-smart-step">
               <h2>STEP2</h2>
-              <div class="create-smart-step-box">
+              <div className="create-smart-step-box">
                 <h5>How do you want to create your smart list ?</h5>
                 <ul>
                   <li>
-                    <div class="send-option-img group-opt">
+                    <div className="send-option-img">
                       <input
                         type="radio"
                         name="select-option-hcp"
-                        id="segment"
                         onClick={(e) => {
                           createSmartListCohort();
                         }}
                       />
-                      <img src={path + "group-hcp.svg"} alt="Group HCPs" />
+                      <img
+                        src={path_image + "group-hcp.svg"}
+                        alt="Group HCPs"
+                      />
                     </div>
                     <p>Segment from current cohort </p>
                   </li>
                   <li>
                     <div
-                      class="send-option-img upload-opt"
+                      className="send-option-img"
                       data-bs-toggle="modal"
                       data-bs-target="#upload-confirm"
                     >
                       <input
                         type="radio"
+                        name="select-option-hcp"
                         onClick={(e) => {
                           createSmartList();
                         }}
-                        name="select-option-hcp"
                       />
-                      <img src={path + "upload-btn.svg"} alt="Single HCP" />{" "}
-                      {/* {filename != "" ? <p>{filename}</p> : null} */}
+                      <img
+                        src={path_image + "upload-btn.svg"}
+                        alt="Single HCP"
+                      />
                     </div>
                     <p>Upload new HCPs</p>
                   </li>
                 </ul>
               </div>
             </div>
-            <div class="download-sample">
+            <div className="download-sample">
               <p>Download sample Excel file to upload new HCPs</p>
-              <div class="upload-btn" onClick={downloadFile}>
+              <button
+                className="btn btn-primary btn-bordered"
+                onClick={downloadFile}
+              >
                 Download File
-              </div>
+              </button>
             </div>
           </div>
         </section>
       </div>
-      <popup_alert />
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
+
       <Modal
         className="send-confirm"
         id="upload-confirm"
