@@ -15,6 +15,7 @@ import { popup_alert } from "../../popup_alert";
 import { Link } from "react-router-dom";
 import { getEmailData } from "../../actions";
 import DropdownButton from 'react-bootstrap/DropdownButton';
+import EditCountry from "../CommonComponent/EditCountry";
 
 var old_object = {};
 var selected_Data = [];
@@ -23,8 +24,6 @@ const VerifyHCP = (props) => {
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
   var campaign_id = "0";
-  console.log(old_object?.campaign_id)
-  console.log(old_object.campaign_id)
   if (old_object?.campaign_id || old_object?.campaign_id==='') {
     var campaign_id = old_object?.campaign_id
       ? old_object.campaign_id
@@ -93,7 +92,6 @@ const VerifyHCP = (props) => {
     .post(`emailapi/get_user_details`, body)
     .then((res) => {
       setSelectedHcp(res.data.response.data);
-      console.log(res.data.response.data)
       // setCounter(counter + 1);
     })
     .catch((err) => {
@@ -130,10 +128,6 @@ const VerifyHCP = (props) => {
   }, []);
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-
-  useEffect(() => {
-    console.log("sdsdsd");
-  }, [sorting]);
 
   const handleInputChange = (event, selected) => {
     const div = document.querySelector("div.active");
@@ -250,28 +244,25 @@ const VerifyHCP = (props) => {
   };
 
   const sortSelectedUsers = () => {
-    // console.log("Anuj");
     let normalArr = [];
     normalArr = selectedHcp;
     if (sorting === 0) {
       normalArr.sort((a, b) =>
-        a.name.toLowerCase() > b.name.toLowerCase()
+        a.first_name.toLowerCase() > b.first_name.toLowerCase()
           ? 1
-          : b.name.toLowerCase() > a.name.toLowerCase()
+          : b.first_name.toLowerCase() > a.first_name.toLowerCase()
           ? -1
           : 0
       );
     } else {
       normalArr.sort((a, b) =>
-        a.name.toLowerCase() < b.name.toLowerCase()
+        a.first_name.toLowerCase() < b.first_name.toLowerCase()
           ? 1
-          : b.name.toLowerCase() < a.name.toLowerCase()
+          : b.first_name.toLowerCase() < a.first_name.toLowerCase()
           ? -1
           : 0
       );
     }
-
-    console.log(normalArr);
     setSelectedHcp(normalArr);
     setSorting(1 - sorting);
     setSortingCount(sortingCount + 1);
@@ -506,25 +497,11 @@ const VerifyHCP = (props) => {
     names,
     index
   ) => {
-    let ignoreClickOnMeElement = document.getElementById(
-      "row-selected" + index
-    );
+    if(editable != 0){
+      const name_edit    = document.getElementById("field_name" + profile_user_id).innerText;
+      const country_edit = document.getElementById("field_country" + profile_user_id).value;
 
-    ignoreClickOnMeElement.addEventListener(
-      "mouseleave",
-      async (event) => {
-        const name_edit = document.getElementById(
-          "field_name" + index
-        ).innerText;
-
-        const country_edit = document.getElementById(
-          "field_country" + index
-        ).innerText;
-
-        // console.log(name_edit);
-        // console.log(country_edit);
-
-        const arr = [];
+      const arr = [];
         arr.push({
           profile_id: "",
           profile_user_id: profile_user_id,
@@ -534,45 +511,16 @@ const VerifyHCP = (props) => {
           country: country_edit,
           username: name_edit,
         });
-        setEditableData((oldArray) => [...oldArray, ...arr]);
-        console.log(arr);
-      },
-      { once: true }
-    );
 
-    // ignoreClickOnMeElement.addEventListener("mouseleave", async (event) => {
-
-    //   console.log(event);
-    //   console.log(index);
-
-    //   const data = editList.find((x) => x.profile_id === profile_id);
-    //   console.log(data);
-
-    //   if (
-    //     data.first_name + " " + data.last_name != name_edit ||
-    //     data.email != email_edit ||
-    //     data.country != country_edit
-    //   ) {
-    //     const body = {
-    //       user_id: 18207,
-    //       profile_user_id: profile_user_id,
-    //       profile_id: profile_id,
-    //       email: email_edit,
-    //       country: country_edit,
-    //       username: name_edit,
-    //     };
-
-    //     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    //     await axios
-    //       .post(`distributes/update_reders_details`, body)
-    //       .then((res) => {
-    //         console.log(res);
-    //       })
-    //       .catch((err) => {
-    //         console.log(err);
-    //       });
-    //   }
-    // });
+        let prev_obj = editableData.find(x => x.profile_user_id === profile_user_id);
+        if(typeof (prev_obj) != "undefined") {
+            //update existing
+           editableData.map(obj => arr.find(o => o.profile_user_id === profile_user_id) || obj);
+        }else{
+          //create new
+          setEditableData((oldArray) => [...oldArray, ...arr]);
+        }
+    }
   };
 
   const backClicked = () => {
@@ -613,31 +561,55 @@ const VerifyHCP = (props) => {
   };
 
   const saveEditClicked = async () => {
-    console.log(editableData);
-    const body = {
-      user_id: 18207,
-      edit_list_array: editableData,
-    };
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    loader("show");
-    await axios
-      .post(`distributes/update_reders_details`, body)
-      .then((res) => {
-        loader("hide");
-        console.log(res);
-        if (res.data.status_code === 200) {
-          toast.success("data updated successfully");
-        } else {
-          popup_alert({
-            visible: "show",
-            message: res.data.message,
-            type: "error",
-          });
+    setEditable(0);
+    if(editableData.length > 0){
+
+      editableData.map((data) => {
+        const name_edit    = document.getElementById("field_name" + data.profile_user_id).innerText;
+        const country_edit = document.getElementById("field_country" + data.profile_user_id).value;
+        const edit_index = document.getElementById("field_index" + data.profile_user_id).value;
+
+        let prev_obj = selectedHcp.find(x => x.profile_user_id === data.profile_user_id);
+        if(typeof prev_obj != "undefined"){
+          if(typeof selectedHcp[edit_index] != "undefined"){
+              selectedHcp[edit_index].country = country_edit;
+          }
         }
-      })
-      .catch((err) => {
-        console.log("something went wrong");
+
+        data.country = country_edit;
+        data.username = name_edit;
       });
+
+
+      const body = {
+        user_id: 18207,
+        edit_list_array: editableData,
+      };
+      setSaveOpen(false);
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      loader("show");
+      await axios
+        .post(`distributes/update_reders_details`, body)
+        .then((res) => {
+          loader("hide");
+          if (res.data.status_code === 200) {
+            toast.success("data updated successfully");
+          } else {
+            popup_alert({
+              visible: "show",
+              message: res.data.message,
+              type: "error",
+            });
+          }
+        })
+        .catch((err) => {
+          console.log("something went wrong");
+        });
+        setEditableData([]);
+    }else{
+      setSaveOpen(false);
+      toast.warning("No row update");
+    }
   };
 
   const closeClicked = () => {
@@ -1053,27 +1025,24 @@ const VerifyHCP = (props) => {
                                 data.company,
                                 data.country,
                                 data.first_name + " " + data.last_name,
-                                index
                               )
                             }
                           >
                             <td
-                              id={`field_name` + index}
+                              id={`field_name` + data.profile_user_id}
                               contenteditable={
                                 editable === 0 ? "false" : "true"
                               }
                             >
                               <span>{data.name || data.first_name}</span>
                             </td>
-                            <td id={`field_email` + index}>{data.email}</td>
-                            <td id={`field_bounced` + index}>{data.bounce}</td>
-                            <td
-                              id={`field_country` + index}
-                              contenteditable={
-                                editable === 0 ? "false" : "true"
-                              }
-                            >
-                              <span>{data.country}</span>
+                            <td id={`field_email` + data.profile_user_id}>{data.email}</td>
+                            <input type="hidden" id={`field_index` + data.profile_user_id} value={index} />
+                            <td id={`field_bounced` + data.profile_user_id}>{data.bounce}</td>
+                            <td>
+                            {
+                              editable ? <EditCountry selected_country={data.country} profile_user={data.profile_user_id}></EditCountry> : <span>{data.country}</span>
+                            }
                             </td>
                             <td>{data.ibu}</td>
                             <td>{data.contact_type}</td>
