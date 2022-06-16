@@ -490,7 +490,7 @@ const sandAllmaik = (
     `send-mail`,
     {
       template_id: template_id,
-      participants: participants,
+      smart_list_id : participants,
       type: registeredNonRegistered,
       subject: Templatesubject,
     },
@@ -656,10 +656,40 @@ const EmailSCreateCollection = (smart_list_id,collection_id  ) =>
       },
     }
   );
+const GetEmailSCollection = (  ) =>
+  BaseApi.post(
+    `emails/collections`,
+    {},
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
 const GetSmartListSingleRecord = (id ) =>
   BaseApi.post(
     `smart-list/single-record`,
     {smart_list_id:id },
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
+const UpdateSmartListData= (id,participants ) =>
+  BaseApi.post(
+    `smart-list/update-participants`,
+    {smart_list_id:id,participants:participants },
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
+const DeleteSmartListData= (id,participants ) =>
+  BaseApi.post(
+    `smart-list/delete-participants`,
+    {smart_list_id:id,participant_id :participants },
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
@@ -726,5 +756,8 @@ export default {
   getSmartListData,
   EmailSCreate,
   EmailSCreateCollection,
-  GetSmartListSingleRecord
+  GetSmartListSingleRecord,
+  UpdateSmartListData,
+  DeleteSmartListData,
+  GetEmailSCollection
 };
