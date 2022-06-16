@@ -355,9 +355,7 @@ const RegistraionDetails = () => {
                       Add data field <span>+</span>
                     </button>
                   </div>
-                </div>
-
-                <div className="add_field_new">
+                  <div className="add_field_new">
                   {show == true ? (
                     <>
                       <input
@@ -388,6 +386,9 @@ const RegistraionDetails = () => {
                     </>
                   ) : null}
                 </div>
+                </div>
+
+                
                 {/* <Col>
                   <div>
                     <img id="imgVieww" src="" alt="Viewing the registration page image" width={340} />
