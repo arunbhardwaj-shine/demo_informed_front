@@ -113,20 +113,6 @@ const Readers = () => {
       });
     }
   };
-  const handleGetEventlist = () => {
-    loader("show")
-    ExportApi.GetEventList().then((resp) => {
-      if (resp.ok) {
-        loader("hide")
-        setEvent(resp.data.data);
-        console.log(resp.data.data[0].id)
-        if(eventId==null||eventId==undefined){
-           setEventId(resp.data.data[0].id)
-          handleGetReadersData(resp.data.data[0].id)
-        }
-      }
-    });
-  };
   const handleGetCountryData = () => {
     ExportApi.GetCountryData().then((resp) => {
       if (resp.ok) {
@@ -254,11 +240,21 @@ const Readers = () => {
   };
 
   useEffect(() => {
-    handleGetEventlist()
-  }, []);
-  useEffect(() => {
     handleGetCountryData();
   }, []);
+
+  useEffect(() => {
+    window.addEventListener("EventId", () =>
+    handleGetReadersData(localStorage.getItem("EventIdHeader"))
+    );
+    handleGetReadersData(localStorage.getItem("EventIdHeader"));
+    if (localStorage.getItem("EventIdHeader")) {
+      console.log("done");
+    } else {
+      loader("hide");
+    }
+  }, []);
+
   return (
     <div class="right-sidebar">
       <div className="loader" id="custom_loader">
@@ -324,18 +320,6 @@ const Readers = () => {
               </div>
             </div>
         </div> 
-          <Form.Select className="form-select" value={eventId}
-            onChange={(e) => {
-              handleGetReadersData(e.target.value);
-              setEventId(e.target.value);
-            }} name="type" >
-            {event?.map((val, i) => (
-              <React.Fragment key={i}>
-                <option value={val.id}>{val.title}</option>
-              </React.Fragment>
-            ))}
-          </Form.Select>
-          
         <Row className="readerListing">
           <Col>
             <Form.Select className="form-select"

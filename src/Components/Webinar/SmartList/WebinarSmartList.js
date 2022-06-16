@@ -423,8 +423,6 @@ const WebinarSmartList = () => {
           </div>
         </div>
         <div class="smart-list-result">
-          <div class="custom-container">
-            <div class="row">
               <div class="col smartlist-result-block">
                 <div class="smartlist_box_block">
                   <div class="smartlist-add smartlist-view">
@@ -459,7 +457,7 @@ const WebinarSmartList = () => {
                                 <h5>{data.name}</h5>
                               )}
                               <div class="mail-time">
-                                <span>{data.created_at}</span>
+                                <span>{data.mod_date}</span>
                               </div>
                               <div class="smart-list-added-user">
                                 <img
@@ -523,8 +521,6 @@ const WebinarSmartList = () => {
                     })
                   : null}
               </div>
-            </div>
-          </div>
         </div>
       </div>
 

@@ -71,14 +71,7 @@ const RegistraionDetails = () => {
     }
   };
 console.log('Values',FieldValue);
-  const handleGetEventlist = () => {
-    ExportApi.GetEventList().then((resp) => {
-      if (resp.ok) {
-        loader("hide");
-        setEvent(resp.data.data);
-      }
-    });
-  };
+  
   const addData = () => {
     setField("");
     setShow(true);
@@ -88,12 +81,10 @@ console.log('Values',FieldValue);
     initialValues: {
       Title: "",
       Body: "",
-      Selectevent: "",
     },
     validationSchema: Yup.object({
       Title: Yup.string().required("Title is required"),
       Body: Yup.string().required("Body text is required"),
-      Selectevent: Yup.string().required("Please select event"),
     }),
     onSubmit: (values) => {
       console.log(selectedName);
@@ -103,7 +94,7 @@ console.log('Values',FieldValue);
       formData.append("file", image);
       formData.append("title", values.Title);
       formData.append("fields", copyData);
-      formData.append("event_id", values.Selectevent);
+      formData.append("event_id", localStorage.getItem("EventIdHeader"));
       if (image) {
         console.log("formData,", formData);
         ExportApi.CreateRegistrationPagedetail(formData)
@@ -133,9 +124,17 @@ console.log('Values',FieldValue);
     },
   });
   useEffect(() => {
-    loader("show");
-    handleGetEventlist();
+    window.addEventListener("EventId", () =>
+    setEvent(localStorage.getItem("EventIdHeader"))
+    );
+    setEvent(localStorage.getItem("EventIdHeader"));
+    if (localStorage.getItem("EventIdHeader")) {
+      console.log("done");
+    } else {
+      loader("hide");
+    }
   }, []);
+
   const saveClicked = () => {
     setShow(false);
     setInputBox((oldArray) => [
@@ -160,31 +159,6 @@ console.log('Values',FieldValue);
           <div className="registration_form">
             <Col className="registration_left">
               <form onSubmit={formik.handleSubmit}>
-                <div className="form-inline row">
-                  <div className="form-group col-12 col-md-12 d-flex justify-content-between align-items-center">
-                    <Form.Label>Select Event </Form.Label>
-                    <Form.Select
-                      name="Selectevent"
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      value={formik.values.Selectevent}
-                      className="form-control"
-                    >
-                      <option value=""> Select Event</option>
-                      {event?.map((val, i) => (
-                        <React.Fragment key={i}>
-                          <option value={val.id}>{val.title}</option>
-                        </React.Fragment>
-                      ))}
-                    </Form.Select>
-                    {formik.touched.Selectevent && formik.errors.Selectevent ? (
-                      <div className="error" style={{ color: "red" }}>
-                        {formik.errors.Selectevent}
-                      </div>
-                    ) : null}
-                  </div>
-                </div>
-
                 <div className="form-inline row ">
                   <div className="form-group col-12 col-md-12 d-flex justify-content-between align-items-center">
                     <Form.Label> Registration Page Title</Form.Label>

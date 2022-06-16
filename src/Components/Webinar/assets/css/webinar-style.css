@@ -337,7 +337,7 @@ form .input-group { border: 1px dashed var(--light-blue); box-sizing: border-box
 .form-buttons .btn { filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2)); height: 51px; margin: 0 0 0 16px; padding: 9px 38px; }
 .form-buttons .approved-btn img, .form-buttons .btn.btn-large img { margin-left: 4px; }
 .form-buttons .btn.btn-large { padding: 9px 23px; }
-.form-buttons .approved-btn { border: 1px solid var(--green); color: var(--green); padding: 10px 29px; background: transparent; }
+.form-buttons .approved-btn { border: 1px solid var(--green); color: var(--green); padding: 10px 26px; background: transparent; }
 .form-buttons .approved-btn:hover, .form-buttons .approved-btn:active, .form-buttons .approved-btn:focus, .form-buttons .approved-btn.checked { background: var(--green); color: var(--white); }
 .smart-list-result .smartlist-view:first-child, .smart-list-result .smartlist-view:nth-child(2), .smart-list-result .smartlist-view:nth-child(3), .smart-list-result .smartlist-view:nth-child(4) {
     margin: 0;
@@ -2059,8 +2059,46 @@ min-width: 110px;
 .mailbox-buttons button.btn-bordered a {
     color: var(--light-blue);
 }
+.smartlist-add img {
+    max-width: 72px;
+}
+
+.select-mail-template .select-mail-template-slider {
+    margin: 0;
+}
 
 
+.modal-body .form-label {
+    font-size: 18px;
+    line-height: 21px;
+    text-transform: capitalize;
+    color: var(--blue);
+}
+.modal-body input.form-control {
+    background: var(--white);
+    box-shadow: 0px 1px 6px rgb(0 102 190 / 20%);
+    border-radius: 30px;
+    border: 0;
+    padding: 12px 27px;
+    width: 100%;
+    color: #4E718E;
+    font-family: 'Roboto-Light';
+}
+.modal-body button[type="submit"] {
+    justify-content: center;
+    /* align-items: center; */
+    display: flex;
+    margin: 10px auto 0;
+    min-width: 112px;
+    height: 51px;
+    line-height: 30px;
+}
+.form-buttons .approved-btn svg {
+    margin-left: 10px;
+}
+.modal .modal-body {
+    padding: 0 50px 8px;
+}
 
 
 

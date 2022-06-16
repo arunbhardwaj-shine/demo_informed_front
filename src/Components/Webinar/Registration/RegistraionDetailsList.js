@@ -5,6 +5,7 @@ import { Button, Col, Form, Modal, Row, Table } from "react-bootstrap";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { toast, ToastContainer } from "react-toastify";
+import { Link } from "react-router-dom";
 const RegistrationDetailsList = () => {
     const [event, setEvent] = useState([]);
     const [show, setShow] = useState(false);
@@ -59,7 +60,7 @@ const RegistrationDetailsList = () => {
         setInputBox((oldArray) => [...oldArray, { value: field, name: field,isActive: false }]);
         setField("");
       };
-    const formik = useFormik({
+      const formik = useFormik({
         initialValues: {
           Title: "",
           Body: "",
@@ -108,41 +109,27 @@ const RegistrationDetailsList = () => {
           }
          
       });
-    //   console.log(fields)
-    const handleGetEventlist = () => {
-        ExportApi.GetEventList().then((resp) => {
+   
+      const handleGetListData=(id)=>{
+        ExportApi.RegistrationPageDetailList(id).then((resp) => {
           if (resp.ok) {
-            loader("hide");
-            setEvent(resp.data.data);
-            if(eventId==null||eventId==undefined){
-                setEventId(resp.data.data[0].id)
-                handleGetListData(resp.data.data[0].id)
-             }
-
+            loader('hide')
+            setList(resp.data.data);
+            if (resp.data.code === 404) {
+              setMassage("Data Not Found");
+            }
           }
         });
-      };
-const handleGetListData=(id)=>{
-    ExportApi.RegistrationPageDetailList(id).then((resp) => {
-        if (resp.ok) {
-         console.log(resp.data)
-         setList(resp.data.data);
-         if (resp.data.code === 404) {
-            setMassage("Data Not Found");
+      }
+      const handleGetSingleData=(id)=>{
+        ExportApi.RegistrationPageDetail(id).then((resp) => {
+          if (resp.ok) {
+            setSingleData(resp.data.data);
+            setFields(JSON.parse(resp.data.data.fields))
           }
-        }
       });
 }
-const handleGetSingleData=(id)=>{
-    ExportApi.RegistrationPageDetail(id).then((resp) => {
-        if (resp.ok) {
-          console.log(resp.data.data.fields)
-        setSingleData(resp.data.data);
-        setFields(JSON.parse(resp.data.data.fields))
-        }
-      });
-}
-const handleRadioChangedata = (e, i) => {
+  const handleRadioChangedata = (e, i) => {
     const { checked, name } = e.target;
     const Index = selectedName.findIndex((v) => v.value == name);
     let copy = selectedName[Index];
@@ -164,25 +151,28 @@ const handleRadioChangedata = (e, i) => {
       setSelectedName([...selectedName]);
     }
   };
-//   const handleGetEventlist = () => {
-//     ExportApi.GetEventList().then((resp) => {
-//       if (resp.ok) {
-//         loader("hide");
-//         setEvent(resp.data.data);
-//       }
-//     });
-//   };
+
   const addData = () => {
     setField("");
     setShow(true);
-    //console.log("add data");
   };
-useEffect(() => {
+  useEffect(() => {
     loader("show");
-    handleGetEventlist();
   }, []);
 
-  return (
+  useEffect(() => {
+    window.addEventListener("EventId", () =>
+      handleGetListData(localStorage.getItem("EventIdHeader"))
+    );
+    handleGetListData(localStorage.getItem("EventIdHeader"));
+    if (localStorage.getItem("EventIdHeader")) {
+      console.log("done");
+    } else {
+      loader("hide");
+    }
+  }, []);
+
+return (
     <div class="right-sidebar">
       <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
@@ -198,22 +188,16 @@ useEffect(() => {
           draggable
           pauseOnHover
         />
-       
-        <h2>Registration Page List</h2>
-          <div>
-            <Form.Select name="Selectevent" value={eventId}
-              onChange={(e) => {
-                  handleGetListData(e.target.value);
-                setEventId(e.target.value);
-              }} >
-              <option value=""> Select Event</option>
-              {event?.map((val, i) => (
-                <React.Fragment key={i}>
-                  <option value={val.id}>{val.title}</option>
-                </React.Fragment>
-              ))}
-            </Form.Select>
-         </div>
+        <div class="top-header">
+            <div class="page-title">
+              <h3>Registration Page List</h3>
+            </div>
+            <div class="top-right-action">
+              <Link to="/webinar/portal/registrationDetails">
+                <Button>Create Registration Page</Button>
+              </Link>
+            </div>
+          </div>
           <div class="table-responsive">
             <Table class="table" bordered hover>
               <thead>

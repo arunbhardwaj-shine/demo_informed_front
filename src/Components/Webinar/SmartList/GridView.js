@@ -558,11 +558,12 @@ const GridView = (props) => {
   } else {
     return (
       <>
-        <div className="loader" id="custom_loader">
-          <span className="loader-view"> </span>
-        </div>
-        <ToastContainer />
         <div class="right-sidebar">
+          <div className="loader" id="custom_loader">
+            <span className="loader-view"> </span>
+          </div>
+          <ToastContainer />
+
           <div class="top-header">
             <div class="page-title">
               <div class="header-btn-right back_btn">
@@ -1450,7 +1451,6 @@ const GridView = (props) => {
             </div>
           </Modal.Body>
         </Modal>
-
         <Modal
           className="send-confirm"
           id="upload-confirm"
