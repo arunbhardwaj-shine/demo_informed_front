@@ -1853,9 +1853,10 @@ display:none;
     align-items: center;
     justify-content: center;
     display: flex;
-    height: 100%;
+    height: calc(100% - 89px);
+    padding:20px;
 }
-
+.registration_right-view img#imgVieww{max-width:100%; max-height:550px;}
 .registration_form .registration_left {
     max-width: 893px;
     width: 100%;
@@ -2021,6 +2022,39 @@ min-width: 110px;
 #add_hcp .modal-dialog .modal-content .modal-header, .modal-dialog .modal-header {
     justify-content: center;
 }
+#resend-confirm .modal-body .modal-buttons {
+    justify-content: center;
+    position: relative;
+}
+#resend-confirm .modal-body .modal-buttons input[type="checkbox"] {
+    position: absolute;
+    max-width: 140px;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 1;
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /***HCP PAge***/
 
 .hcp-table-heading {
