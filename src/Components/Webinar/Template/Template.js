@@ -154,7 +154,7 @@ const Template = (props) => {
               if (resp.data.code == 200) {
                 loader("hide");
                 setDpc();
-                handleGetTemplateList(localStorage.getItem("EventIdHeader"));
+                // handleGetTemplateList(localStorage.getItem("EventIdHeader"));
                 setFormShow(false);
                 setModalShow(false);
                 toast.success(resp.data.message, {
@@ -205,7 +205,7 @@ const Template = (props) => {
               if (resp.data.code == 200) {
                 loader("hide");
                 setDpc();
-                handleGetTemplateList(localStorage.getItem("EventIdHeader"));
+                // handleGetTemplateList(localStorage.getItem("EventIdHeader"));
                 setFormShow(false);
                 setModalShow(false);
                 toast.success(resp.data.message, {
@@ -362,61 +362,33 @@ const Template = (props) => {
                   <h3>Auto Emails</h3>
                 </div>
               </div>
-            </div>
-          </div>
-          {/* <div className="top-header">
-          <div className="custom-container">
-            <div className="row">
-              <div className="page-title">
-                <h4>Select your Template</h4>
-              </div>
               <Button onClick={() => { setModalShow(true); }} >
-                Create New Template
+                  Create New Template
               </Button>
             </div>
           </div>
-        </div>  */}
-         
         </>
       ) : null}
-               <section className="select-mail-template">
-            <div class="custom-container">
-              <div className="row">
-                  <AliceCarousel
-                    mouseTracking
-                    disableDotsControls
-                    activeIndex={activeIndex}
-                    responsive={responsive}
-                    onSlideChanged={syncActiveIndex}
-                  >
-                    {templateList ? (
-                      templateList?.map((val, i) => (
-                        <div key={i} className="item">
-                          
-                          <div class="item-list">
-												<div class="item-top-schedule">
+        <section className="select-mail-template">
+          <div class="custom-container">
+            <div className="row">
+            {templateList ? (
+              <AliceCarousel mouseTracking disableDotsControls activeIndex={activeIndex} responsive={responsive} onSlideChanged={syncActiveIndex} >
+                {templateList ?.map((val, i) => (
+                  <div key={i} className="item">
+                    <div class="item-list">
+                      <div class="item-top-schedule">
                         <img  src={path_image + "webinar/mail-schedule.png"} alt="" />
-												</div>
-                            <img
-                              src={path_image + "webinar/mail-format.png"}
-                              alt=""
-                              onClick={(e) => {
-                                localStorage.setItem("idd", val.id);
-                                handleGetTemplate(val.id);
-                                localStorage.setItem("template", val.name);
-                                setTName(val.name);
-                                setFormShow(true);
-                              }}
-                              className="select_mm"
-                            />
-											</div>
-                          <p>{val.name}</p>
-                        </div>
-                      ))
-                    ) : (
-                      <h2>{null}</h2>
-                    )}
-                  </AliceCarousel>
+                      </div>
+                      <img src={path_image + "webinar/mail-format.png"} alt="" onClick={(e) => { localStorage.setItem("idd", val.id); handleGetTemplate(val.id); localStorage.setItem("template", val.name); setTName(val.name); setFormShow(true); }} className="select_mm" />
+                    </div>
+                    <p>{val.name}</p>
+                  </div>
+                ))}
+              </AliceCarousel> 
+            ) : (
+              <h2>{null}</h2>
+            )}
 
      
       {/* start of create template modal code ------------------  */}
@@ -543,6 +515,12 @@ const Template = (props) => {
                   value={formik.values.Subject}
                   id="email-subject"
                 />
+                  {formik.touched.Subject && formik.errors.Subject ? (
+                <div className="error" style={{ color: "red" }}>
+                  {formik.errors.Subject}
+                </div>
+              ) : null}
+             <div className="error" style={{ color: "red" }}></div>
               </div>
               <div className="form-buttons right-side col-12 col-md-5">
                 <button
@@ -582,7 +560,7 @@ const Template = (props) => {
                   </svg>
                 </button>
                 <button  type="button" onClick={()=>handleUpdateis_approved()} className="btn btn-primary approved-btn btn-bordered">
-                  Approved{" "}
+                  Approved
                   <svg
                     width="16"
                     height="16"

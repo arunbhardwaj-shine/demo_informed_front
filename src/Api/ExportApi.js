@@ -666,6 +666,16 @@ const GetEmailSCollection = (  ) =>
       },
     }
   );
+const SearchEmailSCollection = (tags_search ,search) =>
+  BaseApi.post(
+    `emails/collections`,
+    {tags_search:tags_search,search:search},
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
 const GetSmartListSingleRecord = (id ) =>
   BaseApi.post(
     `smart-list/single-record`,
@@ -759,5 +769,6 @@ export default {
   GetSmartListSingleRecord,
   UpdateSmartListData,
   DeleteSmartListData,
-  GetEmailSCollection
+  GetEmailSCollection,
+  SearchEmailSCollection
 };
