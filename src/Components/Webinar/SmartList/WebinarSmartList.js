@@ -13,13 +13,16 @@ import ExportApi from "../../../Api/ExportApi";
 //import { loader } from "../../../loader";
 import Accordion from "react-bootstrap/Accordion";
 
+import WebinarLoader from "./WebinarLoader";
+
 const WebinarSmartList = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_WEBINAR;
   const [smartListData, setSmartListData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [getUserDetails, setUserDetails] = useState([]);
   const [prevsmartListData, setPrevSmartListData] = useState([]);
   const [search, setSearch] = useState("");
-  const [isLoading, setLoading] = useState(true);
+
   const [deletestatus, setDeleteStatus] = useState(false);
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [deletecardid, setDeleteCardId] = useState();
@@ -48,7 +51,7 @@ const WebinarSmartList = () => {
     };
 
     console.log(headers);
-
+    setIsLoading(true);
     await axios
       .post(`http://51.89.210.56:8000/api/smart-list/lists`, body, { headers })
       .then((res) => {
@@ -259,6 +262,7 @@ const WebinarSmartList = () => {
   return (
     <>
       <div class="right-sidebar">
+        {isLoading ? <WebinarLoader /> : null}
         <div class="top-header">
           <div class="page-title">
             <h2>Smart List</h2>
