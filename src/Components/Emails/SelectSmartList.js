@@ -9,9 +9,11 @@ import { Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../popup_alert";
 
+
 var new_object;
 var old_object = {};
 const SelectSmartList = (props) => {
+  let file_name = useRef("");
   //console.log(new_object);
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
@@ -29,6 +31,13 @@ const SelectSmartList = (props) => {
   const [getSmartListName, setSmartListName] = useState("");
   const [getSmartListPopupStatus, setSmartListPopupStatus] = useState(false);
   const [showLessInfo, setShowLessInfo] = useState(true);
+  const [getFileUploadPopup, setFileUploadPopup] = useState(false);
+
+  const [getCreatedListName, setCreatedListName] = useState("");
+  const [creatorName, setCreatorName] = useState("");
+
+
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const inputElement = useRef();
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -199,6 +208,86 @@ const SelectSmartList = (props) => {
     getSmartListData();
   };
 
+  // const openFileUploadPopup = () => {
+  //   alert("HERE");
+  // }
+
+  const onFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const uploadFile = async () => {
+    // setShow(false);
+    if (getCreatedListName === "") {
+      toast.warning("Please enter the smart list name first.");
+      return false;
+    }else if(creatorName === ""){
+      toast.warning("Please enter the creator name");
+      return false;
+    }else  if (selectedFile === null) {
+      toast.warning("Please upload file first");
+      return false;
+    }
+
+    let formData = new FormData();
+    formData.append("user_id", 18207);
+    formData.append("smart_list_name", getCreatedListName);
+    formData.append("creator_name", creatorName);
+    formData.append("reader_file", selectedFile);
+
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    loader("show");
+    await axios
+      .post(`distributes/create_upload_list`, formData)
+      .then((res) => {
+        if (res.data.status_code === 200) {
+            setFileUploadPopup(false);
+            getSmartListData();
+            popup_alert({
+              visible: "show",
+              message: "Smart list created.",
+              type: "success",
+            });
+        } else {
+          setFileUploadPopup(false);
+          popup_alert({
+            visible: "show",
+            message: res.data.message,
+            type: "error",
+          });
+        }
+        setCreatedListName("");
+        setCreatorName("");
+        loader("hide");
+      })
+      .catch((err) => {
+        setCreatedListName("");
+        setCreatorName("");
+        loader("hide");
+        toast.error("Something went wrong.")
+        setFileUploadPopup(false);
+      });
+  };
+
+
+  const handleSmartListName = async (event) => {
+    setCreatedListName(event.target.value);
+  };
+
+  const handleCreatorName = async (event) => {
+    setCreatorName(event.target.value);
+  };
+
+  const downloadFile = () => {
+    let link = document.createElement("a");
+    link.href = "https://informed.pro/sample.xls";
+    link.setAttribute("download", "file.xlsx");
+    document.body.appendChild(link);
+    link.download = "";
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <>
       <div className="right-sidebar">
@@ -288,14 +377,12 @@ const SelectSmartList = (props) => {
                 >
                   Create new smart list
                 </button>
-                <button
-                  className="upload-btn btn btn-primary btn-bordered"
-                  onClick={() =>
-                    setpopupopeningstatus(
-                      (getpopupopeningstatus) => !getpopupopeningstatus
-                    )
-                  }
-                >
+                <button className="upload-btn btn btn-primary btn-bordered"
+                onClick={() =>
+                  setFileUploadPopup(
+                    (getFileUploadPopup) => !getFileUploadPopup
+                  )
+                }>
                   Upload excel file
                 </button>
               </div>
@@ -627,6 +714,114 @@ const SelectSmartList = (props) => {
         </Modal.Body>
       </Modal>
       {/*Reader Details popup end*/}
+
+
+      {/*Modal For Creating Smart list with Excel File start*/}
+        <Modal show={getFileUploadPopup}
+        className="send-confirm"
+        id="create_list_popup">
+            <Modal.Header>
+              <h4>Upload File</h4>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                onClick={() =>
+                  setFileUploadPopup(
+                    (getFileUploadPopup) => !getFileUploadPopup
+                  )
+                }
+              ></button>
+            </Modal.Header>
+            <Modal.Body>
+            <div className="add_hcp_boxes">
+              <div className="form_action">
+                <div className="row">
+                  <div className="col-12 col-md-6">
+                    <div className="form-group">
+                      <label for="smart-list-name">Enter smart list name</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value= {getCreatedListName}
+                        onChange={(event) => handleSmartListName(event)}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-12 col-md-6">
+                    <div className="form-group">
+                      <label for="creator-name">Creator's Name</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={creatorName}
+                        onChange={(event) => handleCreatorName(event)}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+              <div className="upload-file-box">
+                <div className="box">
+                  <input
+                    type="file"
+                    name="file-4[]"
+                    id="file-4"
+                    className="inputfile inputfile-3"
+                    accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                    onChange={onFileChange}
+                    data-multiple-caption="{count} files selected"
+                    ref={file_name}
+                  />
+                  {file_name.current?.files === undefined ||
+                  file_name.current.files?.length === 0 ? (
+                    <>
+                      <label for="file-4">
+                        <span>Choose Your File</span>
+                      </label>
+                      <p>Upload your new list file</p>
+                    </>
+                  ) : (
+                    <h5>{file_name.current.files[0].name}</h5>
+                  )}
+                </div>
+              </div>
+              <div className="modal-buttons">
+                {file_name.current?.files === undefined ||
+                file_name.current.files?.length === 0 ? (
+                  <>
+                    {" "}
+                    <button
+                      type="button"
+                      className="btn btn-primary btn-bordered light"
+                      data-bs-dismiss="modal"
+                    >
+                      Upload
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={uploadFile}
+                    data-bs-dismiss="modal"
+                  >
+                    Upload
+                  </button>
+                )}
+              </div>
+
+              <div className="download-sample">
+                <p>Download sample Excel file to upload new HCPs</p>
+                <div className="upload-btn" onClick={downloadFile}>
+                  Download File
+                </div>
+              </div>
+            </Modal.Body>
+        </Modal>
+      {/*Modal For Creating Smart list with Excel File end*/}
     </>
   );
 };
