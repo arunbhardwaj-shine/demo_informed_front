@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Accordion from "react-bootstrap/Accordion";
+import ExportApi from "../../../Api/ExportApi";
 const SendEmails = () => {
+  const [data , setData]=useState()
   const [showfilter, setShowFilter] = useState(false);
   const [updateflag, setUpdateFlag] = useState([]);
   const [filtertags, setFilterTags] = useState([]);
@@ -79,6 +81,18 @@ const SendEmails = () => {
     setUpdateFlag(up);
     setShowFilter(false);
   }
+  const handleSendMail = () => {
+		ExportApi.GetEmailSCollection().then((resp) => {
+		  if (resp.ok) {
+
+			       setData(resp.data.data) 
+             console.log(resp.data.data) 
+		  }
+		});
+	  };
+useEffect(() => {
+  handleSendMail()
+}, [])
   return (
     <>
       <div className="right-sidebar">

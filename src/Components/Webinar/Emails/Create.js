@@ -33,6 +33,7 @@ const CreateEmails = (props) => {
   // ---------------------ended---------------
   // const [id, setId] = useState();
   const [isOpen, setIsOpen] = useState(false);
+  const [nextPage, setnextPage] = useState(false);
   const [allTags, setAllTags] = useState({});
   const [tagClickedFirst, setTagClickedFirst] = useState([]);
   const [tagsReRender, setTagsReRender] = useState(0);
@@ -232,16 +233,20 @@ const CreateEmails = (props) => {
     exportHtml();
 }
 const handleEmailSCreate = () => {
-  formik.handleSubmit()
-  setTimeout(() => {
-    ExportApi.EmailSCreate(localStorage.getItem("idd"),localStorage.getItem("EventIdHeader"),formik.values.Subject,tagClickedFirst,).then((resp) => {
-      if (resp.ok) {
-       console.log( resp.data.data.collection_id)
-        localStorage.setItem("collection_id",resp.data.data.collection_id)
-         navigate("/webinar/email/smart-list");
-      }
-    });
-  },500);
+  if( localStorage.getItem("TEMPLATEID")){
+    formik.handleSubmit()
+    setTimeout(() => {
+      ExportApi.EmailSCreate(localStorage.getItem("idd"),localStorage.getItem("EventIdHeader"),formik.values.Subject,tagClickedFirst,).then((resp) => {
+        if (resp.ok) {
+         console.log( resp.data.data.collection_id)
+          localStorage.setItem("collection_id",resp.data.data.collection_id)
+           navigate("/webinar/email/smart-list");
+        }
+      });
+    },500);
+  }else{
+    alert("please wait")
+  }
 };
   const handleGetTemplateList = (id) => {
     ExportApi.UserTemplateList(id).then((resp) => {
@@ -282,7 +287,8 @@ const handleEmailSCreate = () => {
             resp.data.data.json_description
               ? JSON.parse(resp.data.data.json_description)
               : null
-          );
+              );
+              setnextPage(true)
         }, 2000);
         console.log(resp.data.data.tags);
         resp.data.data.tags? setFinalTags(resp.data.data.tags):setFinalTags([])
@@ -382,11 +388,12 @@ const handleEmailSCreate = () => {
                 <button type="button" onClick={()=>{handleEmailSCreate()}} className="btn btn-primary btn-bordered move-draft" >
                   Save As Draft
                 </button>
-                <button type="button"class="btn btn-primary btn-filled next"onClick={()=>{handleEmailSCreate()}}>
+                {nextPage? <button type="button"class="btn btn-primary btn-filled next"onClick={()=>{handleEmailSCreate()}}>
                 <svg width="12" height="19" viewBox="0 0 12 19" fill="none" xmlns="http://www.w3.org/2000/svg">
 										<path fill-rule="evenodd" clip-rule="evenodd" d="M3.69224 17.82C3.03616 18.476 1.97244 18.476 1.31636 17.82C0.660279 17.1639 0.660279 16.1002 1.31636 15.4441L7.25561 9.50484L1.31508 3.56431C0.658998 2.90823 0.658998 1.84451 1.31508 1.18843C1.97116 0.532347 3.03488 0.532347 3.69096 1.18843L10.7866 8.28409C10.7978 8.29469 10.8089 8.30548 10.8199 8.31646C11.476 8.97254 11.476 10.0363 10.8199 10.6923L3.69224 17.82Z" fill="white"></path>
 									</svg>
-								</button>
+								</button>:null}
+               
               </div>
             </div>
             </div>
