@@ -10,4 +10,5 @@ const PortalPreparation = () => {
   );
 };
 
+
 export default PortalPreparation;

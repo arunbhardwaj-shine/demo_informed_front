@@ -292,10 +292,11 @@ const EventData = () => {
           <div className="Webinar-header-right-tools">
             <div className="filter-by">
               <>
-                <Dropdown>
-                  <Dropdown.Toggle variant="success" id="dropdown-basic">
-                    Filter By
-                  </Dropdown.Toggle>
+              <Dropdown>
+                <Dropdown.Toggle  id="dropdown-basic">
+                 Filter By
+                </Dropdown.Toggle>
+
 
                   {/* <Dropdown.Menu>
                   <Dropdown.Item href="#/">Name</Dropdown.Item>
@@ -483,14 +484,10 @@ const EventData = () => {
           setShow(false);
         }}
       >
-        <Modal.Header closeButton>
-          {" "}
-          <h4>New Webinar/Event</h4>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="container">
-            <Add closePopup={closePopup} getEventList={handleGetEventlist} />
-          </div>
+        <Modal.Header closeButton> <h4>New Webinar/Event</h4></Modal.Header>
+        <Modal.Body>  
+    
+          <Add closePopup={closePopup} getEventList={handleGetEventlist} />
         </Modal.Body>
       </Modal>
       <div className="delete">
