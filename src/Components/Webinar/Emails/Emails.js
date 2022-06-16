@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import Accordion from "react-bootstrap/Accordion";
 import ExportApi from "../../../Api/ExportApi";
 const SendEmails = () => {
-  const [data , setData]=useState()
+  const [data , setData]=useState([])
   const [showfilter, setShowFilter] = useState(false);
+  const [Search, setSearch] = useState("");
   const [updateflag, setUpdateFlag] = useState([]);
   const [filtertags, setFilterTags] = useState([]);
   const [filter, setFilter] = useState("");
+  const [NotFound, setNotFound] = useState();
   const [filterdata, setFilterData] = useState([
     "others",
     "global",
@@ -58,7 +60,7 @@ const SendEmails = () => {
       filtertags.push(ftag);
       setFilterTags(filtertags);
     }
-
+console.log("filtertags",filtertags)
     let getfilter = filter;
     if (getfilter.hasOwnProperty("tags")) {
       getfilter.tags = filtertags;
@@ -66,6 +68,7 @@ const SendEmails = () => {
       getfilter = Object.assign({ tags: filtertags }, filter);
     }
     setFilter(getfilter);
+    console.log("getfilter",filter)
 
     let up = updateflag + 1;
     setUpdateFlag(up);
@@ -74,6 +77,7 @@ const SendEmails = () => {
     document.querySelectorAll("input").forEach((checkbox) => {
       checkbox.checked = false;
     });
+    handleGetEmailSCollection()
     setShowFilter(false);
     setFilterTags([]);
     setFilter([]);
@@ -81,18 +85,57 @@ const SendEmails = () => {
     setUpdateFlag(up);
     setShowFilter(false);
   }
-  const handleSendMail = () => {
+  const handleGetEmailSCollection = () => {
 		ExportApi.GetEmailSCollection().then((resp) => {
 		  if (resp.ok) {
+        if (resp.data.code == 200) {
+          setData(resp.data.data) 
+          setNotFound()
+        } else {
+        
+          setNotFound("No Data Found")
+        }
+      }
+			       
+            //  console.log(resp.data.data) 
 
-			       setData(resp.data.data) 
-             console.log(resp.data.data) 
+		  })
+	
+	  };
+  const handleSearchEmailSCollection = (e) => {
+    setSearch(e)
+		ExportApi.SearchEmailSCollection(filtertags>0?filtertags:"",e).then((resp) => {
+		  if (resp.ok) {
+        if (resp.data.code == 200) {
+          setData(resp.data.data) 
+          setNotFound()
+        } else {
+          setData()
+          setNotFound("No Data Found")
+        } 
+
+		  }
+		});
+	  };
+  const handleSearchEmailSCollectionFilter = () => {
+		ExportApi.SearchEmailSCollection(filtertags,Search?Search:"").then((resp) => {
+		  if (resp.ok) {
+        if (resp.data.code == 200) {
+          setData(resp.data.data) 
+          setNotFound()
+        } else {
+          setData()
+          setNotFound("No Data Found")
+        }
+
 		  }
 		});
 	  };
 useEffect(() => {
-  handleSendMail()
+  handleGetEmailSCollection()
 }, [])
+
+
   return (
     <>
       <div className="right-sidebar">
@@ -108,6 +151,7 @@ useEffect(() => {
                   type="text"
                   placeholder="Search"
                   aria-label="Search"
+                  onChange={(e)=>{handleSearchEmailSCollection(e.target.value)}}
                 />
                 <button class="btn btn-outline-success" type="submit">
                   <svg
@@ -229,13 +273,13 @@ useEffect(() => {
             </Accordion>
             <div class="filter-footer">
               <button class="btn btn-primary btn-bordered"  onClick={clearFilter}>Clear</button>
-              <button class="btn btn-primary btn-filled">Apply</button>
+              <button class="btn btn-primary btn-filled" onClick={()=>{handleSearchEmailSCollectionFilter()}}>Apply</button>
             </div>
 
               </div>
               )}
             </div>
-            <div class="clear-search">
+            {/* <div class="clear-search">
               <button class="btn btn-outline-primary">
                 <svg
                   width="24"
@@ -270,9 +314,10 @@ useEffect(() => {
                   ></path>
                 </svg>
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
+            
 
         {/* <div className="apply-filter">
           <h6>Applied filters</h6>
@@ -356,7 +401,69 @@ useEffect(() => {
                 </Link>
               </div>
               </div>
-              <div class="email_box_block">
+              {data?.map((val,i)=>{
+            let tags=JSON.parse(val.tags)
+              return  (  <div class="email_box_block">
+									<div  className={
+                        "email_box " +
+                        (val.approved_status == 0
+                          ? " email-draft"
+                          : val.approved_status == 1
+                          ? "draft-approved"
+                          : val.approved_status == 2?
+                           " approved":"draft-approved")
+                      }>
+										<div class="mail-top-title">
+											<span>Draft</span>
+										</div>
+										<div class="mail-box-content">
+											<h5>{val.subject}</h5>
+											<p>Email Type</p>
+											<div class="mailbox-tags">
+												<ul>
+                        {tags?.map((datatags)=>{
+                         
+                          return(
+
+                            <li class="list1">{datatags}</li>
+                          )
+                        })}
+													{/* <li class="list2">tag2</li>
+													<li class="list3">tag3</li>
+													<li class="list4">tag4</li>
+													<li class="list5">tag5</li> */}
+												</ul>
+											</div>
+                      
+											<div class="name-list"><span>{val?.smart_list?.name}</span></div>
+											<div class="mail-time"><span>{val?.mod_date}</span></div>
+											<div class="mail-stats">
+												<ul>
+													<li><div class="mail-status mail_send">
+														<img src={path_image +"/webinar/mail-send.png"} alt=""/>
+													</div><span>0</span></li>
+													<li><div class="mail-status mail_view">
+														<img src={path_image +"/webinar/mail-open.png"} alt=""/>
+													</div><span>10%</span></li>
+													<li><div class="mail-status mail_click">
+														<img src={path_image +"/webinar/mail-check.png"} alt=""/>
+													</div><span>40%</span></li>
+													<li><div class="mail-status mail_click">
+														<img src={path_image +"/webinar/mail-group.png"} alt=""/>
+													</div><span>0%</span></li>
+												</ul>
+											</div>
+											<div class="mailbox-buttons">
+												<div class="mailbox-buttons-list">
+													<button class="btn btn-primary btn-bordered edit"><Link to="/webinar/email/create">Edit</Link></button>
+													<button class="btn btn-primary btn-filled send">Send</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>)
+              })}
+              {/* <div class="email_box_block">
 									<div class="email-draft email_box">
 										<div class="mail-top-title">
 											<span>Draft</span>
@@ -484,9 +591,14 @@ useEffect(() => {
 											</div>
 										</div>
 									</div>
-								</div>
+								</div> */}
+          {NotFound?  <div className="coming-soon">
+          <h2>{NotFound}</h2>
+        </div>:null}
             </div>
+
           </div>
+        
         </div>
     </>
   );

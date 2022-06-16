@@ -230,7 +230,7 @@ const SmartListCreate = () => {
                   <a href="javascript:void(0)">Create smart list</a>
                 </li>
                 <li className="">
-                  <a href="javascript:void(0)">Segmentation</a>
+                  <a href="javascript:void(0)">?</a>
                 </li>
               </ul>
             </div>
@@ -305,7 +305,7 @@ const SmartListCreate = () => {
                         alt="Group HCPs"
                       />
                     </div>
-                    <p>Segment from current cohort </p>
+                    <p>Segment from current cohost </p>
                   </li>
                   <li>
                     <div

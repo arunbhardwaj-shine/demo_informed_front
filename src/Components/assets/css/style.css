@@ -621,14 +621,19 @@ form#add_hcp_form .row:not(:first-child) { border-top: 1px dashed var(--light-bl
 /* .table tr:hover td { background-color: #fbfbfb; } */
 .search-hcp-table tbody tr:hover, .selected-hcp-list tbody tr:hover {box-shadow: 0px 2px 10px -3px rgb(0 102 190 / 60%);}
 
-
+#create_list_popup {
+    max-width: 800px;
+}
+.modal .add_hcp_boxes .form_action{
+	margin-bottom:20px;
+}
 /**create-smart-list**/
 .page-top-nav.smart_list_names .tabnav-link { justify-content: center; }
 .create_smart_list .create_smart_list_inset { max-width: 1014px; margin: 0 auto; }
 .create_smart_list .create-smart-step { position: relative; margin: 0 auto 25px; }
-.create_smart_list .create-smart-step .create-smart-step-box { border: 1px dashed var(--light-blue); box-sizing: border-box; border-radius: 15px; padding: 26px 32px 17px; }
-.create_smart_list .create-smart-step .create-smart-step-box form label { font-size: 20px; line-height: 23px; color: var(--blue); margin-bottom: 16px; }
-.create_smart_list .create-smart-step .create-smart-step-box form .form-control { background: var(--white); box-shadow: 0px 1px 6px rgb(0 102 190 / 20%); border-radius: 30px; border: 0; padding: 12px; max-width: 433px; width: 100%;color: #4E718E;font-size: 14px; }
+.create_smart_list .create-smart-step .create-smart-step-box,  .modal .add_hcp_boxes .form_action { border: 1px dashed var(--light-blue); box-sizing: border-box; border-radius: 15px; padding: 26px 32px 17px; }
+.create_smart_list .create-smart-step .create-smart-step-box form label, .modal .add_hcp_boxes .form-group label { font-size: 20px; line-height: 23px; color: var(--blue); margin-bottom: 16px; }
+.create_smart_list .create-smart-step .create-smart-step-box form .form-control, .modal .add_hcp_boxes .form-group input { background: var(--white); box-shadow: 0px 1px 6px rgb(0 102 190 / 20%); border-radius: 30px; border: 0; padding: 12px; max-width: 433px; width: 100%;color: #4E718E;font-size: 14px; }
 .create-smart-step-box .form-group.col { max-width: 456px; }
 .create-smart-step-box .form-group-content { display: flex; justify-content: flex-end; align-items: center; margin-top: 6px; position: relative;}
 .create-smart-step-box .form-group-content p { margin: 0; font-size: 14px; line-height: 16px; color: #4E718E; }
@@ -655,18 +660,26 @@ form#add_hcp_form .row:not(:first-child) { border-top: 1px dashed var(--light-bl
 
 /**Upload Modal**/
 #upload-confirm .modal-dialog { max-width: 576px; }
-#upload-confirm .upload-file-box { width:100%;border: 1px dashed var(--light-blue); box-sizing: border-box; border-radius: 15px; padding: 31px 28px; max-width: 500px; margin: 0 auto;}
-#upload-confirm  .inputfile { width: 0.1px; height: 0.1px; opacity: 0; overflow: hidden; position: absolute; z-index: -1; }
-#upload-confirm .inputfile ~ label { max-width: 80%; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; display: inline-block; overflow: hidden; padding: 11px; background: var(--light-blue); border-radius: 30px; color: var(--white) !important; font-size: 16px; line-height: 1; font-family: 'Roboto-medium'; font-weight: 500; min-width: 171px; text-align: center; height: 39px; }
-#upload-confirm .inputfile ~ label:hover{background: var(--blue);}
-#upload-confirm.send-confirm .modal-body { padding: 0 32px 24px; }
-#upload-confirm .upload-file-box .box { display: flex; justify-content: space-between; flex-direction: row-reverse; align-items: center;width:100%; }
-#upload-confirm .upload-file-box .box p { margin: 0; font-size: 18px; line-height: 145.19%; color: #4E718E; }
+#upload-confirm .upload-file-box, .modal .upload-file-box  { width:100%;border: 1px dashed var(--light-blue); box-sizing: border-box; border-radius: 15px; padding: 31px 28px; max-width: 500px; margin: 0 auto;}
+#upload-confirm  .inputfile, .modal  .inputfile  { width: 0.1px; height: 0.1px; opacity: 0; overflow: hidden; position: absolute; z-index: -1; }
+#upload-confirm .inputfile ~ label, #create_list_popup .inputfile ~ label { max-width: 80%; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; display: inline-block; overflow: hidden; padding: 11px; background: var(--light-blue); border-radius: 30px; color: var(--white) !important; font-size: 16px; line-height: 1; font-family: 'Roboto-medium'; font-weight: 500; min-width: 171px; text-align: center; height: 39px; }
+#upload-confirm .inputfile ~ label:hover, #create_list_popup .inputfile ~ label:hover{background: var(--blue);}
+#upload-confirm.send-confirm .modal-body, #create_list_popup .send-confirm .modal-body { padding: 0 32px 24px; }
+#upload-confirm .upload-file-box .box, #create_list_popup .upload-file-box .box { display: flex; justify-content: space-between; flex-direction: row-reverse; align-items: center;width:100%; }
+#upload-confirm .upload-file-box .box p, #create_list_popup .upload-file-box .box p { margin: 0; font-size: 18px; line-height: 145.19%; color: #4E718E; }
 #upload-confirm.send-confirm .modal-body .modal-buttons { justify-content: flex-end; margin-top: 20px; }
-#upload-confirm.send-confirm .modal-body .modal-buttons .light { min-width: 106px; background: rgba(151, 182, 207, 0.6); color: var(--white); border: none; }
+#upload-confirm.send-confirm .modal-body .modal-buttons .light, #create_list_popup .modal-body .modal-buttons .light { min-width: 106px; background: rgba(151, 182, 207, 0.6); color: var(--white); border: none; }
 #upload-confirm.send-confirm .modal-header { padding: 22px 11px; }
 #upload-confirm.send-confirm .modal-header button.btn-close { padding: 0; }
-
+.modal .upload-file-box{max-width:100%;}
+.modal .upload-file-box .box{max-width:500px;margin:0 auto;}
+.send-confirm #create_list_popup  .modal-body .modal-buttons {
+    justify-content: center;
+		margin-bottom:30px;
+}
+.smart_list_names .header-btn .btn a {
+    text-decoration: none;
+}
 /**Upload Modal End**/
 
 
@@ -711,7 +724,9 @@ form#add_hcp_form .row:not(:first-child) { border-top: 1px dashed var(--light-bl
 .filter-block .filter-block-left::after { content: ""; position: absolute; border-right: 1px dashed var(--light-blue); right: 20px; height: 100%; top: 0; }
 .filter-block-left.full::after { display: none; } .filter-block .filter-block-left { padding-right: 30px; position: relative; }
 
-
+.modal .download-sample {
+    margin-bottom: 16px;
+}
 /*Css for email filters end*/
 #smart_list_popup_id.modal-dialog {max-width: 1200px;width: 100%;}
 #smart_list_popup_id .search-hcp { padding: 0px 15px 5px; }
@@ -725,8 +740,8 @@ form#add_hcp_form .row:not(:first-child) { border-top: 1px dashed var(--light-bl
 .create-smart-list .upload-btn, .create-smart-list .btn-bordered, .download-sample .upload-btn { background: rgba(255, 255, 255, 0.5); border: 1px solid var(--violet); box-sizing: border-box; border-radius: 30px; padding: 10px 13px; font-size: 16px; line-height: 19px; color: var(--violet); font-family: 'Roboto-Medium'; cursor: pointer; filter: none; }
 .download-sample .upload-btn:hover{background: var(--violet); color:var(--white);}
 .create-smart-list .upload-btn, .download-sample .upload-btn { position: relative; margin-left: 24px; }
-#upload-confirm .modal-header{ padding: 22px 11px; }
-#upload-confirm .modal-body .modal-buttons .light { min-width: 106px; background: rgba(151, 182, 207, 0.6); color: var(--white); border: none; }
+#upload-confirm .modal-header, .modal .modal-header{ padding: 22px 11px; }
+#upload-confirm .modal-body .modal-buttons .light, #create_list_popup .modal-body .modal-buttons .light { min-width: 106px; background: rgba(151, 182, 207, 0.6); color: var(--white); border: none; }
 #upload-confirm .modal-body .modal-buttons { justify-content: flex-end; margin-top: 20px; margin-right: 0px; }
 .header-btn-left a { text-decoration: none; color: var(--light-blue); }
 .header-btn-left button:hover a { color: var(--white); }
@@ -827,7 +842,7 @@ a.color_blue:hover { color: var(--white); }
 .search-hcp .search-hcp-table-inside.not-found { text-align: center; min-height: inherit; }
 .add-new-field img{ cursor: pointer; }
 .download-sample.sample-file { margin: 22px 0; }
-#upload-confirm .upload-file-box .box  h5 { flex: 1 1 auto; text-align: center; margin: 0; color: var(--violet); word-break: break-all;}
+#upload-confirm .upload-file-box .box h5, #create_list_popup .upload-file-box .box h5 { flex: 1 1 auto; text-align: center; margin: 0; color: var(--violet); word-break: break-all;}
 a.color_blue { color: var(--white); text-decoration: none; }
 a.color_blue:hover { color: white; }
 .email-result .email_box_block.no_found { width: 66%; justify-content: flex-start; padding: 15px 15px 15px 9%; }
