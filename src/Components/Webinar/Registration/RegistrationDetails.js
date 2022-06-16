@@ -26,6 +26,7 @@ const RegistraionDetails = () => {
   const [image, setimage] = useState();
   const [field, setField] = useState("");
   const [errimage, setErrimage] = useState(false);
+  let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const handeleimage = (e) => {
     let file = e.target.files[0];
     setimage(e.target.files[0]);
@@ -252,8 +253,55 @@ const RegistraionDetails = () => {
                               </>
                             ) : null} */}
                           </div>
-
                           <Modal
+        show={modalShow}
+        className="send-confirm"
+        id="resend-confirm"
+      >
+        <Modal.Header>
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="modal"
+            onClick={() =>
+              setModalShow(
+                (modalShow) => !modalShow
+              )
+            }
+          ></button>
+        </Modal.Header>
+        <Modal.Body>
+          <img src={path_image + "webinar/alert.png"} alt="" />
+          <h4>
+            This field  will be required.
+          </h4>
+          <div className="modal-buttons">
+          <Form.Control
+                 name={data.name}
+                  type="checkbox"
+                   className="form-check-input"
+                   onChange={(e) => {
+                     handleRadioChangedata(e, i);
+                     if (e.target.checked) {
+                       setModalShow(false);
+                     }
+                   }}
+                   // name="required"
+                 />
+            <button
+              type="button"
+              className="btn btn-primary btn-filled"
+              data-bs-dismiss="modal"
+              onClick={() => setModalShow(false)}
+            >
+              Required
+            </button>
+          
+          </div>
+        </Modal.Body>
+      </Modal>
+
+                          {/* <Modal
                             show={modalShow}
                             size="sm"
                             aria-labelledby="contained-modal-title-vcenter"
@@ -292,7 +340,7 @@ const RegistraionDetails = () => {
                                 Close
                               </Button>
                             </Modal.Footer>
-                          </Modal>
+                          </Modal> */}
                         </>
                       );
                     })}
