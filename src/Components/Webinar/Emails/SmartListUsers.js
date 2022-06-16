@@ -95,9 +95,6 @@ setDataCopy([obj])
 			  console.log(resp.data)
 			  handleGetSmartListSingleRecord(parms.id)
 			  setEditShow(false)
-			//  setData(resp.data.data)
-			//  setDataCopy(resp.data.data)
-			
 			}
 		  });
 	  }
@@ -105,11 +102,6 @@ setDataCopy([obj])
 		ExportApi.DeleteSmartListData(JSON.parse(parms.id),id).then((resp) => {
 			if (resp.ok) {
 			  console.log(resp.data)
-			//   handleGetSmartListSingleRecord(parms.id)
-			//   setEditShow(false)
-			//  setData(resp.data.data)
-			//  setDataCopy(resp.data.data)
-			
 			}
 		  });
 	  }
@@ -168,7 +160,7 @@ setDataCopy([obj])
 				{editShow ?null:
                 <button class="btn btn-primary btn-filled back send"  type="button" onClick={()=>{handleSendMail()}}>
                    Send
-								</button>}
+				</button>}
               
               </div>
             </div>
@@ -186,9 +178,6 @@ setDataCopy([obj])
 											<div class="col d-flex align-items-center">
 												<h4>Preview Your List</h4>
 											</div>
-
-                                             
-
 											<div class="col d-flex align-items-center justify-content-end">
 												<div class="mail-preview-action">
 												<div class="col d-flex align-items-center justify-content-end">
