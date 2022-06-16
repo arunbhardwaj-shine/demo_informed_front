@@ -284,7 +284,7 @@ const Readers = () => {
             <div class="top-right-action">
 							<div class="search-bar">
                 <form className="d-flex">
-                  <input placeholder="By name or email" className="form-control me-2" type="search"  aria-label="Search" onChange={(e) => { handleGetReadersSearch(e.target.value); setSearch(e.target.value); }} />
+                  <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" onChange={(e) => { handleGetReadersSearch(e.target.value); setSearch(e.target.value); }} />
                   <button className="btn btn-outline-success" type="submit" onClick={(e) => { e.preventDefault(); }} >
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M15.8045 14.862L11.2545 10.312C12.1359 9.22334 12.6665 7.84 12.6665 6.33334C12.6665 2.84134 9.82522 0 6.33325 0C2.84128 0 0 2.84131 0 6.33331C0 9.82531 2.84132 12.6667 6.33328 12.6667C7.83992 12.6667 9.22325 12.136 10.3119 11.2547L14.8619 15.8047C14.9919 15.9347 15.1625 16 15.3332 16C15.5039 16 15.6745 15.9347 15.8045 15.8047C16.0652 15.544 16.0652 15.1227 15.8045 14.862ZM6.33328 11.3333C3.57597 11.3333 1.33333 9.09066 1.33333 6.33331C1.33333 3.57597 3.57597 1.33331 6.33328 1.33331C9.0906 1.33331 11.3332 3.57597 11.3332 6.33331C11.3332 9.09066 9.09057 11.3333 6.33328 11.3333Z" fill="#97B6CF"/>
@@ -321,185 +321,157 @@ const Readers = () => {
                   <path d="M12 18.25C11.8019 18.2474 11.6126 18.1676 11.4725 18.0275C11.3324 17.8874 11.2526 17.6981 11.25 17.5V9.5C11.25 9.30109 11.329 9.11032 11.4697 8.96967C11.6103 8.82902 11.8011 8.75 12 8.75C12.1989 8.75 12.3897 8.82902 12.5303 8.96967C12.671 9.11032 12.75 9.30109 12.75 9.5V17.5C12.7474 17.6981 12.6676 17.8874 12.5275 18.0275C12.3874 18.1676 12.1981 18.2474 12 18.25Z" fill="#0066BE" />
                 </svg>
                 </CsvDownload></button>
+              </div>
             </div>
-
-						</div>
         </div> 
+          <Form.Select className="form-select" value={eventId}
+            onChange={(e) => {
+              handleGetReadersData(e.target.value);
+              setEventId(e.target.value);
+            }} name="type" >
+            {event?.map((val, i) => (
+              <React.Fragment key={i}>
+                <option value={val.id}>{val.title}</option>
+              </React.Fragment>
+            ))}
+          </Form.Select>
+          
+        <Row className="readerListing">
+          <Col>
+            <Form.Select className="form-select"
+              onChange={(e) => {
+                handleGetReadersCountry(e.target.value);
+                setCountryValue(e.target.value);
+              }}
+            >
+              <option value="">Select Country</option>
+              {countryName?.map((val, i) => (
+                <React.Fragment key={i}>
+                  <option value={val.id}>{val.country}</option>
+                </React.Fragment>
+              ))}
+            </Form.Select>
+          </Col>
+          <Col>
+            <Form.Select className="form-select"
+              onChange={(e) => {
+                handleGetReadersType(e.target.value);
+                setType(e.target.value);
+              }}
+            >
+              <option value="">Select Type</option>
+              <option value="HCP">HCP</option>
+              <option value="Staff User">Staff User</option>
+              <option value="Test User">Test User</option>
+            </Form.Select>
+          </Col>
+        </Row>
 
-        <Col md={{ span: 9, offset: 2 }}>
-          <Row>
-            <Col xs={4}>
-              <Form.Label> Event </Form.Label>
-              <Form.Select
-                 value={eventId}
-                onChange={(e) => {
-                  handleGetReadersData(e.target.value);
-                  setEventId(e.target.value);
-                }}
-                name="type"
-              >
-                {event?.map((val, i) => (
-                  <React.Fragment key={i}>
-                    <option value={val.id}>{val.title}</option>
-                  </React.Fragment>
-                ))}
-              </Form.Select>
-            </Col>
-          </Row>
-          {flag ? (
-            <>
-              <Row>
-                <Col>
-                  <Form.Label> Country </Form.Label>
-                  <Form.Select
-                    onChange={(e) => {
-                      handleGetReadersCountry(e.target.value);
-                      setCountryValue(e.target.value);
-                    }}
-                  >
-                    <option value="">Select Country</option>
-                    {countryName?.map((val, i) => (
-                      <React.Fragment key={i}>
-                        <option value={val.id}>{val.country}</option>
-                      </React.Fragment>
-                    ))}
-                  </Form.Select>
-                </Col>
-                <Col>
-                  <Form.Label> User type </Form.Label>
-                  <Form.Select
-                    onChange={(e) => {
-                      handleGetReadersType(e.target.value);
-                      setType(e.target.value);
-                    }}
-                  >
-                    <option value="">Select Type</option>
-                    <option value="HCP">HCP</option>
-                    <option value="Staff User">Staff User</option>
-                    <option value="Test User">Test User</option>
-                  </Form.Select>
-                </Col>
-              </Row>
-
-              <div class="hcp-table">
-                <div class="table-responsive">
-                  <div class="hcp-table-view">
-                    <div class="hcp-table-left">
-                      <div class="hcp-table-heading">
-                        <ul class="hcp-table-heading-left">
-                          <li>Name</li>
-                          <li>Email</li>
-                          <li>Country</li>
-                          <li>Hospital</li>
-                          <li>Profession</li>
-                          <li>Interest</li>
-                          <li>SignUP Date</li>
-                        </ul>
-                        <ul class="hcp-table-heading-right">
-                          <li>User Type</li>
-                          <li>Action</li>
-                        </ul>
-                      </div>
-                      
-                      {data ? (
-                        data.map((val, i) => (
-                          <div class="hcp-table-content">
-                            <ul class="hcp-table-content-left" key={i}>
-                              <li>{val.name}</li>
-                              <li>{val.email} </li>
-                              <li>{val.country} </li>
-                              <li>??</li>
-                              <li>??</li>
-                              <li>??</li>
-                              <li>{val.signup_date} </li>
-                            </ul>
-                            <ul class="hcp-table-content-right">  
-                              <li>
-                                <div class="user-type-option">
-                                  <Form.Select class="form-select" onChange={(e) => { handleSelect(e.target.value, i); handleSelectChange(val.id, val.type); }} value={val.type} key={i} >
-                                    <option value="HCP">HCP</option>
-                                    <option value="Staff User">Staff User</option>
-                                    <option value="Test User">Test User</option>
-                                  </Form.Select>
-                                </div>
-                              </li>
-                              <li>
-                                <div class="user-type-action">
-                                  <button class="btn btn-primary btn-filled"><img src={path_image + "edit-btn.png"} alt="Edit" /></button>
-                                  <button class="btn btn-primary btn-filled"><img src={path_image + "link-btn.png"} alt="Link" /></button>
-                                  <button class="btn btn-primary btn-filled"><img src={path_image + "envalop-btn.png"} alt="Send Mail" /></button>
-                                  
-                                  <button class="btn btn-primary btn-filled">
-                                    {val.is_blocked == 0 ? (
-                                    <img src={path_image + "lock-btn.png"} width={70} onClick={() => { setModalShow(true)
-                                      localStorage.setItem("blockId", val.id) 
-                                      localStorage.setItem("is",val.is_blocked) 
-                                      }} />
-                                    ) : (
-                                      <img src={path_image + "lock-btn.png"} width={70} onClick={() => { 
-                                        localStorage.setItem("blockId", val.id) 
-                                        localStorage.setItem("is",val.is_blocked) 
-                                        handleBlock(); 
-                                      }} />
-                                    )}
-                                  </button> 
-                                  <button class="btn btn-primary btn-filled">
-                                    <img alt="Delete" src={path_image + "delete-btn.png"} onClick={() => {  
-                                      localStorage.setItem("DeleteData",val.id) 
-                                      setModalShow1(true) 
-                                    }} />
-                                  </button>
-                                </div>
-                              </li>
-                            </ul>
+        <div class="hcp-table">
+          <div class="table-responsive">
+            <div class="hcp-table-view">
+              <div class="hcp-table-left">
+                <div class="hcp-table-heading">
+                  <ul class="hcp-table-heading-left">
+                    <li>Name</li>
+                    <li>Email</li>
+                    <li>Country</li>
+                    <li>Hospital</li>
+                    <li>Profession</li>
+                    <li>Interest</li>
+                    <li>SignUP Date</li>
+                  </ul>
+                  <ul class="hcp-table-heading-right">
+                    <li>User Type</li>
+                    <li>Action</li>
+                  </ul>
+                </div>
+                
+                {data ? (
+                  data.map((val, i) => (
+                    <div class="hcp-table-content">
+                      <ul class="hcp-table-content-left" key={i}>
+                        <li>{val.name}</li>
+                        <li>{val.email} </li>
+                        <li>{val.country} </li>
+                        <li>??</li>
+                        <li>??</li>
+                        <li>??</li>
+                        <li>{val.signup_date} </li>
+                      </ul>
+                      <ul class="hcp-table-content-right">  
+                        <li>
+                          <div class="user-type-option">
+                            <Form.Select class="form-select" onChange={(e) => { handleSelect(e.target.value, i); handleSelectChange(val.id, val.type); }} value={val.type} key={i} >
+                              <option value="HCP">HCP</option>
+                              <option value="Staff User">Staff User</option>
+                              <option value="Test User">Test User</option>
+                            </Form.Select>
                           </div>
-                        ))
-                        ) : (
-                        <h2>{massage}</h2>
-                      )}
-                      
+                        </li>
+                        <li>
+                          <div class="user-type-action">
+                            <button class="btn btn-primary btn-filled"><img src={path_image + "edit-btn.png"} alt="Edit" /></button>
+                            <button class="btn btn-primary btn-filled"><img src={path_image + "link-btn.png"} alt="Link" /></button>
+                            <button class="btn btn-primary btn-filled"><img src={path_image + "envalop-btn.png"} alt="Send Mail" /></button>
+                            
+                            <button class="btn btn-primary btn-filled">
+                              {val.is_blocked == 0 ? (
+                              <img src={path_image + "lock-btn.png"} width={70} onClick={() => { setModalShow(true)
+                                localStorage.setItem("blockId", val.id) 
+                                localStorage.setItem("is",val.is_blocked) 
+                                }} />
+                              ) : (
+                                <img src={path_image + "lock-btn.png"} width={70} onClick={() => { 
+                                  localStorage.setItem("blockId", val.id) 
+                                  localStorage.setItem("is",val.is_blocked) 
+                                  handleBlock(); 
+                                }} />
+                              )}
+                            </button> 
+                            <button class="btn btn-primary btn-filled">
+                              <img alt="Delete" src={path_image + "delete-btn.png"} onClick={() => {  
+                                localStorage.setItem("DeleteData",val.id) 
+                                setModalShow1(true) 
+                              }} />
+                            </button>
+                          </div>
+                        </li>
+                      </ul>
                     </div>
-                  </div>  
-                </div>      
-              </div>    
-            </>
-          ) : (
-            <h3>{massage}</h3>
-          )}
-        </Col>
-        <Modal show={modalShow}
-      size="sm"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header onClick={()=>setModalShow(false)} closeButton>
-      </Modal.Header>
-      <Modal.Body>
-        <h6>The block action will remove the HCP from this event only</h6>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={()=>{ handleBlock();setTimeout(() => {
-          setModalShow(false);
-        }, 1000); }}>Block</Button>
-        <Button onClick={()=>{setModalShow(false)}}>Close</Button>
-      </Modal.Footer>
-    </Modal>
-        <Modal
-      show={modalShow1}
-      size="sm"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header onClick={()=>setModalShow1(false)} closeButton>
-      </Modal.Header>
-      <Modal.Body>
-        <h6>The Delete action will delete the HCP from your account entirly</h6>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={()=>{handleDeleteData();setModalShow1(false)}}>Delete</Button>
-        <Button onClick={()=>{setModalShow1(false)}}>Close</Button>
-      </Modal.Footer>
-    </Modal>
+                  ))
+                  ) : (
+                  <div class="hcp-table-content"><ul class="hcp-table-content-left">{massage}</ul></div>
+                )}
+                
+              </div>
+            </div>  
+          </div>      
+        </div>    
+          
+        <Modal className="modal send-confirm" id="delete-confirm" show={modalShow} size="sm" aria-labelledby="contained-modal-title-vcenter" centered >
+          <Modal.Header onClick={()=>setModalShow(false)} closeButton></Modal.Header>
+          <Modal.Body>
+            <img src={path_image + "alert.png"} alt="" />
+            <h4>The block action will remove the HCP from this event only.</h4>
+            <div className="modal-buttons">
+              <Button type="button" className="btn btn-primary btn-filled" onClick={()=>{ handleBlock(); setTimeout(() => { setModalShow(false);}, 1000); }}>Block</Button>
+              <Button type="button" className="btn btn-primary btn-bordered light" onClick={()=>{setModalShow(false)}}>Cancel</Button>
+            </div>                      
+          </Modal.Body>
+        </Modal>
+
+        <Modal className="modal send-confirm" id="delete-confirm" show={modalShow1} size="sm" aria-labelledby="contained-modal-title-vcenter" centered >
+          <Modal.Header onClick={()=>setModalShow1(false)} closeButton></Modal.Header>
+          <Modal.Body>
+            <img src={path_image + "alert.png"} alt="" />
+            <h4>The Delete action will delete the HCP from your account entirly.</h4>
+            <div className="modal-buttons">
+              <Button  className="btn btn-primary btn-filled" onClick={()=>{handleDeleteData();setModalShow1(false)}}>Delete</Button>
+              <Button  className="btn btn-primary btn-bordered light" onClick={()=>{setModalShow1(false)}}>Close</Button>
+            </div>
+          </Modal.Body>
+        </Modal>
       </Row>
     </div>
   );

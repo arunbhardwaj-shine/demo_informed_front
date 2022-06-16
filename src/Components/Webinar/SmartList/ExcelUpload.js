@@ -9,16 +9,8 @@ const ExcelUpload = () => {
 
   return (
     <>
-      {
-        <div className="col right-sidebar">
-          {console.log(data)}
-          <TableView
-            data={data}
-            smartListId={smartListId}
-            upload_by_filter="0"
-          />
-        </div>
-      }
+      {console.log(data)}
+      <TableView data={data} smartListId={smartListId} upload_by_filter="0" />
     </>
   );
 };

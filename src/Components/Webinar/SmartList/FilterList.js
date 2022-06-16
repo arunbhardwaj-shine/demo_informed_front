@@ -7,6 +7,7 @@ import Filters from "./Filters";
 import { Accordion } from "react-bootstrap";
 import { Modal } from "react-bootstrap";
 import TableView from "./TableView";
+import { loader } from "../../../loader";
 
 const FilterList = () => {
   const inputElement = useRef();
@@ -205,6 +206,7 @@ const FilterList = () => {
       participants: JSON.stringify(participants_id),
     };
 
+    loader("show");
     await axios
       .post(`http://51.89.210.56:8000/api/smart-list/create`, body, { headers })
       .then((res) => {
@@ -212,6 +214,7 @@ const FilterList = () => {
 
         if (res.data.code == 200) {
           navigate("/webinar/email/WebinarSmartList");
+          loader("hide");
         }
         //  console.log(res.data.status_code);
         //  if (res.data.status_code == 200) {
@@ -275,6 +278,10 @@ const FilterList = () => {
   };
   return (
     <>
+      <div className="loader" id="custom_loader">
+        <span className="loader-view"> </span>
+      </div>
+
       {console.log(selectedCountry)}
       <div className="right-sidebar">
         <div className="page-top-nav smart_list_names create_filter_list">

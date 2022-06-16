@@ -443,17 +443,21 @@ const WebinarSmartList = () => {
                           {console.log(data)}
                           <div class="smartlist-view email_box">
                             <div class="mail-box-content">
-                              <Link
-                                // className="btn btn-primary btn-filled view"
-                                to={{
-                                  pathname:
-                                    "/webinar/email/ViewSmartListWebinar",
-                                  search: "?listId=" + data.id,
-                                }}
-                              >
-                                {" "}
-                                <h5>{data.name}</h5>{" "}
-                              </Link>
+                              {data.count != 0 ? (
+                                <Link
+                                  // className="btn btn-primary btn-filled view"
+                                  to={{
+                                    pathname:
+                                      "/webinar/email/ViewSmartListWebinar",
+                                    search: "?listId=" + data.id,
+                                  }}
+                                >
+                                  {" "}
+                                  <h5>{data.name}</h5>{" "}
+                                </Link>
+                              ) : (
+                                <h5>{data.name}</h5>
+                              )}
                               <div class="mail-time">
                                 <span>{data.created_at}</span>
                               </div>
