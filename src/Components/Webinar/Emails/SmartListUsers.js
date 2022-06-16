@@ -14,6 +14,7 @@ const SmartListUsers = () => {
 	const [desktop , setDesktop]=useState(true)
 	const [mobile , setMobile]=useState(false)
 	const [template , setTemplate]=useState()
+	const [deleteid , setdeleteid]=useState()
 	const [modalShow1, setModalShow1] = useState(false);
 	let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 	let parms=useParams()
@@ -95,13 +96,18 @@ setDataCopy([obj])
 			  console.log(resp.data)
 			  handleGetSmartListSingleRecord(parms.id)
 			  setEditShow(false)
+			  setdeleteid()
 			}
 		  });
 	  }
-	  const DeleteSmartList=(id)=>{
+	  const DeleteSmartList=(id,i)=>{
+		setdeleteid(id)
+		let CopyData=data
+		CopyData.splice(i,1)
 		ExportApi.DeleteSmartListData(JSON.parse(parms.id),id).then((resp) => {
 			if (resp.ok) {
 			  console.log(resp.data)
+			  setData(CopyData)
 			}
 		  });
 	  }
@@ -182,7 +188,7 @@ setDataCopy([obj])
 												<div class="mail-preview-action">
 												<div class="col d-flex align-items-center justify-content-end">
 												<div class="mail-preview-action">
-													<button onClick={()=>{UpdateSmartList()}}  type="button"class="btn btn-primary btn-filled save-btn">Save</button>
+													<button onClick={()=>{deleteid?setEditShow(false):UpdateSmartList()}}  type="button"class="btn btn-primary btn-filled save-btn">Save</button>
 												</div>
 											</div>
 												</div>
@@ -251,7 +257,7 @@ setDataCopy([obj])
 								 </div>
 							   </Tab>
 							 </Tabs>
-							 <div class="tab-content-delete" onClick={()=>{DeleteSmartList(data.id)}}>
+							 <div class="tab-content-delete" onClick={()=>{DeleteSmartList(data.id,index)}}>
 							 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M15.84 22.25H8.15989C7.3915 22.2389 6.65562 21.9381 6.09941 21.4079C5.5432 20.8776 5.20765 20.157 5.15985 19.39L4.24984 5.55C4.24518 5.44966 4.26045 5.34938 4.29478 5.25498C4.32911 5.16057 4.38181 5.07391 4.44985 5C4.51993 4.9234 4.60479 4.86177 4.69931 4.81881C4.79382 4.77584 4.89606 4.75244 4.99985 4.75H19C19.1029 4.74977 19.2046 4.7707 19.2991 4.81148C19.3935 4.85226 19.4785 4.91202 19.5488 4.98704C19.6192 5.06207 19.6733 5.15077 19.7079 5.24761C19.7426 5.34446 19.7569 5.44739 19.75 5.55L18.88 19.39C18.8317 20.1638 18.4905 20.8902 17.9258 21.4214C17.3611 21.9527 16.6153 22.249 15.84 22.25ZM5.83986 6.25L6.60987 19.3C6.63531 19.6935 6.80978 20.0625 7.09775 20.3319C7.38573 20.6013 7.76555 20.7508 8.15989 20.75H15.84C16.2336 20.7485 16.6121 20.5982 16.8996 20.3292C17.1871 20.0603 17.3622 19.6927 17.39 19.3L18.2 6.3L5.83986 6.25Z" fill="#ffffff"/>
 <path d="M20.9998 6.25H2.99999C2.80108 6.25 2.61032 6.17098 2.46967 6.03033C2.32902 5.88968 2.25 5.69891 2.25 5.5C2.25 5.30109 2.32902 5.11032 2.46967 4.96967C2.61032 4.82902 2.80108 4.75 2.99999 4.75H20.9998C21.1987 4.75 21.3895 4.82902 21.5301 4.96967C21.6708 5.11032 21.7498 5.30109 21.7498 5.5C21.7498 5.69891 21.6708 5.88968 21.5301 6.03033C21.3895 6.17098 21.1987 6.25 20.9998 6.25Z" fill="#ffffff"/>
