@@ -350,7 +350,6 @@ const SmartListCreate = () => {
         onHide={handleClose}
       >
         <Modal.Header>
-          <h4>Upload File</h4>
           <button
             type="button"
             onClick={handleClose}
@@ -377,7 +376,7 @@ const SmartListCreate = () => {
                   <label for="file-4">
                     <span>Choose Your File</span>
                   </label>
-                  <p>Upload your excel file</p>
+                  <p>Upload your new list file</p>
                 </>
               ) : (
                 <h5>{file_name.current.files[0].name}</h5>

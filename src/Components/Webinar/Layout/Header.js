@@ -139,7 +139,7 @@ const Header = () => {
             <div className="user-login">
               {token ? (
                 <Dropdown>
-                  <Dropdown.Toggle variant="success" id="dropdown-basic">
+                  <Dropdown.Toggle id="dropdown-basic">
                     {usernameget ? usernameget : "WelCome"}
                   </Dropdown.Toggle>
 

@@ -809,23 +809,23 @@ const GridView = (props) => {
                               <tbody>
                                 <tr>
                                   <th>Email</th>
-                                  <td contenteditable="true">{data.email}</td>
+                                  <td>{data.email}</td>
                                 </tr>
                                 <tr>
                                   <th>Country</th>
-                                  <td contenteditable="true">NA</td>
+                                  <td>NA</td>
                                 </tr>
                                 <tr>
                                   <th>State</th>
-                                  <td contenteditable="true">NA</td>
+                                  <td>NA</td>
                                 </tr>
                                 <tr>
                                   <th>Profession</th>
-                                  <td contenteditable="true">NA</td>
+                                  <td>NA</td>
                                 </tr>
                                 <tr>
                                   <th>Interest</th>
-                                  <td contenteditable="true">NA</td>
+                                  <td>NA</td>
                                 </tr>
                                 <tr>
                                   <th>Hospital</th>

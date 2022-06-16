@@ -17,6 +17,7 @@ const RegistraionDetails = () => {
     { value: "Profession", name: "Profession", isActive: false },
     { value: "ConSent", name: "ConSent", isActive: false },
   ]);
+  const [modalShow, setModalShow] = useState(false);
   const [event, setEvent] = useState([]);
   const [selectedName, setSelectedName] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -25,35 +26,36 @@ const RegistraionDetails = () => {
   const [image, setimage] = useState();
   const [field, setField] = useState("");
   const [errimage, setErrimage] = useState(false);
+  let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const handeleimage = (e) => {
-    if (e?.target?.files[0].type.match(/\/(jpg|jpeg|png)$/)) {
-      setErrimage(false);
-      let file = e.target.files[0];
-      setimage(e.target.files[0]);
+    let file = e.target.files[0];
+    setimage(e.target.files[0]);
 
-      if (file) {
-        const preview = document.getElementById("imgVieww");
-        const reader = new FileReader();
-        reader.addEventListener(
-          "load",
-          function () {
-            preview.src = reader.result;
-          },
-          false
-        );
-        reader.readAsDataURL(file);
-      }
-    } else {
-      setErrimage(true);
-      setErrimage("Only jpeg, png, jpg, are allowed");
+    if (file) {
+      const preview = document.getElementById("imgVieww");
+      const reader = new FileReader();
+      reader.addEventListener(
+        "load",
+        function () {
+          preview.src = reader.result;
+        },
+        false
+      );
+      reader.readAsDataURL(file);
     }
   };
   const handleRadioChangedata = (e, i) => {
+    alert()
     const { checked, name } = e.target;
+    console.log("checked,",checked)
     const Index = selectedName.findIndex((v) => v.value == name);
+    console.log("Index,",Index)
     let copy = selectedName[Index];
-    console.log(Index)
+    console.log("copy,",copy)
+    
+    console.log(Index);
     copy.required = checked;
+    console.log(" copy.required,", copy.required)
 
     setSelectedName([...selectedName]);
   };
@@ -63,7 +65,7 @@ const RegistraionDetails = () => {
     const Copyinputbox = inputbox[i];
     Copyinputbox.isActive = e.target.checked;
     setInputBox([...inputbox]);
-    if (selectedName[i]?.value !== name && checked==true) {
+    if (selectedName[i]?.value !== name && checked == true) {
       selectedName.push(data);
     } else {
       selectedName.splice(i, 1);
@@ -87,7 +89,7 @@ const RegistraionDetails = () => {
     initialValues: {
       Title: "",
       Body: "",
-      Selectevent:''
+      Selectevent: "",
     },
     validationSchema: Yup.object({
       Title: Yup.string().required("Title is required"),
@@ -95,42 +97,41 @@ const RegistraionDetails = () => {
       Selectevent: Yup.string().required("Please select event"),
     }),
     onSubmit: (values) => {
-      console.log(selectedName)
-      let copyData = JSON.stringify(selectedName)
+      console.log(selectedName);
+      let copyData = JSON.stringify(selectedName);
       let formData = new FormData();
       formData.append("body", values.Body);
-       formData.append("file", image);
+      formData.append("file", image);
       formData.append("title", values.Title);
       formData.append("fields", copyData);
       formData.append("event_id", values.Selectevent);
-      if(image){
-        console.log("formData,",formData)
-          ExportApi.CreateRegistrationPagedetail(formData)
-            .then((resp) => {
-              if (resp.data) {
-                console.log(resp.data);
-                if (resp.data.code == 200) {
-                  loader("hide");
-                  toast.success(resp.data.message);
-                } else {
-                  toast.error(resp.data.message, {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                  });
-                }
+      if (image) {
+        console.log("formData,", formData);
+        ExportApi.CreateRegistrationPagedetail(formData)
+          .then((resp) => {
+            if (resp.data) {
+              console.log(resp.data);
+              if (resp.data.code == 200) {
+                loader("hide");
+                toast.success(resp.data.message);
+              } else {
+                toast.error(resp.data.message, {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                });
               }
-            })
-            .catch((err) => console.log(err));
-        }else{
-          setErrimage("Please Choose file")
-        }
+            }
+          })
+          .catch((err) => console.log(err));
+      } else {
+        setErrimage("Please Choose file");
       }
-     
+    },
   });
   useEffect(() => {
     loader("show");
@@ -138,7 +139,10 @@ const RegistraionDetails = () => {
   }, []);
   const saveClicked = () => {
     setShow(false);
-    setInputBox((oldArray) => [...oldArray, { value: field, name: field,isActive: false }]);
+    setInputBox((oldArray) => [
+      ...oldArray,
+      { value: field, name: field, isActive: false },
+    ]);
     setField("");
   };
   return (
@@ -147,66 +151,78 @@ const RegistraionDetails = () => {
         <span className="loader-view"> </span>
       </div>
       <div className="custom-container">
-      <Row>
-        <div className="page-title d-flex justify-content-between">
+        <Row>
+          <div className="page-title d-flex justify-content-between">
             <h2>Registration Page</h2>
-            <Link to="/webinar/registrationdetailslist"><Button> List</Button> </Link>
-        </div>
-        <div className="registration_form">
-        <Col className="registration_left">
+            <Link to="/webinar/registrationdetailslist">
+              <Button> List</Button>{" "}
+            </Link>
+          </div>
+          <div className="registration_form">
+            <Col className="registration_left">
               <form onSubmit={formik.handleSubmit}>
                 <div className="form-inline row">
-                    <div className="form-group col-12 col-md-12 d-flex justify-content-between align-items-center">
-                        <Form.Label>Select Event </Form.Label>
-                          <Form.Select
-                            name="Selectevent"
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            value={formik.values.Selectevent}
-                            className="form-control"
-                          >
-                            <option value=""> Select Event</option>
-                            {event?.map((val, i) => (
-                              <React.Fragment key={i}>
-                                <option value={val.id}>{val.title}</option>
-                              </React.Fragment>
-                            ))}
-                          </Form.Select>
-                          {formik.touched.Selectevent && formik.errors.Selectevent ? (
-                          <div className="error" style={{ color: "red" }}>{formik.errors.Selectevent}</div>
-                        ) : null}
-                    </div>
+                  <div className="form-group col-12 col-md-12 d-flex justify-content-between align-items-center">
+                    <Form.Label>Select Event </Form.Label>
+                    <Form.Select
+                      name="Selectevent"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.Selectevent}
+                      className="form-control"
+                    >
+                      <option value=""> Select Event</option>
+                      {event?.map((val, i) => (
+                        <React.Fragment key={i}>
+                          <option value={val.id}>{val.title}</option>
+                        </React.Fragment>
+                      ))}
+                    </Form.Select>
+                    {formik.touched.Selectevent && formik.errors.Selectevent ? (
+                      <div className="error" style={{ color: "red" }}>
+                        {formik.errors.Selectevent}
+                      </div>
+                    ) : null}
                   </div>
+                </div>
 
-                  <div className="form-inline row ">
-                    <div className="form-group col-12 col-md-12 d-flex justify-content-between align-items-center">   
-                      <Form.Label> Registration Page  Title</Form.Label>
-                      <Form.Control
-                        name="Title"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.Title}
-                      />
-                      {formik.touched.Title && formik.errors.Title ? (
-                        <div className="error" style={{ color: "red" }}>
-                          {formik.errors.Title}
-                        </div>
-                      ) : null}
-                    </div>
+                <div className="form-inline row ">
+                  <div className="form-group col-12 col-md-12 d-flex justify-content-between align-items-center">
+                    <Form.Label> Registration Page Title</Form.Label>
+                    <Form.Control
+                      name="Title"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.Title}
+                    />
+                    {formik.touched.Title && formik.errors.Title ? (
+                      <div className="error" style={{ color: "red" }}>
+                        {formik.errors.Title}
+                      </div>
+                    ) : null}
                   </div>
+                </div>
 
-                  <div className="form-inline row ">
-                    <div className="form-group col-12 col-md-12 d-flex justify-content-between align-items-center">   
-                      <Form.Label> Body Text</Form.Label>
-                      <textarea name="Body" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.Body} className="form-control" rows="6"></textarea>
-                        {formik.touched.Body && formik.errors.Body ? (
-                          <div className="error" style={{ color: "red" }}>
-                            {formik.errors.Body}
-                          </div>
-                        ) : null}
-                    </div>
+                <div className="form-inline row ">
+                  <div className="form-group col-12 col-md-12 d-flex justify-content-between align-items-center">
+                    <Form.Label> Body Text</Form.Label>
+                    <textarea
+                      name="Body"
+                      type="text"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.Body}
+                      className="form-control"
+                      rows="6"
+                    ></textarea>
+                    {formik.touched.Body && formik.errors.Body ? (
+                      <div className="error" style={{ color: "red" }}>
+                        {formik.errors.Body}
+                      </div>
+                    ) : null}
                   </div>
-                  <div className="form-inline box-added form-group">
+                </div>
+                <div className="form-inline box-added form-group">
                   <h5>What data should be collected?</h5>
                   <div className="form-inline">
                     {inputbox.map((data, i) => {
@@ -216,12 +232,20 @@ const RegistraionDetails = () => {
                             <Form.Label>{data.value}</Form.Label>
                             <Form.Control
                               type="checkbox"
-                              onChange={(e) => handleRadioChange(e, i)}
+                              onChange={(e) => {
+                                handleRadioChange(e, i);
+                                if (e.target.checked) {
+                                  setModalShow(true);
+                                } else {
+                                  setModalShow(false);
+                                }
+                              }}
                               value={data.value}
                               name={data.name}
                               className="form-check-input"
                             />
-                          
+
+                            {/* 
                             {data.isActive == true ? (
                               <>
                                   <br/><span>Required</span>
@@ -233,67 +257,199 @@ const RegistraionDetails = () => {
                                     // name="required"
                                   />
                               </>
-                            ) : null}
+                            ) : null} */}
                           </div>
+                          <Modal
+        show={modalShow}
+        className="send-confirm"
+        id="resend-confirm"
+      >
+        <Modal.Header>
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="modal"
+            onClick={() =>
+              setModalShow(
+                (modalShow) => !modalShow
+              )
+            }
+          ></button>
+        </Modal.Header>
+        <Modal.Body>
+          <img src={path_image + "webinar/alert.png"} alt="" />
+          <h4>
+          You want this field required ?
+          </h4>
+          <div className="modal-buttons">
+          <Form.Control
+                 name={data.name}
+                  type="checkbox"
+                   className="form-check-input"
+                   onChange={(e) => {
+                    alert("okk")
+                     handleRadioChangedata(e, i);
+                     if (e.target.checked) {
+                       setModalShow(false);
+                     }
+                   }}
+                   // name="required"
+                 />
+            <button
+              type="button"
+              className="btn btn-primary btn-filled"
+              data-bs-dismiss="modal"
+              onClick={() => setModalShow(false)}
+            >
+              Required
+            </button>
+          
+          </div>
+        </Modal.Body>
+      </Modal>
 
+                          {/* <Modal
+                            show={modalShow}
+                            size="sm"
+                            aria-labelledby="contained-modal-title-vcenter"
+                            centered
+                          >
+                            <Modal.Header
+                              onClick={() => setModalShow(false)}
+                              closeButton
+                            ></Modal.Header>
+                            <Modal.Body>
+                              {data.isActive == true ? (
+                                <>
+                                  <br />
+                                  <span>Required</span>
+                                  <Form.Control
+                                    name={data.name}
+                                    type="checkbox"
+                                    className="form-check-input"
+                                    onChange={(e) => {
+                                      handleRadioChangedata(e, i);
+                                      if (e.target.checked) {
+                                        setModalShow(false);
+                                      }
+                                    }}
+                                    // name="required"
+                                  />
+                                </>
+                              ) : null}
+                            </Modal.Body>
+                            <Modal.Footer>
+                              <Button
+                                onClick={() => {
+                                  setModalShow(false);
+                                }}
+                              >
+                                Close
+                              </Button>
+                            </Modal.Footer>
+                          </Modal> */}
                         </>
                       );
                     })}
-                  <button onClick={addData}>Add data field <span>+</span></button>
+                    <button onClick={addData}>
+                      Add data field <span>+</span>
+                    </button>
                   </div>
-                  </div>
-
-                  
-
                   <div className="add_field_new">
-                    {show == true ? (
-                      <>
-                        <input type="text"  onChange={(e) => { setField(e.target.value); }} className="form-control" />
-                        <button type="button" className="btn btn-primary btn-filled" onClick={saveClicked}> Save </button>
-                        <button type="button" className="btn btn-primary btn-bordered" onClick={() => { setShow(false);setField("");}}>
-                          Close
-                        </button>
-                      </>
-                    ) : null}
-                  </div>
+                  {show == true ? (
+                    <>
+                      <input
+                        type="text"
+                        onChange={(e) => {
+                          setField(e.target.value);
+                        }}
+                        className="form-control"
+                      />
+                      <button
+                        type="button"
+                        className="btn btn-primary btn-filled"
+                        onClick={saveClicked}
+                      >
+                        {" "}
+                        Save{" "}
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-primary btn-bordered"
+                        onClick={() => {
+                          setShow(false);
+                          setField("");
+                        }}
+                      >
+                        Close
+                      </button>
+                    </>
+                  ) : null}
+                </div>
+                </div>
+
+                
                 {/* <Col>
                   <div>
                     <img id="imgVieww" src="" alt="Viewing the registration page image" width={340} />
                   </div>
-                </Col> */}       
-                
+                </Col> */}
+
                 {/* <input type="file" onChange={(e) => handeleimage(e)} /> */}
                 <div style={{ color: "red" }}>{errimage}</div>
-                <button className="btn btn-primary" type="submit">Submit</button>
+                <button className="btn btn-primary" type="submit">
+                  Submit
+                </button>
               </form>
-        </Col>
-        <Col className="registration_right">
-          <div className="registration_right-view">
-                <span>Viewing the registration page image</span>
-              {/* <img id="imgVieww" src="" alt="Viewing the registration page image" /> */}
+            </Col>
+            <Col className="registration_right">
+              <div className="registration_right-view">
+                <img
+                  id="imgVieww"
+                  src=""
+                  alt="Viewing the registration page image"
+                />
+              </div>
+            </Col>
+          </div>
+          <div className="upload-file-box">
+            <div className="box">
+              <input
+                type="file"
+                name="file-4[]"
+                id="file-4"
+                onChange={(e) => handeleimage(e)}
+                className="inputfile inputfile-3"
+                data-multiple-caption="{count} files selected"
+                multiple=""
+              />
+              <label for="file-4">
+                <span>Choose Your File</span>
+              </label>
+              <p>Upload your registration page design file</p>
             </div>
-        </Col>
-        </div>
-        <div className="upload-file-box">
-							<div className="box">
-								<input type="file" name="file-4[]" id="file-4" className="inputfile inputfile-3" data-multiple-caption="{count} files selected" multiple="" />
-								<label for="file-4"><span>Choose Your File</span></label>
-								<p>Upload your registration page design file</p>
-							</div>
-			</div>
-      <div className="download-sample">
-          <p>Download registration page design guide file to design yours</p>
-          <div className="upload-btn">
+          </div>
+          <div className="download-sample">
+            <p>Download registration page design guide file to design yours</p>
+            <div className="upload-btn">
               <label for="input-file">Download File</label>
               <input id="input-file" type="file" />
+            </div>
           </div>
-			</div>
-      <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
-    
-      </Row>
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
+        </Row>
       </div>
-      
-     </div>
+    </div>
   );
 };
 export default RegistraionDetails;

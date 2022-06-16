@@ -356,22 +356,19 @@ const Template = (props) => {
       {localStorage.getItem("EventIdHeader") ? (
         <>
           <div class="top-header">
-            <div class="custom-container">
-              <div class="row">
-                <div class="page-title">
-                  <h3>Auto Emails</h3>
-                </div>
-              </div>
+            <div class="page-title">
+              <h3>Auto Emails</h3>
+            </div>
+            <div class="top-right-action">
               <Button onClick={() => { setModalShow(true); }} >
-                  Create New Template
+                Create New Template
               </Button>
             </div>
           </div>
         </>
       ) : null}
         <section className="select-mail-template">
-          <div class="custom-container">
-            <div className="row">
+          <div className="row">
             {templateList ? (
               <AliceCarousel mouseTracking disableDotsControls activeIndex={activeIndex} responsive={responsive} onSlideChanged={syncActiveIndex} >
                 {templateList ?.map((val, i) => (
@@ -675,10 +672,8 @@ const Template = (props) => {
           </button>
         </Modal.Footer>
       </Modal>
-    </div>
-              </div>
-        
-          </section>
+          </div>
+        </section>
     </div>
   );
 };

@@ -20,6 +20,7 @@ const RegistrationDetailsList = () => {
     const [field, setField] = useState("");
     const [errimage, setErrimage] = useState(false);
     const [selectedName, setSelectedName] = useState([]);
+    let path_image = process.env.REACT_APP_ASSETS_PATH_WEBINAR;
     const [inputbox, setInputBox] = useState([
         { value: "Name", name: "Name", isActive: false },
         { value: "Email", name: "Email", isActive: false },
@@ -183,10 +184,9 @@ useEffect(() => {
 
   return (
     <div class="right-sidebar">
- <div className="loader" id="custom_loader">
+      <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
       </div>
-      <Row>
       <ToastContainer
           position="top-right"
           autoClose={5000}
@@ -198,106 +198,83 @@ useEffect(() => {
           draggable
           pauseOnHover
         />
-        <Col md={{ span: 7, offset: 3 }}>
-          <h2>Registration Details List</h2>
+       
+        <h2>Registration Page List</h2>
           <div>
-          <Form.Label>Select Event </Form.Label>
-                  <Form.Select
-                    name="Selectevent"
-                    value={eventId}
-                    onChange={(e) => {
-                        handleGetListData(e.target.value);
-                      setEventId(e.target.value);
-                    }}
-                  >
-                    <option value=""> Select Event</option>
-                    {event?.map((val, i) => (
-                      <React.Fragment key={i}>
-                        <option value={val.id}>{val.title}</option>
-                      </React.Fragment>
-                    ))}
-                  </Form.Select>
+            <Form.Select name="Selectevent" value={eventId}
+              onChange={(e) => {
+                  handleGetListData(e.target.value);
+                setEventId(e.target.value);
+              }} >
+              <option value=""> Select Event</option>
+              {event?.map((val, i) => (
+                <React.Fragment key={i}>
+                  <option value={val.id}>{val.title}</option>
+                </React.Fragment>
+              ))}
+            </Form.Select>
          </div>
-         {List ? (
-              <Row>
-                <Col className="mb-5">
-                  <Table bordered hover>
-                    <thead>
-                      <tr>
-                        <th>Name</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {List?.map((val, i) => (
-                        <tr key={i}>
-                          <td>{val.title}</td>
-                          <td>
-                            <Button
-                              onClick={(e) => {
-                                handleGetSingleData(val.id);
-                                setModalShow(true)
-                              }}
-                            >
-                              Edit
-                            </Button>
-                            <Button
-                            variant='danger'
-                              onClick={(e) => {
-                                // handleGetRegistrationPagedata(val.id);
-                                setModalShow1(true)
-                                // setFlag(false);
-                              }}
-                            >
-                              Delete
-                            </Button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </Table>
-                </Col>
-              </Row>
-            ) : (
-              <h2>{massage}</h2>
-            )}
-
-
-
-<Modal
-      show={modalShow}
-      size="sm"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header onClick={()=>setModalShow(false)} closeButton>
-      </Modal.Header>
-      <Modal.Body>
-      <form onSubmit={formik.handleSubmit}>
-              <Col xs={8}>
+          <div class="table-responsive">
+            <Table class="table" bordered hover>
+              <thead>
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {List ? (
+                  List?.map((val, i) => (
+                    <tr key={i}>
+                      <td>{val.title}</td>
+                      <td>
+                        <Button onClick={(e) => {
+                            handleGetSingleData(val.id);
+                            setModalShow(true)
+                          }} > Edit
+                        </Button>
+                        <Button variant='danger'
+                          onClick={(e) => {
+                            // handleGetRegistrationPagedata(val.id);
+                            setModalShow1(true)
+                            // setFlag(false);
+                          }} > Delete
+                        </Button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                    <tr><td>No Record Found</td></tr>
+                )}
+              </tbody>
+            </Table>
+          </div>
+        
+      <Modal show={modalShow} size="sm" aria-labelledby="contained-modal-title-vcenter" centered >
+        <Modal.Header onClick={()=>setModalShow(false)} closeButton> </Modal.Header>
+        <Modal.Body>
+          <form onSubmit={formik.handleSubmit}>
+            <Col xs={8}>
               <Col className="mb-3">
-            <Form.Label>Select Event </Form.Label>
-                  <Form.Select
-                    name="Selectevent"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.Selectevent}
-                  >
-                    <option value=""> Select Event</option>
-                    {event?.map((val, i) => (
-                      <React.Fragment key={i}>
-                        <option value={val.id}>{val.title}</option>
-                      </React.Fragment>
-                    ))}
-                  </Form.Select>
-                  {formik.touched.Selectevent && formik.errors.Selectevent ? (
+                <Form.Label>Select Event </Form.Label>
+                <Form.Select
+                  name="Selectevent"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.Selectevent}
+                >
+                  <option value=""> Select Event</option>
+                  {event?.map((val, i) => (
+                    <React.Fragment key={i}>
+                      <option value={val.id}>{val.title}</option>
+                    </React.Fragment>
+                  ))}
+                </Form.Select>
+                {formik.touched.Selectevent && formik.errors.Selectevent ? (
                   <div style={{ color: "red" }}>{formik.errors.Selectevent}</div>
                 ) : null}
-            </Col>
-                <Form.Group
-                as={Row}
-                className="mb-3"
-              >
+              </Col>
+              <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm={3}>
                   Registration Page  Title{" "}
                 </Form.Label>
@@ -315,23 +292,12 @@ useEffect(() => {
                   ) : null}
                 </Col>
               </Form.Group>
-              <Form.Group
-                as={Row}
-                className="mb-3"
-              >
+              <Form.Group  as={Row} className="mb-3" >
                 <Form.Label column sm={3}>
                 Body Text{" "}
                 </Form.Label>
                 <Col sm={9}>
-                  <textarea
-                    name="Body"
-                    type="text"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.Body}
-                    className="form-control"
-                    rows="6"
-                  ></textarea>
+                  <textarea name="Body" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.Body} className="form-control" rows="6" ></textarea>
                   {formik.touched.Body && formik.errors.Body ? (
                     <div style={{ color: "red" }}>
                       {formik.errors.Body}
@@ -339,110 +305,81 @@ useEffect(() => {
                   ) : null}
                 </Col>
               </Form.Group>
-                <div>
-                  <h5>what data should be collected?</h5>
-                  <Row>
-                  <div>
-                    {inputbox?.map((data, i) => {
-                      return (
-                        <>
-                         <Form.Label>{data.value}</Form.Label>
-                          <Form.Check
-                            type="checkbox"
-                            onChange={(e) => handleRadioChange(e, i)}
-                            value={data.value}
-                            name={data.name}
-                            //   checked={data.value==fields[i]?.value?fields[i]?.requred:data.isActive}
-                          />
-                          {data.isActive == true ? (
-                            <>
-                              <Form.Label >required</Form.Label>
-                              <Form.Check
-                                name={data.name}
-                                type="checkbox"
-                                onChange={(e) => handleRadioChangedata(e, i)}
-                                // name="required"
-                              />
-                            </>
-                          ) : null}
-                        </>
-                      );
-                    })}
-                  </div>
-                  </Row>
-                  <button onClick={addData}>Add data field</button>
-                  <div>
-                    {show == true ? (
-                      <>
-                        <input
-                          type="text"
-                          onChange={(e) => {
-                            setField(e.target.value);
-                          }}
-                        />
-                        <button type="button" onClick={saveClicked}>
-                          Save
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setShow(false);
-                            setField("");
-                          }}
-                        >
-                          Close
-                        </button>
 
+              <div>
+                <h5>what data should be collected?</h5>
+                <Row>
+                  <div>
+                  {inputbox?.map((data, i) => {
+                    return (
+                      <>
+                        <Form.Label>{data.value}</Form.Label>
+                        <Form.Check type="checkbox" onChange={(e) => handleRadioChange(e, i)} value={data.value} name={data.name}
+                          //   checked={data.value==fields[i]?.value?fields[i]?.requred:data.isActive}
+                        />
+                        {data.isActive == true ? (
+                          <>
+                            <Form.Label >required</Form.Label>
+                            <Form.Check name={data.name} type="checkbox" onChange={(e) => handleRadioChangedata(e, i)}
+                              // name="required"
+                            />
+                          </>
+                        ) : null}
                       </>
-                    ) : null}
+                    );
+                  })}
                   </div>
-                </div>
-              </Col>
-              <Col>
+                </Row>
+                <button onClick={addData}>Add data field</button>
                 <div>
-                  <img
-                    id="imgVieww"
-                    src=""
-                    alt="Viewing the registration page image"
-                    width={340}
-                  />
+                  {show == true ? (
+                    <>
+                      <input type="text" onChange={(e) => { setField(e.target.value);}}/>
+                      <button type="button" onClick={saveClicked}>
+                        Save
+                      </button>
+                      <button type="button" onClick={() => {setShow(false);setField("");}}>
+                        Close
+                      </button>
+                    </>
+                  ) : null}
                 </div>
-              </Col>
+              </div>
+            </Col>
+            <Col>
+              <div>
+                <img id="imgVieww" src="" alt="Viewing the registration page image" width={340} />
+              </div>
+            </Col>
             <input type="file" onChange={(e) => handeleimage(e)} />
-                  <div style={{ color: "red" }}>
-                      {errimage}
-                    </div>
+            <div style={{ color: "red" }}>
+              {errimage}
+            </div>
             <button className="btn btn-primary" type="submit">
               Submit
             </button>
-              </form>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="success" onClick={()=>{setTimeout(() => {
-          setModalShow(false);
-        }, 1000); }}>Update</Button>
-        <Button onClick={()=>{setModalShow(false)}}>Close</Button>
-      </Modal.Footer>
-    </Modal>
-          
-   <Modal
-      show={modalShow1}
-      size="sm"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header onClick={()=>setModalShow1(false)} closeButton>
-      </Modal.Header>
-      <Modal.Body>
-        <h6>The Delete action will delete the registration details list from your account entirly</h6>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={()=>{setModalShow1(false)}}>Delete</Button>
-        <Button onClick={()=>{setModalShow1(false)}}>Close</Button>
-      </Modal.Footer>
-    </Modal>
-         </Col>
-         </Row>
+          </form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="success" onClick={()=>{setTimeout(() => {
+            setModalShow(false);
+          }, 1000); }}>Update</Button>
+          <Button onClick={()=>{setModalShow(false)}}>Close</Button>
+        </Modal.Footer>
+      </Modal>
+              
+      <Modal show={modalShow1} size="sm" aria-labelledby="contained-modal-title-vcenter" centered>
+        <Modal.Header onClick={()=>setModalShow1(false)} closeButton>
+        </Modal.Header>
+        <Modal.Body>
+          <img src={path_image + "alert.png"} alt="" />
+          <h4>The Delete action will delete the registration details.</h4>
+          <div className="modal-buttons">
+            <Button  className="btn btn-primary btn-filled" onClick={()=>{setModalShow1(false)}}>Delete</Button>
+            <Button  className="btn btn-primary btn-bordered light" onClick={()=>{setModalShow1(false)}}>Close</Button>
+          </div>
+        </Modal.Body>
+      </Modal>
     </div>
   )
 }
