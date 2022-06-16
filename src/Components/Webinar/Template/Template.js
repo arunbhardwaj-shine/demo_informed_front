@@ -587,15 +587,11 @@ const Template = (props) => {
            
           </form>
           <div class="sample-mail-templates">
-											<div class="select-sample-template">
-												<img src="assets/images/mail-sample.png" alt=""/>
-                        <EmailEditor
-                    ref={emailEditorRef}
-                    onLoad={onLoad}
-                    onReady={onReady}
-                  ></EmailEditor>
-                        </div>
-                        </div>
+            <div class="select-sample-template">
+              <img src="assets/images/mail-sample.png" alt=""/>
+                <EmailEditor ref={emailEditorRef} onLoad={onLoad} onReady={onReady}></EmailEditor>
+            </div>
+          </div>
         </div>
       ) : (
         <h2>{message}</h2>
@@ -679,14 +675,8 @@ const Template = (props) => {
           </button>
         </Modal.Footer>
       </Modal>
-<<<<<<< HEAD
       </div>
           </section>
-
-=======
-          </div>
-        </section>
->>>>>>> 712218b02060dca4c0d15ef6785619c3cd666cf1
     </div>
   );
 };
