@@ -4,7 +4,7 @@ const WebinarLoader = (props) => {
   return (
     <>
       {console.log(props)}
-      <div className="loader" id="custom_loader">
+      <div className="loader show" id="custom_loader">
         <span className="loader-view"> </span>
       </div>
     </>

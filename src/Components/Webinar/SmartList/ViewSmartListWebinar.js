@@ -35,7 +35,7 @@ const ViewSmartListWebinar = () => {
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
   const getSmartListData = async () => {
-    // loader("show");
+    loader("show");
     const headers = {
       "Content-Type": "application/json",
       Authorization: `${localStorage.getItem("Token")}`,
@@ -50,6 +50,7 @@ const ViewSmartListWebinar = () => {
 
         if (res.data.data) {
           if (res.data.data.length > 0) {
+            loader("false");
             console.log(res.data.data);
             setEditListData(res.data.data);
             setapi_flag(api_flag + 1);
@@ -97,6 +98,9 @@ const ViewSmartListWebinar = () => {
   } else {
     return (
       <>
+        <div className="loader" id="custom_loader">
+          <span className="loader-view"> </span>
+        </div>
         <ToastContainer
           position="top-right"
           autoClose={5000}

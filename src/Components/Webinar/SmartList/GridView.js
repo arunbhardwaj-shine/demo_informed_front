@@ -6,12 +6,14 @@ import Tab from "react-bootstrap/Tab";
 import { Modal } from "react-bootstrap";
 import ViewData from "./ViewData";
 import axios from "axios";
-
+import WebinarLoader from "./WebinarLoader";
+import { loader } from "../../../loader";
 import { useNavigate } from "react-router-dom";
 
 const GridView = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_WEBINAR;
   const [view, setView] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const [show, setShow] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [profile_user_id, setProfileUserId] = useState();
@@ -281,6 +283,7 @@ const GridView = (props) => {
 
     console.log(formData);
 
+    loader("show");
     await axios
       .post(
         `http://51.89.210.56:8000/api/upload-unregistered-participant`,
@@ -291,6 +294,8 @@ const GridView = (props) => {
         //  console.log(smartListId);
         console.log(res);
         if (res.data.code === 200) {
+          loader("hide");
+          toast.success("File added successfully.");
           setEditList(res.data.data);
 
           //setapi_flag(api_flag + 1);
@@ -346,6 +351,8 @@ const GridView = (props) => {
 
       if (status.every((element) => element == "true")) {
         //   loader("show");
+        // setIsLoading(true);
+        loader("show");
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         await axios
           .post(
@@ -358,7 +365,9 @@ const GridView = (props) => {
           .then((res) => {
             console.log(res);
             if (res.data.code === 200) {
-              //toast.success("User added successfuly");
+              loader("false");
+              toast.success("User added successfuly");
+              //  setIsLoading(false);
               console.log("res");
               let old_data = editList;
               let new_data = JSON.parse(res.data.data);
@@ -370,8 +379,9 @@ const GridView = (props) => {
               //   setIsOpen(false);
               //  setShowSaveReader(true);
               setIsOpenAdd(false);
-              toast.success("New user added successfully");
+              //toast.success("New user added successfully");
             } else {
+              loader("false");
               toast.warning(res.data.message);
               //  loader("hide");
             }
@@ -548,11 +558,14 @@ const GridView = (props) => {
   } else {
     return (
       <>
+        <div className="loader" id="custom_loader">
+          <span className="loader-view"> </span>
+        </div>
+        <ToastContainer />
         <div class="right-sidebar">
           <div class="top-header">
             <div class="page-title">
               <div class="header-btn-right back_btn">
-                <ToastContainer />
                 <a class="btn btn-primary btn-filled light">
                   <img
                     src={path_image + "arrow-left.svg"}
@@ -883,7 +896,7 @@ const GridView = (props) => {
                           </div>
                         </Tab>
                       </Tabs>
-                      <td className="delete_row" colspan="12">
+                      {/* <td className="delete_row" colspan="12">
                         <img
                           src={path_image + "delete.svg"}
                           alt="Delete Row"
@@ -893,7 +906,7 @@ const GridView = (props) => {
                             })
                           }
                         />
-                      </td>
+                      </td> */}
                     </div>
                   </div>
                 );
