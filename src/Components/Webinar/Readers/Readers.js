@@ -324,7 +324,6 @@ const Readers = () => {
               </div>
             </div>
         </div> 
-        <Form.Label> Event </Form.Label>
           <Form.Select className="form-select" value={eventId}
             onChange={(e) => {
               handleGetReadersData(e.target.value);
@@ -339,7 +338,6 @@ const Readers = () => {
           
         <Row className="readerListing">
           <Col>
-            <Form.Label> Country </Form.Label>
             <Form.Select className="form-select"
               onChange={(e) => {
                 handleGetReadersCountry(e.target.value);
@@ -355,7 +353,6 @@ const Readers = () => {
             </Form.Select>
           </Col>
           <Col>
-            <Form.Label> User type </Form.Label>
             <Form.Select className="form-select"
               onChange={(e) => {
                 handleGetReadersType(e.target.value);
