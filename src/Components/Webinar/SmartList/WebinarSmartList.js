@@ -459,7 +459,7 @@ const WebinarSmartList = () => {
                                 <h5>{data.name}</h5>
                               )}
                               <div class="mail-time">
-                                <span>{data.created_at}</span>
+                                <span>{data.mod_date}</span>
                               </div>
                               <div class="smart-list-added-user">
                                 <img

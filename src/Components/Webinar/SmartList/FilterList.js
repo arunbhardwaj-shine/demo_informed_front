@@ -8,6 +8,8 @@ import { Accordion } from "react-bootstrap";
 import { Modal } from "react-bootstrap";
 import TableView from "./TableView";
 import { loader } from "../../../loader";
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 const FilterList = () => {
   const inputElement = useRef();
@@ -233,6 +235,15 @@ const FilterList = () => {
   };
 
   const applyFilter = async () => {
+    if (
+      selectedCountry.length == 0 &&
+      selectedProfession.length == 0 &&
+      selectedInterest.length == 0
+    ) {
+      toast.error("please select a filter");
+      return;
+    }
+
     const headers = {
       "Content-Type": "application/json",
       Authorization: `${localStorage.getItem("Token")}`,
@@ -247,21 +258,22 @@ const FilterList = () => {
       country_id: JSON.stringify(selectedCountry),
     };
 
+    loader("show");
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
     await axios
       .post(`http://51.89.210.56:8000/api/smart-list/filter`, body, { headers })
       .then((res) => {
-        console.log(res.data.data);
-        //  console.log(res.data.status_code);
-        //  if (res.data.status_code == 200) {
-        //    setFilterData(res.data.response.data);
-        setFiltersData(res.data.data);
-        //  } else {
-        //    setFilterData();
-        //  }
-        //  setApiFilterFlag(1);
-        //  loader("hide");
+        console.log(res);
+
+        if (res.data.code == 200) {
+          setFiltersData(res.data.data);
+          loader("hide");
+        } else {
+          toast.error(res.data.message);
+          setFiltersData([]);
+          loader("hide");
+        }
       })
       .catch((err) => {
         //loader("hide");
@@ -278,12 +290,12 @@ const FilterList = () => {
   };
   return (
     <>
-      <div className="loader" id="custom_loader">
-        <span className="loader-view"> </span>
-      </div>
-
       {console.log(selectedCountry)}
       <div className="right-sidebar">
+        <div className="loader" id="custom_loader">
+          <span className="loader-view"> </span>
+        </div>
+        <ToastContainer />
         <div className="page-top-nav smart_list_names create_filter_list">
           <div className="row justify-content-end align-items-center">
             <div className="col-12 col-md-1">
@@ -301,11 +313,14 @@ const FilterList = () => {
                   </NavLink>
                 </button> */}
                 <a className="btn btn-primary btn-filled light" href="#">
-                  <img
-                    src={path_image + "arrow-left.svg"}
-                    alt=""
-                    onClick={closeClicked}
-                  />
+                  <NavLink to="/webinar/email/SmartListCreate">
+                    {" "}
+                    <img
+                      src={path_image + "arrow-left.svg"}
+                      alt=""
+                      //    onClick={closeClicked}
+                    />
+                  </NavLink>{" "}
                 </a>
               </div>
             </div>
@@ -343,10 +358,6 @@ const FilterList = () => {
 
         <section className="search-hcp smart-list-name">
           <div className="smart-list-name-drop">
-            <h5>
-              Please select who to include to your smart list.You can pick one
-              or more:
-            </h5>
             <div className="smart-list-dropdown">
               <div className="dropdown-smart">
                 <div id="accordion-smart">
@@ -1192,11 +1203,7 @@ const FilterList = () => {
                 </table>
               </div>
             </div>
-          ) : (
-            <div className="box mt-2 no-data">
-              <p>No Data Found</p>
-            </div>
-          )}
+          ) : null}
         </section>
       </div>
 

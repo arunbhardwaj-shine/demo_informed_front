@@ -558,40 +558,83 @@ const ViewData = (props) => {
 
     index
   ) => {
-    console.log(id);
-    console.log(name);
-    console.log(index);
-    console.log(props.smartListId);
+    // console.log(id);
+    // console.log(name);
+    // console.log(index);
+    // console.log(props.smartListId);
 
-    let ignoreClickOnMeElement = document.getElementById(
-      "row-selected" + index
-    );
+    // let ignoreClickOnMeElement = document.getElementById(
+    //   "row-selected" + index
+    // );
 
-    ignoreClickOnMeElement.addEventListener(
-      "mouseleave",
-      async (event) => {
-        const name_edit = document.getElementById(
-          "field_name" + index
-        ).innerText;
+    // ignoreClickOnMeElement.addEventListener(
+    //   "mouseleave",
+    //   async (event) => {
+    //     const name_edit = document.getElementById(
+    //       "field_name" + index
+    //     ).innerText;
 
-        console.log(name_edit);
-        //console.log(country_edit);
+    //     console.log(name_edit);
+    //     //console.log(country_edit);
 
-        const arr = [];
-        arr.push({
-          id: id,
-          name: name_edit,
-          country: "",
-          hospital: "",
-          email: "",
-          profession: "",
-          interest: "",
-          consent: "",
-        });
+    //     const arr = [];
+    //     arr.push({
+    //       id: id,
+    //       name: name_edit,
+    //       country: "",
+    //       hospital: "",
+    //       email: "",
+    //       profession: "",
+    //       interest: "",
+    //       consent: "",
+    //     });
+    //     setEditableData((oldArray) => [...oldArray, ...arr]);
+    //   },
+    //   { once: true }
+    // );
+
+    if (editable != 0) {
+      // ignoreClickOnMeElement.addEventListener(
+      // "mouseleave",
+      // async (event) => {
+      const name_edit = document.getElementById("field_name" + id).innerText;
+
+      console.log(name_edit);
+
+      //  var arr = [];
+      const arr = [];
+      arr.push({
+        id: id,
+        name: name_edit,
+        country: "",
+        hospital: "",
+        email: "",
+        profession: "",
+        interest: "",
+        consent: "",
+      });
+
+      // if(editableData.length > 0){
+      let prev_obj = editableData.find((x) => x.id === id);
+      if (typeof prev_obj != "undefined") {
+        //update existing
+        editableData.map((obj) => arr.find((o) => o.id === id) || obj);
+      } else {
+        //create new
         setEditableData((oldArray) => [...oldArray, ...arr]);
-      },
-      { once: true }
-    );
+      }
+
+      console.log(editableData);
+      // }else{
+      // //create new
+      // setEditableData((oldArray) => [...oldArray, ...arr]);
+      // }
+      // console.log(name_edit);
+      // console.log(editableData);
+      // },
+      // { once: true }
+      // );
+    }
   };
 
   const addFile = () => {
@@ -848,12 +891,12 @@ const ViewData = (props) => {
   } else {
     return (
       <>
-        <div className="loader" id="custom_loader">
-          <span className="loader-view"> </span>
-        </div>
-        <ToastContainer />
         <div class="right-sidebar">
           <div class="top-header">
+            <div className="loader" id="custom_loader">
+              <span className="loader-view"> </span>
+            </div>
+            <ToastContainer />
             <div class="page-title">
               <div class="header-btn-right back_btn">
                 <a class="btn btn-primary btn-filled light" href="#">
@@ -1082,7 +1125,7 @@ const ViewData = (props) => {
                     {editList.map((item, index) => {
                       return (
                         <tr
-                          id={`row-selected` + index}
+                          id={`row-selected` + item.id}
                           onClick={(e) =>
                             editing(
                               //  e.currentTarget,
@@ -1094,7 +1137,7 @@ const ViewData = (props) => {
                           }
                         >
                           <td
-                            id={`field_name` + index}
+                            id={`field_name` + item.id}
                             contenteditable={editable === 0 ? "false" : "true"}
                           >
                             <span>{item.name}</span>
