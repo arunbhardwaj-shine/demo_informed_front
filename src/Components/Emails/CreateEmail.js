@@ -631,7 +631,7 @@ const CreateEmail = (props) => {
     finalTags.map((tags) => {
       tagss.push(tags.innerText || tags);
     });
-  
+
 
     const body = {
       user_id: 18207,
@@ -658,7 +658,7 @@ const CreateEmail = (props) => {
       status: ab,
       approved_page:1,
     };
-    
+
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
@@ -673,7 +673,7 @@ const CreateEmail = (props) => {
           }else{
             toast.success("Draft saved");
           }
-          
+
         } else {
           toast.warning(res.data.message);
         }
@@ -1304,11 +1304,11 @@ const CreateEmail = (props) => {
                         id="email-desc"
                         value={emailDescription}
                       />
-                      {/*validator.message(
+                      {validator.message(
                         "emailDesc",
                         emailDescription,
                         "required"
-                      )*/}
+                      )}
                     </div>
                     <div className="form-group right-side col-12 col-md-5">
                       <label for="exampleInputEmail1">Email Creator</label>
@@ -1319,7 +1319,7 @@ const CreateEmail = (props) => {
                         id="email-address"
                         value={emailCreator}
                       />
-                      {/*validator.message("creator", emailCreator, "required")*/}
+                      {validator.message("creator", emailCreator, "required")}
                     </div>
                   </div>
                   <div className="form-inline row justify-content-between align-items-center">

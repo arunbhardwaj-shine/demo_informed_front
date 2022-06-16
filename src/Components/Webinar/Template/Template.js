@@ -356,7 +356,7 @@ const Template = (props) => {
       {localStorage.getItem("EventIdHeader") ? (
         <>
           <div class="top-header">
-                <div class="page-title">
+                <div className="page-title">
                   <h3>Auto Emails</h3>
                 </div>
                 <div className="top-right-action">
@@ -679,9 +679,14 @@ const Template = (props) => {
           </button>
         </Modal.Footer>
       </Modal>
+<<<<<<< HEAD
       </div>
           </section>
 
+=======
+          </div>
+        </section>
+>>>>>>> 712218b02060dca4c0d15ef6785619c3cd666cf1
     </div>
   );
 };

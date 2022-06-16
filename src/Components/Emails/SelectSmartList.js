@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { loader } from "../../loader";
 import { connect } from "react-redux";
-import { getSelectedSmartListData, getEmailData } from "../../actions";
+import { getSelectedSmartListData, getEmailData, getDraftData } from "../../actions";
 import { Navigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
@@ -11,10 +11,10 @@ import { popup_alert } from "../../popup_alert";
 
 
 var new_object;
+var draft_object;
 var old_object = {};
 const SelectSmartList = (props) => {
   let file_name = useRef("");
-  //console.log(new_object);
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
   const [PdfSelected, setPdfSelected] = useState(0);
@@ -25,7 +25,7 @@ const SelectSmartList = (props) => {
   const navigate = useNavigate();
   const campaign_id = old_object?.campaign_id
     ? old_object.campaign_id
-    : props.getDraftData?.campaign_id ? props.getDraftData.campaign_id : "";
+    : draft_object?.campaign_id ? draft_object.campaign_id : "";
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
   const [getReaderDetails, setReaderDetails] = useState({});
   const [getSmartListName, setSmartListName] = useState("");
@@ -64,16 +64,14 @@ const SelectSmartList = (props) => {
   };
 
   useEffect(() => {
-    //console.log(props.getSelectedSmartListData);
     let listid = new_object?.id
       ? new_object.id
-      : (props.getDraftData?.campaign_data?.smart_list_id) ? props.getDraftData.campaign_data.smart_list_id : 0;
+      : (draft_object?.campaign_data?.smart_list_id) ? draft_object.campaign_data.smart_list_id : 0;
     setselecedlistid(listid);
     setPdfSelected(listid);
   }, []);
 
   useEffect(() => {
-    console.log("working in");
     if (PdfSelected !== 0) {
       inputElement.current.classList.remove("disabled");
     }
@@ -99,34 +97,36 @@ const SelectSmartList = (props) => {
       user_id: 18207,
       pdf_id: old_object?.PdfSelected
       ? old_object.PdfSelected
-      : props.getDraftData.pdf_id,
+      : draft_object.pdf_id,
       description: old_object?.emailDescription
       ? old_object.emailDescription
-      : props.getDraftData?.description ? props.getDraftData.description : '',
+      : draft_object?.description ? draft_object.description : '',
     creator: old_object?.emailCreator
       ? old_object.emailCreator
-      : props.getDraftData?.creator ? props.getDraftData.creator : '',
+      : draft_object?.creator ? draft_object.creator : '',
       campaign_name: old_object?.emailCampaign
       ? old_object.emailCampaign
-      : props.getDraftData.campaign,
+      : draft_object.campaign,
       subject: old_object?.emailSubject
       ? old_object.emailSubject
-      : props.getDraftData.subject,
+      : draft_object.subject,
       route_location: "SelectSmartList",
-      tags: old_object?.tags ? old_object.tags : props.getDraftData.tags,
+      tags: old_object?.tags ? old_object.tags : draft_object.tags,
       campaign_data: {
         template_id: old_object?.templateId
         ? old_object.templateId
-        : props.getDraftData.campaign_data.template_id,
+        : draft_object.campaign_data.template_id,
         smart_list_id: PdfSelected,
 
         // selectedHcp: selectedHcp,
       },
+      source_code: old_object?.template
+        ? old_object.template
+        : draft_object?.source_code ? draft_object.source_code : '',
       campaign_id: campaign_id_st ? campaign_id_st : '',
       status: 2,
     };
 
-    console.log(body);
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
@@ -142,15 +142,15 @@ const SelectSmartList = (props) => {
               redirect: "/EmailList",
             });
           }else{
+            body.campaign_id = res.data.response.data.id;
+            props.getDraftData(body);
+            localStorage.setItem("sd_i", res.data.response.data.id);
             navigate("/CreateSmartList");
           }
         } else {
           toast.warning(res.data.message);
         }
-
         loader("hide");
-
-        // console.log(res);
       })
       .catch((err) => {
         toast.error("Something went wrong");
@@ -369,11 +369,7 @@ const SelectSmartList = (props) => {
                 </p>
                 <button
                   className="btn btn-primary btn-bordered"
-                  onClick={() =>
-                    setpopupopeningstatus(
-                      (getpopupopeningstatus) => !getpopupopeningstatus
-                    )
-                  }
+                  onClick={() => saveAsDraft("continue")}
                 >
                   Create new smart list
                 </button>
@@ -382,7 +378,9 @@ const SelectSmartList = (props) => {
                   setFileUploadPopup(
                     (getFileUploadPopup) => !getFileUploadPopup
                   )
-                }>
+                }
+                >
+
                   Upload excel file
                 </button>
               </div>
@@ -402,7 +400,6 @@ const SelectSmartList = (props) => {
 
             <div className="col smartlist-result-block">
               {SendListData.map((template) => {
-                //   console.log(template);
                 return (
                   <div className="smartlist_box_block">
                     <div className="smartlist-view email_box">
@@ -829,10 +826,12 @@ const SelectSmartList = (props) => {
 const mapStateToProps = (state) => {
   new_object = state.getSelectedSmartListData;
   old_object =  state.getEmailData ? state.getEmailData : {};
+  draft_object =  state.getDraftData ? state.getDraftData : {};
   return state;
 };
 
 export default connect(mapStateToProps, {
+  getDraftData: getDraftData,
   getSelectedSmartListData: getSelectedSmartListData,
   getEmailData: getEmailData,
 })(SelectSmartList);

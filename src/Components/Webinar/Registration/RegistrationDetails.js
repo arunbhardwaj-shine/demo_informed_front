@@ -22,6 +22,7 @@ const RegistraionDetails = () => {
   const [selectedName, setSelectedName] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [checkboxData, setcheckboxData] = useState([]);
+  const [FieldValue, setFieldValue] = useState();
   const [show, setShow] = useState(false);
   const [image, setimage] = useState();
   const [field, setField] = useState("");
@@ -45,22 +46,19 @@ const RegistraionDetails = () => {
     }
   };
   const handleRadioChangedata = (e, i) => {
-    alert()
+    console.log(e.target.checked)
     const { checked, name } = e.target;
-    console.log("checked,",checked)
     const Index = selectedName.findIndex((v) => v.value == name);
-    console.log("Index,",Index)
-    let copy = selectedName[Index];
-    console.log("copy,",copy)
-    
-    console.log(Index);
-    copy.required = checked;
-    console.log(" copy.required,", copy.required)
-
+    let copy = selectedName[Index]; 
+    copy.required = checked;  
     setSelectedName([...selectedName]);
   };
+
   const handleRadioChange = (e, i) => {
     const { checked, name } = e.target;
+    setFieldValue(name);
+    
+
     let data = { value: name, required: false };
     const Copyinputbox = inputbox[i];
     Copyinputbox.isActive = e.target.checked;
@@ -72,6 +70,7 @@ const RegistraionDetails = () => {
       setSelectedName([...selectedName]);
     }
   };
+console.log('Values',FieldValue);
   const handleGetEventlist = () => {
     ExportApi.GetEventList().then((resp) => {
       if (resp.ok) {
@@ -225,7 +224,7 @@ const RegistraionDetails = () => {
                 <div className="form-inline box-added form-group">
                   <h5>What data should be collected?</h5>
                   <div className="form-inline">
-                    {inputbox.map((data, i) => {
+                    {inputbox?.map((data, i) => {
                       return (
                         <>
                           <div class="form-check">
@@ -259,10 +258,17 @@ const RegistraionDetails = () => {
                               </>
                             ) : null} */}
                           </div>
-                          <Modal
-        show={modalShow}
-        className="send-confirm"
-        id="resend-confirm"
+                          
+
+                       
+                        </>
+                      );
+                    })}
+
+<Modal
+              show={modalShow}
+             className="send-confirm"
+            id="resend-confirm"
       >
         <Modal.Header>
           <button
@@ -282,75 +288,34 @@ const RegistraionDetails = () => {
           You want this field required ?
           </h4>
           <div className="modal-buttons">
-          <Form.Control
-                 name={data.name}
+           
+           <Form.Control
+                 name={FieldValue}
+                 value={FieldValue}
                   type="checkbox"
                    className="form-check-input"
                    onChange={(e) => {
-                    alert("okk")
-                     handleRadioChangedata(e, i);
+                     handleRadioChangedata(e);
                      if (e.target.checked) {
                        setModalShow(false);
                      }
                    }}
-                   // name="required"
-                 />
+                 /> 
             <button
+              name={setFieldValue}
               type="button"
               className="btn btn-primary btn-filled"
               data-bs-dismiss="modal"
-              onClick={() => setModalShow(false)}
+              onClick={(e) => handleRadioChangedata(e)}
             >
-              Required
+         Required
             </button>
           
           </div>
         </Modal.Body>
       </Modal>
 
-                          {/* <Modal
-                            show={modalShow}
-                            size="sm"
-                            aria-labelledby="contained-modal-title-vcenter"
-                            centered
-                          >
-                            <Modal.Header
-                              onClick={() => setModalShow(false)}
-                              closeButton
-                            ></Modal.Header>
-                            <Modal.Body>
-                              {data.isActive == true ? (
-                                <>
-                                  <br />
-                                  <span>Required</span>
-                                  <Form.Control
-                                    name={data.name}
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    onChange={(e) => {
-                                      handleRadioChangedata(e, i);
-                                      if (e.target.checked) {
-                                        setModalShow(false);
-                                      }
-                                    }}
-                                    // name="required"
-                                  />
-                                </>
-                              ) : null}
-                            </Modal.Body>
-                            <Modal.Footer>
-                              <Button
-                                onClick={() => {
-                                  setModalShow(false);
-                                }}
-                              >
-                                Close
-                              </Button>
-                            </Modal.Footer>
-                          </Modal> */}
-                        </>
-                      );
-                    })}
+{console.log("FieldValue",FieldValue)}
                     <button onClick={addData}>
                       Add data field <span>+</span>
                     </button>

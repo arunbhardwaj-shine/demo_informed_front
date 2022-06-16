@@ -32,9 +32,18 @@ const FilterSegment = (props) => {
   const [getNewAddedUser, setNewAddedUser] = useState([]);
   const [confirmationPopupStatus, setConfirmationPopupStatus] = useState(false);
   const [getfilterapplied, setfilterapplied] = useState(0);
+  const [getStorageState, setStorageState] = useState(false);
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   useEffect(() => {
+
+    var x = localStorage.getItem("sd_i");
+    if(x){
+      setStorageState(true);
+    }else{
+      setStorageState(false);
+    }
+
     if (props.hasOwnProperty("selectedFilter")) {
       //Country
       if (typeof props.selectedFilter.country !== "undefined") {
@@ -459,7 +468,7 @@ const FilterSegment = (props) => {
                 </button>
               </div>
             </div>
-            <div className="col-12 col-md-9">
+            <div className="col-12 col-md-8">
               <ul className="tabnav-link">
                 <li className="">
                   <a href="javascript:void(0)">Create smart list</a>
@@ -470,7 +479,7 @@ const FilterSegment = (props) => {
               </ul>
             </div>
 
-            <div className="col-12 col-md-2">
+            <div className="col-12 col-md-3">
               <div className="header-btn">
                 <button className="btn btn-primary btn-bordered light">
                   <NavLink to="/CreateSmartList">Cancel</NavLink>
@@ -488,7 +497,9 @@ const FilterSegment = (props) => {
                       : true
                   }
                 >
-                  Create
+                    {
+                      getStorageState ? "Create & go to email" : "Create"
+                    }
                 </button>
               </div>
             </div>

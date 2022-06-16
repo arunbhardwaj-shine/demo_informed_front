@@ -289,7 +289,7 @@ const CreateRegistrationPagedetail = (form) =>
     },
   });
 const RegistrationPageDetailList = (id) =>
-  BaseApi.get("get-registration-detail-list", {event_id:id}, {
+  BaseApi.get(`get-registration-detail-list/${id}`,{},{
     headers: {
       Authorization: localStorage.getItem("Token"),
       "Content-Type": "application/json",
