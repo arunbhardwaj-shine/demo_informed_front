@@ -9,6 +9,7 @@ const SendEmails = () => {
   const [updateflag, setUpdateFlag] = useState([]);
   const [filtertags, setFilterTags] = useState([]);
   const [filter, setFilter] = useState("");
+  const [NotFound, setNotFound] = useState();
   const [filterdata, setFilterData] = useState([
     "others",
     "global",
@@ -76,6 +77,7 @@ console.log("filtertags",filtertags)
     document.querySelectorAll("input").forEach((checkbox) => {
       checkbox.checked = false;
     });
+    handleGetEmailSCollection()
     setShowFilter(false);
     setFilterTags([]);
     setFilter([]);
@@ -86,19 +88,31 @@ console.log("filtertags",filtertags)
   const handleGetEmailSCollection = () => {
 		ExportApi.GetEmailSCollection().then((resp) => {
 		  if (resp.ok) {
-
-			       setData(resp.data.data) 
+        if (resp.data.code == 200) {
+          setData(resp.data.data) 
+          setNotFound()
+        } else {
+        
+          setNotFound("No Data Found")
+        }
+      }
+			       
             //  console.log(resp.data.data) 
 
-		  }
-		});
+		  })
+	
 	  };
   const handleSearchEmailSCollection = (e) => {
     setSearch(e)
 		ExportApi.SearchEmailSCollection(filtertags>0?filtertags:"",e).then((resp) => {
 		  if (resp.ok) {
-			       setData(resp.data.data) 
-             console.log(resp.data.data) 
+        if (resp.data.code == 200) {
+          setData(resp.data.data) 
+          setNotFound()
+        } else {
+          setData()
+          setNotFound("No Data Found")
+        } 
 
 		  }
 		});
@@ -106,8 +120,13 @@ console.log("filtertags",filtertags)
   const handleSearchEmailSCollectionFilter = () => {
 		ExportApi.SearchEmailSCollection(filtertags,Search?Search:"").then((resp) => {
 		  if (resp.ok) {
-			       setData(resp.data.data) 
-             console.log(resp.data.data) 
+        if (resp.data.code == 200) {
+          setData(resp.data.data) 
+          setNotFound()
+        } else {
+          setData()
+          setNotFound("No Data Found")
+        }
 
 		  }
 		});
@@ -298,6 +317,7 @@ useEffect(() => {
             </div> */}
           </div>
         </div>
+            
 
         {/* <div className="apply-filter">
           <h6>Applied filters</h6>
@@ -572,8 +592,13 @@ useEffect(() => {
 										</div>
 									</div>
 								</div> */}
+          {NotFound?  <div className="coming-soon">
+          <h2>{NotFound}</h2>
+        </div>:null}
             </div>
+
           </div>
+        
         </div>
     </>
   );
