@@ -297,7 +297,7 @@ const EventData = () => {
             <div className="filter-by">
               <>
               <Dropdown>
-                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                <Dropdown.Toggle  id="dropdown-basic">
                  Filter By
                 </Dropdown.Toggle>
 
@@ -472,9 +472,8 @@ const EventData = () => {
       >
         <Modal.Header closeButton> <h4>New Webinar/Event</h4></Modal.Header>
         <Modal.Body>  
-        <div className="container">
+    
           <Add closePopup={closePopup} getEventList={handleGetEventlist} />
-        </div>
         </Modal.Body>
       </Modal>
       <div className="delete">
