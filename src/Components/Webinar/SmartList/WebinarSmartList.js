@@ -10,16 +10,19 @@ import { getListId } from "../../../actions";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../../popup_alert";
 import ExportApi from "../../../Api/ExportApi";
-//import { loader } from "../../../loader";
+import { loader } from "../../../loader";
 import Accordion from "react-bootstrap/Accordion";
+
+//import WebinarLoader from "./WebinarLoader";
 
 const WebinarSmartList = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_WEBINAR;
   const [smartListData, setSmartListData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [getUserDetails, setUserDetails] = useState([]);
   const [prevsmartListData, setPrevSmartListData] = useState([]);
   const [search, setSearch] = useState("");
-  const [isLoading, setLoading] = useState(true);
+
   const [deletestatus, setDeleteStatus] = useState(false);
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [deletecardid, setDeleteCardId] = useState();
@@ -48,10 +51,11 @@ const WebinarSmartList = () => {
     };
 
     console.log(headers);
-
+    loader("show");
     await axios
       .post(`http://51.89.210.56:8000/api/smart-list/lists`, body, { headers })
       .then((res) => {
+        setIsLoading(false);
         console.log(res.data.data);
         setSmartListData(res.data.data);
         if (flag == 0) {
@@ -60,7 +64,7 @@ const WebinarSmartList = () => {
         }
 
         console.log(res);
-        // loader("hide");
+        loader("hide");
       })
       .catch((err) => {
         console.log(err);
@@ -125,13 +129,14 @@ const WebinarSmartList = () => {
     };
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
-    // loader("show");
+    loader("show");
     axios
       .post(`http://51.89.210.56:8000/api/smart-list/delete`, body, { headers })
       .then((res) => {
         console.log(res);
-        //  loader("hide");
+        setIsLoading(false);
         if (res.data.code == 200) {
+          loader("hide");
           var updatedArray = smartListData.filter(function (item) {
             return item["id"] != deletecardid;
           });
@@ -258,6 +263,9 @@ const WebinarSmartList = () => {
 
   return (
     <>
+      <div className="loader" id="custom_loader">
+        <span className="loader-view"> </span>
+      </div>
       <div class="right-sidebar">
         <div class="top-header">
           <div class="page-title">
@@ -414,7 +422,6 @@ const WebinarSmartList = () => {
             </div>
           </div>
         </div>
-
         <div class="smart-list-result">
           <div class="custom-container">
             <div class="row">
@@ -448,14 +455,15 @@ const WebinarSmartList = () => {
                                 <h5>{data.name}</h5>{" "}
                               </Link>
                               <div class="mail-time">
-                                <span>Nov 18 | 9:00 AM</span>
+                                <span>{data.created_at}</span>
                               </div>
                               <div class="smart-list-added-user">
                                 <img
                                   src={path_image + "smartlist-user.svg"}
                                   alt="User icon"
                                 />
-                                203
+
+                                {data.count}
                               </div>
                               <div class="mail-stats">
                                 <ul>

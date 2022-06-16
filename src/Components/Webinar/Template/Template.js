@@ -154,7 +154,7 @@ const Template = (props) => {
               if (resp.data.code == 200) {
                 loader("hide");
                 setDpc();
-                handleGetTemplateList(localStorage.getItem("EventIdHeader"));
+                // handleGetTemplateList(localStorage.getItem("EventIdHeader"));
                 setFormShow(false);
                 setModalShow(false);
                 toast.success(resp.data.message, {
@@ -205,7 +205,7 @@ const Template = (props) => {
               if (resp.data.code == 200) {
                 loader("hide");
                 setDpc();
-                handleGetTemplateList(localStorage.getItem("EventIdHeader"));
+                // handleGetTemplateList(localStorage.getItem("EventIdHeader"));
                 setFormShow(false);
                 setModalShow(false);
                 toast.success(resp.data.message, {
@@ -515,6 +515,12 @@ const Template = (props) => {
                   value={formik.values.Subject}
                   id="email-subject"
                 />
+                  {formik.touched.Subject && formik.errors.Subject ? (
+                <div className="error" style={{ color: "red" }}>
+                  {formik.errors.Subject}
+                </div>
+              ) : null}
+             <div className="error" style={{ color: "red" }}></div>
               </div>
               <div className="form-buttons right-side col-12 col-md-5">
                 <button
@@ -554,7 +560,7 @@ const Template = (props) => {
                   </svg>
                 </button>
                 <button  type="button" onClick={()=>handleUpdateis_approved()} className="btn btn-primary approved-btn btn-bordered">
-                  Approved{" "}
+                  Approved
                   <svg
                     width="16"
                     height="16"

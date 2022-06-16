@@ -1,16 +1,13 @@
-import React from 'react'
+import React from "react";
 
 const PortalPreparation = () => {
   return (
- 
- <div class="right-sidebar">
-       <div className="loader" id="custom_loader">
-	        <span className="loader-view"> </span>
-          </div>
-          <center>Coming soon</center>
-          </div>
+    <div className="right-sidebar">
+      <div className="coming-soon">
+        <h2>Portal is coming soon</h2>
+      </div>
+    </div>
+  );
+};
 
-  )
-}
-
-export default PortalPreparation
+export default PortalPreparation;

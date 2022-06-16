@@ -207,7 +207,7 @@ const ViewData = (props) => {
     // loader("show");
 
     console.log(formData);
-
+    loader("show");
     await axios
       .post(
         `http://51.89.210.56:8000/api/upload-unregistered-participant`,
@@ -218,6 +218,7 @@ const ViewData = (props) => {
         //  console.log(smartListId);
         console.log(res);
         if (res.data.code === 200) {
+          loader("hide");
           setEditList(res.data.data);
 
           //setapi_flag(api_flag + 1);
@@ -735,7 +736,7 @@ const ViewData = (props) => {
       console.log(status);
 
       if (status.every((element) => element == "true")) {
-        //    loader("show");
+        loader("show");
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         await axios
           .post(
@@ -748,7 +749,8 @@ const ViewData = (props) => {
           .then((res) => {
             console.log(res);
             if (res.data.code === 200) {
-              //toast.success("User added successfuly");
+              //  loader("hide");
+              toast.success("User added successfuly");
               console.log("res");
               let old_data = editList;
               let new_data = JSON.parse(res.data.data);
@@ -846,8 +848,11 @@ const ViewData = (props) => {
   } else {
     return (
       <>
+        <div className="loader" id="custom_loader">
+          <span className="loader-view"> </span>
+        </div>
+        <ToastContainer />
         <div class="right-sidebar">
-          <ToastContainer />
           <div class="top-header">
             <div class="page-title">
               <div class="header-btn-right back_btn">
