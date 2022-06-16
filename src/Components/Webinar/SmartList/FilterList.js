@@ -270,7 +270,9 @@ const FilterList = () => {
     setIsOpen(true);
     setIndexToRemove(index);
   };
-
+  const closeClicked = () => {
+    navigate("/webinar/email/SmartListCreate");
+  };
   return (
     <>
       {console.log(selectedCountry)}
@@ -278,15 +280,26 @@ const FilterList = () => {
         <div className="page-top-nav smart_list_names create_filter_list">
           <div className="row justify-content-end align-items-center">
             <div className="col-12 col-md-1">
-              <div className="header-btn-left">
-                <button className="btn btn-primary btn-bordered back">
+              <div className="header-btn-right back_btn">
+                {/* <button className="btn btn-primary btn-bordered back">
                   <NavLink
                     to="/webinar/email/SmartListCreate"
                     className="active"
                   >
-                    Back
+                   <img
+                    src={path_image + "arrow-left.svg"}
+                    alt=""
+                    onClick={closeClicked}
+                  />
                   </NavLink>
-                </button>
+                </button> */}
+                <a className="btn btn-primary btn-filled light" href="#">
+                  <img
+                    src={path_image + "arrow-left.svg"}
+                    alt=""
+                    onClick={closeClicked}
+                  />
+                </a>
               </div>
             </div>
             <div className="col-12 col-md-9">
