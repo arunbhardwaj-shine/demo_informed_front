@@ -423,8 +423,6 @@ const WebinarSmartList = () => {
           </div>
         </div>
         <div class="smart-list-result">
-          <div class="custom-container">
-            <div class="row">
               <div class="col smartlist-result-block">
                 <div class="smartlist_box_block">
                   <div class="smartlist-add smartlist-view">
@@ -523,8 +521,6 @@ const WebinarSmartList = () => {
                     })
                   : null}
               </div>
-            </div>
-          </div>
         </div>
       </div>
 
