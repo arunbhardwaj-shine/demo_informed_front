@@ -123,7 +123,13 @@ const CreateSmartList = () => {
   };
 
   const closeClicked = () => {
-    navigate("/SmartList");
+    var x = localStorage.getItem("sd_i");
+    if(x){
+      localStorage.removeItem("sd_i");
+      navigate("/SelectSmartList");
+    }else{
+      navigate("/SmartList");
+    }
   };
 
   const uploadFile = async () => {
