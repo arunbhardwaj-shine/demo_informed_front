@@ -99,12 +99,12 @@ header { position: sticky; top: 0; z-index: 9; }
 .top-header { display: flex; align-content: center; justify-content: space-between; }
 .toggle_sidebar .right-sidebar {width: calc(100% - 90px);}
 .right-sidebar { 
-    min-height:100vh;padding-top: 34px; padding-right: 70px; padding-left: 75px; width: calc(100% - 85px); background: rgba(255, 255, 255, 0.83); backdrop-filter: blur(254px); z-index: 1; box-shadow: -11px 0px 15px rgba(0, 102, 190, 0.1); border-radius: 25px 0 0 25px; }
+    min-height:100vh;padding-top: 34px; padding-right: 70px; padding-left: 150px; width: calc(100% - 85px); background: rgba(255, 255, 255, 0.83); backdrop-filter: blur(254px); z-index: 1; box-shadow: -11px 0px 15px rgba(0, 102, 190, 0.1); border-radius: 25px 0 0 25px; }
 .clear-search button { width: 52px; text-align: center; background: var(--white); border-radius: 30px; box-shadow: 0px 2px 10px -3px rgba(0, 102, 190, 0.15); border: 0; padding: 6px; height: 52px; display: flex; align-items: center; justify-content: center; }
 .clear-search button:hover, .clear-search button:active, .clear-search button:focus { background: var(--light-blue); }
 .clear-search button:hover svg path, .clear-search button:active svg path, .clear-search button:focus svg path{ fill: var(--white); }
 .user-login li { list-style: none; }
-.filter-by button.btn { background: var(--white); font-family: 'Roboto'; border-radius: 30px; box-shadow: 0px 2px 10px 0px rgb(0 102 190 / 15%); filter:none;font-weight: 400; font-size: 14px; line-height: 16px; color: var(--skyblue); padding: 11px 18px 12px 27px; border: 0.5px solid transparent; position: relative; z-index: 8; height:100%;}
+.filter-by button.btn { background: var(--white); font-family: 'Roboto'; border-radius: 30px; box-shadow: 0px 2px 10px 0px rgb(0 102 190 / 15%); filter:none;font-weight: 400; font-size: 14px; line-height: 16px; color: var(--skyblue); padding: 11px 18px 12px 27px; border: 0.5px solid transparent; position: relative; z-index: 8;}
 .filter-by button.btn:hover, .filter-by button.btn:focus { color: var(--light-blue); border-color: var(--light-blue); }
 .filter-by button.btn:hover path, .filter-by button.btn:focus path, .filter-by button.btn:hover svg rect  { fill: var(--white); }
 .filter-by button.btn:focus .close-arrow { display:inline-block; width:16px; }
@@ -337,7 +337,7 @@ form .input-group { border: 1px dashed var(--light-blue); box-sizing: border-box
 .form-buttons .btn { filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2)); height: 51px; margin: 0 0 0 16px; padding: 9px 38px; }
 .form-buttons .approved-btn img, .form-buttons .btn.btn-large img { margin-left: 4px; }
 .form-buttons .btn.btn-large { padding: 9px 23px; }
-.form-buttons .approved-btn { border: 1px solid var(--green); color: var(--green); padding: 10px 29px; background: transparent; }
+.form-buttons .approved-btn { border: 1px solid var(--green); color: var(--green); padding: 10px 26px; background: transparent; }
 .form-buttons .approved-btn:hover, .form-buttons .approved-btn:active, .form-buttons .approved-btn:focus, .form-buttons .approved-btn.checked { background: var(--green); color: var(--white); }
 .smart-list-result .smartlist-view:first-child, .smart-list-result .smartlist-view:nth-child(2), .smart-list-result .smartlist-view:nth-child(3), .smart-list-result .smartlist-view:nth-child(4) {
     margin: 0;
@@ -2049,14 +2049,56 @@ min-width: 110px;
     height: 100%;
     margin: 0;
     opacity: 0;
-    visibility: hidden;
     z-index: 1;
     cursor: pointer;
 }
 
+#resend-confirm .modal-body {
+    padding: 0 32px 30px;
+}
+.mailbox-buttons button.btn-bordered a {
+    color: var(--light-blue);
+}
+.smartlist-add img {
+    max-width: 72px;
+}
+
+.select-mail-template .select-mail-template-slider {
+    margin: 0;
+}
 
 
-
+.modal-body .form-label {
+    font-size: 18px;
+    line-height: 21px;
+    text-transform: capitalize;
+    color: var(--blue);
+}
+.modal-body input.form-control {
+    background: var(--white);
+    box-shadow: 0px 1px 6px rgb(0 102 190 / 20%);
+    border-radius: 30px;
+    border: 0;
+    padding: 12px 27px;
+    width: 100%;
+    color: #4E718E;
+    font-family: 'Roboto-Light';
+}
+.modal-body button[type="submit"] {
+    justify-content: center;
+    /* align-items: center; */
+    display: flex;
+    margin: 10px auto 0;
+    min-width: 112px;
+    height: 51px;
+    line-height: 30px;
+}
+.form-buttons .approved-btn svg {
+    margin-left: 10px;
+}
+.modal .modal-body {
+    padding: 0 50px 8px;
+}
 
 
 

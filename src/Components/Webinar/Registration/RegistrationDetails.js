@@ -22,6 +22,7 @@ const RegistraionDetails = () => {
   const [selectedName, setSelectedName] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [checkboxData, setcheckboxData] = useState([]);
+  const [FieldValue, setFieldValue] = useState();
   const [show, setShow] = useState(false);
   const [image, setimage] = useState();
   const [field, setField] = useState("");
@@ -45,16 +46,19 @@ const RegistraionDetails = () => {
     }
   };
   const handleRadioChangedata = (e, i) => {
+    console.log(e.target.checked)
     const { checked, name } = e.target;
     const Index = selectedName.findIndex((v) => v.value == name);
-    let copy = selectedName[Index];
-    console.log(Index);
-    copy.required = checked;
-
+    let copy = selectedName[Index]; 
+    copy.required = checked;  
     setSelectedName([...selectedName]);
   };
+
   const handleRadioChange = (e, i) => {
     const { checked, name } = e.target;
+    setFieldValue(name);
+    
+
     let data = { value: name, required: false };
     const Copyinputbox = inputbox[i];
     Copyinputbox.isActive = e.target.checked;
@@ -66,14 +70,8 @@ const RegistraionDetails = () => {
       setSelectedName([...selectedName]);
     }
   };
-  const handleGetEventlist = () => {
-    ExportApi.GetEventList().then((resp) => {
-      if (resp.ok) {
-        loader("hide");
-        setEvent(resp.data.data);
-      }
-    });
-  };
+console.log('Values',FieldValue);
+  
   const addData = () => {
     setField("");
     setShow(true);
@@ -83,12 +81,10 @@ const RegistraionDetails = () => {
     initialValues: {
       Title: "",
       Body: "",
-      Selectevent: "",
     },
     validationSchema: Yup.object({
       Title: Yup.string().required("Title is required"),
       Body: Yup.string().required("Body text is required"),
-      Selectevent: Yup.string().required("Please select event"),
     }),
     onSubmit: (values) => {
       console.log(selectedName);
@@ -98,7 +94,7 @@ const RegistraionDetails = () => {
       formData.append("file", image);
       formData.append("title", values.Title);
       formData.append("fields", copyData);
-      formData.append("event_id", values.Selectevent);
+      formData.append("event_id", localStorage.getItem("EventIdHeader"));
       if (image) {
         console.log("formData,", formData);
         ExportApi.CreateRegistrationPagedetail(formData)
@@ -128,9 +124,17 @@ const RegistraionDetails = () => {
     },
   });
   useEffect(() => {
-    loader("show");
-    handleGetEventlist();
+    window.addEventListener("EventId", () =>
+    setEvent(localStorage.getItem("EventIdHeader"))
+    );
+    setEvent(localStorage.getItem("EventIdHeader"));
+    if (localStorage.getItem("EventIdHeader")) {
+      console.log("done");
+    } else {
+      loader("hide");
+    }
   }, []);
+
   const saveClicked = () => {
     setShow(false);
     setInputBox((oldArray) => [
@@ -155,31 +159,6 @@ const RegistraionDetails = () => {
           <div className="registration_form">
             <Col className="registration_left">
               <form onSubmit={formik.handleSubmit}>
-                <div className="form-inline row">
-                  <div className="form-group col-12 col-md-12 d-flex justify-content-between align-items-center">
-                    <Form.Label>Select Event </Form.Label>
-                    <Form.Select
-                      name="Selectevent"
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      value={formik.values.Selectevent}
-                      className="form-control"
-                    >
-                      <option value=""> Select Event</option>
-                      {event?.map((val, i) => (
-                        <React.Fragment key={i}>
-                          <option value={val.id}>{val.title}</option>
-                        </React.Fragment>
-                      ))}
-                    </Form.Select>
-                    {formik.touched.Selectevent && formik.errors.Selectevent ? (
-                      <div className="error" style={{ color: "red" }}>
-                        {formik.errors.Selectevent}
-                      </div>
-                    ) : null}
-                  </div>
-                </div>
-
                 <div className="form-inline row ">
                   <div className="form-group col-12 col-md-12 d-flex justify-content-between align-items-center">
                     <Form.Label> Registration Page Title</Form.Label>
@@ -219,7 +198,7 @@ const RegistraionDetails = () => {
                 <div className="form-inline box-added form-group">
                   <h5>What data should be collected?</h5>
                   <div className="form-inline">
-                    {inputbox.map((data, i) => {
+                    {inputbox?.map((data, i) => {
                       return (
                         <>
                           <div class="form-check">
@@ -253,10 +232,17 @@ const RegistraionDetails = () => {
                               </>
                             ) : null} */}
                           </div>
-                          <Modal
-        show={modalShow}
-        className="send-confirm"
-        id="resend-confirm"
+                          
+
+                       
+                        </>
+                      );
+                    })}
+
+<Modal
+              show={modalShow}
+             className="send-confirm"
+            id="resend-confirm"
       >
         <Modal.Header>
           <button
@@ -273,84 +259,42 @@ const RegistraionDetails = () => {
         <Modal.Body>
           <img src={path_image + "webinar/alert.png"} alt="" />
           <h4>
-            This field  will be required.
+          You want this field required ?
           </h4>
           <div className="modal-buttons">
-          <Form.Control
-                 name={data.name}
+           
+           <Form.Control
+                 name={FieldValue}
+                 value={FieldValue}
                   type="checkbox"
                    className="form-check-input"
                    onChange={(e) => {
-                     handleRadioChangedata(e, i);
+                     handleRadioChangedata(e);
                      if (e.target.checked) {
                        setModalShow(false);
                      }
                    }}
-                   // name="required"
-                 />
+                 /> 
             <button
+              name={setFieldValue}
               type="button"
               className="btn btn-primary btn-filled"
               data-bs-dismiss="modal"
-              onClick={() => setModalShow(false)}
+              onClick={(e) => handleRadioChangedata(e)}
             >
-              Required
+         Required
             </button>
           
           </div>
         </Modal.Body>
       </Modal>
 
-                          {/* <Modal
-                            show={modalShow}
-                            size="sm"
-                            aria-labelledby="contained-modal-title-vcenter"
-                            centered
-                          >
-                            <Modal.Header
-                              onClick={() => setModalShow(false)}
-                              closeButton
-                            ></Modal.Header>
-                            <Modal.Body>
-                              {data.isActive == true ? (
-                                <>
-                                  <br />
-                                  <span>Required</span>
-                                  <Form.Control
-                                    name={data.name}
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    onChange={(e) => {
-                                      handleRadioChangedata(e, i);
-                                      if (e.target.checked) {
-                                        setModalShow(false);
-                                      }
-                                    }}
-                                    // name="required"
-                                  />
-                                </>
-                              ) : null}
-                            </Modal.Body>
-                            <Modal.Footer>
-                              <Button
-                                onClick={() => {
-                                  setModalShow(false);
-                                }}
-                              >
-                                Close
-                              </Button>
-                            </Modal.Footer>
-                          </Modal> */}
-                        </>
-                      );
-                    })}
+{console.log("FieldValue",FieldValue)}
                     <button onClick={addData}>
                       Add data field <span>+</span>
                     </button>
                   </div>
-                </div>
-
-                <div className="add_field_new">
+                  <div className="add_field_new">
                   {show == true ? (
                     <>
                       <input
@@ -381,6 +325,9 @@ const RegistraionDetails = () => {
                     </>
                   ) : null}
                 </div>
+                </div>
+
+                
                 {/* <Col>
                   <div>
                     <img id="imgVieww" src="" alt="Viewing the registration page image" width={340} />

@@ -72,6 +72,7 @@ const Table = (props, ref) => {
   const [updateCounter, setUpdateCounter] = useState(0);
   const [getNewReaders, setNewReaders] = useState([]);
   const [emailChanged, setEmailChanged] = useState("");
+  const [getStorageState, setStorageState] = useState(false);
   let file_name = useRef("");
 
   const [hpc, setHpc] = useState([
@@ -92,6 +93,15 @@ const Table = (props, ref) => {
   );
 
   useEffect(() => {
+
+    var x = localStorage.getItem("sd_i");
+    if(x){
+      setStorageState(true);
+    }else{
+      setStorageState(false);
+    }
+
+
     setUpdatedData(props.data);
     setEditList(props.data);
     // if(typeof props.data != "undefined" && props.data.length > 0){
@@ -332,11 +342,19 @@ const Table = (props, ref) => {
               redirect: "/SmartList",
             });
           }else{
+            var path = "";
+            var x = localStorage.getItem("sd_i");
+            if(x){
+              localStorage.removeItem("sd_i");
+              path = "/SelectSmartList";
+            }else{
+              path = "/SmartList";
+            }
             popup_alert({
               visible: "show",
               message: "Your smart list has been created <br />successfully !",
               type: "success",
-              redirect: "/SmartList",
+              redirect: path,
             });
           }
         } else {
@@ -919,11 +937,11 @@ const Table = (props, ref) => {
               <div className="col-12 col-md-1">
                 <div className="header-btn-left">
                   <button className="btn btn-primary btn-bordered back">
-                    <Link to={"/CreateSmartList"}>BACK</Link>
+                    <Link to={"/CreateSmartList"}>Back</Link>
                   </button>
                 </div>
               </div>
-              <div className="col-12 col-md-9">
+              <div className="col-12 col-md-8">
                 <ul className="tabnav-link">
                   <li className="">
                     <a href="javascript:void(0)">Create smart List</a>
@@ -933,7 +951,7 @@ const Table = (props, ref) => {
                   </li>
                 </ul>
               </div>
-              <div className="col-12 col-md-2">
+              <div className="col-12 col-md-3">
                 <div className="header-btn">
                   <button className="btn btn-primary btn-bordered move-draft">
                     <Link to={{ pathname: "/CreateSmartList" }}>Cancel</Link>
@@ -942,7 +960,9 @@ const Table = (props, ref) => {
                     className="btn btn-primary btn-filled create"
                     onClick={showFileInReadersList}
                   >
-                    Create
+                  {
+                    getStorageState ? "Create & go to email" : "Create"
+                  }
                   </button>
                 </div>
               </div>

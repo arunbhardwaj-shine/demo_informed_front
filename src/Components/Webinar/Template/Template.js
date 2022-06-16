@@ -356,22 +356,19 @@ const Template = (props) => {
       {localStorage.getItem("EventIdHeader") ? (
         <>
           <div class="top-header">
-            <div class="custom-container">
-              <div class="row">
-                <div class="page-title">
+                <div className="page-title">
                   <h3>Auto Emails</h3>
                 </div>
-              </div>
-              <Button onClick={() => { setModalShow(true); }} >
-                  Create New Template
-              </Button>
-            </div>
+                <div className="top-right-action">
+                  <Button onClick={() => { setModalShow(true); }} >
+                      Create New Template
+                  </Button>
+                </div>
           </div>
         </>
       ) : null}
         <section className="select-mail-template">
-          <div class="custom-container">
-            <div className="row">
+            <div className="row select-mail-template-slider">
             {templateList ? (
               <AliceCarousel mouseTracking disableDotsControls activeIndex={activeIndex} responsive={responsive} onSlideChanged={syncActiveIndex} >
                 {templateList ?.map((val, i) => (
@@ -398,9 +395,16 @@ const Template = (props) => {
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <Modal.Header onClick={() => setModalShow(false)} closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-            Create Template
+        <Modal.Header >
+        <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="modal"
+            onClick={() => setModalShow(false)}
+          ></button>
+          <Modal.Title >
+            <h4> Create Template</h4>
+           
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -583,15 +587,11 @@ const Template = (props) => {
            
           </form>
           <div class="sample-mail-templates">
-											<div class="select-sample-template">
-												<img src="assets/images/mail-sample.png" alt=""/>
-                        <EmailEditor
-                    ref={emailEditorRef}
-                    onLoad={onLoad}
-                    onReady={onReady}
-                  ></EmailEditor>
-                        </div>
-                        </div>
+            <div class="select-sample-template">
+              <img src="assets/images/mail-sample.png" alt=""/>
+                <EmailEditor ref={emailEditorRef} onLoad={onLoad} onReady={onReady}></EmailEditor>
+            </div>
+          </div>
         </div>
       ) : (
         <h2>{message}</h2>
@@ -675,9 +675,7 @@ const Template = (props) => {
           </button>
         </Modal.Footer>
       </Modal>
-    </div>
-              </div>
-        
+      </div>
           </section>
     </div>
   );

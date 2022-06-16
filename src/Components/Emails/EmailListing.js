@@ -1012,7 +1012,7 @@ const EmailList = (props) => {
                           <div className="mail-stats">
                             <ul>
                               <li>
-                                <div className="mail-status mail_send">
+                                <div className="mail-status mail_send" title="Sent Emails">
                                   <svg
                                     width="16"
                                     height="16"
@@ -1044,7 +1044,7 @@ const EmailList = (props) => {
                                 <span>{data.total_Sent}</span>
                               </li>
                               <li>
-                                <div className="mail-status mail_view">
+                                <div className="mail-status mail_view" title="Opened Emails">
                                   <svg
                                     width="14"
                                     height="14"
@@ -1077,7 +1077,7 @@ const EmailList = (props) => {
                                 </span>
                               </li>
                               <li>
-                                <div className="mail-status mail_click">
+                                <div className="mail-status mail_click" title="CTR Clicks">
                                   <svg
                                     width="14"
                                     height="16"

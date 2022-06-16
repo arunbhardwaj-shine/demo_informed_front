@@ -399,18 +399,13 @@ const handleEmailSCreate = () => {
             </div>
         </div>
             <div className="top-header">
-		          <div className="custom-container">
-		            <div className="row">
-		              <div className="page-title">
-		                <h4>Select your Template</h4>
-		              </div>
-		            </div>
-		          </div>
+              <div className="page-title">
+                <h4>Select your Template</h4>
+              </div>
 		        </div>
 
             <section className="select-mail-template">
-            <div class="custom-container">
-              <div className="row">
+              <div className="row select-mail-template-slider">
                   <AliceCarousel
                     mouseTracking
                     disableDotsControls
@@ -686,8 +681,6 @@ const handleEmailSCreate = () => {
           </button>
         </Modal.Footer>
       </Modal>
-          </div>
-        
         </section>
        
       
