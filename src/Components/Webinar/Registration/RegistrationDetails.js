@@ -45,11 +45,17 @@ const RegistraionDetails = () => {
     }
   };
   const handleRadioChangedata = (e, i) => {
+    alert()
     const { checked, name } = e.target;
+    console.log("checked,",checked)
     const Index = selectedName.findIndex((v) => v.value == name);
+    console.log("Index,",Index)
     let copy = selectedName[Index];
+    console.log("copy,",copy)
+    
     console.log(Index);
     copy.required = checked;
+    console.log(" copy.required,", copy.required)
 
     setSelectedName([...selectedName]);
   };
@@ -273,7 +279,7 @@ const RegistraionDetails = () => {
         <Modal.Body>
           <img src={path_image + "webinar/alert.png"} alt="" />
           <h4>
-            This field  will be required.
+          You want this field required ?
           </h4>
           <div className="modal-buttons">
           <Form.Control
@@ -281,6 +287,7 @@ const RegistraionDetails = () => {
                   type="checkbox"
                    className="form-check-input"
                    onChange={(e) => {
+                    alert("okk")
                      handleRadioChangedata(e, i);
                      if (e.target.checked) {
                        setModalShow(false);
