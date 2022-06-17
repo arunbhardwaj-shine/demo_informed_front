@@ -139,7 +139,7 @@ const Sidebar = () => {
                     </Link>
                   </li> */}
 
-                  <li
+                  {/* <li
                     className={
                       location.pathname === "/webinar/rehearsallist"
                         ? "active"
@@ -149,9 +149,9 @@ const Sidebar = () => {
                   >
                     <Link to="/webinar/rehearsallist">
                       <img src={path_image + "webinar/rehearsal.svg"} />
-                      {/* <p>Rehearsal</p> */}
+                     
                     </Link>
-                  </li>
+                  </li> */}
 
                   <li
                     className={
@@ -492,7 +492,7 @@ const Sidebar = () => {
                     >
                       <Link to="/webinar/portal/registrationDetails">
                         <img src={path_image + "webinar/event.svg"} />
-                        <p>Registration Page</p>
+                        <p>Registration Details</p>
                       </Link>
                     </li>
                   </ul>
@@ -518,7 +518,7 @@ const Sidebar = () => {
                       }
                     >
                       <Link to="/webinar/email/template">
-                        <img src={path_image + "webinar/auto-mail.svg"} />
+                        <img src={path_image + "webinar/home.svg"} />
                         <p>Auto Email</p>
                       </Link>
                     </li>
@@ -536,7 +536,7 @@ const Sidebar = () => {
                       }
                     >
                       <Link to="/webinar/email/emails">
-                        <img src={path_image + "webinar/mail-box.svg"} />
+                        <img src={path_image + "webinar/dashboard.svg"} />
                         <p>Emails</p>
                       </Link>
                     </li>
@@ -548,7 +548,7 @@ const Sidebar = () => {
                       }
                     >
                       <Link to="/webinar/email/WebinarSmartList">
-                        <img src={path_image + "webinar/smartlist.svg"} />
+                        <img src={path_image + "webinar/portal.svg"} />
                         <p>Smart List</p>
                       </Link>
                     </li>

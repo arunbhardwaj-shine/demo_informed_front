@@ -276,7 +276,6 @@ const WebinarSmartList = () => {
               <form class="d-flex">
                 <input
                   class="form-control me-2"
-                  type="search"
                   placeholder="Search"
                   aria-label="Search"
                   onChange={(e) => searchChange(e)}
@@ -423,104 +422,98 @@ const WebinarSmartList = () => {
           </div>
         </div>
         <div class="smart-list-result">
-              <div class="col smartlist-result-block">
-                <div class="smartlist_box_block">
-                  <div class="smartlist-add smartlist-view">
-                    <Link to="/webinar/email/SmartListCreate">
-                      <img src={path_image + "add-button.svg"} alt="" />
-                    </Link>
-                    <p>Create New Smart List</p>
-                  </div>
-                </div>
-
-                {typeof smartListData !== "undefined" &&
-                smartListData.length > 0
-                  ? smartListData.map((data) => {
-                      return (
-                        <div class="smartlist_box_block">
-                          {console.log(data)}
-                          <div class="smartlist-view email_box">
-                            <div class="mail-box-content">
-                              {data.count != 0 ? (
-                                <Link
-                                  // className="btn btn-primary btn-filled view"
-                                  to={{
-                                    pathname:
-                                      "/webinar/email/ViewSmartListWebinar",
-                                    search: "?listId=" + data.id,
-                                  }}
-                                >
-                                  {" "}
-                                  <h5>{data.name}</h5>{" "}
-                                </Link>
-                              ) : (
-                                <h5>{data.name}</h5>
-                              )}
-                              <div class="mail-time">
-                                <span>{data.mod_date}</span>
-                              </div>
-                              <div class="smart-list-added-user">
-                                <img
-                                  src={path_image + "smartlist-user.svg"}
-                                  alt="User icon"
-                                />
-
-                                {data.count}
-                              </div>
-                              <div class="mail-stats">
-                                <ul>
-                                  <li>
-                                    <div class="mail-status smartlist_view">
-                                      <img
-                                        src={path_image + "user-group.png"}
-                                        alt=""
-                                      />
-                                    </div>
-                                    <span>10%</span>
-                                  </li>
-                                  <li>
-                                    <div class="mail-status mail_click">
-                                      <img
-                                        src={path_image + "user-click.png"}
-                                        alt=""
-                                      />
-                                    </div>
-                                    <span>60%</span>
-                                  </li>
-                                  <li>
-                                    <div class="mail-status smartlist_view">
-                                      <img
-                                        src={
-                                          path_image + "user-mail-template.png"
-                                        }
-                                        alt=""
-                                      />
-                                    </div>
-                                    <span>60%</span>
-                                  </li>
-                                </ul>
-                              </div>
-                              {deletestatus && (
-                                <div className="dlt_btn">
-                                  <button
-                                    onClick={(e) =>
-                                      showConfirmationPopup(data.id)
-                                    }
-                                  >
-                                    <img
-                                      src={path_image + "delete.svg"}
-                                      alt="Delete Row"
-                                    />
-                                  </button>
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })
-                  : null}
+          <div class="col smartlist-result-block">
+            <div class="smartlist_box_block">
+              <div class="smartlist-add smartlist-view">
+                <Link to="/webinar/email/SmartListCreate">
+                  <img src={path_image + "add-button.svg"} alt="" />
+                </Link>
+                <p>Create New Smart List</p>
               </div>
+            </div>
+
+            {typeof smartListData !== "undefined" && smartListData.length > 0
+              ? smartListData.map((data) => {
+                  return (
+                    <div class="smartlist_box_block">
+                      {console.log(data)}
+                      <div class="smartlist-view email_box">
+                        <div class="mail-box-content">
+                          {data.count != 0 ? (
+                            <Link
+                              // className="btn btn-primary btn-filled view"
+                              to={{
+                                pathname: "/webinar/email/ViewSmartListWebinar",
+                                search: "?listId=" + data.id,
+                              }}
+                            >
+                              {" "}
+                              <h5>{data.name}</h5>{" "}
+                            </Link>
+                          ) : (
+                            <h5>{data.name}</h5>
+                          )}
+                          <div class="mail-time">
+                            <span>{data.mod_date}</span>
+                          </div>
+                          <div class="smart-list-added-user">
+                            <img
+                              src={path_image + "smartlist-user.svg"}
+                              alt="User icon"
+                            />
+
+                            {data.count}
+                          </div>
+                          <div class="mail-stats">
+                            <ul>
+                              <li>
+                                <div class="mail-status smartlist_view">
+                                  <img
+                                    src={path_image + "user-group.png"}
+                                    alt=""
+                                  />
+                                </div>
+                                <span>10%</span>
+                              </li>
+                              <li>
+                                <div class="mail-status mail_click">
+                                  <img
+                                    src={path_image + "user-click.png"}
+                                    alt=""
+                                  />
+                                </div>
+                                <span>60%</span>
+                              </li>
+                              <li>
+                                <div class="mail-status smartlist_view">
+                                  <img
+                                    src={path_image + "user-mail-template.png"}
+                                    alt=""
+                                  />
+                                </div>
+                                <span>60%</span>
+                              </li>
+                            </ul>
+                          </div>
+                          {deletestatus && (
+                            <div className="dlt_btn">
+                              <button
+                                onClick={(e) => showConfirmationPopup(data.id)}
+                              >
+                                <img
+                                  src={path_image + "delete.svg"}
+                                  alt="Delete Row"
+                                />
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })
+              : null}
+          </div>
         </div>
       </div>
 

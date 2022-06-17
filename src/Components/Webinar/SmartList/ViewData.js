@@ -1023,7 +1023,7 @@ const ViewData = (props) => {
                 <form class="d-flex" onSubmit={(e) => submitHandler(e)}>
                   <input
                     class="form-control me-2"
-                    type="search"
+                    //   type="search"
                     placeholder="Search"
                     aria-label="Search"
                     onChange={(e) => searchChange(e)}
