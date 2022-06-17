@@ -127,7 +127,7 @@ export const Testmail = (props) => {
             </Col>
           </Row>
         </Row>
-        <Button type="submit">Send</Button>
+        <Button type="submit" className="btn-filled">Send</Button>
       </form>
     </div>
   );

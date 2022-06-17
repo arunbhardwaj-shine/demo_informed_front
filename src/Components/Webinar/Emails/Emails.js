@@ -432,6 +432,8 @@ const SendEmails = () => {
                       <span>Draft</span>
                     </div>
                     <div class="mail-box-content">
+                      <div className="mail-box-content-top">
+                      <div className="mail-box-content-top-view">
                       <h5>{val.subject}</h5>
                       <p>Email Type</p>
                       <div class="mailbox-tags">
@@ -491,6 +493,8 @@ const SendEmails = () => {
                             <span>0%</span>
                           </li>
                         </ul>
+                      </div>
+                      </div>
                       </div>
                       <div class="mailbox-buttons">
                         <div class="mailbox-buttons-list">
