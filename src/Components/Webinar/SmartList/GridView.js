@@ -606,7 +606,6 @@ const GridView = (props) => {
                     />
                   </div>
                 </a>
-                <div></div>
               </div>
               <div class="search-bar">
                 <form class="d-flex" onSubmit={(e) => submitHandler(e)}>

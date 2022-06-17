@@ -616,13 +616,9 @@ const ViewData = (props) => {
 
       // if(editableData.length > 0){
       let prev_obj = editableData.find((x) => x.id === id);
-      if (typeof prev_obj != "undefined") {
-        //update existing
-        editableData.map((obj) => arr.find((o) => o.id === id) || obj);
-      } else {
-        //create new
-        setEditableData((oldArray) => [...oldArray, ...arr]);
-      }
+
+      //create new
+      setEditableData((oldArray) => [...oldArray, ...arr]);
 
       console.log(editableData);
       // }else{
