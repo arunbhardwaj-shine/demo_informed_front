@@ -1,5 +1,5 @@
 :root{
-	--white: var(--white);
+	--white: #ffffff;
 	--light-blue: #0066BE;
 	--light-skyblue: #e7eff6;
 	--red:#ff0000;
@@ -639,7 +639,6 @@ form#add_hcp_form .row:not(:first-child) { border-top: 1px dashed var(--light-bl
   .inputfile { width: 0.1px; height: 0.1px; opacity: 0; overflow: hidden; position: absolute; z-index: -1; }
  .inputfile ~ label { max-width: 80%; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; display: inline-block; overflow: hidden; padding: 11px; background: var(--light-blue); border-radius: 30px; color: var(--white) !important; font-size: 16px; line-height: 30px; font-family: 'Roboto-medium'; font-weight: 500; min-width: 169px; text-align: center; height: 51px; }
  /* .inputfile ~ label:hover{background: var(--blue);} */
-.send-confirm .modal-body { padding: 0 32px 16px; }
  .upload-file-box .box { display: flex; justify-content: space-between; flex-direction: row-reverse; align-items: center;width:100%; }
  .upload-file-box .box p { margin: 0; font-size: 18px; line-height: 145.19%; color: #959595; font-family: 'Roboto-Light';}
 .send-confirm .modal-body .modal-buttons { justify-content: flex-end; margin-top: 16px; }
@@ -1454,10 +1453,13 @@ max-width:382px;
 .top-right-action .hcp-user-download .btn:hover, .top-right-action .hcp-new-user .btn:hover, .top-right-action .hcp-added .btn:hover, .hcp-user-upload .btn:hover {
     background: var(--light-blue);
   }
-  .hcp-user-upload .btn:hover img, .hcp-user-download .btn:hover img, .user-type-action .btn:hover img {
+  .hcp-user-upload .btn:hover img, .hcp-user-download .btn:hover img, .user-type-action .btn:hover img, .clear-search button.download:hover img {
     filter: brightness(0) invert(1);
 }
-
+.clear-search button.download svg {
+    width: 24px;
+    height: 24px;
+}
 .top-header .page-title {
 	display: flex;
 }
@@ -2093,9 +2095,7 @@ min-width: 110px;
 .form-buttons .approved-btn svg {
     margin-left: 10px;
 }
-.modal .modal-body {
-    padding: 0 50px 8px;
-}
+
 button#test-table-xls-button {
     font-size: 0;
     width: 52px;
@@ -2152,6 +2152,33 @@ button#test-table-xls-button:hover {
 .readerListing {
     margin-top: 50px;
 }
+.send-confirm #delete-confirm .modal-body .modal-buttons {
+    justify-content: space-around;
+    margin-top:23px
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2242,6 +2269,7 @@ ul.hcp-table-content-right .user-type-action button img {
 .hcp-table-content ul.hcp-table-content-right .user-type-option {
     display: flex;
     border-right: 1px solid #C4C4C4;
+    padding-right:8px;
 }
 .user-type-action button {
     margin-left: 8px;
