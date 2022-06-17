@@ -146,7 +146,7 @@ const Template = (props) => {
             localStorage.getItem("EventIdHeader"),
             design,
             html,
-            localStorage.getItem("idd"),
+            localStorage.getItem("TEMPLATEID"),
             tagClickedFirst,
             0
           ).then((resp) => {
@@ -197,7 +197,7 @@ const Template = (props) => {
             localStorage.getItem("EventIdHeader"),
             design,
             html,
-            localStorage.getItem("idd"),
+            localStorage.getItem("TEMPLATEID"),
             tagClickedFirst,
             formik.values.is_approved,
           ).then((resp) => {
@@ -264,18 +264,28 @@ const Template = (props) => {
     });
   };
   const handleGetTemplate = (idd) => {
+    localStorage.setItem("TEMPLATEID",idd);
+    loader("show")
     setDpc();
     setId(idd);
     ExportApi.UserTemplate(idd).then((resp) => {
       if (resp.ok) {
+        if(resp.data.data.json_description){
         setTimeout(() => {
           emailEditorRef.current.editor.loadDesign(
             resp.data.data.json_description
               ? JSON.parse(resp.data.data.json_description)
               : hello
-          );
-        }, 1000);
 
+          );
+          loader("hide")
+        }, 1000);
+      }else{
+        setTimeout(() => {
+          emailEditorRef.current.editor.loadDesign( );
+          loader("hide")
+        }, 1000);
+      }
      setFinalTags(resp.data.data.tags)
        resp.data.data.tags?  setTagClickedFirst(resp.data.data.tags):setTagClickedFirst([])
         setTemplate(resp.data.data);
@@ -378,7 +388,7 @@ const Template = (props) => {
                       <div class="item-top-schedule">
                         <img  src={path_image + "webinar/mail-schedule.png"} alt="" />
                       </div>
-                      <img src={path_image + "webinar/mail-format.png"} alt="" onClick={(e) => { localStorage.setItem("idd", val.id); handleGetTemplate(val.id); localStorage.setItem("template", val.name); setTName(val.name); setFormShow(true); }} className="select_mm" />
+                      <img src={path_image + "webinar/mail-format.png"} alt="" onClick={(e) => { localStorage.setItem("TEMPLATEID", val.Id); handleGetTemplate(val.id); localStorage.setItem("template", val.name); setTName(val.name);setFormShow(true)}} className="select_mm" />
                     </div>
                     <p>{val.name}</p>
                   </div>

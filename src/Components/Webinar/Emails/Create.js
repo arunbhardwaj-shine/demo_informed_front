@@ -306,16 +306,27 @@ const handleEmailSCreate = () => {
     setDpc();
     setId(idd);
     ExportApi.UserTemplate(idd).then((resp) => {
+      loader("show")
       if (resp.ok) {
-        setTimeout(() => {
-          emailEditorRef.current.editor.loadDesign(
-            resp.data.data.json_description
-              ? JSON.parse(resp.data.data.json_description)
-              : null
-              );
-              loader("hide");
-              setnextPage(true)
-        }, 2000);
+        if(resp.data.data.json_description){
+          setTimeout(() => {
+            emailEditorRef.current.editor.loadDesign(
+              resp.data.data.json_description
+                ? JSON.parse(resp.data.data.json_description)
+                : emailEditorRef.current.editor.loadDesign( )
+  
+            );
+            loader("hide")
+            setnextPage(true)
+          }, 1000);
+        }else{
+          setTimeout(() => {
+            emailEditorRef.current.editor.loadDesign( );
+            loader("hide")
+            setnextPage(true)
+          }, 1000);
+        }
+           
         console.log(resp.data.data.tags);
         resp.data.data.tags? setFinalTags(resp.data.data.tags):setFinalTags([])
         resp.data.data.tags?  setTagClickedFirst(resp.data.data.tags):setTagClickedFirst([])
