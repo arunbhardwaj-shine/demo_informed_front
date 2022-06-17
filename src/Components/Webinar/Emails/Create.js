@@ -148,7 +148,7 @@ const CreateEmails = (props) => {
             localStorage.getItem("EventIdHeader"),
             design,
             html,
-            localStorage.getItem("idd"),
+            localStorage.getItem("TEMPLATEID"),
             tagClickedFirst,
             0
           ).then((resp) => {
@@ -239,7 +239,7 @@ const handleEmailSCreate = () => {
   if( localStorage.getItem("TEMPLATEID")){
     formik.handleSubmit()
     setTimeout(() => {
-    formik.values.Subject? ExportApi.EmailSCreate(localStorage.getItem("idd"),localStorage.getItem("EventIdHeader"),formik.values.Subject,tagClickedFirst,).then((resp) => {
+    formik.values.Subject? ExportApi.EmailSCreate(localStorage.getItem("TEMPLATEID"),localStorage.getItem("EventIdHeader"),formik.values.Subject,tagClickedFirst,).then((resp) => {
         if (resp.ok) {
          console.log( resp.data.data.collection_id)
           localStorage.setItem("collection_id",resp.data.data.collection_id)
@@ -473,7 +473,7 @@ const handleEmailSCreate = () => {
                               src={path_image + "webinar/mail-format.png"}
                               alt=""
                               onClick={(e) => {
-                                localStorage.setItem("idd", val.id);
+                                localStorage.setItem("TEMPLATEID", val.id);
                                 handleGetTemplate(val.id);
                                 localStorage.setItem("template", val.name);
                                 setTName(val.name);
@@ -512,7 +512,7 @@ data-bs-dismiss="modal"
 ></button>
         </Modal.Header>
         <Modal.Body>
-          <Testmail data={setModalShow2} data1={id} />
+          <Testmail data={setModalShow2}  />
         </Modal.Body>
       </Modal>
 
