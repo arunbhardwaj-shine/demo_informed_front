@@ -80,11 +80,7 @@ function CreateTemplate(props) {
                 ) : null}
             </Col>
           </Row>
-          <Button
-            type="submit"
-          >
-            Go
-          </Button>
+          <Button type="submit" className="btn-filled"> Go </Button>
           </form>
     </div>
   )

@@ -518,7 +518,7 @@ const Sidebar = () => {
                       }
                     >
                       <Link to="/webinar/email/template">
-                        <img src={path_image + "webinar/home.svg"} />
+                        <img src={path_image + "webinar/auto-mail.svg"} />
                         <p>Auto Email</p>
                       </Link>
                     </li>
@@ -536,7 +536,7 @@ const Sidebar = () => {
                       }
                     >
                       <Link to="/webinar/email/emails">
-                        <img src={path_image + "webinar/dashboard.svg"} />
+                        <img src={path_image + "webinar/mail-box.svg"} />
                         <p>Emails</p>
                       </Link>
                     </li>
@@ -548,7 +548,7 @@ const Sidebar = () => {
                       }
                     >
                       <Link to="/webinar/email/WebinarSmartList">
-                        <img src={path_image + "webinar/portal.svg"} />
+                        <img src={path_image + "webinar/smartlist.svg"} />
                         <p>Smart List</p>
                       </Link>
                     </li>
