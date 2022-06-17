@@ -1089,7 +1089,7 @@ const TableView = (props, ref) => {
         <Modal.Body>
           <img src={path + "alert.png"} alt="" />
           <h4>
-            The HCP record will be deleted from the list.
+            The record will be deleted from the list.
             <br />
             Are you sure you want to delete it?
           </h4>

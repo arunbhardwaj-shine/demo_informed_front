@@ -493,7 +493,7 @@ const Sidebar = () => {
                     >
                       <Link to="/webinar/portal/registrationDetails">
                         <img src={path_image + "webinar/event.svg"} />
-                        <p>Registration Details</p>
+                        <p>Registration Page</p>
                       </Link>
                     </li>
                   </ul>
