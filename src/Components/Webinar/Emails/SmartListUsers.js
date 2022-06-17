@@ -164,7 +164,7 @@ setDataCopy([obj])
                   Save As Draft
                 </button>
 				{editShow ?null:
-                <button class="btn btn-primary btn-filled back send"  type="button" onClick={()=>{handleSendMail()}}>
+                <button class="btn btn-primary btn-filled send"  type="button" onClick={()=>{handleSendMail()}}>
                    Send
 				</button>}
               
@@ -413,7 +413,7 @@ setDataCopy([obj])
 					})}</>:<h4>No Data</h4>}
 				
 						
-				<Modal
+				<Modal id="modal-add"
         show={modalShow1}
         size="sm"
         aria-labelledby="contained-modal-title-vcenter"
