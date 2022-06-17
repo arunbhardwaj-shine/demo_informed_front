@@ -17,6 +17,7 @@ const RegistraionDetails = () => {
     { value: "Profession", name: "Profession", isActive: false },
     { value: "ConSent", name: "ConSent", isActive: false },
   ]);
+  let path_image = process.env.REACT_APP_ASSETS_PATH_WEBINAR;
   const [modalShow, setModalShow] = useState(false);
   const [event, setEvent] = useState([]);
   const [selectedName, setSelectedName] = useState([]);
@@ -27,7 +28,7 @@ const RegistraionDetails = () => {
   const [image, setimage] = useState();
   const [field, setField] = useState("");
   const [errimage, setErrimage] = useState(false);
-  let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  // let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const handeleimage = (e) => {
     let file = e.target.files[0];
     setimage(e.target.files[0]);
@@ -273,7 +274,11 @@ const RegistraionDetails = () => {
                             data-bs-dismiss="modal"
                             onClick={(e) => handleRadioChangedata(e)}
                           >
-                            Required
+                            Yes
+                          </button>
+
+                          <button onClick={(e) => setModalShow(false)}>
+                            No
                           </button>
                         </div>
                       </Modal.Body>
@@ -316,7 +321,23 @@ const RegistraionDetails = () => {
                     ) : null}
                   </div>
                 </div>
-
+                <div className="upload-file-box">
+                  <div className="box">
+                    <input
+                      type="file"
+                      name="file-4[]"
+                      id="file-4"
+                      onChange={(e) => handeleimage(e)}
+                      className="inputfile inputfile-3"
+                      data-multiple-caption="{count} files selected"
+                      multiple=""
+                    />
+                    <label for="file-4">
+                      <span>Choose Your File</span>
+                    </label>
+                    <p>Upload your registration page design file</p>
+                  </div>
+                </div>
                 {/* <Col>
                   <div>
                     <img id="imgVieww" src="" alt="Viewing the registration page image" width={340} />
@@ -330,33 +351,18 @@ const RegistraionDetails = () => {
                 </button>
               </form>
             </Col>
+
             <Col className="registration_right">
               <div className="registration_right-view">
                 <img
                   id="imgVieww"
-                  src=""
+                  src={path_image + "dummy-img.png"}
                   alt="Viewing the registration page image"
                 />
               </div>
             </Col>
           </div>
-          <div className="upload-file-box">
-            <div className="box">
-              <input
-                type="file"
-                name="file-4[]"
-                id="file-4"
-                onChange={(e) => handeleimage(e)}
-                className="inputfile inputfile-3"
-                data-multiple-caption="{count} files selected"
-                multiple=""
-              />
-              <label for="file-4">
-                <span>Choose Your File</span>
-              </label>
-              <p>Upload your registration page design file</p>
-            </div>
-          </div>
+
           <div className="download-sample">
             <p>Download registration page design guide file to design yours</p>
             <div className="upload-btn">

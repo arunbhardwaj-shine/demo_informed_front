@@ -520,9 +520,7 @@ const RegistrationDetailsList = () => {
               type="button"
               className="btn btn-primary btn-bordered light"
               data-bs-dismiss="modal"
-              onClick={() => {
-                setModalShow1(false);
-              }}
+              onClick={() => setModalShow1(false)}
             >
               Cancel
             </button>
