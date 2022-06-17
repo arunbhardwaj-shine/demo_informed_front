@@ -338,10 +338,11 @@ const Template = (props) => {
     GetTagsAll();
   }, []);
   return (
-    <div class="right-sidebar">
+    <>
       <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
       </div>
+    <div class="right-sidebar">
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -423,10 +424,19 @@ const Template = (props) => {
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <Modal.Header onClick={() => setModalShow2(false)} closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-            Test Mail
-          </Modal.Title>
+        <Modal.Header >
+        <h4>Test Mail</h4> 
+           <button
+
+type="button"
+
+onClick={() => setModalShow2(false)}
+
+class="btn-close"
+
+data-bs-dismiss="modal"
+
+></button>
         </Modal.Header>
         <Modal.Body>
           <Testmail data={setModalShow2} data1={id} />
@@ -678,6 +688,7 @@ const Template = (props) => {
       </div>
           </section>
     </div>
+    </>
   );
 };
 
