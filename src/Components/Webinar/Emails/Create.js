@@ -1,6 +1,6 @@
 import React,{useState,useEffect,useRef} from "react";
 import EmailEditor from "react-email-editor";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import AliceCarousel from "react-alice-carousel";
 import { Button, Col, Form, Modal, Row, Table } from "react-bootstrap";
 import ExportApi from "../../../Api/ExportApi";
@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 
 var state_object = {};
 const CreateEmails = (props) => {
+  const location = useLocation();
   const [id, setId] = useState();
   const [FormShow, setFormShow] = useState(false);
   const [tName, setTName] = useState();
@@ -259,6 +260,7 @@ const handleEmailSCreate = () => {
             setMessage("Please create template");
             setTemplateList();
             setTemplate();
+           
           } else {
             setMessage("Please create Event");
           }
@@ -325,6 +327,9 @@ const handleEmailSCreate = () => {
     } else {
       setMessage("Please create Event");
     }
+    const {state} = location;
+// const { id,  } = state;
+// console.log("pp",id, )
   }, []);
   const saveButtonClicked = () => {
     if (typeof finalTags != "undefined" && finalTags.length > 0) {
@@ -349,8 +354,6 @@ const handleEmailSCreate = () => {
   useEffect(() => {
     GetTagsAll();
   }, []);
- 
-
 	return ( 
 
       <div className="right-sidebar">

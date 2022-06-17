@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Accordion from "react-bootstrap/Accordion";
 import ExportApi from "../../../Api/ExportApi";
 const SendEmails = () => {
-  const [data , setData]=useState([])
+  const [data, setData] = useState([]);
   const [showfilter, setShowFilter] = useState(false);
   const [Search, setSearch] = useState("");
   const [updateflag, setUpdateFlag] = useState([]);
   const [filtertags, setFilterTags] = useState([]);
   const [filter, setFilter] = useState("");
   const [NotFound, setNotFound] = useState();
+  const navigate = useNavigate();
   const [filterdata, setFilterData] = useState([
     "others",
     "global",
@@ -60,7 +61,7 @@ const SendEmails = () => {
       filtertags.push(ftag);
       setFilterTags(filtertags);
     }
-console.log("filtertags",filtertags)
+    console.log("filtertags", filtertags);
     let getfilter = filter;
     if (getfilter.hasOwnProperty("tags")) {
       getfilter.tags = filtertags;
@@ -68,7 +69,7 @@ console.log("filtertags",filtertags)
       getfilter = Object.assign({ tags: filtertags }, filter);
     }
     setFilter(getfilter);
-    console.log("getfilter",filter)
+    console.log("getfilter", filter);
 
     let up = updateflag + 1;
     setUpdateFlag(up);
@@ -77,64 +78,62 @@ console.log("filtertags",filtertags)
     document.querySelectorAll("input").forEach((checkbox) => {
       checkbox.checked = false;
     });
-    handleGetEmailSCollection()
+    handleGetEmailSCollection();
     setShowFilter(false);
     setFilterTags([]);
     setFilter([]);
     let up = updateflag + 1;
     setUpdateFlag(up);
     setShowFilter(false);
-  }
+  };
   const handleGetEmailSCollection = () => {
-		ExportApi.GetEmailSCollection().then((resp) => {
-		  if (resp.ok) {
+    ExportApi.GetEmailSCollection().then((resp) => {
+      if (resp.ok) {
         if (resp.data.code == 200) {
-          setData(resp.data.data) 
-          setNotFound()
+          setData(resp.data.data);
+          setNotFound();
         } else {
-        
-          setNotFound("No Data Found")
+          setNotFound("No Data Found");
         }
       }
-			       
-            //  console.log(resp.data.data) 
 
-		  })
-	
-	  };
+      //  console.log(resp.data.data)
+    });
+  };
   const handleSearchEmailSCollection = (e) => {
-    setSearch(e)
-		ExportApi.SearchEmailSCollection(filtertags>0?filtertags:"",e).then((resp) => {
-		  if (resp.ok) {
-        if (resp.data.code == 200) {
-          setData(resp.data.data) 
-          setNotFound()
-        } else {
-          setData()
-          setNotFound("No Data Found")
-        } 
-
-		  }
-		});
-	  };
-  const handleSearchEmailSCollectionFilter = () => {
-		ExportApi.SearchEmailSCollection(filtertags,Search?Search:"").then((resp) => {
-		  if (resp.ok) {
-        if (resp.data.code == 200) {
-          setData(resp.data.data) 
-          setNotFound()
-        } else {
-          setData()
-          setNotFound("No Data Found")
+    setSearch(e);
+    ExportApi.SearchEmailSCollection(filtertags > 0 ? filtertags : "", e).then(
+      (resp) => {
+        if (resp.ok) {
+          if (resp.data.code == 200) {
+            setData(resp.data.data);
+            setNotFound();
+          } else {
+            setData();
+            setNotFound("No Data Found");
+          }
         }
-
-		  }
-		});
-	  };
-useEffect(() => {
-  handleGetEmailSCollection()
-}, [])
-
+      }
+    );
+  };
+  const handleSearchEmailSCollectionFilter = () => {
+    ExportApi.SearchEmailSCollection(filtertags, Search ? Search : "").then(
+      (resp) => {
+        if (resp.ok) {
+          if (resp.data.code == 200) {
+            setData(resp.data.data);
+            setNotFound();
+          } else {
+            setData();
+            setNotFound("No Data Found");
+          }
+        }
+      }
+    );
+  };
+  useEffect(() => {
+    handleGetEmailSCollection();
+  }, []);
 
   return (
     <>
@@ -151,7 +150,9 @@ useEffect(() => {
                   type="text"
                   placeholder="Search"
                   aria-label="Search"
-                  onChange={(e)=>{handleSearchEmailSCollection(e.target.value)}}
+                  onChange={(e) => {
+                    handleSearchEmailSCollection(e.target.value);
+                  }}
                 />
                 <button class="btn btn-outline-success" type="submit">
                   <svg
@@ -169,7 +170,13 @@ useEffect(() => {
                 </button>
               </form>
             </div>
-            <div className={showfilter ? "filter-by nav-item dropdown highlight" : "filter-by nav-item dropdown"}>
+            <div
+              className={
+                showfilter
+                  ? "filter-by nav-item dropdown highlight"
+                  : "filter-by nav-item dropdown"
+              }
+            >
               <button
                 class="btn btn-secondary dropdown"
                 type="button"
@@ -227,21 +234,19 @@ useEffect(() => {
               </button>
               {console.log(showfilter)}
               {showfilter && (
-              <div
-              className="dropdown-menu filter-options"
-              aria-labelledby="dropdownMenuButton2"
-            >
-            <h4>Filter By</h4>
-            <Accordion defaultActiveKey="0" flush>
-             
-                  <Accordion.Item className="card" eventKey="0">
-                    <Accordion.Header className="card-header">
-                      Tags
-                    </Accordion.Header>
-                    <Accordion.Body className="card-body">
-                      <ul>
-                        {Object.entries(filterdata).map(
-                          ([index, item]) => (
+                <div
+                  className="dropdown-menu filter-options"
+                  aria-labelledby="dropdownMenuButton2"
+                >
+                  <h4>Filter By</h4>
+                  <Accordion defaultActiveKey="0" flush>
+                    <Accordion.Item className="card" eventKey="0">
+                      <Accordion.Header className="card-header">
+                        Tags
+                      </Accordion.Header>
+                      <Accordion.Body className="card-body">
+                        <ul>
+                          {Object.entries(filterdata).map(([index, item]) => (
                             <li>
                               {item != "" ? (
                                 <label className="select-multiple-option">
@@ -255,28 +260,35 @@ useEffect(() => {
                                       typeof filtertags !== "undefined" &&
                                       filtertags.indexOf(item) !== -1
                                     }
-                                    onChange={() =>
-                                      handleOnFilterTags(item)
-                                    }
+                                    onChange={() => handleOnFilterTags(item)}
                                   />
                                   {item}
                                   <span className="checkmark"></span>
                                 </label>
                               ) : null}
                             </li>
-                          )
-                        )}
-                      </ul>
-                    </Accordion.Body>
-                  </Accordion.Item>
-               
-            </Accordion>
-            <div class="filter-footer">
-              <button class="btn btn-primary btn-bordered"  onClick={clearFilter}>Clear</button>
-              <button class="btn btn-primary btn-filled" onClick={()=>{handleSearchEmailSCollectionFilter()}}>Apply</button>
-            </div>
-
-              </div>
+                          ))}
+                        </ul>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
+                  <div class="filter-footer">
+                    <button
+                      class="btn btn-primary btn-bordered"
+                      onClick={clearFilter}
+                    >
+                      Clear
+                    </button>
+                    <button
+                      class="btn btn-primary btn-filled"
+                      onClick={() => {
+                        handleSearchEmailSCollectionFilter();
+                      }}
+                    >
+                      Apply
+                    </button>
+                  </div>
+                </div>
               )}
             </div>
             {/* <div class="clear-search">
@@ -317,7 +329,6 @@ useEffect(() => {
             </div> */}
           </div>
         </div>
-            
 
         {/* <div className="apply-filter">
           <h6>Applied filters</h6>
@@ -400,70 +411,114 @@ useEffect(() => {
                   <p>Create New Email</p>
                 </Link>
               </div>
-              </div>
-              {data?.map((val,i)=>{
-            let tags=JSON.parse(val.tags)
-              return  (  <div class="email_box_block">
-									<div  className={
-                        "email_box " +
-                        (val.approved_status == 0
-                          ? " email-draft"
-                          : val.approved_status == 1
-                          ? "draft-approved"
-                          : val.approved_status == 2?
-                           " approved":"draft-approved")
-                      }>
-										<div class="mail-top-title">
-											<span>Draft</span>
-										</div>
-										<div class="mail-box-content">
-											<h5>{val.subject}</h5>
-											<p>Email Type</p>
-											<div class="mailbox-tags">
-												<ul>
-                        {tags?.map((datatags)=>{
-                         
-                          return(
-
-                            <li class="list1">{datatags}</li>
-                          )
-                        })}
-													{/* <li class="list2">tag2</li>
+            </div>
+            {data?.map((val, i) => {
+              let tags = JSON.parse(val.tags);
+              return (
+                <div class="email_box_block">
+                  <div
+                    className={
+                      "email_box " +
+                      (val.approved_status == 0
+                        ? " email-draft"
+                        : val.approved_status == 1
+                        ? "draft-approved"
+                        : val.approved_status == 2
+                        ? " approved"
+                        : "draft-approved")
+                    }
+                  >
+                    <div class="mail-top-title">
+                      <span>Draft</span>
+                    </div>
+                    <div class="mail-box-content">
+                      <h5>{val.subject}</h5>
+                      <p>Email Type</p>
+                      <div class="mailbox-tags">
+                        <ul>
+                          {tags?.map((datatags) => {
+                            return <li class="list1">{datatags}</li>;
+                          })}
+                          {/* <li class="list2">tag2</li>
 													<li class="list3">tag3</li>
 													<li class="list4">tag4</li>
 													<li class="list5">tag5</li> */}
-												</ul>
-											</div>
-                      
-											<div class="name-list"><span>{val?.smart_list?.name}</span></div>
-											<div class="mail-time"><span>{val?.mod_date}</span></div>
-											<div class="mail-stats">
-												<ul>
-													<li><div class="mail-status mail_send">
-														<img src={path_image +"/webinar/mail-send.png"} alt=""/>
-													</div><span>0</span></li>
-													<li><div class="mail-status mail_view">
-														<img src={path_image +"/webinar/mail-open.png"} alt=""/>
-													</div><span>10%</span></li>
-													<li><div class="mail-status mail_click">
-														<img src={path_image +"/webinar/mail-check.png"} alt=""/>
-													</div><span>40%</span></li>
-													<li><div class="mail-status mail_click">
-														<img src={path_image +"/webinar/mail-group.png"} alt=""/>
-													</div><span>0%</span></li>
-												</ul>
-											</div>
-											<div class="mailbox-buttons">
-												<div class="mailbox-buttons-list">
-													<button class="btn btn-primary btn-bordered edit"><Link to="/webinar/email/create">Edit</Link></button>
-													<button class="btn btn-primary btn-filled send">Send</button>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>)
-              })}
-              {/* <div class="email_box_block">
+                        </ul>
+                      </div>
+
+                      <div class="name-list">
+                        <span>{val?.smart_list?.name}</span>
+                      </div>
+                      <div class="mail-time">
+                        <span>{val?.mod_date}</span>
+                      </div>
+                      <div class="mail-stats">
+                        <ul>
+                          <li>
+                            <div class="mail-status mail_send">
+                              <img
+                                src={path_image + "/webinar/mail-send.png"}
+                                alt=""
+                              />
+                            </div>
+                            <span>0</span>
+                          </li>
+                          <li>
+                            <div class="mail-status mail_view">
+                              <img
+                                src={path_image + "/webinar/mail-open.png"}
+                                alt=""
+                              />
+                            </div>
+                            <span>10%</span>
+                          </li>
+                          <li>
+                            <div class="mail-status mail_click">
+                              <img
+                                src={path_image + "/webinar/mail-check.png"}
+                                alt=""
+                              />
+                            </div>
+                            <span>40%</span>
+                          </li>
+                          <li>
+                            <div class="mail-status mail_click">
+                              <img
+                                src={path_image + "/webinar/mail-group.png"}
+                                alt=""
+                              />
+                            </div>
+                            <span>0%</span>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="mailbox-buttons">
+                        <div class="mailbox-buttons-list">
+                          <button class="btn btn-primary btn-bordered edit" onClick={()=>navigate('/webinar/email/create', { state: { id: val.id, } })} >
+                            {/* <Link
+                              to={{
+                                pathname: "/webinar/email/create",
+                                state: { message: "jggjig" },
+                              }}
+                            >
+                              Edit
+                            </Link> */}
+                             Edit
+                          </button>
+                        
+                          
+                         
+                          <button class="btn btn-primary btn-filled send">
+                            Send
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+            {/* <div class="email_box_block">
 									<div class="email-draft email_box">
 										<div class="mail-top-title">
 											<span>Draft</span>
@@ -592,14 +647,14 @@ useEffect(() => {
 										</div>
 									</div>
 								</div> */}
-          {NotFound?  <div className="coming-soon">
-          <h2>{NotFound}</h2>
-        </div>:null}
-            </div>
-
+            {NotFound ? (
+              <div className="coming-soon">
+                <h2>{NotFound}</h2>
+              </div>
+            ) : null}
           </div>
-        
         </div>
+      </div>
     </>
   );
 };
