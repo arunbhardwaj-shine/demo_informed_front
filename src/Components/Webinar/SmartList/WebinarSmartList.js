@@ -296,7 +296,7 @@ const WebinarSmartList = () => {
                 </button>
               </form>
             </div>
-            <div class="filter-by nav-item dropdown">
+            {/* <div class="filter-by nav-item dropdown">
               <button
                 class="btn btn-secondary dropdown-toggle"
                 type="button"
@@ -379,7 +379,7 @@ const WebinarSmartList = () => {
                   </a>
                 </li>
               </ul>
-            </div>
+            </div> */}
             <div class="clear-search">
               <button
                 className="btn btn-outline-primary"
