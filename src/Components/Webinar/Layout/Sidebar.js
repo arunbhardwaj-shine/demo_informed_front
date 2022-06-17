@@ -139,7 +139,7 @@ const Sidebar = () => {
                     </Link>
                   </li> */}
 
-                  <li
+                  {/* <li
                     className={
                       location.pathname === "/webinar/rehearsallist"
                         ? "active"
@@ -149,9 +149,9 @@ const Sidebar = () => {
                   >
                     <Link to="/webinar/rehearsallist">
                       <img src={path_image + "webinar/rehearsal.svg"} />
-                      {/* <p>Rehearsal</p> */}
+                     
                     </Link>
-                  </li>
+                  </li> */}
 
                   <li
                     className={

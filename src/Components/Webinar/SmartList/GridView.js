@@ -52,7 +52,7 @@ const GridView = (props) => {
 
   useEffect(() => {
     setUpdatedData(props.data);
-    setEditList(props.data);
+    // setEditList(props.data);
   }, []);
 
   useEffect(() => {
@@ -72,6 +72,63 @@ const GridView = (props) => {
         });
     };
     getalCountry();
+  }, []);
+
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+
+  const getSmartListData = async () => {
+    const body = {
+      smart_list_id: props.smartListId,
+      type: "",
+      bounced: "",
+      country_id: "",
+    };
+
+    // loader("show");
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `${localStorage.getItem("Token")}`,
+    };
+    loader("show");
+    await axios
+      .post(`http://51.89.210.56:8000/api/smart-list/single-record`, body, {
+        headers,
+      })
+      .then((res) => {
+        console.log(res);
+
+        if (res.data.data) {
+          if (res.data.data.length > 0) {
+            //  loader("false");
+            loader("hide");
+            console.log(res.data.data);
+            setEditList(res.data.data);
+
+            // setLoading(false);
+            // setUploadedBy(res.data.response.upload_by_filter);
+            // setSmartListName(res.data.response.smart_list_name);
+            // setListCount(res.data.response.list_count);
+            // setapi_flag(api_flag + 1);
+            // loader("hide");
+          }
+        } else {
+          toast.error(res.data.message);
+          // popup_alert({
+          //   visible: "show",
+          //   message: "No readers in the smart list",
+          //   type: "error",
+          // });
+        }
+        //    loader("hide");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    console.log("hi");
+    getSmartListData();
   }, []);
 
   const searchChange = (e) => {
@@ -211,53 +268,69 @@ const GridView = (props) => {
   };
 
   const saveEditClicked = async () => {
-    console.log(editableData);
     setEditable(0);
-    const body = {
-      smart_list_id: props.smartListId,
-      upload: "",
-      participants: JSON.stringify(editableData),
-      // participants: editableData,
-    };
+    if (editableData.length > 0) {
+      editableData.map((data) => {
+        const name_edit = document.getElementById(
+          "field_name" + data.id
+        ).innerText;
 
-    const headers = {
-      "Content-Type": "application/json",
-      Authorization: `${localStorage.getItem("Token")}`,
-    };
+        let prev_obj = editList.find((x) => x.id === data.id);
 
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    // loader("show");
-    await axios
-      .post(
-        `http://51.89.210.56:8000/api/smart-list/update-participants`,
-        body,
-        { headers }
-      )
-      .then((res) => {
-        console.log(res);
-
-        if (res.data.code == 200) {
-          toast.success("Data updated successfully");
-        }
-
-        //    loader("hide");
-
-        // if (res.data.status_code === 200) {
-        //   toast.success("List updated");
-        // } else {
-        //   popup_alert({
-        //     visible: "show",
-        //     message: res.data.message,
-        //     type: "error",
-        //   });
-        // }
-      })
-      .catch((err) => {
-        toast.error("Something went wrong");
+        //data.country = country_edit;
+        data.name = name_edit;
       });
+    }
 
-    setSaveOpen(false);
-    setEditableData([]);
+    if (editableData.length > 0) {
+      console.log(editableData);
+      setEditable(0);
+      const body = {
+        smart_list_id: props.smartListId,
+        upload: "",
+        participants: JSON.stringify(editableData),
+        // participants: editableData,
+      };
+
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("Token")}`,
+      };
+
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      // loader("show");
+      await axios
+        .post(
+          `http://51.89.210.56:8000/api/smart-list/update-participants`,
+          body,
+          { headers }
+        )
+        .then((res) => {
+          console.log(res);
+
+          if (res.data.code == 200) {
+            toast.success("Data updated successfully");
+          }
+
+          //    loader("hide");
+
+          // if (res.data.status_code === 200) {
+          //   toast.success("List updated");
+          // } else {
+          //   popup_alert({
+          //     visible: "show",
+          //     message: res.data.message,
+          //     type: "error",
+          //   });
+          // }
+        })
+        .catch((err) => {
+          toast.error("Something went wrong");
+        });
+
+      setSaveOpen(false);
+      setEditableData([]);
+    }
   };
 
   const uploadFile = async () => {
@@ -482,71 +555,30 @@ const GridView = (props) => {
   };
 
   const editing = (id, name, index) => {
-    //   console.log(id);
-    //  console.log(name);
+    if (editable != 0) {
+      const name_edit = document.getElementById("field_name" + id).innerText;
 
-    let ignoreClickOnMeElement = document.getElementById("field_name" + index);
+      var arr = [];
+      arr.push({
+        id: id,
+        name: name_edit,
+        country: "",
+        hospital: "",
+        email: "",
+        profession: "",
+        interest: "",
+        consent: "",
+      });
 
-    ignoreClickOnMeElement.addEventListener(
-      "mouseleave",
-      async (event) => {
-        const name_edit = document.getElementById(
-          "field_name" + index
-        ).innerText;
+      let prev_obj = editableData.find((x) => x.id === id);
+      console.log(prev_obj);
 
-        console.log(name_edit);
-        // console.log(country_edit);
-
-        const arr = [];
-        arr.push({
-          id: id,
-          name: name_edit,
-          country: "",
-          hospital: "",
-          email: "",
-          profession: "",
-          interest: "",
-          consent: "",
-        });
+      if (typeof prev_obj != "undefined") {
+        editableData.map((obj) => arr.find((o) => o.id === id) || obj);
+      } else {
         setEditableData((oldArray) => [...oldArray, ...arr]);
-      },
-      { once: true }
-    );
-
-    // if (editable != 0) {
-
-    //   const name_edit = document.getElementById(
-    //     "field_name" + profile_user_id
-    //   ).innerText;
-    //   const country_edit = document.getElementById(
-    //     "field_country" + profile_user_id
-    //   ).value;
-
-    //   var arr = [];
-    //   arr.push({
-    //     profile_id: profile_id,
-    //     profile_user_id: profile_user_id,
-    //     email: email,
-    //     jobTitle: jobTitle,
-    //     company: company,
-    //     country: country_edit,
-    //     username: name_edit,
-    //   });
-
-    //   let prev_obj = editableData.find(
-    //     (x) => x.profile_user_id === profile_user_id
-    //   );
-    //   if (typeof prev_obj != "undefined") {
-
-    //     editableData.map(
-    //       (obj) => arr.find((o) => o.profile_user_id === profile_user_id) || obj
-    //     );
-    //   } else {
-
-    //     setEditableData((oldArray) => [...oldArray, ...arr]);
-    //   }
-
-    // }
+      }
+    }
   };
 
   if (view == 1) {
@@ -606,13 +638,12 @@ const GridView = (props) => {
                     />
                   </div>
                 </a>
-                <div></div>
               </div>
               <div class="search-bar">
                 <form class="d-flex" onSubmit={(e) => submitHandler(e)}>
                   <input
                     class="form-control me-2"
-                    type="search"
+                    //  type="search"
                     placeholder="Search"
                     aria-label="Search"
                     onChange={(e) => searchChange(e)}
@@ -793,13 +824,14 @@ const GridView = (props) => {
                       <Tabs defaultActiveKey="personal_info1">
                         <Tab
                           eventKey="personal_info1"
+                          s
                           id="personal_info1"
                           class={"tab1 tab-pane "}
                           title="Personal Info"
                         >
                           <h5
                             contenteditable={editable === 0 ? "false" : "true"}
-                            id={`field_name` + index}
+                            id={`field_name` + data.id}
                             onClick={(e) => editing(data.id, data.name, index)}
                           >
                             <span>{data.name}</span>
