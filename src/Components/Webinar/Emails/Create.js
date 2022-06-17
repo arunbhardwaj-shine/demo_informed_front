@@ -8,6 +8,8 @@ import { toast, ToastContainer } from "react-toastify";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import { Testmail } from "../Template/Testmail";
+import { loader } from "../../../loader";
 
 
 var state_object = {};
@@ -190,7 +192,7 @@ const CreateEmails = (props) => {
       emailEditorRef.current.editor.exportHtml((data) => {
         const { design, html } = data;
         setDpc(design);
-        ExportApi.UpdateTemplate(
+        formik.values.Subject?    ExportApi.UpdateTemplate(
           formik.values.Subject,
           formik.values.tempName,
           localStorage.getItem("EventIdHeader"),
@@ -202,11 +204,7 @@ const CreateEmails = (props) => {
         ).then((resp) => {
           if (resp.ok) {
             if (resp.data.code == 200) {
-           
-              setDpc();
-              handleGetTemplateList(localStorage.getItem("EventIdHeader"));
-              setFormShow(false);
-              setModalShow(false);
+              console.log(resp.data.message)
               toast.success(resp.data.message, {
                 position: "top-right",
                 autoClose: 5000,
@@ -216,6 +214,10 @@ const CreateEmails = (props) => {
                 draggable: true,
                 progress: undefined,
               });
+              setDpc();
+              handleGetTemplateList(localStorage.getItem("EventIdHeader"));
+              setFormShow(false);
+              setModalShow(false);
             } else {
               toast.error(resp.data.message, {
                 position: "top-right",
@@ -228,7 +230,7 @@ const CreateEmails = (props) => {
               });
             }
           }
-        });
+        }):toast.warning("Please enter Subject");;
       });
     };
     exportHtml();
@@ -237,24 +239,24 @@ const handleEmailSCreate = () => {
   if( localStorage.getItem("TEMPLATEID")){
     formik.handleSubmit()
     setTimeout(() => {
-      ExportApi.EmailSCreate(localStorage.getItem("idd"),localStorage.getItem("EventIdHeader"),formik.values.Subject,tagClickedFirst,).then((resp) => {
+    formik.values.Subject? ExportApi.EmailSCreate(localStorage.getItem("idd"),localStorage.getItem("EventIdHeader"),formik.values.Subject,tagClickedFirst,).then((resp) => {
         if (resp.ok) {
          console.log( resp.data.data.collection_id)
           localStorage.setItem("collection_id",resp.data.data.collection_id)
            navigate("/webinar/email/smart-list");
         }
-      });
+      }):toast.warning("Please enter Subject");
     },500);
   }else{
     alert("please wait")
   }
 };
-  const handleGetTemplateList = (id) => {
+  const handleGetTemplateList = (id,tempId) => {
     ExportApi.UserTemplateList(id).then((resp) => {
       if (resp.ok) {
         if (resp.data.code == 200) {
           setTemplateList(resp.data.data);
-          handleGetTemplate(resp.data.data[0].id);
+          handleGetTemplate(tempId?tempId:resp.data.data[0].id);
         } else {
           if (localStorage.getItem("EventIdHeader")) {
             setMessage("Please create template");
@@ -265,6 +267,27 @@ const handleEmailSCreate = () => {
             setMessage("Please create Event");
           }
         }
+      }
+    });
+  };
+  const handleGetCollectionData = (id) => {
+    ExportApi.getCollectionData(id).then((resp) => {
+      if (resp.ok) {
+        console.log(resp.data.data.template_id)
+        handleGetTemplateList(resp.data.data.event_id,resp.data.data.template_id)
+        handleGetTemplate(resp.data.data.template_id)
+        // if (resp.data.code == 200) {
+        //   setTemplateList(resp.data.data);
+        //   handleGetTemplate(resp.data.data[0].id);
+        // } else {
+        //   if (localStorage.getItem("EventIdHeader")) {
+        //     setMessage("Please create template");
+        //     setTemplateList();
+        //     setTemplate();
+        //   } else {
+        //     setMessage("Please create Event");
+        //   }
+       // }
       }
     });
   };
@@ -279,7 +302,7 @@ const handleEmailSCreate = () => {
     });
   };
   const handleGetTemplate = (idd) => {
-    localStorage.setItem("TEMPLATEID",id)
+    localStorage.setItem("TEMPLATEID",idd)
     setDpc();
     setId(idd);
     ExportApi.UserTemplate(idd).then((resp) => {
@@ -290,6 +313,7 @@ const handleEmailSCreate = () => {
               ? JSON.parse(resp.data.data.json_description)
               : null
               );
+              loader("hide");
               setnextPage(true)
         }, 2000);
         console.log(resp.data.data.tags);
@@ -318,7 +342,11 @@ const handleEmailSCreate = () => {
     handleError();
   }, [template]);
   useEffect(() => {
-    window.addEventListener("EventId", () =>
+    loader("show");
+    if(localStorage.getItem("stateid")){
+      handleGetCollectionData(localStorage.getItem("stateid"))
+    }else{
+      window.addEventListener("EventId", () =>
       handleGetTemplateList(localStorage.getItem("EventIdHeader"))
     );
     handleGetTemplateList(localStorage.getItem("EventIdHeader"));
@@ -327,7 +355,10 @@ const handleEmailSCreate = () => {
     } else {
       setMessage("Please create Event");
     }
-    const {state} = location;
+    }
+
+
+ 
 // const { id,  } = state;
 // console.log("pp",id, )
   }, []);
@@ -352,11 +383,26 @@ const handleEmailSCreate = () => {
   };
 
   useEffect(() => {
+
     GetTagsAll();
   }, []);
 	return ( 
-
+<>
+<div className="loader" id="custom_loader">
+        <span className="loader-view"> </span>
+      </div>
       <div className="right-sidebar">
+        	   <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
         <div className="page-top-nav">
           <div className="row justify-content-end align-items-center">
             
@@ -444,7 +490,31 @@ const handleEmailSCreate = () => {
                     )}
                   </AliceCarousel>
                 </div>
-        
+                <Modal
+        show={modalShow2}
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header >
+          
+           <h4>Test Mail</h4> 
+           <button
+
+type="button"
+
+onClick={() => setModalShow2(false)}
+
+class="btn-close"
+
+data-bs-dismiss="modal"
+
+></button>
+        </Modal.Header>
+        <Modal.Body>
+          <Testmail data={setModalShow2} data1={id} />
+        </Modal.Body>
+      </Modal>
 
       {/* start of delete modal code ------------------  */}
       <Modal
@@ -531,6 +601,11 @@ const handleEmailSCreate = () => {
                   value={formik.values.Subject}
                   id="email-subject"
                 />
+                      {formik.touched.Subject && formik.errors.Subject ? (
+                <div className="error" style={{ color: "red" }}>
+                  {formik.errors.Subject}
+                </div>
+              ) : null}
               </div>
               <div class="form-buttons right-side col-12 col-md-5">
                 <button type="button"
@@ -770,6 +845,7 @@ const handleEmailSCreate = () => {
       {/* ---- start model code for Add tags -----------*/}          
 
 	</div>
+  </>
 	)
 }
 export default CreateEmails;

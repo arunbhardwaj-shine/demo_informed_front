@@ -2,6 +2,8 @@ import React,{useState,useEffect} from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import ExportApi from "../../../Api/ExportApi";
+import { toast, ToastContainer } from "react-toastify";
+import { loader } from "../../../loader";
 const SelectSmartList = () => {
   const [smartListData, setSmartListData] = useState([]);
   const [smartListDataId, setSmartListDataId] = useState();
@@ -24,13 +26,24 @@ const SelectSmartList = () => {
 
   const handleEmailSCreateCollection = () => {
 
-      ExportApi.EmailSCreateCollection(smartListDataId,localStorage.getItem("collection_id")).then((resp) => {
+    smartListDataId? ExportApi.EmailSCreateCollection(smartListDataId,localStorage.getItem("collection_id")).then((resp) => {
         if (resp.ok) {
          console.log( resp.data)
+         if (resp.data.code == 200) {
+          toast.success(resp.data.message,{
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            });
+          }
           // localStorage.setItem("collection_id",resp.data.data.collection_id)
           //  navigate("/webinar/email/smart-list");
         }
-      });
+      }):toast.warning("Please select smart list");
 
   };
 
@@ -49,6 +62,7 @@ const SelectSmartList = () => {
     await axios
       .post(`http://51.89.210.56:8000/api/smart-list/lists`, body, { headers })
       .then((res) => {
+        loader("hide");
         console.log("res.data.data", res.data.data);
         setSmartListData(res.data.data);
         if (flag == 0) {
@@ -62,11 +76,26 @@ const SelectSmartList = () => {
       });
   };
   useEffect(() => {
+    loader("show");
     getSmartListData(0);
   }, []);
   return ( 
 	  <>
+      <div className="loader" id="custom_loader">
+        <span className="loader-view"> </span>
+      </div>
       <div className="right-sidebar">
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
         <div className="page-top-nav">
           <div className="row justify-content-end align-items-center">
             
