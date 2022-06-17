@@ -640,6 +640,16 @@ const EmailSCreate = (template_id,eventid,subject ,tags,smart_list_id,) =>
       },
     }
   );
+const UpdateEmailSCreate = (collection_id) =>
+  BaseApi.post(
+    `emails/create`,
+    {collection_id: collection_id},
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
 const EmailSCreateCollection = (smart_list_id,collection_id  ) =>
   BaseApi.post(
     `emails/create`,
@@ -776,4 +786,5 @@ export default {
   GetEmailSCollection,
   SearchEmailSCollection,
   getCollectionData,
+  UpdateEmailSCreate
 };
