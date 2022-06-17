@@ -542,7 +542,16 @@ const Sidebar = () => {
                     </li>
                     <li
                       className={
-                        location.pathname === "/webinar/email/WebinarSmartList"
+                        location.pathname ===
+                          "/webinar/email/WebinarSmartList" ||
+                        location.pathname ===
+                          "/webinar/email/ViewSmartListWebinar" ||
+                        location.pathname ===
+                          "/webinar/email/SmartListCreate" ||
+                        location.pathname ===
+                          "webinar/email/SmartListCreate/FilterList" ||
+                        location.pathname ===
+                          "webinar/email/SmartListCreate/ExcelUpload"
                           ? "active"
                           : "side_li"
                       }
@@ -552,6 +561,7 @@ const Sidebar = () => {
                         <p>Smart List</p>
                       </Link>
                     </li>
+
                     {/* <li
                       className={
                         location.pathname === "/webinar/email/EmailsAnalaytics"
