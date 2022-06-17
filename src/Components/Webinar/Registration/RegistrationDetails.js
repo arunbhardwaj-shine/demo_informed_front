@@ -46,18 +46,17 @@ const RegistraionDetails = () => {
     }
   };
   const handleRadioChangedata = (e, i) => {
-    console.log(e.target.checked)
+    console.log(e.target.checked);
     const { checked, name } = e.target;
     const Index = selectedName.findIndex((v) => v.value == name);
-    let copy = selectedName[Index]; 
-    copy.required = checked;  
+    let copy = selectedName[Index];
+    copy.required = checked;
     setSelectedName([...selectedName]);
   };
 
   const handleRadioChange = (e, i) => {
     const { checked, name } = e.target;
     setFieldValue(name);
-    
 
     let data = { value: name, required: false };
     const Copyinputbox = inputbox[i];
@@ -70,8 +69,8 @@ const RegistraionDetails = () => {
       setSelectedName([...selectedName]);
     }
   };
-console.log('Values',FieldValue);
-  
+  console.log("Values", FieldValue);
+
   const addData = () => {
     setField("");
     setShow(true);
@@ -125,7 +124,7 @@ console.log('Values',FieldValue);
   });
   useEffect(() => {
     window.addEventListener("EventId", () =>
-    setEvent(localStorage.getItem("EventIdHeader"))
+      setEvent(localStorage.getItem("EventIdHeader"))
     );
     setEvent(localStorage.getItem("EventIdHeader"));
     if (localStorage.getItem("EventIdHeader")) {
@@ -232,102 +231,92 @@ console.log('Values',FieldValue);
                               </>
                             ) : null} */}
                           </div>
-                          
-
-                       
                         </>
                       );
                     })}
 
-<Modal
-              show={modalShow}
-             className="send-confirm"
-            id="resend-confirm"
-      >
-        <Modal.Header>
-          <button
-            type="button"
-            className="btn-close"
-            data-bs-dismiss="modal"
-            onClick={() =>
-              setModalShow(
-                (modalShow) => !modalShow
-              )
-            }
-          ></button>
-        </Modal.Header>
-        <Modal.Body>
-          <img src={path_image + "webinar/alert.png"} alt="" />
-          <h4>
-          You want this field required ?
-          </h4>
-          <div className="modal-buttons">
-           
-           <Form.Control
-                 name={FieldValue}
-                 value={FieldValue}
-                  type="checkbox"
-                   className="form-check-input"
-                   onChange={(e) => {
-                     handleRadioChangedata(e);
-                     if (e.target.checked) {
-                       setModalShow(false);
-                     }
-                   }}
-                 /> 
-            <button
-              name={setFieldValue}
-              type="button"
-              className="btn btn-primary btn-filled"
-              data-bs-dismiss="modal"
-              onClick={(e) => handleRadioChangedata(e)}
-            >
-         Required
-            </button>
-          
-          </div>
-        </Modal.Body>
-      </Modal>
+                    <Modal
+                      show={modalShow}
+                      className="send-confirm"
+                      id="resend-confirm"
+                    >
+                      <Modal.Header>
+                        <button
+                          type="button"
+                          className="btn-close"
+                          data-bs-dismiss="modal"
+                          onClick={() =>
+                            setModalShow((modalShow) => !modalShow)
+                          }
+                        ></button>
+                      </Modal.Header>
+                      <Modal.Body>
+                        <img src={path_image + "webinar/alert.png"} alt="" />
+                        <h4>You want this field required ?</h4>
+                        <div className="modal-buttons">
+                          <Form.Control
+                            name={FieldValue}
+                            value={FieldValue}
+                            type="checkbox"
+                            className="form-check-input"
+                            onChange={(e) => {
+                              handleRadioChangedata(e);
+                              if (e.target.checked) {
+                                setModalShow(false);
+                              }
+                            }}
+                          />
+                          <button
+                            name={setFieldValue}
+                            type="button"
+                            className="btn btn-primary btn-filled"
+                            data-bs-dismiss="modal"
+                            onClick={(e) => handleRadioChangedata(e)}
+                          >
+                            Required
+                          </button>
+                        </div>
+                      </Modal.Body>
+                    </Modal>
 
-{console.log("FieldValue",FieldValue)}
+                    {console.log("FieldValue", FieldValue)}
                     <button onClick={addData}>
                       Add data field <span>+</span>
                     </button>
                   </div>
                   <div className="add_field_new">
-                  {show == true ? (
-                    <>
-                      <input
-                        type="text"
-                        onChange={(e) => {
-                          setField(e.target.value);
-                        }}
-                        className="form-control"
-                      />
-                      <button
-                        type="button"
-                        className="btn btn-primary btn-filled"
-                        onClick={saveClicked}
-                      >
-                        {" "}
-                        Save{" "}
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-primary btn-bordered"
-                        onClick={() => {
-                          setShow(false);
-                          setField("");
-                        }}
-                      >
-                        Close
-                      </button>
-                    </>
-                  ) : null}
-                </div>
+                    {show == true ? (
+                      <>
+                        <input
+                          type="text"
+                          onChange={(e) => {
+                            setField(e.target.value);
+                          }}
+                          className="form-control"
+                        />
+                        <button
+                          type="button"
+                          className="btn btn-primary btn-filled"
+                          onClick={saveClicked}
+                        >
+                          {" "}
+                          Save{" "}
+                        </button>
+                        <button
+                          type="button"
+                          className="btn btn-primary btn-bordered"
+                          onClick={() => {
+                            setShow(false);
+                            setField("");
+                          }}
+                        >
+                          Close
+                        </button>
+                      </>
+                    ) : null}
+                  </div>
                 </div>
 
-                
                 {/* <Col>
                   <div>
                     <img id="imgVieww" src="" alt="Viewing the registration page image" width={340} />
