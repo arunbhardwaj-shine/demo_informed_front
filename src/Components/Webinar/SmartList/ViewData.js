@@ -100,6 +100,82 @@ const ViewData = (props) => {
     getalCountry();
   }, []);
 
+  useEffect(() => {
+    const getalCountry = async () => {
+      let body = {
+        user_id: 18207,
+      };
+      await axios
+        .post(`distributes/filters_list`, body)
+        .then((res) => {
+          setCountryall(res.data.response.data.country);
+          //console.log(countryall)
+          // setCounter(counter + 1);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    getalCountry();
+  }, []);
+
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+
+  const getSmartListData = async () => {
+    const body = {
+      smart_list_id: props.smartListId,
+      type: "",
+      bounced: "",
+      country_id: "",
+    };
+
+    // loader("show");
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `${localStorage.getItem("Token")}`,
+    };
+    loader("show");
+    await axios
+      .post(`http://51.89.210.56:8000/api/smart-list/single-record`, body, {
+        headers,
+      })
+      .then((res) => {
+        console.log(res);
+
+        if (res.data.data) {
+          if (res.data.data.length > 0) {
+            //  loader("false");
+            loader("hide");
+            console.log(res.data.data);
+            setEditList(res.data.data);
+
+            // setLoading(false);
+            // setUploadedBy(res.data.response.upload_by_filter);
+            // setSmartListName(res.data.response.smart_list_name);
+            // setListCount(res.data.response.list_count);
+            // setapi_flag(api_flag + 1);
+            // loader("hide");
+          }
+        } else {
+          toast.error(res.data.message);
+          // popup_alert({
+          //   visible: "show",
+          //   message: "No readers in the smart list",
+          //   type: "error",
+          // });
+        }
+        //    loader("hide");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    console.log("hi");
+    getSmartListData();
+  }, []);
+
   const [name, setName] = useState(null);
   const [jobTitle, setJobTitle] = useState(null);
   const [company, setCompany] = useState(null);
@@ -375,52 +451,69 @@ const ViewData = (props) => {
 
   const saveEditClicked = async () => {
     console.log(editableData);
+
     setEditable(0);
-    const body = {
-      smart_list_id: props.smartListId,
-      upload: "",
-      participants: JSON.stringify(editableData),
-      // participants: editableData,
-    };
+    if (editableData.length > 0) {
+      editableData.map((data) => {
+        const name_edit = document.getElementById(
+          "field_name" + data.id
+        ).innerText;
 
-    const headers = {
-      "Content-Type": "application/json",
-      Authorization: `${localStorage.getItem("Token")}`,
-    };
+        let prev_obj = editList.find((x) => x.id === data.id);
 
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    // loader("show");
-    await axios
-      .post(
-        `http://51.89.210.56:8000/api/smart-list/update-participants`,
-        body,
-        { headers }
-      )
-      .then((res) => {
-        console.log(res);
-
-        if (res.data.code == 200) {
-          toast.success("Data updated successfully");
-        }
-
-        //  loader("hide");
-
-        // if (res.data.status_code === 200) {
-        //   toast.success("List updated");
-        // } else {
-        //   popup_alert({
-        //     visible: "show",
-        //     message: res.data.message,
-        //     type: "error",
-        //   });
-        // }
-      })
-      .catch((err) => {
-        toast.error("Something went wrong");
+        //data.country = country_edit;
+        data.name = name_edit;
       });
+    }
 
-    setSaveOpen(false);
-    setEditableData([]);
+    if (editableData.length > 0) {
+      const body = {
+        smart_list_id: props.smartListId,
+        upload: "",
+        participants: JSON.stringify(editableData),
+        // participants: editableData,
+      };
+
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("Token")}`,
+      };
+
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      // loader("show");
+      await axios
+        .post(
+          `http://51.89.210.56:8000/api/smart-list/update-participants`,
+          body,
+          { headers }
+        )
+        .then((res) => {
+          console.log(res);
+
+          if (res.data.code == 200) {
+            toast.success("Data updated successfully");
+          }
+
+          //  loader("hide");
+
+          // if (res.data.status_code === 200) {
+          //   toast.success("List updated");
+          // } else {
+          //   popup_alert({
+          //     visible: "show",
+          //     message: res.data.message,
+          //     type: "error",
+          //   });
+          // }
+        })
+        .catch((err) => {
+          toast.error("Something went wrong");
+        });
+
+      setSaveOpen(false);
+      setEditableData([]);
+      setEditList(editList);
+    }
   };
 
   const updateReaderDetails = async ({
@@ -601,8 +694,7 @@ const ViewData = (props) => {
 
       console.log(name_edit);
 
-      //  var arr = [];
-      const arr = [];
+      var arr = [];
       arr.push({
         id: id,
         name: name_edit,
@@ -614,22 +706,14 @@ const ViewData = (props) => {
         consent: "",
       });
 
-      // if(editableData.length > 0){
       let prev_obj = editableData.find((x) => x.id === id);
+      console.log(prev_obj);
 
-      //create new
-      setEditableData((oldArray) => [...oldArray, ...arr]);
-
-      console.log(editableData);
-      // }else{
-      // //create new
-      // setEditableData((oldArray) => [...oldArray, ...arr]);
-      // }
-      // console.log(name_edit);
-      // console.log(editableData);
-      // },
-      // { once: true }
-      // );
+      if (typeof prev_obj != "undefined") {
+        editableData.map((obj) => arr.find((o) => o.id === id) || obj);
+      } else {
+        setEditableData((oldArray) => [...oldArray, ...arr]);
+      }
     }
   };
 

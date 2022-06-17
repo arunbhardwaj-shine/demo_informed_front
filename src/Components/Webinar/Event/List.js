@@ -292,11 +292,10 @@ const EventData = () => {
           <div className="Webinar-header-right-tools">
             <div className="filter-by">
               <>
-              <Dropdown>
-                <Dropdown.Toggle  id="dropdown-basic">
-                 Filter By
-                </Dropdown.Toggle>
-
+                <Dropdown>
+                  {/* <Dropdown.Toggle id="dropdown-basic">
+                    Filter By
+                  </Dropdown.Toggle> */}
 
                   {/* <Dropdown.Menu>
                   <Dropdown.Item href="#/">Name</Dropdown.Item>
@@ -420,9 +419,9 @@ const EventData = () => {
                       <h5>{event.title}</h5>
                       <div className="webinar-box-content-detail">
                         <div className="smart-list-added-user">
-                          {event.days_left == 1 ? (
+                          {event.days_left < 0 ? (
                             <>
-                              <span>{event.days_left}</span> Day Left
+                              <span></span> Fulfilled
                             </>
                           ) : (
                             <>
@@ -484,9 +483,11 @@ const EventData = () => {
           setShow(false);
         }}
       >
-        <Modal.Header closeButton> <h4>New Webinar/Event</h4></Modal.Header>
-        <Modal.Body>  
-    
+        <Modal.Header closeButton>
+          {" "}
+          <h4>New Webinar/Event</h4>
+        </Modal.Header>
+        <Modal.Body>
           <Add closePopup={closePopup} getEventList={handleGetEventlist} />
         </Modal.Body>
       </Modal>
