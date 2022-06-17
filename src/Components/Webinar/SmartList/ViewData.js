@@ -1510,9 +1510,7 @@ const ViewData = (props) => {
                                           onClick={() => deleteRecord(i)}
                                         >
                                           <img
-                                            src={
-                                              "/" + path_image + "delete.svg"
-                                            }
+                                            src={path_image + "delete.svg"}
                                             alt="Add More"
                                           />
                                         </button>

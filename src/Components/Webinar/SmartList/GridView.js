@@ -793,25 +793,27 @@ const GridView = (props) => {
             </div>
           </div>
 
-          {saveOpen ? (
-            <>
-              <button
-                className="btn btn-primary btn-filled"
-                onClick={closeClicked}
-              >
-                Close
-              </button>
-
-              <button
-                className="btn btn-primary btn-bordered"
-                onClick={saveEditClicked}
-              >
-                Save
-              </button>
-            </>
-          ) : null}
-
           <section class="search-hcp">
+            <div class="selected-hcp-table-action">
+              {" "}
+              {saveOpen ? (
+                <>
+                  <button
+                    className="btn btn-primary btn-filled"
+                    onClick={closeClicked}
+                  >
+                    Close
+                  </button>
+
+                  <button
+                    className="btn btn-primary btn-bordered"
+                    onClick={saveEditClicked}
+                  >
+                    Save
+                  </button>
+                </>
+              ) : null}
+            </div>
             <div class="list-tab  d-flex">
               {editList.map((data, index) => {
                 console.log(data);
@@ -1366,9 +1368,7 @@ const GridView = (props) => {
                                             onClick={() => deleteRecord(i)}
                                           >
                                             <img
-                                              src={
-                                                "/" + path_image + "delete.svg"
-                                              }
+                                              src={path_image + "delete.svg"}
                                               alt="Add More"
                                             />
                                           </button>

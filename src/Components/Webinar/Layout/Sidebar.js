@@ -53,7 +53,7 @@ const Sidebar = () => {
     }
   };
   return (
-    <div className="left-sidebar">
+    <div className="left-sidebar" id={localStorage.getItem("Token") === null || localStorage.getItem("Token") === undefined ? "guestpage":"loggedin"}>
       {location.pathname.includes("/webinar/register") ||
       location.pathname.includes("/webinar/editor") ? null : (
         <>
@@ -542,7 +542,16 @@ const Sidebar = () => {
                     </li>
                     <li
                       className={
-                        location.pathname === "/webinar/email/WebinarSmartList"
+                        location.pathname ===
+                          "/webinar/email/WebinarSmartList" ||
+                        location.pathname ===
+                          "/webinar/email/ViewSmartListWebinar" ||
+                        location.pathname ===
+                          "/webinar/email/SmartListCreate" ||
+                        location.pathname ===
+                          "webinar/email/SmartListCreate/FilterList" ||
+                        location.pathname ===
+                          "webinar/email/SmartListCreate/ExcelUpload"
                           ? "active"
                           : "side_li"
                       }
@@ -552,6 +561,7 @@ const Sidebar = () => {
                         <p>Smart List</p>
                       </Link>
                     </li>
+
                     {/* <li
                       className={
                         location.pathname === "/webinar/email/EmailsAnalaytics"
