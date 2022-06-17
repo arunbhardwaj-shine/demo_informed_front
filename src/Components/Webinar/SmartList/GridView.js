@@ -598,16 +598,37 @@ const GridView = (props) => {
 
           <div class="top-header">
             <div class="page-title">
-              <div class="header-btn-right back_btn">
-                <a class="btn btn-primary btn-filled light">
+              <div class="header-btn-left">
+                <button
+                  class="btn btn-primary btn-filled back"
+                  onClick={() => {
+                    navigate("/webinar/email/WebinarSmartList");
+                  }}
+                >
+                  <svg
+                    width="12"
+                    height="19"
+                    viewBox="0 0 12 19"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M8.31557 17.82C8.97165 18.476 10.0354 18.476 10.6915 17.82C11.3475 17.1639 11.3475 16.1002 10.6915 15.4441L4.7522 9.50484L10.6927 3.56431C11.3488 2.90823 11.3488 1.84451 10.6927 1.18843C10.0367 0.532347 8.97294 0.532347 8.31686 1.18843L1.2212 8.28409C1.21 8.29469 1.19891 8.30548 1.18794 8.31646C0.531858 8.97254 0.531858 10.0363 1.18794 10.6923L8.31557 17.82Z"
+                      fill="white"
+                    />
+                  </svg>
+                </button>
+                {/* <a class="btn btn-primary btn-filled light" href="#">
                   <img
                     src={path_image + "arrow-left.svg"}
+                    alt=""
                     onClick={() => {
                       navigate("/webinar/email/WebinarSmartList");
                     }}
-                    alt=""
                   />
-                </a>
+                </a> */}
               </div>
               <h2>Name of the list</h2>
             </div>
@@ -643,7 +664,7 @@ const GridView = (props) => {
                 <form class="d-flex" onSubmit={(e) => submitHandler(e)}>
                   <input
                     class="form-control me-2"
-                    type="search"
+                    //  type="search"
                     placeholder="Search"
                     aria-label="Search"
                     onChange={(e) => searchChange(e)}
@@ -664,7 +685,7 @@ const GridView = (props) => {
                   </button>
                 </form>
               </div>
-              <div class="filter-by nav-item dropdown">
+              {/* <div class="filter-by nav-item dropdown">
                 <button
                   class="btn btn-secondary dropdown-toggle"
                   type="button"
@@ -747,7 +768,7 @@ const GridView = (props) => {
                     </a>
                   </li>
                 </ul>
-              </div>
+              </div> */}
               <div class="hcp-user-download">
                 <button
                   class="btn btn-outline-primary"
