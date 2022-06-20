@@ -625,16 +625,16 @@ form#add_hcp_form .row:not(:first-child) { border-top: 1px dashed var(--light-bl
 .search-hcp-table tbody tr:hover, .selected-hcp-list tbody tr:hover {box-shadow: 0px 2px 10px -3px rgb(0 102 190 / 60%);}
 
 #create_list_popup {
-    max-width: 800px;
+    max-width: 1180px;
 }
 .modal .add_hcp_boxes .form_action{
 	margin-bottom:20px;
 }
 /**create-smart-list**/
 .page-top-nav.smart_list_names .tabnav-link { justify-content: center; }
-.create_smart_list .create_smart_list_inset { max-width: 1014px; margin: 0 auto; }
-.create_smart_list .create-smart-step { position: relative; margin: 0 auto 25px; }
-.create_smart_list .create-smart-step .create-smart-step-box,  .modal .add_hcp_boxes .form_action { border: 1px dashed var(--light-blue); box-sizing: border-box; border-radius: 15px; padding: 26px 32px 17px; }
+.create_smart_list .create_smart_list_inset, #create_list_popup .add_hcp_boxes  { max-width: 1014px; margin: 0 auto;}
+.create_smart_list .create-smart-step, #create_list_popup .create-smart-step { position: relative; margin: 0 auto 25px; }
+.create_smart_list .create-smart-step .create-smart-step-box, #create_list_popup .create-smart-step .create-smart-step-box, .modal .add_hcp_boxes .form_action { border: 1px dashed var(--light-blue); box-sizing: border-box; border-radius: 15px; padding: 26px 32px 17px; }
 .create_smart_list .create-smart-step .create-smart-step-box form label, .modal .add_hcp_boxes .form-group label { font-size: 20px; line-height: 23px; color: var(--blue); margin-bottom: 16px; }
 .create_smart_list .create-smart-step .create-smart-step-box form .form-control, .modal .add_hcp_boxes .form-group input { background: var(--white); box-shadow: 0px 1px 6px rgb(0 102 190 / 20%); border-radius: 30px; border: 0; padding: 12px; max-width: 433px; width: 100%;color: #4E718E;font-size: 14px; }
 .create-smart-step-box .form-group.col { max-width: 456px; }
@@ -647,7 +647,7 @@ form#add_hcp_form .row:not(:first-child) { border-top: 1px dashed var(--light-bl
 .select-demo-option input:checked ~ .checkmark { background-color: var(--green); border-color:var(--green); }
 .select-demo-option input:checked ~ .checkmark:after { display: block; }
 .select-demo-option .checkmark:after { left: 5px; top: 2px; width: 5px; height: 9px; border: solid var(--white); border-width: 0 2px 2px 0; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg); content: ""; position: absolute; }
-.create_smart_list .create-smart-step h2 { font-size: 48px; line-height: 56px; text-transform: capitalize; color: rgba(0, 102, 190, 0.16); font-family: 'Roboto-Bold'; position: absolute; transform: rotate(-90deg) scaleX(1); top: 38px; left: -116px; }
+.create_smart_list .create-smart-step h2, #create_list_popup .create-smart-step h2 { font-size: 48px; line-height: 56px; text-transform: capitalize; color: rgba(0, 102, 190, 0.16); font-family: 'Roboto-Bold'; position: absolute; transform: rotate(-90deg) scaleX(1); top: 38px; left: -116px; }
 .create_smart_list { margin-top: 66px; }
 .download-sample { display: flex; align-items: center; justify-content: center; margin-bottom: 46px; }
 .download-sample p { margin: 0 5px 0 0; font-size: 18px; line-height: 21px; color: #4E718E; font-family: 'Roboto-Light'; }
@@ -659,11 +659,50 @@ form#add_hcp_form .row:not(:first-child) { border-top: 1px dashed var(--light-bl
 .create-smart-step-box ul li p { margin: 22px 0 18px; font-size: 18px; line-height: 21px; color: var(--light-blue); font-family: 'Roboto-medium'; }
 .smart_list_names .header-btn-right button { border-color: var(--skyblue); color: var(--skyblue); }
 .smart_list_names .header-btn-right button:focus, .smart_list_names .header-btn-right button:hover,  .smart_list_names .header-btn-right button:active { background-color: var(--skyblue); color: var(--white); }
-
-
+#create_list_popup .create-smart-step .create-smart-step-box {
+  min-height: 143px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 17px 32px 17px;
+}
+.modal #create_list_popup  .upload-file-box {
+  max-width: 100%;
+  width: 100%;
+}
+#create_list_popup .create-smart-step .create-smart-step-box form {
+  width: 100%;
+}
+#create_list_popup .create-smart-step-box .form-group-content {
+  margin-top: 11px;
+}
+#create_list_popup .modal_upload_btns .modal-buttons {
+  margin: 0!important;
+}
+#create_list_popup .modal_upload_btns .download-sample {
+  margin: 0;
+}
+#create_list_popup .modal_upload_btns {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1014px;
+  margin: 0 auto 0px;
+}
+#create_list_popup .modal_upload_btns .download-sample .upload-btn {
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid;
+  border-radius: 0;
+  margin-left: 4px;
+  font-size: 16px;
+  line-height: 19px;
+}
+#create_list_popup .modal_upload_btns .download-sample .upload-btn:hover {background: transparent;color:var(--violet);}
 /**Upload Modal**/
 #upload-confirm .modal-dialog { max-width: 576px; }
-#upload-confirm .upload-file-box, .modal .upload-file-box  { width:100%;border: 1px dashed var(--light-blue); box-sizing: border-box; border-radius: 15px; padding: 31px 28px; max-width: 500px; margin: 0 auto;}
+#upload-confirm .upload-file-box{ width:100%;border: 1px dashed var(--light-blue); box-sizing: border-box; border-radius: 15px; padding: 31px 28px; max-width: 500px; margin: 0 auto;}
 #upload-confirm  .inputfile, .modal  .inputfile  { width: 0.1px; height: 0.1px; opacity: 0; overflow: hidden; position: absolute; z-index: -1; }
 #upload-confirm .inputfile ~ label, #create_list_popup .inputfile ~ label { max-width: 80%; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; display: inline-block; overflow: hidden; padding: 11px; background: var(--light-blue); border-radius: 30px; color: var(--white) !important; font-size: 16px; line-height: 1; font-family: 'Roboto-medium'; font-weight: 500; min-width: 171px; text-align: center; height: 39px; }
 #upload-confirm .inputfile ~ label:hover, #create_list_popup .inputfile ~ label:hover{background: var(--blue);}
@@ -682,6 +721,9 @@ form#add_hcp_form .row:not(:first-child) { border-top: 1px dashed var(--light-bl
 }
 .smart_list_names .header-btn .btn a {
     text-decoration: none;
+}
+#create_list_popup .upload-file-box .box {
+  max-width: 100%;
 }
 /**Upload Modal End**/
 
@@ -1083,12 +1125,18 @@ display: none;
 .form-buttons .approved-btn.checked  img.approve_btn {
   display: none;
 }
-
+.send-confirm #create_list_popup .modal-body a img {
+  width: 14px;
+}
 
 
 /**sidebar Modal**/
+.toggle_sidebar .help-popup-view {
+  left: 39px;
+  transition: 0.5s linear;
+}
 .help-popup-view::after { content: ""; position: absolute; background-image: url(../images/menu-icon2.png); background-repeat: no-repeat; background-size: 20px; left: 33px; top: -20px; width: 20px; height: 20px; z-index: 9; } 
-.help-popup-view { position: fixed; left: 178px; bottom: 0; background: rgba(255, 255, 255, 0.83); box-shadow: -11px 0px 15px rgba(0, 102, 190, 0.1); backdrop-filter: blur(400px); padding: 12px 18px; height: 50px; border-radius: 40px 0 0 40px; z-index: 9; width: 52px; display: flex; align-items: center; cursor:pointer; } 
+.help-popup-view { transition: 0.5s linear;position: fixed; left: 160px; bottom: 0; background: rgba(255, 255, 255, 0.83); box-shadow: -11px 0px 15px rgba(0, 102, 190, 0.1); backdrop-filter: blur(400px); padding: 12px 18px; height: 50px; border-radius: 40px 0 0 40px; z-index: 9; width: 52px; display: flex; align-items: center; cursor:pointer; } 
 .right-sidebar { border-radius: 25px 0 0 0px; } 
 .help-popup-content { box-shadow: 0px 0px 7px rgba(0, 102, 190, 0.34); border-radius: 15px 15px 0px 15px; background: rgba(0, 102, 190, 0.07); backdrop-filter: blur(41px); width: 278px; position: fixed; left: -100%; top: 89px; z-index: 9; transition: 0.6s linear; } 
 .help-popup-content.show { transition: 0.6s linear; left: 0; } 
@@ -1114,3 +1162,38 @@ display: none;
 .help-popup-find-content img { margin: 7px 0 13px; } .help-popup-find-content p { margin: 0 0 10px; } 
 .help-popup-content-preview, .help-popup-find-content { border-bottom: 0.5px dashed #0066BE; } 
 .help-popup-content-preview p { margin-bottom: 3px; } .help-popup-next p { margin: 0; }
+#open_video_popup {
+  max-width: 1175px;
+}
+#open_video_popup .modal-content, #open_video_popup .modal-body .video-react video, #open_video_popup .modal-body .video-react, #open_video_popup .modal-body .video-react .video-react-poster{
+  border-radius: 15px;
+}
+#open_video_popup .modal-body {
+  padding-top: 0;
+}
+
+#open_video_popup .modal-body .video-react button.video-react-button.video-react-big-play-button {
+  border: 0;
+  width: 120px;
+  margin-top: 0;
+  height: 120px;
+  border-radius: 50%;
+  text-align: center;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 4px 20px rgb(0 102 190 / 30%);
+  color: #006fbe;
+  transform: translateY(-50%);
+}
+
+#open_video_popup .modal-body .video-react button.video-react-button::before {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 70px;
+  border-radius: 110px;
+}
+/**sidebar Modal End**/
