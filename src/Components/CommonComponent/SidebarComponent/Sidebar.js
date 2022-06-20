@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { useLocation } from 'react-router-dom';
+import { Modal, ModalDialog } from "react-bootstrap";
+import { Player, BigPlayButton } from 'video-react';
 
 const Sidebar = () => {
 
@@ -9,6 +11,8 @@ const Sidebar = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
+  const [getHideShowSideContent, setHideShowSideContent] = useState(false);
+  const [getOpenVideoPopup, setOpenVideoPopup] = useState(false);
   const toggleClassToBody = () => {
     document.body.classList.toggle('toggle_sidebar');
   }
@@ -65,6 +69,99 @@ const Sidebar = () => {
             </li>
           </ul>
         </div>
+
+        <div className="help-popup">
+        <div className="help-popup-view" onClick={() => setHideShowSideContent((getHideShowSideContent) => !getHideShowSideContent)}>
+          <svg width="16" height="38" viewBox="0 0 16 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z" fill="#0066BE" fill-opacity="0.6"/>
+          </svg>
+        </div>
+        <div className= {getHideShowSideContent ? "help-popup-content show" : "help-popup-content"}>
+        <div className="help-popup-content-inner">
+          <div className="help-popup-content-video">
+            <h6>Selecting content for your email</h6>
+            <div className="help-content-popup" onClick={() => setOpenVideoPopup((getOpenVideoPopup) => !getOpenVideoPopup)}>
+              <a href="javascript:;">
+                <img src= {path_image + "video-popup.svg"} alt="" />
+              </a>
+            </div>
+          </div>
+          <div className="help-popup-content-library">
+            <div className="help-popup-content-library-inside">
+              <img src= {path_image + "content-select.svg"} alt="" />
+              <p>At the top you can see the steps that you will go through to make an email. First step is to select the content.</p>
+            </div>
+            <div className="help-popup-content-list">
+              <p className="help-popup-title">All the content from your library is here and you can see:</p>
+              <ul>
+                <li>Content title</li>
+                <li>Subtitle</li>
+                <li>Tags</li>
+                <li>Uploaded date</li>
+                <li>Language</li>
+                <li>SPC</li>
+                <li>Previous emails the content has been sent to</li>
+              </ul>
+            </div>
+            <div className="help-popup-content-preview">
+              <form>
+                <button className="btn btn-primary btn-filled">Preview</button>
+              </form>
+              <p>You can preview the content to be sure it’s the right content that you want to send.</p>
+            </div>
+            <div className="help-popup-find-content">
+              <img src= {path_image + "search-img.svg"} alt="" />
+              <p className="help-popup-title">You can also find the right content: </p>
+              <ul>
+                <li>search for the content </li>
+                <li>Use the filter</li>
+              </ul>
+            </div>
+            <div className="help-popup-next">
+              <form>
+                <button className="btn btn-primary btn-filled">Next</button>
+              </form>
+              <p>After selecting you click next to go to start writing the email.</p>
+            </div>
+
+          </div>
+          <div className="help-popup-close" onClick={() => setHideShowSideContent((getHideShowSideContent) => !getHideShowSideContent)}>
+              <a href="javascript:;">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="2.72751" height="19.7402" rx="1.36376" transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)" fill="#8A4E9C"/>
+                  <rect width="2.72751" height="19.7402" rx="1.36376" transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)" fill="#8A4E9C"/>
+                </svg>
+              </a>
+          </div>
+        </div>
+        </div>
+      </div>
+
+      {/*Start Video Modal Functionality*/}
+      <Modal
+        show={getOpenVideoPopup}
+        className="full_video_popup"
+        id="open_video_popup"
+      >
+        <Modal.Header>
+          <h5 className="modal-title" id="staticBackdropLabel">
+          Selecting content for your email
+          </h5>
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="modal"
+            onClick={() => setOpenVideoPopup((getOpenVideoPopup) => !getOpenVideoPopup)}
+          ></button>
+        </Modal.Header>
+        <Modal.Body>
+        <Player playsInline poster={path_image + "video-popup.svg"} src="https://docintel.s3-eu-west-1.amazonaws.com/video/video/ESC_HF_Sayi-01.mp4">
+          <BigPlayButton position="center" />
+        </Player>
+        </Modal.Body>
+      </Modal>
+      {/*End Video Modal Functionality*/}
+
       </div>
     </>
   );
