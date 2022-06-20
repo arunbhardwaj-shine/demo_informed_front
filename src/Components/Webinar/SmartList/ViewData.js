@@ -325,8 +325,6 @@ const ViewData = (props) => {
   //   setEditList(editList);
   // }, [updateCounter]);
 
-  useEffect(() => {}, [editList]);
-
   useEffect(() => {
     setEditList(props.data);
   }, [props.api_flag]);
@@ -731,7 +729,6 @@ const ViewData = (props) => {
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
         return {
-          smart_list_id: props.smartListId,
           name: data.name,
           email: data.email,
           hospital: data.hospital,
@@ -744,7 +741,7 @@ const ViewData = (props) => {
 
       var pattern = "^w+@[a-zA-Z_]+?.[a-zA-Z]{2,3}$";
       const body = {
-        //  smart_list_id: props.smartListId,
+        smart_list_id: props.smartListId,
         participants: JSON.stringify(body_data),
       };
 
@@ -769,7 +766,7 @@ const ViewData = (props) => {
             console.log(res);
             if (res.data.code === 200) {
               //  loader("hide");
-              toast.success("User added successfuly");
+              // toast.success("User added successfuly");
               console.log("res");
               let old_data = editList;
               let new_data = JSON.parse(res.data.data);
@@ -1350,6 +1347,7 @@ const ViewData = (props) => {
                                             ([index, item]) => {
                                               return (
                                                 <>
+                                                  {console.log(item)}
                                                   <option value={index}>
                                                     {item.country}
                                                   </option>
