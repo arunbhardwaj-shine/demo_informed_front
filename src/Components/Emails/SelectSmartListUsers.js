@@ -69,7 +69,7 @@ const SelectSmartListUsers = (props) => {
     };
 
 
-    if(props.getSelectedSmartListData?.id || props.getDraftData?.campaign_data?.smart_list_id){
+    if(props.getSelectedSmartListData?.id){
 
       loader("show");
       axios
