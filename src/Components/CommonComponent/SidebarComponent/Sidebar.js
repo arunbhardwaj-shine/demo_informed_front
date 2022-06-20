@@ -189,7 +189,7 @@ const Sidebar = () => {
               ></button>
             </Modal.Header>
             <Modal.Body>
-            <Player playsInline poster={path_image + "video_poster.png"} src="https://docintel.s3-eu-west-1.amazonaws.com/video/video/ESC_HF_Sayi-01.mp4">
+            <Player playsInline poster={path_image + "video_poster.png"} src="https://docintel.s3.eu-west-1.amazonaws.com/video/2_select_content.mp4">
               <BigPlayButton position="center" />
             </Player>
             </Modal.Body>
