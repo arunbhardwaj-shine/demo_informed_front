@@ -12,6 +12,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { connect } from "react-redux";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { popup_alert } from "../../../popup_alert";
+import { BaseApi } from "../../../Api/BaseApi";
 import GridView from "./GridView";
 
 const ViewData = (props) => {
@@ -20,6 +21,7 @@ const ViewData = (props) => {
     rowKey: null,
   });
   let path_image = process.env.REACT_APP_ASSETS_PATH_WEBINAR;
+  const baseURL = BaseApi.getBaseURL();
 
   //let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   //let validator = new SimpleReactValidator();
@@ -83,39 +85,39 @@ const ViewData = (props) => {
 
   useEffect(() => {
     const getalCountry = async () => {
-      let body = {
-        user_id: 18207,
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("Token")}`,
       };
       await axios
-        .post(`distributes/filters_list`, body)
+        .get(baseURL + `country`, { headers })
         .then((res) => {
-          setCountryall(res.data.response.data.country);
-          //console.log(countryall)
-          // setCounter(counter + 1);
+          console.log(res);
+          const countrys = res.data.data.map((data) => {
+            return data;
+          });
+          setCountryall(countrys);
         })
         .catch((err) => {
           console.log(err);
         });
     };
-    getalCountry();
-  }, []);
 
-  useEffect(() => {
-    const getalCountry = async () => {
-      let body = {
-        user_id: 18207,
-      };
-      await axios
-        .post(`distributes/filters_list`, body)
-        .then((res) => {
-          setCountryall(res.data.response.data.country);
-          //console.log(countryall)
-          // setCounter(counter + 1);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
+    // const getalCountry = async () => {
+    //   let body = {
+    //     user_id: 18207,
+    //   };
+    //   await axios
+    //     .post(`distributes/filters_list`, body)
+    //     .then((res) => {
+    //       setCountryall(res.data.response.data.country);
+    //       //console.log(countryall)
+    //       // setCounter(counter + 1);
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+
     getalCountry();
   }, []);
 
@@ -136,7 +138,7 @@ const ViewData = (props) => {
     };
     loader("show");
     await axios
-      .post(`http://51.89.210.56:8000/api/smart-list/single-record`, body, {
+      .post(baseURL + `smart-list/single-record`, body, {
         headers,
       })
       .then((res) => {
@@ -285,11 +287,7 @@ const ViewData = (props) => {
     console.log(formData);
     loader("show");
     await axios
-      .post(
-        `http://51.89.210.56:8000/api/upload-unregistered-participant`,
-        formData,
-        { headers }
-      )
+      .post(baseURL + `upload-unregistered-participant`, formData, { headers })
       .then((res) => {
         //  console.log(smartListId);
         console.log(res);
@@ -482,11 +480,7 @@ const ViewData = (props) => {
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       // loader("show");
       await axios
-        .post(
-          `http://51.89.210.56:8000/api/smart-list/update-participants`,
-          body,
-          { headers }
-        )
+        .post(baseURL + `smart-list/update-participants`, body, { headers })
         .then((res) => {
           console.log(res);
 
@@ -516,97 +510,6 @@ const ViewData = (props) => {
     }
   };
 
-  const updateReaderDetails = async ({
-    profile_id,
-    newName,
-    email,
-    jobTitle,
-    company,
-    country,
-    profile_user_id,
-  }) => {
-    const body = {
-      user_id: 18207,
-      profile_user_id: profile_user_id,
-      profile_id: profile_id,
-      email: email,
-      jobTitle: jobTitle,
-      company: company,
-      country: country,
-      username: name,
-    };
-
-    console.log("body");
-    console.log(body);
-
-    console.log("edit list");
-    console.log(editList);
-    loader("show");
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    await axios
-      .post(`distributes/update_reders_details`, body)
-      .then((res) => {
-        onCancel();
-
-        var result = editList.filter((obj) => {
-          return obj.profile_user_id === body.profile_user_id;
-        });
-
-        if (result) {
-          var first_name = body.username.substring(
-            0,
-            body.username.lastIndexOf(" ") + 1
-          );
-          var last_name = body.username.substring(
-            body.username.lastIndexOf(" ") + 1,
-            body.username.length
-          );
-
-          result[0].email = body.email;
-          result[0].country = body.country;
-          result[0].company = body.company;
-          result[0].jobTitle = body.jobTitle;
-          result[0].first_name = first_name;
-          result[0].last_name = last_name;
-
-          const index = editList.findIndex(
-            (el) => el.profile_user_id === result.profile_user_id
-          );
-        }
-        setReRender(render + 1);
-        loader("hide");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const onSave = ({
-    profile_id,
-    newName,
-    email,
-    jobTitle,
-    company,
-    country,
-    profile_user_id,
-  }) => {
-    if (validator3.allValid()) {
-      updateReaderDetails({
-        profile_id,
-        newName,
-        email,
-        jobTitle,
-        company,
-        country,
-        profile_user_id,
-      });
-    } else {
-      console.log("validator3");
-      console.log(validator3);
-      console.log(validator3.errorMessages);
-    }
-  };
-
   const deleteReader = async (profile_user_id) => {
     const body = {
       smart_list_id: props.smartListId,
@@ -622,13 +525,9 @@ const ViewData = (props) => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     //  loader("show");
     await axios
-      .post(
-        `http://51.89.210.56:8000/api/smart-list/delete-participants`,
-        body,
-        {
-          headers,
-        }
-      )
+      .post(baseURL + `smart-list/delete-participants`, body, {
+        headers,
+      })
       .then((res) => {
         console.log(res);
 
@@ -832,6 +731,7 @@ const ViewData = (props) => {
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
         return {
+          smart_list_id: props.smartListId,
           name: data.name,
           email: data.email,
           hospital: data.hospital,
@@ -844,7 +744,7 @@ const ViewData = (props) => {
 
       var pattern = "^w+@[a-zA-Z_]+?.[a-zA-Z]{2,3}$";
       const body = {
-        smart_list_id: props.smartListId,
+        //  smart_list_id: props.smartListId,
         participants: JSON.stringify(body_data),
       };
 
@@ -862,13 +762,9 @@ const ViewData = (props) => {
         loader("show");
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         await axios
-          .post(
-            `http://51.89.210.56:8000/api/create-unregistered-participant`,
-            body,
-            {
-              headers,
-            }
-          )
+          .post(baseURL + `create-unregistered-participant`, body, {
+            headers,
+          })
           .then((res) => {
             console.log(res);
             if (res.data.code === 200) {
@@ -1455,7 +1351,7 @@ const ViewData = (props) => {
                                               return (
                                                 <>
                                                   <option value={index}>
-                                                    {item}
+                                                    {item.country}
                                                   </option>
                                                 </>
                                               );
