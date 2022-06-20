@@ -869,23 +869,23 @@ const GridView = (props) => {
                                 </tr>
                                 <tr>
                                   <th>Country</th>
-                                  <td>NA</td>
+                                  <td>{data.country}</td>
                                 </tr>
                                 <tr>
                                   <th>State</th>
-                                  <td>NA</td>
+                                  <td>{data.state}</td>
                                 </tr>
                                 <tr>
                                   <th>Profession</th>
-                                  <td>NA</td>
+                                  <td>{data.profession}</td>
                                 </tr>
                                 <tr>
                                   <th>Interest</th>
-                                  <td>NA</td>
+                                  <td>{data.interest}</td>
                                 </tr>
                                 <tr>
                                   <th>Hospital</th>
-                                  <td contenteditable="true">NA</td>
+                                  <td>{data.hospital}</td>
                                 </tr>
                               </tbody>
                             </table>
@@ -903,11 +903,11 @@ const GridView = (props) => {
                                 <tbody>
                                   <tr>
                                     <th>Consent</th>
-                                    <td>Yes</td>
+                                    <td>{data.consent}</td>
                                   </tr>
                                   <tr>
                                     <th>Bounced</th>
-                                    <td>Yes</td>
+                                    <td>{data.bounced}</td>
                                   </tr>
                                   <tr>
                                     <th>Last Email</th>
@@ -952,17 +952,22 @@ const GridView = (props) => {
                           </div>
                         </Tab>
                       </Tabs>
-                      {/* <td className="delete_row" colspan="12">
-                        <img
-                          src={path_image + "delete.svg"}
-                          alt="Delete Row"
-                          onClick={() =>
-                            onDelete({
-                              participants_id: data.id,
-                            })
-                          }
-                        />
-                      </td> */}
+                      {editable == 1 ? (
+                        <div className="tab-content-delete">
+                          {" "}
+                          <td className="delete_row" colspan="12">
+                            <img
+                              src={path_image + "delete.svg"}
+                              alt="Delete Row"
+                              onClick={() =>
+                                onDelete({
+                                  participants_id: data.id,
+                                })
+                              }
+                            />
+                          </td>
+                        </div>
+                      ) : null}
                     </div>
                   </div>
                 );
