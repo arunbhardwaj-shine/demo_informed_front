@@ -312,6 +312,23 @@
 		.smartlist-view .mail-box-content {
 			min-height: 343px;
 		}	
+		.help-popup-content {
+			width: 238px;
+			top: 68px;
+		}.help-popup-content h6 {
+			font-size: 14px;
+			line-height: 16px;
+		}
+		.help-popup-content p, .help-popup-content li {
+			font-size: 12px;
+			line-height: 14px;
+		}
+		.help-popup-content-inner {
+			height: calc(100vh - 75px);
+		}
+		.help-popup-content .help-popup-content-library-inside img, .help-popup-find-content img {
+			max-width: 100%;
+		}
 		.left-sidebar {
 			height: calc(100vh - 62px);
 		}

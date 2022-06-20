@@ -112,6 +112,8 @@ const Sidebar = () => {
             </div>
             <div className= {getHideShowSideContent ? "help-popup-content show" : "help-popup-content"}>
             <div className="help-popup-content-inner">
+              
+              <div className="help-popup-content-library">
               <div className="help-popup-content-video">
                 <h6>{title}</h6>
                 <div className="help-content-popup" onClick={() => setOpenVideoPopup((getOpenVideoPopup) => !getOpenVideoPopup)}>
@@ -120,7 +122,6 @@ const Sidebar = () => {
                   </a>
                 </div>
               </div>
-              <div className="help-popup-content-library">
                 <div className="help-popup-content-library-inside">
                   <img src= {path_image + "content-select.svg"} alt="" />
                   <p>At the top you can see the steps that you will go through to make an email. First step is to select the content.</p>
