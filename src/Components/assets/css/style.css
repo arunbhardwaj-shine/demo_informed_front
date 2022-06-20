@@ -1213,6 +1213,14 @@ display: none;
  .modal #open_video_popup .modal-header {
   padding: 16px 11px;
 }
+.help-popup-content-library .btn-form a.btn.btn-primary {
+  cursor: context-menu;
+  }
+  #open_video_popup .modal-body .video-react .video-react-poster {
+    object-fit: cover;
+    background-color: #fff;
+    width: 100%;
+}
 /**sidebar Modal End**/
 
 .navbar-nav li{
