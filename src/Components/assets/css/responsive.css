@@ -39,6 +39,18 @@
 	#add_hcp .modal-body .hcp-add-form form .add_hcp_boxes .form_action {
 		min-height: inherit;
 	}
+	.help-popup-view svg {
+		width: 14px;
+	}
+	.help-popup-view::after {
+		left: 26px;
+	}
+	.help-popup-view {
+		left: 167px;
+		padding: 8px 14px;
+		height: 40px;
+		width: 45px;
+	}
 	.modal form#add_hcp_form .add_hcp_boxes:first-child:last-child .hcp-action-block {
 		top: 75px;
 	}
@@ -312,6 +324,12 @@
 		.smartlist-view .mail-box-content {
 			min-height: 343px;
 		}	
+		#open_video_popup .modal-body .video-react video {
+			object-fit: cover;
+		}
+		#open_video_popup .modal-body .video-react {
+			padding-top: 54.25%!important;
+		}
 		.help-popup-content {
 			width: 238px;
 			top: 68px;
