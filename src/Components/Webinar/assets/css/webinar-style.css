@@ -99,7 +99,7 @@ header { position: sticky; top: 0; z-index: 9; }
 .top-header { display: flex; align-content: center; justify-content: space-between; }
 .toggle_sidebar .right-sidebar {width: calc(100% - 90px);}
 .right-sidebar { 
-    min-height:100vh;padding-top: 34px; padding-right: 70px; padding-left: 150px; width: calc(100% - 85px); background: rgba(255, 255, 255, 0.83); backdrop-filter: blur(254px); z-index: 1; box-shadow: -11px 0px 15px rgba(0, 102, 190, 0.1); border-radius: 25px 0 0 25px; }
+    min-height:90vh;padding-top: 34px; padding-right: 70px; padding-left: 150px; width: calc(100% - 85px); background: rgba(255, 255, 255, 0.83); backdrop-filter: blur(254px); z-index: 1; box-shadow: -11px 0px 15px rgba(0, 102, 190, 0.1); border-radius: 25px 0 0 25px; }
 .clear-search button { width: 52px; text-align: center; background: var(--white); border-radius: 30px; box-shadow: 0px 2px 10px -3px rgba(0, 102, 190, 0.15); border: 0; padding: 6px; height: 52px; display: flex; align-items: center; justify-content: center; }
 .clear-search button:hover, .clear-search button:active, .clear-search button:focus { background: var(--light-blue); }
 .clear-search button:hover svg path, .clear-search button:active svg path, .clear-search button:focus svg path{ fill: var(--white); }
@@ -142,7 +142,7 @@ header { position: sticky; top: 0; z-index: 9; }
 .email-block-add img { cursor: pointer;max-width: 80px }
 .sidebar-menu ul li.active svg path, .sidebar-menu ul li:hover svg path { fill: var(--light-blue);fill-opacity: 1; }
 .email_box { width:411px; flex: 0 0 411px;height:100%; }
-.smartlist-view.email_box { width:253px; flex: 0 0 253px; }
+.smartlist-view.email_box { width:253px; flex: 0 0 253px;height:inherit;}
 .email-result-block { display: flex; flex-wrap: wrap; justify-content: flex-start; margin: 0 -15px; }
 .mail-top-title span { font-size: 12px; line-height: 14px; color: var(--white); font-family: 'Roboto-Medium'; }
 .mail-top-title { background: var(--yellow); text-align: center; border-radius: 20px 20px 0 0; position:relative; padding: 4px; z-index: 4; }
@@ -207,7 +207,7 @@ header { position: sticky; top: 0; z-index: 9; }
 .smart-list-result { margin-top: 74px; }
 .smartlist-view .mail-box-content h5 { color: var(--light-blue); margin: 0 0; }
 .smartlist-view .mailbox-table th { font-weight: 400; font-family: 'Roboto'; color: var(--blue); padding: 4px 13px 5px 0; }
-.smartlist-view .mail-box-content {  min-height:190px; padding: 16px 16px 16px 16px; }
+.smartlist-view .mail-box-content {  min-height:190px; padding: 16px 16px 16px 16px;height:inherit; }
 .mailbox-table td span { background: #E7F4FF; border-radius: 3px; font-size: 14px; line-height: 16px; color: var(--light-blue); font-family: 'Roboto-Light'; padding: 1px 29px; }
 .smartlist-view .mail-stats ul li { width: 33.3%; }
 .smartlist-view .mail-stats ul { justify-content: flex-start;}
@@ -494,6 +494,7 @@ form#add_hcp_form .row:not(:first-child) { border-top: 1px dashed var(--light-bl
 .hcp-action-block { display: flex; flex-direction: row-reverse; position: absolute;top: 115px; transform: rotate(-90deg) scaleX(1); transform-origin: bottom left; left: 52px; }
 .hcp-modal-action { position: relative; }
 .hcp-action-block .nav.nav-tabs { border: 0; margin: 0 15px 0 0px; flex-direction: row-reverse; width: auto; }
+.modal form#add_hcp_form .add_hcp_boxes:first-child:last-child .hcp-action-block{ top: 68px;}
 /**View-Smart-List**/
 .smart-list-btns { display: flex; justify-content: flex-end; }
 .smart-list-btns .hcp-new-user, .smart-list-btns .hcp-added { margin-right: 16px; }
@@ -1473,7 +1474,7 @@ max-width:382px;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
-	margin-right: 20px;
+	margin-right: 15px;
 }
 .list-tab .list-tab-box {
 	width: 33.3%;
@@ -1627,7 +1628,7 @@ top: 0;
 }
 .verify-mail-box {
 	border-radius: 30px;
-	padding: 28px 40px 30px;
+	padding: 28px 35px 30px;
 	height: 100%;
 	box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
 }
@@ -1649,14 +1650,15 @@ top: 0;
 .preview_mail .preview-mail-box {
     background: rgba(151, 182, 207, 0.22);
     border-radius: 15px;
-    padding: 81px 64px;
+    padding: 50px 30px;
     margin: 0 auto;
     text-align: center;
 }
 .verify-mail-box .list-tab .list-tab-box {
 	margin-bottom: 24px;
-	max-width: 346px;
+	max-width: 340px;
 	width: 100%;
+    padding-right:10px;
 }
 .verify_email .verify-left {
 	width: calc(100% - 42%);
@@ -1747,12 +1749,28 @@ top: 0;
     padding: 0 45px;
     flex-wrap: wrap;
 }
-#modal-add .modal-dialog {
+#modal-add.modal-dialog {
 	max-width: 507px;
 }
 #modal-add .list-tab-box-inside {
 	max-width: 411px;
 	margin: 0 auto;
+}
+#modal-add .modal-footer {
+    padding: 15px 48px 16px;
+}
+#modal-add .modal-footer .btn {
+    min-width: 112px;
+    height: 51px;
+    margin: 0;
+}
+#modal-add .modal-body{padding-top:0;}
+#modal-add.modal-dialog .modal-header {
+    justify-content: space-between;
+    padding:25px 24px 25px 40px;
+}
+.modal-footer {
+    border: 0;
 }
 .modal.show {
     background: rgba(215, 215, 215, 0.19);
@@ -1765,7 +1783,10 @@ top: 0;
 .select-mail-template .email-form form .input-group .tags_added {
     flex: 1 1;
 }
-
+.mail-preview-action .hcp-added {
+    padding-right: 28px;
+    margin-bottom: 16px;
+}
 header nav.navbar .form-select, .readerListing .form-select , .user-login .dropdown #dropdown-basic {
 	margin-right: 30px;
 	background-position: 93% center;
@@ -2156,7 +2177,20 @@ button#test-table-xls-button:hover {
     justify-content: space-around;
     margin-top:23px
 }
-
+.modal-body .mail-preview-action .hcp-added .btn {
+    background: #EEEEEE;
+    border-radius: 30px;
+    width: 52px;
+    height: 52px;
+    border-color: #EEEEEE;
+}
+.modal-body .mail-preview-action .hcp-added .btn:hover {
+    border-color: var(--light-blue);
+    background: var(--light-blue);
+}
+.modal-body .mail-preview-action .hcp-added .btn:hover svg path{
+fill:var(--white)
+}
 
 
 
@@ -2289,19 +2323,14 @@ ul.hcp-table-content-right .user-type-action button img {
 /***HCP PAge End***/
 
 
-
-
-
-
-
-
-
-
-
-
-
 /**Responsive**/
 @media only screen and (min-width:2000px){
     .sidebar-menu ul { margin:0px -20px 0 0;}
 }
 /**Responsive End**/
+
+
+div#guestpage + div {
+    width: 100% !important;
+    border-radius: 0px;
+}

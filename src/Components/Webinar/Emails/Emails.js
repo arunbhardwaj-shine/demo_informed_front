@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Accordion from "react-bootstrap/Accordion";
 import ExportApi from "../../../Api/ExportApi";
+import { loader } from "../../../loader";
 const SendEmails = () => {
   const [data, setData] = useState([]);
   const [showfilter, setShowFilter] = useState(false);
@@ -87,13 +88,16 @@ const SendEmails = () => {
     setShowFilter(false);
   };
   const handleGetEmailSCollection = () => {
-    ExportApi.GetEmailSCollection().then((resp) => {
+    ExportApi.GetEmailSCollection(localStorage.getItem("EventIdHeader")).then((resp) => {
       if (resp.ok) {
         if (resp.data.code == 200) {
+          loader("hide");
           setData(resp.data.data);
           setNotFound();
-        } else {
+        } else if(resp.data.code == 404) {
+          setData()
           setNotFound("No Data Found");
+          loader("hide");
         }
       }
 
@@ -132,11 +136,19 @@ const SendEmails = () => {
     );
   };
   useEffect(() => {
-    handleGetEmailSCollection();
+   
+    window.addEventListener("EventId", () =>{
+      handleGetEmailSCollection(localStorage.getItem("EventIdHeader"))
+     
+    })
+    handleGetEmailSCollection(localStorage.getItem("EventIdHeader"));
   }, []);
 
   return (
     <>
+      <div className="loader" id="custom_loader">
+        <span className="loader-view"> </span>
+      </div>
       <div className="right-sidebar">
         <div className="top-header">
           <div className="page-title">
@@ -406,7 +418,7 @@ const SendEmails = () => {
           <div className="col email-result-block">
             <div className="email_box_block">
               <div className="email-block-add">
-                <Link to="/webinar/email/create">
+                <Link to="/webinar/email/create" onClick={()=>{localStorage.removeItem("stateid")}}>
                   <img src={path_image + "add-button.svg"} alt="" />
                   <p>Create New Email</p>
                 </Link>
@@ -498,7 +510,7 @@ const SendEmails = () => {
                       </div>
                       <div class="mailbox-buttons">
                         <div class="mailbox-buttons-list">
-                          <button class="btn btn-primary btn-bordered edit" onClick={()=>navigate('/webinar/email/create', { state: { id: val.id, } })} >
+                          <button class="btn btn-primary btn-bordered edit" onClick={()=>{navigate('/webinar/email/create');localStorage.setItem("stateid",val.id)}} >
                             {/* <Link
                               to={{
                                 pathname: "/webinar/email/create",

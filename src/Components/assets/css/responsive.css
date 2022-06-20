@@ -7,7 +7,7 @@
 	.result-hcp-table .selected-hcp-list { padding: 0 0; overflow-x: auto; }
 	.selected-hcp-list .table tr.hcps-deleted:after, .selected-hcp-list .table tr.hcps-added:after {
 		transform: rotate(0deg);
-		left: 0;
+		left: 8px;
 		top: -19px;
     	font-size: 12px;
 	}	
@@ -207,7 +207,7 @@
 	.send-confirm .modal-body .modal-buttons button {
 		height: 36px;
 	}	
-	.smart-list-btns .smart-list-download button, .smart-list-btns .hcp-new-user button, .smart-list-btns .hcp-added button,button#test-table-xls-button {
+	.smart-list-btns .smart-list-download button, .smart-list-btns .hcp-new-user button, .smart-list-btns .hcp-added button {
 		width: 36px;
 		height: 36px;
 	}	
@@ -218,6 +218,12 @@
 		text-align: center;
 		justify-content: center;
 	}	
+	button#test-table-xls-button{
+		width:32px;
+		height: 32px;
+		background-size: 16px;
+		margin-right:10px;
+	}
 	.search-hcp-table .add-new-hcp img, .result-hcp-table .add-new-hcp img {
 		width: 28px;
 	}
@@ -285,7 +291,11 @@
 	.table-title .selected-hcp-table-action .btn img {
 		max-width: 16px;
 	}	
-								
+	.create_smart_list .create-smart-step .create-smart-step-box form .form-control { padding: 5px 12px;height:36px; } 	
+	.page-top-nav.smart_list_names .btn.btn-primary {
+		padding: 8px 13px;
+	}	
+	.create_smart_list .create_smart_list_inset { max-width: 70%; }					
 	} 
 	 
 	 @media only screen and (max-width:1365px){ 
@@ -303,9 +313,7 @@
 		header nav.navbar { padding: 3px 10px; } 
 		#add_hcp .modal-body .hcp-add-form form .form-group button { height: 41px; } 
 		.sidebar-menu button.toggle_btn { margin: 6px 15px 0px; } 
-		/* .mail-box-content { height: initial; }  */
 		#add-list .email_box { margin-bottom: 0px; } 
-		.create_smart_list .create-smart-step .create-smart-step-box form .form-control { padding: 8px 12px; } 
 		.selected-hcp-list .not-found { min-height: 150px; } 
 		.sample_list_dt .not-found h4 { font-size: 25px; } 
 		.smart-list-added-user img { max-height: 16px; } 
@@ -338,7 +346,6 @@
 		.verify_email .verify-left { width: calc(100% - 600px); } 
 		.verify_email .verify-right { width: 600px; } 
 		.page-top-nav.smart_list_names .col-md-1 { padding-left: 0; } 
-		.create_smart_list .create_smart_list_inset { max-width: 85%; }
 		.dropdown-menu.filter-options { width: 270px; } 
 		.dropdown-menu.filter-options .accordion .card ul { max-height: 134px; } 
 		.page-title h2 { font-size: 24px; line-height: 28px; } 

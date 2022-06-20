@@ -236,40 +236,35 @@ const TableView = (props, ref) => {
 
     index
   ) => {
-    console.log(id);
-    console.log(name);
-    console.log(index);
-    console.log(props.smartListId);
+    if (editable != 0) {
+      // ignoreClickOnMeElement.addEventListener(
+      // "mouseleave",
+      // async (event) => {
+      const name_edit = document.getElementById("field_name" + id).innerText;
 
-    let ignoreClickOnMeElement = document.getElementById(
-      "row-selected" + index
-    );
+      console.log(name_edit);
 
-    ignoreClickOnMeElement.addEventListener(
-      "mouseleave",
-      async (event) => {
-        const name_edit = document.getElementById(
-          "field_name" + index
-        ).innerText;
+      var arr = [];
+      arr.push({
+        id: id,
+        name: name_edit,
+        country: "",
+        hospital: "",
+        email: "",
+        profession: "",
+        interest: "",
+        consent: "",
+      });
 
-        console.log(name_edit);
-        //console.log(country_edit);
+      let prev_obj = editableData.find((x) => x.id === id);
+      console.log(prev_obj);
 
-        const arr = [];
-        arr.push({
-          id: id,
-          name: name_edit,
-          country: "",
-          hospital: "",
-          email: "",
-          profession: "",
-          interest: "",
-          consent: "",
-        });
+      if (typeof prev_obj != "undefined") {
+        editableData.map((obj) => arr.find((o) => o.id === id) || obj);
+      } else {
         setEditableData((oldArray) => [...oldArray, ...arr]);
-      },
-      { once: true }
-    );
+      }
+    }
   };
 
   const showFileInReadersList = async (fdata, newReaders) => {
@@ -434,45 +429,68 @@ const TableView = (props, ref) => {
   };
 
   const saveEditClicked = async () => {
-    console.log(props.smartListId);
     setEditable(0);
-    console.log(editableData);
-    const body = {
-      smart_list_id: props.smartListId,
-      upload: "",
-      participants: JSON.stringify(editableData),
-      // participants: editableData,
-    };
+    if (editableData.length > 0) {
+      editableData.map((data) => {
+        const name_edit = document.getElementById(
+          "field_name" + data.id
+        ).innerText;
 
-    const headers = {
-      "Content-Type": "application/json",
-      Authorization: `${localStorage.getItem("Token")}`,
-    };
+        let prev_obj = editList.find((x) => x.id === data.id);
 
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    //  loader("show");
-    await axios
-      .post(`http://51.89.210.56:8000/api/smart-list/update`, body, { headers })
-      .then((res) => {
-        // loader("hide");
-        // if (res.data.status_code === 200) {
-        //   toast.success("List updated");
-        // } else {
-        //   popup_alert({
-        //     visible: "show",
-        //     message: res.data.message,
-        //     type: "error",
-        //   });
-        // }
-
-        console.log(res);
-      })
-      .catch((err) => {
-        //    loader("hide");
-        toast.error("Something went wrong");
+        //data.country = country_edit;
+        data.name = name_edit;
       });
-    setSaveOpen(false);
-    setEditableData([]);
+    }
+
+    if (editableData.length > 0) {
+      const body = {
+        smart_list_id: props.smartListId,
+        upload: "",
+        participants: JSON.stringify(editableData),
+        // participants: editableData,
+      };
+
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("Token")}`,
+      };
+
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      // loader("show");
+      await axios
+        .post(
+          `http://51.89.210.56:8000/api/smart-list/update-participants`,
+          body,
+          { headers }
+        )
+        .then((res) => {
+          console.log(res);
+
+          if (res.data.code == 200) {
+            toast.success("Data updated successfully");
+          }
+
+          //  loader("hide");
+
+          // if (res.data.status_code === 200) {
+          //   toast.success("List updated");
+          // } else {
+          //   popup_alert({
+          //     visible: "show",
+          //     message: res.data.message,
+          //     type: "error",
+          //   });
+          // }
+        })
+        .catch((err) => {
+          toast.error("Something went wrong");
+        });
+
+      setSaveOpen(false);
+      setEditableData([]);
+      setEditList(editList);
+    }
   };
 
   const closeClicked = () => {
@@ -894,7 +912,39 @@ const TableView = (props, ref) => {
       <div class="right-sidebar">
         <div class="top-header">
           <div class="page-title">
-            <div class="header-btn-right back_btn">
+            <div class="header-btn-left">
+              <button
+                class="btn btn-primary btn-filled back"
+                onClick={() => {
+                  navigate("/webinar/email/WebinarSmartList");
+                }}
+              >
+                <svg
+                  width="12"
+                  height="19"
+                  viewBox="0 0 12 19"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M8.31557 17.82C8.97165 18.476 10.0354 18.476 10.6915 17.82C11.3475 17.1639 11.3475 16.1002 10.6915 15.4441L4.7522 9.50484L10.6927 3.56431C11.3488 2.90823 11.3488 1.84451 10.6927 1.18843C10.0367 0.532347 8.97294 0.532347 8.31686 1.18843L1.2212 8.28409C1.21 8.29469 1.19891 8.30548 1.18794 8.31646C0.531858 8.97254 0.531858 10.0363 1.18794 10.6923L8.31557 17.82Z"
+                    fill="white"
+                  />
+                </svg>
+              </button>
+              {/* <a class="btn btn-primary btn-filled light" href="#">
+                  <img
+                    src={path_image + "arrow-left.svg"}
+                    alt=""
+                    onClick={() => {
+                      navigate("/webinar/email/WebinarSmartList");
+                    }}
+                  />
+                </a> */}
+            </div>
+            {/* <div class="header-btn-right back_btn">
               <a class="btn btn-primary btn-filled light" href="#">
                 <img
                   src={path_image + "arrow-left.svg"}
@@ -902,13 +952,17 @@ const TableView = (props, ref) => {
                   onClick={() => navigate("/webinar/email/SmartListCreate")}
                 />
               </a>
-            </div>
+            </div> */}
             <h2>Name of the list</h2>
           </div>
           <div class="top-right-action">
             <div class="hcp-added">
               <button class="btn btn-outline-primary">
-                <img src={path_image + "edit.svg"} alt="Edit" />
+                <img
+                  src={path_image + "edit.svg"}
+                  alt="Edit"
+                  onClick={editButtonClicked}
+                />
               </button>
             </div>
             <div>
@@ -923,6 +977,26 @@ const TableView = (props, ref) => {
         </div>
 
         <section class="search-hcp">
+          <div class="selected-hcp-table-action">
+            {" "}
+            {saveOpen ? (
+              <>
+                <button
+                  className="btn btn-primary btn-filled"
+                  onClick={closeClicked}
+                >
+                  Close
+                </button>
+
+                <button
+                  className="btn btn-primary btn-bordered"
+                  onClick={saveEditClicked}
+                >
+                  Save
+                </button>
+              </>
+            ) : null}
+          </div>
           <div class="result-hcp-table">
             <div class="selected-hcp-list">
               <table class="table">
@@ -947,32 +1021,31 @@ const TableView = (props, ref) => {
                   {editList.length > 0
                     ? editList.map((item, index) => {
                         return (
-                          <tr>
-                            <td>
-                              <span contenteditable="true">{item.name}</span>
+                          <tr
+                            onClick={(e) =>
+                              editing(
+                                //  e.currentTarget,
+                                item.id,
+
+                                item.name,
+                                index
+                              )
+                            }
+                          >
+                            <td
+                              id={`field_name` + item.id}
+                              contenteditable={
+                                editable === 0 ? "false" : "true"
+                              }
+                            >
+                              <span>{item.name}</span>
                             </td>
-                            <td>
-                              <span contenteditable="true">{item.email}</span>
-                            </td>
+                            <td>{item.email}</td>
                             <td>{item.bounced}</td>
-                            <td>
-                              <span contenteditable="true">{item.country}</span>
-                            </td>
-                            <td>
-                              <span contenteditable="true">
-                                {item.hospital}
-                              </span>
-                            </td>
-                            <td>
-                              <span contenteditable="true">
-                                {item.profession}
-                              </span>
-                            </td>
-                            <td>
-                              <span contenteditable="true">
-                                {item.interest}
-                              </span>
-                            </td>
+                            <td>{item.country}</td>
+                            <td>{item.hospital}</td>
+                            <td>{item.profession}</td>
+                            <td>{item.interest}</td>
                             <td>{item.consent}</td>
                             <td>NA</td>
                             <td>NA</td>
@@ -1016,7 +1089,7 @@ const TableView = (props, ref) => {
         <Modal.Body>
           <img src={path + "alert.png"} alt="" />
           <h4>
-            The HCP record will be deleted from the list.
+            The record will be deleted from the list.
             <br />
             Are you sure you want to delete it?
           </h4>

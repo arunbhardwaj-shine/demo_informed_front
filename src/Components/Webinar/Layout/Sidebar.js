@@ -36,6 +36,7 @@ const Sidebar = () => {
         document.body.classList.toggle("sub_menu_toggle_sidebar");
       }
     } else if (2 == index) {
+
       const bodyHasClass = document.body.classList.contains(
         "sub_menu_toggle_sidebar"
       );
@@ -43,17 +44,17 @@ const Sidebar = () => {
       if (!bodyHasClass) {
         document.body.classList.toggle("sub_menu_toggle_sidebar");
       }
-      setEmailStatus(true);
+      setHomeStatus(false);
+      setEmailStatus(false);
       setHomeStatus(false);
     } else {
       document.body.classList.remove("sub_menu_toggle_sidebar");
-
       setEmailStatus(false);
       setHomeStatus(false);
     }
   };
   return (
-    <div className="left-sidebar">
+    <div className="left-sidebar" id={localStorage.getItem("Token") === null || localStorage.getItem("Token") === undefined ? "guestpage":"loggedin"}>
       {location.pathname.includes("/webinar/register") ||
       location.pathname.includes("/webinar/editor") ? null : (
         <>
@@ -492,7 +493,7 @@ const Sidebar = () => {
                     >
                       <Link to="/webinar/portal/registrationDetails">
                         <img src={path_image + "webinar/event.svg"} />
-                        <p>Registration Details</p>
+                        <p>Registration Page</p>
                       </Link>
                     </li>
                   </ul>
@@ -542,7 +543,16 @@ const Sidebar = () => {
                     </li>
                     <li
                       className={
-                        location.pathname === "/webinar/email/WebinarSmartList"
+                        location.pathname ===
+                          "/webinar/email/WebinarSmartList" ||
+                        location.pathname ===
+                          "/webinar/email/ViewSmartListWebinar" ||
+                        location.pathname ===
+                          "/webinar/email/SmartListCreate" ||
+                        location.pathname ===
+                          "webinar/email/SmartListCreate/FilterList" ||
+                        location.pathname ===
+                          "webinar/email/SmartListCreate/ExcelUpload"
                           ? "active"
                           : "side_li"
                       }
@@ -552,6 +562,7 @@ const Sidebar = () => {
                         <p>Smart List</p>
                       </Link>
                     </li>
+
                     {/* <li
                       className={
                         location.pathname === "/webinar/email/EmailsAnalaytics"

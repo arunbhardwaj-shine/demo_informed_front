@@ -27,7 +27,7 @@ export const Testmail = (props) => {
 
     onSubmit: (values) => {
       let formData = new FormData();
-      formData.append("template_id", props.data1);
+      formData.append("template_id",  localStorage.getItem("TEMPLATEID"));
       formData.append("email", values.Email);
       formData.append("file", image);
       formData.append("name", values.Name);

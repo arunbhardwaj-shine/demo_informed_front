@@ -1,11 +1,12 @@
 import React,{useState,useEffect} from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {  useParams } from "react-router-dom";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import ExportApi from "../../../Api/ExportApi";
 import { Button, Modal } from "react-bootstrap";
 import { toast, ToastContainer } from "react-toastify";
+import { loader } from "../../../loader";
 const SmartListUsers = () => {
 	const [data , setData]=useState()
 	const [dataCopy , setDataCopy]=useState()
@@ -14,8 +15,9 @@ const SmartListUsers = () => {
 	const [desktop , setDesktop]=useState(true)
 	const [mobile , setMobile]=useState(false)
 	const [template , setTemplate]=useState()
-	const [deleteid , setdeleteid]=useState()
+	const [deleteid , setdeleteid]=useState(false)
 	const [modalShow1, setModalShow1] = useState(false);
+	let navigate = useNavigate();
 	let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 	let parms=useParams()
 	const handleGetSmartListSingleRecord = (id) => {
@@ -28,27 +30,34 @@ const SmartListUsers = () => {
 		  });
 	  };
 	  const handleGetTemplate = () => {
+		console.log(localStorage.getItem("TEMPLATEID"))
 		ExportApi.UserTemplate(localStorage.getItem("TEMPLATEID")).then((resp) => {
 		  if (resp.ok) {
+
 			// console.log(resp.data.data.description);
-			document.getElementById("one").innerHTML = resp.data.data.description;            
+			document.getElementById("one").innerHTML = resp.data.data.description;  
+			loader("hide");          
 		  }
 		});
 	  };
 	  const handleSendMail = () => {
-		ExportApi.sandAllmaik(localStorage.getItem("TEMPLATEID"),parms.id).then((resp) => {
+
+		ExportApi.sandAllmaik(localStorage.getItem("collection_id")).then((resp) => {
 		  if (resp.ok) {
 			 console.log(resp.data)  
 			 if (resp.data.code == 200) {
 				toast.success(resp.data.message,{
 					position: "top-right",
-					autoClose: 5000,
+					autoClose: 2000,
 					hideProgressBar: false,
 					closeOnClick: true,
 					pauseOnHover: true,
 					draggable: true,
 					progress: undefined,
 				  });
+				  setTimeout(() => {
+					navigate("/webinar/email/emails");
+				  }, 2000);
 			  } else {
 				toast.error(resp.data.message, {
 				  position: "top-right",
@@ -93,10 +102,20 @@ setDataCopy([obj])
 	  const UpdateSmartList=()=>{
 		ExportApi.UpdateSmartListData(parms.id,JSON.stringify(dataCopy)).then((resp) => {
 			if (resp.ok) {
-			  console.log(resp.data)
+				if (resp.data.code == 200) {
+					toast.success(resp.data.message,{
+						position: "top-right",
+						autoClose: 2000,
+						hideProgressBar: false,
+						closeOnClick: true,
+						pauseOnHover: true,
+						draggable: true,
+						progress: undefined,
+					  });
+				  }
 			  handleGetSmartListSingleRecord(parms.id)
 			  setEditShow(false)
-			  setdeleteid()
+			  setdeleteid(false)
 			}
 		  });
 	  }
@@ -107,15 +126,32 @@ setDataCopy([obj])
 		ExportApi.DeleteSmartListData(JSON.parse(parms.id),id).then((resp) => {
 			if (resp.ok) {
 			  console.log(resp.data)
+			  if (resp.data.code == 200) {
+				toast.success(resp.data.message,{
+					position: "top-right",
+					autoClose: 2000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+				  });
+				  setdeleteid(false)
+			  }
 			  setData(CopyData)
 			}
 		  });
 	  }
 	  useEffect(() => {
+		loader("show");
 		handleGetTemplate()
 		handleGetSmartListSingleRecord(parms.id)
 	  }, [])
   return ( 
+	<>
+	  <div className="loader" id="custom_loader">
+        <span className="loader-view"> </span>
+      </div>
       <div className="right-sidebar">
 		   <ToastContainer
         position="top-right"
@@ -164,7 +200,7 @@ setDataCopy([obj])
                   Save As Draft
                 </button>
 				{editShow ?null:
-                <button class="btn btn-primary btn-filled back send"  type="button" onClick={()=>{handleSendMail()}}>
+                <button class="btn btn-primary btn-filled send"  type="button" onClick={()=>{handleSendMail()}}>
                    Send
 				</button>}
               
@@ -391,15 +427,15 @@ setDataCopy([obj])
 									   <tbody>
 										 <tr>
 										   <th>Consent</th>
-										   <td>{data.participants.consent==1?"Yes":"No"}</td>
+										   <td>{data?.participants?.consent==1?"Yes":"No"}</td>
 										 </tr>
 										 <tr>
 										   <th>Bounced</th>
-										   <td>{data.is_sent==1?"Yes":"No"} </td>
+										   <td>{data?.is_sent==1?"Yes":"No"} </td>
 										 </tr>
 										 <tr>
 										   <th>Last Email</th>
-										   <td> {data.stats.last_send} </td>
+										   <td> {data?.stats?.last_send} </td>
 										 </tr>
 									   </tbody>
 									 </table>
@@ -413,7 +449,7 @@ setDataCopy([obj])
 					})}</>:<h4>No Data</h4>}
 				
 						
-				<Modal
+				<Modal id="modal-add"
         show={modalShow1}
         size="sm"
         aria-labelledby="contained-modal-title-vcenter"
@@ -543,6 +579,7 @@ setDataCopy([obj])
 
        
       </div>    
+	  </>
 	)
 }
 export default SmartListUsers;

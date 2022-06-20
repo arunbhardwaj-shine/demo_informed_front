@@ -473,7 +473,7 @@ const FilterSegment = (props) => {
                 <li className="">
                   <a href="javascript:void(0)">Create smart list</a>
                 </li>
-                <li className="active">
+                <li className="active active-main">
                   <a href="javascript:void(0)">Select & Verify your HCPs</a>
                 </li>
               </ul>

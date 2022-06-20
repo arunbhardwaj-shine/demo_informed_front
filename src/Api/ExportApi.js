@@ -481,18 +481,12 @@ const EmailSandRegisteredType = (type, event_id, user_type) =>
     }
   );
 const sandAllmaik = (
-  template_id,
-  participants,
-  registeredNonRegistered,
-  Templatesubject
+  collection_id
 ) =>
   BaseApi.post(
     `send-mail`,
     {
-      template_id: template_id,
-      smart_list_id : participants,
-      type: registeredNonRegistered,
-      subject: Templatesubject,
+      collection_id:collection_id
     },
     {
       headers: {
@@ -646,6 +640,16 @@ const EmailSCreate = (template_id,eventid,subject ,tags,smart_list_id,) =>
       },
     }
   );
+const UpdateEmailSCreate = (collection_id) =>
+  BaseApi.post(
+    `emails/create`,
+    {collection_id: collection_id},
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
 const EmailSCreateCollection = (smart_list_id,collection_id  ) =>
   BaseApi.post(
     `emails/create`,
@@ -656,10 +660,10 @@ const EmailSCreateCollection = (smart_list_id,collection_id  ) =>
       },
     }
   );
-const GetEmailSCollection = (  ) =>
+const GetEmailSCollection = ( id ) =>
   BaseApi.post(
     `emails/collections`,
-    {},
+    {event_id:id},
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
@@ -670,6 +674,16 @@ const SearchEmailSCollection = (tags_search ,search) =>
   BaseApi.post(
     `emails/collections`,
     {tags_search:tags_search,search:search},
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
+const getCollectionData = (id) =>
+  BaseApi.get(
+    `emails/collection/${id}`,
+    {},
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
@@ -770,5 +784,7 @@ export default {
   UpdateSmartListData,
   DeleteSmartListData,
   GetEmailSCollection,
-  SearchEmailSCollection
+  SearchEmailSCollection,
+  getCollectionData,
+  UpdateEmailSCreate
 };
