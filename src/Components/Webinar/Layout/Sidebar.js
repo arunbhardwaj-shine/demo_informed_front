@@ -55,7 +55,15 @@ const Sidebar = () => {
     }
   };
   return (
-    <div className="left-sidebar" id={localStorage.getItem("Token") === null || localStorage.getItem("Token") === undefined ? "guestpage":"loggedin"}>
+    <div
+      className="left-sidebar"
+      id={
+        localStorage.getItem("Token") === null ||
+        localStorage.getItem("Token") === undefined
+          ? "guestpage"
+          : "loggedin"
+      }
+    >
       {location.pathname.includes("/webinar/register") ||
       location.pathname.includes("/webinar/editor") ? null : (
         <>
