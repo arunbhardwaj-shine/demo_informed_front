@@ -13,7 +13,7 @@ import ExportApi from "../../../Api/ExportApi";
 import { loader } from "../../../loader";
 import Accordion from "react-bootstrap/Accordion";
 
-//import WebinarLoader from "./WebinarLoader";
+
 
 const WebinarSmartList = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_WEBINAR;

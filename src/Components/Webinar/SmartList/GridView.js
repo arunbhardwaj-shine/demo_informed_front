@@ -6,7 +6,7 @@ import Tab from "react-bootstrap/Tab";
 import { Modal } from "react-bootstrap";
 import ViewData from "./ViewData";
 import axios from "axios";
-import WebinarLoader from "./WebinarLoader";
+
 import { loader } from "../../../loader";
 import { useNavigate } from "react-router-dom";
 
