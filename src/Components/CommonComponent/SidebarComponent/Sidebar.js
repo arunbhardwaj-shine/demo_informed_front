@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
 import { Modal, ModalDialog } from "react-bootstrap";
 import { Player, BigPlayButton } from 'video-react';
-
+let title = "";
 const Sidebar = () => {
 
   const location = useLocation();
@@ -13,6 +13,7 @@ const Sidebar = () => {
 
   const [getHideShowSideContent, setHideShowSideContent] = useState(false);
   const [getOpenVideoPopup, setOpenVideoPopup] = useState(false);
+
   const toggleClassToBody = () => {
     document.body.classList.toggle('toggle_sidebar');
   }
@@ -21,6 +22,32 @@ const Sidebar = () => {
       document.body.classList.add('toggle_sidebar');
   }else{
       document.body.classList.remove('toggle_sidebar');
+  }
+
+  if(location.pathname == "/EmailList"){
+    title = "Create your Campaign";
+  }else if(location.pathname == "/EmailArticleSelect"){
+    title = "Selecting content for your email";
+  }else if(location.pathname == "/CreateEmail"){
+    title = "Campaign Information";
+  }else if(location.pathname == "/SelectHCP"){
+    title = "Selecting type of hcp";
+  }else if(location.pathname == "/VerifyHCP"){
+    title = "Selecting verify Hcp";
+  }else if(location.pathname == "/verifyMAIL"){
+    title = "Verify Email";
+  }else if(location.pathname == "/SelectSmartListUsers"){
+    title = "Verify your list";
+  }else if(location.pathname == "/SelectSmartList"){
+    title = "Select Smart list";
+  }else if(location.pathname == "/SmartList"){
+    title = "Creating your Smart list";
+  }else if(location.pathname == "/CreateSmartList"){
+    title = "Smart list information";
+  }else if(location.pathname =="/ViewSmartList"){
+    title = "View smart list readers";
+  }else if(location.pathname == "/EditList"){
+    title = "Edit smart list";
   }
 
   return (
@@ -79,7 +106,7 @@ const Sidebar = () => {
         <div className= {getHideShowSideContent ? "help-popup-content show" : "help-popup-content"}>
         <div className="help-popup-content-inner">
           <div className="help-popup-content-video">
-            <h6>Selecting content for your email</h6>
+            <h6>{title}</h6>
             <div className="help-content-popup" onClick={() => setOpenVideoPopup((getOpenVideoPopup) => !getOpenVideoPopup)}>
               <a href="javascript:;">
                 <img src= {path_image + "video-popup.svg"} alt="" />
@@ -145,7 +172,7 @@ const Sidebar = () => {
       >
         <Modal.Header>
           <h5 className="modal-title" id="staticBackdropLabel">
-          Selecting content for your email
+          {title}
           </h5>
           <button
             type="button"
