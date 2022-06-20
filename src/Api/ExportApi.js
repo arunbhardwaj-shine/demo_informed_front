@@ -444,10 +444,10 @@ const EmailStatsPage = (id, eventId, template_id) =>
       },
     }
   );
-const EmailSand = (id, name, email) =>
+const EmailSand = (id, name, email,country,profession,interest,hospital) =>
   BaseApi.post(
     `create-unregistered-participant`,
-    { event_id: id, first_name: name, email: email },
+    { smart_list_id : id, name: name, email: email,country:country ,profession:profession,interest:interest,hospital:hospital},
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
@@ -630,10 +630,10 @@ const getEmailStatsChart = (eventid, templateId) =>
     }
   );
   ///....CreateEmail.....\\\\
-const EmailSCreate = (template_id,eventid,subject ,tags,smart_list_id,) =>
+const EmailSCreate = (approved_status,template_id,eventid,subject ,tags,smart_list_id,) =>
   BaseApi.post(
     `emails/create`,
-    {template_id: template_id,smart_list_id:smart_list_id,event_id: eventid,subject :subject,tags :tags },
+    { approved_status:approved_status,template_id: template_id,smart_list_id:smart_list_id,event_id: eventid,subject :subject,tags :tags },
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
@@ -650,10 +650,10 @@ const UpdateEmailSCreate = (collection_id) =>
       },
     }
   );
-const EmailSCreateCollection = (smart_list_id,collection_id  ) =>
+const EmailSCreateCollection = (approved_status,smart_list_id,collection_id  ) =>
   BaseApi.post(
     `emails/create`,
-    {smart_list_id:smart_list_id,collection_id:collection_id },
+    {approved_status:approved_status,smart_list_id:smart_list_id,collection_id:collection_id },
     {
       headers: {
         Authorization: localStorage.getItem("Token"),

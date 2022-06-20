@@ -27,6 +27,7 @@ const Sidebar = () => {
       "sub_menu_toggle_sidebar"
     );
     if (1 == index) {
+      setEmailStatus(false);
       setHomeStatus(true);
       const bodyHasClass = document.body.classList.contains(
         "sub_menu_toggle_sidebar"
@@ -45,7 +46,7 @@ const Sidebar = () => {
         document.body.classList.toggle("sub_menu_toggle_sidebar");
       }
       setHomeStatus(false);
-      setEmailStatus(false);
+      setEmailStatus(true);
       setHomeStatus(false);
     } else {
       document.body.classList.remove("sub_menu_toggle_sidebar");

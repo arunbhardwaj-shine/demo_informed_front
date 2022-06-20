@@ -150,7 +150,7 @@ const CreateEmails = (props) => {
             html,
             localStorage.getItem("TEMPLATEID"),
             tagClickedFirst,
-            0
+            "0"
           ).then((resp) => {
             if (resp.ok) {
               if (resp.data.code == 200) {
@@ -197,7 +197,7 @@ const CreateEmails = (props) => {
           localStorage.getItem("EventIdHeader"),
           design,
           html,
-          localStorage.getItem("idd"),
+          localStorage.getItem("TEMPLATEID"),
           tagClickedFirst,
           formik.values.is_approved,
         ).then((resp) => {
@@ -234,34 +234,48 @@ const CreateEmails = (props) => {
     };
     exportHtml();
 }
-const handleEmailSCreate = () => {
+const handleEmailSCreate = (id) => {
   if( localStorage.getItem("TEMPLATEID")){
     if(localStorage.getItem("stateid")){
+      // alert(localStorage.getItem("stateid"))
      ExportApi.UpdateEmailSCreate(localStorage.getItem("stateid")).then((resp) => {
-      alert("okk")
         if (resp.ok) {
          console.log( resp.data.data.collection_id)
           localStorage.setItem("collection_id",resp.data.data.collection_id)
-           navigate("/webinar/email/smart-list");
+          if(id==1){
+
+             navigate("/webinar/email/smart-list");
+          }
         }
       })
   }else{
+  if(id==0){
+    ExportApi.EmailSCreate(0,localStorage.getItem("TEMPLATEID"),localStorage.getItem("EventIdHeader"),formik.values.Subject,tagClickedFirst,).then((resp) => {
+      if (resp.ok) {
+       console.log( resp.data.data.collection_id)
+        localStorage.setItem("collection_id",resp.data.data.collection_id)
+         
+      }
+    })
+  }else{
     formik.handleSubmit()
     setTimeout(() => {
-    formik.values.Subject? ExportApi.EmailSCreate(localStorage.getItem("TEMPLATEID"),localStorage.getItem("EventIdHeader"),formik.values.Subject,tagClickedFirst,).then((resp) => {
+    formik.values.Subject? ExportApi.EmailSCreate(0,localStorage.getItem("TEMPLATEID"),localStorage.getItem("EventIdHeader"),formik.values.Subject,tagClickedFirst,).then((resp) => {
         if (resp.ok) {
          console.log( resp.data.data.collection_id)
           localStorage.setItem("collection_id",resp.data.data.collection_id)
-           navigate("/webinar/email/smart-list");
+            navigate("/webinar/email/smart-list");
         }
       }):toast.warning("Please enter Subject");
     },500);
+  }
 
   }
 }
 };
   const handleGetTemplateList = (id,tempId) => {
     ExportApi.UserTemplateList(id).then((resp) => {
+      loader("hide")
       if (resp.ok) {
         if (resp.data.code == 200) {
           setTemplateList(resp.data.data);
@@ -282,6 +296,7 @@ const handleEmailSCreate = () => {
   const handleGetCollectionData = (id) => {
     ExportApi.getCollectionData(id).then((resp) => {
       if (resp.ok) {
+        loader("hide")
         console.log(resp.data.data.template_id)
         handleGetTemplateList(resp.data.data.event_id,resp.data.data.template_id)
         handleGetTemplate(resp.data.data.template_id)
@@ -454,10 +469,10 @@ const handleEmailSCreate = () => {
             
             <div className="col-12 col-md-3">
               <div className="header-btn">
-                <button type="button" onClick={()=>{handleEmailSCreate()}} className="btn btn-primary btn-bordered move-draft" >
+                <button type="button" onClick={()=>{handleEmailSCreate(0)}} className="btn btn-primary btn-bordered move-draft" >
                   Save As Draft
                 </button>
-                {nextPage? <button type="button"class="btn btn-primary btn-filled next"onClick={()=>{handleEmailSCreate()}}>
+                {nextPage? <button type="button"class="btn btn-primary btn-filled next"onClick={()=>{handleEmailSCreate(1)}}>
                 <svg width="12" height="19" viewBox="0 0 12 19" fill="none" xmlns="http://www.w3.org/2000/svg">
 										<path fill-rule="evenodd" clip-rule="evenodd" d="M3.69224 17.82C3.03616 18.476 1.97244 18.476 1.31636 17.82C0.660279 17.1639 0.660279 16.1002 1.31636 15.4441L7.25561 9.50484L1.31508 3.56431C0.658998 2.90823 0.658998 1.84451 1.31508 1.18843C1.97116 0.532347 3.03488 0.532347 3.69096 1.18843L10.7866 8.28409C10.7978 8.29469 10.8089 8.30548 10.8199 8.31646C11.476 8.97254 11.476 10.0363 10.8199 10.6923L3.69224 17.82Z" fill="white"></path>
 									</svg>
@@ -635,7 +650,7 @@ data-bs-dismiss="modal"
                     setId(localStorage.getItem("idd"));
                   }}
                 >
-                  Send A Sample{" "}
+                  Send A Sample
                   <svg
                     width="24"
                     height="24"
