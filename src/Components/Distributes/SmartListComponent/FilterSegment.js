@@ -159,13 +159,21 @@ const FilterSegment = (props) => {
   };
 
   const handleOnReaderSelectionChange = (reader_selection) => {
-    setSelectedReaderSelection(reader_selection);
+    if(selectedreaderselection == reader_selection){
+      setSelectedReaderSelection("");
+    }else{
+      setSelectedReaderSelection(reader_selection);
+    }
     let up = updateflag + 1;
     setUpdateFlag(up);
   };
 
   const handleOnIbuChange = (ibu) => {
-    setSelectedIbu(ibu);
+    if(selectedibu == ibu){
+      setSelectedIbu("");
+    }else{
+      setSelectedIbu(ibu);
+    }
     let up = updateflag + 1;
     setUpdateFlag(up);
   };
