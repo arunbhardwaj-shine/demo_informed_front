@@ -138,7 +138,9 @@ const Sidebar = () => {
                   </ul>
                 </div>
                 <div className="help-popup-content-preview">
+                  <div class="btn-form">
                     <a href="javascript:;" className="btn btn-primary btn-filled">Preview</a>
+                  </div>
                   <p>You can preview the content to be sure it’s the right content that you want to send.</p>
                 </div>
                 <div className="help-popup-find-content">
@@ -150,7 +152,9 @@ const Sidebar = () => {
                   </ul>
                 </div>
                 <div className="help-popup-next">
+                  <div class="btn-form">
                     <a href="javascript:;" className="btn btn-primary btn-filled">Next</a>
+                    </div>
                   <p>After selecting you click next to go to start writing the email.</p>
                 </div>
 

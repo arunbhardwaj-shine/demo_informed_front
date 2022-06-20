@@ -869,7 +869,7 @@ button#test-table-xls-button:hover { background-image: url(../images/download-im
 .modal #add-list .smartlist-view .mail-box-content:hover { box-shadow: 0px 4px 10px -1px rgb(0 102 190 / 40%); }
 #add-list .modal-body { padding-right: 20px; padding-top:5px; overflow-y: auto; margin-right: 10px;margin-top:10px;}
 #add-list .smartlist-result-block .no_found { margin-bottom: 40px; }
-#open_video_popup .btn-close { background: transparent url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjEiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMSAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMuNDA5MTIiIGhlaWdodD0iMjQuNjczMyIgcng9IjEuNzA0NTYiIHRyYW5zZm9ybT0ibWF0cml4KDAuNzAyMDQ2IDAuNzEyMTMyIC0wLjcwMjA0NiAwLjcxMjEzMiAxNy42MjExIDApIiBmaWxsPSIjOEE0RTlDIi8+CjxyZWN0IHdpZHRoPSIzLjQwOTEyIiBoZWlnaHQ9IjI0LjY3MzMiIHJ4PSIxLjcwNDU2IiB0cmFuc2Zvcm09Im1hdHJpeCgwLjcwMjA0NiAtMC43MTIxMzIgMC43MDIwNDYgMC43MTIxMzIgMCAyLjQyODk2KSIgZmlsbD0iIzhBNEU5QyIvPgo8L3N2Zz4K") center/1em auto no-repeat; opacity: 1;right:12px; }
+#open_video_popup .btn-close { background: transparent url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjEiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMSAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMuNDA5MTIiIGhlaWdodD0iMjQuNjczMyIgcng9IjEuNzA0NTYiIHRyYW5zZm9ybT0ibWF0cml4KDAuNzAyMDQ2IDAuNzEyMTMyIC0wLjcwMjA0NiAwLjcxMjEzMiAxNy42MjExIDApIiBmaWxsPSIjOEE0RTlDIi8+CjxyZWN0IHdpZHRoPSIzLjQwOTEyIiBoZWlnaHQ9IjI0LjY3MzMiIHJ4PSIxLjcwNDU2IiB0cmFuc2Zvcm09Im1hdHJpeCgwLjcwMjA0NiAtMC43MTIxMzIgMC43MDIwNDYgMC43MTIxMzIgMCAyLjQyODk2KSIgZmlsbD0iIzhBNEU5QyIvPgo8L3N2Zz4K") center/1em auto no-repeat; opacity: 1;right:12px; top: 10px;}
 .btn-close { background: transparent url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjIuNzI3NTEiIGhlaWdodD0iMTkuNzQwMiIgcng9IjEuMzYzNzYiIHRyYW5zZm9ybT0ibWF0cml4KDAuNzAyMDQ2IDAuNzEyMTMyIC0wLjcwMjA0NiAwLjcxMjEzMiAxNC4wODQ2IDApIiBmaWxsPSIjNzA4OTlFIi8+CjxyZWN0IHdpZHRoPSIyLjcyNzUxIiBoZWlnaHQ9IjE5Ljc0MDIiIHJ4PSIxLjM2Mzc2IiB0cmFuc2Zvcm09Im1hdHJpeCgwLjcwMjA0NiAtMC43MTIxMzIgMC43MDIwNDYgMC43MTIxMzIgMCAxLjk0MjM4KSIgZmlsbD0iIzcwODk5RSIvPgo8L3N2Zz4K") center/1em auto no-repeat; opacity: 1; }
 .search-hcp-table-inside.sample_list_dt .not-found { width: 100%; text-align: center; }
 .sample_list_dt .not-found h4 { font-size: 30px; }
@@ -1157,9 +1157,9 @@ display: none;
 .help-popup-content-library .help-popup-content-list ul { padding-left: 20px; } 
 .help-popup-content-library .help-popup-content-list { padding-top: 14px; border-bottom: 0.5px dashed #0066BE; } 
 .help-popup-content-library .help-popup-content-list ul, .help-popup-content-library .help-popup-find-content ul { padding-left: 20px; margin: 0 0 6px; } 
-.help-popup-content-preview form .btn{ padding: 6px 7px; font-size: 13px; min-width: 69px; } 
-.help-popup-next form .btn { padding: 8px 7px; font-size: 13px; min-width: 64px; } 
-.help-popup-content-preview form, .help-popup-next form { text-align: center; margin-top: 6px; margin-bottom: 12px; } 
+.help-popup-content-preview .btn.btn-primary{ padding: 6px 7px; font-size: 13px; min-width: 69px; } 
+.help-popup-next .btn.btn-primary { padding: 8px 7px; font-size: 13px; min-width: 64px; } 
+.help-popup-content-preview .btn-form, .help-popup-next .btn-form { text-align: center; margin-top: 6px; margin-bottom: 12px; } 
 .help-popup-close { text-align: right; right: 0; bottom: 0; } .help-popup-close a{ padding: 6px; } 
 .help-popup-find-content img { margin: 7px 0 13px; } .help-popup-find-content p { margin: 0 0 10px; } 
 .help-popup-content-preview, .help-popup-find-content { border-bottom: 0.5px dashed #0066BE; } 
@@ -1173,7 +1173,9 @@ display: none;
 #open_video_popup .modal-body {
   padding-top: 0;
 }
-
+#open_video_popup .modal-body .video-react video {
+  border-radius: 15px 15px 0 0;
+}
 #open_video_popup .modal-body .video-react button.video-react-button.video-react-big-play-button {
   border: 0;
   width: 120px;
@@ -1201,6 +1203,7 @@ display: none;
   background: rgba(0, 102, 190, 0.16);
   backdrop-filter: blur(41px);
   border-radius: 20px 15px 15px 15px;
+  box-shadow: 0px 3px 10px -3px rgba(0, 102, 190, 0.2)
 }
 #open_video_popup .modal-header h5 {
   font-size: 20px;
