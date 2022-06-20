@@ -46,6 +46,16 @@
 		height: 32px;
 		padding: 6px 6px;
 	}
+	#create_list_popup {
+		max-width: 1000px;
+	}
+	.create_smart_list .create_smart_list_inset, #create_list_popup .add_hcp_boxes, #create_list_popup .modal_upload_btns {
+		max-width: 814px;
+		margin-right: 40px;
+	}
+	#create_list_popup .modal_upload_btns .download-sample .upload-btn {
+		height: auto;
+	}
 	.page-title h2 { font-size: 30px; line-height: 38px; } 
 	.table-title .selected-hcp-table-action a.show-less-info { font-size: 14px; line-height: 16px; } 
 	a.show-less-info p:after {line-height: 11px;}

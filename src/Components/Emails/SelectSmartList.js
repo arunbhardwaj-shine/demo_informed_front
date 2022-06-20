@@ -718,7 +718,7 @@ const SelectSmartList = (props) => {
         className="send-confirm"
         id="create_list_popup">
             <Modal.Header>
-              <h4>Upload File</h4>
+              <h4>Upload New List</h4>
               <button
                 type="button"
                 className="btn-close"
@@ -732,10 +732,12 @@ const SelectSmartList = (props) => {
             </Modal.Header>
             <Modal.Body>
             <div className="add_hcp_boxes">
-              <div className="form_action">
-                <div className="row">
-                  <div className="col-12 col-md-6">
-                    <div className="form-group">
+            <div className="create-smart-step">
+              <h2>STEP1</h2>
+              <div className="create-smart-step-box">
+                <form>
+                  <div className="row justify-content-between align-items-end">
+                    <div className="form-group col">
                       <label for="smart-list-name">Enter smart list name</label>
                       <input
                         type="text"
@@ -744,10 +746,8 @@ const SelectSmartList = (props) => {
                         onChange={(event) => handleSmartListName(event)}
                       />
                     </div>
-                  </div>
-                  <div className="col-12 col-md-6">
-                    <div className="form-group">
-                      <label for="creator-name">Creator's Name</label>
+                    <div class="form-group col">
+                      <label for="creator-name">Creator’s Name</label>
                       <input
                         type="text"
                         className="form-control"
@@ -755,11 +755,31 @@ const SelectSmartList = (props) => {
                         onChange={(event) => handleCreatorName(event)}
                       />
                     </div>
+                    <div className="form-group col-sm-12">
+                      <div className="form-group-content">
+                        <p> I want this to be a <span>Demo list</span>
+                        </p>
+                        <div className="select-demo-option">
+                          <input type="checkbox" name="checkbox" />
+                          <span className="checkmark"></span>
+                        </div>
+                        <a
+                          href="#"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="top"
+                          title="Step to create smart list">
+                          <img src={path_image + "question.svg"} alt="" />
+                        </a>
+                        <div className="tooltip">A list that will appeare when you select smart list to <span>send a sample.</span></div>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                </form>
               </div>
             </div>
-
+            <div className="create-smart-step">
+              <h2>STEP2</h2>
+              <div className="create-smart-step-box">
               <div className="upload-file-box">
                 <div className="box">
                   <input
@@ -785,35 +805,91 @@ const SelectSmartList = (props) => {
                   )}
                 </div>
               </div>
-              <div className="modal-buttons">
-                {file_name.current?.files === undefined ||
-                file_name.current.files?.length === 0 ? (
-                  <>
-                    {" "}
+              </div>
+            </div>
+              {/* <div className="form_action">
+                <div className="row">
+                  <div className="col-12 col-md-6">
+                    <div className="form-group">
+                      <label for="smart-list-name">Enter smart list name</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value= {getCreatedListName}
+                        onChange={(event) => handleSmartListName(event)}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-12 col-md-6">
+                    <div className="form-group">
+                      <label for="creator-name">Creator's Name</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={creatorName}
+                        onChange={(event) => handleCreatorName(event)}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div> */}
+            </div>
+
+              {/* <div className="upload-file-box">
+                <div className="box">
+                  <input
+                    type="file"
+                    name="file-4[]"
+                    id="file-4"
+                    className="inputfile inputfile-3"
+                    accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                    onChange={onFileChange}
+                    data-multiple-caption="{count} files selected"
+                    ref={file_name}
+                  />
+                  {file_name.current?.files === undefined ||
+                  file_name.current.files?.length === 0 ? (
+                    <>
+                      <label for="file-4">
+                        <span>Choose Your File</span>
+                      </label>
+                      <p>Upload your new list file</p>
+                    </>
+                  ) : (
+                    <h5>{file_name.current.files[0].name}</h5>
+                  )}
+                </div>
+              </div> */}
+              <div className="modal_upload_btns">
+                <div className="download-sample">
+                  <p>Download sample Excel file to upload new HCPs</p>
+                  <div className="upload-btn" onClick={downloadFile}>
+                    Download File
+                  </div>
+                </div>
+                <div className="modal-buttons">
+                  {file_name.current?.files === undefined ||
+                  file_name.current.files?.length === 0 ? (
+                    <>
+                      {" "}
+                      <button
+                        type="button"
+                        className="btn btn-primary btn-bordered light"
+                        data-bs-dismiss="modal"
+                      >
+                        Upload
+                      </button>
+                    </>
+                  ) : (
                     <button
                       type="button"
-                      className="btn btn-primary btn-bordered light"
+                      className="btn btn-primary"
+                      onClick={uploadFile}
                       data-bs-dismiss="modal"
                     >
                       Upload
                     </button>
-                  </>
-                ) : (
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={uploadFile}
-                    data-bs-dismiss="modal"
-                  >
-                    Upload
-                  </button>
-                )}
-              </div>
-
-              <div className="download-sample">
-                <p>Download sample Excel file to upload new HCPs</p>
-                <div className="upload-btn" onClick={downloadFile}>
-                  Download File
+                  )}
                 </div>
               </div>
             </Modal.Body>
