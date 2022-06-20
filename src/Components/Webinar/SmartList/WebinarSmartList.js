@@ -12,6 +12,7 @@ import { popup_alert } from "../../../popup_alert";
 import ExportApi from "../../../Api/ExportApi";
 import { loader } from "../../../loader";
 import Accordion from "react-bootstrap/Accordion";
+import { BaseApi } from "../../../Api/BaseApi";
 
 
 
@@ -22,7 +23,7 @@ const WebinarSmartList = () => {
   const [getUserDetails, setUserDetails] = useState([]);
   const [prevsmartListData, setPrevSmartListData] = useState([]);
   const [search, setSearch] = useState("");
-
+  const baseURL = BaseApi.getBaseURL();
   const [deletestatus, setDeleteStatus] = useState(false);
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [deletecardid, setDeleteCardId] = useState();
@@ -53,7 +54,9 @@ const WebinarSmartList = () => {
     console.log(headers);
     loader("show");
     await axios
-      .post(`http://51.89.210.56:8000/api/smart-list/lists`, body, { headers })
+      .post(baseURL + `smart-list/lists`, body, {
+        headers,
+      })
       .then((res) => {
         setIsLoading(false);
         console.log(res.data.data);
@@ -131,7 +134,9 @@ const WebinarSmartList = () => {
 
     loader("show");
     axios
-      .post(`http://51.89.210.56:8000/api/smart-list/delete`, body, { headers })
+      .post(baseURL + `smart-list/delete`, body, {
+        headers,
+      })
       .then((res) => {
         console.log(res);
         setIsLoading(false);

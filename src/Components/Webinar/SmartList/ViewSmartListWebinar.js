@@ -10,6 +10,7 @@ import ViewData from "./ViewData";
 import GridView from "./GridView";
 
 import { toast, ToastContainer } from "react-toastify";
+import { BaseApi } from "../../../Api/BaseApi";
 
 const ViewSmartListWebinar = () => {
   const queryParams = queryString.parse(window.location.search);
@@ -20,7 +21,7 @@ const ViewSmartListWebinar = () => {
   const [isLoading, setLoading] = useState(true);
   const [getuploadedby, setUploadedBy] = useState();
   const [getlistcount, setListCount] = useState("");
-
+  const baseURL = BaseApi.getBaseURL();
   const [creatorName, setCreatorName] = useState("");
 
   //const [data, setData] = useState([]);
@@ -33,16 +34,15 @@ const ViewSmartListWebinar = () => {
   };
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-
   const getSmartListData = async () => {
     loader("show");
     const headers = {
       "Content-Type": "application/json",
       Authorization: `${localStorage.getItem("Token")}`,
     };
-
+    console.log(baseURL);
     await axios
-      .post(`http://51.89.210.56:8000/api/smart-list/single-record`, body, {
+      .post(baseURL + `smart-list/single-record`, body, {
         headers,
       })
       .then((res) => {

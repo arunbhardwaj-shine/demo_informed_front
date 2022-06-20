@@ -29,6 +29,7 @@ const EventData = () => {
   const [updatedData, setUpdatedData] = useState([]);
   const [Speakername, setSpeakerName] = useState([{ name: "", email: "" }]);
   let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path = process.env.REACT_APP_ASSETS_PATH_WEBINAR;
 
   const handleGetEventlist = () => {
     loader("show");
@@ -348,7 +349,7 @@ const EventData = () => {
                       className="btn btn-secondary dropdown"
                       onClick={sortSelectedUsers}
                     >
-                      Sort By{" "}
+                      Sort By <img src={path + "sort.svg"}></img>
                     </button>
                   </>
                 ) : sorting == 0 ? (
@@ -357,7 +358,7 @@ const EventData = () => {
                       className="btn btn-secondary dropdown"
                       onClick={sortSelectedUsers}
                     >
-                      Sort By{" "}
+                      Sort By <img src={path + "sort-decending.svg"}></img>
                     </button>
                   </>
                 ) : (
@@ -366,7 +367,7 @@ const EventData = () => {
                       className="btn btn-secondary dropdown"
                       onClick={sortSelectedUsers}
                     >
-                      Sort By{" "}
+                      Sort By <img src={path + "sort-assending.svg"}></img>
                     </button>
                   </>
                 )}
