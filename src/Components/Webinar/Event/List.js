@@ -25,6 +25,8 @@ const EventData = () => {
   const [sortingCount, setSortingCount] = useState(0);
   const [SpeakerErr, setSpeakerErr] = useState([{ name: "", email: "" }]);
   const [confirmationpopup, setConfirmationPopup] = useState(false);
+  const [search, setSearch] = useState("");
+  const [updatedData, setUpdatedData] = useState([]);
   const [Speakername, setSpeakerName] = useState([{ name: "", email: "" }]);
   let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -36,6 +38,7 @@ const EventData = () => {
         if (resp.data.code == 200) {
           window.dispatchEvent(new Event("EventData"));
           setEvent(resp.data.data);
+          setUpdatedData(resp.data.data);
         } else {
           setMessage("Please create event");
         }
@@ -43,15 +46,55 @@ const EventData = () => {
     });
   };
   const handleGetEventlistSerch = (data) => {
-    ExportApi.GetEventListSerch(data).then((resp) => {
+    console.log(updatedData);
+    setSearch(data);
+
+    if (data == "") {
+      console.log("here");
+      setEvent(updatedData);
+    }
+
+    // ExportApi.GetEventListSerch(data).then((resp) => {
+    //   if (resp.data.code == 200) {
+    //     setEvent(resp.data.data);
+    //   } else {
+    //     setEvent([]);
+    //     setMessage("No event found");
+    //   }
+    // });
+  };
+
+  const submitHandler = (event) => {
+    event.preventDefault();
+    console.log("form submmiteed");
+    let r_table = [];
+    ExportApi.GetEventListSerch(search).then((resp) => {
+      console.log(resp);
       if (resp.data.code == 200) {
+        console.log(resp.data.data);
         setEvent(resp.data.data);
       } else {
         setEvent([]);
         setMessage("No event found");
       }
+      event.preventDefault();
     });
+
+    // updatedData.find(function (item) {
+    //   console.log(item);
+    //   if (item.name.includes(search) || item.email.includes(search)) {
+    //     r_table.push(item);
+    //   }
+    // });
+    // if (r_table.length > 0) {
+    //   setEditList(r_table);
+    // } else {
+    //   toast.error("Data not found");
+    // }
+    // event.preventDefault();
+    // return false;
   };
+
   const handleGetEventlistEdidData = (val) => {
     ExportApi.GetEventListData(val).then((resp) => {
       if (resp.ok) {
@@ -257,23 +300,16 @@ const EventData = () => {
       <div className="top-header">
         <div className="top-right-action webinar-header-action-tool">
           <div className="search-bar">
-            <form className="d-flex">
+            <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
               <input
                 className="form-control me-2"
-                type="search"
                 placeholder="Search"
                 aria-label="Search"
                 onChange={(e) => {
                   handleGetEventlistSerch(e.target.value);
                 }}
               />
-              <button
-                className="btn btn-outline-success"
-                type="submit"
-                onClick={(e) => {
-                  e.preventDefault();
-                }}
-              >
+              <button className="btn btn-outline-success" type="submit">
                 <svg
                   width="16"
                   height="16"

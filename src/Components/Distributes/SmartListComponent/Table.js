@@ -674,7 +674,10 @@ const Table = (props, ref) => {
     country,
     profile_user_id,
   }) => {
-    if (editList.length > 1) {
+
+    let temp_len = parseInt(editList.length)+parseInt(getNewReaders.length);
+    
+    if (temp_len>1 ) {
       setIsOpen(true);
       setProfileUserId(profile_user_id);
     } else {
@@ -921,11 +924,24 @@ const Table = (props, ref) => {
 
   const deleteNewlyAdded = (profile_user_id) => {
     const data = getNewReaders;
-    const dataUpdated = data.filter((d) => {
-      return d.profile_user_id != profile_user_id;
-    });
-    props.sendDataToParent(dataUpdated, "new");
-    setNewReaders(dataUpdated);
+    let temp_len = parseInt(editList.length)+parseInt(getNewReaders.length);
+    
+    if (temp_len>1 ) {
+      setIsOpen(true);
+      const dataUpdated = data.filter((d) => {
+        return d.profile_user_id != profile_user_id;
+      });
+      props.sendDataToParent(dataUpdated, "new");
+      setNewReaders(dataUpdated);
+    } else {
+      popup_alert({
+        visible: "show",
+        message: "Please keep atleast one reader or delete the smart list",
+        type: "error",
+        redirect: "",
+      });
+    }
+
   };
 
   return (
