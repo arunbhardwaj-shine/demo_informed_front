@@ -39,6 +39,18 @@
 	#add_hcp .modal-body .hcp-add-form form .add_hcp_boxes .form_action {
 		min-height: inherit;
 	}
+	.help-popup-view svg {
+		width: 14px;
+	}
+	.help-popup-view::after {
+		left: 26px;
+	}
+	.help-popup-view {
+		left: 167px;
+		padding: 8px 14px;
+		height: 40px;
+		width: 45px;
+	}
 	.modal form#add_hcp_form .add_hcp_boxes:first-child:last-child .hcp-action-block {
 		top: 75px;
 	}
@@ -55,6 +67,13 @@
 	}
 	#create_list_popup .modal_upload_btns .download-sample .upload-btn {
 		height: auto;
+	}
+	#open_video_popup .modal-body .video-react button.video-react-button.video-react-big-play-button {
+		width: 90px;
+		height: 90px;
+	}
+	#open_video_popup .modal-body .video-react button.video-react-button.video-react-big-play-button::before {
+		font-size: 55px;
 	}
 	.page-title h2 { font-size: 30px; line-height: 38px; } 
 	.table-title .selected-hcp-table-action a.show-less-info { font-size: 14px; line-height: 16px; } 
@@ -312,6 +331,29 @@
 		.smartlist-view .mail-box-content {
 			min-height: 343px;
 		}	
+		#open_video_popup .modal-body .video-react video {
+			object-fit: cover;
+		}
+		#open_video_popup .modal-body .video-react {
+			padding-top: 54.25%!important;
+		}
+		.help-popup-content {
+			width: 238px;
+			top: 68px;
+		}.help-popup-content h6 {
+			font-size: 14px;
+			line-height: 16px;
+		}
+		.help-popup-content p, .help-popup-content li {
+			font-size: 12px;
+			line-height: 14px;
+		}
+		.help-popup-content-inner {
+			height: calc(100vh - 75px);
+		}
+		.help-popup-content .help-popup-content-library-inside img, .help-popup-find-content img {
+			max-width: 100%;
+		}
 		.left-sidebar {
 			height: calc(100vh - 62px);
 		}

@@ -515,7 +515,7 @@ const handleEmailSCreate = (id) => {
                         <img  src={path_image + "webinar/mail-schedule.png"} alt="" />
 												</div>
                             <img
-                              src={path_image + "webinar/mail-format.png"}
+                              src={path_image + "content_added1.png"}
                               alt=""
                               onClick={(e) => {
                                 localStorage.setItem("TEMPLATEID", val.id);

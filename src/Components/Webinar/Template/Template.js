@@ -388,7 +388,7 @@ const Template = (props) => {
                       <div class="item-top-schedule">
                         <img  src={path_image + "webinar/mail-schedule.png"} alt="" />
                       </div>
-                      <img src={path_image + "webinar/mail-format.png"} alt="" onClick={(e) => { localStorage.setItem("TEMPLATEID", val.Id); handleGetTemplate(val.id); localStorage.setItem("template", val.name); setTName(val.name);setFormShow(true)}} className="select_mm" />
+                      <img src={path_image + "content_added1.png"} alt="" onClick={(e) => { localStorage.setItem("TEMPLATEID", val.Id); handleGetTemplate(val.id); localStorage.setItem("template", val.name); setTName(val.name);setFormShow(true)}} className="select_mm" />
                     </div>
                     <p>{val.name}</p>
                   </div>

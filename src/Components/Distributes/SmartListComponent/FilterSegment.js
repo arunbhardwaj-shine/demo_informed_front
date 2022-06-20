@@ -159,13 +159,21 @@ const FilterSegment = (props) => {
   };
 
   const handleOnReaderSelectionChange = (reader_selection) => {
-    setSelectedReaderSelection(reader_selection);
+    if(selectedreaderselection == reader_selection){
+      setSelectedReaderSelection("");
+    }else{
+      setSelectedReaderSelection(reader_selection);
+    }
     let up = updateflag + 1;
     setUpdateFlag(up);
   };
 
   const handleOnIbuChange = (ibu) => {
-    setSelectedIbu(ibu);
+    if(selectedibu == ibu){
+      setSelectedIbu("");
+    }else{
+      setSelectedIbu(ibu);
+    }
     let up = updateflag + 1;
     setUpdateFlag(up);
   };
@@ -643,7 +651,7 @@ const FilterSegment = (props) => {
                           Object.keys(filters.ibu).length > 0 && (
                             <>
                               <div className="col block-smart-name">
-                                <h6>Ibu</h6>
+                                <h6>IBU</h6>
                                 <div className="smart-name-list">
                                   <ul>
                                     {Object.entries(filters.ibu).map(
