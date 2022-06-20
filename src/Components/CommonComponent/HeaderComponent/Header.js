@@ -44,17 +44,25 @@ const Header = () => {
 					  <li className="nav-item">
 						<a className="nav-link" >Analytics</a>
 					  </li>
-					  <li className="nav-item">
-						<a className="nav-link" >Distrubute</a>
+					  <li className="nav-item active active-main">
+						<a className="nav-link" >Distribute</a>
 					  </li>
-					  <div className="container">
-
 					  <li className="nav-item">
 						<a to="/webinar"  >Webinar</a>
 					  </li>
-        </div>
 				</ul>
 				</div>
+				<div className="user-login">
+					<ul>
+						<li className="nav-item dropdown">
+						  <a className="nav-link dropdown-toggle" href="javascript:;" role="button" data-bs-toggle="dropdown"><span>Hi,</span>Jacob Flindt</a>
+						  <ul className="dropdown-menu">
+								<li><a className="dropdown-item" href="#">Profile</a></li>
+								<li><a className="dropdown-item" href="#">Logout</a></li>
+						  </ul>
+						</li>
+					  </ul>
+					</div>
 			  </div>
 			</nav>
 

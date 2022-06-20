@@ -91,13 +91,15 @@ const SendEmails = () => {
     ExportApi.GetEmailSCollection(localStorage.getItem("EventIdHeader")).then((resp) => {
       if (resp.ok) {
         if (resp.data.code == 200) {
-          loader("hide");
+          var element = document.getElementById("custom_loader");
+          element.classList.remove("show");
           setData(resp.data.data);
           setNotFound();
         } else if(resp.data.code == 404) {
           setData()
           setNotFound("No Data Found");
-          loader("hide");
+          var element = document.getElementById("custom_loader");
+          element.classList.remove("show");
         }
       }
 
@@ -112,9 +114,11 @@ const SendEmails = () => {
           if (resp.data.code == 200) {
             setData(resp.data.data);
             setNotFound();
+            loader("hide")
           } else {
             setData();
             setNotFound("No Data Found");
+            loader("hide")
           }
         }
       }
@@ -125,18 +129,20 @@ const SendEmails = () => {
       (resp) => {
         if (resp.ok) {
           if (resp.data.code == 200) {
+            loader("hide")
             setData(resp.data.data);
             setNotFound();
           } else {
             setData();
             setNotFound("No Data Found");
+            loader("hide")
           }
         }
       }
     );
   };
   useEffect(() => {
-   
+   loader("show")
     window.addEventListener("EventId", () =>{
       handleGetEmailSCollection(localStorage.getItem("EventIdHeader"))
      
@@ -446,7 +452,7 @@ const SendEmails = () => {
                     <div class="mail-box-content">
                       <div className="mail-box-content-top">
                       <div className="mail-box-content-top-view">
-                      <h5>{val.subject}</h5>
+                      <h5>{val.templates?.subject}</h5>
                       <p>Email Type</p>
                       <div class="mailbox-tags">
                         <ul>
@@ -510,7 +516,7 @@ const SendEmails = () => {
                       </div>
                       <div class="mailbox-buttons">
                         <div class="mailbox-buttons-list">
-                          <button class="btn btn-primary btn-bordered edit" onClick={()=>{navigate('/webinar/email/create');localStorage.setItem("stateid",val.id)}} >
+                          <button class="btn btn-primary btn-bordered edit" onClick={()=>{ localStorage.setItem("stateid",val.id);navigate('/webinar/email/create');localStorage.setItem("stateid",val.id)}} >
                             {/* <Link
                               to={{
                                 pathname: "/webinar/email/create",

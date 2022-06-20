@@ -156,7 +156,7 @@ const SelectSmartList = () => {
                   <div class="smartlist-view email_box">
                     <div class="mail-box-content">
                       <div class="select-mail-option">
-                        <input type="radio" name="radio"onClick={()=>setSmartListDataId(data.id)}/>
+                        <input type="radio" name="radio"onClick={()=>{setSmartListDataId(data.id);localStorage.setItem("SmartListId",data.id)}}/>
                         <span class="checkmark"></span>
                       </div>
                       <h5>{data.name}</h5>

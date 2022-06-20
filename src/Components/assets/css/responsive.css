@@ -46,6 +46,16 @@
 		height: 32px;
 		padding: 6px 6px;
 	}
+	#create_list_popup {
+		max-width: 1000px;
+	}
+	.create_smart_list .create_smart_list_inset, #create_list_popup .add_hcp_boxes, #create_list_popup .modal_upload_btns {
+		max-width: 814px;
+		margin-right: 40px;
+	}
+	#create_list_popup .modal_upload_btns .download-sample .upload-btn {
+		height: auto;
+	}
 	.page-title h2 { font-size: 30px; line-height: 38px; } 
 	.table-title .selected-hcp-table-action a.show-less-info { font-size: 14px; line-height: 16px; } 
 	a.show-less-info p:after {line-height: 11px;}
@@ -302,6 +312,16 @@
 		.smartlist-view .mail-box-content {
 			min-height: 343px;
 		}	
+		.left-sidebar {
+			height: calc(100vh - 62px);
+		}
+		#open_video_popup {
+			max-width: 1000px;
+		}
+		#open_video_popup .modal-body .video-react {
+			padding-top: 52.25%!important;
+		}
+		#open_video_popup .modal-body .video-react video{object-fit: cover;}
 		.modal form#add_hcp_form .add_hcp_boxes:first-child:last-child .hcp-action-block {
 			top: 70px;
 		}
