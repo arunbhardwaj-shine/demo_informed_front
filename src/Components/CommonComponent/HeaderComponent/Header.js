@@ -45,14 +45,11 @@ const Header = () => {
 						<a className="nav-link" >Analytics</a>
 					  </li>
 					  <li className="nav-item active active-main">
-						<a className="nav-link" >Distrubute</a>
+						<a className="nav-link" >Distribute</a>
 					  </li>
-					  <div className="container">
-
 					  <li className="nav-item">
 						<a to="/webinar"  >Webinar</a>
 					  </li>
-        </div>
 				</ul>
 				</div>
 				<div className="user-login">
