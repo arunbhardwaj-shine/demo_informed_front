@@ -1218,6 +1218,14 @@ display: none;
     background-color: #fff;
     width: 100%;
 }
+.help-popup-content .help-popup-close {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+.help-popup-content-library {
+  padding-bottom: 44px;
+}
 /**sidebar Modal End**/
 
 .navbar-nav li{
