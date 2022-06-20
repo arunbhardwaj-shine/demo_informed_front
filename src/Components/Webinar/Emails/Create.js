@@ -154,8 +154,7 @@ const CreateEmails = (props) => {
           ).then((resp) => {
             if (resp.ok) {
               if (resp.data.code == 200) {
-                setDpc();
-                handleGetTemplateList(localStorage.getItem("EventIdHeader"));
+                setDpc();;
                 setFormShow(false);
                 setModalShow(false);
                 toast.success(resp.data.message, {
@@ -237,6 +236,16 @@ const CreateEmails = (props) => {
 }
 const handleEmailSCreate = () => {
   if( localStorage.getItem("TEMPLATEID")){
+    if(localStorage.getItem("stateid")){
+     ExportApi.UpdateEmailSCreate(localStorage.getItem("stateid")).then((resp) => {
+      alert("okk")
+        if (resp.ok) {
+         console.log( resp.data.data.collection_id)
+          localStorage.setItem("collection_id",resp.data.data.collection_id)
+           navigate("/webinar/email/smart-list");
+        }
+      })
+  }else{
     formik.handleSubmit()
     setTimeout(() => {
     formik.values.Subject? ExportApi.EmailSCreate(localStorage.getItem("TEMPLATEID"),localStorage.getItem("EventIdHeader"),formik.values.Subject,tagClickedFirst,).then((resp) => {
@@ -247,9 +256,9 @@ const handleEmailSCreate = () => {
         }
       }):toast.warning("Please enter Subject");
     },500);
-  }else{
-    alert("please wait")
+
   }
+}
 };
   const handleGetTemplateList = (id,tempId) => {
     ExportApi.UserTemplateList(id).then((resp) => {

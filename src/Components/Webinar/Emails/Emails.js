@@ -90,13 +90,14 @@ const SendEmails = () => {
   const handleGetEmailSCollection = () => {
     ExportApi.GetEmailSCollection(localStorage.getItem("EventIdHeader")).then((resp) => {
       if (resp.ok) {
-        loader("hide");
         if (resp.data.code == 200) {
+          loader("hide");
           setData(resp.data.data);
           setNotFound();
-        } else {
+        } else if(resp.data.code == 404) {
           setData()
           setNotFound("No Data Found");
+          loader("hide");
         }
       }
 
@@ -135,9 +136,11 @@ const SendEmails = () => {
     );
   };
   useEffect(() => {
-    loader("show");
-    window.addEventListener("EventId", () =>
-    handleGetEmailSCollection(localStorage.getItem("EventIdHeader")))
+   
+    window.addEventListener("EventId", () =>{
+      handleGetEmailSCollection(localStorage.getItem("EventIdHeader"))
+     
+    })
     handleGetEmailSCollection(localStorage.getItem("EventIdHeader"));
   }, []);
 

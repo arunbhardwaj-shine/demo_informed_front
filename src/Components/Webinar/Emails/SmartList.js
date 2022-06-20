@@ -25,7 +25,6 @@ const SelectSmartList = () => {
   };
 
   const handleEmailSCreateCollection = () => {
-
     smartListDataId? ExportApi.EmailSCreateCollection(smartListDataId,localStorage.getItem("collection_id")).then((resp) => {
         if (resp.ok) {
          console.log( resp.data)
@@ -49,7 +48,6 @@ const SelectSmartList = () => {
 
   const getSmartListData = async (flag) => {
     // console.log(localStorage.getItem("Token"));
-
     const body = {
       search: search,
     };
@@ -66,10 +64,12 @@ const SelectSmartList = () => {
         console.log("res.data.data", res.data.data);
         setSmartListData(res.data.data);
         if (flag == 0) {
+          loader("hide")
           //setFilterData(res.data.response.filter);
           setPrevSmartListData(res.data.data);
         }
         console.log(res);
+        loader("hide")
       })
       .catch((err) => {
         console.log(err);

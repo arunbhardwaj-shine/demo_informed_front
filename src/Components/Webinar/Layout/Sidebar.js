@@ -36,6 +36,7 @@ const Sidebar = () => {
         document.body.classList.toggle("sub_menu_toggle_sidebar");
       }
     } else if (2 == index) {
+
       const bodyHasClass = document.body.classList.contains(
         "sub_menu_toggle_sidebar"
       );
@@ -43,11 +44,11 @@ const Sidebar = () => {
       if (!bodyHasClass) {
         document.body.classList.toggle("sub_menu_toggle_sidebar");
       }
-      setEmailStatus(true);
+      setHomeStatus(false);
+      setEmailStatus(false);
       setHomeStatus(false);
     } else {
       document.body.classList.remove("sub_menu_toggle_sidebar");
-
       setEmailStatus(false);
       setHomeStatus(false);
     }
