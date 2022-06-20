@@ -23,6 +23,7 @@ const CreateEmails = (props) => {
   const [templateId, setTemplateId] = useState();
   const [modalShow, setModalShow] = useState(false);
   const [modalShow2, setModalShow2] = useState(false);
+  const [TemplateIdActive, setTemplateIdActive] = useState(false);
   const [dpc, setDpc] = useState();
   const [message, setMessage] = useState(false);
   const [render, setRender] = useState(0);
@@ -50,8 +51,17 @@ const CreateEmails = (props) => {
   };
   // let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let navigate = useNavigate();
-  const emailSubjectChanged = (e) => {
-    setEmailSubject(e.target.value);
+
+
+  const templateClicked = (template, e) => {
+    const div = document.querySelector("img.select_mm");
+
+    if (div) {
+      div.classList.remove("select_mm");
+    }
+
+    setTemplateIdActive(template.id);
+    e.target.classList.toggle("select_mm");
   };
   const [emailSubject, setEmailSubject] = useState(
     state_object != null &&
@@ -499,7 +509,7 @@ const handleEmailSCreate = (id) => {
                   >
                     {templateList ? (
                       templateList?.map((val, i) => (
-                        <div key={i} className="item">
+                        <div key={i} className="item" onClick={(e) => templateClicked(val, e)}>
                              <div class="item-list">
 												<div class="item-top-schedule">
                         <img  src={path_image + "webinar/mail-schedule.png"} alt="" />
@@ -514,7 +524,12 @@ const handleEmailSCreate = (id) => {
                                 setTName(val.name);
                                 setFormShow(true);
                               }}
-                              className="select_mm"
+                              className={
+                                typeof TemplateIdActive !== "undefined" &&
+                                TemplateIdActive == val.id
+                                  ? "select_mm"
+                                  : ""
+                              }
                             />
                         </div>
                           <p>{val.name}</p>

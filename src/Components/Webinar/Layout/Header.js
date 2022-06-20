@@ -47,27 +47,35 @@ const Header = () => {
       .catch((err) => console.log(err));
   };
   const handleGetEventlist = () => {
-    ExportApi.GetEventList().then((resp) => {
-      if (resp.ok) {
-        setEvent(resp.data.data);
-        console.log(resp.data.code)
-
-        if (resp.data.code == 404) {
-          localStorage.removeItem("EventIdHeader")
-       
-      }else{
-        if(eventId==null||eventId==undefined){
-          setEventId(resp.data.data[0].id)
-          localStorage.setItem("EventIdHeader",resp.data.data[0].id)
-       }
-      } 
-      }
-    });
+    if(localStorage.getItem("Token")){
+      ExportApi.GetEventList().then((resp) => {
+        if (resp.ok) {
+          setEvent(resp.data.data);
+          console.log(resp.data.code)
+  
+          if (resp.data.code == 404) {
+            localStorage.removeItem("EventIdHeader")
+         
+        }else{
+          if(eventId==null||eventId==undefined){
+            setEventId(resp.data.data[0].id)
+            localStorage.setItem("EventIdHeader",resp.data.data[0].id)
+         }
+        } 
+        }
+      });
+    }else{
+      console.log("Please Login")
+    }
   };
   useEffect(() => {
     window.addEventListener('EventData',()=> handleGetEventlist())
     handleGetEventlist()
   }, []);
+  useEffect(() => {
+    window.addEventListener('EventData',()=> handleGetEventlist())
+    handleGetEventlist()
+  }, [token]);
   const location = useLocation();
   return (
     <>
