@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
 import { connect } from "react-redux";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Modal, ToastContainer } from "react-bootstrap";
 import { getListId } from "../../../actions";
 
 import { toast } from "react-toastify";
@@ -13,8 +13,6 @@ import ExportApi from "../../../Api/ExportApi";
 import { loader } from "../../../loader";
 import Accordion from "react-bootstrap/Accordion";
 import { BaseApi } from "../../../Api/BaseApi";
-
-
 
 const WebinarSmartList = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_WEBINAR;
@@ -88,13 +86,10 @@ const WebinarSmartList = () => {
 
   const submitHandler = (event) => {
     setShowFilter(false);
-    if (search.length > 2) {
-      getSmartListData(1);
-    } else {
-      toast.error("Please enter three letters minimum.");
-    }
+
+    getSmartListData(1);
+
     event.preventDefault();
-    return false;
   };
 
   const showDeleteButtons = () => {
@@ -148,6 +143,7 @@ const WebinarSmartList = () => {
           console.log(updatedArray);
           if (typeof updatedArray !== "undefined") {
             setSmartListData(updatedArray);
+            setPrevSmartListData(updatedArray);
           }
           popup_alert({
             visible: "show",
@@ -268,10 +264,11 @@ const WebinarSmartList = () => {
 
   return (
     <>
-      <div className="loader" id="custom_loader">
-        <span className="loader-view"> </span>
-      </div>
       <div class="right-sidebar">
+        <div className="loader" id="custom_loader">
+          <span className="loader-view"> </span>
+        </div>
+        <ToastContainer />
         <div class="top-header">
           <div class="page-title">
             <h2>Smart List</h2>
@@ -437,87 +434,92 @@ const WebinarSmartList = () => {
               </div>
             </div>
 
-            {typeof smartListData !== "undefined" && smartListData.length > 0
-              ? smartListData.map((data) => {
-                  return (
-                    <div class="smartlist_box_block">
-                      {console.log(data)}
-                      <div class="smartlist-view email_box">
-                        <div class="mail-box-content">
-                          {data.count != 0 ? (
-                            <Link
-                              // className="btn btn-primary btn-filled view"
-                              to={{
-                                pathname: "/webinar/email/ViewSmartListWebinar",
-                                search: "?listId=" + data.id,
-                              }}
-                            >
-                              {" "}
-                              <h5>{data.name}</h5>{" "}
-                            </Link>
-                          ) : (
-                            <h5>{data.name}</h5>
-                          )}
-                          <div class="mail-time">
-                            <span>{data.mod_date}</span>
-                          </div>
-                          <div class="smart-list-added-user">
-                            <img
-                              src={path_image + "smartlist-user.svg"}
-                              alt="User icon"
-                            />
-
-                            {data.count}
-                          </div>
-                          <div class="mail-stats">
-                            <ul>
-                              <li>
-                                <div class="mail-status smartlist_view">
-                                  <img
-                                    src={path_image + "user-group.png"}
-                                    alt=""
-                                  />
-                                </div>
-                                <span>10%</span>
-                              </li>
-                              <li>
-                                <div class="mail-status mail_click">
-                                  <img
-                                    src={path_image + "user-click.png"}
-                                    alt=""
-                                  />
-                                </div>
-                                <span>60%</span>
-                              </li>
-                              <li>
-                                <div class="mail-status smartlist_view">
-                                  <img
-                                    src={path_image + "user-mail-template.png"}
-                                    alt=""
-                                  />
-                                </div>
-                                <span>60%</span>
-                              </li>
-                            </ul>
-                          </div>
-                          {deletestatus && (
-                            <div className="dlt_btn">
-                              <button
-                                onClick={(e) => showConfirmationPopup(data.id)}
-                              >
-                                <img
-                                  src={path_image + "delete.svg"}
-                                  alt="Delete Row"
-                                />
-                              </button>
-                            </div>
-                          )}
+            {typeof smartListData !== "undefined" &&
+            smartListData.length > 0 ? (
+              smartListData.map((data) => {
+                return (
+                  <div class="smartlist_box_block">
+                    {console.log(data)}
+                    <div class="smartlist-view email_box">
+                      <div class="mail-box-content">
+                        {data.count != 0 ? (
+                          <Link
+                            // className="btn btn-primary btn-filled view"
+                            to={{
+                              pathname: "/webinar/email/ViewSmartListWebinar",
+                              search: "?listId=" + data.id,
+                            }}
+                          >
+                            {" "}
+                            <h5>{data.name}</h5>{" "}
+                          </Link>
+                        ) : (
+                          <h5>{data.name}</h5>
+                        )}
+                        <div class="mail-time">
+                          <span>{data.mod_date}</span>
                         </div>
+                        <div class="smart-list-added-user">
+                          <img
+                            src={path_image + "smartlist-user.svg"}
+                            alt="User icon"
+                          />
+
+                          {data.count}
+                        </div>
+                        <div class="mail-stats">
+                          <ul>
+                            <li>
+                              <div class="mail-status smartlist_view">
+                                <img
+                                  src={path_image + "user-group.png"}
+                                  alt=""
+                                />
+                              </div>
+                              <span>10%</span>
+                            </li>
+                            <li>
+                              <div class="mail-status mail_click">
+                                <img
+                                  src={path_image + "user-click.png"}
+                                  alt=""
+                                />
+                              </div>
+                              <span>60%</span>
+                            </li>
+                            <li>
+                              <div class="mail-status smartlist_view">
+                                <img
+                                  src={path_image + "user-mail-template.png"}
+                                  alt=""
+                                />
+                              </div>
+                              <span>60%</span>
+                            </li>
+                          </ul>
+                        </div>
+                        {deletestatus && (
+                          <div className="dlt_btn">
+                            <button
+                              onClick={(e) => showConfirmationPopup(data.id)}
+                            >
+                              <img
+                                src={path_image + "delete.svg"}
+                                alt="Delete Row"
+                              />
+                            </button>
+                          </div>
+                        )}
                       </div>
                     </div>
-                  );
-                })
-              : null}
+                  </div>
+                );
+              })
+            ) : (
+              <div className="coming-soon">
+                <h2>No data found</h2>
+              </div>
+            )}
           </div>
         </div>
       </div>

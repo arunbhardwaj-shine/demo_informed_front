@@ -88,23 +88,25 @@ const SendEmails = () => {
     setShowFilter(false);
   };
   const handleGetEmailSCollection = () => {
-    ExportApi.GetEmailSCollection(localStorage.getItem("EventIdHeader")).then((resp) => {
-      if (resp.ok) {
-        if (resp.data.code == 200) {
-          var element = document.getElementById("custom_loader");
-          element.classList.remove("show");
-          setData(resp.data.data);
-          setNotFound();
-        } else if(resp.data.code == 404) {
-          setData()
-          setNotFound("No Data Found");
-          var element = document.getElementById("custom_loader");
-          element.classList.remove("show");
+    ExportApi.GetEmailSCollection(localStorage.getItem("EventIdHeader")).then(
+      (resp) => {
+        if (resp.ok) {
+          if (resp.data.code == 200) {
+            var element = document.getElementById("custom_loader");
+            element.classList.remove("show");
+            setData(resp.data.data);
+            setNotFound();
+          } else if (resp.data.code == 404) {
+            setData();
+            setNotFound("No data found");
+            var element = document.getElementById("custom_loader");
+            element.classList.remove("show");
+          }
         }
-      }
 
-      //  console.log(resp.data.data)
-    });
+        //  console.log(resp.data.data)
+      }
+    );
   };
   const handleSearchEmailSCollection = (e) => {
     setSearch(e);
@@ -114,11 +116,11 @@ const SendEmails = () => {
           if (resp.data.code == 200) {
             setData(resp.data.data);
             setNotFound();
-            loader("hide")
+            loader("hide");
           } else {
             setData();
             setNotFound("No Data Found");
-            loader("hide")
+            loader("hide");
           }
         }
       }
@@ -129,24 +131,23 @@ const SendEmails = () => {
       (resp) => {
         if (resp.ok) {
           if (resp.data.code == 200) {
-            loader("hide")
+            loader("hide");
             setData(resp.data.data);
             setNotFound();
           } else {
             setData();
             setNotFound("No Data Found");
-            loader("hide")
+            loader("hide");
           }
         }
       }
     );
   };
   useEffect(() => {
-   loader("show")
-    window.addEventListener("EventId", () =>{
-      handleGetEmailSCollection(localStorage.getItem("EventIdHeader"))
-     
-    })
+    loader("show");
+    window.addEventListener("EventId", () => {
+      handleGetEmailSCollection(localStorage.getItem("EventIdHeader"));
+    });
     handleGetEmailSCollection(localStorage.getItem("EventIdHeader"));
   }, []);
 
@@ -424,7 +425,12 @@ const SendEmails = () => {
           <div className="col email-result-block">
             <div className="email_box_block">
               <div className="email-block-add">
-                <Link to="/webinar/email/create" onClick={()=>{localStorage.removeItem("stateid")}}>
+                <Link
+                  to="/webinar/email/create"
+                  onClick={() => {
+                    localStorage.removeItem("stateid");
+                  }}
+                >
                   <img src={path_image + "add-button.svg"} alt="" />
                   <p>Create New Email</p>
                 </Link>
@@ -451,72 +457,80 @@ const SendEmails = () => {
                     </div>
                     <div class="mail-box-content">
                       <div className="mail-box-content-top">
-                      <div className="mail-box-content-top-view">
-                      <h5>{val.templates?.subject}</h5>
-                      <p>Email Type</p>
-                      <div class="mailbox-tags">
-                        <ul>
-                          {tags?.map((datatags) => {
-                            return <li class="list1">{datatags}</li>;
-                          })}
-                          {/* <li class="list2">tag2</li>
+                        <div className="mail-box-content-top-view">
+                          <h5>{val.templates?.subject}</h5>
+                          <p>Email Type</p>
+                          <div class="mailbox-tags">
+                            <ul>
+                              {tags?.map((datatags) => {
+                                return <li class="list1">{datatags}</li>;
+                              })}
+                              {/* <li class="list2">tag2</li>
 													<li class="list3">tag3</li>
 													<li class="list4">tag4</li>
 													<li class="list5">tag5</li> */}
-                        </ul>
-                      </div>
+                            </ul>
+                          </div>
 
-                      <div class="name-list">
-                        <span>{val?.smart_list?.name}</span>
-                      </div>
-                      <div class="mail-time">
-                        <span>{val?.mod_date}</span>
-                      </div>
-                      <div class="mail-stats">
-                        <ul>
-                          <li>
-                            <div class="mail-status mail_send">
-                              <img
-                                src={path_image + "/webinar/mail-send.png"}
-                                alt=""
-                              />
-                            </div>
-                            <span>0</span>
-                          </li>
-                          <li>
-                            <div class="mail-status mail_view">
-                              <img
-                                src={path_image + "/webinar/mail-open.png"}
-                                alt=""
-                              />
-                            </div>
-                            <span>10%</span>
-                          </li>
-                          <li>
-                            <div class="mail-status mail_click">
-                              <img
-                                src={path_image + "/webinar/mail-check.png"}
-                                alt=""
-                              />
-                            </div>
-                            <span>40%</span>
-                          </li>
-                          <li>
-                            <div class="mail-status mail_click">
-                              <img
-                                src={path_image + "/webinar/mail-group.png"}
-                                alt=""
-                              />
-                            </div>
-                            <span>0%</span>
-                          </li>
-                        </ul>
-                      </div>
-                      </div>
+                          <div class="name-list">
+                            <span>{val?.smart_list?.name}</span>
+                          </div>
+                          <div class="mail-time">
+                            <span>{val?.mod_date}</span>
+                          </div>
+                          <div class="mail-stats">
+                            <ul>
+                              <li>
+                                <div class="mail-status mail_send">
+                                  <img
+                                    src={path_image + "/webinar/mail-send.png"}
+                                    alt=""
+                                  />
+                                </div>
+                                <span>0</span>
+                              </li>
+                              <li>
+                                <div class="mail-status mail_view">
+                                  <img
+                                    src={path_image + "/webinar/mail-open.png"}
+                                    alt=""
+                                  />
+                                </div>
+                                <span>10%</span>
+                              </li>
+                              <li>
+                                <div class="mail-status mail_click">
+                                  <img
+                                    src={path_image + "/webinar/mail-check.png"}
+                                    alt=""
+                                  />
+                                </div>
+                                <span>40%</span>
+                              </li>
+                              <li>
+                                <div class="mail-status mail_click">
+                                  <img
+                                    src={path_image + "/webinar/mail-group.png"}
+                                    alt=""
+                                  />
+                                </div>
+                                <span>0%</span>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
                       </div>
                       <div class="mailbox-buttons">
                         <div class="mailbox-buttons-list">
-                          <button class="btn btn-primary btn-bordered edit" onClick={()=>{ localStorage.setItem("stateid",val.id);navigate('/webinar/email/create');localStorage.setItem("stateid",val.id);alert(val.id)}} >
+                          <button
+                            class="btn btn-primary btn-bordered edit"
+                            onClick={() => {
+                              localStorage.setItem("stateid", val.id);
+                              navigate("/webinar/email/create");
+                              localStorage.setItem("stateid", val.id);
+                              alert(val.id);
+                            }}
+                          >
                             {/* <Link
                               to={{
                                 pathname: "/webinar/email/create",
@@ -525,11 +539,9 @@ const SendEmails = () => {
                             >
                               Edit
                             </Link> */}
-                             Edit
+                            Edit
                           </button>
-                        
-                          
-                         
+
                           <button class="btn btn-primary btn-filled send">
                             Send
                           </button>

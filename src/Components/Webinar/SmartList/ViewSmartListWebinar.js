@@ -49,9 +49,12 @@ const ViewSmartListWebinar = () => {
         console.log(res);
 
         if (res.data.data) {
+          console.log("in data");
+          console.log(res.data.data.length);
           if (res.data.data.length > 0) {
             loader("false");
             console.log(res.data.data);
+
             setEditListData(res.data.data);
             setapi_flag(api_flag + 1);
             // setLoading(false);

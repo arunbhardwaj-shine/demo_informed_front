@@ -12,7 +12,7 @@ import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import SimpleReactValidator from "simple-react-validator";
 import { loader } from "../../../loader";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { popup_alert } from "../../../popup_alert";
 import queryString from "query-string";
 import { connect } from "react-redux";
@@ -488,6 +488,9 @@ const TableView = (props, ref) => {
       setSaveOpen(false);
       setEditableData([]);
       setEditList(editList);
+    } else {
+      toast.warning("No update");
+      setSaveOpen(false);
     }
   };
 
@@ -900,10 +903,11 @@ const TableView = (props, ref) => {
 
   return (
     <>
-      <div className="loader" id="custom_loader">
-        <span className="loader-view"> </span>
-      </div>
       <div class="right-sidebar">
+        <div className="loader" id="custom_loader">
+          <span className="loader-view"> </span>
+        </div>
+        <ToastContainer />
         <div class="top-header">
           <div class="page-title">
             <div class="header-btn-left">

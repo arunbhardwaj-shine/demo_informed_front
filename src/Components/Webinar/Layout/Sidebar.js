@@ -6,6 +6,11 @@ const Sidebar = () => {
   const [token, setToken] = useState(true);
   const [getHomeStatus, setHomeStatus] = useState(false);
   const [EmailStatus, setEmailStatus] = useState(false);
+  const [isHoveringHome, setIsHoveringHome] = useState(false);
+  const [isHoveringEvents, setIsHoveringEvents] = useState(false);
+  const [isHoveringRegistration, setIsHoveringRegistration] = useState(false);
+  const [isHoveringEmails, setIsHoveringEmails] = useState(false);
+  const [isHoveringReaders, setIsHoveringReaders] = useState(false);
   const location = useLocation();
   useEffect(() => {
     if (localStorage.getItem("Token")) {
@@ -14,6 +19,7 @@ const Sidebar = () => {
       setToken(false);
     }
   }, [localStorage.getItem("Token")]);
+
   const toggleClassToBody = () => {
     document.body.classList.toggle("toggle_sidebar");
   };
@@ -23,6 +29,58 @@ const Sidebar = () => {
     }
   }, [localStorage.getItem("Token"), token]);
 
+  useEffect(() => {
+    if (
+      location.pathname === "/webinar/portal/registrationDetails" ||
+      location.pathname === "/webinar/registrationdetailslist"
+    ) {
+      console.log("hi");
+      setHomeStatus(true);
+      const bodyHasClass = document.body.classList.contains(
+        "sub_menu_toggle_sidebar"
+      );
+
+      if (!bodyHasClass) {
+        document.body.classList.toggle("sub_menu_toggle_sidebar");
+      }
+    }
+  }, []);
+  useEffect(() => {
+    if (
+      location.pathname === "/webinar/portal/registrationDetails" ||
+      location.pathname === "/webinar/registrationdetailslist"
+    ) {
+      console.log("hi");
+      setHomeStatus(true);
+      const bodyHasClass = document.body.classList.contains(
+        "sub_menu_toggle_sidebar"
+      );
+
+      if (!bodyHasClass) {
+        document.body.classList.toggle("sub_menu_toggle_sidebar");
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (
+      location.pathname === "/webinar/email/WebinarSmartList" ||
+      location.pathname === "/webinar/email/ViewSmartListWebinar" ||
+      location.pathname === "/webinar/email/SmartListCreate" ||
+      location.pathname === "/webinar/email/SmartListCreate/FilterList" ||
+      location.pathname === "/webinar/email/SmartListCreate/ExcelUpload"
+    ) {
+      console.log("hi");
+      setEmailStatus(true);
+      const bodyHasClass = document.body.classList.contains(
+        "sub_menu_toggle_sidebar"
+      );
+
+      if (!bodyHasClass) {
+        document.body.classList.toggle("sub_menu_toggle_sidebar");
+      }
+    }
+  }, []);
   const showHideHome = (index) => {
     const bodyHasClass = document.body.classList.contains(
       "sub_menu_toggle_sidebar"
@@ -54,6 +112,47 @@ const Sidebar = () => {
       setHomeStatus(false);
     }
   };
+
+  const handleMouseOverHome = () => {
+    setIsHoveringHome(true);
+  };
+
+  const handleMouseOutHome = () => {
+    setIsHoveringHome(false);
+  };
+
+  const handleMouseOverEvents = () => {
+    setIsHoveringEvents(true);
+  };
+
+  const handleMouseOutEvents = () => {
+    setIsHoveringEvents(false);
+  };
+
+  const handleMouseOverRegistration = () => {
+    setIsHoveringRegistration(true);
+  };
+
+  const handleMouseOutRegistration = () => {
+    setIsHoveringRegistration(false);
+  };
+
+  const handleMouseOverEmails = () => {
+    setIsHoveringEmails(true);
+  };
+
+  const handleMouseOutEmails = () => {
+    setIsHoveringEmails(false);
+  };
+
+  const handleMouseOverReaders = () => {
+    setIsHoveringReaders(true);
+  };
+
+  const handleMouseOutReaders = () => {
+    setIsHoveringReaders(false);
+  };
+
   return (
     <div
       className="left-sidebar"
@@ -77,11 +176,16 @@ const Sidebar = () => {
                     }
                     onClick={showHideHome}
                   >
-                    <Link to="/webinar">
+                    <Link
+                      to="/webinar"
+                      onMouseOver={handleMouseOverHome}
+                      onMouseOut={handleMouseOutHome}
+                    >
                       <img src={path_image + "webinar/home.svg"} />
+                      {isHoveringHome && <p>Home</p>}
                     </Link>
                   </li>
-                  <li
+                  {/* <li
                     className={
                       location.pathname === "/webinar/dashboard"
                         ? "active"
@@ -91,9 +195,9 @@ const Sidebar = () => {
                   >
                     <Link to="/webinar/dashboard">
                       <img src={path_image + "webinar/dashboard.svg"} />
-                      {/* <p>Dashboard</p> */}
+                     
                     </Link>
-                  </li>
+                  </li> */}
 
                   <li
                     className={
@@ -103,9 +207,14 @@ const Sidebar = () => {
                     }
                     onClick={showHideHome}
                   >
-                    <Link to="/webinar/events">
+                    <Link
+                      to="/webinar/events"
+                      onMouseOver={handleMouseOverEvents}
+                      onMouseOut={handleMouseOutEvents}
+                    >
                       <img src={path_image + "webinar/event.svg"} />
                       {/* <p>Event Details</p> */}
+                      {isHoveringEvents && <p>Events</p>}
                     </Link>
                   </li>
                   <li
@@ -116,9 +225,14 @@ const Sidebar = () => {
                     }
                     onClick={() => showHideHome(1)}
                   >
-                    <Link to="/webinar/portal/registrationDetails">
+                    <Link
+                      to="/webinar/registrationdetailslist"
+                      onMouseOver={handleMouseOverRegistration}
+                      onMouseOut={handleMouseOutRegistration}
+                    >
                       <img src={path_image + "webinar/portal.svg"} />
                       {/* <p>Portal Preparation</p> */}
+                      {isHoveringRegistration && <p>Portal</p>}
                     </Link>
                   </li>
 
@@ -171,9 +285,14 @@ const Sidebar = () => {
                     }
                     onClick={() => showHideHome(2)}
                   >
-                    <Link to="/webinar/email/template">
+                    <Link
+                      to="/webinar/email/template"
+                      onMouseOver={handleMouseOverEmails}
+                      onMouseOut={handleMouseOutEmails}
+                    >
                       <img src={path_image + "webinar/mail.svg"} />
                       {/* <p>Email</p> */}
+                      {isHoveringEmails && <p>Email</p>}
                     </Link>
                   </li>
 
@@ -198,9 +317,14 @@ const Sidebar = () => {
                     }
                     onClick={showHideHome}
                   >
-                    <Link to="/webinar/readers">
+                    <Link
+                      to="/webinar/readers"
+                      onMouseOver={handleMouseOverReaders}
+                      onMouseOut={handleMouseOutReaders}
+                    >
                       <img src={path_image + "webinar/hcp.svg"} />
                       {/* <p>HCPs</p> */}
+                      {isHoveringReaders && <p>Readers</p>}
                     </Link>
                   </li>
 
@@ -495,12 +619,13 @@ const Sidebar = () => {
                     <li
                       className={
                         location.pathname ===
-                        "/webinar/portal/registrationDetails"
+                          "/webinar/portal/registrationDetails" ||
+                        location.pathname === "/webinar/registrationdetailslist"
                           ? "active"
                           : "side_li"
                       }
                     >
-                      <Link to="/webinar/portal/registrationDetails">
+                      <Link to="/webinar/registrationdetailslist">
                         <img src={path_image + "webinar/event.svg"} />
                         <p>Registration Page</p>
                       </Link>
@@ -540,14 +665,20 @@ const Sidebar = () => {
                       </li> */}
                     <li
                       className={
-                        location.pathname === "/webinar/email/emails"
+                        location.pathname === "/webinar/email/emails" ||
+                        location.pathname === "/webinar/email/create" ||
+                        location.pathname === "/webinar/email/smart-list" ||
+                        location.pathname ===
+                          `/webinar/email/smart-list-users/${localStorage.getItem(
+                            "SmartListId"
+                          )}`
                           ? "active"
                           : "side_li"
                       }
                     >
                       <Link to="/webinar/email/emails">
                         <img src={path + "message.png"} />
-                        <p>Emails</p>
+                        <p>Email</p>
                       </Link>
                     </li>
                     <li
@@ -561,7 +692,7 @@ const Sidebar = () => {
                         location.pathname ===
                           "webinar/email/SmartListCreate/FilterList" ||
                         location.pathname ===
-                          "webinar/email/SmartListCreate/ExcelUpload"
+                          "/webinar/email/SmartListCreate/ExcelUpload"
                           ? "active"
                           : "side_li"
                       }

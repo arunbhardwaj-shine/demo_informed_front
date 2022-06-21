@@ -2321,7 +2321,9 @@ ul.hcp-table-content-right .user-type-action button img {
     padding: 18px 24px;
 }
 /***HCP PAge End***/
-
+.select-mail-template .form-inline .form-group .error {
+    padding-left: 106px;
+}
 
 /**Responsive**/
 @media only screen and (min-width:2000px){
@@ -2336,4 +2338,19 @@ div#guestpage + div {
 }
 .select-mail-template .alice-carousel .item img.select_mm{
     box-shadow: 0px 0px 8px rgb(0 102 190 / 70%);
+}
+
+
+for registration page upload file */
+
+.upload-file-box{
+
+margin-bottom: 20px;
+
+}
+/* for registration page upload file */
+.reg-submit{
+  margin-top: 10px;
+float: right;
+
 }

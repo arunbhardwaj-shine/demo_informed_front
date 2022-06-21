@@ -25,10 +25,12 @@ const SelectSmartList = () => {
   };
 
   const handleEmailSCreateCollection = () => {
+    loader("show")
     smartListDataId? ExportApi.EmailSCreateCollectionnext(smartListDataId,localStorage.getItem("collection_id")).then((resp) => {
         if (resp.ok) {
          console.log( resp.data)
          if (resp.data.code == 200) {
+          loader("hide")
           toast.success(resp.data.message,{
             position: "top-right",
             autoClose: 2000,
@@ -38,12 +40,14 @@ const SelectSmartList = () => {
             draggable: true,
             progress: undefined,
             });
+          }else{
+            loader("hide")
           }
           // localStorage.setItem("collection_id",resp.data.data.collection_id)
           //  navigate("/webinar/email/smart-list");
         }
       }):toast.warning("Please select smart list");
-
+      loader("hide")
   };
 
   const getSmartListData = async (flag) => {

@@ -21,6 +21,38 @@ function Add(props) {
     setSpeakerName([...Speakername, { name: "", email: "" }]);
     setSpeakerErr([...SpeakerErr, { name: "", email: "" }]);
   };
+  const [EventTime, setEventTime] = useState([
+    {
+      Hour: [
+        { Hour: "01" },
+        { Hour: "02" },
+        { Hour: "03" },
+        { Hour: "04" },
+        { Hour: "05" },
+        { Hour: "06" },
+        { Hour: "07" },
+        { Hour: "08" },
+        { Hour: "09" },
+        { Hour: "10" },
+        { Hour: "11" },
+        { Hour: "12" },
+      ],
+      mints: [
+        { mints: "00" },
+        { mints: "05" },
+        { mints: 10 },
+        { mints: 15 },
+        { mints: 20 },
+        { mints: 25 },
+        { mints: 30 },
+        { mints: 35 },
+        { mints: 40 },
+        { mints: 45 },
+        { mints: 50 },
+        { mints: 55 },
+      ],
+    },
+  ]);
   const [token, setToken] = useState(localStorage.getItem("Token"));
   const handleSpeakerName = (e, i) => {
     const { value } = e.target;
