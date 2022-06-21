@@ -505,6 +505,9 @@ const ViewData = (props) => {
       setSaveOpen(false);
       setEditableData([]);
       setEditList(editList);
+    } else {
+      toast.warning("No update");
+      setSaveOpen(false);
     }
   };
 
@@ -868,7 +871,7 @@ const ViewData = (props) => {
           <div className="loader" id="custom_loader">
             <span className="loader-view"> </span>
           </div>
-          <ToastContainer />
+          {!isOpenAdd ? <ToastContainer /> : null}
           <div class="top-header">
             <div class="page-title">
               <div class="header-btn-left">
@@ -1047,8 +1050,8 @@ const ViewData = (props) => {
                   id="test-table-xls-button"
                   className="btn btn-outline-primary"
                   table="table-to-xls"
-                  filename="tablexls"
-                  sheet="tablexls"
+                  filename="particpants"
+                  sheet="particpants"
                   buttonText="Download"
                 />
               </div>
@@ -1077,7 +1080,6 @@ const ViewData = (props) => {
               </div>
             </div>
           </div>
-
           <section class="search-hcp">
             <div class="table-title">
               <div class="selected-hcp-table-action">
@@ -1228,6 +1230,7 @@ const ViewData = (props) => {
           aria-labelledby="contained-modal-title-vcenter"
           centered
         >
+          <ToastContainer />
           <div
             data-bs-backdrop="static"
             data-bs-keyboard="false"
@@ -1414,7 +1417,7 @@ const ViewData = (props) => {
                                 ) : null}
 
                                 <ul className="nav nav-tabs" role="tablist">
-                                  <li className="nav-item add_hcp">
+                                  {/* <li className="nav-item add_hcp">
                                     <a
                                       onClick={addMoreHcp}
                                       className="nav-link active btn-bordered"
@@ -1423,7 +1426,7 @@ const ViewData = (props) => {
                                     >
                                       Add HCP +
                                     </a>
-                                  </li>
+                                  </li> */}
 
                                   {/*
                                 <li className="nav-item add-file">

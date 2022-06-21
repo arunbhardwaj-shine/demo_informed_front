@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
 import { connect } from "react-redux";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Modal, ToastContainer } from "react-bootstrap";
 import { getListId } from "../../../actions";
 
 import { toast } from "react-toastify";
@@ -86,13 +86,10 @@ const WebinarSmartList = () => {
 
   const submitHandler = (event) => {
     setShowFilter(false);
-    if (search.length > 2) {
-      getSmartListData(1);
-    } else {
-      toast.error("Please enter three letters minimum.");
-    }
+
+    getSmartListData(1);
+
     event.preventDefault();
-    return false;
   };
 
   const showDeleteButtons = () => {
@@ -146,6 +143,7 @@ const WebinarSmartList = () => {
           console.log(updatedArray);
           if (typeof updatedArray !== "undefined") {
             setSmartListData(updatedArray);
+            setPrevSmartListData(updatedArray);
           }
           popup_alert({
             visible: "show",
@@ -270,6 +268,7 @@ const WebinarSmartList = () => {
         <div className="loader" id="custom_loader">
           <span className="loader-view"> </span>
         </div>
+        <ToastContainer />
         <div class="top-header">
           <div class="page-title">
             <h2>Smart List</h2>

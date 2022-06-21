@@ -694,7 +694,7 @@ const Sidebar = () => {
                         location.pathname ===
                           "webinar/email/SmartListCreate/FilterList" ||
                         location.pathname ===
-                          "webinar/email/SmartListCreate/ExcelUpload"
+                          "/webinar/email/SmartListCreate/ExcelUpload"
                           ? "active"
                           : "side_li"
                       }

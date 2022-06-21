@@ -124,6 +124,8 @@ const GridView = (props) => {
             console.log(res.data.data);
             setEditList(res.data.data);
 
+            const arr = res.data.data;
+
             // setLoading(false);
             // setUploadedBy(res.data.response.upload_by_filter);
             // setSmartListName(res.data.response.smart_list_name);
@@ -320,7 +322,7 @@ const GridView = (props) => {
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       // loader("show");
       await axios
-        .post(baseURL + `update-participants`, body, { headers })
+        .post(baseURL + `smart-list/update-participants`, body, { headers })
         .then((res) => {
           console.log(res);
 
@@ -346,6 +348,9 @@ const GridView = (props) => {
 
       setSaveOpen(false);
       setEditableData([]);
+    } else {
+      toast.warning("No update");
+      setSaveOpen(false);
     }
   };
 
@@ -598,8 +603,7 @@ const GridView = (props) => {
           <div className="loader" id="custom_loader">
             <span className="loader-view"> </span>
           </div>
-          <ToastContainer />
-
+          {!isOpenAdd ? <ToastContainer /> : null}
           <div class="top-header">
             <div class="page-title">
               <div class="header-btn-left">
@@ -796,7 +800,6 @@ const GridView = (props) => {
               </div>
             </div>
           </div>
-
           <section class="search-hcp">
             <div class="selected-hcp-table-action">
               {" "}
@@ -820,9 +823,9 @@ const GridView = (props) => {
             </div>
             <div class="list-tab  d-flex">
               {editList.map((data, index) => {
-                console.log(data);
                 return (
                   <div class="list-tab-box">
+                    {console.log(data)}
                     <div class="list-tab-box-inside">
                       {/* <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">
@@ -899,7 +902,7 @@ const GridView = (props) => {
                           id="stats1"
                           eventKey="stats1"
                           class={"tab2 tab-pane "}
-                          title="stats"
+                          title="Stats"
                         >
                           <div class="tabbing-stats">
                             <div class="mailbox-table">
@@ -1191,7 +1194,6 @@ const GridView = (props) => {
               </div> */}
             </div>
           </section>
-
           <Modal
             id="add_hcp"
             show={isOpenAdd}
@@ -1199,6 +1201,7 @@ const GridView = (props) => {
             aria-labelledby="contained-modal-title-vcenter"
             centered
           >
+            <ToastContainer />
             <div
               data-bs-backdrop="static"
               data-bs-keyboard="false"
@@ -1387,7 +1390,7 @@ const GridView = (props) => {
                                   ) : null}
 
                                   <ul className="nav nav-tabs" role="tablist">
-                                    <li className="nav-item add_hcp">
+                                    {/* <li className="nav-item add_hcp">
                                       <a
                                         onClick={addMoreHcp}
                                         className="nav-link active btn-bordered"
@@ -1396,7 +1399,7 @@ const GridView = (props) => {
                                       >
                                         Add HCP +
                                       </a>
-                                    </li>
+                                    </li> */}
 
                                     {/*
                                 <li className="nav-item add-file">
