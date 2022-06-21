@@ -50,6 +50,18 @@ const FilterSegment = (props) => {
         setSelectedCountry(props.selectedFilter.country);
       }
 
+
+      //Consent
+      if (typeof props.selectedFilter.Consent !== "undefined") {
+        let consent = props.selectedFilter.Consent.map(
+          (item) => {
+            let val = filters.consent_type[item];
+            return val;
+          }
+        );
+        setConsent(consent);
+      }
+
       //Contact Type
       if (typeof props.selectedFilter.contactTypeList !== "undefined") {
         let contactTypeList = props.selectedFilter.contactTypeList.map(
@@ -341,7 +353,8 @@ const FilterSegment = (props) => {
     //For Consent
     if (typeof selectedconsent === "object" && selectedconsent.length > 0) {
       let consent = selectedconsent.map((item) => {
-        return item;
+        let val = getKeyByValue(filters.consent_type, item);
+        return val;
       });
       Object.assign(payload, { Consent: consent });
       flag_to_check_data = true;
@@ -773,8 +786,15 @@ const FilterSegment = (props) => {
                                             id={`custom-checkbox-consent_type-${index}`}
                                             name="consent_type[]"
                                             value={index}
+                                            checked={
+                                              typeof selectedconsent !==
+                                                "undefined" &&
+                                              selectedconsent.indexOf(
+                                                item
+                                              ) !== -1
+                                            }
                                             onChange={() =>
-                                              handleOnConsentChange(index)
+                                              handleOnConsentChange(item)
                                             }
                                           />
                                           <span className="checkmark"></span>
