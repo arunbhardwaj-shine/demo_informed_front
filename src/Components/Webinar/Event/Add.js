@@ -150,10 +150,16 @@ function Add(props) {
     initialValues: {
       EventTitle: "",
       Timezone: "",
-      event_start_time: "",
+      start_hour :"",
+      end_am_pm :"",
+      start_am_pm :"",
+      end_min :"",
+      start_min :"",
+      start_hour:"",
+      end_hour :"",
       Region: "",
       Bu: "",
-      eventendtime: "",
+      end_hour :"",
       event_date: "",
       Description: "",
       Country: "",
@@ -164,35 +170,39 @@ function Add(props) {
         .max(30, "Event title must be at most 30 characters")
         .required("Event title is required"),
       Timezone: Yup.string().required("Timezone is required"),
-      event_start_time: Yup.string().required("Event start time is required"),
+
       Region: Yup.string().required("Region is required"),
       Country: Yup.string().required("Country is required"),
       Bu: Yup.string().required("Bu is required"),
-      eventendtime: Yup.string().required("Event end time is required"),
+
       event_date: Yup.string().required("Event date is required"),
       Description: Yup.string().required("Description is required"),
     }),
     onSubmit: (values) => {
+
       if (handleSubmit()) {
         var today = new Date(values.event_date);
         var dd = String(today.getDate()).padStart(2, "0");
         var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
         var yyyy = today.getFullYear();
         let dateData = dd + "/" + mm + "/" + yyyy;
-
         let a = JSON.stringify(Speakername);
         setMassage(false);
         ExportApi.CreatEvent(
           values.EventTitle,
           Speakername[0].name && Speakername[0].email ? a : null,
-          values.event_start_time,
-          values.eventendtime,
           values.Timezone,
           values.Bu,
           dateData,
           values.Description,
           values.Region,
-          values.Country
+          values.Country,
+          values.start_hour,
+          values.end_hour,
+          values.start_min,
+          values.end_min,
+          values.start_am_pm,
+          values.end_am_pm
         )
           .then((resp) => {
             if (resp.data) {
@@ -496,37 +506,127 @@ function Add(props) {
             </div>
             <div className="form-inline row justify-content-between align-items-center">
               <div className="form-group col-12 col-md-12">
-                <label>Event Start Time </label>
-                <Form.Control
-                  name="event_start_time"
-                  type="time"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.event_start_time}
-                />
-                {formik.touched.event_start_time &&
-                formik.errors.event_start_time ? (
-                  <div className="error" style={{ color: "red" }}>
-                    {formik.errors.event_start_time}
-                  </div>
-                ) : null}
-              </div>
-            </div>
-            <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 col-md-12">
-                <label>Event End Time </label>
-                <Form.Control
-                  name="eventendtime"
-                  type="time"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.eventendtime}
-                />
-                {formik.touched.eventendtime && formik.errors.eventendtime ? (
-                  <div className="error" style={{ color: "red" }}>
-                    {formik.errors.eventendtime}
-                  </div>
-                ) : null}
+                                    <label for="exampleInputEmail1">
+                                      Event Start Time
+                                    </label>
+                                    <div className="form-inline row justify-content-between align-items-center">
+                                      <div className="form-group col-12 col-md-4">
+                                        <select
+                                          className="form-control"
+                                          name="start_hour"
+                                          onChange={formik.handleChange}
+                                          onBlur={formik.handleBlur}
+                                          value={formik.values.start_hour}
+                                        >
+                                          {EventTime[0].Hour?.map((val, i) => (
+                                            <React.Fragment key={i}>
+                                              <option value={val.Hour}>
+                                                {val.Hour}
+                                              </option>
+                                            </React.Fragment>
+                                          ))}
+                                        </select>
+                                      </div>
+                                      <div className="form-group col-12 col-md-4">
+                                        <select
+                                          className="form-control"
+                                          name="start_min"
+                                          onChange={formik.handleChange}
+                                          onBlur={formik.handleBlur}
+                                          value={formik.values.start_min}
+                                        >
+                                          {EventTime[0].mints?.map((val, i) => (
+                                            <React.Fragment key={i}>
+                                              <option value={val.mints}>
+                                                {val.mints}
+                                              </option>
+                                            </React.Fragment>
+                                          ))}
+                                        </select>
+                                      </div>
+                                      <div className="form-group col-12 col-md-4">
+                                        <select
+                                          className="form-control"
+                                          name="start_am_pm"
+                                          onChange={formik.handleChange}
+                                          onBlur={formik.handleBlur}
+                                          value={formik.values.start_am_pm}
+                                        >
+                                          <React.Fragment >
+                                            <option value={"AM"}>AM</option>
+                                            <option value={"PM"}>PM</option>
+                                          </React.Fragment>
+                                        </select>
+                                      </div>
+                                    </div>
+
+                                    <div style={{ color: "red" }}>
+                                      
+                                    </div>
+                                  </div>
+
+                               </div>
+                               <div className="form-inline row justify-content-between align-items-center">
+                                <div className="form-group col-12 col-md-12">
+
+                                    <label for="exampleInputEmail1">
+                                      Event End Time
+                                    </label>
+                                    <div className="form-inline row justify-content-between align-items-center">
+                                      <div className="form-group col-12 col-md-4">
+                                        <select
+                                          className="form-control"
+                                          name="end_hour"
+                                          onChange={formik.handleChange}
+                                          onBlur={formik.handleBlur}
+                                          value={formik.values.end_hour}
+                                        >
+                                          {EventTime[0].Hour?.map((val, i) => (
+                                            <React.Fragment key={i}>
+                                              <option value={val.Hour}>
+                                                {val.Hour}
+                                              </option>
+                                            </React.Fragment>
+                                          ))}
+                                        </select>
+                                      </div>
+                                      <div className="form-group col-12 col-md-4">
+                                        <select
+                                          className="form-control"
+                                          name="end_min"
+                                          onChange={formik.handleChange}
+                                          onBlur={formik.handleBlur}
+                                          value={formik.values.end_min}
+
+                                        >
+                                          {EventTime[0].mints?.map((val, i) => (
+                                            <React.Fragment key={i}>
+                                              <option value={val.mints}>
+                                                {val.mints}
+                                              </option>
+                                            </React.Fragment>
+                                          ))}
+                                        </select>
+                                      </div>
+                                      <div className="form-group col-12 col-md-4">
+                                        <select
+                                          className="form-control"
+                                          name="end_am_pm"
+                                          onChange={formik.handleChange}
+                                          onBlur={formik.handleBlur}
+                                          value={formik.values.end_am_pm}
+                                        >
+                                          <React.Fragment>
+                                            <option value={"AM"}>AM</option>
+                                            <option value={"PM"}>PM</option>
+                                          </React.Fragment>
+                                        </select>
+                                      </div>
+                                    </div>
+                                    <div style={{ color: "red" }}>
+
+                                    </div>
+                                
               </div>
             </div>
             <div className="form-inline row justify-content-between align-items-center">

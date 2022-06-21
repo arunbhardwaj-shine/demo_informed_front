@@ -30,6 +30,7 @@ const SmartListUsers = () => {
       if (resp.ok) {
           console.log(resp.data.data)
         setData(resp.data.data);
+       
       }
     });
   };
@@ -80,30 +81,26 @@ const SmartListUsers = () => {
     );
   };
   const handleEditText = (e, index, idd) => {
-    let obj = {
-      id: "",
-      name: "",
-      email: "",
-      country: "",
-      hospital: "",
-      profession: "",
-      interest: "",
-    };
-    const { id } = e.target;
-    console.log(id);
-    if (id === `PersonName${index}`) {
-      obj.id = idd;
-      obj.name = document.getElementById(id).innerText;
-    } else if (id === `Profession${index}`) {
-      obj.participants.profession = document.getElementById(
-        "Profession" + index
-      ).innerText;
-    }
+    const { id,innerText } = e.target;
+    let obj =data
+ 
+    console.log("obj[index]",obj[index])
+    obj[index].name=innerText
+   
+  
+    // console.log(id);
 
-    setDataCopy([obj]);
+    // if (id === `PersonName${index}`) {
+    //   console.log(`PersonName${index}`)
+    //   obj.id = idd;
+    //   obj.name = innerText
+    // }
+  
+console.log("change",obj)
+    setData([...obj]);
   };
   const UpdateSmartList = () => {
-    ExportApi.UpdateSmartListData(parms.id, JSON.stringify(dataCopy)).then(
+    ExportApi.UpdateSmartListData(parms.id, JSON.stringify(data)).then(
       (resp) => {
         if (resp.ok) {
           if (resp.data.code == 200) {
@@ -378,7 +375,7 @@ const SmartListUsers = () => {
                                     >
                                       <h5>
                                         <span
-                                          id={"PersonName" + index}
+                                          id={data.id}
                                           onInput={(e) => {
                                             handleEditText(e, index, data.id);
                                           }}
@@ -391,6 +388,13 @@ const SmartListUsers = () => {
                                       <div class="mailbox-table">
                                         <table>
                                           <tbody>
+                                            <tr>
+                                              <th>Email</th>
+                                              <td      id={"Email" + index}
+                                          onInput={(e) => {
+                                            handleEditText(e, index, data.id);
+                                          }} contenteditable="true">{data.email}</td>
+                                            </tr>
                                             <tr>
                                               <th>Country</th>
                                               <td>{data.country==""?"NA":data.country}</td>

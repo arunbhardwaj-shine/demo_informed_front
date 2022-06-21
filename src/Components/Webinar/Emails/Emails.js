@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Accordion from "react-bootstrap/Accordion";
 import ExportApi from "../../../Api/ExportApi";
 import { loader } from "../../../loader";
+import { toast, ToastContainer } from "react-toastify";
 const SendEmails = () => {
   const [data, setData] = useState([]);
   const [showfilter, setShowFilter] = useState(false);
@@ -143,6 +144,39 @@ const SendEmails = () => {
       }
     );
   };
+  const handleSendMail = (id) => {
+    loader("show")
+    ExportApi.sandAllmaik(id).then(
+      (resp) => {
+        if (resp.ok) {
+          console.log(resp.data);
+          if (resp.data.code == 200) {
+            loader("hide")
+            toast.success(resp.data.message, {
+              position: "top-right",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+          } else {
+            loader("hide")
+            toast.error(resp.data.message, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+          }
+        }
+      }
+    );
+  };
   useEffect(() => {
     loader("show");
     window.addEventListener("EventId", () => {
@@ -157,6 +191,17 @@ const SendEmails = () => {
         <span className="loader-view"> </span>
       </div>
       <div className="right-sidebar">
+      <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
         <div className="top-header">
           <div className="page-title">
             <h2>Emails</h2>
@@ -528,7 +573,7 @@ const SendEmails = () => {
                               localStorage.setItem("stateid", val.id);
                               navigate("/webinar/email/create");
                               localStorage.setItem("stateid", val.id);
-                              alert(val.id);
+                              // alert(val.id);
                             }}
                           >
                             {/* <Link
@@ -542,7 +587,7 @@ const SendEmails = () => {
                             Edit
                           </button>
 
-                          <button class="btn btn-primary btn-filled send">
+                          <button type="button" onClick={()=>{handleSendMail(val.id)}} class="btn btn-primary btn-filled send">
                             Send
                           </button>
                         </div>

@@ -15,7 +15,7 @@ const RegistraionDetails = () => {
     { value: "State", name: "State", isActive: false },
     { value: "Hospital", name: "Hospital", isActive: false },
     { value: "Profession", name: "Profession", isActive: false },
-    { value: "ConSent", name: "ConSent", isActive: false },
+    { value: "Consent", name: "Consent", isActive: false },
   ]);
   const [modalShow, setModalShow] = useState(false);
   const [event, setEvent] = useState([]);
@@ -281,15 +281,13 @@ const RegistraionDetails = () => {
                               name={setFieldValue}
                               type="button"
                               className="btn btn-primary btn-filled"
-                              data-bs-dismiss="modal"
                               onClick={(e) => handleRadioChangedata(e)}
                             >
                               Yes
                             </button>
-                            <button
+                             <button
                               type="button"
                               className="btn btn-primary btn-bordered light"
-                              data-bs-dismiss="modal"
                               onClick={(e) => setModalShow(false)}
                             >
                               No
