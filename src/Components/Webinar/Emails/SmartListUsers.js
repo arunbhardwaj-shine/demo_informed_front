@@ -44,11 +44,13 @@ const SmartListUsers = () => {
     });
   };
   const handleSendMail = () => {
+    loader("show")
     ExportApi.sandAllmaik(localStorage.getItem("collection_id")).then(
       (resp) => {
         if (resp.ok) {
           console.log(resp.data);
           if (resp.data.code == 200) {
+            loader("hide")
             toast.success(resp.data.message, {
               position: "top-right",
               autoClose: 2000,
@@ -62,6 +64,7 @@ const SmartListUsers = () => {
               navigate("/webinar/email/emails");
             }, 2000);
           } else {
+            loader("hide")
             toast.error(resp.data.message, {
               position: "top-right",
               autoClose: 5000,
@@ -122,6 +125,7 @@ const SmartListUsers = () => {
     );
   };
   const DeleteSmartList = (id, i) => {
+    loader("show")
     setdeleteid(id);
     let CopyData = data;
     CopyData.splice(i, 1);
@@ -129,6 +133,7 @@ const SmartListUsers = () => {
       if (resp.ok) {
         console.log(resp.data);
         if (resp.data.code == 200) {
+          loader("hide")
           toast.success(resp.data.message, {
             position: "top-right",
             autoClose: 2000,
@@ -139,12 +144,24 @@ const SmartListUsers = () => {
             progress: undefined,
           });
           setdeleteid(false);
+        }else{
+          loader("hide")
+          toast.success(resp.data.message, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         }
         setData(CopyData);
       }
     });
   };
   const handleEmailSCreateCollection = () => {
+    loader("show")
     ExportApi.EmailSCreateCollection(
       1,
       localStorage.getItem("SmartListId"),
@@ -153,6 +170,7 @@ const SmartListUsers = () => {
       if (resp.ok) {
         console.log(resp.data);
         if (resp.data.code == 200) {
+          loader("hide")
           toast.success(resp.data.message, {
             position: "top-right",
             autoClose: 2000,
@@ -184,16 +202,10 @@ const SmartListUsers = () => {
 		        .email(),
     }),
     onSubmit: (values) => {
+      loader("show")
+      let Data=JSON.stringify([values])
           ExportApi.EmailSand(
-			localStorage.getItem("SmartListId"),
-            values.name,
-            values.email,
-            values.country,
-            values.profession,
-            values.interest,
-            values.hospital,
-            values.consent
-          )
+			localStorage.getItem("SmartListId"),Data)
             .then((resp) => {
               if (resp.data) {
                 console.log(resp.data);
@@ -203,6 +215,7 @@ const SmartListUsers = () => {
 				  setIsOpenAdd(false)
                   toast.success(resp.data.message);
                 } else {
+                  loader("hide")
                   toast.error(resp.data.message, {
                     position: "top-right",
                     autoClose: 5000,

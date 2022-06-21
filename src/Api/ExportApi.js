@@ -444,10 +444,10 @@ const EmailStatsPage = (id, eventId, template_id) =>
       },
     }
   );
-const EmailSand = (id, name, email,country,profession,interest,hospital) =>
+const EmailSand = (id, name) =>
   BaseApi.post(
     `create-unregistered-participant`,
-    { smart_list_id : id, name: name, email: email,country:country ,profession:profession,interest:interest,hospital:hospital},
+    { smart_list_id : id,participants:name},
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
