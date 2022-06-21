@@ -6,7 +6,7 @@ import Tab from "react-bootstrap/Tab";
 import { Modal } from "react-bootstrap";
 import ViewData from "./ViewData";
 import axios from "axios";
-
+import { BaseApi } from "../../../Api/BaseApi";
 import { loader } from "../../../loader";
 import { useNavigate } from "react-router-dom";
 
@@ -45,6 +45,7 @@ const GridView = (props) => {
     },
   ]);
   const navigate = useNavigate();
+  const baseURL = BaseApi.getBaseURL();
   const [activeManual, setActiveManual] = useState("active");
   const [activeExcel, setActiveExcel] = useState("");
   let combine_data;
@@ -57,20 +58,39 @@ const GridView = (props) => {
 
   useEffect(() => {
     const getalCountry = async () => {
-      let body = {
-        user_id: 18207,
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("Token")}`,
       };
       await axios
-        .post(`distributes/filters_list`, body)
+        .get(baseURL + `country`, { headers })
         .then((res) => {
-          setCountryall(res.data.response.data.country);
-          //console.log(countryall)
-          // setCounter(counter + 1);
+          console.log(res);
+          const countrys = res.data.data.map((data) => {
+            return data;
+          });
+          setCountryall(countrys);
         })
         .catch((err) => {
           console.log(err);
         });
     };
+
+    // const getalCountry = async () => {
+    //   let body = {
+    //     user_id: 18207,
+    //   };
+    //   await axios
+    //     .post(`distributes/filters_list`, body)
+    //     .then((res) => {
+    //       setCountryall(res.data.response.data.country);
+    //       //console.log(countryall)
+    //       // setCounter(counter + 1);
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+
     getalCountry();
   }, []);
 
@@ -91,7 +111,7 @@ const GridView = (props) => {
     };
     loader("show");
     await axios
-      .post(`http://51.89.210.56:8000/api/smart-list/single-record`, body, {
+      .post(baseURL + `smart-list/single-record`, body, {
         headers,
       })
       .then((res) => {
@@ -300,11 +320,7 @@ const GridView = (props) => {
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       // loader("show");
       await axios
-        .post(
-          `http://51.89.210.56:8000/api/smart-list/update-participants`,
-          body,
-          { headers }
-        )
+        .post(baseURL + `update-participants`, body, { headers })
         .then((res) => {
           console.log(res);
 
@@ -358,11 +374,7 @@ const GridView = (props) => {
 
     loader("show");
     await axios
-      .post(
-        `http://51.89.210.56:8000/api/upload-unregistered-participant`,
-        formData,
-        { headers }
-      )
+      .post(baseURL + `upload-unregistered-participant`, formData, { headers })
       .then((res) => {
         //  console.log(smartListId);
         console.log(res);
@@ -428,13 +440,9 @@ const GridView = (props) => {
         loader("show");
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         await axios
-          .post(
-            `http://51.89.210.56:8000/api/create-unregistered-participant`,
-            body,
-            {
-              headers,
-            }
-          )
+          .post(baseURL + `create-unregistered-participant`, body, {
+            headers,
+          })
           .then((res) => {
             console.log(res);
             if (res.data.code === 200) {
@@ -502,13 +510,9 @@ const GridView = (props) => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     //  loader("show");
     await axios
-      .post(
-        `http://51.89.210.56:8000/api/smart-list/delete-participants`,
-        body,
-        {
-          headers,
-        }
-      )
+      .post(baseURL + `smart-list/delete-participants`, body, {
+        headers,
+      })
       .then((res) => {
         console.log(res);
 
@@ -1318,7 +1322,7 @@ const GridView = (props) => {
                                                 return (
                                                   <>
                                                     <option value={index}>
-                                                      {item}
+                                                      {item.country}
                                                     </option>
                                                   </>
                                                 );

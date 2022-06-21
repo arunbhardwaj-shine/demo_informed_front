@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 const Sidebar = () => {
   let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path = process.env.REACT_APP_ASSETS_PATH_WEBINAR;
   const [token, setToken] = useState(true);
   const [getHomeStatus, setHomeStatus] = useState(false);
   const [EmailStatus, setEmailStatus] = useState(false);
@@ -37,7 +38,6 @@ const Sidebar = () => {
         document.body.classList.toggle("sub_menu_toggle_sidebar");
       }
     } else if (2 == index) {
-
       const bodyHasClass = document.body.classList.contains(
         "sub_menu_toggle_sidebar"
       );
@@ -528,7 +528,7 @@ const Sidebar = () => {
                       }
                     >
                       <Link to="/webinar/email/template">
-                        <img src={path_image + "webinar/home.svg"} />
+                        <img src={path + "file2.png"} />
                         <p>Auto Email</p>
                       </Link>
                     </li>
@@ -546,7 +546,7 @@ const Sidebar = () => {
                       }
                     >
                       <Link to="/webinar/email/emails">
-                        <img src={path_image + "webinar/dashboard.svg"} />
+                        <img src={path + "message.png"} />
                         <p>Emails</p>
                       </Link>
                     </li>
@@ -567,7 +567,7 @@ const Sidebar = () => {
                       }
                     >
                       <Link to="/webinar/email/WebinarSmartList">
-                        <img src={path_image + "webinar/portal.svg"} />
+                        <img src={path + "mail-list.png"} />
                         <p>Smart List</p>
                       </Link>
                     </li>

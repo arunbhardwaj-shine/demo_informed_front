@@ -18,8 +18,10 @@ import queryString from "query-string";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import { BaseApi } from "../../../Api/BaseApi";
 
 const TableView = (props, ref) => {
+  const baseURL = BaseApi.getBaseURL();
   const [inEditMode, setInEditMode] = useState({
     status: false,
     rowKey: null,
@@ -459,11 +461,7 @@ const TableView = (props, ref) => {
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       // loader("show");
       await axios
-        .post(
-          `http://51.89.210.56:8000/api/smart-list/update-participants`,
-          body,
-          { headers }
-        )
+        .post(baseURL + `smart-list/update-participants`, body, { headers })
         .then((res) => {
           console.log(res);
 
@@ -639,13 +637,9 @@ const TableView = (props, ref) => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
-      .post(
-        `http://51.89.210.56:8000/api/smart-list/delete-participants`,
-        body,
-        {
-          headers,
-        }
-      )
+      .post(baseURL + `smart-list/delete-participants`, body, {
+        headers,
+      })
       .then((res) => {
         console.log(res);
 

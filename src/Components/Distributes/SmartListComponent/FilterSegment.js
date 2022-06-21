@@ -651,7 +651,7 @@ const FilterSegment = (props) => {
                           Object.keys(filters.ibu).length > 0 && (
                             <>
                               <div className="col block-smart-name">
-                                <h6>Ibu</h6>
+                                <h6>IBU</h6>
                                 <div className="smart-name-list">
                                   <ul>
                                     {Object.entries(filters.ibu).map(

@@ -4,11 +4,13 @@ import { useLocation } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import { toast, ToastContainer } from "react-toastify";
 import { loader } from "../../../loader";
+import { BaseApi } from "../../../Api/BaseApi";
 
 import axios from "axios";
 import { popup_alert } from "../../../popup_alert";
 
 const SmartListCreate = () => {
+  const baseURL = BaseApi.getBaseURL();
   let path_image = process.env.REACT_APP_ASSETS_PATH_WEBINAR;
   const location = useLocation();
   const navigate = useNavigate();
@@ -63,7 +65,7 @@ const SmartListCreate = () => {
     };
     await axios
       .post(
-        `http://51.89.210.56:8000/api/smart-list/create`,
+        baseURL + `smart-list/create`,
 
         body,
         { headers }
@@ -100,7 +102,7 @@ const SmartListCreate = () => {
     };
     await axios
       .post(
-        `http://51.89.210.56:8000/api/smart-list/create`,
+        baseURL + `smart-list/create`,
 
         body,
         { headers }
@@ -156,11 +158,7 @@ const SmartListCreate = () => {
     console.log(formData);
 
     await axios
-      .post(
-        `http://51.89.210.56:8000/api/upload-unregistered-participant`,
-        formData,
-        { headers }
-      )
+      .post(baseURL + `upload-unregistered-participant`, formData, { headers })
       .then((res) => {
         //  console.log(smartListId);
         console.log(res);
