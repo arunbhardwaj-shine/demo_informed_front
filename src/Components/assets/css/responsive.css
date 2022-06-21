@@ -51,6 +51,20 @@
 		height: 40px;
 		width: 45px;
 	}
+	.create_smart_list .create-smart-step .create-smart-step-box form label, .modal .add_hcp_boxes .form-group label {
+		font-size: 18px;
+		line-height: 18px;
+		margin-bottom: 10px;
+	}
+	.create_smart_list .create-smart-step .create-smart-step-box form .form-control, .modal .add_hcp_boxes .form-group input {
+		padding: 8px 12px;
+	}
+	.create_smart_list .create-smart-step h2, #create_list_popup .create-smart-step h2 {
+		font-size: 38px;
+		line-height: 45px;
+		top: 33px;
+		left: -86px;
+	}
 	.modal form#add_hcp_form .add_hcp_boxes:first-child:last-child .hcp-action-block {
 		top: 75px;
 	}
