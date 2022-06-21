@@ -19,7 +19,7 @@ const Sidebar = () => {
       setToken(false);
     }
   }, [localStorage.getItem("Token")]);
-  
+
   const toggleClassToBody = () => {
     document.body.classList.toggle("toggle_sidebar");
   };
@@ -29,6 +29,58 @@ const Sidebar = () => {
     }
   }, [localStorage.getItem("Token"), token]);
 
+  useEffect(() => {
+    if (
+      location.pathname === "/webinar/portal/registrationDetails" ||
+      location.pathname === "/webinar/registrationdetailslist"
+    ) {
+      console.log("hi");
+      setHomeStatus(true);
+      const bodyHasClass = document.body.classList.contains(
+        "sub_menu_toggle_sidebar"
+      );
+
+      if (!bodyHasClass) {
+        document.body.classList.toggle("sub_menu_toggle_sidebar");
+      }
+    }
+  }, []);
+  useEffect(() => {
+    if (
+      location.pathname === "/webinar/portal/registrationDetails" ||
+      location.pathname === "/webinar/registrationdetailslist"
+    ) {
+      console.log("hi");
+      setHomeStatus(true);
+      const bodyHasClass = document.body.classList.contains(
+        "sub_menu_toggle_sidebar"
+      );
+
+      if (!bodyHasClass) {
+        document.body.classList.toggle("sub_menu_toggle_sidebar");
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (
+      location.pathname === "/webinar/email/WebinarSmartList" ||
+      location.pathname === "/webinar/email/ViewSmartListWebinar" ||
+      location.pathname === "/webinar/email/SmartListCreate" ||
+      location.pathname === "/webinar/email/SmartListCreate/FilterList" ||
+      location.pathname === "/webinar/email/SmartListCreate/ExcelUpload"
+    ) {
+      console.log("hi");
+      setEmailStatus(true);
+      const bodyHasClass = document.body.classList.contains(
+        "sub_menu_toggle_sidebar"
+      );
+
+      if (!bodyHasClass) {
+        document.body.classList.toggle("sub_menu_toggle_sidebar");
+      }
+    }
+  }, []);
   const showHideHome = (index) => {
     const bodyHasClass = document.body.classList.contains(
       "sub_menu_toggle_sidebar"
