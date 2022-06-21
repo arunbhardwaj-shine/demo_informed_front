@@ -1198,12 +1198,21 @@ display: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 70px;
-  border-radius: 110px;
+  content:"";
+  background-image: url(../images/play-icon.svg);
+  background-repeat: no-repeat;
+  background-position: 55% 50%;
+}
+#open_video_popup .modal-body .video-react button.video-react-button.video-react-big-play-button:hover {
+  background: #006fbe;
+  color: #fff;
+}
+#open_video_popup .modal-body .video-react button.video-react-button.video-react-big-play-button:hover:before {
+  filter: brightness(0) invert(1);
 }
 #open_video_popup .modal-content {
-  background: rgba(0, 102, 190, 0.16);
-  backdrop-filter: blur(41px);
+  background: #ffffff91;
+  backdrop-filter: blur(4px);
   border-radius: 20px 15px 15px 15px;
   box-shadow: 0px 3px 10px -3px rgba(0, 102, 190, 0.2)
 }

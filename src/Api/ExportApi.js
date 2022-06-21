@@ -640,10 +640,10 @@ const EmailSCreate = (approved_status,template_id,eventid,subject ,tags,smart_li
       },
     }
   );
-const UpdateEmailSCreate = (collection_id) =>
+const UpdateEmailSCreate = (id,collection_id) =>
   BaseApi.post(
     `emails/create`,
-    {collection_id: collection_id},
+    {template_id:id,collection_id: collection_id},
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
@@ -654,6 +654,16 @@ const EmailSCreateCollection = (approved_status,smart_list_id,collection_id  ) =
   BaseApi.post(
     `emails/create`,
     {approved_status:approved_status,smart_list_id:smart_list_id,collection_id:collection_id },
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
+const EmailSCreateCollectionnext = (smart_list_id,collection_id,approved_status  ) =>
+  BaseApi.post(
+    `emails/create`,
+    {smart_list_id:smart_list_id,collection_id:collection_id,approved_status:approved_status, },
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
@@ -752,6 +762,7 @@ export default {
   RegistrationPageDetail,
   RegistrationPageList,
   RegistrationPageData,
+  EmailSCreateCollectionnext,
   UpdateRegistrationPageData,
   PublicPage,
   ReadersData,

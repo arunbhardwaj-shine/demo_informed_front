@@ -516,7 +516,7 @@ const SendEmails = () => {
                       </div>
                       <div class="mailbox-buttons">
                         <div class="mailbox-buttons-list">
-                          <button class="btn btn-primary btn-bordered edit" onClick={()=>{ localStorage.setItem("stateid",val.id);navigate('/webinar/email/create');localStorage.setItem("stateid",val.id)}} >
+                          <button class="btn btn-primary btn-bordered edit" onClick={()=>{ localStorage.setItem("stateid",val.id);navigate('/webinar/email/create');localStorage.setItem("stateid",val.id);alert(val.id)}} >
                             {/* <Link
                               to={{
                                 pathname: "/webinar/email/create",

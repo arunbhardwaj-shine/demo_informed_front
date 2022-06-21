@@ -25,7 +25,7 @@ const SelectSmartList = () => {
   };
 
   const handleEmailSCreateCollection = () => {
-    smartListDataId? ExportApi.EmailSCreateCollection(smartListDataId,localStorage.getItem("collection_id")).then((resp) => {
+    smartListDataId? ExportApi.EmailSCreateCollectionnext(smartListDataId,localStorage.getItem("collection_id")).then((resp) => {
         if (resp.ok) {
          console.log( resp.data)
          if (resp.data.code == 200) {
