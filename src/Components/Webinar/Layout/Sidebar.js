@@ -19,61 +19,7 @@ const Sidebar = () => {
       setToken(false);
     }
   }, [localStorage.getItem("Token")]);
-
-  useEffect(() => {
-    if (
-      location.pathname === "/webinar/portal/registrationDetails" ||
-      location.pathname === "/webinar/registrationdetailslist"
-    ) {
-      console.log("hi");
-      setHomeStatus(true);
-      const bodyHasClass = document.body.classList.contains(
-        "sub_menu_toggle_sidebar"
-      );
-
-      if (!bodyHasClass) {
-        document.body.classList.toggle("sub_menu_toggle_sidebar");
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    if (
-      location.pathname === "/webinar/email/WebinarSmartList" ||
-      location.pathname === "/webinar/email/ViewSmartListWebinar" ||
-      location.pathname === "/webinar/email/SmartListCreate" ||
-      location.pathname === "/webinar/email/SmartListCreate/FilterList" ||
-      location.pathname === "/webinar/email/SmartListCreate/ExcelUpload" ||
-      location.pathname === "/webinar/email/emails" ||
-      location.pathname === "/webinar/email/create" ||
-      location.pathname === "/webinar/email/smart-list" ||
-      location.pathname.includes("/webinar/email/smart-list-users") ||
-      location.pathname === "/webinar/email/template"
-    ) {
-      console.log("hi");
-      setEmailStatus(true);
-      const bodyHasClass = document.body.classList.contains(
-        "sub_menu_toggle_sidebar"
-      );
-
-      if (!bodyHasClass) {
-        document.body.classList.toggle("sub_menu_toggle_sidebar");
-      }
-    }
-  }, []);
-
-  // useEffect(() => {
-  //   if (
-  //     location.pathname === "/webinar/email/WebinarSmartList" ||
-  //     location.pathname === "/webinar/email/ViewSmartListWebinar" ||
-  //     location.pathname === "/webinar/email/SmartListCreate" ||
-  //     location.pathname === "webinar/email/SmartListCreate/FilterList" ||
-  //     location.pathname === "webinar/email/SmartListCreate/ExcelUpload"
-  //   ) {
-  //     setEmailStatus(true);
-  //   }
-  // });
-
+  
   const toggleClassToBody = () => {
     document.body.classList.toggle("toggle_sidebar");
   };
