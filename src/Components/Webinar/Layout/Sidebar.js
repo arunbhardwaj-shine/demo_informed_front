@@ -174,7 +174,7 @@ const Sidebar = () => {
                     onClick={() => showHideHome(1)}
                   >
                     <Link
-                      to="/webinar/portal/registrationDetails"
+                      to="/webinar/registrationdetailslist"
                       onMouseOver={handleMouseOverRegistration}
                       onMouseOut={handleMouseOutRegistration}
                     >
@@ -567,12 +567,13 @@ const Sidebar = () => {
                     <li
                       className={
                         location.pathname ===
-                        "/webinar/portal/registrationDetails"
+                          "/webinar/portal/registrationDetails" ||
+                        location.pathname === "/webinar/registrationdetailslist"
                           ? "active"
                           : "side_li"
                       }
                     >
-                      <Link to="/webinar/portal/registrationDetails">
+                      <Link to="/webinar/registrationdetailslist">
                         <img src={path_image + "webinar/event.svg"} />
                         <p>Registration Page</p>
                       </Link>
@@ -612,7 +613,13 @@ const Sidebar = () => {
                       </li> */}
                     <li
                       className={
-                        location.pathname === "/webinar/email/emails"||location.pathname === "/webinar/email/create"||location.pathname === "/webinar/email/smart-list"||location.pathname === `/webinar/email/smart-list-users/${localStorage.getItem("SmartListId")}`
+                        location.pathname === "/webinar/email/emails" ||
+                        location.pathname === "/webinar/email/create" ||
+                        location.pathname === "/webinar/email/smart-list" ||
+                        location.pathname ===
+                          `/webinar/email/smart-list-users/${localStorage.getItem(
+                            "SmartListId"
+                          )}`
                           ? "active"
                           : "side_li"
                       }
