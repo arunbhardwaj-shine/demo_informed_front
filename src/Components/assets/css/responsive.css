@@ -69,11 +69,11 @@
 		height: auto;
 	}
 	#open_video_popup .modal-body .video-react button.video-react-button.video-react-big-play-button {
-		width: 90px;
-		height: 90px;
+		width: 70px;
+		height: 70px;
 	}
 	#open_video_popup .modal-body .video-react button.video-react-button.video-react-big-play-button::before {
-		background-size: 30px;
+		background-size: 23px;
 	}
 	
 	.page-title h2 { font-size: 30px; line-height: 38px; } 
