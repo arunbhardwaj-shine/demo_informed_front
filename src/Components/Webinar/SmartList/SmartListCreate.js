@@ -63,6 +63,7 @@ const SmartListCreate = () => {
       "Content-Type": "application/json",
       Authorization: `${localStorage.getItem("Token")}`,
     };
+    loader("show");
     await axios
       .post(
         baseURL + `smart-list/create`,
@@ -75,8 +76,10 @@ const SmartListCreate = () => {
           console.log(res);
           setSmartListId(res.data.data.smart_list_id);
           handleShow();
+          loader("hide");
         } else {
           toast.warning(res.data.message);
+          loader("hide");
         }
 
         //  console.log(res);
@@ -100,6 +103,7 @@ const SmartListCreate = () => {
       "Content-Type": "application/json",
       Authorization: `${localStorage.getItem("Token")}`,
     };
+    loader("show");
     await axios
       .post(
         baseURL + `smart-list/create`,
@@ -113,8 +117,10 @@ const SmartListCreate = () => {
           console.log(res.data.data.smart_list_id);
           setSmartListId(res.data.data.smart_list_id);
           segmentCohort(res.data.data.smart_list_id);
+          loader("hide");
         } else {
           toast.warning(res.data.message);
+          loader("hide");
         }
 
         //  console.log(res);
@@ -198,17 +204,10 @@ const SmartListCreate = () => {
   return (
     <>
       <div className="right-sidebar">
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
+        <div className="loader" id="custom_loader">
+          <span className="loader-view"> </span>
+        </div>
+        <ToastContainer />
         <div className="page-top-nav smart_list_names">
           <div className="row justify-content-end align-items-center">
             <div className="col-12 col-md-1">
