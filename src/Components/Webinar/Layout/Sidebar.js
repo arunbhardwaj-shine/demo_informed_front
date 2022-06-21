@@ -42,8 +42,13 @@ const Sidebar = () => {
       location.pathname === "/webinar/email/WebinarSmartList" ||
       location.pathname === "/webinar/email/ViewSmartListWebinar" ||
       location.pathname === "/webinar/email/SmartListCreate" ||
-      location.pathname === "webinar/email/SmartListCreate/FilterList" ||
-      location.pathname === "webinar/email/SmartListCreate/ExcelUpload"
+      location.pathname === "/webinar/email/SmartListCreate/FilterList" ||
+      location.pathname === "/webinar/email/SmartListCreate/ExcelUpload" ||
+      location.pathname === "/webinar/email/emails" ||
+      location.pathname === "/webinar/email/create" ||
+      location.pathname === "/webinar/email/smart-list" ||
+      location.pathname.includes("/webinar/email/smart-list-users") ||
+      location.pathname === "/webinar/email/template"
     ) {
       console.log("hi");
       setEmailStatus(true);
@@ -662,7 +667,13 @@ const Sidebar = () => {
                       </li> */}
                     <li
                       className={
-                        location.pathname === "/webinar/email/emails"||location.pathname === "/webinar/email/create"||location.pathname === "/webinar/email/smart-list"||location.pathname === `/webinar/email/smart-list-users/${localStorage.getItem("SmartListId")}`
+                        location.pathname === "/webinar/email/emails" ||
+                        location.pathname === "/webinar/email/create" ||
+                        location.pathname === "/webinar/email/smart-list" ||
+                        location.pathname ===
+                          `/webinar/email/smart-list-users/${localStorage.getItem(
+                            "SmartListId"
+                          )}`
                           ? "active"
                           : "side_li"
                       }
