@@ -19,6 +19,7 @@ const Sidebar = () => {
       setToken(false);
     }
   }, [localStorage.getItem("Token")]);
+  
   const toggleClassToBody = () => {
     document.body.classList.toggle("toggle_sidebar");
   };
