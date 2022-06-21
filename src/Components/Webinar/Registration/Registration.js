@@ -113,6 +113,8 @@ const Registration = () => {
     }),
     enableReinitialize: true,
     onSubmit: (values) => {
+      loader("show");
+      alert("s")
       let formData = new FormData();
 
       formData.append("form_id", editdata.id);
@@ -128,6 +130,7 @@ const Registration = () => {
         ? ExportApi.UpdateRegistrationPageData(formData).then((resp) => {
             if (resp.ok) {
               if (resp.data.code == 200) {
+                loader("hide");
                 handleGetRegistrationPageList(id);
                 toast.success(resp.data.message, {
                   position: "top-right",
@@ -139,6 +142,7 @@ const Registration = () => {
                   progress: undefined,
                 });
               } else {
+                loader("hide");
                 toast.error(resp.data.message, {
                   position: "top-right",
                   autoClose: 5000,

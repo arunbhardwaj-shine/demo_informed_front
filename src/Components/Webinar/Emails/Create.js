@@ -23,7 +23,7 @@ const CreateEmails = (props) => {
   const [templateId, setTemplateId] = useState();
   const [modalShow, setModalShow] = useState(false);
   const [modalShow2, setModalShow2] = useState(false);
-  const [TemplateIdActive, setTemplateIdActive] = useState(false);
+  const [TemplateIdActive, setTemplateIdActive] = useState();
   const [dpc, setDpc] = useState();
   const [message, setMessage] = useState(false);
   const [render, setRender] = useState(0);
@@ -248,7 +248,7 @@ const handleEmailSCreate = (id) => {
   if( localStorage.getItem("TEMPLATEID")){
     if(localStorage.getItem("stateid")){
       // alert(localStorage.getItem("stateid"))
-     ExportApi.UpdateEmailSCreate(localStorage.getItem("stateid")).then((resp) => {
+     ExportApi.UpdateEmailSCreate(localStorage.getItem("TEMPLATEID"),localStorage.getItem("stateid")).then((resp) => {
         if (resp.ok) {
          console.log( resp.data.data.collection_id)
           localStorage.setItem("collection_id",resp.data.data.collection_id)
@@ -270,7 +270,7 @@ const handleEmailSCreate = (id) => {
   }else{
     formik.handleSubmit()
     setTimeout(() => {
-    formik.values.Subject? ExportApi.EmailSCreate(0,localStorage.getItem("TEMPLATEID"),localStorage.getItem("EventIdHeader"),formik.values.Subject,tagClickedFirst,).then((resp) => {
+    formik.values.Subject? ExportApi.EmailSCreate(1,localStorage.getItem("TEMPLATEID"),localStorage.getItem("EventIdHeader"),formik.values.Subject,tagClickedFirst,).then((resp) => {
         if (resp.ok) {
          console.log( resp.data.data.collection_id)
           localStorage.setItem("collection_id",resp.data.data.collection_id)
@@ -290,6 +290,7 @@ const handleEmailSCreate = (id) => {
         if (resp.data.code == 200) {
           setTemplateList(resp.data.data);
           handleGetTemplate(tempId?tempId:resp.data.data[0].id);
+          setTemplateIdActive(tempId?tempId:resp.data.data[0].id)
         } else {
           if (localStorage.getItem("EventIdHeader")) {
             setMessage("Please create template");
@@ -515,6 +516,7 @@ const handleEmailSCreate = (id) => {
                         <img  src={path_image + "webinar/mail-schedule.png"} alt="" />
 												</div>
                             <img
+                            value={val.id}
                               src={path_image + "content_added1.png"}
                               alt=""
                               onClick={(e) => {

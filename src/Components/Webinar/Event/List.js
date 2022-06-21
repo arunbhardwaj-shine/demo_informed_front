@@ -461,8 +461,8 @@ const EventData = () => {
                               <span></span> Fulfilled
                             </>
                           ) : (
-                            <>
-                              <span>{event.days_left}</span> Days Left
+                            <>{event.days_left==1? <span>{event.days_left + " Day Left"}</span>:event.days_left==0?<span> Today</span>:<span>{event.days_left + " Days Left"}</span> }
+                             
                             </>
                           )}
                         </div>
@@ -589,7 +589,7 @@ const EventData = () => {
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <form onSubmit={formik.handleSubmit}>
+            <form onReset={formik.handleReset} onSubmit={formik.handleSubmit}>
               <div className="modal-body-content">
                 <div className="form-inline row justify-content-between align-items-center">
                   <div className="form-group">
@@ -738,6 +738,7 @@ const EventData = () => {
               </div>
               <div className="modal-footer-btn">
                 <Button
+                type="reset"
                   class="btn btn-primary btn-bordered"
                   variant="danger"
                   onClick={() => {
