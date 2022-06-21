@@ -73,8 +73,9 @@
 		height: 90px;
 	}
 	#open_video_popup .modal-body .video-react button.video-react-button.video-react-big-play-button::before {
-		font-size: 55px;
+		background-size: 30px;
 	}
+	
 	.page-title h2 { font-size: 30px; line-height: 38px; } 
 	.table-title .selected-hcp-table-action a.show-less-info { font-size: 14px; line-height: 16px; } 
 	a.show-less-info p:after {line-height: 11px;}
