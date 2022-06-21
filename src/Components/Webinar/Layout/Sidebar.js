@@ -19,6 +19,56 @@ const Sidebar = () => {
       setToken(false);
     }
   }, [localStorage.getItem("Token")]);
+
+  useEffect(() => {
+    if (
+      location.pathname === "/webinar/portal/registrationDetails" ||
+      location.pathname === "/webinar/registrationdetailslist"
+    ) {
+      console.log("hi");
+      setHomeStatus(true);
+      const bodyHasClass = document.body.classList.contains(
+        "sub_menu_toggle_sidebar"
+      );
+
+      if (!bodyHasClass) {
+        document.body.classList.toggle("sub_menu_toggle_sidebar");
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (
+      location.pathname === "/webinar/email/WebinarSmartList" ||
+      location.pathname === "/webinar/email/ViewSmartListWebinar" ||
+      location.pathname === "/webinar/email/SmartListCreate" ||
+      location.pathname === "webinar/email/SmartListCreate/FilterList" ||
+      location.pathname === "webinar/email/SmartListCreate/ExcelUpload"
+    ) {
+      console.log("hi");
+      setEmailStatus(true);
+      const bodyHasClass = document.body.classList.contains(
+        "sub_menu_toggle_sidebar"
+      );
+
+      if (!bodyHasClass) {
+        document.body.classList.toggle("sub_menu_toggle_sidebar");
+      }
+    }
+  }, []);
+
+  // useEffect(() => {
+  //   if (
+  //     location.pathname === "/webinar/email/WebinarSmartList" ||
+  //     location.pathname === "/webinar/email/ViewSmartListWebinar" ||
+  //     location.pathname === "/webinar/email/SmartListCreate" ||
+  //     location.pathname === "webinar/email/SmartListCreate/FilterList" ||
+  //     location.pathname === "webinar/email/SmartListCreate/ExcelUpload"
+  //   ) {
+  //     setEmailStatus(true);
+  //   }
+  // });
+
   const toggleClassToBody = () => {
     document.body.classList.toggle("toggle_sidebar");
   };
@@ -173,7 +223,7 @@ const Sidebar = () => {
                     onClick={() => showHideHome(1)}
                   >
                     <Link
-                      to="/webinar/portal/registrationDetails"
+                      to="/webinar/registrationdetailslist"
                       onMouseOver={handleMouseOverRegistration}
                       onMouseOut={handleMouseOutRegistration}
                     >
@@ -566,12 +616,13 @@ const Sidebar = () => {
                     <li
                       className={
                         location.pathname ===
-                        "/webinar/portal/registrationDetails"
+                          "/webinar/portal/registrationDetails" ||
+                        location.pathname === "/webinar/registrationdetailslist"
                           ? "active"
                           : "side_li"
                       }
                     >
-                      <Link to="/webinar/portal/registrationDetails">
+                      <Link to="/webinar/registrationdetailslist">
                         <img src={path_image + "webinar/event.svg"} />
                         <p>Registration Page</p>
                       </Link>
