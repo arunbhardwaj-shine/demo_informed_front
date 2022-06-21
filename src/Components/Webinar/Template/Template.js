@@ -21,6 +21,7 @@ const Template = (props) => {
   const [templateId, setTemplateId] = useState();
   const [modalShow, setModalShow] = useState(false);
   const [modalShow2, setModalShow2] = useState(false);
+  const [is_approved, setis_approved] = useState(0);
   const [dpc, setDpc] = useState();
   const [message, setMessage] = useState(false);
   const [render, setRender] = useState(0);
@@ -41,13 +42,23 @@ const Template = (props) => {
   const [newTag, setNewTag] = useState("");
   // const [modalShow, setModalShow] = useState(false);
   const [modalSampleEmail, setModalSampleEmail] = useState(false);
+  const [TemplateIdActive, setTemplateIdActive] = useState();
   const responsive = {
     0: { items: 1 },
     568: { items: 2 },
     1024: { items: 5 },
   };
   // let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const templateClicked = (template, e) => {
+    const div = document.querySelector("img.select_mm");
 
+    if (div) {
+      div.classList.remove("select_mm");
+    }
+
+    setTemplateIdActive(template.id);
+    e.target.classList.toggle("select_mm");
+  };
   const emailSubjectChanged = (e) => {
     setEmailSubject(e.target.value);
   };
@@ -184,8 +195,8 @@ const Template = (props) => {
       exportHtml();
     },
   });
-  const handleUpdateis_approved=()=>{
-      loader("show");
+  const handleUpdateis_approved=(id)=>{
+
       let approved=1
       const exportHtml = async () => {
         emailEditorRef.current.editor.exportHtml((data) => {
@@ -199,7 +210,7 @@ const Template = (props) => {
             html,
             localStorage.getItem("TEMPLATEID"),
             tagClickedFirst,
-            formik.values.is_approved,
+            id
           ).then((resp) => {
             if (resp.ok) {
               if (resp.data.code == 200) {
@@ -240,6 +251,7 @@ const Template = (props) => {
         if (resp.data.code == 200) {
           setTemplateList(resp.data.data);
           handleGetTemplate(resp.data.data[0].id);
+          setTemplateIdActive(resp.data.data[0].id)
         } else {
           if (localStorage.getItem("EventIdHeader")) {
             setMessage("Please create template");
@@ -288,6 +300,7 @@ const Template = (props) => {
       }
      setFinalTags(resp.data.data.tags)
        resp.data.data.tags?  setTagClickedFirst(resp.data.data.tags):setTagClickedFirst([])
+       setis_approved(resp.data.data.is_approved)
         setTemplate(resp.data.data);
       }
     });
@@ -339,7 +352,7 @@ const Template = (props) => {
         loader("hide");
         setAllTags(JSON.parse(resp.data.data[0].values));
         // setTemplateList(resp.data.data);
-        console.log(JSON.parse(resp.data.data[0].values))
+        // console.log(JSON.parse(resp.data.data[0].values))
       }
     });
   };
@@ -383,12 +396,17 @@ const Template = (props) => {
             {templateList ? (
               <AliceCarousel mouseTracking disableDotsControls activeIndex={activeIndex} responsive={responsive} onSlideChanged={syncActiveIndex} >
                 {templateList ?.map((val, i) => (
-                  <div key={i} className="item">
+                  <div key={i} className="item"  onClick={(e) => templateClicked(val, e)}>
                     <div class="item-list">
                       <div class="item-top-schedule">
                         <img  src={path_image + "webinar/mail-schedule.png"} alt="" />
                       </div>
-                      <img src={path_image + "content_added1.png"} alt="" onClick={(e) => { localStorage.setItem("TEMPLATEID", val.Id); handleGetTemplate(val.id); localStorage.setItem("template", val.name); setTName(val.name);setFormShow(true)}} className="select_mm" />
+                      <img src={path_image + "content_added1.png"} alt="" onClick={(e) => { localStorage.setItem("TEMPLATEID", val.Id); handleGetTemplate(val.id); localStorage.setItem("template", val.name); setTName(val.name);setFormShow(true)}}  className={
+                                typeof TemplateIdActive !== "undefined" &&
+                                TemplateIdActive == val.id
+                                  ? "select_mm"
+                                  : ""
+                              }/>
                     </div>
                     <p>{val.name}</p>
                   </div>
@@ -583,7 +601,7 @@ data-bs-dismiss="modal"
                     />
                   </svg>
                 </button>
-                <button  type="button" onClick={()=>handleUpdateis_approved()} className="btn btn-primary approved-btn btn-bordered">
+                {is_approved==1?<button  type="button" onClick={()=>handleUpdateis_approved(0)} className="btn btn-primary approved-btn btn-bordered">
                   Approved
                   <svg
                     width="16"
@@ -598,7 +616,24 @@ data-bs-dismiss="modal"
                       fill="white"
                     />
                   </svg>
-                </button>
+                </button>:<button  type="button" onClick={()=>handleUpdateis_approved(1)} className="btn btn-primary approved-btn btn-bordered">
+                  Approved
+                  {/* <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle cx="8" cy="8" r="8" fill="#39CABC" />
+                    <path
+                      d="M7.85813 11.565C7.83563 11.5852 7.81431 11.6066 7.7942 11.629C7.78671 11.6373 7.77907 11.6456 7.77128 11.6537C7.35183 12.0935 6.64718 12.1176 6.19738 11.7075L3.35413 9.11496C2.90433 8.70483 2.87972 8.01582 3.29917 7.57601C3.71861 7.1362 4.42327 7.11214 4.87306 7.52227L6.58481 9.08306C6.77691 9.25822 7.07639 9.2531 7.26212 9.0715L11.1001 5.31874C11.5347 4.89375 12.2394 4.89375 12.674 5.31874C13.1087 5.74372 13.1087 6.43275 12.674 6.85774L7.89772 11.528C7.88474 11.5407 7.87154 11.553 7.85813 11.565Z"
+                      fill="white"
+                    />
+                  </svg> */}
+                </button>}
+              
+                
                 <button class="btn btn-primary btn-filled" type="submit">
                   Save
                 </button>

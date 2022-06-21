@@ -662,7 +662,7 @@ const Sidebar = () => {
                       </li> */}
                     <li
                       className={
-                        location.pathname === "/webinar/email/emails"
+                        location.pathname === "/webinar/email/emails"||location.pathname === "/webinar/email/create"||location.pathname === "/webinar/email/smart-list"||location.pathname === `/webinar/email/smart-list-users/${localStorage.getItem("SmartListId")}`
                           ? "active"
                           : "side_li"
                       }
