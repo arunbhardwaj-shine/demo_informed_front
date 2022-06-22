@@ -60,6 +60,8 @@ const EditList = () => {
   return(
     <>
     <div className="col right-sidebar">
+    <div className="custom-container">
+          <div className="row">
       {'country' in filterList && Object.keys(filterList.country).length > 0 &&
         <FilterSegment
         filters={filterList}
@@ -70,6 +72,8 @@ const EditList = () => {
         action="edit"
         />
       }
+    </div>
+    </div>
     </div>
     </>
   )

@@ -200,7 +200,9 @@ const CreateSmartList = () => {
   return (
     <>
       <div class="right-sidebar">
-        <div class="page-top-nav smart_list_names">
+        <div className="custom-container">
+          <div className="row">
+        <div className="page-top-nav smart_list_names">
           <div class="row justify-content-end align-items-center">
             <div class="col-12 col-md-11">
               <ul class="tabnav-link">
@@ -224,7 +226,7 @@ const CreateSmartList = () => {
             </div>
           </div>
         </div>
-        <section class="create_smart_list">
+        <section className="create_smart_list">
           <div class="create_smart_list_inset">
             <div class="create-smart-step">
               <h2>STEP1</h2>
@@ -315,6 +317,8 @@ const CreateSmartList = () => {
             </div>
           </div>
         </section>
+      </div>
+      </div>
       </div>
 
       <Modal

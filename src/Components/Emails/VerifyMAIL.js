@@ -329,6 +329,8 @@ const VerifyMAIL = (props) => {
   return (
     <>
       <div className="right-sidebar">
+      <div className="custom-container">
+        <div className="row">
         <div className="page-top-nav">
           <div className="row justify-content-end align-items-center">
             <div className="col-12 col-md-1">
@@ -676,7 +678,8 @@ const VerifyMAIL = (props) => {
           </div>
         </section>
       </div>
-
+       </div>
+       </div>           
       <Modal
         id="add_hcp"
         show={isOpen}

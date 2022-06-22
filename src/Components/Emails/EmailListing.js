@@ -466,6 +466,8 @@ const EmailList = (props) => {
   return (
     <>
       <div className="right-sidebar">
+      <div className="custom-container">
+        <div className="row">
         <div className="top-header">
           <div className="page-title">
             <h2>Emails</h2>
@@ -1226,6 +1228,8 @@ const EmailList = (props) => {
             )}
           </div>
         </div>
+      </div>
+      </div>
       </div>
 
       <div>

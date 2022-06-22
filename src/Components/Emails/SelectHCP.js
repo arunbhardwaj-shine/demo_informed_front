@@ -147,6 +147,8 @@ const SelectHCP = (props) => {
   return (
     <>
       <div className="col right-sidebar">
+      <div className="custom-container">
+        <div className="row">
         <div className="page-top-nav">
           <div className="row justify-content-end align-items-center">
             <div className="col-12 col-md-1">
@@ -265,6 +267,8 @@ const SelectHCP = (props) => {
             </div>
           </div>
         </section>
+      </div>
+      </div>
       </div>
     </>
   );

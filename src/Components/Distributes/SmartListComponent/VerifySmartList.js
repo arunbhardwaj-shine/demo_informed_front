@@ -11,6 +11,8 @@ const VerifySmartList = () => {
   return (
     <>
       <div className="col right-sidebar">
+      <div className="custom-container">
+          <div className="row">
         {typeof getfilterdata === "object" && getfilterdata.length > 0 ? (
           <div className="box mt-2">
             {console.log(filter_payload)}
@@ -25,6 +27,8 @@ const VerifySmartList = () => {
         ) : (
           <p>No Data Found.</p>
         )}
+      </div>
+      </div>
       </div>
     </>
   );

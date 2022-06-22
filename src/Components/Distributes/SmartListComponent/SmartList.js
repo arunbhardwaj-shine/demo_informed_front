@@ -246,6 +246,8 @@ const SmartList = (props) => {
   return (
     <>
       <div className="col right-sidebar">
+      <div className="custom-container">
+          <div className="row">
         <div className="top-header">
           <div className="page-title">
             <h2>Smart List</h2>
@@ -773,6 +775,8 @@ const SmartList = (props) => {
             )}
           </div>
         </div>
+      </div>
+      </div>
       </div>
       {/*Modal for delete confrimaton start*/}
       <div className="delete">

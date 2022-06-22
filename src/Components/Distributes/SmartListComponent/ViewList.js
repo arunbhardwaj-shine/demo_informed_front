@@ -73,6 +73,8 @@ const EditList = () => {
     return (
       <>
         <div className="col right-sidebar">
+        <div className="custom-container">
+          <div className="row">
           <ViewTable
             data={editList}
             smartListDatafn={getSmartListData}
@@ -84,13 +86,19 @@ const EditList = () => {
             creatorName={creatorName}
           />
         </div>
+        </div>
+        </div>
       </>
     );
   } else {
     return (
       <>
         <div className="col right-sidebar">
+        <div className="custom-container">
+          <div className="row">
           {isLoading ? <div className={"item"}></div> : null}
+        </div>
+        </div>
         </div>
       </>
     );
