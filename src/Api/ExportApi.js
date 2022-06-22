@@ -304,7 +304,7 @@ const RegistrationPageDetailList = (id) =>
     },
   });
 const RegistrationPageDetail = (id) =>
-  BaseApi.get("get-registration-detail", {register_detail_id:id}, {
+  BaseApi.get(`get-registration-detail/${id}`, {}, {
     headers: {
       Authorization: localStorage.getItem("Token"),
       "Content-Type": "application/json",

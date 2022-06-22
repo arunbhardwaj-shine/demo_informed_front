@@ -46,12 +46,14 @@ const RegistraionDetails = () => {
     }
   };
   const handleRadioChangedata = (e, i) => {
-    console.log(e.target.checked);
+    // console.log(e.target.checked);
     const { checked, name } = e.target;
-    const Index = selectedName.findIndex((v) => v.value == name);
-    let copy = selectedName[Index];
-    copy.required = checked;
-    setSelectedName([...selectedName]);
+    alert(checked)
+    // const Index = selectedName.findIndex((v) => v.value == name);
+    // console.log("selectedName",selectedName)
+    // let copy = selectedName[Index];
+    // copy.required = checked;
+    // setSelectedName([...selectedName]);
   };
 
 
@@ -63,7 +65,8 @@ const RegistraionDetails = () => {
     const Copyinputbox = inputbox[i];
     Copyinputbox.isActive = e.target.checked;
     setInputBox([...inputbox]);
-    if (selectedName[i]?.value !== name && checked == true) {
+    if (selectedName[i]?.value != name && checked == true) {
+      console.log("data",data)
       selectedName.push(data);
     } else {
       selectedName.splice(i, 1);
@@ -154,6 +157,7 @@ const RegistraionDetails = () => {
   };
   return (
     <>
+    {console.log("selectedName",selectedName)}
       <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
       </div>
@@ -162,7 +166,7 @@ const RegistraionDetails = () => {
           <Row>
             <div className="page-title d-flex justify-content-between">
               <h2>Registration Page</h2>
-              <Link to="/webinar/registrationdetailslist">
+              <Link to="/webinar/portal/registrationDetailslist">
                 <Button> List</Button>{" "}
               </Link>
             </div>
@@ -289,6 +293,7 @@ const RegistraionDetails = () => {
                               type="button"
                               className="btn btn-primary btn-bordered light"
                               onClick={(e) => setModalShow(false)}
+                              
                             >
                               No
                             </button>

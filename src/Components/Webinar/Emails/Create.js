@@ -37,6 +37,7 @@ const CreateEmails = (props) => {
   // ---------------------ended---------------
   // const [id, setId] = useState();
   const [isOpen, setIsOpen] = useState(false);
+  const [Massage, setMassage] = useState();
   const [nextPage, setnextPage] = useState(false);
   const [allTags, setAllTags] = useState({});
   const [tagClickedFirst, setTagClickedFirst] = useState([]);
@@ -73,13 +74,14 @@ const CreateEmails = (props) => {
       : ""
   );
   const addTag = () => {
+    setMassage()
     if (typeof newTag == "undefined" || newTag.trim().length == 0) {
-      toast.error("Please input a tag");
+      setMassage("Please input a tag");
     } else {
       if (!tagClickedFirst.includes(newTag)) {
         setTagClickedFirst((oldArray) => [...oldArray, newTag]);
       } else {
-        toast.error("Tag already in list.");
+        setMassage("Tag already in list.");
       }
       setNewTag("");
       //setTagsCounter(tagsCounter + 1);
@@ -95,10 +97,11 @@ const CreateEmails = (props) => {
   };
 
   const tagClicked = (dd) => {
+    setMassage()
     if (!tagClickedFirst.includes(dd)) {
       setTagClickedFirst((oldArray) => [...oldArray, dd]);
     } else {
-      toast.error("Tag already in list.");
+      // toast.error("Tag already in list.");
     }
   };
   const tagButtonClicked = () => {
@@ -666,7 +669,7 @@ data-bs-dismiss="modal"
       ) : (
         <h2>{message}</h2>
       )}
-      <Modal id="tagsModal" show={isOpen}>
+      {/* <Modal id="tagsModal" show={isOpen}>
         <Modal.Header>
           <h5 className="modal-title" id="staticBackdropLabel">
             Add Tags
@@ -726,7 +729,6 @@ data-bs-dismiss="modal"
                 value={newTag}
                 onChange={(e) => newTagChanged(e)}
               />
-
               <button
                 onClick={addTag}
                 type="button"
@@ -735,6 +737,7 @@ data-bs-dismiss="modal"
                 Add
               </button>
             </div>
+                <div className="error" style={{color:"red",paddingLeft:"50px"}}>{Massage}</div>
           </form>
           <button
             type="button"
@@ -744,7 +747,7 @@ data-bs-dismiss="modal"
             Save
           </button>
         </Modal.Footer>
-      </Modal>
+      </Modal> */}
         </section>
        
       
@@ -813,7 +816,6 @@ data-bs-dismiss="modal"
                   value={newTag}
                   onChange={(e) => newTagChanged(e)}
                 />
-
                 <button
                   onClick={addTag}
                   type="button"
@@ -822,6 +824,7 @@ data-bs-dismiss="modal"
                   Add
                 </button>
               </div>
+                  <div className="error" style={{color:"red",paddingLeft:"100px",paddingTop:"10px"}}>{Massage}</div>
             </form>
             <button type="button"className="btn btn-primary save btn-filled"  onClick={saveButtonClicked}>
               Save

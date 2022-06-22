@@ -312,7 +312,7 @@ ReactDOM.render(
                           element={<RegistraionDetails />}
                         />
                         <Route
-                          path="/webinar/RegistrationDetailslist"
+                          path="/webinar/portal/registrationDetailslist"
                           element={<RegistrationDetailsList />}
                         />
                         <Route

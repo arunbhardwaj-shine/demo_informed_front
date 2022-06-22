@@ -16,6 +16,7 @@ const Template = (props) => {
   const [id, setId] = useState();
   const [FormShow, setFormShow] = useState(false);
   const [tName, setTName] = useState();
+  const [Massage, setMassage] = useState();
   const [templateList, setTemplateList] = useState();
   const [template, setTemplate] = useState();
   const [templateId, setTemplateId] = useState();
@@ -72,15 +73,17 @@ const Template = (props) => {
       : ""
   );
   const addTag = () => {
+    setMassage()
     if (typeof newTag == "undefined" || newTag.trim().length == 0) {
-      toast.error("Please input a tag");
+      setMassage("Please input a tag");
     } else {
       if (!tagClickedFirst.includes(newTag)) {
         setTagClickedFirst((oldArray) => [...oldArray, newTag]);
       } else {
-        toast.error("Tag already in list.");
+        setMassage("Tag already in list.");
       }
       setNewTag("");
+      
       //setTagsCounter(tagsCounter + 1);
     }
   };
@@ -97,7 +100,8 @@ const Template = (props) => {
     if (!tagClickedFirst.includes(dd)) {
       setTagClickedFirst((oldArray) => [...oldArray, dd]);
     } else {
-      toast.error("Tag already in list.");
+      setMassage()
+      // toast.error("Tag already in list.");
     }
   };
   const tagButtonClicked = () => {
@@ -720,6 +724,7 @@ data-bs-dismiss="modal"
                 Add
               </button>
             </div>
+            <div className="error" style={{color:"red",paddingLeft:"100px",paddingTop:"10px"}}>{Massage}</div>
           </form>
           <button
             type="button"

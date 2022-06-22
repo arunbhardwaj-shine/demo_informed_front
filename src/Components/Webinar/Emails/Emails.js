@@ -498,7 +498,14 @@ const SendEmails = () => {
                     }
                   >
                     <div class="mail-top-title">
-                      <span>Draft</span>
+                    {val.approved_status == 0
+                        ?<span>Draft</span>
+                        : val.approved_status == 1
+                        ? <span>Approved Draft</span>
+                        : val.approved_status == 2
+                        ? <span>Approved</span>
+                        :  <span>Draft</span>
+                    }
                     </div>
                     <div class="mail-box-content">
                       <div className="mail-box-content-top">
