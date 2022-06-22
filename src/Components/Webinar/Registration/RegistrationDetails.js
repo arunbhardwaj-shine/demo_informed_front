@@ -269,6 +269,7 @@ const RegistraionDetails = () => {
                           <img src={path_image + "webinar/alert.png"} alt="" />
                           <h4>You want this field required ?</h4>
                           <div className="modal-buttons">
+                            <div className="modal-buttons-register">
                             <Form.Control
                               name={FieldValue}
                               value={FieldValue}
@@ -289,6 +290,7 @@ const RegistraionDetails = () => {
                             >
                               Yes
                             </button>
+                            </div>
                              <button
                               type="button"
                               className="btn btn-primary btn-bordered light"

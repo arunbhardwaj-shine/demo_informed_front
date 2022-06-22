@@ -2191,7 +2191,9 @@ button#test-table-xls-button:hover {
 .modal-body .mail-preview-action .hcp-added .btn:hover svg path{
 fill:var(--white)
 }
-
+.modal-buttons-register {
+	margin-right: 70px;
+}
 
 
 
