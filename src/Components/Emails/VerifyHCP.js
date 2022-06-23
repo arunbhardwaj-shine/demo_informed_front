@@ -679,6 +679,9 @@ const VerifyHCP = (props) => {
       },
 
       campaign_id: campaign_id_st,
+      source_code: old_object?.template
+        ? old_object.template
+        : props.getDraftData.source_code,
       status: 2,
     };
 

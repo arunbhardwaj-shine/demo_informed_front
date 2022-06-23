@@ -153,6 +153,9 @@ const VerifyMAIL = (props) => {
           : props.getDraftData.campaign_data.list_selection,
       },
       campaign_id: campaign_id_st,
+      source_code: props.getEmailData?.template
+        ? props.getEmailData.template
+        : props.getDraftData.source_code,
       status: 2,
     };
     // console.log(body);
@@ -354,7 +357,7 @@ const VerifyMAIL = (props) => {
                 <li className="active">
                   <Link to="/SelectHCP">Select HCPs</Link>
                 </li>
-               
+
                 {
                    typeof getSmartListData !== "undefined" &&
                    getSmartListData.hasOwnProperty("id")
@@ -377,7 +380,7 @@ const VerifyMAIL = (props) => {
 
                 }
 
-                
+
 
                 <li className="active active-main">
                   <a href="javascript:void(0)">Verify your Email</a>
@@ -416,7 +419,7 @@ const VerifyMAIL = (props) => {
                       : props.getDraftData.campaign}
                   </h6>
                   <h6>
-          
+
                     <strong>Creator | </strong>
                     {props.getEmailData?.emailCreator
         ? props.getEmailData.emailCreator
@@ -679,7 +682,7 @@ const VerifyMAIL = (props) => {
         </section>
       </div>
        </div>
-       </div>           
+       </div>
       <Modal
         id="add_hcp"
         show={isOpen}
