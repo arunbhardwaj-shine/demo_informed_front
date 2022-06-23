@@ -200,7 +200,8 @@ const Table = (props, ref) => {
       setShowUploadMenu(!showUploadMenu);
 
       let formData = new FormData();
-      formData.append("user_id", 18207);
+      let user_id =  localStorage.getItem("user_id");
+      formData.append("user_id", user_id);
       formData.append("smart_list_id", getlistid);
       formData.append("reader_file", selectedFile);
 
@@ -676,7 +677,7 @@ const Table = (props, ref) => {
   }) => {
 
     let temp_len = parseInt(editList.length)+parseInt(getNewReaders.length);
-    
+
     if (temp_len>1 ) {
       setIsOpen(true);
       setProfileUserId(profile_user_id);
@@ -829,7 +830,8 @@ const Table = (props, ref) => {
       //setIsOpen(false);
     } else {
       let formData = new FormData();
-      formData.append("user_id", 18207);
+      let user_id =  localStorage.getItem("user_id");
+      formData.append("user_id", user_id);
       formData.append("smart_list_id", getlistid);
       formData.append("reader_file", selectedFile);
 
@@ -925,7 +927,7 @@ const Table = (props, ref) => {
   const deleteNewlyAdded = (profile_user_id) => {
     const data = getNewReaders;
     let temp_len = parseInt(editList.length)+parseInt(getNewReaders.length);
-    
+
     if (temp_len>1 ) {
       setIsOpen(true);
       const dataUpdated = data.filter((d) => {

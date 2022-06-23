@@ -1037,7 +1037,8 @@ const CreateEmail = (props) => {
       }
     } else {
       let formData = new FormData();
-      formData.append("user_id", 18207);
+      let user_id =  localStorage.getItem("user_id");
+      formData.append("user_id", user_id);
       formData.append("smart_list_id", "");
       formData.append("reader_file", selectedFile);
 
