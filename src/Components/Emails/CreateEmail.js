@@ -20,8 +20,8 @@ var dxr = 0;
 var state_object = {};
 
 const CreateEmail = (props) => {
-  console.log(state_object);
-  console.log(props);
+  // console.log(state_object);
+  // console.log(props);
   let file_name = useRef("");
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const navigate = useNavigate();
@@ -43,8 +43,6 @@ const CreateEmail = (props) => {
   const [template, setTemplate] = useState("");
   const [readers, setReaders] = useState([]);
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
-  console.log(props.getDraftData);
-  console.log(state_object);
   const [emailDescription, setEmailDescription] = useState(
     state_object != null &&
       state_object != "undefined" &&
@@ -274,6 +272,7 @@ const CreateEmail = (props) => {
         setTagClickedFirst(props.getDraftData.tags);
         setTemplateId(props.getDraftData.campaign_data.template_id);
         setIsApprovedStatus(props.getDraftData.status);
+        setTemplate(props.getDraftData.source_code);
       }
     }
   }, []);
@@ -292,7 +291,24 @@ const CreateEmail = (props) => {
           getSpecificKeyData &&
           getSpecificKeyData.hasOwnProperty("source_code")
         ) {
-          setTemplate(getSpecificKeyData.source_code);
+          console.log(state_object);
+          if(state_object != null &&  state_object?.template != "" ){
+                if(state_object.template !== ""){
+                    setTemplate("state_object.template");
+                    setTemplate(state_object.template);
+                }else{
+                  setTemplate(getSpecificKeyData.source_code);
+                }
+          }else if(props.getDraftData != null && props.getDraftData?.source_code != ""){
+            if(props.getDraftData.source_code !== ""){
+              setTemplate("props.getDraftData.source_code");
+              setTemplate(props.getDraftData.source_code);
+            }else{
+              setTemplate(getSpecificKeyData.source_code);
+            }
+          }else{
+            setTemplate(getSpecificKeyData.source_code);
+          }
         }
       }
     }
@@ -397,6 +413,7 @@ const CreateEmail = (props) => {
       template_id: templateId,
       user_list: selected_ids,
       smartlist_id: "",
+      source_code: template,
     };
 
     //console.log(body);
@@ -538,6 +555,7 @@ const CreateEmail = (props) => {
         },
 
         campaign_id: campaign_id_st,
+        source_code:template,
         status: 2,
       };
 
@@ -1442,7 +1460,6 @@ const CreateEmail = (props) => {
                   // You can store the "editor" and use when it is needed.
                 }}
                 onChange={(event, editor) => {
-                  //console.log(editor);
                   const data = editor.getData();
                   setTemplate(data);
                 }}
@@ -2491,7 +2508,6 @@ const CreateEmail = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state);
   dxr = state.getEmailData?.PdfSelected;
   state_object = state.getEmailData;
   return state;
