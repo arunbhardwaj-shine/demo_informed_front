@@ -599,7 +599,8 @@ const VerifyMAIL = (props) => {
                                   src={path_image + "smartlist-user.svg"}
                                   alt="User icon"
                                 />
-                                {getSmartListData.readers_count}
+                                {/*getSmartListData.readers_count*/}
+                                {selectedHcp.length}
                               </div>
                               {/* <div className="mail-stats">
                               <ul>
@@ -793,9 +794,9 @@ const VerifyMAIL = (props) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {typeof getReaderDetails !== "undefined" &&
-                      getReaderDetails.length > 0 &&
-                      getReaderDetails.map((rr, i) => {
+                    {typeof selectedHcp !== "undefined" &&
+                      selectedHcp.length > 0 &&
+                      selectedHcp.map((rr, i) => {
                         return (
                           <>
                             <tr>
