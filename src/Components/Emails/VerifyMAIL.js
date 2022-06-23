@@ -82,7 +82,7 @@ const VerifyMAIL = (props) => {
     if (typeof pdf_id !== "undefined" && pdf_id != 0) {
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       const body = {
-        user_id: 18207,
+        user_id: localStorage.getItem("user_id"),
         pdf_id: pdf_id,
       };
       loader("show");
@@ -118,7 +118,7 @@ const VerifyMAIL = (props) => {
 
   const saveAsDraft = async () => {
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       pdf_id: props.getEmailData?.PdfSelected
         ? props.getEmailData.PdfSelected
         : props.getDraftData.pdf_id,
@@ -201,7 +201,7 @@ const VerifyMAIL = (props) => {
           });
 
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       route_location: "VerifyMAIL",
       pdf_id: props.getEmailData?.PdfSelected
         ? props.getEmailData.PdfSelected
@@ -302,7 +302,7 @@ const VerifyMAIL = (props) => {
     setShowLessInfo(true);
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       list_id: smart_list_id,
     };
     loader("show");
@@ -430,7 +430,6 @@ const VerifyMAIL = (props) => {
                     <ul>
                       {props.getEmailData?.tags
                         ? props.getEmailData.tags.map((tags, i) => {
-                            console.log(tags);
                             return (
                               <>
                                 <li className="list1">
@@ -754,9 +753,9 @@ const VerifyMAIL = (props) => {
                   HCPs{" "}
                   <span>
                     |
-                    {typeof getReaderDetails !== "undefined" &&
-                      getReaderDetails.length > 0 &&
-                      getReaderDetails.length}
+                    {typeof selectedHcp !== "undefined" &&
+                      selectedHcp.length > 0 &&
+                      selectedHcp.length}
                   </span>
                 </h4>
                 <div className="selected-hcp-table-action">

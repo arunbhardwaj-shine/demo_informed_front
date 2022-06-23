@@ -87,7 +87,7 @@ const VerifyHCP = (props) => {
       }
     );
     let body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       readers_id: reducHcp
     };
     axios
@@ -144,7 +144,7 @@ const VerifyHCP = (props) => {
   useEffect(() => {
     const getalCountry = async () => {
       let body = {
-        user_id: 18207,
+        user_id: localStorage.getItem("user_id"),
       };
       await axios
         .post(`distributes/filters_list`, body)
@@ -372,7 +372,7 @@ const VerifyHCP = (props) => {
 
       const body = {
         data: body_data,
-        user_id: 18207,
+        user_id: localStorage.getItem("user_id"),
         smart_list_id: "",
       };
 
@@ -428,7 +428,8 @@ const VerifyHCP = (props) => {
       // setIsOpen(false);
     } else {
       let formData = new FormData();
-      formData.append("user_id", 18207);
+      let user_id =  localStorage.getItem("user_id");
+      formData.append("user_id", user_id);
       formData.append("smart_list_id", "");
       formData.append("reader_file", selectedFile);
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -535,7 +536,7 @@ const VerifyHCP = (props) => {
       toast.error("Please enter search criteria");
     } else {
       const body = {
-        user_id: 18207,
+        user_id: localStorage.getItem("user_id"),
         name: name,
         email: email,
       };
@@ -584,7 +585,7 @@ const VerifyHCP = (props) => {
 
 
       const body = {
-        user_id: 18207,
+        user_id: localStorage.getItem("user_id"),
         edit_list_array: editableData,
       };
       setSaveOpen(false);
@@ -632,7 +633,7 @@ const VerifyHCP = (props) => {
     // console.log(props);
     // console.log(selectedHcp);
     // const body = {
-    //   user_id: 18207,
+    //   user_id: localStorage.getItem("user_id"),
     //   pdf_id: props.getDraftData.pdf_id,
     //   description: props.getDraftData.description,
     //   creator: props.getDraftData.creator,
@@ -650,7 +651,7 @@ const VerifyHCP = (props) => {
     // };
 
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       pdf_id: old_object?.PdfSelected
         ? old_object.PdfSelected
         : props.getDraftData.pdf_id,

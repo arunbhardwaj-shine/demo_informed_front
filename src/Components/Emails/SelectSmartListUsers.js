@@ -62,7 +62,7 @@ const SelectSmartListUsers = (props) => {
   useEffect(() => {
     console.log(props)
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       list_id: props.getSelectedSmartListData?.id
         ? props.getSelectedSmartListData.id
         : props.getDraftData.campaign_data.smart_list_id,
@@ -96,7 +96,7 @@ const SelectSmartListUsers = (props) => {
   useEffect(() => {
     const getalCountry = async () => {
       let body = {
-        user_id: 18207,
+        user_id: localStorage.getItem("user_id"),
       };
       await axios
         .post(`distributes/filters_list`, body)
@@ -114,7 +114,7 @@ const SelectSmartListUsers = (props) => {
 
   const saveAsDraft = async () => {
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       pdf_id: old_object?.PdfSelected
         ? old_object.PdfSelected
         : props.getDraftData.pdf_id,
@@ -452,7 +452,7 @@ const SelectSmartListUsers = (props) => {
       });
 
       const body = {
-        user_id: 18207,
+        user_id: localStorage.getItem("user_id"),
         edit_list_array: editableData,
       };
       setSaveOpen(false);
@@ -509,7 +509,7 @@ const SelectSmartListUsers = (props) => {
 
       const body = {
         data: body_data,
-        user_id: 18207,
+        user_id: localStorage.getItem("user_id"),
         smart_list_id: "",
       };
 
@@ -569,7 +569,8 @@ const SelectSmartListUsers = (props) => {
       //  setIsOpen(false);
     } else {
       let formData = new FormData();
-      formData.append("user_id", 18207);
+      let user_id =  localStorage.getItem("user_id");
+      formData.append("user_id", user_id);
       formData.append("smart_list_id", "");
       formData.append("reader_file", selectedFile);
 

@@ -22,7 +22,7 @@ const EditList = () => {
   const [data, setData] = useState([]);
 
   const body = {
-    user_id: 18207,
+    user_id: localStorage.getItem("user_id"),
     list_id: queryParams.listId,
   };
 
