@@ -250,6 +250,7 @@ const CreateEmail = (props) => {
           // }
         })
         .catch((err) => {
+          loader("hide");
           //console.log(err);
         });
     };
