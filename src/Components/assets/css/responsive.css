@@ -154,6 +154,9 @@
 	#add_hcp .modal-body .hcp-add-form form .add_hcp_boxes .form_action {
 		min-height: inherit;
 	}
+	.email-block-add {
+		min-height: 310px;
+	}
 	.help-popup-view svg {
 		width: 14px;
 	}
@@ -204,7 +207,9 @@
 	#open_video_popup .modal-body .video-react button.video-react-button.video-react-big-play-button::before {
 		background-size: 23px;
 	}
-	
+	.toggle_sidebar .help-popup-view {
+		left: 45px;
+	}
 	.page-title h2 { font-size: 30px; line-height: 38px; } 
 	.table-title .selected-hcp-table-action a.show-less-info { font-size: 14px; line-height: 16px; } 
 	a.show-less-info p:after {line-height: 11px;}
@@ -256,6 +261,10 @@
 	 .selected-hcp-list .table tr.seprator-add td { display: table-cell; } 
 	 .form-buttons .approved-btn, .form-buttons .btn.btn-large { padding: 10px 20px; } 
 	 form .input-group { padding: 16px 20px; } 
+	 form .input-group .input-group-prepend {
+		padding-right: 20px;
+		margin-right: 20px;
+	}
 	 #tagsModal.modal-dialog, #add-list.modal-dialog, #send-sample.modal-dialog { max-width: 1080px; } 
 	 .selected-tags { margin-top: 20px; } 
 	 #tagsModal .modal-footer form .form-group #new-tag { padding: 7px 12px; } 
