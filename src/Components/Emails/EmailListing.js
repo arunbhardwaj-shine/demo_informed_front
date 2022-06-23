@@ -11,11 +11,14 @@ import { toast } from "react-toastify";
 import { popup_alert } from "../../popup_alert";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import queryString from "query-string";
 import { getSelectedSmartListData } from "../../actions";
 const EmailList = (props) => {
   const navigate = useNavigate();
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const queryParams = queryString.parse(window.location.search);
+
   const [SendListData, setSendListData] = useState([]);
   const [getoriginalsendlistdata, setOriginalSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
@@ -84,6 +87,20 @@ const EmailList = (props) => {
     props.getEmailData(null);
     props.getDraftData(null);
     props.getSelectedSmartListData(null);
+
+    if(queryParams?.id && queryParams?.id != ""){
+      let user_id = localStorage.getItem("user_id");
+      if(user_id){
+        if(user_id != queryParams.id){
+            localStorage.setItem("user_id", queryParams.id);
+        }
+      }else{
+        localStorage.setItem("user_id", queryParams.id);
+      }
+    }else{
+      localStorage.setItem("user_id", 18207);
+    }
+
   }, []);
 
   const showViewEmailModal = (data) => {
@@ -121,7 +138,7 @@ const EmailList = (props) => {
   const getData = (stage) => {
     loader("show");
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       search: search,
       filter: filter,
     };
@@ -155,7 +172,7 @@ const EmailList = (props) => {
     hideModal();
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       campaign_id: campaign_id,
     };
     loader("show");
@@ -208,7 +225,7 @@ const EmailList = (props) => {
     // });
 
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       campaign_id: campaign_id,
     };
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -290,7 +307,7 @@ const EmailList = (props) => {
   const deleteEmail = () => {
     hideConfirmationModal();
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       campaign_id: deletecardid,
     };
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;

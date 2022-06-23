@@ -159,7 +159,7 @@ const CreateEmail = (props) => {
   const getSmartListData = (flag) => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       search: getsearch,
       filter: "",
     };
@@ -184,7 +184,7 @@ const CreateEmail = (props) => {
     loader("show");
     const getalCountry = async () => {
       const body = {
-        user_id: 18207,
+        user_id: localStorage.getItem("user_id"),
         language: "",
         ibu: "",
       };
@@ -207,7 +207,7 @@ const CreateEmail = (props) => {
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const getTemplateListData = async (flag) => {
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       language: "",
       ibu: "",
     };
@@ -235,7 +235,7 @@ const CreateEmail = (props) => {
 
   useEffect(() => {
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
     };
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -356,7 +356,7 @@ const CreateEmail = (props) => {
     if (typeof getSmartListId != "undefined" && getSmartListId !== 0) {
       loader("show");
       const body = {
-        user_id: 18207,
+        user_id: localStorage.getItem("user_id"),
         list_id: getSmartListId,
       };
       axios
@@ -405,7 +405,7 @@ const CreateEmail = (props) => {
 
     loader("show");
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       pdf_id: state_object?.PdfSelected
       ? state_object.PdfSelected
       : props.getDraftData.pdf_id,
@@ -467,7 +467,7 @@ const CreateEmail = (props) => {
 
   const saveAsTemplateButtonClicked = async () => {
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       source_code: template,
       template_id: templateId,
       name: templateName,
@@ -534,7 +534,7 @@ const CreateEmail = (props) => {
     if (typeof campaign !== "undefined" && campaign !== "") {
       console.log(props.getDraftData);
       const body = {
-        user_id: 18207,
+        user_id: localStorage.getItem("user_id"),
         pdf_id: state_object?.PdfSelected
           ? state_object.PdfSelected
           : props.getDraftData.pdf_id,
@@ -652,7 +652,7 @@ const CreateEmail = (props) => {
 
 
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       pdf_id: state_object?.PdfSelected
       ? state_object.PdfSelected
       : props.getDraftData.pdf_id,
@@ -748,7 +748,7 @@ const CreateEmail = (props) => {
         setTagClickedFirst((oldArray) => [...oldArray, newTag]);
 
         const body = {
-          user_id: 18207,
+          user_id: localStorage.getItem("user_id"),
           tags:newTag
         };
 
@@ -845,7 +845,7 @@ const CreateEmail = (props) => {
       toast.warning("Please enter name or email first");
     } else {
       const body = {
-        user_id: 18207,
+        user_id: localStorage.getItem("user_id"),
         name: name,
         email: email,
       };
@@ -980,7 +980,7 @@ const CreateEmail = (props) => {
 
       const body = {
         data: body_data,
-        user_id: 18207,
+        user_id: localStorage.getItem("user_id"),
         smart_list_id: "",
       };
 
@@ -1111,7 +1111,7 @@ const CreateEmail = (props) => {
     let template_name = document.getElementById("template_name").value;
     if (template_name !== "" && template_name.trim().length > 0) {
       const body = {
-        user_id: 18207,
+        user_id: localStorage.getItem("user_id"),
         source_code: template,
         template_id: "",
         name: template_name,
@@ -1161,7 +1161,7 @@ const CreateEmail = (props) => {
     setShowLessInfo(true);
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       list_id: smart_list_id,
     };
     loader("show");

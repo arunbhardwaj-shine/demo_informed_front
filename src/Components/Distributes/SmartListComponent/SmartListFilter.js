@@ -12,7 +12,7 @@ const SmartListFilter = () => {
 
   useEffect(() => {
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
     };
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;

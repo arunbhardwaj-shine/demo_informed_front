@@ -130,7 +130,7 @@ const Table = (props, ref) => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const getalCountry = async () => {
       const body = {
-        user_id: 18207,
+        user_id: localStorage.getItem("user_id"),
       };
       await axios
         .post(`distributes/filters_list`, body)
@@ -290,7 +290,7 @@ const Table = (props, ref) => {
       body = {
         user_list: profile_user_id_array,
         smart_list_id: typeof getlistid !== "undefined" ? getlistid : "",
-        user_id: 18207,
+        user_id: localStorage.getItem("user_id"),
         smart_list_name: getlistname,
         submit_type: props.upload_by_filter,
         new_users_list: new_user_id_array,
@@ -313,7 +313,7 @@ const Table = (props, ref) => {
         user_list: profile_user_id_array,
         smart_list_id:
           typeof queryParams.listId !== "undefined" ? queryParams.listId : "",
-        user_id: 18207,
+        user_id: localStorage.getItem("user_id"),
         smart_list_name: props.smartListName,
         submit_type: props.upload_by_filter,
         new_users_list: new_user_id_array,
@@ -479,7 +479,7 @@ const Table = (props, ref) => {
 
 
       const body = {
-        user_id: 18207,
+        user_id: localStorage.getItem("user_id"),
         edit_list_array: editableData,
       };
 
@@ -533,7 +533,7 @@ const Table = (props, ref) => {
     profile_user_id,
   }) => {
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       profile_user_id: profile_user_id,
       profile_id: profile_id,
       email: email,
@@ -661,7 +661,7 @@ const Table = (props, ref) => {
     //     return data.profile_user_id;
     //   }),
     //   smart_list_id: getlistid,
-    //   user_id: 18207,
+    //   user_id: localStorage.getItem("user_id"),
     // };
   };
 
@@ -755,7 +755,7 @@ const Table = (props, ref) => {
 
       const body = {
         data: body_data,
-        user_id: 18207,
+        user_id: localStorage.getItem("user_id"),
         smart_list_id: getlistid,
       };
 

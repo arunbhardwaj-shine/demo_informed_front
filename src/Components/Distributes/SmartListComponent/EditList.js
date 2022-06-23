@@ -14,7 +14,7 @@ const EditList = () => {
   const queryParams = queryString.parse(window.location.search);
 
   const body = {
-    user_id: 18207,
+    user_id: localStorage.getItem("user_id"),
     list_id: queryParams.listId,
   };
 
@@ -39,7 +39,7 @@ const EditList = () => {
   };
 
   const filterdatapayload = {
-    user_id: 18207,
+    user_id: localStorage.getItem("user_id"),
   };
   const getfilterlist = async () => {
     await axios

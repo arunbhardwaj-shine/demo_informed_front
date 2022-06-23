@@ -38,7 +38,7 @@ const EmailArticleSelect = (props) => {
 
   const getContentData = (flag, page) => {
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       search: search,
       filter: filter,
     };

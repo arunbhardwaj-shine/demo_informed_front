@@ -85,7 +85,7 @@ const SelectHCP = (props) => {
   const saveAsDraft = async () => {
 
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       pdf_id: old_object?.PdfSelected
         ? old_object.PdfSelected
         : props.getDraftData.pdf_id,

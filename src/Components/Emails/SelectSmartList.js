@@ -47,7 +47,7 @@ const SelectSmartList = (props) => {
 
   const getSmartListData = () => {
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       search: "",
       filter: "",
     };
@@ -94,7 +94,7 @@ const SelectSmartList = (props) => {
 
   const saveAsDraft = async (flag) => {
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       pdf_id: old_object?.PdfSelected
       ? old_object.PdfSelected
       : draft_object.pdf_id,
@@ -177,7 +177,7 @@ const SelectSmartList = (props) => {
     setShowLessInfo(true);
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       list_id: smart_list_id,
     };
     loader("show");

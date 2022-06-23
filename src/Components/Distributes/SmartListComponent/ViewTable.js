@@ -79,7 +79,7 @@ const ViewTable = (props) => {
   useEffect(() => {
     const getalCountry = async () => {
       let body = {
-        user_id: 18207,
+        user_id: localStorage.getItem("user_id"),
       };
       await axios
         .post(`distributes/filters_list`, body)
@@ -210,7 +210,7 @@ const ViewTable = (props) => {
       const body = {
         user_list: profile_user_id_array,
         smart_list_id: getlistid,
-        user_id: 18207,
+        user_id: localStorage.getItem("user_id"),
         smart_list_name: getlistname,
         submit_type: props.upload_by_filter,
         new_users_list: [],
@@ -398,7 +398,7 @@ const ViewTable = (props) => {
     if(editableData.length > 0){
 
       const body = {
-        user_id: 18207,
+        user_id: localStorage.getItem("user_id"),
         edit_list_array: editableData,
       };
       // console.log(body);
@@ -440,7 +440,7 @@ const ViewTable = (props) => {
     profile_user_id,
   }) => {
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       profile_user_id: profile_user_id,
       profile_id: profile_id,
       email: email,
@@ -519,7 +519,7 @@ const ViewTable = (props) => {
   const deleteReader = async (profile_user_id) => {
     const body = {
       smart_list_id: getlistid,
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       profile_user_id: profile_user_id,
     };
 
@@ -608,7 +608,7 @@ const ViewTable = (props) => {
     //     data.country != country_edit
     //   ) {
     //     const body = {
-    //       user_id: 18207,
+    //       user_id: localStorage.getItem("user_id"),
     //       profile_user_id: profile_user_id,
     //       profile_id: profile_id,
     //       email: email_edit,
@@ -753,7 +753,7 @@ const ViewTable = (props) => {
 
       const body = {
         data: body_data,
-        user_id: 18207,
+        user_id: localStorage.getItem("user_id"),
         smart_list_id: getlistid,
       };
 
