@@ -10,7 +10,6 @@ const Sidebar = () => {
   const location = useLocation();
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-
   const [getHideShowSideContent, setHideShowSideContent] = useState(false);
   const [getOpenVideoPopup, setOpenVideoPopup] = useState(false);
 
@@ -19,11 +18,11 @@ const Sidebar = () => {
   }
 
   if(location.pathname != "/EmailList" && location.pathname != "/SmartList" ){
-      if(!getHideShowSideContent || getHideShowSideContent){
+      // if(!getHideShowSideContent || getHideShowSideContent){
         //not toggling class
-      }else{
+      // }else{
         document.body.classList.add('toggle_sidebar');
-      }
+      // }
   }else{
       document.body.classList.remove('toggle_sidebar');
   }
@@ -66,7 +65,7 @@ const Sidebar = () => {
       c_id = localStorage.getItem("sd_i");
     }
   }
-  
+
   return (
     <>
       <div className="left-sidebar">
