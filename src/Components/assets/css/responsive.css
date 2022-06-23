@@ -41,24 +41,76 @@
 
 }
 @media only screen and (min-width:2600px){
-	.email-result-block .email-block-add-box, .email-result-block .email_box_block {
+	.email-result-block .email-block-add-box, .email-result-block .email_box_block, .smartlist-result-block .smartlist_box_block {
 		width: 20%;
 	}
 	.email-result-block .email_box_block:nth-child(4n+1) .email_box {
 		margin-left: auto;
 	}
 	.email-result-block .email_box_block:nth-child(5n+1) .email_box {
-		margin-left: auto;
-	}
-	.email-result-block .email_box_block:nth-child(5n) .email_box {
-		margin-right: 0;
+		margin-left: 0;
 	}
 	.email-result-block .email_box_block:nth-child(4n) .email_box {
 		margin-right: auto;
 	}
+	.email-result-block .email_box_block:nth-child(5n) .email_box {
+		margin-right: 0;
+	}
+	.smart-list-result .smartlist-view {
+		width: 100%;
+		max-width: 100%;
+	}    
 	.mail-content-select .col-md-4 {
 		flex: 0 0 auto;
 		width: 20%;
+	}
+	.mail-top-title {
+		padding: 5px;
+	}
+	.mail-top-title span, .mail-stats ul li span {
+		font-size: 14px;
+		line-height: 16px;
+	}
+	.mail-box-content h5 {
+		font-size: 20px;
+		line-height: 23px;
+	}
+	.mail-box-content p, .mail-time span {
+		font-size: 16px;
+		line-height: 18px;
+	}
+	.mailbox-table th, .mailbox-table td{
+		font-size: 16px;
+		line-height: 18px;																	
+	}
+	.mailbox-tags ul li {																	
+		font-size: 14px;
+		line-height: 16px;
+	}
+	.mailbox-buttons button.btn {
+		padding: 7px 15px;
+		height: 35px;
+	}
+	.sidebar-menu ul li a {
+		font-size: 18px;
+		line-height: 20px;
+	}
+	.sidebar-menu ul li a svg {
+		margin-right: 12px;
+	}
+	nav #collapsibleNavbar li.nav-item a, .user-login ul li a {
+		font-size: 18px;
+		line-height: 21px;
+	}
+	.email-result-block .email_box_block{
+		padding: 0 55px;
+	}
+	.email-result-block {
+		margin: 0 -55px;
+	}
+	.email-block-add {
+		flex: 0 0 100%;
+		max-width: 100%;
 	}
 }
 @media only screen and (max-width:1750px){
