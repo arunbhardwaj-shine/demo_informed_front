@@ -98,7 +98,12 @@ const EmailList = (props) => {
         localStorage.setItem("user_id", queryParams.id);
       }
     }else{
-      localStorage.setItem("user_id", 18207);
+      let user_id = localStorage.getItem("user_id");
+      if(user_id){
+
+      }else{
+        localStorage.setItem("user_id", 18207);
+      }
     }
 
   }, []);
