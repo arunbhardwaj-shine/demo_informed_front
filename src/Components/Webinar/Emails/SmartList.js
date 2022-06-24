@@ -26,7 +26,7 @@ const SelectSmartList = () => {
 
   const handleEmailSCreateCollection = () => {
     loader("show")
-    smartListDataId? ExportApi.EmailSCreateCollectionnext(smartListDataId,localStorage.getItem("collection_id")).then((resp) => {
+    smartListDataId? ExportApi.EmailSCreateCollectionnext(smartListDataId,localStorage.getItem("collection_id"),1).then((resp) => {
         if (resp.ok) {
          console.log( resp.data)
          if (resp.data.code == 200) {
@@ -62,7 +62,8 @@ const SelectSmartList = () => {
 
     console.log(headers);
     await axios
-      .post(`http://51.89.210.56:8000/api/smart-list/lists`, body, { headers })
+      // .post(`http://51.89.210.56:8000/api/smart-list/lists`, body, { headers })
+      .post(`http://192.168.0.46:8000/api/smart-list/lists`, body, { headers })
       .then((res) => {
         loader("hide");
         console.log("res.data.data", res.data.data);
@@ -77,6 +78,7 @@ const SelectSmartList = () => {
       })
       .catch((err) => {
         console.log(err);
+        loader("hide")
       });
   };
   useEffect(() => {

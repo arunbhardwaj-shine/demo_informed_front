@@ -16,6 +16,9 @@ const Sidebar = () => {
     if (localStorage.getItem("Token")) {
       setToken(true);
     } else {
+      document.body.classList.remove("sub_menu_toggle_sidebar")
+      setHomeStatus(false)
+      setEmailStatus(false)
       setToken(false);
     }
   }, [localStorage.getItem("Token")]);
@@ -25,6 +28,9 @@ const Sidebar = () => {
   };
   useEffect(() => {
     if (token === null || token === undefined) {
+      document.body.classList.remove("sub_menu_toggle_sidebar")
+      setHomeStatus(false)
+      setEmailStatus(false)
       setToken(false);
     }
   }, [localStorage.getItem("Token"), token]);
@@ -190,7 +196,7 @@ const Sidebar = () => {
                       onMouseOut={handleMouseOutHome}
                     >
                       <img src={path_image + "webinar/home.svg"} />
-                      {isHoveringHome && <p>Home</p>}
+                      {isHoveringHome && <p className="tooltip">Home</p>}
                     </Link>
                   </li>
                   {/* <li
@@ -221,8 +227,8 @@ const Sidebar = () => {
                       onMouseOut={handleMouseOutEvents}
                     >
                       <img src={path_image + "webinar/event.svg"} />
-                      {/* <p>Event Details</p> */}
-                      {isHoveringEvents && <p>Events</p>}
+                      {/* <p className="tooltip">Event Details</p> */}
+                      {isHoveringEvents && <p className="tooltip">Events</p>}
                     </Link>
                   </li>
                   <li
@@ -239,8 +245,8 @@ const Sidebar = () => {
                       onMouseOut={handleMouseOutRegistration}
                     >
                       <img src={path_image + "webinar/portal.svg"} />
-                      {/* <p>Portal Preparation</p> */}
-                      {isHoveringRegistration && <p>Portal</p>}
+                      {/* <p className="tooltip">Portal Preparation</p> */}
+                      {isHoveringRegistration && <p className="tooltip">Portal</p>}
                     </Link>
                   </li>
 
@@ -254,7 +260,7 @@ const Sidebar = () => {
                   >
                     <Link to="/webinar/events">
                       <img src={path_image + "webinar/event.svg"} />
-                      {/* <p>Event Details</p> 
+                      {/* <p className="tooltip">Event Details</p> 
                     </Link>
                   </li> */}
                   {/* <li
@@ -267,7 +273,7 @@ const Sidebar = () => {
                   >
                     <Link to="/webinar/portal/portalpreparation">
                       <img src={path_image + "webinar/portal.svg"} />
-                      {/* <p>Portal Preparation</p> 
+                      {/* <p className="tooltip">Portal Preparation</p> 
                     </Link>
                   </li> */}
 
@@ -299,8 +305,8 @@ const Sidebar = () => {
                       onMouseOut={handleMouseOutEmails}
                     >
                       <img src={path_image + "webinar/mail.svg"} />
-                      {/* <p>Email</p> */}
-                      {isHoveringEmails && <p>Email</p>}
+                      {/* <p className="tooltip">Email</p> */}
+                      {isHoveringEmails && <p className="tooltip">Email</p>}
                     </Link>
                   </li>
 
@@ -314,7 +320,7 @@ const Sidebar = () => {
                         d="M12.2745 7.92L23.4517 1.26857C23.1772 0.877654 22.8128 0.558387 22.3891 0.33763C21.9655 0.116872 21.4951 0.00108202 21.0174 0H2.98311C2.50543 0.00108202 2.03499 0.116872 1.61138 0.33763C1.18776 0.558387 0.823359 0.877654 0.548828 1.26857L11.7374 7.92C11.8198 7.96501 11.9121 7.98861 12.006 7.98861C12.0998 7.98861 12.1922 7.96501 12.2745 7.92Z"
                         fill="#004A89"/>
                     </svg>
-                    <p>Registration Page</p>
+                    <p className="tooltip">Registration Page</p>
                   </Link>
                 </li> */}
                   <li
@@ -331,8 +337,8 @@ const Sidebar = () => {
                       onMouseOut={handleMouseOutReaders}
                     >
                       <img src={path_image + "webinar/hcp.svg"} />
-                      {/* <p>HCPs</p> */}
-                      {isHoveringReaders && <p>Readers</p>}
+                      {/* <p className="tooltip">HCPs</p> */}
+                      {isHoveringReaders && <p className="tooltip">Readers</p>}
                     </Link>
                   </li>
 

@@ -76,6 +76,12 @@
 	.create_smart_list .create-smart-step .create-smart-step-box form label, .modal .add_hcp_boxes .form-group label { font-size: 18px; line-height: 18px; margin-bottom: 10px; } 
 	.create_smart_list .create-smart-step .create-smart-step-box form .form-control, .modal .add_hcp_boxes .form-group input { padding: 8px 12px; } 
 	.create_smart_list .create-smart-step h2, #create_list_popup .create-smart-step h2 { font-size: 38px; line-height: 45px; top: 33px; left: -86px; } 
+	#create_list_popup .create-smart-step:first-child h2 {
+		top: 28px;
+	}
+	#create_list_popup .create-smart-step .create-smart-step-box {
+		min-height: 130px;
+	}
 	.modal form#add_hcp_form .add_hcp_boxes:first-child:last-child .hcp-action-block { top: 75px; } 
 	.nav-item.add_hcp .nav-link { height: 32px; padding: 6px 6px; } 
 	#create_list_popup { max-width: 1000px; } 
@@ -146,7 +152,7 @@
 	 .select-smart-list .email_box { margin-bottom: 0px; } 
 	 .smart-list-added-user img { margin-right: 9px; max-height: 20px; } 
 	 .select-mail-template .alice-carousel .item p { font-size: 14px; line-height: 17px; } 
-	 .mail-content-select { margin-top: 20px; } 
+	 .mail-content-select { margin-top: 28px; } 
 	 .preview_mail h4, .verify-email-detail h4 { font-size: 18px; } 
 	 .verify-email-detail h6 { font-size: 16px; line-height: 19px; margin-bottom: 8px; } 
 	 .mail-recipt  .smartlist-view { width: 100%; flex: 1 1 auto; } 
@@ -339,4 +345,7 @@
 		.select-mail-option input { width: 20px; height: 20px; left: 7px; top: 7px; } 
 		.select-mail-option { right: -24px; width: 34px; height: 34px; }
 		#add_hcp .modal-body .hcp-add-form form .form-group .dropdown button {height: 36px;}
+		.smartlist-buttons a.btn {
+			padding: 6px 14px;
+		}
 }

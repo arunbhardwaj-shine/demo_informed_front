@@ -244,7 +244,7 @@ const FilterList = () => {
       selectedProfession.length == 0 &&
       selectedInterest.length == 0
     ) {
-      toast.error("please select a filter");
+      toast.error("Please select a filter");
       return;
     }
 

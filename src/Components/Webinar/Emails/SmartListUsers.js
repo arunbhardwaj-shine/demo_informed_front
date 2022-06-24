@@ -160,7 +160,7 @@ console.log("change",obj)
   const handleEmailSCreateCollection = () => {
     loader("show")
     ExportApi.EmailSCreateCollection(
-      1,
+      2,
       localStorage.getItem("SmartListId"),
       localStorage.getItem("collection_id")
     ).then((resp) => {
@@ -391,9 +391,10 @@ console.log("change",obj)
                                             <tr>
                                               <th>Email</th>
                                               <td      id={"Email" + index}
-                                          onInput={(e) => {
-                                            handleEditText(e, index, data.id);
-                                          }} contenteditable="true">{data.email}</td>
+                                          // onInput={(e) => {
+                                          //   handleEditText(e, index, data.id);
+                                          // }} contenteditable="true"
+                                          >{data.email}</td>
                                             </tr>
                                             <tr>
                                               <th>Country</th>
@@ -676,6 +677,14 @@ console.log("change",obj)
                                       <div class="mailbox-table">
                                         <table>
                                           <tbody>
+                                          <tr>
+                                              <th>Email</th>
+                                              <td      id={"Email" + index}
+                                          // onInput={(e) => {
+                                          //   handleEditText(e, index, data.id);
+                                          // }} contenteditable="true"
+                                          >{data.email}</td>
+                                            </tr>
                                             <tr>
                                               <th>Country</th>
                                               <td contenteditable={editable}>
