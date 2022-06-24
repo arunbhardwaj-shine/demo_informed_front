@@ -639,6 +639,10 @@ form#add_hcp_form .row:not(:first-child) { border-top: 1px dashed var(--light-bl
 #create_list_popup .create-smart-step:first-child h2 {
   top: 37px;
 }
+#tagsModal .modal-footer form .form-group .btn:focus {
+  background: transparent;
+  color: var(--light-blue);
+}
 .create_smart_list { margin-top: 66px; }
 #create_list_popup .add_hcp_boxes {margin-right: 25px;}
 .download-sample { display: flex; align-items: center; justify-content: center; margin-bottom: 46px; }
