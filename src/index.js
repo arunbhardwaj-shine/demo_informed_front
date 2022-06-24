@@ -125,6 +125,7 @@ if (window.location.href.indexOf("/webinar") > -1) {
   require("./Components/assets/css/responsive.css");
   require("./Components/assets/css/custom.css");
   require("./Components/assets/fonts/fonts.css");
+  require("./Components/assets/css/video.css");
 }
 ReactDOM.render(
   <React.StrictMode>
