@@ -200,30 +200,46 @@ const EventData = () => {
 
   const deleteEvent = () => {
     hideConfirmationModal();
-    const body = {
-      event_id: deletecardid,
-    };
-    const headers = {
-      "Content-Type": "application/json",
-      Authorization: `${localStorage.getItem("Token")}`,
-    };
-    axios
-      .post(`http://51.89.210.56:8000/api/delete-event`, body, { headers })
-      .then((res) => {
-        if (res.statusText == "OK") {
+      ExportApi.DeleteEvent(deletecardid).then((resp) => {
+        if (resp.ok) {
+          handleGetEventlist()
           hideConfirmationModal();
-          let updatedArray = event.filter((item) => {
-            return item["id"] != deletecardid;
-          });
-          if (typeof updatedArray !== "undefined") {
-            setEvent(updatedArray);
-          }
-        }
-      })
-      .catch((err) => {
-        toast.error("Something went wrong");
-      });
-  };
+                  let updatedArray = event.filter((item) => {
+                    return item["id"] != deletecardid;
+                  });
+                  if (typeof updatedArray !== "undefined") {
+                    setEvent(updatedArray);
+                  }
+                }
+              })
+              .catch((err) => {
+                toast.error("Something went wrong");
+              });
+    
+  //   const body = {
+  //     event_id: deletecardid,
+  //   };
+  //   const headers = {
+  //     "Content-Type": "application/json",
+  //     Authorization: `${localStorage.getItem("Token")}`,
+  //   };
+  //   axios
+  //     .post(`http://51.89.210.56:8000/api/delete-event`, body, { headers })
+  //     .then((res) => {
+  //       if (res.statusText == "OK") {
+  //         hideConfirmationModal();
+  //         let updatedArray = event.filter((item) => {
+  //           return item["id"] != deletecardid;
+  //         });
+  //         if (typeof updatedArray !== "undefined") {
+  //           setEvent(updatedArray);
+  //         }
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       toast.error("Something went wrong");
+  //     });
+   };
 
   const handleSubmit = (e) => {
     let err = true;

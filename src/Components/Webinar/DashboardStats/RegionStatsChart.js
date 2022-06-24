@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Tabs } from "react-bootstrap";
 import { Tab } from "react-bootstrap";
 import axios from "axios";
+import { BaseApi } from "../../../Api/BaseApi";
 const RegionStatsChart = (props) => {
   const [regions, setRegions] = useState([]);
   const [options_ch, setOptions_ch] = useState({
@@ -90,7 +91,7 @@ const RegionStatsChart = (props) => {
       };
 
       await axios
-        .get(`http://51.89.210.56:8000/api/region-stats?event_id=50`, {
+        .get(`${BaseApi}region-stats?event_id=50`, {
           headers,
         })
         .then((res) => {

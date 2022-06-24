@@ -7,17 +7,14 @@ import { useFormik } from "formik";
 import { toast, ToastContainer } from "react-toastify";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { BaseApi, BaseUrlImage } from "../../../Api/BaseApi";
 const RegistrationDetailsList = () => {
-  const [event, setEvent] = useState([]);
   const [show, setShow] = useState(false);
   const [List, setList] = useState([]);
-  const [massage, setMassage] = useState("Please Select Event");
-  const [eventId, setEventId] = useState();
   const [SingleData, setSingleData] = useState();
   const [register_detail_id, setregister_detail_id] = useState();
   const [flag, setFlag] = useState(false);
   const [modalShow, setModalShow] = useState(false);
-  const [fields, setFields] = useState();
   const [modalShow1, setModalShow1] = useState(false);
   let path_image = process.env.REACT_APP_ASSETS_PATH_WEBINAR;
 
@@ -32,56 +29,29 @@ const RegistrationDetailsList = () => {
     { value: "Consent", name: "Consent", isActive: false ,required:""},
   ]);
   const [modalShowEdit, setModalShowEdit] = useState(false);
-  // const [event, setEvent] = useState([]);
   const [selectedName, setSelectedName] = useState([]);
+  const [Massage, setMassage] = useState([]);
   const [deleteId, setDeleteId] = useState();
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [checkboxData, setcheckboxData] = useState([]);
   const [FieldValue, setFieldValue] = useState();
-  const [show1, setShow1] = useState(false);
   const [image, setimage] = useState();
   const [field, setField] = useState("");
   const [errimage, setErrimage] = useState(false);
   let path_image1 = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-  // const handeleimage = (e) => {
-  //   let file = e.target.files[0];
-  //   setimage(e.target.files[0]);
-
-  //   if (file) {
-  //     const preview = document.getElementById("imgVieww");
-  //     const reader = new FileReader();
-  //     reader.addEventListener(
-  //       "load",
-  //       function () {
-  //         preview.src = reader.result;
-  //       },
-  //       false
-  //     );
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
   const handleRadioChangedata = (e, i) => {
     const { checked, name } = e.target;
-    // console.log(e.target.checked);
     const Index = selectedName.findIndex((v) => v.value == name);
-    let copy = selectedName[Index];
-    // console.log("copy,copy",copy)
-    copy.required = checked;
+    selectedName[Index].required = checked;
     setSelectedName([...selectedName]);
   };
-
 
   const handleRadioChange = (e, i) => {
     const { checked, name } = e.target;
     setFieldValue(name);
-
     let data = { value: name, required: false };
-    const Copyinputbox = inputbox[i];
-    Copyinputbox.isActive = e.target.checked;
+     inputbox[i].isActive = e.target.checked;;
     setInputBox([...inputbox]);
     if (selectedName[i]?.value !== name && checked == true) {
       selectedName.push(data);
-
     } else {
       selectedName.splice(i, 1);
       setSelectedName([...selectedName]);
@@ -91,24 +61,8 @@ const RegistrationDetailsList = () => {
   const addData = () => {
     setField("");
     setShow(true);
-    //console.log("add data");
   };
-  const handleErrorImage=()=>{
-    if (image) {setErrimage("")}else{setErrimage("Please Choose file")}
-  }
-
-  useEffect(() => {
-    window.addEventListener("EventId", () =>
-      setEvent(localStorage.getItem("EventIdHeader"))
-    );
-    setEvent(localStorage.getItem("EventIdHeader"));
-    if (localStorage.getItem("EventIdHeader")) {
-      console.log("done");
-    } else {
-      loader("hide");
-    }
-  }, []);
-
+  
   const saveClicked = () => {
     if(field.length>0){
       setInputBox((oldArray) => [
@@ -121,16 +75,12 @@ const RegistrationDetailsList = () => {
       toast.warning("Please enter field name")
     }
   };
-
-
-
   const handeleimage = (e) => {
     if (e?.target?.files[0].type.match(/\/(jpg|jpeg|png)$/)) {
       setErrimage(false);
       let file = e.target.files[0];
       setimage(e.target.files[0]);
          setFlag(true)
-      if (file) {
         const preview = document.getElementById("imgVieww");
         const reader = new FileReader();
         reader.addEventListener(
@@ -141,9 +91,7 @@ const RegistrationDetailsList = () => {
           false
         );
         reader.readAsDataURL(file);
-      }
     } else {
-      setErrimage(true);
       setErrimage("Only jpeg, png, jpg, are allowed");
     }
   };
@@ -153,7 +101,6 @@ const RegistrationDetailsList = () => {
     setModalShow1(true);
   
   };
-
 
   const formik = useFormik({
     initialValues: {
@@ -166,9 +113,7 @@ const RegistrationDetailsList = () => {
     }),
     enableReinitialize: true,
     onSubmit: (values) => {
-      //  console.log(selectedName);
       let copyData = JSON.stringify(selectedName);
-      // console.log(copyData)
       let formData = new FormData();
       formData.append("body", values.Body);
       if(image){
@@ -182,9 +127,7 @@ const RegistrationDetailsList = () => {
       formData.append("event_id",localStorage.getItem("EventIdHeader"));
         ExportApi.UpdateRegistrationPageDetail(formData)
           .then((resp) => {
-            if (resp.data) {
-              // console.log(resp.data);
-              if (resp.data.code == 200) {
+            if (resp.data &&resp.data.code == 200) {
                 setModalShow(false)
                 loader("hide");
                 toast.success(resp.data.message);
@@ -199,17 +142,13 @@ const RegistrationDetailsList = () => {
                   progress: undefined,
                 });
               }
-            }
           })
           .catch((err) => console.log(err));
       }
-   
   });
 
   const deleteUser = async () => {
     setModalShow1(false);
-    // console.log(deleteId);
-
     const body = {
       register_detail_id: JSON.stringify(deleteId),
     };
@@ -217,39 +156,34 @@ const RegistrationDetailsList = () => {
       "Content-Type": "application/json",
       Authorization: `${localStorage.getItem("Token")}`,
     };
-
-    // console.log(headers);
     loader("show");
     await axios
-      .post(`http://51.89.210.56:8000/api/delete-registration-detail`, body, {
+      .post(`${BaseApi}delete-registration-detail`, body, {
         headers,
       })
       .then((res) => {
-        // console.log(res);
         const data = List;
         const filtered_list = data.filter((data) => {
           return data.id != deleteId;
         });
 
         setList(filtered_list);
-
-        // console.log(res);
         loader("hide");
       })
       .catch((err) => {
         console.log(err);
       });
-
-    //   console.log(id);
   };
 
   const handleGetListData = (id) => {
     ExportApi.RegistrationPageDetailList(id).then((resp) => {
       if (resp.ok) {
         loader("hide");
-        setList(resp.data.data);
         if (resp.data.code === 404) {
           setMassage("Data Not Found");
+          setList([])
+        }else{
+          setList(resp.data.data);
         }
       }
     });
@@ -257,20 +191,16 @@ const RegistrationDetailsList = () => {
   const handleGetSingleData = (id) => {
     ExportApi.RegistrationPageDetail(id).then((resp) => {
       if (resp.ok) {
-      let field=JSON.parse(resp.data.data.fields)
-        setSingleData(resp.data.data);
-        setFields(JSON.parse(resp.data.data.fields));
-        setSelectedName(JSON.parse(resp.data.data.fields));
-        for(let a=0;a<field.length;a++){
-          // console.log("f",field)
-          const index=  inputbox.findIndex((v)=>v.name==field[a]?.value)
-          // console.log("inputbox[index]",inputbox[index])
-          inputbox[index].isActive=true
-           inputbox[index].required=field[index].required
-           setField([...inputbox])
-          // setInputBox([...inputbox])
-
-          
+        if(resp.data.code == 200){
+          let field=JSON.parse(resp.data.data.fields)
+            setSingleData(resp.data.data);
+            setSelectedName(JSON.parse(resp.data.data.fields));
+            for(let a=0;a<field.length;a++){
+              const index=  inputbox.findIndex((v)=>v.name==field[a]?.value)
+              inputbox[index].isActive=true
+               inputbox[index].required=field[index].required
+               setField([...inputbox]) 
+            }
         }
       }
     });
@@ -279,19 +209,12 @@ const RegistrationDetailsList = () => {
   useEffect(() => {
     loader("show");
   }, []);
-
   useEffect(() => {
     window.addEventListener("EventId", () =>
       handleGetListData(localStorage.getItem("EventIdHeader"))
     );
     handleGetListData(localStorage.getItem("EventIdHeader"));
-    if (localStorage.getItem("EventIdHeader")) {
-      console.log("done");
-    } else {
-      loader("hide");
-    }
   }, []);
-
   return (
     <div class="right-sidebar">
       <div className="loader" id="custom_loader">
@@ -340,13 +263,10 @@ const RegistrationDetailsList = () => {
                         </Button>
                     <Button
                       variant="danger"
-                      onClick={(e) => {
-                        // handleGetRegistrationPagedata(val.id);
+                      onClick={() => {
                         deleteButtonClicked(val.id);
-                        // setFlag(false);
                       }}
                     >
-                      {" "}
                       Delete
                     </Button>
                   </td>
@@ -360,10 +280,7 @@ const RegistrationDetailsList = () => {
           </tbody>
         </Table>
       </div>
-
-      <Modal
-        show={modalShow}
-        id="webinar_event"
+      <Modal show={modalShow}  id="webinar_event"
         onHide={() => {setModalShow(false)}}
       >
         <Modal.Header closeButton>
@@ -386,7 +303,7 @@ const RegistrationDetailsList = () => {
                         value={formik.values.Title}
                       />
                       {formik.touched.Title && formik.errors.Title ? (
-                        <div className="error" style={{ color: "red" }}>
+                        <div className="error"style={{color:"red"}} >
                           {formik.errors.Title}
                         </div>
                       ) : null}
@@ -419,7 +336,6 @@ const RegistrationDetailsList = () => {
                         return (
                           <>
                             <div class="form-check">
-                              {/* {console.log("value",fields[i])} */}
                               <Form.Label>{data.value}</Form.Label>
                               <Form.Control
                                 type="checkbox"
@@ -432,30 +348,14 @@ const RegistrationDetailsList = () => {
                                   }
                                 }}
                                 checked={data.isActive}
-                                // value={data.value}
                                 name={data.name}
                                 className="form-check-input"
                               />
                               </div>
-                            <p>{inputbox[i].required==true?"required":null}</p>
-                              {/* 
-                            {data.isActive == true ? (
-                              <>
-                              <br/><span>Required</span>
-                              <Form.Control
-                              name={data.name}
-                              type="checkbox"
-                              className="form-check-input"
-                              onChange={(e) => handleRadioChangedata(e, i)}
-                              // name="required"
-                              />
-                              </>
-                            ) : null} */}
-                            
+                            <span>{inputbox[i].required==true?"*":null}</span>                           
                           </>
                         );
                       })}
-
                       <Modal
                         show={modalShowEdit}
                         className="send-confirm"
@@ -503,9 +403,6 @@ const RegistrationDetailsList = () => {
                               No
                             </button>
                           </div>
-
-                         {/* {console.log("selectedName",selectedName)}
-                         {console.log("inputbox",inputbox)} */}
                         </Modal.Body>
                       </Modal>
                       <button type="button" onClick={addData}>
@@ -560,14 +457,6 @@ const RegistrationDetailsList = () => {
                       <p>Upload your registration page design file</p>
                     </div>
                   </div>
-
-                  {/* <Col>
-                  <div>
-                    <img id="imgVieww" src="" alt="Viewing the registration page image" width={340} />
-                  </div>
-                </Col> */}
-
-                  {/* <input type="file" onChange={(e) => handeleimage(e)} /> */}
                   <div class="form-inline">
                     <div style={{ color: "red" }}>{errimage}</div>
                   </div>
@@ -580,7 +469,7 @@ const RegistrationDetailsList = () => {
                             id="imgVieww"
                             src={
                               flag == false
-                                ? `http://51.89.210.56:8000${SingleData?.file}`
+                                ? `${BaseUrlImage}${SingleData?.file}`
                                 : ""
                             }
                             alt="Viewing the registration page image"

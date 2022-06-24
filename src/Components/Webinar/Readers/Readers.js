@@ -344,7 +344,7 @@ const Readers = () => {
     };
     loader("show");
     await axios
-      .post(`http://51.89.210.56:8000/api/hcps/filter`, body, {
+      .post(`${BaseApi}hcps/filter`, body, {
         headers,
       })
       .then((res) => {
