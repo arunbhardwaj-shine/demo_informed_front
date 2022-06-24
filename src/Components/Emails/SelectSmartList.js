@@ -291,7 +291,7 @@ const SelectSmartList = (props) => {
 
   return (
     <>
-      <div className="right-sidebar">
+      <div className="col right-sidebar">
       <div className="custom-container">
         <div className="row">
         <div className="page-top-nav">

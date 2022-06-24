@@ -70,7 +70,7 @@ function ResetPassword() {
       },
     });
   return (
-    <div className="right-sidebar">
+    <div className="col right-sidebar">
     <Row>
        <ToastContainer
         position="top-right"

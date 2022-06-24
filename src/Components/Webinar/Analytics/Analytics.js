@@ -2,7 +2,7 @@ import React from 'react'
 
 const Analytics = () => {
   return (
-    <div class="right-sidebar">
+    <div class="col right-sidebar">
     <div className="loader" id="custom_loader">
          <span className="loader-view"> </span>
        </div>

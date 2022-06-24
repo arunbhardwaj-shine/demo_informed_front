@@ -15,7 +15,7 @@ body{ font-family: 'Roboto'; background: var(--light-skyblue); overflow-x: hidde
 a{cursor: pointer;}
 .filter-by.nav-item.dropdown button:hover svg path, .filter-by.nav-item.dropdown button:hover svg rect, .filter-by.highlight > button svg rect  {fill: var(--white);}
 .filter-by.nav-item.dropdown > button:hover, .filter-by.highlight > button {background: var(--light-blue);color: var(--white);}
-.container-fluid > .row {justify-content: flex-end;}
+.container-fluid > .row {justify-content: flex-start;}
 button:focus,.btn-primary:focus, .btn-primary:active:focus{box-shadow:none; outline:none;}
 .btn{font-family: 'Roboto-Medium';border-radius:30px;}
 .btn:focus, .btn-check:focus + .btn-outline-primary, .btn-outline-primary:focus, .btn-check:active + .btn-outline-primary:focus, .btn-check:checked + .btn-outline-primary:focus, .btn-outline-primary.active:focus, .btn-outline-primary.dropdown-toggle.show:focus, .btn-outline-primary:active:focus{outline:none;box-shadow:none;}
@@ -162,7 +162,8 @@ header { position: sticky; top: 0; z-index: 9; }
 .smart-list-added-user img { margin-right: 11px; }
 .smartlist-buttons { min-height:50px;border-top: 0.5px dashed var(--light-blue); display: flex; align-items: center; justify-content: space-between; padding-top: 13px; }
 .smartlist-buttons button { border: 0.5px solid var(--light-blue); box-sizing: border-box; border-radius: 30px; background: var(--light-blue); font-size: 16px; line-height: 19px; text-transform: capitalize; height: 32px; padding: 5px 21px; margin: 0 0px; font-family: 'Roboto-Medium'; }
-.smartlist-buttons button.edit_list:hover, .smartlist-buttons button.view:hover, button.btn.btn-filled:hover, a.btn.btn-filled:hover { background: var(--blue); color: var(--white); border-color: var(--blue); }
+.smartlist-buttons button.edit_list:hover, .smartlist-buttons button.view:hover, button.btn.btn-filled:hover, a.btn.btn-filled:hover
+.smartlist-buttons a.btn.btn-primary.btn-filled:hover, .smartlist-buttons a.btn.btn-primary.btn-filled:active , .smartlist-buttons a.btn.btn-primary.btn-filled:focus { background: var(--blue); color: var(--white); border-color: var(--blue); }
 .smartlist-buttons button.edit_list{ padding:5px 14px }
 .smartlist-add p { font-size: 18px; line-height: 21px; color: var(--light-blue); margin: 19px 0 0; }
 .smartlist-add > img { width: 70px; }
@@ -634,7 +635,12 @@ form#add_hcp_form .row:not(:first-child) { border-top: 1px dashed var(--light-bl
 .select-demo-option input:checked ~ .checkmark:after { display: block; }
 .select-demo-option .checkmark:after { left: 5px; top: 2px; width: 5px; height: 9px; border: solid var(--white); border-width: 0 2px 2px 0; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg); content: ""; position: absolute; }
 .create_smart_list .create-smart-step h2, #create_list_popup .create-smart-step h2 { font-size: 48px; line-height: 56px; text-transform: capitalize; color: rgba(0, 102, 190, 0.16); font-family: 'Roboto-Bold'; position: absolute; transform: rotate(-90deg) scaleX(1); top: 38px; left: -116px; }
+#create_list_popup .create-smart-step h2{top: 44px;}
+#create_list_popup .create-smart-step:first-child h2 {
+  top: 37px;
+}
 .create_smart_list { margin-top: 66px; }
+#create_list_popup .add_hcp_boxes {margin-right: 25px;}
 .download-sample { display: flex; align-items: center; justify-content: center; margin-bottom: 46px; }
 .download-sample p { margin: 0 5px 0 0; font-size: 18px; line-height: 21px; color: #4E718E; font-family: 'Roboto-Light'; }
 .create-smart-step .create-smart-step-box h5 { font-size: 24px; line-height: 28px; color: var(--blue); font-family: 'Roboto-medium'; }
@@ -645,7 +651,7 @@ form#add_hcp_form .row:not(:first-child) { border-top: 1px dashed var(--light-bl
 .create-smart-step-box ul li p { margin: 22px 0 18px; font-size: 18px; line-height: 21px; color: var(--light-blue); font-family: 'Roboto-medium'; }
 .smart_list_names .header-btn-right button { border-color: var(--skyblue); color: var(--skyblue); }
 .smart_list_names .header-btn-right button:focus, .smart_list_names .header-btn-right button:hover,  .smart_list_names .header-btn-right button:active { background-color: var(--skyblue); color: var(--white); }
-#create_list_popup .create-smart-step .create-smart-step-box { min-height: 143px; display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 17px 32px 17px; } 
+#create_list_popup .create-smart-step .create-smart-step-box { min-height: 155px; display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 17px 32px 17px; } 
 .modal #create_list_popup  .upload-file-box { max-width: 100%; width: 100%; } 
 #create_list_popup .create-smart-step .create-smart-step-box form { width: 100%; } 
 #create_list_popup .create-smart-step-box .form-group-content { margin-top: 11px; } 
@@ -928,7 +934,9 @@ table thead.sticky-header:after { content: ""; position: absolute; width: 20px; 
 .form-buttons .approved-btn.checked  img.approve_btn { display: none; } 
 .send-confirm #create_list_popup .modal-body a img { width: 14px; }
 
-
+.smartlist-buttons a.btn {
+  padding: 7px 14px;
+}
 /**sidebar Modal**/
 .toggle_sidebar .help-popup-view { left: 39px; transition: 0.5s linear; }
 .help-popup-view::after { content: ""; position: absolute; background-image: url(../images/menu-icon2.png); background-repeat: no-repeat; background-size: 20px; left: 33px; top: -20px; width: 20px; height: 20px; z-index: 9; } 
