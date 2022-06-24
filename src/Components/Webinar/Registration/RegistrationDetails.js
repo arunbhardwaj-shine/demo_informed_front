@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Modal, Row, Table } from "react-bootstrap";
 import { toast, ToastContainer } from "react-toastify";
 import * as Yup from "yup";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { loader } from "../../../loader";
 import ExportApi from "../../../Api/ExportApi";
-import { Link } from "react-router-dom";
+
 const RegistraionDetails = () => {
   const [inputbox, setInputBox] = useState([
     { value: "Name", name: "Name", isActive: false },
@@ -28,6 +29,7 @@ const RegistraionDetails = () => {
   const [field, setField] = useState("");
   const [errimage, setErrimage] = useState(false);
   let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let navigate = useNavigate();
   const handeleimage = (e) => {
     let file = e.target.files[0];
     setimage(e.target.files[0]);
@@ -46,14 +48,12 @@ const RegistraionDetails = () => {
     }
   };
   const handleRadioChangedata = (e, i) => {
-    // console.log(e.target.checked);
     const { checked, name } = e.target;
-    alert(checked)
-    // const Index = selectedName.findIndex((v) => v.value == name);
-    // console.log("selectedName",selectedName)
-    // let copy = selectedName[Index];
-    // copy.required = checked;
-    // setSelectedName([...selectedName]);
+    const Index = selectedName.findIndex((v) => v.value == name);
+    console.log("selectedName",selectedName)
+    let copy = selectedName[Index];
+    copy.required = checked;
+    setSelectedName([...selectedName]);
   };
 
 
@@ -111,6 +111,9 @@ const RegistraionDetails = () => {
               if (resp.data.code == 200) {
                 loader("hide");
                 toast.success(resp.data.message);
+                setTimeout(() => {
+                  navigate("/webinar/portal/registrationDetailslist")
+                }, 1000);
               } else {
                 loader("hide");
                 toast.error(resp.data.message, {
@@ -283,10 +286,8 @@ const RegistraionDetails = () => {
                               }}
                             />
                             <button
-                              name={setFieldValue}
                               type="button"
                               className="btn btn-primary btn-filled"
-                              onClick={(e) => handleRadioChangedata(e)}
                             >
                               Yes
                             </button>

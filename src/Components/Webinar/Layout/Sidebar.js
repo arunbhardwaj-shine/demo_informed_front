@@ -16,6 +16,9 @@ const Sidebar = () => {
     if (localStorage.getItem("Token")) {
       setToken(true);
     } else {
+      document.body.classList.remove("sub_menu_toggle_sidebar")
+      setHomeStatus(false)
+      setEmailStatus(false)
       setToken(false);
     }
   }, [localStorage.getItem("Token")]);
@@ -25,6 +28,9 @@ const Sidebar = () => {
   };
   useEffect(() => {
     if (token === null || token === undefined) {
+      document.body.classList.remove("sub_menu_toggle_sidebar")
+      setHomeStatus(false)
+      setEmailStatus(false)
       setToken(false);
     }
   }, [localStorage.getItem("Token"), token]);

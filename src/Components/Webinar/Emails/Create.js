@@ -210,14 +210,13 @@ const handleEmailSCreate = (id) => {
          console.log( resp.data.data.collection_id)
           localStorage.setItem("collection_id",resp.data.data.collection_id)
           if(id==1){
-
              navigate("/webinar/email/smart-list");
           }
         }
       })
   }else{
   if(id==0){
-    ExportApi.EmailSCreate(0,localStorage.getItem("TEMPLATEID"),localStorage.getItem("EventIdHeader"),formik.values.Subject,tagClickedFirst,).then((resp) => {
+    ExportApi.EmailSCreate(localStorage.getItem("TEMPLATEID"),localStorage.getItem("EventIdHeader"),formik.values.Subject,tagClickedFirst,).then((resp) => {
       if (resp.ok) {
        console.log( resp.data.data.collection_id)
         localStorage.setItem("collection_id",resp.data.data.collection_id)
@@ -227,7 +226,7 @@ const handleEmailSCreate = (id) => {
   }else{
     formik.handleSubmit()
     setTimeout(() => {
-    formik.values.Subject? ExportApi.EmailSCreate(1,localStorage.getItem("TEMPLATEID"),localStorage.getItem("EventIdHeader"),formik.values.Subject,tagClickedFirst,).then((resp) => {
+    formik.values.Subject? ExportApi.EmailSCreate(localStorage.getItem("TEMPLATEID"),localStorage.getItem("EventIdHeader"),formik.values.Subject,tagClickedFirst,).then((resp) => {
         if (resp.ok) {
          console.log( resp.data.data.collection_id)
           localStorage.setItem("collection_id",resp.data.data.collection_id)

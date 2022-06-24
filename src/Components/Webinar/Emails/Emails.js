@@ -511,7 +511,7 @@ const SendEmails = () => {
                       <div className="mail-box-content-top">
                         <div className="mail-box-content-top-view">
                           <h5>{val.templates?.subject}</h5>
-                          <p>Email Type</p>
+                          {/* <p>Email Type</p> */}
                           <div class="mailbox-tags">
                             <ul>
                               {tags?.map((datatags) => {

@@ -14,6 +14,7 @@ const RegistrationDetailsList = () => {
   const [massage, setMassage] = useState("Please Select Event");
   const [eventId, setEventId] = useState();
   const [SingleData, setSingleData] = useState();
+  const [register_detail_id, setregister_detail_id] = useState();
   const [flag, setFlag] = useState(false);
   const [modalShow, setModalShow] = useState(false);
   const [fields, setFields] = useState();
@@ -21,14 +22,14 @@ const RegistrationDetailsList = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_WEBINAR;
 
   const [inputbox, setInputBox] = useState([
-    { value: "Name", name: "Name", isActive: false },
-    { value: "Email", name: "Email", isActive: false },
-    { value: "Region", name: "Region", isActive: false },
-    { value: "Dr Number", name: "Dr number", isActive: false },
-    { value: "State", name: "State", isActive: false },
-    { value: "Hospital", name: "Hospital", isActive: false },
-    { value: "Profession", name: "Profession", isActive: false },
-    { value: "Consent", name: "Consent", isActive: false },
+    { value: "Name", name: "Name", isActive: false ,required:""},
+    { value: "Email", name: "Email", isActive: false ,required:""},
+    { value: "Region", name: "Region", isActive: false ,required:""},
+    { value: "Dr Number", name: "Dr number", isActive: false ,required:""},
+    { value: "State", name: "State", isActive: false ,required:""},
+    { value: "Hospital", name: "Hospital", isActive: false ,required:""},
+    { value: "Profession", name: "Profession", isActive: false ,required:""},
+    { value: "Consent", name: "Consent", isActive: false ,required:""},
   ]);
   const [modalShowEdit, setModalShowEdit] = useState(false);
   // const [event, setEvent] = useState([]);
@@ -61,10 +62,10 @@ const RegistrationDetailsList = () => {
   // };
   const handleRadioChangedata = (e, i) => {
     const { checked, name } = e.target;
-    console.log(e.target.checked);
+    // console.log(e.target.checked);
     const Index = selectedName.findIndex((v) => v.value == name);
     let copy = selectedName[Index];
-    console.log("copy,copy",copy)
+    // console.log("copy,copy",copy)
     copy.required = checked;
     setSelectedName([...selectedName]);
   };
@@ -80,6 +81,7 @@ const RegistrationDetailsList = () => {
     setInputBox([...inputbox]);
     if (selectedName[i]?.value !== name && checked == true) {
       selectedName.push(data);
+
     } else {
       selectedName.splice(i, 1);
       setSelectedName([...selectedName]);
@@ -164,20 +166,26 @@ const RegistrationDetailsList = () => {
     }),
     enableReinitialize: true,
     onSubmit: (values) => {
-      // console.log(selectedName);
+      //  console.log(selectedName);
       let copyData = JSON.stringify(selectedName);
+      // console.log(copyData)
       let formData = new FormData();
       formData.append("body", values.Body);
-      formData.append("file", image);
+      if(image){
+
+        formData.append("file", image);
+      }
       formData.append("title", values.Title);
       formData.append("fields", copyData);
-      formData.append("event_id", values.Selectevent);
-      if (image) {
-        ExportApi.CreateRegistrationPagedetail(formData)
+      formData.append("register_detail_id", register_detail_id);
+
+      formData.append("event_id",localStorage.getItem("EventIdHeader"));
+        ExportApi.UpdateRegistrationPageDetail(formData)
           .then((resp) => {
             if (resp.data) {
               // console.log(resp.data);
               if (resp.data.code == 200) {
+                setModalShow(false)
                 loader("hide");
                 toast.success(resp.data.message);
               } else {
@@ -194,10 +202,8 @@ const RegistrationDetailsList = () => {
             }
           })
           .catch((err) => console.log(err));
-      } else {
-        setErrimage("Please Choose file");
       }
-    },
+   
   });
 
   const deleteUser = async () => {
@@ -212,7 +218,7 @@ const RegistrationDetailsList = () => {
       Authorization: `${localStorage.getItem("Token")}`,
     };
 
-    console.log(headers);
+    // console.log(headers);
     loader("show");
     await axios
       .post(`http://51.89.210.56:8000/api/delete-registration-detail`, body, {
@@ -254,11 +260,17 @@ const RegistrationDetailsList = () => {
       let field=JSON.parse(resp.data.data.fields)
         setSingleData(resp.data.data);
         setFields(JSON.parse(resp.data.data.fields));
+        setSelectedName(JSON.parse(resp.data.data.fields));
         for(let a=0;a<field.length;a++){
           // console.log("f",field)
-        const index=  inputbox.findIndex((v)=>v.name==field[a]?.value)
-        inputbox[index].isActive=true
-        setField([...inputbox])
+          const index=  inputbox.findIndex((v)=>v.name==field[a]?.value)
+          // console.log("inputbox[index]",inputbox[index])
+          inputbox[index].isActive=true
+           inputbox[index].required=field[index].required
+           setField([...inputbox])
+          // setInputBox([...inputbox])
+
+          
         }
       }
     });
@@ -322,6 +334,7 @@ const RegistrationDetailsList = () => {
                   <td>
                     <Button onClick={(e) => {
                             handleGetSingleData(val.id);
+                            setregister_detail_id(val.id)
                             setModalShow(true)
                           }} > Edit
                         </Button>
@@ -423,21 +436,22 @@ const RegistrationDetailsList = () => {
                                 name={data.name}
                                 className="form-check-input"
                               />
-
+                              </div>
+                            <p>{inputbox[i].required==true?"required":null}</p>
                               {/* 
                             {data.isActive == true ? (
                               <>
-                                  <br/><span>Required</span>
-                                  <Form.Control
-                                    name={data.name}
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    onChange={(e) => handleRadioChangedata(e, i)}
-                                    // name="required"
-                                  />
+                              <br/><span>Required</span>
+                              <Form.Control
+                              name={data.name}
+                              type="checkbox"
+                              className="form-check-input"
+                              onChange={(e) => handleRadioChangedata(e, i)}
+                              // name="required"
+                              />
                               </>
                             ) : null} */}
-                            </div>
+                            
                           </>
                         );
                       })}
@@ -461,6 +475,7 @@ const RegistrationDetailsList = () => {
                           <img src={path_image1 + "webinar/alert.png"} alt="" />
                           <h4>You want this field required ?</h4>
                           <div className="modal-buttons">
+                          <div className="modal-buttons-register">
                             <Form.Control
                               name={FieldValue}
                               value={FieldValue}
@@ -474,13 +489,12 @@ const RegistrationDetailsList = () => {
                               }}
                             />
                             <button
-                              name={setFieldValue}
                               type="button"
                               className="btn btn-primary btn-filled"
-                              onClick={(e) => handleRadioChangedata(e)}
                             >
                               Yes
                             </button>
+                            </div>
                              <button
                               type="button"
                               className="btn btn-primary btn-bordered light"
@@ -490,7 +504,8 @@ const RegistrationDetailsList = () => {
                             </button>
                           </div>
 
-                         
+                         {/* {console.log("selectedName",selectedName)}
+                         {console.log("inputbox",inputbox)} */}
                         </Modal.Body>
                       </Modal>
                       <button type="button" onClick={addData}>
@@ -586,12 +601,7 @@ const RegistrationDetailsList = () => {
         <Modal.Footer>
           <Button
             variant="success"
-            onClick={() => {
-              handleErrorImage()
-              setTimeout(() => {
-                setModalShow1(false);
-              }, 1000);
-            }}
+            onClick={() => formik.handleSubmit()}
           >
             Update
           </Button>
