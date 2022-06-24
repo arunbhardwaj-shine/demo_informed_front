@@ -6,8 +6,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 function App() {
   return (
     <>
-      <center>HOME page</center>
+     <div className="col right-sidebar">
+      <h2>HOME page</h2>
+      </div>
     </>
-  );
+  );   
 }
 export default App;

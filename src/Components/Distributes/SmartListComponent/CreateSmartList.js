@@ -200,7 +200,7 @@ const CreateSmartList = () => {
 
   return (
     <>
-      <div class="right-sidebar">
+      <div class="col right-sidebar">
         <div className="custom-container">
           <div className="row">
         <div className="page-top-nav smart_list_names">
