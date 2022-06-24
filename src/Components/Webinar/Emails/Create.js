@@ -120,13 +120,13 @@ const CreateEmails = (props) => {
   );
   const removeTag = (index) => {
     const tags = tagClickedFirst;
-    console.log("tag", tagClickedFirst);
+    // console.log("tag", tagClickedFirst);
     tagClickedFirst.splice(index, 1);
     setFinalTags(tagClickedFirst);
     // setTagsReRender(tagsReRender + 1);
     setTagClickedFirst(tagClickedFirst);
     setTagsReRender(tagsReRender + 1);
-    console.log("2", tagClickedFirst);
+    // console.log("2", tagClickedFirst);
   };
   const removeTagFinal = (index) => {
     finalTags.splice(index, 1);
@@ -207,7 +207,7 @@ const handleEmailSCreate = (id) => {
       // alert(localStorage.getItem("stateid"))
      ExportApi.UpdateEmailSCreate(localStorage.getItem("TEMPLATEID"),localStorage.getItem("stateid")).then((resp) => {
         if (resp.ok) {
-         console.log( resp.data.data.collection_id)
+        //  console.log( resp.data.data.collection_id)
           localStorage.setItem("collection_id",resp.data.data.collection_id)
           if(id==1){
              navigate("/webinar/email/smart-list");
@@ -218,7 +218,7 @@ const handleEmailSCreate = (id) => {
   if(id==0){
     ExportApi.EmailSCreate(localStorage.getItem("TEMPLATEID"),localStorage.getItem("EventIdHeader"),formik.values.Subject,tagClickedFirst,).then((resp) => {
       if (resp.ok) {
-       console.log( resp.data.data.collection_id)
+      //  console.log( resp.data.data.collection_id)
         localStorage.setItem("collection_id",resp.data.data.collection_id)
         loader("hide")
       }
@@ -228,14 +228,13 @@ const handleEmailSCreate = (id) => {
     setTimeout(() => {
     formik.values.Subject? ExportApi.EmailSCreate(localStorage.getItem("TEMPLATEID"),localStorage.getItem("EventIdHeader"),formik.values.Subject,tagClickedFirst,).then((resp) => {
         if (resp.ok) {
-         console.log( resp.data.data.collection_id)
+        //  console.log( resp.data.data.collection_id)
           localStorage.setItem("collection_id",resp.data.data.collection_id)
             navigate("/webinar/email/smart-list");
         }
       }):toast.warning("Please enter Subject");
     },500);
   }
-
   }
 }
 };
@@ -252,7 +251,6 @@ const handleEmailSCreate = (id) => {
             setMessage("Please create template");
             setTemplateList();
             setTemplate();
-           
           } else {
             setMessage("Please create Event");
           }
@@ -264,7 +262,7 @@ const handleEmailSCreate = (id) => {
     ExportApi.getCollectionData(id).then((resp) => {
       if (resp.ok) {
         loader("hide")
-        console.log(resp.data.data.template_id)
+        // console.log(resp.data.data.template_id)
         handleGetTemplateList(resp.data.data.event_id,resp.data.data.template_id)
         handleGetTemplate(resp.data.data.template_id)
         // if (resp.data.code == 200) {
@@ -283,11 +281,11 @@ const handleEmailSCreate = (id) => {
     });
   };
   const handleDeleteTemplate = () => {
-    console.log("yyy", templateId);
+    // console.log("yyy", templateId);
     ExportApi.DeleteTemplate(templateId.id).then((resp) => {
       if (resp.ok) {
-        console.log("yyy", templateId.id);
-        console.log("ywy", templateId.event_id);
+        // console.log("yyy", templateId.id);
+        // console.log("ywy", templateId.event_id);
         handleGetTemplateList(localStorage.getItem("EventIdHeader"));
       }
     });
@@ -304,8 +302,7 @@ const handleEmailSCreate = (id) => {
             emailEditorRef.current.editor.loadDesign(
               resp.data.data.json_description
                 ? JSON.parse(resp.data.data.json_description)
-                : emailEditorRef.current.editor.loadDesign( )
-  
+                : emailEditorRef.current.editor.loadDesign()
             );
             loader("hide")
             setnextPage(true)
@@ -316,9 +313,8 @@ const handleEmailSCreate = (id) => {
             loader("hide")
             setnextPage(true)
           }, 1000);
-        }
-           
-        console.log(resp.data.data.tags);
+        }  
+        // console.log(resp.data.data.tags);
         resp.data.data.tags? setFinalTags(resp.data.data.tags):setFinalTags([])
         resp.data.data.tags?  setTagClickedFirst(resp.data.data.tags):setTagClickedFirst([])
         setTemplate(resp.data.data);

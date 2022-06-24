@@ -49,7 +49,7 @@ const WebinarSmartList = () => {
       Authorization: `${localStorage.getItem("Token")}`,
     };
 
-    console.log(headers);
+    // console.log(headers);
     loader("show");
     await axios
       .post(baseURL + `smart-list/lists`, body, {
@@ -57,14 +57,14 @@ const WebinarSmartList = () => {
       })
       .then((res) => {
         setIsLoading(false);
-        console.log(res.data.data);
+        // console.log(res.data.data);
         setSmartListData(res.data.data);
         if (flag == 0) {
           //setFilterData(res.data.response.filter);
           setPrevSmartListData(res.data.data);
         }
 
-        console.log(res);
+        // console.log(res);
         loader("hide");
       })
       .catch((err) => {
@@ -101,7 +101,7 @@ const WebinarSmartList = () => {
   };
 
   const showConfirmationPopup = (id) => {
-    console.log(id);
+    // console.log(id);
     if (confirmationpopup) {
       setConfirmationPopup(false);
     } else {
@@ -133,14 +133,14 @@ const WebinarSmartList = () => {
         headers,
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setIsLoading(false);
         if (res.data.code == 200) {
           loader("hide");
           var updatedArray = smartListData.filter(function (item) {
             return item["id"] != deletecardid;
           });
-          console.log(updatedArray);
+          // console.log(updatedArray);
           if (typeof updatedArray !== "undefined") {
             setSmartListData(updatedArray);
             setPrevSmartListData(updatedArray);
@@ -439,7 +439,7 @@ const WebinarSmartList = () => {
               smartListData.map((data) => {
                 return (
                   <div class="smartlist_box_block">
-                    {console.log(data)}
+                    {/* {console.log(data)} */}
                     <div class="smartlist-view email_box">
                       <div class="mail-box-content">
                         {data.count != 0 ? (

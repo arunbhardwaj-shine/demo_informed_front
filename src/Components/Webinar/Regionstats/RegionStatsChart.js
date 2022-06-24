@@ -81,8 +81,8 @@ const RegionStatsChart = (props) => {
   const [data, setData] = useState({});
 
   useEffect(() => {
-    console.log(localStorage.getItem("Token"));
-    console.log(props.eventid);
+    // console.log(localStorage.getItem("Token"));
+    // console.log(props.eventid);
     const getChartDetails = async () => {
       const headers = {
         "Content-Type": "application/json",
@@ -94,10 +94,10 @@ const RegionStatsChart = (props) => {
           headers,
         })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
 
           setData(res.data.data);
-          console.log(res.data.data);
+          // console.log(res.data.data);
           //    console.log(Object.keys(res.data.data));
           setRegions(Object.keys(res.data.data));
 

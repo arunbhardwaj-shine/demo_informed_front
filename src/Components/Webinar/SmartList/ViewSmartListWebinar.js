@@ -40,20 +40,20 @@ const ViewSmartListWebinar = () => {
       "Content-Type": "application/json",
       Authorization: `${localStorage.getItem("Token")}`,
     };
-    console.log(baseURL);
+    // console.log(baseURL);
     await axios
       .post(baseURL + `smart-list/single-record`, body, {
         headers,
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
 
         if (res.data.data) {
-          console.log("in data");
+          // console.log("in data");
           console.log(res.data.data.length);
           if (res.data.data.length > 0) {
             loader("false");
-            console.log(res.data.data);
+            // console.log(res.data.data);
 
             setEditListData(res.data.data);
             setapi_flag(api_flag + 1);
@@ -80,7 +80,7 @@ const ViewSmartListWebinar = () => {
   };
 
   useEffect(() => {
-    console.log("hi");
+    // console.log("hi");
     getSmartListData();
   }, []);
 
@@ -93,7 +93,7 @@ const ViewSmartListWebinar = () => {
   if (api_flag > 0) {
     return (
       <>
-        {console.log(editList)}
+        {/* {console.log(editList)} */}
 
         <GridView data={editList} smartListId={queryParams.listId} />
       </>

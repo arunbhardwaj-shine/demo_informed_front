@@ -51,7 +51,7 @@ const Header = () => {
       ExportApi.GetEventList().then((resp) => {
         if (resp.ok) {
           setEvent(resp.data.data);
-          console.log(resp.data.code)
+          // console.log(resp.data.code)
   
           if (resp.data.code == 404) {
             localStorage.removeItem("EventIdHeader")
