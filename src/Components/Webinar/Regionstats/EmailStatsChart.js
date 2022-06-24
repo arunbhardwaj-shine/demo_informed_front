@@ -87,7 +87,7 @@ const EmailStatsChart = (props) => {
   const handleGetTemplateList = () => {
     ExportApi.UserTemplateList(props.eventid).then((resp) => {
       if (resp.ok) {
-        console.log("first", resp.data.code);
+        // console.log("first", resp.data.code);
         if (resp.data.code == 404) {
           setTemplateList()
         }else{

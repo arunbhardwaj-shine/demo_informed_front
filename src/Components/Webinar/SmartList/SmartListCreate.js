@@ -73,7 +73,7 @@ const SmartListCreate = () => {
       )
       .then((res) => {
         if (res.data.code == 200) {
-          console.log(res);
+          // console.log(res);
           setSmartListId(res.data.data.smart_list_id);
           handleShow();
           loader("hide");
@@ -113,8 +113,8 @@ const SmartListCreate = () => {
       )
       .then((res) => {
         if (res.data.code == 200) {
-          console.log(res);
-          console.log(res.data.data.smart_list_id);
+          // console.log(res);
+          // console.log(res.data.data.smart_list_id);
           setSmartListId(res.data.data.smart_list_id);
           segmentCohort(res.data.data.smart_list_id);
           loader("hide");
@@ -132,7 +132,7 @@ const SmartListCreate = () => {
 
   const handleShow = (e) => {
     // e.preventDefault();
-    console.log("inside handle show");
+    // console.log("inside handle show");
     if (!smartListName.trim()) {
       toast.warning("Please enter the smart list name first");
     } else {
@@ -161,13 +161,13 @@ const SmartListCreate = () => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     // loader("show");
 
-    console.log(formData);
+    // console.log(formData);
 
     await axios
       .post(baseURL + `upload-unregistered-participant`, formData, { headers })
       .then((res) => {
         //  console.log(smartListId);
-        console.log(res);
+        // console.log(res);
         if (res.data.code === 200) {
           setData(res.data.data);
           navigate("/webinar/email/SmartListCreate/ExcelUpload", {

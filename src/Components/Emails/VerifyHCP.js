@@ -547,10 +547,10 @@ const VerifyHCP = (props) => {
       await axios
         .post(`emailapi/search_hcp`, body)
         .then((res) => {
-          console.log(res);
-          // console.log(res.data.response.data);
-          if (res.data.response) {
+          if (res.data.status_code === 200) {
             setSearchedUsers(res.data.response.data);
+          }else{
+            setSearchedUsers([]);
           }
           if (res.data.message) {
             setMessage(res.data.message);
@@ -558,6 +558,7 @@ const VerifyHCP = (props) => {
           loader("hide");
         })
         .catch((err) => {
+          loader("hide");
           console.log(err);
         });
     }

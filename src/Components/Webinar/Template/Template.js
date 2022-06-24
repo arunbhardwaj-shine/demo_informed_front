@@ -120,13 +120,13 @@ const Template = (props) => {
   );
   const removeTag = (index) => {
     const tags = tagClickedFirst;
-    console.log("tag", tagClickedFirst);
+    // console.log("tag", tagClickedFirst);
     tagClickedFirst.splice(index, 1);
     setFinalTags(tagClickedFirst);
     // setTagsReRender(tagsReRender + 1);
     setTagClickedFirst(tagClickedFirst);
     setTagsReRender(tagsReRender + 1);
-    console.log("2", tagClickedFirst);
+    // console.log("2", tagClickedFirst);
   };
   const removeTagFinal = (index) => {
     finalTags.splice(index, 1);
@@ -148,7 +148,7 @@ const Template = (props) => {
     }),
     enableReinitialize: true,
     onSubmit: (values) => {
-      console.log("hello");
+      // console.log("hello");
       loader("show");
       const exportHtml = async () => {
         emailEditorRef.current.editor.exportHtml((data) => {
@@ -270,11 +270,11 @@ const Template = (props) => {
     });
   };
   const handleDeleteTemplate = () => {
-    console.log("yyy", templateId);
+    // console.log("yyy", templateId);
     ExportApi.DeleteTemplate(templateId.id).then((resp) => {
       if (resp.ok) {
-        console.log("yyy", templateId.id);
-        console.log("ywy", templateId.event_id);
+        // console.log("yyy", templateId.id);
+        // console.log("ywy", templateId.event_id);
         handleGetTemplateList(localStorage.getItem("EventIdHeader"));
       }
     });
@@ -292,7 +292,6 @@ const Template = (props) => {
             resp.data.data.json_description
               ? JSON.parse(resp.data.data.json_description)
               : hello
-
           );
           loader("hide")
         }, 1000);

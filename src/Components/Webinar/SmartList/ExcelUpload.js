@@ -9,7 +9,7 @@ const ExcelUpload = () => {
 
   return (
     <>
-      {console.log(data)}
+      {/* {console.log(data)} */}
       <TableView data={data} smartListId={smartListId} upload_by_filter="0" />
     </>
   );

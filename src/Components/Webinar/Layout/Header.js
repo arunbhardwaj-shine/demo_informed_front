@@ -51,7 +51,7 @@ const Header = () => {
       ExportApi.GetEventList().then((resp) => {
         if (resp.ok) {
           setEvent(resp.data.data);
-          console.log(resp.data.code)
+          // console.log(resp.data.code)
   
           if (resp.data.code == 404) {
             localStorage.removeItem("EventIdHeader")
@@ -75,7 +75,16 @@ const Header = () => {
   useEffect(() => {
     window.addEventListener('EventData',()=> handleGetEventlist())
     handleGetEventlist()
+    handleGetEventlist()
   }, [token]);
+  useEffect(() => {
+    if (localStorage.getItem("Token")) {
+      handleGetEventlist()
+    } else{
+      localStorage.removeItem("EventIdHeader")
+    }
+  }, [localStorage.getItem("Token"),token]);
+
   const location = useLocation();
   return (
     <>
@@ -110,7 +119,10 @@ const Header = () => {
                 <li className="nav-item">
                   <a className="nav-link">Distrubute</a>
                 </li>
-                <div className="container">
+                <li className="nav-item active active-main">
+            <a className="nav-link" >Webinar</a>
+            </li>
+                {/* <div className="container">
                   <Link
                     to={
                       localStorage.getItem("Token")
@@ -120,10 +132,7 @@ const Header = () => {
                   >
                     Webinar
                   </Link>
-                </div>
-                {/* <li className="nav-item">
-						<Link to="/webinar"  >Webinar</Link>
-					  </li> */}
+                </div> */}
               </ul>
             </div>
 

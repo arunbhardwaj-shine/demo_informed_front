@@ -28,14 +28,14 @@ const SmartListUsers = () => {
   const handleGetSmartListSingleRecord = (id) => {
     ExportApi.GetSmartListSingleRecord(id).then((resp) => {
       if (resp.ok) {
-          console.log(resp.data.data)
+          // console.log(resp.data.data)
         setData(resp.data.data);
        
       }
     });
   };
   const handleGetTemplate = () => {
-    console.log(localStorage.getItem("TEMPLATEID"));
+    // console.log(localStorage.getItem("TEMPLATEID"));
     ExportApi.UserTemplate(localStorage.getItem("TEMPLATEID")).then((resp) => {
       if (resp.ok) {
         // console.log(resp.data.data.description);
@@ -49,7 +49,7 @@ const SmartListUsers = () => {
     ExportApi.sandAllmaik(localStorage.getItem("collection_id")).then(
       (resp) => {
         if (resp.ok) {
-          console.log(resp.data);
+          // console.log(resp.data);
           if (resp.data.code == 200) {
             loader("hide")
             toast.success(resp.data.message, {
@@ -84,7 +84,7 @@ const SmartListUsers = () => {
     const { id,innerText } = e.target;
     let obj =data
  
-    console.log("obj[index]",obj[index])
+    // console.log("obj[index]",obj[index])
     obj[index].name=innerText
    
   
@@ -96,7 +96,7 @@ const SmartListUsers = () => {
     //   obj.name = innerText
     // }
   
-console.log("change",obj)
+// console.log("change",obj)
     setData([...obj]);
   };
   const UpdateSmartList = () => {
@@ -128,7 +128,7 @@ console.log("change",obj)
     CopyData.splice(i, 1);
     ExportApi.DeleteSmartListData(JSON.parse(parms.id), id).then((resp) => {
       if (resp.ok) {
-        console.log(resp.data);
+        // console.log(resp.data);
         if (resp.data.code == 200) {
           loader("hide")
           toast.success(resp.data.message, {
@@ -160,12 +160,12 @@ console.log("change",obj)
   const handleEmailSCreateCollection = () => {
     loader("show")
     ExportApi.EmailSCreateCollection(
-      1,
+      2,
       localStorage.getItem("SmartListId"),
       localStorage.getItem("collection_id")
     ).then((resp) => {
       if (resp.ok) {
-        console.log(resp.data);
+        // console.log(resp.data);
         if (resp.data.code == 200) {
           loader("hide")
           toast.success(resp.data.message, {
@@ -205,7 +205,7 @@ console.log("change",obj)
 			localStorage.getItem("SmartListId"),Data)
             .then((resp) => {
               if (resp.data) {
-                console.log(resp.data);
+                // console.log(resp.data);
                 if (resp.data.code == 200) {
 					handleGetSmartListSingleRecord(parms.id)
                   loader("hide");
@@ -391,9 +391,10 @@ console.log("change",obj)
                                             <tr>
                                               <th>Email</th>
                                               <td      id={"Email" + index}
-                                          onInput={(e) => {
-                                            handleEditText(e, index, data.id);
-                                          }} contenteditable="true">{data.email}</td>
+                                          // onInput={(e) => {
+                                          //   handleEditText(e, index, data.id);
+                                          // }} contenteditable="true"
+                                          >{data.email}</td>
                                             </tr>
                                             <tr>
                                               <th>Country</th>
@@ -676,6 +677,14 @@ console.log("change",obj)
                                       <div class="mailbox-table">
                                         <table>
                                           <tbody>
+                                          <tr>
+                                              <th>Email</th>
+                                              <td      id={"Email" + index}
+                                          // onInput={(e) => {
+                                          //   handleEditText(e, index, data.id);
+                                          // }} contenteditable="true"
+                                          >{data.email}</td>
+                                            </tr>
                                             <tr>
                                               <th>Country</th>
                                               <td contenteditable={editable}>

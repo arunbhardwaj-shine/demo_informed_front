@@ -15,7 +15,7 @@ const SelectSmartList = () => {
   let path_image = '/' + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   const showConfirmationPopup = (id) => {
-    console.log(id);
+    // console.log(id);
     if (confirmationpopup) {
       setConfirmationPopup(false);
     } else {
@@ -26,9 +26,9 @@ const SelectSmartList = () => {
 
   const handleEmailSCreateCollection = () => {
     loader("show")
-    smartListDataId? ExportApi.EmailSCreateCollectionnext(smartListDataId,localStorage.getItem("collection_id")).then((resp) => {
+    smartListDataId? ExportApi.EmailSCreateCollectionnext(smartListDataId,localStorage.getItem("collection_id"),1).then((resp) => {
         if (resp.ok) {
-         console.log( resp.data)
+        //  console.log( resp.data)
          if (resp.data.code == 200) {
           loader("hide")
           toast.success(resp.data.message,{
@@ -62,21 +62,23 @@ const SelectSmartList = () => {
 
     console.log(headers);
     await axios
-      .post(`http://51.89.210.56:8000/api/smart-list/lists`, body, { headers })
+      // .post(`http://51.89.210.56:8000/api/smart-list/lists`, body, { headers })
+      .post(`http://192.168.0.46:8000/api/smart-list/lists`, body, { headers })
       .then((res) => {
         loader("hide");
-        console.log("res.data.data", res.data.data);
+        // console.log("res.data.data", res.data.data);
         setSmartListData(res.data.data);
         if (flag == 0) {
           loader("hide")
           //setFilterData(res.data.response.filter);
           setPrevSmartListData(res.data.data);
         }
-        console.log(res);
+        // console.log(res);
         loader("hide")
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
+        loader("hide")
       });
   };
   useEffect(() => {

@@ -1717,9 +1717,9 @@ const EmailList = (props) => {
           <Modal.Body>
             <img src={path + "alert.png"} alt="" />
             <h4>
-              The Email Campaign will be deleted from the list.
+              This email will be deleted.
               <br />
-              Are you sure you want to delete it?
+              Are you sure you wish to go ahead?
             </h4>
             <div className="modal-buttons">
               <button

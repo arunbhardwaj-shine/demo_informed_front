@@ -6,7 +6,7 @@ const Dashboard = () => {
   return (
     <div className="col right-sidebar">
        <div className="coming-soon">
-          <h2>Coming Soon</h2>
+          <h2>{'\u2734'} Coming Soon {'\u2734'}</h2>
         </div>
     </div>
   );

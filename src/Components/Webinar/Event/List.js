@@ -47,12 +47,12 @@ const EventData = () => {
     });
   };
   const handleGetEventlistSerch = (data) => {
-    console.log(updatedData);
+    // console.log(updatedData);
 
     setSearch(data);
 
     if (data == "") {
-      console.log("here");
+      // console.log("here");
       setEvent(updatedData);
     }
 
@@ -68,15 +68,15 @@ const EventData = () => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    console.log("form submmiteed");
+    // console.log("form submmiteed");
     let r_table = [];
 
     const searchData = search.trim();
 
     ExportApi.GetEventListSerch(searchData).then((resp) => {
-      console.log(resp);
+      // console.log(resp);
       if (resp.data.code == 200) {
-        console.log(resp.data.data);
+        // console.log(resp.data.data);
         setEvent(resp.data.data);
       } else {
         setEvent([]);
@@ -178,7 +178,7 @@ const EventData = () => {
   };
 
   const handleMultiInputRemove = (i) => {
-    console.log("i", i);
+    // console.log("i", i);
     Speakername.splice(i, 1);
     SpeakerErr.splice(i, 1);
     setSpeakerName([...Speakername]);
