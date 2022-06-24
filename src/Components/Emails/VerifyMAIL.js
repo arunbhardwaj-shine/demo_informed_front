@@ -664,11 +664,13 @@ const VerifyMAIL = (props) => {
             </div>
             <div className="col-12 verify-right">
               <div className="preview_mail">
-                <h4>Preview Your Email</h4>
+                <h4>{props.getEmailData?.emailSubject
+                  ? props.getEmailData.emailSubject
+                  : props.getDraftData.subject}</h4>
                 <p>
-                  {props.getEmailData?.emailSubject
-                    ? props.getEmailData.emailSubject
-                    : props.getDraftData.subject}
+                  {props.getEmailData?.emailDescription
+                    ? props.getEmailData.emailDescription
+                    : props.getDraftData.description}
                 </p>
                 <div
                   className="preview-mail-box"
