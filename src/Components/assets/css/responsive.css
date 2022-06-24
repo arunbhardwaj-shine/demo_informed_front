@@ -12,7 +12,19 @@
 	.modal-dialog { margin: 8rem auto; } 
 	#send-sample.modal-dialog { height: calc(100% - 16rem); } 
 	.modal-dialog-centered { min-height: calc(100% - 16rem); }
-
+	.search-hcp-table table th, .selected-hcp-list table th {
+		font-size: 16px;
+		line-height: 17px;
+	}
+	.form-inline .form-group input, #tagsModal .modal-footer form .form-group input {
+		font-size: 16px;
+	}
+	.smart-list-view .selected-hcp-list table {
+		max-width: 100%;
+	}
+	.smart-list-result .smartlist-add.smartlist-view {
+		max-width: 430px;
+	}
 }
 @media only screen and (min-width:2600px){
 	.email-result-block .email-block-add-box, .email-result-block .email_box_block, .smartlist-result-block .smartlist_box_block { width: 20%; } 
