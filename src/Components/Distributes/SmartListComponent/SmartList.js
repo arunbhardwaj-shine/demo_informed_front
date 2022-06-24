@@ -31,7 +31,7 @@ const SmartList = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   const body = {
-    user_id: 18207,
+    user_id: localStorage.getItem("user_id"),
     search: search,
     filter: filter,
   };
@@ -106,7 +106,7 @@ const SmartList = (props) => {
   const deleteEmail = () => {
     hideConfirmationModal();
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       smart_list_id: deletecardid,
     };
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;

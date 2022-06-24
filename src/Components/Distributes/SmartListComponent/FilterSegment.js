@@ -261,7 +261,7 @@ const FilterSegment = (props) => {
   const applyFilter = async () => {
     let flag_to_check_data = false;
     const payload = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
     };
 
     //For Contact Type

@@ -10,7 +10,6 @@ const Sidebar = () => {
   const location = useLocation();
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-
   const [getHideShowSideContent, setHideShowSideContent] = useState(false);
   const [getOpenVideoPopup, setOpenVideoPopup] = useState(false);
 
@@ -19,11 +18,11 @@ const Sidebar = () => {
   }
 
   if(location.pathname != "/EmailList" && location.pathname != "/SmartList" ){
-      if(!getHideShowSideContent || getHideShowSideContent){
+      // if(!getHideShowSideContent || getHideShowSideContent){
         //not toggling class
-      }else{
+      // }else{
         document.body.classList.add('toggle_sidebar');
-      }
+      // }
   }else{
       document.body.classList.remove('toggle_sidebar');
   }
@@ -66,7 +65,7 @@ const Sidebar = () => {
       c_id = localStorage.getItem("sd_i");
     }
   }
-  
+
   return (
     <>
       <div className="left-sidebar">
@@ -113,7 +112,7 @@ const Sidebar = () => {
               <path d="M15.7896 12H17.5757C17.794 12 17.9727 11.7512 17.9727 11.447V3.2627C17.9727 2.95855 17.794 2.70971 17.5757 2.70971H15.7896C15.5713 2.70971 15.3927 2.95855 15.3927 3.2627V11.447C15.3927 11.7512 15.5713 12 15.7896 12Z" fill="#0066BE" fill-opacity="0.6"/>
               <path d="M8.00049 7.52221L6.52809 7.521C6.22394 7.521 5.9751 7.76984 5.9751 8.07399V11.4473C5.9751 11.7514 6.22394 12.0003 6.52809 12.0003L8.00049 12.0015C8.30463 12.0015 8.55348 11.7526 8.55348 11.4485V8.0752C8.55348 7.77106 8.30463 7.52221 8.00049 7.52221Z" fill="#0066BE" fill-opacity="0.6"/>
               </svg>
-                <p>Email Analaytics</p>
+                <p>Email Analytics</p>
               </a>
             </li>
           </ul>

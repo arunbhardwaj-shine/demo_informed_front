@@ -20,8 +20,8 @@ var dxr = 0;
 var state_object = {};
 
 const CreateEmail = (props) => {
-  console.log(state_object);
-  console.log(props);
+  // console.log(state_object);
+  // console.log(props);
   let file_name = useRef("");
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const navigate = useNavigate();
@@ -43,8 +43,6 @@ const CreateEmail = (props) => {
   const [template, setTemplate] = useState("");
   const [readers, setReaders] = useState([]);
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
-  console.log(props.getDraftData);
-  console.log(state_object);
   const [emailDescription, setEmailDescription] = useState(
     state_object != null &&
       state_object != "undefined" &&
@@ -161,7 +159,7 @@ const CreateEmail = (props) => {
   const getSmartListData = (flag) => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       search: getsearch,
       filter: "",
     };
@@ -186,7 +184,7 @@ const CreateEmail = (props) => {
     loader("show");
     const getalCountry = async () => {
       const body = {
-        user_id: 18207,
+        user_id: localStorage.getItem("user_id"),
         language: "",
         ibu: "",
       };
@@ -209,7 +207,7 @@ const CreateEmail = (props) => {
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const getTemplateListData = async (flag) => {
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       language: "",
       ibu: "",
     };
@@ -237,7 +235,7 @@ const CreateEmail = (props) => {
 
   useEffect(() => {
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
     };
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -252,6 +250,7 @@ const CreateEmail = (props) => {
           // }
         })
         .catch((err) => {
+          loader("hide");
           //console.log(err);
         });
     };
@@ -274,6 +273,7 @@ const CreateEmail = (props) => {
         setTagClickedFirst(props.getDraftData.tags);
         setTemplateId(props.getDraftData.campaign_data.template_id);
         setIsApprovedStatus(props.getDraftData.status);
+        setTemplate(props.getDraftData.source_code);
       }
     }
   }, []);
@@ -292,7 +292,24 @@ const CreateEmail = (props) => {
           getSpecificKeyData &&
           getSpecificKeyData.hasOwnProperty("source_code")
         ) {
-          setTemplate(getSpecificKeyData.source_code);
+          console.log(state_object);
+          if(state_object != null &&  state_object?.template != "" ){
+                if(state_object.template !== ""){
+                    setTemplate("state_object.template");
+                    setTemplate(state_object.template);
+                }else{
+                  setTemplate(getSpecificKeyData.source_code);
+                }
+          }else if(props.getDraftData != null && props.getDraftData?.source_code != ""){
+            if(props.getDraftData.source_code !== ""){
+              setTemplate("props.getDraftData.source_code");
+              setTemplate(props.getDraftData.source_code);
+            }else{
+              setTemplate(getSpecificKeyData.source_code);
+            }
+          }else{
+            setTemplate(getSpecificKeyData.source_code);
+          }
         }
       }
     }
@@ -340,7 +357,7 @@ const CreateEmail = (props) => {
     if (typeof getSmartListId != "undefined" && getSmartListId !== 0) {
       loader("show");
       const body = {
-        user_id: 18207,
+        user_id: localStorage.getItem("user_id"),
         list_id: getSmartListId,
       };
       axios
@@ -389,7 +406,7 @@ const CreateEmail = (props) => {
 
     loader("show");
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       pdf_id: state_object?.PdfSelected
       ? state_object.PdfSelected
       : props.getDraftData.pdf_id,
@@ -397,6 +414,7 @@ const CreateEmail = (props) => {
       template_id: templateId,
       user_list: selected_ids,
       smartlist_id: "",
+      source_code: template,
     };
 
     //console.log(body);
@@ -450,7 +468,7 @@ const CreateEmail = (props) => {
 
   const saveAsTemplateButtonClicked = async () => {
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       source_code: template,
       template_id: templateId,
       name: templateName,
@@ -517,7 +535,7 @@ const CreateEmail = (props) => {
     if (typeof campaign !== "undefined" && campaign !== "") {
       console.log(props.getDraftData);
       const body = {
-        user_id: 18207,
+        user_id: localStorage.getItem("user_id"),
         pdf_id: state_object?.PdfSelected
           ? state_object.PdfSelected
           : props.getDraftData.pdf_id,
@@ -538,6 +556,7 @@ const CreateEmail = (props) => {
         },
 
         campaign_id: campaign_id_st,
+        source_code:template,
         status: 2,
       };
 
@@ -634,7 +653,7 @@ const CreateEmail = (props) => {
 
 
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       pdf_id: state_object?.PdfSelected
       ? state_object.PdfSelected
       : props.getDraftData.pdf_id,
@@ -730,7 +749,7 @@ const CreateEmail = (props) => {
         setTagClickedFirst((oldArray) => [...oldArray, newTag]);
 
         const body = {
-          user_id: 18207,
+          user_id: localStorage.getItem("user_id"),
           tags:newTag
         };
 
@@ -827,7 +846,7 @@ const CreateEmail = (props) => {
       toast.warning("Please enter name or email first");
     } else {
       const body = {
-        user_id: 18207,
+        user_id: localStorage.getItem("user_id"),
         name: name,
         email: email,
       };
@@ -962,7 +981,7 @@ const CreateEmail = (props) => {
 
       const body = {
         data: body_data,
-        user_id: 18207,
+        user_id: localStorage.getItem("user_id"),
         smart_list_id: "",
       };
 
@@ -1018,7 +1037,8 @@ const CreateEmail = (props) => {
       }
     } else {
       let formData = new FormData();
-      formData.append("user_id", 18207);
+      let user_id =  localStorage.getItem("user_id");
+      formData.append("user_id", user_id);
       formData.append("smart_list_id", "");
       formData.append("reader_file", selectedFile);
 
@@ -1093,7 +1113,7 @@ const CreateEmail = (props) => {
     let template_name = document.getElementById("template_name").value;
     if (template_name !== "" && template_name.trim().length > 0) {
       const body = {
-        user_id: 18207,
+        user_id: localStorage.getItem("user_id"),
         source_code: template,
         template_id: "",
         name: template_name,
@@ -1143,7 +1163,7 @@ const CreateEmail = (props) => {
     setShowLessInfo(true);
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       list_id: smart_list_id,
     };
     loader("show");
@@ -1442,7 +1462,6 @@ const CreateEmail = (props) => {
                   // You can store the "editor" and use when it is needed.
                 }}
                 onChange={(event, editor) => {
-                  //console.log(editor);
                   const data = editor.getData();
                   setTemplate(data);
                 }}
@@ -2491,7 +2510,6 @@ const CreateEmail = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state);
   dxr = state.getEmailData?.PdfSelected;
   state_object = state.getEmailData;
   return state;

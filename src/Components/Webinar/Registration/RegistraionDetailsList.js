@@ -607,7 +607,8 @@ const RegistrationDetailsList = () => {
           </Button>
           <Button
             onClick={() => {
-              setModalShow1(false);
+              // setModalShow1(false);
+              setModalShow(false)
             }}
           >
             Close

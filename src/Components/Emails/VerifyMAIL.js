@@ -82,7 +82,7 @@ const VerifyMAIL = (props) => {
     if (typeof pdf_id !== "undefined" && pdf_id != 0) {
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       const body = {
-        user_id: 18207,
+        user_id: localStorage.getItem("user_id"),
         pdf_id: pdf_id,
       };
       loader("show");
@@ -118,7 +118,7 @@ const VerifyMAIL = (props) => {
 
   const saveAsDraft = async () => {
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       pdf_id: props.getEmailData?.PdfSelected
         ? props.getEmailData.PdfSelected
         : props.getDraftData.pdf_id,
@@ -153,6 +153,9 @@ const VerifyMAIL = (props) => {
           : props.getDraftData.campaign_data.list_selection,
       },
       campaign_id: campaign_id_st,
+      source_code: props.getEmailData?.template
+        ? props.getEmailData.template
+        : props.getDraftData.source_code,
       status: 2,
     };
     // console.log(body);
@@ -198,7 +201,7 @@ const VerifyMAIL = (props) => {
           });
 
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       route_location: "VerifyMAIL",
       pdf_id: props.getEmailData?.PdfSelected
         ? props.getEmailData.PdfSelected
@@ -299,7 +302,7 @@ const VerifyMAIL = (props) => {
     setShowLessInfo(true);
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       list_id: smart_list_id,
     };
     loader("show");
@@ -354,7 +357,7 @@ const VerifyMAIL = (props) => {
                 <li className="active">
                   <Link to="/SelectHCP">Select HCPs</Link>
                 </li>
-               
+
                 {
                    typeof getSmartListData !== "undefined" &&
                    getSmartListData.hasOwnProperty("id")
@@ -377,7 +380,7 @@ const VerifyMAIL = (props) => {
 
                 }
 
-                
+
 
                 <li className="active active-main">
                   <a href="javascript:void(0)">Verify your Email</a>
@@ -416,7 +419,7 @@ const VerifyMAIL = (props) => {
                       : props.getDraftData.campaign}
                   </h6>
                   <h6>
-          
+
                     <strong>Creator | </strong>
                     {props.getEmailData?.emailCreator
         ? props.getEmailData.emailCreator
@@ -427,7 +430,6 @@ const VerifyMAIL = (props) => {
                     <ul>
                       {props.getEmailData?.tags
                         ? props.getEmailData.tags.map((tags, i) => {
-                            console.log(tags);
                             return (
                               <>
                                 <li className="list1">
@@ -596,7 +598,8 @@ const VerifyMAIL = (props) => {
                                   src={path_image + "smartlist-user.svg"}
                                   alt="User icon"
                                 />
-                                {getSmartListData.readers_count}
+                                {/*getSmartListData.readers_count*/}
+                                {selectedHcp.length}
                               </div>
                               {/* <div className="mail-stats">
                               <ul>
@@ -661,11 +664,13 @@ const VerifyMAIL = (props) => {
             </div>
             <div className="col-12 verify-right">
               <div className="preview_mail">
-                <h4>Preview Your Email</h4>
+                <h4>{props.getEmailData?.emailSubject
+                  ? props.getEmailData.emailSubject
+                  : props.getDraftData.subject}</h4>
                 <p>
-                  {props.getEmailData?.emailSubject
-                    ? props.getEmailData.emailSubject
-                    : props.getDraftData.subject}
+                  {props.getEmailData?.emailDescription
+                    ? props.getEmailData.emailDescription
+                    : props.getDraftData.description}
                 </p>
                 <div
                   className="preview-mail-box"
@@ -679,7 +684,7 @@ const VerifyMAIL = (props) => {
         </section>
       </div>
        </div>
-       </div>           
+       </div>
       <Modal
         id="add_hcp"
         show={isOpen}
@@ -750,9 +755,9 @@ const VerifyMAIL = (props) => {
                   HCPs{" "}
                   <span>
                     |
-                    {typeof getReaderDetails !== "undefined" &&
-                      getReaderDetails.length > 0 &&
-                      getReaderDetails.length}
+                    {typeof selectedHcp !== "undefined" &&
+                      selectedHcp.length > 0 &&
+                      selectedHcp.length}
                   </span>
                 </h4>
                 <div className="selected-hcp-table-action">
@@ -790,9 +795,9 @@ const VerifyMAIL = (props) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {typeof getReaderDetails !== "undefined" &&
-                      getReaderDetails.length > 0 &&
-                      getReaderDetails.map((rr, i) => {
+                    {typeof selectedHcp !== "undefined" &&
+                      selectedHcp.length > 0 &&
+                      selectedHcp.map((rr, i) => {
                         return (
                           <>
                             <tr>

@@ -50,7 +50,6 @@ const SelectHCP = (props) => {
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
 
   const handleInputChange = (event, selectede) => {
-    console.log(old_object);
     if (old_object) {
       old_object.selected = selectede;
       props.getEmailData(old_object);
@@ -84,9 +83,9 @@ const SelectHCP = (props) => {
   // console.log(props.getEmailData);
   // console.log(props.getDraftData);
   const saveAsDraft = async () => {
-    
+
     const body = {
-      user_id: 18207,
+      user_id: localStorage.getItem("user_id"),
       pdf_id: old_object?.PdfSelected
         ? old_object.PdfSelected
         : props.getDraftData.pdf_id,
@@ -111,6 +110,9 @@ const SelectHCP = (props) => {
         list_selection: templateId,
       },
       campaign_id: campaign_id_st,
+      source_code: old_object?.template
+        ? old_object.template
+        : props.getDraftData.source_code,
       status: 2,
     };
 
@@ -275,7 +277,7 @@ const SelectHCP = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  
+
 
   old_object = state.getEmailData;
   console.log(old_object);
