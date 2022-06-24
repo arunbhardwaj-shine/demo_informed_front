@@ -142,6 +142,15 @@ const GetEventListDataUpdate = (id, EventTitle, a, Description) =>
       },
     }
   );
+const DeleteEvent = (id) =>
+  BaseApi.post(
+    `delete-event`,
+    {event_id: id,}, {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
 const CreatEvent = (
      EventTitle,
             a ,
@@ -812,6 +821,7 @@ export default {
   SearchEmailSCollection,
   getCollectionData,
   UpdateEmailSCreate,
-  UpdateRegistrationPageDetail, 
+  UpdateRegistrationPageDetail,
+  DeleteEvent 
 
 };

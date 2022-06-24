@@ -18,9 +18,8 @@ const BaseApi = create({
    baseURL: 'http://192.168.0.46:8000/api/',
 
    headers:{Authorization:localStorage.getItem("Token")},
-
-
-
 });
+const BaseUrlImage = 'http://192.168.0.46:8000'
 
-export { BaseApi };
+
+export { BaseApi,BaseUrlImage };
