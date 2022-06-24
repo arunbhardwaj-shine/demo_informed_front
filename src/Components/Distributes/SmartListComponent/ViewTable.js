@@ -1071,7 +1071,7 @@ const ViewTable = (props) => {
                   </button>
                 </>
               ) : null}
-              {showReaders ? (
+              {showReaders && !saveOpen ? (
                 <div className="row">
                   <div className="col-md-12">
                     <button
