@@ -48,6 +48,7 @@ const EventData = () => {
   };
   const handleGetEventlistSerch = (data) => {
     console.log(updatedData);
+
     setSearch(data);
 
     if (data == "") {
@@ -69,7 +70,10 @@ const EventData = () => {
     event.preventDefault();
     console.log("form submmiteed");
     let r_table = [];
-    ExportApi.GetEventListSerch(search).then((resp) => {
+
+    const searchData = search.trim();
+
+    ExportApi.GetEventListSerch(searchData).then((resp) => {
       console.log(resp);
       if (resp.data.code == 200) {
         console.log(resp.data.data);
@@ -461,8 +465,14 @@ const EventData = () => {
                               <span></span> Fulfilled
                             </>
                           ) : (
-                            <>{event.days_left==1? <span>{event.days_left + " Day Left"}</span>:event.days_left==0?<span> Today</span>:<span>{event.days_left + " Days Left"}</span> }
-                             
+                            <>
+                              {event.days_left == 1 ? (
+                                <span>{event.days_left + " Day Left"}</span>
+                              ) : event.days_left == 0 ? (
+                                <span> Today</span>
+                              ) : (
+                                <span>{event.days_left + " Days Left"}</span>
+                              )}
                             </>
                           )}
                         </div>
@@ -738,7 +748,7 @@ const EventData = () => {
               </div>
               <div className="modal-footer-btn">
                 <Button
-                type="reset"
+                  type="reset"
                   class="btn btn-primary btn-bordered"
                   variant="danger"
                   onClick={() => {
