@@ -65,7 +65,7 @@ const EmailSand = () => {
           setMassage("Data Not Found");
         } else {
           setMassage(false)
-          console.log(resp.data.data);
+          // console.log(resp.data.data);
           let a = resp.data.data.data;
           for (let index = 0; index < a.length; index++) {
             if (a.length !== Checkbox.length) Checkbox.push({ Check: false });
@@ -109,7 +109,7 @@ const EmailSand = () => {
                 progress: undefined,
               });
             }
-            console.log(resp.data);
+            // console.log(resp.data);
           }
         });
       }
@@ -124,7 +124,7 @@ const EmailSand = () => {
     ExportApi.UserTemplateList(id).then((resp) => {
       if (resp.ok) {
         loader("hide")
-        console.log("first", resp.data.data);
+        // console.log("first", resp.data.data);
         if (resp.data.code == 404) {
           setTemplateId();
         }
@@ -136,7 +136,7 @@ const EmailSand = () => {
     setModalShow(true);
     ExportApi.UserTemplate(templateId).then((resp) => {
       if (resp.ok) {
-        console.log(resp.data.data.subject);
+        // console.log(resp.data.data.subject);
         document.getElementById("title").innerText = resp.data.data.subject;
         document.getElementById("one").innerHTML = resp.data.data.description;
       }
@@ -179,7 +179,7 @@ const EmailSand = () => {
             });
            
           }
-          console.log(resp.data.data);
+          // console.log(resp.data.data);
         }
       }
     );
@@ -196,7 +196,7 @@ const EmailSand = () => {
           setEmailData();
         } else {
           setMassage(false)
-          console.log(resp.data.data);
+          // console.log(resp.data.data);
           let a = resp.data.data.data;
           for (let index = 0; index < a.length; index++) {
             if (a.length !== Checkbox.length) Checkbox.push({ Check: false });
@@ -287,7 +287,7 @@ const EmailSand = () => {
       Check.Check = e.target.checked;
       Checkbox.splice(index, 1, Check);
       setChecked([...Checkbox]);
-      console.log(obj);
+      // console.log(obj);
       if (e.target.checked === true) {
         All.push(obj);
         setData(All);
@@ -298,21 +298,21 @@ const EmailSand = () => {
     const Check1 = Checkbox[i];
     Check1.Check = e.target.checked;
     Checkbox.splice(i, 1, Check1);
-    console.log(Checkbox);
+    // console.log(Checkbox);
     setChecked([...Checkbox]);
     if (e.target.checked === true) {
       setData([...data, val]);
     } else {
       const index = data?.findIndex((v) => v.id == val.id);
       const dataCopy = data;
-      console.log(dataCopy);
+      // console.log(dataCopy);
       dataCopy.splice(index, 1);
-      console.log(dataCopy);
+      // console.log(dataCopy);
       setData(dataCopy);
     }
   };
   const handleTempId = (e) => {
-    console.log(e);
+    // console.log(e);
     if (e == "null") {
       setTemplateId();
     } else {
@@ -323,7 +323,7 @@ const EmailSand = () => {
     ExportApi.ParticipantPage(id, eventId, registeredNonRegistered,search).then(
       (resp) => {
         if (resp.ok) {
-          console.log(resp.data);
+          // console.log(resp.data);
           if (resp.data.code === 404) {
             setEmailData();
             setMassage("Data Not Found");
@@ -339,7 +339,7 @@ const EmailSand = () => {
   };
 
   useEffect(() => {
-    console.log(data);
+    // console.log(data);
   }, [checked, data]);
   return (
    <div class="right-sidebar">

@@ -50,7 +50,7 @@ const RegistraionDetails = () => {
   const handleRadioChangedata = (e, i) => {
     const { checked, name } = e.target;
     const Index = selectedName.findIndex((v) => v.value == name);
-    console.log("selectedName",selectedName)
+    // console.log("selectedName",selectedName)
     let copy = selectedName[Index];
     copy.required = checked;
     setSelectedName([...selectedName]);
@@ -66,14 +66,14 @@ const RegistraionDetails = () => {
     Copyinputbox.isActive = e.target.checked;
     setInputBox([...inputbox]);
     if (selectedName[i]?.value != name && checked == true) {
-      console.log("data",data)
+      // console.log("data",data)
       selectedName.push(data);
     } else {
       selectedName.splice(i, 1);
       setSelectedName([...selectedName]);
     }
   };
-  console.log("Values", FieldValue);
+  // console.log("Values", FieldValue);
 
   const addData = () => {
     setField("");
@@ -93,7 +93,7 @@ const RegistraionDetails = () => {
       Body: Yup.string().required("Body text is required"),
     }),
     onSubmit: (values) => {
-      console.log(selectedName);
+      // console.log(selectedName);
       let copyData = JSON.stringify(selectedName);
       let formData = new FormData();
       formData.append("body", values.Body);
@@ -103,11 +103,11 @@ const RegistraionDetails = () => {
       formData.append("event_id", localStorage.getItem("EventIdHeader"));
       if (image) {
         loader("show");
-        console.log("formData,", formData);
+        // console.log("formData,", formData);
         ExportApi.CreateRegistrationPagedetail(formData)
           .then((resp) => {
             if (resp.data) {
-              console.log(resp.data);
+              // console.log(resp.data);
               if (resp.data.code == 200) {
                 loader("hide");
                 toast.success(resp.data.message);
@@ -160,7 +160,7 @@ const RegistraionDetails = () => {
   };
   return (
     <>
-    {console.log("selectedName",selectedName)}
+    {/* {console.log("selectedName",selectedName)} */}
       <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
       </div>
@@ -306,7 +306,7 @@ const RegistraionDetails = () => {
                         </Modal.Body>
                       </Modal>
 
-                      {console.log("FieldValue", FieldValue)}
+                      {/* {console.log("FieldValue", FieldValue)} */}
                       <button type="button" onClick={addData}>
                         Add data field <span>+</span>
                       </button>

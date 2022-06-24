@@ -63,7 +63,7 @@ const SendEmails = () => {
       filtertags.push(ftag);
       setFilterTags(filtertags);
     }
-    console.log("filtertags", filtertags);
+    // console.log("filtertags", filtertags);
     let getfilter = filter;
     if (getfilter.hasOwnProperty("tags")) {
       getfilter.tags = filtertags;
@@ -71,7 +71,7 @@ const SendEmails = () => {
       getfilter = Object.assign({ tags: filtertags }, filter);
     }
     setFilter(getfilter);
-    console.log("getfilter", filter);
+    // console.log("getfilter", filter);
 
     let up = updateflag + 1;
     setUpdateFlag(up);
@@ -149,7 +149,7 @@ const SendEmails = () => {
     ExportApi.sandAllmaik(id).then(
       (resp) => {
         if (resp.ok) {
-          console.log(resp.data);
+          // console.log(resp.data);
           if (resp.data.code == 200) {
             loader("hide")
             toast.success(resp.data.message, {
@@ -296,7 +296,7 @@ const SendEmails = () => {
                   </svg>
                 )}
               </button>
-              {console.log(showfilter)}
+              {/* {console.log(showfilter)} */}
               {showfilter && (
                 <div
                   className="dropdown-menu filter-options"

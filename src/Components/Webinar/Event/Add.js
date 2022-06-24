@@ -206,12 +206,12 @@ function Add(props) {
         )
           .then((resp) => {
             if (resp.data) {
-              console.log(resp.data);
+              // console.log(resp.data);
               if (resp.data.code == 200) {
                 loader("hide");
                 props.getEventList();
                 props.closePopup();
-                console.log(typeof resp.data.message);
+                // console.log(typeof resp.data.message);
                 toast.success(resp.data.message);
               } else {
                 toast.error(resp.data.message, {

@@ -31,9 +31,9 @@ function EmailStats() {
    localStorage.setItem("emailstatseventid",id)
     ExportApi.UserTemplateList(id).then((resp) => {
       if (resp.ok) {
-        console.log(resp.data.data);
+        // console.log(resp.data.data);
         if (templateId == null || templateId == undefined) {
-          console.log(id);
+          // console.log(id);
           setEventId(id);
           handleGetEmaildata(resp.data.data[0].id);
           setTemplateId(resp.data.data[0].id);
@@ -49,7 +49,7 @@ function EmailStats() {
       ExportApi.EmailStatss(localStorage.getItem("emailstatseventid"), id).then((resp) => {
         if (resp.ok) {
           loader("hide");
-           console.log(resp.data.data);
+          //  console.log(resp.data.data);
           setEmailData(resp.data.data.data);
           setPaginate(resp.data.data.paginate);
           setLabel(resp.data.data.paginate.label);
@@ -61,7 +61,7 @@ function EmailStats() {
   const handleGetParticipantPage = (id) => {
     ExportApi.EmailStatsPage(id, eventId, tempId).then((resp) => {
       if (resp.ok) {
-        console.log(resp.data);
+        // console.log(resp.data);
         if (resp.data.code === 404) {
         } else {
           setPaginate(resp.data.data.paginate);

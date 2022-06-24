@@ -207,7 +207,7 @@ function Rehearsal() {
     const { value } = e.target;
     const copydata = Speakername[i];
     copydata.invites_data[index].name = value;
-    console.log(copydata.invites_data[index].name);
+    // console.log(copydata.invites_data[index].name);
     Speakername.splice(i, 1, copydata);
     setSpeakerName([...Speakername]);
     if (value.length == 0) {
@@ -250,7 +250,7 @@ function Rehearsal() {
     setSpeakerName([...Speakername]);
     const copydataErr = SpeakernameErr[i];
     copydataErr.invites_data.push({ name: "", email: "" });
-    console.log("copydataErr", copydataErr);
+    // console.log("copydataErr", copydataErr);
     setSpeakerNameErr([...SpeakernameErr]);
   };
   const handleSpeakerDataInputRemove = (i, index) => {
@@ -258,7 +258,7 @@ function Rehearsal() {
     const copydataErr = SpeakernameErr[i];
     copydata.invites_data.splice(index, 1);
     copydataErr.invites_data.splice(index, 1);
-    console.log(copydata);
+    // console.log(copydata);
     setRerender(render + 1);
     setSpeakerName([...copydata]);
     setSpeakerNameErr([...copydataErr]);
@@ -269,7 +269,7 @@ function Rehearsal() {
         <div className="loader" id="custom_loader">
           <span className="loader-view"> </span>
         </div>
-        {console.log(Speakername)}
+        {/* {console.log(Speakername)} */}
         <ToastContainer
           position="top-right"
           autoClose={5000}

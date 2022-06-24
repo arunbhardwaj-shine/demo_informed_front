@@ -142,14 +142,14 @@ const ViewData = (props) => {
         headers,
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
 
         if (res.data.data) {
           if (res.data.data.length > 0) {
             //  loader("false");
             loader("hide");
-            console.log(res.data.data);
-            setEditList(res.data.data);
+            // console.log(res.data.data);
+            // setEditList(res.data.data);
 
             // setLoading(false);
             // setUploadedBy(res.data.response.upload_by_filter);
@@ -174,7 +174,7 @@ const ViewData = (props) => {
   };
 
   useEffect(() => {
-    console.log("hi");
+    // console.log("hi");
     getSmartListData();
   }, []);
 
@@ -284,13 +284,13 @@ const ViewData = (props) => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     // loader("show");
 
-    console.log(formData);
+    // console.log(formData);
     loader("show");
     await axios
       .post(baseURL + `upload-unregistered-participant`, formData, { headers })
       .then((res) => {
         //  console.log(smartListId);
-        console.log(res);
+        // console.log(res);
         if (res.data.code === 200) {
           loader("hide");
           setEditList(res.data.data);
@@ -316,7 +316,7 @@ const ViewData = (props) => {
     setEditList([]);
     setTimeout(() => {
       setEditList(vr);
-      console.log("This will run after 1 second!");
+      // console.log("This will run after 1 second!");
       setUpdateCounter(updateCounter + 1);
     }, 50);
   };
@@ -412,7 +412,7 @@ const ViewData = (props) => {
   };
 
   const addMoreHcp = () => {
-    console.log(hpc);
+    // console.log(hpc);
 
     const status = hpc.map((data) => {
       if (data.email == "") {
@@ -446,7 +446,7 @@ const ViewData = (props) => {
   };
 
   const saveEditClicked = async () => {
-    console.log(editableData);
+    // console.log(editableData);
 
     setEditable(0);
     if (editableData.length > 0) {
@@ -480,7 +480,7 @@ const ViewData = (props) => {
       await axios
         .post(baseURL + `smart-list/update-participants`, body, { headers })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
 
           if (res.data.code == 200) {
             toast.success("Data updated successfully");
@@ -530,7 +530,7 @@ const ViewData = (props) => {
         headers,
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
 
         //    loader("hide");
       })
@@ -607,7 +607,7 @@ const ViewData = (props) => {
       });
 
       let prev_obj = editableData.find((x) => x.id === id);
-      console.log(prev_obj);
+      // console.log(prev_obj);
 
       if (typeof prev_obj != "undefined") {
         editableData.map((obj) => arr.find((o) => o.id === id) || obj);
@@ -624,7 +624,7 @@ const ViewData = (props) => {
   };
 
   const onDelete = async ({ participants_id }) => {
-    console.log(participants_id);
+    // console.log(participants_id);
 
     if (editList.length > 1) {
       setIsOpen(true);
@@ -641,7 +641,7 @@ const ViewData = (props) => {
   const onFirstNameChange = (e, i) => {
     const { value } = e.target;
     const list = [...hpc];
-    console.log(list);
+    // console.log(list);
     const name = hpc[i].name;
     list[i].name = value;
     setHpc(list);
@@ -707,7 +707,7 @@ const ViewData = (props) => {
   const submitHandler = (event) => {
     let r_table = [];
     updateData.find(function (item) {
-      console.log(item);
+      // console.log(item);
       if (item.name.includes(search) || item.email.includes(search)) {
         r_table.push(item);
       }
@@ -728,7 +728,7 @@ const ViewData = (props) => {
       Authorization: `${localStorage.getItem("Token")}`,
     };
 
-    console.log(hpc);
+    // console.log(hpc);
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
         return {
@@ -748,7 +748,7 @@ const ViewData = (props) => {
         participants: JSON.stringify(body_data),
       };
 
-      console.log(body);
+      // console.log(body);
       const status = body_data.map((data) => {
         if (data.email == "") {
           return "false";
@@ -756,7 +756,7 @@ const ViewData = (props) => {
           return "true";
         }
       });
-      console.log(status);
+      // console.log(status);
 
       if (status.every((element) => element == "true")) {
         loader("show");
@@ -766,11 +766,11 @@ const ViewData = (props) => {
             headers,
           })
           .then((res) => {
-            console.log(res);
+            // console.log(res);
             if (res.data.code === 200) {
               //  loader("hide");
               // toast.success("User added successfuly");
-              console.log("res");
+              // console.log("res");
               let old_data = editList;
               let new_data = JSON.parse(res.data.data);
               //setNewData((oldArray) => [...new_data, ...oldArray]);
@@ -800,7 +800,7 @@ const ViewData = (props) => {
       formData.append("user_id", 18207);
       formData.append("smart_list_id", getlistid);
       formData.append("reader_file", selectedFile);
-      console.log(formData);
+      // console.log(formData);
       if (selectedFile) {
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         //    loader("show");
@@ -813,7 +813,7 @@ const ViewData = (props) => {
               let new_data = res.data.response.data;
               setNewData(new_data);
               combine_data = [...new_data, ...old_data];
-              console.log(new_data);
+              // console.log(new_data);
               // console.log(combine_data);
               setEditList(old_data);
               setShowSaveReader(true);
@@ -1350,7 +1350,7 @@ const ViewData = (props) => {
                                             ([index, item]) => {
                                               return (
                                                 <>
-                                                  {console.log(item)}
+                                                  {/* {console.log(item)} */}
                                                   <option value={index}>
                                                     {item.country}
                                                   </option>

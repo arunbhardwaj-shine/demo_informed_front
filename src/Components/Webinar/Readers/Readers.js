@@ -112,7 +112,7 @@ const Readers = () => {
     }
   };
   const handleGetReadersCountry = (id) => {
-    console.log(id);
+    // console.log(id);
     if (id == "null") {
       setMassage("No data found");
       setData();
@@ -266,8 +266,8 @@ const Readers = () => {
   const getCountryFilter = (e, country_id) => {
     //  console.log(country_id);
     const { value, checked } = e.target;
-    console.log(value);
-    console.log(checked);
+    // console.log(value);
+    // console.log(checked);
 
     if (checked) {
       setSelectedCountry((oldArray) => [...oldArray, country_id]);
@@ -300,8 +300,8 @@ const Readers = () => {
 
   const getUserType = (e, type) => {
     const { value, checked } = e.target;
-    console.log(value);
-    console.log(checked);
+    // console.log(value);
+    // console.log(checked);
 
     if (checked) {
       setSelectedType((oldArray) => [...oldArray, type]);
@@ -327,8 +327,8 @@ const Readers = () => {
   };
 
   const filterData = async () => {
-    console.log(selectedCountry);
-    console.log(selectedType);
+    // console.log(selectedCountry);
+    // console.log(selectedType);
 
     const body = {
       event_id: localStorage.getItem("EventIdHeader"),
@@ -348,9 +348,9 @@ const Readers = () => {
         headers,
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res.data.code == 200) {
-          console.log(res);
+          // console.log(res);
           setData(res.data.data.data);
 
           loader("hide");
@@ -486,7 +486,7 @@ const Readers = () => {
                   </svg>
                 )}
               </button>
-              {console.log(showfilter)}
+              {/* {console.log(showfilter)} */}
               {showfilter && (
                 <div
                   className="dropdown-menu filter-options"
@@ -504,10 +504,10 @@ const Readers = () => {
                           {countryName.map((data, index) => {
                             return (
                               <li>
-                                {console.log(
+                                {/* {console.log(
                                   selectedCountry.indexOf(data) !== -1
-                                )}
-                                {console.log("here")}
+                                )} */}
+                                {/* {console.log("here")} */}
                                 {data != "" ? (
                                   <label className="select-multiple-option">
                                     <input

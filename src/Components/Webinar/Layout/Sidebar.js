@@ -40,7 +40,7 @@ const Sidebar = () => {
       location.pathname === "/webinar/portal/registrationDetails" ||
       location.pathname === "/webinar/portal/registrationDetailslist"
     ) {
-      console.log("hi");
+      // console.log("hi");
       setHomeStatus(true);
       const bodyHasClass = document.body.classList.contains(
         "sub_menu_toggle_sidebar"
@@ -56,7 +56,7 @@ const Sidebar = () => {
       location.pathname === "/webinar/portal/registrationDetails" ||
       location.pathname === "/webinar/portal/registrationDetailslist"
     ) {
-      console.log("hi");
+      // console.log("hi");
       setHomeStatus(true);
       const bodyHasClass = document.body.classList.contains(
         "sub_menu_toggle_sidebar"
@@ -84,7 +84,7 @@ const Sidebar = () => {
         "SmartListId"
       )}`
     ) {
-      console.log("hi");
+      // console.log("hi");
       setEmailStatus(true);
       const bodyHasClass = document.body.classList.contains(
         "sub_menu_toggle_sidebar"
