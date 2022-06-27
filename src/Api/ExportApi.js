@@ -145,27 +145,28 @@ const GetEventListDataUpdate = (id, EventTitle, a, Description) =>
 const DeleteEvent = (id) =>
   BaseApi.post(
     `delete-event`,
-    {event_id: id,}, {
+    { event_id: id },
+    {
       headers: {
         Authorization: localStorage.getItem("Token"),
       },
     }
   );
 const CreatEvent = (
-     EventTitle,
-            a ,
-            Timezone,
-            Bu,
-            dateData,
-            Description,
-            Region,
-            Country,
-          start_hour,
-          end_hour,
-          start_min,
-          end_min,
-          start_am_pm,
-          end_am_pm
+  EventTitle,
+  a,
+  Timezone,
+  Bu,
+  dateData,
+  Description,
+  Region,
+  Country,
+  start_hour,
+  end_hour,
+  start_min,
+  end_min,
+  start_am_pm,
+  end_am_pm
 ) =>
   BaseApi.post(
     "event",
@@ -178,12 +179,12 @@ const CreatEvent = (
       description: Description,
       country_timezone: Region,
       location: Country,
-      start_hour :start_hour,
-      end_hour   :      end_hour,
-      start_min  :       start_min,
-      end_min    :     end_min,
-      start_am_pm:         start_am_pm,
-      end_am_pm  :       end_am_pm
+      start_hour: start_hour,
+      end_hour: end_hour,
+      start_min: start_min,
+      end_min: end_min,
+      start_am_pm: start_am_pm,
+      end_am_pm: end_am_pm,
     },
     {
       headers: {
@@ -271,18 +272,27 @@ const DeleteTemplate = (id) =>
       },
     }
   );
-const UpdateTemplate = (subject, templateName, eventid, id, html, i,tagClickedFirst,is_approved) =>
+const UpdateTemplate = (
+  subject,
+  templateName,
+  eventid,
+  id,
+  html,
+  i,
+  tagClickedFirst,
+  is_approved
+) =>
   BaseApi.post(
     "update-template",
     {
-      is_approved:is_approved,
+      is_approved: is_approved,
       name: templateName,
       event_id: eventid,
       subject: subject,
       json_description: id,
       description: html,
       template_id: i,
-      tags:tagClickedFirst,
+      tags: tagClickedFirst,
     },
     {
       headers: {
@@ -306,19 +316,27 @@ const CreateRegistrationPagedetail = (form) =>
     },
   });
 const RegistrationPageDetailList = (id) =>
-  BaseApi.get(`get-registration-detail-list/${id}`,{},{
-    headers: {
-      Authorization: localStorage.getItem("Token"),
-      "Content-Type": "application/json",
-    },
-  });
+  BaseApi.get(
+    `get-registration-detail-list/${id}`,
+    {},
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+        "Content-Type": "application/json",
+      },
+    }
+  );
 const RegistrationPageDetail = (id) =>
-  BaseApi.get(`get-registration-detail/${id}`, {}, {
-    headers: {
-      Authorization: localStorage.getItem("Token"),
-      "Content-Type": "application/json",
-    },
-  });
+  BaseApi.get(
+    `get-registration-detail/${id}`,
+    {},
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+        "Content-Type": "application/json",
+      },
+    }
+  );
 const RegistrationPageList = (id) =>
   BaseApi.get(
     `registration-pages/${id}`,
@@ -470,7 +488,7 @@ const EmailStatsPage = (id, eventId, template_id) =>
 const EmailSand = (id, name) =>
   BaseApi.post(
     `create-unregistered-participant`,
-    { smart_list_id : id,participants:name},
+    { smart_list_id: id, participants: name },
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
@@ -503,13 +521,11 @@ const EmailSandRegisteredType = (type, event_id, user_type) =>
       },
     }
   );
-const sandAllmaik = (
-  collection_id
-) =>
+const sandAllmaik = (collection_id) =>
   BaseApi.post(
     `send-mail`,
     {
-      collection_id:collection_id
+      collection_id: collection_id,
     },
     {
       headers: {
@@ -652,61 +668,83 @@ const getEmailStatsChart = (eventid, templateId) =>
       },
     }
   );
-  ///....CreateEmail.....\\\\
-const EmailSCreate = (template_id,eventid,subject ,tags,smart_list_id,) =>
+///....CreateEmail.....\\\\
+const EmailSCreate = (template_id, eventid, subject, tags, smart_list_id) =>
   BaseApi.post(
     `emails/create`,
-    {template_id: template_id,smart_list_id:smart_list_id,event_id: eventid,subject :subject,tags :tags, },
+    {
+      template_id: template_id,
+      smart_list_id: smart_list_id,
+      event_id: eventid,
+      subject: subject,
+      tags: tags,
+    },
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
       },
     }
   );
-const UpdateEmailSCreate = (id,collection_id) =>
+const UpdateEmailSCreate = (id, collection_id) =>
   BaseApi.post(
     `emails/create`,
-    {template_id:id,collection_id: collection_id},
+    { template_id: id, collection_id: collection_id },
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
       },
     }
   );
-const EmailSCreateCollection = (approved_status,smart_list_id,collection_id) =>
+const EmailSCreateCollection = (
+  approved_status,
+  smart_list_id,
+  collection_id
+) =>
   BaseApi.post(
     `emails/create`,
-    {approved_status:approved_status,smart_list_id:smart_list_id,collection_id:collection_id },
+    {
+      approved_status: approved_status,
+      smart_list_id: smart_list_id,
+      collection_id: collection_id,
+    },
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
       },
     }
   );
-const EmailSCreateCollectionnext = (smart_list_id,collection_id,approved_status  ) =>
+const EmailSCreateCollectionnext = (
+  smart_list_id,
+  collection_id,
+  approved_status
+) =>
   BaseApi.post(
     `emails/create`,
-    {smart_list_id:smart_list_id,collection_id:collection_id,approved_status:approved_status, },
+    {
+      smart_list_id: smart_list_id,
+      collection_id: collection_id,
+      approved_status: approved_status,
+    },
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
       },
     }
   );
-const GetEmailSCollection = ( id ) =>
+const GetEmailSCollection = (id) =>
   BaseApi.post(
     `emails/collections`,
-    {event_id:id},
+    { event_id: id },
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
       },
     }
   );
-const SearchEmailSCollection = (tags_search ,search) =>
+const SearchEmailSCollection = (tags_search, search) =>
   BaseApi.post(
     `emails/collections`,
-    {tags_search:tags_search,search:search},
+    { tags_search: tags_search, search: search },
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
@@ -723,30 +761,30 @@ const getCollectionData = (id) =>
       },
     }
   );
-const GetSmartListSingleRecord = (id ) =>
+const GetSmartListSingleRecord = (id) =>
   BaseApi.post(
     `smart-list/single-record`,
-    {smart_list_id:id },
+    { smart_list_id: id },
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
       },
     }
   );
-const UpdateSmartListData= (id,participants ) =>
+const UpdateSmartListData = (id, participants) =>
   BaseApi.post(
     `smart-list/update-participants`,
-    {smart_list_id:id,participants:participants },
+    { smart_list_id: id, participants: participants },
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
       },
     }
   );
-const DeleteSmartListData= (id,participants ) =>
+const DeleteSmartListData = (id, participants) =>
   BaseApi.post(
     `smart-list/delete-participants`,
-    {smart_list_id:id,participant_id :participants },
+    { smart_list_id: id, participant_id: participants },
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
@@ -822,6 +860,5 @@ export default {
   getCollectionData,
   UpdateEmailSCreate,
   UpdateRegistrationPageDetail,
-  DeleteEvent 
-
+  DeleteEvent,
 };
