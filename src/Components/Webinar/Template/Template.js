@@ -449,7 +449,7 @@ const Template = (props) => {
       {/* end of create template modal code ------------------  */}
 
       {/*  start of test email modal code ------------------  */}
-      <Modal
+      <Modal id="send_mail"
         show={modalShow2}
         size="md"
         aria-labelledby="contained-modal-title-vcenter"
@@ -457,17 +457,7 @@ const Template = (props) => {
       >
         <Modal.Header >
         <h4>Test Mail</h4> 
-           <button
-
-type="button"
-
-onClick={() => setModalShow2(false)}
-
-class="btn-close"
-
-data-bs-dismiss="modal"
-
-></button>
+           <button type="button" onClick={() => setModalShow2(false)} class="btn-close" data-bs-dismiss="modal"></button>
         </Modal.Header>
         <Modal.Body>
           <Testmail data={setModalShow2} data1={id} />

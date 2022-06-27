@@ -7,7 +7,9 @@ function App() {
   return (
     <>
      <div className="col right-sidebar">
-      <h2>HOME page</h2>
+       <div className="coming-soon">
+          <h2>✴ Home Page ✴</h2>
+       </div>
       </div>
     </>
   );   

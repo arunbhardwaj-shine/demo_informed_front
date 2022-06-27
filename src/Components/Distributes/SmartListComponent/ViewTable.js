@@ -7,6 +7,7 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import SimpleReactValidator from "simple-react-validator";
 import { loader } from "../../../loader";
 import EditCountry from "../../CommonComponent/EditCountry";
+import EditContactType from "../../CommonComponent/EditContactType";
 
 import { toast } from "react-toastify";
 
@@ -378,20 +379,28 @@ const ViewTable = (props) => {
         const name_edit    = document.getElementById("field_name" + data.profile_user_id).innerText;
         const country_edit = document.getElementById("field_country" + data.profile_user_id).value;
         const edit_index = document.getElementById("field_index" + data.profile_user_id).value;
+        const contact_type_edit = document.getElementById("field_contact_type" + data.profile_user_id).value;
 
         let prev_obj = editList.find(x => x.profile_user_id === data.profile_user_id);
         if(typeof prev_obj != "undefined"){
           if(typeof editList[edit_index] != "undefined"){
               editList[edit_index].country = country_edit;
           }
+          if(typeof editList[edit_index] != "undefined"){
+              editList[edit_index].contact_type = contact_type_edit;
+          }
         }else{
           if(typeof newData[edit_index] != "undefined"){
             newData[edit_index].country = country_edit;
+          }
+          if(typeof newData[edit_index] != "undefined"){
+            newData[edit_index].contact_type = contact_type_edit;
           }
         }
 
         data.country = country_edit;
         data.username = name_edit;
+        data.contact_type = contact_type_edit;
       });
     }
 
@@ -401,7 +410,7 @@ const ViewTable = (props) => {
         user_id: localStorage.getItem("user_id"),
         edit_list_array: editableData,
       };
-      // console.log(body);
+
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
       await axios
@@ -550,7 +559,8 @@ const ViewTable = (props) => {
     jobTitle,
     company,
     country,
-    names
+    names,
+    contact_type
   ) => {
     // let ignoreClickOnMeElement = document.getElementById(
     //   "row-selected" + index
@@ -562,6 +572,7 @@ const ViewTable = (props) => {
         //   async (event) => {
             const name_edit    = document.getElementById("field_name" + profile_user_id).innerText;
             const country_edit = document.getElementById("field_country" + profile_user_id).value;
+            const contact_type_edit = document.getElementById("field_contact_type" + profile_user_id).value;
 
             var arr = [];
             arr.push({
@@ -572,6 +583,7 @@ const ViewTable = (props) => {
               company: company,
               country: country_edit,
               username: name_edit,
+              contact_type:contact_type_edit
             });
 
             // if(editableData.length > 0){
@@ -1120,6 +1132,7 @@ const ViewTable = (props) => {
                       item.company,
                       item.country,
                       item.first_name + " " + item.last_name,
+                      item.contact_type,
                     )}
                   >
                     <td contenteditable={editable === 0 ? "false" : "true"} id={`field_name` + item.profile_user_id}>
@@ -1153,8 +1166,14 @@ const ViewTable = (props) => {
                       editable ? <EditCountry selected_country={item.country} profile_user={item.profile_user_id}></EditCountry> : <span>{item.country}</span>
                     }
                     </td>
-                    <td> {item.ibu}</td>
-                    <td> {item.contact_type}</td>
+                    <td>
+                      {item.ibu}
+                    </td>
+                    <td>
+                    {
+                      editable ? <EditContactType selected_ibu={item.contact_type} profile_user={item.profile_user_id}></EditContactType> : <span>{item.contact_type}</span>
+                    }
+                    </td>
                     {showLessInfo == false ? (
                       <td>
                         <span>{item.consent}</span>{" "}
@@ -1208,6 +1227,7 @@ const ViewTable = (props) => {
                         item.company,
                         item.country,
                         item.first_name + " " + item.last_name,
+                        item.contact_type,
                       )
                     }
                   >
@@ -1227,7 +1247,11 @@ const ViewTable = (props) => {
                       }
                     </td>
                     <td id="field_business_unit">{item.ibu}</td>
-                    <td id="field_interest">{item.contact_type}</td>
+                    <td id="field_interest">
+                    {
+                      editable ? <EditContactType selected_ibu={item.contact_type} profile_user={item.profile_user_id}></EditContactType> : <span>{item.contact_type}</span>
+                    }
+                    </td>
 
 
                     {showLessInfo == false ? (
