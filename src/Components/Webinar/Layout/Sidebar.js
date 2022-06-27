@@ -16,9 +16,9 @@ const Sidebar = () => {
     if (localStorage.getItem("Token")) {
       setToken(true);
     } else {
-      document.body.classList.remove("sub_menu_toggle_sidebar")
-      setHomeStatus(false)
-      setEmailStatus(false)
+      document.body.classList.remove("sub_menu_toggle_sidebar");
+      setHomeStatus(false);
+      setEmailStatus(false);
       setToken(false);
     }
   }, [localStorage.getItem("Token")]);
@@ -28,9 +28,9 @@ const Sidebar = () => {
   };
   useEffect(() => {
     if (token === null || token === undefined) {
-      document.body.classList.remove("sub_menu_toggle_sidebar")
-      setHomeStatus(false)
-      setEmailStatus(false)
+      document.body.classList.remove("sub_menu_toggle_sidebar");
+      setHomeStatus(false);
+      setEmailStatus(false);
       setToken(false);
     }
   }, [localStorage.getItem("Token"), token]);
@@ -74,15 +74,13 @@ const Sidebar = () => {
       location.pathname === "/webinar/email/ViewSmartListWebinar" ||
       location.pathname === "/webinar/email/SmartListCreate" ||
       location.pathname === "/webinar/email/SmartListCreate/FilterList" ||
-      location.pathname === "/webinar/email/SmartListCreate/ExcelUpload"||
-      location.pathname === "/webinar/email/template"||
-      location.pathname === "/webinar/email/emails"||
-      location.pathname === "/webinar/email/create"||
-      location.pathname === "/webinar/email/smart-list"||
+      location.pathname === "/webinar/email/SmartListCreate/ExcelUpload" ||
+      location.pathname === "/webinar/email/template" ||
+      location.pathname === "/webinar/email/emails" ||
+      location.pathname === "/webinar/email/create" ||
+      location.pathname === "/webinar/email/smart-list" ||
       location.pathname ===
-      `/webinar/email/smart-list-users/${localStorage.getItem(
-        "SmartListId"
-      )}`
+        `/webinar/email/smart-list-users/${localStorage.getItem("SmartListId")}`
     ) {
       // console.log("hi");
       setEmailStatus(true);
@@ -246,7 +244,9 @@ const Sidebar = () => {
                     >
                       <img src={path_image + "webinar/portal.svg"} />
                       {/* <p className="tooltip">Portal Preparation</p> */}
-                      {isHoveringRegistration && <p className="tooltip">Portal</p>}
+                      {isHoveringRegistration && (
+                        <p className="tooltip">Portal</p>
+                      )}
                     </Link>
                   </li>
 
@@ -634,7 +634,8 @@ const Sidebar = () => {
                       className={
                         location.pathname ===
                           "/webinar/portal/registrationDetails" ||
-                        location.pathname === "/webinar/portal/registrationDetailslist"
+                        location.pathname ===
+                          "/webinar/portal/registrationDetailslist"
                           ? "active"
                           : "side_li"
                       }
@@ -704,7 +705,7 @@ const Sidebar = () => {
                         location.pathname ===
                           "/webinar/email/SmartListCreate" ||
                         location.pathname ===
-                          "webinar/email/SmartListCreate/FilterList" ||
+                          "/webinar/email/SmartListCreate/FilterList" ||
                         location.pathname ===
                           "/webinar/email/SmartListCreate/ExcelUpload"
                           ? "active"

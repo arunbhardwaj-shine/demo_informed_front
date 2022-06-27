@@ -531,7 +531,6 @@ const ViewData = (props) => {
       })
       .then((res) => {
         // console.log(res);
-
         //    loader("hide");
       })
       .catch((err) => {
@@ -1351,7 +1350,7 @@ const ViewData = (props) => {
                                               return (
                                                 <>
                                                   {/* {console.log(item)} */}
-                                                  <option value={index}>
+                                                  <option value={item.country}>
                                                     {item.country}
                                                   </option>
                                                 </>

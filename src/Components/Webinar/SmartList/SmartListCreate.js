@@ -20,6 +20,7 @@ const SmartListCreate = () => {
   const [smartListName, setSmartListName] = useState("");
   const [smartListId, setSmartListId] = useState();
   const [data, setData] = useState([]);
+  const [showValidationMessage, setShowValidationMessage] = useState(false);
 
   const handleClose = () => {
     setShow(false);
@@ -32,12 +33,19 @@ const SmartListCreate = () => {
 
   const handleSmartListName = async (event) => {
     setSmartListName(event.target.value);
+    if (event.target.value == "") {
+      setShowValidationMessage(true);
+    } else {
+      setShowValidationMessage(false);
+    }
   };
 
   const segmentCohort = (listId) => {
     //console.log(smartListId);
     if (!smartListName.trim()) {
-      toast.warning("Please enter the smart list name first.");
+      // toast.warning("Please enter the smart list name first.");
+
+      setShowValidationMessage(true);
     } else {
       navigate("/webinar/email/SmartListCreate/FilterList", {
         state: { smartListName: smartListName, smartListId: listId },
@@ -51,7 +59,8 @@ const SmartListCreate = () => {
 
   const createSmartList = async () => {
     if (!smartListName.trim()) {
-      toast.warning("Please enter the Smart list name first");
+      setShowValidationMessage(true);
+      //  toast.warning("Please enter the Smart list name first");
       return;
     }
 
@@ -91,7 +100,8 @@ const SmartListCreate = () => {
 
   const createSmartListCohort = async () => {
     if (!smartListName.trim()) {
-      toast.warning("Please enter the Smart list name first");
+      // toast.warning("Please enter the Smart list name first");
+      setShowValidationMessage(true);
       return;
     }
 
@@ -134,7 +144,8 @@ const SmartListCreate = () => {
     // e.preventDefault();
     // console.log("inside handle show");
     if (!smartListName.trim()) {
-      toast.warning("Please enter the smart list name first");
+      // toast.warning("Please enter the smart list name first");
+      setShowValidationMessage(true);
     } else {
       setShow(true);
     }
@@ -273,6 +284,11 @@ const SmartListCreate = () => {
                         value={smartListName}
                         onChange={(event) => handleSmartListName(event)}
                       />
+                      {showValidationMessage ? (
+                        <p style={{ color: "red" }}>
+                          Smart list name is required
+                        </p>
+                      ) : null}{" "}
                     </div>
                     <div className="form-group col no-padding">
                       <div className="form-group-content">
