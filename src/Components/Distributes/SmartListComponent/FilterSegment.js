@@ -444,7 +444,7 @@ const FilterSegment = (props) => {
           <div className="row justify-content-end align-items-center">
             <div className="col-12 col-md-6">
               <div className="page-title">
-                <h2>Smart List Name</h2>
+                <h2>{props.listname}</h2>
               </div>
             </div>
             <div className="col-12 col-md-6">
