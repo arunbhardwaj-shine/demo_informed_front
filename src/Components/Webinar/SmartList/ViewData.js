@@ -59,6 +59,8 @@ const ViewData = (props) => {
 
   const [validator3Counter, setValidator3Counter] = useState(0);
 
+  const [showValidationMessage, setShowValidationMessage] = useState(false);
+
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [activeManual, setActiveManual] = useState("active");
   const [newData, setNewData] = useState([]);
@@ -435,7 +437,8 @@ const ViewData = (props) => {
         },
       ]);
     } else {
-      toast.warning("Please input the email atleast");
+      setShowValidationMessage(true);
+      //toast.warning("Please input the email atleast");
     }
   };
 
@@ -665,6 +668,11 @@ const ViewData = (props) => {
 
   const onEmailChange = (e, i) => {
     const { value } = e.target;
+    if (value != "") {
+      setShowValidationMessage(false);
+    } else {
+      setShowValidationMessage(true);
+    }
     const list = [...hpc];
     const name = hpc[i].email;
     list[i].email = value;
@@ -722,6 +730,7 @@ const ViewData = (props) => {
 
   const saveClicked = async (e) => {
     //  setIsOpenAdd(false);
+
     const headers = {
       "Content-Type": "application/json",
       Authorization: `${localStorage.getItem("Token")}`,
@@ -792,7 +801,8 @@ const ViewData = (props) => {
             //     loader("hide");
           });
       } else {
-        toast.warning("Please enter the email atleast");
+        // toast.warning("Please enter the email atleast");
+        setShowValidationMessage(true);
       }
     } else {
       let formData = new FormData();
@@ -1300,6 +1310,11 @@ const ViewData = (props) => {
                                       }
                                       value={val.email}
                                     />
+                                    {showValidationMessage ? (
+                                      <p style={{ color: "red" }}>
+                                        Email is required
+                                      </p>
+                                    ) : null}{" "}
                                   </div>
                                 </div>
 
