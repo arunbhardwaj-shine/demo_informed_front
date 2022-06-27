@@ -569,7 +569,8 @@ const SelectSmartListUsers = (props) => {
       //  setIsOpen(false);
     } else {
       let formData = new FormData();
-      formData.append("user_id", 18207);
+      let user_id =  localStorage.getItem("user_id");
+      formData.append("user_id", user_id);
       formData.append("smart_list_id", "");
       formData.append("reader_file", selectedFile);
 
@@ -616,7 +617,7 @@ const SelectSmartListUsers = (props) => {
 
   return (
     <>
-      <div className="right-sidebar">
+      <div className="col right-sidebar">
       <div className="custom-container">
         <div className="row">
         <div className="page-top-nav">

@@ -128,7 +128,7 @@ const TableView = (props, ref) => {
         .post(`distributes/filters_list`, body)
         .then((res) => {
           setCountryall(res.data.response.data.country);
-          console.log(countryall);
+          // console.log(countryall);
           // setCounter(counter + 1);
         })
         .catch((err) => {
@@ -215,7 +215,7 @@ const TableView = (props, ref) => {
           console.log(err);
         });
     } else {
-      console.log(validator2.errorMessages);
+      // console.log(validator2.errorMessages);
       validator2.showMessages();
       setFileValidationMeassage(fileValidationMessage + 1);
     }
@@ -244,7 +244,7 @@ const TableView = (props, ref) => {
       // async (event) => {
       const name_edit = document.getElementById("field_name" + id).innerText;
 
-      console.log(name_edit);
+      // console.log(name_edit);
 
       var arr = [];
       arr.push({
@@ -259,7 +259,7 @@ const TableView = (props, ref) => {
       });
 
       let prev_obj = editableData.find((x) => x.id === id);
-      console.log(prev_obj);
+      // console.log(prev_obj);
 
       if (typeof prev_obj != "undefined") {
         editableData.map((obj) => arr.find((o) => o.id === id) || obj);
@@ -571,7 +571,7 @@ const TableView = (props, ref) => {
   };
 
   const addMoreHcp = () => {
-    console.log(hpc);
+    // console.log(hpc);
 
     const status = hpc.map((data) => {
       if (data.email == "") {
@@ -617,9 +617,9 @@ const TableView = (props, ref) => {
         profile_user_id,
       });
     } else {
-      console.log("validator3");
-      console.log(validator3);
-      console.log(validator3.errorMessages);
+      // console.log("validator3");
+      // console.log(validator3);
+      // console.log(validator3.errorMessages);
       // validator3.showMessages();
       //setValidator3Counter(validator3Counter + 1);
     }
@@ -644,7 +644,7 @@ const TableView = (props, ref) => {
         headers,
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
 
         loader("hide");
       })
@@ -753,7 +753,7 @@ const TableView = (props, ref) => {
         }
       });
 
-      console.log(status);
+      // console.log(status);
 
       if (status.every((element) => element == "true")) {
         loader("show");
@@ -865,7 +865,7 @@ const TableView = (props, ref) => {
   // };
 
   const sortSelectedUsers = () => {
-    console.log("hi");
+    // console.log("hi");
     //console.log(readers);
     let normalArr = [];
     normalArr = editList;

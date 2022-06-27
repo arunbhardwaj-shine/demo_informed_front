@@ -142,6 +142,15 @@ const GetEventListDataUpdate = (id, EventTitle, a, Description) =>
       },
     }
   );
+const DeleteEvent = (id) =>
+  BaseApi.post(
+    `delete-event`,
+    {event_id: id,}, {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
 const CreatEvent = (
      EventTitle,
             a ,
@@ -332,6 +341,12 @@ const RegistrationPageData = (id) =>
   );
 const UpdateRegistrationPageData = (form) =>
   BaseApi.post(`update-registration-page`, form, {
+    headers: {
+      Authorization: localStorage.getItem("Token"),
+    },
+  });
+const UpdateRegistrationPageDetail = (form) =>
+  BaseApi.post(`update-registration-detail`, form, {
     headers: {
       Authorization: localStorage.getItem("Token"),
     },
@@ -638,10 +653,10 @@ const getEmailStatsChart = (eventid, templateId) =>
     }
   );
   ///....CreateEmail.....\\\\
-const EmailSCreate = (approved_status,template_id,eventid,subject ,tags,smart_list_id,) =>
+const EmailSCreate = (template_id,eventid,subject ,tags,smart_list_id,) =>
   BaseApi.post(
     `emails/create`,
-    { approved_status:approved_status,template_id: template_id,smart_list_id:smart_list_id,event_id: eventid,subject :subject,tags :tags },
+    {template_id: template_id,smart_list_id:smart_list_id,event_id: eventid,subject :subject,tags :tags, },
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
@@ -658,7 +673,7 @@ const UpdateEmailSCreate = (id,collection_id) =>
       },
     }
   );
-const EmailSCreateCollection = (approved_status,smart_list_id,collection_id  ) =>
+const EmailSCreateCollection = (approved_status,smart_list_id,collection_id) =>
   BaseApi.post(
     `emails/create`,
     {approved_status:approved_status,smart_list_id:smart_list_id,collection_id:collection_id },
@@ -805,5 +820,8 @@ export default {
   GetEmailSCollection,
   SearchEmailSCollection,
   getCollectionData,
-  UpdateEmailSCreate
+  UpdateEmailSCreate,
+  UpdateRegistrationPageDetail,
+  DeleteEvent 
+
 };

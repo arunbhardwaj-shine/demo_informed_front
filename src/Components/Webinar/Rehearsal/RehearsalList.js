@@ -17,7 +17,7 @@ const RehearsalList = ({ props, id }) => {
   const handleGetRehearsalListData = (id) => {
     ExportApi.RehearsalListData(id).then((resp) => {
       if (resp.ok) {
-        console.log(resp.data);
+        // console.log(resp.data);
         if (resp.data.code == 200) {
           //loader("hide");
           setRehearsalData(resp.data.data);
@@ -49,7 +49,7 @@ const RehearsalList = ({ props, id }) => {
     );
     // loader("show");
     handleGetRehearsalListData(localStorage.getItem("EventIdHeader"));
-    console.log("call");
+    // console.log("call");
     setEventIdHeader(parseInt(localStorage.getItem("EventIdHeader")));
     if (localStorage.getItem("EventIdHeader")) {
       console.log("done");

@@ -47,11 +47,12 @@ const EventData = () => {
     });
   };
   const handleGetEventlistSerch = (data) => {
-    console.log(updatedData);
+    // console.log(updatedData);
+
     setSearch(data);
 
     if (data == "") {
-      console.log("here");
+      // console.log("here");
       setEvent(updatedData);
     }
 
@@ -67,12 +68,15 @@ const EventData = () => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    console.log("form submmiteed");
+    // console.log("form submmiteed");
     let r_table = [];
-    ExportApi.GetEventListSerch(search).then((resp) => {
-      console.log(resp);
+
+    const searchData = search.trim();
+
+    ExportApi.GetEventListSerch(searchData).then((resp) => {
+      // console.log(resp);
       if (resp.data.code == 200) {
-        console.log(resp.data.data);
+        // console.log(resp.data.data);
         setEvent(resp.data.data);
       } else {
         setEvent([]);
@@ -174,7 +178,7 @@ const EventData = () => {
   };
 
   const handleMultiInputRemove = (i) => {
-    console.log("i", i);
+    // console.log("i", i);
     Speakername.splice(i, 1);
     SpeakerErr.splice(i, 1);
     setSpeakerName([...Speakername]);
@@ -196,30 +200,46 @@ const EventData = () => {
 
   const deleteEvent = () => {
     hideConfirmationModal();
-    const body = {
-      event_id: deletecardid,
-    };
-    const headers = {
-      "Content-Type": "application/json",
-      Authorization: `${localStorage.getItem("Token")}`,
-    };
-    axios
-      .post(`http://51.89.210.56:8000/api/delete-event`, body, { headers })
-      .then((res) => {
-        if (res.statusText == "OK") {
+      ExportApi.DeleteEvent(deletecardid).then((resp) => {
+        if (resp.ok) {
+          handleGetEventlist()
           hideConfirmationModal();
-          let updatedArray = event.filter((item) => {
-            return item["id"] != deletecardid;
-          });
-          if (typeof updatedArray !== "undefined") {
-            setEvent(updatedArray);
-          }
-        }
-      })
-      .catch((err) => {
-        toast.error("Something went wrong");
-      });
-  };
+                  let updatedArray = event.filter((item) => {
+                    return item["id"] != deletecardid;
+                  });
+                  if (typeof updatedArray !== "undefined") {
+                    setEvent(updatedArray);
+                  }
+                }
+              })
+              .catch((err) => {
+                toast.error("Something went wrong");
+              });
+    
+  //   const body = {
+  //     event_id: deletecardid,
+  //   };
+  //   const headers = {
+  //     "Content-Type": "application/json",
+  //     Authorization: `${localStorage.getItem("Token")}`,
+  //   };
+  //   axios
+  //     .post(`http://51.89.210.56:8000/api/delete-event`, body, { headers })
+  //     .then((res) => {
+  //       if (res.statusText == "OK") {
+  //         hideConfirmationModal();
+  //         let updatedArray = event.filter((item) => {
+  //           return item["id"] != deletecardid;
+  //         });
+  //         if (typeof updatedArray !== "undefined") {
+  //           setEvent(updatedArray);
+  //         }
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       toast.error("Something went wrong");
+  //     });
+   };
 
   const handleSubmit = (e) => {
     let err = true;
@@ -461,8 +481,14 @@ const EventData = () => {
                               <span></span> Fulfilled
                             </>
                           ) : (
-                            <>{event.days_left==1? <span>{event.days_left + " Day Left"}</span>:event.days_left==0?<span> Today</span>:<span>{event.days_left + " Days Left"}</span> }
-                             
+                            <>
+                              {event.days_left == 1 ? (
+                                <span>{event.days_left + " Day Left"}</span>
+                              ) : event.days_left == 0 ? (
+                                <span> Today</span>
+                              ) : (
+                                <span>{event.days_left + " Days Left"}</span>
+                              )}
                             </>
                           )}
                         </div>
@@ -738,7 +764,7 @@ const EventData = () => {
               </div>
               <div className="modal-footer-btn">
                 <Button
-                type="reset"
+                  type="reset"
                   class="btn btn-primary btn-bordered"
                   variant="danger"
                   onClick={() => {

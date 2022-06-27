@@ -428,7 +428,8 @@ const VerifyHCP = (props) => {
       // setIsOpen(false);
     } else {
       let formData = new FormData();
-      formData.append("user_id", 18207);
+      let user_id =  localStorage.getItem("user_id");
+      formData.append("user_id", user_id);
       formData.append("smart_list_id", "");
       formData.append("reader_file", selectedFile);
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -546,10 +547,10 @@ const VerifyHCP = (props) => {
       await axios
         .post(`emailapi/search_hcp`, body)
         .then((res) => {
-          console.log(res);
-          // console.log(res.data.response.data);
-          if (res.data.response) {
+          if (res.data.status_code === 200) {
             setSearchedUsers(res.data.response.data);
+          }else{
+            setSearchedUsers([]);
           }
           if (res.data.message) {
             setMessage(res.data.message);
@@ -557,6 +558,7 @@ const VerifyHCP = (props) => {
           loader("hide");
         })
         .catch((err) => {
+          loader("hide");
           console.log(err);
         });
     }
@@ -712,7 +714,7 @@ const VerifyHCP = (props) => {
 
   return (
     <>
-      <div className="right-sidebar">
+      <div className="col right-sidebar">
       <div className="custom-container">
         <div className="row">
         <div className="page-top-nav">

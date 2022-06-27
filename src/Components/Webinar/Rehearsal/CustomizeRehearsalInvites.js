@@ -45,7 +45,7 @@ function CustomizeRehearsalInvites() {
         .post(`emailapi/get_tags`, body)
         .then((res) => {
           setAllTags(res.data.response.data);
-           console.log(res.data.response.data);
+          //  console.log(res.data.response.data);
           // if (typeof campaign_id_st === "undefined" || campaign_id_st == 0) {
          loader("hide");
           // }

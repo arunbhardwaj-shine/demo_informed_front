@@ -141,7 +141,8 @@ const CreateSmartList = () => {
     }
 
     let formData = new FormData();
-    formData.append("user_id", 18207);
+    let user_id =  localStorage.getItem("user_id");
+    formData.append("user_id", user_id);
     formData.append("smart_list_name", smartListName);
     formData.append("reader_file", selectedFile);
 
@@ -199,7 +200,7 @@ const CreateSmartList = () => {
 
   return (
     <>
-      <div class="right-sidebar">
+      <div class="col right-sidebar">
         <div className="custom-container">
           <div className="row">
         <div className="page-top-nav smart_list_names">

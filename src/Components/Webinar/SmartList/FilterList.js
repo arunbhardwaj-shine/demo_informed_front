@@ -54,7 +54,7 @@ const FilterList = () => {
       await axios
         .get(baseURL + `country`, { headers })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           const countrys = res.data.data.map((data) => {
             return data;
           });
@@ -103,10 +103,10 @@ const FilterList = () => {
   };
 
   const handleOnCountryChange = (e, item) => {
-    console.log(item);
+    // console.log(item);
     const { value, checked } = e.target;
-    console.log(value);
-    console.log(checked);
+    // console.log(value);
+    // console.log(checked);
 
     if (checked) {
       setSelectedCountry((oldArray) => [...oldArray, item.id]);
@@ -126,7 +126,7 @@ const FilterList = () => {
   };
 
   const handleOnProfessionChange = (e, profession) => {
-    console.log(profession);
+    // console.log(profession);
     const { value, checked } = e.target;
     if (checked) {
       setSelectedProfession((oldArray) => [...oldArray, profession]);
@@ -140,7 +140,7 @@ const FilterList = () => {
   };
 
   const handleOnInterestChange = (e, interest) => {
-    console.log(interest);
+    // console.log(interest);
     const { value, checked } = e.target;
     if (checked) {
       setSelectedInterest((oldArray) => [...oldArray, interest]);
@@ -154,11 +154,11 @@ const FilterList = () => {
   };
 
   const removeSelectedCountryFilter = (index) => {
-    console.log(selectedCountryName);
+    // console.log(selectedCountryName);
 
     let country_selected_name = selectedCountryName;
     const data = country_selected_name.splice(index, 1);
-    console.log(country_selected_name);
+    // console.log(country_selected_name);
     setSelectedCountryName(country_selected_name);
 
     let selected_country = selectedCountry;
@@ -166,15 +166,15 @@ const FilterList = () => {
     setSelectedCountry(selected_country);
     setReRender(reRender + 1);
 
-    console.log(data);
+    // console.log(data);
 
     const ddd = countryall.find((item) => {
       return item.country == data;
     });
 
-    console.log(ddd);
+    // console.log(ddd);
 
-    console.log(inputElement.currents);
+    // console.log(inputElement.currents);
     // document.querySelectorAll("input").forEach((checkbox) => {
     //   checkbox.checked = false;
     // });
@@ -190,14 +190,14 @@ const FilterList = () => {
   };
 
   const createListWithFilters = async () => {
-    console.log(filterData);
+    // console.log(filterData);
     const participants_id = filterData.map((data) => {
       return data.id;
     });
 
-    console.log(smartListId);
-    console.log(smartListName);
-    console.log(participants_id);
+    // console.log(smartListId);
+    // console.log(smartListName);
+    // console.log(participants_id);
 
     const headers = {
       "Content-Type": "application/json",
@@ -216,7 +216,7 @@ const FilterList = () => {
         headers,
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
 
         if (res.data.code == 200) {
           navigate("/webinar/email/WebinarSmartList");
@@ -244,7 +244,7 @@ const FilterList = () => {
       selectedProfession.length == 0 &&
       selectedInterest.length == 0
     ) {
-      toast.error("please select a filter");
+      toast.error("Please select a filter");
       return;
     }
 
@@ -270,7 +270,7 @@ const FilterList = () => {
         headers,
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
 
         if (res.data.code == 200) {
           setFiltersData(res.data.data);
@@ -283,7 +283,7 @@ const FilterList = () => {
       })
       .catch((err) => {
         //loader("hide");
-        console.log(err);
+        // console.log(err);
       });
   };
 
@@ -296,7 +296,7 @@ const FilterList = () => {
   };
   return (
     <>
-      {console.log(selectedCountry)}
+      {/* {console.log(selectedCountry)} */}
       <div className="right-sidebar">
         <div className="loader" id="custom_loader">
           <span className="loader-view"> </span>

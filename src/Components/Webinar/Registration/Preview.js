@@ -56,7 +56,7 @@ const Preview = () => {
         parms.stats
       ).then((resp) => {
         if (resp.ok) {
-          console.log(resp.data.code)
+          // console.log(resp.data.code)
           if(resp.data.code == 404){
             setShow(false);
             loader("hide")

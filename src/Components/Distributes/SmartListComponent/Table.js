@@ -200,7 +200,8 @@ const Table = (props, ref) => {
       setShowUploadMenu(!showUploadMenu);
 
       let formData = new FormData();
-      formData.append("user_id", 18207);
+      let user_id =  localStorage.getItem("user_id");
+      formData.append("user_id", user_id);
       formData.append("smart_list_id", getlistid);
       formData.append("reader_file", selectedFile);
 
@@ -676,7 +677,7 @@ const Table = (props, ref) => {
   }) => {
 
     let temp_len = parseInt(editList.length)+parseInt(getNewReaders.length);
-    
+
     if (temp_len>1 ) {
       setIsOpen(true);
       setProfileUserId(profile_user_id);
@@ -829,7 +830,8 @@ const Table = (props, ref) => {
       //setIsOpen(false);
     } else {
       let formData = new FormData();
-      formData.append("user_id", 18207);
+      let user_id =  localStorage.getItem("user_id");
+      formData.append("user_id", user_id);
       formData.append("smart_list_id", getlistid);
       formData.append("reader_file", selectedFile);
 
@@ -925,7 +927,7 @@ const Table = (props, ref) => {
   const deleteNewlyAdded = (profile_user_id) => {
     const data = getNewReaders;
     let temp_len = parseInt(editList.length)+parseInt(getNewReaders.length);
-    
+
     if (temp_len>1 ) {
       setIsOpen(true);
       const dataUpdated = data.filter((d) => {
@@ -1104,11 +1106,16 @@ const Table = (props, ref) => {
                   <th scope="col">Email</th>
                   <th scope="col">Bounced</th>
                   <th scope="col">Country</th>
+                  <th scope="col">Business Unit</th>
+                  <th scope="col">Contact Type</th>
                   {showLessInfo == false ? (
                     <>
                       {" "}
-                      <th scope="col">Business Unit</th>
-                      <th scope="col">Contact Type</th>
+                      <th scope="col">Consent</th>
+                      <th scope="col">Email Received</th>
+                      <th scope="col">Openings</th>
+                      <th scope="col">Registrations</th>
+                      <th scope="col">Last Email</th>
                       <th scope="col"></th>{" "}
                     </>
                   ) : null}
@@ -1164,10 +1171,35 @@ const Table = (props, ref) => {
                         editable ? <EditCountry selected_country={item.country} profile_user={item.profile_user_id}></EditCountry> : <span>{item.country}</span>
                       }
                       </td>
-                      {showLessInfo == false ? <td> {item.ibu}</td> : null}
+                      <td> {item.ibu}</td>
+                      <td> {item.contact_type}</td>
+
                       {showLessInfo == false ? (
-                        <td> {item.contact_type}</td>
+                        <td>
+                          <span>{item.consent}</span>{" "}
+                        </td>
                       ) : null}
+                      {showLessInfo == false ? (
+                        <td>
+                          <span>{item.email_received}</span>
+                        </td>
+                      ) : null}
+                      {showLessInfo == false ? (
+                        <td>
+                          <span>{item.email_opening}</span>
+                        </td>
+                      ) : null}
+                      {showLessInfo == false ? (
+                        <td>
+                          <span>{item.registration}</span>
+                        </td>
+                      ) : null}
+                      {showLessInfo == false ? (
+                        <td>
+                          <span>{item.last_email}</span>
+                        </td>
+                      ) : null}
+
                       <td className="delete_row" colspan="12">
                         <img
                           src={path + "delete.svg"}
@@ -1219,12 +1251,35 @@ const Table = (props, ref) => {
                       {/*showLessInfo == false ? (
                         <td id="field_readers">NA</td>
                       ) : null*/}
+                      <td id="field_business_unit">{item.ibu}</td>
+                      <td id="field_interest">{item.contact_type}</td>
+
                       {showLessInfo == false ? (
-                        <td id="field_business_unit">{item.ibu}</td>
+                        <td>
+                          <span>{item.consent}</span>{" "}
+                        </td>
                       ) : null}
                       {showLessInfo == false ? (
-                        <td id="field_interest">{item.contact_type}</td>
+                        <td>
+                          <span>{item.email_received}</span>
+                        </td>
                       ) : null}
+                      {showLessInfo == false ? (
+                        <td>
+                          <span>{item.email_opening}</span>
+                        </td>
+                      ) : null}
+                      {showLessInfo == false ? (
+                        <td>
+                          <span>{item.registration}</span>
+                        </td>
+                      ) : null}
+                      {showLessInfo == false ? (
+                        <td>
+                          <span>{item.last_email}</span>
+                        </td>
+                      ) : null}
+                      
                       <td
                         className="delete_row"
                         colspan="12"

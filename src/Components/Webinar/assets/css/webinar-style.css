@@ -436,6 +436,7 @@ form#add_hcp_form .row:not(:first-child) { border-top: 1px dashed var(--light-bl
 #add_hcp_form .btn-last .form-group { justify-content: flex-end; }
 #add_hcp .modal-dialog .modal-content, .modal-dialog .modal-content { box-shadow: 0px 3px 10px -3px rgba(0, 102, 190, 0.2); border-radius: 30px; border:0;  overflow: hidden; max-height: 100%;}
 #add-list .modal .modal-dialog .modal-content { padding: 0 20px 0 15px; }
+.modal-dialog .modal-content {overflow: initial;}
 .modal-dialog-scrollable .modal-body { padding-right: 24px; }
 #add_hcp .modal-dialog .modal-content .modal-header { border: 0; text-align: center; justify-content: center; padding: 25px 20px 20px;margin:0 -17px; }
 .modal .top-right-action { display: flex; justify-content: flex-end; }
@@ -518,7 +519,7 @@ form#add_hcp_form .row:not(:first-child) { border-top: 1px dashed var(--light-bl
 .send-confirm .modal-body {padding: 0 32px 24px;}
 .send-confirm .modal-body img {text-align: center;margin: 0 auto;display: block;width: 40px;}
 .send-confirm .modal-body .modal-buttons { align-items: center; display: flex; max-width: 100%; margin-left: auto; margin-right: auto; justify-content: space-around; margin-top: 33px; }
-.send-confirm .modal-body .modal-buttons button {min-width: 140px;height: 51px;line-height: 1;}
+.send-confirm .modal-body .modal-buttons button {min-width: 113px;height: 51px;line-height: 1;}
 .send-confirm .modal-body .modal-buttons button.light { border-color: var(--skyblue); /*box-shadow: 0px 3px 10px -3px rgba(0, 102, 190, 0.2); */color: var(--white); background: rgba(151, 182, 207, 0.6); }
 .send-confirm .modal-body .modal-buttons button.light:hover { background-color: var(--skyblue); color: var(--white); }
 .send-confirm#action-confirm .modal-body .modal-buttons button { min-width: 82px; }
@@ -643,7 +644,7 @@ form#add_hcp_form .row:not(:first-child) { border-top: 1px dashed var(--light-bl
  .upload-file-box .box { display: flex; justify-content: space-between; flex-direction: row-reverse; align-items: center;width:100%; }
  .upload-file-box .box p { margin: 0; font-size: 18px; line-height: 145.19%; color: #959595; font-family: 'Roboto-Light';}
 .send-confirm .modal-body .modal-buttons { justify-content: flex-end; margin-top: 16px; }
-.send-confirm .modal-body .modal-buttons .light { min-width: 106px; background: rgba(151, 182, 207, 0.6); color: var(--white); border: none; }
+.send-confirm .modal-body .modal-buttons .light { min-width: 113px; background: rgba(151, 182, 207, 0.6); color: var(--white); border: none; }
 .send-confirm .modal-header { padding: 22px 11px; }
 /* .send-confirm .modal-header button.btn-close { padding: 0; } */
 /**Upload Modal End**/
@@ -816,7 +817,7 @@ a{text-decoration: none;}
     width: 188px;
     margin-left: 32px;
 }
-.Webinar-header-right-tools .filter-by button, .Webinar-header-right-tools .hcp-sort button {
+.Webinar-header-right-tools .filter-by button {
     width: 100%;
     text-align: left;
     height: 52px;
@@ -998,7 +999,7 @@ a{text-decoration: none;}
     padding-left: 240px;
     font-size: 14px;
 }
-
+.error{color:#f00;}
 #webinar_event form fieldset .form-inline .form-group .error {
     padding-left: 232px;
 }
@@ -2059,12 +2060,14 @@ min-width: 110px;
     justify-content: center;
 }
 #resend-confirm .modal-body .modal-buttons {
-    justify-content: center;
+    justify-content: space-between;
     position: relative;
+    max-width: 320px;
+    width: 100%;
 }
 #resend-confirm .modal-body .modal-buttons input[type="checkbox"] {
     position: absolute;
-    max-width: 140px;
+    max-width: 113px;
     width: 100%;
     height: 100%;
     margin: 0;
@@ -2106,8 +2109,7 @@ min-width: 110px;
 }
 .modal-body button[type="submit"] {
     justify-content: center;
-    /* align-items: center; */
-    display: flex;
+    display: inline-flex;
     margin: 10px auto 0;
     min-width: 112px;
     height: 51px;
@@ -2191,30 +2193,16 @@ button#test-table-xls-button:hover {
 .modal-body .mail-preview-action .hcp-added .btn:hover svg path{
 fill:var(--white)
 }
-.modal-buttons-register {
-	margin-right: 70px;
+
+.sidebar-menu ul li p.tooltip {
+    font-size: 13px;
+    text-align: center;
+    padding: 5px;
+    position: absolute;
+    color: rgba(0, 102, 190, 0.6);
+    left: 38px;
+    bottom: 10px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -2356,3 +2344,38 @@ margin-bottom: 20px;
 float: right;
 
 }
+/* .navbar-nav li {
+    position: relative;
+}
+.navbar-nav li.active-main a:after {
+    content: "";
+    background: var(--light-blue); 
+    box-shadow: 0px 3px 7px rgb(138 78 156 / 69%); 
+    width: 8px;
+    height: 8px;
+    position: absolute;
+    bottom: -14px;
+    left: 0;
+    right: 0;
+    border-radius: 50%;
+    margin: 0 auto;
+} */
+.navbar-nav li.active-main a:after {
+content: "";
+background: var(--light-blue);
+box-shadow: 0px 3px 7px rgb(0 102 190 / 69%);
+width: 8px;
+height: 8px;
+position: absolute;
+bottom: -14px;
+left: 0;
+right: 0;
+border-radius: 50%;
+margin: 0 auto;
+}
+
+
+.navbar-nav li {
+position: relative;
+}
+
