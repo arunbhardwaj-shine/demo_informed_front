@@ -28,9 +28,8 @@ const SmartListUsers = () => {
   const handleGetSmartListSingleRecord = (id) => {
     ExportApi.GetSmartListSingleRecord(id).then((resp) => {
       if (resp.ok) {
-          // console.log(resp.data.data)
+        // console.log(resp.data.data)
         setData(resp.data.data);
-       
       }
     });
   };
@@ -45,13 +44,13 @@ const SmartListUsers = () => {
     });
   };
   const handleSendMail = () => {
-    loader("show")
+    loader("show");
     ExportApi.sandAllmaik(localStorage.getItem("collection_id")).then(
       (resp) => {
         if (resp.ok) {
           // console.log(resp.data);
           if (resp.data.code == 200) {
-            loader("hide")
+            loader("hide");
             toast.success(resp.data.message, {
               position: "top-right",
               autoClose: 2000,
@@ -65,7 +64,7 @@ const SmartListUsers = () => {
               navigate("/webinar/email/emails");
             }, 2000);
           } else {
-            loader("hide")
+            loader("hide");
             toast.error(resp.data.message, {
               position: "top-right",
               autoClose: 5000,
@@ -81,13 +80,12 @@ const SmartListUsers = () => {
     );
   };
   const handleEditText = (e, index, idd) => {
-    const { id,innerText } = e.target;
-    let obj =data
- 
+    const { id, innerText } = e.target;
+    let obj = data;
+
     // console.log("obj[index]",obj[index])
-    obj[index].name=innerText
-   
-  
+    obj[index].name = innerText;
+
     // console.log(id);
 
     // if (id === `PersonName${index}`) {
@@ -95,8 +93,8 @@ const SmartListUsers = () => {
     //   obj.id = idd;
     //   obj.name = innerText
     // }
-  
-// console.log("change",obj)
+
+    // console.log("change",obj)
     setData([...obj]);
   };
   const UpdateSmartList = () => {
@@ -122,7 +120,7 @@ const SmartListUsers = () => {
     );
   };
   const DeleteSmartList = (id, i) => {
-    loader("show")
+    loader("show");
     setdeleteid(id);
     let CopyData = data;
     CopyData.splice(i, 1);
@@ -130,7 +128,7 @@ const SmartListUsers = () => {
       if (resp.ok) {
         // console.log(resp.data);
         if (resp.data.code == 200) {
-          loader("hide")
+          loader("hide");
           toast.success(resp.data.message, {
             position: "top-right",
             autoClose: 2000,
@@ -141,8 +139,8 @@ const SmartListUsers = () => {
             progress: undefined,
           });
           setdeleteid(false);
-        }else{
-          loader("hide")
+        } else {
+          loader("hide");
           toast.success(resp.data.message, {
             position: "top-right",
             autoClose: 2000,
@@ -158,7 +156,7 @@ const SmartListUsers = () => {
     });
   };
   const handleEmailSCreateCollection = () => {
-    loader("show")
+    loader("show");
     ExportApi.EmailSCreateCollection(
       2,
       localStorage.getItem("SmartListId"),
@@ -167,7 +165,7 @@ const SmartListUsers = () => {
       if (resp.ok) {
         // console.log(resp.data);
         if (resp.data.code == 200) {
-          loader("hide")
+          loader("hide");
           toast.success(resp.data.message, {
             position: "top-right",
             autoClose: 2000,
@@ -194,54 +192,49 @@ const SmartListUsers = () => {
     },
 
     validationSchema: Yup.object({
-		name: Yup.string().required("Name is required"),
-		email: Yup.string().required("Email is required")
-		        .email(),
+      name: Yup.string().required("Name is required"),
+      email: Yup.string().required("Email is required").email(),
     }),
     onSubmit: (values) => {
-      loader("show")
-      let Data=JSON.stringify([values])
-          ExportApi.EmailSand(
-			localStorage.getItem("SmartListId"),Data)
-            .then((resp) => {
-              if (resp.data) {
-                // console.log(resp.data);
-                if (resp.data.code == 200) {
-					handleGetSmartListSingleRecord(parms.id)
-                  loader("hide");
-				  setIsOpenAdd(false)
-                  toast.success(resp.data.message);
-                } else {
-                  loader("hide")
-                  toast.error(resp.data.message, {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                  });
-                }
-              }
-            })
-            .catch((err) => console.log(err));
-        }
+      loader("show");
+      let Data = JSON.stringify([values]);
+      ExportApi.EmailSand(localStorage.getItem("SmartListId"), Data)
+        .then((resp) => {
+          if (resp.data) {
+            // console.log(resp.data);
+            if (resp.data.code == 200) {
+              handleGetSmartListSingleRecord(parms.id);
+              loader("hide");
+              setIsOpenAdd(false);
+              toast.success(resp.data.message);
+            } else {
+              loader("hide");
+              toast.error(resp.data.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
+            }
+          }
+        })
+        .catch((err) => console.log(err));
+    },
 
-        // props.closePopup();
-       
-      }
-    
-  );
+    // props.closePopup();
+  });
   useEffect(() => {
     loader("show");
     handleGetTemplate();
     const getalCountry = async () => {
-		ExportApi.GetCountryData().then((resp) => {
-			if (resp.ok) {
-			  setCountry(resp.data.data);
-			}
-		  });
+      ExportApi.GetCountryData().then((resp) => {
+        if (resp.ok) {
+          setCountry(resp.data.data);
+        }
+      });
     };
     getalCountry();
     handleGetSmartListSingleRecord(parms.id);
@@ -251,7 +244,7 @@ const SmartListUsers = () => {
       <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
       </div>
-      <div className="right-sidebar">
+      <div className="right-sidebar col">
         <ToastContainer
           position="top-right"
           autoClose={5000}
@@ -390,15 +383,22 @@ const SmartListUsers = () => {
                                           <tbody>
                                             <tr>
                                               <th>Email</th>
-                                              <td      id={"Email" + index}
-                                          // onInput={(e) => {
-                                          //   handleEditText(e, index, data.id);
-                                          // }} contenteditable="true"
-                                          >{data.email}</td>
+                                              <td
+                                                id={"Email" + index}
+                                                // onInput={(e) => {
+                                                //   handleEditText(e, index, data.id);
+                                                // }} contenteditable="true"
+                                              >
+                                                {data.email}
+                                              </td>
                                             </tr>
                                             <tr>
                                               <th>Country</th>
-                                              <td>{data.country==""?"NA":data.country}</td>
+                                              <td>
+                                                {data.country == ""
+                                                  ? "NA"
+                                                  : data.country}
+                                              </td>
                                             </tr>
                                             <tr>
                                               <th>Profession</th>
@@ -433,8 +433,8 @@ const SmartListUsers = () => {
                                               <tr>
                                                 <th>Consent</th>
                                                 <td>
-                                                  {data?.participants?.consent ==
-                                                  1
+                                                  {data?.participants
+                                                    ?.consent == 1
                                                     ? "Yes"
                                                     : "No"}
                                                 </td>
@@ -677,18 +677,23 @@ const SmartListUsers = () => {
                                       <div class="mailbox-table">
                                         <table>
                                           <tbody>
-                                          <tr>
+                                            <tr>
                                               <th>Email</th>
-                                              <td      id={"Email" + index}
-                                          // onInput={(e) => {
-                                          //   handleEditText(e, index, data.id);
-                                          // }} contenteditable="true"
-                                          >{data.email}</td>
+                                              <td
+                                                id={"Email" + index}
+                                                // onInput={(e) => {
+                                                //   handleEditText(e, index, data.id);
+                                                // }} contenteditable="true"
+                                              >
+                                                {data.email}
+                                              </td>
                                             </tr>
                                             <tr>
                                               <th>Country</th>
                                               <td contenteditable={editable}>
-											  {data.country==""?"NA":data.country}
+                                                {data.country == ""
+                                                  ? "NA"
+                                                  : data.country}
                                               </td>
                                             </tr>
                                             <tr>
@@ -998,20 +1003,30 @@ const SmartListUsers = () => {
             <div className="modal-body">
               <div className="hcp-add-box">
                 <div className="hcp-add-form tab-content" id="upload-confirm">
-                  <form id="add_hcp_form" className={"tab-pane active"}  onSubmit={formik.handleSubmit} >
+                  <form
+                    id="add_hcp_form"
+                    className={"tab-pane active"}
+                    onSubmit={formik.handleSubmit}
+                  >
                     <div className="add_hcp_boxes">
                       <div className="form_action">
                         <div className="row">
                           <div className="col-12 col-md-6">
                             <div className="form-group">
                               <label for=""> Name</label>
-                              <input type="text" name="name" className="form-control"   onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.name} />
-				 {formik.touched.name && formik.errors.name ? (
-                <div className="error" style={{ color: "red" }}>
-                  {formik.errors.name}
-                </div>):null}
+                              <input
+                                type="text"
+                                name="name"
+                                className="form-control"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.name}
+                              />
+                              {formik.touched.name && formik.errors.name ? (
+                                <div className="error" style={{ color: "red" }}>
+                                  {formik.errors.name}
+                                </div>
+                              ) : null}
                             </div>
                           </div>
 
@@ -1022,24 +1037,30 @@ const SmartListUsers = () => {
                                 type="email"
                                 className="form-control"
                                 id="email-desc"
-								name="email"
-								onChange={formik.handleChange}
-								onBlur={formik.handleBlur}
-								value={formik.values.email}
+                                name="email"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.email}
                               />
-							   {formik.touched.email && formik.errors.email ? (
-              			 	 <div className="error" style={{ color: "red" }}>
-                 			 {formik.errors.email}
-               				 </div>):null}
+                              {formik.touched.email && formik.errors.email ? (
+                                <div className="error" style={{ color: "red" }}>
+                                  {formik.errors.email}
+                                </div>
+                              ) : null}
                             </div>
                           </div>
 
                           <div className="col-12 col-md-6">
                             <div className="form-group">
                               <label for="">Hospital</label>
-                              <input   onChange={formik.handleChange}
-                                  onBlur={formik.handleBlur}
-                                   value={formik.values.hospital} name="hospital" type="text" className="form-control" />
+                              <input
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.hospital}
+                                name="hospital"
+                                type="text"
+                                className="form-control"
+                              />
                             </div>
                           </div>
 
@@ -1050,43 +1071,57 @@ const SmartListUsers = () => {
                                 type="text"
                                 className="form-control"
                                 name="profession"
-								onChange={formik.handleChange}
-								onBlur={formik.handleBlur}
-								value={formik.values.profession}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.profession}
                               />
                             </div>
                           </div>
                           <div className="col-12 col-md-6">
                             <div className="form-group">
-							  
                               <label for="">Country</label>
-							  <select name="country" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.country} className="country-form" aria-label="select">
-                <option selected>Select Country</option>
-                {country?.map((val, i) => (
-                  <React.Fragment key={i}>
-                    <option key={i} value={val.name}>
-                      {val.country}
-                    </option>
-                  </React.Fragment>
-                ))}
-              </select>
+                              <select
+                                name="country"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.country}
+                                className="country-form"
+                                aria-label="select"
+                              >
+                                <option selected>Select Country</option>
+                                {country?.map((val, i) => (
+                                  <React.Fragment key={i}>
+                                    <option key={i} value={val.name}>
+                                      {val.country}
+                                    </option>
+                                  </React.Fragment>
+                                ))}
+                              </select>
                             </div>
                           </div>
 
                           <div className="col-12 col-md-6">
                             <div className="form-group">
                               <label for="">Interest</label>
-                              <input name="interest"    onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                            value={formik.values.interest}type="text" className="form-control" />
+                              <input
+                                name="interest"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.interest}
+                                type="text"
+                                className="form-control"
+                              />
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-					<button type="submit" className="btn btn-primary save btn-filled">
-                Save
-              </button>
+                    <button
+                      type="submit"
+                      className="btn btn-primary save btn-filled"
+                    >
+                      Save
+                    </button>
                   </form>
                 </div>
               </div>

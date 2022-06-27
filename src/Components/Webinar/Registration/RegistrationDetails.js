@@ -56,7 +56,6 @@ const RegistraionDetails = () => {
     setSelectedName([...selectedName]);
   };
 
-
   const handleRadioChange = (e, i) => {
     const { checked, name } = e.target;
     setFieldValue(name);
@@ -80,9 +79,13 @@ const RegistraionDetails = () => {
     setShow(true);
     //console.log("add data");
   };
-  const handleErrorImage=()=>{
-    if (image) {setErrimage("")}else{setErrimage("Please Choose file")}
-  }
+  const handleErrorImage = () => {
+    if (image) {
+      setErrimage("");
+    } else {
+      setErrimage("Please Choose file");
+    }
+  };
   const formik = useFormik({
     initialValues: {
       Title: "",
@@ -112,7 +115,7 @@ const RegistraionDetails = () => {
                 loader("hide");
                 toast.success(resp.data.message);
                 setTimeout(() => {
-                  navigate("/webinar/portal/registrationDetailslist")
+                  navigate("/webinar/portal/registrationDetailslist");
                 }, 1000);
               } else {
                 loader("hide");
@@ -147,24 +150,24 @@ const RegistraionDetails = () => {
   }, []);
 
   const saveClicked = () => {
-    if(field.length>0){
+    if (field.length > 0) {
       setInputBox((oldArray) => [
         ...oldArray,
         { value: field, name: field, isActive: false },
       ]);
       setField("");
       setShow(false);
-    }else{
-      toast.warning("Please enter field name")
+    } else {
+      toast.warning("Please enter field name");
     }
   };
   return (
     <>
-    {/* {console.log("selectedName",selectedName)} */}
+      {/* {console.log("selectedName",selectedName)} */}
       <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
       </div>
-      <div class="right-sidebar">
+      <div class="right-sidebar col">
         <div className="custom-container">
           <Row>
             <div className="page-title d-flex justify-content-between">
@@ -273,36 +276,33 @@ const RegistraionDetails = () => {
                           <h4>You want this field required ?</h4>
                           <div className="modal-buttons">
                             <div className="modal-buttons-register">
-                            <Form.Control
-                              name={FieldValue}
-                              value={FieldValue}
-                              type="checkbox"
-                              className="form-check-input"
-                              onChange={(e) => {
-                                handleRadioChangedata(e);
-                                if (e.target.checked) {
-                                  setModalShow(false);
-                                }
-                              }}
-                            />
-                            <button
-                              type="button"
-                              className="btn btn-primary btn-filled"
-                            >
-                              Yes
-                            </button>
+                              <Form.Control
+                                name={FieldValue}
+                                value={FieldValue}
+                                type="checkbox"
+                                className="form-check-input"
+                                onChange={(e) => {
+                                  handleRadioChangedata(e);
+                                  if (e.target.checked) {
+                                    setModalShow(false);
+                                  }
+                                }}
+                              />
+                              <button
+                                type="button"
+                                className="btn btn-primary btn-filled"
+                              >
+                                Yes
+                              </button>
                             </div>
-                             <button
+                            <button
                               type="button"
                               className="btn btn-primary btn-bordered light"
                               onClick={(e) => setModalShow(false)}
-                              
                             >
                               No
                             </button>
                           </div>
-
-                         
                         </Modal.Body>
                       </Modal>
 
@@ -370,8 +370,8 @@ const RegistraionDetails = () => {
                   <div class="form-inline">
                     <div style={{ color: "red" }}>{errimage}</div>
 
-                    <button 
-                    onClick={handleErrorImage}
+                    <button
+                      onClick={handleErrorImage}
                       className="btn btn-primary reg-submit"
                       type="submit"
                     >

@@ -6,50 +6,56 @@ import * as Yup from "yup";
 import ExportApi from "../../../Api/ExportApi";
 import { loader } from "../../../loader";
 const StpDetails = () => {
-const [smtpData, setSmtpData] = useState()
+  const [smtpData, setSmtpData] = useState();
   const handleGetsmtpdata = () => {
-    loader("show")
+    loader("show");
     ExportApi.getSMTP().then((resp) => {
       if (resp.ok) {
-        loader("hide")
+        loader("hide");
         setSmtpData(resp.data.data);
       }
     });
   };
   const formik = useFormik({
     initialValues: {
-      smtp_host:smtpData?smtpData.smtp_host:"",
-      smtp_port: smtpData?smtpData.smtp_port:"",
-      smtp_from_name: smtpData?smtpData.smtp_from_name:"",
-      smtp_email: smtpData?smtpData.smtp_email:"",
-      smtp_password: smtpData?smtpData.smtp_password:"",
-      encryption_type: smtpData?smtpData.encryption_type:"",
-      tls:true,
+      smtp_host: smtpData ? smtpData.smtp_host : "",
+      smtp_port: smtpData ? smtpData.smtp_port : "",
+      smtp_from_name: smtpData ? smtpData.smtp_from_name : "",
+      smtp_email: smtpData ? smtpData.smtp_email : "",
+      smtp_password: smtpData ? smtpData.smtp_password : "",
+      encryption_type: smtpData ? smtpData.encryption_type : "",
+      tls: true,
     },
     enableReinitialize: true,
     validationSchema: Yup.object({
-        smtp_host: Yup.string()
-        .required("Host  is required"),
-        smtp_port: Yup.string()
-        .max(4,"Port must be at most 4 characters")
+      smtp_host: Yup.string().required("Host  is required"),
+      smtp_port: Yup.string()
+        .max(4, "Port must be at most 4 characters")
         .required("Port  is required"),
-        smtp_from_name: Yup.string().required("From Name  is required"),
-        smtp_email: Yup.string()
+      smtp_from_name: Yup.string().required("From Name  is required"),
+      smtp_email: Yup.string()
         .email("Invalid email address")
         .required("Email  is required"),
-        smtp_password: Yup.string().required("Password  is required"),
-        encryption_type: Yup.string().required( "Encryption is required"),
-         tls: Yup.boolean().oneOf([true], "TLS is required"),
-    }), 
+      smtp_password: Yup.string().required("Password  is required"),
+      encryption_type: Yup.string().required("Encryption is required"),
+      tls: Yup.boolean().oneOf([true], "TLS is required"),
+    }),
     onSubmit: (values) => {
-      loader("show")
+      loader("show");
       setTimeout(() => {
-        
-        if(smtpData){
-          ExportApi.UpdateSMTP(values.smtp_host,values.smtp_port,values.smtp_from_name,values.smtp_email,values.smtp_password,values.encryption_type,values.tls).then((resp) => {
+        if (smtpData) {
+          ExportApi.UpdateSMTP(
+            values.smtp_host,
+            values.smtp_port,
+            values.smtp_from_name,
+            values.smtp_email,
+            values.smtp_password,
+            values.encryption_type,
+            values.tls
+          ).then((resp) => {
             if (resp.ok) {
               if (resp.data.code == 200) {
-                loader("hide")
+                loader("hide");
                 toast.success(resp.data.message, {
                   position: "top-right",
                   autoClose: 5000,
@@ -72,8 +78,16 @@ const [smtpData, setSmtpData] = useState()
               }
             }
           });
-        }else{
-          ExportApi.PostSMTP(values.smtp_host,values.smtp_port,values.smtp_from_name,values.smtp_email,values.smtp_password,values.encryption_type,values.tls).then((resp) => {
+        } else {
+          ExportApi.PostSMTP(
+            values.smtp_host,
+            values.smtp_port,
+            values.smtp_from_name,
+            values.smtp_email,
+            values.smtp_password,
+            values.encryption_type,
+            values.tls
+          ).then((resp) => {
             if (resp.ok) {
               if (resp.data.code == 200) {
                 toast.success(resp.data.message, {
@@ -103,13 +117,13 @@ const [smtpData, setSmtpData] = useState()
     },
   });
   useEffect(() => {
-    handleGetsmtpdata()
-  }, [])
+    handleGetsmtpdata();
+  }, []);
   return (
-    <div class="right-sidebar">
-       <div className="loader" id="custom_loader">
-	        <span className="loader-view"> </span>
-          </div>
+    <div class="right-sidebar col">
+      <div className="loader" id="custom_loader">
+        <span className="loader-view"> </span>
+      </div>
       <Row>
         <ToastContainer
           position="top-right"
@@ -124,16 +138,13 @@ const [smtpData, setSmtpData] = useState()
         />
         <Col md={{ span: 9, offset: 2 }}>
           <h2 className="mt-3 mb-5" style={{ fontWeight: "bold" }}>
-            SMTP Details 
+            SMTP Details
           </h2>
           <Row>
             <form onSubmit={formik.handleSubmit}>
-              <Form.Group
-                as={Row}
-                className="mb-3"
-              >
+              <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm={2}>
-                   Host
+                  Host
                 </Form.Label>
                 <Col sm={10}>
                   <Form.Control
@@ -149,12 +160,9 @@ const [smtpData, setSmtpData] = useState()
                   ) : null}
                 </Col>
               </Form.Group>
-              <Form.Group
-                as={Row}
-                className="mb-3"
-              >
+              <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm={2}>
-                   Port
+                  Port
                 </Form.Label>
                 <Col sm={10}>
                   <Form.Control
@@ -171,12 +179,9 @@ const [smtpData, setSmtpData] = useState()
                   ) : null}
                 </Col>
               </Form.Group>
-              <Form.Group
-                as={Row}
-                className="mb-3"
-              >
+              <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm={2}>
-                    Name
+                  Name
                 </Form.Label>
                 <Col sm={10}>
                   <Form.Control
@@ -193,12 +198,9 @@ const [smtpData, setSmtpData] = useState()
                   ) : null}
                 </Col>
               </Form.Group>
-              <Form.Group
-                as={Row}
-                className="mb-3"
-              >
+              <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm={2}>
-                   Email
+                  Email
                 </Form.Label>
                 <Col sm={10}>
                   <Form.Control
@@ -214,12 +216,9 @@ const [smtpData, setSmtpData] = useState()
                   ) : null}
                 </Col>
               </Form.Group>
-              <Form.Group
-                as={Row}
-                className="mb-3"
-              >
+              <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm={2}>
-                   Password
+                  Password
                 </Form.Label>
                 <Col sm={10}>
                   <Form.Control
@@ -237,14 +236,11 @@ const [smtpData, setSmtpData] = useState()
                   ) : null}
                 </Col>
               </Form.Group>
-              <Form.Group
-                as={Row}
-                className="mb-3"
-              >
+              <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm={2}>
-                   Encryption
+                  Encryption
                 </Form.Label>
-                <Col >
+                <Col>
                   <Form.Control
                     name="encryption_type"
                     onChange={formik.handleChange}
@@ -259,27 +255,21 @@ const [smtpData, setSmtpData] = useState()
                   ) : null}
                 </Col>
               </Form.Group>
-              <Form.Group
-                as={Row}
-                className="mb-3"
-              >
+              <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm={2}>
-                TLS
+                  TLS
                 </Form.Label>
-                <Col >
+                <Col>
                   <Form.Check
                     name="tls"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     //  value={formik.values.tls}
-                     checked={formik.values.tls}
+                    checked={formik.values.tls}
                   />
-                   {/* {console.log(formik.values.tls,"true")} */}
-                  {formik.touched.tls &&
-                  formik.errors.tls ? (
-                    <div style={{ color: "red" }}>
-                      {formik.errors.tls}
-                    </div>
+                  {/* {console.log(formik.values.tls,"true")} */}
+                  {formik.touched.tls && formik.errors.tls ? (
+                    <div style={{ color: "red" }}>{formik.errors.tls}</div>
                   ) : null}
                 </Col>
               </Form.Group>

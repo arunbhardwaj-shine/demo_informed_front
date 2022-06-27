@@ -903,7 +903,7 @@ const TableView = (props, ref) => {
 
   return (
     <>
-      <div class="right-sidebar">
+      <div class="right-sidebar col">
         <div className="loader" id="custom_loader">
           <span className="loader-view"> </span>
         </div>

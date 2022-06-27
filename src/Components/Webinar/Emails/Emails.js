@@ -145,37 +145,35 @@ const SendEmails = () => {
     );
   };
   const handleSendMail = (id) => {
-    loader("show")
-    ExportApi.sandAllmaik(id).then(
-      (resp) => {
-        if (resp.ok) {
-          // console.log(resp.data);
-          if (resp.data.code == 200) {
-            loader("hide")
-            toast.success(resp.data.message, {
-              position: "top-right",
-              autoClose: 2000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            });
-          } else {
-            loader("hide")
-            toast.error(resp.data.message, {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            });
-          }
+    loader("show");
+    ExportApi.sandAllmaik(id).then((resp) => {
+      if (resp.ok) {
+        // console.log(resp.data);
+        if (resp.data.code == 200) {
+          loader("hide");
+          toast.success(resp.data.message, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        } else {
+          loader("hide");
+          toast.error(resp.data.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         }
       }
-    );
+    });
   };
   useEffect(() => {
     loader("show");
@@ -190,8 +188,8 @@ const SendEmails = () => {
       <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
       </div>
-      <div className="right-sidebar">
-      <ToastContainer
+      <div className="right-sidebar col">
+        <ToastContainer
           position="top-right"
           autoClose={5000}
           hideProgressBar={false}
@@ -498,14 +496,15 @@ const SendEmails = () => {
                     }
                   >
                     <div class="mail-top-title">
-                    {val.approved_status == 0
-                        ?<span>Draft</span>
-                        : val.approved_status == 1
-                        ? <span>Approved Draft</span>
-                        : val.approved_status == 2
-                        ? <span>Approved</span>
-                        :  <span>Draft</span>
-                    }
+                      {val.approved_status == 0 ? (
+                        <span>Draft</span>
+                      ) : val.approved_status == 1 ? (
+                        <span>Approved Draft</span>
+                      ) : val.approved_status == 2 ? (
+                        <span>Approved</span>
+                      ) : (
+                        <span>Draft</span>
+                      )}
                     </div>
                     <div class="mail-box-content">
                       <div className="mail-box-content-top">
@@ -594,7 +593,13 @@ const SendEmails = () => {
                             Edit
                           </button>
 
-                          <button type="button" onClick={()=>{handleSendMail(val.id)}} class="btn btn-primary btn-filled send">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              handleSendMail(val.id);
+                            }}
+                            class="btn btn-primary btn-filled send"
+                          >
                             Send
                           </button>
                         </div>

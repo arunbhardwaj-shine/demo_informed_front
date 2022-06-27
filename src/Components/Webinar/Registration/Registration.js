@@ -114,7 +114,7 @@ const Registration = () => {
     enableReinitialize: true,
     onSubmit: (values) => {
       loader("show");
-      alert("s")
+      alert("s");
       let formData = new FormData();
 
       formData.append("form_id", editdata.id);
@@ -163,7 +163,7 @@ const Registration = () => {
     handleGetEventlist();
   }, []);
   return (
-    <div class="right-sidebar">
+    <div class="right-sidebar col">
       <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
       </div>
@@ -256,7 +256,7 @@ const Registration = () => {
             )}
           </Row>
           <Modal
-          className="overflow-hidden"
+            className="overflow-hidden"
             show={modalShow}
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
@@ -329,16 +329,14 @@ const Registration = () => {
                       </Form.Group>
                     </Col>
                     <Form.Group className="mb-3">
-                      <Form.Label>
-                      Url Alias
-                      </Form.Label>
+                      <Form.Label>Url Alias</Form.Label>
                       <Form.Control
                         name="url"
                         onChange={(e) => setUrlAlias(e.target.value)}
                         value={UrlAlias}
                         type="text"
                         placeholder="url"
-                        />
+                      />
                       <p>
                         ( http://51.89.210.56:3000/webinar/register/{eventCode}/
                         {UrlAlias}/1)

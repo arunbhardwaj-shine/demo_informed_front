@@ -101,7 +101,7 @@ const ViewSmartListWebinar = () => {
   } else {
     return (
       <>
-        <div className="right-sidebar">
+        <div className="right-sidebar col">
           <div className="loader" id="custom_loader">
             <span className="loader-view"> </span>
           </div>
