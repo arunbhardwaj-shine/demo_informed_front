@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 import { getEmailData } from "../../actions";
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import EditCountry from "../CommonComponent/EditCountry";
+import EditContactType from "../CommonComponent/EditContactType";
 
 var old_object = {};
 var selected_Data = [];
@@ -498,11 +499,13 @@ const VerifyHCP = (props) => {
     company,
     country,
     names,
-    index
+    index,
+    contact_type
   ) => {
     if(editable != 0){
       const name_edit    = document.getElementById("field_name" + profile_user_id).innerText;
       const country_edit = document.getElementById("field_country" + profile_user_id).value;
+      const contact_type_edit = document.getElementById("field_contact_type" + profile_user_id).value;
 
       const arr = [];
         arr.push({
@@ -513,6 +516,7 @@ const VerifyHCP = (props) => {
           company: company,
           country: country_edit,
           username: name_edit,
+          contact_type:contact_type_edit
         });
 
         let prev_obj = editableData.find(x => x.profile_user_id === profile_user_id);
@@ -572,14 +576,19 @@ const VerifyHCP = (props) => {
         const name_edit    = document.getElementById("field_name" + data.profile_user_id).innerText;
         const country_edit = document.getElementById("field_country" + data.profile_user_id).value;
         const edit_index = document.getElementById("field_index" + data.profile_user_id).value;
+        const contact_type_edit = document.getElementById("field_contact_type" + data.profile_user_id).value;
 
         let prev_obj = selectedHcp.find(x => x.profile_user_id === data.profile_user_id);
         if(typeof prev_obj != "undefined"){
           if(typeof selectedHcp[edit_index] != "undefined"){
               selectedHcp[edit_index].country = country_edit;
           }
+          if(typeof selectedHcp[edit_index] != "undefined"){
+              selectedHcp[edit_index].contact_type = contact_type_edit;
+          }
         }
 
+        data.contact_type = contact_type_edit;
         data.country = country_edit;
         data.username = name_edit;
       });
@@ -1034,6 +1043,7 @@ const VerifyHCP = (props) => {
                                 data.company,
                                 data.country,
                                 data.first_name + " " + data.last_name,
+                                data.contact_type,
                               )
                             }
                           >
@@ -1054,7 +1064,11 @@ const VerifyHCP = (props) => {
                             }
                             </td>
                             <td>{data.ibu}</td>
-                            <td>{data.contact_type}</td>
+                            <td>
+                              {
+                                editable ? <EditContactType selected_ibu={data.contact_type} profile_user={data.profile_user_id}></EditContactType> : <span>{data.contact_type}</span>
+                              }
+                            </td>
                             <td>
                               <span>{data.consent}</span>
                             </td>
