@@ -907,8 +907,8 @@ input:-webkit-autofill{ -webkit-text-fill-color: #4E718E !important; }
 .form-buttons .approved-btn:hover img.approve_btn{ display:none; }
 #mail-view .chart-description text { font-family: 'Roboto'; } 
 .modal-body .hcp-add-form form .form-group .dropdown { width: 100%; } 
-.modal-body .hcp-add-form form .form-group .dropdown button, .table .dropdown.edit-country-dropdown button { background: var(--white) url(../images/dropdown-arrow.svg) no-repeat; background-size: 16px; background-position: 93% center; box-shadow: 0px 1px 6px rgb(0 102 190 / 20%); border-radius: 30px; border: 0; padding: 12px 40px 12px 27px; width: 100%; color: #4E718E; font-family: 'Roboto-Light'; text-align: left; height:48px; max-width: 315px; overflow:hidden; text-overflow: ellipsis; white-space: nowrap; } 
-.table .dropdown.edit-country-dropdown button { max-width: 180px; padding: 7px 40px 7px 15px; height: auto; font-size: 13px; line-height: 15px; background-size: 12px; background-color: #97b6cf7a; } 
+.modal-body .hcp-add-form form .form-group .dropdown button, .table .dropdown.edit-country-dropdown button, .split-button-dropup.edit-country-dropdown > div:nth-child(3) { background: var(--white) url(../images/dropdown-arrow.svg) no-repeat; background-size: 16px; background-position: 93% center; box-shadow: 0px 1px 6px rgb(0 102 190 / 20%); border-radius: 30px; border: 0; padding: 12px 40px 12px 27px; width: 100%; color: #4E718E; font-family: 'Roboto-Light'; text-align: left; height:48px; max-width: 315px; overflow:hidden; text-overflow: ellipsis; white-space: nowrap; } 
+.table .dropdown.edit-country-dropdown button, .split-button-dropup.edit-country-dropdown > div:nth-child(3) { max-width: 180px; padding: 7px 40px 7px 15px; height: auto; font-size: 13px; line-height: 15px; background-size: 12px; background-color: #97b6cf7a; } 
 .table .dropdown.edit-country-dropdown button:after{ display: none; } 
 .modal-body .hcp-add-form form .form-group .dropdown button:focus { box-shadow: 0px 0px 5px rgb(0 102 190 / 87%); color: var(--blue); } 
 .modal-body .hcp-add-form form .form-group .dropdown-toggle::after { display: none; } 
@@ -935,6 +935,46 @@ table thead.sticky-header:after { content: ""; position: absolute; width: 20px; 
 .form-group-content a[data-bs-toggle]:hover + .tooltip { opacity: 1; } 
 .form-group-content .tooltip { width: 180px; font-size: 11px; background: var(--white); padding: 4px 6px; color: var(--violet); box-shadow: 0px 1px 4px rgb(0 102 190 / 20%); border-radius: 4px; top: 18px; right: -5px; }
 .form-group-content .tooltip span{font-family: 'Roboto-Medium';}
+.split-button-dropup.edit-country-dropdown div:nth-child(3) > div {
+  padding: 0;
+}
+.split-button-dropup.edit-country-dropdown div:nth-child(3) > div:nth-child(2) span, .split-button-dropup.edit-country-dropdown > div:nth-child(3) div:nth-child(2) div {
+  display: none;
+}
+.split-button-dropup.edit-country-dropdown > div:nth-child(3) {
+  min-height: 20px;
+}
+.split-button-dropup.edit-country-dropdown > div:nth-child(4) {
+  width: 100%;
+  border: 0.5px solid rgba(0,102,190,.06);
+  box-sizing: border-box;
+  box-shadow: 0 0 20px -3px rgb(0 102 190 / 18%);
+  border-radius: 15px;
+  width: 100%;
+  padding: 8px;
+  max-height: 150px;
+  background-color: #fff;
+    background-clip: padding-box;
+  position:absolute;
+  overflow: hidden;
+}
+.split-button-dropup.edit-country-dropdown div:nth-child(4) > div{
+  max-height: 130px;
+}
+.split-button-dropup.edit-country-dropdown div:nth-child(4) > div div{
+  font-size: 13px;
+    line-height: 15px;
+    padding: 3px 7px;
+    color: var(--blue);
+    border-radius: 15px;
+    cursor: pointer;
+    margin: 0 0 2px;
+    word-break: break-word;
+    white-space: normal;
+} 
+.split-button-dropup.edit-country-dropdown div:nth-child(4) > div div:hover{
+  background-color: #e9ecef;
+}
 @-moz-document url-prefix() {
   a.show-less-info p::after {
     top: 3px;
