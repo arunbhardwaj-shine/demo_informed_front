@@ -11,6 +11,7 @@ import { popup_alert } from "../../popup_alert";
 import { Modal, Dropdown } from "react-bootstrap";
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import EditCountry from "../CommonComponent/EditCountry";
+import EditContactType from "../CommonComponent/EditContactType";
 var old_object = {};
 const SelectSmartListUsers = (props) => {
   const navigate = useNavigate();
@@ -60,7 +61,6 @@ const SelectSmartListUsers = (props) => {
   const inputElement = useRef();
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   useEffect(() => {
-    console.log(props)
     const body = {
       user_id: localStorage.getItem("user_id"),
       list_id: props.getSelectedSmartListData?.id
@@ -394,11 +394,14 @@ const SelectSmartListUsers = (props) => {
     jobTitle,
     company,
     country,
-    names
+    names,
+    contact_type
   ) => {
     if(editable != 0){
       const name_edit    = document.getElementById("field_name" + profile_user_id).innerText;
       const country_edit = document.getElementById("field_country" + profile_user_id).value;
+      const contact_type_edit = document.getElementById("field_contact_type" + profile_user_id).value;
+
         const arr = [];
         arr.push({
           profile_id: profile_id,
@@ -408,6 +411,7 @@ const SelectSmartListUsers = (props) => {
           company: company,
           country: country_edit,
           username: name_edit,
+          contact_type:contact_type_edit,
         });
 
         let prev_obj = editableData.find(x => x.profile_user_id === profile_user_id);
@@ -436,19 +440,27 @@ const SelectSmartListUsers = (props) => {
         const name_edit    = document.getElementById("field_name" + data.profile_user_id).innerText;
         const country_edit = document.getElementById("field_country" + data.profile_user_id).value;
         const edit_index = document.getElementById("field_index" + data.profile_user_id).value;
+        const contact_type_edit = document.getElementById("field_contact_type" + data.profile_user_id).value;
 
         let prev_obj = readers.find(x => x.profile_user_id === data.profile_user_id);
         if(typeof prev_obj != "undefined"){
           if(typeof readers[edit_index] != "undefined"){
               readers[edit_index].country = country_edit;
           }
+          if(typeof readers[edit_index] != "undefined"){
+              readers[edit_index].contact_type = contact_type_edit;
+          }
         }else{
           if(typeof readersNewlyAdded[edit_index] != "undefined"){
             readersNewlyAdded[edit_index].country = country_edit;
           }
+          if(typeof readersNewlyAdded[edit_index] != "undefined"){
+            readersNewlyAdded[edit_index].contact_type = contact_type_edit;
+          }
         }
         data.country = country_edit;
         data.username = name_edit;
+        data.contact_type = contact_type_edit;
       });
 
       const body = {
@@ -897,6 +909,7 @@ const SelectSmartListUsers = (props) => {
                             readers.company,
                             readers.country,
                             readers.first_name + " " + readers.last_name,
+                            readers.contact_type,
                           )
                         }
                         >
@@ -915,7 +928,11 @@ const SelectSmartListUsers = (props) => {
                           }
                           </td>
                           <td>{readers.ibu}</td>
-                          <td>{readers.contact_type}</td>
+                          <td>
+                            {
+                              editable ? <EditContactType selected_ibu={readers.contact_type} profile_user={readers.profile_user_id}></EditContactType> : <span>{readers.contact_type}</span>
+                            }
+                          </td>
                           {showLessInfo == false ? (
                             <td>
                               <span>{readers.consent}</span>{" "}
@@ -966,6 +983,7 @@ const SelectSmartListUsers = (props) => {
                               readers.company,
                               readers.country,
                               readers.first_name + " " + readers.last_name,
+                              readers.contact_type,
                             )
                           }
                         >
@@ -989,7 +1007,11 @@ const SelectSmartListUsers = (props) => {
                           }
                           </td>
                           <td>{readers.ibu}</td>
-                          <td>{readers.contact_type}</td>
+                          <td>
+                            {
+                              editable ? <EditContactType selected_ibu={readers.contact_type} profile_user={readers.profile_user_id}></EditContactType> : <span>{readers.contact_type}</span>
+                            }
+                          </td>
                           {showLessInfo == false ? (
                             <td>
                               <span>{readers.consent}</span>
