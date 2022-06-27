@@ -44,10 +44,15 @@ const Readers = () => {
   const [massage, setMassage] = useState(false);
   const [selectedType, setSelectedType] = useState([]);
   const [updatedData, setUpdatedData] = useState([]);
+  const [participantsCount, setParticipantsCount] = useState();
+  const [lastPage, setLastPage] = useState();
+  const [nextPageUrl, setNextPageUrl] = useState("");
+
   let path_image = process.env.REACT_APP_ASSETS_PATH_WEBINAR;
   const handleGetReadersData = (id) => {
     ExportApi.ReadersData(id).then((resp) => {
       if (resp.ok) {
+        console.log(resp);
         if (resp.data.code === 404) {
           setMassage("No data found");
           setData();
@@ -57,6 +62,9 @@ const Readers = () => {
           setUpdatedData(resp.data.data.data);
           setCurrentPage(resp.data.data.paginate.currentPage);
           setData(resp.data.data.data);
+          setParticipantsCount(resp.data.data.paginate.count);
+          setLastPage(resp.data.data.paginate.lastPage);
+          setNextPageUrl(resp.data.data.paginate.nextPageUrl);
           const newArray = resp.data.data.data?.map(
             ({ id, state, is_blocked, category, country_id, ...item }) => item
           );
@@ -111,6 +119,49 @@ const Readers = () => {
       });
     }
   };
+
+  const showPaginationData = async () => {
+    const body = {
+      event_id: localStorage.getItem("EventIdHeader"),
+      type: selectedType,
+      country_id: selectedCountry,
+    };
+
+    // loader("show");
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `${localStorage.getItem("Token")}`,
+    };
+    console.log(nextPageUrl);
+    loader("show");
+    await axios
+      .post(nextPageUrl, body, {
+        headers,
+      })
+      .then((res) => {
+        console.log(res);
+        console.log(res);
+        if (res.data.code == 200) {
+          // console.log(res);
+          setData((oldArray) => [...oldArray, ...res.data.data.data]);
+          // setData(res.data.data.data);
+          setParticipantsCount(res.data.data.paginate.count);
+          setNextPageUrl(res.data.data.paginate.nextPageUrl);
+          setLastPage(res.data.data.paginate.lastPage);
+          setCurrentPage(res.data.data.paginate.currentPage);
+          loader("hide");
+        } else {
+          toast.error(res.data.message);
+          loader("hide");
+        }
+
+        //    loader("hide");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const handleGetReadersCountry = (id) => {
     // console.log(id);
     if (id == "null") {
@@ -323,6 +374,12 @@ const Readers = () => {
     setSelectedType([]);
     setSelectedCountry([]);
     setShowFilter(false);
+
+    handleGetReadersData(localStorage.getItem("EventIdHeader"));
+    // setNextPageUrl("");
+    // setLastPage();
+    // setCurrentPage(1);
+
     setData(updatedData);
   };
 
@@ -344,11 +401,12 @@ const Readers = () => {
     };
     loader("show");
     await axios
-      .post(`${BaseApi}hcps/filter`, body, {
+      .post(baseURL + "participants", body, {
         headers,
       })
       .then((res) => {
         // console.log(res);
+        console.log(res);
         if (res.data.code == 200) {
           // console.log(res);
           setData(res.data.data.data);
@@ -807,6 +865,12 @@ const Readers = () => {
                     <ul class="hcp-table-content-left">{massage}</ul>
                   </div>
                 )}
+
+                {console.log(lastPage)}
+
+                {lastPage != currentPage ? (
+                  <button onClick={showPaginationData}>Load more</button>
+                ) : null}
               </div>
             </div>
           </div>
