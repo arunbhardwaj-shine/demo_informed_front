@@ -310,7 +310,7 @@ const RegistrationDetailsList = () => {
                     </div>
                   </div>
 
-                  <div className="form-inline row ">
+                  <div className="form-inline row">
                     <div className="form-group col-12 col-md-12 d-flex justify-content-between align-items-center">
                       <Form.Label> Body Text</Form.Label>
                       <textarea
@@ -351,8 +351,8 @@ const RegistrationDetailsList = () => {
                                 name={data.name}
                                 className="form-check-input"
                               />
+                            <span className="required">{inputbox[i].required==true?"*":null}</span>                           
                               </div>
-                            <span>{inputbox[i].required==true?"*":null}</span>                           
                           </>
                         );
                       })}

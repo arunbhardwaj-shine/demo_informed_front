@@ -460,7 +460,7 @@ function Add(props) {
               </div>
             </div>
             <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 col-md-12">
+              <div className="form-group col-12 col-md-12 time-zone">
                 <label>Select Timezone </label>
                 <select
                   name="Timezone"
@@ -506,64 +506,64 @@ function Add(props) {
             </div>
             <div className="form-inline row justify-content-between align-items-center">
               <div className="form-group col-12 col-md-12">
-                                    <label for="exampleInputEmail1">
-                                      Event Start Time
-                                    </label>
-                                    <div className="form-inline row justify-content-between align-items-center">
-                                      <div className="form-group col-12 col-md-4">
-                                        <select
-                                          className="form-control"
-                                          name="start_hour"
-                                          onChange={formik.handleChange}
-                                          onBlur={formik.handleBlur}
-                                          value={formik.values.start_hour}
-                                        >
-                                          {EventTime[0].Hour?.map((val, i) => (
-                                            <React.Fragment key={i}>
-                                              <option value={val.Hour}>
-                                                {val.Hour}
-                                              </option>
-                                            </React.Fragment>
-                                          ))}
-                                        </select>
-                                      </div>
-                                      <div className="form-group col-12 col-md-4">
-                                        <select
-                                          className="form-control"
-                                          name="start_min"
-                                          onChange={formik.handleChange}
-                                          onBlur={formik.handleBlur}
-                                          value={formik.values.start_min}
-                                        >
-                                          {EventTime[0].mints?.map((val, i) => (
-                                            <React.Fragment key={i}>
-                                              <option value={val.mints}>
-                                                {val.mints}
-                                              </option>
-                                            </React.Fragment>
-                                          ))}
-                                        </select>
-                                      </div>
-                                      <div className="form-group col-12 col-md-4">
-                                        <select
-                                          className="form-control"
-                                          name="start_am_pm"
-                                          onChange={formik.handleChange}
-                                          onBlur={formik.handleBlur}
-                                          value={formik.values.start_am_pm}
-                                        >
-                                          <React.Fragment >
-                                            <option value={"AM"}>AM</option>
-                                            <option value={"PM"}>PM</option>
-                                          </React.Fragment>
-                                        </select>
-                                      </div>
-                                    </div>
+                <label for="exampleInputEmail1">
+                  Event Start Time
+                </label>
+                <div className="row justify-content-between align-items-center select_time">
+                  <div className="form-group col-12 col-md-4">
+                    <select
+                      className="form-control"
+                      name="start_hour"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.start_hour}
+                    >
+                      {EventTime[0].Hour?.map((val, i) => (
+                        <React.Fragment key={i}>
+                          <option value={val.Hour}>
+                            {val.Hour}
+                          </option>
+                        </React.Fragment>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="form-group col-12 col-md-4">
+                    <select
+                      className="form-control"
+                      name="start_min"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.start_min}
+                    >
+                      {EventTime[0].mints?.map((val, i) => (
+                        <React.Fragment key={i}>
+                          <option value={val.mints}>
+                            {val.mints}
+                          </option>
+                        </React.Fragment>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="form-group col-12 col-md-4">
+                    <select
+                      className="form-control"
+                      name="start_am_pm"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.start_am_pm}
+                    >
+                      <React.Fragment >
+                        <option value={"AM"}>AM</option>
+                        <option value={"PM"}>PM</option>
+                      </React.Fragment>
+                    </select>
+                  </div>
+                </div>
 
-                                    <div style={{ color: "red" }}>
-                                      
-                                    </div>
-                                  </div>
+                <div style={{ color: "red" }}>
+                  
+                </div>
+              </div>
 
                                </div>
                                <div className="form-inline row justify-content-between align-items-center">
@@ -572,7 +572,7 @@ function Add(props) {
                                     <label for="exampleInputEmail1">
                                       Event End Time
                                     </label>
-                                    <div className="form-inline row justify-content-between align-items-center">
+                                    <div className="row justify-content-between align-items-center select_time">
                                       <div className="form-group col-12 col-md-4">
                                         <select
                                           className="form-control"
