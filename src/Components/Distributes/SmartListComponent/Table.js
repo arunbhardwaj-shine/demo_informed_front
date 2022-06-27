@@ -19,6 +19,7 @@ import { connect } from "react-redux";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import EditCountry from "../../CommonComponent/EditCountry";
+import EditContactType from "../../CommonComponent/EditContactType";
 
 const Table = (props, ref) => {
   const [inEditMode, setInEditMode] = useState({
@@ -249,11 +250,13 @@ const Table = (props, ref) => {
     company,
     country,
     names,
-    index
+    index,
+    contact_type
   ) => {
     if(editable != 0){
         const name_edit    = document.getElementById("field_name" + profile_user_id).innerText;
         const country_edit = document.getElementById("field_country" + profile_user_id).value;
+        const contact_type_edit = document.getElementById("field_contact_type" + profile_user_id).value;
 
         const arr = [];
         arr.push({
@@ -264,6 +267,7 @@ const Table = (props, ref) => {
           company: company,
           country: country_edit,
           username: name_edit,
+          contact_type:contact_type_edit
         });
         let prev_obj = editableData.find(x => x.profile_user_id === profile_user_id);
         if(typeof (prev_obj) != "undefined") {
@@ -462,20 +466,28 @@ const Table = (props, ref) => {
         const name_edit    = document.getElementById("field_name" + data.profile_user_id).innerText;
         const country_edit = document.getElementById("field_country" + data.profile_user_id).value;
         const edit_index = document.getElementById("field_index" + data.profile_user_id).value;
+        const contact_type_edit = document.getElementById("field_contact_type" + data.profile_user_id).value;
 
         let prev_obj = editList.find(x => x.profile_user_id === data.profile_user_id);
         if(typeof prev_obj != "undefined"){
           if(typeof editList[edit_index] != "undefined"){
               editList[edit_index].country = country_edit;
           }
+          if(typeof editList[edit_index] != "undefined"){
+              editList[edit_index].contact_type = contact_type_edit;
+          }
         }else{
           if(typeof getNewReaders[edit_index] != "undefined"){
             getNewReaders[edit_index].country = country_edit;
+          }
+          if(typeof getNewReaders[edit_index] != "undefined"){
+            getNewReaders[edit_index].contact_type = contact_type_edit;
           }
         }
 
         data.country = country_edit;
         data.username = name_edit;
+        data.contact_type = contact_type_edit;
       });
 
 
@@ -1137,6 +1149,7 @@ const Table = (props, ref) => {
                           item.company,
                           item.country,
                           item.first_name + " " + item.last_name,
+                          item.contact_type,
                         )
                       }
                     >
@@ -1172,7 +1185,11 @@ const Table = (props, ref) => {
                       }
                       </td>
                       <td> {item.ibu}</td>
-                      <td> {item.contact_type}</td>
+                      <td>
+                        {
+                          editable ? <EditContactType selected_ibu={item.contact_type} profile_user={item.profile_user_id}></EditContactType> : <span>{item.contact_type}</span>
+                        }
+                      </td>
 
                       {showLessInfo == false ? (
                         <td>
@@ -1231,6 +1248,7 @@ const Table = (props, ref) => {
                           item.company,
                           item.country,
                           item.first_name + " " + item.last_name,
+                          item.contact_type,
                         )
                       }
                     >
@@ -1252,7 +1270,11 @@ const Table = (props, ref) => {
                         <td id="field_readers">NA</td>
                       ) : null*/}
                       <td id="field_business_unit">{item.ibu}</td>
-                      <td id="field_interest">{item.contact_type}</td>
+                      <td id="field_interest">
+                      {
+                        editable ? <EditContactType selected_ibu={item.contact_type} profile_user={item.profile_user_id}></EditContactType> : <span>{item.contact_type}</span>
+                      }
+                      </td>
 
                       {showLessInfo == false ? (
                         <td>
@@ -1279,7 +1301,7 @@ const Table = (props, ref) => {
                           <span>{item.last_email}</span>
                         </td>
                       ) : null}
-                      
+
                       <td
                         className="delete_row"
                         colspan="12"
