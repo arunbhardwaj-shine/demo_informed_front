@@ -3,7 +3,7 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import { Dropdown } from "react-bootstrap";
 import { toast } from "react-toastify";
 import axios from "axios";
-
+import Select from 'react-select'
 const EditCountry = (props) => {
   const [getSelectedCountry, setSelectedCountry] = useState(props.selected_country);
   const [getProfileUserId, setProfileUserId] = useState(props.profile_user);
@@ -11,8 +11,21 @@ const EditCountry = (props) => {
   const onCountryChange = (e,profile_user_id) => {
     setSelectedCountry(e);
   };
+  const options = [
+    { value: 'chocolate', label: 'Chocolate' },
+    { value: 'strawberry', label: 'Strawberry' },
+    { value: 'vanilla', label: 'Vanilla' }
+  ]
+
+  const checklist = () =>{
+    console.log(document.getElementById('react-select-3-listbox'))
+    
+  }
+
   return(
     <>
+
+   {/* <Select options={options} onclick={checklist} /> */}
 
     <DropdownButton className="dropdown-basic-button split-button-dropup edit-country-dropdown"
       title= {getSelectedCountry != "" &&  getSelectedCountry != "undefined" ? getSelectedCountry == "B&H" ? "Bosnia and Herzegovina" : getSelectedCountry : "Select Country" }
