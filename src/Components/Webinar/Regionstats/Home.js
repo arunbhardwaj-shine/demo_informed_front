@@ -9,13 +9,13 @@ const Home = () => {
   const [event, setEvent] = useState([]);
   const [eventid, setEventId] = useState();
   const [status, setStatus] = useState();
-  const [key, setKey] = useState('home')
+  const [key, setKey] = useState("home");
   const handleGetEventlist = () => {
     ExportApi.GetEventList().then((resp) => {
       if (resp.ok) {
         setEvent(resp.data.data);
-        if(eventid==null||eventid==undefined){
-        setEventId(resp.data.data[0].id)
+        if (eventid == null || eventid == undefined) {
+          setEventId(resp.data.data[0].id);
         }
       }
     });
@@ -24,14 +24,14 @@ const Home = () => {
     handleGetEventlist();
   }, []);
   return (
-    <div class="right-sidebar">
+    <div class="right-sidebar col">
       <Row>
         <Col md={{ span: 10, offset: 2 }}>
           <Row>
             <Col className="mb-5">
               <Form.Label>Select Event </Form.Label>
-              <Form.Select 
-              value={eventid}
+              <Form.Select
+                value={eventid}
                 onChange={(e) => {
                   setEventId(e.target.value);
                 }}
@@ -61,11 +61,10 @@ const Home = () => {
                 Hii, I am 3rd tab content
               </Tab>
               <Tab eventKey="fifth" title="Email Stats">
-                <EmailStatsChart eventid={eventid}  />
-              
+                <EmailStatsChart eventid={eventid} />
               </Tab>
               <Tab eventKey="sixth" title="Region Stats">
-                <RegionStatsChart eventid={eventid}  />
+                <RegionStatsChart eventid={eventid} />
               </Tab>
               <Tab eventKey="seventh" title="Link Stats">
                 Hii, I am 3rd tab content

@@ -91,9 +91,12 @@ const RegionStatsChart = (props) => {
       };
 
       await axios
-        .get(`${BaseApi}region-stats/${localStorage.getItem("EventIdHeader")}`, {
-          headers,
-        })
+        .get(
+          `${BaseApi}region-stats/${localStorage.getItem("EventIdHeader")}`,
+          {
+            headers,
+          }
+        )
         .then((res) => {
           // console.log(res);
 
@@ -113,7 +116,7 @@ const RegionStatsChart = (props) => {
   }, []);
 
   return (
-    <div class="right-sidebar">
+    <div class="right-sidebar col">
       <div className="container">
         <Tabs defaultActiveKey="0">
           {regions.map((region, index) => {

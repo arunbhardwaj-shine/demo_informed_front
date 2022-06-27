@@ -28,7 +28,7 @@ function EmailStats() {
     });
   };
   const handleGetTemplateList = (id) => {
-   localStorage.setItem("emailstatseventid",id)
+    localStorage.setItem("emailstatseventid", id);
     ExportApi.UserTemplateList(id).then((resp) => {
       if (resp.ok) {
         // console.log(resp.data.data);
@@ -43,19 +43,20 @@ function EmailStats() {
     });
   };
   const handleGetEmaildata = (id) => {
-
     loader("show");
     setTimeout(() => {
-      ExportApi.EmailStatss(localStorage.getItem("emailstatseventid"), id).then((resp) => {
-        if (resp.ok) {
-          loader("hide");
-          //  console.log(resp.data.data);
-          setEmailData(resp.data.data.data);
-          setPaginate(resp.data.data.paginate);
-          setLabel(resp.data.data.paginate.label);
-          setCurrentPage(resp.data.data.paginate.currentPage);
+      ExportApi.EmailStatss(localStorage.getItem("emailstatseventid"), id).then(
+        (resp) => {
+          if (resp.ok) {
+            loader("hide");
+            //  console.log(resp.data.data);
+            setEmailData(resp.data.data.data);
+            setPaginate(resp.data.data.paginate);
+            setLabel(resp.data.data.paginate.label);
+            setCurrentPage(resp.data.data.paginate.currentPage);
+          }
         }
-      });
+      );
     }, 2000);
   };
   const handleGetParticipantPage = (id) => {
@@ -76,7 +77,7 @@ function EmailStats() {
     handleGetEventlist();
   }, []);
   return (
-    <div class="right-sidebar">
+    <div class="right-sidebar col">
       <Row>
         <div className="loader" id="custom_loader">
           <span className="loader-view"> </span>

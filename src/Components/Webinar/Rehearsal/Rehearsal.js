@@ -264,7 +264,7 @@ function Rehearsal() {
     setSpeakerNameErr([...copydataErr]);
   };
   return (
-    <div class="right-sidebar">
+    <div class="right-sidebar col">
       <Row>
         <div className="loader" id="custom_loader">
           <span className="loader-view"> </span>

@@ -200,46 +200,47 @@ const EventData = () => {
 
   const deleteEvent = () => {
     hideConfirmationModal();
-      ExportApi.DeleteEvent(deletecardid).then((resp) => {
+    ExportApi.DeleteEvent(deletecardid)
+      .then((resp) => {
         if (resp.ok) {
-          handleGetEventlist()
+          handleGetEventlist();
           hideConfirmationModal();
-                  let updatedArray = event.filter((item) => {
-                    return item["id"] != deletecardid;
-                  });
-                  if (typeof updatedArray !== "undefined") {
-                    setEvent(updatedArray);
-                  }
-                }
-              })
-              .catch((err) => {
-                toast.error("Something went wrong");
-              });
-    
-  //   const body = {
-  //     event_id: deletecardid,
-  //   };
-  //   const headers = {
-  //     "Content-Type": "application/json",
-  //     Authorization: `${localStorage.getItem("Token")}`,
-  //   };
-  //   axios
-  //     .post(`http://51.89.210.56:8000/api/delete-event`, body, { headers })
-  //     .then((res) => {
-  //       if (res.statusText == "OK") {
-  //         hideConfirmationModal();
-  //         let updatedArray = event.filter((item) => {
-  //           return item["id"] != deletecardid;
-  //         });
-  //         if (typeof updatedArray !== "undefined") {
-  //           setEvent(updatedArray);
-  //         }
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       toast.error("Something went wrong");
-  //     });
-   };
+          let updatedArray = event.filter((item) => {
+            return item["id"] != deletecardid;
+          });
+          if (typeof updatedArray !== "undefined") {
+            setEvent(updatedArray);
+          }
+        }
+      })
+      .catch((err) => {
+        toast.error("Something went wrong");
+      });
+
+    //   const body = {
+    //     event_id: deletecardid,
+    //   };
+    //   const headers = {
+    //     "Content-Type": "application/json",
+    //     Authorization: `${localStorage.getItem("Token")}`,
+    //   };
+    //   axios
+    //     .post(`http://51.89.210.56:8000/api/delete-event`, body, { headers })
+    //     .then((res) => {
+    //       if (res.statusText == "OK") {
+    //         hideConfirmationModal();
+    //         let updatedArray = event.filter((item) => {
+    //           return item["id"] != deletecardid;
+    //         });
+    //         if (typeof updatedArray !== "undefined") {
+    //           setEvent(updatedArray);
+    //         }
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       toast.error("Something went wrong");
+    //     });
+  };
 
   const handleSubmit = (e) => {
     let err = true;
@@ -317,7 +318,7 @@ const EventData = () => {
     handleGetEventlist();
   }, []);
   return (
-    <div className="right-sidebar">
+    <div className="right-sidebar col">
       <div className="top-header">
         <div className="top-right-action webinar-header-action-tool">
           <div className="search-bar">
@@ -510,7 +511,8 @@ const EventData = () => {
                           </div>
                         )}
                       </div>
-                      <Button className="btn btn-primary btn-filled"
+                      <Button
+                        className="btn btn-primary btn-filled"
                         onClick={() => handleGetEventlistEdidData(event.id)}
                       >
                         Edit

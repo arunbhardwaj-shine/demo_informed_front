@@ -426,7 +426,7 @@ const Readers = () => {
   };
 
   return (
-    <div class="right-sidebar">
+    <div class="right-sidebar col">
       <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
       </div>
@@ -445,7 +445,9 @@ const Readers = () => {
         <div class="top-header">
           <div class="page-title">
             <h2>HCPs List</h2>
-            <h5>{data ? " Total Registrations | " + data.length : null}</h5>
+            <span className="reader-header-count">
+              {data ? " Total Registrations | " + data.length : null}
+            </span>
           </div>
           <div class="top-right-action">
             <div class="search-bar">
@@ -868,8 +870,14 @@ const Readers = () => {
 
                 {console.log(lastPage)}
 
-                {lastPage != currentPage ? (
+                {/* {lastPage != currentPage ? (
                   <button onClick={showPaginationData}>Load more</button>
+                ) : null} */}
+
+                {lastPage != currentPage ? (
+                  <div className="loadmore-button">
+                    <span onClick={showPaginationData}>Load More</span>
+                  </div>
                 ) : null}
               </div>
             </div>

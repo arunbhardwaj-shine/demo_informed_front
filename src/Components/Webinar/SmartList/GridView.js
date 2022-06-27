@@ -222,7 +222,9 @@ const GridView = (props) => {
   };
 
   const onCountryChange = (e, i) => {
+    console.log(e);
     const { value } = e.target;
+    console.log(value);
     const list = [...hpc];
     const name = hpc[i].country;
     list[i].country = value;
@@ -599,7 +601,7 @@ const GridView = (props) => {
   } else {
     return (
       <>
-        <div class="right-sidebar">
+        <div class="right-sidebar col">
           <div className="loader" id="custom_loader">
             <span className="loader-view"> </span>
           </div>
@@ -1324,7 +1326,9 @@ const GridView = (props) => {
                                               ([index, item]) => {
                                                 return (
                                                   <>
-                                                    <option value={index}>
+                                                    <option
+                                                      value={item.country}
+                                                    >
                                                       {item.country}
                                                     </option>
                                                   </>

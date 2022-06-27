@@ -25,16 +25,14 @@ function CustomizeRehearsalInvites() {
   };
   const emailEditorRef = useRef(null);
   const onLoad = () => {
- 
     // emailEditorRef.current.editor.loadDesign(dpc?dpc:hello);
   };
   const onReady = () => {
-
     // await emailEditorRef.current.editor.loadDesign(dpc)
     console.log("onReady");
   };
   useEffect(() => {
-    loader("show")
+    loader("show");
     const body = {
       user_id: 18207,
     };
@@ -47,7 +45,7 @@ function CustomizeRehearsalInvites() {
           setAllTags(res.data.response.data);
           //  console.log(res.data.response.data);
           // if (typeof campaign_id_st === "undefined" || campaign_id_st == 0) {
-         loader("hide");
+          loader("hide");
           // }
         })
         .catch((err) => {
@@ -61,10 +59,10 @@ function CustomizeRehearsalInvites() {
     setIsOpen(true);
   };
   return (
-    <div className="right-sidebar">
-        <div className="loader" id="custom_loader">
-	        <span className="loader-view"> </span>
-          </div>
+    <div className="right-sidebar col">
+      <div className="loader" id="custom_loader">
+        <span className="loader-view"> </span>
+      </div>
       <div className="schedule_reheasal">
         <Link to="/webinar/rehearsal">
           <h6>
@@ -73,67 +71,76 @@ function CustomizeRehearsalInvites() {
         </Link>
       </div>
       <form>
-      <Row>
-        <Col ><h3>Rehearsal</h3></Col>
-        <Col><Button>Save</Button></Col>
-      </Row>
-      <div className="email-form">
-         
-                  <div className="input-group w-100">
-                    <div className="input-group-prepend">
-                      <button
-                        className="btn btn-bordered btn-primary"
-                        type="button"
-                        id="tags-add"
-                        data-bs-toggle="modal"
-                        data-bs-target="#tagsModal"
-                        onClick={tagButtonClicked}
-                      >
-                        + Add Tag
-                      </button>
-                    </div>
-                    <div className="tags_added">
-                      <ul>
-                        {finalTags.map((tags, index) => {
-                          return (
-                            <>
-                              <li className="list1">
-                                {tags.innerHTML || tags}{" "}
-                                <img
-                                  src={path_image + "filter-close.svg"}
-                                  alt="Close-filter"
-                                  onClick={() => removeTag(index)}
-                                />
-                              </li>
-                            </>
-                          );
-                        })}
-                      </ul>
-                    </div>
-                  </div>
-                  <div className="form-inline row justify-content-between align-items-center">
-                  <div className="form-group col-12 col-md-12">
-                  <div className="form-group col-12 col-md-12">
-                          <div className="mt-2"></div>
-                          <label column sm={2}>
-                            Email
-                          </label>
-                         
-                            <input  placeholder="Speaker's Name" className="form-control"
-                              type="email"
-                              // value={malti.email}
-                              // onChange={(e) => {
-                              //   handleSpeakerdataEmail(e, i, index);
-                              // }}
-                            />  
-                         </div>
-                         </div>
-                        </div>
-                       </div>
-                       <div className="form-group col-12 col-md-7">
-                    <EmailEditor ref={emailEditorRef} onLoad={onLoad} onReady={onReady}></EmailEditor>
-                  </div>  
-                         </form>
+        <Row>
+          <Col>
+            <h3>Rehearsal</h3>
+          </Col>
+          <Col>
+            <Button>Save</Button>
+          </Col>
+        </Row>
+        <div className="email-form">
+          <div className="input-group w-100">
+            <div className="input-group-prepend">
+              <button
+                className="btn btn-bordered btn-primary"
+                type="button"
+                id="tags-add"
+                data-bs-toggle="modal"
+                data-bs-target="#tagsModal"
+                onClick={tagButtonClicked}
+              >
+                + Add Tag
+              </button>
+            </div>
+            <div className="tags_added">
+              <ul>
+                {finalTags.map((tags, index) => {
+                  return (
+                    <>
+                      <li className="list1">
+                        {tags.innerHTML || tags}{" "}
+                        <img
+                          src={path_image + "filter-close.svg"}
+                          alt="Close-filter"
+                          onClick={() => removeTag(index)}
+                        />
+                      </li>
+                    </>
+                  );
+                })}
+              </ul>
+            </div>
+          </div>
+          <div className="form-inline row justify-content-between align-items-center">
+            <div className="form-group col-12 col-md-12">
+              <div className="form-group col-12 col-md-12">
+                <div className="mt-2"></div>
+                <label column sm={2}>
+                  Email
+                </label>
+
+                <input
+                  placeholder="Speaker's Name"
+                  className="form-control"
+                  type="email"
+                  // value={malti.email}
+                  // onChange={(e) => {
+                  //   handleSpeakerdataEmail(e, i, index);
+                  // }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="form-group col-12 col-md-7">
+          <EmailEditor
+            ref={emailEditorRef}
+            onLoad={onLoad}
+            onReady={onReady}
+          ></EmailEditor>
+        </div>
+      </form>
 
       <Modal id="tagsModal" show={isOpen}>
         <Modal.Header>
@@ -171,27 +178,27 @@ function CustomizeRehearsalInvites() {
             </h6>
           </div>
           <div className="selected-tags">
-              <h6>
-                Selected Tag <span>| {tagClickedFirst.length}</span>
-              </h6>
+            <h6>
+              Selected Tag <span>| {tagClickedFirst.length}</span>
+            </h6>
 
-              <div className="total-selected">
-                {tagClickedFirst.map((data, index) => {
-                  return (
-                    <>
-                      <div className="tag-cross">
-                        {data.innerHTML || data}
-                        <img
-                          src={path_image + "filter-close.svg"}
-                          alt="Close-filter"
-                          // onClick={() => removeTagFinal(index)}
-                        />
-                      </div>
-                    </>
-                  );
-                })}
-              </div>
+            <div className="total-selected">
+              {tagClickedFirst.map((data, index) => {
+                return (
+                  <>
+                    <div className="tag-cross">
+                      {data.innerHTML || data}
+                      <img
+                        src={path_image + "filter-close.svg"}
+                        alt="Close-filter"
+                        // onClick={() => removeTagFinal(index)}
+                      />
+                    </div>
+                  </>
+                );
+              })}
             </div>
+          </div>
         </Modal.Body>
         <Modal.Footer>
           <form>

@@ -35,8 +35,8 @@ const FilterList = () => {
 
   let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [filterList, setFilterList] = useState({
-    profession: ["doctor", "nurse", "engineer"],
-    interest: ["surgery", "psychatrist", "neuro"],
+    profession: ["Doctor", "Nurse", "Engineer"],
+    interest: ["Surgery", "Psychatrist", "Neuro"],
   });
 
   const [selectedProfession, setSelectedProfession] = useState([]);
@@ -77,6 +77,7 @@ const FilterList = () => {
     setSelectedBounceVal();
     setSelectedConsent();
     setSelectedCountry([]);
+    setSelectedCountryName([]);
     setSelectedProfession([]);
     setSelectedInterest([]);
 
@@ -297,7 +298,7 @@ const FilterList = () => {
   return (
     <>
       {/* {console.log(selectedCountry)} */}
-      <div className="right-sidebar">
+      <div className="right-sidebar col">
         <div className="loader" id="custom_loader">
           <span className="loader-view"> </span>
         </div>
