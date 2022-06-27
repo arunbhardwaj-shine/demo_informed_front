@@ -366,7 +366,7 @@ const EventData = () => {
                 {sortingCount == 0 ? (
                   <>
                     <button
-                      className="btn btn-secondary dropdown"
+                      className="btn btn-secondary "
                       onClick={sortSelectedUsers}
                     >
                       Sort By <img src={path + "sort.svg"}></img>
@@ -375,7 +375,7 @@ const EventData = () => {
                 ) : sorting == 0 ? (
                   <>
                     <button
-                      className="btn btn-secondary dropdown"
+                      className="btn btn-secondary"
                       onClick={sortSelectedUsers}
                     >
                       Sort By <img src={path + "sort-decending.svg"}></img>
@@ -384,7 +384,7 @@ const EventData = () => {
                 ) : (
                   <>
                     <button
-                      className="btn btn-secondary dropdown"
+                      className="btn btn-secondary"
                       onClick={sortSelectedUsers}
                     >
                       Sort By <img src={path + "sort-assending.svg"}></img>
@@ -510,7 +510,7 @@ const EventData = () => {
                           </div>
                         )}
                       </div>
-                      <Button
+                      <Button className="btn btn-primary btn-filled"
                         onClick={() => handleGetEventlistEdidData(event.id)}
                       >
                         Edit
