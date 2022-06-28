@@ -587,18 +587,18 @@ const Sidebar = () => {
                     />
                   </button>
                   <ul>
-                    {/* <li
+                    <li
                       className={
-                        location.pathname === "/webinar/portal/polls"
+                        location.pathname === "/webinar/createRegistration"
                           ? "active"
                           : "side_li"
                       }
                     >
-                      <Link to="/webinar/portal/polls">
+                      <Link to="/webinar/createRegistration">
                         <img src={path_image + "webinar/home.svg"} />
-                        <p>Polls</p>
+                        <p>Create Registration</p>
                       </Link>
-                    </li> */}
+                    </li>
 
                     {/* <li className={location.pathname === "/webinar/dashboard" ? "active" : "side_li"}>
                         <Link to="/webinar/dashboard"><img src={path_image + "webinar/dashboard.svg"} /> 
