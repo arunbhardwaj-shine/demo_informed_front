@@ -126,7 +126,6 @@ header {
   background: var(--light-skyblue);
   border-radius: 28.5107px;
   margin-right: 10px;
-  transition: 0.5s linear;
 }
 .toggle_sidebar .left-sidebar .sidebar-menu {
   max-width: 82px;
@@ -284,7 +283,7 @@ header {
   width: calc(100% - 90px);
 }
 .right-sidebar {
-  min-height: 90vh;
+  min-height: 91vh;
   padding-top: 34px;
   padding-right: 70px;
   padding-left: 150px;
@@ -1386,7 +1385,7 @@ ul.tabnav-link li {
   flex: 0 0 90px;
 }
 .form-inline .form-group input,
-#tagsModal .modal-footer form .form-group input {
+#tagsModal .modal-footer form .form-group input , .form-inline .form-group textarea{
   font-family: "Roboto-Light";
   height: 48px;
   font-size: 14px;
@@ -1397,6 +1396,10 @@ ul.tabnav-link li {
   border: 0;
   padding: 12px 17px;
   max-width: 551px;
+}
+.form-inline .form-group textarea{
+  min-height:300px;
+  resize:none;
 }
 .form-inline .form-group input:focus,
 .form-inline .form-group select:focus,
@@ -2376,7 +2379,7 @@ form#add_hcp_form .row:not(:first-child) {
 }
 .hcp-new-user .btn:hover,
 .hcp-added .btn:hover,
-.hcp-sort .btn:hover {
+.hcp-sort .btn:hover, .hcp-sort .btn:active {
   background: var(--light-blue);
   color: var(--white);
   border-color: inherit;
@@ -3650,13 +3653,12 @@ a {
   width: 100%;
   text-align: left;
   height: 52px;
-  background: var(--white)
-    url(http://localhost:3000/static/media/dropdown-arrow.6ca490ef1efe3175ec81.svg);
+  background: var(--white) url(http://localhost:3000/static/media/dropdown-arrow.6ca490ef1efe3175ec81.svg);
   background-repeat: no-repeat;
   background-size: 16px;
   background-position: 93% center;
 }
-.hcp-sort button {
+.hcp-sort button, .hcp-sort .btn:focus {
   background: var(--white);
   font-family: "Roboto";
   border-radius: 30px;
@@ -3683,6 +3685,7 @@ a {
   background: #eeeeee;
   padding: 17px 32px 24px 32px;
   height: 100%;
+  min-height:258px;
 }
 .webinar-result .email-block-add button.btn.btn-primary {
   width: 80px;
@@ -3714,7 +3717,6 @@ a {
   display: inline-block;
   width: auto;
   max-width: 100px;
-  margin: 0 auto;
 }
 .mail-box-content.webinar-box h5 {
   font-size: 24px;
@@ -3765,7 +3767,7 @@ a {
 }
 #webinar_event,
 #webinar-edit-event {
-  max-width: 1339px;
+  max-width: 1280px;
   width: 100%;
 }
 /* #webinar_event .form-inline .form-group label {
@@ -3773,6 +3775,13 @@ a {
     flex: 0 0 341px;
     width: 100%;
 } */
+.modal #webinar_event .form-inline .form-group textarea, .modal #webinar_event .form-inline .form-group input {
+  max-width: 500px;
+  margin-left: 0;
+}
+.modal #webinar_event .form-inline .form-group textarea{
+  min-height:150px;
+}
 .modal-header {
   border-bottom: 0;
 }
@@ -3937,9 +3946,10 @@ input[type="date"]:before {
 .modal #webinar_event .modal-body form .modal-footer-btn,
 #webinar-edit-event .modal-body form .modal-footer-btn {
   width: 100%;
-  padding-top: 10px;
+  padding-top: 15px;
   text-align: right;
   margin-top: 0px;
+  padding-bottom: 15px;
 }
 .modal #webinar_event .modal-body form,
 .modal #webinar-edit-event .modal-body form {
@@ -5365,4 +5375,25 @@ input:-webkit-autofill {
 .reader-header-count {
   margin-top: 10px;
   margin-left: 29px;
+}
+
+
+.create-registration .form-inline .form-group .error {
+  padding-left: 100px;
+  margin-top: 3px;
+}
+.create-registration .form-inline .form-group .error div {
+  font-size: 14px;
+}
+form .form-inline .form-alias {
+  padding-left: 100px;
+  color: #000;
+  font-size: 14px;
+  margin-top: 3px;
+}
+.create-registration  form .form-inline {
+  margin-bottom: 15px;
+}
+.create-registration button {
+  margin-left: 90px;
 }

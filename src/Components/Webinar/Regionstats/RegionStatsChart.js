@@ -8,6 +8,7 @@ import axios from "axios";
 import { BaseApi } from "../../../Api/BaseApi";
 const RegionStatsChart = (props) => {
   const [regions, setRegions] = useState([]);
+  const baseURL = BaseApi.getBaseURL();
   const [options_ch, setOptions_ch] = useState({
     chart: {
       type: "bar",
@@ -92,7 +93,7 @@ const RegionStatsChart = (props) => {
 
       await axios
         .get(
-          `${BaseApi}region-stats/${localStorage.getItem("EventIdHeader")}`,
+          `${baseURL}region-stats/${localStorage.getItem("EventIdHeader")}`,
           {
             headers,
           }

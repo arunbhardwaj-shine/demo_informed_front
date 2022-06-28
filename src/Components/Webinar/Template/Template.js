@@ -369,7 +369,7 @@ const Template = (props) => {
       <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
       </div>
-      <div class="col right-sidebar col">
+      <div className="col right-sidebar col">
         <ToastContainer
           position="top-right"
           autoClose={5000}
@@ -383,7 +383,7 @@ const Template = (props) => {
         />
         {localStorage.getItem("EventIdHeader") ? (
           <>
-            <div class="top-header">
+            <div className="top-header">
               <div className="page-title">
                 <h3>Auto Emails</h3>
               </div>
@@ -415,8 +415,8 @@ const Template = (props) => {
                     className="item"
                     onClick={(e) => templateClicked(val, e)}
                   >
-                    <div class="item-list">
-                      <div class="item-top-schedule">
+                    <div className="item-list">
+                      <div className="item-top-schedule">
                         <img
                           src={path_image + "webinar/mail-schedule.png"}
                           alt=""
@@ -488,7 +488,7 @@ const Template = (props) => {
                 <button
                   type="button"
                   onClick={() => setModalShow2(false)}
-                  class="btn-close"
+                  className="btn-close"
                   data-bs-dismiss="modal"
                 ></button>
               </Modal.Header>
@@ -536,12 +536,12 @@ const Template = (props) => {
             {/* end of delete modal code ------------------ */}
 
             {templateList ? (
-              <div class="email-form">
+              <div className="email-form">
                 <form onSubmit={formik.handleSubmit}>
-                  <div class="input-group w-100">
-                    <div class="input-group-prepend">
+                  <div className="input-group w-100">
+                    <div className="input-group-prepend">
                       <button
-                        class="btn btn-bordered"
+                        className="btn btn-bordered"
                         type="button"
                         id="tags-add"
                         data-bs-toggle="modal"
@@ -551,12 +551,12 @@ const Template = (props) => {
                         + Add Tag
                       </button>
                     </div>
-                    <div class="tags_added">
+                    <div className="tags_added">
                       {finalTags.length > 0 ? (
                         <ul>
                           {finalTags.map((tags, index) => {
                             return (
-                              <li className={"list" + index}>
+                              <li key={index} className={"list" + index}>
                                 {tags.innerHTML || tags}
                                 <img
                                   src={path_image + "filter-close.svg"}
@@ -568,17 +568,17 @@ const Template = (props) => {
                           })}
                         </ul>
                       ) : (
-                        <p class="no-tags">No Selected Tags</p>
+                        <p className="no-tags">No Selected Tags</p>
                       )}
                     </div>
                   </div>
-                  <div class="form-inline row justify-content-end align-items-center">
-                    <div class="form-group col-12 col-md-7">
-                      <label for="exampleInputEmail1">Subject</label>
+                  <div className="form-inline row justify-content-end align-items-center">
+                    <div className="form-group col-12 col-md-7">
+                      <label htmlFor="exampleInputEmail1">Subject</label>
                       <input
                         type="text"
                         name="Subject"
-                        class="form-control"
+                        className="form-control"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik.values.Subject}
@@ -613,8 +613,8 @@ const Template = (props) => {
                             fill="white"
                           />
                           <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
+                            fillRule="evenodd"
+                            clipRule="evenodd"
                             d="M8.78859 11.3999H15.2114C16.5869 11.4016 17.9057 11.946 18.8784 12.9137C19.8511 13.8815 20.3983 15.1935 20.4 16.562V19.757C20.4 19.9275 20.3319 20.0911 20.2107 20.2116C20.0895 20.3322 19.9252 20.3999 19.7538 20.3999H17.1626V17.7598C17.1626 17.2075 16.7149 16.7598 16.1626 16.7598H8.11061C7.55832 16.7598 7.11061 17.2075 7.11061 17.7598V20.3999H4.24613C4.07476 20.3999 3.91041 20.3322 3.78923 20.2116C3.66805 20.0911 3.59998 19.9275 3.59998 19.757V16.562C3.60169 15.1935 4.14889 13.8815 5.12157 12.9137C6.09426 11.946 7.41301 11.4016 8.78859 11.3999Z"
                             fill="white"
                           />
@@ -672,14 +672,14 @@ const Template = (props) => {
                         </button>
                       )}
 
-                      <button class="btn btn-primary btn-filled" type="submit">
+                      <button className="btn btn-primary btn-filled" type="submit">
                         Save
                       </button>
                     </div>
                   </div>
                 </form>
-                <div class="sample-mail-templates">
-                  <div class="select-sample-template">
+                <div className="sample-mail-templates">
+                  <div className="select-sample-template">
                     <img src="assets/images/mail-sample.png" alt="" />
                     <EmailEditor
                       ref={emailEditorRef}
@@ -706,31 +706,31 @@ const Template = (props) => {
                 ></button>
               </Modal.Header>
               <Modal.Body>
-                <div class="select-tags">
+                <div className="select-tags">
                   <h6>Select Tag :</h6>
-                  <div class="tag-lists">
-                    <div class="tag-lists-view">
-                      {Object.values(allTags).map((data) => {
+                  <div className="tag-lists">
+                    <div className="tag-lists-view">
+                      {Object.values(allTags).map((data,i) => {
                         return (
-                          <>
-                            <div onClick={(event) => tagClicked(data)}>
-                              {data}{" "}
+                        
+                            <div key={i} onClick={(event) => tagClicked(data)}>
+                              {data}
                             </div>
-                          </>
+                          
                         );
                       })}
                     </div>
                   </div>
                 </div>
-                <div class="selected-tags">
+                <div className="selected-tags">
                   <h6>
                     Selected Tag <span>| {tagClickedFirst.length}</span>
                   </h6>
-                  <div class="total-selected">
+                  <div className="total-selected">
                     {tagClickedFirst.map((data, index) => {
                       return (
-                        <>
-                          <div className="tag-cross">
+
+                          <div key={index} className="tag-cross">
                             {data.innerHTML || data}
                             <img
                               src={path_image + "filter-close.svg"}
@@ -738,7 +738,7 @@ const Template = (props) => {
                               onClick={() => removeTagFinal(index)}
                             />
                           </div>
-                        </>
+
                       );
                     })}
                   </div>
@@ -747,7 +747,7 @@ const Template = (props) => {
               <Modal.Footer>
                 <form>
                   <div className="form-group">
-                    <label for="new-tag">New Tag</label>
+                    <label htmlFor="new-tag">New Tag</label>
                     <input
                       type="text"
                       className="form-control"

@@ -214,10 +214,12 @@ const RegistrationDetailsList = () => {
     handleGetListData(localStorage.getItem("EventIdHeader"));
   }, []);
   return (
-    <div class="right-sidebar col">
+    <>
+  
       <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
       </div>
+    <div class="right-sidebar col">
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -554,6 +556,7 @@ const RegistrationDetailsList = () => {
         </Modal.Body>
       </Modal>
     </div>
+    </>
   );
 };
 

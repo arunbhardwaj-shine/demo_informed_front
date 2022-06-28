@@ -54,7 +54,9 @@ const Sidebar = () => {
   useEffect(() => {
     if (
       location.pathname === "/webinar/portal/registrationDetails" ||
-      location.pathname === "/webinar/portal/registrationDetailslist"
+      location.pathname === "/webinar/portal/registrationDetailslist"||
+      location.pathname === "/webinar/portal/createRegistration"||
+      location.pathname === "/webinar/portal/Registrations"
     ) {
       // console.log("hi");
       setHomeStatus(true);
@@ -238,7 +240,7 @@ const Sidebar = () => {
                     onClick={() => showHideHome(1)}
                   >
                     <Link
-                      to="/webinar/portal/registrationDetailslist"
+                      to="/webinar/portal/Registrations"
                       onMouseOver={handleMouseOverRegistration}
                       onMouseOut={handleMouseOutRegistration}
                     >
@@ -589,12 +591,12 @@ const Sidebar = () => {
                   <ul>
                     <li
                       className={
-                        location.pathname === "/webinar/createRegistration"
+                        location.pathname === "/webinar/portal/Registrations"||location.pathname === "/webinar/portal/createRegistration"
                           ? "active"
                           : "side_li"
                       }
                     >
-                      <Link to="/webinar/createRegistration">
+                      <Link to="/webinar/portal/Registrations">
                         <img src={path_image + "webinar/home.svg"} />
                         <p>Create Registration</p>
                       </Link>

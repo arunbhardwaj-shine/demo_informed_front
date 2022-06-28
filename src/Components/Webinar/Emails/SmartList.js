@@ -113,7 +113,7 @@ const SelectSmartList = () => {
             <div className="col-12 col-md-1">
               <div className="header-btn-left">
                 <Link to={"/webinar/email/create"}>
-                  <button class="btn btn-primary btn-filled back">
+                  <button className="btn btn-primary btn-filled back">
                     <svg
                       width="12"
                       height="19"
@@ -122,8 +122,8 @@ const SelectSmartList = () => {
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
+                        fillRule="evenodd"
+                        clipRule="evenodd"
                         d="M8.31557 17.82C8.97165 18.476 10.0354 18.476 10.6915 17.82C11.3475 17.1639 11.3475 16.1002 10.6915 15.4441L4.7522 9.50484L10.6927 3.56431C11.3488 2.90823 11.3488 1.84451 10.6927 1.18843C10.0367 0.532347 8.97294 0.532347 8.31686 1.18843L1.2212 8.28409C1.21 8.29469 1.19891 8.30548 1.18794 8.31646C0.531858 8.97254 0.531858 10.0363 1.18794 10.6923L8.31557 17.82Z"
                         fill="white"
                       />
@@ -133,16 +133,16 @@ const SelectSmartList = () => {
               </div>
             </div>
 
-            <div class="col-12 col-md-8">
-              <ul class="tabnav-link">
-                <li class="active">
-                  <a href="javascript:void(0)">Prepare your email</a>
+            <div className="col-12 col-md-8">
+              <ul className="tabnav-link">
+                <li className="active">
+                  <a href="#">Prepare your email</a>
                 </li>
-                <li class="active active-main">
-                  <a href="javascript:void(0)">Select smart list</a>
+                <li className="active active-main">
+                  <a href="#">Select smart list</a>
                 </li>
-                <li class="">
-                  <a href="javascript:void(0)">Approve and send</a>
+                <li className="">
+                  <a href="#">Approve and send</a>
                 </li>
               </ul>
             </div>
@@ -166,7 +166,7 @@ const SelectSmartList = () => {
                 >
                   <button
                     type="button"
-                    class="btn btn-primary btn-filled next"
+                    className="btn btn-primary btn-filled next"
                     onClick={() => handleEmailSCreateCollection()}
                   >
                     <svg
@@ -186,18 +186,18 @@ const SelectSmartList = () => {
               </div>
             </div>
           </div>
-          <div class="smart-list-result">
-            <div class="custom-container">
-              <div class="row">
-                <div class="smartlist-result-block">
+          <div className="smart-list-result">
+            <div className="custom-container">
+              <div className="row">
+                <div className="smartlist-result-block">
                   {typeof smartListData !== "undefined" &&
                   smartListData.length > 0
-                    ? smartListData.map((data) => {
+                    ? smartListData.map((data,i) => {
                         return (
-                          <div class="smartlist_box_block">
-                            <div class="smartlist-view email_box">
-                              <div class="mail-box-content">
-                                <div class="select-mail-option">
+                          <div key={i} className="smartlist_box_block">
+                            <div className="smartlist-view email_box">
+                              <div className="mail-box-content">
+                                <div className="select-mail-option">
                                   <input
                                     type="radio"
                                     name="radio"
@@ -209,13 +209,13 @@ const SelectSmartList = () => {
                                       );
                                     }}
                                   />
-                                  <span class="checkmark"></span>
+                                  <span className="checkmark"></span>
                                 </div>
                                 <h5>{data.name}</h5>
-                                <div class="mail-time">
+                                <div className="mail-time">
                                   <span>Nov 18 | 9:00 AM</span>
                                 </div>
-                                <div class="smart-list-added-user">
+                                <div className="smart-list-added-user">
                                   <svg
                                     width="19"
                                     height="25"
@@ -230,10 +230,10 @@ const SelectSmartList = () => {
                                   </svg>
                                   {data.count}
                                 </div>
-                                <div class="mail-stats">
+                                <div className="mail-stats">
                                   <ul>
                                     <li>
-                                      <div class="mail-status smartlist_view">
+                                      <div className="mail-status smartlist_view">
                                         <img
                                           src={
                                             path_image +
@@ -245,7 +245,7 @@ const SelectSmartList = () => {
                                       <span>10%</span>
                                     </li>
                                     <li>
-                                      <div class="mail-status mail_click">
+                                      <div className="mail-status mail_click">
                                         <img
                                           src={
                                             path_image +
@@ -257,7 +257,7 @@ const SelectSmartList = () => {
                                       <span>60%</span>
                                     </li>
                                     <li>
-                                      <div class="mail-status smartlist_view">
+                                      <div className="mail-status smartlist_view">
                                         <img
                                           src={
                                             path_image +
