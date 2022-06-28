@@ -20,7 +20,7 @@ import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import EditCountry from "../../CommonComponent/EditCountry";
 import EditContactType from "../../CommonComponent/EditContactType";
-
+import Select from 'react-select';
 const Table = (props, ref) => {
   const [inEditMode, setInEditMode] = useState({
     status: false,
@@ -77,7 +77,7 @@ const Table = (props, ref) => {
   let file_name = useRef("");
 
   const [hpc, setHpc] = useState([
-    { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
+    { firstname: "", lastname: "", email: "", contact_type: "", country: "", countryIndex: "" },
   ]);
   const [countryall, setCountryall] = useState([]);
 
@@ -136,7 +136,22 @@ const Table = (props, ref) => {
       await axios
         .post(`distributes/filters_list`, body)
         .then((res) => {
-          setCountryall(res.data.response.data.country);
+          if (res.data.status_code == 200) {
+            let country = res.data.response.data.country;
+            let arr = [];
+            Object.entries(country).map(([index, item]) => {
+              let label = item;
+                if(index == "B&H"){
+                  label = "Bosnia and Herzegovina";
+                }
+                arr.push({
+                    value: item,
+                    label: label,
+                });
+            });
+            setCountryall(arr);
+          }
+          // setCountryall(res.data.response.data.country);
           // console.log(countryall);
           // setCounter(counter + 1);
         })
@@ -161,6 +176,7 @@ const Table = (props, ref) => {
         email: "",
         contact_type: "",
         country: "",
+        countryIndex: "",
       },
     ]);
     setActiveManual("active");
@@ -620,6 +636,7 @@ const Table = (props, ref) => {
           email: "",
           contact_type: "",
           country: "",
+          countryIndex: ""
         },
       ]);
     } else {
@@ -738,10 +755,13 @@ const Table = (props, ref) => {
   };
 
   const onCountryChange = (e, i) => {
-    const value = e;
+    const value = e.value;
     const list = [...hpc];
     const name = hpc[i].country;
     list[i].country = value;
+
+    let index = countryall.findIndex(x => x.value === value);
+    list[i].countryIndex = index;
     setHpc(list);
   };
 
@@ -1495,6 +1515,7 @@ const Table = (props, ref) => {
                     email: "",
                     contact_type: "",
                     country: "",
+                    countryIndex:""
                   },
                 ]);
                 setActiveManual("active");
@@ -1571,24 +1592,30 @@ const Table = (props, ref) => {
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label for="">Country</label>
-                                  <DropdownButton className="dropdown-basic-button split-button-dropup country"
-                                   title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
-                                   onSelect={(event) => onCountryChange(event, i)}
-                                   >
-                                   <div className="scroll_div">
-                                     {countryall.length === 0
-                                       ? ""
-                                       : Object.entries(countryall).map(
-                                           ([index, item]) => {
-                                             return (
-                                               <>
-                                                <Dropdown.Item eventKey={index} className = {hpc[i].country == index ? "active" : "" }>{item == "B&H" ? "Bosnia and Herzegovina" : item}</Dropdown.Item>
-                                               </>
-                                             );
-                                           }
-                                         )}
-                                    </div>
-                                  </DropdownButton>
+                                  <Select options={countryall} className= "dropdown-basic-button split-button-dropup edit-country-dropdown" onChange={(event) => onCountryChange(event, i)}
+                                    defaultValue = {countryall[hpc[i].countryIndex]}/>
+                                  {
+                                    /*
+                                    <DropdownButton className="dropdown-basic-button split-button-dropup country"
+                                            title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
+                                            onSelect={(event) => onCountryChange(event, i)}
+                                            >
+                                            <div className="scroll_div">
+                                            {countryall.length === 0
+                                            ? ""
+                                            : Object.entries(countryall).map(
+                                            ([index, item]) => {
+                                            return (
+                                            <>
+                                            <Dropdown.Item eventKey={index} className = {hpc[i].country == index ? "active" : "" }>{item == "B&H" ? "Bosnia and Herzegovina" : item}</Dropdown.Item>
+                                            </>
+                                          );
+                                        }
+                                      )}
+                                      </div>
+                                      </DropdownButton>
+                                    */
+                                  }
                                 </div>
                               </div>
 

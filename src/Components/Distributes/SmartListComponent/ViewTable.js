@@ -15,6 +15,7 @@ import { connect } from "react-redux";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { popup_alert } from "../../../popup_alert";
 import DropdownButton from 'react-bootstrap/DropdownButton';
+import Select from 'react-select'
 const ViewTable = (props) => {
   const [inEditMode, setInEditMode] = useState({
     status: false,
@@ -85,7 +86,22 @@ const ViewTable = (props) => {
       await axios
         .post(`distributes/filters_list`, body)
         .then((res) => {
-          setCountryall(res.data.response.data.country);
+          if (res.data.status_code == 200) {
+            let country = res.data.response.data.country;
+            let arr = [];
+            Object.entries(country).map(([index, item]) => {
+              let label = item;
+                if(index == "B&H"){
+                  label = "Bosnia and Herzegovina";
+                }
+                arr.push({
+                    value: item,
+                    label: label,
+                });
+            });
+            setCountryall(arr);
+            // setCountryall(res.data.response.data.country);
+          }
           // let country_opt = res.data.response.data.country;
           // var country_options = "<option>Select Country</option>";
           //   Object.entries(country_opt).map((item) => {
@@ -126,7 +142,7 @@ const ViewTable = (props) => {
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [show, setShow] = useState(false);
   const [hpc, setHpc] = useState([
-    { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
+    { firstname: "", lastname: "", email: "", contact_type: "", country: "", countryIndex: "" },
   ]);
   const [renderCounterData, setCounterData] = useState([]);
 
@@ -146,6 +162,7 @@ const ViewTable = (props) => {
         email: "",
         contact_type: "",
         country: "",
+        countryIndex: "",
       },
     ]);
     setActiveManual("active");
@@ -359,6 +376,7 @@ const ViewTable = (props) => {
           email: "",
           contact_type: "",
           country: "",
+          countryIndex: ""
         },
       ]);
     } else {
@@ -703,10 +721,13 @@ const ViewTable = (props) => {
   };
 
   const onCountryChange = (e, i) => {
-    const value = e;
+    const value = e.value;
     const list = [...hpc];
     const name = hpc[i].country;
     list[i].country = value;
+
+    let index = countryall.findIndex(x => x.value === value);
+    list[i].countryIndex = index;
     setHpc(list);
   };
 
@@ -1387,6 +1408,7 @@ const ViewTable = (props) => {
                     email: "",
                     contact_type: "",
                     country: "",
+                    countryIndex:""
                   },
                 ]);
                 setActiveManual("active");
@@ -1469,24 +1491,30 @@ const ViewTable = (props) => {
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label for="">Country</label>
-                                  <DropdownButton className="dropdown-basic-button split-button-dropup country"
-                                 title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
-                                 onSelect={(event) => onCountryChange(event, i)}
-                                 >
-                                 <div className="scroll_div">
-                                   {countryall.length === 0
-                                     ? ""
-                                     : Object.entries(countryall).map(
-                                         ([index, item]) => {
-                                           return (
-                                             <>
-                                              <Dropdown.Item eventKey={index} className = {hpc[i].country == index ? "active" : "" }>{item == "B&H" ? "Bosnia and Herzegovina" : item}</Dropdown.Item>
-                                             </>
-                                           );
-                                         }
-                                       )}
+                                  <Select options={countryall} className= "dropdown-basic-button split-button-dropup edit-country-dropdown" onChange={(event) => onCountryChange(event, i)}
+                                    defaultValue = {countryall[hpc[i].countryIndex]}/>
+                                  {
+                                    /*
+                                    <DropdownButton className="dropdown-basic-button split-button-dropup country"
+                                        title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
+                                        onSelect={(event) => onCountryChange(event, i)}
+                                        >
+                                        <div className="scroll_div">
+                                        {countryall.length === 0
+                                        ? ""
+                                        : Object.entries(countryall).map(
+                                        ([index, item]) => {
+                                        return (
+                                        <>
+                                        <Dropdown.Item eventKey={index} className = {hpc[i].country == index ? "active" : "" }>{item == "B&H" ? "Bosnia and Herzegovina" : item}</Dropdown.Item>
+                                        </>
+                                      );
+                                    }
+                                  )}
                                   </div>
-                                </DropdownButton>
+                                  </DropdownButton>
+                                    */
+                                  }
                                 </div>
                               </div>
                               {/*
