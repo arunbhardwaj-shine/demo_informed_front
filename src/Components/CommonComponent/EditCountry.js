@@ -255,15 +255,20 @@ const EditCountry = (props) => {
   const [getDefaultIndex, setDefaultIndex] = useState(index);
 
   const onCountryChange = (e) => {
-    // let html = document.getElementById("react-select-27-listbox").innerHTML;
-    // console.log(html);
-    setSelectedCountry(e.value);
+    if(e == null){
+      setSelectedCountry('');
+      setDefaultIndex();
+    }else{
+      setSelectedCountry(e.value);
+    }
   };
 
   return(
     <>
       <Select options={options} className= "dropdown-basic-button split-button-dropup edit-country-dropdown" id={"country"  + getProfileUserId} onChange={(event) => onCountryChange(event)}
-        defaultValue = {options[getDefaultIndex]}
+        defaultValue = {typeof  options[getDefaultIndex] === "undefined" ? "Select Country" : options[getDefaultIndex]}
+        placeholder  = {typeof  options[getDefaultIndex] === "undefined" ? "Select Country" : options[getDefaultIndex]}
+        isClearable
         />
         <input type="hidden" id={`field_country` + getProfileUserId} value={getSelectedCountry} />
       </>

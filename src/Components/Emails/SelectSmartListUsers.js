@@ -249,11 +249,18 @@ const SelectSmartListUsers = (props) => {
   };
 
   const onCountryChange = (e, i) => {
-    const value = e.value;
-    const list = [...hpc];
-    const name = hpc[i].country;
-    list[i].country = value;
-    setHpc(list);
+    if(e == null){
+      const list = [...hpc];
+      list[i].country = "";
+      list[i].countryIndex = "";
+      setHpc(list);
+    }else{
+      const value = e.value;
+      const list = [...hpc];
+      const name = hpc[i].country;
+      list[i].country = value;
+      setHpc(list);
+    }
   };
 
   const deleteRecord = (i) => {
@@ -1182,8 +1189,11 @@ const SelectSmartListUsers = (props) => {
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label for="">Country</label>
-                                  <Select options={countryall} className= "dropdown-basic-button split-button-dropup edit-country-dropdown" onChange={(event) => onCountryChange(event, i)}
-                                    defaultValue = {countryall[hpc[i].countryIndex]}/>
+                                  <Select options = {countryall} className= "dropdown-basic-button split-button-dropup edit-country-dropdown" onChange={(event) => onCountryChange(event, i)}
+                                    defaultValue  = {countryall[hpc[i].countryIndex]}
+                                    placeholder   = {typeof  countryall[hpc[i].countryIndex] === "undefined" ? "Select Country" : countryall[hpc[i].countryIndex]}
+                                    isClearable
+                                  />
                                   {
                                     /*
                                     <DropdownButton className="dropdown-basic-button split-button-dropup country"

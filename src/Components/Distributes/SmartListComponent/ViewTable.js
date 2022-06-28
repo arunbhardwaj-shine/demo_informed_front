@@ -15,7 +15,8 @@ import { connect } from "react-redux";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { popup_alert } from "../../../popup_alert";
 import DropdownButton from 'react-bootstrap/DropdownButton';
-import Select from 'react-select'
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
 const ViewTable = (props) => {
   const [inEditMode, setInEditMode] = useState({
     status: false,
@@ -61,6 +62,7 @@ const ViewTable = (props) => {
   const [showLessUpdate, setShowLessUpdate] = useState(0);
   const [activeExcel, setActiveExcel] = useState("");
   const [editableData, setEditableData] = useState([]);
+  const animatedComponents = makeAnimated();
   let file_name = useRef("");
 
   useEffect(() => {
@@ -721,14 +723,21 @@ const ViewTable = (props) => {
   };
 
   const onCountryChange = (e, i) => {
-    const value = e.value;
-    const list = [...hpc];
-    const name = hpc[i].country;
-    list[i].country = value;
+    if(e == null){
+      const list = [...hpc];
+      list[i].country = "";
+      list[i].countryIndex = "";
+      setHpc(list);
+    }else{
+      const value = e.value;
+      const list = [...hpc];
+      const name = hpc[i].country;
+      list[i].country = value;
 
-    let index = countryall.findIndex(x => x.value === value);
-    list[i].countryIndex = index;
-    setHpc(list);
+      let index = countryall.findIndex(x => x.value === value);
+      list[i].countryIndex = index;
+      setHpc(list);
+    }
   };
 
   const backClicked = () => {
@@ -1491,8 +1500,11 @@ const ViewTable = (props) => {
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label for="">Country</label>
-                                  <Select options={countryall} className= "dropdown-basic-button split-button-dropup edit-country-dropdown" onChange={(event) => onCountryChange(event, i)}
-                                    defaultValue = {countryall[hpc[i].countryIndex]}/>
+                                  <Select options = {countryall} className= "dropdown-basic-button split-button-dropup edit-country-dropdown" onChange={(event) => onCountryChange(event, i)}
+                                    defaultValue  = {countryall[hpc[i].countryIndex]}
+                                    placeholder   = {typeof  countryall[hpc[i].countryIndex] === "undefined" ? "Select Country" : countryall[hpc[i].countryIndex]}
+                                    isClearable
+                                    />
                                   {
                                     /*
                                     <DropdownButton className="dropdown-basic-button split-button-dropup country"

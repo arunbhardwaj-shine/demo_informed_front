@@ -16,7 +16,7 @@ import { loader } from "../../loader";
 import { popup_alert } from "../../popup_alert";
 import { toast } from "react-toastify";
 import { getSelectedSmartListData } from "../../actions";
-import Select from 'react-select'
+import Select from 'react-select';
 var dxr = 0;
 var state_object = {};
 
@@ -944,16 +944,22 @@ const CreateEmail = (props) => {
   };
 
   const onCountryChange = (e, i) => {
-    // const { value } = e.target;
-    const value = e.value;
-    const list = [...hpc];
-    const name = hpc[i].country;
-    list[i].country = value;
+    if(e == null){
+      const list = [...hpc];
+      list[i].country = "";
+      list[i].countryIndex = "";
+      setHpc(list);
+    }else{
+      const value = e.value;
+      const list = [...hpc];
+      const name = hpc[i].country;
+      list[i].country = value;
 
-    let index = countryall.findIndex(x => x.value === value);
-    list[i].countryIndex = index;
+      let index = countryall.findIndex(x => x.value === value);
+      list[i].countryIndex = index;
 
-    setHpc(list);
+      setHpc(list);
+    }
 
   };
 
@@ -2135,8 +2141,11 @@ const CreateEmail = (props) => {
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label for="">Country</label>
-                                  <Select options={countryall} className= "dropdown-basic-button split-button-dropup edit-country-dropdown" onChange={(event) => onCountryChange(event, i)}
-                                    defaultValue = {countryall[hpc[i].countryIndex]}/>
+                                  <Select options = {countryall} className= "dropdown-basic-button split-button-dropup edit-country-dropdown" onChange={(event) => onCountryChange(event, i)}
+                                    defaultValue  = {countryall[hpc[i].countryIndex]}
+                                    placeholder   = {typeof  countryall[hpc[i].countryIndex] === "undefined" ? "Select Country" : countryall[hpc[i].countryIndex]}
+                                    isClearable
+                                  />
                                   {
                                     /*<DropdownButton className="dropdown-basic-button split-button-dropup country"
                                    title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
