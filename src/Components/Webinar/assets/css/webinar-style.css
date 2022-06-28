@@ -126,7 +126,6 @@ header {
   background: var(--light-skyblue);
   border-radius: 28.5107px;
   margin-right: 10px;
-  transition: 0.5s linear;
 }
 .toggle_sidebar .left-sidebar .sidebar-menu {
   max-width: 82px;
@@ -2376,7 +2375,7 @@ form#add_hcp_form .row:not(:first-child) {
 }
 .hcp-new-user .btn:hover,
 .hcp-added .btn:hover,
-.hcp-sort .btn:hover {
+.hcp-sort .btn:hover, .hcp-sort .btn:active {
   background: var(--light-blue);
   color: var(--white);
   border-color: inherit;
@@ -3650,13 +3649,12 @@ a {
   width: 100%;
   text-align: left;
   height: 52px;
-  background: var(--white)
-    url(http://localhost:3000/static/media/dropdown-arrow.6ca490ef1efe3175ec81.svg);
+  background: var(--white) url(http://localhost:3000/static/media/dropdown-arrow.6ca490ef1efe3175ec81.svg);
   background-repeat: no-repeat;
   background-size: 16px;
   background-position: 93% center;
 }
-.hcp-sort button {
+.hcp-sort button, .hcp-sort .btn:focus {
   background: var(--white);
   font-family: "Roboto";
   border-radius: 30px;

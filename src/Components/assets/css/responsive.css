@@ -12,20 +12,11 @@
 	.modal-dialog { margin: 8rem auto; } 
 	#send-sample.modal-dialog { height: calc(100% - 16rem); } 
 	.modal-dialog-centered { min-height: calc(100% - 16rem); }
-	.search-hcp-table table th, .selected-hcp-list table th {
-		font-size: 16px;
-		line-height: 17px;
-	}
-	.form-inline .form-group input, #tagsModal .modal-footer form .form-group input {
-		font-size: 16px;
-	}
-	.smart-list-view .selected-hcp-list table {
-		max-width: 100%;
-	}
-	.smart-list-result .smartlist-add.smartlist-view {
-		max-width: 430px;
-	}
-}
+	.search-hcp-table table th, .selected-hcp-list table th { font-size: 16px; line-height: 17px; } 
+	.form-inline .form-group input, #tagsModal .modal-footer form .form-group input { font-size: 16px; } 
+	.smart-list-view .selected-hcp-list table { max-width: 100%; } 
+	.smart-list-result .smartlist-add.smartlist-view { max-width: 430px; }
+}    
 @media only screen and (min-width:2600px){
 	.email-result-block .email-block-add-box, .email-result-block .email_box_block, .smartlist-result-block .smartlist_box_block { width: 20%; } 
 	.email-result-block .email_box_block:nth-child(4n+1) .email_box { margin-left: auto; } 
@@ -88,12 +79,8 @@
 	.create_smart_list .create-smart-step .create-smart-step-box form label, .modal .add_hcp_boxes .form-group label { font-size: 18px; line-height: 18px; margin-bottom: 10px; } 
 	.create_smart_list .create-smart-step .create-smart-step-box form .form-control, .modal .add_hcp_boxes .form-group input { padding: 8px 12px; } 
 	.create_smart_list .create-smart-step h2, #create_list_popup .create-smart-step h2 { font-size: 38px; line-height: 45px; top: 33px; left: -86px; } 
-	#create_list_popup .create-smart-step:first-child h2 {
-		top: 28px;
-	}
-	#create_list_popup .create-smart-step .create-smart-step-box {
-		min-height: 130px;
-	}
+	#create_list_popup .create-smart-step:first-child h2 {top: 28px;}
+	#create_list_popup .create-smart-step .create-smart-step-box {min-height: 130px;}
 	.modal form#add_hcp_form .add_hcp_boxes:first-child:last-child .hcp-action-block { top: 75px; } 
 	.nav-item.add_hcp .nav-link { height: 32px; padding: 6px 6px; } 
 	#create_list_popup { max-width: 1000px; } 
@@ -357,7 +344,5 @@
 		.select-mail-option input { width: 20px; height: 20px; left: 7px; top: 7px; } 
 		.select-mail-option { right: -24px; width: 34px; height: 34px; }
 		#add_hcp .modal-body .hcp-add-form form .form-group .dropdown button {height: 36px;}
-		.smartlist-buttons a.btn {
-			padding: 6px 14px;
-		}
+		.smartlist-buttons a.btn {padding: 6px 14px;}
 }
