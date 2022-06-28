@@ -16,7 +16,7 @@ const EmailArticleSelect = (props) => {
   const [filterdata, setFilterData] = useState([]);
   const navigate = useNavigate();
   const [filter, setFilter] = useState("");
-  
+
 
   const [PdfSelected, setPdfSelected] = useState((dxr!==0 && dxr) ? dxr : pdf_id);
 
@@ -603,6 +603,73 @@ const EmailArticleSelect = (props) => {
         {/*Code for filters end*/}
 
         <div className="mail-content-select">
+        {/*Default section start*/}
+          <div className="row">
+            <div className="col-12 col-md-4">
+              <div className="mail-content-select-box">
+                <div className="mail-content-select-top">
+                  <div className="mail-preview-img">
+                    <img src={path_image + "dummy-img.png"} alt="Preview" />
+                  </div>
+                  <div className="mail-box-content">
+                    <h5>Placeholder</h5>
+                    <p>Empty Content</p>
+                    <div className="mailbox-tags">
+                      <p>Select this when you don't have your content ready</p>
+                    </div>
+                  </div>
+                  <div
+                    className="select-mail-option"
+                    onClick={handleSelect}
+                  >
+                    <input
+                      type="radio"
+                      name="radio"
+                      value={13}
+                      checked={
+                        typeof PdfSelected !== "undefined" &&
+                        PdfSelected == 13
+                      }
+                    />
+                    <span className="checkmark"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="col-12 col-md-4">
+              <div className="mail-content-select-box">
+                <div className="mail-content-select-top">
+                  <div className="mail-preview-img">
+                    <img src={path_image + "dummy-img.png"} alt="Preview" />
+                  </div>
+                  <div className="mail-box-content">
+                    <h5>Pure text</h5>
+                    <p>Empty Content</p>
+                    <div className="mailbox-tags">
+                      <p>Select this when you don't want to include a content to your email</p>
+                    </div>
+                  </div>
+                  <div
+                    className="select-mail-option"
+                    onClick={handleSelect}
+                  >
+                    <input
+                      type="radio"
+                      name="radio"
+                      value={16}
+                      checked={
+                        typeof PdfSelected !== "undefined" &&
+                        PdfSelected == 16
+                      }
+                    />
+                    <span className="checkmark"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/*Default section end*/}
           <div className="row">
             {typeof SendListData !== "undefined" && SendListData.length > 0 ? (
               SendListData.map((data) => {
@@ -707,7 +774,7 @@ const EmailArticleSelect = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  
+
   dxr = state.getEmailData?.PdfSelected;
   pdf_id = state.getDraftData?.pdf_id;
   return state;

@@ -220,10 +220,19 @@ const CreateEmail = (props) => {
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const getTemplateListData = async (flag) => {
+    let pdf_id = state_object?.PdfSelected
+      ? state_object.PdfSelected
+      : props.getDraftData.pdf_id;
+
+    let content_included = 1;
+    if(pdf_id == 16){
+      content_included = 0;
+    }
     const body = {
       user_id: localStorage.getItem("user_id"),
       language: "",
       ibu: "",
+      content_included: content_included
     };
 
     loader("show");
@@ -306,8 +315,8 @@ const CreateEmail = (props) => {
           getSpecificKeyData &&
           getSpecificKeyData.hasOwnProperty("source_code")
         ) {
-          console.log(state_object);
-          if(state_object != null &&  state_object?.template != "" ){
+
+          if(state_object != null &&  state_object?.template != "" && typeof state_object?.template !== "undefined"){
                 if(state_object.template !== ""){
                     setTemplate("state_object.template");
                     setTemplate(state_object.template);
@@ -411,31 +420,40 @@ const CreateEmail = (props) => {
   };
 
   const sendsampeap = (event) => {
-    console.log(selectedHcp);
+    let pdf_id = state_object?.PdfSelected
+    ? state_object.PdfSelected
+    : props.getDraftData.pdf_id;
+
     setIsOpensend(false);
     setIsOpenAdd(false);
+    if(pdf_id == 13){
+      popup_alert({
+        visible: "show",
+        message: "You need to select the article first.",
+        type: "error",
+      });
+    }else{
+      let selected_ids = selectedHcp.map(
+        (number) => number["user_id"] || number["profile_user_id"]
+      );
 
-    let selected_ids = selectedHcp.map(
-      (number) => number["user_id"] || number["profile_user_id"]
-    );
+      loader("show");
+      const body = {
+        user_id: localStorage.getItem("user_id"),
+        pdf_id: state_object?.PdfSelected
+        ? state_object.PdfSelected
+        : props.getDraftData.pdf_id,
+        subject: emailSubject,
+        template_id: templateId,
+        user_list: selected_ids,
+        smartlist_id: "",
+        source_code: template,
+      };
 
-    loader("show");
-    const body = {
-      user_id: localStorage.getItem("user_id"),
-      pdf_id: state_object?.PdfSelected
-      ? state_object.PdfSelected
-      : props.getDraftData.pdf_id,
-      subject: emailSubject,
-      template_id: templateId,
-      user_list: selected_ids,
-      smartlist_id: "",
-      source_code: template,
-    };
+      //console.log(body);
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
-    //console.log(body);
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-
-    axios
+      axios
       .post(`emailapi/send_sample_email`, body)
       .then((res) => {
         //console.log(res);
@@ -453,8 +471,6 @@ const CreateEmail = (props) => {
             type: "error",
           });
         }
-
-        //toast.success("Test Mail sent successfuly");
       })
       .catch((err) => {
         loader("hide");
@@ -462,8 +478,9 @@ const CreateEmail = (props) => {
         console.log(err);
       });
 
-    setSelectedHcp([]);
-    setSearchedUsers([]);
+      setSelectedHcp([]);
+      setSearchedUsers([]);
+    }
   };
 
   const selectHcp = (index) => {

@@ -47,6 +47,7 @@ const VerifyMAIL = (props) => {
   const [getSmartListName, setSmartListName] = useState("");
   const [getSmartListPopupStatus, setSmartListPopupStatus] = useState(false);
   const [showLessInfo, setShowLessInfo] = useState(true);
+  const [getSelectedPdfId, setSelectedPdfId] = useState(PdfSelected);
 
   useEffect(() => {
     console.log(props);
@@ -79,7 +80,8 @@ const VerifyMAIL = (props) => {
     let pdf_id = props.getEmailData?.PdfSelected
       ? props.getEmailData.PdfSelected
       : props.getDraftData.pdf_id;
-    if (typeof pdf_id !== "undefined" && pdf_id != 0) {
+      setSelectedPdfId(pdf_id);
+    if (typeof pdf_id !== "undefined" && pdf_id != 0 && pdf_id != 13 && pdf_id != 16) {
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       const body = {
         user_id: localStorage.getItem("user_id"),
@@ -183,63 +185,69 @@ const VerifyMAIL = (props) => {
   };
 
   const createEmail = async () => {
-    let finalTags = props.getEmailData?.tags
+
+    if(getSelectedPdfId == 13){
+      popup_alert({
+        visible: "show",
+        message: "You need to select the article first.",
+        type: "error",
+      });
+    }else{
+      let finalTags = props.getEmailData?.tags
       ? props.getEmailData.tags.map((tags) => {
-          return tags.innerHTML || tags;
-        })
+        return tags.innerHTML || tags;
+      })
       : props.getDraftData.tags.map((tags) => {
-          return tags.innerHTML || tags;
-        });
+        return tags.innerHTML || tags;
+      });
 
-    let user_list =
+      let user_list =
       props.getEmailData?.selectedHcp || location.state
-        ? selectedHcp.map((userId) => {
-            return userId.profile_user_id || userId.user_id;
-          })
-        : props.getDraftData.campaign_data.selectedHcp.map((userId) => {
-            return userId.profile_user_id || userId.user_id;
-          });
+      ? selectedHcp.map((userId) => {
+        return userId.profile_user_id || userId.user_id;
+      })
+      : props.getDraftData.campaign_data.selectedHcp.map((userId) => {
+        return userId.profile_user_id || userId.user_id;
+      });
 
-    const body = {
-      user_id: localStorage.getItem("user_id"),
-      route_location: "VerifyMAIL",
-      pdf_id: props.getEmailData?.PdfSelected
+      const body = {
+        user_id: localStorage.getItem("user_id"),
+        route_location: "VerifyMAIL",
+        pdf_id: props.getEmailData?.PdfSelected
         ? props.getEmailData.PdfSelected
         : props.getDraftData.pdf_id,
-      subject: props.getEmailData?.emailSubject
+        subject: props.getEmailData?.emailSubject
         ? props.getEmailData.emailSubject
         : props.getDraftData.subject,
         description: props.getEmailData?.emailDescription
         ? props.getEmailData.emailDescription
         : props.getDraftData?.description ? props.getDraftData.description : '',
-      creator: props.getEmailData?.emailCreator
+        creator: props.getEmailData?.emailCreator
         ? props.getEmailData.emailCreator
         : props.getDraftData?.creator ? props.getDraftData.creator : '',
-      campaign_name: props.getEmailData?.emailCampaign
+        campaign_name: props.getEmailData?.emailCampaign
         ? props.getEmailData.emailCampaign
         : props.getDraftData.campaign,
-      tags: finalTags,
-      template_source_code: props.getEmailData?.template
+        tags: finalTags,
+        template_source_code: props.getEmailData?.template
         ? props.getEmailData.template
         : props.getDraftData.source_code,
-      // campaign_id: props.getEmailData ? "" : props.getDraftData.campaign_id,
-      campaign_id: campaign_id_st,
-      campaign_data: {
-        user_list: user_list,
-        smart_list_id:
+        campaign_id: campaign_id_st,
+        campaign_data: {
+          user_list: user_list,
+          smart_list_id:
           typeof getSmartListData !== "undefined" &&
           getSmartListData.hasOwnProperty("id")
-            ? getSmartListData.id
-            : "",
-        template_id: props.getEmailData?.templateId
+          ? getSmartListData.id
+          : "",
+          template_id: props.getEmailData?.templateId
           ? props.getEmailData.templateId
           : props.getDraftData.campaign_data.template_id,
-      },
-    };
-    // console.log(body);
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    loader("show");
-    await axios
+        },
+      };
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      loader("show");
+      await axios
       .post(`emailapi/send_email`, body)
       .then((res) => {
         loader("hide");
@@ -262,6 +270,7 @@ const VerifyMAIL = (props) => {
         toast.error("Something went wrong");
         console.log(err);
       });
+    }
   };
 
   const removeTag = (i) => {
@@ -467,7 +476,7 @@ const VerifyMAIL = (props) => {
                       <p>
                         Content <span>| 1</span>
                       </p>
-                      {typeof getpdfdata !== "undefined" && (
+                      {typeof getpdfdata !== "undefined" && getSelectedPdfId != 13 && getSelectedPdfId != 16  && (
                         <div className="mail-content-select-box">
                           <div className="mail-content-select-top">
                             <div className="mail-preview-img">
@@ -535,6 +544,53 @@ const VerifyMAIL = (props) => {
                           </div>
                         </div>
                       )}
+                      {
+                        getSelectedPdfId == 13 && (
+                          <>
+                          <div className="mail-content-select-box">
+                            <div className="mail-content-select-top">
+                              <div className="mail-preview-img">
+                                <img
+                                  src={path_image + "dummy-img.png"}
+                                  alt="Preview "
+                                />
+                              </div>
+                              <div className="mail-box-content">
+                                <h5>Placeholder</h5>
+                                <p>Empty Content</p>
+                                <div className="mailbox-tags">
+                                  <p>Select this when you don't have your content ready</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          </>
+                        )
+                      }
+
+                      {
+                        getSelectedPdfId == 16 && (
+                          <>
+                          <div className="mail-content-select-box">
+                            <div className="mail-content-select-top">
+                              <div className="mail-preview-img">
+                                <img
+                                  src={path_image + "dummy-img.png"}
+                                  alt="Preview "
+                                />
+                              </div>
+                              <div className="mail-box-content">
+                                <h5>Pure Text</h5>
+                                <p>Empty Content</p>
+                                <div className="mailbox-tags">
+                                  <p>Select this when you don't want to include a content to your email</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          </>
+                        )
+                      }
                     </div>
 
                     <div className="col-12 col-md-12 mail-recipt-left">
