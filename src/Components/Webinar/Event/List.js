@@ -465,14 +465,14 @@ const EventData = () => {
                   <div className="email_box_block">
                     <div className="mail-box-content webinar-box">
                       <div className="webinar-img-box">
-                        <img
+                        {/* <img
                           classname="webinar-box-track"
                           src={path_image + "webinar/Tracker.svg"}
-                        />
-                        <img
+                        /> */}
+                        {/* <img
                           classname="webinar-box-share"
                           src={path_image + "webinar/share.svg"}
-                        />
+                        /> */}
                       </div>
                       <h5>{event.title}</h5>
                       <div className="webinar-box-content-detail">
@@ -512,6 +512,7 @@ const EventData = () => {
                         )}
                       </div>
                       <Button
+                        style={{ float: "left" }}
                         className="btn btn-primary btn-filled"
                         onClick={() => handleGetEventlistEdidData(event.id)}
                       >

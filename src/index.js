@@ -85,7 +85,7 @@ import VerifyHCP from "./Components/Emails/VerifyHCP";
 import SelectHCP from "./Components/Emails/SelectHCP";
 import VerifyMAIL from "./Components/Emails/VerifyMAIL";
 import SelectSmartList from "./Components/Emails/SelectSmartList";
- import SelectSmartListUsers from "./Components/Emails/SelectSmartListUsers";
+import SelectSmartListUsers from "./Components/Emails/SelectSmartListUsers";
 import UploadExcel from "./Components/Distributes/SmartListComponent/UploadExcel";
 import Proctected from "./Auth/Proctected ";
 import ResetPassword from "./Auth/ResetPassword";
@@ -112,6 +112,7 @@ import LiveTools from "./Components/Webinar/LiveTools/LiveTools";
 import Analytics from "./Components/Webinar/Analytics/Analytics";
 import Files from "./Components/Webinar/File/Files";
 import SmartListUsers from "./Components/Webinar/Emails/SmartListUsers";
+import CreateRegistration from "./Components/Webinar/Registration/CreateRegistration";
 
 let platform = 0;
 let show = 0;
@@ -246,6 +247,10 @@ ReactDOM.render(
                         <Route
                           path="/webinar/registration"
                           element={<Registration />}
+                        />
+                        <Route
+                          path="/webinar/createRegistration"
+                          element={<CreateRegistration />}
                         />
                         <Route
                           path="/webinar/portal/polls"
