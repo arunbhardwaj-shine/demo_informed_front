@@ -264,7 +264,7 @@ function Add(props) {
         <span className="loader-view"> </span>
       </div>
       <div className="webinar-modal-data">
-        <Link to="/webinar/event/edit"></Link>
+        {/* <Link to="/webinar/event/edit"></Link> */}
         <form onReset={formik.handleReset} onSubmit={formik.handleSubmit}>
           <div className="modal-body-content">
             <div className="form-inline row justify-content-between align-items-center">
@@ -371,7 +371,7 @@ function Add(props) {
                 </div>
               ))}
               <a
-                href="javascript:void(0);"
+                href="#"
                 onClick={handleMultiInputAdd}
                 className="speaker-button"
               >
@@ -389,7 +389,7 @@ function Add(props) {
                   class="form-select-lg mb-3"
                   aria-label=".form-select-lg example"
                 >
-                  <option selected>Select Region</option>
+                  <option defaultValue='' selected>Select Region</option>
                   {Timezoneregion?.map((val, i) => (
                     <React.Fragment key={i}>
                       <option key={i} value={val.values}>
