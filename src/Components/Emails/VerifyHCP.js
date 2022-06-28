@@ -17,6 +17,7 @@ import { getEmailData } from "../../actions";
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import EditCountry from "../CommonComponent/EditCountry";
 import EditContactType from "../CommonComponent/EditContactType";
+import Select from 'react-select';
 
 var old_object = {};
 var selected_Data = [];
@@ -63,7 +64,7 @@ const VerifyHCP = (props) => {
   const [countryall, setCountryall] = useState([]);
   const [addFileReRender, setAddFileReRender] = useState(0);
   const [hpc, setHpc] = useState([
-    { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
+    { firstname: "", lastname: "", email: "", contact_type: "", country: "", countryIndex: "" },
   ]);
   const [updateCounter, setUpdateCounter] = useState(0);
 
@@ -150,7 +151,22 @@ const VerifyHCP = (props) => {
       await axios
         .post(`distributes/filters_list`, body)
         .then((res) => {
-          setCountryall(res.data.response.data.country);
+            if (res.data.status_code == 200) {
+              let country = res.data.response.data.country;
+              let arr = [];
+              Object.entries(country).map(([index, item]) => {
+                let label = item;
+                  if(index == "B&H"){
+                    label = "Bosnia and Herzegovina";
+                  }
+                  arr.push({
+                      value: item,
+                      label: label,
+                  });
+              });
+              setCountryall(arr);
+           }
+          // setCountryall(res.data.response.data.country);
           //console.log(countryall)
           // setCounter(counter + 1);
         })
@@ -184,6 +200,7 @@ const VerifyHCP = (props) => {
         email: "",
         contact_type: "",
         country: "",
+        countryIndex: "",
       },
     ]);
     setActiveManual("active");
@@ -207,6 +224,7 @@ const VerifyHCP = (props) => {
         email: "",
         contact_type: "",
         country: "",
+        countryIndex: "",
       },
     ]);
     setActiveManual("active");
@@ -342,10 +360,13 @@ const VerifyHCP = (props) => {
   };
 
   const onCountryChange = (e, i) => {
-    const  value  = e;
+    const  value  = e.value;
     const list = [...hpc];
     const name = hpc[i].country;
     list[i].country = value;
+
+    let index = countryall.findIndex(x => x.value === value);
+    list[i].countryIndex = index;
     setHpc(list);
   };
 
@@ -484,6 +505,7 @@ const VerifyHCP = (props) => {
           email: "",
           contact_type: "",
           country: "",
+          countryIndex: "",
         },
       ]);
     } else {
@@ -1221,7 +1243,11 @@ const VerifyHCP = (props) => {
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label for="">Country</label>
-                                  <DropdownButton className="dropdown-basic-button split-button-dropup country"
+                                  <Select options={countryall} className= "dropdown-basic-button split-button-dropup edit-country-dropdown" onChange={(event) => onCountryChange(event, i)}
+                                    defaultValue = {countryall[hpc[i].countryIndex]}/>
+
+                                  {
+                                    /*<DropdownButton className="dropdown-basic-button split-button-dropup country"
                                    title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
                                    onSelect={(event) => onCountryChange(event, i)}
                                    >
@@ -1239,8 +1265,7 @@ const VerifyHCP = (props) => {
                                        )}
                                     </div>
                                   </DropdownButton>
-                                  {
-                                    /*
+
                                           <select
                                           className="country-form"
                                           aria-label="select"

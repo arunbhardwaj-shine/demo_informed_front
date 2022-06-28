@@ -16,6 +16,7 @@ import { loader } from "../../loader";
 import { popup_alert } from "../../popup_alert";
 import { toast } from "react-toastify";
 import { getSelectedSmartListData } from "../../actions";
+import Select from 'react-select'
 var dxr = 0;
 var state_object = {};
 
@@ -126,7 +127,7 @@ const CreateEmail = (props) => {
   const [getIsApprovedStatus, setIsApprovedStatus] = useState(0);
 
   const [hpc, setHpc] = useState([
-    { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
+    { firstname: "", lastname: "", email: "", contact_type: "", country: "", countryIndex: "" },
   ]);
 
   const [isOpenAdd, setIsOpenAdd] = useState(false);
@@ -192,9 +193,22 @@ const CreateEmail = (props) => {
       await axios
         .post(`distributes/filters_list`, body)
         .then((res) => {
-          setCountryall(res.data.response.data.country);
-          // console.log(countryall);
-          // setCounter(counter + 1);
+          // setCountryall(res.data.response.data.country);
+          if (res.data.status_code == 200) {
+            let country = res.data.response.data.country;
+            let arr = [];
+            Object.entries(country).map(([index, item]) => {
+              let label = item;
+                if(index == "B&H"){
+                  label = "Bosnia and Herzegovina";
+                }
+                arr.push({
+                    value: item,
+                    label: label,
+                });
+            });
+            setCountryall(arr);
+          }
         })
         .catch((err) => {
           console.log(err);
@@ -333,6 +347,7 @@ const CreateEmail = (props) => {
           email: "",
           contact_type: "",
           country: "",
+          countryIndex: "",
         },
       ]);
     } else {
@@ -806,6 +821,7 @@ const CreateEmail = (props) => {
         email: "",
         contact_type: "",
         country: "",
+        countryIndex: "",
       },
     ]);
     setActiveManual("active");
@@ -929,12 +945,16 @@ const CreateEmail = (props) => {
 
   const onCountryChange = (e, i) => {
     // const { value } = e.target;
-    const value = e;
+    const value = e.value;
     const list = [...hpc];
     const name = hpc[i].country;
     list[i].country = value;
+
+    let index = countryall.findIndex(x => x.value === value);
+    list[i].countryIndex = index;
+
     setHpc(list);
-    console.log(hpc);
+
   };
 
   const deleteRecord = (i) => {
@@ -2034,6 +2054,7 @@ const CreateEmail = (props) => {
                     email: "",
                     contact_type: "",
                     country: "",
+                    countryIndex: "",
                   },
                 ]);
                 document.querySelector("#file-4").value = "";
@@ -2109,36 +2130,15 @@ const CreateEmail = (props) => {
                                     <Dropdown.Item eventKey="Staff" className = {hpc[i].contact_type == "Staff" ? "active" : "" }>Staff</Dropdown.Item>
                                     <Dropdown.Item eventKey="Test Users" className = {hpc[i].contact_type == "Test Users" ? "active" : "" }>Test Users</Dropdown.Item>
                                   </DropdownButton>
-
-
-                                  {
-                                    /*
-                                    onSelect={(event) => handleEventOnDropDown(event)}
-                                    <Dropdown.Item value="HCP" className="dropdown_list">HCP</Dropdown.Item>
-                                    <Dropdown.Item value="Staff" className="dropdown_list">Staff</Dropdown.Item>
-                                    <Dropdown.Item value="Test Users" className="dropdown_list">Test Users</Dropdown.Item>
-                                    <select
-                                      className="form-contact"
-                                      aria-label="select"
-                                      onChange={(event) =>
-                                        onContactTypeChange(event, i)
-                                      }
-                                    >
-                                      <option selected>Select Type</option>
-                                      <option value="HCP">HCP</option>
-                                      <option value="Staff">Staff</option>
-                                      <option value="Test Users">
-                                        Test Users
-                                      </option>
-                                    </select>
-                                    */
-                                  }
                                 </div>
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label for="">Country</label>
-                                  <DropdownButton className="dropdown-basic-button split-button-dropup country"
+                                  <Select options={countryall} className= "dropdown-basic-button split-button-dropup edit-country-dropdown" onChange={(event) => onCountryChange(event, i)}
+                                    defaultValue = {countryall[hpc[i].countryIndex]}/>
+                                  {
+                                    /*<DropdownButton className="dropdown-basic-button split-button-dropup country"
                                    title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
                                    onSelect={(event) => onCountryChange(event, i)}
                                    >
@@ -2157,8 +2157,7 @@ const CreateEmail = (props) => {
                                     </div>
 
                                   </DropdownButton>
-                                  {
-                                    /*
+
                                     <select
                                       className="country-form"
                                       aria-label="select"

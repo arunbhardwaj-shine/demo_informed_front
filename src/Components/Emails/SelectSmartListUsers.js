@@ -12,6 +12,7 @@ import { Modal, Dropdown } from "react-bootstrap";
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import EditCountry from "../CommonComponent/EditCountry";
 import EditContactType from "../CommonComponent/EditContactType";
+import Select from 'react-select';
 var old_object = {};
 const SelectSmartListUsers = (props) => {
   const navigate = useNavigate();
@@ -41,7 +42,7 @@ const SelectSmartListUsers = (props) => {
   const [updateCounter, setUpdateCounter] = useState(0);
   const [sortingCount, setSortingCount] = useState(0);
   const [hpc, setHpc] = useState([
-    { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
+    { firstname: "", lastname: "", email: "", contact_type: "", country: "", countryIndex: ""},
   ]);
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -101,7 +102,22 @@ const SelectSmartListUsers = (props) => {
       await axios
         .post(`distributes/filters_list`, body)
         .then((res) => {
-          setCountryall(res.data.response.data.country);
+          if (res.data.status_code == 200) {
+            let country = res.data.response.data.country;
+            let arr = [];
+            Object.entries(country).map(([index, item]) => {
+              let label = item;
+                if(index == "B&H"){
+                  label = "Bosnia and Herzegovina";
+                }
+                arr.push({
+                    value: item,
+                    label: label,
+                });
+            });
+            setCountryall(arr);
+         }
+          // setCountryall(res.data.response.data.country);
           //console.log(countryall)
           // setCounter(counter + 1);
         })
@@ -233,7 +249,7 @@ const SelectSmartListUsers = (props) => {
   };
 
   const onCountryChange = (e, i) => {
-    const value = e;
+    const value = e.value;
     const list = [...hpc];
     const name = hpc[i].country;
     list[i].country = value;
@@ -258,6 +274,7 @@ const SelectSmartListUsers = (props) => {
         email: "",
         contact_type: "",
         country: "",
+        countryIndex: "",
       },
     ]);
     setActiveManual("active");
@@ -322,6 +339,7 @@ const SelectSmartListUsers = (props) => {
           email: "",
           contact_type: "",
           country: "",
+          countryIndex: "",
         },
       ]);
     } else {
@@ -1084,6 +1102,7 @@ const SelectSmartListUsers = (props) => {
                     email: "",
                     contact_type: "",
                     country: "",
+                    countryIndex: ""
                   },
                 ]);
                 setActiveManual("active");
@@ -1163,24 +1182,30 @@ const SelectSmartListUsers = (props) => {
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label for="">Country</label>
+                                  <Select options={countryall} className= "dropdown-basic-button split-button-dropup edit-country-dropdown" onChange={(event) => onCountryChange(event, i)}
+                                    defaultValue = {countryall[hpc[i].countryIndex]}/>
+                                  {
+                                    /*
                                     <DropdownButton className="dropdown-basic-button split-button-dropup country"
-                                     title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
-                                     onSelect={(event) => onCountryChange(event, i)}
-                                     >
-                                     <div className="scroll_div">
-                                     {countryall.length === 0
-                                       ? ""
-                                       : Object.entries(countryall).map(
-                                           ([index, item]) => {
-                                             return (
-                                               <>
-                                                <Dropdown.Item eventKey={index} className = {hpc[i].country == index ? "active" : "" }>{item == "B&H" ? "Bosnia and Herzegovina" : item}</Dropdown.Item>
-                                               </>
-                                             );
-                                           }
-                                         )}
-                                    </div>
-                                    </DropdownButton>
+                                            title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
+                                            onSelect={(event) => onCountryChange(event, i)}
+                                            >
+                                            <div className="scroll_div">
+                                            {countryall.length === 0
+                                            ? ""
+                                            : Object.entries(countryall).map(
+                                            ([index, item]) => {
+                                            return (
+                                            <>
+                                            <Dropdown.Item eventKey={index} className = {hpc[i].country == index ? "active" : "" }>{item == "B&H" ? "Bosnia and Herzegovina" : item}</Dropdown.Item>
+                                            </>
+                                          );
+                                        }
+                                      )}
+                                      </div>
+                                      </DropdownButton>
+                                    */
+                                  }
                                 </div>
                               </div>
                               {/*
