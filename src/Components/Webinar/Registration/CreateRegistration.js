@@ -135,7 +135,7 @@ const CreateRegistration = (props) => {
         draggable
         pauseOnHover
       />
-        <div className="webinar-modal-data">
+        <div className="webinar-modal-data create-registration">
         <form onSubmit={formik.handleSubmit}>
         <div className="modal-body-content">
         <div className="form-inline row justify-content-between align-items-center">
@@ -149,13 +149,14 @@ const CreateRegistration = (props) => {
                   type="text"
                   placeholder="Title"
                 />
+                <div className="error">
                 {formik.touched.RegistrationPageTitle &&
                 formik.errors.RegistrationPageTitle ? (
                   <div style={{ color: "red" }}>
                     {formik.errors.RegistrationPageTitle}
                   </div>
                 ) : null}
-            
+            </div>
             </div>
             </div>
       
@@ -203,7 +204,7 @@ const CreateRegistration = (props) => {
             
           </section> */}
            <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 col-md-7">
+              <div className="form-group col-12 col-md-8">
                 <label>Url Alias </label>
                 <Form.Control
                   name="url"
@@ -213,18 +214,19 @@ const CreateRegistration = (props) => {
                   type="text"
                   placeholder="url"
                 />
+              <div className="error">
+                  {formik.touched.url && formik.errors.url ? (
+                    <div style={{ color: "red" }}>{formik.errors.url}</div>
+                    ) : null}
+              </div>
                 <div>
                 </div>
-            </div>
-            <div className="error">
-
-                {formik.touched.url && formik.errors.url ? (
-                  <div style={{ color: "red" }}>{formik.errors.url}</div>
-                  ) : null}
-            </div>
+            <div className="form-alias">
                   (Url will be like: https://abc.com/event-name/url-alias
                   <br />
                   Example: https://informed.pro/WFH-2022/virtual-symposium)
+            </div>
+            </div>
             </div>
             <div className="form-inline row justify-content-between align-items-center">
               <div className="form-group col-12 col-md-7">
@@ -240,9 +242,11 @@ const CreateRegistration = (props) => {
                 className="form-control"
                 id="exampleFormControlTextarea1"
               />
+              <div className="error">
               {formik.touched.body && formik.errors.body ? (
                 <div style={{ color: "red" }}>{formik.errors.body}</div>
               ) : null}
+           </div>
            </div>
            </div>
 

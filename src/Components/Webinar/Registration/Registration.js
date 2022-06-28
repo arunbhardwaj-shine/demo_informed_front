@@ -52,7 +52,6 @@ const Registration = () => {
   //         loader("hide")
   //       }
   //     }
-      
   //   });
   // };
 
@@ -211,7 +210,6 @@ const Registration = () => {
                             <Button
                               onClick={(e) => {
                                 handleGetRegistrationPagedata(val.id);
-                                setFlag(false);
                               }}
                             >
                               Edit
@@ -224,15 +222,17 @@ const Registration = () => {
                 </Col>
               </Row>
             ) : (
-              <h2>{massage}</h2>
+              <div className="not_found">
+
+                <h2>{massage}</h2>
+              </div>
             )}
           {editdata ? (
-              <div className="webinar-modal-data">
+              <div className="webinar-modal-data create-registration">
                 <form onSubmit={formik.handleSubmit}>
                 <div className="modal-body-content">
             <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 col-md-7">
-
+              <div className="form-group col-12 col-md-8">
                           <label>Title</label>
                           <Form.Control
                             name="RegistrationPageTitle"
@@ -242,34 +242,45 @@ const Registration = () => {
                             type="text"
                             placeholder="Title"
                           />
-                          {formik.touched.RegistrationPageTitle &&
-                          formik.errors.RegistrationPageTitle ? (
-                            <div style={{ color: "red" }}>
-                              {formik.errors.RegistrationPageTitle}
-                            </div>
-                          ) : null}
+                          <div className="error">
+                            {formik.touched.RegistrationPageTitle &&
+                            formik.errors.RegistrationPageTitle ? (
+                              <div style={{ color: "red" }}>
+                                {formik.errors.RegistrationPageTitle}
+                              </div>
+                            ) : null}
+                          </div>
                      </div>
                      </div>
                      <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 col-md-7">
+              <div className="form-group col-12 col-md-8">
                       <Form.Label>Url Alias</Form.Label>
                       <Form.Control
                         name="url"
-                        onChange={(e) => setUrlAlias(e.target.value)}
+                        onChange={(e) =>{ setUrlAlias(e.target.value)
+                        if(e.target.value){
+                          setFlag(false)
+                          console.log(flag)
+                        }else{
+                          console.log(flag)
+                          setFlag(true)
+                        }}}
                         value={UrlAlias}
                         type="text"
                         placeholder="url"
                       />
-                      <p>
+                      <div className="form-alias">
                         ( http://51.89.210.56:3000/webinar/register/{eventCode}/
                         {UrlAlias}/1)
-                      </p>
-                      {UrlAlias ? null : (
-                        <div style={{ color: "red" }}>Enter url alias</div>
-                      )}
+                      </div>
+                      <div className="error">
+                          {flag ? (
+                            <div style={{ color: "red" }}>Enter url alias</div>
+                          ):null}
+                      </div>
                     </div></div>
                     <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 col-md-7">
+              <div className="form-group col-12 col-md-8">
                         <Form.Label>Body Text</Form.Label>
                         <textarea
                           name="body"
@@ -281,12 +292,15 @@ const Registration = () => {
                           id="exampleFormControlTextarea1"
                           rows="18"
                         ></textarea>
-                        {formik.touched.body && formik.errors.body ? (
-                          <div style={{ color: "red" }}>
-                            {formik.errors.body}
-                          </div>
+                        <div className="error">
+                          {formik.touched.body && formik.errors.body ? (
+                            <div style={{ color: "red" }}>
+                              {formik.errors.body}
+                            </div>
                         ) : null}
+                        </div>
                      </div></div>
+                     
                     <Button type="submit">Save</Button>
                   </div>
                 </form>

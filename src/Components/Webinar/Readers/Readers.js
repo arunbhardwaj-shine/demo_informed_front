@@ -875,8 +875,8 @@ const Readers = () => {
                 ) : null} */}
 
                 {lastPage != currentPage ? (
-                  <div className="loadmore-button">
-                    <span onClick={showPaginationData}>Load More</span>
+                  <div onClick={showPaginationData} className="loadmore-button">
+                    <span >Load More</span>
                   </div>
                 ) : null}
               </div>
