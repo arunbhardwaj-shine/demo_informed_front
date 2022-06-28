@@ -8,73 +8,58 @@ import { toast, ToastContainer } from "react-toastify";
 import CreateRegistration from "./CreateRegistration";
 import { Link } from "react-router-dom";
 import { loader } from "../../../loader";
+import AliceCarousel from "react-alice-carousel";
+import { BaseApi, BaseUrlImage } from "../../../Api/BaseApi";
 const Registration = () => {
-  const [eventid, setEventId] = useState();
-  const [event, setEvent] = useState([]);
-  const [id, setId] = useState();
+  let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const baseURL = BaseApi.getBaseURL();
   const [registrationPageList, setRegistrationPageList] = useState();
   const [template, setTemplate] = useState();
   const [editdata, setEditdata] = useState();
   const [eventCode, setEventCode] = useState();
   const [UrlAlias, setUrlAlias] = useState();
-  const [errimage, setErrimage] = useState(false);
   const [massage, setMassage] = useState("Please Select Event");
   const [modalShow, setModalShow] = useState(false);
   const [modalShow2, setModalShow2] = useState(false);
-  const [body, setBody] = useState();
-  const [err, setErr] = useState(false);
-  const [image, setimage] = useState();
   const [flag, setFlag] = useState(false);
   const [templateList, setTemplateList] = useState();
-  const handeleimage = (e) => {
-    if (e?.target?.files[0].type.match(/\/(jpg|jpeg|png)$/)) {
-      setErrimage(false);
-      let file = e.target.files[0];
-      setimage(e.target.files[0]);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const syncActiveIndex = ({ item }) => setActiveIndex(item);
+  const [TemplateIdActive, setTemplateIdActive] = useState();
+  const responsive = {
+    0: { items: 1 },
+    568: { items: 2 },
+    1024: { items: 5 },
+  };
+  const templateClicked = (template, e) => {
+    const div = document.querySelector("img.select_mm");
+    if (div) {
+      div.classList.remove("select_mm");
+    }
+    // setTemplateIdActive(template.id);
+    e.target.classList.toggle("select_mm");
+  };
+  // const handleGetTemplateList = (id) => {
+  //   ExportApi.UserTemplateList(id).then((resp) => {
+  //     if (resp.ok) {
+  //       if (resp.data.code == 200) {
+  //         loader("hide")
+  //         console.log("resp.data.data",resp.data.data)
+  //         setTemplateList(resp.data.data);
+  //         // handleGetTemplate(resp.data.data[0].id);
+  //         //  setTemplateIdActive(resp.data.data[0].id);
+  //       } else {
+  //         loader("hide")
+  //       }
+  //     }
+      
+  //   });
+  // };
 
-      if (file) {
-        setFlag(true);
-        const preview = document.getElementById("imgVieww");
-        const reader = new FileReader();
-        reader.addEventListener(
-          "load",
-          function () {
-            preview.src = reader.result;
-          },
-          false
-        );
-        reader.readAsDataURL(file);
-      }
-    } else {
-      setErrimage(true);
-      setErrimage("Only jpeg, png, jpg, are allowed");
-    }
-  };
-  const handleGetTemplateList = () => {
-    ExportApi.UserTemplateList(id).then((resp) => {
-      if (resp.ok) {
-        setTemplateList(resp.data.data);
-      }
-    });
-  };
-  const handleGetEventlist = () => {
-    ExportApi.GetEventList().then((resp) => {
-      if (resp.ok) {
-        loader("hide");
-        setEvent(resp.data.data);
-        setEventId(resp.data.data[0].id);
-        handleGetRegistrationPageList(resp.data.data[0].id);
-      }
-    });
-  };
   const handleGetRegistrationPageList = (id) => {
-    if (id === "Shine") {
-      setId(null);
-    } else {
-      setId(id);
-    }
     ExportApi.RegistrationPageList(id).then((resp) => {
       if (resp.ok) {
+        loader("hide");
         setRegistrationPageList(resp.data.data);
         if (resp.data.code === 404) {
           setMassage("Data Not Found");
@@ -85,24 +70,38 @@ const Registration = () => {
   const handleGetRegistrationPagedata = (id) => {
     ExportApi.RegistrationPageData(id).then((resp) => {
       if (resp.ok) {
-        setimage(null);
-        handleGetTemplateList();
+        // handleGetTemplateList(localStorage.getItem("EventIdHeader"));
         setEditdata(resp.data.data);
+        // setTemplateIdActive(resp.data.data.template_id)
         setEventCode(resp.data.data.event.code);
         setUrlAlias(resp.data.data.url);
       }
     });
   };
+  useEffect(() => {
+    loader("show")
+    window.addEventListener("EventId", () =>{
+      handleGetRegistrationPageList(localStorage.getItem("EventIdHeader"))
+
+    }
+    );
+    handleGetRegistrationPageList(localStorage.getItem("EventIdHeader"));
+    // handleGetTemplateList(localStorage.getItem("EventIdHeader"));
+    if (localStorage.getItem("EventIdHeader")) {
+      console.log("done");
+    } else {
+      loader("hide");
+      // setMessage("Please create Event");
+    }
+  }, []);
 
   const formik = useFormik({
     initialValues: {
       RegistrationPageTitle: editdata ? editdata.title : "",
       url: editdata ? editdata.url : "",
       body: editdata ? editdata.body : "",
-      TemplateId: editdata ? editdata.template_id : "",
     },
     validationSchema: Yup.object({
-      TemplateId: Yup.string().required("Please select template "),
       RegistrationPageTitle: Yup.string().required(
         "Enter your registration page title"
       ),
@@ -114,10 +113,9 @@ const Registration = () => {
     enableReinitialize: true,
     onSubmit: (values) => {
       loader("show");
-      alert("s");
       let formData = new FormData();
 
-      formData.append("form_id", editdata.id);
+      formData.append("registration_page_id",editdata.id);
 
       formData.append("body", values.body);
 
@@ -125,13 +123,13 @@ const Registration = () => {
 
       // formData.append("file", image);
       formData.append("url", UrlAlias);
-      formData.append("template_id", values.TemplateId);
+      // formData.append("template_id",TemplateIdActive);
       UrlAlias
         ? ExportApi.UpdateRegistrationPageData(formData).then((resp) => {
             if (resp.ok) {
               if (resp.data.code == 200) {
                 loader("hide");
-                handleGetRegistrationPageList(id);
+                handleGetRegistrationPageList();
                 toast.success(resp.data.message, {
                   position: "top-right",
                   autoClose: 5000,
@@ -158,14 +156,21 @@ const Registration = () => {
         : console.log("errr");
     },
   });
-  useEffect(() => {
-    loader("show");
-    handleGetEventlist();
-  }, []);
   return (
-    <div class="right-sidebar col">
+    <>
       <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
+      </div>
+    <div class="right-sidebar col">
+    <div class="top-header">
+        <div class="page-title">
+          <h3>Registration Page </h3>
+        </div>
+        <div class="top-right-action">
+          <Link to="/webinar/portal/createRegistration">
+            <Button>Create Registration Page</Button>
+          </Link>
+        </div>
       </div>
       <Row>
         <ToastContainer
@@ -179,40 +184,7 @@ const Registration = () => {
           draggable
           pauseOnHover
         />
-        <Col md={{ span: 6, offset: 3 }}>
-          <h2>Registration page</h2>
-          <Row>
-            <Row>
-              <Col className="mb-5">
-                <Form.Label>Select Event </Form.Label>
-                <Form.Select
-                  name="type"
-                  value={eventid}
-                  onChange={(e) => {
-                    handleGetRegistrationPageList(e.target.value);
-                    setEventId(e.target.value);
-                    setModalShow2(true);
-                    setEditdata(null);
-                  }}
-                >
-                  <option value="Shine"> Select Event</option>
-                  {event?.map((val, i) => (
-                    <React.Fragment key={i}>
-                      <option value={val.id}>{val.title}</option>
-                    </React.Fragment>
-                  ))}
-                </Form.Select>
-              </Col>
-            </Row>
-            {id ? (
-              <Button
-                onClick={() => {
-                  setModalShow(true);
-                }}
-              >
-                Create New Registration page
-              </Button>
-            ) : null}
+
             {registrationPageList ? (
               <Row>
                 <Col className="mb-5">
@@ -228,14 +200,14 @@ const Registration = () => {
                         <tr key={i}>
                           <td>{val.title}</td>
                           <td>
-                            <Link
-                              to={`/webinar/register/${val.code}/${
+                            <a
+                              href={`${BaseUrlImage}/SH2022/index?event=${val.code}&alice=${
                                 val.url
-                              }/${1}`}
+                              }`}
                               target="_blank"
                             >
                               <Button>Preview</Button>
-                            </Link>
+                            </a>
                             <Button
                               onClick={(e) => {
                                 handleGetRegistrationPagedata(val.id);
@@ -254,37 +226,14 @@ const Registration = () => {
             ) : (
               <h2>{massage}</h2>
             )}
-          </Row>
-          <Modal
-            className="overflow-hidden"
-            show={modalShow}
-            size="lg"
-            aria-labelledby="contained-modal-title-vcenter"
-            centered
-          >
-            <Modal.Header onClick={() => setModalShow(false)} closeButton>
-              <Modal.Title id="contained-modal-title-vcenter">
-                Create Registration Page
-              </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <CreateRegistration
-                hendletable={handleGetRegistrationPageList}
-                data={setModalShow}
-                id={id}
-              />
-            </Modal.Body>
-          </Modal>
-
           {editdata ? (
-            <Row>
-              <Col>
+              <div className="webinar-modal-data">
                 <form onSubmit={formik.handleSubmit}>
-                  <Row>
-                    <Col className="mb-5">
-                      <Col>
-                        <Form.Group className="mb-3">
-                          <Form.Label>Registration Page Title</Form.Label>
+                <div className="modal-body-content">
+            <div className="form-inline row justify-content-between align-items-center">
+              <div className="form-group col-12 col-md-7">
+
+                          <label>Title</label>
                           <Form.Control
                             name="RegistrationPageTitle"
                             onChange={formik.handleChange}
@@ -299,36 +248,10 @@ const Registration = () => {
                               {formik.errors.RegistrationPageTitle}
                             </div>
                           ) : null}
-                        </Form.Group>
-                      </Col>
-                    </Col>
-                    <Col>
-                      <Form.Group className="mb-3">
-                        <Form.Label>Select Template </Form.Label>
-                        <Form.Select
-                          name="TemplateId"
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          value={formik.values.TemplateId}
-                        >
-                          <option> Select Template</option>
-                          {templateList
-                            ? templateList?.map((val, i) => (
-                                <React.Fragment key={i}>
-                                  <option value={val.id}>{val.name}</option>
-                                </React.Fragment>
-                              ))
-                            : null}
-                        </Form.Select>
-                        {formik.touched.RegistrationPageTitle &&
-                        formik.errors.RegistrationPageTitle ? (
-                          <div style={{ color: "red" }}>
-                            {formik.errors.RegistrationPageTitle}
-                          </div>
-                        ) : null}
-                      </Form.Group>
-                    </Col>
-                    <Form.Group className="mb-3">
+                     </div>
+                     </div>
+                     <div className="form-inline row justify-content-between align-items-center">
+              <div className="form-group col-12 col-md-7">
                       <Form.Label>Url Alias</Form.Label>
                       <Form.Control
                         name="url"
@@ -344,9 +267,9 @@ const Registration = () => {
                       {UrlAlias ? null : (
                         <div style={{ color: "red" }}>Enter url alias</div>
                       )}
-                    </Form.Group>
-                    <Row>
-                      <Col xs={12}>
+                    </div></div>
+                    <div className="form-inline row justify-content-between align-items-center">
+              <div className="form-group col-12 col-md-7">
                         <Form.Label>Body Text</Form.Label>
                         <textarea
                           name="body"
@@ -363,45 +286,16 @@ const Registration = () => {
                             {formik.errors.body}
                           </div>
                         ) : null}
-                        <p style={{ color: "red" }}>{err}</p>
-                      </Col>
-                      {/* <Col xs={3}>
-                        <div>
-                          <img
-                            id="imgVieww"
-                            src={
-                              flag == false
-                                ? `http://51.89.210.56:8000${editdata.file}`
-                                : ""
-                            }
-                            alt="Viewing the registration page image"
-                            width={340}
-                          />
-                        </div>
-                      </Col> */}
-                    </Row>
-                    {/* <Form.Group controlId="formFileLg" className="mb-3">
-                      <Form.Label>Choice File</Form.Label>
-                      <Form.Control
-                        name="file"
-                        onChange={(e) => {
-                          handeleimage(e);
-                        }}
-                        type="file"
-                        size="md"
-                      />
-                      <p style={{ color: "red" }}>{errimage}</p>
-                    </Form.Group> */}
+                     </div></div>
                     <Button type="submit">Save</Button>
-                  </Row>
+                  </div>
                 </form>
-                {/* {editdata[0].file} */}
-              </Col>
-            </Row>
+           </div>
           ) : null}
-        </Col>
+
       </Row>
     </div>
+    </>
   );
 };
 

@@ -426,7 +426,7 @@ const Readers = () => {
   };
 
   return (
-    <div class="right-sidebar col">
+    <div className="right-sidebar col">
       <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
       </div>
@@ -442,15 +442,15 @@ const Readers = () => {
           draggable
           pauseOnHover
         />
-        <div class="top-header">
-          <div class="page-title">
+        <div className="top-header">
+          <div className="page-title">
             <h2>HCPs List</h2>
             <span className="reader-header-count">
               {data ? " Total Registrations | " + data.length : null}
             </span>
           </div>
-          <div class="top-right-action">
-            <div class="search-bar">
+          <div className="top-right-action">
+            <div className="search-bar">
               <form className="d-flex">
                 <input
                   className="form-control me-2"
@@ -492,7 +492,7 @@ const Readers = () => {
               }
             >
               <button
-                class="btn btn-secondary dropdown"
+                className="btn btn-secondary dropdown"
                 type="button"
                 id="dropdownMenuButton2"
                 onClick={() => setShowFilter((showfilter) => !showfilter)}
@@ -679,15 +679,15 @@ const Readers = () => {
                       </Accordion.Body>
                     </Accordion.Item>
                   </Accordion>
-                  <div class="filter-footer">
+                  <div className="filter-footer">
                     <button
-                      class="btn btn-primary btn-bordered"
+                      className="btn btn-primary btn-bordered"
                       onClick={clearFilter}
                     >
                       Clear
                     </button>
                     <button
-                      class="btn btn-primary btn-filled"
+                      className="btn btn-primary btn-filled"
                       onClick={() => {
                         filterData();
                       }}
@@ -753,12 +753,12 @@ const Readers = () => {
           </Col>
         </Row> */}
 
-        <div class="hcp-table">
-          <div class="table-responsive">
-            <div class="hcp-table-view">
-              <div class="hcp-table-left">
-                <div class="hcp-table-heading">
-                  <ul class="hcp-table-heading-left">
+        <div className="hcp-table">
+          <div className="table-responsive">
+            <div className="hcp-table-view">
+              <div className="hcp-table-left">
+                <div className="hcp-table-heading">
+                  <ul className="hcp-table-heading-left">
                     <li>Name</li>
                     <li>Email</li>
                     <li>Country</li>
@@ -767,7 +767,7 @@ const Readers = () => {
                     <li>Interest</li>
                     <li>SignUP Date</li>
                   </ul>
-                  <ul class="hcp-table-heading-right">
+                  <ul className="hcp-table-heading-right">
                     <li>User Type</li>
                     <li>Action</li>
                   </ul>
@@ -775,8 +775,8 @@ const Readers = () => {
 
                 {data ? (
                   data.map((val, i) => (
-                    <div class="hcp-table-content">
-                      <ul class="hcp-table-content-left" key={i}>
+                    <div className="hcp-table-content">
+                      <ul className="hcp-table-content-left" key={i}>
                         <li>{val.name}</li>
                         <li>{val.email} </li>
                         <li>{val.country} </li>
@@ -785,11 +785,11 @@ const Readers = () => {
                         <li>??</li>
                         <li>{val.signup_date} </li>
                       </ul>
-                      <ul class="hcp-table-content-right">
+                      <ul className="hcp-table-content-right">
                         <li>
-                          <div class="user-type-option">
+                          <div className="user-type-option">
                             <Form.Select
-                              class="form-select"
+                              className="form-select"
                               onChange={(e) => {
                                 handleSelect(e.target.value, i);
                                 handleSelectChange(val.id, val.type);
@@ -804,27 +804,27 @@ const Readers = () => {
                           </div>
                         </li>
                         <li>
-                          <div class="user-type-action">
-                            <button class="btn btn-primary btn-filled">
+                          <div className="user-type-action">
+                            <button className="btn btn-primary btn-filled">
                               <img
                                 src={path_image + "edit-btn.png"}
                                 alt="Edit"
                               />
                             </button>
-                            <button class="btn btn-primary btn-filled">
+                            <button className="btn btn-primary btn-filled">
                               <img
                                 src={path_image + "link-btn.png"}
                                 alt="Link"
                               />
                             </button>
-                            <button class="btn btn-primary btn-filled">
+                            <button className="btn btn-primary btn-filled">
                               <img
                                 src={path_image + "envalop-btn.png"}
                                 alt="Send Mail"
                               />
                             </button>
 
-                            <button class="btn btn-primary btn-filled">
+                            <button className="btn btn-primary btn-filled">
                               {val.is_blocked == 0 ? (
                                 <img
                                   src={path_image + "lock-btn.png"}
@@ -847,7 +847,7 @@ const Readers = () => {
                                 />
                               )}
                             </button>
-                            <button class="btn btn-primary btn-filled">
+                            <button className="btn btn-primary btn-filled">
                               <img
                                 alt="Delete"
                                 src={path_image + "delete-btn.png"}
@@ -863,8 +863,8 @@ const Readers = () => {
                     </div>
                   ))
                 ) : (
-                  <div class="hcp-table-content">
-                    <ul class="hcp-table-content-left">{massage}</ul>
+                  <div className="hcp-table-content">
+                    <ul className="hcp-table-content-left">{massage}</ul>
                   </div>
                 )}
 
