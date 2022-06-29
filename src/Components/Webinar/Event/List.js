@@ -446,14 +446,14 @@ const EventData = () => {
               <div className="email-block-add">
               {
                 <>
-                  <Button
+                  <a
                     onClick={() => {
                       setShow(true);
                     }}
                     // state={{ creator: getUserDetails.username }}
                   >
                     <img src={path_image + "add-button.svg"} alt="" />
-                  </Button>
+                  </a>
                   <p> Create New Webinar/Event</p>
                 </>
               }
@@ -475,21 +475,17 @@ const EventData = () => {
                         <div className="mail-box-content-top-view">
                           <h5>{val.title}</h5>
                           {/* <p>Email Type</p> */}
-                          <div className="mailbox-tags">
-                            <ul>
-                              <li className="list2">{val.description}</li>
-													{/* <li className="list3">tag3</li>
-													<li className="list4">tag4</li>
-													<li className="list5">tag5</li> */}
-                            </ul>
+                          <div className="mailbox-description">
+                            <p>{val.description}</p>
                           </div>
-
-                          <div className="name-list">
+                        <div className="webinar_time">
+                          <div className="webinar-start-time">
                             <span>Start Time {val?.event_start_time}</span>
                           </div>
-                          <div className="mail-time">
+                          <div className="webinar-end-time">
                             <span>End Time {val?.event_start_time}</span>
                           </div>
+                        </div>
                           <div className="mail-stats">
                             <ul>
                               <li>
