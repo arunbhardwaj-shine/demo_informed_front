@@ -138,7 +138,6 @@ const Header = () => {
 
             {token? (
               <Form.Select
-              style={{width:"270px"}}
                  value={eventId}
                 onChange={(e) => {
                   localStorage.setItem("EventIdHeader",e.target.value)
