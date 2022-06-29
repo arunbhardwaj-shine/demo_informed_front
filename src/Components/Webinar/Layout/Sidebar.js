@@ -240,7 +240,7 @@ const Sidebar = () => {
                     onClick={() => showHideHome(1)}
                   >
                     <Link
-                      to="/webinar/portal/Registrations"
+                      to="/webinar/portal/registrationDetailslist"
                       onMouseOver={handleMouseOverRegistration}
                       onMouseOut={handleMouseOutRegistration}
                     >
@@ -589,18 +589,7 @@ const Sidebar = () => {
                     />
                   </button>
                   <ul>
-                    <li
-                      className={
-                        location.pathname === "/webinar/portal/Registrations"||location.pathname === "/webinar/portal/createRegistration"
-                          ? "active"
-                          : "side_li"
-                      }
-                    >
-                      <Link to="/webinar/portal/Registrations">
-                        <img src={path_image + "webinar/home.svg"} />
-                        <p>Create Registration</p>
-                      </Link>
-                    </li>
+                
 
                     {/* <li className={location.pathname === "/webinar/dashboard" ? "active" : "side_li"}>
                         <Link to="/webinar/dashboard"><img src={path_image + "webinar/dashboard.svg"} /> 
@@ -645,6 +634,18 @@ const Sidebar = () => {
                       <Link to="/webinar/portal/registrationDetailslist">
                         <img src={path_image + "webinar/event.svg"} />
                         <p>Registration Page</p>
+                      </Link>
+                    </li>
+                    <li
+                      className={
+                        location.pathname === "/webinar/portal/Registrations"||location.pathname === "/webinar/portal/createRegistration"
+                          ? "active"
+                          : "side_li"
+                      }
+                    >
+                      <Link to="/webinar/portal/Registrations">
+                        <img src={path_image + "webinar/dashboard.svg"} />
+                        <p>Create Registration</p>
                       </Link>
                     </li>
                   </ul>
