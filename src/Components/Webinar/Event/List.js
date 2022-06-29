@@ -38,6 +38,7 @@ const EventData = () => {
         loader("hide");
         if (resp.data.code == 200) {
           window.dispatchEvent(new Event("EventData"));
+          setMessage(false)
           setEvent(resp.data.data);
           setUpdatedData(resp.data.data);
         } else {
@@ -318,6 +319,11 @@ const EventData = () => {
     handleGetEventlist();
   }, []);
   return (
+    <>
+       <div className="loader" id="custom_loader">
+          <span className="loader-view"> </span>
+        </div>
+    
     <div className="right-sidebar col">
       <div className="top-header">
         <div className="top-right-action webinar-header-action-tool">
@@ -483,7 +489,7 @@ const EventData = () => {
                             <span>Start Time {val?.event_start_time}</span>
                           </div>
                           <div className="webinar-end-time">
-                            <span>End Time {val?.event_start_time}</span>
+                            <span>End Time {val?.event_end_time}</span>
                           </div>
                         </div>
                           <div className="mail-stats">
@@ -533,91 +539,15 @@ const EventData = () => {
                 </div>
               );
             })}
-          
-            {message ? (
+            {event?.length > 0  ?null: (
               <div className="coming-soon">
                 <h2>{message}</h2>
               </div>
-            ) : null}
+            ) }
           </div>
         </div>
 
       <div class="email-result webinar-result">
-        <div class="col email-result-block">
-          <div className="email_box_block">
-            <div className="email-block-add">
-              
-            </div>
-          </div>
-          {event?.length > 0 ? (
-            event?.map((event) => {
-              return (
-                <>
-                  <div className="email_box_block">
-                    <div className="mail-box-content webinar-box">
-                      <div className="webinar-img-box">
-                        {/* <img
-                          classname="webinar-box-track"
-                          src={path_image + "webinar/Tracker.svg"}
-                        /> */}
-                        {/* <img
-                          classname="webinar-box-share"
-                          src={path_image + "webinar/share.svg"}
-                        /> */}
-                      </div>
-                      <h5>{event.title}</h5>
-                      <div className="webinar-box-content-detail">
-                        <div className="smart-list-added-user">
-                          {event.days_left < 0 ? (
-                            <>
-                              <span></span> Fulfilled
-                            </>
-                          ) : (
-                            <>
-                              {event.days_left == 1 ? (
-                                <span>{event.days_left + " Day Left"}</span>
-                              ) : event.days_left == 0 ? (
-                                <span> Today</span>
-                              ) : (
-                                <span>{event.days_left + " Days Left"}</span>
-                              )}
-                            </>
-                          )}
-                        </div>
-                        <div className="mail-time">
-                          <span>{event.event_date}</span>
-                        </div>
-                      </div>
-                      <div className="mail-stats">
-                        {deletestatus && (
-                          <div className="dlt_btn">
-                            <button
-                              onClick={(e) => showConfirmationPopup(event.id)}
-                            >
-                              <img
-                                src={path_image + "delete.svg"}
-                                alt="Delete Row"
-                              />
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                      <Button
-                        style={{ float: "left" }}
-                        className="btn btn-primary btn-filled"
-                        onClick={() => handleGetEventlistEdidData(event.id)}
-                      >
-                        Edit
-                      </Button>
-                    </div>
-                  </div>
-                </>
-              );
-            })
-          ) : (
-            <h1>{message}</h1>
-          )}
-        </div>
         <ToastContainer
           position="top-right"
           autoClose={5000}
@@ -629,9 +559,7 @@ const EventData = () => {
           draggable
           pauseOnHover
         />
-        <div className="loader" id="custom_loader">
-          <span className="loader-view"> </span>
-        </div>
+     
       </div>
       <Modal
         id="webinar_event"
@@ -878,6 +806,7 @@ const EventData = () => {
         </Modal>
       </div>
     </div>
+    </>
   );
 };
 

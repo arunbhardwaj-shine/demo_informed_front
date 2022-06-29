@@ -159,7 +159,31 @@ const CreateRegistration = (props) => {
             </div>
             </div>
             </div>
-      
+            <div className="form-inline row justify-content-between align-items-center">
+              <div className="form-group col-12 col-md-8">
+                <label>Mode </label>
+                <div className="form-inline">
+                            <div class="form-check">
+                              <Form.Label> A</Form.Label>
+                              <Form.Control
+                                type="checkbox"
+                              />
+                            </div>
+                            <div class="form-check">
+                              <Form.Label> B</Form.Label>
+                              <Form.Control
+                                type="radio"
+                              />
+                            </div>
+                            <div class="form-check">
+                              <Form.Label> B</Form.Label>
+                              <Form.Control
+                                type="radio"
+                              />
+                            </div>
+                    </div>
+                </div>
+                </div>
           {/* <section className="select-mail-template">
                 <div className="row select-mail-template-slider">
                 <AliceCarousel
