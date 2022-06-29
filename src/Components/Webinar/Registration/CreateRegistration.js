@@ -164,14 +164,16 @@ const CreateRegistration = (props) => {
                 <label>Mode </label>
                 <div className="form-inline">
                             <div class="form-check">
-                              <Form.Label> A</Form.Label>
+                              <Form.Label>Onsite</Form.Label>
                               <Form.Control
-                                type="checkbox"
+                              name="mode"
+                                 type="radio"
                               />
                             </div>
                             <div class="form-check">
-                              <Form.Label> B</Form.Label>
+                              <Form.Label> virtual</Form.Label>
                               <Form.Control
+                               name="mode"
                                 type="radio"
                               />
                             </div>
