@@ -461,7 +461,7 @@ const CreateEmail = (props) => {
         if (res.data.status_code === 200) {
           popup_alert({
             visible: "show",
-            message: "Test mail sent successfully",
+            message: "Email sent successfully",
             type: "success",
           });
         } else {
