@@ -439,10 +439,11 @@ const EventData = () => {
         </div>
       </div>
 
-      <div class="email-result webinar-result">
-        <div class="col email-result-block">
-          <div className="email_box_block">
-            <div className="email-block-add">
+
+      <div className="email-result">
+          <div className="col email-result-block">
+            <div className="email_box_block">
+              <div className="email-block-add">
               {
                 <>
                   <Button
@@ -456,6 +457,100 @@ const EventData = () => {
                   <p> Create New Webinar/Event</p>
                 </>
               }
+                  {/* <img src={path_image + "add-button.svg"} alt="" />
+                  <p>Create New Email</p> */}
+               
+              </div>
+            </div>
+            {event?.map((val, i) => {
+              return (
+                <div key={i} className="email_box_block">
+                  <div
+                    className={
+                      "email_box "+" approved" 
+                    }
+                  >
+                    <div className="mail-box-content">
+                      <div className="mail-box-content-top">
+                        <div className="mail-box-content-top-view">
+                          <h5>{val.title}</h5>
+                          {/* <p>Email Type</p> */}
+                          <div className="mailbox-tags">
+                            <ul>
+                              <li className="list2">{val.description}</li>
+													{/* <li className="list3">tag3</li>
+													<li className="list4">tag4</li>
+													<li className="list5">tag5</li> */}
+                            </ul>
+                          </div>
+
+                          <div className="name-list">
+                            <span>Start Time {val?.event_start_time}</span>
+                          </div>
+                          <div className="mail-time">
+                            <span>End Time {val?.event_start_time}</span>
+                          </div>
+                          <div className="mail-stats">
+                            <ul>
+                              <li>
+                                {val.days_left < 0 ? (
+                                <div className="mail-status mail_send">
+                            <>
+                              <span></span> Fulfilled
+                            </>
+                            </div>
+                          ) : (
+                            <>
+                              {val.days_left == 1 ? (
+                                <span>{val.days_left + " Day Left"}</span>
+                              ) : val.days_left == 0 ? (
+                                <span> {val.time_left + " Time Left"}</span>
+                              ) : (
+                                <span>{val.days_left + " Days Left"}</span>
+                              )}
+                            </>
+                          )}
+                            
+                              </li>
+                              <li>
+                                {/* <div className="mail-status mail_view">
+                                Date
+                                </div> */}
+                                <span>{val.event_date}</span>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="mailbox-buttons">
+                        <div className="mailbox-buttons-list">
+                          <button
+                            className="btn btn-primary btn-bordered edit"
+                            onClick={() => handleGetEventlistEdidData(val.id)}
+                          >
+                            Edit
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          
+            {message ? (
+              <div className="coming-soon">
+                <h2>{message}</h2>
+              </div>
+            ) : null}
+          </div>
+        </div>
+
+      <div class="email-result webinar-result">
+        <div class="col email-result-block">
+          <div className="email_box_block">
+            <div className="email-block-add">
+              
             </div>
           </div>
           {event?.length > 0 ? (

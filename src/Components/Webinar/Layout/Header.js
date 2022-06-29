@@ -193,22 +193,13 @@ const Header = () => {
                     show={smShowLogin}
                     onHide={() => setSmShowLogin(false)}
                     aria-labelledby="example-modal-sizes-title-sm"
-                  ><Modal.Header
-                  closeButton
-                  onClick={() => setSmShowLogin(false)}
-                >
-                </Modal.Header>
+                  >
+                    <Modal.Header closeButton onClick={() => setSmShowLogin(false)}>
+                    {" "}
+                   <h4>Login</h4>
+                    </Modal.Header>
                     <Modal.Body>
                       <Login active={hengleLonginPage} />
-                      <h5
-                        style={{ color: "blue", cursor: "pointer",width:"173px" }}
-                        onClick={() => {
-                          setSmShowForgot(true);
-                          setSmShowLogin(false);
-                        }}
-                      >
-                        Forgot Password ?
-                      </h5>
                     </Modal.Body>
                   </Modal>
                   <div
@@ -220,21 +211,7 @@ const Header = () => {
                   ></div>
                 </div>
               )}
-              <Modal
-                size="md"
-                show={smShowForgot}
-                onHide={() => setSmShowForgot(false)}
-                aria-labelledby="example-modal-sizes-title-sm"
-              >
-                <Modal.Header
-                  closeButton
-                  onClick={() => setSmShowForgot(false)}
-                >
-                </Modal.Header>
-                <Modal.Body>
-                  <ForgotPassword  active={hengleForgotPage}  />
-                </Modal.Body>
-              </Modal>
+             
               {/* <ul>
 					<li className="nav-item dropdown">
 					  <a className="nav-link dropdown-toggle"  role="button" data-bs-toggle="dropdown"><span>Hi,</span>Jacob Flindt</a>

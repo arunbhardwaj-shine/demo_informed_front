@@ -2,14 +2,25 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import ExportApi from "../Api/ExportApi";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import ForgotPassword from "./ForgotPassword";
 const Login = (props) => {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [smShowLogin, setSmShowLogin] = useState(false);
+  const [smShowForgot, setSmShowForgot] = useState(false);
   const [err, setErr] = useState(false);
   let navigate = useNavigate();
+  const hengleLonginPage = (data,message) => {
+    setSmShowLogin(data);
+    setDropdownOpen(data);
 
+  };
+  const hengleForgotPage = (data) => {
+    setSmShowForgot(data);
+  };
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -52,6 +63,7 @@ const Login = (props) => {
     },
   });
   return (
+    <>
     <form onSubmit={formik.handleSubmit}>
          <ToastContainer
        position="top-right"
@@ -64,10 +76,6 @@ const Login = (props) => {
        draggable
        pauseOnHover
       />
-      <center>
-        <h3>Login</h3>
-      </center>
-      <hr />
       <Form.Group className="mb-3">
         <Form.Label>Email address</Form.Label>
         <Form.Control
@@ -95,9 +103,27 @@ const Login = (props) => {
           <div style={{ color: "red" }}>{formik.errors.password}</div>
         ) : null}
       </Form.Group>
-
+      <h6 style={{ color: "blue", cursor: "pointer",width:"173px" }}onClick={() => {
+          setSmShowForgot(true); setSmShowLogin(false);}}>Forgot Password ?
+      </h6>
       <Button type="submit">Submit</Button>
     </form>
+     <Modal
+        size="md"
+        show={smShowForgot}
+        onHide={() => setSmShowForgot(false)}
+        aria-labelledby="example-modal-sizes-title-sm"
+      >
+        <Modal.Header
+          closeButton
+          onClick={() => setSmShowForgot(false)}
+        >
+        </Modal.Header>
+        <Modal.Body>
+          <ForgotPassword  active={hengleForgotPage}  />
+        </Modal.Body>
+      </Modal>
+      </>
   );
 };
 export default Login;

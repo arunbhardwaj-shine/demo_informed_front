@@ -34,6 +34,7 @@ body {
 }
 a {
   cursor: pointer;
+  text-decoration: none;
 }
 .filter-by.nav-item.dropdown button:hover svg path,
 .filter-by.nav-item.dropdown button:hover svg rect,
@@ -107,7 +108,7 @@ header {
 }
 .sidebar-menu {
   align-items: flex-end;
-  flex-direction: column; /*background: var(--light-skyblue) url(../../images/informed-symbol.svg) no-repeat;*/
+  flex-direction: column; 
   height: 100%;
   max-width: 80px;
   border-radius: 0 0 29px 0;
@@ -3544,21 +3545,24 @@ form#add_hcp_form .row:not(:first-child) {
 .send-option-list ul li img {
   pointer-events: none;
 }
-.email_box_block.no_found,
-.not_found,
-.no_found {
+.email_box_block.no_found,.not_found,.no_found {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   padding: 0 15px;
 }
-.email_box_block.no_found p,
-.not_found p,
-.no_found p {
+.email_box_block.no_found p,.not_found p, .no_found p {
   font-size: 28px;
   font-family: "Roboto-Bold";
   color: var(--blue);
+  margin: 0;
+}
+.not_found h2 {
+  display: flex;
+  justify-content: center;
+  font-family: "Roboto-Bold";
+  color: var(--light-blue);
   margin: 0;
 }
 text.highcharts-credits {
@@ -3567,11 +3571,9 @@ text.highcharts-credits {
 #container {
   height: 400px;
 }
-
 .email-result.webinar-result {
   margin-top: 65px;
 }
-
 ul.alice-carousel__stage {
   padding-top: 13px;
 }
@@ -3776,8 +3778,8 @@ a {
     width: 100%;
 } */
 .modal #webinar_event .form-inline .form-group textarea, .modal #webinar_event .form-inline .form-group input {
-  max-width: 500px;
-  margin-left: 0;
+  /* max-width: 500px; */
+  /* margin-left: 0; */
 }
 .modal #webinar_event .form-inline .form-group textarea{
   min-height:150px;
