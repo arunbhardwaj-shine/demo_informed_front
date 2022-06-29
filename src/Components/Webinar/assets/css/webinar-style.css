@@ -514,7 +514,7 @@ header {
   flex: 0 0 411px;
   text-align: center;
   max-width: 411px;
-  min-height: 341px;
+  min-height: 258px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -523,7 +523,7 @@ header {
   height: 100%;
 }
 .email-result {
-  margin-top: 25px;
+  margin-top: 55px;
 }
 .email-block-add p {
   font-size: 20px;
@@ -620,6 +620,10 @@ header {
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
+  min-height: 258px;
+}
+.mailbox-description p {color: #70899E;font-size: 16px;line-height: 19px;font-family: 'Roboto';margin-bottom: 5px;
+  display: -webkit-box; overflow: hidden; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
 }
 .email-draft .mail-box-content,
 .draft-approved .mail-box-content {
@@ -717,18 +721,18 @@ header {
   margin: 0;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 .mail-stats ul li {
   list-style: none;
-  display: flex;
-  align-items: center;
 }
-.mail-stats ul li {
-  list-style: none;
-  display: flex;
-  align-items: center;
-  width: 25%;
+.webinar_time span {
+  font-size: 14px;
+  line-height: 19px;
+  color: var(--light-blue);
+  font-family: "Roboto";
+  margin: 5px 0 0;
+  display: block;
 }
 .mail-stats ul li .mail-status {
   width: 32px;
@@ -742,9 +746,12 @@ header {
   justify-content: center;
 }
 .mail-stats ul li span {
-  font-size: 12px;
-  line-height: 14px;
-  color: #c8d1d9;
+  font-size: 14px;
+  line-height: 17px;
+  color: #4e718e;
+}
+.mail-box-content .mail-stats {
+  margin-top: 5px;
 }
 .mailbox-buttons {
   position: relative;
