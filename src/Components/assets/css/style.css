@@ -222,20 +222,8 @@ ul.tabnav-link li { position: relative; pointer-events: none; }
 .mail-content-select .row { margin: 0 -12px 0 -22px; }
 .mail-content-select [class*="col-"] { padding: 0 22px;margin-bottom:40px } 
 .mail-content-footer .btn { padding: 6px 12px; }
-.mail-content-select .default-view {
-  margin-bottom: 25px;
-  position: relative;
-}
-.mail-content-select .default-view:after {
-  content: "";
-  border-bottom: 0.5px dashed #70899E;
-  margin: 0 auto;
-  width: calc(100% - 40px);
-  position: absolute;
-  bottom: 5px;
-  left: 0;
-  right: 0;
-}
+.mail-content-select .default-view {margin-bottom: 25px;position: relative;}
+.mail-content-select .default-view:after {content: "";border-bottom: 0.5px dashed #70899E;margin: 0 auto;width: calc(100% - 40px);position: absolute;bottom: 5px;left: 0;right: 0;}
 /**Create Email End**/
 
 .mail-templates .item img { padding: 12px 10px; width: 107px!important; background: var(--white); box-shadow: 0px 1px 8px rgba(0, 102, 190, 0.2); border-radius: 15px; margin: 10px auto 13px; }
