@@ -163,7 +163,7 @@ const CreateRegistration = (props) => {
             <div className="form-inline row justify-content-between align-items-center">
               <div className="form-group col-12 col-md-8">
                 <label>Mode </label>
-                <div className="form-inline">
+                <div className="form-inline-option">
                             <div class="form-check">
                               <Form.Label>Onsite</Form.Label>
                               <Form.Control
