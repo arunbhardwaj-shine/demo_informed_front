@@ -113,6 +113,7 @@ import Analytics from "./Components/Webinar/Analytics/Analytics";
 import Files from "./Components/Webinar/File/Files";
 import SmartListUsers from "./Components/Webinar/Emails/SmartListUsers";
 import CreateRegistration from "./Components/Webinar/Registration/CreateRegistration";
+import NewRegistration from "./Components/Webinar/Registration/NewRegistration";
 
 let platform = 0;
 let show = 0;
@@ -251,6 +252,10 @@ ReactDOM.render(
                         <Route
                           path="/webinar/portal/createRegistration"
                           element={<CreateRegistration />}
+                        />
+                        <Route
+                          path="/webinar/portal/NewRegistration"
+                          element={<NewRegistration />}
                         />
                         <Route
                           path="/webinar/portal/Registrations"

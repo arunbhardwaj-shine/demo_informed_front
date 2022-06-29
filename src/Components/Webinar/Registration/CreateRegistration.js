@@ -61,13 +61,14 @@ const CreateRegistration = (props) => {
       RegistrationPageTitle: "",
       url: "",
       body: "",
-      TemplateId: "",
+      mode:''
     },
     validationSchema: Yup.object({
       RegistrationPageTitle: Yup.string().required(
         "Enter your registration page title"
       ),
       body: Yup.string().required("Enter a body text"),
+      mode: Yup.string().required("Please  select mode"),
       url: Yup.string()
         .matches(/^[a-zA-Z]+$/u, "Only alphabets are allowed")
         .required("Enter url alias"),
@@ -80,7 +81,7 @@ const CreateRegistration = (props) => {
       formData.append("body", values.body);
       formData.append("title", values.RegistrationPageTitle);
       formData.append("url", values.url);
-      // formData.append("template_id", TemplateIdActive);
+       formData.append("mode", values.mode);
       ExportApi.CreateRegistrationPage(formData).then((resp) => {
         if (resp.ok) {
           if (resp.data.code == 200) {
@@ -166,23 +167,35 @@ const CreateRegistration = (props) => {
                             <div class="form-check">
                               <Form.Label>Onsite</Form.Label>
                               <Form.Control
-                              name="mode"
+                                 name="mode"
                                  type="radio"
-                              />
+                                 onChange={formik.handleChange}
+                                 onBlur={formik.handleBlur}
+                                 value="onsite"
+                                 />
                             </div>
                             <div class="form-check">
-                              <Form.Label> virtual</Form.Label>
+                              <Form.Label> Virtual</Form.Label>
                               <Form.Control
                                name="mode"
                                 type="radio"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={"virtual"}
                               />
                             </div>
-                            <div class="form-check">
+                              {formik.touched.mode &&
+                              formik.errors.mode? (
+                                <div style={{ color: "red" }}>
+                                  {formik.errors.mode}
+                                </div>
+                              ) : null}
+                            {/* <div class="form-check">
                               <Form.Label> B</Form.Label>
                               <Form.Control
                                 type="radio"
                               />
-                            </div>
+                            </div> */}
                     </div>
                 </div>
                 </div>

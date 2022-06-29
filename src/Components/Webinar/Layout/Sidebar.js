@@ -648,6 +648,18 @@ const Sidebar = () => {
                         <p>Create Registration</p>
                       </Link>
                     </li>
+                    <li
+                      className={
+                        location.pathname === "/webinar/portal/NewRegistration"
+                          ? "active"
+                          : "side_li"
+                      }
+                    >
+                      <Link to="/webinar/portal/NewRegistration">
+                        <img src={path_image + "webinar/file2.png"} />
+                        <p>Create Registration</p>
+                      </Link>
+                    </li>
                   </ul>
                 </div>
               )}

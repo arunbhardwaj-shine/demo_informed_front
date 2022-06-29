@@ -104,11 +104,14 @@ const Registration = () => {
       RegistrationPageTitle: editdata ? editdata.title : "",
       url: editdata ? editdata.url : "",
       body: editdata ? editdata.body : "",
+      mode:"" ,
+
     },
     validationSchema: Yup.object({
       RegistrationPageTitle: Yup.string().required(
         "Enter your registration page title"
       ),
+      mode: Yup.string().required("Please  select mode"),
       body: Yup.string().required("Enter a Body text"),
       url: Yup.string()
         .matches(/^[a-zA-Z]+$/u, "Only alphabets are allowed")
@@ -127,7 +130,7 @@ const Registration = () => {
 
       // formData.append("file", image);
       formData.append("url", UrlAlias);
-      // formData.append("template_id",TemplateIdActive);
+       formData.append("mode", values.mode);
       UrlAlias
         ? ExportApi.UpdateRegistrationPageData(formData).then((resp) => {
             if (resp.ok) {
@@ -284,6 +287,47 @@ const Registration = () => {
                           ):null}
                       </div>
                     </div></div>
+                    <div className="form-inline row justify-content-between align-items-center">
+              <div className="form-group col-12 col-md-8">
+                <label>Mode </label>
+                <div className="form-inline">
+                            <div class="form-check">
+                              <Form.Label>Onsite</Form.Label>
+                              <Form.Control
+                                 name="mode"
+                                 type="radio"
+                                 onChange={formik.handleChange}
+                                 onBlur={formik.handleBlur}
+                                 value="onsite"
+                                 checked={editdata. mode==="onsite"?true:false}
+                                 />
+                            </div>
+                            <div class="form-check">
+                              <Form.Label> Virtual</Form.Label>
+                              <Form.Control
+                               name="mode"
+                                type="radio"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={"virtual"}
+                                checked={editdata.mode==="virtual"?true:false}
+                              />
+                            </div>
+                              {formik.touched.mode &&
+                              formik.errors.mode? (
+                                <div style={{ color: "red" }}>
+                                  {formik.errors.mode}
+                                </div>
+                              ) : null}
+                            {/* <div class="form-check">
+                              <Form.Label> B</Form.Label>
+                              <Form.Control
+                                type="radio"
+                              />
+                            </div> */}
+                    </div>
+                </div>
+                </div>
                     <div className="form-inline row justify-content-between align-items-center">
               <div className="form-group col-12 col-md-8">
                         <Form.Label>Body Text</Form.Label>
