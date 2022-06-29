@@ -47,7 +47,8 @@ header { position: sticky; top: 0; z-index: 9; }
 .clear-search button { width: 40px; text-align: center; background: var(--white); border-radius: 30px; box-shadow: 0px 2px 10px -3px rgba(0, 102, 190, 0.15); border: 0; padding: 6px; height: 40px; display: flex; align-items: center; justify-content: center; }
 .clear-search button:hover, .clear-search button:active, .clear-search button:focus { background: var(--light-blue); }
 .clear-search button:hover svg path, .clear-search button:active svg path, .clear-search button:focus svg path{ fill: var(--white); }
-.user-login li { list-style: none; }
+.user-login li { list-style: none; padding:3px 0;}
+.user-login .dropdown-menu {border-radius: 15px;box-shadow: 0px 2px 10px 0px rgb(0 102 190 / 15%);}	
 .filter-by button { background: var(--white); font-family: 'Roboto'; border-radius: 30px; box-shadow: 0px 2px 10px 0px rgb(0 102 190 / 15%); filter:none;font-weight: 400; font-size: 13px; line-height: 15px; color: var(--skyblue); padding: 11px 18px 12px 24px; border: 0.5px solid transparent; position: relative; z-index: 8; }
 .filter-by button:hover, .filter-by button:focus { color: var(--light-blue); border-color: var(--light-blue); }
 .filter-by button:hover path, .filter-by button:focus path, .filter-by button:hover svg rect  { fill: var(--white); }
@@ -133,7 +134,7 @@ header { position: sticky; top: 0; z-index: 9; }
 .approved .mail-stats ul li .mail-status.mail_click svg path {fill: var(--green);}
 .send_new, .mailbox-buttons-list { display: inline-block; }
 .user-login ul li a::after { content: ""; background-image: url(../images/dropdown-arrow.svg); border: 0; width: 13px; height: 10px; background-size: 13px; position: relative; top: 5px; margin-left: 7px;background-repeat: no-repeat;background-position: center; }
-.user-login ul li a:hover{color:var(--skyblue)}
+.user-login ul li a:hover{color:var(--light-blue);background-color: transparent;}
 .sidebar-menu button.toggle_btn {border: 0;background: transparent;width: 24px;height: 24px;margin: 44px 15px 0px;}
 .sidebar-menu button.toggle_btn img {transition: 0.4s ease;-moz-transform: rotate(0deg); -webkit-transform: rotate(0deg);transform: rotate(0deg);}
 .toggle_sidebar .sidebar-menu button.toggle_btn img {transition: 0.4s ease;-moz-transform: rotate(180deg); -webkit-transform: rotate(180deg);transform: rotate(180deg);}
@@ -198,7 +199,10 @@ ul.tabnav-link li { position: relative; pointer-events: none; }
 .mail-content-select-box { background: var(--white); border-radius: 15px; box-shadow: 0px 3px 10px -3px rgba(0, 102, 190, 0.2); padding: 16px 13px 13px 17px; display: flex; justify-content: space-between;flex-direction: column;height: 100%; }
 .mail-preview-img img { max-height: 102px; max-width: 73px; object-fit: contain; }
 .mail-preview-img { flex: 0 0 97px; margin-bottom: 8px; }
-.mail-content-select-top .mail-box-content { padding: 0; width: calc(100% - 97px); }
+.mail-content-select-top .mail-box-content { padding: 0; width: calc(100% - 97px);flex:1 1 0; }
+.mail-content-select-box .mail-box-content {justify-content: flex-start;}
+.mailbox-text {margin-top: 3px;}
+.mail-box-content .mailbox-text p {color: #70899E;font-size: 16px;line-height: 19px;}
 .mail-content-select-top { display: flex; flex-wrap: wrap; position: relative; }
 .mail-content-select-top h5 { color: var(--light-blue);padding-right: 18px; }
 .mail-content-select-top .mailbox-tags li { background: #E7F4FF; color: var(--light-blue); text-transform:capitalize; }
@@ -218,7 +222,20 @@ ul.tabnav-link li { position: relative; pointer-events: none; }
 .mail-content-select .row { margin: 0 -12px 0 -22px; }
 .mail-content-select [class*="col-"] { padding: 0 22px;margin-bottom:40px } 
 .mail-content-footer .btn { padding: 6px 12px; }
-
+.mail-content-select .default-view {
+  margin-bottom: 25px;
+  position: relative;
+}
+.mail-content-select .default-view:after {
+  content: "";
+  border-bottom: 0.5px dashed #70899E;
+  margin: 0 auto;
+  width: calc(100% - 40px);
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  right: 0;
+}
 /**Create Email End**/
 
 .mail-templates .item img { padding: 12px 10px; width: 107px!important; background: var(--white); box-shadow: 0px 1px 8px rgba(0, 102, 190, 0.2); border-radius: 15px; margin: 10px auto 13px; }

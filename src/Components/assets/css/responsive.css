@@ -242,7 +242,11 @@
 	.table-title .selected-hcp-table-action .btn img { max-width: 16px; } 
 	.create_smart_list .create-smart-step .create-smart-step-box form .form-control { padding: 5px 12px;height:36px; } 
 	.page-top-nav.smart_list_names .btn.btn-primary { padding: 8px 13px; }	
-	.create_smart_list .create_smart_list_inset { max-width: 70%; }					
+	.create_smart_list .create_smart_list_inset { max-width: 70%; }	
+	.mail-box-content .mailbox-text p {
+		font-size: 14px;line-height: 17px;
+	}	
+			
 	} 
 	 
 	 @media only screen and (max-width:1365px){ 

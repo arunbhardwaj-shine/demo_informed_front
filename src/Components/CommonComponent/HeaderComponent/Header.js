@@ -23,7 +23,7 @@ const Header = () => {
 	let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     return (
       <>
-			<div className="loader" id="custom_loader">
+		<div className="loader" id="custom_loader">
 	        <span className="loader-view"> </span>
 	    </div>
      	<header>
@@ -36,19 +36,19 @@ const Header = () => {
 				<div className="collapse navbar-collapse" id="collapsibleNavbar">
 				  <ul className="navbar-nav">
 					<li className="nav-item active">
-						<a className="nav-link" href="https://informed.pro/Libraries/home" >Library</a>
+						<a className="nav-link" href="https://informed.pro/Libraries/home">Library</a>
 					  </li>
 					  <li className="nav-item">
-						<a className="nav-link" href="https://informed.pro/Readers" >Readers</a>
+						<a className="nav-link" href="https://informed.pro/Readers">Readers</a>
 					  </li>
 					  <li className="nav-item">
-						<a className="nav-link" href="https://informed.pro/Analytics/octo_lach_stats" >Analytics</a>
+						<a className="nav-link" href="https://informed.pro/Analytics/octo_lach_stats">Analytics</a>
 					  </li>
 					  <li className="nav-item active active-main">
-						<a className="nav-link" href="https://informed.pro/Distributes/MailEngine" >Distribute</a>
+						<a className="nav-link" href="https://informed.pro/Distributes/MailEngine">Distribute</a>
 					  </li>
 					  <li className="nav-item">
-						<a className="nav-link"  href="https://informed.pro/Webinar/readers_webinar" >Webinar</a>
+						<a className="nav-link"  href="https://informed.pro/Webinar/readers_webinar">Webinar</a>
 					  </li>
 				</ul>
 				</div>
@@ -57,7 +57,7 @@ const Header = () => {
 						<li className="nav-item dropdown">
 						  <a className="nav-link dropdown-toggle" href="javascript:;" role="button" data-bs-toggle="dropdown"><span>Hi,</span>Jacob Flindt</a>
 						  <ul className="dropdown-menu">
-								<li><a className="dropdown-item" href="#">Profile</a></li>
+								<li><a className="dropdown-item" href="#">Change Password</a></li>
 								<li><a className="dropdown-item" href="#">Logout</a></li>
 						  </ul>
 						</li>

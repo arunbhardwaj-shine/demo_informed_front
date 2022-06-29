@@ -592,8 +592,7 @@ const EmailArticleSelect = (props) => {
                 <div className="clear-filter">
                   <button
                     className="btn btn-outline-primary btn-bordered"
-                    onClick={clearFilter}
-                  >
+                    onClick={clearFilter}>
                     Remove All
                   </button>
                 </div>
@@ -604,7 +603,7 @@ const EmailArticleSelect = (props) => {
 
         <div className="mail-content-select">
         {/*Default section start*/}
-          <div className="row">
+          <div className="row default-view">
             <div className="col-12 col-md-4">
               <div className="mail-content-select-box">
                 <div className="mail-content-select-top">
@@ -614,14 +613,11 @@ const EmailArticleSelect = (props) => {
                   <div className="mail-box-content">
                     <h5>Placeholder</h5>
                     <p>Empty Content</p>
-                    <div className="mailbox-tags">
+                    <div className="mailbox-text">
                       <p>Select this when you don't have your content ready</p>
                     </div>
                   </div>
-                  <div
-                    className="select-mail-option"
-                    onClick={handleSelect}
-                  >
+                  <div className="select-mail-option" onClick={handleSelect}>
                     <input
                       type="radio"
                       name="radio"
@@ -646,7 +642,7 @@ const EmailArticleSelect = (props) => {
                   <div className="mail-box-content">
                     <h5>Pure text</h5>
                     <p>Empty Content</p>
-                    <div className="mailbox-tags">
+                    <div className="mailbox-text">
                       <p>Select this when you don't want to include a content to your email</p>
                     </div>
                   </div>
