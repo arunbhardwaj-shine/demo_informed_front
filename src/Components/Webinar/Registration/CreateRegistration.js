@@ -166,7 +166,7 @@ const CreateRegistration = (props) => {
                             <div class="form-check">
                               <Form.Label> A</Form.Label>
                               <Form.Control
-                                type="checkbox"
+                                 type="radio"
                               />
                             </div>
                             <div class="form-check">
