@@ -48,6 +48,11 @@ const VerifyMAIL = (props) => {
   const [getSmartListPopupStatus, setSmartListPopupStatus] = useState(false);
   const [showLessInfo, setShowLessInfo] = useState(true);
   const [getSelectedPdfId, setSelectedPdfId] = useState(PdfSelected);
+  const [getArticleType, setArticleType] = useState(
+    props.getEmailData?.status
+      ? props.getEmailData.status
+      : props.getDraftData?.status && props.getDraftData.status != "" ? props.getDraftData.status : 0
+  );
 
   useEffect(() => {
     console.log(props);
@@ -420,54 +425,79 @@ const VerifyMAIL = (props) => {
             <div className="col-12 verify-left">
               <div className="verify-mail-box">
                 <div className="verify-email-detail">
-                  <h4>Email Details</h4>
-                  <h6>
-                    <strong>Campaign Title | </strong>
-                    {props.getEmailData?.emailCampaign
-                      ? props.getEmailData.emailCampaign
-                      : props.getDraftData.campaign}
-                  </h6>
-                  <h6>
+                  <div>
+                    <h4>Email Details</h4>
+                    <h6>
+                      <strong>Campaign Title | </strong>
+                      {props.getEmailData?.emailCampaign
+                        ? props.getEmailData.emailCampaign
+                        : props.getDraftData.campaign}
+                    </h6>
+                    <h6>
 
-                    <strong>Creator | </strong>
-                    {props.getEmailData?.emailCreator
-        ? props.getEmailData.emailCreator
-        : props.getDraftData?.creator ? props.getDraftData.creator : ''}
-                  </h6>
-                  <h6>
-                    <strong>Tags | </strong>
-                    <ul>
-                      {props.getEmailData?.tags
-                        ? props.getEmailData.tags.map((tags, i) => {
-                            return (
-                              <>
-                                <li className="list1">
-                                  {tags.innerHTML || tags}{" "}
-                                  <img
-                                    src={path_image + "filter-close.svg"}
-                                    alt="Close-filter"
-                                    onClick={() => removeTag(i)}
-                                  />
-                                </li>
-                              </>
-                            );
-                          })
-                        : props.getDraftData.tags.map((tags, i) => {
-                            return (
-                              <>
-                                <li className="list1">
-                                  {tags.innerHTML || tags}{" "}
-                                  <img
-                                    src={path_image + "filter-close.svg"}
-                                    alt="Close-filter"
-                                    onClick={() => removeTag(i)}
-                                  />
-                                </li>
-                              </>
-                            );
-                          })}
-                    </ul>
-                  </h6>
+                      <strong>Creator | </strong>
+                      {props.getEmailData?.emailCreator
+          ? props.getEmailData.emailCreator
+          : props.getDraftData?.creator ? props.getDraftData.creator : ''}
+                    </h6>
+                    <h6>
+                      <strong>Tags | </strong>
+                      <ul>
+                        {props.getEmailData?.tags
+                          ? props.getEmailData.tags.map((tags, i) => {
+                              return (
+                                <>
+                                  <li className="list1">
+                                    {tags.innerHTML || tags}{" "}
+                                    <img
+                                      src={path_image + "filter-close.svg"}
+                                      alt="Close-filter"
+                                      onClick={() => removeTag(i)}
+                                    />
+                                  </li>
+                                </>
+                              );
+                            })
+                          : props.getDraftData.tags.map((tags, i) => {
+                              return (
+                                <>
+                                  <li className="list1">
+                                    {tags.innerHTML || tags}{" "}
+                                    <img
+                                      src={path_image + "filter-close.svg"}
+                                      alt="Close-filter"
+                                      onClick={() => removeTag(i)}
+                                    />
+                                  </li>
+                                </>
+                              );
+                            })}
+                      </ul>
+                    </h6>
+                  </div>
+
+                  {
+                    typeof getArticleType != "undefined" && getArticleType == 3 &&(
+                      <div className="form-buttons right-side">
+                        <button
+                          className= "btn btn-primary approved-btn btn-bordered"
+                        >
+                          Approved{" "}
+                          <img
+                            src={path_image + "approved-btn.svg"}
+                            className="approve_btn"
+                            alt=""
+                          />
+                          <img
+                            src={path_image + "/approved-by-btn.svg"}
+                            className="approved_btn"
+                            alt=""
+                          />
+                        </button>
+                      </div>
+                    )
+                  }
+
                 </div>
                 <div className="mail-recipt">
                   <div className="row">

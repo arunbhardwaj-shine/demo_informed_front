@@ -41,7 +41,15 @@ const CreateEmail = (props) => {
   const [counterFlag, setCounterFlag] = useState(0);
   const [activeManual, setActiveManual] = useState("active");
   const [templateList, setTemplateList] = useState([]);
-  const [template, setTemplate] = useState("");
+  const [template, setTemplate] = useState(
+    state_object != null &&
+      state_object != "undefined" &&
+      state_object.template
+      ? state_object.template
+      : props.getDraftData
+      ? props.getDraftData.source_code
+      : ""
+  );
   const [readers, setReaders] = useState([]);
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
   const [emailDescription, setEmailDescription] = useState(
@@ -646,6 +654,7 @@ const CreateEmail = (props) => {
       console.log(PdfSelected);
       props.getEmailData({
         //uniqueId: uniqueId,
+        status: getIsApprovedStatus,
         emailDescription: emailDescription,
         emailCreator: emailCreator,
         emailCampaign: emailCampaign,
