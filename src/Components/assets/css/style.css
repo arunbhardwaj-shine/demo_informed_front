@@ -426,7 +426,7 @@ form#add_hcp_form .row:not(:first-child) { border-top: 1px dashed var(--light-bl
 .verify-email-detail h6 ul { margin: 0; padding: 0; display: inline-block; flex: 1 1;}
 .verify-email-detail h6 strong { font-family: 'Roboto-Medium'; font-weight: 500; margin-right: 6px; }
 .verify_email { margin-top: 41px; padding-bottom:30px;} .smartlist-buttons button.btn { padding: 6px 14px; }
-.verify-email-detail { border-bottom: 1px dashed var(--light-blue); padding-bottom: 6px; margin-bottom: 14px; }
+.verify-email-detail { border-bottom: 1px dashed var(--light-blue); padding-bottom: 6px; margin-bottom: 14px;display: flex;justify-content: space-between; }
 .mail-recipt p { font-size: 14px; line-height: 16px; color: var(--blue); }
 .mail-recipt h6 { font-size: 18px; line-height: 21px; color: var(--blue); font-family: 'Roboto-Medium'; }
 .mail-recipt p span, .mail-recipt h6 span { font-family: 'Roboto-Light'; }
