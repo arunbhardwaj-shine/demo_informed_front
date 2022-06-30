@@ -412,6 +412,7 @@ form#add_hcp_form .row:not(:first-child) { border-top: 1px dashed var(--light-bl
 .preview_mail { background: var(--white); box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2); border-radius: 30px; padding: 20px 24px 24px; height: 100%; }
 .preview_mail .preview-mail-box { max-height: 860px;height:100%;overflow-y :auto;background: rgba(151, 182, 207, 0.22); border-radius: 15px; padding:20px 16px; margin: 0 auto; text-align: center; }
 .preview_mail .preview-mail-box img {max-width: 100%;}
+.preview_mail .preview-mail-box td {min-width: 40px;padding: 4px;}
 .verify_email .verify-right { width: 710px; }
 .verify_email .verify-left { width: calc(100% - 710px); padding-right: 16px; }
 .preview_mail h4, .verify-email-detail h4 { color: var(--blue); font-family: 'Roboto-Medium'; }
