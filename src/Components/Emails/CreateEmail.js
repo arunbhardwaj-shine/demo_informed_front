@@ -1339,7 +1339,7 @@ const CreateEmail = (props) => {
                       >
                         <img
                           id={"template_dyn" + template.id}
-                          src={path_image + "content_added1.png"}
+                          src={template.template_img}
                           alt=""
                           className={
                             typeof templateId !== "undefined" &&
