@@ -43,6 +43,8 @@ const EmailList = (props) => {
   const [updateflag, setUpdateFlag] = useState([]);
   const [removeFlag, setRemoveFlag] = useState(false);
   const [filterapplied, setFilterApply] = useState(false);
+  const [getDraftEmailSendStatus, setDraftEmailSendStatus] = useState(false);
+  const [getDraftCamapignId, setDraftCamapignId] = useState(0);
   const [options_ch, setOptions_ch] = useState({
     chart: {
       type: "column",
@@ -484,6 +486,86 @@ const EmailList = (props) => {
     }
     setShowFilter(false);
   };
+
+  const draftEmailCampaign = (draftContent) => {
+    setDraftCamapignId(draftContent);
+  }
+
+  const sendDraftMail = async () => {
+    setDraftEmailSendStatus(false);
+    const body = {
+      user_id: localStorage.getItem("user_id"),
+      campaign_id: getDraftCamapignId,
+    };
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    loader("show");
+    await axios
+      .post(`emailapi/get_campaign_details`, body)
+      .then((res) => {
+        if (res.data.status_code == 200) {
+          let draft_campaign = res.data.response.data;
+          let finalTags =  draft_campaign.tags.map((tags) => {
+              return tags.innerHTML || tags;
+            });
+
+          let user_list =  draft_campaign.campaign_data.selectedHcp.map((userId) => {
+              return userId.profile_user_id || userId.user_id;
+            });
+
+            const body = {
+              user_id: localStorage.getItem("user_id"),
+              route_location: "VerifyMAIL",
+              pdf_id:  draft_campaign.pdf_id,
+              subject: draft_campaign.subject,
+              description: draft_campaign?.description ? draft_campaign.description : '',
+              creator: draft_campaign?.creator ? draft_campaign.creator : '',
+              campaign_name: draft_campaign.campaign,
+              tags: finalTags,
+              template_source_code: draft_campaign.source_code,
+              campaign_id: getDraftCamapignId,
+              campaign_data: {
+                user_list: user_list,
+                smart_list_id:draft_campaign.smart_list_data.id,
+                template_id: draft_campaign.campaign_data.template_id,
+              },
+            };
+            axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+            axios
+            .post(`emailapi/send_email`, body)
+            .then((res) => {
+              loader("hide");
+              if (res.data.status_code === 200) {
+                getData("initial");
+                popup_alert({
+                  visible: "show",
+                  message: "Mail sent successfully",
+                  type: "success",
+                  redirect: "/EmailList",
+                });
+              } else {
+                popup_alert({
+                  visible: "show",
+                  message: res.data.message,
+                  type: "error",
+                });
+              }
+            })
+            .catch((err) => {
+              toast.error("Something went wrong");
+              console.log(err);
+            });
+        } else {
+          loader("hide");
+          toast.warning(res.data.message);
+        }
+      })
+      .catch((err) => {
+        loader("hide");
+        toast.error("Something went wrong");
+      });
+  }
+
+
 
   return (
     <>
@@ -1181,22 +1263,13 @@ const EmailList = (props) => {
                           {
                             !deletestatus && (
                               <div className="mailbox-buttons-list">
-                                {data.route_location == "VerifyMAIL" ? (
+                                {data.route_location == "VerifyMAIL" && data.pdf_id != 13 ? (
                                   <button
                                     className="btn btn-primary send btn-bordered"
                                     onClick={() => {
                                       getEmailData(null);
-                                      // getSelectedSmartListData(null);
-                                      draftNavigate(
-                                        data.id,
-                                        data.pdf_id,
-                                        data.route_location,
-                                        data.campaign,
-                                        data.creator,
-                                        data.discription,
-                                        data.subject,
-                                        data.tags
-                                      );
+                                      draftEmailCampaign(data.id);
+                                      setDraftEmailSendStatus((getDraftEmailSendStatus) => !getDraftEmailSendStatus);
                                     }}
                                     // onClick={(e) => showModal("send", data.id)
                                   >
@@ -1758,6 +1831,47 @@ const EmailList = (props) => {
             </Modal.Body>
           </Modal>
 				</div>*/}
+
+      {/*Modal start for send Draft Email*/}
+      <div>
+        <Modal className="modal send-confirm" id="send-draft-mail" show={getDraftEmailSendStatus}>
+          <Modal.Header>
+            <button
+              type="button"
+              className="btn-close"
+              onClick={() => setDraftEmailSendStatus((getDraftEmailSendStatus) => !getDraftEmailSendStatus)}
+            ></button>
+          </Modal.Header>
+
+          <Modal.Body>
+            <img src={path + "alert.png"} alt="" />
+            <h4>
+              This will send the email.<br/>
+              Are you sure it's perfect?
+            </h4>
+
+            <div className="modal-buttons">
+              <button
+                type="button"
+                className="btn btn-primary btn-filled"
+                data-bs-dismiss="modal"
+                onClick={sendDraftMail}
+              >
+                Yes Please!
+              </button>
+
+              <button
+                type="button"
+                className="btn btn-primary btn-bordered light"
+                onClick={() => setDraftEmailSendStatus((getDraftEmailSendStatus) => !getDraftEmailSendStatus)}
+              >
+                Cancel
+              </button>
+            </div>
+          </Modal.Body>
+        </Modal>
+      </div>
+      {/*Modal end for send Draft Email*/}
     </>
   );
 };
