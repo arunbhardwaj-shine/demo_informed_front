@@ -69,7 +69,7 @@ const NewRegistration = () => {
           body: "",
           mode:''
         },
-    
+
         enableReinitialize: true,
         onSubmit: (values) => {
           loader("show")
@@ -109,7 +109,7 @@ const NewRegistration = () => {
         },
       });
   return (
-    <> 
+    <>
     <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
     </div>
@@ -121,7 +121,7 @@ const NewRegistration = () => {
             </div>
         </div>
         {/* end of top header */}
-        
+
         {/* Sidebar */}
         <div className="reg-sidbar">
             <div onClick={(e) => templateClicked("virtual",e)}>
@@ -134,12 +134,12 @@ const NewRegistration = () => {
             </div>
         </div>
         {/* Sidebar */}
-        
-        <section className="select-mail-template">    
+
+        <section className="select-mail-template">
               {TemplateIdActive=="onsite"?   <div className="webinar-modal-data create-registration">
             <form onSubmit={formik.handleSubmit}>
         {/* Middle content */}
-        <div className="reg-middle-div">    
+        <div className="reg-middle-div">
         <div className="modal-body-content">
         <div className="form-inline row justify-content-between align-items-center">
               <div className="form-group col-12 col-md-8">
@@ -308,7 +308,7 @@ const NewRegistration = () => {
                 </div>
 
                 <div style={{ color: "red" }}>
-                  
+
                 </div>
               </div>
 
@@ -370,7 +370,7 @@ const NewRegistration = () => {
                 </div>
 
                 <div style={{ color: "red" }}>
-                  
+
                 </div>
               </div>
 
@@ -402,7 +402,7 @@ const NewRegistration = () => {
                 id="exampleFormControlTextarea1"
               />
            </div>
-           </div>      
+           </div>
           {/* <Form.Group controlId="formFileLg" className="mb-3">
                 <Form.Label>Choice File</Form.Label>
                 <Form.Control
@@ -418,7 +418,7 @@ const NewRegistration = () => {
           </div>
         </div>
         {/* end of middle content*/}
-        
+
 
         {/* right sidebar */}
         <div className="reg-right-sidebar">
@@ -467,11 +467,13 @@ const NewRegistration = () => {
                 </div>
             </div>
             </div>
-        
+
         </div>
         {/* end of fields content */}
-        
+
         {/* color div content */}
+        {
+          /*
         <div  className="reg-color-div">
         <div className="form-inline row justify-content-between align-items-center">
               <div className="form-group col-12 col-md-11">
@@ -498,6 +500,8 @@ const NewRegistration = () => {
            </div>
            </div>
         </div>
+        */
+        }
 
         {/* end of color div content */}
         </div>
@@ -508,8 +512,8 @@ const NewRegistration = () => {
                 :TemplateIdActive=="virtual"?       <form onSubmit={formik.handleSubmit}>
                 {/* Middle content */}
                 <div>
-                
-             
+
+
                 <div className="modal-body-content">
                 <div className="form-inline row justify-content-between align-items-center">
                       <div className="form-group col-12 col-md-8">
@@ -603,7 +607,7 @@ const NewRegistration = () => {
                         />
                     </div>
                     </div>
-        
+
                     {/* <div className="form-inline row justify-content-between align-items-center">
                       <div className="form-group col-12 col-md-8">
                         <label> Speaker Name</label>
@@ -685,12 +689,12 @@ const NewRegistration = () => {
                             </select>
                           </div>
                         </div>
-        
+
                         <div style={{ color: "red" }}>
-                          
+
                         </div>
                       </div>
-        
+
                                        </div>
                     <div className="form-inline row justify-content-between align-items-center">
                       <div className="form-group col-12 col-md-12">
@@ -747,12 +751,12 @@ const NewRegistration = () => {
                             </select>
                           </div>
                         </div>
-        
+
                         <div style={{ color: "red" }}>
-                          
+
                         </div>
                       </div>
-        
+
                         </div>
                         <div className="form-inline row justify-content-between align-items-center">
                       <div className="form-group col-12 col-md-11">
@@ -782,7 +786,7 @@ const NewRegistration = () => {
                       />
                    </div>
                    </div>
-               
+
                     <div className="form-inline row justify-content-between align-items-center">
                       <div className="form-group col-12 col-md-11">
                       <label>Content 2</label>
@@ -796,7 +800,7 @@ const NewRegistration = () => {
                         id="exampleFormControlTextarea1"
                       />
                    </div>
-                   </div>      
+                   </div>
                   {/* <Form.Group controlId="formFileLg" className="mb-3">
                         <Form.Label>Choice File</Form.Label>
                         <Form.Control
@@ -812,7 +816,7 @@ const NewRegistration = () => {
                   </div>
                 </div>
                 {/* end of middle content*/}
-                
+
                 {/* fields content */}
                 <div>
 
@@ -874,7 +878,7 @@ const NewRegistration = () => {
                         </div>
                     </div>
                     </div>
-                
+
                 </div>
                 {/* end of fields content */}
                 {/* color div content */}
@@ -906,12 +910,12 @@ const NewRegistration = () => {
                 </div>
                 {/* end of color div content */}
                 <Button type="submit">Save</Button>
-                </form>:null}  
+                </form>:null}
           </section>
-        
-        
 
-     
+
+
+
       </div>
     </>
   )
