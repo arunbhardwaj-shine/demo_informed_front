@@ -405,7 +405,7 @@ const VerifyMAIL = (props) => {
                   Save As Draft
                 </button>
                 <button
-                  className= {getSelectedPdfId == 13 ? "btn btn-primary btn-filled next send_btn disabled" : "btn btn-primary btn-filled next send_btn"}
+                  className= {getSelectedPdfId == 13 ? "btn btn-primary btn-filled next send_btn send_disabled" : "btn btn-primary btn-filled next send_btn"}
                   onClick={createEmail}
                 >
                   Send

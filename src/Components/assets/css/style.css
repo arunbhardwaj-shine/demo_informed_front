@@ -1033,3 +1033,6 @@ table thead.sticky-header:after { content: ""; position: absolute; width: 20px; 
 .help-popup-content-library .help-popup-content-list p.help-popup-title, .help-popup-content .help-popup-find-content p.help-popup-title{ font-family: 'Roboto-Medium'; }
 /**sidebar Modal End**/
 .navbar-nav li{position: relative;}
+.header-btn .btn.send_btn.send_disabled {
+    background: rgba(151, 182, 207, 0.6);
+}
