@@ -301,8 +301,20 @@ const UpdateTemplate = (
     }
   );
 ////Registration
-const CreateRegistrationPage = (form) =>
-  BaseApi.post("create-registration-page", form, {
+const CreateRegistrationPage = (eventId,mode,jsonData,TemplateIdActive) =>
+  BaseApi.post("create-registration-page", {
+    event_id:eventId,
+    mode:mode,
+    json_data :jsonData,
+    format :TemplateIdActive
+  }, {
+    headers: {
+      Authorization: localStorage.getItem("Token"),
+      "Content-Type": "application/json",
+    },
+  });
+const RegistrationPageUplodImage = (form) =>
+  BaseApi.post("upload-image", form, {
     headers: {
       Authorization: localStorage.getItem("Token"),
       "Content-Type": "application/json",
@@ -819,6 +831,7 @@ export default {
   UpdateTemplate,
   CreateRegistrationPage,
   CreateRegistrationPagedetail,
+  RegistrationPageUplodImage,
   RegistrationPageDetailList,
   RegistrationPageDetail,
   RegistrationPageList,
