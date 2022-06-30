@@ -7,7 +7,7 @@ import { toast, ToastContainer } from "react-toastify";
 import AliceCarousel from "react-alice-carousel";
 import { loader } from '../../../loader';
 import ExportApi from '../../../Api/ExportApi';
-import { HexColorPicker } from "react-colorful";
+// import { HexColorPicker } from "react-colorful";
 const NewRegistration = () => {
     let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const [activeIndex, setActiveIndex] = useState(0);
@@ -883,6 +883,8 @@ const NewRegistration = () => {
                 {/* end of fields content */}
                 {/* color div content */}
                 <div>
+                {
+                  /*
                 <div className="form-inline row justify-content-between align-items-center">
                       <div className="form-group col-12 col-md-11">
                       <label>Title Color</label>
@@ -908,6 +910,9 @@ const NewRegistration = () => {
                    </div>
                    </div>
                 </div>
+
+                  */
+                }
                 {/* end of color div content */}
                 <Button type="submit">Save</Button>
                 </form>:null}
