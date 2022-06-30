@@ -5351,3 +5351,24 @@ form .form-inline .form-alias { padding-left: 100px; color: #000; font-size: 14p
   }
 }
 /**Responsive End**/
+
+
+/* Registration page style */
+.reg-sidbar{
+    float: left;
+    width: 200px;           
+}
+.reg-middle-div{
+    width: 800px;
+    float: left;
+}
+.reg-right-sidebar{
+    float: right;
+}
+.reg-fields-div{
+    
+}
+.reg-color-div{
+    margin-top: 200px;
+}
+/* End of Registration page style */
