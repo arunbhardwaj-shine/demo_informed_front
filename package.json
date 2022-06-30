@@ -29,6 +29,7 @@
 		"react-alice-carousel": "^2.6.0",
 		"react-bootstrap": "^2.2.3",
 		"react-chartjs-2": "^4.1.0",
+		"react-colorful": "^5.5.1",
 		"react-confirm-alert": "^2.8.0",
 		"react-device-detect": "^2.2.2",
 		"react-dom": "^18.0.0",
