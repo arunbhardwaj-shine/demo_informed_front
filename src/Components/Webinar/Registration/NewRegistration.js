@@ -105,74 +105,59 @@ const NewRegistration = () => {
       });
   return (
     <> 
-         <div className="loader" id="custom_loader">
+    <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
-      </div>
+    </div>
     <div class="right-sidebar col">
-    <div class="top-header">
-        <div class="page-title">
-          <h3>Registration Page Form </h3>
+        {/* top header */}
+        <div class="top-header">
+            <div class="page-title">
+                <h3>Registration Page Form </h3>
+            </div>
         </div>
-      </div>
+        {/* end of top header */}
+        
+        {/* Sidebar */}
+        <div className="reg-sidbar">
+            <div className="item" onClick={(e) => templateClicked("virtual",e)}>
+                <div class="item-list">
+                  <img value={"virtual"} src={path_image + "content_added1.png"} alt="" className={typeof TemplateIdActive !== "undefined" && TemplateIdActive == "virtual" ? "select_mm": ""} />
+                </div>
+                <p>{"Format 1"}</p>
+            </div>
+            <div className="item" onClick={(e) => templateClicked("onsite",e)} >
+                <div class="item-list">
+                    <img value={"onsite"} src={path_image + "content_added1.png"} alt="" className={ typeof TemplateIdActive !== "undefined" && TemplateIdActive == "onsite" ? "select_mm" : ""}/>
+                </div>
+                <p>{"Format 2"}</p>
+            </div>
+        </div>
+        {/* Sidebar */}
+        
+        {/* Middle content */}
+        <div>
+        
+        
+        </div>
+        {/* end of middle content*/}
+        
+        {/* fields content */}
+        <div>
+        
+        
+        </div>
+        {/* end of fields content */}
+        
+        {/* color div content */}
+        <div>
+        
+        </div>
+        {/* end of color div content */}
+        
+        
 
-      <section className="select-mail-template">
-                <div className="row select-mail-template-slider">
-                <AliceCarousel
-                  mouseTracking
-                  disableDotsControls
-                  activeIndex={activeIndex}
-                  responsive={responsive}
-                  onSlideChanged={syncActiveIndex}
-                >
-                      <div
-                        className="item"
-                         onClick={(e) => templateClicked("virtual",e)}
-                      >
-                        <div class="item-list">
-                          <div class="item-top-schedule">
-                            <img  src={path_image + "webinar/mail-schedule.png"} alt="" />
-                            </div>
-                          <img
-                            value={"virtual"}
-                            src={path_image + "content_added1.png"}
-                            alt=""
-                            className={
-                              typeof TemplateIdActive !== "undefined" &&
-                              TemplateIdActive == "virtual"
-                                ? "select_mm"
-                                : ""
-                            }
-                          />
-                        </div>
-                        <p>{"Virtual"}</p>
-                      </div>
-                      <div
-                        className="item"
-                         onClick={(e) => templateClicked("onsite",e)}
-                      >
-                        <div class="item-list">
-                          <div class="item-top-schedule">
-                            <img  src={path_image + "webinar/mail-schedule.png"} alt="" />
-                            </div>
-                          <img
-                            value={"onsite"}
-                            src={path_image + "content_added1.png"}
-                            alt=""
-                            className={
-                              typeof TemplateIdActive !== "undefined" &&
-                              TemplateIdActive == "onsite"
-                                ? "select_mm"
-                                : ""
-                            }
-                          />
-                        </div>
-                        <p>{"Onsite"}</p>
-                      </div>
-                </AliceCarousel>
-              </div>
-              <br/>
-              <br/>
-     
+        <section className="select-mail-template">
+            
               {TemplateIdActive=="onsite"?   <div className="webinar-modal-data create-registration">
               <div class="top-header">
         <div class="page-title">
