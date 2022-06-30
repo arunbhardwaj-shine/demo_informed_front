@@ -39,7 +39,7 @@ const Sidebar = () => {
     if (
       location.pathname === "/webinar/portal/registrationDetails" ||
       location.pathname === "/webinar/portal/registrationDetailslist"||
-      location.pathname === "//webinar/portal/NewRegistration"
+      location.pathname === "/webinar/portal/NewRegistration"
     ) {
       // console.log("hi");
       setHomeStatus(true);
