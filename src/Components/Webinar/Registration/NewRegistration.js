@@ -7,7 +7,6 @@ import { toast, ToastContainer } from "react-toastify";
 import AliceCarousel from "react-alice-carousel";
 import { loader } from '../../../loader';
 import ExportApi from '../../../Api/ExportApi';
-import { HexColorPicker } from "react-colorful";
 const NewRegistration = () => {
     let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const [activeIndex, setActiveIndex] = useState(0);
@@ -474,30 +473,53 @@ const NewRegistration = () => {
         {/* color div content */}
         <div  className="reg-color-div">
         <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 col-md-11">
-              <label>Title Color</label>
-          <HexColorPicker color={titleColor} onChange={setTitleColor} />
-           </div>
-           </div>
-        <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 col-md-11">
-              <label>Text Color</label>
-          <HexColorPicker color={textColor} onChange={setTextColor} />
-           </div>
-           </div>
-        <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 col-md-11">
-              <label >Background Color</label>
-          <HexColorPicker color={backgroundColor} onChange={setBackgroundColor} />
-           </div>
-           </div>
-        <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 col-md-11">
-              <label >Border Color</label>
-          <HexColorPicker color={borderColor} onChange={setBorderColor} />
-           </div>
-           </div>
-        </div>
+                      <div className="form-group col-12 col-md-11">
+                      <label>Title Color</label>
+                      <Form.Control
+                      name='titleColor'
+                       type="color"
+                       id="exampleColorInput"
+                       defaultValue="#zwww"
+                       title="Choose your color"
+	                   />
+                   </div>
+                   </div>
+                <div className="form-inline row justify-content-between align-items-center">
+                      <div className="form-group col-12 col-md-11">
+                      <label>Text Color</label>
+                      <Form.Control
+                      name='textColor'
+                       type="color"
+                       id="exampleColorInput"
+                       defaultValue="#zwww"
+                       title="Choose your color"
+	                   />
+                   </div>
+                   </div>
+                <div className="form-inline row justify-content-between align-items-center">
+                      <div className="form-group col-12 col-md-11">
+                      <label >Background Color</label>
+                      <Form.Control
+                      name='backgroundColor'
+                       type="color"
+                       id="exampleColorInput"
+                       defaultValue="#zwww"
+                       title="Choose your color"
+	                   />
+                   </div>
+                   </div>
+                <div className="form-inline row justify-content-between align-items-center">
+                      <div className="form-group col-12 col-md-11">
+                      <label >Border Color</label>
+                      <Form.Control
+                      name='borderColor'
+                       type="color"
+                       id="exampleColorInput"
+                       defaultValue="#zwww"
+                       title="Choose your color"
+	                   />
+                   </div>
+                   </div></div>
 
         {/* end of color div content */}
         </div>
@@ -882,25 +904,49 @@ const NewRegistration = () => {
                 <div className="form-inline row justify-content-between align-items-center">
                       <div className="form-group col-12 col-md-11">
                       <label>Title Color</label>
-                  <HexColorPicker color={titleColor} onChange={setTitleColor} />
+                      <Form.Control
+                      name='titleColor'
+                       type="color"
+                       id="exampleColorInput"
+                       defaultValue="#zwww"
+                       title="Choose your color"
+	                   />
                    </div>
                    </div>
                 <div className="form-inline row justify-content-between align-items-center">
                       <div className="form-group col-12 col-md-11">
                       <label>Text Color</label>
-                  <HexColorPicker color={textColor} onChange={setTextColor} />
+                      <Form.Control
+                      name='textColor'
+                       type="color"
+                       id="exampleColorInput"
+                       defaultValue="#zwww"
+                       title="Choose your color"
+	                   />
                    </div>
                    </div>
                 <div className="form-inline row justify-content-between align-items-center">
                       <div className="form-group col-12 col-md-11">
                       <label >Background Color</label>
-                  <HexColorPicker color={backgroundColor} onChange={setBackgroundColor} />
+                      <Form.Control
+                      name='backgroundColor'
+                       type="color"
+                       id="exampleColorInput"
+                       defaultValue="#zwww"
+                       title="Choose your color"
+	                   />
                    </div>
                    </div>
                 <div className="form-inline row justify-content-between align-items-center">
                       <div className="form-group col-12 col-md-11">
                       <label >Border Color</label>
-                  <HexColorPicker color={borderColor} onChange={setBorderColor} />
+                      <Form.Control
+                      name='borderColor'
+                       type="color"
+                       id="exampleColorInput"
+                       defaultValue="#zwww"
+                       title="Choose your color"
+	                   />
                    </div>
                    </div>
                 </div>
