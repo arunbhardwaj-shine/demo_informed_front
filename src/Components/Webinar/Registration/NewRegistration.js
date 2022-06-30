@@ -167,7 +167,7 @@ const NewRegistration = () => {
         <form onSubmit={formik.handleSubmit}>
         <div className="modal-body-content">
         <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 col-md-8">
+              <div className="form-group col-12 ">
                 <label> Title 1</label>
                 <Form.Control
                   name="Title1"
@@ -314,11 +314,71 @@ const NewRegistration = () => {
 
                                </div>
             <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 col-md-7">
-              <label>Body Text</label>
+              <div className="form-group col-12 col-md-12">
+                <label for="exampleInputEmail1">
+                  Event End Time
+                </label>
+                <div className="row justify-content-between align-items-center select_time">
+                  <div className="form-group col-12 col-md-4">
+                    <select
+                      className="form-control"
+                      name="end_hour"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.end_hour}
+                    >
+                      {EventTime[0].Hour?.map((val, i) => (
+                        <React.Fragment key={i}>
+                          <option value={val.Hour}>
+                            {val.Hour}
+                          </option>
+                        </React.Fragment>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="form-group col-12 col-md-4">
+                    <select
+                      className="form-control"
+                      name="end_min"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.end_min}
+                    >
+                      {EventTime[0].mints?.map((val, i) => (
+                        <React.Fragment key={i}>
+                          <option value={val.mints}>
+                            {val.mints}
+                          </option>
+                        </React.Fragment>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="form-group col-12 col-md-4">
+                    <select
+                      className="form-control"
+                      name="end_am_pm"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.end_am_pm}
+                    >
+                      <React.Fragment >
+                        <option value={"AM"}>AM</option>
+                        <option value={"PM"}>PM</option>
+                      </React.Fragment>
+                    </select>
+                  </div>
+                </div>
+
+                <div style={{ color: "red" }}>
+                  
+                </div>
+              </div>
+
+                               </div>
+            <div className="form-inline row justify-content-between align-items-center">
+              <div className="form-group col-12 col-md-11">
+              <label>Body content</label>
               <Form.Control
-                as="textarea"
-                rows={10}
                 name="body"
                 type="text"
                 onChange={formik.handleChange}
@@ -328,10 +388,23 @@ const NewRegistration = () => {
                 id="exampleFormControlTextarea1"
               />
               <div className="error">
-              {formik.touched.body && formik.errors.body ? (
-                <div style={{ color: "red" }}>{formik.errors.body}</div>
-              ) : null}
            </div>
+           </div>
+           </div>
+            <div className="form-inline row justify-content-between align-items-center">
+              <div className="form-group col-12 col-md-11">
+              <label>Description</label>
+              <Form.Control
+                as="textarea"
+                rows={10}
+                name="Description"
+                type="text"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.Description}
+                className="form-control"
+                id="exampleFormControlTextarea1"
+              />
            </div>
            </div>
                  

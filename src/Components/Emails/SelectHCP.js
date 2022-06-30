@@ -71,6 +71,7 @@ const SelectHCP = (props) => {
     event.target.classList.toggle("active");
     //alert(selectede);
     setTemplateId(selectede);
+    nextClicked(selectede);
   };
 
   const backClicked = () => {
@@ -140,10 +141,19 @@ const SelectHCP = (props) => {
       });
   };
 
-  const nextClicked = () => {
-    console.log(old_object);
+  const nextClicked = (selected) => {
     props.getEmailData(old_object);
     props.getSelected(null);
+    console.log(selected);
+    if(selected == 1){
+      navigate("/SelectSmartList", {
+        state: { UserSelected: selected },
+      });
+    }else if(selected == 2){
+      navigate("/VerifyHCP", {
+        state: { UserSelected: selected },
+      });
+    }
   };
 
   return (
@@ -201,7 +211,7 @@ const SelectHCP = (props) => {
                   >
                     <button
                       className="btn btn-primary btn-filled next"
-                      onClick={nextClicked}
+                      onClick={(event) => nextClicked(templateId)}
                     >
                       Next
                     </button>
