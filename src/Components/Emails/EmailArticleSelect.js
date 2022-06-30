@@ -17,9 +17,7 @@ const EmailArticleSelect = (props) => {
   const navigate = useNavigate();
   const [filter, setFilter] = useState("");
 
-
-  const [PdfSelected, setPdfSelected] = useState((dxr!==0 && dxr) ? dxr : pdf_id);
-
+  const [PdfSelected, setPdfSelected] = useState((dxr!==0 && dxr) ? typeof dxr != "undefined" ? dxr : 0 : typeof  pdf_id != "undefined" ? pdf_id : 0);
 
   const [showfilter, setShowFilter] = useState(false);
   const [filtertags, setFilterTags] = useState([]);

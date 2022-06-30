@@ -437,6 +437,16 @@ const FilterSegment = (props) => {
     }
   };
 
+  const closeCancelClicked = () => {
+    var x = localStorage.getItem("sd_i");
+    if(x){
+      localStorage.removeItem("sd_i");
+      Navigate("/SelectSmartList");
+    }else{
+      Navigate("/SmartList");
+    }
+  }
+
   return (
     <>
       {typeof props.action !== "undefined" && props.action == "edit" && (
@@ -502,8 +512,13 @@ const FilterSegment = (props) => {
 
             <div className="col-12 col-md-3">
               <div className="header-btn">
-                <button className="btn btn-primary btn-bordered light">
-                  <NavLink to="/CreateSmartList">Cancel</NavLink>
+                <button className="btn btn-primary btn-bordered light" onClick={closeCancelClicked}>
+                Cancel
+                  {
+                    /*
+                     <NavLink to="/CreateSmartList">Cancel</NavLink>
+                    */
+                  }
                 </button>
                 <button
                   className="btn btn-primary btn-bordered save-as"

@@ -429,7 +429,7 @@ const CreateEmail = (props) => {
     if(pdf_id == 13){
       popup_alert({
         visible: "show",
-        message: "You need to select the article first.",
+        message: "We can't send this email until you've chosen the right content. Please go back to 'Select Content' and pick something. ",
         type: "error",
       });
     }else{
