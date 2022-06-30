@@ -189,7 +189,7 @@ const VerifyMAIL = (props) => {
     if(getSelectedPdfId == 13){
       popup_alert({
         visible: "show",
-        message: "You need to select the article first.",
+        message: "We can't send this email until you've chosen the right content. Please go back to 'Select Content' and pick something. ",
         type: "error",
       });
     }else{
@@ -405,7 +405,7 @@ const VerifyMAIL = (props) => {
                   Save As Draft
                 </button>
                 <button
-                  className="btn btn-primary btn-filled next send_btn"
+                  className= {getSelectedPdfId == 13 ? "btn btn-primary btn-filled next send_btn disabled" : "btn btn-primary btn-filled next send_btn"}
                   onClick={createEmail}
                 >
                   Send
