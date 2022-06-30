@@ -7,11 +7,16 @@ import { toast, ToastContainer } from "react-toastify";
 import AliceCarousel from "react-alice-carousel";
 import { loader } from '../../../loader';
 import ExportApi from '../../../Api/ExportApi';
+import { HexColorPicker } from "react-colorful";
 const NewRegistration = () => {
     let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const [activeIndex, setActiveIndex] = useState(0);
     const syncActiveIndex = ({ item }) => setActiveIndex(item);
     const [TemplateIdActive, setTemplateIdActive] = useState();
+    const [borderColor, setBorderColor] = useState("#aabbcc");
+    const [titleColor, setTitleColor] = useState("#aabbcc");
+    const [backgroundColor, setBackgroundColor] = useState("#aabbc");
+    const [textColor, setTextColor] = useState("#aabbc");
     const [EventTime, setEventTime] = useState([
         {
           Hour: [
@@ -119,53 +124,56 @@ const NewRegistration = () => {
         
         {/* Sidebar */}
         <div className="reg-sidbar">
-            <div className="item" onClick={(e) => templateClicked("virtual",e)}>
-                <div class="item-list">
-                  <img value={"virtual"} src={path_image + "content_added1.png"} alt="" className={typeof TemplateIdActive !== "undefined" && TemplateIdActive == "virtual" ? "select_mm": ""} />
-                </div>
+            <div onClick={(e) => templateClicked("virtual",e)}>
+                <img value={"virtual"} src={path_image + "content_added1.png"} alt="" className={typeof TemplateIdActive !== "undefined" && TemplateIdActive == "virtual" ? "select_mm": ""} />
                 <p>{"Format 1"}</p>
             </div>
-            <div className="item" onClick={(e) => templateClicked("onsite",e)} >
-                <div class="item-list">
-                    <img value={"onsite"} src={path_image + "content_added1.png"} alt="" className={ typeof TemplateIdActive !== "undefined" && TemplateIdActive == "onsite" ? "select_mm" : ""}/>
-                </div>
+            <div onClick={(e) => templateClicked("onsite",e)} >
+                <img value={"onsite"} src={path_image + "content_added1.png"} alt="" className={ typeof TemplateIdActive !== "undefined" && TemplateIdActive == "onsite" ? "select_mm" : ""}/>
                 <p>{"Format 2"}</p>
             </div>
         </div>
         {/* Sidebar */}
         
-        {/* Middle content */}
-        <div>
-        
-        
-        </div>
-        {/* end of middle content*/}
-        
-        {/* fields content */}
-        <div>
-        
-        
-        </div>
-        {/* end of fields content */}
-        
-        {/* color div content */}
-        <div>
-        
-        </div>
-        {/* end of color div content */}
-        
-        
-
-        <section className="select-mail-template">
-            
+        <section className="select-mail-template">    
               {TemplateIdActive=="onsite"?   <div className="webinar-modal-data create-registration">
-              <div class="top-header">
-        <div class="page-title">
-          <h3>Onsite</h3>
-        </div>
-      </div>
-        <form onSubmit={formik.handleSubmit}>
+            <form onSubmit={formik.handleSubmit}>
+        {/* Middle content */}
+        <div className="reg-middle-div">    
         <div className="modal-body-content">
+        <div className="form-inline row justify-content-between align-items-center">
+              <div className="form-group col-12 col-md-8">
+                <label>Mode </label>
+                <div className="form-inline-option">
+                            <div class="form-check">
+                              <Form.Label>Onsite</Form.Label>
+                              <Form.Control
+                                 name="mode"
+                                 type="radio"
+                                 onChange={formik.handleChange}
+                                 onBlur={formik.handleBlur}
+                                 value="onsite"
+                                 />
+                            </div>
+                            <div class="form-check">
+                              <Form.Label> Virtual</Form.Label>
+                              <Form.Control
+                               name="mode"
+                                type="radio"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={"virtual"}
+                              />
+                            </div>
+                            {/* <div class="form-check">
+                              <Form.Label> B</Form.Label>
+                              <Form.Control
+                                type="radio"
+                              />
+                            </div> */}
+                    </div>
+                </div>
+                </div>
         <div className="form-inline row justify-content-between align-items-center">
               <div className="form-group col-12 ">
                 <label> Title 1</label>
@@ -177,14 +185,6 @@ const NewRegistration = () => {
                   type="text"
                   placeholder="Title 1"
                 />
-                <div className="error">
-                {formik.touched.Title1 &&
-                formik.errors.Title1 ? (
-                  <div style={{ color: "red" }}>
-                    {formik.errors.Title1}
-                  </div>
-                ) : null}
-            </div>
             </div>
             </div>
         <div className="form-inline row justify-content-between align-items-center">
@@ -377,37 +377,32 @@ const NewRegistration = () => {
                                </div>
             <div className="form-inline row justify-content-between align-items-center">
               <div className="form-group col-12 col-md-11">
-              <label>Body content</label>
+              <label>Content 1</label>
               <Form.Control
-                name="body"
+                name="content1"
                 type="text"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.body}
+                value={formik.values.content1}
                 className="form-control"
                 id="exampleFormControlTextarea1"
               />
-              <div className="error">
-           </div>
            </div>
            </div>
             <div className="form-inline row justify-content-between align-items-center">
               <div className="form-group col-12 col-md-11">
-              <label>Description</label>
+              <label>Content 2</label>
               <Form.Control
-                as="textarea"
-                rows={10}
-                name="Description"
+                name="content2"
                 type="text"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.Description}
+                value={formik.values.content2}
                 className="form-control"
                 id="exampleFormControlTextarea1"
               />
            </div>
-           </div>
-                 
+           </div>      
           {/* <Form.Group controlId="formFileLg" className="mb-3">
                 <Form.Label>Choice File</Form.Label>
                 <Form.Control
@@ -420,13 +415,503 @@ const NewRegistration = () => {
                 />
                  <p style={{color:"red"}}>{errimage}</p>
               </Form.Group> */}
-
-          <Button type="submit">Save</Button>
           </div>
+        </div>
+        {/* end of middle content*/}
+        
+
+        {/* right sidebar */}
+        <div className="reg-right-sidebar">
+        {/* fields content */}
+        <div className="reg-fields-div">
+        <div className="form-inline row justify-content-between align-items-center">
+              <div className="form-group col-12 col-md-8">
+                <label>Name</label>
+                <div className="form-inline-option">
+                            <div class="form-check">
+                <Form.Control
+                  name="name"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.Name}
+                  type="checkbox"
+                />
+                     </div></div>
+            </div>
+            </div>
+        <div className="form-inline row justify-content-between align-items-center">
+              <div className="form-group col-12 col-md-8">
+                <label>Email</label>
+                <div class="form-check">
+                <Form.Control
+                  name="email"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.Name}
+                  type="checkbox"
+                />
+                </div>
+            </div>
+            </div>
+        <div className="form-inline row justify-content-between align-items-center">
+              <div className="form-group col-12 col-md-8">
+                <label>Country</label>
+                <div class="form-check">
+                <Form.Control
+                  name="country"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.Name}
+                  type="checkbox"
+                />
+                </div>
+            </div>
+            </div>
+        
+        </div>
+        {/* end of fields content */}
+        
+        {/* color div content */}
+        <div  className="reg-color-div">
+        <div className="form-inline row justify-content-between align-items-center">
+              <div className="form-group col-12 col-md-11">
+              <label>Title Color</label>
+          <HexColorPicker color={titleColor} onChange={setTitleColor} />
+           </div>
+           </div>
+        <div className="form-inline row justify-content-between align-items-center">
+              <div className="form-group col-12 col-md-11">
+              <label>Text Color</label>
+          <HexColorPicker color={textColor} onChange={setTextColor} />
+           </div>
+           </div>
+        <div className="form-inline row justify-content-between align-items-center">
+              <div className="form-group col-12 col-md-11">
+              <label >Background Color</label>
+          <HexColorPicker color={backgroundColor} onChange={setBackgroundColor} />
+           </div>
+           </div>
+        <div className="form-inline row justify-content-between align-items-center">
+              <div className="form-group col-12 col-md-11">
+              <label >Border Color</label>
+          <HexColorPicker color={borderColor} onChange={setBorderColor} />
+           </div>
+           </div>
+        </div>
+
+        {/* end of color div content */}
+        </div>
+        {/* end of right sidebar */}
+        <Button type="submit">Save</Button>
         </form>
-      </div>
-                :TemplateIdActive=="virtual"?<p>Virtual</p>:null}  
+           </div>
+                :TemplateIdActive=="virtual"?       <form onSubmit={formik.handleSubmit}>
+                {/* Middle content */}
+                <div>
+                
+             
+                <div className="modal-body-content">
+                <div className="form-inline row justify-content-between align-items-center">
+                      <div className="form-group col-12 col-md-8">
+                        <label>Mode </label>
+                        <div className="form-inline-option">
+                                    <div class="form-check">
+                                      <Form.Label>Onsite</Form.Label>
+                                      <Form.Control
+                                         name="mode"
+                                         type="radio"
+                                         onChange={formik.handleChange}
+                                         onBlur={formik.handleBlur}
+                                         value="onsite"
+                                         />
+                                    </div>
+                                    <div class="form-check">
+                                      <Form.Label> Virtual</Form.Label>
+                                      <Form.Control
+                                       name="mode"
+                                        type="radio"
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        value={"virtual"}
+                                      />
+                                    </div>
+                                    {/* <div class="form-check">
+                                      <Form.Label> B</Form.Label>
+                                      <Form.Control
+                                        type="radio"
+                                      />
+                                    </div> */}
+                            </div>
+                        </div>
+                        </div>
+                <div className="form-inline row justify-content-between align-items-center">
+                      <div className="form-group col-12 ">
+                        <label> Title 1</label>
+                        <Form.Control
+                          name="Title1"
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.Subject}
+                          type="text"
+                          placeholder="Title 1"
+                        />
+                    </div>
+                    </div>
+                <div className="form-inline row justify-content-between align-items-center">
+                      <div className="form-group col-12 col-md-8">
+                        <label> Title 2</label>
+                        <Form.Control
+                          name="Title2"
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.Subject}
+                          type="text"
+                          placeholder="Title 2"
+                        />
+                    </div>
+                    </div>
+                <div className="form-inline row justify-content-between align-items-center">
+                      <div className="form-group col-12 col-md-8">
+                        <label> Title 3</label>
+                        <Form.Control
+                          name="Title3"
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.Subject}
+                          type="text"
+                          placeholder="Title 3"
+                        />
+                    </div>
+                    </div>
+                <div className="form-inline row justify-content-between align-items-center">
+                      <div className="form-group col-12 col-md-8">
+                        <label> Title Logo</label>
+                        <Form.Control
+                          name="Headerlogo"
+                          type="file"
+                          placeholder="Header Title Logo"
+                        />
+                    </div>
+                    </div>
+                <div className="form-inline row justify-content-between align-items-center">
+                      <div className="form-group col-12 col-md-8">
+                        <label> Footer Logo</label>
+                        <Form.Control
+                          name="Headerlogo"
+                          type="file"
+                          placeholder="Header Title Logo"
+                        />
+                    </div>
+                    </div>
+        
+                    {/* <div className="form-inline row justify-content-between align-items-center">
+                      <div className="form-group col-12 col-md-8">
+                        <label> Speaker Name</label>
+                        <Form.Control
+                          name="Speakername"
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.Speakername}
+                          type="text"
+                          placeholder="Speaker Name"
+                        />
+                    </div>
+                    </div> */}
+                    <div className="form-inline row justify-content-between align-items-center">
+                      <div className="form-group col-12 col-md-8">
+                        <label>Date</label>
+                        <Form.Control
+                          name="date"
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.Date}
+                          type="Date"
+                          placeholder="Title 2"
+                        />
+                    </div>
+                    </div>
+                    <div className="form-inline row justify-content-between align-items-center">
+                      <div className="form-group col-12 col-md-12">
+                        <label for="exampleInputEmail1">
+                          Event Start Time
+                        </label>
+                        <div className="row justify-content-between align-items-center select_time">
+                          <div className="form-group col-12 col-md-4">
+                            <select
+                              className="form-control"
+                              name="start_hour"
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              value={formik.values.start_hour}
+                            >
+                              {EventTime[0].Hour?.map((val, i) => (
+                                <React.Fragment key={i}>
+                                  <option value={val.Hour}>
+                                    {val.Hour}
+                                  </option>
+                                </React.Fragment>
+                              ))}
+                            </select>
+                          </div>
+                          <div className="form-group col-12 col-md-4">
+                            <select
+                              className="form-control"
+                              name="start_min"
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              value={formik.values.start_min}
+                            >
+                              {EventTime[0].mints?.map((val, i) => (
+                                <React.Fragment key={i}>
+                                  <option value={val.mints}>
+                                    {val.mints}
+                                  </option>
+                                </React.Fragment>
+                              ))}
+                            </select>
+                          </div>
+                          <div className="form-group col-12 col-md-4">
+                            <select
+                              className="form-control"
+                              name="start_am_pm"
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              value={formik.values.start_am_pm}
+                            >
+                              <React.Fragment >
+                                <option value={"AM"}>AM</option>
+                                <option value={"PM"}>PM</option>
+                              </React.Fragment>
+                            </select>
+                          </div>
+                        </div>
+        
+                        <div style={{ color: "red" }}>
+                          
+                        </div>
+                      </div>
+        
+                                       </div>
+                    <div className="form-inline row justify-content-between align-items-center">
+                      <div className="form-group col-12 col-md-12">
+                        <label for="exampleInputEmail1">
+                          Event End Time
+                        </label>
+                        <div className="row justify-content-between align-items-center select_time">
+                          <div className="form-group col-12 col-md-4">
+                            <select
+                              className="form-control"
+                              name="end_hour"
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              value={formik.values.end_hour}
+                            >
+                              {EventTime[0].Hour?.map((val, i) => (
+                                <React.Fragment key={i}>
+                                  <option value={val.Hour}>
+                                    {val.Hour}
+                                  </option>
+                                </React.Fragment>
+                              ))}
+                            </select>
+                          </div>
+                          <div className="form-group col-12 col-md-4">
+                            <select
+                              className="form-control"
+                              name="end_min"
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              value={formik.values.end_min}
+                            >
+                              {EventTime[0].mints?.map((val, i) => (
+                                <React.Fragment key={i}>
+                                  <option value={val.mints}>
+                                    {val.mints}
+                                  </option>
+                                </React.Fragment>
+                              ))}
+                            </select>
+                          </div>
+                          <div className="form-group col-12 col-md-4">
+                            <select
+                              className="form-control"
+                              name="end_am_pm"
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              value={formik.values.end_am_pm}
+                            >
+                              <React.Fragment >
+                                <option value={"AM"}>AM</option>
+                                <option value={"PM"}>PM</option>
+                              </React.Fragment>
+                            </select>
+                          </div>
+                        </div>
+        
+                        <div style={{ color: "red" }}>
+                          
+                        </div>
+                      </div>
+        
+                        </div>
+                        <div className="form-inline row justify-content-between align-items-center">
+                      <div className="form-group col-12 col-md-11">
+                      <label>Address</label>
+                      <Form.Control
+                        name="Address"
+                        type="text"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.Address}
+                        className="form-control"
+                        id="exampleFormControlTextarea1"
+                      />
+                   </div>
+                   </div>
+                    <div className="form-inline row justify-content-between align-items-center">
+                      <div className="form-group col-12 col-md-11">
+                      <label>Content 1</label>
+                      <Form.Control
+                        name="content1"
+                        type="text"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.content1}
+                        className="form-control"
+                        id="exampleFormControlTextarea1"
+                      />
+                   </div>
+                   </div>
+               
+                    <div className="form-inline row justify-content-between align-items-center">
+                      <div className="form-group col-12 col-md-11">
+                      <label>Content 2</label>
+                      <Form.Control
+                        name="content2"
+                        type="text"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.content2}
+                        className="form-control"
+                        id="exampleFormControlTextarea1"
+                      />
+                   </div>
+                   </div>      
+                  {/* <Form.Group controlId="formFileLg" className="mb-3">
+                        <Form.Label>Choice File</Form.Label>
+                        <Form.Control
+                          name="file"
+                          onChange={(e) => {
+                            handeleimage(e);
+                          }}
+                          type="file"
+                          size="md"
+                        />
+                         <p style={{color:"red"}}>{errimage}</p>
+                      </Form.Group> */}
+                  </div>
+                </div>
+                {/* end of middle content*/}
+                
+                {/* fields content */}
+                <div>
+
+                <div className="form-inline row justify-content-between align-items-center">
+                      <div className="form-group col-12 col-md-8">
+                        <label>Radio Button</label>
+                        <div className="form-inline-option">
+                        <Form.Control
+                          name="name"
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.Name}
+                          type="text"
+                        />
+                      </div>
+                    </div>
+                    </div>
+                <div className="form-inline row justify-content-between align-items-center">
+                      <div className="form-group col-12 col-md-8">
+                        <label>Name</label>
+                        <div className="form-inline-option">
+                                    <div class="form-check">
+                        <Form.Control
+                          name="name"
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.Name}
+                          type="checkbox"
+                        />
+                     </div>
+                      </div>
+                    </div>
+                    </div>
+                <div className="form-inline row justify-content-between align-items-center">
+                      <div className="form-group col-12 col-md-8">
+                        <label>Email</label>
+                        <div class="form-check">
+                        <Form.Control
+                          name="email"
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.Name}
+                          type="checkbox"
+                        />
+                        </div>
+                    </div>
+                    </div>
+                <div className="form-inline row justify-content-between align-items-center">
+                      <div className="form-group col-12 col-md-8">
+                        <label>Country</label>
+                        <div class="form-check">
+                        <Form.Control
+                          name="country"
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.Name}
+                          type="checkbox"
+                        />
+                        </div>
+                    </div>
+                    </div>
+                
+                </div>
+                {/* end of fields content */}
+                {/* color div content */}
+                <div>
+                <div className="form-inline row justify-content-between align-items-center">
+                      <div className="form-group col-12 col-md-11">
+                      <label>Title Color</label>
+                  <HexColorPicker color={titleColor} onChange={setTitleColor} />
+                   </div>
+                   </div>
+                <div className="form-inline row justify-content-between align-items-center">
+                      <div className="form-group col-12 col-md-11">
+                      <label>Text Color</label>
+                  <HexColorPicker color={textColor} onChange={setTextColor} />
+                   </div>
+                   </div>
+                <div className="form-inline row justify-content-between align-items-center">
+                      <div className="form-group col-12 col-md-11">
+                      <label >Background Color</label>
+                  <HexColorPicker color={backgroundColor} onChange={setBackgroundColor} />
+                   </div>
+                   </div>
+                <div className="form-inline row justify-content-between align-items-center">
+                      <div className="form-group col-12 col-md-11">
+                      <label >Border Color</label>
+                  <HexColorPicker color={borderColor} onChange={setBorderColor} />
+                   </div>
+                   </div>
+                </div>
+                {/* end of color div content */}
+                <Button type="submit">Save</Button>
+                </form>:null}  
           </section>
+        
+        
+
+     
       </div>
     </>
   )
