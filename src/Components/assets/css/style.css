@@ -997,7 +997,7 @@ table thead.sticky-header:after { content: ""; position: absolute; width: 20px; 
     top: 3px;
   }
 }
-.modal-body-view .preview-mail-box { background: var(--white); border-radius: 15px; max-width: 750px; margin: 40px auto; box-shadow: 0px 1px 8px rgb(0 102 190 / 24%); border-radius: 15px; padding: 15px 49px 25px 25px; }
+.modal-body-view .preview-mail-box { background: var(--white); border-radius: 15px; max-width: 730px; margin: 40px auto; box-shadow: 0px 1px 8px rgb(0 102 190 / 24%); border-radius: 15px; padding: 15px 15px; }
 .modal-body-view .preview-mail-box table { width: 100%; }
 .modal-body-view .preview-mail-box table img { max-width: 100%; }
 .table-title .selected-hcp-table-action .hcp-added .btn, .table-title .selected-hcp-table-action .hcp-sort .btn{ background: var(--white); }
