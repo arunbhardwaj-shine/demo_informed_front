@@ -343,6 +343,81 @@ const VerifyMAIL = (props) => {
     setShowLessInfo(!showLessInfo);
   };
 
+  const approvedClicked = async (e) => {
+    let status = getArticleType;
+    if(getArticleType===3){
+     await setArticleType(2);
+     status = 2;
+    }else{
+      await setArticleType(3);
+      status = 3;
+    }
+    e.preventDefault();
+    const body = {
+      user_id: localStorage.getItem("user_id"),
+      pdf_id: props.getEmailData?.PdfSelected
+        ? props.getEmailData.PdfSelected
+        : props.getDraftData.pdf_id,
+      description: props.getEmailData?.emailDescription
+        ? props.getEmailData.emailDescription
+        : props.getDraftData?.description ? props.getDraftData.description : '',
+      creator: props.getEmailData?.emailCreator
+        ? props.getEmailData.emailCreator
+        : props.getDraftData?.creator ? props.getDraftData.creator : '',
+      campaign_name: props.getEmailData?.emailCampaign
+        ? props.getEmailData.emailCampaign
+        : props.getDraftData.campaign,
+      subject: props.getEmailData?.emailSubject
+        ? props.getEmailData.emailSubject
+        : props.getDraftData.subject,
+      route_location: "VerifyMAIL",
+      tags: props.getEmailData?.tags
+        ? props.getEmailData.tags
+        : props.getDraftData.tags,
+      campaign_data: {
+        template_id: props.getEmailData?.templateId
+          ? props.getEmailData.templateId
+          : props.getDraftData.campaign_data.template_id,
+        smart_list_id:
+          typeof getSmartListData !== "undefined" &&
+          getSmartListData.hasOwnProperty("id")
+            ? getSmartListData.id
+            : "",
+        selectedHcp: selectedHcp,
+        list_selection: props.getEmailData?.selected
+          ? props.getEmailData.selected
+          : props.getDraftData.campaign_data.list_selection,
+      },
+      campaign_id: campaign_id_st,
+      source_code: props.getEmailData?.template
+        ? props.getEmailData.template
+        : props.getDraftData.source_code,
+      status: status,
+      approved_page:1,
+    };
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    loader("show");
+    await axios
+      .post(`emailapi/save_draft`, body)
+      .then((res) => {
+        if (res.data.status_code === 200) {
+          setCampaign_id(res.data.response.data.id);
+          if(status===3){
+            toast.success("Approved Draft saved");
+          }else{
+            toast.success("Draft saved");
+          }
+        } else {
+          toast.warning(res.data.message);
+        }
+        loader("hide");
+      })
+      .catch((err) => {
+        loader("hide");
+        toast.error("Something went wrong");
+      });
+  }
+
   return (
     <>
       <div className="col right-sidebar">
@@ -475,29 +550,29 @@ const VerifyMAIL = (props) => {
                       </ul>
                     </h6>
                   </div>
-
-                  {
-                    typeof getArticleType != "undefined" && getArticleType == 3 &&(
-                      <div className="form-buttons right-side">
-                        <button
-                          className= "btn btn-primary approved-btn btn-bordered"
-                        >
-                          Approved{" "}
-                          <img
-                            src={path_image + "approved-btn.svg"}
-                            className="approve_btn"
-                            alt=""
-                          />
-                          <img
-                            src={path_image + "/approved-by-btn.svg"}
-                            className="approved_btn"
-                            alt=""
-                          />
-                        </button>
-                      </div>
-                    )
-                  }
-
+                  <div className="form-buttons right-side">
+                    <button
+                      className={
+                        typeof getArticleType !== "undefined" &&
+                        getArticleType == 3
+                          ? "btn btn-primary approved-btn btn-bordered checked"
+                          : "btn btn-primary approved-btn btn-bordered"
+                      }
+                      onClick={(e) => approvedClicked(e)}
+                    >
+                      Approved{" "}
+                      <img
+                        src={path_image + "approved-btn.svg"}
+                        className="approve_btn"
+                        alt=""
+                      />
+                      <img
+                        src={path_image + "/approved-by-btn.svg"}
+                        className="approved_btn"
+                        alt=""
+                      />
+                    </button>
+                  </div>
                 </div>
                 <div className="mail-recipt">
                   <div className="row">
