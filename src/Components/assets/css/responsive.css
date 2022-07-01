@@ -280,6 +280,9 @@
 		#send-sample .form-search-hcp .form-button .btn.btn-filled {
 			margin-right: 40px;
 		}
+		#accordion-smart .card-body .col.consent-type {
+			flex: 0 0 194px;
+		}
 		.smartlist-view .mail-box-content { min-height: 343px; } 
 		#open_video_popup .modal-body .video-react video { object-fit: cover; } 
 		#open_video_popup .modal-body .video-react { padding-top: 54.25%!important; } 

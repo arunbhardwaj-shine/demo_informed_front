@@ -808,6 +808,7 @@ h2 {
  /* accordion-smart */
 #accordion-smart .card-body { display: flex; padding: 0 24px 14px; flex-wrap: wrap; }
 #accordion-smart .card-body .col { flex: 0 0 158px; position: relative; margin-right: 38px; margin-bottom:30px;}
+#accordion-smart .card-body .col.consent-type {flex: 0 0 214px;}
 #accordion-smart .block-smart-name h6 { font-size: 14px; line-height: 16px; color: var(--blue); font-family: 'Roboto-Medium'; }
 #accordion-smart .smart-name-list { margin: 0; border: 1px solid var(--skyblue); box-sizing: border-box; border-radius: 15px; background: var(--white); padding: 16px 10px 16px 16px; }
 #accordion-smart .smart-name-list ul { padding: 0; margin: 0; height: 135px; overflow-y: auto; overflow-x: hidden; }
