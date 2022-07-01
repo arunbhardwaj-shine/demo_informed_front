@@ -997,6 +997,12 @@ table thead.sticky-header:after { content: ""; position: absolute; width: 20px; 
     top: 3px;
   }
 }
+.modal .form-search-hcp .form-inline .form-group label {
+  padding-right: 12px;
+}
+.modal .form-search-hcp .form-inline .form-group input {
+  width: calc(100% - 60px);
+}
 .modal-body-view .preview-mail-box { background: var(--white); border-radius: 15px; max-width: 730px; margin: 40px auto; box-shadow: 0px 1px 8px rgb(0 102 190 / 24%); border-radius: 15px; padding: 15px 15px; }
 .modal-body-view .preview-mail-box table { width: 100%; }
 .modal-body-view .preview-mail-box table img { max-width: 100%; }
@@ -1077,4 +1083,5 @@ table thead.sticky-header:after { content: ""; position: absolute; width: 20px; 
 }
 .modal .form-search-hcp .form-inline .form-group.col-sm-2 .btn {
   height: 39px;
+  min-width: 100px;
 }
