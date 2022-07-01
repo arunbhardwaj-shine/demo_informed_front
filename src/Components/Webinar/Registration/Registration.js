@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import "../webinar.css";
 import { toast, ToastContainer } from "react-toastify";
 import CreateRegistration from "./CreateRegistration";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loader } from "../../../loader";
 import AliceCarousel from "react-alice-carousel";
 import { BaseApi, BaseUrlImage } from "../../../Api/BaseApi";
@@ -17,20 +17,13 @@ const Registration = () => {
   const [template, setTemplate] = useState();
   const [editdata, setEditdata] = useState();
   const [eventCode, setEventCode] = useState();
+  const [show, setShow] = useState(false);
   const [UrlAlias, setUrlAlias] = useState();
   const [massage, setMassage] = useState("Please Select Event");
-  const [modalShow, setModalShow] = useState(false);
-  const [modalShow2, setModalShow2] = useState(false);
   const [flag, setFlag] = useState(false);
-  const [templateList, setTemplateList] = useState();
   const [activeIndex, setActiveIndex] = useState(0);
   const syncActiveIndex = ({ item }) => setActiveIndex(item);
-  const [TemplateIdActive, setTemplateIdActive] = useState();
-  const responsive = {
-    0: { items: 1 },
-    568: { items: 2 },
-    1024: { items: 5 },
-  };
+  const [modalShow1, setModalShow1] = useState(false);
   const templateClicked = (template, e) => {
     const div = document.querySelector("img.select_mm");
     if (div) {
@@ -54,16 +47,16 @@ const Registration = () => {
   //     }
   //   });
   // };
-
+  let navigate = useNavigate();
   const handleGetRegistrationPageList = (id) => {
     ExportApi.RegistrationPageList(id).then((resp) => {
       if (resp.ok) {
         loader("hide");
         if(resp.data.code === 200){
+          console.log(resp.data.data)
           setRegistrationPageList(resp.data.data);
           setMassage()
         }
-
         if (resp.data.code === 404) {
           setRegistrationPageList()
           setMassage("Data Not Found");
@@ -82,11 +75,27 @@ const Registration = () => {
       }
     });
   };
+  const handleGetRegistrationDelete = (id) => {
+    ExportApi.RegistrationPageDelete(id).then((resp) => {
+      if (resp.ok) {
+        localStorage.removeItem("registrationPageId")
+        handleGetRegistrationPageList(localStorage.getItem("EventIdHeader"))
+        toast.success(resp.data.message, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+      }
+    });
+  };
   useEffect(() => {
     loader("show")
     window.addEventListener("EventId", () =>{
       handleGetRegistrationPageList(localStorage.getItem("EventIdHeader"))
-
     }
     );
     handleGetRegistrationPageList(localStorage.getItem("EventIdHeader"));
@@ -174,9 +183,7 @@ const Registration = () => {
           <h3>Registration Page </h3>
         </div>
         <div class="top-right-action">
-          <Link to="/webinar/portal/createRegistration">
-            <Button>Create Registration Page</Button>
-          </Link>
+            <Button onClick={()=>setModalShow1(true)}>Create Registration Page</Button>
         </div>
       </div>
       <Row>
@@ -205,11 +212,11 @@ const Registration = () => {
                     <tbody>
                       {registrationPageList?.map((val, i) => (
                         <tr key={i}>
-                          <td>{val.title}</td>
+                          <td>{val.mode}-Registration Page</td>
                           <td>
                             <a
-                              href={`${BaseUrlImage}/SH2022/index?event=${val.code}&alice=${
-                                val.url
+                              href={`${BaseUrlImage}/SH2022/index${val.format}.php?event=${val.code}&mode=${
+                                val.mode
                               }`}
                               target="_blank"
                             >
@@ -221,7 +228,14 @@ const Registration = () => {
                               }}
                             >
                               Edit
-                            </Button>{" "}
+                            </Button>
+                            <Button
+                              onClick={(e) => {
+                                handleGetRegistrationDelete(val.id);
+                              }}
+                            >
+                              Delete
+                            </Button>
                           </td>
                         </tr>
                       ))}
@@ -289,7 +303,7 @@ const Registration = () => {
                     </div></div>
                     <div className="form-inline row justify-content-between align-items-center">
               <div className="form-group col-12 col-md-8">
-                <label>Mode </label>
+                <label>Mode</label>
                 <div className="form-inline">
                             <div class="form-check">
                               <Form.Label>Onsite</Form.Label>
@@ -357,6 +371,62 @@ const Registration = () => {
           ) : null}
 
       </Row>
+      <Modal show={modalShow1} className="send-confirm" id="resend-confirm">
+        <Modal.Header>
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="modal"
+            onClick={() => setModalShow1(false)}
+          ></button>
+        </Modal.Header>
+        <Modal.Body>
+         {show? <select
+                  name="Country"
+                  onChange={(e)=>{localStorage.setItem("registrationPageId",e.target.value); setTimeout(() => {
+                    navigate("/webinar/portal/NewRegistration");
+                  }, 1000);}}
+                  class="form-select-lg mb-3"
+                  aria-label=".form-select-lg example"
+                >
+                  <option selected>Select Registration Page</option>
+                  {registrationPageList?.map((val, i) => (
+                    <React.Fragment key={i}>
+                      {console.log(val)}
+                      <option  value={val.id}>
+                      {val.mode}-Registration Page
+                      </option>
+                    </React.Fragment>
+                  ))}
+         </select>
+
+          :null}
+          <div className="modal-buttons">
+          <Link to="/webinar/portal/NewRegistration">
+            <button
+              type="button"
+              className="btn btn-primary btn-filled"
+              data-bs-dismiss="modal"
+              // onClick={() => {
+              //   deleteUser();
+              // }}
+            >
+            New Create
+            </button>
+          </Link>
+          
+
+            <button
+              type="button"
+              className="btn btn-primary btn-bordered light"
+              data-bs-dismiss="modal"
+              onClick={() =>setShow(true) }
+            >
+              Copy Existing 
+            </button>
+          </div>
+        </Modal.Body>
+      </Modal>
     </div>
     </>
   );

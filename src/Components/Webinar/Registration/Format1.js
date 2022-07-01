@@ -1,113 +1,133 @@
 import React, { useState } from 'react'
 import { useFormik } from "formik";
-import { Button,  Col, Form, Row } from "react-bootstrap";
+import { Button,  Col, Form, Row ,Modal} from "react-bootstrap";
 import { toast, ToastContainer } from "react-toastify";
 import { loader } from '../../../loader';
 import ExportApi from '../../../Api/ExportApi';
 import { BaseUrlImage } from '../../../Api/BaseApi';
 
 const Format1 = (props) => {
-    const [TemplateIdActive, setTemplateIdActive] = useState(props.TemplateIdActive);
-    const [footerLogo, setFooterLogo] = useState();
-    const [titleLogo, setTitleLogo] = useState();
-
-    const uploadImageTitleLogo=(e)=>{
-      let formData = new FormData();
-         formData.append("file", e);
-      ExportApi.RegistrationPageUplodImage(formData) .then((resp) => {
-        if (resp.ok) {
-          let Path=BaseUrlImage+resp.data.data
-          setTitleLogo(Path)
+  const [TemplateIdActive, setTemplateIdActive] = useState(props.TemplateIdActive);
+  const [footerLogo, setFooterLogo] = useState();
+  const [titleLogo, setTitleLogo] = useState();
+  const [data, setData] = useState();
+  const [modalShow, setModalShow] = useState(false);
+  const uploadImageTitleLogo=(e)=>{
+    let formData = new FormData();
+       formData.append("file", e);
+    ExportApi.RegistrationPageUplodImage(formData) .then((resp) => {
+      if (resp.ok) {
+        let Path=BaseUrlImage+resp.data.data
+        setTitleLogo(Path)
+      }
+    });
+  }
+  const uploadImageFooterLogo=(e)=>{
+    let formData = new FormData();
+       formData.append("file", e);
+    ExportApi.RegistrationPageUplodImage(formData) .then((resp) => {
+      if (resp.ok) {
+        let Path=BaseUrlImage+resp.data.data
+        setFooterLogo(Path)
+      }
+    });
+  }
+  console.log("props",props.data?.Title1)
+  const formik = useFormik({
+      initialValues: {
+        Title1:props.data?.Title1?props.data?.Title1: "",
+        Title2:props.data?.Title2?props.data?.Title2: "",
+        Title3:props.data?.Title3?props.data?.Title3: "",
+        mode:props.mode?.mode?props.mode?.mode:'',
+        Speakername:props.data?.Speakername?props.data?.Speakername:'',
+        eventtime:props.data?.eventtime?props.data?.eventtime:'',
+        eventdate:props.data?.eventdate?props.data?.eventdate:'',
+        content1:props.data?.content1?props.data?.content1:'',
+        content2:props.data?.content2?props.data?.content2:'',
+        content3:props.data?.content3?props.data?.content3:'',
+        donetext:props.data?.donetext?props.data?.donetext:'',
+        RadioButton:props.data?.RadioButton?props.data?.RadioButton:'',
+        consenttext:props.data?.consenttext?props.data?.consenttext:'',
+        consentRadiotext1:props.data?.consentRadiotext1?props.data?.consentRadiotext1:'',
+        consentRadiotext2:props.data?.consentRadiotext2?props.data?.consentRadiotext2:'',
+        consentRadiotext3:props.data?.consentRadiotext3?props.data?.consentRadiotext3:'',
+        submitText:props.data?.submitText?props.data?.submitText:'',
+        name:props.data?.name?props.data?.name:"",
+        email:props.data?.email?props.data?.email:"",
+        country:props.data?.country?props.data?.country:"",
+        Emailplaceholder:props.data?.Emailplaceholder?props.data?.Emailplaceholder:"",
+        nameplaceholder:props.data?.nameplaceholder?props.data?.nameplaceholder:"",
+        countryLabel:props.data?.countryLabel?props.data?.countryLabel:"",
+        titleColor:props.data?.titleColor?props.data?.titleColor:"",
+        backgroundColor:props.data?.backgroundColor?props.data?.backgroundColor:"",
+        borderColor:props.data?.borderColor?props.data?.borderColor:"",
+        textColor:props.data?.textColor?props.data?.textColor:"",
+      },
+  
+      
+      onSubmit: (values) => {
+        loader("show")
+        let jsonData ={
+          Title1: values.Title1,
+          Title2: values.Title2,
+          Title3: values.Title3,
+          consenttext :values.consenttext,
+          consentRadiotext1:values.consentRadiotext1,
+          consentRadiotext2:values.consentRadiotext2,
+          consentRadiotext3:values.consentRadiotext3,
+          submitText:values.submitText,
+          content1:values.content1,
+          content2:values.content2,
+          content3:values.content3,
+          donetext:values.donetext,
+          Speakername:values.Speakername,
+          eventdate:values.eventdate,
+          eventtime:values.eventtime,
+          RadioButton:values.RadioButton,
+          name:values.name,
+          email:values.email,
+          country:values.country,
+          Emailplaceholder:values.Emailplaceholder,
+          nameplaceholder:values.nameplaceholder,
+          countryLabel:values.countryLabel,
+          titleColor :values.titleColor,
+          textColor:values.textColor,
+          backgroundColor:values.backgroundColor,
+          borderColor:values.borderColor,
+          titleLogo:titleLogo
         }
-      });
-    }
-    const uploadImageFooterLogo=(e)=>{
-      let formData = new FormData();
-         formData.append("file", e);
-      ExportApi.RegistrationPageUplodImage(formData) .then((resp) => {
-        if (resp.ok) {
-          let Path=BaseUrlImage+resp.data.data
-          setFooterLogo(Path)
-        }
-      });
-    }
-    const formik = useFormik({
-        initialValues: {
-          Title1: "",
-          Title2: "",
-          Title3: "",
-          Title4: "",
-          mode:'',
-          RadioButton:'',
-          Speakername:"",
-          eventdate:'',
-          content1:'',
-          content2:'',
-          content3:'',
-          name:"",
-          email:"",
-          country:'',
-          titleColor :"",
-          textColor:'',
-          backgroundColor:'',
-          borderColor:''
-        },
-    
-        enableReinitialize: true,
-        onSubmit: (values) => {
-          loader("show")
-          let jsonData ={
-            Title1: values.Title1,
-            Title2: values.Title2,
-            Title3: values.Title3,
-            Title4: values.Title4,
-            content1:values.content1,
-            content2:values.content1,
-            content3:values.content1,
-            Speakername:values.Speakername,
-            eventdate:values.eventdate,
-            RadioButton:values.RadioButton,
-            name:values.name,
-            email:values.email,
-            country:values.country,
-            titleColor :values.titleColor,
-            textColor:values.textColor,
-            backgroundColor:values.backgroundColor,
-            borderColor:values.borderColor,
-            footerLogo:footerLogo,
-            titleLogo:titleLogo
-          }
-          ExportApi.CreateRegistrationPage(localStorage.getItem("EventIdHeader"),values.mode, JSON.stringify(jsonData),TemplateIdActive).then((resp) => {
-            if (resp.ok) {
-              if (resp.data.code == 200) {
-                loader("hide")
-                toast.success(resp.data.message, {
-                  position: "top-right",
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                })
-              } else {
-                loader("hide")
-                toast.error(resp.data.message, {
-                  position: "top-right",
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                });
-              }
+        ExportApi.CreateRegistrationPage(localStorage.getItem("EventIdHeader"),values.mode, JSON.stringify(jsonData),TemplateIdActive).then((resp) => {
+          if (resp.ok) {
+            if (resp.data.code == 200) {
+              setData(resp.data.data)
+              loader("hide")
+              toast.success(resp.data.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              })
+            } else {
+              loader("hide")
+              toast.error(resp.data.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
             }
-          });
-        },
-      });
+          }
+        });
+      },
+    });
   return (
-   <>
+    <>
        <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -122,15 +142,29 @@ const Format1 = (props) => {
        <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
     </div>
+    <div class="top-header">
+            <Button onClick={()=>{setModalShow(true)}}>Preview</Button>
+    </div>
        <form onSubmit={formik.handleSubmit}>
         {/* Middle content */}
-        <div className="reg-middle-div">    
+        
+        <div className="reg-middle-div">  
         <div className="modal-body-content">
-        <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 ">
-                <label>Mode </label>
+        <div className="form-inline row justify-content-between align-items-center"> 
+              <div className="form-group col-12">
+                <label>Mode</label>
                 <div className="form-inline-option">
-                            <div class="form-check">
+                  {props.mode?.mode=="virtual"?<div class="form-check">
+                 <Form.Label> Virtual</Form.Label>
+                 <Form.Control
+                  name="mode"
+                   type="radio"
+                   onChange={formik.handleChange}
+                   onBlur={formik.handleBlur}
+                   value={"virtual"}
+                   defaultChecked
+                 />
+               </div>:props.mode?.mode=="onsite"?<div class="form-check">
                               <Form.Label>Onsite</Form.Label>
                               <Form.Control
                                  name="mode"
@@ -139,9 +173,7 @@ const Format1 = (props) => {
                                  onBlur={formik.handleBlur}
                                  value="onsite"
                                  />
-                            </div>
-                            <div class="form-check">
-                              <Form.Label> Virtual</Form.Label>
+                            </div>:<div class="form-check"><Form.Label> Virtual</Form.Label>
                               <Form.Control
                                name="mode"
                                 type="radio"
@@ -149,17 +181,21 @@ const Format1 = (props) => {
                                 onBlur={formik.handleBlur}
                                 value={"virtual"}
                                 defaultChecked
-                              />
-                            </div>
-                            {/* <div class="form-check">
-                              <Form.Label> B</Form.Label>
+
+                              />  <Form.Label>Onsite</Form.Label>
                               <Form.Control
-                                type="radio"
-                              />
-                            </div> */}
+                                 name="mode"
+                                 type="radio"
+                                 onChange={formik.handleChange}
+                                 onBlur={formik.handleBlur}
+                                 value="onsite"
+                                 /></div>}
+                            
+                            {formik.values.mode}
                     </div>
                 </div>
-                </div>
+             </div>
+             </div>
         <div className="form-inline row justify-content-between align-items-center">
               <div className="form-group col-12 ">
                 <label> Title 1</label>
@@ -167,7 +203,7 @@ const Format1 = (props) => {
                   name="Title1"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={formik.values.Subject}
+                  value={formik.values.Title1}
                   type="text"
                   placeholder="Title 1"
                 />
@@ -180,7 +216,7 @@ const Format1 = (props) => {
                   name="Title2"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={formik.values.Subject}
+                  value={formik.values.Title2}
                   type="text"
                   placeholder="Title 2"
                 />
@@ -193,12 +229,24 @@ const Format1 = (props) => {
                   name="Title3"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={formik.values.Subject}
+                  value={formik.values.Title3}
                   type="text"
                   placeholder="Title 3"
                 />
             </div>
             </div>
+            <div className="form-inline row justify-content-between align-items-center">
+                      <div className="form-group col-12 ">
+                        <label>Speaker Name </label>
+                        <Form.Control
+                          name="Speakername"
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.Speakername}
+                          type="text"
+                        />
+                    </div>
+                    </div>
         <div className="form-inline row justify-content-between align-items-center">
               <div className="form-group col-12 ">
                 <label> Title Logo</label>
@@ -212,19 +260,6 @@ const Format1 = (props) => {
             </div>
             <div className="form-inline row justify-content-between align-items-center">
               <div className="form-group col-12 ">
-                <label> Speaker Name</label>
-                <Form.Control
-                  name="Speakername"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.Speakername}
-                  type="text"
-                  placeholder="Speaker Name"
-                />
-            </div>
-            </div>
-            <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 ">
                 <label>Event Date</label>
                 <Form.Control
                   name="eventdate"
@@ -233,6 +268,19 @@ const Format1 = (props) => {
                   value={formik.values.eventdate}
                   type="text"
                   placeholder="Event Date"
+                />
+            </div>
+            </div>
+            <div className="form-inline row justify-content-between align-items-center">
+              <div className="form-group col-12 ">
+                <label>Event Time</label>
+                <Form.Control
+                  name="eventtime"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.eventtime}
+                  type="text"
+                  placeholder="Event Time"
                 />
             </div>
             </div>
@@ -263,32 +311,24 @@ const Format1 = (props) => {
                 placeholder="Content 2"
               />
            </div>
-           </div>      
-          {/* <Form.Group controlId="formFileLg" className="mb-3">
-                <Form.Label>Choice File</Form.Label>
-                <Form.Control
-                  name="file"
-                  onChange={(e) => {
-                    handeleimage(e);
-                  }}
-                  type="file"
-                  size="md"
-                />
-                 <p style={{color:"red"}}>{errimage}</p>
-              </Form.Group> */}
-          </div>
-        </div>
-        {/* end of middle content*/}
-        
-
-        {/* right sidebar */}
-        <div className="reg-right-sidebar">
-        {/* fields content */}
-        <div className="reg-fields-div">
-        <div className="form-inline row justify-content-between align-items-center">
-                      <div className="form-group col-12 ">
+           </div>                      
+            <div className="form-inline row justify-content-between align-items-center">
+              <div className="form-group col-12 col-md-11">
+              <label>Content 3</label>
+              <Form.Control
+                name="content3"
+                type="text"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.content3}
+                className="form-control"
+                placeholder="Content 3"
+              />
+           </div>
+           </div>                      
+          <div className="form-inline row justify-content-between align-items-center">
+                      <div className="form-group col-12  col-md-11">
                         <label>Radio Button</label>
-                        <div className="form-inline-option">
                         <Form.Control
                           name="RadioButton"
                           onChange={formik.handleChange}
@@ -296,9 +336,92 @@ const Format1 = (props) => {
                           value={formik.values.RadioButton}
                           type="text"
                         />
-                      </div>
                     </div>
                     </div>
+          <div className="form-inline row justify-content-between align-items-center">
+                      <div className="form-group col-12  col-md-11">
+                        <label>Consent Text</label>
+                        <Form.Control
+                          name="consenttext"
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.consenttext}
+                          type="text"
+                        />
+                    </div>
+                    </div>
+                    {formik.values.consenttext?<>
+                      <div className="form-inline row justify-content-between align-items-center">
+                      <div className="form-group col-12  col-md-11">
+                        <label>consent Radio Text 1</label>
+                        <Form.Control
+                          name="consentRadiotext1"
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.consentRadiotext1}
+                          type="text"
+                        />
+                    </div>
+                    </div>
+          <div className="form-inline row justify-content-between align-items-center">
+                      <div className="form-group col-12  col-md-11">
+                        <label>consent Radio text 2</label>
+                        <Form.Control
+                          name="consentRadiotext2"
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.consentRadiotext2}
+                          type="text"
+                        />
+                    </div>
+                    </div>
+          <div className="form-inline row justify-content-between align-items-center">
+                      <div className="form-group col-12  col-md-11">
+                        <label>consent Radio Text 3</label>
+                        <Form.Control
+                          name="consentRadiotext3"
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.consentRadiotext3}
+                          type="text"
+                        />
+                    </div>
+                    </div>
+          <div className="form-inline row justify-content-between align-items-center">
+                      <div className="form-group col-12  col-md-11">
+                        <label>Done Text</label>
+                        <Form.Control
+                          name="donetext"
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.donetext}
+                          type="text"
+                        />
+                    </div>
+                    </div>
+                    </>:null}
+                    <div className="form-inline row justify-content-between align-items-center">
+                      <div className="form-group col-12  col-md-11">
+                        <label>Submit Text </label>
+                        <Form.Control
+                          name="submitText"
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.submitText}
+                          type="text"
+                        />
+                    </div>
+        
+          </div>
+         
+        {/* end of middle content*/}
+        
+
+        {/* right sidebar */}
+        <div className="reg-right-sidebar">
+        {/* fields content */}
+        <div className="reg-fields-div">
+
         <div className="form-inline row justify-content-between align-items-center">
               <div className="form-group col-12 ">
                 <label>Name</label>
@@ -309,12 +432,31 @@ const Format1 = (props) => {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.name}
+                  checked={formik.values.name}
                   type="checkbox"
                 />
               </div>
               </div>
             </div>
             </div>
+            {formik.values.name===true?
+              <div className="form-inline row justify-content-between align-items-center">
+              <div className="form-group col-12 ">
+                <label>Name Placeholder</label>
+                <div className="form-inline-option">
+                <div class="form-check">
+                <Form.Control
+                  name="nameplaceholder"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.nameplaceholder}
+                  type="text"
+                  
+                />
+              </div>
+              </div>
+            </div>
+            </div>:null}
         <div className="form-inline row justify-content-between align-items-center">
               <div className="form-group col-12 ">
                 <label>Email</label>
@@ -329,6 +471,24 @@ const Format1 = (props) => {
                 </div>
             </div>
             </div>
+            {formik.values.email===true?
+              <div className="form-inline row justify-content-between align-items-center">
+              <div className="form-group col-12 ">
+                <label>Email Placeholder</label>
+                <div className="form-inline-option">
+                <div class="form-check">
+                <Form.Control
+                  name="Emailplaceholder"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.Emailplaceholder}
+                  type="text"
+                  
+                />
+              </div>
+              </div>
+            </div>
+            </div>:null}
         <div className="form-inline row justify-content-between align-items-center">
               <div className="form-group col-12 ">
                 <label>Country</label>
@@ -345,6 +505,24 @@ const Format1 = (props) => {
             </div>
         
         </div>
+        {formik.values.country===true?
+              <div className="form-inline row justify-content-between align-items-center">
+              <div className="form-group col-12 ">
+                <label>Country Label</label>
+                <div className="form-inline-option">
+                <div class="form-check">
+                <Form.Control
+                  name="countryLabel"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.countryLabel}
+                  type="text"
+                  
+                />
+              </div>
+              </div>
+            </div>
+            </div>:null}
         {/* end of fields content */}
         
         {/* color div content */}
@@ -404,13 +582,41 @@ const Format1 = (props) => {
                        title="Choose your color"
 	                   />
                    </div>
-                   </div></div>
+                   </div>
+                   </div>
+                   </div>
 
         {/* end of color div content */}
         </div>
         {/* end of right sidebar */}
         <Button type="submit">Save</Button>
         </form>
+        <Modal
+        show={modalShow}
+        id="webinar_event"
+        onHide={() => {
+          setModalShow(false);
+        }}
+      >
+        <Modal.Header closeButton>
+          <h4>Preview Page </h4>
+        </Modal.Header>
+        <Modal.Body>
+            <iframe src={`${BaseUrlImage}/SH2022/index${data?.format}.php?event=${data?.event.code}&mode=${
+                data?.mode
+              }`}></iframe>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            onClick={() => {
+              // setModalShow1(false);
+              setModalShow(false);
+            }}
+          >
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
    
    </>
   )

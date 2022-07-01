@@ -320,6 +320,20 @@ const RegistrationPageUplodImage = (form) =>
       "Content-Type": "application/json",
     },
   });
+const RegistrationPageCopyData = (id) =>
+  BaseApi.post("/registration-pages-copy", {registration_page_id :id}, {
+    headers: {
+      Authorization: localStorage.getItem("Token"),
+      "Content-Type": "application/json",
+    },
+  });
+const RegistrationPageDelete = (id) =>
+  BaseApi.post("/delete-registration-page", {register_page_id:id}, {
+    headers: {
+      Authorization: localStorage.getItem("Token"),
+      "Content-Type": "application/json",
+    },
+  });
 const CreateRegistrationPagedetail = (form) =>
   BaseApi.post("create-registration-detail", form, {
     headers: {
@@ -830,6 +844,8 @@ export default {
   DeleteTemplate,
   UpdateTemplate,
   CreateRegistrationPage,
+  RegistrationPageCopyData,
+  RegistrationPageDelete,
   CreateRegistrationPagedetail,
   RegistrationPageUplodImage,
   RegistrationPageDetailList,

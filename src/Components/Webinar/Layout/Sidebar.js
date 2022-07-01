@@ -34,6 +34,11 @@ const Sidebar = () => {
       setToken(false);
     }
   }, [localStorage.getItem("Token"), token]);
+  useEffect(() => {
+    if (location.pathname === "/webinar/portal/Registrations"||location.pathname === "/webinar/portal/NewRegistration") {
+      localStorage.removeItem("registrationPageId")
+    }
+  }, [localStorage.getItem("Token"), token]);
 
   useEffect(() => {
     if (

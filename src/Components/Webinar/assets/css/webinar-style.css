@@ -5372,3 +5372,24 @@ form .form-inline .form-alias { padding-left: 100px; color: #000; font-size: 14p
     margin-top: 200px;
 }
 /* End of Registration page style */
+
+.form-inline .form-group input[type="radio"], .form-inline .form-group input[type="checkbox"] {
+  width: 30px;
+  box-shadow: none;
+  background: transparent;
+  height: 30px;
+  padding: 5px;
+  -webkit-apperence: unset;
+  -webkit-appearance: auto;
+  -moz-appearance: auto;
+  appearance: auto;
+}
+.modal-dialog .modal-content {
+  overflow: initial;
+  max-height: 500px;
+  height: 100%;
+}
+.modal-body iframe {
+  width: 100%;
+  height: 100%;
+}
