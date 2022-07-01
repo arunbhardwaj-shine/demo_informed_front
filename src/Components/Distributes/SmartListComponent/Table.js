@@ -1139,7 +1139,7 @@ const Table = (props, ref) => {
           </div>
           <div className="selected-hcp-list">
             <table className="table" id="table-to-xls">
-              <thead>
+              <thead className="sticky-header">
                 <tr>
                   <th scope="col">Name</th>
                   <th scope="col">Email</th>

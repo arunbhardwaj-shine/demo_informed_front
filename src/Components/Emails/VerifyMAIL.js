@@ -861,7 +861,7 @@ const VerifyMAIL = (props) => {
               </div>
               <div className="selected-hcp-list">
                 <table className="table">
-                  <thead>
+                  <thead className="sticky-header">
                     <tr>
                       <th scope="col">Name</th>
                       <th scope="col">Email</th>

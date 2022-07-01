@@ -809,7 +809,7 @@ const SelectSmartListUsers = (props) => {
             </div>
             <div className="selected-hcp-list">
               <table className="table">
-                <thead className="sticky-header">
+                <thead>
                   <tr>
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
