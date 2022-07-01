@@ -136,7 +136,7 @@
 	.sidebar-menu ul li { margin-top: 12px; margin-bottom: 12px; min-height: 45px; } 
 	.sidebar-menu ul li a svg { margin-right: 13px; width: 20px; } 
 	.page-top-nav .tabnav-link li { padding: 0 18px; } 
-	.page-top-nav .tabnav-link li::after { width: 31px; right: -18px; top: 10px; }
+	.page-top-nav .tabnav-link li::after { width: 26px; right: -13px; top: 10px; }
 	.search-hcp-table table, .selected-hcp-list table { border-spacing: 0px 20px; padding-right:5px;padding-left: 5px;} 
 	.result-hcp-table .table-title .selected-hcp-table-action .hcp-added, .table-title .hcp-new-user, .table-title .show-less-info { margin-right: 10px; } 
 	.send-option-list ul li .send-option-img { width: 124px; height: 124px; } 
@@ -266,7 +266,15 @@
 		height: 32px;
 		padding: 4px 16px;
 	}
+	#add_hcp .modal-body .hcp-add-form#upload-confirm form .form-group .dropdown button {
+		max-width:100%;
 	} 
+	.modal .split-button-dropup.edit-country-dropdown > div:nth-child(3) {
+		padding: 6px 40px 6px 18px;
+		font-size: 14px;
+		height: 36px;
+	}
+}
 	 
 	 @media only screen and (max-width:1365px){ 
 		#send-sample .form-search-hcp .form-button .btn.btn-filled {
