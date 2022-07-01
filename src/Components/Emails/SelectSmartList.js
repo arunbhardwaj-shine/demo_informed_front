@@ -117,6 +117,11 @@ const SelectSmartList = (props) => {
         ? old_object.templateId
         : draft_object.campaign_data.template_id,
         smart_list_id: PdfSelected,
+        list_selection: old_object?.selected
+          ? old_object.selected
+          : props.getDraftData?.campaign_data?.list_selection
+          ? props.getDraftData.campaign_data.list_selection
+          : 0
 
         // selectedHcp: selectedHcp,
       },

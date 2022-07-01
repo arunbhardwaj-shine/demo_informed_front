@@ -20,12 +20,15 @@ import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import EditCountry from "../../CommonComponent/EditCountry";
 import EditContactType from "../../CommonComponent/EditContactType";
-import Select from 'react-select';
+import Select, { createFilter } from 'react-select';
 const Table = (props, ref) => {
   const [inEditMode, setInEditMode] = useState({
     status: false,
     rowKey: null,
   });
+  const filterConfig = {
+      matchFrom: 'start',
+  };
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   //let validator = new SimpleReactValidator();
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -1139,7 +1142,7 @@ const Table = (props, ref) => {
           </div>
           <div className="selected-hcp-list">
             <table className="table" id="table-to-xls">
-              <thead>
+              <thead className="sticky-header">
                 <tr>
                   <th scope="col">Name</th>
                   <th scope="col">Email</th>
@@ -1602,6 +1605,7 @@ const Table = (props, ref) => {
                                   <Select options = {countryall} className= "dropdown-basic-button split-button-dropup edit-country-dropdown" onChange={(event) => onCountryChange(event, i)}
                                     defaultValue  = {countryall[hpc[i].countryIndex]}
                                     placeholder   = {typeof  countryall[hpc[i].countryIndex] === "undefined" ? "Select Country" : countryall[hpc[i].countryIndex]}
+                                    filterOption  = {createFilter(filterConfig)}
                                     isClearable
                                   />
                                   {

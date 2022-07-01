@@ -1,4 +1,13 @@
 
+@media only screen and (min-width:1550px){
+	.dlt_btn button {
+		width: 40px;
+		height: 40px;
+	}
+	.dlt_btn button img {
+		width: 26px;
+	}
+}
 @media only screen and (min-width:1921px){
 	.custom-container{ max-width:100%; } 
 	.custom-container .custom-container{ max-width:1698px; } 
@@ -69,8 +78,14 @@
 	.smartlist-result-block .not_found {width: 66.6%;}
 	.form-inline .form-group input { max-width: 400px; } 
 	.form-inline .form-group input#email-address { max-width: 315px; }
+	.mail-recipt-right .mail-content-select-box {
+		width: 100%;
+	}	
 }
 @media only screen and (max-width:1450px){
+	#send-sample .form-search-hcp .form-button .btn.btn-filled {
+		margin-right: 30px;
+	}
 	#add_hcp .modal-body .hcp-add-form form .add_hcp_boxes .form_action { min-height: inherit; } 
 	.email-block-add { min-height: 310px; } 
 	.help-popup-view svg { width: 14px; } 
@@ -84,7 +99,8 @@
 	.modal form#add_hcp_form .add_hcp_boxes:first-child:last-child .hcp-action-block { top: 75px; } 
 	.nav-item.add_hcp .nav-link { height: 32px; padding: 6px 6px; } 
 	#create_list_popup { max-width: 1000px; } 
-	.create_smart_list .create_smart_list_inset, #create_list_popup .add_hcp_boxes, #create_list_popup .modal_upload_btns { max-width: 814px; margin-right: 40px; } 
+	.create_smart_list .create_smart_list_inset, #create_list_popup .add_hcp_boxes, #create_list_popup .modal_upload_btns { max-width: 814px; margin-right: 40px; }
+	.create_smart_list .create_smart_list_inset { margin-right: auto; } 
 	#create_list_popup .modal_upload_btns .download-sample .upload-btn { height: auto; } 
 	#open_video_popup .modal-body .video-react button.video-react-button.video-react-big-play-button { width: 70px; height: 70px; } 
 	#open_video_popup .modal-body .video-react button.video-react-button.video-react-big-play-button::before { background-size: 23px; } 
@@ -93,7 +109,7 @@
 	.table-title .selected-hcp-table-action a.show-less-info { font-size: 14px; line-height: 16px; } 
 	a.show-less-info p:after {line-height: 11px;}
 	.sidebar-menu button.toggle_btn {margin: 34px 15px 0px;}
-	.filter-block .filter-div .filter-result { padding: 3px 9px 3px 12px; margin: 0 10px 10px 0; font-size: 12px; line-height: 14px; } 
+	.filter-block .filter-div .filter-result { padding: 3px 5px 3px 12px; margin: 0 10px 10px 0; font-size: 12px; line-height: 14px; } 
 	.filter-div .filter-result img { margin-left: 10px; } 
 	#accordion-smart .card-body { padding: 0 10px 14px; } 
 	.smart-list-name h5 { font-size: 18px; line-height: 20px; } 
@@ -119,8 +135,8 @@
 	header nav.navbar { padding: 12px 10px; } 
 	.sidebar-menu ul li { margin-top: 12px; margin-bottom: 12px; min-height: 45px; } 
 	.sidebar-menu ul li a svg { margin-right: 13px; width: 20px; } 
-	.page-top-nav .tabnav-link li { padding: 0 24px; } 
-	.page-top-nav .tabnav-link li::after { width: 31px; right: -18px; top: 10px; }
+	.page-top-nav .tabnav-link li { padding: 0 18px; } 
+	.page-top-nav .tabnav-link li::after { width: 26px; right: -13px; top: 10px; }
 	.search-hcp-table table, .selected-hcp-list table { border-spacing: 0px 20px; padding-right:5px;padding-left: 5px;} 
 	.result-hcp-table .table-title .selected-hcp-table-action .hcp-added, .table-title .hcp-new-user, .table-title .show-less-info { margin-right: 10px; } 
 	.send-option-list ul li .send-option-img { width: 124px; height: 124px; } 
@@ -246,10 +262,27 @@
 	.mail-box-content .mailbox-text p {
 		font-size: 14px;line-height: 17px;
 	}	
-			
+	.modal .form-search-hcp .form-inline .form-group.col-sm-2 .btn {
+		height: 32px;
+		padding: 4px 16px;
+	}
+	#add_hcp .modal-body .hcp-add-form#upload-confirm form .form-group .dropdown button {
+		max-width:100%;
 	} 
+	.modal .split-button-dropup.edit-country-dropdown > div:nth-child(3) {
+		padding: 6px 40px 6px 18px;
+		font-size: 14px;
+		height: 36px;
+	}
+}
 	 
 	 @media only screen and (max-width:1365px){ 
+		#send-sample .form-search-hcp .form-button .btn.btn-filled {
+			margin-right: 40px;
+		}
+		#accordion-smart .card-body .col.consent-type {
+			flex: 0 0 194px;
+		}
 		.smartlist-view .mail-box-content { min-height: 343px; } 
 		#open_video_popup .modal-body .video-react video { object-fit: cover; } 
 		#open_video_popup .modal-body .video-react { padding-top: 54.25%!important; } 
@@ -282,7 +315,7 @@
 		.email-result-block { margin: 0 -20px; } 
 		.email-result-block .email-block-add-box, .email-result-block .email_box_block { padding: 0 20px; } 
 		.search-bar form.d-flex input, .filter-by button { height: 36px; } 
-		.filter-by button { padding: 9px 26px; } 
+		.filter-by button { padding: 9px 16px 9px 26px; } 
 		.clear-search button { width: 36px; padding: 4px; height: 36px; font-size: 14px;} 
 		.clear-search button svg { width: 22px; } 
 		.smartlist-result-block .not_found { font-size: 22px; } 
@@ -349,4 +382,5 @@
 		.select-mail-option { right: -24px; width: 34px; height: 34px; }
 		#add_hcp .modal-body .hcp-add-form form .form-group .dropdown button {height: 36px;}
 		.smartlist-buttons a.btn {padding: 6px 14px;}
+		
 }

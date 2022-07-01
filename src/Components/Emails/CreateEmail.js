@@ -16,13 +16,16 @@ import { loader } from "../../loader";
 import { popup_alert } from "../../popup_alert";
 import { toast } from "react-toastify";
 import { getSelectedSmartListData } from "../../actions";
-import Select from 'react-select';
+import Select, { createFilter } from 'react-select';
 var dxr = 0;
 var state_object = {};
 
 const CreateEmail = (props) => {
   // console.log(state_object);
   // console.log(props);
+  const filterConfig = {
+      matchFrom: 'start',
+  };
   let file_name = useRef("");
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const navigate = useNavigate();
@@ -41,7 +44,15 @@ const CreateEmail = (props) => {
   const [counterFlag, setCounterFlag] = useState(0);
   const [activeManual, setActiveManual] = useState("active");
   const [templateList, setTemplateList] = useState([]);
-  const [template, setTemplate] = useState("");
+  const [template, setTemplate] = useState(
+    state_object != null &&
+      state_object != "undefined" &&
+      state_object.template
+      ? state_object.template
+      : props.getDraftData
+      ? props.getDraftData.source_code
+      : ""
+  );
   const [readers, setReaders] = useState([]);
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
   const [emailDescription, setEmailDescription] = useState(
@@ -646,6 +657,7 @@ const CreateEmail = (props) => {
       console.log(PdfSelected);
       props.getEmailData({
         //uniqueId: uniqueId,
+        status: getIsApprovedStatus,
         emailDescription: emailDescription,
         emailCreator: emailCreator,
         emailCampaign: emailCampaign,
@@ -1633,9 +1645,9 @@ const CreateEmail = (props) => {
               <div className="form-search-hcp">
                 <form>
                   <div className="form-inline row justify-content-between align-items-center">
-                    <div className="col-12 col-md-7">
+                    <div className="col-12 col-md-8">
                       <div className="row justify-content-between align-items-center">
-                        <div className="form-group col-sm-6">
+                        <div className="form-group col-sm-5">
                           <label for="hcp-name">Name</label>
                           <input
                             type="text"
@@ -1644,7 +1656,7 @@ const CreateEmail = (props) => {
                             id=""
                           />
                         </div>
-                        <div className="form-group col-sm-6">
+                        <div className="form-group col-sm-5">
                           <label for="hcp-email">Email </label>
                           <input
                             type="mail"
@@ -1653,15 +1665,16 @@ const CreateEmail = (props) => {
                             id=""
                           />
                         </div>
+                        <div className="form-group col-sm-2">
+                            <button
+                            className="btn btn-primary btn-filled"
+                            onClick={(e) => searchHcp(e)}>
+                            Search
+                          </button>
+                      </div>
                       </div>
                     </div>
-                    <div className="form-button col-12 col-md-5">
-                      <button
-                        className="btn btn-primary btn-filled"
-                        onClick={(e) => searchHcp(e)}
-                      >
-                        Search
-                      </button>
+                    <div className="form-button col-12 col-md-4">
                       <button
                         className="btn btn-primary btn-bordered"
                         type="button"
@@ -2161,6 +2174,7 @@ const CreateEmail = (props) => {
                                   <Select options = {countryall} className= "dropdown-basic-button split-button-dropup edit-country-dropdown" onChange={(event) => onCountryChange(event, i)}
                                     defaultValue  = {countryall[hpc[i].countryIndex]}
                                     placeholder   = {typeof  countryall[hpc[i].countryIndex] === "undefined" ? "Select Country" : countryall[hpc[i].countryIndex]}
+                                    filterOption  = {createFilter(filterConfig)}
                                     isClearable
                                   />
                                   {
@@ -2460,7 +2474,7 @@ const CreateEmail = (props) => {
               </div>
               <div className="selected-hcp-list">
                 <table className="table">
-                  <thead>
+                  <thead className="sticky-header">
                     <tr>
                       <th scope="col">Name</th>
                       <th scope="col">Email</th>

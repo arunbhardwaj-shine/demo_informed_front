@@ -12,9 +12,12 @@ import { Modal, Dropdown } from "react-bootstrap";
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import EditCountry from "../CommonComponent/EditCountry";
 import EditContactType from "../CommonComponent/EditContactType";
-import Select from 'react-select';
+import Select, { createFilter } from 'react-select';
 var old_object = {};
 const SelectSmartListUsers = (props) => {
+  const filterConfig = {
+      matchFrom: 'start',
+  };
   const navigate = useNavigate();
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const location = useLocation();
@@ -160,6 +163,11 @@ const SelectSmartListUsers = (props) => {
         //smart_list_data: readers,
         // users_list : smartListSelected,
         selectedHcp: [...readers, ...readersNewlyAdded],
+        list_selection: old_object?.selected
+          ? old_object.selected
+          : props.getDraftData?.campaign_data?.list_selection
+          ? props.getDraftData.campaign_data.list_selection
+          : 0
       },
       campaign_id: campaign_id_st,
       source_code: old_object?.template
@@ -809,7 +817,7 @@ const SelectSmartListUsers = (props) => {
             </div>
             <div className="selected-hcp-list">
               <table className="table">
-                <thead className="sticky-header">
+                <thead>
                   <tr>
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
@@ -1192,6 +1200,7 @@ const SelectSmartListUsers = (props) => {
                                   <Select options = {countryall} className= "dropdown-basic-button split-button-dropup edit-country-dropdown" onChange={(event) => onCountryChange(event, i)}
                                     defaultValue  = {countryall[hpc[i].countryIndex]}
                                     placeholder   = {typeof  countryall[hpc[i].countryIndex] === "undefined" ? "Select Country" : countryall[hpc[i].countryIndex]}
+                                    filterOption  = {createFilter(filterConfig)}
                                     isClearable
                                   />
                                   {
