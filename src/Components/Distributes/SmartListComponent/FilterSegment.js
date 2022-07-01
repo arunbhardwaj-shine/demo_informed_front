@@ -789,7 +789,7 @@ const FilterSegment = (props) => {
                         {"consent_type" in filters &&
                           filters.consent_type.length > 0 && (
                             <>
-                              <div className="col block-smart-name">
+                              <div className="col block-smart-name consent-type">
                                 <h6>Consent Type</h6>
                                 <div className="smart-name-list">
                                   <ul>
