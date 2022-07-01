@@ -89,25 +89,6 @@ const EmailList = (props) => {
     props.getEmailData(null);
     props.getDraftData(null);
     props.getSelectedSmartListData(null);
-
-    if(queryParams?.id && queryParams?.id != ""){
-      let user_id = localStorage.getItem("user_id");
-      if(user_id){
-        if(user_id != queryParams.id){
-            localStorage.setItem("user_id", queryParams.id);
-        }
-      }else{
-        localStorage.setItem("user_id", queryParams.id);
-      }
-    }else{
-      let user_id = localStorage.getItem("user_id");
-      if(user_id){
-
-      }else{
-        localStorage.setItem("user_id", "rjiGlqA9DXJVH7bDDTX0Lg==");
-      }
-    }
-
   }, []);
 
   const showViewEmailModal = (data) => {
@@ -243,6 +224,12 @@ const EmailList = (props) => {
         if (res.data.status_code == 200) {
           let campaign_data = res.data.response.data;
           props.getDraftData(campaign_data);
+          if(campaign_data?.smart_list_data){
+            if(typeof campaign_data.smart_list_data != "undefined" && campaign_data.smart_list_data != ""){
+              props.getSelectedSmartListData(campaign_data.smart_list_data);
+            }
+          }
+
         } else {
           toast.warning(res.data.message);
         }

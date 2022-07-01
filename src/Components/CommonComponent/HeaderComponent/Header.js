@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { Button, Dropdown, Modal } from "react-bootstrap";
+import DropdownButton from 'react-bootstrap/DropdownButton';
 import { useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import queryString from "query-string";
 
 const Header = () => {
-
-	const navigate = useNavigate();
+	const queryParams = queryString.parse(window.location.search);
+	const [getUserName, setUserName] = useState("");
+	const navigate    = useNavigate();
 
 	const removed_pop =()=>{
 		var element = document.getElementById("resend-confirm");
@@ -16,9 +19,32 @@ const Header = () => {
 		if(redirect_info){
 			navigate(redirect_info);
 		}
-
-
 	}
+
+	useEffect(() => {
+		if(queryParams?.id && queryParams?.id != ""){
+			let user_id = localStorage.getItem("user_id");
+			if(user_id){
+				if(user_id != queryParams.id){
+						localStorage.setItem("user_id", queryParams.id);
+				}
+			}else{
+				localStorage.setItem("user_id", queryParams.id);
+			}
+		}else{
+			let user_id = localStorage.getItem("user_id");
+			if(user_id){
+
+			}else{
+				localStorage.setItem("user_id", "rjiGlqA9DXJVH7bDDTX0Lg==");
+			}
+		}
+
+		if(queryParams?.name && queryParams?.name != ""){
+			setUserName(queryParams.name)
+		}
+
+	}, []);
 
 	let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     return (
@@ -53,15 +79,25 @@ const Header = () => {
 				</ul>
 				</div>
 				<div className="user-login">
-					<ul>
-						<li className="nav-item dropdown">
-						  <a className="nav-link dropdown-toggle" href="javascript:;" role="button" data-bs-toggle="dropdown"><span>Hi,</span>Jacob Flindt</a>
-						  <ul className="dropdown-menu">
-								<li><a className="dropdown-item" href="#">Change Password</a></li>
-								<li><a className="dropdown-item" href="#">Logout</a></li>
-						  </ul>
-						</li>
-					  </ul>
+
+							<Dropdown>
+							  <Dropdown.Toggle id="dropdown-basic">
+							    <span>Hi,</span>{getUserName}
+							  </Dropdown.Toggle>
+
+							  <Dropdown.Menu>
+									<Dropdown.Item href="https://informed.pro/Pages/change_password/" className="dropdown-item">Change Password</Dropdown.Item>
+									<Dropdown.Item href="https://informed.pro/Users/logout/" className="dropdown-item">Logout</Dropdown.Item>
+							  </Dropdown.Menu>
+							</Dropdown>
+							{
+								/*
+								<ul className="dropdown-menu">
+									<li><a className="dropdown-item" href="#">Change Password</a></li>
+									<li><a className="dropdown-item" href="#">Logout</a></li>
+							  </ul>
+								*/
+							}
 					</div>
 			  </div>
 			</nav>
