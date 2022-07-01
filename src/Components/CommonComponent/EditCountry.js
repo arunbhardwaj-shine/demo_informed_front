@@ -3,8 +3,11 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import { Dropdown } from "react-bootstrap";
 import { toast } from "react-toastify";
 import axios from "axios";
-import Select from 'react-select'
+import Select, { createFilter } from 'react-select'
 const EditCountry = (props) => {
+  const filterConfig = {
+      matchFrom: 'start',
+  };
   const options = [
     { value: "Afghanistan" , label: "Afghanistan"},
     { value: "Albania" , label: "Albania"},
@@ -268,6 +271,7 @@ const EditCountry = (props) => {
       <Select options={options} className= "dropdown-basic-button split-button-dropup edit-country-dropdown" id={"country"  + getProfileUserId} onChange={(event) => onCountryChange(event)}
         defaultValue = {typeof  options[getDefaultIndex] === "undefined" ? "Select Country" : options[getDefaultIndex]}
         placeholder  = {typeof  options[getDefaultIndex] === "undefined" ? "Select Country" : options[getDefaultIndex]}
+        filterOption = {createFilter(filterConfig)}
         isClearable
         />
         <input type="hidden" id={`field_country` + getProfileUserId} value={getSelectedCountry} />

@@ -15,13 +15,16 @@ import { connect } from "react-redux";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { popup_alert } from "../../../popup_alert";
 import DropdownButton from 'react-bootstrap/DropdownButton';
-import Select from 'react-select';
+import Select, { createFilter }  from 'react-select';
 import makeAnimated from 'react-select/animated';
 const ViewTable = (props) => {
   const [inEditMode, setInEditMode] = useState({
     status: false,
     rowKey: null,
   });
+  const filterConfig = {
+      matchFrom: 'start',
+  };
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   //let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   //let validator = new SimpleReactValidator();
@@ -1503,6 +1506,7 @@ const ViewTable = (props) => {
                                   <Select options = {countryall} className= "dropdown-basic-button split-button-dropup edit-country-dropdown" onChange={(event) => onCountryChange(event, i)}
                                     defaultValue  = {countryall[hpc[i].countryIndex]}
                                     placeholder   = {typeof  countryall[hpc[i].countryIndex] === "undefined" ? "Select Country" : countryall[hpc[i].countryIndex]}
+                                    filterOption  = {createFilter(filterConfig)}
                                     isClearable
                                     />
                                   {
