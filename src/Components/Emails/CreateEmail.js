@@ -1645,9 +1645,9 @@ const CreateEmail = (props) => {
               <div className="form-search-hcp">
                 <form>
                   <div className="form-inline row justify-content-between align-items-center">
-                    <div className="col-12 col-md-7">
+                    <div className="col-12 col-md-8">
                       <div className="row justify-content-between align-items-center">
-                        <div className="form-group col-sm-6">
+                        <div className="form-group col-sm-5">
                           <label for="hcp-name">Name</label>
                           <input
                             type="text"
@@ -1656,7 +1656,7 @@ const CreateEmail = (props) => {
                             id=""
                           />
                         </div>
-                        <div className="form-group col-sm-6">
+                        <div className="form-group col-sm-5">
                           <label for="hcp-email">Email </label>
                           <input
                             type="mail"
@@ -1665,15 +1665,16 @@ const CreateEmail = (props) => {
                             id=""
                           />
                         </div>
+                        <div className="form-group col-sm-2">
+                            <button
+                            className="btn btn-primary btn-filled"
+                            onClick={(e) => searchHcp(e)}>
+                            Search
+                          </button>
+                      </div>
                       </div>
                     </div>
-                    <div className="form-button col-12 col-md-5">
-                      <button
-                        className="btn btn-primary btn-filled"
-                        onClick={(e) => searchHcp(e)}
-                      >
-                        Search
-                      </button>
+                    <div className="form-button col-12 col-md-4">
                       <button
                         className="btn btn-primary btn-bordered"
                         type="button"
