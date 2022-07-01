@@ -16,13 +16,16 @@ import { loader } from "../../loader";
 import { popup_alert } from "../../popup_alert";
 import { toast } from "react-toastify";
 import { getSelectedSmartListData } from "../../actions";
-import Select from 'react-select';
+import Select, { createFilter } from 'react-select';
 var dxr = 0;
 var state_object = {};
 
 const CreateEmail = (props) => {
   // console.log(state_object);
   // console.log(props);
+  const filterConfig = {
+      matchFrom: 'start',
+  };
   let file_name = useRef("");
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const navigate = useNavigate();
@@ -2170,6 +2173,7 @@ const CreateEmail = (props) => {
                                   <Select options = {countryall} className= "dropdown-basic-button split-button-dropup edit-country-dropdown" onChange={(event) => onCountryChange(event, i)}
                                     defaultValue  = {countryall[hpc[i].countryIndex]}
                                     placeholder   = {typeof  countryall[hpc[i].countryIndex] === "undefined" ? "Select Country" : countryall[hpc[i].countryIndex]}
+                                    filterOption  = {createFilter(filterConfig)}
                                     isClearable
                                   />
                                   {
