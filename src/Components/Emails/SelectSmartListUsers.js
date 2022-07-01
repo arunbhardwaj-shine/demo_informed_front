@@ -163,6 +163,11 @@ const SelectSmartListUsers = (props) => {
         //smart_list_data: readers,
         // users_list : smartListSelected,
         selectedHcp: [...readers, ...readersNewlyAdded],
+        list_selection: old_object?.selected
+          ? old_object.selected
+          : props.getDraftData?.campaign_data?.list_selection
+          ? props.getDraftData.campaign_data.list_selection
+          : 0
       },
       campaign_id: campaign_id_st,
       source_code: old_object?.template

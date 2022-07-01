@@ -248,6 +248,9 @@ const VerifyMAIL = (props) => {
           template_id: props.getEmailData?.templateId
           ? props.getEmailData.templateId
           : props.getDraftData.campaign_data.template_id,
+          list_selection: props.getEmailData?.selected
+            ? props.getEmailData.selected
+            : props.getDraftData.campaign_data.list_selection,
         },
       };
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
