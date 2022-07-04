@@ -1842,8 +1842,8 @@ const CreateEmail = (props) => {
               onClick={() => {
                 setAddListOpen(false);
                 setIsOpensend(true);
-                setSelectedHcp([]);
-                setSearchedUsers([]);
+                // setSelectedHcp([]);
+                // setSearchedUsers([]);
               }}
             ></button>
           </Modal.Header>
