@@ -13,7 +13,7 @@ import { getCampaignId } from "../../actions";
 import { popup_alert } from "../../popup_alert";
 import { toast } from "react-toastify";
 
-const VerifyMAIL = (props) => {
+const VerifyHcpMAIL = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
@@ -81,9 +81,11 @@ const VerifyMAIL = (props) => {
         setRemovedHcp(location.state.removedHcp);
       }
     }else{
-      if(props.getDraftData.campaign_data?.removedHcp){
-        if(typeof props.getDraftData.campaign_data.removedHcp != "undefined" && props.getDraftData.campaign_data.removedHcp != ""){
-          setRemovedHcp(props.getDraftData.campaign_data.removedHcp);
+      if(props.getDraftData?.campaign_data){
+        if(props.getDraftData.campaign_data?.removedHcp){
+          if(typeof props.getDraftData.campaign_data.removedHcp != "undefined" && props.getDraftData.campaign_data.removedHcp != ""){
+            setRemovedHcp(props.getDraftData.campaign_data.removedHcp);
+          }
         }
       }
     }
@@ -153,7 +155,7 @@ const VerifyMAIL = (props) => {
       subject: props.getEmailData?.emailSubject
         ? props.getEmailData.emailSubject
         : props.getDraftData.subject,
-      route_location: "VerifyMAIL",
+      route_location: "VerifyHcpMAIL",
       tags: props.getEmailData?.tags
         ? props.getEmailData.tags
         : props.getDraftData.tags,
@@ -161,11 +163,6 @@ const VerifyMAIL = (props) => {
         template_id: props.getEmailData?.templateId
           ? props.getEmailData.templateId
           : props.getDraftData.campaign_data.template_id,
-        smart_list_id:
-          typeof getSmartListData !== "undefined" &&
-          getSmartListData.hasOwnProperty("id")
-            ? getSmartListData.id
-            : "",
         selectedHcp: selectedHcp,
         list_selection: props.getEmailData?.selected
           ? props.getEmailData.selected
@@ -230,7 +227,7 @@ const VerifyMAIL = (props) => {
 
       const body = {
         user_id: localStorage.getItem("user_id"),
-        route_location: "VerifyMAIL",
+        route_location: "VerifyHcpMAIL",
         pdf_id: props.getEmailData?.PdfSelected
         ? props.getEmailData.PdfSelected
         : props.getDraftData.pdf_id,
@@ -253,11 +250,6 @@ const VerifyMAIL = (props) => {
         campaign_id: campaign_id_st,
         campaign_data: {
           user_list: user_list,
-          smart_list_id:
-          typeof getSmartListData !== "undefined" &&
-          getSmartListData.hasOwnProperty("id")
-          ? getSmartListData.id
-          : "",
           template_id: props.getEmailData?.templateId
           ? props.getEmailData.templateId
           : props.getDraftData.campaign_data.template_id,
@@ -318,14 +310,14 @@ const VerifyMAIL = (props) => {
   };
 
   const backClicked = () => {
-    if (
-      typeof getSmartListData !== "undefined" &&
-      getSmartListData.hasOwnProperty("id")
-    ) {
-      navigate("/SelectSmartListUsers");
-    } else {
+    // if (
+    //   typeof getSmartListData !== "undefined" &&
+    //   getSmartListData.hasOwnProperty("id")
+    // ) {
+    //   navigate("/SelectSmartListUsers");
+    // } else {
       navigate("/VerifyHCP");
-    }
+    // }
   };
 
   const openSmartListPopup = async (smart_list_id) => {
@@ -386,7 +378,7 @@ const VerifyMAIL = (props) => {
       subject: props.getEmailData?.emailSubject
         ? props.getEmailData.emailSubject
         : props.getDraftData.subject,
-      route_location: "VerifyMAIL",
+      route_location: "VerifyHcpMAIL",
       tags: props.getEmailData?.tags
         ? props.getEmailData.tags
         : props.getDraftData.tags,
@@ -394,11 +386,6 @@ const VerifyMAIL = (props) => {
         template_id: props.getEmailData?.templateId
           ? props.getEmailData.templateId
           : props.getDraftData.campaign_data.template_id,
-        smart_list_id:
-          typeof getSmartListData !== "undefined" &&
-          getSmartListData.hasOwnProperty("id")
-            ? getSmartListData.id
-            : "",
         selectedHcp: selectedHcp,
         list_selection: props.getEmailData?.selected
           ? props.getEmailData.selected
@@ -459,33 +446,32 @@ const VerifyMAIL = (props) => {
                 <li className="active">
                   <Link to="/CreateEmail">Create Your Email</Link>
                 </li>
+                {
+                  /*
                 <li className="active">
                   <Link to="/SelectSmartList">Select HCPs</Link>
                 </li>
 
-                {
-                  /*
+
                    typeof getSmartListData !== "undefined" &&
                    getSmartListData.hasOwnProperty("id")
                      ? <li className="active">
                      <Link to="/SelectSmartList">Select Smart List</Link>
                    </li>
                      :  ""
-                     */
-                }
 
-                {
+
                    typeof getSmartListData !== "undefined" &&
                    getSmartListData.hasOwnProperty("id")
                      ? <li className="active">
                      <Link to="/SelectSmartListUsers">Verify Your List</Link>
                    </li>
-                     :  <li className="active">
-                     <Link to="/VerifyHCP">Select Verify Your HCPs</Link>
-                   </li>
-
+                     :
+                          */
                 }
-
+                <li className="active">
+                  <Link to="/VerifyHCP">Select Verify Your HCPs</Link>
+                </li>
 
 
                 <li className="active active-main">
@@ -721,7 +707,7 @@ const VerifyMAIL = (props) => {
                       </h6>
                       <p>{/* Single HCP <span>| 1</span> */}</p>
 
-                      {getSmartListData.length !== 0 && (
+                      {/*getSmartListData.length !== 0 && (
                         <div className="smartlist-view email_box_outer">
                           <div className="smartlist-view email_box">
                             <div className="mail-box-content">
@@ -777,8 +763,8 @@ const VerifyMAIL = (props) => {
                                   alt="User icon"
                                 />
                                 {/*getSmartListData.readers_count*/}
-                                {selectedHcp.length}
-                              </div>
+                                {/*selectedHcp.length*/}
+                              {/*</div>*/}
                               {/* <div className="mail-stats">
                               <ul>
                                 <li>
@@ -820,7 +806,7 @@ const VerifyMAIL = (props) => {
                                   <span>60%</span>
                                 </li>
                               </ul>
-                            </div> */}
+                            </div>
                               <div className="smartlist-buttons">
                                 <button
                                   className="btn btn-primary btn-bordered view"
@@ -834,7 +820,7 @@ const VerifyMAIL = (props) => {
                             </div>
                           </div>
                         </div>
-                      )}
+                      )}*/}
                     </div>
                   </div>
                 </div>
@@ -1028,9 +1014,6 @@ const VerifyMAIL = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state);
-
-  //  let emailData = state.getEmailData;
   return state;
 };
-export default connect(mapStateToProps)(VerifyMAIL);
+export default connect(mapStateToProps)(VerifyHcpMAIL);

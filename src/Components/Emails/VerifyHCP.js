@@ -181,15 +181,11 @@ const VerifyHCP = (props) => {
   }, []);
 
   const nextClicked = () => {
-    console.log(selectedHcp);
-
     props.getSelected(selectedHcp);
-
-    navigate("/VerifyMAIL", {
-      // data: data,
-      // smartListName: smartListName,
+    navigate("/VerifyHcpMAIL", {
       state: {
         selectedHcp: selectedHcp,
+        removedHcp: ''
       },
     });
   };
@@ -778,11 +774,15 @@ const VerifyHCP = (props) => {
                 <li className="active">
                   <Link to="/CreateEmail">Create Your Email</Link>
                 </li>
-                <li className="active">
-                  <Link to="/SelectHCP">Select HCPs</Link>
-                </li>
+                {
+                  /*
+                  <li className="active">
+                    <Link to="/SelectHCP">Select HCPs</Link>
+                  </li>
+                  */
+                }
                 <li className="active active-main">
-                  <a href="javascript:void(0)">Verify Your List</a>
+                  <a href="javascript:void(0)">Select Verify your HCPs</a>
                 </li>
 
                 <li className="">

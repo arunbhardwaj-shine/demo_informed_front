@@ -78,9 +78,11 @@ const SelectSmartList = (props) => {
   }, [PdfSelected]);
 
   const handleSelect = (e) => {
-    if(e.id != new_object.id){
-      if(old_object?.removedHcp){
+    if(new_object?.id){
+      if(e.id != new_object.id){
+        if(old_object?.removedHcp){
           old_object.removedHcp = [];
+        }
       }
     }
 
@@ -323,13 +325,16 @@ const SelectSmartList = (props) => {
                 <li className="active">
                   <Link to="/CreateEmail">Create Your Email</Link>
                 </li>
-                <li className="active">
-                  <Link to="/SelectHCP">Select HCPs</Link>
-                </li>
                 <li className="active active-main">
-                  <Link to="/SelectSmartList">Select Smart List</Link>
+                  <Link to="/SelectSmartList">Select HCPs</Link>
                 </li>
-
+                {
+                  /*
+                  <li className="active active-main">
+                    <Link to="/SelectSmartList">Select Smart List</Link>
+                  </li>
+                  */
+                }
                 <li className="">
                   <a href="javascript:void(0)">Verify Your List</a>
                 </li>

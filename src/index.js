@@ -84,6 +84,7 @@ import CreateEmail from "./Components/Emails/CreateEmail";
 import VerifyHCP from "./Components/Emails/VerifyHCP";
 import SelectHCP from "./Components/Emails/SelectHCP";
 import VerifyMAIL from "./Components/Emails/VerifyMAIL";
+import VerifyHcpMAIL from "./Components/Emails/VerifyHcpMAIL";
 import SelectSmartList from "./Components/Emails/SelectSmartList";
 import SelectSmartListUsers from "./Components/Emails/SelectSmartListUsers";
 import UploadExcel from "./Components/Distributes/SmartListComponent/UploadExcel";
@@ -166,6 +167,7 @@ ReactDOM.render(
                     <Route path="/SelectHCP" element={<SelectHCP />} />
                     <Route path="/VerifyHCP" element={<VerifyHCP />} />
                     <Route path="/VerifyMAIL" element={<VerifyMAIL />} />
+                    <Route path="/VerifyHcpMAIL" element={<VerifyHcpMAIL />} />
                     <Route
                       path="/SelectSmartListUsers"
                       element={<SelectSmartListUsers />}
