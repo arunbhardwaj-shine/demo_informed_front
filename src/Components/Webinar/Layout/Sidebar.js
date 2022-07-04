@@ -246,7 +246,7 @@ const Sidebar = () => {
                     onClick={() => showHideHome(1)}
                   >
                     <Link
-                      to="/webinar/portal/registrationDetailslist"
+                      to="/webinar/portal/Registrations"
                       onMouseOver={handleMouseOverRegistration}
                       onMouseOut={handleMouseOutRegistration}
                     >
@@ -627,7 +627,7 @@ const Sidebar = () => {
                         <p>Portal Features</p>
                       </Link>
                     </li> */}
-                    <li
+                    {/* <li
                       className={
                         location.pathname ===
                           "/webinar/portal/registrationDetails" ||
@@ -641,10 +641,10 @@ const Sidebar = () => {
                         <img src={path_image + "webinar/event.svg"} />
                         <p>Registration Page</p>
                       </Link>
-                    </li>
+                    </li> */}
                     <li
                       className={
-                        location.pathname === "/webinar/portal/Registrations"||location.pathname === "/webinar/portal/createRegistration"
+                        location.pathname === "/webinar/portal/Registrations"||location.pathname === "/webinar/portal/NewRegistration"
                           ? "active"
                           : "side_li"
                       }

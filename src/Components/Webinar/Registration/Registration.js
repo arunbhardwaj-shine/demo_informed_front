@@ -1,46 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import ExportApi from "../../../Api/ExportApi";
-import { Button, Col, Form, Modal, Row, Table } from "react-bootstrap";
+import { Button, Col,  Modal, Row, Table } from "react-bootstrap";
 import * as Yup from "yup";
 import "../webinar.css";
 import { toast, ToastContainer } from "react-toastify";
-import CreateRegistration from "./CreateRegistration";
 import { Link, useNavigate } from "react-router-dom";
 import { loader } from "../../../loader";
-import AliceCarousel from "react-alice-carousel";
-import { BaseApi, BaseUrlImage } from "../../../Api/BaseApi";
+import { BaseUrlImage } from "../../../Api/BaseApi";
 const Registration = () => {
-  let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-  const baseURL = BaseApi.getBaseURL();
+  let path_image = process.env.REACT_APP_ASSETS_PATH_WEBINAR;
   const [modalShow, setModalShow] = useState(false);
   const [registrationPageList, setRegistrationPageList] = useState();
-  const [template, setTemplate] = useState();
   const [editdata, setEditdata] = useState();
   const [format, setFormat] = useState();
   const [mode, setMode] = useState();
   const [eventCode, setEventCode] = useState();
   const [show, setShow] = useState(false);
-  const [UrlAlias, setUrlAlias] = useState();
+  const [deleteId, setDeleteId] = useState();
   const [massage, setMassage] = useState("Please Select Event");
   const [modalShow1, setModalShow1] = useState(false);
+  const [modalShow3, setModalShow3] = useState(false);
 
-   
-  // const handleGetTemplateList = (id) => {
-  //   ExportApi.UserTemplateList(id).then((resp) => {
-  //     if (resp.ok) {
-  //       if (resp.data.code == 200) {
-  //         loader("hide")
-  //         console.log("resp.data.data",resp.data.data)
-  //         setTemplateList(resp.data.data);
-  //         // handleGetTemplate(resp.data.data[0].id);
-  //         //  setTemplateIdActive(resp.data.data[0].id);
-  //       } else {
-  //         loader("hide")
-  //       }
-  //     }
-  //   });
-  // };
   let navigate = useNavigate();
   const handleGetRegistrationPageList = (id) => {
     ExportApi.RegistrationPageList(id).then((resp) => {
@@ -58,31 +39,15 @@ const Registration = () => {
       }
     });
   };
-  const handleGetRegistrationPagedata = (id) => {
-    ExportApi.RegistrationPageData(id).then((resp) => {
-      if (resp.ok) {
-        // handleGetTemplateList(localStorage.getItem("EventIdHeader"));
-        setEditdata(resp.data.data);
-        // setTemplateIdActive(resp.data.data.template_id)
-        setEventCode(resp.data.data.event.code);
-        setUrlAlias(resp.data.data.url);
-      }
-    });
-  };
-  const handleGetRegistrationDelete = (id) => {
-    ExportApi.RegistrationPageDelete(id).then((resp) => {
+
+  const handleGetRegistrationDelete = () => {
+    ExportApi.RegistrationPageDelete(deleteId).then((resp) => {
       if (resp.ok) {
         localStorage.removeItem("registrationPageId")
+        localStorage.removeItem("EditRegistrationPageId")
+        setModalShow3(false)
         handleGetRegistrationPageList(localStorage.getItem("EventIdHeader"))
-        toast.success(resp.data.message, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
+        toast.success(resp.data.message)
       }
     });
   };
@@ -101,71 +66,6 @@ const Registration = () => {
       // setMessage("Please create Event");
     }
   }, []);
-
-  const formik = useFormik({
-    initialValues: {
-      RegistrationPageTitle: editdata ? editdata.title : "",
-      url: editdata ? editdata.url : "",
-      body: editdata ? editdata.body : "",
-      mode:"" ,
-
-    },
-    validationSchema: Yup.object({
-      RegistrationPageTitle: Yup.string().required(
-        "Enter your registration page title"
-      ),
-      mode: Yup.string().required("Please  select mode"),
-      body: Yup.string().required("Enter a Body text"),
-      url: Yup.string()
-        .matches(/^[a-zA-Z]+$/u, "Only alphabets are allowed")
-        .required("Enter url alias"),
-    }),
-    enableReinitialize: true,
-    onSubmit: (values) => {
-      loader("show");
-      let formData = new FormData();
-
-      formData.append("registration_page_id",editdata.id);
-
-      formData.append("body", values.body);
-
-      formData.append("title", values.RegistrationPageTitle);
-
-      // formData.append("file", image);
-      formData.append("url", UrlAlias);
-       formData.append("mode", values.mode);
-      UrlAlias
-        ? ExportApi.UpdateRegistrationPageData(formData).then((resp) => {
-            if (resp.ok) {
-              if (resp.data.code == 200) {
-                loader("hide");
-                handleGetRegistrationPageList();
-                toast.success(resp.data.message, {
-                  position: "top-right",
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                });
-              } else {
-                loader("hide");
-                toast.error(resp.data.message, {
-                  position: "top-right",
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                });
-              }
-            }
-          })
-        : console.log("errr");
-    },
-  });
   return (
     <>
       <div className="loader" id="custom_loader">
@@ -174,14 +74,12 @@ const Registration = () => {
     <div class="right-sidebar col">
     <div class="top-header">
         <div class="page-title">
-          <h3>Registration Page </h3>
+          <h2>Registration Page </h2>
         </div>
         {registrationPageList===undefined||registrationPageList===null?<Link to="/webinar/portal/NewRegistration"><Button>Create Registration Page</Button></Link>:registrationPageList.length==1?(<> {registrationPageList?.length==2||registrationPageList?.length>2?null:  <div class="top-right-action">
             <Button onClick={()=>setModalShow1(true)}>Create Registration Page</Button>
         </div>}</>):null}
-     
       </div>
-  
       <Row>
         <ToastContainer
           position="top-right"
@@ -194,7 +92,6 @@ const Registration = () => {
           draggable
           pauseOnHover
         />
-
             {registrationPageList ? (
               <Row>
                 <Col className="mb-5">
@@ -210,24 +107,39 @@ const Registration = () => {
                         <tr key={i}>
                           <td>{val.mode}-Registration Page</td>
                           <td>
-                              <Button onClick={()=>{setEventCode(val.code);setFormat(val.format);setMode(val.mode);setModalShow(true)}}>Preview</Button>
-                            <Button
-                              onClick={(e) => {
+                            <div className="user-type-action">
+                              <button   onClick={(e) => {
                                localStorage.setItem("EditRegistrationPageId",val.id);
                                setTimeout(() => {
                                 navigate("/webinar/portal/NewRegistration");
                               }, 1000);
-                              }}
-                            >
-                              Edit
-                            </Button>
-                            <Button
-                              onClick={(e) => {
-                                handleGetRegistrationDelete(val.id);
-                              }}
-                            >
-                              Delete
-                            </Button>
+                              }} className="btn btn-primary btn-filled">
+                              <img
+                                alt="edit"
+                                src={path_image + "edit-btn.png"}
+                                width={25}
+                                />
+                                </button>
+                             <button onClick={()=>{loader("show"); setEventCode(val.code);setFormat(val.format);setMode(val.mode);setModalShow(true); setTimeout(() => {
+                              loader("hide")
+                             }, 1500);}} className="btn btn-primary btn-filled back">
+                              <img
+                                alt="Preview"
+                                src={path_image + "eye-svgrepo-com.svg"}
+                                width={25}
+                                />
+                                </button>
+                                  <button  onClick={(e) => {
+                                setDeleteId(val.id)
+                                setModalShow3(true)
+                              }} className="btn btn-primary btn-filled">
+                              <img
+                                alt="Delete"
+                                src={path_image + "delete-btn.png"}
+                                width={25}
+                                />
+                                </button>
+                                </div>
                           </td>
                         </tr>
                       ))}
@@ -323,6 +235,46 @@ const Registration = () => {
               onClick={() =>setShow(true) }
             >
               Copy Existing 
+            </button>
+          </div>
+        </Modal.Body>
+      </Modal>
+      <Modal show={modalShow3} className="send-confirm" id="resend-confirm">
+        <Modal.Header>
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="modal"
+            onClick={() => setModalShow1(false)}
+          ></button>
+        </Modal.Header>
+        <Modal.Body>
+          <img src={path_image + "alert.png"} alt="" />
+          <h4>
+            The record will be deleted from the list.
+            <br />
+            Are you sure you want to delete it?
+          </h4>
+
+          <div className="modal-buttons">
+            <button
+              type="button"
+              className="btn btn-primary btn-filled"
+              data-bs-dismiss="modal"
+              onClick={() => {
+                handleGetRegistrationDelete();
+              }}
+            >
+              Yes Please!
+            </button>
+
+            <button
+              type="button"
+              className="btn btn-primary btn-bordered light"
+              data-bs-dismiss="modal"
+              onClick={() => setModalShow3(false)}
+            >
+              Cancel
             </button>
           </div>
         </Modal.Body>

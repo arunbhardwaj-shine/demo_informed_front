@@ -8,7 +8,6 @@ import { BaseUrlImage } from '../../../Api/BaseApi';
 
 const Format2 = (props) => {
     const [TemplateIdActive, setTemplateIdActive] = useState(props.TemplateIdActive);
-    const [footerLogo, setFooterLogo] = useState();
     const [titleLogo, setTitleLogo] = useState();
     const [data, setData] = useState();
     const [modalShow, setModalShow] = useState(false);
@@ -22,16 +21,6 @@ const Format2 = (props) => {
         }
       });
     }
-    const uploadImageFooterLogo=(e)=>{
-      let formData = new FormData();
-         formData.append("file", e);
-      ExportApi.RegistrationPageUplodImage(formData) .then((resp) => {
-        if (resp.ok) {
-          let Path=BaseUrlImage+resp.data.data
-          setFooterLogo(Path)
-        }
-      });
-    }
     const formik = useFormik({
         initialValues: {
           Title1:props.data?.Title1?props.data?.Title1: "",
@@ -42,13 +31,13 @@ const Format2 = (props) => {
           Address:props.data?.Address?props.data?.Address:'',
           Speakername:props.data?.Speakername?props.data?.Speakername:"",
           eventdate:props.data?.eventdate?props.data?.eventdate:'',
+          eventtime:props.data?.eventtime?props.data?.eventtime:'',
           content1:props.data?.content1?props.data?.content1:'',
           content2:props.data?.content2?props.data?.content2:'',
           BodyFootercontent1:props.data?.BodyFootercontent1?props.data?.BodyFootercontent1:'',
           BodyFootercontent2:props.data?.BodyFootercontent2?props.data?.BodyFootercontent2:'',
           RadioButton:props.data?.RadioButton?props.data?.RadioButton:'',
           name:props.data?.name?props.data?.name:"",
-          email:props.data?.email?props.data?.email:"",
           country:props.data?.country?props.data?.country:"",
           titleColor:props.data?.titleColor?props.data?.titleColor:"",
           backgroundColor:props.data?.backgroundColor?props.data?.backgroundColor:"",
@@ -73,17 +62,17 @@ const Format2 = (props) => {
             BodyFooterLeftcontent2:values.BodyFootercontent2,
             Speakername:values.Speakername,
             eventdate:values.eventdate,
+            eventtime:values.eventtime,
             RadioButton:values.RadioButton,
             name:values.name,
-            email:values.email,
             countryLabel:values.countryLabel,
+            country:values.country,
             anchorText:values.anchorText,
             anchorLink:values.anchorLink,
             titleColor :values.titleColor,
             textColor:values.textColor,
             backgroundColor:values.backgroundColor,
             borderColor:values.borderColor,
-            footerRightLogo:footerLogo,
             titleLogo:titleLogo
           }
           if(props?.mode?.id){
@@ -93,28 +82,11 @@ const Format2 = (props) => {
                   localStorage.removeItem("EditRegistrationPageId")
                   localStorage.removeItem("registrationPageId")
                   setData(resp.data.data)
-                  loader("hide")
-                  toast.success(resp.data.message, {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                  })
+                  toast.success(resp.data.message)
                 } else {
-                  loader("hide")
-                  toast.error(resp.data.message, {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                  });
+                  toast.error(resp.data.message);
                 }
+                loader("hide")
               }
             });
           }else{
@@ -123,28 +95,11 @@ const Format2 = (props) => {
               if (resp.ok) {
                 if (resp.data.code == 200) {
                   setData(resp.data.data)
-                  loader("hide")
-                  toast.success(resp.data.message, {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                  })
+                  toast.success(resp.data.message)
                 } else {
-                  loader("hide")
-                  toast.error(resp.data.message, {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                  });
+                  toast.error(resp.data.message);
                 }
+                loader("hide")
               }
             });
           }
@@ -271,17 +226,6 @@ const Format2 = (props) => {
                 />
             </div>
             </div>
-            <div className="form-inline row justify-content-between align-items-center">
-                      <div className="form-group col-12 ">
-                        <label> Footer Right Logo</label>
-                        <Form.Control
-                          name="Headerlogo"
-                          onChange={(e)=>{uploadImageFooterLogo(e.target.files[0])}}
-                          type="file"
-                          placeholder="Header Title Logo"
-                        />
-                    </div>
-                    </div>
                   <div className="form-inline row justify-content-between align-items-center">
                       <div className="form-group col-12 col-md-11">
                       <label>Address</label>
@@ -306,6 +250,19 @@ const Format2 = (props) => {
                   value={formik.values.eventdate}
                   type="text"
                   placeholder="Event Date"
+                />
+            </div>
+            </div>
+            <div className="form-inline row justify-content-between align-items-center">
+              <div className="form-group col-12 ">
+                <label>Event Time</label>
+                <Form.Control
+                  name="eventtime"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.eventtime}
+                  type="text"
+                  placeholder="Event Time"
                 />
             </div>
             </div>
@@ -434,21 +391,6 @@ const Format2 = (props) => {
             </div>
         <div className="form-inline row justify-content-between align-items-center">
               <div className="form-group col-12 ">
-                <label>Email</label>
-                <div class="form-check">
-                <Form.Control
-                  name="email"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.email}
-                  checked={formik.values.email}
-                  type="checkbox"
-                />
-                </div>
-            </div>
-            </div>
-        <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 ">
                 <label>Country</label>
                 <div class="form-check">
                 <Form.Control
@@ -462,7 +404,6 @@ const Format2 = (props) => {
                 </div>
             </div>
             </div>
-        
         </div>
         {/* end of fields content */}
         

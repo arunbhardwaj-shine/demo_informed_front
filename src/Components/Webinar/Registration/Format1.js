@@ -8,7 +8,6 @@ import { BaseUrlImage } from '../../../Api/BaseApi';
 
 const Format1 = (props) => {
   const [TemplateIdActive, setTemplateIdActive] = useState(props.TemplateIdActive);
-  const [footerLogo, setFooterLogo] = useState();
   const [titleLogo, setTitleLogo] = useState();
   const [data, setData] = useState();
   const [modalShow, setModalShow] = useState(false);
@@ -22,16 +21,7 @@ const Format1 = (props) => {
       }
     });
   }
-  const uploadImageFooterLogo=(e)=>{
-    let formData = new FormData();
-       formData.append("file", e);
-    ExportApi.RegistrationPageUplodImage(formData) .then((resp) => {
-      if (resp.ok) {
-        let Path=BaseUrlImage+resp.data.data
-        setFooterLogo(Path)
-      }
-    });
-  }
+
   const formik = useFormik({
       initialValues: {
         Title1:props.data?.Title1?props.data?.Title1: "",
@@ -52,7 +42,6 @@ const Format1 = (props) => {
         consentRadiotext3:props.data?.consentRadiotext3?props.data?.consentRadiotext3:'',
         submitText:props.data?.submitText?props.data?.submitText:'',
         name:props.data?.name?props.data?.name:"",
-        email:props.data?.email?props.data?.email:"",
         country:props.data?.country?props.data?.country:"",
         titleColor:props.data?.titleColor?props.data?.titleColor:"",
         backgroundColor:props.data?.backgroundColor?props.data?.backgroundColor:"",
@@ -60,7 +49,7 @@ const Format1 = (props) => {
         textColor:props.data?.textColor?props.data?.textColor:"",
       },
   
-      
+      enableReinitialize: true,
       onSubmit: (values) => {
         loader("show")
         let jsonData ={
@@ -81,7 +70,6 @@ const Format1 = (props) => {
           eventtime:values.eventtime,
           RadioButton:values.RadioButton,
           name:values.name,
-          email:values.email,
           country:values.country,
           titleColor :values.titleColor,
           textColor:values.textColor,
@@ -96,28 +84,11 @@ const Format1 = (props) => {
               localStorage.removeItem("EditRegistrationPageId")
               localStorage.removeItem("registrationPageId")
               setData(resp.data.data)
-              loader("hide")
-              toast.success(resp.data.message, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-              })
+              toast.success(resp.data.message)
             } else {
-              loader("hide")
-              toast.error(resp.data.message, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-              });
+              toast.error(resp.data.message);
             }
+            loader("hide")
           }
         });
       }else{
@@ -125,28 +96,11 @@ const Format1 = (props) => {
           if (resp.ok) {
             if (resp.data.code == 200) {
               setData(resp.data.data)
-              loader("hide")
-              toast.success(resp.data.message, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-              })
+              toast.success(resp.data.message)
             } else {
-              loader("hide")
-              toast.error(resp.data.message, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-              });
+              toast.error(resp.data.message);
             }
+            loader("hide")
           }
         });
       }
@@ -463,22 +417,6 @@ const Format1 = (props) => {
                 />
               </div>
               </div>
-            </div>
-            </div>
-
-        <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 ">
-                <label>Email</label>
-                <div class="form-check">
-                <Form.Control
-                  name="email"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.email}
-                  checked={formik.values.email}
-                  type="checkbox"
-                />
-                </div>
             </div>
             </div>
 
