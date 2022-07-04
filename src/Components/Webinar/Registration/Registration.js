@@ -245,7 +245,7 @@ const Registration = () => {
             type="button"
             className="btn-close"
             data-bs-dismiss="modal"
-            onClick={() => setModalShow1(false)}
+            onClick={() => setModalShow3(false)}
           ></button>
         </Modal.Header>
         <Modal.Body>
