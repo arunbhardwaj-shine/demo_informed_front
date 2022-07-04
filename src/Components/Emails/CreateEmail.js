@@ -16,7 +16,18 @@ import { loader } from "../../loader";
 import { popup_alert } from "../../popup_alert";
 import { toast } from "react-toastify";
 import { getSelectedSmartListData } from "../../actions";
+import ReactSummernote from 'react-summernote';
+import 'react-summernote/dist/react-summernote.css';
 import Select, { createFilter } from 'react-select';
+import $ from 'jquery';
+import "react-summernote/dist/react-summernote.css"; // import styles
+import "bootstrap/js/dist/modal";
+import "bootstrap/js/dist/dropdown";
+import "bootstrap/js/dist/tooltip";
+import 'bootstrap/dist/css/bootstrap.css';
+window.jQuery = $;
+require('bootstrap');
+// window.$ = window.jQuery = require('jquery');
 var dxr = 0;
 var state_object = {};
 
@@ -1509,20 +1520,44 @@ const CreateEmail = (props) => {
               </div>
             </div>
             <div className="row">
+            <ReactSummernote
+                  value={template}
+                  options={{
+                    lang: 'ru-RU',
+                    height: 400,
+                    dialogsInBody: true,
+                    toolbar: [
+                      ['style', ['style']],
+                      ['font', ['bold', 'underline', 'clear']],
+                      ['fontname', ['fontname']],
+                      ['para', ['ul', 'ol', 'paragraph']],
+                      ['table', ['table']],
+                      ['view', ['codeview']]
+                    ]
+                  }}
+                  onChange={(content) => {
+                    setTemplate(content);
+                }}
+                />
+            {
+              /*
+
               <CKEditor
-                editor={ClassicEditor}
-                data={template}
-                readOnly={true}
-                onReady={(editor) => {
-                  // You can store the "editor" and use when it is needed.
-                }}
-                onChange={(event, editor) => {
-                  const data = editor.getData();
-                  setTemplate(data);
-                }}
-                onBlur={(event, editor) => {}}
-                onFocus={(event, editor) => {}}
-              />
+              editor={ClassicEditor}
+              data={template}
+              readOnly={true}
+              onReady={(editor) => {
+              // You can store the "editor" and use when it is needed.
+            }}
+            onChange={(event, editor) => {
+            const data = editor.getData();
+            setTemplate(data);
+          }}
+          onBlur={(event, editor) => {}}
+          onFocus={(event, editor) => {}}
+          />
+              */
+            }
             </div>
           </div>
         </section>
