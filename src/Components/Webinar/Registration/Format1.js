@@ -162,6 +162,7 @@ const Format1 = (props) => {
                    onChange={formik.handleChange}
                    onBlur={formik.handleBlur}
                    value={"virtual"}
+                   defaultValue="virtual"
                    defaultChecked
                  />
                </div>:props.mode?.mode=="onsite"?<div class="form-check">

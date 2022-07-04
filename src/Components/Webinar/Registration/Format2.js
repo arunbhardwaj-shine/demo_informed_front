@@ -158,6 +158,7 @@ const Format2 = (props) => {
                    onChange={formik.handleChange}
                    onBlur={formik.handleBlur}
                    value={"virtual"}
+                   defaultValue="virtual"
                    defaultChecked
 
                  />
