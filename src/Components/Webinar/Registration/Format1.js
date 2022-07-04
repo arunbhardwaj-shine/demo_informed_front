@@ -32,7 +32,6 @@ const Format1 = (props) => {
       }
     });
   }
-  console.log("props",props.data?.Title1)
   const formik = useFormik({
       initialValues: {
         Title1:props.data?.Title1?props.data?.Title1: "",
@@ -55,9 +54,6 @@ const Format1 = (props) => {
         name:props.data?.name?props.data?.name:"",
         email:props.data?.email?props.data?.email:"",
         country:props.data?.country?props.data?.country:"",
-        Emailplaceholder:props.data?.Emailplaceholder?props.data?.Emailplaceholder:"",
-        nameplaceholder:props.data?.nameplaceholder?props.data?.nameplaceholder:"",
-        countryLabel:props.data?.countryLabel?props.data?.countryLabel:"",
         titleColor:props.data?.titleColor?props.data?.titleColor:"",
         backgroundColor:props.data?.backgroundColor?props.data?.backgroundColor:"",
         borderColor:props.data?.borderColor?props.data?.borderColor:"",
@@ -87,15 +83,44 @@ const Format1 = (props) => {
           name:values.name,
           email:values.email,
           country:values.country,
-          Emailplaceholder:values.Emailplaceholder,
-          nameplaceholder:values.nameplaceholder,
-          countryLabel:values.countryLabel,
           titleColor :values.titleColor,
           textColor:values.textColor,
           backgroundColor:values.backgroundColor,
           borderColor:values.borderColor,
           titleLogo:titleLogo
         }
+        if(props?.mode?.id){
+          ExportApi.RegistrationPageUpdate(props?.mode?.id,localStorage.getItem("EventIdHeader"),values.mode, JSON.stringify(jsonData),TemplateIdActive).then((resp) => {
+          if (resp.ok) {
+            if (resp.data.code == 200) {
+              localStorage.removeItem("EditRegistrationPageId")
+              localStorage.removeItem("registrationPageId")
+              setData(resp.data.data)
+              loader("hide")
+              toast.success(resp.data.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              })
+            } else {
+              loader("hide")
+              toast.error(resp.data.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
+            }
+          }
+        });
+      }else{
         ExportApi.CreateRegistrationPage(localStorage.getItem("EventIdHeader"),values.mode, JSON.stringify(jsonData),TemplateIdActive).then((resp) => {
           if (resp.ok) {
             if (resp.data.code == 200) {
@@ -124,6 +149,7 @@ const Format1 = (props) => {
             }
           }
         });
+      }
       },
     });
   return (
@@ -171,6 +197,8 @@ const Format1 = (props) => {
                                  type="radio"
                                  onChange={formik.handleChange}
                                  onBlur={formik.handleBlur}
+                                 defaultChecked
+                                 defaultValue={"onsite"}
                                  value="onsite"
                                  />
                             </div>:<div class="form-check"><Form.Label> Virtual</Form.Label>
@@ -437,24 +465,7 @@ const Format1 = (props) => {
               </div>
             </div>
             </div>
-            {formik.values.name===true?
-              <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 ">
-                <label>Name Placeholder</label>
-                <div className="form-inline-option">
-                <div class="form-check">
-                <Form.Control
-                  name="nameplaceholder"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.nameplaceholder}
-                  type="text"
-                  
-                />
-              </div>
-              </div>
-            </div>
-            </div>:null}
+
         <div className="form-inline row justify-content-between align-items-center">
               <div className="form-group col-12 ">
                 <label>Email</label>
@@ -463,30 +474,14 @@ const Format1 = (props) => {
                   name="email"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={formik.values.Name}
+                  value={formik.values.email}
+                  checked={formik.values.email}
                   type="checkbox"
                 />
                 </div>
             </div>
             </div>
-            {formik.values.email===true?
-              <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 ">
-                <label>Email Placeholder</label>
-                <div className="form-inline-option">
-                <div class="form-check">
-                <Form.Control
-                  name="Emailplaceholder"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.Emailplaceholder}
-                  type="text"
-                  
-                />
-              </div>
-              </div>
-            </div>
-            </div>:null}
+
         <div className="form-inline row justify-content-between align-items-center">
               <div className="form-group col-12 ">
                 <label>Country</label>
@@ -496,6 +491,7 @@ const Format1 = (props) => {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.country}
+                  checked={formik.values.country}
                   type="checkbox"
                 />
                 </div>
@@ -503,24 +499,6 @@ const Format1 = (props) => {
             </div>
         
         </div>
-        {formik.values.country===true?
-              <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 ">
-                <label>Country Label</label>
-                <div className="form-inline-option">
-                <div class="form-check">
-                <Form.Control
-                  name="countryLabel"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.countryLabel}
-                  type="text"
-                  
-                />
-              </div>
-              </div>
-            </div>
-            </div>:null}
         {/* end of fields content */}
         
         {/* color div content */}
@@ -586,8 +564,10 @@ const Format1 = (props) => {
 
         {/* end of color div content */}
         </div>
-        {/* end of right sidebar */}
+        {/* end of right sidebar */}{props?.mode?.id?
+<Button type="submit">update</Button>:
         <Button type="submit">Save</Button>
+        }
         </form>
         <Modal
         show={modalShow}
@@ -600,8 +580,8 @@ const Format1 = (props) => {
           <h4>Preview Page </h4>
         </Modal.Header>
         <Modal.Body>
-            <iframe src={`${BaseUrlImage}/SH2022/index${data?.format}.php?event=${data?.event.code}&mode=${
-                data?.mode
+            <iframe src={`${BaseUrlImage}/SH2022/index${data?.format?data?.format:props?.mode?.format}.php?event=${data?.event.code?data?.event.code:props.mode?.event?.code}&mode=${
+                data?.mode?data?.mode:props?.mode?.mode
               }`}></iframe>
         </Modal.Body>
         <Modal.Footer>

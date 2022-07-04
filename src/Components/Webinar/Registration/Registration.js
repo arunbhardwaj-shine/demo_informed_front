@@ -13,25 +13,19 @@ import { BaseApi, BaseUrlImage } from "../../../Api/BaseApi";
 const Registration = () => {
   let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const baseURL = BaseApi.getBaseURL();
+  const [modalShow, setModalShow] = useState(false);
   const [registrationPageList, setRegistrationPageList] = useState();
   const [template, setTemplate] = useState();
   const [editdata, setEditdata] = useState();
+  const [format, setFormat] = useState();
+  const [mode, setMode] = useState();
   const [eventCode, setEventCode] = useState();
   const [show, setShow] = useState(false);
   const [UrlAlias, setUrlAlias] = useState();
   const [massage, setMassage] = useState("Please Select Event");
-  const [flag, setFlag] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const syncActiveIndex = ({ item }) => setActiveIndex(item);
   const [modalShow1, setModalShow1] = useState(false);
-  const templateClicked = (template, e) => {
-    const div = document.querySelector("img.select_mm");
-    if (div) {
-      div.classList.remove("select_mm");
-    }
-    // setTemplateIdActive(template.id);
-    e.target.classList.toggle("select_mm");
-  };
+
+   
   // const handleGetTemplateList = (id) => {
   //   ExportApi.UserTemplateList(id).then((resp) => {
   //     if (resp.ok) {
@@ -182,10 +176,12 @@ const Registration = () => {
         <div class="page-title">
           <h3>Registration Page </h3>
         </div>
-        <div class="top-right-action">
+        {registrationPageList===undefined||registrationPageList===null?<Link to="/webinar/portal/NewRegistration"><Button>Create Registration Page</Button></Link>:registrationPageList.length==1?(<> {registrationPageList?.length==2||registrationPageList?.length>2?null:  <div class="top-right-action">
             <Button onClick={()=>setModalShow1(true)}>Create Registration Page</Button>
-        </div>
+        </div>}</>):null}
+     
       </div>
+  
       <Row>
         <ToastContainer
           position="top-right"
@@ -214,17 +210,13 @@ const Registration = () => {
                         <tr key={i}>
                           <td>{val.mode}-Registration Page</td>
                           <td>
-                            <a
-                              href={`${BaseUrlImage}/SH2022/index${val.format}.php?event=${val.code}&mode=${
-                                val.mode
-                              }`}
-                              target="_blank"
-                            >
-                              <Button>Preview</Button>
-                            </a>
+                              <Button onClick={()=>{setEventCode(val.code);setFormat(val.format);setMode(val.mode);setModalShow(true)}}>Preview</Button>
                             <Button
                               onClick={(e) => {
-                                handleGetRegistrationPagedata(val.id);
+                               localStorage.setItem("EditRegistrationPageId",val.id);
+                               setTimeout(() => {
+                                navigate("/webinar/portal/NewRegistration");
+                              }, 1000);
                               }}
                             >
                               Edit
@@ -249,128 +241,35 @@ const Registration = () => {
                 <h2>{massage}</h2>
               </div>
             )}
-          {editdata ? (
-              <div className="webinar-modal-data create-registration">
-                <form onSubmit={formik.handleSubmit}>
-                <div className="modal-body-content">
-            <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 col-md-8">
-                          <label>Title</label>
-                          <Form.Control
-                            name="RegistrationPageTitle"
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            value={formik.values.RegistrationPageTitle}
-                            type="text"
-                            placeholder="Title"
-                          />
-                          <div className="error">
-                            {formik.touched.RegistrationPageTitle &&
-                            formik.errors.RegistrationPageTitle ? (
-                              <div style={{ color: "red" }}>
-                                {formik.errors.RegistrationPageTitle}
-                              </div>
-                            ) : null}
-                          </div>
-                     </div>
-                     </div>
-                     <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 col-md-8">
-                      <Form.Label>Url Alias</Form.Label>
-                      <Form.Control
-                        name="url"
-                        onChange={(e) =>{ setUrlAlias(e.target.value)
-                        if(e.target.value){
-                          setFlag(false)
-                          console.log(flag)
-                        }else{
-                          console.log(flag)
-                          setFlag(true)
-                        }}}
-                        value={UrlAlias}
-                        type="text"
-                        placeholder="url"
-                      />
-                      <div className="form-alias">
-                        ( http://51.89.210.56:3000/webinar/register/{eventCode}/
-                        {UrlAlias}/1)
-                      </div>
-                      <div className="error">
-                          {flag ? (
-                            <div style={{ color: "red" }}>Enter url alias</div>
-                          ):null}
-                      </div>
-                    </div></div>
-                    <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 col-md-8">
-                <label>Mode</label>
-                <div className="form-inline">
-                            <div class="form-check">
-                              <Form.Label>Onsite</Form.Label>
-                              <Form.Control
-                                 name="mode"
-                                 type="radio"
-                                 onChange={formik.handleChange}
-                                 onBlur={formik.handleBlur}
-                                 value="onsite"
-                                 checked={editdata. mode==="onsite"?true:false}
-                                 />
-                            </div>
-                            <div class="form-check">
-                              <Form.Label> Virtual</Form.Label>
-                              <Form.Control
-                               name="mode"
-                                type="radio"
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                value={"virtual"}
-                                checked={editdata.mode==="virtual"?true:false}
-                              />
-                            </div>
-                              {formik.touched.mode &&
-                              formik.errors.mode? (
-                                <div style={{ color: "red" }}>
-                                  {formik.errors.mode}
-                                </div>
-                              ) : null}
-                            {/* <div class="form-check">
-                              <Form.Label> B</Form.Label>
-                              <Form.Control
-                                type="radio"
-                              />
-                            </div> */}
-                    </div>
-                </div>
-                </div>
-                    <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 col-md-8">
-                        <Form.Label>Body Text</Form.Label>
-                        <textarea
-                          name="body"
-                          type="text"
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          value={formik.values.body}
-                          className="form-control"
-                          id="exampleFormControlTextarea1"
-                          rows="18"
-                        ></textarea>
-                        <div className="error">
-                          {formik.touched.body && formik.errors.body ? (
-                            <div style={{ color: "red" }}>
-                              {formik.errors.body}
-                            </div>
-                        ) : null}
-                        </div>
-                     </div></div>
-                     
-                    <Button type="submit">Save</Button>
-                  </div>
-                </form>
-           </div>
-          ) : null}
+      
 
       </Row>
+      <Modal
+        show={modalShow}
+        id="webinar_event"
+        onHide={() => {
+          setModalShow(false);
+        }}
+      >
+        <Modal.Header closeButton>
+          <h4>Preview Page </h4>
+        </Modal.Header>
+        <Modal.Body>
+        <iframe src={`${BaseUrlImage}/SH2022/index${format}.php?event=${eventCode}&mode=${
+               mode
+              }`}></iframe>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            onClick={() => {
+              // setModalShow1(false);
+              setModalShow(false);
+            }}
+          >
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <Modal show={modalShow1} className="send-confirm" id="resend-confirm">
         <Modal.Header>
           <button
@@ -381,9 +280,10 @@ const Registration = () => {
           ></button>
         </Modal.Header>
         <Modal.Body>
-         {show? <select
+         {show?<select
                   name="Country"
-                  onChange={(e)=>{localStorage.setItem("registrationPageId",e.target.value); setTimeout(() => {
+                  onChange={(e)=>{localStorage.setItem("registrationPageId",e.target.value);localStorage.removeItem("EditRegistrationPageId"); setTimeout(() => {
+                    localStorage.removeItem("EditRegistrationPageId")
                     navigate("/webinar/portal/NewRegistration");
                   }, 1000);}}
                   class="form-select-lg mb-3"
@@ -392,7 +292,7 @@ const Registration = () => {
                   <option selected>Select Registration Page</option>
                   {registrationPageList?.map((val, i) => (
                     <React.Fragment key={i}>
-                      {console.log(val)}
+                      {console.log("val",val)}
                       <option  value={val.id}>
                       {val.mode}-Registration Page
                       </option>
@@ -401,21 +301,21 @@ const Registration = () => {
          </select>
 
           :null}
+           {console.log("val",registrationPageList)}
           <div className="modal-buttons">
           <Link to="/webinar/portal/NewRegistration">
             <button
               type="button"
               className="btn btn-primary btn-filled"
               data-bs-dismiss="modal"
-              // onClick={() => {
-              //   deleteUser();
-              // }}
+              onClick={() => {
+                localStorage.removeItem("registrationPageId");
+                localStorage.removeItem("EditRegistrationPageId")
+              }}
             >
             New Create
             </button>
           </Link>
-          
-
             <button
               type="button"
               className="btn btn-primary btn-bordered light"

@@ -50,9 +50,6 @@ const Format2 = (props) => {
           name:props.data?.name?props.data?.name:"",
           email:props.data?.email?props.data?.email:"",
           country:props.data?.country?props.data?.country:"",
-          Emailplaceholder:props.data?.Emailplaceholder?props.data?.Emailplaceholder:"",
-          nameplaceholder:props.data?.nameplaceholder?props.data?.nameplaceholder:"",
-          countryLabel:props.data?.countryLabel?props.data?.countryLabel:"",
           titleColor:props.data?.titleColor?props.data?.titleColor:"",
           backgroundColor:props.data?.backgroundColor?props.data?.backgroundColor:"",
           anchorText:props.data?.anchorText?props.data?.anchorText:"",
@@ -60,6 +57,7 @@ const Format2 = (props) => {
           borderColor:props.data?.borderColor?props.data?.borderColor:"",
           textColor:props.data?.textColor?props.data?.textColor:"",
         },
+
         enableReinitialize: true,
         onSubmit: (values) => {
           loader("show")
@@ -78,9 +76,6 @@ const Format2 = (props) => {
             RadioButton:values.RadioButton,
             name:values.name,
             email:values.email,
-            country:values.country,
-            Emailplaceholder:values.Emailplaceholder,
-            nameplaceholder:values.nameplaceholder,
             countryLabel:values.countryLabel,
             anchorText:values.anchorText,
             anchorLink:values.anchorLink,
@@ -91,34 +86,68 @@ const Format2 = (props) => {
             footerRightLogo:footerLogo,
             titleLogo:titleLogo
           }
-          ExportApi.CreateRegistrationPage(localStorage.getItem("EventIdHeader"),values.mode, JSON.stringify(jsonData),TemplateIdActive).then((resp) => {
-            if (resp.ok) {
-              if (resp.data.code == 200) {
-                setData(resp.data.data)
-                loader("hide")
-                toast.success(resp.data.message, {
-                  position: "top-right",
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                })
-              } else {
-                loader("hide")
-                toast.error(resp.data.message, {
-                  position: "top-right",
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                });
+          if(props?.mode?.id){
+            ExportApi.RegistrationPageUpdate(props?.mode?.id,localStorage.getItem("EventIdHeader"),values.mode, JSON.stringify(jsonData),TemplateIdActive).then((resp) => {
+              if (resp.ok) {
+                if (resp.data.code == 200) {
+                  localStorage.removeItem("EditRegistrationPageId")
+                  localStorage.removeItem("registrationPageId")
+                  setData(resp.data.data)
+                  loader("hide")
+                  toast.success(resp.data.message, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                  })
+                } else {
+                  loader("hide")
+                  toast.error(resp.data.message, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                  });
+                }
               }
-            }
-          });
+            });
+          }else{
+
+            ExportApi.CreateRegistrationPage(localStorage.getItem("EventIdHeader"),values.mode, JSON.stringify(jsonData),TemplateIdActive).then((resp) => {
+              if (resp.ok) {
+                if (resp.data.code == 200) {
+                  setData(resp.data.data)
+                  loader("hide")
+                  toast.success(resp.data.message, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                  })
+                } else {
+                  loader("hide")
+                  toast.error(resp.data.message, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                  });
+                }
+              }
+            });
+          }
         },
       });
   return (
@@ -138,7 +167,8 @@ const Format2 = (props) => {
         <span className="loader-view"> </span>
     </div>
     <div class="top-header">
-            <Button onClick={()=>{setModalShow(true)}}>Preview</Button>
+      {props?.data||data?<Button onClick={()=>{setModalShow(true)}}>Preview</Button>:null}
+            
     </div>
        <form onSubmit={formik.handleSubmit}>
         {/* Middle content */}
@@ -160,7 +190,6 @@ const Format2 = (props) => {
                    value={"virtual"}
                    defaultValue="virtual"
                    defaultChecked
-
                  />
                </div>:props.mode?.mode=="onsite"?<div class="form-check">
                               <Form.Label>Onsite</Form.Label>
@@ -170,6 +199,7 @@ const Format2 = (props) => {
                                  onChange={formik.handleChange}
                                  onBlur={formik.handleBlur}
                                  value="onsite"
+                                 defaultChecked
                                  />
                             </div>:<div class="form-check"><Form.Label> Virtual</Form.Label>
                               <Form.Control
@@ -179,7 +209,6 @@ const Format2 = (props) => {
                                 onBlur={formik.handleBlur}
                                 value={"virtual"}
                                 defaultChecked
-
                               />  <Form.Label>Onsite</Form.Label>
                               <Form.Control
                                  name="mode"
@@ -187,7 +216,6 @@ const Format2 = (props) => {
                                  onChange={formik.handleChange}
                                  onBlur={formik.handleBlur}
                                  value="onsite"
-                                
                                  /></div>}
                     </div>
                 </div>
@@ -200,7 +228,7 @@ const Format2 = (props) => {
                   name="Title1"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={formik.values.Subject}
+                  value={formik.values.Title1}
                   type="text"
                   placeholder="Title 1"
                 />
@@ -213,7 +241,7 @@ const Format2 = (props) => {
                   name="Title2"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={formik.values.Subject}
+                  value={formik.values.Title2}
                   type="text"
                   placeholder="Title 2"
                 />
@@ -226,7 +254,7 @@ const Format2 = (props) => {
                   name="Title3"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={formik.values.Subject}
+                  value={formik.values.Title3}
                   type="text"
                   placeholder="Title 3"
                 />
@@ -319,7 +347,6 @@ const Format2 = (props) => {
                 onBlur={formik.handleBlur}
                 value={formik.values.anchorText}
                 className="form-control"
-                id="exampleFormControlTextarea1"
               />
            </div>
            </div>      
@@ -398,30 +425,13 @@ const Format2 = (props) => {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.name}
+                  checked={formik.values.name}
                   type="checkbox"
                 />
               </div>
               </div>
             </div>
             </div>
-            {formik.values.name===true?
-              <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 ">
-                <label>Name Placeholder</label>
-                <div className="form-inline-option">
-                <div class="form-check">
-                <Form.Control
-                  name="nameplaceholder"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.nameplaceholder}
-                  type="text"
-                  
-                />
-              </div>
-              </div>
-            </div>
-            </div>:null}
         <div className="form-inline row justify-content-between align-items-center">
               <div className="form-group col-12 ">
                 <label>Email</label>
@@ -430,30 +440,13 @@ const Format2 = (props) => {
                   name="email"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={formik.values.Name}
+                  value={formik.values.email}
+                  checked={formik.values.email}
                   type="checkbox"
                 />
                 </div>
             </div>
             </div>
-            {formik.values.email===true?
-              <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 ">
-                <label>Email Placeholder</label>
-                <div className="form-inline-option">
-                <div class="form-check">
-                <Form.Control
-                  name="Emailplaceholder"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.Emailplaceholder}
-                  type="text"
-                  
-                />
-              </div>
-              </div>
-            </div>
-            </div>:null}
         <div className="form-inline row justify-content-between align-items-center">
               <div className="form-group col-12 ">
                 <label>Country</label>
@@ -463,6 +456,7 @@ const Format2 = (props) => {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.country}
+                  checked={formik.values.country}
                   type="checkbox"
                 />
                 </div>
@@ -470,24 +464,6 @@ const Format2 = (props) => {
             </div>
         
         </div>
-        {formik.values.country===true?
-              <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 ">
-                <label>Country Label</label>
-                <div className="form-inline-option">
-                <div class="form-check">
-                <Form.Control
-                  name="countryLabel"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.countryLabel}
-                  type="text"
-                  
-                />
-              </div>
-              </div>
-            </div>
-            </div>:null}
         {/* end of fields content */}
         
         {/* color div content */}
@@ -552,7 +528,9 @@ const Format2 = (props) => {
         {/* end of color div content */}
         </div>
         {/* end of right sidebar */}
-        <Button type="submit">Save</Button>
+{props.mode?.id?<Button type="submit">Update</Button>: <Button type="submit">Save</Button>}
+        
+       
         </form>
         <Modal
         show={modalShow}
@@ -565,8 +543,8 @@ const Format2 = (props) => {
           <h4>Preview Page </h4>
         </Modal.Header>
         <Modal.Body>
-            <iframe src={`${BaseUrlImage}/SH2022/index${data?.format}.php?event=${data?.event.code}&mode=${
-                data?.mode
+        <iframe src={`${BaseUrlImage}/SH2022/index${data?.format?data?.format:props?.mode?.format}.php?event=${data?.event.code?data?.event.code:props?.mode?.event?.code}&mode=${
+                data?.mode?data?.mode:props?.mode?.mode
               }`}></iframe>
         </Modal.Body>
         <Modal.Footer>

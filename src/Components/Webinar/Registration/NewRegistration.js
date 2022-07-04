@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useFormik } from "formik";
 import { Button,  Col, Form, Row } from "react-bootstrap";
 import * as Yup from "yup";
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { toast, ToastContainer } from "react-toastify";
 import AliceCarousel from "react-alice-carousel";
 import { loader } from '../../../loader';
@@ -13,7 +13,7 @@ import Format2 from './Format2';
 import { useEffect } from 'react';
 const NewRegistration = () => {
     let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-    const [TemplateIdActive, setTemplateIdActive] = useState();
+    const [TemplateIdActive, setTemplateIdActive] = useState('2');
     const [data, setData] = useState();
     const [mode, setMode] = useState();
     const [message, setMessage] = useState();
@@ -34,19 +34,28 @@ const templateClicked = (template, e) => {
           if(resp.data.data?.json_data){
             setMessage()
             setMode(resp.data.data)
-            console.log(resp.data.data?.json_data)
+            console.log(resp.data.data)
             setData(JSON.parse(resp.data.data?.json_data))
           }else{
-
             setMessage(resp.data.message)
           }
-
         }else{
           setMessage()
         }
       });
     };
-
+    const handleGetRegistrationPageSingleData = () => {
+      ExportApi.RegistrationPageSingleData(localStorage.getItem("EditRegistrationPageId")).then((resp) => {
+        if (resp.ok&&resp.data.code==200) {
+          if(resp.data.data?.json_data){
+            setMode(resp.data.data)
+            console.log(resp.data.data)
+            setData(JSON.parse(resp.data.data?.json_data))
+          }
+        }
+      });
+    };
+    const location = useLocation();
     useEffect(() => {
       if (localStorage.getItem("registrationPageId")) {
         handleGetRegistrationPagedata()
@@ -54,11 +63,17 @@ const templateClicked = (template, e) => {
         loader("hide");
         // setMessage("Please create Event");
       }
+    if(localStorage.getItem("EditRegistrationPageId")){
+      handleGetRegistrationPageSingleData()
+    }else{
+      console.log("error")
+    }
+    if (location.pathname !== "/webinar/portal/NewRegistration") {
+      localStorage.removeItem("EditRegistrationPageId")
+    }
     }, []);
   return (
     <> 
-    {console.log(data)}
-    {console.log(mode)}
     {message=="Your both pages are already exist"?<div className="right-sidebar col"><h4>{message}</h4></div>:(
 <>
     <div className="loader" id="custom_loader">
@@ -70,6 +85,7 @@ const templateClicked = (template, e) => {
             <div className="page-title">
                 <h3>Registration Page Form </h3>
             </div>
+            <Link to="/webinar/portal/Registrations"><Button>Back</Button> </Link>
         </div>
         {/* end of top header */}
         
@@ -95,9 +111,7 @@ const templateClicked = (template, e) => {
                :null}  
           </div>
           </div>
-        
 
-     
       </div>
       </>
     )}
