@@ -841,7 +841,7 @@ const SelectSmartListUsers = (props) => {
                     return (
                       <>
                         <tr className="hcps-deleted">
-                          <td><span>{rr.first_name}</span></td>
+                          <td><span>{rr.first_name + " " + rr.last_name}</span></td>
                           <td>{rr.email}</td>
                           <td>{rr.bounce}</td>
                           <td><span>{rr.country}</span></td>
