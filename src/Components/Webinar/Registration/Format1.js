@@ -38,7 +38,7 @@ const Format1 = (props) => {
         Title1:props.data?.Title1?props.data?.Title1: "",
         Title2:props.data?.Title2?props.data?.Title2: "",
         Title3:props.data?.Title3?props.data?.Title3: "",
-        mode:props.mode?.mode?props.mode?.mode:'',
+        mode:props.mode?.mode?props.mode?.mode:'virtual',
         Speakername:props.data?.Speakername?props.data?.Speakername:'',
         eventtime:props.data?.eventtime?props.data?.eventtime:'',
         eventdate:props.data?.eventdate?props.data?.eventdate:'',
@@ -163,7 +163,6 @@ const Format1 = (props) => {
                    onBlur={formik.handleBlur}
                    value={"virtual"}
                    defaultValue="virtual"
-                   defaultChecked
                  />
                </div>:props.mode?.mode=="onsite"?<div class="form-check">
                               <Form.Label>Onsite</Form.Label>
@@ -191,8 +190,6 @@ const Format1 = (props) => {
                                  onBlur={formik.handleBlur}
                                  value="onsite"
                                  /></div>}
-                            
-                            {formik.values.mode}
                     </div>
                 </div>
              </div>

@@ -38,7 +38,7 @@ const Format2 = (props) => {
           Title2:props.data?.Title2?props.data?.Title2: "",
           Title3:props.data?.Title3?props.data?.Title3: "",
           Title4:props.data?.Title4?props.data?.Title4: "",
-          mode:props.mode?.mode?props.mode?.mode:'',
+          mode:props.mode?.mode?props.mode?.mode:'virtual',
           Address:props.data?.Address?props.data?.Address:'',
           Speakername:props.data?.Speakername?props.data?.Speakername:"",
           eventdate:props.data?.eventdate?props.data?.eventdate:'',
@@ -187,9 +187,8 @@ const Format2 = (props) => {
                                  onChange={formik.handleChange}
                                  onBlur={formik.handleBlur}
                                  value="onsite"
+                                
                                  /></div>}
-                            
-                            {formik.values.mode}
                     </div>
                 </div>
              </div>
