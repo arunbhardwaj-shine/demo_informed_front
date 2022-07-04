@@ -60,6 +60,20 @@ const SelectSmartListUsers = (props) => {
         ? old_object.campaign_id
         : props.getDraftData?.campaign_id ? props.getDraftData.campaign_id : "";
     setCampaign_id(campaign_id);
+
+// removedHcp
+    if(old_object?.removedHcp){
+      if(old_object.removedHcp.length > 0){
+        console.log(old_object.removedHcp);
+        setRemovedReaders(old_object.removedHcp);
+      }
+    }else{
+      if(props?.getDraftData && props.getDraftData.campaign_data?.removedHcp){
+        if(typeof props.getDraftData.campaign_data.removedHcp != "undefined" && props.getDraftData.campaign_data.removedHcp != ""){
+          setRemovedReaders(props.getDraftData.campaign_data.removedHcp);
+        }
+      }
+    }
   }, []);
 
   const inputElement = useRef();
@@ -79,8 +93,37 @@ const SelectSmartListUsers = (props) => {
       axios
       .post(`distributes/get_reders_list`, body)
       .then((res) => {
-        //   console.log(res)
-        setReaders(res.data.response.data);
+          // console.log(removedReaders)
+          if(old_object?.removedHcp){
+            if(old_object.removedHcp.length > 0){
+              var removedUsers = old_object.removedHcp;
+              var allUsers = res.data.response.data;
+              var pendingUsers = allUsers.filter(function(objFromA) {
+                return !removedUsers.find(function(objFromB) {
+                  return objFromA.profile_id === objFromB.profile_id
+                })
+              })
+              setReaders(pendingUsers);
+            }else{
+              setReaders(res.data.response.data);
+            }
+          }else if(props?.getDraftData && props.getDraftData.campaign_data?.removedHcp){
+            if(typeof props.getDraftData.campaign_data.removedHcp != "undefined" && props.getDraftData.campaign_data.removedHcp != ""){
+              var removedUsers = props.getDraftData.campaign_data.removedHcp;
+              var allUsers = res.data.response.data;
+              var pendingUsers = allUsers.filter(function(objFromA) {
+                return !removedUsers.find(function(objFromB) {
+                  return objFromA.profile_id === objFromB.profile_id
+                })
+              })
+              setReaders(pendingUsers);
+            }else{
+              setReaders(res.data.response.data);
+            }
+          }else{
+            setReaders(res.data.response.data);
+          }
+
         loader("hide");
       })
       .catch((err) => {
@@ -167,7 +210,8 @@ const SelectSmartListUsers = (props) => {
           ? old_object.selected
           : props.getDraftData?.campaign_data?.list_selection
           ? props.getDraftData.campaign_data.list_selection
-          : 0
+          : 0,
+        removedHcp: removedReaders,
       },
       campaign_id: campaign_id_st,
       source_code: old_object?.template
@@ -204,11 +248,13 @@ const SelectSmartListUsers = (props) => {
   };
 
   const nextClicked = () => {
+    console.log(removedReaders);
     navigate("/verifyMAIL", {
       // data: data,
       // smartListName: smartListName,
       state: {
         selectedHcp: [...readers, ...readersNewlyAdded],
+        removedHcp: removedReaders
       },
     });
   };
@@ -302,16 +348,20 @@ const SelectSmartListUsers = (props) => {
 
   const newlyAddedRemoved = (reader, i) => {
     const readersRemoved = removedReaders;
-    //console.log(i);
-    //setReadersNewlyAdded((oldArray) => [reader, ...oldArray]);
     setRemovedReaders((oldArray) => [reader, ...oldArray]);
     const newlyAdded = readersNewlyAdded;
     newlyAdded.splice(i, 1);
-    console.log(newlyAdded);
     setReadersNewlyAdded(newlyAdded);
+    let merged_array = [reader,...readersRemoved];
+    old_object.removedHcp = merged_array;
 
+    if(props.getDraftData?.campaign_data){
+      if(props.getDraftData.campaign_data?.removedHcp){
+        props.getDraftData.campaign_data.removedHcp = merged_array;
+      }
+    }
     setUpdate(update + 1);
-    //setReRender(reRender + 1);
+    // console.log(old_object);
   };
 
   const handleInputChange = (event, selected) => {
@@ -458,11 +508,19 @@ const SelectSmartListUsers = (props) => {
     }
   };
   const deleteReader = (i) => {
+    const previous_removed_users = removedReaders;
     const readersList = readers;
     const removedReader = readersList.splice(i, 1);
     setReaders(readersList);
     setRemovedReaders((oldArray) => [...oldArray, removedReader[0]]);
-    //  console.log(removedReaders);
+    let merged_array = [...previous_removed_users,...removedReader];
+    old_object.removedHcp = merged_array;
+
+    if(props.getDraftData?.campaign_data){
+      if(props.getDraftData.campaign_data?.removedHcp){
+        props.getDraftData.campaign_data.removedHcp = merged_array;
+      }
+    }
   };
 
   const saveEditClicked = async () => {

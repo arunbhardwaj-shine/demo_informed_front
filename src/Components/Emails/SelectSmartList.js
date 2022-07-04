@@ -78,13 +78,17 @@ const SelectSmartList = (props) => {
   }, [PdfSelected]);
 
   const handleSelect = (e) => {
-    console.log(e);
+    if(e.id != new_object.id){
+      if(old_object?.removedHcp){
+          old_object.removedHcp = [];
+      }
+    }
 
     setSmartListSelected(e);
-
     props.getSelectedSmartListData(e);
     //props.getEmailData({ selected_smart_list: e });
     setPdfSelected(e.id);
+
     // e.preventDefault();
   };
 

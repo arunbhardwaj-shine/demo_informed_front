@@ -23,6 +23,7 @@ const VerifyMAIL = (props) => {
   const [UserData, setUserData] = useState([]);
   const [templateId, setTemplateId] = useState(0);
   const [tags, setTags] = useState([]);
+  const [getRemovedHcp, setRemovedHcp] = useState([]);
   const [getSmartListData, setSmartListData] = useState([]);
   const [reRender, setReRender] = useState(0);
   const [template_source_code, setTemplate] = useState(
@@ -37,6 +38,7 @@ const VerifyMAIL = (props) => {
   const selectedHcp = location.state
     ? location.state.selectedHcp
     : props.getDraftData.campaign_data.selectedHcp;
+
   const PdfSelected = location.state
     ? location.state.PdfSelected
     : props.getDraftData.PdfSelected;
@@ -55,8 +57,6 @@ const VerifyMAIL = (props) => {
   );
 
   useEffect(() => {
-    console.log(props);
-
     let campaign_id =
       typeof props.getEmailData === "object" && props.getEmailData !== null && props.getEmailData?.campaign_id
         ? props.getEmailData.campaign_id
@@ -76,6 +76,19 @@ const VerifyMAIL = (props) => {
       //console.log(smart_list_data);
       setSmartListData(smart_list_data);
     }
+
+    if(location.state?.removedHcp){
+      if(typeof location.state.removedHcp != "undefined" && location.state.removedHcp != ""){
+        setRemovedHcp(location.state.removedHcp);
+      }
+    }else{
+      if(props.getDraftData.campaign_data?.removedHcp){
+        if(typeof props.getDraftData.campaign_data.removedHcp != "undefined" && props.getDraftData.campaign_data.removedHcp != ""){
+          setRemovedHcp(props.getDraftData.campaign_data.removedHcp);
+        }
+      }
+    }
+
 
     getpdfData();
   }, []);
@@ -158,6 +171,7 @@ const VerifyMAIL = (props) => {
         list_selection: props.getEmailData?.selected
           ? props.getEmailData.selected
           : props.getDraftData.campaign_data.list_selection,
+        removedHcp: getRemovedHcp,
       },
       campaign_id: campaign_id_st,
       source_code: props.getEmailData?.template
