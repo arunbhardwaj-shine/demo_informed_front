@@ -831,11 +831,16 @@ const VerifyHcpMAIL = (props) => {
                 <h4>{props.getEmailData?.emailSubject
                   ? props.getEmailData.emailSubject
                   : props.getDraftData.subject}</h4>
-                <p>
-                  {props.getEmailData?.emailDescription
-                    ? props.getEmailData.emailDescription
-                    : props.getDraftData.description}
-                </p>
+                {
+                  /*
+                  <p>
+                    {props.getEmailData?.emailDescription
+                      ? props.getEmailData.emailDescription
+                      : props.getDraftData.description}
+                  </p>
+                  */
+                }
+
                 <div
                   className="preview-mail-box"
                   dangerouslySetInnerHTML={{
