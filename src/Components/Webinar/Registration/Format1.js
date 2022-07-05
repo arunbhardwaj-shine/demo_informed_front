@@ -5,8 +5,10 @@ import { toast, ToastContainer } from "react-toastify";
 import { loader } from '../../../loader';
 import ExportApi from '../../../Api/ExportApi';
 import { BaseUrlImage } from '../../../Api/BaseApi';
+import { useNavigate } from 'react-router-dom';
 
 const Format1 = (props) => {
+  let navigate=useNavigate();
   const [TemplateIdActive, setTemplateIdActive] = useState(props.TemplateIdActive);
   // console.log("titleLogo",props.data?.titleLogo)
   const [titleLogo, setTitleLogo] = useState(props.data?.titleLogo);
@@ -82,10 +84,11 @@ const Format1 = (props) => {
           ExportApi.RegistrationPageUpdate(props?.mode?.id,localStorage.getItem("EventIdHeader"),values.mode, JSON.stringify(jsonData),TemplateIdActive).then((resp) => {
           if (resp.ok) {
             if (resp.data.code == 200) {
+              toast.success(resp.data.message)
               localStorage.removeItem("EditRegistrationPageId")
               localStorage.removeItem("registrationPageId")
               setData(resp.data.data)
-              toast.success(resp.data.message)
+              navigate("/webinar/portal/Registrations")
             } else {
               toast.error(resp.data.message);
             }
@@ -96,8 +99,9 @@ const Format1 = (props) => {
         ExportApi.CreateRegistrationPage(localStorage.getItem("EventIdHeader"),values.mode, JSON.stringify(jsonData),TemplateIdActive).then((resp) => {
           if (resp.ok) {
             if (resp.data.code == 200) {
-              setData(resp.data.data)
               toast.success(resp.data.message)
+              navigate("/webinar/portal/Registrations")
+              setData(resp.data.data)
             } else {
               toast.error(resp.data.message);
             }

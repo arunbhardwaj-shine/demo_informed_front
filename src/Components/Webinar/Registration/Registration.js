@@ -225,7 +225,7 @@ const Registration = () => {
                 localStorage.removeItem("EditRegistrationPageId")
               }}
             >
-            New Create
+            Create new
             </button>
           </Link>
             <button
@@ -234,7 +234,7 @@ const Registration = () => {
               data-bs-dismiss="modal"
               onClick={() =>setShow(true) }
             >
-              Copy Existing 
+              Copy from existing   
             </button>
           </div>
         </Modal.Body>
