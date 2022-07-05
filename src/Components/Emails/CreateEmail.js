@@ -1565,15 +1565,7 @@ const CreateEmail = (props) => {
         </div>
       </div>
 
-      <div
-        className="modal fade"
-        id="tagsModal"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabIndex="-1"
-        aria-labelledby="tagsModal"
-        aria-hidden="true"
-      >
+      <div>
         <Modal id="tagsModal" show={isOpen}>
           <Modal.Header>
             <h5 className="modal-title" id="staticBackdropLabel">
