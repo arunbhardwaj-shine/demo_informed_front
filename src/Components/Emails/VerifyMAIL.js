@@ -733,31 +733,31 @@ const VerifyMAIL = (props) => {
                                   <tbody>
                                     <tr>
                                       <th>Contact Type</th>
-                                      <td>NA</td>
+                                      <td>{getSmartListData.contact_type}</td>
                                     </tr>
                                     <tr>
                                       <th>Speciality</th>
-                                      <td>NA</td>
+                                      <td>{getSmartListData.speciality}</td>
                                     </tr>
                                     <tr>
                                       <th>Readers</th>
-                                      <td>NA</td>
+                                      <td>{getSmartListData.reader_selection}</td>
                                     </tr>
                                     <tr>
                                       <th>IBU</th>
-                                      <td>NA</td>
+                                      <td>{getSmartListData.ibu}</td>
                                     </tr>
                                     <tr>
                                       <th>Product</th>
-                                      <td>NA</td>
+                                      <td>{getSmartListData.product}</td>
                                     </tr>
                                     <tr>
                                       <th>Country</th>
-                                      <td>NA</td>
+                                      <td>{getSmartListData.country}</td>
                                     </tr>
                                     <tr>
                                       <th>Registered</th>
-                                      <td>NA</td>
+                                      <td>{getSmartListData.registered}</td>
                                     </tr>
                                     <tr>
                                       <th>Created By</th>
