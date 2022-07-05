@@ -1485,7 +1485,8 @@ const CreateEmail = (props) => {
                         }
                         onClick={(e) => approvedClicked(e)}
                       >
-                        Approved{" "}
+                      {typeof getIsApprovedStatus !== "undefined" && getIsApprovedStatus == 3 ? "Approved": "Approve?"
+                      }
                         <img
                           src={path_image + "approved-btn.svg"}
                           className="approve_btn"

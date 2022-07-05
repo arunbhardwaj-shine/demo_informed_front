@@ -577,7 +577,8 @@ const VerifyMAIL = (props) => {
                       }
                       onClick={(e) => approvedClicked(e)}
                     >
-                      Approved{" "}
+                    {typeof getArticleType !== "undefined" && getArticleType == 3 ? "Approved" : "Approve?"}
+
                       <img
                         src={path_image + "approved-btn.svg"}
                         className="approve_btn"
