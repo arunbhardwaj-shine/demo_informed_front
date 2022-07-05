@@ -150,12 +150,12 @@ function Add(props) {
     initialValues: {
       EventTitle: "",
       Timezone: "",
-      end_hour :"",
-      start_hour :"",
-      end_min :"",
-      start_min :"",
-      end_am_pm :"",
-      start_am_pm :"",
+      end_hour :"01",
+      start_hour :"01",
+      end_min :"00",
+      start_min :"00",
+      end_am_pm :"am",
+      start_am_pm :"am",
       Region: "",
       Bu: "",
       event_date: "",
@@ -284,7 +284,7 @@ function Add(props) {
                 ) : null}
               </div>
             </div>
-            <fieldset class="border p-2">
+            <fieldset className="border p-2">
               {Speakername.map((multi, i) => (
                 <div
                   key={i}
@@ -384,7 +384,7 @@ function Add(props) {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.Region}
-                  class="form-select-lg mb-3"
+                  className="form-select-lg mb-3"
                   aria-label=".form-select-lg example"
                 >
                   <option defaultValue='' selected>Select Region</option>
@@ -411,7 +411,7 @@ function Add(props) {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.Country}
-                  class="form-select-lg mb-3"
+                  className="form-select-lg mb-3"
                   aria-label=".form-select-lg example"
                 >
                   <option selected>Select Country</option>
@@ -438,7 +438,7 @@ function Add(props) {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.Bu}
-                  class="form-select-lg mb-3"
+                  className="form-select-lg mb-3"
                   aria-label=".form-select-lg example"
                 >
                   <option selected>Select BU</option>
@@ -465,7 +465,7 @@ function Add(props) {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.Timezone}
-                  class="form-select-lg mb-3"
+                  className="form-select-lg mb-3"
                   aria-label=".form-select-lg example"
                 >
                   <option selected>Select Timezone</option>

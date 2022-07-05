@@ -205,45 +205,49 @@ const Template = (props) => {
       emailEditorRef.current.editor.exportHtml((data) => {
         const { design, html } = data;
         setDpc(design);
-        ExportApi.UpdateTemplate(
-          formik.values.Subject,
-          formik.values.tempName,
-          localStorage.getItem("EventIdHeader"),
-          design,
-          html,
-          localStorage.getItem("TEMPLATEID"),
-          tagClickedFirst,
-          id
-        ).then((resp) => {
-          if (resp.ok) {
-            if (resp.data.code == 200) {
-              loader("hide");
-              setDpc();
-              // handleGetTemplateList(localStorage.getItem("EventIdHeader"));
-              setFormShow(false);
-              setModalShow(false);
-              toast.success(resp.data.message, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-              });
-            } else {
-              toast.error(resp.data.message, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-              });
+        if(formik.values.Subject){
+          ExportApi.UpdateTemplate(
+            formik.values.Subject,
+            formik.values.tempName,
+            localStorage.getItem("EventIdHeader"),
+            design,
+            html,
+            localStorage.getItem("TEMPLATEID"),
+            tagClickedFirst,
+            id
+          ).then((resp) => {
+            if (resp.ok) {
+              if (resp.data.code == 200) {
+                loader("hide");
+                setDpc();
+                // handleGetTemplateList(localStorage.getItem("EventIdHeader"));
+                setFormShow(false);
+                setModalShow(false);
+                toast.success(resp.data.message, {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                });
+              } else {
+                toast.error(resp.data.message, {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                });
+              }
             }
-          }
-        });
+          });
+        }else{
+          toast.error("please enter your subject")
+        }
       });
     };
     exportHtml();

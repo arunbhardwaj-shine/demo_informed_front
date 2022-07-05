@@ -75,11 +75,7 @@ const SmartListCreate = () => {
     loader("show");
     await axios
       .post(
-        baseURL + `smart-list/create`,
-
-        body,
-        { headers }
-      )
+        baseURL + `/smart-list/create`,body,{ headers})
       .then((res) => {
         if (res.data.code == 200) {
           // console.log(res);
@@ -90,11 +86,11 @@ const SmartListCreate = () => {
           toast.warning(res.data.message);
           loader("hide");
         }
-
         //  console.log(res);
       })
       .catch((err) => {
-        console.log(err);
+        // toast.error("Please try again")
+        loader("hide");
       });
   };
 
@@ -108,16 +104,16 @@ const SmartListCreate = () => {
     const body = {
       name: smartListName,
     };
-
     const headers = {
       "Content-Type": "application/json",
       Authorization: `${localStorage.getItem("Token")}`,
     };
+    // console.log(smartListName)
+// console.log(selectedFile)
     loader("show");
     await axios
       .post(
-        baseURL + `smart-list/create`,
-
+        baseURL + `/smart-list/create`,
         body,
         { headers }
       )
@@ -132,11 +128,10 @@ const SmartListCreate = () => {
           toast.warning(res.data.message);
           loader("hide");
         }
-
         //  console.log(res);
       })
       .catch((err) => {
-        console.log(err);
+        loader("hide");
       });
   };
 
@@ -155,27 +150,26 @@ const SmartListCreate = () => {
     setShow(false);
     if (selectedFile === null) {
       toast.warning("Please upload file first");
-
       return false;
     }
-
     const headers = {
       "Content-Type": "application/json",
       Authorization: `${localStorage.getItem("Token")}`,
     };
-
     let formData = new FormData();
-
     formData.append("smart_list_id", smartListId);
     formData.append("file", selectedFile);
+    // formData.append("event_id", selectedFile);
 
+// console.log(smartListId)
+// console.log(selectedFile)
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     // loader("show");
 
     // console.log(formData);
 
     await axios
-      .post(baseURL + `upload-unregistered-participant`, formData, { headers })
+      .post(baseURL + `/upload-unregistered-participant`, formData, { headers })
       .then((res) => {
         //  console.log(smartListId);
         // console.log(res);
@@ -198,7 +192,7 @@ const SmartListCreate = () => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        loader("hide");
       });
   };
 
@@ -214,10 +208,10 @@ const SmartListCreate = () => {
 
   return (
     <>
-      <div className="right-sidebar col">
         <div className="loader" id="custom_loader">
           <span className="loader-view"> </span>
         </div>
+      <div className="right-sidebar col">
         <ToastContainer />
         <div className="page-top-nav smart_list_names">
           <div className="row justify-content-end align-items-center">

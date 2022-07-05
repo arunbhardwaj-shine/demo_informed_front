@@ -651,7 +651,7 @@ const Sidebar = () => {
                     >
                       <Link to="/webinar/portal/Registrations">
                         <img src={path_image + "webinar/dashboard.svg"} />
-                        <p>Create Registration</p>
+                        <p>Registration page</p>
                       </Link>
                     </li>
                     {/* <li

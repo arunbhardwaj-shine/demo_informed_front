@@ -52,7 +52,7 @@ const FilterList = () => {
         Authorization: `${localStorage.getItem("Token")}`,
       };
       await axios
-        .get(baseURL + `country`, { headers })
+        .get(baseURL + `/country`, { headers })
         .then((res) => {
           // console.log(res);
           const countrys = res.data.data.map((data) => {
@@ -213,7 +213,7 @@ const FilterList = () => {
 
     loader("show");
     await axios
-      .post(baseURL + `smart-list/create`, body, {
+      .post(baseURL + `/smart-list/create`, body, {
         headers,
       })
       .then((res) => {
@@ -234,8 +234,7 @@ const FilterList = () => {
         //  loader("hide");
       })
       .catch((err) => {
-        //loader("hide");
-        console.log(err);
+        loader("hide");
       });
   };
 
@@ -267,7 +266,7 @@ const FilterList = () => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
     await axios
-      .post(baseURL + `smart-list/filter`, body, {
+      .post(baseURL + `/smart-list/filter`, body, {
         headers,
       })
       .then((res) => {
@@ -283,8 +282,7 @@ const FilterList = () => {
         }
       })
       .catch((err) => {
-        //loader("hide");
-        // console.log(err);
+        loader("hide");
       });
   };
 
@@ -297,11 +295,11 @@ const FilterList = () => {
   };
   return (
     <>
-      {/* {console.log(selectedCountry)} */}
-      <div className="right-sidebar col">
         <div className="loader" id="custom_loader">
           <span className="loader-view"> </span>
         </div>
+      {/* {console.log(selectedCountry)} */}
+      <div className="right-sidebar col">
         <ToastContainer />
         <div className="page-top-nav smart_list_names create_filter_list">
           <div className="row justify-content-end align-items-center">

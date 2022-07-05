@@ -42,7 +42,7 @@ const ViewSmartListWebinar = () => {
     };
     // console.log(baseURL);
     await axios
-      .post(baseURL + `smart-list/single-record`, body, {
+      .post(baseURL + `/smart-list/single-record`, body, {
         headers,
       })
       .then((res) => {
@@ -50,7 +50,7 @@ const ViewSmartListWebinar = () => {
 
         if (res.data.data) {
           // console.log("in data");
-          console.log(res.data.data.length);
+          // console.log(res.data.data.length);
           if (res.data.data.length > 0) {
             loader("false");
             // console.log(res.data.data);
@@ -73,10 +73,10 @@ const ViewSmartListWebinar = () => {
           // });
         }
         //    loader("hide");
-      })
-      .catch((err) => {
-        console.log(err);
+      }) .catch((err) => {
+        loader("hide");
       });
+       loader("hide");
   };
 
   useEffect(() => {
@@ -101,10 +101,10 @@ const ViewSmartListWebinar = () => {
   } else {
     return (
       <>
-        <div className="right-sidebar col">
           <div className="loader" id="custom_loader">
             <span className="loader-view"> </span>
           </div>
+        <div className="right-sidebar col">
         </div>
       </>
     );

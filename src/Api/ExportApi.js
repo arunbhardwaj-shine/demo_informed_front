@@ -533,7 +533,7 @@ const EmailStatsPage = (id, eventId, template_id) =>
   );
 const EmailSand = (id, name) =>
   BaseApi.post(
-    `create-unregistered-participant`,
+    `/create-unregistered-participant`,
     { smart_list_id: id, participants: name },
     {
       headers: {

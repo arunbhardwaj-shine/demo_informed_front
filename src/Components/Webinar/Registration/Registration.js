@@ -21,6 +21,7 @@ const Registration = () => {
   const [massage, setMassage] = useState("Please Select Event");
   const [modalShow1, setModalShow1] = useState(false);
   const [modalShow3, setModalShow3] = useState(false);
+  const [copy, setCopy] = useState(false);
 
   let navigate = useNavigate();
   const handleGetRegistrationPageList = (id) => {
@@ -28,7 +29,7 @@ const Registration = () => {
       if (resp.ok) {
         loader("hide");
         if(resp.data.code === 200){
-          console.log(resp.data.data)
+          // console.log(resp.data.data)
           setRegistrationPageList(resp.data.data);
           setMassage()
         }
@@ -80,6 +81,8 @@ const Registration = () => {
             <Button onClick={()=>setModalShow1(true)}>Create Registration Page</Button>
         </div>}</>):null}
       </div>
+      <br/>
+      <br/>
       <Row>
         <ToastContainer
           position="top-right"
@@ -92,7 +95,6 @@ const Registration = () => {
           draggable
           pauseOnHover
         />
-            {registrationPageList ? (
               <Row>
                 <Col className="mb-5">
                   <Table bordered hover>
@@ -103,10 +105,11 @@ const Registration = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {registrationPageList?.map((val, i) => (
+                      {registrationPageList?<>{registrationPageList?.map((val, i) => (
                         <tr key={i}>
                           <td>{val.mode}-Registration Page</td>
                           <td>
+                          <ul className="hcp-table-content-right">
                             <div className="user-type-action">
                               <button   onClick={(e) => {
                                localStorage.setItem("EditRegistrationPageId",val.id);
@@ -115,9 +118,9 @@ const Registration = () => {
                               }, 1000);
                               }} className="btn btn-primary btn-filled">
                               <img
+                               
                                 alt="edit"
                                 src={path_image + "edit-btn.png"}
-                                width={25}
                                 />
                                 </button>
                              <button onClick={()=>{loader("show"); setEventCode(val.code);setFormat(val.format);setMode(val.mode);setModalShow(true); setTimeout(() => {
@@ -126,7 +129,7 @@ const Registration = () => {
                               <img
                                 alt="Preview"
                                 src={path_image + "eye-svgrepo-com.svg"}
-                                width={25}
+                                style={{height:"25px",width:"25px"}}
                                 />
                                 </button>
                                   <button  onClick={(e) => {
@@ -136,23 +139,34 @@ const Registration = () => {
                               <img
                                 alt="Delete"
                                 src={path_image + "delete-btn.png"}
-                                width={25}
                                 />
                                 </button>
+                                <button onClick={()=>{setCopy(true);setTimeout(() => {
+                                  setCopy(false)
+                                }, 1000); navigator.clipboard.writeText(`${BaseUrlImage}/SH2022/index${val.code}.php?event=${val.format}&mode=${val.mode}`)}} className="btn btn-primary btn-filled back">
+                              <img
+                                alt="Preview"
+                                src={path_image + "link-btn.png"}
+                                
+                                />
+                                </button>{
+                                  copy?<p>Copied</p>:null
+                                }
+                                
                                 </div>
+                                </ul>
                           </td>
                         </tr>
-                      ))}
+                      ))}</>:  <div className="hcp-table-content">
+                        <br/>
+                      {massage}
+                    </div>}
+                     
                     </tbody>
                   </Table>
                 </Col>
               </Row>
-            ) : (
-              <div className="not_found">
-
-                <h2>{massage}</h2>
-              </div>
-            )}
+           
       
 
       </Row>
@@ -204,7 +218,7 @@ const Registration = () => {
                   <option selected>Select Registration Page</option>
                   {registrationPageList?.map((val, i) => (
                     <React.Fragment key={i}>
-                      {console.log("val",val)}
+                      {/* {console.log("val",val)} */}
                       <option  value={val.id}>
                       {val.mode}-Registration Page
                       </option>
@@ -213,7 +227,7 @@ const Registration = () => {
          </select>
 
           :null}
-           {console.log("val",registrationPageList)}
+           {/* {console.log("val",registrationPageList)} */}
           <div className="modal-buttons">
           <Link to="/webinar/portal/NewRegistration">
             <button
@@ -225,7 +239,7 @@ const Registration = () => {
                 localStorage.removeItem("EditRegistrationPageId")
               }}
             >
-            New Create
+            Create new
             </button>
           </Link>
             <button
@@ -234,7 +248,7 @@ const Registration = () => {
               data-bs-dismiss="modal"
               onClick={() =>setShow(true) }
             >
-              Copy Existing 
+              Copy from existing   
             </button>
           </div>
         </Modal.Body>

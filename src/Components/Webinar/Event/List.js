@@ -4,7 +4,6 @@ import ExportApi from "../../../Api/ExportApi";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import "../webinar.css";
-
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 import { loader } from "../../../loader";
@@ -45,7 +44,9 @@ const EventData = () => {
           setMessage("Please create event");
         }
       }
-    });
+    }) .catch((err) => {
+      loader("hide");
+    });;
   };
   const handleGetEventlistSerch = (data) => {
     // console.log(updatedData);
@@ -84,7 +85,10 @@ const EventData = () => {
         setMessage("No event found");
       }
       event.preventDefault();
-    });
+    })
+    .catch((err) => {
+      loader("hide");
+    });;
 
     // updatedData.find(function (item) {
     //   console.log(item);
@@ -108,7 +112,10 @@ const EventData = () => {
         setSpDataSingle(resp.data.data.speaker_data);
         setEventData(resp.data.data);
       }
-    });
+    })
+    .catch((err) => {
+      loader("hide");
+    });;
   };
 
   // add more speaker on click
@@ -205,6 +212,7 @@ const EventData = () => {
       .then((resp) => {
         if (resp.ok) {
           handleGetEventlist();
+          toast.success(resp.data.message)
           hideConfirmationModal();
           let updatedArray = event.filter((item) => {
             return item["id"] != deletecardid;
@@ -325,8 +333,14 @@ const EventData = () => {
         </div>
     
     <div className="right-sidebar col">
+    <div className="custom-container">
+        <div className="row">
       <div className="top-header">
-        <div className="top-right-action webinar-header-action-tool">
+      <div className="page-title">
+            <h2>Events</h2>
+          </div>
+        
+          <div className="top-right-action">
           <div className="search-bar">
             <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
               <input
@@ -354,20 +368,20 @@ const EventData = () => {
             </form>
           </div>
           <div className="Webinar-header-right-tools">
-            <div className="filter-by">
+            {/* <div className="filter-by">
               <>
                 <Dropdown>
-                  {/* <Dropdown.Toggle id="dropdown-basic">
+                  <Dropdown.Toggle id="dropdown-basic">
                     Filter By
-                  </Dropdown.Toggle> */}
+                  </Dropdown.Toggle>
 
-                  {/* <Dropdown.Menu>
+                  <Dropdown.Menu>
                   <Dropdown.Item href="#/">Name</Dropdown.Item>
                   <Dropdown.Item href="#/">Name</Dropdown.Item>
-                </Dropdown.Menu> */}
+                </Dropdown.Menu>
                 </Dropdown>
               </>
-            </div>
+            </div> */}
             <div className="hcp-sort">
               <>
                 {sortingCount == 0 ? (
@@ -443,7 +457,8 @@ const EventData = () => {
             </div>
           </div>
         </div>
-      </div>
+        </div>
+     
 
 
       <div className="email-result">
@@ -522,6 +537,20 @@ const EventData = () => {
                               </li>
                             </ul>
                           </div>
+                          <div className="mail-stats">
+                        {deletestatus && (
+                          <div className="dlt_btn">
+                            <button
+                              onClick={(e) => showConfirmationPopup(val.id)}
+                            >
+                              <img
+                                src={path_image + "delete.svg"}
+                                alt="Delete Row"
+                              />
+                            </button>
+                          </div>
+                        )}
+                      </div>
                         </div>
                       </div>
                       <div className="mailbox-buttons">
@@ -546,8 +575,8 @@ const EventData = () => {
             ) }
           </div>
         </div>
-
-      <div class="email-result webinar-result">
+        </div>
+      <div className="email-result webinar-result">
         <ToastContainer
           position="top-right"
           autoClose={5000}
@@ -561,6 +590,8 @@ const EventData = () => {
         />
      
       </div>
+      </div>
+      
       <Modal
         id="webinar_event"
         show={show}
@@ -671,7 +702,7 @@ const EventData = () => {
                   ))}
                 </fieldset>
                 <div className="mt-2 clearfix"></div>
-                <fieldset class="border p-2">
+                <fieldset className="border p-2">
                   {Speakername.map((multi, i) => (
                     <div
                       key={i}
@@ -787,7 +818,7 @@ const EventData = () => {
               <div className="modal-footer-btn">
                 <Button
                   type="reset"
-                  class="btn btn-primary btn-bordered"
+                  className="btn btn-primary btn-bordered"
                   variant="danger"
                   onClick={() => {
                     setSpeakerName([{ name: "", email: "" }]);
@@ -797,7 +828,7 @@ const EventData = () => {
                 >
                   Close
                 </Button>
-                <Button type="submit" class="btn btn-primary btn-filled">
+                <Button type="submit" className="btn btn-primary btn-filled">
                   Update
                 </Button>
               </div>

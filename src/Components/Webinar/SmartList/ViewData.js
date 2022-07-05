@@ -92,9 +92,9 @@ const ViewData = (props) => {
         Authorization: `${localStorage.getItem("Token")}`,
       };
       await axios
-        .get(baseURL + `country`, { headers })
+        .get(baseURL + `/country`, { headers })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           const countrys = res.data.data.map((data) => {
             return data;
           });
@@ -140,7 +140,7 @@ const ViewData = (props) => {
     };
     loader("show");
     await axios
-      .post(baseURL + `smart-list/single-record`, body, {
+      .post(baseURL + `/smart-list/single-record`, body, {
         headers,
       })
       .then((res) => {
@@ -770,7 +770,7 @@ const ViewData = (props) => {
         loader("show");
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         await axios
-          .post(baseURL + `create-unregistered-participant`, body, {
+          .post(baseURL + `/create-unregistered-participant`, body, {
             headers,
           })
           .then((res) => {
@@ -839,7 +839,7 @@ const ViewData = (props) => {
           })
           .catch((err) => {
             // loader("hide");
-            console.log("something went wrong");
+            // console.log("something went wrong");
           });
         setIsOpen(false);
       } else {
@@ -876,10 +876,10 @@ const ViewData = (props) => {
   } else {
     return (
       <>
-        <div class="right-sidebar col">
           <div className="loader" id="custom_loader">
             <span className="loader-view"> </span>
           </div>
+        <div class="right-sidebar col">
           {!isOpenAdd ? <ToastContainer /> : null}
           <div class="top-header">
             <div class="page-title">
