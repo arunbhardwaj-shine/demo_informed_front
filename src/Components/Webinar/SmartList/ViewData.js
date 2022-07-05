@@ -92,7 +92,7 @@ const ViewData = (props) => {
         Authorization: `${localStorage.getItem("Token")}`,
       };
       await axios
-        .get(baseURL + `country`, { headers })
+        .get(baseURL + `/country`, { headers })
         .then((res) => {
           // console.log(res);
           const countrys = res.data.data.map((data) => {

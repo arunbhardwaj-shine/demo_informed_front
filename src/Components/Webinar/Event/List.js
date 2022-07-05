@@ -576,7 +576,7 @@ const EventData = () => {
           </div>
         </div>
         </div>
-      <div class="email-result webinar-result">
+      <div className="email-result webinar-result">
         <ToastContainer
           position="top-right"
           autoClose={5000}
@@ -702,7 +702,7 @@ const EventData = () => {
                   ))}
                 </fieldset>
                 <div className="mt-2 clearfix"></div>
-                <fieldset class="border p-2">
+                <fieldset className="border p-2">
                   {Speakername.map((multi, i) => (
                     <div
                       key={i}
@@ -818,7 +818,7 @@ const EventData = () => {
               <div className="modal-footer-btn">
                 <Button
                   type="reset"
-                  class="btn btn-primary btn-bordered"
+                  className="btn btn-primary btn-bordered"
                   variant="danger"
                   onClick={() => {
                     setSpeakerName([{ name: "", email: "" }]);
@@ -828,7 +828,7 @@ const EventData = () => {
                 >
                   Close
                 </Button>
-                <Button type="submit" class="btn btn-primary btn-filled">
+                <Button type="submit" className="btn btn-primary btn-filled">
                   Update
                 </Button>
               </div>
