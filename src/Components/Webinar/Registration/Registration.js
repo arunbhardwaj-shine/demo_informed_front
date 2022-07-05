@@ -21,6 +21,7 @@ const Registration = () => {
   const [massage, setMassage] = useState("Please Select Event");
   const [modalShow1, setModalShow1] = useState(false);
   const [modalShow3, setModalShow3] = useState(false);
+  const [copy, setCopy] = useState(false);
 
   let navigate = useNavigate();
   const handleGetRegistrationPageList = (id) => {
@@ -80,6 +81,8 @@ const Registration = () => {
             <Button onClick={()=>setModalShow1(true)}>Create Registration Page</Button>
         </div>}</>):null}
       </div>
+      <br/>
+      <br/>
       <Row>
         <ToastContainer
           position="top-right"
@@ -102,7 +105,7 @@ const Registration = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {registrationPageList?<> {registrationPageList?.map((val, i) => (
+                      {registrationPageList?<>{registrationPageList?.map((val, i) => (
                         <tr key={i}>
                           <td>{val.mode}-Registration Page</td>
                           <td>
@@ -136,16 +139,27 @@ const Registration = () => {
                               <img
                                 alt="Delete"
                                 src={path_image + "delete-btn.png"}
-                                
                                 />
                                 </button>
+                                <button onClick={()=>{setCopy(true);setTimeout(() => {
+                                  setCopy(false)
+                                }, 1000); navigator.clipboard.writeText(`${BaseUrlImage}/SH2022/index${val.code}.php?event=${val.format}&mode=${val.mode}`)}} className="btn btn-primary btn-filled back">
+                              <img
+                                alt="Preview"
+                                src={path_image + "link-btn.png"}
+                                
+                                />
+                                </button>{
+                                  copy?<p>Copied</p>:null
+                                }
+                                
                                 </div>
                                 </ul>
                           </td>
                         </tr>
-                      ))}</>: <div className="not_found">
-
-                      <h2>{massage}</h2>
+                      ))}</>:  <div className="hcp-table-content">
+                        <br/>
+                      {massage}
                     </div>}
                      
                     </tbody>
