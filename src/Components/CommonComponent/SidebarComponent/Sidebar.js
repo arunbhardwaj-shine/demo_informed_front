@@ -81,8 +81,8 @@ const Sidebar = () => {
           <ul>
             <li className={(location.pathname == "/EmailList" || location.pathname === "/EmailArticleSelect" || location.pathname === "/CreateEmail" ||
                             location.pathname === "/SelectHCP" || location.pathname === "/CreateEmail" || location.pathname === "/VerifyHCP" ||
-                            location.pathname === "/VerifyMAIL" || location.pathname === "/VerifyHcpMAIL" || location.pathname ==="/SelectSmartListUsers" ||
-                            location.pathname ==="/SelectSmartList" ||
+                            location.pathname === "/VerifyMAIL" || location.pathname === "/verifyMAIL" || location.pathname ==="/SelectSmartListUsers" ||
+                            location.pathname ==="/SelectSmartList" || location.pathname === "/VerifyHcpMAIL" ||
                             ((location.pathname == "/CreateSmartList" || location.pathname == "/SmartListFilter" || location.pathname == "/UploadExcel")
                              && (c_id != 0)) ) ? "active" : "side_li"} >
               <Link to={"/EmailList"} >
