@@ -86,12 +86,24 @@ const SelectSmartList = (props) => {
       }
     }
 
-    setSmartListSelected(e);
-    props.getSelectedSmartListData(e);
-    //props.getEmailData({ selected_smart_list: e });
-    setPdfSelected(e.id);
-
-    // e.preventDefault();
+    if(PdfSelected != ""){
+      if(PdfSelected == e.id){
+        setSmartListSelected({});
+        props.getSelectedSmartListData(null);
+        setPdfSelected(0);
+        setselecedlistid(0);
+      }else{
+        setSmartListSelected(e);
+        props.getSelectedSmartListData(e);
+        setPdfSelected(e.id);
+        setselecedlistid(e.id);
+      }
+    }else{
+      setSmartListSelected(e);
+      props.getSelectedSmartListData(e);
+      setPdfSelected(e.id);
+      setselecedlistid(e.id);
+    }
   };
 
   const backClicked = () => {
