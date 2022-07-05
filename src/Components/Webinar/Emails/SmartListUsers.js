@@ -31,6 +31,8 @@ const SmartListUsers = () => {
         // console.log(resp.data.data)
         setData(resp.data.data);
       }
+    }) .catch((err) => {
+      loader("hide");
     });
   };
   const handleGetTemplate = () => {
@@ -41,6 +43,8 @@ const SmartListUsers = () => {
         document.getElementById("one").innerHTML = resp.data.data.description;
         loader("hide");
       }
+    }) .catch((err) => {
+      loader("hide");
     });
   };
   const handleSendMail = () => {
@@ -77,7 +81,8 @@ const SmartListUsers = () => {
           }
         }
       }
-    );
+      );
+      loader("hide");
   };
   const handleEditText = (e, index, idd) => {
     const { id, innerText } = e.target;
@@ -117,7 +122,10 @@ const SmartListUsers = () => {
           setdeleteid(false);
         }
       }
-    );
+    ) .catch((err) => {
+      loader("hide");
+    });
+    loader("hide");
   };
   const DeleteSmartList = (id, i) => {
     loader("show");
@@ -153,6 +161,8 @@ const SmartListUsers = () => {
         }
         setData(CopyData);
       }
+    }) .catch((err) => {
+      loader("hide");
     });
   };
   const handleEmailSCreateCollection = () => {
@@ -179,7 +189,9 @@ const SmartListUsers = () => {
         // localStorage.setItem("collection_id",resp.data.data.collection_id)
         //  navigate("/webinar/email/smart-list");
       }
-    });
+    }) .catch((err) => {
+      loader("hide");
+    });;
   };
   const formik = useFormik({
     initialValues: {
@@ -204,7 +216,7 @@ const SmartListUsers = () => {
             // console.log(resp.data);
             if (resp.data.code == 200) {
               handleGetSmartListSingleRecord(parms.id);
-              loader("hide");
+             
               setIsOpenAdd(false);
               toast.success(resp.data.message);
             } else {
@@ -221,7 +233,11 @@ const SmartListUsers = () => {
             }
           }
         })
-        .catch((err) => console.log(err));
+
+        .catch((err) => {
+          loader("hide");
+        });
+ loader("hide");
     },
 
     // props.closePopup();
@@ -234,6 +250,9 @@ const SmartListUsers = () => {
         if (resp.ok) {
           setCountry(resp.data.data);
         }
+      })
+      .catch((err) => {
+        loader("hide");
       });
     };
     getalCountry();

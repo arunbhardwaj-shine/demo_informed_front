@@ -463,7 +463,7 @@ const TableView = (props, ref) => {
       await axios
         .post(baseURL + `smart-list/update-participants`, body, { headers })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
 
           if (res.data.code == 200) {
             toast.success("Data updated successfully");
@@ -501,7 +501,7 @@ const TableView = (props, ref) => {
     setEditList([]);
     setTimeout(() => {
       setEditList(vr);
-      console.log("This will run after 1 second!");
+      // console.log("This will run after 1 second!");
       setUpdateCounter(updateCounter + 1);
     }, 50);
   };
@@ -716,7 +716,7 @@ const TableView = (props, ref) => {
   };
 
   const backClicked = () => {
-    console.log("back clicked");
+    // console.log("back clicked");
     props.api_flag(0);
   };
 
@@ -903,10 +903,10 @@ const TableView = (props, ref) => {
 
   return (
     <>
-      <div class="right-sidebar col">
         <div className="loader" id="custom_loader">
           <span className="loader-view"> </span>
         </div>
+      <div class="right-sidebar col">
         <ToastContainer />
         <div class="top-header">
           <div class="page-title">

@@ -52,7 +52,7 @@ const Readers = () => {
   const handleGetReadersData = (id) => {
     ExportApi.ReadersData(id).then((resp) => {
       if (resp.ok) {
-        console.log(resp);
+        // console.log(resp);
         if (resp.data.code === 404) {
           setMassage("No data found");
           setData();
@@ -132,15 +132,15 @@ const Readers = () => {
       "Content-Type": "application/json",
       Authorization: `${localStorage.getItem("Token")}`,
     };
-    console.log(nextPageUrl);
+    // console.log(nextPageUrl);
     loader("show");
     await axios
       .post(nextPageUrl, body, {
         headers,
       })
       .then((res) => {
-        console.log(res);
-        console.log(res);
+        // console.log(res);
+        // console.log(res);
         if (res.data.code == 200) {
           // console.log(res);
           setData((oldArray) => [...oldArray, ...res.data.data.data]);
@@ -406,7 +406,7 @@ const Readers = () => {
       })
       .then((res) => {
         // console.log(res);
-        console.log(res);
+        // console.log(res);
         if (res.data.code == 200) {
           // console.log(res);
           setData(res.data.data.data);
@@ -868,7 +868,7 @@ const Readers = () => {
                   </div>
                 )}
 
-                {console.log(lastPage)}
+                {/* {console.log(lastPage)} */}
 
                 {/* {lastPage != currentPage ? (
                   <button onClick={showPaginationData}>Load more</button>

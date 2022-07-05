@@ -394,7 +394,7 @@ header {
     position: absolute;
     right: 0;
     top: 0;
-    padding: 11px;
+    padding: 1px;
     height: 100%;
     border-radius: 0 20px 20px 0;
     width: 46px;
@@ -4378,7 +4378,7 @@ input[type="date"]:before {
   width: 24px;
 }
 .top-right-action .btn {
-  height: 52px;
+  height: 40px;
 }
 .top-right-action .hcp-user-download .btn,
 .top-right-action .hcp-new-user .btn,
@@ -5355,6 +5355,10 @@ form .form-inline .form-alias { padding-left: 100px; color: #000; font-size: 14p
     float: left;
     width: 200px;           
 }
+.reg-sidbar-img{
+width: 80px;
+height: 100px;
+}
 .reg-middle-div{
     width: 800px;
     float: left;
@@ -5363,11 +5367,11 @@ form .form-inline .form-alias { padding-left: 100px; color: #000; font-size: 14p
     float: right;
 }
 .reg-fields-div{
-    
+  float: right; 
 }
-.reg-color-div{
+/* .reg-color-div{
     margin-top: 200px;
-}
+} */
 /* End of Registration page style */
 
 .form-inline .form-group input[type="radio"], .form-inline .form-group input[type="checkbox"] {

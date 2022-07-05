@@ -213,7 +213,7 @@ const FilterList = () => {
 
     loader("show");
     await axios
-      .post(baseURL + `smart-list/create`, body, {
+      .post(baseURL + `/smart-list/create`, body, {
         headers,
       })
       .then((res) => {

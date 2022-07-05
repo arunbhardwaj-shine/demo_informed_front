@@ -4,6 +4,7 @@ import axios from "axios";
 import ExportApi from "../../../Api/ExportApi";
 import { toast, ToastContainer } from "react-toastify";
 import { loader } from "../../../loader";
+import { BaseUrlImage } from "../../../Api/BaseApi";
 const SelectSmartList = () => {
   const [smartListData, setSmartListData] = useState([]);
   const [smartListDataId, setSmartListDataId] = useState();
@@ -69,7 +70,7 @@ const SelectSmartList = () => {
     console.log(headers);
     await axios
       // .post(`http://51.89.210.56:8000/api/smart-list/lists`, body, { headers })
-      .post(`http://192.168.0.46:8000/api/smart-list/lists`, body, { headers })
+      .post(`${BaseUrlImage}/api/smart-list/lists`, body, { headers })
       .then((res) => {
         loader("hide");
         // console.log("res.data.data", res.data.data);

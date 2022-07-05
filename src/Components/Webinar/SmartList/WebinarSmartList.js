@@ -52,7 +52,7 @@ const WebinarSmartList = () => {
     // console.log(headers);
     loader("show");
     await axios
-      .post(baseURL + `smart-list/lists`, body, {
+      .post(baseURL + `/smart-list/lists`, body, {
         headers,
       })
       .then((res) => {
@@ -63,12 +63,11 @@ const WebinarSmartList = () => {
           //setFilterData(res.data.response.filter);
           setPrevSmartListData(res.data.data);
         }
-
         // console.log(res);
         loader("hide");
       })
       .catch((err) => {
-        console.log(err);
+        loader("hide");
       });
   };
 
@@ -264,10 +263,10 @@ const WebinarSmartList = () => {
 
   return (
     <>
-      <div class="right-sidebar col">
         <div className="loader" id="custom_loader">
           <span className="loader-view"> </span>
         </div>
+      <div class="right-sidebar col">
         <ToastContainer />
         <div class="top-header">
           <div class="page-title">

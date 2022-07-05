@@ -28,7 +28,7 @@ const Registration = () => {
       if (resp.ok) {
         loader("hide");
         if(resp.data.code === 200){
-          console.log(resp.data.data)
+          // console.log(resp.data.data)
           setRegistrationPageList(resp.data.data);
           setMassage()
         }
@@ -204,7 +204,7 @@ const Registration = () => {
                   <option selected>Select Registration Page</option>
                   {registrationPageList?.map((val, i) => (
                     <React.Fragment key={i}>
-                      {console.log("val",val)}
+                      {/* {console.log("val",val)} */}
                       <option  value={val.id}>
                       {val.mode}-Registration Page
                       </option>
@@ -213,7 +213,7 @@ const Registration = () => {
          </select>
 
           :null}
-           {console.log("val",registrationPageList)}
+           {/* {console.log("val",registrationPageList)} */}
           <div className="modal-buttons">
           <Link to="/webinar/portal/NewRegistration">
             <button

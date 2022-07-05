@@ -63,9 +63,9 @@ const GridView = (props) => {
         Authorization: `${localStorage.getItem("Token")}`,
       };
       await axios
-        .get(baseURL + `country`, { headers })
+        .get(baseURL + `/country`, { headers })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           const countrys = res.data.data.map((data) => {
             return data;
           });
@@ -111,17 +111,17 @@ const GridView = (props) => {
     };
     loader("show");
     await axios
-      .post(baseURL + `smart-list/single-record`, body, {
+      .post(baseURL + `/smart-list/single-record`, body, {
         headers,
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
 
         if (res.data.data) {
           if (res.data.data.length > 0) {
             //  loader("false");
             loader("hide");
-            console.log(res.data.data);
+            // console.log(res.data.data);
             setEditList(res.data.data);
 
             const arr = res.data.data;
@@ -149,7 +149,7 @@ const GridView = (props) => {
   };
 
   useEffect(() => {
-    console.log("hi");
+    // console.log("hi");
     getSmartListData();
   }, []);
 
@@ -180,7 +180,7 @@ const GridView = (props) => {
   const onFirstNameChange = (e, i) => {
     const { value } = e.target;
     const list = [...hpc];
-    console.log(list);
+    // console.log(list);
     const name = hpc[i].name;
     list[i].name = value;
     setHpc(list);
@@ -222,9 +222,9 @@ const GridView = (props) => {
   };
 
   const onCountryChange = (e, i) => {
-    console.log(e);
+    // console.log(e);
     const { value } = e.target;
-    console.log(value);
+    // console.log(value);
     const list = [...hpc];
     const name = hpc[i].country;
     list[i].country = value;
@@ -241,7 +241,7 @@ const GridView = (props) => {
   };
 
   const addMoreHcp = () => {
-    console.log(hpc);
+    // console.log(hpc);
 
     const status = hpc.map((data) => {
       if (data.email == "") {
@@ -269,7 +269,7 @@ const GridView = (props) => {
   };
 
   const onDelete = async ({ participants_id }) => {
-    console.log(participants_id);
+    // console.log(participants_id);
 
     if (editList.length > 1) {
       setIsOpen(true);
@@ -307,7 +307,7 @@ const GridView = (props) => {
     }
 
     if (editableData.length > 0) {
-      console.log(editableData);
+      // console.log(editableData);
       setEditable(0);
       const body = {
         smart_list_id: props.smartListId,
@@ -324,9 +324,9 @@ const GridView = (props) => {
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       // loader("show");
       await axios
-        .post(baseURL + `smart-list/update-participants`, body, { headers })
+        .post(baseURL + `/smart-list/update-participants`, body, { headers })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
 
           if (res.data.code == 200) {
             toast.success("Data updated successfully");
@@ -377,14 +377,14 @@ const GridView = (props) => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     // loader("show");
 
-    console.log(formData);
+    // console.log(formData);
 
     loader("show");
     await axios
-      .post(baseURL + `upload-unregistered-participant`, formData, { headers })
+      .post(baseURL + `/upload-unregistered-participant`, formData, { headers })
       .then((res) => {
         //  console.log(smartListId);
-        console.log(res);
+        // console.log(res);
         if (res.data.code === 200) {
           loader("hide");
           toast.success("File added successfully.");
@@ -411,7 +411,7 @@ const GridView = (props) => {
       Authorization: `${localStorage.getItem("Token")}`,
     };
 
-    console.log(hpc);
+    // console.log(hpc);
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
         return {
@@ -431,7 +431,7 @@ const GridView = (props) => {
         participants: JSON.stringify(body_data),
       };
 
-      console.log(body);
+      // console.log(body);
       const status = body_data.map((data) => {
         if (data.email == "") {
           return "false";
@@ -439,7 +439,7 @@ const GridView = (props) => {
           return "true";
         }
       });
-      console.log(status);
+      // console.log(status);
 
       if (status.every((element) => element == "true")) {
         //   loader("show");
@@ -447,16 +447,16 @@ const GridView = (props) => {
         loader("show");
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         await axios
-          .post(baseURL + `create-unregistered-participant`, body, {
+          .post(baseURL + `/create-unregistered-participant`, body, {
             headers,
           })
           .then((res) => {
-            console.log(res);
+            // console.log(res);
             if (res.data.code === 200) {
               loader("false");
               toast.success("User added successfuly");
               //  setIsLoading(false);
-              console.log("res");
+              // console.log("res");
               let old_data = editList;
               let new_data = JSON.parse(res.data.data);
               //setNewData((oldArray) => [...new_data, ...oldArray]);
@@ -521,7 +521,7 @@ const GridView = (props) => {
         headers,
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
 
         //    loader("hide");
       })
@@ -539,7 +539,7 @@ const GridView = (props) => {
   const submitHandler = (event) => {
     let r_table = [];
     editList.find(function (item) {
-      console.log(item);
+      // console.log(item);
       if (item.name.includes(search) || item.email.includes(search)) {
         r_table.push(item);
       }
@@ -560,7 +560,7 @@ const GridView = (props) => {
     setEditList([]);
     setTimeout(() => {
       setEditList(vr);
-      console.log("This will run after 1 second!");
+      // console.log("This will run after 1 second!");
       setUpdateCounter(updateCounter + 1);
     }, 50);
   };
@@ -582,7 +582,7 @@ const GridView = (props) => {
       });
 
       let prev_obj = editableData.find((x) => x.id === id);
-      console.log(prev_obj);
+      // console.log(prev_obj);
 
       if (typeof prev_obj != "undefined") {
         editableData.map((obj) => arr.find((o) => o.id === id) || obj);
@@ -601,10 +601,10 @@ const GridView = (props) => {
   } else {
     return (
       <>
-        <div class="right-sidebar col">
           <div className="loader" id="custom_loader">
             <span className="loader-view"> </span>
           </div>
+        <div class="right-sidebar col">
           {!isOpenAdd ? <ToastContainer /> : null}
           <div class="top-header">
             <div class="page-title">
@@ -827,7 +827,7 @@ const GridView = (props) => {
               {editList.map((data, index) => {
                 return (
                   <div class="list-tab-box">
-                    {console.log(data)}
+                    {/* {console.log(data)} */}
                     <div class="list-tab-box-inside">
                       {/* <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">
