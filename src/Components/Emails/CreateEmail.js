@@ -1562,7 +1562,7 @@ const CreateEmail = (props) => {
             }
 
             <Editor
-                apiKey='ht36dikastobw13j2yi8z3r4j61iof4dfcmmlqkvsr5h8byp'
+                apiKey='g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8'
                 onInit={(evt, editor) => editorRef.current = editor}
                 initialValue={template}
                 init={{
