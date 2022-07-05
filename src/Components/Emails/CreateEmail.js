@@ -25,6 +25,7 @@ import "bootstrap/js/dist/modal";
 import "bootstrap/js/dist/dropdown";
 import "bootstrap/js/dist/tooltip";
 import 'bootstrap/dist/css/bootstrap.css';
+import { Editor } from '@tinymce/tinymce-react';
 window.jQuery = $;
 require('bootstrap');
 // window.$ = window.jQuery = require('jquery');
@@ -32,6 +33,7 @@ var dxr = 0;
 var state_object = {};
 
 const CreateEmail = (props) => {
+  const editorRef = useRef(null);
   // console.log(state_object);
   // console.log(props);
   const filterConfig = {
@@ -1274,6 +1276,14 @@ const CreateEmail = (props) => {
     }
   };
 
+  const updateTemplate = (e) => {
+    e.preventDefault();
+    if (editorRef.current) {
+      setTemplate(editorRef.current.getContent());
+      toast.success("Template update successfuly");
+    }
+  }
+
   return (
     <>
       <div className="col right-sidebar">
@@ -1477,6 +1487,12 @@ const CreateEmail = (props) => {
                     </div>
                     <div className="form-buttons right-side col-12 col-md-5">
                       <button
+                        className="btn btn-primary btn-filled"
+                        onClick={(e) => updateTemplate(e)}
+                      >
+                        Save
+                      </button>
+                      <button
                         className={
                           typeof getIsApprovedStatus !== "undefined" &&
                           getIsApprovedStatus == 3
@@ -1521,25 +1537,47 @@ const CreateEmail = (props) => {
               </div>
             </div>
             <div className="row">
-            <ReactSummernote
-                  value={template}
-                  options={{
-                    lang: 'ru-RU',
-                    height: 400,
-                    dialogsInBody: true,
-                    toolbar: [
-                      ['style', ['style']],
-                      ['font', ['bold', 'underline', 'clear']],
-                      ['fontname', ['fontname']],
-                      ['para', ['ul', 'ol', 'paragraph']],
-                      ['table', ['table']],
-                      ['view', ['codeview']]
-                    ]
+            {
+              /*
+              <ReactSummernote
+                    value={template}
+                    options={{
+                      lang: 'ru-RU',
+                      height: 400,
+                      dialogsInBody: true,
+                      toolbar: [
+                        ['style', ['style']],
+                        ['font', ['bold', 'underline', 'clear']],
+                        ['fontname', ['fontname']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['table', ['table']],
+                        ['view', ['codeview']]
+                      ]
+                    }}
+                    onChange={(content) => {
+                      setTemplate(content);
                   }}
-                  onChange={(content) => {
-                    setTemplate(content);
+                  />
+              */
+            }
+
+            <Editor
+                apiKey='ht36dikastobw13j2yi8z3r4j61iof4dfcmmlqkvsr5h8byp'
+                onInit={(evt, editor) => editorRef.current = editor}
+                initialValue={template}
+                init={{
+                  height: 500,
+                  menubar: 'file edit view insert format tools table help',
+                  plugins: 'preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons',
+                  toolbar: 'undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
+                  content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
                 }}
-                />
+              />
+              {
+                /*onEditorChange={(content) => {
+                    setTemplate(content);
+                }}*/
+              }
             {
               /*
 
