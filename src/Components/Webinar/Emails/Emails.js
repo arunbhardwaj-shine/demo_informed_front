@@ -13,46 +13,7 @@ const SendEmails = () => {
   const [filter, setFilter] = useState("");
   const [NotFound, setNotFound] = useState();
   const navigate = useNavigate();
-  const [filterdata, setFilterData] = useState([
-    "others",
-    "global",
-    "book",
-    "abcd",
-    "Wilate",
-    "VWD",
-    "VKA reversal",
-    "Twd",
-    "Personalised Prophylaxis ",
-    "Personalised Prophylaxis",
-    "PUPs ",
-    "PUPs",
-    "POC guided hemostasis ",
-    "POC guided hemostasis",
-    "Octanate ",
-    "Octanate",
-    "Nuwiq ",
-    "Nuwiq",
-    "New tag 606",
-    "New tag 505",
-    "New tag 3",
-    "New tag 2",
-    "New tag 1 ",
-    "Joint Health ",
-    "Joint Health",
-    "Immunogenicity",
-    "ITI ",
-    "ITI",
-    "FVIII relevance",
-    "Excessive bleedings ",
-    "Excessive bleedings",
-    "Diagnostic Service",
-    "DOACs reversal ",
-    "DOACs reversal",
-    "Cardiac surgery",
-    "Blood safety ",
-    "Blood safety",
-    "Bleeding management",
-  ]);
+  const [filterdata, setFilterData] = useState();
   let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const handleOnFilterTags = (ftag) => {
     let tag_index = filtertags.indexOf(ftag);
@@ -144,6 +105,18 @@ const SendEmails = () => {
       }
     );
   };
+  const handleGetTags = () => {
+    ExportApi.GetTags().then(
+      (resp) => {
+        if (resp.ok) {
+          if (resp.data.code == 200) {
+            // console.log(resp.data.data[0])
+            setFilterData(JSON.parse(resp.data.data[0].values));
+          }
+        }
+      }
+    );
+  };
   const handleSendMail = (id) => {
     loader("show");
     ExportApi.sandAllmaik(id).then((resp) => {
@@ -176,6 +149,7 @@ const SendEmails = () => {
     });
   };
   useEffect(() => {
+    handleGetTags()
     loader("show");
     window.addEventListener("EventId", () => {
       handleGetEmailSCollection(localStorage.getItem("EventIdHeader"));
