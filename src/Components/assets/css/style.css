@@ -1092,3 +1092,21 @@ table thead.sticky-header:after { content: ""; position: absolute; width: 20px; 
 .help-content-popup img,.help-popup-content-library-inside img,.help-popup-content-list img {
     width: 100%;
 }
+.help-content-popup{
+	position: relative;
+}
+.help-content-popup:after {
+    text-align: center;
+    background: url(http://localhost:3000/static/media/Play_button.0b33be2ceda53eee1074.png) no-repeat center center;
+    width: 40px;
+    background-size: 40px;
+    content: "";
+    position: absolute;
+    height: 40px;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0 auto;
+		cursor: pointer;
+}
