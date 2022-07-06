@@ -1403,7 +1403,7 @@ ul.tabnav-link li {
   max-width: 551px;
 }
 .form-inline .form-group textarea{
-  min-height:300px;
+  min-height:100px;
   resize:none;
 }
 .form-inline .form-group input:focus,
@@ -3782,11 +3782,12 @@ a {
     width: 100%;
 } */
 .modal #webinar_event .form-inline .form-group textarea, .modal #webinar_event .form-inline .form-group input {
-  /* max-width: 500px; */
+  max-width: 360px;
   /* margin-left: 0; */
 }
 .modal #webinar_event .form-inline .form-group textarea{
-  min-height:150px;
+  min-height:110px;
+  max-width: 700px;
 }
 .modal-header {
   border-bottom: 0;
@@ -3923,10 +3924,10 @@ input[type="date"]:before {
 #webinar_event .form-inline .form-group textarea,
 #webinar-edit-event .form-inline .form-group textarea {
   background-image: none;
-  height: 127px;
+  height: 15px;
   resize: none;
   width: 100%;
-  max-width: 382px;
+  max-width: 680px;
 }
 .modal-body button.event-submit-button {
   display: inline-block;
@@ -5353,14 +5354,14 @@ form .form-inline .form-alias { padding-left: 100px; color: #000; font-size: 14p
 /* Registration page style */
 .reg-sidbar{
     float: left;
-    width: 200px;           
+    width: 150px;           
 }
 .reg-sidbar-img{
 width: 80px;
 height: 100px;
 }
 .reg-middle-div{
-    width: 800px;
+    width: 600px;
     float: left;
 }
 .reg-right-sidebar{

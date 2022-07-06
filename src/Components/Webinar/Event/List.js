@@ -788,7 +788,6 @@ const EventData = () => {
                     </div>
                   ))}
                   <a
-                    href="javascript:void(0);"
                     onClick={handleMultiInputAdd}
                     className="speaker-button"
                   >
@@ -796,7 +795,7 @@ const EventData = () => {
                   </a>
                 </fieldset>
                 <div className="form-inline row justify-content-between align-items-center">
-                  <div className="form-group col-12 col-md-12">
+              <div className="form-group col-12 col-md-12">
                     <label>Description </label>
                     <textarea
                       name="Description"
@@ -805,7 +804,7 @@ const EventData = () => {
                       onBlur={formik.handleBlur}
                       value={formik.values.Description}
                       className="form-control"
-                      rows="3"
+                      rows="2"
                     ></textarea>
                     {formik.touched.Description && formik.errors.Description ? (
                       <div className="error" style={{ color: "red" }}>

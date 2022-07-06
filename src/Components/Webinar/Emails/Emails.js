@@ -71,25 +71,24 @@ const SendEmails = () => {
     );
   };
   const handleSearchEmailSCollection = (e) => {
-    setSearch(e);
-    ExportApi.SearchEmailSCollection(filtertags > 0 ? filtertags : "", e).then(
+    e.preventDefault()
+    ExportApi.SearchEmailSCollection(localStorage.getItem("EventIdHeader"),filtertags > 0 ? filtertags : "", Search).then(
       (resp) => {
         if (resp.ok) {
           if (resp.data.code == 200) {
             setData(resp.data.data);
             setNotFound();
-            loader("hide");
           } else {
             setData();
             setNotFound("No Data Found");
-            loader("hide");
           }
+          loader("hide");
         }
       }
     );
   };
   const handleSearchEmailSCollectionFilter = () => {
-    ExportApi.SearchEmailSCollection(filtertags, Search ? Search : "").then(
+    ExportApi.SearchEmailSCollection(localStorage.getItem("EventIdHeader"),filtertags, Search ? Search : "").then(
       (resp) => {
         if (resp.ok) {
           if (resp.data.code == 200) {
@@ -180,14 +179,18 @@ const SendEmails = () => {
           </div>
           <div className="top-right-action">
             <div className="search-bar">
-              <form className="d-flex">
+              <form className="d-flex" onSubmit={(e)=>handleSearchEmailSCollection(e)}>
                 <input
                   className="form-control me-2"
                   type="text"
                   placeholder="Search"
                   aria-label="Search"
                   onChange={(e) => {
-                    handleSearchEmailSCollection(e.target.value);
+                    setSearch(e.target.value);
+                    if(e.target.value.length==0){
+                      
+                      handleGetEmailSCollection()
+                    }
                   }}
                 />
                 <button className="btn btn-outline-success" type="submit">

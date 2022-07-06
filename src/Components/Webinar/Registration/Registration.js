@@ -21,7 +21,7 @@ const Registration = () => {
   const [massage, setMassage] = useState("Please Select Event");
   const [modalShow1, setModalShow1] = useState(false);
   const [modalShow3, setModalShow3] = useState(false);
-  const [copy, setCopy] = useState(false);
+  const [copy, setCopy] = useState();
 
   let navigate = useNavigate();
   const handleGetRegistrationPageList = (id) => {
@@ -29,6 +29,8 @@ const Registration = () => {
       if (resp.ok) {
         loader("hide");
         if(resp.data.code === 200){
+          localStorage.removeItem("registrationPageId")
+        localStorage.removeItem("EditRegistrationPageId")
           // console.log(resp.data.data)
           setRegistrationPageList(resp.data.data);
           setMassage()
@@ -55,6 +57,8 @@ const Registration = () => {
   useEffect(() => {
     loader("show")
     window.addEventListener("EventId", () =>{
+      localStorage.removeItem("registrationPageId")
+        localStorage.removeItem("EditRegistrationPageId")
       handleGetRegistrationPageList(localStorage.getItem("EventIdHeader"))
     }
     );
@@ -67,17 +71,18 @@ const Registration = () => {
       // setMessage("Please create Event");
     }
   }, []);
+
   return (
     <>
       <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
       </div>
-    <div class="right-sidebar col">
-    <div class="top-header">
-        <div class="page-title">
+    <div className="right-sidebar col">
+    <div className="top-header">
+        <div className="page-title">
           <h2>Registration Page </h2>
         </div>
-        {registrationPageList===undefined||registrationPageList===null?<Link to="/webinar/portal/NewRegistration"><Button>Create Registration Page</Button></Link>:registrationPageList.length==1?(<> {registrationPageList?.length==2||registrationPageList?.length>2?null:  <div class="top-right-action">
+        {registrationPageList===undefined||registrationPageList===null?<Link to="/webinar/portal/NewRegistration"><Button>Create Registration Page</Button></Link>:registrationPageList.length==1?(<> {registrationPageList?.length==2||registrationPageList?.length>2?null:  <div className="top-right-action">
             <Button onClick={()=>setModalShow1(true)}>Create Registration Page</Button>
         </div>}</>):null}
       </div>
@@ -141,16 +146,16 @@ const Registration = () => {
                                 src={path_image + "delete-btn.png"}
                                 />
                                 </button>
-                                <button onClick={()=>{setCopy(true);setTimeout(() => {
-                                  setCopy(false)
-                                }, 1000); navigator.clipboard.writeText(`${BaseUrlImage}/SH2022/index${val.code}.php?event=${val.format}&mode=${val.mode}`)}} className="btn btn-primary btn-filled back">
-                              <img
+                                <button onClick={(e)=>{setCopy(i);setTimeout(() => {
+                                  setCopy()
+                                }, 1000); navigator.clipboard.writeText(`${BaseUrlImage}/SH2022/index${val.format}.php?event=${val.code}&mode=${val.mode}`)}} className="btn btn-primary btn-filled back">
+                              <img                                    
                                 alt="Preview"
                                 src={path_image + "link-btn.png"}
                                 
                                 />
                                 </button>{
-                                  copy?<p>Copied</p>:null
+                                  copy==i?<p>Copied</p>:null
                                 }
                                 
                                 </div>
@@ -212,7 +217,7 @@ const Registration = () => {
                     localStorage.removeItem("EditRegistrationPageId")
                     navigate("/webinar/portal/NewRegistration");
                   }, 1000);}}
-                  class="form-select-lg mb-3"
+                  className="form-select-lg mb-3"
                   aria-label=".form-select-lg example"
                 >
                   <option selected>Select Registration Page</option>

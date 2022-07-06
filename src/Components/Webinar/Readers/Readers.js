@@ -18,6 +18,8 @@ import { scryRenderedComponentsWithType } from "react-dom/test-utils";
 import CsvDownload from "react-json-to-csv";
 import ReactHtmlTableToExcel from "react-html-table-to-excel";
 import { Accordion } from "react-bootstrap";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import { loader } from "../../../loader";
 import axios from "axios";
 import { BaseApi } from "../../../Api/BaseApi";
@@ -35,6 +37,7 @@ const Readers = () => {
   const [userType, setUserType] = useState(["HCP", "Staff User", "Test User"]);
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [flag, setFlag] = useState(false);
+  const [show, setShow] = useState(false);
   const [modalShow, setModalShow] = useState(false);
   const [NewData, setNewData] = useState();
   const [modalShow1, setModalShow1] = useState(false);
@@ -73,7 +76,53 @@ const Readers = () => {
         }
       }
     });
-  };
+  }; const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      country: "",
+      profession: "",
+      interest: "",
+      hospital: "",
+    },
+
+    validationSchema: Yup.object({
+      name: Yup.string().required("Name is required"),
+      email: Yup.string().required("Email is required").email(),
+    }),
+    onSubmit: (values) => {
+      loader("show");
+      let Data = JSON.stringify([values]);
+      ExportApi.EmailSand(localStorage.getItem("SmartListId"), Data)
+        .then((resp) => {
+          if (resp.data) {
+            // console.log(resp.data);
+            if (resp.data.code == 200) {             
+              toast.success(resp.data.message);
+            } else {
+              loader("hide");
+              toast.error(resp.data.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
+            }
+          }
+        })
+
+        .catch((err) => {
+          loader("hide");
+        });
+ loader("hide");
+    },
+
+    // props.closePopup();
+  });
+
   const handleGetReadersDataPage = (id) => {
     ExportApi.ReadersPage(id, eventId).then((resp) => {
       if (resp.ok) {
@@ -89,7 +138,7 @@ const Readers = () => {
     });
   };
   const handleGetReadersSearch = (id) => {
-    ExportApi.ReadersDataSearch(eventId, id, type, countryvalue).then(
+    ExportApi.ReadersDataSearch(localStorage.getItem("EventIdHeader"), id, type, countryvalue).then(
       (resp) => {
         if (resp.ok) {
           if (resp.data.code === 404) {
@@ -107,7 +156,7 @@ const Readers = () => {
       setMassage("Data Not Found");
       handleGetReadersData(eventId);
     } else {
-      ExportApi.ReadersType(eventId, id, search, countryvalue).then((resp) => {
+      ExportApi.ReadersType(localStorage.getItem("EventIdHeader"), id, search, countryvalue).then((resp) => {
         if (resp.ok) {
           if (resp.data.code === 404) {
             setData();
@@ -219,7 +268,7 @@ const Readers = () => {
       }
     );
   };
-  const handleBlock = (is) => {
+  const handleBlock = () => {
     if (localStorage.getItem("is") == 0) {
       ExportApi.ReadersBlock(localStorage.getItem("blockId"), 1).then(
         (resp) => {
@@ -805,7 +854,7 @@ const Readers = () => {
                         </li>
                         <li>
                           <div className="user-type-action">
-                            <button className="btn btn-primary btn-filled">
+                            <button onClick={()=>{setShow(true)}} className="btn btn-primary btn-filled">
                               <img
                                 src={path_image + "edit-btn.png"}
                                 alt="Edit"
@@ -824,30 +873,35 @@ const Readers = () => {
                               />
                             </button>
 
-                            <button className="btn btn-primary btn-filled">
                               {val.is_blocked == 0 ? (
+                            <button   onClick={() => {
+                              setModalShow(true);
+                              localStorage.setItem("blockId", val.id);
+                              localStorage.setItem("is", val.is_blocked);
+                            }}className="btn btn-primary btn-filled">
                                 <img
                                   src={path_image + "lock-btn.png"}
                                   width={70}
-                                  onClick={() => {
-                                    setModalShow(true);
-                                    localStorage.setItem("blockId", val.id);
-                                    localStorage.setItem("is", val.is_blocked);
-                                  }}
+                                
                                 />
+                                </button>
                               ) : (
+                                <button  onClick={() => {
+                                  localStorage.setItem("blockId", val.id);
+                                  localStorage.setItem("is", val.is_blocked);
+                                  handleBlock();
+                                }} className="btn btn-primary btn-filled">
                                 <img
-                                  src={path_image + "lock-btn.png"}
-                                  width={70}
-                                  onClick={() => {
-                                    localStorage.setItem("blockId", val.id);
-                                    localStorage.setItem("is", val.is_blocked);
-                                    handleBlock();
-                                  }}
+                                  src={path_image + "lock-svgrepo-com.svg"}
+                                 style={{height:"20px",width:"20px"}}
+                                 
                                 />
-                              )}
                             </button>
-                            <button className="btn btn-primary btn-filled">
+                              )}
+                            <button    onClick={() => {
+                                  localStorage.setItem("DeleteData", val.id);
+                                  setModalShow1(true);
+                                }} className="btn btn-primary btn-filled">
                               <img
                                 alt="Delete"
                                 src={path_image + "delete-btn.png"}
@@ -883,6 +937,125 @@ const Readers = () => {
             </div>
           </div>
         </div>
+        <Modal
+        id="webinar_event"
+        show={show}
+        onHide={() => {
+          setShow(false);
+        }}
+      >
+        <Modal.Header closeButton>
+          <h4>Edit\HCP</h4>
+        </Modal.Header>
+        <Modal.Body>
+        <form className={"tab-pane active"}>
+              <div className="modal-body-content">
+              <div className="add_hcp_boxes">
+                      <div className="form_action">
+                        <div className="row">
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label htmlFor=""> Name</label>
+                              <input
+                                type="text"
+                                name="name"
+                                className="form-control"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.name}
+                              />
+                              {formik.touched.name && formik.errors.name ? (
+                                <div className="error" style={{ color: "red" }}>
+                                  {formik.errors.name}
+                                </div>
+                              ) : null}
+                            </div>
+                          </div>
+
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label htmlFor="">Email *</label>
+                              <input
+                                type="email"
+                                className="form-control"
+                                id="email-desc"
+                                name="email"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.email}
+                              />
+                              {formik.touched.email && formik.errors.email ? (
+                                <div className="error" style={{ color: "red" }}>
+                                  {formik.errors.email}
+                                </div>
+                              ) : null}
+                            </div>
+                          </div>
+
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label htmlFor="">Hospital</label>
+                              <input
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.hospital}
+                                name="hospital"
+                                type="text"
+                                className="form-control"
+                              />
+                            </div>
+                          </div>
+
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label htmlFor="">Profession</label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                name="profession"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.profession}
+                              />
+                            </div>
+                          </div>
+                          
+
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label htmlFor="">Interest</label>
+                              <input
+                                name="interest"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.interest}
+                                type="text"
+                                className="form-control"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+        <div className="modal-footer-btn">
+                <Button
+                  type="reset"
+                  className="btn btn-primary btn-bordered"
+                  variant="danger"
+                  onClick={() => {
+                    setShow(false);
+                  }}
+                >
+                  Close
+                </Button>
+                <Button type="submit" className="btn btn-primary btn-filled">
+                  Update
+                </Button>
+              </div>
+              </form>
+        </Modal.Body>
+      </Modal>
 
         <Modal
           className="modal send-confirm"
