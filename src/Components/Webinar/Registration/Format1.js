@@ -127,7 +127,7 @@ const Format1 = (props) => {
        <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
     </div>
-    <div class="top-header">
+    <div className="top-header">
     {props?.data||data?<Button onClick={()=>{loader("show") ;setModalShow(true); setTimeout(() => {
         loader("hide")
       }, 1500);}}>Preview</Button>:null}
@@ -141,7 +141,7 @@ const Format1 = (props) => {
               <div className="form-group col-12">
                 <label>Mode</label>
                 <div className="form-inline-option">
-                  {props.mode?.mode=="virtual"?<div class="form-check">
+                  {props.mode?.mode=="virtual"?<div className="form-check">
                  <Form.Label> Virtual</Form.Label>
                  <Form.Control
                   name="mode"
@@ -152,7 +152,7 @@ const Format1 = (props) => {
                    defaultChecked
                    defaultValue="virtual"
                  />
-               </div>:props.mode?.mode=="onsite"?<div class="form-check">
+               </div>:props.mode?.mode=="onsite"?<div className="form-check">
                               <Form.Label>Onsite</Form.Label>
                               <Form.Control
                                  name="mode"
@@ -163,7 +163,7 @@ const Format1 = (props) => {
                                  defaultValue={"onsite"}
                                  value="onsite"
                                  />
-                            </div>:<div class="form-check"><Form.Label> Virtual</Form.Label>
+                            </div>:<div className="form-check"><Form.Label> Virtual</Form.Label>
                               <Form.Control
                                name="mode"
                                 type="radio"
@@ -405,8 +405,12 @@ const Format1 = (props) => {
         {/* end of middle content*/}
         
 
-        {/* right sidebar */}
-        <div className="reg-right-sidebar">
+      
+
+        {/* end of color div content */}
+        </div>
+          {/* right sidebar */}
+          <div className="reg-right-sidebar">
         {/* fields content */}
         <div className="reg-fields-div">
         <div className="email-result">
@@ -439,7 +443,7 @@ const Format1 = (props) => {
               <div className="form-group col-12 ">
                 <label>Name</label>
                 <div className="form-inline-option">
-                <div class="form-check">
+                <div className="form-check">
                 <Form.Control
                   name="name"
                   onChange={formik.handleChange}
@@ -455,7 +459,7 @@ const Format1 = (props) => {
         <div className="form-inline row justify-content-between align-items-center">
               <div className="form-group col-12 ">
                 <label>Country</label>
-                <div class="form-check">
+                <div className="form-check">
                 <Form.Control
                   name="country"
                   onChange={formik.handleChange}
@@ -556,9 +560,6 @@ const Format1 = (props) => {
                   </div>
                   </div>
                    </div>
-
-        {/* end of color div content */}
-        </div>
         {/* end of right sidebar */}{props?.mode?.id?
 <Button type="submit">update</Button>:
         <Button type="submit">Save</Button>

@@ -126,7 +126,7 @@ const Format2 = (props) => {
        <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
     </div>
-    <div class="top-header">
+    <div className="top-header">
       {props?.data||data?<Button onClick={()=>{loader("show") ;setModalShow(true); setTimeout(() => {
         loader("hide")
       }, 1500);}}>Preview</Button>:null}
@@ -141,7 +141,7 @@ const Format2 = (props) => {
               <div className="form-group col-12">
                 <label>Mode</label>
                 <div className="form-inline-option">
-                  {props.mode?.mode=="virtual"?<div class="form-check">
+                  {props.mode?.mode=="virtual"?<div className="form-check">
                  
                  <Form.Label> Virtual</Form.Label>
                  <Form.Control
@@ -153,7 +153,7 @@ const Format2 = (props) => {
                    defaultValue="virtual"
                    defaultChecked
                  />
-               </div>:props.mode?.mode=="onsite"?<div class="form-check">
+               </div>:props.mode?.mode=="onsite"?<div className="form-check">
                               <Form.Label>Onsite</Form.Label>
                               <Form.Control
                                  name="mode"
@@ -163,7 +163,7 @@ const Format2 = (props) => {
                                  value="onsite"
                                  defaultChecked
                                  />
-                            </div>:<div class="form-check"><Form.Label> Virtual</Form.Label>
+                            </div>:<div className="form-check"><Form.Label> Virtual</Form.Label>
                               <Form.Control
                                name="mode"
                                 type="radio"
@@ -395,7 +395,7 @@ const Format2 = (props) => {
               <div className="form-group col-12 ">
                 <label>Name</label>
                 <div className="form-inline-option">
-                <div class="form-check">
+                <div className="form-check">
                 <Form.Control
                   name="name"
                   onChange={formik.handleChange}
@@ -411,7 +411,7 @@ const Format2 = (props) => {
         <div className="form-inline row justify-content-between align-items-center">
               <div className="form-group col-12 ">
                 <label>Country</label>
-                <div class="form-check">
+                <div className="form-check">
                 <Form.Control
                   name="country"
                   onChange={formik.handleChange}
@@ -456,7 +456,6 @@ const Format2 = (props) => {
                        onChange={formik.handleChange}
                        onBlur={formik.handleBlur}
                        value={formik.values.titleColor}
-                       defaultValue="#zwww"
                        title="Choose your color"
 	                   />
                    </div>
@@ -470,7 +469,6 @@ const Format2 = (props) => {
                        onChange={formik.handleChange}
                        onBlur={formik.handleBlur}
                        value={formik.values.textColor}
-                       defaultValue="#zwww"
                        title="Choose your color"
 	                   />
                    </div>
@@ -484,7 +482,6 @@ const Format2 = (props) => {
                        onChange={formik.handleChange}
                        onBlur={formik.handleBlur}
                        value={formik.values.backgroundColor}
-                       defaultValue="#zwww"
                        title="Choose your color"
 	                   />
                    </div>
@@ -498,7 +495,6 @@ const Format2 = (props) => {
                        onChange={formik.handleChange}
                        onBlur={formik.handleBlur}
                        value={formik.values.borderColor}
-                       defaultValue="#zwww"
                        title="Choose your color"
 	                   />
                    </div>

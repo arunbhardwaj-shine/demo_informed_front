@@ -266,8 +266,8 @@ function Add(props) {
         <form onReset={formik.handleReset} onSubmit={formik.handleSubmit}>
           <div className="modal-body-content">
             <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 col-md-7">
-                <label>
+              <div className="form-group col-6 col-md-7">
+                <label htmlFor="exampleInputEmail1">
                   Event Title <span>*</span>
                 </label>
                 <input
@@ -290,8 +290,8 @@ function Add(props) {
                   key={i}
                   className="form-inline row justify-content-between align-items-center"
                 >
-                  <div className="form-group col-12 col-md-6">
-                    <label>Speaker's Name</label>
+                  <div className="form-group col-6 col-md-6">
+                    <label htmlFor="exampleInputEmail1">Speaker's Name</label>
                     <input
                       type="text"
                       placeholder="Speaker's Name"
@@ -306,8 +306,8 @@ function Add(props) {
                       {SpeakerErr[i].name}
                     </div>
                   </div>
-                  <div className="form-group col-12 col-md-6">
-                    <label>Speaker's Email</label>
+                  <div className="form-group col-6 col-md-6">
+                    <label htmlFor="exampleInputEmail1">Speaker's Email</label>
                     <input
                       type="text"
                       placeholder="Speaker's Email"
@@ -377,8 +377,8 @@ function Add(props) {
               </a>
             </fieldset>
             <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 col-md-12">
-                <label>Region </label>
+              <div className="form-group col-6 col-md-6">
+                <label htmlFor="exampleInputEmail1">Region </label>
                 <select
                   name="Region"
                   onChange={formik.handleChange}
@@ -402,10 +402,8 @@ function Add(props) {
                   </div>
                 ) : null}
               </div>
-            </div>
-            <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 col-md-12">
-                <label>Country </label>
+              <div className="form-group col-6 col-md-6">
+                <label htmlFor="exampleInputEmail1">Country </label>
                 <select
                   name="Country"
                   onChange={formik.handleChange}
@@ -431,8 +429,8 @@ function Add(props) {
               </div>
             </div>
             <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 col-md-12">
-                <label>BU </label>
+            <div className="form-group col-6 col-md-6">
+                <label htmlFor="exampleInputEmail1">BU </label>
                 <select
                   name="Bu"
                   onChange={formik.handleChange}
@@ -456,10 +454,8 @@ function Add(props) {
                   </div>
                 ) : null}
               </div>
-            </div>
-            <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 col-md-12 time-zone">
-                <label>Select Timezone </label>
+              <div className="form-group col-6 col-md-6 ">
+                <label htmlFor="exampleInputEmail1">Select Timezone </label>
                 <select
                   name="Timezone"
                   onChange={formik.handleChange}
@@ -485,8 +481,8 @@ function Add(props) {
               </div>
             </div>
             <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 col-md-12">
-                <label>Event Date </label>
+              <div className="form-group col-6 col-md-6">
+                <label htmlFor="exampleInputEmail1">Event Date </label>
                 <Form.Control
                   name="event_date"
                   type="date"
@@ -494,6 +490,7 @@ function Add(props) {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.event_date}
+              
                 />
                 {formik.touched.event_date && formik.errors.event_date ? (
                   <div className="error" style={{ color: "red" }}>
@@ -503,12 +500,12 @@ function Add(props) {
               </div>
             </div>
             <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 col-md-12">
-                <label for="exampleInputEmail1">
+              <div className="form-group col-12 col-md-11">
+                <label htmlFor="exampleInputEmail1">
                   Event Start Time
                 </label>
                 <div className="row justify-content-between align-items-center select_time">
-                  <div className="form-group col-12 col-md-4">
+                  <div className="form-group col-6 col-md-4">
                     <select
                       className="form-control"
                       name="start_hour"
@@ -525,7 +522,7 @@ function Add(props) {
                       ))}
                     </select>
                   </div>
-                  <div className="form-group col-12 col-md-4">
+                  <div className="form-group col-6 col-md-4">
                     <select
                       className="form-control"
                       name="start_min"
@@ -542,7 +539,7 @@ function Add(props) {
                       ))}
                     </select>
                   </div>
-                  <div className="form-group col-12 col-md-4">
+                  <div className="form-group col-6 col-md-4">
                     <select
                       className="form-control"
                       name="start_am_pm"
@@ -565,13 +562,13 @@ function Add(props) {
 
                                </div>
                                <div className="form-inline row justify-content-between align-items-center">
-                                <div className="form-group col-12 col-md-12">
+                                <div className="form-group col-12 col-md-11">
 
-                                    <label for="exampleInputEmail1">
+                                    <label htmlFor="exampleInputEmail1">
                                       Event End Time
                                     </label>
                                     <div className="row justify-content-between align-items-center select_time">
-                                      <div className="form-group col-12 col-md-4">
+                                      <div className="form-group col-6 col-md-4">
                                         <select
                                           className="form-control"
                                           name="end_hour"
@@ -588,7 +585,7 @@ function Add(props) {
                                           ))}
                                         </select>
                                       </div>
-                                      <div className="form-group col-12 col-md-4">
+                                      <div className="form-group col-6 col-md-4">
                                         <select
                                           className="form-control"
                                           name="end_min"
@@ -606,7 +603,7 @@ function Add(props) {
                                           ))}
                                         </select>
                                       </div>
-                                      <div className="form-group col-12 col-md-4">
+                                      <div className="form-group col-6 col-md-4">
                                         <select
                                           className="form-control"
                                           name="end_am_pm"
@@ -628,8 +625,8 @@ function Add(props) {
               </div>
             </div>
             <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 col-md-12">
-                <label>Description </label>
+              <div className="form-group col-12 col-md-11">
+                <label htmlFor="exampleInputEmail1">Description </label>
                 <textarea
                   name="Description"
                   type="text"
@@ -637,7 +634,7 @@ function Add(props) {
                   onBlur={formik.handleBlur}
                   value={formik.values.Description}
                   className="form-control"
-                  rows="3"
+                  rows="1"
                 ></textarea>
                 {formik.touched.Description && formik.errors.Description ? (
                   <div className="error" style={{ color: "red" }}>

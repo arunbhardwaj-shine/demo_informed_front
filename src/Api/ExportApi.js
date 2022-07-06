@@ -787,10 +787,10 @@ const GetEmailSCollection = (id) =>
       },
     }
   );
-const SearchEmailSCollection = (tags_search, search) =>
+const SearchEmailSCollection = (eventId,tags_search, search) =>
   BaseApi.post(
     `emails/collections`,
-    { tags_search: tags_search, search: search },
+    {event_id:eventId, tags_search: tags_search, search: search },
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
