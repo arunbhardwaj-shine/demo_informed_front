@@ -377,11 +377,11 @@ const Format2 = (props) => {
                       "email_box "+" approved" 
                     }
                   >
-                                        <div className="mail-box-content">
+                      <div className="mail-box-content">
                       <div className="mail-box-content-top">
                         <div className="mail-box-content-top-view">
                           <h5>{"Fields"}</h5>
-        <div className="form-inline row justify-content-between align-items-center">
+                        <div className="form-inline row justify-content-between align-items-center">
                       <div className="form-group col-12 ">
                         <label>Radio Button</label>
                         <div className="form-inline-option">

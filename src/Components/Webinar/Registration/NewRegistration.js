@@ -46,7 +46,8 @@ const templateClicked = (template, e) => {
         if (resp.ok&&resp.data.code==200) {
           if(resp.data.data?.json_data){
             setMode(resp.data.data)
-            // console.log(JSON.parse(resp.data.data?.json_data))
+            setTemplateIdActive(resp.data.data.format)
+             console.log(resp.data.data.format)
             setData(JSON.parse(resp.data.data?.json_data))
           }
         }
@@ -105,11 +106,11 @@ const templateClicked = (template, e) => {
         {/* Sidebar */}
         <div className="reg-block">
         <div className="reg-sidbar">
-            <div  className={"reg-sidbar-img item" +TemplateIdActive == "1"  ? "select_mm": ""} onClick={(e) => templateClicked(1,e)}>
+            <div  className={ TemplateIdActive==1?"select-sm img":null} onClick={(e) => templateClicked(1,e)}>
                 <img  className={"reg-sidbar-img"} value={"virtual"} src={path_image + "content_added1.png"} alt="Format-1"  />
                 <p>{"Format 1"}</p>
             </div>
-            <div  className={"reg-sidbar-img item " +TemplateIdActive == "2"  ? " select_mm":""} onClick={(e) => templateClicked(2,e)} >
+            <div  className={TemplateIdActive==2?"select-sm img":null} onClick={(e) => templateClicked(2,e)} >
                 <img  className={"reg-sidbar-img"} value={"onsite"} src={path_image + "content_added1.png"} alt="Format-2" />
                 <p>{"Format 2"}</p>
             </div>
