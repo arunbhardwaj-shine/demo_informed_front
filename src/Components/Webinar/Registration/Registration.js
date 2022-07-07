@@ -78,6 +78,17 @@ const Registration = () => {
         <span className="loader-view"> </span>
       </div>
     <div className="right-sidebar col">
+     <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
     <div className="top-header">
         <div className="page-title">
           <h2>Registration Page </h2>
@@ -89,17 +100,7 @@ const Registration = () => {
       <br/>
       <br/>
       <Row>
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
+       
               <Row>
                 <Col className="mb-5">
                   <Table bordered hover>
@@ -212,7 +213,6 @@ const Registration = () => {
         </Modal.Header>
         <Modal.Body>
          {show?<select
-                  name="Country"
                   onChange={(e)=>{localStorage.setItem("registrationPageId",e.target.value);localStorage.removeItem("EditRegistrationPageId"); setTimeout(() => {
                     localStorage.removeItem("EditRegistrationPageId")
                     navigate("/webinar/portal/NewRegistration");
