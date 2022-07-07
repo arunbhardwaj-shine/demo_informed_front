@@ -86,7 +86,9 @@ const Format2 = (props) => {
                   localStorage.removeItem("EditRegistrationPageId")
                   localStorage.removeItem("registrationPageId")
                   setData(resp.data.data)
-                  navigate("/webinar/portal/Registrations")
+                  setTimeout(() => {
+                    navigate("/webinar/portal/Registrations")
+                  }, 1500);
                 } else {
                   toast.error(resp.data.message);
                 }
@@ -94,18 +96,20 @@ const Format2 = (props) => {
               }
             });
           }else{
-
             ExportApi.CreateRegistrationPage(localStorage.getItem("EventIdHeader"),values.mode, JSON.stringify(jsonData),TemplateIdActive).then((resp) => {
-              if (resp.ok) {
-                if (resp.data.code == 200) {
-                  setData(resp.data.data)
-                  toast.success(resp.data.message)
-                  navigate("/webinar/portal/Registrations")
-                } else {
+              if (resp.ok&&resp.data.code == 200) {
+                if(resp.data.message=="Your page with this mode is already exist"){
                   toast.error(resp.data.message);
                 }
-                loader("hide")
-              }
+                else {
+                  toast.success(resp.data.message)      
+                 setTimeout(() => {
+                   navigate("/webinar/portal/Registrations")
+                 }, 1500);
+                }
+                setData(resp.data.data)
+              loader("hide")
+            }
             });
           }
         },
