@@ -37,7 +37,6 @@ const Format1 = (props) => {
         content1:props.data?.content1?props.data?.content1:'',
         content2:props.data?.content2?props.data?.content2:'',
         content3:props.data?.content3?props.data?.content3:'',
-        RadioButton:props.data?.RadioButton?props.data?.RadioButton:'',
         consenttext:props.data?.consenttext?props.data?.consenttext:'',
         consentRadiotext1:props.data?.consentRadiotext1?props.data?.consentRadiotext1:'',
         consentRadiotext2:props.data?.consentRadiotext2?props.data?.consentRadiotext2:'',
@@ -67,7 +66,6 @@ const Format1 = (props) => {
           Speakername:values.Speakername,
           eventdate:values.eventdate,
           eventtime:values.eventtime,
-          RadioButton:values.RadioButton,
           name:values.name,
           country:values.country,
           titleColor :values.titleColor,
@@ -84,9 +82,9 @@ const Format1 = (props) => {
               localStorage.removeItem("EditRegistrationPageId")
               localStorage.removeItem("registrationPageId")
               setData(resp.data.data)
-              setTimeout(() => { 
-                navigate("/webinar/portal/Registrations")
-              }, 1500);
+              // setTimeout(() => { 
+              //   navigate("/webinar/portal/Registrations")
+              // }, 1500);
             } else {
               toast.error(resp.data.message);
             }
@@ -317,18 +315,6 @@ const Format1 = (props) => {
            </div>                      
           <div className="form-inline row justify-content-between align-items-center">
                       <div className="form-group col-12  col-md-11">
-                        <label>Radio Button</label>
-                        <Form.Control
-                          name="RadioButton"
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          value={formik.values.RadioButton}
-                          type="text"
-                        />
-                    </div>
-                    </div>
-          <div className="form-inline row justify-content-between align-items-center">
-                      <div className="form-group col-12  col-md-11">
                         <label>Consent Text</label>
                         <Form.Control
                           name="consenttext"
@@ -402,20 +388,6 @@ const Format1 = (props) => {
                       <div className="mail-box-content-top">
                         <div className="mail-box-content-top-view">
                           <h5>{"Fields"}</h5>
-        <div className="form-inline row justify-content-between align-items-center">
-                      <div className="form-group col-12 ">
-                        <label>Radio Button</label>
-                        <div className="form-inline-option">
-                        <Form.Control
-                          name="RadioButton"
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          value={formik.values.RadioButton}
-                          type="text"
-                        />
-                      </div>
-                    </div>
-                    </div>
         <div className="form-inline row justify-content-between align-items-center">
               <div className="form-group col-12 ">
                 <label>Name</label>

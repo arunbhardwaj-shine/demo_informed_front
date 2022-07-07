@@ -450,7 +450,7 @@ const Readers = () => {
     };
     loader("show");
     await axios
-      .post(baseURL + "participants", body, {
+      .post(baseURL + "/participants", body, {
         headers,
       })
       .then((res) => {
@@ -475,10 +475,11 @@ const Readers = () => {
   };
 
   return (
-    <div className="right-sidebar col">
+    <>
       <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
       </div>
+    <div className="right-sidebar col">
       <Row>
         <ToastContainer
           position="top-right"
@@ -1138,6 +1139,7 @@ const Readers = () => {
         </Modal>
       </Row>
     </div>
+    </>
   );
 };
 
