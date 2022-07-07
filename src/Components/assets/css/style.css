@@ -1097,7 +1097,7 @@ table thead.sticky-header:after { content: ""; position: absolute; width: 20px; 
 }
 .help-content-popup:after {
     text-align: center;
-    background: url(http://localhost:3000/static/media/Play_button.0b33be2ceda53eee1074.png) no-repeat center center;
+    background: url(../images/Play_button.png) no-repeat center center;
     width: 40px;
     background-size: 40px;
     content: "";
