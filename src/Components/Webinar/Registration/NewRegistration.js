@@ -82,7 +82,8 @@ const templateClicked = (template, e) => {
             <h2>Registration Page </h2>
                 {/* <h3>Registration Page Form </h3> */}
             </div>
-            <Link to="/webinar/portal/Registrations">  <button className="btn btn-primary btn-filled back">
+            <Link to="/webinar/portal/Registrations">  <button onClick={()=>{ localStorage.removeItem("EditRegistrationPageId");
+                  localStorage.removeItem("registrationPageId")}} className="btn btn-primary btn-filled back">
                     <svg
                       width="12"
                       height="19"

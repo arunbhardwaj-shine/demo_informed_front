@@ -11,7 +11,7 @@ const Format1 = (props) => {
   let navigate=useNavigate();
   const [TemplateIdActive, setTemplateIdActive] = useState(props.TemplateIdActive);
   // console.log("titleLogo",props.data?.titleLogo)
-  const [titleLogo, setTitleLogo] = useState(props.data?.titleLogo);
+  const [titleLogo, setTitleLogo] = useState();
   const [data, setData] = useState();
   const [modalShow, setModalShow] = useState(false);
   const uploadImageTitleLogo=(e)=>{
@@ -37,13 +37,11 @@ const Format1 = (props) => {
         content1:props.data?.content1?props.data?.content1:'',
         content2:props.data?.content2?props.data?.content2:'',
         content3:props.data?.content3?props.data?.content3:'',
-        donetext:props.data?.donetext?props.data?.donetext:'',
         RadioButton:props.data?.RadioButton?props.data?.RadioButton:'',
         consenttext:props.data?.consenttext?props.data?.consenttext:'',
         consentRadiotext1:props.data?.consentRadiotext1?props.data?.consentRadiotext1:'',
         consentRadiotext2:props.data?.consentRadiotext2?props.data?.consentRadiotext2:'',
         consentRadiotext3:props.data?.consentRadiotext3?props.data?.consentRadiotext3:'',
-        submitText:props.data?.submitText?props.data?.submitText:'',
         name:props.data?.name?props.data?.name:"",
         country:props.data?.country?props.data?.country:"",
         titleColor:props.data?.titleColor?props.data?.titleColor:"",
@@ -63,11 +61,9 @@ const Format1 = (props) => {
           consentRadiotext1:values.consentRadiotext1,
           consentRadiotext2:values.consentRadiotext2,
           consentRadiotext3:values.consentRadiotext3,
-          submitText:values.submitText,
           content1:values.content1,
           content2:values.content2,
           content3:values.content3,
-          donetext:values.donetext,
           Speakername:values.Speakername,
           eventdate:values.eventdate,
           eventtime:values.eventtime,
@@ -78,7 +74,7 @@ const Format1 = (props) => {
           textColor:values.textColor,
           backgroundColor:values.backgroundColor,
           borderColor:values.borderColor,
-          titleLogo:titleLogo
+          titleLogo:titleLogo?titleLogo:props.data?.titleLogo
         }
         if(props?.mode?.id){
           ExportApi.RegistrationPageUpdate(props?.mode?.id,localStorage.getItem("EventIdHeader"),values.mode, JSON.stringify(jsonData),TemplateIdActive).then((resp) => {
@@ -88,7 +84,9 @@ const Format1 = (props) => {
               localStorage.removeItem("EditRegistrationPageId")
               localStorage.removeItem("registrationPageId")
               setData(resp.data.data)
-              navigate("/webinar/portal/Registrations")
+              setTimeout(() => { 
+                navigate("/webinar/portal/Registrations")
+              }, 1500);
             } else {
               toast.error(resp.data.message);
             }
@@ -97,14 +95,17 @@ const Format1 = (props) => {
         });
       }else{
         ExportApi.CreateRegistrationPage(localStorage.getItem("EventIdHeader"),values.mode, JSON.stringify(jsonData),TemplateIdActive).then((resp) => {
-          if (resp.ok) {
-            if (resp.data.code == 200) {
-              toast.success(resp.data.message)
-              navigate("/webinar/portal/Registrations")
+          if (resp.ok&&resp.data.code == 200) {
+              if(resp.data.message=="Your page with this mode is already exist"){
+                toast.error(resp.data.message);
+              }
+              else {
+                toast.success(resp.data.message)      
+               setTimeout(() => {
+                 navigate("/webinar/portal/Registrations")
+               }, 1500);
+              }
               setData(resp.data.data)
-            } else {
-              toast.error(resp.data.message);
-            }
             loader("hide")
           }
         });
@@ -375,32 +376,8 @@ const Format1 = (props) => {
                         />
                     </div>
                     </div>
-          <div className="form-inline row justify-content-between align-items-center">
-                      <div className="form-group col-12  col-md-11">
-                        <label>Done Text</label>
-                        <Form.Control
-                          name="donetext"
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          value={formik.values.donetext}
-                          type="text"
-                        />
-                    </div>
-                    </div>
                     </>:null}
-                    <div className="form-inline row justify-content-between align-items-center">
-                      <div className="form-group col-12  col-md-11">
-                        <label>Submit Text </label>
-                        <Form.Control
-                          name="submitText"
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          value={formik.values.submitText}
-                          type="text"
-                        />
-                    </div>
-        
-          </div>
+
          
         {/* end of middle content*/}
         
