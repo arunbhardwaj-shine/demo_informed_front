@@ -11,7 +11,7 @@ const Format1 = (props) => {
   let navigate=useNavigate();
   const [TemplateIdActive, setTemplateIdActive] = useState(props.TemplateIdActive);
   // console.log("titleLogo",props.data?.titleLogo)
-  const [titleLogo, setTitleLogo] = useState(props.data?.titleLogo);
+  const [titleLogo, setTitleLogo] = useState();
   const [data, setData] = useState();
   const [modalShow, setModalShow] = useState(false);
   const uploadImageTitleLogo=(e)=>{
@@ -78,7 +78,7 @@ const Format1 = (props) => {
           textColor:values.textColor,
           backgroundColor:values.backgroundColor,
           borderColor:values.borderColor,
-          titleLogo:titleLogo
+          titleLogo:titleLogo?titleLogo:props.data?.titleLogo
         }
         if(props?.mode?.id){
           ExportApi.RegistrationPageUpdate(props?.mode?.id,localStorage.getItem("EventIdHeader"),values.mode, JSON.stringify(jsonData),TemplateIdActive).then((resp) => {
