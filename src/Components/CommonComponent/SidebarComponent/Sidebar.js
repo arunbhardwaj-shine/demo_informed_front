@@ -38,20 +38,25 @@ const Sidebar = () => {
     video_url = "https://informed.pro/react_help/videos/email_page_3.mp4";
     video_poster = "https://informed.pro/react_help/poster/email_page_3.png";
   }else if(location.pathname == "/SelectHCP"){
-    title = "Selecting type of hcp";
-    video_url = "";
+    title = "Select HCPs to mail";
+    video_url = "https://informed.pro/react_help/videos/email_page_4.mp4";
+    video_poster = "https://informed.pro/react_help/poster/email_page_4.png";
   }else if(location.pathname == "/VerifyHCP"){
-    title = "Selecting verify Hcp";
-    video_url = "";
+    title = "Select HCPs to mail";
+    video_url = "https://informed.pro/react_help/videos/email_page_5.mp4";
+    video_poster = "https://informed.pro/react_help/poster/email_page_5.png";
   }else if(location.pathname == "/verifyMAIL"){
-    title = "Verify Email";
-    video_url = "";
+    title = "Verify your email";
+    video_url = "https://informed.pro/react_help/videos/email_page_8.mp4";
+    video_poster = "https://informed.pro/react_help/poster/email_page_8.png";
   }else if(location.pathname == "/SelectSmartListUsers"){
     title = "Verify your list";
-    video_url = "";
+    video_url = "https://informed.pro/react_help/videos/email_page_6.mp4";
+    video_poster = "https://informed.pro/react_help/poster/email_page_6.png";
   }else if(location.pathname == "/SelectSmartList"){
-    title = "Select Smart list";
+    title = "Select Smartlist";
     video_url = "";
+    video_poster = "";
   }else if(location.pathname == "/SmartList"){
     title = "Creating new SmartList";
 
@@ -445,6 +450,374 @@ const Sidebar = () => {
           )
         }
         {/*Help Pages for page3 end*/}
+
+
+        {/*Help Pages for page4 start*/}
+        {
+          location.pathname == "/SelectHCP" && (
+            <>
+            <div className="help-popup">
+            <div className="help-popup-view" onClick={() => setHideShowSideContent((getHideShowSideContent) => !getHideShowSideContent)}>
+              <svg width="16" height="38" viewBox="0 0 16 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z" fill="#0066BE" fill-opacity="0.6"/>
+              </svg>
+            </div>
+            <div className= {getHideShowSideContent ? "help-popup-content show" : "help-popup-content"}>
+            <div className="help-popup-content-inner">
+
+              <div className="help-popup-content-library">
+              <div className="help-popup-content-video">
+                <h6>{title}</h6>
+                <div className="help-content-popup" onClick={() => setOpenVideoPopup((getOpenVideoPopup) => !getOpenVideoPopup)}>
+                  <a href="javascript:;">
+                    <img src= {video_poster} alt="" />
+                  </a>
+                </div>
+              </div>
+                <div className="help-popup-content-library-inside">
+                  <p>This page lets you choose to send to one HCP or a segment of your contacts.</p>
+                </div>
+
+                <div className="help-popup-content-library-inside">
+                  <img src= {path_image + "help/selected_hcp.png"} alt="" />
+                  <p>Select a group or a single HCP to include in your campaign email.</p>
+                </div>
+
+
+                <div className="help-popup-next">
+                  <div class="btn-form">
+                    <a href="javascript:;" className="btn btn-primary btn-filled">Save As Draft</a>
+                    </div>
+                  <p>At this stage you can also save you email as a draft by selecting the "Save As Draft" button in the top right-hand corner.</p>
+                </div>
+
+                <div className="help-popup-next">
+                  <div class="btn-form">
+                    <a href="javascript:;" className="btn btn-primary btn-filled">Back</a>
+                    </div>
+                  <p>By selecting the "Back" button you can go back to the previous step to amend your email template.</p>
+                </div>
+
+              </div>
+              <div className="help-popup-close" onClick={() => setHideShowSideContent((getHideShowSideContent) => !getHideShowSideContent)}>
+                  <a href="javascript:;">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect width="2.72751" height="19.7402" rx="1.36376" transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)" fill="#8A4E9C"/>
+                      <rect width="2.72751" height="19.7402" rx="1.36376" transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)" fill="#8A4E9C"/>
+                    </svg>
+                  </a>
+              </div>
+            </div>
+            </div>
+          </div>
+            </>
+          )
+        }
+        {/*Help Pages for page4 end*/}
+
+
+
+        {/*Help Pages for page5 start*/}
+        {
+          location.pathname == "/SelectSmartList" && (
+            <>
+            <div className="help-popup">
+            <div className="help-popup-view" onClick={() => setHideShowSideContent((getHideShowSideContent) => !getHideShowSideContent)}>
+              <svg width="16" height="38" viewBox="0 0 16 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z" fill="#0066BE" fill-opacity="0.6"/>
+              </svg>
+            </div>
+            <div className= {getHideShowSideContent ? "help-popup-content show" : "help-popup-content"}>
+            <div className="help-popup-content-inner">
+
+              <div className="help-popup-content-library">
+              {
+                /*
+                <div className="help-popup-content-video">
+                  <h6>{title}</h6>
+                  <div className="help-content-popup" onClick={() => setOpenVideoPopup((getOpenVideoPopup) => !getOpenVideoPopup)}>
+                    <a href="javascript:;">
+                      <img src= {video_poster} alt="" />
+                    </a>
+                  </div>
+                </div>
+                */
+              }
+
+                <div className="help-popup-content-library-inside">
+                  <p>At the bottom of the page you can see all your smart lists.</p>
+                </div>
+
+                <div className="help-popup-content-library-inside">
+                  <img src= {path_image + "help/smart_list.png"} alt="" />
+                  <p>Each smart list will contain key data held on your HCPs.
+                    You can also see date and time when the smart list was created, and the number of people included in the list. </p>
+                </div>
+
+
+                <div className="help-popup-next">
+                  <div class="btn-form">
+                    <a href="javascript:;" className="btn btn-primary btn-filled">View</a>
+                    </div>
+                  <p>The "View" button opens a window with information about people on your smart list.</p>
+                </div>
+
+                <div className="help-popup-content-library-inside">
+                  <img src= {path_image + "help/more_info.png"} alt="" />
+                  <p>By clicking "Show more information" you see further information about your contacts. </p>
+                </div>
+
+                <div className="help-popup-content-library-inside">
+                  <img src= {path_image + "help/create_upload.png"} alt="" />
+                  <p>If you don’t have a smart list in your account select the "Create New Smart List" or "Upload Excel File" buttons to create a new smart list.</p>
+                </div>
+
+                <div className="help-popup-next">
+                  <div class="btn-form">
+                    <a href="javascript:;" className="btn btn-primary btn-filled">Upload Excel File</a>
+                    </div>
+                  <p>The "Upload Excel File" button opens a new window where you enter the name of your smart list, the name of the list creator and you can upload or download your excel file to the list.</p>
+                </div>
+
+                <div className="help-popup-next">
+                  <div class="btn-form">
+                    <a href="javascript:;" className="btn btn-primary btn-filled">Create New Smart List</a>
+                    </div>
+                  <p>Create New Smart List enter the name of the list and who created it. At this point you can make your list a demo list. </p>
+                </div>
+
+                <div className="help-popup-content-library-inside">
+                  <p>You can create a new smart list from (???)</p>
+                </div>
+
+                <div className="help-popup-next">
+                  <div class="btn-form">
+                    <a href="javascript:;" className="btn btn-primary btn-filled">Download</a>
+                    </div>
+                  <p>You can download sample Excel file to upload new HPC by clicking on the "Download" button at the bottom of the page.</p>
+                </div>
+
+
+
+                <div className="help-popup-next">
+                  <div class="btn-form">
+                    <a href="javascript:;" className="btn btn-primary btn-filled">Cancel</a>
+                    </div>
+                  <p>If you decide not to create a list click the "Cancel" button and go back to the main page.</p>
+                </div>
+
+
+                <div className="help-popup-next">
+                  <div class="btn-form">
+                    <a href="javascript:;" className="btn btn-primary btn-filled">Save As Draft</a>
+                    </div>
+                  <p>After selecting the smart list that you want, you can save the email as a draft by clicking on "Save As Draft". </p>
+                </div>
+
+                <div className="help-popup-next">
+                  <div class="btn-form">
+                    <a href="javascript:;" className="btn btn-primary btn-filled">Next</a>
+                    </div>
+                  <p>The "Next" button takes you to the next stage of the process. </p>
+                </div>
+
+              </div>
+              <div className="help-popup-close" onClick={() => setHideShowSideContent((getHideShowSideContent) => !getHideShowSideContent)}>
+                  <a href="javascript:;">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect width="2.72751" height="19.7402" rx="1.36376" transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)" fill="#8A4E9C"/>
+                      <rect width="2.72751" height="19.7402" rx="1.36376" transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)" fill="#8A4E9C"/>
+                    </svg>
+                  </a>
+              </div>
+            </div>
+            </div>
+          </div>
+            </>
+          )
+        }
+        {/*Help Pages for page5 end*/}
+
+
+
+        {/*Help Pages for page6 start*/}
+        {
+          location.pathname == "/SelectSmartListUsers" && (
+            <>
+            <div className="help-popup">
+            <div className="help-popup-view" onClick={() => setHideShowSideContent((getHideShowSideContent) => !getHideShowSideContent)}>
+              <svg width="16" height="38" viewBox="0 0 16 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z" fill="#0066BE" fill-opacity="0.6"/>
+              </svg>
+            </div>
+            <div className= {getHideShowSideContent ? "help-popup-content show" : "help-popup-content"}>
+            <div className="help-popup-content-inner">
+
+              <div className="help-popup-content-library">
+              <div className="help-popup-content-video">
+                <h6>{title}</h6>
+                <div className="help-content-popup" onClick={() => setOpenVideoPopup((getOpenVideoPopup) => !getOpenVideoPopup)}>
+                  <a href="javascript:;">
+                    <img src= {video_poster} alt="" />
+                  </a>
+                </div>
+              </div>
+                <div className="help-popup-content-library-inside">
+                  <p>At the bottom at this page you can see all the people that you have selected.</p>
+                </div>
+
+                <div className="help-popup-content-library-inside">
+                  <p>You can scroll down to see all the people.</p>
+                </div>
+
+                <div className="help-popup-content-library-inside">
+                  <p>By clicking "Show more information" button you can see more information about your contacts. </p>
+                </div>
+
+                <div className="help-popup-content-library-inside">
+                  <p>The "Add" button allows you to add more people at this stage too. A box "Add New HCP" will pop up and you need to fill out your contact’s first and last name, email, contact type and country. You can add two people at the time by clicking "Add HCP" button on the right-hand side. When you finish click on "Save" button. </p>
+                </div>
+
+                <div className="help-popup-content-library-inside">
+                  <p>You can delete a person from your list by clicking the "Delete" button or by clicking the “Add” button on the side for your contact to re-join the list. </p>
+                </div>
+
+                <div className="help-popup-content-library-inside">
+                  <p>The "Edit" button allows you to amend information about your contacts. </p>
+                </div>
+
+                <div className="help-popup-content-library-inside">
+                  <p>Click on "Save" button to keep your changes. </p>
+                </div>
+
+                <div className="help-popup-content-library-inside">
+                  <p>Click on "Close" if you don’t want to save your amendments. </p>
+                </div>
+
+                <div className="help-popup-content-library-inside">
+                  <p>By clicking the "Sort by" button you can see your contacts in alphabetical order. </p>
+                </div>
+
+                <div className="help-popup-content-library-inside">
+                  <p>The "Next" button in the top right-hand corner takes you to the next step. </p>
+                </div>
+
+                <div className="help-popup-content-library-inside">
+                  <p>If you are not yet ready to continue to the next step click on the "Save As Draft" button. </p>
+                </div>
+
+              </div>
+              <div className="help-popup-close" onClick={() => setHideShowSideContent((getHideShowSideContent) => !getHideShowSideContent)}>
+                  <a href="javascript:;">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect width="2.72751" height="19.7402" rx="1.36376" transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)" fill="#8A4E9C"/>
+                      <rect width="2.72751" height="19.7402" rx="1.36376" transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)" fill="#8A4E9C"/>
+                    </svg>
+                  </a>
+              </div>
+            </div>
+            </div>
+          </div>
+            </>
+          )
+        }
+        {/*Help Pages for page6 end*/}
+
+        {/*Help Pages for page8 start*/}
+        {
+          location.pathname == "/verifyMAIL" && (
+            <>
+            <div className="help-popup">
+            <div className="help-popup-view" onClick={() => setHideShowSideContent((getHideShowSideContent) => !getHideShowSideContent)}>
+              <svg width="16" height="38" viewBox="0 0 16 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.42188 23.0469H5.4375C5.44792 22.1094 5.52083 21.3021 5.65625 20.625C5.80208 19.9375 6.04688 19.3177 6.39062 18.7656C6.74479 18.2135 7.21354 17.6667 7.79688 17.125C8.28646 16.6875 8.71354 16.2708 9.07812 15.875C9.44271 15.4792 9.72917 15.0729 9.9375 14.6562C10.1458 14.2292 10.25 13.7552 10.25 13.2344C10.25 12.6302 10.1562 12.1302 9.96875 11.7344C9.79167 11.3281 9.52083 11.0208 9.15625 10.8125C8.80208 10.6042 8.35417 10.5 7.8125 10.5C7.36458 10.5 6.94792 10.599 6.5625 10.7969C6.17708 10.9844 5.85938 11.276 5.60938 11.6719C5.36979 12.0677 5.24479 12.5885 5.23438 13.2344H0.703125C0.734375 11.8073 1.0625 10.6302 1.6875 9.70312C2.32292 8.76562 3.17188 8.07292 4.23438 7.625C5.29688 7.16667 6.48958 6.9375 7.8125 6.9375C9.27083 6.9375 10.5208 7.17708 11.5625 7.65625C12.6042 8.125 13.401 8.81771 13.9531 9.73438C14.5052 10.6406 14.7812 11.7448 14.7812 13.0469C14.7812 13.9531 14.6042 14.7604 14.25 15.4688C13.8958 16.1667 13.4323 16.8177 12.8594 17.4219C12.2865 18.026 11.6562 18.651 10.9688 19.2969C10.375 19.8281 9.96875 20.3854 9.75 20.9688C9.54167 21.5521 9.43229 22.2448 9.42188 23.0469ZM4.96875 27.875C4.96875 27.2083 5.19792 26.6562 5.65625 26.2188C6.11458 25.7708 6.72917 25.5469 7.5 25.5469C8.26042 25.5469 8.86979 25.7708 9.32812 26.2188C9.79688 26.6562 10.0312 27.2083 10.0312 27.875C10.0312 28.5208 9.79688 29.0677 9.32812 29.5156C8.86979 29.9635 8.26042 30.1875 7.5 30.1875C6.72917 30.1875 6.11458 29.9635 5.65625 29.5156C5.19792 29.0677 4.96875 28.5208 4.96875 27.875Z" fill="#0066BE" fill-opacity="0.6"/>
+              </svg>
+            </div>
+            <div className= {getHideShowSideContent ? "help-popup-content show" : "help-popup-content"}>
+            <div className="help-popup-content-inner">
+
+              <div className="help-popup-content-library">
+              <div className="help-popup-content-video">
+                <h6>{title}</h6>
+                <div className="help-content-popup" onClick={() => setOpenVideoPopup((getOpenVideoPopup) => !getOpenVideoPopup)}>
+                  <a href="javascript:;">
+                    <img src= {video_poster} alt="" />
+                  </a>
+                </div>
+              </div>
+                <div className="help-popup-content-library-inside">
+                  <p>On this page you can see all the information about the email that you want to send.</p>
+                </div>
+
+                <div className="help-popup-content-list">
+                  <p className="help-popup-title">At the top you can see:</p>
+                  <ul>
+                    <li>Campaign title</li>
+                    <li>Creator</li>
+                    <li>Tags</li>
+                  </ul>
+                </div>
+
+                <div className="help-popup-content-library-inside">
+                  <p>You can also preview the content that you want to send.</p>
+                </div>
+
+                <div className="help-popup-content-library-inside">
+                  <p>The recipients of your email can be seen at the bottom of the page. By clicking the "View" button you can see the list of people that you want to email. </p>
+                </div>
+
+                <div className="help-popup-content-library-inside">
+                  <p>On the right-hand side of the screen you see the actual email that will be send.</p>
+                </div>
+
+                <div className="help-popup-content-library-inside">
+                  <p>You can approve your draft by clicking on the "Approve" button if you haven’t done it in the previous step.</p>
+                </div>
+
+                <div className="help-popup-content-library-inside">
+                  <p>You can still save your email as draft by clicking on the "Save As Draft" button in the top right-hand corner.</p>
+                </div>
+
+                <div className="help-popup-content-library-inside">
+                  <p>Click the "Send" button if your email is ready for distribution.</p>
+                </div>
+
+                <div className="help-popup-content-library-inside">
+                  <p>In the main distribution page you can see that your email has been sent.</p>
+                </div>
+
+                <div className="help-popup-content-library-inside">
+                  <p>In the box there are three buttons: view, resend and send new.</p>
+                </div>
+
+                <div className="help-popup-content-library-inside">
+                  <p>By clicking the "View" button you can see your tracking information. At the bottom you can see the actual email.</p>
+                </div>
+
+                <div className="help-popup-content-library-inside">
+                  <p>The "Resend" button will send the email to all the people that haven’t opened the email yet. </p>
+                </div>
+
+                <div className="help-popup-content-library-inside">
+                  <p>The "Send New" button will send the same email to different people. This action will take you to the selection of HCPs that you want to send your email to.</p>
+                </div>
+
+              </div>
+              <div className="help-popup-close" onClick={() => setHideShowSideContent((getHideShowSideContent) => !getHideShowSideContent)}>
+                  <a href="javascript:;">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect width="2.72751" height="19.7402" rx="1.36376" transform="matrix(0.702046 0.712132 -0.702046 0.712132 14.0859 0.000976562)" fill="#8A4E9C"/>
+                      <rect width="2.72751" height="19.7402" rx="1.36376" transform="matrix(0.702046 -0.712132 0.702046 0.712132 0 1.94238)" fill="#8A4E9C"/>
+                    </svg>
+                  </a>
+              </div>
+            </div>
+            </div>
+          </div>
+            </>
+          )
+        }
+        {/*Help Pages for page8 end*/}
 
 
         {/*Help Pages for Smart list upload Excel start*/}
