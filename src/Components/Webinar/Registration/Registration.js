@@ -152,7 +152,7 @@ const Registration = () => {
                                 }, 1000); navigator.clipboard.writeText(`${BaseUrlImage}/SH2022/index${val.format}.php?event=${val.code}&mode=${val.mode}`)}} className="btn btn-primary btn-filled back">
                               <img                                    
                                 alt="Preview"
-                                src={path_image + "link-btn.png"}
+                                src={path_image + "copy-link.svg"}
                                 
                                 />
                                 </button>{

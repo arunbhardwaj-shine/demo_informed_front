@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 const Format2 = (props) => {
   let navigate=useNavigate();
     const [TemplateIdActive, setTemplateIdActive] = useState(props.TemplateIdActive);
-    const [titleLogo, setTitleLogo] = useState();
+    const [titleLogo, setTitleLogo] = useState("");
     const [data, setData] = useState();
     const [modalShow, setModalShow] = useState(false);
     const uploadImageTitleLogo=(e)=>{
@@ -76,8 +76,9 @@ const Format2 = (props) => {
             textColor:values.textColor,
             backgroundColor:values.backgroundColor,
             borderColor:values.borderColor,
-            titleLogo:titleLogo?titleLogo:props.data?.titleLogo
+            titleLogo:titleLogo?titleLogo:props.data?.titleLogo?props.data?.titleLogo:''
           }
+          console.log("titleLogo",titleLogo)
           if(props?.mode?.id){
             ExportApi.RegistrationPageUpdate(props?.mode?.id,localStorage.getItem("EventIdHeader"),values.mode, JSON.stringify(jsonData),TemplateIdActive).then((resp) => {
               if (resp.ok) {
