@@ -58,6 +58,7 @@ const Sidebar = () => {
     video_url = "";
     video_poster = "";
   }else if(location.pathname == "/SmartList"){
+    localStorage.removeItem("sd_i");
     title = "Creating new SmartList";
 
   }else if(location.pathname == "/CreateSmartList"){
