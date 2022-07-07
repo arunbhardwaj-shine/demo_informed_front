@@ -86,9 +86,9 @@ const Format2 = (props) => {
                   localStorage.removeItem("EditRegistrationPageId")
                   localStorage.removeItem("registrationPageId")
                   setData(resp.data.data)
-                  setTimeout(() => {
-                    navigate("/webinar/portal/Registrations")
-                  }, 1500);
+                  // setTimeout(() => {
+                  //   navigate("/webinar/portal/Registrations")
+                  // }, 1500);
                 } else {
                   toast.error(resp.data.message);
                 }
