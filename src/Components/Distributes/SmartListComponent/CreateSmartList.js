@@ -211,7 +211,7 @@ const CreateSmartList = () => {
                   <a href="javascript:void(0)">Create smart list</a>
                 </li>
                 <li class="">
-                  <a href="javascript:void(0)">?</a>
+                  <a href="javascript:void(0)">Select & Verify Your HCPs</a>
                 </li>
               </ul>
             </div>
