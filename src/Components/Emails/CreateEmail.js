@@ -66,6 +66,7 @@ const CreateEmail = (props) => {
       ? props.getDraftData.source_code
       : ""
   );
+  const [templateSaving, setTemplateSaving] = useState("");
   const [readers, setReaders] = useState([]);
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
   const [emailDescription, setEmailDescription] = useState(
@@ -523,34 +524,40 @@ const CreateEmail = (props) => {
   };
 
   const saveAsTemplateButtonClicked = async () => {
-    const body = {
-      user_id: localStorage.getItem("user_id"),
-      source_code: template,
-      template_id: templateId,
-      name: templateName,
-      status: 2,
-      language: 2,
-    };
+    let template_id = props.getEmailData ? templateId : props.getDraftData.template_id;
+    let source = typeof templateSaving !="undefined" && templateSaving != "" ? templateSaving : template;
+    if(typeof template_id != "undefined" && template_id != "" && template_id != 0){
+        const body = {
+          user_id: localStorage.getItem("user_id"),
+          source_code: source,
+          template_id: templateId,
+          name: templateName,
+          status: 2,
+          language: 2,
+        };
 
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    loader("show");
-    await axios
-      .post(`emailapi/add_update_template`, body)
-      .then((res) => {
-        if (res.data.status_code === 200) {
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+        loader("show");
+        await axios
+        .post(`emailapi/add_update_template`, body)
+        .then((res) => {
+          if (res.data.status_code === 200) {
+            loader("hide");
+            toast.success("Template saved successfully");
+          } else {
+            loader("hide");
+            toast.warning("Template not selected.");
+          }
+        })
+        .catch((err) => {
           loader("hide");
-          toast.success("Template saved successfully");
-        } else {
-          loader("hide");
-          toast.warning("Template not selected.");
-        }
-      })
-      .catch((err) => {
-        loader("hide");
-        toast.error("Something went wrong");
-      });
-    setNewTemplatePopup(false);
-    setTemplatePopup(false);
+          toast.error("Something went wrong");
+        });
+        setNewTemplatePopup(false);
+        setTemplatePopup(false);
+    }else{
+      toast.warning("Template not selected.");
+    }
   };
 
   const saveButtonClicked = () => {
@@ -1179,37 +1186,43 @@ const CreateEmail = (props) => {
   const savenewtemplate = async (e) => {
     e.preventDefault();
     let template_name = document.getElementById("template_name").value;
-    if (template_name !== "" && template_name.trim().length > 0) {
-      const body = {
-        user_id: localStorage.getItem("user_id"),
-        source_code: template,
-        template_id: "",
-        name: template_name,
-        status: 1,
-        language: 2,
-      };
+    let template_id = props.getEmailData ? templateId : props.getDraftData.template_id;
+    let source = typeof templateSaving !="undefined" && templateSaving != "" ? templateSaving : template;
+    if(typeof template_id != "undefined" && template_id != "" && template_id != 0){
+      if (template_name !== "" && template_name.trim().length > 0) {
+        const body = {
+          user_id: localStorage.getItem("user_id"),
+          source_code: source,
+          template_id: "",
+          name: template_name,
+          status: 1,
+          language: 2,
+        };
 
-      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      loader("show");
-      await axios
-        .post(`emailapi/add_update_template`, body)
-        .then((res) => {
-          if (res.data.status_code === 200) {
-            getTemplateListData(1);
-            setTemplateId(res.data.response.data.last_id);
-          } else {
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+        loader("show");
+        await axios
+          .post(`emailapi/add_update_template`, body)
+          .then((res) => {
+            if (res.data.status_code === 200) {
+              getTemplateListData(1);
+              setTemplateId(res.data.response.data.last_id);
+            } else {
+              loader("hide");
+              toast.warning("Template not selected.");
+            }
+          })
+          .catch((err) => {
             loader("hide");
-            toast.warning("Template not selected.");
-          }
-        })
-        .catch((err) => {
-          loader("hide");
-          toast.error("Something went wrong");
-        });
-      setNewTemplatePopup(false);
-      setTemplatePopup(false);
-    } else {
-      toast.warning("Please enter template name.");
+            toast.error("Something went wrong");
+          });
+        setNewTemplatePopup(false);
+        setTemplatePopup(false);
+      } else {
+        toast.warning("Please enter template name.");
+      }
+    }else{
+      toast.warning("Template not selected.");
     }
   };
 
@@ -1278,9 +1291,14 @@ const CreateEmail = (props) => {
 
   const updateTemplate = (e) => {
     e.preventDefault();
-    if (editorRef.current) {
-      setTemplate(editorRef.current.getContent());
-      toast.success("Template update successfuly");
+    let template_id = props.getEmailData ? templateId : props.getDraftData.template_id;
+    if(typeof template_id != "undefined" && template_id != "" && template_id != 0){
+      if (editorRef.current) {
+        setTemplate(editorRef.current.getContent());
+        toast.success("Template update successfuly");
+      }
+    }else{
+        toast.warning("Template not selected.");
     }
   }
 
@@ -1572,12 +1590,11 @@ const CreateEmail = (props) => {
                   toolbar: 'undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
                   content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
                 }}
+                onEditorChange={(content) => {
+                  setTemplateSaving(content);
+                }}
               />
-              {
-                /*onEditorChange={(content) => {
-                    setTemplate(content);
-                }}*/
-              }
+
             {
               /*
 
