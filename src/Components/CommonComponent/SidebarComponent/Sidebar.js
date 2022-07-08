@@ -54,7 +54,7 @@ const Sidebar = () => {
     video_url = "https://informed.pro/react_help/videos/email_page_6.mp4";
     video_poster = "https://informed.pro/react_help/poster/email_page_6.png";
   }else if(location.pathname == "/SelectSmartList"){
-    title = "Select Smartlist";
+    title = "Select HCPs to mail";
     video_url = "";
     video_poster = "";
   }else if(location.pathname == "/SmartList"){
@@ -532,18 +532,21 @@ const Sidebar = () => {
             <div className="help-popup-content-inner">
 
               <div className="help-popup-content-library">
-              {
-                /*
+
                 <div className="help-popup-content-video">
                   <h6>{title}</h6>
-                  <div className="help-content-popup" onClick={() => setOpenVideoPopup((getOpenVideoPopup) => !getOpenVideoPopup)}>
-                    <a href="javascript:;">
-                      <img src= {video_poster} alt="" />
-                    </a>
-                  </div>
+                  {
+                    /*
+                    <div className="help-content-popup" onClick={() => setOpenVideoPopup((getOpenVideoPopup) => !getOpenVideoPopup)}>
+                      <a href="javascript:;">
+                        <img src= {video_poster} alt="" />
+                      </a>
+                    </div>
+                    */
+                  }
+
                 </div>
-                */
-              }
+
 
                 <div className="help-popup-content-library-inside">
                   <p>Here you select who you will email.</p>
