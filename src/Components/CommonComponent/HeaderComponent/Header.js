@@ -62,19 +62,19 @@ const Header = () => {
 				<div className="collapse navbar-collapse" id="collapsibleNavbar">
 				  <ul className="navbar-nav">
 					<li className="nav-item active">
-						<a className="nav-link" href="https://informed.pro/Libraries/home">Library</a>
+						<a className="nav-link" href="https://informed.pro/Libraries/home">LIBRARY</a>
 					  </li>
 					  <li className="nav-item">
-						<a className="nav-link" href="https://informed.pro/Readers">Readers</a>
+						<a className="nav-link" href="https://informed.pro/Readers">READERS</a>
 					  </li>
 					  <li className="nav-item">
-						<a className="nav-link" href="https://informed.pro/Analytics/octo_lach_stats">Analytics</a>
+						<a className="nav-link" href="https://informed.pro/Analytics/octo_lach_stats">ANALYTICS</a>
 					  </li>
 					  <li className="nav-item active active-main">
-						<a className="nav-link" href="https://informed.pro/Distributes/MailEngine">Distribute</a>
+						<a className="nav-link" href="https://informed.pro/Distributes/MailEngine">EMAILENGINE</a>
 					  </li>
 					  <li className="nav-item">
-						<a className="nav-link"  href="https://informed.pro/Webinar/readers_webinar">Webinar</a>
+						<a className="nav-link"  href="https://informed.pro/Webinar/readers_webinar">WEBINAR</a>
 					  </li>
 				</ul>
 				</div>
