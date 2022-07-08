@@ -45,7 +45,7 @@ const Sidebar = () => {
     title = "Select HCPs to mail";
     video_url = "https://informed.pro/react_help/videos/email_page_5.mp4";
     video_poster = "https://informed.pro/react_help/poster/email_page_5.png";
-  }else if(location.pathname == "/verifyMAIL" || location.pathname == "/VerifyHcpMAIL"){
+  }else if(location.pathname == "/verifyMAIL" || location.pathname == "/VerifyMAIL" || location.pathname == "/VerifyHcpMAIL"){
     title = "Sending your email";
     video_url = "https://informed.pro/react_help/videos/email_page_8.mp4";
     video_poster = "https://informed.pro/react_help/poster/email_page_8.png";
@@ -738,7 +738,7 @@ const Sidebar = () => {
 
         {/*Help Pages for page8 start*/}
         {
-          (location.pathname == "/verifyMAIL" || location.pathname == "/VerifyHcpMAIL") && (
+          (location.pathname == "/VerifyMAIL" || location.pathname == "/verifyMAIL" || location.pathname == "/VerifyHcpMAIL") && (
             <>
             <div className="help-popup">
             <div className="help-popup-view" onClick={() => setHideShowSideContent((getHideShowSideContent) => !getHideShowSideContent)}>
