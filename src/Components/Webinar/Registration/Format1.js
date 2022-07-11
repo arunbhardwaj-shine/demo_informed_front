@@ -112,32 +112,13 @@ const Format1 = (props) => {
     });
   return (
     <>
-       <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-       <div className="loader" id="custom_loader">
-        <span className="loader-view"> </span>
-    </div>
-    <div className="top-header">
-    {props?.data||data?<Button onClick={()=>{loader("show") ;setModalShow(true); setTimeout(() => {
-        loader("hide")
-      }, 1500);}}>Preview</Button>:null}
-    </div>
+    <div className="register_form">
        <form onSubmit={formik.handleSubmit}>
         {/* Middle content */}
         
         <div className="reg-middle-div">  
         <div className="modal-body-content">
-        <div className="form-inline row justify-content-between align-items-center"> 
-              <div className="form-group col-12">
+              <div className="form-group">
                 <label>Mode</label>
                 <div className="form-inline-option">
                   {props.mode?.mode=="virtual"?<div className="form-check">
@@ -182,9 +163,7 @@ const Format1 = (props) => {
                     </div>
                 </div>
              </div>
-             </div>
-        <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 ">
+              <div className="form-group">
                 <label> Title 1</label>
                 <Form.Control
                   name="Title1"
@@ -195,9 +174,7 @@ const Format1 = (props) => {
                   placeholder="Title 1"
                 />
             </div>
-            </div>
-        <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12">
+              <div className="form-group">
                 <label> Title 2</label>
                 <Form.Control
                   name="Title2"
@@ -208,9 +185,7 @@ const Format1 = (props) => {
                   placeholder="Title 2"
                 />
             </div>
-            </div>
-        <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 ">
+              <div className="form-group">
                 <label> Title 3</label>
                 <Form.Control
                   name="Title3"
@@ -221,9 +196,7 @@ const Format1 = (props) => {
                   placeholder="Title 3"
                 />
             </div>
-            </div>
-            <div className="form-inline row justify-content-between align-items-center">
-                      <div className="form-group col-12 ">
+                      <div className="form-group">
                         <label>Speaker Name </label>
                         <Form.Control
                           name="Speakername"
@@ -233,9 +206,7 @@ const Format1 = (props) => {
                           type="text"
                         />
                     </div>
-                    </div>
-        <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 ">
+              <div className="form-group">
                 <label> Title Logo</label>
                 <Form.Control
                   name="Headerlogo"
@@ -244,9 +215,7 @@ const Format1 = (props) => {
                   placeholder="Header Title Logo"
                 />
             </div>
-            </div>
-            <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 ">
+              <div className="form-group">
                 <label>Event Date</label>
                 <Form.Control
                   name="eventdate"
@@ -257,9 +226,7 @@ const Format1 = (props) => {
                   placeholder="Event Date"
                 />
             </div>
-            </div>
-            <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 ">
+              <div className="form-group">
                 <label>Event Time</label>
                 <Form.Control
                   name="eventtime"
@@ -270,9 +237,7 @@ const Format1 = (props) => {
                   placeholder="Event Time"
                 />
             </div>
-            </div>
-            <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 col-md-11">
+              <div className="form-group">
               <label>Content 1</label>
               <Form.Control
                 name="content1"
@@ -284,9 +249,7 @@ const Format1 = (props) => {
                 placeholder="Content 1"
               />
            </div>
-           </div>
-            <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 col-md-11">
+              <div className="form-group">
               <label>Content 2</label>
               <Form.Control
                 name="content2"
@@ -297,10 +260,8 @@ const Format1 = (props) => {
                 className="form-control"
                 placeholder="Content 2"
               />
-           </div>
            </div>                      
-            <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 col-md-11">
+              <div className="form-group">
               <label>Content 3</label>
               <Form.Control
                 name="content3"
@@ -312,9 +273,7 @@ const Format1 = (props) => {
                 placeholder="Content 3"
               />
            </div>
-           </div>                      
-          <div className="form-inline row justify-content-between align-items-center">
-                      <div className="form-group col-12  col-md-11">
+                      <div className="form-group">
                         <label>Consent Text</label>
                         <Form.Control
                           name="consenttext"
@@ -324,10 +283,8 @@ const Format1 = (props) => {
                           type="text"
                         />
                     </div>
-                    </div>
                     {formik.values.consenttext?<>
-                      <div className="form-inline row justify-content-between align-items-center">
-                      <div className="form-group col-12  col-md-11">
+                      <div className="form-group">
                         <label>consent Radio Text 1</label>
                         <Form.Control
                           name="consentRadiotext1"
@@ -337,9 +294,7 @@ const Format1 = (props) => {
                           type="text"
                         />
                     </div>
-                    </div>
-          <div className="form-inline row justify-content-between align-items-center">
-                      <div className="form-group col-12  col-md-11">
+                      <div className="form-group">
                         <label>consent Radio text 2</label>
                         <Form.Control
                           name="consentRadiotext2"
@@ -349,9 +304,7 @@ const Format1 = (props) => {
                           type="text"
                         />
                     </div>
-                    </div>
-          <div className="form-inline row justify-content-between align-items-center">
-                      <div className="form-group col-12  col-md-11">
+                      <div className="form-group">
                         <label>consent Radio Text 3</label>
                         <Form.Control
                           name="consentRadiotext3"
@@ -360,7 +313,6 @@ const Format1 = (props) => {
                           value={formik.values.consentRadiotext3}
                           type="text"
                         />
-                    </div>
                     </div>
                     </>:null}
 
@@ -384,7 +336,7 @@ const Format1 = (props) => {
                       "email_box "+" approved" 
                     }
                   >
-                                        <div className="mail-box-content">
+                    <div className="mail-box-content">
                       <div className="mail-box-content-top">
                         <div className="mail-box-content-top-view">
                           <h5>{"Fields"}</h5>
@@ -514,6 +466,7 @@ const Format1 = (props) => {
         <Button type="submit">Save</Button>
         }
         </form>
+        </div>
         <Modal
         show={modalShow}
         id="webinar_event"

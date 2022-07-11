@@ -10,6 +10,8 @@
   --skyblue: #97b6cf;
   --green: #39cabc;
   --black: #000000;
+  --light-gray:#eeeeee;
+  
 }
 h2 {
   font-size: 42px;
@@ -235,7 +237,7 @@ header {
   display: flex;
   align-items: center;
   padding: 7px 10px;
-  background: #eeeeee;
+  background: var(--light-gray);
   box-shadow: -4px -4px 6px rgba(255, 255, 255, 0.5),
     4px 4px 6px rgba(189, 195, 197, 0.3098);
   border-radius: 36px;
@@ -3693,7 +3695,7 @@ a {
 .email-result-block .email_box_block .mail-box-content.webinar-box {
   max-width: 430px;
   margin: 0 auto;
-  background: #eeeeee;
+  background: var(--light-gray);
   padding: 17px 32px 24px 32px;
   height: 100%;
   min-height:258px;
@@ -4356,7 +4358,7 @@ input[type="date"]:before {
   min-width: 112px;
 }
 .collection-view {
-  background: #eeeeee;
+  background: var(--light-gray);
   border-radius: 30px;
   padding: 6px 8px;
   display: flex;
@@ -4366,7 +4368,7 @@ input[type="date"]:before {
   margin-right: 32px;
 }
 .collection-view a.active {
-  background: #eeeeee;
+  background: var(--light-gray);
   box-shadow: -4px -4px 6px rgba(255, 255, 255, 0.5),
     4px 4px 6px rgba(189, 195, 197, 0.3098);
   border-radius: 36px;
@@ -4393,7 +4395,7 @@ input[type="date"]:before {
 .top-right-action .hcp-added .btn,
 .hcp-user-upload .btn {
   width: 52px;
-  background: #eeeeee;
+  background: var(--light-gray);
   border: 0;
   margin-left: 16px;
 }
@@ -4436,9 +4438,9 @@ input[type="date"]:before {
 .list-tab-box-inside {
   max-width: 411px;
   width: 100%;
-  background: #eee;
+  background: var(--light-gray);
   mix-blend-mode: normal;
-  border: 1px solid #eeeeee;
+  border: 1px solid var(--light-gray);
   border-radius: 15px 15px;
   filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.07));
   position: relative;
@@ -4463,7 +4465,7 @@ input[type="date"]:before {
   width: 50%;
 }
 .list-tab-box-inside .nav-link {
-  background: #eeeeee;
+  background: var(--light-gray);
   padding: 13px;
   border-radius: 13px 13px 0 0;
 }
@@ -4514,7 +4516,7 @@ input[type="date"]:before {
   color: #c8d1d9;
 }
 .selected-hcp-list tbody td span:focus-visible {
-  background: #eeeeee;
+  background: var(--light-gray);
   border-radius: 30px;
   border: 0;
   outline: none;
@@ -4523,7 +4525,7 @@ input[type="date"]:before {
   padding: 7px 11px;
 }
 .list-tab-box-inside .tab-content td[contenteditable]:focus-visible {
-  background: #eeeeee;
+  background: var(--light-gray);
   border-radius: 30px;
   border: 0;
   outline: none;
@@ -4668,8 +4670,8 @@ input[type="date"]:before {
   color: #959595;
 }
 .preview_mail-inside .mail-preview-action .btn-outline-primary {
-  background: #eeeeee;
-  border-color: #eeeeee;
+  background: var(--light-gray);
+  border-color: var(--light-gray);
 }
 .preview_mail-inside .collection-view a img {
   width: 16px;
@@ -4689,7 +4691,7 @@ input[type="date"]:before {
 }
 .list-tab .list-tab-box .list-tab-box-inside .tab-content-delete {
   position: absolute;
-  background: #eeeeee;
+  background: var(--light-gray);
   border-radius: 30px;
   display: inline-block;
   padding: 8px;
@@ -4988,7 +4990,7 @@ header nav.navbar .form-select,
   flex: 1 1;
   margin-left: 12px;
   max-width: 100%;
-  background: #eeeeee;
+  background: var(--light-gray);
   box-shadow: none;
   border-radius: 30px;
   border: 0;
@@ -5013,7 +5015,7 @@ header nav.navbar .form-select,
   margin-top: 2px;
 }
 .add_field_new input.form-control {
-  background: #eeeeee;
+  background: var(--light-gray);
   box-shadow: none;
   border-radius: 30px;
   border: 0;
@@ -5166,11 +5168,11 @@ button#test-table-xls-button:hover {
   margin-top: 23px;
 }
 .modal-body .mail-preview-action .hcp-added .btn {
-  background: #eeeeee;
+  background: var(--light-gray);
   border-radius: 30px;
   width: 52px;
   height: 52px;
-  border-color: #eeeeee;
+  border-color: var(--light-gray);
 }
 .modal-body .mail-preview-action .hcp-added .btn:hover {
   border-color: var(--light-blue);
@@ -5258,9 +5260,9 @@ button#test-table-xls-button:hover {
   margin-top: 32px;
 }
 ul.hcp-table-content-right .user-type-action button {
-  background: #eeeeee;
+  background: var(--light-gray);
   border-radius: 30px;
-  border-color: #eeeeee;
+  border-color: var(--light-gray);
   width: 40px;
   height: 40px;
   min-width: initial;
@@ -5305,7 +5307,7 @@ ul.hcp-table-content-right .user-type-action button img {
   ul.hcp-table-content-right
   .user-type-option
   select.form-select {
-  background-color: #eeeeee;
+  background-color: var(--light-gray);
   border-radius: 30px;
   border: 0;
   font-size: 14px;
@@ -5313,6 +5315,7 @@ ul.hcp-table-content-right .user-type-action button img {
   color: #969696;
   padding: 18px 24px;
 }
+
 /***HCP PAge End***/
 .select-mail-template .form-inline .form-group .error { padding-left: 106px; } 
 div#guestpage + div { width: 100% !important; border-radius: 0px; } 
@@ -5326,7 +5329,7 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  -webkit-background-color: 0 0 0 30px white inset !important;
+  -webkit-background-color: 0 0 0 30px var(--white) inset !important;
   transition: background-color 5000s ease-in-out 0s;
 }
 input:-webkit-autofill {
@@ -5339,7 +5342,7 @@ input:-webkit-autofill {
 .modal #send_mail .modal-body { padding: 16px 54px 30px; } 
 #send_mail form { margin: 0; } 
 #send_mail form button { margin-top: 10px; } 
-.loadmore-button { text-align: center; width: 100%; background: #0b3a81; color: #fff; padding: 9px; max-width: 350px; margin: 0px 0px 0 312px; margin-bottom: 60px; margin-left: 312px; border-radius: 25px; cursor: pointer; } 
+.loadmore-button { text-align: center; width: 100%; background: #0b3a81; color: var(--white); padding: 9px; max-width: 350px; margin: 0px 0px 0 312px; margin-bottom: 60px; margin-left: 312px; border-radius: 25px; cursor: pointer; } 
 .reader-header-count { margin-top: 10px; margin-left: 29px; } 
 .create-registration .form-inline .form-group .error { padding-left: 100px; margin-top: 3px; } 
 .create-registration .form-inline .form-group .error div { font-size: 14px; } 
@@ -5348,15 +5351,6 @@ form .form-inline .form-alias { padding-left: 100px; color: #000; font-size: 14p
 .create-registration button { margin-left: 90px; } 
 .create-registration .form-inline .form-group .form-inline-option label.form-label { margin: 0 0 0 8px; line-height: 24px; font-size: 16px; } 
 .create-registration .form-inline .form-group .form-inline-option { display: flex; }
-
-/**Responsive**/
-@media only screen and (min-width: 2000px) {
-  .sidebar-menu ul {
-    margin: 0px -20px 0 0;
-  }
-}
-/**Responsive End**/
-
 
 /* Registration page style */
 .reg-sidbar{
@@ -5367,18 +5361,15 @@ form .form-inline .form-alias { padding-left: 100px; color: #000; font-size: 14p
 width: 80px;
 height: 100px;
 }
-.reg-middle-div{
+/* .reg-middle-div{
     width: 600px;
     float: left;
-}
-.reg-right-sidebar{
+} */
+/* .reg-right-sidebar{
     float: right;
 }
 .reg-fields-div{
   float: right; 
-}
-/* .reg-color-div{
-    margin-top: 200px;
 } */
 /* End of Registration page style */
 
@@ -5393,11 +5384,11 @@ height: 100px;
   -moz-appearance: auto;
   appearance: auto;
 }
-/* .modal-dialog .modal-content {
-  overflow: initial;
-  max-height: 500px;
-  height: 100%;
-} */
+.reg-block {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+}
 .modal-body iframe {
   width: 100%;
   height: 100%;
@@ -5405,3 +5396,14 @@ height: 100px;
 .select-sm img {
   border: 1px solid;
 }
+.reg-block .select-mail-template {
+  flex: 1 1 auto;
+}
+
+/**Responsive**/
+@media only screen and (min-width: 2000px) {
+  .sidebar-menu ul {
+    margin: 0px -20px 0 0;
+  }
+}
+/**Responsive End**/
