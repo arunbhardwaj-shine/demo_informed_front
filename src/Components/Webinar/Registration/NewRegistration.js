@@ -80,7 +80,7 @@ const templateClicked = (template, e) => {
         {/* top header */}
         <div className="top-header">
           <div className="page-title">
-            <h2>Registration Page </h2>
+            <h3>Registration Page </h3>
                 {/* <h3>Registration Page Form </h3> */}
             </div>
             <Link to="/webinar/portal/Registrations">  <button onClick={()=>{ localStorage.removeItem("EditRegistrationPageId");
@@ -123,7 +123,7 @@ const templateClicked = (template, e) => {
                 :TemplateIdActive=="2"?
                 <Format2 TemplateIdActive={TemplateIdActive} data={data} mode={mode} />
                :null}  
-          </div>
+        </div>
           </div>
 
       </div>

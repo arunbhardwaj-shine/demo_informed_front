@@ -389,7 +389,7 @@ const Template = (props) => {
           <>
             <div className="top-header">
               <div className="page-title">
-                <h2>Auto Emails</h2>
+                <h3>Auto Emails</h3>
               </div>
               <div className="top-right-action">
                 <Button

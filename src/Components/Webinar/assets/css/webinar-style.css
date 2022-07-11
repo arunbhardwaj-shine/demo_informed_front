@@ -234,7 +234,7 @@ header {
   justify-content: center;
   display: flex;
   align-items: center;
-  padding: 10px 10px;
+  padding: 7px 10px;
   background: #eeeeee;
   box-shadow: -4px -4px 6px rgba(255, 255, 255, 0.5),
     4px 4px 6px rgba(189, 195, 197, 0.3098);
@@ -3659,25 +3659,30 @@ a {
   width: 100%;
   text-align: left;
   height: 52px;
-  background: var(--white) url(http://localhost:3000/static/media/dropdown-arrow.6ca490ef1efe3175ec81.svg);
+  background: var(--white) url(../images/dropdown-arrow.svg);
   background-repeat: no-repeat;
   background-size: 16px;
   background-position: 93% center;
 }
-.hcp-sort button, .hcp-sort .btn:focus {
+.hcp-sort button {
   background: var(--white);
   font-family: "Roboto";
   border-radius: 30px;
   box-shadow: 0px 2px 10px 0px rgb(0 102 190 / 15%);
   filter: none;
   font-weight: 400;
-  font-size: 13px;
   line-height: 15px;
   color: var(--skyblue);
   padding: 11px 18px 12px 24px;
   border: 0.5px solid transparent;
   position: relative;
   z-index: 8;
+}
+.hcp-sort button:focus {
+  background: var(--white);
+  color: var(--skyblue);
+  border-color: transparent;
+  box-shadow: 0px 2px 10px 0px rgb(0 102 190 / 15%);
 }
 .mail-box-content.webinar-box img {
   max-width: 44px;
@@ -3935,7 +3940,7 @@ input[type="date"]:before {
 }
 .modal #webinar_event .modal-body form .modal-body-content,
 #webinar-edit-event .modal-body form .modal-body-content {
-  height: 430px;
+  height: 100%;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -3943,6 +3948,7 @@ input[type="date"]:before {
   padding-bottom: 10px;
   padding-top: 10px;
   padding-right: 10px;
+  max-height: 67vh;;
 }
 .modal #webinar_event .modal-body form .modal-footer-btn button.btn,
 #webinar-edit-event .modal-body form .modal-footer-btn button.btn {
@@ -4271,8 +4277,9 @@ input[type="date"]:before {
   width: 150px;
 }
 .page-title h3 {
-  color: #959595;
-  margin-bottom: 36px;
+  color: var(--light-blue);
+  font-family: "Roboto-Medium";
+  margin: 0;
 }
 .container {
   max-width: 1237px;
@@ -4810,10 +4817,10 @@ header nav.navbar .form-select,
   justify-content: center;
   height: 90%;
 }
-.right-sidebar .coming-soon h2 {
+.right-sidebar .coming-soon h2, .coming-soon h3 {
   display: flex;
   justify-content: center;
-  font-family: "Roboto-Bold";
+  font-family: "Roboto-Medium";
   color: var(--light-blue);
   margin: 0;
 }
@@ -5386,11 +5393,11 @@ height: 100px;
   -moz-appearance: auto;
   appearance: auto;
 }
-.modal-dialog .modal-content {
+/* .modal-dialog .modal-content {
   overflow: initial;
   max-height: 500px;
   height: 100%;
-}
+} */
 .modal-body iframe {
   width: 100%;
   height: 100%;

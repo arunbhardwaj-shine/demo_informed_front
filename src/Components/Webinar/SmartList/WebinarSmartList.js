@@ -270,7 +270,7 @@ const WebinarSmartList = () => {
         <ToastContainer />
         <div class="top-header">
           <div class="page-title">
-            <h2>Smart List</h2>
+            <h3>Smart List</h3>
           </div>
           <div class="top-right-action">
             <div class="search-bar" onSubmit={(e) => submitHandler(e)}>
@@ -516,7 +516,7 @@ const WebinarSmartList = () => {
               })
             ) : (
               <div className="coming-soon">
-                <h2>No data found</h2>
+                <h3>No data found</h3>
               </div>
             )}
           </div>

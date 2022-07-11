@@ -337,7 +337,7 @@ const EventData = () => {
         <div className="row">
       <div className="top-header">
       <div className="page-title">
-            <h2>Events</h2>
+            <h3>Events</h3>
           </div>
         
           <div className="top-right-action">
@@ -570,7 +570,7 @@ const EventData = () => {
             })}
             {event?.length > 0  ?null: (
               <div className="coming-soon">
-                <h2>{message}</h2>
+                <h3>{message}</h3>
               </div>
             ) }
           </div>

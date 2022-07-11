@@ -171,7 +171,7 @@ const RegistraionDetails = () => {
         <div className="custom-container">
           <Row>
             <div className="page-title d-flex justify-content-between">
-              <h2>Registration Page</h2>
+              <h3>Registration Page</h3>
               <Link to="/webinar/portal/registrationDetailslist">
                 <Button> List</Button>{" "}
               </Link>
