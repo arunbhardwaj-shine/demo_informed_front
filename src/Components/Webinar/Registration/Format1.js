@@ -493,22 +493,22 @@ const Format1 = (props) => {
                <div class="col-sm-12 col-md-12">
                   <div class="log-inner">
                      <div class="head-sec">
-                        <h2 class="top-title"style={{color:formik.values.titleColor}} >
-                        {formik.values.Title1}                       </h2>                           <div class="motivate_logo"><img id="imgVieww" src={props?.data.titleLogo?props?.data.titleLogo:""} alt="Motivate Logo" style={{width:"250px"}}/></div>
-                                                   <h2 class="top-title-green" style={{color:formik.values.titleColor}}>{formik.values.Title2}</h2>
-                        <div class="mid-section" style={{color:formik.values.textColor}}>
+                        <h2 class="top-title"style={{color:formik?.values?.titleColor}} >
+                        {formik?.values?.Title1}                       </h2>                           <div class="motivate_logo"><img id="imgVieww" src={props?.data?.titleLogo?props?.data?.titleLogo:""} alt="Motivate Logo" style={{width:"250px"}}/></div>
+                                                   <h2 class="top-title-green" style={{color:formik?.values?.titleColor}}>{formik?.values?.Title2}</h2>
+                        <div class="mid-section" style={{color:formik?.values?.textColor}}>
                            <div class="mid-section-center">
-                                <p>{formik.values.Speakername}</p>
-                               <p>{formik.values.eventtime}</p>
-                                <p>{formik.values.eventdate}</p>
+                                <p>{formik?.values?.Speakername}</p>
+                               <p>{formik?.values?.eventtime}</p>
+                                <p>{formik?.values?.eventdate}</p>
                         </div>
                         </div>
-                        <div class="head-sec-boxes" style={{color:formik.values.textColor}}>
+                        <div class="head-sec-boxes" style={{color:formik?.values?.textColor}}>
                            <div class="boxes-col-center">
                               <p id="uppper_text" class="boldText"> 
-                               {formik.values.content1}<br />
-                               {formik.values.content2}<br/>
-                               {formik.values.content3}<br/>
+                               {formik?.values?.content1}<br />
+                               {formik?.values?.content2}<br/>
+                               {formik?.values?.content3}<br/>
                                </p>
                             </div>
                         </div>
@@ -523,7 +523,7 @@ const Format1 = (props) => {
                                        <div class="form-group Consent">
                                           <div class="form-group-left">
                                              <input type="checkbox"  id="fullconsent1" value="option1" name="fullconsent"/>
-                                             <label for="fullconsent1"  id="consent-label">{}</label>  
+                                             <label for="fullconsent1"  id="consent-label">Full Consent</label>  
                                              <input type="hidden" class="fl_cnt_val" value="Full consent*"/>                 
                                              <a href="javascript:;" class="change-btn">Change</a>
                                              <div class="options">
@@ -535,7 +535,7 @@ const Format1 = (props) => {
                                        </div>
                                          <div class="form-group-align">
                                           <br/>
-                                          {formik.values.country==true?<div class="radio">
+                                          {formik?.values?.country==true?<div class="radio">
                                              <p>
                                                 <label>
                                                 <input type="radio" value="option1" checked="" required/>Country</label> 
@@ -1027,7 +1027,7 @@ const Format1 = (props) => {
                                                                               
                                     </div>
                                  </div>{
-                                  formik.values.name?<div class="form-group position-relative">
+                                  formik?.values?.name?<div class="form-group position-relative">
                                   <input type="text" class="form-control" name="name" id="name" value="" placeholder="Name" />
                                </div>:null
                                  }                     
