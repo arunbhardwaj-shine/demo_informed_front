@@ -1007,7 +1007,7 @@ const EmailList = (props) => {
                               ? "Draft Approved"
                               : item == 2
                               ? "Draft"
-                              : "Save"}
+                              : "Sent"}
                             <img
                               src={path_image + "filter-close.svg"}
                               alt="Close-filter"

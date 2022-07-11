@@ -175,7 +175,7 @@ const SendEmails = () => {
         />
         <div className="top-header">
           <div className="page-title">
-            <h2>Emails</h2>
+            <h3>Emails</h3>
           </div>
           <div className="top-right-action">
             <div className="search-bar">
@@ -717,7 +717,7 @@ const SendEmails = () => {
 								</div> */}
             {NotFound ? (
               <div className="coming-soon">
-                <h2>{NotFound}</h2>
+                <h3>{NotFound}</h3>
               </div>
             ) : null}
           </div>

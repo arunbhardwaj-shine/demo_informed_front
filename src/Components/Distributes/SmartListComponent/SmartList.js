@@ -627,7 +627,7 @@ const SmartList = (props) => {
                       <>
                         <Link
                           to="/CreateSmartList"
-                          state={{ creator: getUserDetails.username }}
+                          state={{ creator: getUserDetails.name }}
                         >
                           <img src={path_image + "add-button.svg"} alt="" />
                         </Link>

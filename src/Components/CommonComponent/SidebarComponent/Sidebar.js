@@ -45,19 +45,20 @@ const Sidebar = () => {
     title = "Select HCPs to mail";
     video_url = "https://informed.pro/react_help/videos/email_page_5.mp4";
     video_poster = "https://informed.pro/react_help/poster/email_page_5.png";
-  }else if(location.pathname == "/verifyMAIL"){
-    title = "Verify your email";
+  }else if(location.pathname == "/verifyMAIL" || location.pathname == "/VerifyMAIL" || location.pathname == "/VerifyHcpMAIL"){
+    title = "Sending your email";
     video_url = "https://informed.pro/react_help/videos/email_page_8.mp4";
     video_poster = "https://informed.pro/react_help/poster/email_page_8.png";
   }else if(location.pathname == "/SelectSmartListUsers"){
-    title = "Verify your list";
+    title = "Verify & adjust your SmartList";
     video_url = "https://informed.pro/react_help/videos/email_page_6.mp4";
     video_poster = "https://informed.pro/react_help/poster/email_page_6.png";
   }else if(location.pathname == "/SelectSmartList"){
-    title = "Select Smartlist";
+    title = "Select HCPs to mail";
     video_url = "";
     video_poster = "";
   }else if(location.pathname == "/SmartList"){
+    localStorage.removeItem("sd_i");
     title = "Creating new SmartList";
 
   }else if(location.pathname == "/CreateSmartList"){
@@ -116,7 +117,7 @@ const Sidebar = () => {
               </Link>
             </li>
             <li>
-              <a href="javascript:void();">
+              <a href="https://informed.pro/distributes/setTemplateAuto">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M21.2385 4.16635L11.1144 10.2818C11.0398 10.3232 10.9561 10.3449 10.8711 10.3449C10.7861 10.3449 10.7024 10.3232 10.6278 10.2818L0.493317 4.16635C0.741985 3.80693 1.07206 3.51339 1.45576 3.31042C1.83947 3.10745 2.26559 3.00099 2.69827 3H19.0336C19.4663 3.00099 19.8924 3.10745 20.2761 3.31042C20.6598 3.51339 20.9899 3.80693 21.2385 4.16635Z" fill="#0066BE" fill-opacity="0.6"/>
                   <path d="M21.6665 5.10146L11.6355 11.1539C11.4039 11.2884 11.1416 11.3592 10.8747 11.3592C10.6078 11.3592 10.3455 11.2884 10.1138 11.1539L0.0724633 5.10146C0.0244647 5.31164 0.000154289 5.52667 0 5.74242V16.0189C0 16.7462 0.284658 17.4438 0.791353 17.9581C1.29805 18.4724 1.98527 18.7614 2.70185 18.7614H13.6715C13.5318 18.2602 13.457 17.7314 13.457 17.1848C13.457 13.9932 16.006 11.4058 19.1504 11.4058C20.0826 11.4058 20.9624 11.6332 21.739 12.0363V5.74242C21.7388 5.52667 21.7145 5.31164 21.6665 5.10146Z" fill="#0066BE" fill-opacity="0.6"/>
@@ -128,6 +129,26 @@ const Sidebar = () => {
                   <path d="M20.9753 18.4969C20.9753 18.613 20.9299 18.7243 20.849 18.8064C20.7681 18.8885 20.6585 18.9346 20.5441 18.9346C20.4297 18.9346 20.32 18.8885 20.2391 18.8064L18.9452 17.493C18.8643 17.4109 18.8188 17.2996 18.8188 17.1835V14.5567C18.8188 14.4405 18.8643 14.3292 18.9452 14.2471C19.026 14.165 19.1357 14.1188 19.2501 14.1188C19.3645 14.1188 19.4742 14.165 19.5551 14.2471C19.636 14.3292 19.6815 14.4405 19.6815 14.5567V17.0022L20.849 18.1874C20.9299 18.2695 20.9753 18.3808 20.9753 18.4969Z" fill="#0066BE" fill-opacity="0.6"/>
                   </svg>
                 <p>Auto Email</p>
+              </a>
+            </li>
+			<li>
+              <a href="https://informed.pro/distributes/setAutoPopup">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_2612_34718)">
+                <path d="M14.7656 12.7676H19.0834V15.5121H14.7656V12.7676Z" fill="#0066BE" fill-opacity="0.6"/>
+                <path d="M14.6797 18.3516L19.11 18.3518V21.2443H14.6842L14.6797 18.3516Z" fill="#0066BE" fill-opacity="0.6"/>
+                <path d="M5 12.8048L12 12.8047V21L5 21.0001V12.8048Z" fill="#0066BE" fill-opacity="0.6"/>
+                <path d="M3.45312 1.82092e-05C2.34855 1.92626e-05 1.45312 0.895449 1.45312 2.00002V2.8594H22.5469V2C22.5469 0.895431 21.6514 8.5395e-07 20.5469 1.90735e-06L3.45312 1.82092e-05Z" fill="#0066BE" fill-opacity="0.6"/>
+                <path d="M5 7H19V10H5V7Z" fill="#0066BE" fill-opacity="0.6"/>
+                <path d="M1.4533 21.9998C1.45321 23.1045 2.34866 24 3.4533 24H20.5486C21.6532 24 22.5486 23.1046 22.5486 22V4.26562H1.45489L1.4533 21.9998ZM19.7361 21.1406C19.7361 21.5292 19.4216 21.8438 19.033 21.8438H14.8143C14.4257 21.8438 14.1111 21.5292 14.1111 21.1406V18.3281C14.1111 17.9396 14.4257 17.625 14.8143 17.625H19.033C19.4216 17.625 19.7361 17.9396 19.7361 18.3281V21.1406ZM19.7361 15.5156C19.7361 15.9042 19.4216 16.2188 19.033 16.2188H14.8143C14.4257 16.2188 14.1111 15.9042 14.1111 15.5156V12.7031C14.1111 12.3146 14.4257 12 14.8143 12H19.033C19.4216 12 19.7361 12.3146 19.7361 12.7031V15.5156ZM4.26739 7.07812C4.26739 6.68958 4.58196 6.375 4.97051 6.375H19.033C19.4216 6.375 19.7361 6.68958 19.7361 7.07812V9.89062C19.7361 10.2792 19.4216 10.5938 19.033 10.5938H4.97051C4.58196 10.5938 4.26739 10.2792 4.26739 9.89062V7.07812ZM4.26739 12.7031C4.26739 12.3146 4.58196 12 4.97051 12H12.0018C12.3903 12 12.7049 12.3146 12.7049 12.7031V21.1406C12.7049 21.5292 12.3903 21.8438 12.0018 21.8438H4.97051C4.58196 21.8438 4.26739 21.5292 4.26739 21.1406V12.7031Z" fill="#0066BE" fill-opacity="0.6"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_2612_34718">
+                <rect width="24" height="24" fill="white"/>
+                </clipPath>
+                </defs>
+                </svg>
+                <p>Set Popup Text</p>
               </a>
             </li>
             <li>
@@ -531,27 +552,33 @@ const Sidebar = () => {
             <div className="help-popup-content-inner">
 
               <div className="help-popup-content-library">
-              {
-                /*
+
                 <div className="help-popup-content-video">
                   <h6>{title}</h6>
-                  <div className="help-content-popup" onClick={() => setOpenVideoPopup((getOpenVideoPopup) => !getOpenVideoPopup)}>
-                    <a href="javascript:;">
-                      <img src= {video_poster} alt="" />
-                    </a>
-                  </div>
+                  {
+                    /*
+                    <div className="help-content-popup" onClick={() => setOpenVideoPopup((getOpenVideoPopup) => !getOpenVideoPopup)}>
+                      <a href="javascript:;">
+                        <img src= {video_poster} alt="" />
+                      </a>
+                    </div>
+                    */
+                  }
+
                 </div>
-                */
-              }
+
 
                 <div className="help-popup-content-library-inside">
-                  <p>At the bottom of the page you can see all your smart lists.</p>
+                  <p>Here you select who you will email.</p>
+                </div>
+                <div className="help-popup-content-library-inside">
+                  <p>You can see all your existing smart lists.</p>
                 </div>
 
                 <div className="help-popup-content-library-inside">
                   <img src= {path_image + "help/smart_list.png"} alt="" />
                   <p>Each smart list will contain key data held on your HCPs.
-                    You can also see date and time when the smart list was created, and the number of people included in the list. </p>
+                  You can also see date and time when the smart list was created, and the number of people included in the list.</p>
                 </div>
 
 
@@ -563,62 +590,51 @@ const Sidebar = () => {
                 </div>
 
                 <div className="help-popup-content-library-inside">
-                  <img src= {path_image + "help/more_info.png"} alt="" />
-                  <p>By clicking "Show more information" you see further information about your contacts. </p>
-                </div>
-
-                <div className="help-popup-content-library-inside">
                   <img src= {path_image + "help/create_upload.png"} alt="" />
-                  <p>If you don’t have a smart list in your account select the "Create New Smart List" or "Upload Excel File" buttons to create a new smart list.</p>
+                  <p>To create a new SmartList chose to either<br/>
+                  "Create New Smart List" from existing HCPs in your lists.<br/>
+                     or<br/>
+                    "Upload Excel File" to upload fresh HCP’s</p>
                 </div>
 
-                <div className="help-popup-next">
-                  <div class="btn-form">
-                    <a href="javascript:;" className="btn btn-primary btn-filled">Upload Excel File</a>
-                    </div>
-                  <p>The "Upload Excel File" button opens a new window where you enter the name of your smart list, the name of the list creator and you can upload or download your excel file to the list.</p>
+                <div className="help-popup-content-list">
+                  <img src= {path_image + "help/upload_list.png"} alt="" />
+                  <p></p>
+                  <p className="help-popup-title">The "Upload Excel File" button opens a pop-up to:</p>
+                  <ul>
+                    <li>Name of your SmartList,</li>
+                    <li>Name who is creating the list (so you can easily sort or spot your own SmartLists) </li>
+                    <li>Upload (and if needed download the template excel so the fields are correctly uploaded).</li>
+                  </ul>
                 </div>
+
 
                 <div className="help-popup-next">
                   <div class="btn-form">
                     <a href="javascript:;" className="btn btn-primary btn-filled">Create New Smart List</a>
                     </div>
-                  <p>Create New Smart List enter the name of the list and who created it. At this point you can make your list a demo list. </p>
+                  <p>"Create New Smart List" will take you to a new screen to segement from your existing lists of HCPs (see Help on that page)</p>
                 </div>
-
-                <div className="help-popup-content-library-inside">
-                  <p>You can create a new smart list from (???)</p>
-                </div>
-
-                <div className="help-popup-next">
-                  <div class="btn-form">
-                    <a href="javascript:;" className="btn btn-primary btn-filled">Download</a>
-                    </div>
-                  <p>You can download sample Excel file to upload new HPC by clicking on the "Download" button at the bottom of the page.</p>
-                </div>
-
-
-
-                <div className="help-popup-next">
-                  <div class="btn-form">
-                    <a href="javascript:;" className="btn btn-primary btn-filled">Cancel</a>
-                    </div>
-                  <p>If you decide not to create a list click the "Cancel" button and go back to the main page.</p>
-                </div>
-
 
                 <div className="help-popup-next">
                   <div class="btn-form">
                     <a href="javascript:;" className="btn btn-primary btn-filled">Save As Draft</a>
                     </div>
-                  <p>After selecting the smart list that you want, you can save the email as a draft by clicking on "Save As Draft". </p>
+                  <p>You can save the email as a draft by clicking on "Save As Draft". This will take you back to the front page and you can come back any time to this draft.</p>
                 </div>
 
                 <div className="help-popup-next">
                   <div class="btn-form">
                     <a href="javascript:;" className="btn btn-primary btn-filled">Next</a>
                     </div>
-                  <p>The "Next" button takes you to the next stage of the process. </p>
+                  <p>To proceed and verify & adjust your new SmartLists click "Next"</p>
+                </div>
+
+                <div className="help-popup-next">
+                  <div class="btn-form">
+                    <a href="javascript:;" className="btn btn-primary btn-filled">Cancel</a>
+                    </div>
+                  <p>If you decide not to create a list click the "Cancel" button and go back to the main page.</p>
                 </div>
 
               </div>
@@ -663,48 +679,68 @@ const Sidebar = () => {
                 </div>
               </div>
                 <div className="help-popup-content-library-inside">
-                  <p>At the bottom at this page you can see all the people that you have selected.</p>
+                  <p>Double checking and adjusting your selected SmartList.</p>
                 </div>
 
                 <div className="help-popup-content-library-inside">
-                  <p>You can scroll down to see all the people.</p>
+                  <p>This lists all the people uploaded or segmented from your existing lists.</p>
                 </div>
 
                 <div className="help-popup-content-library-inside">
-                  <p>By clicking "Show more information" button you can see more information about your contacts. </p>
+                  <img src= {path_image + "help/more_info.png"} alt="" />
+                  <p>"Show more information” button you can see more information about your contacts.</p>
+                </div>
+
+                <div className="help-popup-next">
+                  <div class="btn-form">
+                    <a href="javascript:;" className="btn btn-primary btn-filled">Sort by <img src="componentAssets/images/sort.svg" alt="Shorting" /></a>
+                    </div>
+                  <p>"Sort by" lets you see your contacts in alphabetical order. </p>
+                </div>
+
+                <div className="help-popup-next">
+                  <div class="btn-form">
+                    <a href="javascript:;" className="btn btn-primary btn-filled">Add</a>
+                    </div>
+                  <p>The "Add" button allows you to add more people, perhaps someone who didn’t match the criteria but you want to reach anyway.</p>
                 </div>
 
                 <div className="help-popup-content-library-inside">
-                  <p>The "Add" button allows you to add more people at this stage too. A box "Add New HCP" will pop up and you need to fill out your contact’s first and last name, email, contact type and country. You can add two people at the time by clicking "Add HCP" button on the right-hand side. When you finish click on "Save" button. </p>
+                  <img src= {path_image + "help/add_new_hcp.png"} alt="" />
+                  <p>The "Add New HCP" box and enter their details.<br/>
+                    You can add more than one more HCP by clicking "Add HCP" on the right-hand side. When you finish click "Save". </p>
                 </div>
 
                 <div className="help-popup-content-library-inside">
-                  <p>You can delete a person from your list by clicking the "Delete" button or by clicking the “Add” button on the side for your contact to re-join the list. </p>
+                  <img src= {path_image + "help/add_del.png"} alt="" />
+                  <p>You can delete a person from your list by clicking the "Trashcan" on the right side.
+                   This will only remove them from the list, they will still be in your database.<br/>
+                   Click the "Plus" sign to re-join them back onto the list – if you have regrets.</p>
                 </div>
 
                 <div className="help-popup-content-library-inside">
-                  <p>The "Edit" button allows you to amend information about your contacts. </p>
+                  <img src= {path_image + "help/edit.png"} alt="" />
+                  <p>The "Edit" button allows you to amend information about your contacts. These changes will take effect in your database, so be cautious.<br/>
+                  Click the "Save" button to keep your changes.<br/>
+                  Click on "Close" if you don’t want to save your changes. </p>
                 </div>
 
-                <div className="help-popup-content-library-inside">
-                  <p>Click on "Save" button to keep your changes. </p>
-                </div>
 
-                <div className="help-popup-content-library-inside">
-                  <p>Click on "Close" if you don’t want to save your amendments. </p>
-                </div>
-
-                <div className="help-popup-content-library-inside">
-                  <p>By clicking the "Sort by" button you can see your contacts in alphabetical order. </p>
-                </div>
-
-                <div className="help-popup-content-library-inside">
+                <div className="help-popup-next">
+                  <div class="btn-form">
+                    <a href="javascript:;" className="btn btn-primary btn-filled">Next</a>
+                    </div>
                   <p>The "Next" button in the top right-hand corner takes you to the next step. </p>
                 </div>
 
-                <div className="help-popup-content-library-inside">
-                  <p>If you are not yet ready to continue to the next step click on the "Save As Draft" button. </p>
+
+                <div className="help-popup-next">
+                  <div class="btn-form">
+                    <a href="javascript:;" className="btn btn-primary btn-filled">Save as Draft</a>
+                    </div>
+                  <p>If you need a break click "Save as Draft" and on the front page click "Edit" to start up again. </p>
                 </div>
+
 
               </div>
               <div className="help-popup-close" onClick={() => setHideShowSideContent((getHideShowSideContent) => !getHideShowSideContent)}>
@@ -725,7 +761,7 @@ const Sidebar = () => {
 
         {/*Help Pages for page8 start*/}
         {
-          location.pathname == "/verifyMAIL" && (
+          (location.pathname == "/VerifyMAIL" || location.pathname == "/verifyMAIL" || location.pathname == "/VerifyHcpMAIL") && (
             <>
             <div className="help-popup">
             <div className="help-popup-view" onClick={() => setHideShowSideContent((getHideShowSideContent) => !getHideShowSideContent)}>
@@ -746,60 +782,33 @@ const Sidebar = () => {
                 </div>
               </div>
                 <div className="help-popup-content-library-inside">
-                  <p>On this page you can see all the information about the email that you want to send.</p>
-                </div>
-
-                <div className="help-popup-content-list">
-                  <p className="help-popup-title">At the top you can see:</p>
-                  <ul>
-                    <li>Campaign title</li>
-                    <li>Creator</li>
-                    <li>Tags</li>
-                  </ul>
+                  <p>You're ready to send the email.<br/>
+                    Here is all the information about the email that you want to send.</p>
                 </div>
 
                 <div className="help-popup-content-library-inside">
-                  <p>You can also preview the content that you want to send.</p>
+                  <p>Please review well before sending, you can still change everything.</p>
                 </div>
 
-                <div className="help-popup-content-library-inside">
-                  <p>The recipients of your email can be seen at the bottom of the page. By clicking the "View" button you can see the list of people that you want to email. </p>
+                <div className="help-popup-next">
+                  <div class="btn-form">
+                    <a href="javascript:;" className="btn btn-primary btn-filled">Approved?</a>
+                    </div>
+                  <p>If you've been preparing it for sending later you can click the "Approved?" so you can easily identify it and send later.</p>
                 </div>
 
-                <div className="help-popup-content-library-inside">
-                  <p>On the right-hand side of the screen you see the actual email that will be send.</p>
-                </div>
-
-                <div className="help-popup-content-library-inside">
-                  <p>You can approve your draft by clicking on the "Approve" button if you haven’t done it in the previous step.</p>
-                </div>
-
-                <div className="help-popup-content-library-inside">
+                <div className="help-popup-next">
+                  <div class="btn-form">
+                    <a href="javascript:;" className="btn btn-primary btn-filled">Save As Draft</a>
+                    </div>
                   <p>You can still save your email as draft by clicking on the "Save As Draft" button in the top right-hand corner.</p>
                 </div>
 
-                <div className="help-popup-content-library-inside">
-                  <p>Click the "Send" button if your email is ready for distribution.</p>
-                </div>
-
-                <div className="help-popup-content-library-inside">
-                  <p>In the main distribution page you can see that your email has been sent.</p>
-                </div>
-
-                <div className="help-popup-content-library-inside">
-                  <p>In the box there are three buttons: view, resend and send new.</p>
-                </div>
-
-                <div className="help-popup-content-library-inside">
-                  <p>By clicking the "View" button you can see your tracking information. At the bottom you can see the actual email.</p>
-                </div>
-
-                <div className="help-popup-content-library-inside">
-                  <p>The "Resend" button will send the email to all the people that haven’t opened the email yet. </p>
-                </div>
-
-                <div className="help-popup-content-library-inside">
-                  <p>The "Send New" button will send the same email to different people. This action will take you to the selection of HCPs that you want to send your email to.</p>
+                <div className="help-popup-next">
+                  <div class="btn-form">
+                    <a href="javascript:;" className="btn btn-primary btn-filled">Send</a>
+                    </div>
+                  <p>If you’re ready click "Send" and let those HCPs hear from you. </p>
                 </div>
 
               </div>

@@ -494,7 +494,7 @@ const Readers = () => {
         />
         <div className="top-header">
           <div className="page-title">
-            <h2>HCPs List</h2>
+            <h3>HCPs List</h3>
             <span className="reader-header-count">
               {data ? " Total Registrations | " + data.length : null}
             </span>
