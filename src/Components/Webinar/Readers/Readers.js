@@ -50,6 +50,8 @@ const Readers = () => {
   const [participantsCount, setParticipantsCount] = useState();
   const [lastPage, setLastPage] = useState();
   const [nextPageUrl, setNextPageUrl] = useState("");
+  const [singleData, setSingleData] = useState([]);
+  const [id, setId] = useState();
 
   let path_image = process.env.REACT_APP_ASSETS_PATH_WEBINAR;
   const handleGetReadersData = (id) => {
@@ -78,29 +80,25 @@ const Readers = () => {
     });
   }; const formik = useFormik({
     initialValues: {
-      name: "",
-      email: "",
-      country: "",
-      profession: "",
-      interest: "",
-      hospital: "",
+      name:singleData?singleData.name: "",
+      country:singleData?singleData.country_id: "",
+      profession:singleData?singleData.profession: "",
+      interest:singleData?singleData.interest: "",
+      hospital:singleData?singleData.hospital: "",
     },
-
-    validationSchema: Yup.object({
-      name: Yup.string().required("Name is required"),
-      email: Yup.string().required("Email is required").email(),
-    }),
+    enableReinitialize: true,
     onSubmit: (values) => {
-      loader("show");
-      let Data = JSON.stringify([values]);
-      ExportApi.EmailSand(localStorage.getItem("SmartListId"), Data)
+      console.log(id)
+     loader("show");
+      ExportApi.ReadersSingleDataUpdate(id,values.name,values.country,values.hospital,values.profession,values.interest)
         .then((resp) => {
           if (resp.data) {
+            setShow(false)
+            handleGetReadersData(localStorage.getItem("EventIdHeader"))
             // console.log(resp.data);
             if (resp.data.code == 200) {             
               toast.success(resp.data.message);
             } else {
-              loader("hide");
               toast.error(resp.data.message, {
                 position: "top-right",
                 autoClose: 5000,
@@ -113,13 +111,11 @@ const Readers = () => {
             }
           }
         })
-
         .catch((err) => {
           loader("hide");
         });
- loader("hide");
+        loader("hide");
     },
-
     // props.closePopup();
   });
 
@@ -236,6 +232,13 @@ const Readers = () => {
         //  console.log(resp.data.data);
 
         setCountryName(resp.data.data);
+      }
+    });
+  };
+  const handleGetReadersSingleDat6a = (id) => {
+    ExportApi.ReadersSingleData(id).then((resp) => {
+      if (resp.ok) {
+        setSingleData(resp.data.data)
       }
     });
   };
@@ -830,9 +833,9 @@ const Readers = () => {
                         <li>{val.name}</li>
                         <li>{val.email} </li>
                         <li>{val.country} </li>
-                        <li>??</li>
-                        <li>??</li>
-                        <li>??</li>
+                        <li>{val.hospital} </li>
+                        <li>{val.profession} </li>
+                        <li>{val.interest} </li>
                         <li>{val.signup_date} </li>
                       </ul>
                       <ul className="hcp-table-content-right">
@@ -855,7 +858,7 @@ const Readers = () => {
                         </li>
                         <li>
                           <div className="user-type-action">
-                            <button onClick={()=>{setShow(true)}} className="btn btn-primary btn-filled">
+                            <button onClick={()=>{setShow(true);handleGetReadersSingleDat6a(val.id);setId(val.id)}} className="btn btn-primary btn-filled">
                               <img
                                 src={path_image + "edit-btn.png"}
                                 alt="Edit"
@@ -949,7 +952,7 @@ const Readers = () => {
           <h4>Edit\HCP</h4>
         </Modal.Header>
         <Modal.Body>
-        <form className={"tab-pane active"}>
+        <form onReset={formik.handleReset} onSubmit={formik.handleSubmit} className={"tab-pane active"}>
               <div className="modal-body-content">
               <div className="add_hcp_boxes">
                       <div className="form_action">
@@ -972,26 +975,28 @@ const Readers = () => {
                               ) : null}
                             </div>
                           </div>
-
                           <div className="col-12 col-md-6">
                             <div className="form-group">
-                              <label htmlFor="">Email *</label>
-                              <input
-                                type="email"
-                                className="form-control"
-                                id="email-desc"
-                                name="email"
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.email}
-                              />
-                              {formik.touched.email && formik.errors.email ? (
-                                <div className="error" style={{ color: "red" }}>
-                                  {formik.errors.email}
-                                </div>
-                              ) : null}
-                            </div>
-                          </div>
+                <label htmlFor="exampleInputEmail1">Country </label>
+                <select
+                  name="country"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.country}
+                  className="form-select-lg mb-3"
+                  aria-label=".form-select-lg example"
+                >
+                  <option selected>Select Country</option>
+                  {countryName?.map((val, i) => (
+                    <React.Fragment key={i}>
+                      <option key={i} value={val.id}>
+                        {val.country}
+                      </option>
+                    </React.Fragment>
+                  ))}
+                </select>
+              </div>
+              </div>
 
                           <div className="col-12 col-md-6">
                             <div className="form-group">

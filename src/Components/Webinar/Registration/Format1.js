@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
 const Format1 = (props) => {
+  console.log(props)
   let navigate=useNavigate();
   const [TemplateIdActive, setTemplateIdActive] = useState(props.TemplateIdActive);
   // console.log("titleLogo",props.data?.titleLogo)
@@ -459,8 +460,9 @@ const Format1 = (props) => {
         </div>
         </form>
         </Col>
+        {console.log("12px solid "+formik.values.borderColor)}
         <Col style={{height:"1100px",width:"678px"}}>
-        <div class="login-wrapper">
+        <div class="login-wrapper" style={{backgroundColor:formik.values.backgroundColor, border:"2px solid "+formik.values.borderColor}}>
       <div class="login-wrapper-inside" >
          <div class="container">
             <div class="row">
@@ -469,7 +471,8 @@ const Format1 = (props) => {
                      <div class="head-sec">
                         <h2 class="top-title"style={{color:formik?.values?.titleColor}} >
                         {formik?.values?.Title1}                       </h2>                           <div class="motivate_logo"><img id="imgVieww" src={props?.data?.titleLogo?props?.data?.titleLogo:""} alt="Motivate Logo" style={{width:"250px"}}/></div>
-                                                   <h2 class="top-title-green" style={{color:formik?.values?.titleColor}}>{formik?.values?.Title2}</h2>
+                         <h2 class="top-title-green" style={{color:formik?.values?.titleColor}}>{formik?.values?.Title2}</h2>
+                         <h2 class="top-title-green" style={{color:formik?.values?.titleColor}}>{formik?.values?.Title3}</h2>
                         <div class="mid-section" style={{color:formik?.values?.textColor}}>
                            <div class="mid-section-center">
                                 <p>{formik?.values?.Speakername}</p>
@@ -486,9 +489,8 @@ const Format1 = (props) => {
                                </p>
                             </div>
                         </div>
-                     </div>
                      <div id="log-tabs">
-                        <div class="tab-pane tab-content nav-profile-tab fade active in" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                        <div class="" id="nav-profile">
                            <div class="login-from newaccount">
                               <form id="hcp-form">
                                <div>
@@ -512,7 +514,7 @@ const Format1 = (props) => {
                                           {formik?.values?.country==true?<div class="radio">
                                              <p>
                                                 <label>
-                                                <input type="radio" value="option1" checked="" required/>Country</label> 
+                                                Country</label> 
                                                 <select class="country-list position-dropdown mobile-drop" name="country" id="country" style={{margin:"-31px 0px 0px 18px"}}>
                                                    <option value="">Select State</option> 
                                                   
@@ -993,7 +995,7 @@ const Format1 = (props) => {
                                                       <option value="238">Zambia</option>
                                                    
                                                       <option value="239">Zimbabwe</option>
-                                                                                                   </select>
+                                                </select>
                                              </p>
                                           </div>:null}
                                           
@@ -1015,6 +1017,7 @@ const Format1 = (props) => {
                                           </div>
                                           </div>
                            </div>
+                     </div>
                         </div>
                      </div>
                   </div>
@@ -1026,6 +1029,7 @@ const Format1 = (props) => {
         </div>
         </Row>
         <Modal
+        className='w3-container w3-center w3-animate-top'
         show={modalShow}
         id="webinar_event"
         onHide={() => {
