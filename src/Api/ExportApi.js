@@ -305,8 +305,8 @@ const CreateRegistrationPage = (eventId,mode,jsonData,TemplateIdActive) =>
   BaseApi.post("create-registration-page", {
     event_id:eventId,
     mode:mode,
-    json_data :jsonData,
-    format :TemplateIdActive
+    // json_data :jsonData,
+    // format :TemplateIdActive
   }, {
     headers: {
       Authorization: localStorage.getItem("Token"),

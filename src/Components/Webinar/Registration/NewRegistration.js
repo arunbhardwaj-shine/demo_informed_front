@@ -55,12 +55,6 @@ const templateClicked = (template, e) => {
     };
     const location = useLocation();
     useEffect(() => {
-      if (localStorage.getItem("registrationPageId")) {
-        handleGetRegistrationPagedata()
-      } else {
-        loader("hide");
-        // setMessage("Please create Event");
-      }
     if(localStorage.getItem("EditRegistrationPageId")){
       handleGetRegistrationPageSingleData()
     }else{
@@ -76,6 +70,7 @@ const templateClicked = (template, e) => {
     <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
     </div>
+    
     <div className="right-sidebar col">
         {/* top header */}
         <div className="top-header">
