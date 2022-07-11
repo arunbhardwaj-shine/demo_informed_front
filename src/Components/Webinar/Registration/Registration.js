@@ -91,7 +91,7 @@ const Registration = () => {
         />
     <div className="top-header">
         <div className="page-title">
-          <h2>Registration Page </h2>
+          <h3>Registration Page </h3>
         </div>
         {registrationPageList===undefined||registrationPageList===null?<Link to="/webinar/portal/NewRegistration"><Button>Create Registration Page</Button></Link>:registrationPageList.length==1?(<> {registrationPageList?.length==2||registrationPageList?.length>2?null:  <div className="top-right-action">
             <Button onClick={()=>setModalShow1(true)}>Create Registration Page</Button>
