@@ -68,10 +68,10 @@ const Header = () => {
 						<a className="nav-link" href="https://informed.pro/Readers">READERS</a>
 					  </li>
 					  <li className="nav-item">
-						<a className="nav-link" href="https://informed.pro/Analytics/octo_lach_stats">ANALYTICS</a>
+						<a className="nav-link" href="https://informed.pro/Analytics">ANALYTICS</a>
 					  </li>
 					  <li className="nav-item active active-main">
-						<a className="nav-link" href="https://informed.pro/Distributes/MailEngine">EMAILENGINE</a>
+						<a className="nav-link" href="https://informed.pro/Distributes/MailEngine">EMAIL</a>
 					  </li>
 					  <li className="nav-item">
 						<a className="nav-link"  href="https://informed.pro/Webinar/readers_webinar">WEBINAR</a>
@@ -87,6 +87,7 @@ const Header = () => {
 
 							  <Dropdown.Menu>
 									<Dropdown.Item href="https://informed.pro/Pages/change_password/" className="dropdown-item">Change Password</Dropdown.Item>
+									<Dropdown.Item className="dropdown-item" onClick={() => window.open('https://support.informed.pro/authenticate?token=26000e20e74251939a43e7a95f4ac08481aa5909', "_blank")}>Raise a ticket</Dropdown.Item>
 									<Dropdown.Item href="https://informed.pro/Users/logout/" className="dropdown-item">Logout</Dropdown.Item>
 							  </Dropdown.Menu>
 							</Dropdown>

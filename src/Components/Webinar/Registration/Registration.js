@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import ExportApi from "../../../Api/ExportApi";
-import { Button, Col,  Modal, Row, Table } from "react-bootstrap";
+import { Button, Col,  Form,  Modal, Row, Table } from "react-bootstrap";
 import * as Yup from "yup";
 import "../webinar.css";
 import { toast, ToastContainer } from "react-toastify";
@@ -15,6 +15,7 @@ const Registration = () => {
   const [editdata, setEditdata] = useState();
   const [format, setFormat] = useState();
   const [mode, setMode] = useState();
+  const [modeShow, setModeShow] = useState(false);
   const [eventCode, setEventCode] = useState();
   const [show, setShow] = useState(false);
   const [deleteId, setDeleteId] = useState();
@@ -42,6 +43,22 @@ const Registration = () => {
       }
     });
   };
+  const handleCreateRegistrationPage=(mode)=>{
+
+    ExportApi.CreateRegistrationPage(localStorage.getItem("EventIdHeader"),mode).then((resp) => {
+      if (resp.ok&&resp.data.code == 200) {
+        console.log(resp.data)
+        localStorage.setItem("EditRegistrationPageId",resp.data.data.id)
+        handleGetRegistrationPageList()
+        setTimeout(() => {
+          navigate("/webinar/portal/NewRegistration")
+          setShow(false)
+        }, 1000);
+          // setData(resp.data.data)
+        loader("hide")
+      }
+    });
+  }
 
   const handleGetRegistrationDelete = () => {
     ExportApi.RegistrationPageDelete(deleteId).then((resp) => {
@@ -93,14 +110,15 @@ const Registration = () => {
         <div className="page-title">
           <h3>Registration Page </h3>
         </div>
-        {registrationPageList===undefined||registrationPageList===null?<Link to="/webinar/portal/NewRegistration"><Button>Create Registration Page</Button></Link>:registrationPageList.length==1?(<> {registrationPageList?.length==2||registrationPageList?.length>2?null:  <div className="top-right-action">
-            <Button onClick={()=>setModalShow1(true)}>Create Registration Page</Button>
+        {registrationPageList===undefined||registrationPageList===null?<div className="top-right-action">
+            <Button  onClick={()=>setModalShow1(true)}>Create Registration Page</Button>
+        </div>:registrationPageList.length==1?(<> {registrationPageList?.length==2||registrationPageList?.length>2?null:  <div className="top-right-action">
+            <Button  onClick={()=>setModalShow1(true)}>Create Registration Page</Button>
         </div>}</>):null}
       </div>
       <br/>
       <br/>
       <Row>
-       
               <Row>
                 <Col className="mb-5">
                   <Table bordered hover>
@@ -234,19 +252,44 @@ const Registration = () => {
           :null}
            {/* {console.log("val",registrationPageList)} */}
           <div className="modal-buttons">
-          <Link to="/webinar/portal/NewRegistration">
+            {modeShow?
+             <div className="reg-middle-div">  
+             <div className="modal-body-content">
+             <div className="form-inline row justify-content-between align-items-center">
+             <div className="form-group col-12">
+                <label>Mode</label>
+                <div className="form-inline-option">
+                  <div className="form-check"><Form.Label> Virtual</Form.Label>
+                              <Form.Control
+                               name="mode"
+                                type="radio"
+                                onChange={()=>{handleCreateRegistrationPage("virtual")}}
+                                value={"virtual"}
+
+                              />  <Form.Label>Onsite</Form.Label>
+                              <Form.Control
+                                 name="mode"
+                                 type="radio"
+                                 onChange={()=>{handleCreateRegistrationPage("onsite")}}
+                                 
+                                 value="onsite"
+                                 /></div>
+                    </div>
+               </div></div></div> </div>:null}
+         
             <button
               type="button"
               className="btn btn-primary btn-filled"
               data-bs-dismiss="modal"
               onClick={() => {
-                localStorage.removeItem("registrationPageId");
-                localStorage.removeItem("EditRegistrationPageId")
+                   setModeShow(true)
+                // handleCreateRegistrationPage()
+                // localStorage.removeItem("registrationPageId");
+                // localStorage.removeItem("EditRegistrationPageId")
               }}
             >
             Create new
             </button>
-          </Link>
             <button
               type="button"
               className="btn btn-primary btn-bordered light"
