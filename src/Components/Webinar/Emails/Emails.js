@@ -506,6 +506,7 @@ const SendEmails = () => {
                           <div className="mail-time">
                             <span>{val?.mod_date}</span>
                           </div>
+                          </div>
                           <div className="mail-stats">
                             <ul>
                               <li>
@@ -546,7 +547,6 @@ const SendEmails = () => {
                               </li>
                             </ul>
                           </div>
-                        </div>
                       </div>
                       <div className="mailbox-buttons">
                         <div className="mailbox-buttons-list">

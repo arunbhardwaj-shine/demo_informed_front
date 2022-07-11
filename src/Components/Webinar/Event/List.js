@@ -507,11 +507,27 @@ const EventData = () => {
                             <span>End Time {val?.event_end_time}</span>
                           </div>
                         </div>
-                          <div className="mail-stats">
+                          
+                          {/* <div className="mail-stats">
+                        {deletestatus && (
+                          <div className="dlt_btn">
+                            <button
+                              onClick={(e) => showConfirmationPopup(val.id)}
+                            >
+                              <img
+                                src={path_image + "delete.svg"}
+                                alt="Delete Row"
+                              />
+                            </button>
+                          </div>
+                        )}
+                      </div> */}
+                        </div>
+                        <div className="mail-stats">
                             <ul>
                               <li>
                                 {val.days_left < 0 ? (
-                                <div className="mail-status mail_send">
+                                <div className="mail_send">
                             <>
                               <span></span> Fulfilled
                             </>
@@ -537,21 +553,6 @@ const EventData = () => {
                               </li>
                             </ul>
                           </div>
-                          <div className="mail-stats">
-                        {deletestatus && (
-                          <div className="dlt_btn">
-                            <button
-                              onClick={(e) => showConfirmationPopup(val.id)}
-                            >
-                              <img
-                                src={path_image + "delete.svg"}
-                                alt="Delete Row"
-                              />
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                        </div>
                       </div>
                       <div className="mailbox-buttons">
                         <div className="mailbox-buttons-list">

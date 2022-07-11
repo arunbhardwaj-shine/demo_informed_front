@@ -548,9 +548,10 @@ header {
   fill-opacity: 1;
 }
 .email_box {
-  width: 411px;
+  max-width: 411px;
   flex: 0 0 411px;
   height: 100%;
+  width:100%;
 }
 .smartlist-view.email_box {
   width: 253px;
@@ -574,7 +575,7 @@ header {
   text-align: center;
   border-radius: 20px 20px 0 0;
   position: relative;
-  padding: 4px;
+  padding: 0 4px;
   z-index: 4;
 }
 .draft-approved .mail-top-title {
@@ -724,6 +725,8 @@ header {
 }
 .mail-stats ul li {
   list-style: none;
+  display: flex;
+  align-items: center;
 }
 .webinar_time span {
   font-size: 14px;
@@ -744,10 +747,15 @@ header {
   align-items: center;
   justify-content: center;
 }
-.mail-stats ul li span {
+/* .mail-stats ul li span {
   font-size: 18px;
   line-height: 17px;
   color: var(--light-blue);
+} */
+.mail-stats ul li span {
+  font-size: 13px;
+  line-height: 15px;
+  color: #C8D1D9;
 }
 .mail-box-content .mail-stats {
   margin-top: 5px;
@@ -955,6 +963,12 @@ header {
 }
 .smartlist-view .mail-stats ul li {
   width: 33.3%;
+}
+.mail-box-content .mail-box-content-top {
+  height: 100%;
+  justify-content: space-between;
+  display: flex;
+  flex-direction: column;
 }
 .smartlist-view .mail-stats ul {
   justify-content: flex-start;
@@ -5399,7 +5413,10 @@ height: 100px;
 .reg-block .select-mail-template {
   flex: 1 1 auto;
 }
-
+.modal-dialog .modal-content {
+  max-height: 80vh;
+  height: 100%;
+}
 /**Responsive**/
 @media only screen and (min-width: 2000px) {
   .sidebar-menu ul {
