@@ -22,7 +22,7 @@ const Format2 = (props) => {
             setMode(resp.data.data)
             setRender(render+2)
             // setTemplateIdActive(resp.data.data.format)
-            //  console.log(resp.data.data.format)
+             console.log(JSON.parse(resp.data.data?.json_data))
             // setData(JSON.parse(resp.data.data?.json_data))
           }
       });
@@ -62,7 +62,8 @@ const Format2 = (props) => {
           content1:props.data?.content1?props.data?.content1:'',
           content2:props.data?.content2?props.data?.content2:'',
           BodyFootercontent1:props.data?.BodyFootercontent1?props.data?.BodyFootercontent1:'',
-          BodyFootercontent2:props.data?.BodyFootercontent2?props.data?.BodyFootercontent2:'',
+          BodyFootercontent2:props.data?.BodyFooterLeftcontent2?props.data?.BodyFooterLeftcontent2:'',
+          BodyFootercontent3:props.data?.BodyFootercontent3?props.data?.BodyFootercontent3:'',
           RadioButton:props.data?.RadioButton?props.data?.RadioButton:'',
           name:props.data?.name?props.data?.name:"",
           country:props.data?.country?props.data?.country:"",
@@ -76,7 +77,7 @@ const Format2 = (props) => {
 
         enableReinitialize: true,
         onSubmit: (values) => {
-          loader("show")
+          // loader("show")
           let jsonData ={
             Title1: values.Title1,
             Title2: values.Title2,
@@ -85,7 +86,8 @@ const Format2 = (props) => {
             content2:values.content2,
             Address:values.Address,
             BodyFootercontent1:values.BodyFootercontent1,
-            BodyFooterLeftcontent2:values.BodyFootercontent2,
+            BodyFooterLeftcontent1:values.BodyFootercontent2,
+            BodyFooterLeftcontent2:values.BodyFootercontent3,
             eventdate:values.eventdate,
             eventtime:values.eventtime,
             RadioButton:values.RadioButton,
@@ -105,6 +107,7 @@ const Format2 = (props) => {
             ExportApi.RegistrationPageUpdate(props?.mode?.id,localStorage.getItem("EventIdHeader"),values.mode, JSON.stringify(jsonData),TemplateIdActive).then((resp) => {
               if (resp.ok) {
                 if (resp.data.code == 200) {
+                  handleGetRegistrationPageSingleData()
                   // toast.success(resp.data.message)
                   // localStorage.removeItem("EditRegistrationPageId")
                   // localStorage.removeItem("registrationPageId")
@@ -115,7 +118,7 @@ const Format2 = (props) => {
                 } else {
                   toast.error(resp.data.message);
                 }
-                loader("hide")
+                // loader("hide")
               }
             });
           }else{
@@ -316,19 +319,32 @@ const Format2 = (props) => {
                 onBlur={formik.handleBlur}
                 value={formik.values.BodyFootercontent1}
                 className="form-control"
-                id="exampleFormControlTextarea1"
               />
            </div>
            </div>      
             <div className="form-inline row justify-content-between align-items-center">
               <div className="form-group col-12 col-md-11">
-              <label>Footer Left Content</label>
+              <label>Footer Left Content 1</label>
               <Form.Control
                 name="BodyFootercontent2"
                 type="text"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.BodyFootercontent2}
+                className="form-control"
+                id="exampleFormControlTextarea1"
+              />
+           </div>
+           </div>      
+            <div className="form-inline row justify-content-between align-items-center">
+              <div className="form-group col-12 col-md-11">
+              <label>Footer Left Content 2</label>
+              <Form.Control
+                name="BodyFootercontent3"
+                type="text"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.BodyFootercontent3}
                 className="form-control"
                 id="exampleFormControlTextarea1"
               />
@@ -517,7 +533,7 @@ const Format2 = (props) => {
                         <div class="head-sec-boxes" style={{color:formik?.values?.textColor}}>
                            <div class="boxes-col-center">
                               <p id="uppper_text" class="boldText"> 
-                               {formik?.values?.content1}<br />
+                               {formik?.values?.content1}<br /><br/>
                                {formik?.values?.content2}<br/>
                                </p>
                             </div>
@@ -532,7 +548,7 @@ const Format2 = (props) => {
                                        <div class="form-group Consent">
                                           <div class="form-group-left">
                                              <input type="checkbox"  id="fullconsent1" value="option1" name="fullconsent"/>
-                                             <label for="fullconsent1"  id="consent-label">Full Consent</label>  
+                                             <label for="fullconsent1"  id="consent-label">{formik?.values?.RadioButton}</label>  
                                              <input type="hidden" class="fl_cnt_val" value="Full consent*"/>                 
                                              <a href="javascript:;" class="change-btn">Change</a>
                                              <div class="options">
@@ -1047,6 +1063,25 @@ const Format2 = (props) => {
                                            <button class="sumit-btn" type="submit" id="signup_submit">Submit</button>
                                            </div>     
                                           </form>
+                                          <div className='FooterContent'>
+                                               <p>{formik?.values?.BodyFootercontent1}</p>
+                                               <br/>
+                                               <br/>
+                                               <Row>
+                                                <Col>
+                                                <div style={{textAlign:"left"}}>
+                                                  <p>{formik?.values?.BodyFootercontent2}</p>
+                                                  <p>{formik?.values?.BodyFootercontent3}</p>
+                                                </div>
+                                                </Col>
+                                                <Col>
+                                                <div style={{textAlign:"right"}}>
+                                                  <a href={formik?.values?.anchorLink}>{formik?.values?.anchorText}</a>
+                                                  <img style={{width:"170px"}} src="https://webinar.docintel.app/EAHAD2022/images/Octapharma_blue.png"/>
+                                                  </div>
+                                                </Col>
+                                               </Row>
+                                          </div>
                                           </div>
                                           </div>
                            </div>
