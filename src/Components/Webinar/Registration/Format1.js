@@ -105,6 +105,7 @@ const Format1 = (props) => {
           ExportApi.RegistrationPageUpdate(localStorage.getItem("EditRegistrationPageId"),localStorage.getItem("EventIdHeader"),values.mode, JSON.stringify(jsonData),TemplateIdActive).then((resp) => {
           if (resp.ok) {
             if (resp.data.code == 200) {
+              // alert(1+false)
               // toast.success(resp.data.message)
               handleGetRegistrationPageSingleData()
               setData(resp.data.data)
@@ -137,11 +138,11 @@ const Format1 = (props) => {
         <span className="loader-view"> </span>
       </div> */}
 
-    <div className="top-header">
+    {/* <div className="top-header">
     {props?.data||data?<Button onClick={()=>{loader("show") ;setModalShow(true); setTimeout(() => {
         loader("hide")
       }, 1500);}}>Preview</Button>:null}
-    </div>
+    </div> */}
     <div className="webinar-modal-data">
               <div className="registration_form">
                 <Col onChange={formik.handleSubmit} className="registration_left">
