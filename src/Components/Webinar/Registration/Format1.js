@@ -319,7 +319,7 @@ const Format1 = (props) => {
         {/* fields content */}
         <div className="reg-fields-div">
         <div className="email-result">
-          <div className="col email-result-block">
+          <div className="email-result-block">
           <div  className="email_box_block">
                   <div
                     className={
@@ -375,7 +375,7 @@ const Format1 = (props) => {
         {/* color div content */}
         <div  className="reg-color-div">
         <div className="email-result">
-          <div className="col email-result-block">
+          <div className="email-result-block">
           <div  className="email_box_block">
                   <div
                     className={

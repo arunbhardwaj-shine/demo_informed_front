@@ -5417,6 +5417,11 @@ height: 100px;
   max-height: 80vh;
   height: 100%;
 }
+.reg-middle-div .form-group {
+  margin-bottom: 15px;
+}
+
+
 /**Responsive**/
 @media only screen and (min-width: 2000px) {
   .sidebar-menu ul {
