@@ -207,6 +207,7 @@ const CreateEmails = (props) => {
           localStorage.getItem("stateid")
         ).then((resp) => {
           if (resp.ok) {
+            toast.success(resp.data.message)
             //  console.log( resp.data.data.collection_id)
             localStorage.setItem("collection_id", resp.data.data.collection_id);
             if (id == 1) {
@@ -223,6 +224,7 @@ const CreateEmails = (props) => {
             tagClickedFirst
           ).then((resp) => {
             if (resp.ok) {
+              toast.success(resp.data.message)
               //  console.log( resp.data.data.collection_id)
               localStorage.setItem(
                 "collection_id",
@@ -242,6 +244,7 @@ const CreateEmails = (props) => {
                   tagClickedFirst
                 ).then((resp) => {
                   if (resp.ok) {
+                    toast.success(resp.data.message)
                     //  console.log( resp.data.data.collection_id)
                     localStorage.setItem(
                       "collection_id",
@@ -255,6 +258,7 @@ const CreateEmails = (props) => {
         }
       }
     }
+    loader("hide");
   };
   const handleGetTemplateList = (id, tempId) => {
     ExportApi.UserTemplateList(id).then((resp) => {

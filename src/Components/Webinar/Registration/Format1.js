@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
 const Format1 = (props) => {
+  console.log(props)
   let navigate=useNavigate();
   const [TemplateIdActive, setTemplateIdActive] = useState(props.TemplateIdActive);
   // console.log("titleLogo",props.data?.titleLogo)
@@ -40,6 +41,9 @@ const Format1 = (props) => {
     });
 
   }
+  useEffect(() => {
+    handleGetRegistrationPageSingleData()
+  }, [])
   const handleGetRegistrationPageSingleData = () => {
     ExportApi.RegistrationPageSingleData(localStorage.getItem("EditRegistrationPageId")).then((resp) => {
       if (resp.ok&&resp.data.code==200) {
@@ -56,7 +60,6 @@ const Format1 = (props) => {
       initialValues: {
         Title1:props.data?.Title1?props.data?.Title1: "",
         Title2:props.data?.Title2?props.data?.Title2: "",
-        Title3:props.data?.Title3?props.data?.Title3: "",
         mode:mode?.mode,
         Speakername:props.data?.Speakername?props.data?.Speakername:'',
         eventtime:props.data?.eventtime?props.data?.eventtime:'',
@@ -77,11 +80,10 @@ const Format1 = (props) => {
       },
       enableReinitialize: true,
       onSubmit: (values) => {
-        loader("show")
+        // loader("show")
         let jsonData ={
           Title1: values.Title1,
           Title2: values.Title2,
-          Title3: values.Title3,
           consenttext :values.consenttext,
           consentRadiotext1:values.consentRadiotext1,
           consentRadiotext2:values.consentRadiotext2,
@@ -103,7 +105,7 @@ const Format1 = (props) => {
           ExportApi.RegistrationPageUpdate(localStorage.getItem("EditRegistrationPageId"),localStorage.getItem("EventIdHeader"),values.mode, JSON.stringify(jsonData),TemplateIdActive).then((resp) => {
           if (resp.ok) {
             if (resp.data.code == 200) {
-              toast.success(resp.data.message)
+              // toast.success(resp.data.message)
               handleGetRegistrationPageSingleData()
               setData(resp.data.data)
               // setTimeout(() => { 
@@ -112,16 +114,12 @@ const Format1 = (props) => {
             } else {
               toast.error(resp.data.message);
             }
-            loader("hide")
+            // loader("hide")
           }
         });
       }
      
     });
-    useEffect(() => {
-    
-      handleGetRegistrationPageSingleData()
-    }, [])
   return (
     <>
        <ToastContainer
@@ -147,7 +145,7 @@ const Format1 = (props) => {
     <Row>
             <div className="webinar-modal-data">
               <div className="registration_form">
-                <Col className="registration_left">
+                <Col onChange={formik.handleSubmit} className="registration_left">
                   <form onSubmit={formik.handleSubmit}>
                     <div className="modal-body-content">
         {/* Middle content */}
@@ -173,17 +171,6 @@ const Format1 = (props) => {
                   value={formik.values.Title2}
                   type="text"
                   placeholder="Title 2"
-                />
-            </div>
-              <div className="form-group">
-                <label> Title 3</label>
-                <Form.Control
-                  name="Title3"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.Title3}
-                  type="text"
-                  placeholder="Title 3"
                 />
             </div>
                       <div className="form-group">
@@ -459,8 +446,9 @@ const Format1 = (props) => {
         </div>
         </form>
         </Col>
+        {console.log("12px solid "+formik.values.borderColor)}
         <Col style={{height:"1100px",width:"678px"}}>
-        <div class="login-wrapper">
+        <div class="login-wrapper" style={{backgroundColor:formik.values.backgroundColor, border:"2px solid "+formik.values.borderColor}}>
       <div class="login-wrapper-inside" >
          <div class="container">
             <div class="row">
@@ -469,7 +457,8 @@ const Format1 = (props) => {
                      <div class="head-sec">
                         <h2 class="top-title"style={{color:formik?.values?.titleColor}} >
                         {formik?.values?.Title1}                       </h2>                           <div class="motivate_logo"><img id="imgVieww" src={props?.data?.titleLogo?props?.data?.titleLogo:""} alt="Motivate Logo" style={{width:"250px"}}/></div>
-                                                   <h2 class="top-title-green" style={{color:formik?.values?.titleColor}}>{formik?.values?.Title2}</h2>
+                         <h2 class="top-title-green" style={{color:formik?.values?.titleColor}}>{formik?.values?.Title2}</h2>
+                         <h2 class="top-title-green" style={{color:formik?.values?.titleColor}}>{formik?.values?.Title3}</h2>
                         <div class="mid-section" style={{color:formik?.values?.textColor}}>
                            <div class="mid-section-center">
                                 <p>{formik?.values?.Speakername}</p>
@@ -486,9 +475,8 @@ const Format1 = (props) => {
                                </p>
                             </div>
                         </div>
-                     </div>
                      <div id="log-tabs">
-                        <div class="tab-pane tab-content nav-profile-tab fade active in" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                        <div class="" id="nav-profile">
                            <div class="login-from newaccount">
                               <form id="hcp-form">
                                <div>
@@ -512,7 +500,7 @@ const Format1 = (props) => {
                                           {formik?.values?.country==true?<div class="radio">
                                              <p>
                                                 <label>
-                                                <input type="radio" value="option1" checked="" required/>Country</label> 
+                                                Country</label> 
                                                 <select class="country-list position-dropdown mobile-drop" name="country" id="country" style={{margin:"-31px 0px 0px 18px"}}>
                                                    <option value="">Select State</option> 
                                                   
@@ -993,7 +981,7 @@ const Format1 = (props) => {
                                                       <option value="238">Zambia</option>
                                                    
                                                       <option value="239">Zimbabwe</option>
-                                                                                                   </select>
+                                                </select>
                                              </p>
                                           </div>:null}
                                           
@@ -1015,6 +1003,7 @@ const Format1 = (props) => {
                                           </div>
                                           </div>
                            </div>
+                     </div>
                         </div>
                      </div>
                   </div>
@@ -1026,6 +1015,7 @@ const Format1 = (props) => {
         </div>
         </Row>
         <Modal
+        className='w3-container w3-center w3-animate-top'
         show={modalShow}
         id="webinar_event"
         onHide={() => {

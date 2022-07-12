@@ -460,6 +460,26 @@ const ReadersType = (id, type, search, countryvalue) =>
       },
     }
   );
+const ReadersSingleData = (id) =>
+  BaseApi.get(
+    `get-participant/${id}`,
+    {},
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
+const ReadersSingleDataUpdate = (id,name,country_id,hospital,profession,interest) =>
+  BaseApi.post(
+    `/update-participant`,
+    {participant_id :id,name,name,country_id:country_id,hospital:hospital,profession:profession,interest:interest},
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
 const ReadersType1 = (id, search, countryvalue) =>
   BaseApi.post(
     `participants`,
@@ -879,7 +899,9 @@ export default {
   PublicPage,
   ReadersData,
   ReadersType,
+  ReadersSingleData,
   ReadersType1,
+  ReadersSingleDataUpdate,
   ReadersCountry,
   ReadersDataSearch,
   ReadersPage,
