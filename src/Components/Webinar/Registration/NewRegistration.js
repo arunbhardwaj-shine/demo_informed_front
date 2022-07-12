@@ -103,7 +103,7 @@ const templateClicked = (template, e) => {
             </div>
         </div>
         {/* Sidebar */}
-        
+        {console.log(data)}
         <div className="select-mail-template">    
               {TemplateIdActive=="1"?   
             <Format1 TemplateIdActive={TemplateIdActive} data={data} mode={mode} />
