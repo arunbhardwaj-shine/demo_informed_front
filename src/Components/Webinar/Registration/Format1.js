@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
 const Format1 = (props) => {
-  console.log(props)
+  // console.log(props)
   let navigate=useNavigate();
   const [TemplateIdActive, setTemplateIdActive] = useState(props.TemplateIdActive);
   // console.log("titleLogo",props.data?.titleLogo)
@@ -47,7 +47,7 @@ const Format1 = (props) => {
   const handleGetRegistrationPageSingleData = () => {
     ExportApi.RegistrationPageSingleData(localStorage.getItem("EditRegistrationPageId")).then((resp) => {
       if (resp.ok&&resp.data.code==200) {
-        console.log(resp.data.data)
+        // console.log(resp.data.data)
           setMode(resp.data.data)
           setRender(render+2)
           // setTemplateIdActive(resp.data.data.format)
@@ -216,7 +216,7 @@ const Format1 = (props) => {
             </div>
               <div className="form-group">
               <label>Content 1</label>
-              <Form.Control
+              <textarea
                 name="content1"
                 type="text"
                 onChange={formik.handleChange}
@@ -291,9 +291,7 @@ const Format1 = (props) => {
                           type="text"
                         />
                     </div>
-                    </>:null}
-
-         
+                    </>:null}         
         {/* end of middle content*/}
         
 
@@ -408,15 +406,11 @@ const Format1 = (props) => {
                   </div>
                   </div>
                    </div>
-        {/* end of right sidebar */}{props?.mode?.id?
-        <Button type="submit">update</Button>:
-        <Button type="submit">Save</Button>
-        }
         </div>
         </div>
         </form>
         </Col>
-        {console.log("12px solid "+formik.values.borderColor)}
+        {/* {console.log("12px solid "+formik.values.borderColor)} */}
         <Col>
         <div class="login-wrapper" style={{backgroundColor:formik.values.backgroundColor, border:"2px solid "+formik.values.borderColor}}>
       <div class="login-wrapper-inside" >

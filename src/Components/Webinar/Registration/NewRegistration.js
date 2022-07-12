@@ -6,22 +6,25 @@ import ExportApi from '../../../Api/ExportApi';
 import Format1 from './Format1';
 import Format2 from './Format2';
 import { useEffect } from 'react';
+import { BaseUrlImage } from '../../../Api/BaseApi';
 const NewRegistration = () => {
     let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const [TemplateIdActive, setTemplateIdActive] = useState(1);
     const [data, setData] = useState();
     const [mode, setMode] = useState();
     const [message, setMessage] = useState();
+    const [render, setRender] = useState(1);
+
    
 const templateClicked = (template, e) => {
-  // alert(TemplateIdActive)
+
       const div = document.querySelector("img.select_mm");
       if (div) {
         div.classList.remove("select_mm");
       }
       setTemplateIdActive(template);
       e.target.classList.toggle("select_mm");
-      // alert(TemplateIdActive)
+
     };
  
 
@@ -49,7 +52,8 @@ const templateClicked = (template, e) => {
           if(resp.data.data?.json_data){
             setMode(resp.data.data)
             setTemplateIdActive(resp.data.data.format)
-             console.log(resp.data.data.format)
+            setRender(render+2)
+            //  console.log("nisdnsidnsidhsidhsih",resp.data.data)
             setData(JSON.parse(resp.data.data?.json_data))
           }
         }
@@ -80,6 +84,9 @@ const templateClicked = (template, e) => {
             <h3>Registration Page </h3>
                 {/* <h3>Registration Page Form </h3> */}
             </div>
+            <a target="_blank" href={`${BaseUrlImage}/SH2022/index${mode?.format}.php?event=${mode?.event.code}&mode=${
+               mode?.mode
+              }`}><Button>Link</Button></a>
             <Link to="/webinar/portal/Registrations">  <button onClick={()=>{ localStorage.removeItem("EditRegistrationPageId");
                   localStorage.removeItem("registrationPageId")}} className="btn btn-primary btn-filled back">
                     <svg width="12" height="19" viewBox="0 0 12 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -90,14 +97,15 @@ const templateClicked = (template, e) => {
                     </svg>
                   </button></Link>
         </div>
+  
         {/* end of top header */}
         
         {/* Sidebar */}
         <div className="reg-block">
         <div className="reg-sidbar">
-          {/* {  alert(TemplateIdActive)} */}
+          {/* {  alert(TemplateIdActive==1?"select-sm img":"img.select_mm")} */}
             <div  className={TemplateIdActive==1?"select-sm img":""} onClick={(e) => templateClicked(1,e)}>
-                <img  className={"reg-sidbar-img"} value={"virtual"} src={path_image + "content_added1.png"} alt="Format-1"  />
+                <img  className={"reg-sidbar-img img.select_mm"} value={"virtual"} src={path_image + "content_added1.png"} alt="Format-1"  />
                 <p>{"Format 1"}</p>
             </div>
             <div  className={TemplateIdActive==2?"select-sm img":""} onClick={(e) => templateClicked(2,e)} >
@@ -106,7 +114,7 @@ const templateClicked = (template, e) => {
             </div>
         </div>
         {/* Sidebar */}
-        {console.log(data)}
+        {/* {console.log(data)} */}
         <div className="select-mail-template">    
               {TemplateIdActive=="1"?   
             <Format1 TemplateIdActive={TemplateIdActive} data={data} mode={mode} />

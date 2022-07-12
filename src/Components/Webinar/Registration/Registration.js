@@ -47,7 +47,7 @@ const Registration = () => {
 
     ExportApi.CreateRegistrationPage(localStorage.getItem("EventIdHeader"),mode).then((resp) => {
       if (resp.ok&&resp.data.code == 200) {
-        console.log(resp.data)
+        // console.log(resp.data)
         localStorage.setItem("EditRegistrationPageId",resp.data.data.id)
         handleGetRegistrationPageList()
         setTimeout(() => {
@@ -285,7 +285,7 @@ const Registration = () => {
               type="button"
               className="btn btn-primary btn-bordered light"
               data-bs-dismiss="modal"
-              onClick={() =>setShow(true) }
+              onClick={() =>{setShow(true);setModeShow(false)} }
             >
               Copy from existing   
             </button>

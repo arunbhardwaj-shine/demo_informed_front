@@ -18,11 +18,11 @@ const Format2 = (props) => {
     const handleGetRegistrationPageSingleData = () => {
       ExportApi.RegistrationPageSingleData(localStorage.getItem("EditRegistrationPageId")).then((resp) => {
         if (resp.ok&&resp.data.code==200) {
-          console.log(resp.data.data)
+          // console.log(resp.data.data)
             setMode(resp.data.data)
             setRender(render+2)
             // setTemplateIdActive(resp.data.data.format)
-             console.log(JSON.parse(resp.data.data?.json_data))
+            //  console.log(JSON.parse(resp.data.data?.json_data))
             // setData(JSON.parse(resp.data.data?.json_data))
           }
       });
@@ -69,8 +69,6 @@ const Format2 = (props) => {
           country:props.data?.country?props.data?.country:"",
           titleColor:props.data?.titleColor?props.data?.titleColor:"",
           backgroundColor:props.data?.backgroundColor?props.data?.backgroundColor:"",
-          anchorText:props.data?.anchorText?props.data?.anchorText:"",
-          anchorLink:props.data?.anchorLink?props.data?.anchorLink:"",
           borderColor:props.data?.borderColor?props.data?.borderColor:"",
           textColor:props.data?.textColor?props.data?.textColor:"",
         },
@@ -94,15 +92,13 @@ const Format2 = (props) => {
             name:values.name,
             countryLabel:values.countryLabel,
             country:values.country,
-            anchorText:values.anchorText,
-            anchorLink:values.anchorLink,
             titleColor :values.titleColor,
             textColor:values.textColor,
             backgroundColor:values.backgroundColor,
             borderColor:values.borderColor,
             titleLogo:titleLogo?titleLogo:props.data?.titleLogo?props.data?.titleLogo:''
           }
-          console.log("titleLogo",titleLogo)
+          // console.log("titleLogo",titleLogo)
           if(props?.mode?.id){
             ExportApi.RegistrationPageUpdate(props?.mode?.id,localStorage.getItem("EventIdHeader"),values.mode, JSON.stringify(jsonData),TemplateIdActive).then((resp) => {
               if (resp.ok) {
@@ -243,7 +239,7 @@ const Format2 = (props) => {
             </div>
               <div className="form-group">
               <label>Content 1</label>
-              <Form.Control
+              <textarea
                 name="content1"
                 type="text"
                 onChange={formik.handleChange}
@@ -253,6 +249,7 @@ const Format2 = (props) => {
                 placeholder="Content 1"
               />
            </div>
+         
               <div className="form-group">
               <label>Content 2</label>
               <Form.Control
@@ -265,32 +262,23 @@ const Format2 = (props) => {
                 placeholder="Content 2"
               />
            </div>
+           <div className="form-group">
+                        <label>Radio Button Title</label>
+                       
+                        <Form.Control
+                          name="RadioButton"
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.RadioButton}
+                          type="text"
+                        />
+                      </div>
+                  
+                      <fieldset>
+    <legend>Footer:</legend>
               <div className="form-group">
-              <label>Anchor Text</label>
-              <Form.Control
-                name="anchorText"
-                type="text"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.anchorText}
-                className="form-control"
-              />
-           </div>
-              <div className="form-group">
-              <label>Anchor Link</label>
-              <Form.Control
-                name="anchorLink"
-                type="text"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.anchorLink}
-                className="form-control"
-                id="exampleFormControlTextarea1"
-              />
-           </div>
-              <div className="form-group">
-              <label>Footer Content </label>
-              <Form.Control
+              <label>Content </label>
+              <textarea
                 name="BodyFootercontent1"
                 type="text"
                 onChange={formik.handleChange}
@@ -300,7 +288,7 @@ const Format2 = (props) => {
               />
            </div>
               <div className="form-group">
-              <label>Footer Left Content 1</label>
+              <label>Left Content 1</label>
               <Form.Control
                 name="BodyFootercontent2"
                 type="text"
@@ -312,7 +300,7 @@ const Format2 = (props) => {
               />
            </div>
               <div className="form-group">
-              <label>Footer Left Content 2</label>
+              <label>Left Content 2</label>
               <Form.Control
                 name="BodyFootercontent3"
                 type="text"
@@ -322,8 +310,9 @@ const Format2 = (props) => {
                 className="form-control"
                 id="exampleFormControlTextarea1"
               />
-           </div>    
-         
+           </div> 
+              
+         </fieldset>
         {/* end of middle content*/}
         
 
@@ -449,10 +438,7 @@ const Format2 = (props) => {
         </div>
         </div>
         </div>
-        {/* end of right sidebar */}
-{props.mode?.id?<Button type="submit">Update</Button>: <Button type="submit">Save</Button>}
-        
-       
+        {/* end of right sidebar */}    
         </form>
         </Col>
         <Col>
@@ -1017,7 +1003,7 @@ const Format2 = (props) => {
                                                 </Col>
                                                 <Col>
                                                 <div style={{textAlign:"right"}}>
-                                                  <a href={formik?.values?.anchorLink}>{formik?.values?.anchorText}</a>
+                                                  <a href="">Privacy policy</a>
                                                   <img style={{width:"170px"}} src="https://webinar.docintel.app/EAHAD2022/images/Octapharma_blue.png"/>
                                                   </div>
                                                 </Col>

@@ -82,7 +82,7 @@ const EventData = () => {
         setEvent(resp.data.data);
       } else {
         setEvent([]);
-        setMessage("No event found");
+        setMessage("Event not found");
       }
       event.preventDefault();
     })
@@ -508,7 +508,7 @@ const EventData = () => {
                           </div>
                         </div>
                           
-                          {/* <div className="mail-stats">
+                          <div className="mail-stats">
                         {deletestatus && (
                           <div className="dlt_btn">
                             <button
@@ -521,7 +521,7 @@ const EventData = () => {
                             </button>
                           </div>
                         )}
-                      </div> */}
+                      </div>
                         </div>
                         <div className="mail-stats">
                             <ul>
