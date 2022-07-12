@@ -116,84 +116,75 @@ const Registration = () => {
             <Button  onClick={()=>setModalShow1(true)}>Create Registration Page</Button>
         </div>}</>):null}
       </div>
-      <br/>
-      <br/>
-      <Row>
-              <Row>
-                <Col className="mb-5">
-                  <Table bordered hover>
-                    <thead>
-                      <tr>
-                        <th>Name</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {registrationPageList?<>{registrationPageList?.map((val, i) => (
-                        <tr key={i}>
-                          <td>{val.mode}-Registration Page</td>
-                          <td>
-                          <ul className="hcp-table-content-right">
-                            <div className="user-type-action">
-                              <button   onClick={(e) => {
-                               localStorage.setItem("EditRegistrationPageId",val.id);
-                               setTimeout(() => {
-                                navigate("/webinar/portal/NewRegistration");
-                              }, 1000);
-                              }} className="btn btn-primary btn-filled">
-                              <img
-                               
-                                alt="edit"
-                                src={path_image + "edit-btn.png"}
-                                />
-                                </button>
-                             <button onClick={()=>{loader("show"); setEventCode(val.code);setFormat(val.format);setMode(val.mode);setModalShow(true); setTimeout(() => {
-                              loader("hide")
-                             }, 1500);}} className="btn btn-primary btn-filled back">
-                              <img
-                                alt="Preview"
-                                src={path_image + "eye-svgrepo-com.svg"}
-                                style={{height:"25px",width:"25px"}}
-                                />
-                                </button>
-                                  <button  onClick={(e) => {
-                                setDeleteId(val.id)
-                                setModalShow3(true)
-                              }} className="btn btn-primary btn-filled">
-                              <img
-                                alt="Delete"
-                                src={path_image + "delete-btn.png"}
-                                />
-                                </button>
-                                <button onClick={(e)=>{setCopy(i);setTimeout(() => {
-                                  setCopy()
-                                }, 1000); navigator.clipboard.writeText(`${BaseUrlImage}/SH2022/index${val.format}.php?event=${val.code}&mode=${val.mode}`)}} className="btn btn-primary btn-filled back">
-                              <img                                    
-                                alt="Preview"
-                                src={path_image + "copy-link.svg"}
-                                
-                                />
-                                </button>{
-                                  copy==i?<p>Copied</p>:null
-                                }
-                                
-                                </div>
-                                </ul>
-                          </td>
-                        </tr>
-                      ))}</>:  <div className="hcp-table-content">
-                        <br/>
-                      {massage}
-                    </div>}
-                     
-                    </tbody>
-                  </Table>
-                </Col>
-              </Row>
-           
-      
-
-      </Row>
+        <div className="registration-table">
+          <Table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {registrationPageList?<>{registrationPageList?.map((val, i) => (
+                <tr key={i}>
+                  <td>{val.mode}-Registration Page</td>
+                  <td>
+                  <ul className="hcp-table-content-right">
+                    <div className="user-type-action">
+                      <button   onClick={(e) => {
+                        localStorage.setItem("EditRegistrationPageId",val.id);
+                        setTimeout(() => {
+                        navigate("/webinar/portal/NewRegistration");
+                      }, 1000);
+                      }} className="btn btn-primary btn-filled">
+                      <img
+                        
+                        alt="edit"
+                        src={path_image + "edit-btn.png"}
+                        />
+                        </button>
+                      <button onClick={()=>{loader("show"); setEventCode(val.code);setFormat(val.format);setMode(val.mode);setModalShow(true); setTimeout(() => {
+                      loader("hide")
+                      }, 1500);}} className="btn btn-primary btn-filled back">
+                      <img
+                        alt="Preview"
+                        src={path_image + "eye-svgrepo-com.svg"}
+                        style={{height:"25px",width:"25px"}}
+                        />
+                        </button>
+                          <button  onClick={(e) => {
+                        setDeleteId(val.id)
+                        setModalShow3(true)
+                      }} className="btn btn-primary btn-filled">
+                      <img
+                        alt="Delete"
+                        src={path_image + "delete-btn.png"}
+                        />
+                        </button>
+                        <button onClick={(e)=>{setCopy(i);setTimeout(() => {
+                          setCopy()
+                        }, 1000); navigator.clipboard.writeText(`${BaseUrlImage}/SH2022/index${val.format}.php?event=${val.code}&mode=${val.mode}`)}} className="btn btn-primary btn-filled back">
+                      <img                                    
+                        alt="Preview"
+                        src={path_image + "copy-link.svg"}
+                        
+                        />
+                        </button>{
+                          copy==i?<p>Copied</p>:null
+                        }
+                        
+                        </div>
+                        </ul>
+                  </td>
+                </tr>
+              ))}</>:  <div className="hcp-table-content">
+                <br/>
+              {massage}
+            </div>}
+              
+            </tbody>
+          </Table>
+        </div>
       <Modal
         show={modalShow}
         id="webinar_event"

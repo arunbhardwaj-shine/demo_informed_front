@@ -122,7 +122,7 @@ const Format1 = (props) => {
     });
   return (
     <>
-       <ToastContainer
+       {/* <ToastContainer
         position="top-right"
         autoClose={5000}
         hideProgressBar={false}
@@ -132,18 +132,17 @@ const Format1 = (props) => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-      />
-       <div className="loader" id="custom_loader">
+      /> */}
+      {/* <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
-    </div>
+      </div> */}
 
     <div className="top-header">
     {props?.data||data?<Button onClick={()=>{loader("show") ;setModalShow(true); setTimeout(() => {
         loader("hide")
       }, 1500);}}>Preview</Button>:null}
     </div>
-    <Row>
-            <div className="webinar-modal-data">
+    <div className="webinar-modal-data">
               <div className="registration_form">
                 <Col onChange={formik.handleSubmit} className="registration_left">
                   <form onSubmit={formik.handleSubmit}>
@@ -302,25 +301,17 @@ const Format1 = (props) => {
         {/* end of color div content */}
         </div>
           {/* right sidebar */}
-          <div className="reg-right-sidebar">
+          <div className="reg-center-checkbox">
         {/* fields content */}
         <div className="reg-fields-div">
         <div className="email-result">
-          <div className="email-result-block">
-          <div  className="email_box_block">
-                  <div
-                    className={
-                      "email_box "+" approved" 
-                    }
-                  >
-                    <div className="mail-box-content">
-                      <div className="mail-box-content-top">
-                        <div className="mail-box-content-top-view">
-                          <h5>{"Fields"}</h5>
-        <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 ">
+          <div className={"reg-fields-div-block"}>
+            <div className="mail-box-content">
+              <div className="mail-box-content-top">
+                <div className="mail-box-content-top-view">
+                  <h5>{"Fields"}</h5>
+              <div className="form-group">
                 <label>Name</label>
-                <div className="form-inline-option">
                 <div className="form-check">
                 <Form.Control
                   name="name"
@@ -331,11 +322,8 @@ const Format1 = (props) => {
                   type="checkbox"
                 />
               </div>
-              </div>
             </div>
-            </div>
-        <div className="form-inline row justify-content-between align-items-center">
-              <div className="form-group col-12 ">
+              <div className="form-group">
                 <label>Country</label>
                 <div className="form-check">
                 <Form.Control
@@ -353,28 +341,18 @@ const Format1 = (props) => {
             </div>
             </div>
             </div>
-            </div>
-            </div>
-            </div>
         </div>
         {/* end of fields content */}
         
         {/* color div content */}
-        <div  className="reg-color-div">
+        <div className="reg-fields-div">
         <div className="email-result">
-          <div className="email-result-block">
-          <div  className="email_box_block">
-                  <div
-                    className={
-                      "email_box "+" approved" 
-                    }
-                  >
-                                        <div className="mail-box-content">
-                      <div className="mail-box-content-top">
-                        <div className="mail-box-content-top-view">
+          <div className={"reg-fields-div-block"}>
+            <div className="mail-box-content">
+              <div className="mail-box-content-top">
+                <div className="mail-box-content-top-view">
                           <h5>{"Color"}</h5>
-        <div className="form-inline row justify-content-between align-items-center">
-                      <div className="form-group col-12 col-md-11">
+                      <div className="form-group">
                       <label>Title</label>
                       <Form.Control
                       name='titleColor'
@@ -386,9 +364,7 @@ const Format1 = (props) => {
                        title="Choose your color"
 	                   />
                    </div>
-                   </div>
-                <div className="form-inline row justify-content-between align-items-center">
-                      <div className="form-group col-12 col-md-11">
+                      <div className="form-group">
                       <label>Text</label>
                       <Form.Control
                       name='textColor'
@@ -400,9 +376,7 @@ const Format1 = (props) => {
                        title="Choose your color"
 	                   />
                    </div>
-                   </div>
-                <div className="form-inline row justify-content-between align-items-center">
-                      <div className="form-group col-12 col-md-11">
+                      <div className="form-group">
                       <label >Background</label>
                       <Form.Control
                       name='backgroundColor'
@@ -414,9 +388,7 @@ const Format1 = (props) => {
                        title="Choose your color"
 	                   />
                    </div>
-                   </div>
-                <div className="form-inline row justify-content-between align-items-center">
-                      <div className="form-group col-12 col-md-11">
+                      <div className="form-group">
                       <label >Border</label>
                       <Form.Control
                       name='borderColor'
@@ -429,9 +401,6 @@ const Format1 = (props) => {
 	                   />
                    </div>
                    </div>
-                   </div>
-                  </div>
-                  </div>
                   </div>
                   </div>
                   </div>
@@ -447,24 +416,23 @@ const Format1 = (props) => {
         </form>
         </Col>
         {console.log("12px solid "+formik.values.borderColor)}
-        <Col style={{height:"1100px",width:"678px"}}>
+        <Col>
         <div class="login-wrapper" style={{backgroundColor:formik.values.backgroundColor, border:"2px solid "+formik.values.borderColor}}>
       <div class="login-wrapper-inside" >
-         <div class="container">
-            <div class="row">
-               <div class="col-sm-12 col-md-12">
                   <div class="log-inner">
                      <div class="head-sec">
-                        <h2 class="top-title"style={{color:formik?.values?.titleColor}} >
-                        {formik?.values?.Title1}                       </h2>                           <div class="motivate_logo"><img id="imgVieww" src={props?.data?.titleLogo?props?.data?.titleLogo:""} alt="Motivate Logo" style={{width:"250px"}}/></div>
-                         <h2 class="top-title-green" style={{color:formik?.values?.titleColor}}>{formik?.values?.Title2}</h2>
-                         <h2 class="top-title-green" style={{color:formik?.values?.titleColor}}>{formik?.values?.Title3}</h2>
+                        <h3 class="top-title"style={{color:formik?.values?.titleColor}} >
+                        {formik?.values?.Title1}
+                        </h3>                           
+                        <div class="motivate_logo"><img id="imgVieww" src={props?.data?.titleLogo?props?.data?.titleLogo:""} alt="Motivate Logo" style={{width:"250px"}}/></div>
+                         <h4 class="top-title-green" style={{color:formik?.values?.titleColor}}>{formik?.values?.Title2}</h4>
+                         <h4 class="top-title-green" style={{color:formik?.values?.titleColor}}>{formik?.values?.Title3}</h4>
                         <div class="mid-section" style={{color:formik?.values?.textColor}}>
                            <div class="mid-section-center">
                                 <p>{formik?.values?.Speakername}</p>
-                               <p>{formik?.values?.eventtime}</p>
+                                 <p>{formik?.values?.eventtime}</p>
                                 <p>{formik?.values?.eventdate}</p>
-                        </div>
+                            </div>
                         </div>
                         <div class="head-sec-boxes" style={{color:formik?.values?.textColor}}>
                            <div class="boxes-col-center">
@@ -1007,13 +975,9 @@ const Format1 = (props) => {
                         </div>
                      </div>
                   </div>
-               </div>     
-            </div>
-         </div>
                 </Col>
         </div>
         </div>
-        </Row>
         <Modal
         className='w3-container w3-center w3-animate-top'
         show={modalShow}

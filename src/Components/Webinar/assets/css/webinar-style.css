@@ -5367,24 +5367,16 @@ form .form-inline .form-alias { padding-left: 100px; color: #000; font-size: 14p
 .create-registration .form-inline .form-group .form-inline-option { display: flex; }
 
 /* Registration page style */
-.reg-sidbar{
-    float: left;
-    width: 150px;           
+
+.reg-sidbar {
+  width: 130px;
+  flex: 0 0 auto;
 }
 .reg-sidbar-img{
 width: 80px;
 height: 100px;
 }
-/* .reg-middle-div{
-    width: 600px;
-    float: left;
-} */
-/* .reg-right-sidebar{
-    float: right;
-}
-.reg-fields-div{
-  float: right; 
-} */
+
 /* End of Registration page style */
 
 .form-inline .form-group input[type="radio"], .form-inline .form-group input[type="checkbox"] {
@@ -5402,6 +5394,7 @@ height: 100px;
   display: flex;
   justify-content: flex-start;
   width: 100%;
+  margin-top: 40px;
 }
 .modal-body iframe {
   width: 100%;
@@ -5412,6 +5405,7 @@ height: 100px;
 }
 .reg-block .select-mail-template {
   flex: 1 1 auto;
+  margin-top: 0;
 }
 .modal-dialog .modal-content {
   max-height: 80vh;
@@ -5420,6 +5414,149 @@ height: 100px;
 .reg-middle-div .form-group {
   margin-bottom: 15px;
 }
+.registration-table {
+  margin-top: 40px;
+}
+.registration-table table {
+  border-collapse: separate;
+  border-spacing: 0px 10px;
+}
+
+.registration-table table th {
+  font-size: 13px;
+  line-height: 15px;
+  color: var(--blue);
+  font-family: 'Roboto-Medium';
+  font-weight: 500;
+  border: 0;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.registration-table table td {
+  vertical-align: middle;
+  font-size: 13px;
+  line-height: 15px;
+  color: #4E718E;
+  font-family: 'Roboto-Light';
+  padding: 15px 10px;
+  border: 0;
+  background: var(--white);
+}
+
+.registration-table table tbody tr {
+  background: transparent;
+  box-shadow: 0px 1px 6px rgb(0 102 190 / 20%);
+  border-radius: 13px;
+  border-spacing: 0px 10px;
+}
+
+.registration-table table td:last-child {
+  padding: 15px 10px;
+}
+
+.registration-table table td ul {
+  margin: 0;
+  padding: 0;
+}
+
+.registration-table table td ul button:first-child {
+  margin-left: 0;
+}
+.reg-block .select-mail-template .top-header {
+  justify-content: flex-end;
+}
+.reg-center-checkbox {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.reg-center-checkbox .mail-box-content {
+  padding: 15px;
+  box-shadow: 0px 3px 10px -3px rgb(0 102 190 / 20%);
+  border-radius: 20px;
+  min-height: 190px;
+  margin-bottom: 20px;
+}
+.reg-center-checkbox .reg-fields-div {
+  width: 48%;
+}
+.registration_form .form-inline .form-group input.form-control-color {
+  flex: 1 1 auto;
+  width: 50px;
+  padding: 0;
+  border: 0;
+}
+.registration_form .reg-fields-div-block .form-inline .form-group label {
+  width: 100px;
+  flex: 0 0 auto;
+  font-size: 16px;
+}
+.reg-fields-div-block  .form-inline {
+  margin: 0;
+}
+.reg-fields-div .email-result {
+  margin: 0;
+}
+.reg-middle-div .reg-fields-div .form-group label {
+  font-size: 16px;
+  color: #848484;
+}
+.reg-middle-div .reg-fields-div .form-group label {
+  font-size: 16px;
+  color: #848484;
+  flex: 1 1 auto;
+  width: 60px;
+}
+.mail-box-content-top-view .form-group {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+.mail-box-content-top-view .form-group .form-check {
+  margin: 0;
+  padding: 0;
+}
+.mail-box-content-top-view .form-group .form-check input.form-control[value="true"] {
+  border: 3px solid #0066be;
+  background: #fff;
+}
+ .mail-box-content .mail-box-content-top-view  h5 {
+  margin: 0 0 11px;
+}
+.mail-box-content-top-view .form-group input.form-control-color {
+  padding: 0px;
+  border: 0;
+  width: 100px;
+}
+.login-wrapper {
+  padding: 30px;
+  border-radius: 20px;
+}
+.login-wrapper-inside .head-sec .top-title {
+  text-align: center;
+  text-transform: inherit;
+  margin-bottom: 15px;
+}
+.login-wrapper-inside .head-sec .motivate_logo, .login-wrapper-inside .head-sec .top-title-green, .login-wrapper-inside .head-sec .head-sec-boxes, .login-wrapper-inside .head-sec .mid-section {
+  text-align: center;
+  margin-bottom: 15px;
+}
+.login-wrapper-inside .head-sec .top-title-green, .login-wrapper-inside .head-sec .mid-section p  {
+  font-family: 'Roboto-Bold';
+}
+.login-wrapper-inside .head-sec .mid-section p {
+  margin: 0 0 4px;
+}
+
+
+
+
+
+
+
+
+
 
 
 /**Responsive**/
