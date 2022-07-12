@@ -5657,6 +5657,9 @@ height: 100px;
   order: 2;
   padding-left: 28px;
   position: relative;
+  max-width: 80%;
+  word-break: break-word;
+  flex: 1 1 auto;
 }
 #hcp-form [type='checkbox']:checked + label::before, #hcp-form [type='checkbox']:not(:checked) + label::before {
   content: '';
