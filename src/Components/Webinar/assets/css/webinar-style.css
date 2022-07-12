@@ -1400,8 +1400,8 @@ ul.tabnav-link li {
   margin-bottom: 20px;
 }
 .form-inline .form-group label {
-  font-size: 18px;
-  line-height: 21px;
+  font-size: 15px;
+  line-height: 18px;
   text-transform: capitalize;
   color: var(--blue);
   width: 90px;
@@ -4867,7 +4867,7 @@ header nav.navbar .form-select,
 .registration_form {
   display: flex;
   justify-content: space-between;
-  margin-top: 40px;
+  margin-top: 0px;
 }
 .registration_right-view {
   border: 1px solid #c4c4c4;
@@ -4996,8 +4996,8 @@ header nav.navbar .form-select,
   margin-left: 5px;
 }
 .registration_form  .form-group label {
-  width: 187px;
-  flex: 0 0 187px;
+  width: 130px;
+  flex: 0 0 130px;
   color: #848484;
 }
 .registration_form .form-group input,
@@ -5010,8 +5010,8 @@ header nav.navbar .form-select,
   box-shadow: none;
   border-radius: 30px;
   border: 0;
-  font-size: 18px;
-  line-height: 21px;
+  font-size: 15px;
+  line-height: 18px;
   color: #848484;
   font-family: "Roboto-Light";
   padding: 12px 17px;
@@ -5822,8 +5822,18 @@ img.reg-sidbar-img.select_mm{
   line-height: 20px;
   color: var(--light-blue);
   font-family: 'Roboto-Medium';
+  padding: 0 13px;
 }
-
+.FooterContent {
+  margin-top: 30px;
+}
+.FooterContent p {
+  color: #2068b3;
+  font-family: 'Roboto', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  margin-bottom: 3px;
+}
 /**Responsive**/
 @media only screen and (min-width: 2000px) {
   .sidebar-menu ul {
