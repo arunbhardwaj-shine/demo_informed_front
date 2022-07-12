@@ -41,6 +41,9 @@ const Format1 = (props) => {
     });
 
   }
+  useEffect(() => {
+    handleGetRegistrationPageSingleData()
+  }, [])
   const handleGetRegistrationPageSingleData = () => {
     ExportApi.RegistrationPageSingleData(localStorage.getItem("EditRegistrationPageId")).then((resp) => {
       if (resp.ok&&resp.data.code==200) {
@@ -77,7 +80,7 @@ const Format1 = (props) => {
       },
       enableReinitialize: true,
       onSubmit: (values) => {
-        loader("show")
+        // loader("show")
         let jsonData ={
           Title1: values.Title1,
           Title2: values.Title2,
@@ -102,7 +105,7 @@ const Format1 = (props) => {
           ExportApi.RegistrationPageUpdate(localStorage.getItem("EditRegistrationPageId"),localStorage.getItem("EventIdHeader"),values.mode, JSON.stringify(jsonData),TemplateIdActive).then((resp) => {
           if (resp.ok) {
             if (resp.data.code == 200) {
-              toast.success(resp.data.message)
+              // toast.success(resp.data.message)
               handleGetRegistrationPageSingleData()
               setData(resp.data.data)
               // setTimeout(() => { 
@@ -111,16 +114,12 @@ const Format1 = (props) => {
             } else {
               toast.error(resp.data.message);
             }
-            loader("hide")
+            // loader("hide")
           }
         });
       }
      
     });
-    useEffect(() => {
-    
-      handleGetRegistrationPageSingleData()
-    }, [])
   return (
     <>
        <ToastContainer
