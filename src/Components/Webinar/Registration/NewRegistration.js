@@ -14,14 +14,14 @@ const NewRegistration = () => {
     const [message, setMessage] = useState();
    
 const templateClicked = (template, e) => {
-  alert(TemplateIdActive)
+  // alert(TemplateIdActive)
       const div = document.querySelector("img.select_mm");
       if (div) {
         div.classList.remove("select_mm");
       }
       setTemplateIdActive(template);
       e.target.classList.toggle("select_mm");
-      alert(TemplateIdActive)
+      // alert(TemplateIdActive)
     };
  
 
@@ -95,7 +95,7 @@ const templateClicked = (template, e) => {
         {/* Sidebar */}
         <div className="reg-block">
         <div className="reg-sidbar">
-          {  alert(TemplateIdActive)}
+          {/* {  alert(TemplateIdActive)} */}
             <div  className={TemplateIdActive==1?"select-sm img":""} onClick={(e) => templateClicked(1,e)}>
                 <img  className={"reg-sidbar-img"} value={"virtual"} src={path_image + "content_added1.png"} alt="Format-1"  />
                 <p>{"Format 1"}</p>
