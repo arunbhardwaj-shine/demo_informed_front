@@ -430,15 +430,17 @@ const Format1 = (props) => {
                          <h4 class="top-title-green" style={{color:formik?.values?.titleColor}}>{formik?.values?.Title3}</h4>
                         <div class="mid-section" style={{color:formik?.values?.textColor}}>
                            <div class="mid-section-center">
-                                <p>{formik?.values?.Speakername}</p>
-                                 <p>{formik?.values?.eventtime}</p>
-                                <p>{formik?.values?.eventdate}</p>
+                                <h6>{formik?.values?.Speakername}</h6>
+                                 <h6>{formik?.values?.eventtime}</h6>
+                                <h6>{formik?.values?.eventdate}</h6>
                             </div>
                         </div>
                         <div class="head-sec-boxes" style={{color:formik?.values?.textColor}}>
                            <div class="boxes-col-center">
                               <p id="uppper_text" class="boldText"> 
                                {formik?.values?.content1}<br />
+                              </p>
+                              <p id="uppper_text" class="description_detail"> 
                                {formik?.values?.content2}<br/>
                                {formik?.values?.content3}<br/>
                                </p>
@@ -459,8 +461,8 @@ const Format1 = (props) => {
                                              <a href="javascript:;" class="change-btn">Change</a>
                                              <div class="options">
                                                 <p>I consent to</p>
-                                                </div>
                                                 <a href="javascript:;" class="slec_op" id="close_consent"style={{float:"right"}}>Done</a>
+                                                </div>
                                              </div>
                                           </div>
                                        </div>
@@ -470,7 +472,7 @@ const Format1 = (props) => {
                                              <p>
                                                 <label>
                                                 Country</label> 
-                                                <select class="country-list position-dropdown mobile-drop" name="country" id="country" style={{margin:"-31px 0px 0px 18px"}}>
+                                                <select class="country-list position-dropdown mobile-drop" name="country" id="country">
                                                    <option value="">Select State</option> 
                                                   
                                                       <option value="1">Afghanistan</option>
@@ -959,18 +961,16 @@ const Format1 = (props) => {
                                     </div>
                                  </div>{
                                   formik?.values?.name?<div class="form-group position-relative">
-                                  <input type="text" class="form-control" name="name" id="name" value="" placeholder="Name" />
-                               </div>:null
+                                    <input type="text" class="form-control" name="name" id="name" value="" placeholder="Name" />
+                                  </div>:null
                                  }                     
-                                          <div>
-                                         <input type="text" class="form-control" name="email" id="email" value="" placeholder="Email" />
-                                          </div>
-                                          <div>
-                                           <button class="sumit-btn" type="submit" id="signup_submit">Submit</button>
-                                           </div>     
-                                          </form>
-                                          </div>
-                                          </div>
+                                  <div className='form-group position-relativee'>
+                                    <input type="text" class="form-control" name="email" id="email" value="" placeholder="Email" />
+                                  </div>
+                                      <button class="sumit-btn" type="submit" id="signup_submit">Submit</button>   
+                                  </form>
+                                  </div>
+                                  </div>
                            </div>
                      </div>
                         </div>
