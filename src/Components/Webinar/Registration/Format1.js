@@ -57,7 +57,6 @@ const Format1 = (props) => {
       initialValues: {
         Title1:props.data?.Title1?props.data?.Title1: "",
         Title2:props.data?.Title2?props.data?.Title2: "",
-        Title3:props.data?.Title3?props.data?.Title3: "",
         mode:mode?.mode,
         Speakername:props.data?.Speakername?props.data?.Speakername:'',
         eventtime:props.data?.eventtime?props.data?.eventtime:'',
@@ -82,7 +81,6 @@ const Format1 = (props) => {
         let jsonData ={
           Title1: values.Title1,
           Title2: values.Title2,
-          Title3: values.Title3,
           consenttext :values.consenttext,
           consentRadiotext1:values.consentRadiotext1,
           consentRadiotext2:values.consentRadiotext2,
@@ -148,7 +146,7 @@ const Format1 = (props) => {
     <Row>
             <div className="webinar-modal-data">
               <div className="registration_form">
-                <Col className="registration_left">
+                <Col onChange={formik.handleSubmit} className="registration_left">
                   <form onSubmit={formik.handleSubmit}>
                     <div className="modal-body-content">
         {/* Middle content */}
@@ -174,17 +172,6 @@ const Format1 = (props) => {
                   value={formik.values.Title2}
                   type="text"
                   placeholder="Title 2"
-                />
-            </div>
-              <div className="form-group">
-                <label> Title 3</label>
-                <Form.Control
-                  name="Title3"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.Title3}
-                  type="text"
-                  placeholder="Title 3"
                 />
             </div>
                       <div className="form-group">
