@@ -56,6 +56,9 @@ const Registration = () => {
         }, 1000);
           // setData(resp.data.data)
         loader("hide")
+      }else{
+        alert("hh")
+        toast.error(resp.data.message)
       }
     });
   }
@@ -221,6 +224,17 @@ const Registration = () => {
           ></button>
         </Modal.Header>
         <Modal.Body>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
          {show?<select
                   onChange={(e)=>{localStorage.setItem("registrationPageId",e.target.value);localStorage.removeItem("EditRegistrationPageId"); setTimeout(() => {
                     localStorage.removeItem("EditRegistrationPageId")
@@ -273,6 +287,7 @@ const Registration = () => {
               className="btn btn-primary btn-filled"
               data-bs-dismiss="modal"
               onClick={() => {
+                setShow(false)
                    setModeShow(true)
                 // handleCreateRegistrationPage()
                 // localStorage.removeItem("registrationPageId");
