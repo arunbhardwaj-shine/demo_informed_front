@@ -333,10 +333,10 @@ const EventData = () => {
         </div>
     
     <div className="right-sidebar col">
-    <div className="custom-container">
+        <div className="custom-container">
         <div className="row">
-      <div className="top-header">
-      <div className="page-title">
+        <div className="top-header">
+        <div className="page-title">
             <h3>Events</h3>
           </div>
         

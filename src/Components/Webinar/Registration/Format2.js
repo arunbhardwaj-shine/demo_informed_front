@@ -442,16 +442,16 @@ const Format2 = (props) => {
         </form>
         </Col>
         <Col>
-        <div class="login-wrapper" style={{backgroundColor:formik.values.backgroundColor, border:"2px solid "+formik.values.borderColor}}>
-      <div class="login-wrapper-inside" >
-                  <div class="log-inner">
-                     <div class="head-sec">
-                        <h2 class="top-title"style={{color:formik?.values?.titleColor}} >
-                        {formik?.values?.Title1}                       </h2>                           <div class="motivate_logo"><img id="imgVieww" src={props?.data?.titleLogo?props?.data?.titleLogo:""} alt="Motivate Logo" style={{width:"250px"}}/></div>
-                         <h2 class="top-title-green" style={{color:formik?.values?.titleColor}}>{formik?.values?.Title2}</h2>
-                         <h2 class="top-title-green" style={{color:formik?.values?.titleColor}}>{formik?.values?.Title3}</h2>
-                        <div class="mid-section" style={{color:formik?.values?.textColor}}>
-                           <div class="mid-section-center">
+        <div className="login-wrapper" style={{backgroundColor:formik.values.backgroundColor, border:"2px solid "+formik.values.borderColor}}>
+      <div className="login-wrapper-inside" >
+                  <div className="log-inner">
+                     <div className="head-sec">
+                        <h2 className="top-title"style={{color:formik?.values?.titleColor}} >
+                        {formik?.values?.Title1}                       </h2>                           <div className="motivate_logo"><img id="imgVieww" src={props?.data?.titleLogo?props?.data?.titleLogo:""} alt="Motivate Logo" style={{width:"250px"}}/></div>
+                         <h2 className="top-title-green" style={{color:formik?.values?.titleColor}}>{formik?.values?.Title2}</h2>
+                         <h2 className="top-title-green" style={{color:formik?.values?.titleColor}}>{formik?.values?.Title3}</h2>
+                        <div className="mid-section" style={{color:formik?.values?.textColor}}>
+                           <div className="mid-section-center">
                                 {/* <p>{formik?.values?.Speakername}</p> */}
                                 <p>{formik?.values?.eventdate}</p>
                                <p>{formik?.values?.eventtime}</p>
@@ -459,41 +459,41 @@ const Format2 = (props) => {
                         </div>
                         </div>
                         <hr style={{color:formik?.values?.titleColor}} size={10}/>
-                        <div class="head-sec-boxes" style={{color:formik?.values?.textColor}}>
-                           <div class="boxes-col-center">
-                              <p id="uppper_text" class="boldText"> 
+                        <div className="head-sec-boxes" style={{color:formik?.values?.textColor}}>
+                           <div className="boxes-col-center">
+                              <p id="uppper_text" className="boldText"> 
                                {formik?.values?.content1}<br /><br/>
                                {formik?.values?.content2}<br/>
                                </p>
                             </div>
                         </div>
                      <div id="log-tabs">
-                        <div class="" id="nav-profile">
-                           <div class="login-from newaccount">
+                        <div className="" id="nav-profile">
+                           <div className="login-from newaccount">
                               <form id="hcp-form">
                                <div>
-                                 <div class="form-group">
-                                    <div class="radio">
-                                       <div class="form-group Consent">
-                                          <div class="form-group-left">
+                                 <div className="form-group">
+                                    <div className="radio">
+                                       <div className="form-group Consent">
+                                          <div className="form-group-left">
                                              <input type="checkbox"  id="fullconsent1" value="option1" name="fullconsent"/>
                                              <label for="fullconsent1"  id="consent-label">{formik?.values?.RadioButton}</label>  
-                                             <input type="hidden" class="fl_cnt_val" value="Full consent*"/>                 
-                                             <a href="javascript:;" class="change-btn">Change</a>
-                                             <div class="options">
+                                             <input type="hidden" className="fl_cnt_val" value="Full consent*"/>                 
+                                             <a href="javascript:;" className="change-btn">Change</a>
+                                             <div className="options">
                                                 <p>I consent to</p>
-                                                <a href="javascript:;" class="slec_op" id="close_consent"style={{float:"right"}}>Done</a>
+                                                <a href="javascript:;" className="slec_op" id="close_consent"style={{float:"right"}}>Done</a>
                                               </div>
                                              </div>
                                           </div>
                                        </div>
-                                         <div class="form-group-align">
+                                         <div className="form-group-align">
                                           <br/>
-                                          {formik?.values?.country==true?<div class="radio">
+                                          {formik?.values?.country==true?<div className="radio">
                                              <p>
                                                 <label>
                                                 Country</label> 
-                                                <select class="country-list position-dropdown mobile-drop" name="country" id="country" style={{margin:"-31px 0px 0px 18px"}}>
+                                                <select className="country-list position-dropdown mobile-drop" name="country" id="country" style={{margin:"-31px 0px 0px 18px"}}>
                                                    <option value="">Select State</option> 
                                                   
                                                       <option value="1">Afghanistan</option>
@@ -981,14 +981,14 @@ const Format2 = (props) => {
                                                                               
                                     </div>
                                  </div>{
-                                  formik?.values?.name?<div class="form-group position-relative">
-                                  <input type="text" class="form-control" name="name" id="name" value="" placeholder="Name" />
+                                  formik?.values?.name?<div className="form-group position-relative">
+                                  <input type="text" className="form-control" name="name" id="name" value="" placeholder="Name" />
                                </div>:null
                                  }                     
-                                          <div class="form-group position-relativee">
-                                            <input type="text" class="form-control" name="email" id="email" value="" placeholder="Email" />
+                                          <div className="form-group position-relativee">
+                                            <input type="text" className="form-control" name="email" id="email" value="" placeholder="Email" />
                                           </div>
-                                           <button class="sumit-btn" type="submit" id="signup_submit">Submit</button> 
+                                           <button className="sumit-btn" type="submit" id="signup_submit">Submit</button> 
                                           </form>
                                           <div className='FooterContent'>
                                                <p>{formik?.values?.BodyFootercontent1}</p>
