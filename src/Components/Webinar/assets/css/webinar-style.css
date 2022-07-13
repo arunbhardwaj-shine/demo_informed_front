@@ -5067,6 +5067,11 @@ header nav.navbar .form-select,
   position: relative;
   max-width: 320px;
   width: 100%;
+  flex-wrap: wrap;
+}
+#resend-confirm .modal-body .modal-buttons .reg-middle-div {
+  width: 100%;
+  flex: 0 0 100%;
 }
 #resend-confirm .modal-body .modal-buttons input[type="checkbox"] {
   position: absolute;
@@ -5537,6 +5542,8 @@ height: 100px;
   padding: 0px;
   border: 0;
   width: 100px;
+  height: auto;
+  background: transparent;
 }
 .login-wrapper {
   padding: 30px;
@@ -5841,6 +5848,40 @@ img.reg-sidbar-img.select_mm{
   font-weight: 500;
   margin-bottom: 3px;
 }
+.reg-middle-div fieldset {
+  display: block;
+  padding-block-start: 0.35em;
+  padding-inline-start: 0.75em;
+  padding-inline-end: 0.75em;
+  padding-block-end: 0.625em;
+  min-inline-size: min-content;
+  border-width: 2px;
+  border-style: groove;
+  border-color: var(--light-gray);
+  border-image: initial;
+  border-radius: 10px;
+  width: calc(100% - 30px);
+  margin: 0 auto 30px;
+}
+.reg-middle-div fieldset legend{
+display: block;
+padding-inline-start: 2px;
+padding-inline-end: 2px;
+border-width: initial;
+border-style: none;
+border-color: initial;
+border-image: initial;
+float:none;
+width:auto;
+color:#848484;
+}
+.mail-box-content .mail-stats .mail_send, .mail-box-content .mail-stats ul li span  {
+  font-size: 16px;
+  line-height: 15px;
+  color: var(--light-blue);
+  font-family: 'Roboto-Medium';
+}
+
 /**Responsive**/
 @media only screen and (min-width: 2000px) {
   .sidebar-menu ul {

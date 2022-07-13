@@ -260,8 +260,7 @@ const Registration = () => {
             {modeShow?
              <div className="reg-middle-div">  
              <div className="modal-body-content">
-             <div className="form-inline row justify-content-between align-items-center">
-             <div className="form-group col-12">
+             <div className="form-group">
                 <label>Mode</label>
                 <div className="form-inline-option">
                   <div className="form-check"><Form.Label> Virtual</Form.Label>
@@ -280,7 +279,7 @@ const Registration = () => {
                                  value="onsite"
                                  /></div>
                     </div>
-               </div></div></div> </div>:null}
+               </div></div> </div>:null}
          
             <button
               type="button"
