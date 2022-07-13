@@ -453,22 +453,22 @@ const Format1 = (props) => {
                                              <input type="checkbox"  id="fullconsent1" value="option1" name="fullconsent"/>
                                              <label for="fullconsent1"  id="consent-label">Full Consent</label>  
                                              <input type="hidden" className="fl_cnt_val" value="Full consent*"/>                 
-                                             <a href="javascript:;"  className="change-btn"><p onClick={()=>setOption(!option)}>Change</p></a>
+                                             <a href="javascript:;"onClick={()=>setOption(!option)}  className="change-btn"><p>Change</p></a>
                                           {   console.log(option)}
                                              {option?<div className="options">
                                              <p>I consent to</p>
-                                              <div className="option-list">
+                                             {formik?.values?.consentRadiotext1?   <div className="option-list">
                                                 <input className='form-check-input consent-radio-box' type="checkbox" />
                                                 <label>{formik?.values?.consentRadiotext1}</label>
-                                              </div>
-                                              <div className="option-list">
+                                              </div>:null}
+                                             {formik?.values?.consentRadiotext2?   <div className="option-list">
                                                 <input className='form-check-input consent-radio-box' type="checkbox" />
                                                 <label>{formik?.values?.consentRadiotext2}</label>
-                                              </div>
-                                              <div className="option-list">
+                                              </div>:null}
+                                             {formik?.values?.consentRadiotext3?   <div className="option-list">
                                                 <input className='form-check-input consent-radio-box' type="checkbox" />
                                                 <label>{formik?.values?.consentRadiotext3}</label>
-                                              </div>
+                                              </div>:null}
                                                 <a href="javascript:;" className="slec_op" id="close_consent"style={{float:"right"}}><p onClick={()=>setOption(!option)}> Done </p></a>
                                                 </div>:null}
                                              </div>
