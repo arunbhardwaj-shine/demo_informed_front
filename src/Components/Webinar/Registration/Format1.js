@@ -969,13 +969,13 @@ const Format1 = (props) => {
                                     </div>
                                  </div>{
                                   formik?.values?.name?<div className="form-group position-relative">
-                                    <input type="text" className="form-control" name="name" id="name" value="" placeholder="Name" />
+                                    <input type="text" className="form-control" name="name" id="name"  placeholder="Name" />
                                   </div>:null
                                  }                     
                                   <div className='form-group position-relativee'>
-                                    <input type="text" className="form-control" name="email" id="email" value="" placeholder="Email" />
+                                    <input type="text" className="form-control" name="email" id="email"  placeholder="Email" />
                                   </div>
-                                      <button className="sumit-btn" type="submit" id="signup_submit">Submit</button>   
+                                      <button className="sumit-btn" id="signup_submit">Submit</button>   
                                   </form>
                                   </div>
                                   </div>
