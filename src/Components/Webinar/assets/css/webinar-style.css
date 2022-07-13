@@ -2486,14 +2486,12 @@ form#add_hcp_form .row:not(:first-child) {
   margin-top: 33px;
 }
 .send-confirm .modal-body .modal-buttons button {
-  min-width: 113px;
+  min-width: 130px;
   height: 51px;
   line-height: 1;
 }
 .send-confirm .modal-body .modal-buttons button.light {
-  border-color: var(
-    --skyblue
-  ); /*box-shadow: 0px 3px 10px -3px rgba(0, 102, 190, 0.2); */
+  border-color: var(--skyblue);
   color: var(--white);
   background: rgba(151, 182, 207, 0.6);
 }
@@ -5065,7 +5063,7 @@ header nav.navbar .form-select,
 #resend-confirm .modal-body .modal-buttons {
   justify-content: space-between;
   position: relative;
-  max-width: 320px;
+  max-width: 350px;
   width: 100%;
   flex-wrap: wrap;
 }
@@ -5083,9 +5081,9 @@ header nav.navbar .form-select,
   z-index: 1;
   cursor: pointer;
 }
-
-#resend-confirm .modal-body {
+#resend-confirm .modal-body, .modal-dialog .modal-content .modal-body{
   padding: 0 32px 30px;
+  overflow-y: auto;
 }
 .mailbox-buttons button.btn-bordered a {
   color: var(--light-blue);
@@ -5415,7 +5413,6 @@ height: 100px;
 }
 .modal-dialog .modal-content {
   max-height: 80vh;
-  height: 100%;
 }
 .reg-middle-div .form-group {
   margin-bottom: 15px;
@@ -5427,8 +5424,10 @@ height: 100px;
   border-collapse: separate;
   border-spacing: 0px 10px;
 }
-#resend-confirm.modal-dialog .modal-content {
+
+#resend-confirm.modal-dialog .modal-content, .modal-dialog .modal-content {
   height: initial;
+  padding: 10px 10px 20px;
 }
 .registration-table table th {
   font-size: 13px;
@@ -5881,6 +5880,113 @@ color:#848484;
   color: var(--light-blue);
   font-family: 'Roboto-Medium';
 }
+.select_mode .form-group h4 {
+  color: #0066BE;
+  font-family: 'Roboto-Medium';
+  margin: 0 0 20px;
+}
+.select_mode .form-group .form-inline-option .form-check {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+.send-confirm .modal-body .modal-buttons button {
+  margin: 0;
+}
+.select_mode .form-group .form-inline-option .form-check label.form-label {
+    margin: 0;
+    padding: 0 2px 0 0;
+}
+
+.select_mode .form-group .form-inline-option .form-check input[type="radio"] {
+    margin-right: 0px;
+}
+.select_mode .form-group .form-check-option input:checked ~ .checkmark {
+  background-color: var(--green);
+  border-color: var(--green);
+}
+
+.select_mode .form-group .form-check-option span.checkmark {
+  border: 1px solid var(--skyblue);
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: inline-block;
+  top: 1px;
+  position: relative;
+}
+.copy_exixting {
+  border: 1px dashed #0066BE;
+  border-radius: 15px;
+  padding: 35px;
+}
+.select_mode .form-group .form-check-option input {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 5;
+}
+.select_mode .form-group .form-check-option .checkmark:after {
+  left: 5px;
+  top: 2px;
+  width: 5px;
+  height: 9px;
+  border: solid var(--white);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  content: "";
+  position: absolute;
+}
+.select_mode .form-group .form-check-option input:checked ~ .checkmark:after {
+  display: block;
+}
+.select_mode .form-group .form-check-option:nth-child(2) label.form-label {
+  padding: 0 5px 0 0;
+}
+.select_mode .form-group .form-check-option {
+  margin: 0 15px 0 0;
+  position: relative;
+}
+#resend-confirm select {
+  border: 1px solid var(--light-blue);
+  color: var(--light-blue);
+  border-radius: 30px;
+  font-size: 18px;
+  width: 100%;
+  max-width: 71%;
+  margin: 0 auto;
+  display: block;
+}
+.select_mode .form-group .form-inline-option {
+  margin-bottom: 20px;
+  border: 1px dashed #0066BE;
+  border-radius: 15px;
+  padding: 35px;
+}
+
+.select_mode, .copy_exixting {
+  margin-bottom: 30px;
+}
+.create-registration #resend-confirm .modal-body {
+  padding: 15px 32px 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 /**Responsive**/
 @media only screen and (min-width: 2000px) {

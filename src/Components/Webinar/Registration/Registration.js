@@ -8,6 +8,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { loader } from "../../../loader";
 import { BaseUrlImage } from "../../../Api/BaseApi";
+import { Divider } from "@material-ui/core";
 const Registration = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_WEBINAR;
   const [modalShow, setModalShow] = useState(false);
@@ -214,7 +215,7 @@ const Registration = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-      <Modal show={modalShow1} className="send-confirm" id="resend-confirm">
+      <Modal show={modalShow1} className="send-confirm create-registration" id="resend-confirm">
         <Modal.Header>
           <button
             type="button"
@@ -235,12 +236,12 @@ const Registration = () => {
           draggable
           pauseOnHover
         />
-         {show?<select
+         {show?<div className="copy_exixting"><select
                   onChange={(e)=>{localStorage.setItem("registrationPageId",e.target.value);localStorage.removeItem("EditRegistrationPageId"); setTimeout(() => {
                     localStorage.removeItem("EditRegistrationPageId")
                     navigate("/webinar/portal/NewRegistration");
                   }, 1000);}}
-                  className="form-select-lg mb-3"
+                  className="form-select-lg"
                   aria-label=".form-select-lg example"
                 >
                   <option selected>Select Registration Page</option>
@@ -253,34 +254,42 @@ const Registration = () => {
                     </React.Fragment>
                   ))}
          </select>
-
+</div>
           :null}
-           {/* {console.log("val",registrationPageList)} */}
-          <div className="modal-buttons">
-            {modeShow?
-             <div className="reg-middle-div">  
+          
+          {modeShow?<div className="select_mode">
              <div className="modal-body-content">
              <div className="form-group">
-                <label>Mode</label>
+                <h4>Mode</h4>
                 <div className="form-inline-option">
-                  <div className="form-check"><Form.Label> Virtual</Form.Label>
-                              <Form.Control
+                  <div className="form-check">
+                    <div className="form-check-option">
+                    <Form.Label> Virtual</Form.Label>
+                              <input
                                name="mode"
                                 type="radio"
                                 onChange={()=>{handleCreateRegistrationPage("virtual")}}
                                 value={"virtual"}
 
-                              />  <Form.Label>Onsite</Form.Label>
-                              <Form.Control
+                              /> <span class="checkmark"></span>
+                    </div>
+                    <div className="form-check-option">
+                     <Form.Label>Onsite</Form.Label>
+                              <input
                                  name="mode"
                                  type="radio"
                                  onChange={()=>{handleCreateRegistrationPage("onsite")}}
                                  
                                  value="onsite"
-                                 /></div>
+                                 /><span class="checkmark"></span>
                     </div>
-               </div></div> </div>:null}
-         
+                    </div>
+                    </div>
+               </div></div></div>:null}
+
+          
+           {/* {console.log("val",registrationPageList)} */}
+          <div className="modal-buttons">
             <button
               type="button"
               className="btn btn-primary btn-filled"
