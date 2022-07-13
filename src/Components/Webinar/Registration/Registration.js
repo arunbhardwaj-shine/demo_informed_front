@@ -47,7 +47,8 @@ const Registration = () => {
   const handleGetRegistrationPagedata = (e) => {
     ExportApi.RegistrationPageCopyData(e).then((resp) => {
       if (resp.ok&&resp.data.code==200) {
-        setModalShow(false);
+        handleGetRegistrationPageList(localStorage.getItem("EventIdHeader"))
+        setModalShow1(false)
           // console.log(resp.data.data)
           // setData(JSON.parse(resp.data.data?.json_data))
         }
@@ -232,7 +233,7 @@ const Registration = () => {
             type="button"
             className="btn-close"
             data-bs-dismiss="modal"
-            onClick={() => setModalShow1(false)}
+            onClick={() => {setModalShow1(false); setShow(false);setModeShow(false)}}
           ></button>
         </Modal.Header>
         <Modal.Body>
@@ -248,10 +249,7 @@ const Registration = () => {
           pauseOnHover
         />
          {show?<div className="copy_exixting"><select
-                  onChange={(e)=>{localStorage.setItem("registrationPageId",e.target.value);localStorage.removeItem("EditRegistrationPageId"); setTimeout(() => {
-                    localStorage.removeItem("EditRegistrationPageId")
-                    navigate("/webinar/portal/NewRegistration");
-                  }, 1000);}}
+                  onChange={(e)=>{localStorage.setItem("registrationPageId",e.target.value);localStorage.removeItem("EditRegistrationPageId");handleGetRegistrationPagedata(e.target.value)}}
                   className="form-select-lg"
                   aria-label=".form-select-lg example"
                 >
@@ -265,7 +263,7 @@ const Registration = () => {
                     </React.Fragment>
                   ))}
          </select>
-</div>
+        </div>
           :null}
           
           {modeShow?<div className="select_mode">

@@ -16,6 +16,7 @@ const Format1 = (props) => {
   const [titleLogo, setTitleLogo] = useState();
   const [data, setData] = useState();
   const [mode, setMode] = useState();
+  const [option, setOption] = useState(false);
   const [render, setRender] = useState(1);
   const [modalShow, setModalShow] = useState(false);
   const uploadImageTitleLogo=(e)=>{
@@ -452,11 +453,25 @@ const Format1 = (props) => {
                                              <input type="checkbox"  id="fullconsent1" value="option1" name="fullconsent"/>
                                              <label for="fullconsent1"  id="consent-label">Full Consent</label>  
                                              <input type="hidden" className="fl_cnt_val" value="Full consent*"/>                 
-                                             <a href="javascript:;" className="change-btn">Change</a>
-                                             <div className="options">
-                                                <p>I consent to</p>
-                                                <a href="javascript:;" className="slec_op" id="close_consent"style={{float:"right"}}>Done</a>
+                                             <a href="javascript:;"  className="change-btn"><p onClick={()=>setOption(!option)}>Change</p></a>
+                                          {   console.log(option)}
+                                             {option?<div className="options">
+                                             <div className="form-group">
+                                              <div className="form-check">
+                                              <Form.Control
+                                                type="checkbox"
+                                                />
+                                                <label>Name</label>
                                                 </div>
+                                            </div>
+                                            <Form.Control
+                                                type="checkbox"
+                                                />
+                                             <p>{formik?.values?.consentRadiotext1}</p>
+                                                <p>{formik?.values?.consentRadiotext2}</p>
+                                                <p>{formik?.values?.consentRadiotext3}</p>
+                                                <a href="javascript:;" className="slec_op" id="close_consent"style={{float:"right"}}><p onClick={()=>setOption(!option)}> Done </p></a>
+                                                </div>:null}
                                              </div>
                                           </div>
                                        </div>

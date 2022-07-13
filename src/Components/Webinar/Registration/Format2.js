@@ -479,7 +479,7 @@ const Format2 = (props) => {
                                              <input type="checkbox"  id="fullconsent1" value="option1" name="fullconsent"/>
                                              <label for="fullconsent1"  id="consent-label">{formik?.values?.RadioButton}</label>  
                                              <input type="hidden" className="fl_cnt_val" value="Full consent*"/>                 
-                                             <a href="javascript:;" className="change-btn">Change</a>
+                                             {/* <a href="javascript:;" className="change-btn">Change</a> */}
                                              <div className="options">
                                                 <p>I consent to</p>
                                                 <a href="javascript:;" className="slec_op" id="close_consent"style={{float:"right"}}>Done</a>
