@@ -5638,10 +5638,8 @@ height: 100px;
   top: 35px;
   right: 0px;
   background: #fff;
-  display: none;
   z-index: 9;
   margin-right: 0px;
-  display:none;
 }
 #hcp-form .Consent .form-group-left .options {
   order: 5;
