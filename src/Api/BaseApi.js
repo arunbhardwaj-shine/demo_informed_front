@@ -1,6 +1,6 @@
 import { create } from 'apisauce';
 const BaseApi = create({
-    baseURL: 'http://192.168.0.101:8000/api',
+     baseURL: 'http://192.168.0.101:8000/api',
     //  baseURL: 'https://webinarapi.shinedezign.pro/api',
     headers: {Authorization: localStorage.getItem("Token")},
 });

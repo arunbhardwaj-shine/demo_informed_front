@@ -44,10 +44,21 @@ const Registration = () => {
       }
     });
   };
+  const handleGetRegistrationPagedata = (e) => {
+    ExportApi.RegistrationPageCopyData(e).then((resp) => {
+      if (resp.ok&&resp.data.code==200) {
+        setModalShow(false);
+          // console.log(resp.data.data)
+          // setData(JSON.parse(resp.data.data?.json_data))
+        }
+    }) .catch((err) => {
+      loader("hide");
+    });
+  };
   const handleCreateRegistrationPage=(mode)=>{
-
     ExportApi.CreateRegistrationPage(localStorage.getItem("EventIdHeader"),mode).then((resp) => {
-      if (resp.ok&&resp.data.code == 200) {
+      if (resp.ok) {
+        toast.error(resp.data.message)
         // console.log(resp.data)
         localStorage.setItem("EditRegistrationPageId",resp.data.data.id)
         handleGetRegistrationPageList()
@@ -135,7 +146,7 @@ const Registration = () => {
                   <td>
                   <ul className="hcp-table-content-right">
                     <div className="user-type-action">
-                      <button   onClick={(e) => {
+                      <button title="Edit"  onClick={(e) => {
                         localStorage.setItem("EditRegistrationPageId",val.id);
                         setTimeout(() => {
                         navigate("/webinar/portal/NewRegistration");
@@ -147,7 +158,7 @@ const Registration = () => {
                         src={path_image + "edit-btn.png"}
                         />
                         </button>
-                      <button onClick={()=>{loader("show"); setEventCode(val.code);setFormat(val.format);setMode(val.mode);setModalShow(true); setTimeout(() => {
+                      <button title="Preview"  onClick={()=>{loader("show"); setEventCode(val.code);setFormat(val.format);setMode(val.mode);setModalShow(true); setTimeout(() => {
                       loader("hide")
                       }, 1500);}} className="btn btn-primary btn-filled back">
                       <img
@@ -156,7 +167,7 @@ const Registration = () => {
                         style={{height:"25px",width:"25px"}}
                         />
                         </button>
-                          <button  onClick={(e) => {
+                          <button title="Delete"  onClick={(e) => {
                         setDeleteId(val.id)
                         setModalShow3(true)
                       }} className="btn btn-primary btn-filled">
@@ -165,11 +176,11 @@ const Registration = () => {
                         src={path_image + "delete-btn.png"}
                         />
                         </button>
-                        <button onClick={(e)=>{setCopy(i);setTimeout(() => {
+                        <button title="copy-link"  onClick={(e)=>{setCopy(i);setTimeout(() => {
                           setCopy()
                         }, 1000); navigator.clipboard.writeText(`${BaseUrlImage}/SH2022/index${val.format}.php?event=${val.code}&mode=${val.mode}`)}} className="btn btn-primary btn-filled back">
                       <img                                    
-                        alt="Preview"
+                        alt="copy-link"
                         src={path_image + "copy-link.svg"}
                         
                         />

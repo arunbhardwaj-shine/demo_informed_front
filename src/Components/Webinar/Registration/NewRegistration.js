@@ -27,25 +27,6 @@ const templateClicked = (template, e) => {
 
     };
  
-
-    const handleGetRegistrationPagedata = () => {
-      ExportApi.RegistrationPageCopyData(localStorage.getItem("registrationPageId")).then((resp) => {
-        if (resp.ok&&resp.data.code==200) {
-          if(resp.data.data?.json_data){
-            setMessage()
-            setMode(resp.data.data)
-            // console.log(resp.data.data)
-            setData(JSON.parse(resp.data.data?.json_data))
-          }else{
-            setMessage(resp.data.message)
-          }
-        }else{
-          setMessage()
-        }
-      }) .catch((err) => {
-        loader("hide");
-      });;
-    };
     const handleGetRegistrationPageSingleData = () => {
       ExportApi.RegistrationPageSingleData(localStorage.getItem("EditRegistrationPageId")).then((resp) => {
         if (resp.ok&&resp.data.code==200) {
@@ -53,7 +34,7 @@ const templateClicked = (template, e) => {
             setMode(resp.data.data)
             setTemplateIdActive(resp.data.data.format)
             setRender(render+2)
-            //  console.log("nisdnsidnsidhsidhsih",resp.data.data)
+            console.log("nisdnsidnsidhsidhsih",resp.data.data)
             setData(JSON.parse(resp.data.data?.json_data))
           }
         }
@@ -76,7 +57,6 @@ const templateClicked = (template, e) => {
     <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
     </div>
-    
     <div className="right-sidebar col">
         {/* top header */}
         <div className="top-header">
@@ -84,7 +64,7 @@ const templateClicked = (template, e) => {
             <h3>Registration Page </h3>
                 {/* <h3>Registration Page Form </h3> */}
             </div>
-            <a target="_blank" href={`${BaseUrlImage}/SH2022/index${mode?.format}.php?event=${mode?.event.code}&mode=${
+            <a target="_blank" href={`${BaseUrlImage}/SH2022/index${mode?.format}.php?event=${mode?.event?.code}&mode=${
                mode?.mode
               }`}><Button>Link</Button></a>
             <Link to="/webinar/portal/Registrations">  <button onClick={()=>{ localStorage.removeItem("EditRegistrationPageId");
