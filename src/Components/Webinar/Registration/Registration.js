@@ -223,7 +223,7 @@ const Registration = () => {
         </div>
       <Modal
         show={modalShow}
-        id="webinar_event"
+        id="template_preview"
         onHide={() => {
           setModalShow(false);
         }}
