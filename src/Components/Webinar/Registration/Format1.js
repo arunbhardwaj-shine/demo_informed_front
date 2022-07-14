@@ -68,7 +68,6 @@ const Format1 = (props) => {
         content1:props.data?.content1?props.data?.content1:'',
         content2:props.data?.content2?props.data?.content2:'',
         content3:props.data?.content3?props.data?.content3:'',
-        consenttext:props.data?.consenttext?props.data?.consenttext:'',
         consentRadiotext1:props.data?.consentRadiotext1?props.data?.consentRadiotext1:'',
         consentRadiotext2:props.data?.consentRadiotext2?props.data?.consentRadiotext2:'',
         consentRadiotext3:props.data?.consentRadiotext3?props.data?.consentRadiotext3:'',
@@ -85,7 +84,6 @@ const Format1 = (props) => {
         let jsonData ={
           Title1: values.Title1,
           Title2: values.Title2,
-          consenttext :values.consenttext,
           consentRadiotext1:values.consentRadiotext1,
           consentRadiotext2:values.consentRadiotext2,
           consentRadiotext3:values.consentRadiotext3,
@@ -251,19 +249,10 @@ const Format1 = (props) => {
                 placeholder="Content 3"
               />
            </div>
+           <fieldset>
+    <legend> Consent </legend>
                       <div className="form-group">
-                        <label>Consent Text</label>
-                        <Form.Control
-                          name="consenttext"
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          value={formik.values.consenttext}
-                          type="text"
-                        />
-                    </div>
-                    {formik.values.consenttext?<>
-                      <div className="form-group">
-                        <label>consent Radio Text 1</label>
+                        <label> Text 1</label>
                         <Form.Control
                           name="consentRadiotext1"
                           onChange={formik.handleChange}
@@ -273,7 +262,7 @@ const Format1 = (props) => {
                         />
                     </div>
                       <div className="form-group">
-                        <label>consent Radio text 2</label>
+                        <label> text 2</label>
                         <Form.Control
                           name="consentRadiotext2"
                           onChange={formik.handleChange}
@@ -283,7 +272,7 @@ const Format1 = (props) => {
                         />
                     </div>
                       <div className="form-group">
-                        <label>consent Radio Text 3</label>
+                        <label> Text 3</label>
                         <Form.Control
                           name="consentRadiotext3"
                           onChange={formik.handleChange}
@@ -292,7 +281,7 @@ const Format1 = (props) => {
                           type="text"
                         />
                     </div>
-                    </>:null}         
+                   </fieldset>         
         {/* end of middle content*/}
         
 

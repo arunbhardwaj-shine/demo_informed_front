@@ -66,7 +66,7 @@ const templateClicked = (template, e) => {
             </div>
             <a target="_blank" href={`${BaseUrlImage}/SH2022/index${mode?.format}.php?event=${mode?.event?.code}&mode=${
                mode?.mode
-              }`}><Button>Link</Button></a>
+              }`}><button className="btn btn-primary btn-filled back">Link</button></a>
             <Link to="/webinar/portal/Registrations">  <button onClick={()=>{ localStorage.removeItem("EditRegistrationPageId");
                   localStorage.removeItem("registrationPageId")}} className="btn btn-primary btn-filled back">
                     <svg width="12" height="19" viewBox="0 0 12 19" fill="none" xmlns="http://www.w3.org/2000/svg">
