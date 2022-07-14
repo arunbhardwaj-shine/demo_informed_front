@@ -311,7 +311,7 @@ const Registration = () => {
          <div className="error-ErrorSelect">{errorSelectId}</div>
          <div className="continue">
 
-         <Button onClick={()=>{handleGetRegistrationPagedata()}}>Continue</Button>
+         <Button className="btn-filled" onClick={()=>{handleGetRegistrationPagedata()}}>Continue</Button>
          </div>
         </div>
           :null}
@@ -342,7 +342,7 @@ const Registration = () => {
                                  /><span className="checkmark"></span>
                     </div>
                     <div className="form-check-option">
-                   <Button onClick={()=>{handleCreateRegistrationPage()}}>Continue</Button>
+                   <Button className="btn-filled" onClick={()=>{handleCreateRegistrationPage()}}>Continue</Button>
                     </div>
                     </div>
                     <div className="error-form-check-option">{error}</div>

@@ -5958,6 +5958,12 @@ color:#848484;
   padding: 0;
   display: flex;
   justify-content: center;
+  align-items: center;
+}
+.create-registration .form-inline-option .btn.btn-primary {
+  padding: 10px 14px;
+  min-width: 110px;
+  margin-left: 40px;
 }
 .send-confirm .modal-body .modal-buttons button {
   margin: 0;
@@ -5981,7 +5987,7 @@ color:#848484;
   height: 16px;
   border-radius: 50%;
   display: inline-block;
-  top: 1px;
+  top: 3px;
   position: relative;
 }
 .copy_exixting {
@@ -5994,14 +6000,14 @@ color:#848484;
   height: 16px;
   border-radius: 50%;
   position: absolute;
-  top: 2px;
+  top: 4px;
   opacity: 0;
   cursor: pointer;
   z-index: 5;
 }
 .select_mode .form-group .form-check-option .checkmark:after {
   left: 5px;
-  top: 2px;
+  top: 4px;
   width: 5px;
   height: 9px;
   border: solid var(--white);
@@ -6017,7 +6023,7 @@ color:#848484;
   padding: 0 5px 0 0;
 }
 .select_mode .form-group .form-check-option {
-  margin: 0 15px 0 0;
+  margin: 0 7px;
   position: relative;
 }
 #resend-confirm select {
@@ -6029,6 +6035,9 @@ color:#848484;
   max-width: 71%;
   margin: 0 auto;
   display: block;
+}
+#resend-confirm select:focus-visible{
+ outline: none;
 }
 .select_mode .form-group .form-inline-option {
   margin-bottom: 20px;
@@ -6045,20 +6054,6 @@ color:#848484;
   padding: 15px 32px 20px;
 }
 
-
-/* bablu Code*/
-.error-form-check-option{
-  color: red;
-  margin-left: 25px;
-}
-.error-ErrorSelect{
-  color: red;
-  margin-left: 80px;
-  margin-block: 10px;
-}
-.continue{
-  margin-left: 70px;
-}
 
 
 
@@ -6077,3 +6072,20 @@ color:#848484;
   }
 }
 /**Responsive End**/
+
+
+
+/* bablu Code*/
+.error-form-check-option{
+  color: var(--red);
+  margin: 10px 0 0;
+  text-align: center;
+}
+.error-ErrorSelect{
+  color: var(--red);
+  text-align: center;
+  margin-block: 10px;
+}
+.continue{
+  margin-left: 70px;
+}
