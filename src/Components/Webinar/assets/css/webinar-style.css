@@ -5644,6 +5644,13 @@ height: 100px;
 #hcp-form .Consent .form-group-left .options {
   order: 5;
 }
+.form-control[type=file]:not(:disabled):not([readonly]) {
+  line-height: 1.9;
+}
+button.btn.btn-primary.back {
+  width: 44px;
+  min-width: 43px;
+}
 #hcp-form .Consent .form-group-left input#fullconsent1 {
   order: 1;
   opacity: 0;

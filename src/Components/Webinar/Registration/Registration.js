@@ -264,7 +264,7 @@ const Registration = () => {
                   ))}
          </select>
         </div>
-          :null}
+      :null}
           
           {modeShow?<div className="select_mode">
              <div className="modal-body-content">
