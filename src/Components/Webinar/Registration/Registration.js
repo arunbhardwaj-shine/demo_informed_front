@@ -163,7 +163,7 @@ const Registration = () => {
             <tbody>
               {registrationPageList?<>{registrationPageList?.map((val, i) => (
                 <tr key={i}>
-                  <td>{val.mode}-Registration Page</td>
+                  <td>{val.mode} Registration Page</td>
                   <td>
                   <ul className="hcp-table-content-right">
                     <div className="user-type-action">
