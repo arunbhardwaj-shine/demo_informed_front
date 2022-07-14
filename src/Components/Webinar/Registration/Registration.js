@@ -283,21 +283,22 @@ const Registration = () => {
             >
             Create new
             </button>
-            <button
+            {registrationPageList===undefined?null:<button
               type="button"
               className="btn btn-primary btn-bordered light"
               data-bs-dismiss="modal"
               onClick={() =>{setShow(true);setModeShow(false)} }
             >
               Copy from existing   
-            </button>
+            </button>}
+         
           </div>
          {show?<div className="copy_exixting"><select
                   onChange={(e)=>{setRegistrationPageIdCopy(e.target.value);localStorage.setItem("registrationPageId",e.target.value);localStorage.removeItem("EditRegistrationPageId");}}
                   className="form-select-lg"
                   aria-label=".form-select-lg example"
                 >
-                  <option selected>Select Registration Page</option>
+                  <option >Select Registration Page</option>
                   {registrationPageList?.map((val, i) => (
                     <React.Fragment key={i}>
                       {/* {console.log("val",val)} */}
@@ -329,7 +330,7 @@ const Registration = () => {
                                 onChange={()=>{setModeType("virtual")}}
                                 value={"virtual"}
 
-                              /> <span class="checkmark"></span>
+                              /> <span className="checkmark"></span>
                     </div>
                     <div className="form-check-option">
                      <Form.Label>Onsite</Form.Label>
@@ -338,7 +339,7 @@ const Registration = () => {
                                  type="radio"
                                  onChange={()=>{setModeType("onsite")}}
                                  value="onsite"
-                                 /><span class="checkmark"></span>
+                                 /><span className="checkmark"></span>
                     </div>
                     <div className="form-check-option">
                    <Button onClick={()=>{handleCreateRegistrationPage()}}>Continue</Button>

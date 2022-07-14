@@ -34,7 +34,7 @@ const templateClicked = (template, e) => {
             setMode(resp.data.data)
             setTemplateIdActive(resp.data.data.format)
             setRender(render+2)
-            console.log("nisdnsidnsidhsidhsih",resp.data.data)
+            // console.log("nisdnsidnsidhsidhsih",resp.data.data)
             setData(JSON.parse(resp.data.data?.json_data))
           }
         }
