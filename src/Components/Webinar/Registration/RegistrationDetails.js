@@ -259,7 +259,7 @@ const RegistraionDetails = () => {
                       <Modal
                         show={modalShow}
                         className="send-confirm"
-                        id="resend-confirm"
+                        id="field-required"
                       >
                         <Modal.Header>
                           <button

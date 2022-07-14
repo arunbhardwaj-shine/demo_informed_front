@@ -1073,7 +1073,7 @@ const TableView = (props, ref) => {
           </div>
         </section>
       </div>
-      <Modal show={isOpen} className="send-confirm" id="resend-confirm">
+      <Modal show={isOpen} className="send-confirm" id="delete-smartlist">
         <Modal.Header>
           <button
             type="button"

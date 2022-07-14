@@ -247,7 +247,7 @@ const Registration = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-      <Modal show={modalShow1} className="send-confirm create-registration" id="resend-confirm">
+      <Modal show={modalShow1} className="send-confirm create-registration" id="create-registration">
         <Modal.Header>
           <button
             type="button"
@@ -354,7 +354,7 @@ const Registration = () => {
          
         </Modal.Body>
       </Modal>
-      <Modal show={modalShow3} className="send-confirm" id="resend-confirm">
+      <Modal show={modalShow3} className="send-confirm" id="delete-registration">
         <Modal.Header>
           <button
             type="button"
