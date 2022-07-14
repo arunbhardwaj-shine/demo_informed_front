@@ -2071,7 +2071,7 @@ form#add_hcp_form .row:not(:first-child) {
   font-family: "Roboto-Light";
 }
 .send-confirm .modal-body .modal-buttons {
-  justify-content: flex-end;
+  justify-content: center;
   margin-top: 16px;
 }
 .send-confirm .modal-body .modal-buttons .light {
