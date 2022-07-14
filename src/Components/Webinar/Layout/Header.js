@@ -70,13 +70,7 @@ const Header = () => {
   };
   useEffect(() => {
     window.addEventListener('EventData',()=> handleGetEventlist())
-    handleGetEventlist()
   }, []);
-  useEffect(() => {
-    window.addEventListener('EventData',()=> handleGetEventlist())
-    handleGetEventlist()
-    handleGetEventlist()
-  }, [token]);
   useEffect(() => {
     if (localStorage.getItem("Token")) {
       handleGetEventlist()

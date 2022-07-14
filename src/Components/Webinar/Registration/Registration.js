@@ -16,14 +16,18 @@ const Registration = () => {
   const [editdata, setEditdata] = useState();
   const [format, setFormat] = useState();
   const [mode, setMode] = useState();
+  const [modeType, setModeType] = useState();
   const [modeShow, setModeShow] = useState(false);
   const [eventCode, setEventCode] = useState();
   const [show, setShow] = useState(false);
+  const [registrationPageIdCopy, setRegistrationPageIdCopy] = useState();
   const [deleteId, setDeleteId] = useState();
   const [massage, setMassage] = useState("Please Select Event");
   const [modalShow1, setModalShow1] = useState(false);
   const [modalShow3, setModalShow3] = useState(false);
   const [copy, setCopy] = useState();
+  const [error, setError] = useState(false);
+  const [errorSelectId, setErrorSelectId] = useState(false);
 
   let navigate = useNavigate();
   const handleGetRegistrationPageList = (id) => {
@@ -44,25 +48,39 @@ const Registration = () => {
       }
     });
   };
-  const handleGetRegistrationPagedata = (e) => {
-    ExportApi.RegistrationPageCopyData(e).then((resp) => {
+  const handleGetRegistrationPagedata = () => {
+    if(registrationPageIdCopy){
+    ExportApi.RegistrationPageCopyData(registrationPageIdCopy).then((resp) => {
       if (resp.ok&&resp.data.code==200) {
         handleGetRegistrationPageList(localStorage.getItem("EventIdHeader"))
         setModalShow1(false)
+        setErrorSelectId(false)
+        setError(false)
+        setRegistrationPageIdCopy()
+        setModeType()
           // console.log(resp.data.data)
           // setData(JSON.parse(resp.data.data?.json_data))
         }
     }) .catch((err) => {
       loader("hide");
     });
+  }else{
+    setErrorSelectId("Please select registration page")
+  }
   };
-  const handleCreateRegistrationPage=(mode)=>{
-    ExportApi.CreateRegistrationPage(localStorage.getItem("EventIdHeader"),mode).then((resp) => {
+  const handleCreateRegistrationPage=()=>{
+    if (mode){
+      setError(false)
+    ExportApi.CreateRegistrationPage(localStorage.getItem("EventIdHeader"),modeType).then((resp) => {
       if (resp.ok) {
         toast.error(resp.data.message)
-        // console.log(resp.data)
+         console.log("EditRegistrationPageId",resp.data.data.id)
         localStorage.setItem("EditRegistrationPageId",resp.data.data.id)
-        handleGetRegistrationPageList()
+        setModalShow1(false)
+        setErrorSelectId(false)
+        setError(false)
+        setRegistrationPageIdCopy()
+        setModeType()
         setTimeout(() => {
           navigate("/webinar/portal/NewRegistration")
           setShow(false)
@@ -70,10 +88,12 @@ const Registration = () => {
           // setData(resp.data.data)
         loader("hide")
       }else{
-        alert("hh")
         toast.error(resp.data.message)
       }
     });
+  }else{
+    setError("Please select mode")
+  }
   }
 
   const handleGetRegistrationDelete = () => {
@@ -248,57 +268,7 @@ const Registration = () => {
           draggable
           pauseOnHover
         />
-         {show?<div className="copy_exixting"><select
-                  onChange={(e)=>{localStorage.setItem("registrationPageId",e.target.value);localStorage.removeItem("EditRegistrationPageId");handleGetRegistrationPagedata(e.target.value)}}
-                  className="form-select-lg"
-                  aria-label=".form-select-lg example"
-                >
-                  <option selected>Select Registration Page</option>
-                  {registrationPageList?.map((val, i) => (
-                    <React.Fragment key={i}>
-                      {/* {console.log("val",val)} */}
-                      <option  value={val.id}>
-                      {val.mode}-Registration Page
-                      </option>
-                    </React.Fragment>
-                  ))}
-         </select>
-        </div>
-      :null}
-          
-          {modeShow?<div className="select_mode">
-             <div className="modal-body-content">
-             <div className="form-group">
-                <h4>Mode</h4>
-                <div className="form-inline-option">
-                  <div className="form-check">
-                    <div className="form-check-option">
-                    <Form.Label> Virtual</Form.Label>
-                              <input
-                               name="mode"
-                                type="radio"
-                                onChange={()=>{handleCreateRegistrationPage("virtual")}}
-                                value={"virtual"}
-
-                              /> <span class="checkmark"></span>
-                    </div>
-                    <div className="form-check-option">
-                     <Form.Label>Onsite</Form.Label>
-                              <input
-                                 name="mode"
-                                 type="radio"
-                                 onChange={()=>{handleCreateRegistrationPage("onsite")}}
-                                 
-                                 value="onsite"
-                                 /><span class="checkmark"></span>
-                    </div>
-                    </div>
-                    </div>
-               </div></div></div>:null}
-
-          
-           {/* {console.log("val",registrationPageList)} */}
-          <div className="modal-buttons">
+         <div className="modal-buttons">
             <button
               type="button"
               className="btn btn-primary btn-filled"
@@ -313,15 +283,75 @@ const Registration = () => {
             >
             Create new
             </button>
-            <button
+            {registrationPageList===undefined?null:<button
               type="button"
               className="btn btn-primary btn-bordered light"
               data-bs-dismiss="modal"
               onClick={() =>{setShow(true);setModeShow(false)} }
             >
               Copy from existing   
-            </button>
+            </button>}
+         
           </div>
+         {show?<div className="copy_exixting"><select
+                  onChange={(e)=>{setRegistrationPageIdCopy(e.target.value);localStorage.setItem("registrationPageId",e.target.value);localStorage.removeItem("EditRegistrationPageId");}}
+                  className="form-select-lg"
+                  aria-label=".form-select-lg example"
+                >
+                  <option >Select Registration Page</option>
+                  {registrationPageList?.map((val, i) => (
+                    <React.Fragment key={i}>
+                      {/* {console.log("val",val)} */}
+                      <option  value={val.id}>
+                      {val.mode}-Registration Page
+                      </option>
+                    </React.Fragment>
+                  ))}
+         </select>
+         <div className="error-ErrorSelect">{errorSelectId}</div>
+         <div className="continue">
+
+         <Button onClick={()=>{handleGetRegistrationPagedata()}}>Continue</Button>
+         </div>
+        </div>
+          :null}
+          
+          {modeShow?<div className="select_mode">
+             <div className="modal-body-content">
+             <div className="form-group">
+                <h4>Mode</h4>
+                <div className="form-inline-option">
+                  <div className="form-check">
+                    <div className="form-check-option">
+                    <Form.Label> Virtual</Form.Label>
+                              <input
+                               name="mode"
+                                type="radio"
+                                onChange={()=>{setModeType("virtual")}}
+                                value={"virtual"}
+
+                              /> <span className="checkmark"></span>
+                    </div>
+                    <div className="form-check-option">
+                     <Form.Label>Onsite</Form.Label>
+                              <input
+                                 name="mode"
+                                 type="radio"
+                                 onChange={()=>{setModeType("onsite")}}
+                                 value="onsite"
+                                 /><span className="checkmark"></span>
+                    </div>
+                    <div className="form-check-option">
+                   <Button onClick={()=>{handleCreateRegistrationPage()}}>Continue</Button>
+                    </div>
+                    </div>
+                    <div className="error-form-check-option">{error}</div>
+                    </div>
+               </div></div></div>:null}
+
+          
+           {/* {console.log("val",registrationPageList)} */}
+         
         </Modal.Body>
       </Modal>
       <Modal show={modalShow3} className="send-confirm" id="resend-confirm">

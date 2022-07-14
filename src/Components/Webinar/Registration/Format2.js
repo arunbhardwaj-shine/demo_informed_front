@@ -99,8 +99,7 @@ const Format2 = (props) => {
             titleLogo:titleLogo?titleLogo:props.data?.titleLogo?props.data?.titleLogo:''
           }
           // console.log("titleLogo",titleLogo)
-          if(props?.mode?.id){
-            ExportApi.RegistrationPageUpdate(props?.mode?.id,localStorage.getItem("EventIdHeader"),values.mode, JSON.stringify(jsonData),TemplateIdActive).then((resp) => {
+            ExportApi.RegistrationPageUpdate(localStorage.getItem("EditRegistrationPageId"),localStorage.getItem("EventIdHeader"),values.mode, JSON.stringify(jsonData),TemplateIdActive).then((resp) => {
               if (resp.ok) {
                 if (resp.data.code == 200) {
                   handleGetRegistrationPageSingleData()
@@ -117,23 +116,7 @@ const Format2 = (props) => {
                 // loader("hide")
               }
             });
-          }else{
-            ExportApi.CreateRegistrationPage(localStorage.getItem("EventIdHeader"),values.mode, JSON.stringify(jsonData),TemplateIdActive).then((resp) => {
-              if (resp.ok&&resp.data.code == 200) {
-                if(resp.data.message=="Your page with this mode is already exist"){
-                  toast.error(resp.data.message);
-                }
-                else {
-                  toast.success(resp.data.message)      
-                 setTimeout(() => {
-                   navigate("/webinar/portal/Registrations")
-                 }, 1500);
-                }
-                setData(resp.data.data)
-              loader("hide")
-            }
-            });
-          }
+          
         },
       });
   return (
@@ -326,19 +309,6 @@ const Format2 = (props) => {
                       <div className="mail-box-content-top">
                         <div className="mail-box-content-top-view">
                           <h5>{"Fields"}</h5>
-                      <div className="form-group">
-                        <label>Radio Button</label>
-                        <div className="form-inline-option">
-                        <Form.Control
-                          name="RadioButton"
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          value={formik.values.RadioButton}
-                          type="text"
-                        />
-                      </div>
-                    </div>
-
               <div className="form-group">
                 <label>Name</label>
                 <div className="form-inline-option">
@@ -477,7 +447,7 @@ const Format2 = (props) => {
                                        <div className="form-group Consent">
                                           <div className="form-group-left">
                                              <input type="checkbox"  id="fullconsent1" value="option1" name="fullconsent"/>
-                                             <label for="fullconsent1"  id="consent-label">{formik?.values?.RadioButton}</label>  
+                                             <label htmlFor="fullconsent1"  id="consent-label">{formik?.values?.RadioButton}</label>  
                                              <input type="hidden" className="fl_cnt_val" value="Full consent*"/>                 
                                              {/* <a href="javascript:;" className="change-btn">Change</a> */}
                                              {/* <div className="options">

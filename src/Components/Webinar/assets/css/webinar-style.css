@@ -6038,13 +6038,27 @@ color:#848484;
 }
 
 .select_mode, .copy_exixting {
-  margin-bottom: 30px;
+  /* margin-bottom: 30px; */
+  margin-top: 25px;
 }
 .create-registration #resend-confirm .modal-body {
   padding: 15px 32px 20px;
 }
 
 
+/* bablu Code*/
+.error-form-check-option{
+  color: red;
+  margin-left: 25px;
+}
+.error-ErrorSelect{
+  color: red;
+  margin-left: 80px;
+  margin-block: 10px;
+}
+.continue{
+  margin-left: 70px;
+}
 
 
 
