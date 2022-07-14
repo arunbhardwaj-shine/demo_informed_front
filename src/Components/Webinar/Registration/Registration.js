@@ -303,7 +303,7 @@ const Registration = () => {
                     <React.Fragment key={i}>
                       {/* {console.log("val",val)} */}
                       <option  value={val.id}>
-                      {val.mode}-Registration Page
+                      {val.mode}
                       </option>
                     </React.Fragment>
                   ))}
@@ -395,6 +395,7 @@ const Registration = () => {
         </Modal.Body>
       </Modal>
     </div>
+    {console.log("mode",mode)}
     </>
   );
 };

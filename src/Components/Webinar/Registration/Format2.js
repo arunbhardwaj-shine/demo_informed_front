@@ -417,7 +417,7 @@ const Format2 = (props) => {
                   <div className="log-inner">
                      <div className="head-sec">
                         <h2 className="top-title"style={{color:formik?.values?.titleColor}} >
-                        {formik?.values?.Title1}                       </h2>                           <div className="motivate_logo"><img id="imgVieww" src={props?.data?.titleLogo?props?.data?.titleLogo:""} alt="Motivate Logo" style={{width:"250px"}}/></div>
+                        {formik?.values?.Title1}                       </h2>                           <div className="motivate_logo"><img id="imgVieww" src={props?.data?.titleLogo?props?.data?.titleLogo:""} alt="Logo" style={{width:"250px"}}/></div>
                          <h2 className="top-title-green" style={{color:formik?.values?.titleColor}}>{formik?.values?.Title2}</h2>
                          <h2 className="top-title-green" style={{color:formik?.values?.titleColor}}>{formik?.values?.Title3}</h2>
                         <div className="mid-section" style={{color:formik?.values?.textColor}}>
