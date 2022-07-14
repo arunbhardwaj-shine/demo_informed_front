@@ -5083,7 +5083,7 @@ header nav.navbar .form-select,
 }
 #resend-confirm .modal-body, .modal-dialog .modal-content .modal-body{
   padding: 0 32px 30px;
-  overflow-y: auto;
+  /* overflow-y: auto; */
 }
 .mailbox-buttons button.btn-bordered a {
   color: var(--light-blue);
@@ -5411,9 +5411,7 @@ height: 100px;
   flex: 1 1 auto;
   margin-top: 0;
 }
-.modal-dialog .modal-content {
-  max-height: 80vh;
-}
+
 .reg-middle-div .form-group {
   margin-bottom: 15px;
 }
@@ -5424,7 +5422,24 @@ height: 100px;
   border-collapse: separate;
   border-spacing: 0px 10px;
 }
-
+#login_popup h6 {
+  text-transform: capitalize;
+  color: var(--blue);
+  font-family: 'Roboto-Bold';
+  cursor: pointer;
+  margin-bottom: 18px;
+}
+#login_popup .modal-header h3, #forgot_password .modal-header h3{
+  margin: 0;
+  font-size: 30px;
+}
+#login_popup .modal-header, #forgot_password .modal-header {
+  padding-top: 0;
+  padding-bottom: 0;
+  color: var(--blue);
+  font-family: 'Roboto-Bold';
+  margin-bottom: 16px;
+}
 #resend-confirm.modal-dialog .modal-content, .modal-dialog .modal-content {
   height: initial;
   padding: 10px 10px 20px;

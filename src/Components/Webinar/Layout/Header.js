@@ -187,7 +187,7 @@ const Header = () => {
                   >
                     Login
                   </Button>
-                  <Modal
+                  <Modal id="login_popup"
                     size="sm"
                     show={smShowLogin}
                     onHide={() => setSmShowLogin(false)}
@@ -195,7 +195,7 @@ const Header = () => {
                   >
                     <Modal.Header closeButton onClick={() => setSmShowLogin(false)}>
                     {" "}
-                   <h4>Login</h4>
+                   <h3>Login</h3>
                     </Modal.Header>
                     <Modal.Body>
                       <Login active={hengleLonginPage} />
