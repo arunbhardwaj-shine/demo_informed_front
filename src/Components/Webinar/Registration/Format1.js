@@ -1001,7 +1001,7 @@ const Format1 = (props) => {
         <Modal.Body>
             <iframe src={`${BaseUrlImage}/SH2022/index${data?.format?data?.format:props?.mode?.format}.php?event=${data?.event.code?data?.event.code:props.mode?.event?.code}&mode=${
                 data?.mode?data?.mode:props?.mode?.mode
-              }`}></iframe>
+              }`}  style={{height:"550px"}}></iframe>
         </Modal.Body>
         <Modal.Footer>
           <Button
