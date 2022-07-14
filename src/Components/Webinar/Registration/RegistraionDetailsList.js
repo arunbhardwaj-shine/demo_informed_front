@@ -369,7 +369,7 @@ const RegistrationDetailsList = () => {
                           <Modal
                             show={modalShowEdit}
                             className="send-confirm"
-                            id="resend-confirm"
+                            id="field-required"
                           >
                             <Modal.Header>
                               <button
@@ -515,7 +515,7 @@ const RegistrationDetailsList = () => {
         </Modal.Footer>
       </Modal>
 
-      <Modal show={modalShow1} className="send-confirm" id="resend-confirm">
+      <Modal show={modalShow1} className="send-confirm" id="delete-registration">
         <Modal.Header>
           <button
             type="button"

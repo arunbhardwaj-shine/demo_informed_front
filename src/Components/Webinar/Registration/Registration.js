@@ -69,7 +69,7 @@ const Registration = () => {
   }
   };
   const handleCreateRegistrationPage=()=>{
-    if (mode){
+    if (modeType){
       setError(false)
     ExportApi.CreateRegistrationPage(localStorage.getItem("EventIdHeader"),modeType).then((resp) => {
       if (resp.ok) {
@@ -163,7 +163,7 @@ const Registration = () => {
             <tbody>
               {registrationPageList?<>{registrationPageList?.map((val, i) => (
                 <tr key={i}>
-                  <td>{val.mode}-Registration Page</td>
+                  <td>{val.mode} Registration Page</td>
                   <td>
                   <ul className="hcp-table-content-right">
                     <div className="user-type-action">
@@ -247,7 +247,7 @@ const Registration = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-      <Modal show={modalShow1} className="send-confirm create-registration" id="resend-confirm">
+      <Modal show={modalShow1} className="send-confirm create-registration" id="create-registration">
         <Modal.Header>
           <button
             type="button"
@@ -354,7 +354,7 @@ const Registration = () => {
          
         </Modal.Body>
       </Modal>
-      <Modal show={modalShow3} className="send-confirm" id="resend-confirm">
+      <Modal show={modalShow3} className="send-confirm" id="delete-registration">
         <Modal.Header>
           <button
             type="button"

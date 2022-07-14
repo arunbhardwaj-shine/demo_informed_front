@@ -38,6 +38,9 @@ const Format1 = (props) => {
       if (resp.ok) {
         let Path=BaseUrlImage+resp.data.data
         setTitleLogo(Path)
+        if(Path){
+          formik.handleSubmit()
+        }
       }
     });
 
