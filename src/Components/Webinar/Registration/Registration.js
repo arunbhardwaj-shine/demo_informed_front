@@ -69,7 +69,7 @@ const Registration = () => {
   }
   };
   const handleCreateRegistrationPage=()=>{
-    if (mode){
+    if (modeType){
       setError(false)
     ExportApi.CreateRegistrationPage(localStorage.getItem("EventIdHeader"),modeType).then((resp) => {
       if (resp.ok) {
