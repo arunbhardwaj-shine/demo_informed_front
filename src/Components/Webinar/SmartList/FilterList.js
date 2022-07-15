@@ -254,12 +254,12 @@ const FilterList = () => {
     };
 
     const body = {
-      profession: JSON.stringify(selectedProfession),
-      interest: JSON.stringify(selectedInterest),
-      state: JSON.stringify([]),
-      bounced: JSON.stringify(selectedbounce),
-      consent: JSON.stringify(selectedConsent),
-      country_id: JSON.stringify(selectedCountry),
+      profession: selectedProfession,
+      interest: selectedInterest,
+      state: JSON.stringify([],
+      bounced: selectedbounce,
+      consent: selectedConsent,
+      country_id: selectedCountry
     };
 
     loader("show");

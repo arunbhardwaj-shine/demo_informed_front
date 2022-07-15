@@ -499,15 +499,20 @@ const EventData = () => {
                           <div className="mailbox-description">
                             <p>{val.description}</p>
                           </div>
-                        <div className="webinar_time">
-                          <div className="webinar-start-time">
-                            <span>Start Time {val?.event_start_time}</span>
+                          <div className="webinar_time">
+                              <div className="webinar-start-time">
+                                  <span><strong>Start Time:</strong> {val?.event_start_time}</span>
+                              </div>
+                              <div className="webinar-end-time">
+                                  <span><strong>End Time:</strong> {val?.event_end_time}</span>
+                              </div>
                           </div>
-                          <div className="webinar-end-time">
-                            <span>End Time {val?.event_end_time}</span>
+                          <div className="webinar_time">
+                          <span><strong>Timezone:</strong> {val.country_timezone} </span>
                           </div>
-                        </div>
-                          
+                          <div className="webinar_time">
+                          <span><strong>Country:</strong> {val.location.country}</span>
+                            </div>
                           <div className="mail-stats">
                         {deletestatus && (
                           <div className="dlt_btn">
@@ -549,7 +554,7 @@ const EventData = () => {
                                 {/* <div className="mail-status mail_view">
                                 Date
                                 </div> */}
-                                <span>{val.event_date}</span>
+                                <span>{val.event_date} ({val.timezone})</span>
                               </li>
                             </ul>
                           </div>
