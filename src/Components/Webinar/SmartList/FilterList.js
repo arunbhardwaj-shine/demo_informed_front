@@ -256,7 +256,7 @@ const FilterList = () => {
     const body = {
       profession: selectedProfession,
       interest: selectedInterest,
-      state: JSON.stringify([],
+      state: [],
       bounced: selectedbounce,
       consent: selectedConsent,
       country_id: selectedCountry
