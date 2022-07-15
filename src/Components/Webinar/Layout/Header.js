@@ -70,7 +70,13 @@ const Header = () => {
   };
   useEffect(() => {
     window.addEventListener('EventData',()=> handleGetEventlist())
+    handleGetEventlist()
   }, []);
+  useEffect(() => {
+    window.addEventListener('EventData',()=> handleGetEventlist())
+    handleGetEventlist()
+    handleGetEventlist()
+  }, [token]);
   useEffect(() => {
     if (localStorage.getItem("Token")) {
       handleGetEventlist()
@@ -181,7 +187,7 @@ const Header = () => {
                   >
                     Login
                   </Button>
-                  <Modal id="login_popup"
+                  <Modal
                     size="sm"
                     show={smShowLogin}
                     onHide={() => setSmShowLogin(false)}
@@ -189,7 +195,7 @@ const Header = () => {
                   >
                     <Modal.Header closeButton onClick={() => setSmShowLogin(false)}>
                     {" "}
-                   <h3>Login</h3>
+                   <h4>Login</h4>
                     </Modal.Header>
                     <Modal.Body>
                       <Login active={hengleLonginPage} />

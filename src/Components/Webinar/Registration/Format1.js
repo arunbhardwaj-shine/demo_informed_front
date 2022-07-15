@@ -194,6 +194,17 @@ const Format1 = (props) => {
                   placeholder="Header Title Logo"
                 />
             </div>
+            <div className="form-group">
+                <label>Event Time</label>
+                <Form.Control
+                  name="eventtime"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.eventtime}
+                  type="text"
+                  placeholder="Event Time"
+                />
+            </div>
               <div className="form-group">
                 <label>Event Date</label>
                 <Form.Control
@@ -205,17 +216,7 @@ const Format1 = (props) => {
                   placeholder="Event Date"
                 />
             </div>
-              <div className="form-group">
-                <label>Event Time</label>
-                <Form.Control
-                  name="eventtime"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.eventtime}
-                  type="text"
-                  placeholder="Event Time"
-                />
-            </div>
+             
               <div className="form-group">
               <label>Content 1</label>
               <textarea

@@ -18,12 +18,12 @@ const NewRegistration = () => {
    
 const templateClicked = (template, e) => {
 
-      const div = document.querySelector("img.select_mm");
-      if (div) {
-        div.classList.remove("select_mm");
-      }
+      // const div = document.querySelector("img.select_mm");
+      // if (div) {
+      //   div.classList.remove("select_mm");
+      // }
       setTemplateIdActive(template);
-      e.target.classList.toggle("select_mm");
+      // e.target.classList.toggle("select_mm");
 
     };
  
@@ -61,11 +61,7 @@ const templateClicked = (template, e) => {
         {/* top header */}
         <div className="top-header">
           <div className="page-title">
-            <h3>Registration Page </h3>
-                {/* <h3>Registration Page Form </h3> */}
-            </div>
-            
-            <Link to="/webinar/portal/Registrations">  <button onClick={()=>{ localStorage.removeItem("EditRegistrationPageId");
+          <Link className='back-button' to="/webinar/portal/Registrations">  <button onClick={()=>{ localStorage.removeItem("EditRegistrationPageId");
                   localStorage.removeItem("registrationPageId")}} className="btn btn-primary btn-filled back">
                     <svg width="12" height="19" viewBox="0 0 12 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -74,6 +70,11 @@ const templateClicked = (template, e) => {
                       />
                     </svg>
                   </button></Link>
+            <h3>Registration Page </h3>
+                {/* <h3>Registration Page Form </h3> */}
+            </div>
+            
+        
              <a target="_blank" href={`${BaseUrlImage}/SH2022/index${mode?.format}.php?event=${mode?.event?.code}&mode=${
                mode?.mode
               }`}><button className="btn btn-primary btn-filled">Link</button></a>
@@ -85,12 +86,12 @@ const templateClicked = (template, e) => {
         <div className="reg-block">
         <div className="reg-sidbar">
           {/* {  alert(TemplateIdActive==1?"select-sm img":"img.select_mm")} */}
-            <div  className={TemplateIdActive==1?"select-sm img":""} onClick={(e) => templateClicked(1,e)}>
-                <img  className={"reg-sidbar-img img.select_mm"} value={"virtual"} src={path_image + "content_added1.png"} alt="Format-1"  />
+            <div  className={TemplateIdActive=="1"?"select-sm img":""} onClick={(e) => templateClicked(1,e)}>
+                <img  className={TemplateIdActive=="1"?"reg-sidbar-img select_mm":"reg-sidbar-img "} value={"virtual"} src={path_image + "content_added1.png"} alt="Format-1"  />
                 <p>{"Format 1"}</p>
             </div>
-            <div  className={TemplateIdActive==2?"select-sm img":""} onClick={(e) => templateClicked(2,e)} >
-                <img  className={"reg-sidbar-img"} value={"onsite"} src={path_image + "content_added1.png"} alt="Format-2" />
+            <div  className={TemplateIdActive=="2"?"select-sm img":""} onClick={(e) => templateClicked(2,e)} >
+                <img  className={TemplateIdActive=="2"?"reg-sidbar-img select_mm":"reg-sidbar-img "} value={"onsite"} src={path_image + "content_added1.png"} alt="Format-2" />
                 <p>{"Format 2"}</p>
             </div>
         </div>

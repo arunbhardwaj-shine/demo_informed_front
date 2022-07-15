@@ -409,7 +409,7 @@ const FilterList = () => {
                                   <ul>
                                     {countryall.map((item, index) => (
                                       <li>
-                                        {console.log(countryall)}
+                                        {/* {console.log(countryall)} */}
                                         <div className="select-multiple-option">
                                           <input
                                             ref={inputElement}

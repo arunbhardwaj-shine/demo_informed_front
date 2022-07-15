@@ -31,6 +31,7 @@ const Registration = () => {
 
   let navigate = useNavigate();
   const handleGetRegistrationPageList = (id) => {
+    loader("Show");
     ExportApi.RegistrationPageList(id).then((resp) => {
       if (resp.ok) {
         loader("hide");
@@ -49,9 +50,11 @@ const Registration = () => {
     });
   };
   const handleGetRegistrationPagedata = () => {
+    loader("Show");
     if(registrationPageIdCopy){
     ExportApi.RegistrationPageCopyData(registrationPageIdCopy).then((resp) => {
       if (resp.ok&&resp.data.code==200) {
+        loader("hide");
         handleGetRegistrationPageList(localStorage.getItem("EventIdHeader"))
         setModalShow1(false)
         setErrorSelectId(false)
@@ -95,7 +98,23 @@ const Registration = () => {
     setError("Please select mode")
   }
   }
+  const handleCreateRegistrationPageFirst=()=>{
 
+    ExportApi.CreateRegistrationPage(localStorage.getItem("EventIdHeader"),"virtual").then((resp) => {
+      if (resp.ok) {
+         console.log("EditRegistrationPageId",resp.data.data.id)
+        localStorage.setItem("EditRegistrationPageId",resp.data.data.id)
+        setModeType()
+        setTimeout(() => {
+          navigate("/webinar/portal/NewRegistration")
+          setShow(false)
+        }, 1000);
+          // setData(resp.data.data)
+        loader("hide")}
+    });
+
+  
+}
   const handleGetRegistrationDelete = () => {
     ExportApi.RegistrationPageDelete(deleteId).then((resp) => {
       if (resp.ok) {
@@ -108,7 +127,6 @@ const Registration = () => {
     });
   };
   useEffect(() => {
-    loader("show")
     window.addEventListener("EventId", () =>{
       localStorage.removeItem("registrationPageId")
         localStorage.removeItem("EditRegistrationPageId")
@@ -146,11 +164,12 @@ const Registration = () => {
         <div className="page-title">
           <h3>Registration Page </h3>
         </div>
-        {registrationPageList===undefined||registrationPageList===null?<div className="top-right-action">
+        {registrationPageList===undefined||registrationPageList===null? <Button  onClick={()=>handleCreateRegistrationPageFirst()}>Create Registration Page</Button>:<>   {registrationPageList?.length==1||registrationPageList?.length>1?<div className="top-right-action">
             <Button  onClick={()=>setModalShow1(true)}>Create Registration Page</Button>
         </div>:registrationPageList.length==1?(<> {registrationPageList?.length==2||registrationPageList?.length>2?null:  <div className="top-right-action">
             <Button  onClick={()=>setModalShow1(true)}>Create Registration Page</Button>
-        </div>}</>):null}
+        </div>}</>):null}</>}
+     
       </div>
         <div className="registration-table">
           <Table>

@@ -53,14 +53,14 @@ const CreateEmails = (props) => {
   let navigate = useNavigate();
 
   const templateClicked = (template, e) => {
-    const div = document.querySelector("img.select_mm");
+    // const div = document.querySelector("img.select_mm");
 
-    if (div) {
-      div.classList.remove("select_mm");
-    }
+    // if (div) {
+    //   div.classList.remove("select_mm");
+    // }
 
     setTemplateIdActive(template.id);
-    e.target.classList.toggle("select_mm");
+    // e.target.classList.toggle("select_mm");
   };
   const [emailSubject, setEmailSubject] = useState(
     state_object != null &&
@@ -262,8 +262,8 @@ const CreateEmails = (props) => {
   };
   const handleGetTemplateList = (id, tempId) => {
     ExportApi.UserTemplateList(id).then((resp) => {
-      loader("hide");
       if (resp.ok) {
+        loader("hide");
         if (resp.data.code == 200) {
           setTemplateList(resp.data.data);
           handleGetTemplate(tempId ? tempId : resp.data.data[0].id);
@@ -281,9 +281,10 @@ const CreateEmails = (props) => {
     });
   };
   const handleGetCollectionData = (id) => {
+    loader("hide");
     ExportApi.getCollectionData(id).then((resp) => {
       if (resp.ok) {
-        loader("hide");
+        
         // console.log(resp.data.data.template_id)
         handleGetTemplateList(
           resp.data.data.event_id,
@@ -316,26 +317,29 @@ const CreateEmails = (props) => {
     });
   };
   const handleGetTemplate = (idd) => {
+    loader("show");
     localStorage.setItem("TEMPLATEID", idd);
     setDpc();
     setId(idd);
     ExportApi.UserTemplate(idd).then((resp) => {
-      loader("show");
       if (resp.ok) {
         if (resp.data.data.json_description) {
           setTimeout(() => {
+            loader("hide");
             emailEditorRef.current.editor.loadDesign(
               resp.data.data.json_description
                 ? JSON.parse(resp.data.data.json_description)
                 : emailEditorRef.current.editor.loadDesign()
             );
-            loader("hide");
+           
+           
             setnextPage(true);
           }, 1000);
         } else {
           setTimeout(() => {
-            emailEditorRef.current.editor.loadDesign();
             loader("hide");
+            emailEditorRef.current.editor.loadDesign();
+           
             setnextPage(true);
           }, 1000);
         }
@@ -522,7 +526,12 @@ const CreateEmails = (props) => {
                     className="item"
                     onClick={(e) => templateClicked(val, e)}
                   >
-                    <div className="item-list">
+                    <div  className={
+                          typeof TemplateIdActive !== "undefined" &&
+                          TemplateIdActive == val.id
+                            ? "item-list select_mm"
+                            : "item-list"
+                        }>
                       {/* <div className="item-top-schedule">
                         <img  src={path_image + "webinar/mail-schedule.png"} alt="" />
 												</div> */}
@@ -537,12 +546,6 @@ const CreateEmails = (props) => {
                           setTName(val.name);
                           setFormShow(true);
                         }}
-                        className={
-                          typeof TemplateIdActive !== "undefined" &&
-                          TemplateIdActive == val.id
-                            ? "select_mm"
-                            : ""
-                        }
                       />
                     </div>
                     <p>{val.name}</p>
