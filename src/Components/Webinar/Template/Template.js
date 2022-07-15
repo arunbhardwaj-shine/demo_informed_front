@@ -255,6 +255,7 @@ const Template = (props) => {
   const handleGetTemplateList = (id) => {
     ExportApi.UserTemplateList(id).then((resp) => {
       if (resp.ok) {
+        loader("hide");
         if (resp.data.code == 200) {
           setTemplateList(resp.data.data);
           handleGetTemplate(resp.data.data[0].id);
@@ -271,6 +272,7 @@ const Template = (props) => {
         }
       }
     });
+    
   };
   const handleDeleteTemplate = () => {
     // console.log("yyy", templateId);
@@ -283,12 +285,13 @@ const Template = (props) => {
     });
   };
   const handleGetTemplate = (idd) => {
-    localStorage.setItem("TEMPLATEID", idd);
     loader("show");
+    localStorage.setItem("TEMPLATEID", idd);
     setDpc();
     setId(idd);
     ExportApi.UserTemplate(idd).then((resp) => {
       if (resp.ok) {
+        loader("hide");
         if (resp.data.data.json_description) {
           setTimeout(() => {
             emailEditorRef.current.editor.loadDesign(
@@ -358,8 +361,7 @@ const Template = (props) => {
     ExportApi.GetTags().then((resp) => {
       if (resp.ok) {
         loader("hide");
-        setAllTags(JSON.parse(resp.data.data[0].values));
-        // setTemplateList(resp.data.data);
+        setAllTags(JSON.parse(resp.data.data[0].values))
         // console.log(JSON.parse(resp.data.data[0].values))
       }
     });
