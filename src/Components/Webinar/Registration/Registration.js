@@ -8,6 +8,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { loader } from "../../../loader";
 import { BaseUrlImage } from "../../../Api/BaseApi";
+import { Divider } from "@material-ui/core";
 const Registration = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_WEBINAR;
   const [modalShow, setModalShow] = useState(false);
@@ -15,17 +16,22 @@ const Registration = () => {
   const [editdata, setEditdata] = useState();
   const [format, setFormat] = useState();
   const [mode, setMode] = useState();
+  const [modeType, setModeType] = useState();
   const [modeShow, setModeShow] = useState(false);
   const [eventCode, setEventCode] = useState();
   const [show, setShow] = useState(false);
+  const [registrationPageIdCopy, setRegistrationPageIdCopy] = useState();
   const [deleteId, setDeleteId] = useState();
   const [massage, setMassage] = useState("Please Select Event");
   const [modalShow1, setModalShow1] = useState(false);
   const [modalShow3, setModalShow3] = useState(false);
   const [copy, setCopy] = useState();
+  const [error, setError] = useState(false);
+  const [errorSelectId, setErrorSelectId] = useState(false);
 
   let navigate = useNavigate();
   const handleGetRegistrationPageList = (id) => {
+    loader("Show");
     ExportApi.RegistrationPageList(id).then((resp) => {
       if (resp.ok) {
         loader("hide");
@@ -43,13 +49,41 @@ const Registration = () => {
       }
     });
   };
-  const handleCreateRegistrationPage=(mode)=>{
-
-    ExportApi.CreateRegistrationPage(localStorage.getItem("EventIdHeader"),mode).then((resp) => {
-      if (resp.ok&&resp.data.code == 200) {
-        // console.log(resp.data)
+  const handleGetRegistrationPagedata = () => {
+    loader("Show");
+    if(registrationPageIdCopy){
+    ExportApi.RegistrationPageCopyData(registrationPageIdCopy).then((resp) => {
+      if (resp.ok&&resp.data.code==200) {
+        loader("hide");
+        handleGetRegistrationPageList(localStorage.getItem("EventIdHeader"))
+        setModalShow1(false)
+        setErrorSelectId(false)
+        setError(false)
+        setRegistrationPageIdCopy()
+        setModeType()
+          // console.log(resp.data.data)
+          // setData(JSON.parse(resp.data.data?.json_data))
+        }
+    }) .catch((err) => {
+      loader("hide");
+    });
+  }else{
+    setErrorSelectId("Please select registration page")
+  }
+  };
+  const handleCreateRegistrationPage=()=>{
+    if (modeType){
+      setError(false)
+    ExportApi.CreateRegistrationPage(localStorage.getItem("EventIdHeader"),modeType).then((resp) => {
+      if (resp.ok) {
+        toast.error(resp.data.message)
+         console.log("EditRegistrationPageId",resp.data.data.id)
         localStorage.setItem("EditRegistrationPageId",resp.data.data.id)
-        handleGetRegistrationPageList()
+        setModalShow1(false)
+        setErrorSelectId(false)
+        setError(false)
+        setRegistrationPageIdCopy()
+        setModeType()
         setTimeout(() => {
           navigate("/webinar/portal/NewRegistration")
           setShow(false)
@@ -57,12 +91,30 @@ const Registration = () => {
           // setData(resp.data.data)
         loader("hide")
       }else{
-        alert("hh")
         toast.error(resp.data.message)
       }
     });
+  }else{
+    setError("Please select mode")
   }
+  }
+  const handleCreateRegistrationPageFirst=()=>{
 
+    ExportApi.CreateRegistrationPage(localStorage.getItem("EventIdHeader"),"virtual").then((resp) => {
+      if (resp.ok) {
+         console.log("EditRegistrationPageId",resp.data.data.id)
+        localStorage.setItem("EditRegistrationPageId",resp.data.data.id)
+        setModeType()
+        setTimeout(() => {
+          navigate("/webinar/portal/NewRegistration")
+          setShow(false)
+        }, 1000);
+          // setData(resp.data.data)
+        loader("hide")}
+    });
+
+  
+}
   const handleGetRegistrationDelete = () => {
     ExportApi.RegistrationPageDelete(deleteId).then((resp) => {
       if (resp.ok) {
@@ -75,7 +127,6 @@ const Registration = () => {
     });
   };
   useEffect(() => {
-    loader("show")
     window.addEventListener("EventId", () =>{
       localStorage.removeItem("registrationPageId")
         localStorage.removeItem("EditRegistrationPageId")
@@ -113,11 +164,12 @@ const Registration = () => {
         <div className="page-title">
           <h3>Registration Page </h3>
         </div>
-        {registrationPageList===undefined||registrationPageList===null?<div className="top-right-action">
+        {registrationPageList===undefined||registrationPageList===null? <Button  onClick={()=>handleCreateRegistrationPageFirst()}>Create Registration Page</Button>:<>   {registrationPageList?.length==1||registrationPageList?.length>1?<div className="top-right-action">
             <Button  onClick={()=>setModalShow1(true)}>Create Registration Page</Button>
         </div>:registrationPageList.length==1?(<> {registrationPageList?.length==2||registrationPageList?.length>2?null:  <div className="top-right-action">
             <Button  onClick={()=>setModalShow1(true)}>Create Registration Page</Button>
-        </div>}</>):null}
+        </div>}</>):null}</>}
+     
       </div>
         <div className="registration-table">
           <Table>
@@ -130,11 +182,11 @@ const Registration = () => {
             <tbody>
               {registrationPageList?<>{registrationPageList?.map((val, i) => (
                 <tr key={i}>
-                  <td>{val.mode}-Registration Page</td>
+                  <td>{val.mode} Registration Page</td>
                   <td>
                   <ul className="hcp-table-content-right">
                     <div className="user-type-action">
-                      <button   onClick={(e) => {
+                      <button title="Edit"  onClick={(e) => {
                         localStorage.setItem("EditRegistrationPageId",val.id);
                         setTimeout(() => {
                         navigate("/webinar/portal/NewRegistration");
@@ -146,7 +198,7 @@ const Registration = () => {
                         src={path_image + "edit-btn.png"}
                         />
                         </button>
-                      <button onClick={()=>{loader("show"); setEventCode(val.code);setFormat(val.format);setMode(val.mode);setModalShow(true); setTimeout(() => {
+                      <button title="Preview"  onClick={()=>{loader("show"); setEventCode(val.code);setFormat(val.format);setMode(val.mode);setModalShow(true); setTimeout(() => {
                       loader("hide")
                       }, 1500);}} className="btn btn-primary btn-filled back">
                       <img
@@ -155,7 +207,7 @@ const Registration = () => {
                         style={{height:"25px",width:"25px"}}
                         />
                         </button>
-                          <button  onClick={(e) => {
+                          <button title="Delete"  onClick={(e) => {
                         setDeleteId(val.id)
                         setModalShow3(true)
                       }} className="btn btn-primary btn-filled">
@@ -164,11 +216,11 @@ const Registration = () => {
                         src={path_image + "delete-btn.png"}
                         />
                         </button>
-                        <button onClick={(e)=>{setCopy(i);setTimeout(() => {
+                        <button title="copy-link"  onClick={(e)=>{setCopy(i);setTimeout(() => {
                           setCopy()
                         }, 1000); navigator.clipboard.writeText(`${BaseUrlImage}/SH2022/index${val.format}.php?event=${val.code}&mode=${val.mode}`)}} className="btn btn-primary btn-filled back">
                       <img                                    
-                        alt="Preview"
+                        alt="copy-link"
                         src={path_image + "copy-link.svg"}
                         
                         />
@@ -190,7 +242,7 @@ const Registration = () => {
         </div>
       <Modal
         show={modalShow}
-        id="webinar_event"
+        id="template_preview"
         onHide={() => {
           setModalShow(false);
         }}
@@ -214,13 +266,13 @@ const Registration = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-      <Modal show={modalShow1} className="send-confirm" id="resend-confirm">
+      <Modal show={modalShow1} className="send-confirm create-registration" id="create-registration">
         <Modal.Header>
           <button
             type="button"
             className="btn-close"
             data-bs-dismiss="modal"
-            onClick={() => setModalShow1(false)}
+            onClick={() => {setModalShow1(false); setShow(false);setModeShow(false)}}
           ></button>
         </Modal.Header>
         <Modal.Body>
@@ -235,52 +287,7 @@ const Registration = () => {
           draggable
           pauseOnHover
         />
-         {show?<select
-                  onChange={(e)=>{localStorage.setItem("registrationPageId",e.target.value);localStorage.removeItem("EditRegistrationPageId"); setTimeout(() => {
-                    localStorage.removeItem("EditRegistrationPageId")
-                    navigate("/webinar/portal/NewRegistration");
-                  }, 1000);}}
-                  className="form-select-lg mb-3"
-                  aria-label=".form-select-lg example"
-                >
-                  <option selected>Select Registration Page</option>
-                  {registrationPageList?.map((val, i) => (
-                    <React.Fragment key={i}>
-                      {/* {console.log("val",val)} */}
-                      <option  value={val.id}>
-                      {val.mode}-Registration Page
-                      </option>
-                    </React.Fragment>
-                  ))}
-         </select>
-
-          :null}
-           {/* {console.log("val",registrationPageList)} */}
-          <div className="modal-buttons">
-            {modeShow?
-             <div className="reg-middle-div">  
-             <div className="modal-body-content">
-             <div className="form-group">
-                <label>Mode</label>
-                <div className="form-inline-option">
-                  <div className="form-check"><Form.Label> Virtual</Form.Label>
-                              <Form.Control
-                               name="mode"
-                                type="radio"
-                                onChange={()=>{handleCreateRegistrationPage("virtual")}}
-                                value={"virtual"}
-
-                              />  <Form.Label>Onsite</Form.Label>
-                              <Form.Control
-                                 name="mode"
-                                 type="radio"
-                                 onChange={()=>{handleCreateRegistrationPage("onsite")}}
-                                 
-                                 value="onsite"
-                                 /></div>
-                    </div>
-               </div></div> </div>:null}
-         
+         <div className="modal-buttons">
             <button
               type="button"
               className="btn btn-primary btn-filled"
@@ -295,18 +302,78 @@ const Registration = () => {
             >
             Create new
             </button>
-            <button
+            {registrationPageList===undefined?null:<button
               type="button"
               className="btn btn-primary btn-bordered light"
               data-bs-dismiss="modal"
               onClick={() =>{setShow(true);setModeShow(false)} }
             >
               Copy from existing   
-            </button>
+            </button>}
+         
           </div>
+         {show?<div className="copy_exixting"><select
+                  onChange={(e)=>{setRegistrationPageIdCopy(e.target.value);localStorage.setItem("registrationPageId",e.target.value);localStorage.removeItem("EditRegistrationPageId");}}
+                  className="form-select-lg"
+                  aria-label=".form-select-lg example"
+                >
+                  <option >Select Registration Page</option>
+                  {registrationPageList?.map((val, i) => (
+                    <React.Fragment key={i}>
+                      {/* {console.log("val",val)} */}
+                      <option  value={val.id}>
+                      {val.mode}
+                      </option>
+                    </React.Fragment>
+                  ))}
+         </select>
+         <div className="error-ErrorSelect">{errorSelectId}</div>
+         <div className="continue">
+
+         <Button className="btn-filled" onClick={()=>{handleGetRegistrationPagedata()}}>Continue</Button>
+         </div>
+        </div>
+          :null}
+          
+          {modeShow?<div className="select_mode">
+             <div className="modal-body-content">
+             <div className="form-group">
+                <h4>Mode</h4>
+                <div className="form-inline-option">
+                  <div className="form-check">
+                    <div className="form-check-option">
+                    <Form.Label> Virtual</Form.Label>
+                              <input
+                               name="mode"
+                                type="radio"
+                                onChange={()=>{setModeType("virtual")}}
+                                value={"virtual"}
+
+                              /> <span className="checkmark"></span>
+                    </div>
+                    <div className="form-check-option">
+                     <Form.Label>Onsite</Form.Label>
+                              <input
+                                 name="mode"
+                                 type="radio"
+                                 onChange={()=>{setModeType("onsite")}}
+                                 value="onsite"
+                                 /><span className="checkmark"></span>
+                    </div>
+                    <div className="form-check-option">
+                   <Button className="btn-filled" onClick={()=>{handleCreateRegistrationPage()}}>Continue</Button>
+                    </div>
+                    </div>
+                    <div className="error-form-check-option">{error}</div>
+                    </div>
+               </div></div></div>:null}
+
+          
+           {/* {console.log("val",registrationPageList)} */}
+         
         </Modal.Body>
       </Modal>
-      <Modal show={modalShow3} className="send-confirm" id="resend-confirm">
+      <Modal show={modalShow3} className="send-confirm" id="delete-registration">
         <Modal.Header>
           <button
             type="button"
@@ -347,6 +414,7 @@ const Registration = () => {
         </Modal.Body>
       </Modal>
     </div>
+    {console.log("mode",mode)}
     </>
   );
 };

@@ -51,14 +51,14 @@ const Template = (props) => {
   };
   // let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const templateClicked = (template, e) => {
-    const div = document.querySelector("img.select_mm");
+    // const div = document.querySelector("img.select_mm");
 
-    if (div) {
-      div.classList.remove("select_mm");
-    }
+    // if (div) {
+    //   div.classList.remove("select_mm");
+    // }
 
     setTemplateIdActive(template.id);
-    e.target.classList.toggle("select_mm");
+    // e.target.classList.toggle("select_mm");
   };
   const emailSubjectChanged = (e) => {
     setEmailSubject(e.target.value);
@@ -289,20 +289,23 @@ const Template = (props) => {
     setId(idd);
     ExportApi.UserTemplate(idd).then((resp) => {
       if (resp.ok) {
+        // console.log("resp.data.data.json_description",resp.data.data.json_description)
         if (resp.data.data.json_description) {
           setTimeout(() => {
             emailEditorRef.current.editor.loadDesign(
               resp.data.data.json_description
                 ? JSON.parse(resp.data.data.json_description)
-                : hello
+                : null
             );
             loader("hide");
-          }, 1000);
+          }, 1500);
         } else {
+          let noData;
           setTimeout(() => {
-            emailEditorRef.current.editor.loadDesign();
+            // alert("hello")
+            emailEditorRef.current.editor.loadDesign(null);
             loader("hide");
-          }, 1000);
+          }, 2500);
         }
         setFinalTags(resp.data.data.tags);
         resp.data.data.tags
@@ -419,7 +422,12 @@ const Template = (props) => {
                     className="item"
                     onClick={(e) => templateClicked(val, e)}
                   >
-                    <div className="item-list">
+                    <div  className={
+                          typeof TemplateIdActive !== "undefined" &&
+                          TemplateIdActive == val.id
+                            ? "item-list select_mm"
+                            : "item-list"
+                        }>
                       <div className="item-top-schedule">
                         <img
                           src={path_image + "webinar/mail-schedule.png"}
@@ -436,12 +444,7 @@ const Template = (props) => {
                           setTName(val.name);
                           setFormShow(true);
                         }}
-                        className={
-                          typeof TemplateIdActive !== "undefined" &&
-                          TemplateIdActive == val.id
-                            ? "select_mm"
-                            : ""
-                        }
+                       
                       />
                     </div>
                     <p>{val.name}</p>

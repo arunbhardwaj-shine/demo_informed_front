@@ -128,7 +128,7 @@ const WebinarSmartList = () => {
 
     loader("show");
     axios
-      .post(baseURL + `smart-list/delete`, body, {
+      .post(baseURL + `/smart-list/delete`, body, {
         headers,
       })
       .then((res) => {

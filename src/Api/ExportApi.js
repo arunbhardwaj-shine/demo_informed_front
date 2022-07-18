@@ -857,6 +857,28 @@ const DeleteSmartListData = (id, participants) =>
       },
     }
   );
+  // SmartList\\
+  //..........\\
+  const SearchSmartList = (search) =>
+  BaseApi.post(
+    `smart-list/lists`,
+    { search: search},
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
+  const SmartListDelete = (id) =>
+  BaseApi.post(
+    `smart-list/delete`,
+    { smart_list_id : id},
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
 export default {
   UserLogin,
   UserForgot,
@@ -934,4 +956,6 @@ export default {
   UpdateEmailSCreate,
   UpdateRegistrationPageDetail,
   DeleteEvent,
+  SearchSmartList,
+  SmartListDelete
 };

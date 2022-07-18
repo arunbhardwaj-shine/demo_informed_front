@@ -247,20 +247,7 @@ function Add(props) {
 
   return (
     <Row>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-      <div className="loader" id="custom_loader">
-        <span className="loader-view"> </span>
-      </div>
+      
       <div className="webinar-modal-data">
         {/* <Link to="/webinar/event/edit"></Link> */}
         <form onReset={formik.handleReset} onSubmit={formik.handleSubmit}>

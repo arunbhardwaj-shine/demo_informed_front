@@ -254,12 +254,12 @@ const FilterList = () => {
     };
 
     const body = {
-      profession: JSON.stringify(selectedProfession),
-      interest: JSON.stringify(selectedInterest),
-      state: JSON.stringify([]),
-      bounced: JSON.stringify(selectedbounce),
-      consent: JSON.stringify(selectedConsent),
-      country_id: JSON.stringify(selectedCountry),
+      profession: selectedProfession,
+      interest: selectedInterest,
+      state: [],
+      bounced: selectedbounce,
+      consent: selectedConsent,
+      country_id: selectedCountry
     };
 
     loader("show");
@@ -409,6 +409,7 @@ const FilterList = () => {
                                   <ul>
                                     {countryall.map((item, index) => (
                                       <li>
+                                        {/* {console.log(countryall)} */}
                                         <div className="select-multiple-option">
                                           <input
                                             ref={inputElement}
@@ -1238,7 +1239,7 @@ const FilterList = () => {
         </section>
       </div>
 
-      <Modal show={isOpen} className="send-confirm" id="resend-confirm">
+      <Modal show={isOpen} className="send-confirm" id="delete-smartlist">
         <Modal.Header>
           <button
             type="button"

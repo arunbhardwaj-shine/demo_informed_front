@@ -1185,7 +1185,7 @@ const ViewData = (props) => {
           </section>
         </div>
 
-        <Modal show={isOpen} className="send-confirm" id="resend-confirm">
+        <Modal show={isOpen} className="send-confirm" id="delete-smartlist">
           <Modal.Header>
             <button
               type="button"
@@ -1211,13 +1211,11 @@ const ViewData = (props) => {
                 onClick={() => {
                   deleteReader(profile_user_id);
                   setIsOpen(false);
-
                   setOpenDeleteConfirmation(true);
                 }}
               >
                 Yes Please!
               </button>
-
               <button
                 type="button"
                 class="btn btn-primary btn-bordered light"
@@ -1231,7 +1229,6 @@ const ViewData = (props) => {
             </div>
           </Modal.Body>
         </Modal>
-
         <Modal
           id="add_hcp"
           show={isOpenAdd}

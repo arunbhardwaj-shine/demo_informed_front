@@ -89,7 +89,8 @@ const Login = (props) => {
         {formik.touched.email && formik.errors.email ? (
           <div style={{ color: "red" }}>{formik.errors.email}</div>
         ) : null}
-
+      </Form.Group>
+      <Form.Group className="mb-3">
         <Form.Label>Password</Form.Label>
         <Form.Control
           id="password"
@@ -103,21 +104,19 @@ const Login = (props) => {
           <div style={{ color: "red" }}>{formik.errors.password}</div>
         ) : null}
       </Form.Group>
-      <h6 style={{ color: "blue", cursor: "pointer",width:"173px" }}onClick={() => {
+      <h6 onClick={() => {
           setSmShowForgot(true); setSmShowLogin(false);}}>Forgot Password ?
       </h6>
-      <Button type="submit">Submit</Button>
+      <Button className="btn-filled" type="submit">Submit</Button>
     </form>
-     <Modal
+     <Modal id="forgot_password"
         size="md"
         show={smShowForgot}
         onHide={() => setSmShowForgot(false)}
         aria-labelledby="example-modal-sizes-title-sm"
       >
-        <Modal.Header
-          closeButton
-          onClick={() => setSmShowForgot(false)}
-        >
+        <Modal.Header  closeButton onClick={() => setSmShowForgot(false)}>
+        <h3>Forgot Password</h3>
         </Modal.Header>
         <Modal.Body>
           <ForgotPassword  active={hengleForgotPage}  />

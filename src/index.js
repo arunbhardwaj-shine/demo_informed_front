@@ -79,6 +79,7 @@ import FilterSegment from "./Components/Distributes/SmartListComponent/FilterSeg
 import VerifySmartList from "./Components/Distributes/SmartListComponent/VerifySmartList";
 import ViewList from "./Components/Distributes/SmartListComponent/ViewList";
 import EmailList from "./Components/Emails/EmailListing";
+import TemplateBuilder from "./Components/Emails/TemplateBuilder";
 import EmailArticleSelect from "./Components/Emails/EmailArticleSelect";
 import CreateEmail from "./Components/Emails/CreateEmail";
 import VerifyHCP from "./Components/Emails/VerifyHCP";
@@ -158,6 +159,7 @@ ReactDOM.render(
                       element={<SelectSmartList />}
                     />
                     <Route path="/EmailList" element={<EmailList />} />
+                    <Route path="/TemplateBuilder" element={<TemplateBuilder />} />
                     <Route
                       path="/EmailArticleSelect"
                       element={<EmailArticleSelect />}

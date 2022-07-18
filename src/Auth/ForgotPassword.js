@@ -63,10 +63,6 @@ function ForgotPassword(props) {
         pauseOnHover
       />
     <div><form onSubmit={formik.handleSubmit}>
-    <center>
-       <h3>Forgot Password</h3>
-    </center>
-<hr/>
      <Form.Group className="mb-3">
   <Form.Label>Email address</Form.Label>
   <Form.Control  name="email" onChange={formik.handleChange}
@@ -78,7 +74,7 @@ function ForgotPassword(props) {
   <p style={{color:"red"}}>  {err?err:null}</p>
 </Form.Group>
     
-    <Button type="submit">Submit</Button>
+    <Button className="btn-filled" type="submit">Submit</Button>
   </form></div>
 
   <Modal

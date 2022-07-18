@@ -16,6 +16,7 @@ const Format1 = (props) => {
   const [titleLogo, setTitleLogo] = useState();
   const [data, setData] = useState();
   const [mode, setMode] = useState();
+  const [option, setOption] = useState(false);
   const [render, setRender] = useState(1);
   const [modalShow, setModalShow] = useState(false);
   const uploadImageTitleLogo=(e)=>{
@@ -37,6 +38,9 @@ const Format1 = (props) => {
       if (resp.ok) {
         let Path=BaseUrlImage+resp.data.data
         setTitleLogo(Path)
+        if(Path){
+          formik.handleSubmit()
+        }
       }
     });
 
@@ -67,7 +71,6 @@ const Format1 = (props) => {
         content1:props.data?.content1?props.data?.content1:'',
         content2:props.data?.content2?props.data?.content2:'',
         content3:props.data?.content3?props.data?.content3:'',
-        consenttext:props.data?.consenttext?props.data?.consenttext:'',
         consentRadiotext1:props.data?.consentRadiotext1?props.data?.consentRadiotext1:'',
         consentRadiotext2:props.data?.consentRadiotext2?props.data?.consentRadiotext2:'',
         consentRadiotext3:props.data?.consentRadiotext3?props.data?.consentRadiotext3:'',
@@ -84,7 +87,6 @@ const Format1 = (props) => {
         let jsonData ={
           Title1: values.Title1,
           Title2: values.Title2,
-          consenttext :values.consenttext,
           consentRadiotext1:values.consentRadiotext1,
           consentRadiotext2:values.consentRadiotext2,
           consentRadiotext3:values.consentRadiotext3,
@@ -192,6 +194,17 @@ const Format1 = (props) => {
                   placeholder="Header Title Logo"
                 />
             </div>
+            <div className="form-group">
+                <label>Event Time</label>
+                <Form.Control
+                  name="eventtime"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.eventtime}
+                  type="text"
+                  placeholder="Event Time"
+                />
+            </div>
               <div className="form-group">
                 <label>Event Date</label>
                 <Form.Control
@@ -203,17 +216,7 @@ const Format1 = (props) => {
                   placeholder="Event Date"
                 />
             </div>
-              <div className="form-group">
-                <label>Event Time</label>
-                <Form.Control
-                  name="eventtime"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.eventtime}
-                  type="text"
-                  placeholder="Event Time"
-                />
-            </div>
+             
               <div className="form-group">
               <label>Content 1</label>
               <textarea
@@ -250,19 +253,10 @@ const Format1 = (props) => {
                 placeholder="Content 3"
               />
            </div>
+           <fieldset>
+    <legend> Consent </legend>
                       <div className="form-group">
-                        <label>Consent Text</label>
-                        <Form.Control
-                          name="consenttext"
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          value={formik.values.consenttext}
-                          type="text"
-                        />
-                    </div>
-                    {formik.values.consenttext?<>
-                      <div className="form-group">
-                        <label>consent Radio Text 1</label>
+                        <label> Text 1</label>
                         <Form.Control
                           name="consentRadiotext1"
                           onChange={formik.handleChange}
@@ -272,7 +266,7 @@ const Format1 = (props) => {
                         />
                     </div>
                       <div className="form-group">
-                        <label>consent Radio text 2</label>
+                        <label> text 2</label>
                         <Form.Control
                           name="consentRadiotext2"
                           onChange={formik.handleChange}
@@ -282,7 +276,7 @@ const Format1 = (props) => {
                         />
                     </div>
                       <div className="form-group">
-                        <label>consent Radio Text 3</label>
+                        <label> Text 3</label>
                         <Form.Control
                           name="consentRadiotext3"
                           onChange={formik.handleChange}
@@ -291,7 +285,7 @@ const Format1 = (props) => {
                           type="text"
                         />
                     </div>
-                    </>:null}         
+                   </fieldset>         
         {/* end of middle content*/}
         
 
@@ -412,61 +406,73 @@ const Format1 = (props) => {
         </Col>
         {/* {console.log("12px solid "+formik.values.borderColor)} */}
         <Col>
-        <div class="login-wrapper" style={{backgroundColor:formik.values.backgroundColor, border:"2px solid "+formik.values.borderColor}}>
-      <div class="login-wrapper-inside" >
-                  <div class="log-inner">
-                     <div class="head-sec">
-                        <h3 class="top-title"style={{color:formik?.values?.titleColor}} >
+        <div className="login-wrapper" style={{backgroundColor:formik.values.backgroundColor, border:"2px solid "+formik.values.borderColor}}>
+      <div className="login-wrapper-inside" >
+                  <div className="log-inner">
+                     <div className="head-sec">
+                        <h3 className="top-title"style={{color:formik?.values?.titleColor}} >
                         {formik?.values?.Title1}
                         </h3>                           
-                        <div class="motivate_logo"><img id="imgVieww" src={props?.data?.titleLogo?props?.data?.titleLogo:""} alt="Motivate Logo" style={{width:"250px"}}/></div>
-                         <h4 class="top-title-green" style={{color:formik?.values?.titleColor}}>{formik?.values?.Title2}</h4>
-                         <h4 class="top-title-green" style={{color:formik?.values?.titleColor}}>{formik?.values?.Title3}</h4>
-                        <div class="mid-section" style={{color:formik?.values?.textColor}}>
-                           <div class="mid-section-center">
+                        <div className="motivate_logo"><img id="imgVieww" src={props?.data?.titleLogo?props?.data?.titleLogo:""} alt="Logo" style={{width:"250px"}}/></div>
+                         <h4 className="top-title-green" style={{color:formik?.values?.titleColor}}>{formik?.values?.Title2}</h4>
+                         <h4 className="top-title-green" style={{color:formik?.values?.titleColor}}>{formik?.values?.Title3}</h4>
+                        <div className="mid-section" style={{color:formik?.values?.textColor}}>
+                           <div className="mid-section-center">
                                 <h6>{formik?.values?.Speakername}</h6>
                                  <h6>{formik?.values?.eventtime}</h6>
                                 <h6>{formik?.values?.eventdate}</h6>
                             </div>
                         </div>
-                        <div class="head-sec-boxes" style={{color:formik?.values?.textColor}}>
-                           <div class="boxes-col-center">
-                              <p id="uppper_text" class="boldText"> 
+                        <div className="head-sec-boxes" style={{color:formik?.values?.textColor}}>
+                           <div className="boxes-col-center">
+                              <p id="uppper_text" className="boldText"> 
                                {formik?.values?.content1}<br />
                               </p>
-                              <p id="uppper_text" class="description_detail"> 
+                              <p id="uppper_text" className="description_detail"> 
                                {formik?.values?.content2}<br/>
                                {formik?.values?.content3}<br/>
                                </p>
                             </div>
                         </div>
                      <div id="log-tabs">
-                        <div class="" id="nav-profile">
-                           <div class="login-from newaccount">
+                        <div className="" id="nav-profile">
+                           <div className="login-from newaccount">
                               <form id="hcp-form">
                                <div>
-                                 <div class="form-group">
-                                    <div class="radio">
-                                       <div class="form-group Consent">
-                                          <div class="form-group-left">
+                                 <div className="form-group">
+                                    <div className="radio">
+                                       <div className="form-group Consent">
+                                          <div className="form-group-left">
                                              <input type="checkbox"  id="fullconsent1" value="option1" name="fullconsent"/>
-                                             <label for="fullconsent1"  id="consent-label">Full Consent</label>  
-                                             <input type="hidden" class="fl_cnt_val" value="Full consent*"/>                 
-                                             <a href="javascript:;" class="change-btn">Change</a>
-                                             <div class="options">
-                                                <p>I consent to</p>
-                                                <a href="javascript:;" class="slec_op" id="close_consent"style={{float:"right"}}>Done</a>
-                                                </div>
+                                             <label htmlFor="fullconsent1"  id="consent-label">Full Consent</label>  
+                                             <input type="hidden" className="fl_cnt_val" value="Full consent*"/>                 
+                                             <a href="javascript:;"onClick={()=>setOption(!option)}  className="change-btn"><p>Change</p></a>
+                                             {option?<div className="options">
+                                             <p>I consent to</p>
+                                             {formik?.values?.consentRadiotext1?   <div className="option-list">
+                                                <input className='form-check-input consent-radio-box' type="checkbox" />
+                                                <label>{formik?.values?.consentRadiotext1}</label>
+                                              </div>:null}
+                                             {formik?.values?.consentRadiotext2?   <div className="option-list">
+                                                <input className='form-check-input consent-radio-box' type="checkbox" />
+                                                <label>{formik?.values?.consentRadiotext2}</label>
+                                              </div>:null}
+                                             {formik?.values?.consentRadiotext3?   <div className="option-list">
+                                                <input className='form-check-input consent-radio-box' type="checkbox" />
+                                                <label>{formik?.values?.consentRadiotext3}</label>
+                                              </div>:null}
+                                                <a href="javascript:;" className="slec_op" id="close_consent"style={{float:"right"}}><p onClick={()=>setOption(!option)}> Done </p></a>
+                                                </div>:null}
                                              </div>
                                           </div>
                                        </div>
-                                         <div class="form-group-align">
+                                         <div className="form-group-align">
                                           <br/>
-                                          {formik?.values?.country==true?<div class="radio">
+                                          {formik?.values?.country==true?<div className="radio">
                                              <p>
                                                 <label>
                                                 Country</label> 
-                                                <select class="country-list position-dropdown mobile-drop" name="country" id="country">
+                                                <select className="country-list position-dropdown mobile-drop" name="country" id="country">
                                                    <option value="">Select State</option> 
                                                   
                                                       <option value="1">Afghanistan</option>
@@ -954,14 +960,14 @@ const Format1 = (props) => {
                                                                               
                                     </div>
                                  </div>{
-                                  formik?.values?.name?<div class="form-group position-relative">
-                                    <input type="text" class="form-control" name="name" id="name" value="" placeholder="Name" />
+                                  formik?.values?.name?<div className="form-group position-relative">
+                                    <input type="text" className="form-control" name="name" id="name"  placeholder="Name" />
                                   </div>:null
                                  }                     
                                   <div className='form-group position-relativee'>
-                                    <input type="text" class="form-control" name="email" id="email" value="" placeholder="Email" />
+                                    <input type="text" className="form-control" name="email" id="email"  placeholder="Email" />
                                   </div>
-                                      <button class="sumit-btn" type="submit" id="signup_submit">Submit</button>   
+                                      <button className="sumit-btn" id="signup_submit">Submit</button>   
                                   </form>
                                   </div>
                                   </div>
@@ -987,7 +993,7 @@ const Format1 = (props) => {
         <Modal.Body>
             <iframe src={`${BaseUrlImage}/SH2022/index${data?.format?data?.format:props?.mode?.format}.php?event=${data?.event.code?data?.event.code:props.mode?.event?.code}&mode=${
                 data?.mode?data?.mode:props?.mode?.mode
-              }`}></iframe>
+              }`}  style={{height:"550px"}}></iframe>
         </Modal.Body>
         <Modal.Footer>
           <Button
