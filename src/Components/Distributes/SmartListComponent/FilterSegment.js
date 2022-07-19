@@ -22,9 +22,9 @@ const FilterSegment = (props) => {
   const [selectedproduct, setSelectedProduct] = useState([]);
   const [selectedarticles, setSelectedArticles] = useState([]);
   const [selectedconsent, setConsent] = useState([]);
-  const [selectedregister, setSelectedRegister] = useState();
+  const [selectedregister, setSelectedRegister] = useState("yes");
   const [selectedbounce, setSelectedBounce] = useState();
-  const [showhidearticle, setShowHideArticle] = useState(0);
+  const [showhidearticle, setShowHideArticle] = useState(1);
   const [getfilterdata, setFilterData] = useState();
   const [apifilterflag, setApiFilterFlag] = useState(0);
   const [getpayload, setPayload] = useState(0);
@@ -638,43 +638,6 @@ const FilterSegment = (props) => {
                             </>
                           )}
 
-                        {"reader_selection" in filters &&
-                          Object.keys(filters.reader_selection).length > 0 && (
-                            <>
-                              <div className="col block-smart-name">
-                                <h6>Reader Selection</h6>
-                                <div className="smart-name-list">
-                                  <ul>
-                                    {Object.entries(
-                                      filters.reader_selection
-                                    ).map(([index, item]) => (
-                                      <li>
-                                        <div className="select-multiple-option">
-                                          <input
-                                            type="radio"
-                                            id={`custom-checkbox-reader_selection-${index}`}
-                                            name="reader_selection[]"
-                                            value={item}
-                                            checked={
-                                              selectedreaderselection == item
-                                            }
-                                            onChange={() =>
-                                              handleOnReaderSelectionChange(
-                                                item
-                                              )
-                                            }
-                                          />
-                                          <span className="checkmark"></span>
-                                        </div>
-                                        {item}
-                                      </li>
-                                    ))}
-                                  </ul>
-                                </div>
-                              </div>
-                            </>
-                          )}
-
                         {"ibu" in filters &&
                           Object.keys(filters.ibu).length > 0 && (
                             <>
@@ -862,6 +825,44 @@ const FilterSegment = (props) => {
                               </div>
                             </>
                           )}
+
+                          {"reader_selection" in filters &&
+                            Object.keys(filters.reader_selection).length > 0 &&
+                            showhidearticle == 1 && (
+                              <>
+                                <div className="col block-smart-name">
+                                  <h6>Reader Selection</h6>
+                                  <div className="smart-name-list">
+                                    <ul>
+                                      {Object.entries(
+                                        filters.reader_selection
+                                      ).map(([index, item]) => (
+                                        <li>
+                                          <div className="select-multiple-option">
+                                            <input
+                                              type="radio"
+                                              id={`custom-checkbox-reader_selection-${index}`}
+                                              name="reader_selection[]"
+                                              value={item}
+                                              checked={
+                                                selectedreaderselection == item
+                                              }
+                                              onChange={() =>
+                                                handleOnReaderSelectionChange(
+                                                  item
+                                                )
+                                              }
+                                            />
+                                            <span className="checkmark"></span>
+                                          </div>
+                                          {item}
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                </div>
+                              </>
+                            )}
 
                         <div className="col block-smart-name registered">
                           <h6>Registered</h6>
