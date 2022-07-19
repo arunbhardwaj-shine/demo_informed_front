@@ -24,16 +24,6 @@ const TemplateBuilder = (props) => {
   const ref = useRef(null);
 
   let file_name = useRef("");
-  const options = [
-    { value: "Russian", label: "Russian" },
-    { value: "English", label: "English" },
-  ];
-
-  const ibu = [
-    { value: "America", label: "America" },
-    { value: "India", label: "India" },
-    { value: "Australia", label: "Australia" },
-  ];
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const navigate = useNavigate();
   const [SendListData, setSendListData] = useState([]);
@@ -41,8 +31,8 @@ const TemplateBuilder = (props) => {
   const location = useLocation();
   const [uniqueId, setUniqueId] = useState("");
   const [getsearch, setSearch] = useState("");
-  const [selectedLanguage, setSelectedLanguage] = useState(null);
-  const [selectedIbu, setSelectedIbu] = useState(null);
+  const [selectedLanguage, setSelectedLanguage] = useState("All");
+  const [selectedIbu, setSelectedIbu] = useState("");
   const PdfSelected = "";
   const [newTemplateName, setNewTemplateName] = useState("");
   const [manualReRender, setManualReRender] = useState(0);
@@ -59,61 +49,24 @@ const TemplateBuilder = (props) => {
   const [readers, setReaders] = useState([]);
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
   const [templateSaving, setTemplateSaving] = useState("");
-  const [emailDescription, setEmailDescription] = useState(
-    state_object != null &&
-      state_object != "undefined" &&
-      state_object.emailDescription
-      ? state_object.emailDescription
-      : props.getDraftData
-      ? props.getDraftData.description
-      : ""
-  );
-  const [emailCreator, setEmailCreator] = useState(
-    state_object != null &&
-      state_object != "undefined" &&
-      state_object.emailCreator
-      ? state_object.emailCreator
-      : props.getDraftData
-      ? props.getDraftData.creator
-      : ""
-  );
+  const [getTemplateLanguage, setTemplateLanguage] = useState([]);
+  const [getTemplateIbu, setTemplateIbu] = useState([]);
   const [counter, setCounter] = useState(0);
   const [modalCounter, setModalCounter] = useState(0);
-  const [emailCampaign, setemailCampaign] = useState(
-    state_object != null &&
-      state_object != "undefined" &&
-      state_object.emailCampaign
-      ? state_object.emailCampaign
-      : props.getDraftData
-      ? props.getDraftData.campaign
-      : ""
-  );
-  const [emailSubject, setEmailSubject] = useState(
-    state_object != null &&
-      state_object != "undefined" &&
-      state_object.emailSubject
-      ? state_object.emailSubject
-      : props.getDraftData
-      ? props.getDraftData.subject
-      : ""
-  );
+  const [emailSubject, setEmailSubject] = useState("");
   const [templateId, setTemplateId] = useState();
   const [templateName, setTemplateName] = useState("");
   const [renderAfterValidation, setRenderAfterValidation] = useState(0);
   const [tagClickedFirst, setTagClickedFirst] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpen_send, setIsOpensend] = useState(false);
+  const [showConfirmation, setshowConfirmation] = useState(false);
   const [allTags, setAllTags] = useState({});
   const [newTag, setNewTag] = useState("");
-  const [finalTags, setFinalTags] = useState(
-    state_object != null && state_object != "undefined" && state_object.tags
-      ? state_object.tags
-      : props.getDraftData
-      ? props.getDraftData.tags
-      : []
-  );
   const [tagsReRender, setTagsReRender] = useState(0);
   const [tagsCounter, setTagsCounter] = useState(0);
+  const [countryOption, setCountryOption] = useState(0);
+  const [ibuOption, setIbuOption] = useState("");
   const [validator] = React.useState(new SimpleReactValidator());
 
   const [searchedUsers, setSearchedUsers] = useState([]);
@@ -133,6 +86,7 @@ const TemplateBuilder = (props) => {
   const [getNewTemplatePopup, setNewTemplatePopup] = useState(false);
 
   const [getIsApprovedStatus, setIsApprovedStatus] = useState(0);
+  const [getDefaultTemplate, setDefaultTemplate] = useState(0);
 
   const [hpc, setHpc] = useState([
     { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
@@ -161,7 +115,7 @@ const TemplateBuilder = (props) => {
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
   useEffect(() => {
-    getTemplateListData(0);
+    getTemplateListData(0,'All','');
     getSmartListData(0);
   }, []);
 
@@ -215,20 +169,64 @@ const TemplateBuilder = (props) => {
   }, []);
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-  const getTemplateListData = async (flag) => {
+  const getTemplateListData = async (flag,lng,ibu) => {
+
+    let check_lng_index = 10;
+    if(lng == "All"){
+       check_lng_index = 10;
+    }else if(lng == "english"){
+       check_lng_index = 0;
+    }else if(lng == "italian"){
+       check_lng_index = 1;
+    }else if(lng == "germany"){
+       check_lng_index = 2;
+    }else if(lng == "spanish"){
+       check_lng_index = 3;
+    }else if(lng == "russian"){
+       check_lng_index = 4;
+    }
+
     const body = {
       user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
-      language: "",
-      ibu: "",
+      language: check_lng_index,
+      ibu: ibu,
     };
 
     loader("show");
     await axios
       .post(`emailapi/get_template_list`, body)
       .then((res) => {
-        console.log(res);
+        let lang = res.data.response.language;
+        let lng_arr = [];
+        Object.entries(lang).map(([index, item]) => {
+          let label = item;
+          lng_arr.push({
+            value: item,
+            label: label,
+          });
+        });
+
+        let ibu = res.data.response.ibu;
+        let ibu_arr = [];
+        if(ibu.length > 0){
+            Object.entries(ibu).map(([index, item]) => {
+              let label = item;
+              ibu_arr.push({
+                value: item,
+                label: label,
+              });
+            });
+        }
+
+
+        let index = lng_arr.findIndex(x => x.value === selectedLanguage);
+        setCountryOption(index);
+
+        setTemplateLanguage(lng_arr);
+        setTemplateIbu(ibu_arr);
         setTemplateList(res.data.response.data);
         getSelectedTemplateSource(res.data.response.data);
+        setDefaultTemplate(res.data.response.is_default);
         setCounter(counter + 1);
       })
       .catch((err) => {
@@ -237,7 +235,14 @@ const TemplateBuilder = (props) => {
     if (flag == 1) {
       loader("hide");
       toast.success("Template saved successfully");
+    }else if (flag == 2) {
+      setTemplateId();
+      setTemplateName("");
+      setNewTemplateName("");
+      setTemplate("");
+      loader("hide");
     }
+
   };
 
   useEffect(() => {
@@ -246,7 +251,7 @@ const TemplateBuilder = (props) => {
 
   useEffect(() => {
     const body = {
-      user_id: localStorage.getItem("user_id"),
+      user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
     };
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -267,25 +272,6 @@ const TemplateBuilder = (props) => {
     };
     getAllTags();
     // getCampaignData();
-  }, []);
-
-  useEffect(() => {
-    if (
-      typeof props !== "undefined" &&
-      props !== null &&
-      props.hasOwnProperty("getDraftData")
-    ) {
-      if (props.getDraftData !== null) {
-        setEmailDescription(props.getDraftData.description);
-        setEmailCreator(props.getDraftData.creator);
-        setemailCampaign(props.getDraftData.campaign);
-        setEmailSubject(props.getDraftData.subject);
-        setFinalTags(props.getDraftData.tags);
-        setTagClickedFirst(props.getDraftData.tags);
-        setIsApprovedStatus(props.getDraftData.status);
-        setTemplate(props.getDraftData.source_code);
-      }
-    }
   }, []);
 
   const getSelectedTemplateSource = (dd) => {
@@ -404,57 +390,61 @@ const TemplateBuilder = (props) => {
   };
 
   const sendsampeap = (event) => {
-    console.log(selectedHcp);
-    setIsOpensend(false);
-    setIsOpenAdd(false);
 
-    let selected_ids = selectedHcp.map(
-      (number) => number["user_id"] || number["profile_user_id"]
-    );
+    if(emailSubject != ""){
+      setIsOpensend(false);
+      setIsOpenAdd(false);
 
-    loader("show");
-    const body = {
-      user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
-      pdf_id: 3444,
-      subject: emailSubject,
-      template_id: templateId,
-      user_list: selected_ids,
-      smartlist_id: "",
-      source_code: template,
-    };
+      let selected_ids = selectedHcp.map(
+        (number) => number["user_id"] || number["profile_user_id"]
+      );
 
-    //console.log(body);
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      loader("show");
+      const body = {
+        user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
+        pdf_id: "3487",
+        subject: emailSubject,
+        template_id: templateId,
+        user_list: selected_ids,
+        smartlist_id: "",
+        source_code: template,
+      };
 
-    axios
-      .post(`emailapi/send_sample_email`, body)
-      .then((res) => {
-        //console.log(res);
-        loader("hide");
-        if (res.data.status_code === 200) {
-          popup_alert({
-            visible: "show",
-            message: "Test mail sent successfully",
-            type: "success",
-          });
-        } else {
-          popup_alert({
-            visible: "show",
-            message: res.data.message,
-            type: "error",
-          });
-        }
+      //console.log(body);
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
-        //toast.success("Test Mail sent successfuly");
-      })
-      .catch((err) => {
-        loader("hide");
-        toast.error("Something went wrong");
-        console.log(err);
-      });
+      axios
+        .post(`emailapi/send_sample_email`, body)
+        .then((res) => {
+          //console.log(res);
+          loader("hide");
+          if (res.data.status_code === 200) {
+            popup_alert({
+              visible: "show",
+              message: "Test mail sent successfully",
+              type: "success",
+            });
+          } else {
+            popup_alert({
+              visible: "show",
+              message: res.data.message,
+              type: "error",
+            });
+          }
 
-    setSelectedHcp([]);
-    setSearchedUsers([]);
+          //toast.success("Test Mail sent successfuly");
+        })
+        .catch((err) => {
+          loader("hide");
+          toast.error("Something went wrong");
+          console.log(err);
+        });
+        setEmailSubject("");
+        setSelectedHcp([]);
+        setSearchedUsers([]);
+    }else{
+      toast.warning("Please select subject first");
+    }
   };
 
   const selectHcp = (index) => {
@@ -470,49 +460,6 @@ const TemplateBuilder = (props) => {
     } else {
       toast.error("User with same email already added in list.");
     }
-  };
-
-  const saveAsTemplateButtonClicked = async () => {
-    const body = {
-      user_id: localStorage.getItem("user_id"),
-      source_code: template,
-      template_id: templateId,
-      name: templateName,
-      status: 2,
-      language: 2,
-    };
-
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    loader("show");
-    await axios
-      .post(`emailapi/add_update_template`, body)
-      .then((res) => {
-        if (res.data.status_code === 200) {
-          loader("hide");
-          toast.success("Template saved successfully");
-        } else {
-          loader("hide");
-          toast.warning("Template not selected.");
-        }
-      })
-      .catch((err) => {
-        loader("hide");
-        toast.error("Something went wrong");
-      });
-    setNewTemplatePopup(false);
-    setTemplatePopup(false);
-  };
-
-  const saveButtonClicked = () => {
-    if (typeof finalTags != "undefined" && finalTags.length > 0) {
-      let prev_tags = finalTags;
-      let new_tags = prev_tags.concat(tagClickedFirst);
-      const uniqueTags = new_tags.filter((x, i, a) => a.indexOf(x) == i);
-      setFinalTags(uniqueTags);
-    } else {
-      setFinalTags(tagClickedFirst);
-    }
-    closeModal();
   };
 
   const nameChanged = (e) => {
@@ -539,9 +486,9 @@ const TemplateBuilder = (props) => {
     if (div) {
       div.classList.remove("select_mm");
     }
-
     setTemplateId(template.id);
     setTemplateName(template.name);
+    setNewTemplateName(template.name);
     setTemplate(template.source_code);
     e.target.classList.toggle("select_mm");
   };
@@ -551,18 +498,48 @@ const TemplateBuilder = (props) => {
   };
 
   const saveTemplateEdit = (e) => {
-    setTemplateName(newTemplateName);
-    setEdiatbleTemplate(false);
     e.preventDefault();
+    if(newTemplateName != ""){
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+        const body = {
+          user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
+          template_id: templateId,
+          image_url: "",
+          template_name: newTemplateName,
+        };
+        axios
+        .post(`emailapi/update_template`, body)
+        .then((res) => {
+          if (res.data.status_code == 200) {
+            toast.success(res.data.message);
+            setTemplateName(newTemplateName);
+            getTemplateListData(0,selectedLanguage,selectedIbu);
+            loader("hide");
+          }else{
+            toast.warning(res.data.message);
+            loader("hide");
+          }
+          setEdiatbleTemplate(false);
+        }).catch((err) => {
+          setEdiatbleTemplate(false);
+          loader("hide");
+          toast.error("Something went wrong.");
+        });
+    }else{
+      toast.warning("Please enter template name.");
+    }
   };
 
   const closeTemplateEdit = (e) => {
+    e.preventDefault();
     setEdiatbleTemplate(false);
     setNewTemplateName("");
   };
 
 
-  const editTemplateClicked = () => {
+  const editTemplateClicked = (e) => {
+    e.preventDefault();
+    setNewTemplateName(templateName);
     setEdiatbleTemplate(true);
   };
 
@@ -573,9 +550,7 @@ const TemplateBuilder = (props) => {
     event.preventDefault();
     if (templateId == "" || templateId == 0) {
       toast.warning("Please select email template first");
-    } else if (emailSubject == "" || emailSubject == 0) {
-      toast.warning("Please select email subject first");
-    } else {
+    }else {
       setIsOpensend(true);
     }
   };
@@ -595,73 +570,6 @@ const TemplateBuilder = (props) => {
     setActiveManual("active");
     setActiveExcel("");
     //console.log("hi");
-  };
-  const approvedClicked = async (e) => {
-    let ab = getIsApprovedStatus;
-    console.log(ab)
-    if(getIsApprovedStatus===3){
-     await setIsApprovedStatus(2);
-     ab = 2;
-    }else{
-      await setIsApprovedStatus(3);
-      ab = 3;
-    }
-    //setIsApprovedStatus(3);
-    e.preventDefault();
-    let tagss = [];
-    finalTags.map((tags) => {
-      tagss.push(tags.innerText || tags);
-    });
-
-
-    const body = {
-      user_id: localStorage.getItem("user_id"),
-      pdf_id: state_object?.PdfSelected
-      ? state_object.PdfSelected
-      : props.getDraftData.pdf_id,
-      description: props.getEmailData
-        ? emailDescription
-        : props.getDraftData.description,
-      creator: props.getEmailData ? emailCreator : props.getDraftData.creator,
-      campaign_name: props.getEmailData
-        ? emailCampaign
-        : props.getDraftData.campaign,
-      subject: props.getEmailData ? emailSubject : props.getDraftData.subject,
-      route_location: "CreateEmail",
-      tags: props.getEmailData ? tagss : props.getDraftData.tags,
-      campaign_data: {
-        template_id: props.getEmailData
-          ? templateId
-          : props.getDraftData.template_id,
-      },
-
-      campaign_id: campaign_id_st,
-      status: ab,
-      approved_page:1,
-    };
-
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    loader("show");
-    await axios
-      .post(`emailapi/save_draft`, body)
-      .then((res) => {
-        loader("hide");
-
-        setCampaign_id(res.data.response.data.id);
-        if (res.data.status_code === 200) {
-          if(ab===3){
-            toast.success("Approved Draft saved");
-          }else{
-            toast.success("Draft saved");
-          }
-
-        } else {
-          toast.warning(res.data.message);
-        }
-      })
-      .catch((err) => {
-        toast.error("Somwthing went wrong");
-      });
   };
 
   const responsive = {
@@ -937,8 +845,12 @@ const TemplateBuilder = (props) => {
   };
 
   const clickNewTemplate = () => {
-    setTemplatePopup(false);
-    setNewTemplatePopup(true);
+    if(typeof templateId != "undefined" && templateId != "" && templateId != 0){
+      setTemplatePopup(false);
+      setNewTemplatePopup(true);
+    }else{
+      toast.warning("Template not selected.");
+    }
   };
 
   const hideNewTemplatePopup = () => {
@@ -946,25 +858,44 @@ const TemplateBuilder = (props) => {
   };
 
   const languageSelected = (e) => {
-    console.log(e);
+    loader("show");
     setSelectedLanguage(e.value);
+    getTemplateListData(2,e.value,selectedIbu);
   };
 
   const ibuSelected = (e) => {
+    loader("show");
     setSelectedIbu(e.value);
+    let index = getTemplateIbu.findIndex(x => x.value === e.value);
+    setIbuOption(index);
+    getTemplateListData(2,selectedLanguage,e.value);
   };
 
   const savenewtemplate = async (e) => {
     e.preventDefault();
     let template_name = document.getElementById("template_name").value;
     if (template_name !== "" && template_name.trim().length > 0) {
+      let lang = 0;
+      if(selectedLanguage == "All" || selectedLanguage == "english"){
+        lang = 0;
+      }else if(selectedLanguage == "italian"){
+         lang = 1;
+      }else if(selectedLanguage == "germany"){
+         lang = 2;
+      }else if(selectedLanguage == "spanish"){
+         lang = 3;
+      }else if(selectedLanguage == "russian"){
+         lang = 4;
+      }
+
       const body = {
-        user_id: localStorage.getItem("user_id"),
+        user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
         source_code: template,
         template_id: "",
         name: template_name,
+        ibu: selectedIbu,
         status: 1,
-        language: 2,
+        language: lang,
       };
 
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -973,7 +904,7 @@ const TemplateBuilder = (props) => {
         .post(`emailapi/add_update_template`, body)
         .then((res) => {
           if (res.data.status_code === 200) {
-            getTemplateListData(1);
+            getTemplateListData(1,selectedLanguage,selectedIbu);
             setTemplateId(res.data.response.data.last_id);
           } else {
             loader("hide");
@@ -1009,7 +940,7 @@ const TemplateBuilder = (props) => {
     setShowLessInfo(true);
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
-      user_id: localStorage.getItem("user_id"),
+      user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
       list_id: smart_list_id,
     };
     loader("show");
@@ -1054,8 +985,8 @@ const TemplateBuilder = (props) => {
 
   const openPreviewThumbPopup = (e) => {
       e.preventDefault();
-      console.log(templateId);
       if(typeof templateId != "undefined" && templateId != "" && templateId != 0){
+        console.log(templateId);
         setviewEmailModal(true);
       }else{
           toast.warning("Template not selected.");
@@ -1063,37 +994,37 @@ const TemplateBuilder = (props) => {
   }
 
   const generate_thumb = useCallback(() => {
-
       if (ref.current === null) {
         return
       }
-
       loader("show");
       toPng(ref.current, { pixelRatio: 1,})
         .then((dataUrl) => {
           axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-          const body = {
-            user_id: localStorage.getItem("user_id"),
-            template_id: templateId,
-            image_url: dataUrl,
-          };
-          axios
-            .post(`emailapi/upload_template_thumb`, body)
-            .then((res) => {
-              if (res.data.status_code == 200) {
-                toast.success(res.data.message);
-                getTemplateListData(0);
-              }else{
-                toast.warning(res.data.message);
-              }
-                setviewEmailModal(false);
-                loader("hide");
-            })
-            .catch((err) => {
-              setviewEmailModal(false);
-              loader("hide");
-              toast.error("Something went wrong.");
-            });
+          if(dataUrl){
+            const body = {
+              user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
+              template_id: templateId,
+              image_url: dataUrl,
+              template_name: "",
+            };
+            axios
+              .post(`emailapi/update_template`, body)
+              .then((res) => {
+                if (res.data.status_code == 200) {
+                    toast.success(res.data.message);
+                    getTemplateListData(0,selectedLanguage,selectedIbu);
+                  }else{
+                    toast.warning(res.data.message);
+                  }
+                  setviewEmailModal(false);
+                  loader("hide");
+              }).catch((err) => {
+                  setviewEmailModal(false);
+                  loader("hide");
+                  toast.error("Something went wrong.");
+              });
+          }
         })
         .catch((err) => {
           setviewEmailModal(false);
@@ -1101,7 +1032,82 @@ const TemplateBuilder = (props) => {
           toast.error("Something went wrong.");
           console.log(err)
         })
-    }, [ref])
+    }, [ref,templateId])
+
+
+    const updateTemplate = async (e) => {
+      e.preventDefault();
+      let template_id = templateId;
+      if(typeof template_id != "undefined" && template_id != "" && template_id != 0){
+        if (editorRef.current) {
+          const body = {
+            user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
+            source_code: editorRef.current.getContent(),
+            template_id: templateId,
+            name: templateName,
+            status: 2,
+            language: 2,
+          };
+          axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+          loader("show");
+          await axios
+            .post(`emailapi/add_update_template`, body)
+            .then((res) => {
+              if (res.data.status_code === 200) {
+                getTemplateListData(1,selectedLanguage,selectedIbu);
+              } else {
+                loader("hide");
+                toast.warning("Template not selected.");
+              }
+            })
+            .catch((err) => {
+              loader("hide");
+              toast.error("Something went wrong");
+            });
+          setNewTemplatePopup(false);
+          setTemplatePopup(false);
+        }
+      }else{
+          toast.warning("Template not selected.");
+      }
+    }
+
+    const deleteTemplate = async (e) => {
+      e.preventDefault();
+      if(typeof templateId != "undefined" && templateId != "" && templateId != 0){
+          const body = {
+            user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
+            template_id: templateId,
+          };
+          axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+          loader("show");
+          await axios
+          .post(`emailapi/delete_template`, body)
+          .then((res) => {
+            if (res.data.status_code === 200) {
+              setshowConfirmation(false);
+              getTemplateListData(0,selectedLanguage,selectedIbu);
+              setTemplateId();
+              setTemplateName("");
+              setNewTemplateName("");
+              setTemplate("");
+              loader("hide");
+            } else {
+              loader("hide");
+              setshowConfirmation(false);
+              toast.warning("Template not selected.");
+            }
+          })
+          .catch((err) => {
+            loader("hide");
+            setshowConfirmation(false);
+            toast.error("Something went wrong");
+          });
+      }else{
+        setshowConfirmation(false);
+        toast.warning("Template not selected.");
+      }
+    }
 
   return (
     <>
@@ -1122,33 +1128,42 @@ const TemplateBuilder = (props) => {
             </div>
             <div className="template_builder-option">
               <div className="d-flex justify-content-start align-items-center">
-                <div className="template_language">
-                <span>Template language</span>
-                  <div className="form-group">
-                    <Select
-                      value={selectedLanguage}
-                      onChange={(e) => languageSelected(e)}
-                      options={options}
-                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                      placeholder={
-                        selectedLanguage ? selectedLanguage : "Select Language"
-                      }
-                    />
-                  </div>
-                </div>
+              {
+                getTemplateLanguage.length > 0 && (
+                  <div className="template_language">
+                  <span>Template language</span>
+                    <div className="form-group">
 
-                <div className="template_country">
-                  <span>IBU</span>
-                  <div className="form-group">
-                    <Select
-                      value={selectedIbu}
-                      onChange={(e) => ibuSelected(e)}
-                      options={ibu}
-                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                      placeholder={selectedIbu ? selectedIbu : "Select IBU"}
-                    />
+                      <Select
+                        defaultValue = {typeof  getTemplateLanguage[countryOption] === "undefined" ? "Select Language" : getTemplateLanguage[countryOption]}
+                        placeholder  = {typeof  getTemplateLanguage[countryOption] === "undefined" ? "Select Language" : getTemplateLanguage[countryOption]}
+                        onChange={(e) => languageSelected(e)}
+                        options={getTemplateLanguage}
+                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                      />
+                    </div>
                   </div>
-                </div>
+                )
+              }
+
+              {
+                  getTemplateIbu.length > 0 && (
+                    <div className="template_country">
+                      <span>IBU</span>
+                      <div className="form-group">
+                        <Select
+                          onChange={(e) => ibuSelected(e)}
+                          options={getTemplateIbu}
+                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                          defaultValue = {typeof  getTemplateIbu[ibuOption] === "undefined" ? "Select Ibu" : getTemplateIbu[ibuOption]}
+                          placeholder  = {typeof  getTemplateIbu[ibuOption] === "undefined" ? "Select Ibu" : getTemplateIbu[ibuOption]}
+                        />
+                      </div>
+                    </div>
+                  )
+              }
+
+
             </div>
             </div>
 
@@ -1206,55 +1221,83 @@ const TemplateBuilder = (props) => {
                       </div>
                       <div className="form-inline row justify-content-end align-items-center">
                         <div className="form-group col-12 col-md-5">
-                        <div className="template_name"><h4>{templateName}</h4></div>
-                          <div className="template-edit" style={{ display: "block" }}>
-                            <button className="btn btn-outline-primary" onClick={editTemplateClicked}>
-                              <img src={path_image + "edit-button.svg"} alt="Edit" />
-                            </button>
-                          </div>
+                          {
+                            templateName != "" && (
+                              <>
+                              {editableTemplate ? (
+                                <input
+                                  type="text"
+                                  value={newTemplateName}
+                                  onChange={(e) => templateNameChange(e)}
+                                ></input>
+                              ) : <div className="template_name"><h4>{templateName}</h4></div>}
 
-                          {editableTemplate ? (
-                            <input
-                              type="text"
-                              value={newTemplateName}
-                              onChange={(e) => templateNameChange(e)}
-                            ></input>
-                          ) : null}
-                        </div>
-                        <div className="form-buttons form-buttons-template right-side col-12 col-md-7">
-                          <button
-                            className="btn btn-primary btn-filled"
-                            onClick={(e) => {
-                                openPreviewThumbPopup(e);
-                            }}
-                          >
-                            Generate Thumbnail
-                          </button>
-                          <button className="btn btn-primary btn-filled" onClick={(e) => saveTemplateEdit(e)}>
-                            Save
-                          </button>
-                          <button className="btn btn-primary btn-bordered" onClick={(e) => saveTemplateEdit(e)}>
-                            Save As
-                          </button>
-                          <button  className={
-                              typeof getIsApprovedStatus !== "undefined" && getIsApprovedStatus == 3 ? "btn btn-primary approved-btn btn-bordered checked" : "btn btn-primary approved-btn btn-bordered" } onClick={(e) => approvedClicked(e)}
-                          >
-                          {typeof getIsApprovedStatus !== "undefined" && getIsApprovedStatus == 3 ? "Approved": "Approved"
+                                <div className="template-edit">
+                                  <button className="btn btn-outline-primary" onClick={(e) => editTemplateClicked(e)}>
+                                    <img src={path_image + "edit-button.svg"} alt="Edit" />
+                                  </button>
+                                </div>
+
+
+                              </>
+                            )
                           }
-                            <img src={path_image + "approved-btn.svg"} className="approve_btn" alt="" />
-                            <img src={path_image + "/approved-by-btn.svg"} className="approved_btn" alt="" />
-                          </button>
-                          <button className="btn btn-outline-primary btn-delete">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M15.84 22.25H8.15989C7.3915 22.2389 6.65562 21.9381 6.09941 21.4079C5.5432 20.8776 5.20765 20.157 5.15985 19.39L4.24984 5.55C4.24518 5.44966 4.26045 5.34938 4.29478 5.25498C4.32911 5.16057 4.38181 5.07391 4.44985 5C4.51993 4.9234 4.60479 4.86177 4.69931 4.81881C4.79382 4.77584 4.89606 4.75244 4.99985 4.75H19C19.1029 4.74977 19.2046 4.7707 19.2991 4.81148C19.3935 4.85226 19.4785 4.91202 19.5488 4.98704C19.6192 5.06207 19.6733 5.15077 19.7079 5.24761C19.7426 5.34446 19.7569 5.44739 19.75 5.55L18.88 19.39C18.8317 20.1638 18.4905 20.8902 17.9258 21.4214C17.3611 21.9527 16.6153 22.249 15.84 22.25ZM5.83986 6.25L6.60987 19.3C6.63531 19.6935 6.80978 20.0625 7.09775 20.3319C7.38573 20.6013 7.76555 20.7508 8.15989 20.75H15.84C16.2336 20.7485 16.6121 20.5982 16.8996 20.3292C17.1871 20.0603 17.3622 19.6927 17.39 19.3L18.2 6.3L5.83986 6.25Z" fill="#0066BE"></path><path d="M20.9998 6.25H2.99999C2.80108 6.25 2.61032 6.17098 2.46967 6.03033C2.32902 5.88968 2.25 5.69891 2.25 5.5C2.25 5.30109 2.32902 5.11032 2.46967 4.96967C2.61032 4.82902 2.80108 4.75 2.99999 4.75H20.9998C21.1987 4.75 21.3895 4.82902 21.5301 4.96967C21.6708 5.11032 21.7498 5.30109 21.7498 5.5C21.7498 5.69891 21.6708 5.88968 21.5301 6.03033C21.3895 6.17098 21.1987 6.25 20.9998 6.25Z" fill="#0066BE"></path><path d="M15 6.25009H9C8.80189 6.2475 8.61263 6.16765 8.47253 6.02755C8.33244 5.88745 8.25259 5.69819 8.25 5.50007V3.70004C8.26268 3.18685 8.47219 2.69818 8.83518 2.33519C9.19816 1.9722 9.68682 1.76268 10.2 1.75H13.8C14.3217 1.76305 14.8177 1.97951 15.182 2.35319C15.5463 2.72686 15.7502 3.22815 15.75 3.75004V5.50007C15.7474 5.69819 15.6676 5.88745 15.5275 6.02755C15.3874 6.16765 15.1981 6.2475 15 6.25009ZM9.75 4.75006H14.25V3.75004C14.25 3.63069 14.2026 3.51623 14.1182 3.43184C14.0338 3.34744 13.9193 3.30003 13.8 3.30003H10.2C10.0807 3.30003 9.96619 3.34744 9.8818 3.43184C9.79741 3.51623 9.75 3.63069 9.75 3.75004V4.75006Z" fill="#0066BE"></path><path d="M15 18.25C14.8019 18.2474 14.6126 18.1676 14.4725 18.0275C14.3324 17.8874 14.2526 17.6981 14.25 17.5V9.5C14.25 9.30109 14.329 9.11032 14.4697 8.96967C14.6103 8.82902 14.8011 8.75 15 8.75C15.1989 8.75 15.3897 8.82902 15.5303 8.96967C15.671 9.11032 15.75 9.30109 15.75 9.5V17.5C15.7474 17.6981 15.6676 17.8874 15.5275 18.0275C15.3874 18.1676 15.1981 18.2474 15 18.25Z" fill="#0066BE"></path><path d="M9 18.25C8.80189 18.2474 8.61263 18.1676 8.47253 18.0275C8.33244 17.8874 8.25259 17.6981 8.25 17.5V9.5C8.25 9.30109 8.32902 9.11032 8.46967 8.96967C8.61032 8.82902 8.80109 8.75 9 8.75C9.19891 8.75 9.38968 8.82902 9.53033 8.96967C9.67098 9.11032 9.75 9.30109 9.75 9.5V17.5C9.74741 17.6981 9.66756 17.8874 9.52747 18.0275C9.38737 18.1676 9.19811 18.2474 9 18.25Z" fill="#0066BE"></path><path d="M12 18.25C11.8019 18.2474 11.6126 18.1676 11.4725 18.0275C11.3324 17.8874 11.2526 17.6981 11.25 17.5V9.5C11.25 9.30109 11.329 9.11032 11.4697 8.96967C11.6103 8.82902 11.8011 8.75 12 8.75C12.1989 8.75 12.3897 8.82902 12.5303 8.96967C12.671 9.11032 12.75 9.30109 12.75 9.5V17.5C12.7474 17.6981 12.6676 17.8874 12.5275 18.0275C12.3874 18.1676 12.1981 18.2474 12 18.25Z" fill="#0066BE"></path></svg>
-                          </button>
+                          </div>
+                        {
+                          editableTemplate ?
+                            <div className="form-buttons form-buttons-template right-side col-12 col-md-7">
+                              <button className="btn btn-primary btn-filled" onClick={(e) => saveTemplateEdit(e)}>
+                                Save
+                              </button>
+                              <button className="btn btn-primary btn-bordered" onClick={(e) => closeTemplateEdit(e)}>
+                                Cancel
+                              </button>
+                            </div>
+                          :
+                            <div className="form-buttons form-buttons-template right-side col-12 col-md-7">
+                              <button
+                                className="btn btn-primary btn-filled"
+                                onClick={(e) => {
+                                    openPreviewThumbPopup(e);
+                                }}
+                              >
+                                Generate Thumbnail
+                              </button>
+                              <button className="btn btn-primary btn-filled" onClick={(e) => {
+                                  updateTemplate(e);
+                                  e.preventDefault();
+                              }}>
+                                Save
+                              </button>
+                              <button className="btn btn-primary btn-bordered" onClick={(e) => {
+                                clickNewTemplate();
+                                e.preventDefault();
+                              }}>
+                                Save As
+                              </button>
 
-                        </div>
+                              {
+                                getDefaultTemplate == 0 && (
+                                  <button className="btn btn-outline-primary btn-delete" onClick={(e) => {
+                                    e.preventDefault();
+                                    setshowConfirmation(
+                                      (showConfirmation) => !showConfirmation
+                                    );
+                                  }}>
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                      <path d="M15.84 22.25H8.15989C7.3915 22.2389 6.65562 21.9381 6.09941 21.4079C5.5432 20.8776 5.20765 20.157 5.15985 19.39L4.24984 5.55C4.24518 5.44966 4.26045 5.34938 4.29478 5.25498C4.32911 5.16057 4.38181 5.07391 4.44985 5C4.51993 4.9234 4.60479 4.86177 4.69931 4.81881C4.79382 4.77584 4.89606 4.75244 4.99985 4.75H19C19.1029 4.74977 19.2046 4.7707 19.2991 4.81148C19.3935 4.85226 19.4785 4.91202 19.5488 4.98704C19.6192 5.06207 19.6733 5.15077 19.7079 5.24761C19.7426 5.34446 19.7569 5.44739 19.75 5.55L18.88 19.39C18.8317 20.1638 18.4905 20.8902 17.9258 21.4214C17.3611 21.9527 16.6153 22.249 15.84 22.25ZM5.83986 6.25L6.60987 19.3C6.63531 19.6935 6.80978 20.0625 7.09775 20.3319C7.38573 20.6013 7.76555 20.7508 8.15989 20.75H15.84C16.2336 20.7485 16.6121 20.5982 16.8996 20.3292C17.1871 20.0603 17.3622 19.6927 17.39 19.3L18.2 6.3L5.83986 6.25Z" fill="#0066BE"></path><path d="M20.9998 6.25H2.99999C2.80108 6.25 2.61032 6.17098 2.46967 6.03033C2.32902 5.88968 2.25 5.69891 2.25 5.5C2.25 5.30109 2.32902 5.11032 2.46967 4.96967C2.61032 4.82902 2.80108 4.75 2.99999 4.75H20.9998C21.1987 4.75 21.3895 4.82902 21.5301 4.96967C21.6708 5.11032 21.7498 5.30109 21.7498 5.5C21.7498 5.69891 21.6708 5.88968 21.5301 6.03033C21.3895 6.17098 21.1987 6.25 20.9998 6.25Z" fill="#0066BE"></path><path d="M15 6.25009H9C8.80189 6.2475 8.61263 6.16765 8.47253 6.02755C8.33244 5.88745 8.25259 5.69819 8.25 5.50007V3.70004C8.26268 3.18685 8.47219 2.69818 8.83518 2.33519C9.19816 1.9722 9.68682 1.76268 10.2 1.75H13.8C14.3217 1.76305 14.8177 1.97951 15.182 2.35319C15.5463 2.72686 15.7502 3.22815 15.75 3.75004V5.50007C15.7474 5.69819 15.6676 5.88745 15.5275 6.02755C15.3874 6.16765 15.1981 6.2475 15 6.25009ZM9.75 4.75006H14.25V3.75004C14.25 3.63069 14.2026 3.51623 14.1182 3.43184C14.0338 3.34744 13.9193 3.30003 13.8 3.30003H10.2C10.0807 3.30003 9.96619 3.34744 9.8818 3.43184C9.79741 3.51623 9.75 3.63069 9.75 3.75004V4.75006Z" fill="#0066BE"></path><path d="M15 18.25C14.8019 18.2474 14.6126 18.1676 14.4725 18.0275C14.3324 17.8874 14.2526 17.6981 14.25 17.5V9.5C14.25 9.30109 14.329 9.11032 14.4697 8.96967C14.6103 8.82902 14.8011 8.75 15 8.75C15.1989 8.75 15.3897 8.82902 15.5303 8.96967C15.671 9.11032 15.75 9.30109 15.75 9.5V17.5C15.7474 17.6981 15.6676 17.8874 15.5275 18.0275C15.3874 18.1676 15.1981 18.2474 15 18.25Z" fill="#0066BE"></path><path d="M9 18.25C8.80189 18.2474 8.61263 18.1676 8.47253 18.0275C8.33244 17.8874 8.25259 17.6981 8.25 17.5V9.5C8.25 9.30109 8.32902 9.11032 8.46967 8.96967C8.61032 8.82902 8.80109 8.75 9 8.75C9.19891 8.75 9.38968 8.82902 9.53033 8.96967C9.67098 9.11032 9.75 9.30109 9.75 9.5V17.5C9.74741 17.6981 9.66756 17.8874 9.52747 18.0275C9.38737 18.1676 9.19811 18.2474 9 18.25Z" fill="#0066BE"></path><path d="M12 18.25C11.8019 18.2474 11.6126 18.1676 11.4725 18.0275C11.3324 17.8874 11.2526 17.6981 11.25 17.5V9.5C11.25 9.30109 11.329 9.11032 11.4697 8.96967C11.6103 8.82902 11.8011 8.75 12 8.75C12.1989 8.75 12.3897 8.82902 12.5303 8.96967C12.671 9.11032 12.75 9.30109 12.75 9.5V17.5C12.7474 17.6981 12.6676 17.8874 12.5275 18.0275C12.3874 18.1676 12.1981 18.2474 12 18.25Z" fill="#0066BE"></path></svg>
+                                  </button>
+                                )
+                              }
+
+
+                            </div>
+                        }
                       </div>
                     </form>
                   </div>
                 </div>
-                
+
 
                 <div className="row">
                 <Editor
@@ -1320,6 +1363,19 @@ const TemplateBuilder = (props) => {
           <section className="search-hcp">
             <div className="form-search-hcp">
               <form>
+                <div className="form-inline row justify-content-start align-items-center" id="popup_subject">
+                    <div className="form-group col-12 col-md-7">
+                      <label for="exampleInputEmail1">Subject</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="email-subject"
+                        onChange={(e) => emailSubjectChanged(e)}
+                        value={emailSubject}
+                      />
+                    </div>
+                  </div>
+
                 <div className="form-inline row justify-content-between align-items-center">
                   <div className="col-12 col-md-7">
                     <div className="row justify-content-between align-items-center">
@@ -1902,6 +1958,95 @@ const TemplateBuilder = (props) => {
         </Modal>
       </div>
       {/*Email Template image preview end*/}
+
+      {/*Modal for save new template start*/}
+      <div className="save_new_template_action">
+        <Modal
+          className="modal send-confirm"
+          id="save_new_template_action_modal"
+          show={getNewTemplatePopup}
+        >
+          <Modal.Header>
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              onClick={hideNewTemplatePopup}
+            ></button>
+          </Modal.Header>
+
+          <Modal.Body>
+            <form>
+              <div className="form-group">
+                <label>Enter new template name</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="template_name"
+                />
+              </div>
+              <button
+                type="submit"
+                className="btn btn-primary btn-filled"
+                onClick={savenewtemplate}
+              >
+                Save
+              </button>
+            </form>
+          </Modal.Body>
+        </Modal>
+      </div>
+      {/*Modal for save new template end*/}
+
+
+      {/*Confrimation Popup start*/}
+      <Modal
+        show={showConfirmation}
+        className="send-confirm"
+        id="resend-confirm"
+      >
+        <Modal.Header>
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="modal"
+            onClick={() => {
+              setshowConfirmation(
+                (showConfirmation) => !showConfirmation
+              );
+            }}
+          ></button>
+        </Modal.Header>
+        <Modal.Body>
+          <img src={path_image + "alert.png"} alt="" />
+          <h4>Are you sure you want to delete the selected template?</h4>
+          <div className="modal-buttons">
+            <button
+              type="button"
+              className="btn btn-primary btn-filled"
+              data-bs-dismiss="modal"
+              onClick={(e) => {
+                deleteTemplate(e);
+              }}
+            >
+              Yes Please!
+            </button>
+            <button
+              type="button"
+              className="btn btn-primary btn-bordered light"
+              data-bs-dismiss="modal"
+              onClick={() => {
+                setshowConfirmation(
+                  (showConfirmation) => !showConfirmation
+                );
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </Modal.Body>
+      </Modal>
+      {/*Confrimation Popup end*/}
     </>
   );
 };
