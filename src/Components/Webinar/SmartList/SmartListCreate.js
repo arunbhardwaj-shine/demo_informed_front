@@ -297,7 +297,7 @@ const SmartListCreate = () => {
                        onChange={(event) => setCreatorName(event.target.value)}
                     />
                   </div>
-                    <div className="form-group col no-padding">
+                    <div className="form-group col-sm-12">
                       <div className="form-group-content">
                         <p>
                           I want this to be a <span>Demo list</span>
