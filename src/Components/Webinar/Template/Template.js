@@ -300,10 +300,10 @@ const Template = (props) => {
             loader("hide");
           }, 1500);
         } else {
-          let noData;
           setTimeout(() => {
-            // alert("hello")
-            emailEditorRef.current.editor.loadDesign(null);
+            //  alert("hello")
+            // emailEditorRef.current.editor.onLoad();
+            emailEditorRef.current.editor.loadDesign();
             loader("hide");
           }, 2500);
         }

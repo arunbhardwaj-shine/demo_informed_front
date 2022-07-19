@@ -184,11 +184,12 @@ const SmartListCreate = () => {
 
           //setapi_flag(api_flag + 1);
         } else {
-          popup_alert({
-            visible: "show",
-            message: res.data.message,
-            type: "error",
-          });
+          toast.warning(res.data.message)
+          // popup_alert({
+          //   visible: "show",
+          //   message: res.data.message,
+          //   type: "error",
+          // });
         }
       })
       .catch((err) => {

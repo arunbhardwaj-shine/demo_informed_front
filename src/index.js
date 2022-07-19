@@ -116,6 +116,7 @@ import Files from "./Components/Webinar/File/Files";
 import SmartListUsers from "./Components/Webinar/Emails/SmartListUsers";
 import CreateRegistration from "./Components/Webinar/Registration/CreateRegistration";
 import NewRegistration from "./Components/Webinar/Registration/NewRegistration";
+import SmartListWebinar from "./Components/Webinar/SmartList/SmartListWebinar";
 
 let platform = 0;
 let show = 0;
@@ -320,7 +321,7 @@ ReactDOM.render(
                         <Route path="/webinar/files" element={<Files />} />
                         <Route
                           path="/webinar/email/WebinarSmartList"
-                          element={<WebinarSmartList />}
+                          element={<SmartListWebinar />}
                         />
                         <Route
                           path="/webinar/email/ViewSmartListWebinar"

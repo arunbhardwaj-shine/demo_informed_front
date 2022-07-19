@@ -994,7 +994,6 @@ const SmartListUsers = () => {
         <Modal
           id="add_hcp"
           show={isOpenAdd}
-          size="lg"
           aria-labelledby="contained-modal-title-vcenter"
           centered
         >
@@ -1031,7 +1030,7 @@ const SmartListUsers = () => {
                         <div className="row">
                           <div className="col-12 col-md-6">
                             <div className="form-group">
-                              <label for=""> Name</label>
+                              <label for=""> Name *</label>
                               <input
                                 type="text"
                                 name="name"

@@ -78,7 +78,12 @@ const SmartListWebinar = () => {
     hideConfirmationModal();
 ExportApi.SmartListDelete(deletecardid).then((resp) => {
   if (resp.ok) {
-   toast.success(resp.data.massage)
+   popup_alert({
+    visible: "show",
+    message: "The Smart List has been deleted <br />successfully !",
+    type: "success",
+    redirect: "",
+  });
     loader("hide")
     setTimeout(() => {
       handleGetSmartList()
@@ -427,14 +432,14 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
                         </div>
 
                         <div className="mail-time">
-                          <span>{data.created_at}</span>
+                          <span>{data.mod_date}</span>
                         </div>
                         <div className="smart-list-added-user">
                           <img
                             src={path_image + "smartlist-user.svg"}
                             alt="User icon"
                           />
-                          {data.readers_count}
+                          {data.count}
                         </div>
                         {/* <div className="mail-stats">
                             <ul>

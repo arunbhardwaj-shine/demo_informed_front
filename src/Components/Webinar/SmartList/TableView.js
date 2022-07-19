@@ -7,7 +7,7 @@ import React, {
   useImperativeHandle,
 } from "react";
 import { Link } from "react-router-dom";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Form, Modal } from "react-bootstrap";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import SimpleReactValidator from "simple-react-validator";
@@ -19,8 +19,11 @@ import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { BaseApi } from "../../../Api/BaseApi";
-
+import ExportApi from "../../../Api/ExportApi";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 const TableView = (props, ref) => {
+
   const baseURL = BaseApi.getBaseURL();
   const [inEditMode, setInEditMode] = useState({
     status: false,
@@ -30,6 +33,7 @@ const TableView = (props, ref) => {
   //let validator = new SimpleReactValidator();
   let path_image = process.env.REACT_APP_ASSETS_PATH_WEBINAR;
   const navigate = useNavigate();
+  const [isOpenAddModal, setIsOpenAddModal] = useState(false);
   const queryParams = queryString.parse(window.location.search);
   const [validator] = React.useState(new SimpleReactValidator());
   const [validator2] = React.useState(new SimpleReactValidator());
@@ -92,7 +96,55 @@ const TableView = (props, ref) => {
     }),
     []
   );
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      country: "",
+      profession: "",
+      interest: "",
+      hospital: "",
+    },
 
+    validationSchema: Yup.object({
+      name: Yup.string().required("Name is required"),
+      email: Yup.string().required("Email is required").email(),
+    }),
+    onSubmit: (values) => {
+      loader("show");
+      let Data = JSON.stringify([values]);
+      ExportApi.EmailSand(props.smartListId, Data)
+        .then((resp) => {
+          if (resp.data) {
+            // console.log(resp.data);
+            if (resp.data.code == 200) {
+              // handleGetSmartListSingleRecord(parms.id);
+              setEditList([...editList,{name:values.name,email:values.email}])
+              setIsOpenAddModal(false);
+              toast.success(resp.data.message);
+            } else {
+              loader("hide");
+              toast.error(resp.data.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
+            }
+          }
+        })
+
+        .catch((err) => {
+          loader("hide");
+        });
+ loader("hide");
+    },
+
+    // props.closePopup();
+  });
   useEffect(() => {
     setUpdatedData(props.data);
     setEditList(props.data);
@@ -119,23 +171,7 @@ const TableView = (props, ref) => {
   }, [props.data]);
 
   useEffect(() => {
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    const getalCountry = async () => {
-      const body = {
-        user_id: 18207,
-      };
-      await axios
-        .post(`distributes/filters_list`, body)
-        .then((res) => {
-          setCountryall(res.data.response.data.country);
-          // console.log(countryall);
-          // setCounter(counter + 1);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-    getalCountry();
+    handleGetCountry()
   }, []);
 
   const handleClose = () => {
@@ -145,6 +181,7 @@ const TableView = (props, ref) => {
   };
   const handleShow = () => {
     setIsOpenAdd(true);
+    setIsOpenAddModal(true)
     setHpc([
       {
         firstname: "",
@@ -243,16 +280,17 @@ const TableView = (props, ref) => {
       // "mouseleave",
       // async (event) => {
       const name_edit = document.getElementById("field_name" + id).innerText;
+      const email = document.getElementById("field_name" + id).innerText;
 
       // console.log(name_edit);
-
+console.log("email",email)
       var arr = [];
       arr.push({
         id: id,
         name: name_edit,
         country: "",
         hospital: "",
-        email: "",
+        email: email,
         profession: "",
         interest: "",
         consent: "",
@@ -330,7 +368,7 @@ const TableView = (props, ref) => {
         if (res.data.status_code == 200) {
           popup_alert({
             visible: "show",
-            message: "Your changes has been saved <br />successfully !",
+            message: "Your changes has been saved <br/>successfully !",
             type: "success",
             redirect: "/SmartList",
           });
@@ -430,7 +468,8 @@ const TableView = (props, ref) => {
     setAddFileReRender(addFileReRender + 1);
   };
 
-  const saveEditClicked = async () => {
+  const saveEditClicked = async (id) => {
+    if(id==0){
     setEditable(0);
     if (editableData.length > 0) {
       editableData.map((data) => {
@@ -461,12 +500,18 @@ const TableView = (props, ref) => {
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       // loader("show");
       await axios
-        .post(baseURL + `smart-list/update-participants`, body, { headers })
+        .post(baseURL + `/smart-list/update-participants`, body, { headers })
         .then((res) => {
           // console.log(res);
 
           if (res.data.code == 200) {
-            toast.success("Data updated successfully");
+            popup_alert({
+                  visible: "show",
+                  message: "Data updated <br> successfully",
+                  type: "error",
+                  redirect: "/webinar/email/WebinarSmartList",
+                });
+            // toast.success("Data updated successfully");
           }
 
           //  loader("hide");
@@ -492,8 +537,18 @@ const TableView = (props, ref) => {
       toast.warning("No update");
       setSaveOpen(false);
     }
+  }else{
+    setSaveOpen(false);
+  }
   };
 
+  const handleGetCountry = () => {
+    ExportApi.GetCountryData().then((resp) => {
+      if (resp.ok) {
+        setCountry(resp.data.data);
+      }
+    });
+  };
   const closeClicked = () => {
     setSaveOpen(false);
     setEditable(0);
@@ -640,12 +695,18 @@ const TableView = (props, ref) => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
-      .post(baseURL + `smart-list/delete-participants`, body, {
+      .post(baseURL + `/smart-list/delete-participants`, body, {
         headers,
       })
       .then((res) => {
         // console.log(res);
-
+   popup_alert({
+        visible: "show",
+        // message: "Please keep atleast one reader or delete the smart list",
+        message: "Data deleted <br> successfully.",
+        type: "error",
+        // redirect: "",
+      });
         loader("hide");
       })
       .catch((err) => {
@@ -664,12 +725,12 @@ const TableView = (props, ref) => {
       setIsOpen(true);
       setProfileUserId(participants_id);
     } else {
-      // popup_alert({
-      //   visible: "show",
-      //   message: "Please keep atleast one reader or delete the smart list",
-      //   type: "error",
-      //   redirect: "",
-      // });
+      popup_alert({
+        visible: "show",
+        message: "Please keep atleast one reader or delete the smart list",
+        type: "error",
+        // redirect: "",
+      });
     }
   };
 
@@ -871,20 +932,22 @@ const TableView = (props, ref) => {
     normalArr = editList;
     if (sorting === 0) {
       normalArr.sort((a, b) =>
-        a.first_name.toLowerCase() > b.first_name.toLowerCase()
+        a.name.toLowerCase() > b.name.toLowerCase()
           ? 1
-          : b.first_name.toLowerCase() > a.first_name.toLowerCase()
+          : b.name.toLowerCase() > a.name.toLowerCase()
           ? -1
           : 0
       );
+      setSortingCount(0)
     } else {
       normalArr.sort((a, b) =>
-        a.first_name.toLowerCase() < b.first_name.toLowerCase()
+        a.name.toLowerCase() < b.name.toLowerCase()
           ? 1
-          : b.first_name.toLowerCase() < a.first_name.toLowerCase()
+          : b.name.toLowerCase() < a.name.toLowerCase()
           ? -1
           : 0
       );
+      setSortingCount(1)
     }
 
     setEditList(normalArr);
@@ -900,21 +963,19 @@ const TableView = (props, ref) => {
     props.sendDataToParent(dataUpdated, "new");
     setNewReaders(dataUpdated);
   };
-
   return (
     <>
         <div className="loader" id="custom_loader">
           <span className="loader-view"> </span>
         </div>
-      <div class="right-sidebar col">
-        <ToastContainer />
-        <div class="top-header">
-          <div class="page-title">
-            <div class="header-btn-left">
-              <button
+        <div className="page-top-nav smart_list_names">
+            <div className="row justify-content-end align-items-center">
+              <div className="col-12 col-md-1">
+                <div className="header-btn-left">
+                <button
                 class="btn btn-primary btn-filled back"
                 onClick={() => {
-                  navigate("/webinar/email/WebinarSmartList");
+                  navigate("/webinar/email/SmartListCreate");
                 }}
               >
                 <svg
@@ -932,50 +993,409 @@ const TableView = (props, ref) => {
                   />
                 </svg>
               </button>
-              {/* <a class="btn btn-primary btn-filled light" href="#">
-                  <img
-                    src={path_image + "arrow-left.svg"}
-                    alt=""
-                    onClick={() => {
-                      navigate("/webinar/email/WebinarSmartList");
-                    }}
-                  />
-                </a> */}
-            </div>
-            {/* <div class="header-btn-right back_btn">
-              <a class="btn btn-primary btn-filled light" href="#">
-                <img
-                  src={path_image + "arrow-left.svg"}
-                  alt=""
-                  onClick={() => navigate("/webinar/email/SmartListCreate")}
-                />
-              </a>
-            </div> */}
-            <h2>Name of the list</h2>
-          </div>
-          <div class="top-right-action">
-            <div class="hcp-added">
-              <button class="btn btn-outline-primary">
-                <img
-                  src={path_image + "edit.svg"}
-                  alt="Edit"
-                  onClick={editButtonClicked}
-                />
-              </button>
-            </div>
-            <div>
-              <button
+                </div>
+              </div>
+              <div className="col-12 col-md-8">
+                <ul className="tabnav-link">
+                  <li className="">
+                    <a href="javascript:void(0)">Create smart List</a>
+                  </li>
+                  <li className="active active-main">
+                    <a href="javascript:void(0)">Verify Your List</a>
+                  </li>
+                </ul>
+              </div>
+              <div className="col-12 col-md-3">
+                {saveOpen==false?<> <div className="header-btn">
+                <button
                 class="btn btn-outline-primary"
                 onClick={() => navigate("/webinar/email/WebinarSmartList")}
               >
-                Close
+                cancel
               </button>
+                  <button
+                    className="btn btn-primary btn-filled create"
+                     onClick={()=>saveEditClicked(0)}
+                  >
+                  Create
+                
+                  </button>
+                </div></>:null}
+               
+              </div>
             </div>
           </div>
-        </div>
+        <ToastContainer />
+        <section className="search-hcp smart-list-view">
+        <div className="result-hcp-table">
+          <div className="table-title">
+            {!props?.data == 0 ? (
+              <h4>
+                Uploaded HCPs for the smart list{" "}
+                <span>| {editList?.length> 0 ? editList?.length : 0}</span>
+              </h4>
+            ) : (
+              <h4>Selected HCPs for the smart list</h4>
+            )}
 
-        <section class="search-hcp">
-          <div class="selected-hcp-table-action">
+            <div className="selected-hcp-table-action">
+              {editable == false ? (
+                <>
+                  {" "}
+                  <a
+                    className="show-less-info"
+                    onClick={(e) => showMoreInfo(e)}
+                  >
+                    {showLessInfo == true ? (
+                      <p className="show_more">Show More information</p>
+                    ) : (
+                      <p className="show_less">Show less information</p>
+                    )}{" "}
+                  </a>
+                  <ReactHTMLTableToExcel
+                    id="test-table-xls-button"
+                    className="btn btn-outline-primary"
+                    table="table-to-xls"
+                    filename="sample"
+                    sheet="tablexls"
+                    buttonText="Download "
+                  />
+                  <div className="hcp-new-user">
+                    <button
+                      className="btn btn-outline-primary"
+                      onClick={handleShow}
+                    >
+                      <img src={path + "new-user.svg"} alt="New User" />
+                    </button>
+                  </div>
+                  <div className="hcp-added">
+                    <button
+                      className="btn btn-outline-primary"
+                      onClick={editButtonClicked}
+                    >
+                      <img src={path + "edit-button.svg"} alt="Edit" />
+                    </button>
+                  </div>
+                  <div className="hcp-sort">
+                    {sortingCount == 0 ? (
+                      <>
+                        <button
+                          className="btn btn-outline-primary"
+                          onClick={sortSelectedUsers}
+                        >
+                          Sort By{" "}
+                          <img src={path_image + "sort.svg"} alt="Shorting" />
+                        </button>
+                      </>
+                    ) : sorting == 0 ? (
+                      <>
+                        <button
+                          className="btn btn-outline-primary desc"
+                          onClick={sortSelectedUsers}
+                        >
+                          Sort By{" "}
+                          <img
+                            src={path_image + "sort-decending.svg"}
+                            alt="Shorting"
+                          />
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          className="btn btn-outline-primary asc"
+                          onClick={sortSelectedUsers}
+                        >
+                          Sort By{" "}
+                          <img
+                            src={path_image + "sort-assending.svg"}
+                            alt="Shorting"
+                          />
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </>
+              ) : null}
+
+              {saveOpen ? (
+                <>
+                  <button
+                    className="btn btn-primary btn-filled"
+                    onClick={closeClicked}
+                  >
+                    Close
+                  </button>
+                  <button
+                    className="btn btn-primary btn-bordered"
+                    onClick={()=>saveEditClicked(1)}
+                  >
+                    Save
+                  </button>
+                </>
+              ) : null}
+            </div>
+          </div>
+          <div className="selected-hcp-list">
+            <table className="table" id="table-to-xls">
+              <thead className="sticky-header">
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Bounced</th>
+                  <th scope="col">Country</th>
+                  <th scope="col">Business Unit</th>
+                  <th scope="col">Contact Type</th>
+                  {showLessInfo == false ? (
+                    <>
+
+                      <th scope="col">Consent</th>
+                      <th scope="col">Email Received</th>
+                      <th scope="col">Openings</th>
+                      <th scope="col">Registrations</th>
+                      <th scope="col">Last Email</th>
+                      <th scope="col"></th>
+                    </>
+                  ) : null}
+                </tr>
+              </thead>
+              <tbody>
+                {typeof getNewReaders !== "undefined" &&
+                  getNewReaders.length > 0 &&
+                  getNewReaders.map((item, index) => (
+                    <tr
+                      className="hcps-added"
+                      id={`row-selected` + index}
+                      onClick={(e) =>
+                        editing(
+                          //  e.currentTarget,
+                          item.id,
+                           item.email,
+                          item.name,
+                          index
+                        )
+                      }
+                    >
+                      {/* <td contenteditable={editable === 0 ? "false" : "true"} id={`field_name` + item.profile_user_id}>
+                        {inEditMode.status &&
+                        inEditMode.rowKey === item.profile_id ? (
+                          <input
+                            value={name}
+                            onChange={(event) => setName(event.target.value)}
+                          />
+                        ) : (
+                          item.name
+                        )}
+                      </td>
+                      <td>
+                        {" "}
+                        {inEditMode.status &&
+                        inEditMode.rowKey === item.profile_id ? (
+                          <input
+                            value={email}
+                            type="email"
+                            onChange={(event) => setEmail(event.target.value)}
+                          />
+                        ) : (
+                          item.name
+                        )}
+                      </td> */}
+                      <input type="hidden" id={`field_index` + item.profile_user_id} value={index} />
+                      <td>{item.bounce}</td>
+                      <td>
+                      {
+                        editable ?  <select
+                        name="Country"
+                        className="form-select-lg mb-3"
+                        aria-label=".form-select-lg example"
+                      >
+                        <option >Select Country</option>
+                        {country?.map((val, i) => (
+                          <React.Fragment key={i}>
+                            <option key={i} value={val.id}>
+                              {val.country}
+                            </option>
+                          </React.Fragment>
+                        ))}
+                      </select> : <span>{item.country}</span>
+                      }
+                      </td>
+                      <td> {item.ibu}</td>
+                      <td>
+                        {
+                          editable ?    <div className="user-type-option">
+                          <Form.Select
+                            className="form-select"
+                            // onChange={(e) => {
+                            //   handleSelect(e.target.value, i);
+                            //   handleSelectChange(val.id, val.type);
+                            // }}
+                          >
+                            <option value="HCP">HCP</option>
+                            <option value="Staff User">Staff User</option>
+                            <option value="Test User">Test User</option>
+                          </Form.Select>
+                        </div> : <span>{item.contact_type}</span>
+                        }
+                      </td>
+
+                      {showLessInfo == false ? (
+                        <td>
+                          <span>{item.consent}</span>{" "}
+                        </td>
+                      ) : null}
+                      {showLessInfo == false ? (
+                        <td>
+                          <span>{item.email_received}</span>
+                        </td>
+                      ) : null}
+                      {showLessInfo == false ? (
+                        <td>
+                          <span>{item.email_opening}</span>
+                        </td>
+                      ) : null}
+                      {showLessInfo == false ? (
+                        <td>
+                          <span>{item.registration}</span>
+                        </td>
+                      ) : null}
+                      {showLessInfo == false ? (
+                        <td>
+                          <span>{item.last_email}</span>
+                        </td>
+                      ) : null}
+
+                      <td className="delete_row" colspan="12">
+                    
+                        <img
+                          src={path + "delete.svg"}
+                          alt="Delete Row"
+                          onClick={() => deleteNewlyAdded(item.profile_user_id)}
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                {typeof getNewReaders !== "undefined" &&
+                  getNewReaders.length > 0 && (
+                    <tr className="seprator-add">
+                      <td colspan="13"></td>
+                    </tr>
+                  )}
+                {typeof editList !== "undefined" &&
+                  editList.length > 0 &&
+                  editList.map((item, index) => (
+                    <tr
+                      id={`row-selected` + index}
+
+                      onClick={(e) =>
+                        editing(
+                          //  e.currentTarget,
+                          item.id,
+                          item.email,
+                         item.name,
+                         index
+                        )
+                      }
+                    >
+                            <td
+                              id={`field_name` + item.id}
+                              contenteditable={
+                                editable === 0 ? "false" : "true"
+                              }
+                            >
+                              <span>{item.name}</span>
+                            </td>
+
+                      <td id={`field_email` + item.profile_user_id}>{item.email}</td>
+                      <input type="hidden" id={`field_index` + item.profile_user_id} value={index} />
+                      <td id={`field_bounced` + item.profile_user_id}>{item.bounce}</td>
+                      <td>
+                      {
+                        editable ?  <select
+                        name="Country"
+                        className="form-select-lg mb-3"
+                        aria-label=".form-select-lg example"
+                      >
+                        <option selected>Select Country</option>
+                        {country?.map((val, i) => (
+                          <React.Fragment key={i}>
+                            <option key={i} value={val.id}>
+                              {val.country}
+                            </option>
+                          </React.Fragment>
+                        ))}
+                      </select> : <span>{item.country}</span>
+                      }
+                      </td>
+                      {/*showLessInfo == false ? (
+                        <td id="field_readers">NA</td>
+                      ) : null*/}
+                      <td id="field_business_unit">{item.ibu}</td>
+                      <td id="field_interest">
+                      {
+                        editable ?    <div className="user-type-option">
+                        <Form.Select
+                          className="form-select"
+                          // onChange={(e) => {
+                          //   handleSelect(e.target.value, i);
+                          //   handleSelectChange(val.id, val.type);
+                          // }}
+                          // value={val.type}
+                          // key={i}
+                        >
+                          <option value="HCP">HCP</option>
+                          <option value="Staff User">Staff User</option>
+                          <option value="Test User">Test User</option>
+                        </Form.Select>
+                      </div> : <span>{item.contact_type}</span>
+                      }
+                      </td>
+
+                      {showLessInfo == false ? (
+                        <td>
+                          <span>{item.consent}</span>{" "}
+                        </td>
+                      ) : null}
+                      {showLessInfo == false ? (
+                        <td>
+                          <span>{item.email_received}</span>
+                        </td>
+                      ) : null}
+                      {showLessInfo == false ? (
+                        <td>
+                          <span>{item.email_opening}</span>
+                        </td>
+                      ) : null}
+                      {showLessInfo == false ? (
+                        <td>
+                          <span>{item.registration}</span>
+                        </td>
+                      ) : null}
+                      {showLessInfo == false ? (
+                        <td>
+                          <span>{item.last_email}</span>
+                        </td>
+                      ) : null}
+
+                      <td
+                        className="delete_row"
+                        colspan="12"
+                        onClick={() =>
+                          onDelete({
+                            participants_id: item.id,
+                          })
+                        }
+                      >
+                        <img src={path + "delete.svg"} alt="Delete Row" />
+                      </td>
+                    </tr>
+                  ))}
+                {validator3.message("email", email, "required|email")}
+              </tbody>
+            </table>
+          </div>
+          </div>
+          {/* <div class="selected-hcp-table-action">
             {" "}
             {saveOpen ? (
               <>
@@ -994,8 +1414,8 @@ const TableView = (props, ref) => {
                 </button>
               </>
             ) : null}
-          </div>
-          <div class="result-hcp-table">
+          </div> */}
+          {/* <div class="result-hcp-table">
             <div class="selected-hcp-list">
               <table class="table">
                 <thead>
@@ -1070,9 +1490,163 @@ const TableView = (props, ref) => {
                 </tbody>
               </table>
             </div>
-          </div>
+          </div> */}
+
         </section>
-      </div>
+        <Modal
+          id="add_hcp"
+          show={isOpenAddModal}
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <div
+            data-bs-backdrop="static"
+            data-bs-keyboard="false"
+            tabindex="-1"
+            aria-hidden="true"
+          >
+            <div className="modal-header">
+              <h5 className="modal-title" id="staticBackdropLabel">
+                Add New HCP
+              </h5>
+              <button
+                onClick={() => {
+                  setIsOpenAdd(false);
+                }}
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body">
+              <div className="hcp-add-box">
+                <div className="hcp-add-form tab-content" id="upload-confirm">
+                  <form
+                    id="add_hcp_form"
+                    className={"tab-pane active"}
+                    onSubmit={formik.handleSubmit}
+                  >
+                    <div className="add_hcp_boxes">
+                      <div className="form_action">
+                        <div className="row">
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for=""> Name *</label>
+                              <input
+                                type="text"
+                                name="name"
+                                className="form-control"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.name}
+                              />
+                              {formik.touched.name && formik.errors.name ? (
+                                <div className="error" style={{ color: "red" }}>
+                                  {formik.errors.name}
+                                </div>
+                              ) : null}
+                            </div>
+                          </div>
+
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for="">Email *</label>
+                              <input
+                                type="email"
+                                className="form-control"
+                                id="email-desc"
+                                name="email"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.email}
+                              />
+                              {formik.touched.email && formik.errors.email ? (
+                                <div className="error" style={{ color: "red" }}>
+                                  {formik.errors.email}
+                                </div>
+                              ) : null}
+                            </div>
+                          </div>
+
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for="">Hospital</label>
+                              <input
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.hospital}
+                                name="hospital"
+                                type="text"
+                                className="form-control"
+                              />
+                            </div>
+                          </div>
+
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for="">Profession</label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                name="profession"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.profession}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for="">Country</label>
+                              <select
+                                name="country"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.country}
+                                className="country-form"
+                                aria-label="select"
+                              >
+                                <option selected>Select Country</option>
+                                {country?.map((val, i) => (
+                                  <React.Fragment key={i}>
+                                    <option key={i} value={val.name}>
+                                      {val.country}
+                                    </option>
+                                  </React.Fragment>
+                                ))}
+                              </select>
+                            </div>
+                          </div>
+
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for="">Interest</label>
+                              <input
+                                name="interest"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.interest}
+                                type="text"
+                                className="form-control"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <button
+                      type="submit"
+                      className="btn btn-primary save btn-filled"
+                    >
+                      Save
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Modal>
       <Modal show={isOpen} className="send-confirm" id="delete-smartlist">
         <Modal.Header>
           <button

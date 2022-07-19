@@ -11,6 +11,7 @@ import { loader } from "../../../loader";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import { BaseApi } from "../../../Api/BaseApi";
+import { popup_alert } from "../../../popup_alert";
 
 const FilterList = () => {
   const inputElement = useRef();
@@ -211,7 +212,7 @@ const FilterList = () => {
       participants: JSON.stringify(participants_id),
     };
 
-    loader("show");
+    // loader("show");
     await axios
       .post(baseURL + `/smart-list/create`, body, {
         headers,
@@ -220,8 +221,14 @@ const FilterList = () => {
         // console.log(res);
 
         if (res.data.code == 200) {
+          popup_alert({
+            visible: "show",
+            message: "Your Smart List has been created <br />successfully !",
+            type: "success",
+            redirect: "",
+          });
           navigate("/webinar/email/WebinarSmartList");
-          loader("hide");
+          // loader("hide");
         }
         //  console.log(res.data.status_code);
         //  if (res.data.status_code == 200) {

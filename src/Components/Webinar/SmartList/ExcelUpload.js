@@ -9,8 +9,14 @@ const ExcelUpload = () => {
 
   return (
     <>
+        <div className="col right-sidebar">
+        <div className="custom-container">
+          <div className="row">
       {/* {console.log(data)} */}
       <TableView data={data} smartListId={smartListId} upload_by_filter="0" />
+      </div>
+      </div>
+      </div>
     </>
   );
 };

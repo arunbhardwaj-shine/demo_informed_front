@@ -432,12 +432,11 @@ const WebinarSmartList = () => {
                 <p>Create New Smart List</p>
               </div>
             </div>
-
             {typeof smartListData !== "undefined" &&
             smartListData.length > 0 ? (
-              smartListData.map((data) => {
+              smartListData.map((data , i) => {
                 return (
-                  <div class="smartlist_box_block">
+                  <div key={i} class="smartlist_box_block">
                     {/* {console.log(data)} */}
                     <div class="smartlist-view email_box">
                       <div class="mail-box-content">

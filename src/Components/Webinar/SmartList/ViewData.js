@@ -481,7 +481,7 @@ const ViewData = (props) => {
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       // loader("show");
       await axios
-        .post(baseURL + `smart-list/update-participants`, body, { headers })
+        .post(baseURL + `/smart-list/update-participants`, body, { headers })
         .then((res) => {
           // console.log(res);
 

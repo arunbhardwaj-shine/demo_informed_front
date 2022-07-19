@@ -8,6 +8,7 @@ import ExportApi from "../../../Api/ExportApi";
 import { handleGetRehearsalListData } from "../Rehearsal/RehearsalList";
 export let EventId;
 const Header = () => {
+  let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [smShowLogin, setSmShowLogin] = useState(false);
   const [smShowForgot, setSmShowForgot] = useState(false);
@@ -18,6 +19,14 @@ const Header = () => {
   const [usernameget, setUsernameget] = useState(
     localStorage.getItem("username")
   );
+  const removed_pop =()=>{
+		var element = document.getElementById("resend-confirm");
+   		 element.classList.remove("custom_model_show");
+		var redirect_info = document.getElementById("modeltoreplace").getAttribute("redirecto");
+		if(redirect_info){
+			navigate(redirect_info);
+		}
+  }
   const hengleLonginPage = (data,message) => {
     setSmShowLogin(data);
     setDropdownOpen(data);
@@ -226,6 +235,36 @@ const Header = () => {
         </nav>
 
       </header>}
+      <div className="modal send-confirm" id="resend-confirm" aria-modal="true" role="dialog" >
+				  <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+					<div className="modal-content">
+
+
+					  <div className="modal-header">
+						{/* <button type="button" className="btn-close" data-bs-dismiss="modal"></button> */}
+					  </div>
+
+
+					  <div className="modal-body">
+              <div>
+                <center>
+
+              <svg id="img-replaced" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M20 0C31.0457 0 40 8.95433 40 20C40 31.0457 31.0457 40 20 40C8.95433 40 0 31.0457 0 20C0 8.95433 8.95433 0 20 0ZM10.6383 21.1874L16.3343 26.4183C17.1652 27.183 18.4513 27.1423 19.2326 26.3363L29.3941 16.6073C30.2206 15.8122 30.2461 14.4976 29.451 13.6712C28.6559 12.8447 27.3414 12.8192 26.5149 13.6142L17.7128 22.0417L13.4525 18.1292C12.608 17.3521 11.2934 17.4067 10.5163 18.2512C9.73925 19.0958 9.79383 20.4103 10.6383 21.1874V21.1874Z" fill="#39CABC"/>
+ </svg>
+                </center>
+              </div>
+	{/*<img id="img-replaced" src={path_image+"webinar/success.svg"} alt="" /> */}
+						<h4 id="message_change">This email will be sent to everybody who has not opened the email  </h4>
+
+						<div className="modal-buttons">
+							<button type="button" href="javascript:;"  id="modeltoreplace" className="btn btn-primary btn-bordered light" data-bs-dismiss="modal" onClick={removed_pop}>Close</button>
+						</div>
+					  </div>
+
+					</div>
+				  </div>
+				</div>
     </>
   );
 };
