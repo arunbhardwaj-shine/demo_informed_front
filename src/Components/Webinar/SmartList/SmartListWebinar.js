@@ -483,13 +483,9 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
                                   Edit List
                                 </Link>
                               )}
-
                               <Link
                                 className="btn btn-primary btn-filled view"
-                                to={{
-                                  pathname: "/ViewSmartList",
-                                  search: "?listId=" + data.id,
-                                }}
+                                to={`/webinar/emails/smart-list-view/${data.id}`}
                                 // onClick={() => linkClicked(data.id)}
                               >
                                 View

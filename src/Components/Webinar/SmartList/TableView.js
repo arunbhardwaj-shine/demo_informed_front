@@ -346,7 +346,7 @@ const TableView = (props, ref) => {
       const email = document.getElementById("field_name" + id).innerText;
 
       // console.log(name_edit);
-console.log("email",email)
+// console.log("email",email)
       var arr = [];
       arr.push({
         id: id,
@@ -919,7 +919,10 @@ console.log("email",email)
       } else {
         toast.warning("Please input the email atleast");
       }
-
+    // 1-3=5
+    // 4-6=10
+    // 7-9=15
+    // 10-12=20
       //setIsOpen(false);
     } else {
       let formData = new FormData();
@@ -1032,7 +1035,31 @@ console.log("email",email)
           <span className="loader-view"> </span>
         </div>
         <div className="page-top-nav smart_list_names">
-            {props.upload_by_filter==0?<div className="row justify-content-end align-items-center">
+            {props.upload_by_filter=="001"?<div className="row justify-content-end align-items-center"> <div className="col-12 col-md-1">
+                <div className="header-btn-left">
+                <button
+                class="btn btn-primary btn-filled back"
+                onClick={() => {
+                  navigate("/webinar/email/SmartListCreate");
+                }}
+              >
+                <svg
+                  width="12"
+                  height="19"
+                  viewBox="0 0 12 19"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M8.31557 17.82C8.97165 18.476 10.0354 18.476 10.6915 17.82C11.3475 17.1639 11.3475 16.1002 10.6915 15.4441L4.7522 9.50484L10.6927 3.56431C11.3488 2.90823 11.3488 1.84451 10.6927 1.18843C10.0367 0.532347 8.97294 0.532347 8.31686 1.18843L1.2212 8.28409C1.21 8.29469 1.19891 8.30548 1.18794 8.31646C0.531858 8.97254 0.531858 10.0363 1.18794 10.6923L8.31557 17.82Z"
+                    fill="white"
+                  />
+                </svg>
+              </button>
+                </div>
+              </div></div>:<div className="row justify-content-end align-items-center">
               <div className="col-12 col-md-1">
                 <div className="header-btn-left">
                 <button
@@ -1086,7 +1113,7 @@ console.log("email",email)
                 </div></>:null}
                
               </div>
-            </div>:null}
+            </div>}
           </div>
           <br/>
         <ToastContainer />
@@ -1240,7 +1267,7 @@ console.log("email",email)
                         )
                       }
                       >
-                      {console.log(getNewReaders)}
+                      {/* {console.log(getNewReaders)} */}
                       {/* <td contenteditable={editable === 0 ? "false" : "true"} id={`field_name` + item.profile_user_id}>
                         {inEditMode.status &&
                         inEditMode.rowKey === item.profile_id ? (
@@ -1362,7 +1389,7 @@ console.log("email",email)
                         )
                       }
                     >
-                      {console.log(item)}
+                      {/* {console.log(item)} */}
 
                             <td
                               id={`field_name` + item.id}
@@ -1414,7 +1441,7 @@ console.log("email",email)
                           <option value="Staff User">Staff User</option>
                           <option value="Test User">Test User</option>
                         </Form.Select>
-                      </div> : <span>{item.content_type}</span>
+                      </div> : <span>{item.content_type?item.content_type:item.type}</span>
                       }
                       </td>
 
@@ -1601,8 +1628,14 @@ console.log("email",email)
                             if (resp.data) {
                               // console.log(resp.data);
                               if (resp.data.code == 200) {
+                                ExportApi.GetSmartListSingleRecord(props.smartListId, rehearsalSpeakername)
+                                .then((resp) => {
+                                  if (resp.data) {
+                                    setEditList(resp.data.data)
+                                  }
+                                })
                                 // handleGetSmartListSingleRecord(parms.id);
-                                 Speakername.map((val)=>editList.push(val))
+                                //  Speakername.map((val)=>editList.push(val))
                                 setIsOpenAddModal(false);
                                 toast.success(resp.data.message);
                               } else {

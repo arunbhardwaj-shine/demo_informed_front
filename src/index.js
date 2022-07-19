@@ -117,6 +117,7 @@ import SmartListUsers from "./Components/Webinar/Emails/SmartListUsers";
 import CreateRegistration from "./Components/Webinar/Registration/CreateRegistration";
 import NewRegistration from "./Components/Webinar/Registration/NewRegistration";
 import SmartListWebinar from "./Components/Webinar/SmartList/SmartListWebinar";
+import SmartListWebinarView from "./Components/Webinar/SmartList/SmartListWebinarView";
 
 let platform = 0;
 let show = 0;
@@ -297,6 +298,10 @@ ReactDOM.render(
                         <Route
                           path="/webinar/emails/smart-list-users"
                           element={<SmartListUsersWebinar />}
+                        />
+                        <Route
+                          path="/webinar/emails/smart-list-view/:id"
+                          element={<SmartListWebinarView />}
                         />
                         <Route
                           path="/webinar/sendemail"
