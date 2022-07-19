@@ -1456,7 +1456,7 @@ form#add_hcp_form .row:not(:first-child) {
   margin-bottom: 18px;
 }
 .smart-list-view .selected-hcp-list table {
-  max-width: 1057px;
+  max-width: 100%;
   margin: 8px auto;
   padding-left: 4px;
 }
@@ -4216,7 +4216,7 @@ header nav.navbar .form-select,
 #field_interest .user-type-option select {
   max-width: 180px;
   min-width: 60px;
-  padding: 7px 23px 7px 15px;
+  padding: 5px 23px 5px 15px;
   height: auto;
   font-size: 13px;
   line-height: 15px;
