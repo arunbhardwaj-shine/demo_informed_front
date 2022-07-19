@@ -969,7 +969,7 @@ console.log("email",email)
           <span className="loader-view"> </span>
         </div>
         <div className="page-top-nav smart_list_names">
-            <div className="row justify-content-end align-items-center">
+            {props.upload_by_filter==0?<div className="row justify-content-end align-items-center">
               <div className="col-12 col-md-1">
                 <div className="header-btn-left">
                 <button
@@ -1023,15 +1023,16 @@ console.log("email",email)
                 </div></>:null}
                
               </div>
-            </div>
+            </div>:null}
           </div>
+          <br/>
         <ToastContainer />
         <section className="search-hcp smart-list-view">
         <div className="result-hcp-table">
           <div className="table-title">
-            {!props?.data == 0 ? (
+            {props.upload_by_filter == 0 ? (
               <h4>
-                Uploaded HCPs for the smart list{" "}
+                Uploaded HCPs for the smart list
                 <span>| {editList?.length> 0 ? editList?.length : 0}</span>
               </h4>
             ) : (

@@ -367,7 +367,7 @@ const FilterList = () => {
                 <li className="">
                   <a href="javascript:void(0)">Create smart list</a>
                 </li>
-                <li className="active">
+                <li className="active active-main">
                   <a href="javascript:void(0)">Segmentation</a>
                 </li>
               </ul>
@@ -1197,8 +1197,9 @@ const FilterList = () => {
               </div> */}
             </div>
           </div>
-
-          {filterData?.length > 0 ? (
+          {console.log(filterData)}
+         <TableView data={filterData} smartListId={smartListId} upload_by_filter="1"  /> 
+          {/* {filterData?.length > 0 ? (
             <div className="box mt-2">
               <div class="selected-hcp-list">
                 <table class="table">
@@ -1242,7 +1243,7 @@ const FilterList = () => {
                 </table>
               </div>
             </div>
-          ) : null}
+          ) : null} */}
         </section>
       </div>
 

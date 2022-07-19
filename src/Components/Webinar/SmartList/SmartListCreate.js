@@ -21,6 +21,7 @@ const SmartListCreate = () => {
   const [smartListId, setSmartListId] = useState();
   const [data, setData] = useState([]);
   const [showValidationMessage, setShowValidationMessage] = useState(false);
+  const [creatorName, setCreatorName] = useState(localStorage.getItem("username"));
 
   const handleClose = () => {
     setShow(false);
@@ -66,6 +67,7 @@ const SmartListCreate = () => {
 
     const body = {
       name: smartListName,
+      creator:creatorName
     };
 
     const headers = {
@@ -103,6 +105,7 @@ const SmartListCreate = () => {
 
     const body = {
       name: smartListName,
+      creator:creatorName
     };
     const headers = {
       "Content-Type": "application/json",
@@ -270,14 +273,14 @@ const SmartListCreate = () => {
               <div className="create-smart-step-box">
                 <form>
                   <div className="row justify-content-between align-items-end">
-                    <div className="form-group col-md-8">
+                    <div className="form-group col">
                       <label for="smart-list-name">Enter smart list name</label>
                       <input
                         type="text"
                         className="form-control"
                         id=""
                         value={smartListName}
-                        onChange={(event) => handleSmartListName(event)}
+                        onChange={(event) =>{setCreatorName(localStorage.getItem("username")); handleSmartListName(event)}}
                       />
                       {showValidationMessage ? (
                         <p style={{ color: "red" }}>
@@ -285,6 +288,15 @@ const SmartListCreate = () => {
                         </p>
                       ) : null}{" "}
                     </div>
+                    <div class="form-group col">
+                    <label for="creator-name">Creator’s Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                       value={creatorName}
+                       onChange={(event) => setCreatorName(event.target.value)}
+                    />
+                  </div>
                     <div className="form-group col no-padding">
                       <div className="form-group-content">
                         <p>
