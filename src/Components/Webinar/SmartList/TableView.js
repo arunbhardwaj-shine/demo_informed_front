@@ -78,6 +78,23 @@ const TableView = (props, ref) => {
   const [updateCounter, setUpdateCounter] = useState(0);
   const [getNewReaders, setNewReaders] = useState([]);
   const [emailChanged, setEmailChanged] = useState("");
+  const [Speakername, setSpeakerName] = useState([
+    {
+      name: "",
+      email: "",
+      country: "",
+      profession: "",
+      interest: "",
+      hospital: "",
+      content_type:"HCP"
+    },
+  ]);
+  const [SpeakernameErr, setSpeakerNameErr] = useState([
+    {
+      name: "",
+      email: "",
+    },
+  ]);
   let file_name = useRef("");
 
   const [hpc, setHpc] = useState([
@@ -86,7 +103,7 @@ const TableView = (props, ref) => {
   const [countryall, setCountryall] = useState([]);
 
   const [editableData, setEditableData] = useState([]);
-
+  let err;
   useImperativeHandle(
     ref,
     () => ({
@@ -96,55 +113,101 @@ const TableView = (props, ref) => {
     }),
     []
   );
-  const formik = useFormik({
-    initialValues: {
-      name: "",
-      email: "",
-      country: "",
-      profession: "",
-      interest: "",
-      hospital: "",
-    },
+  const handleMultiInputAdd = () => {
+    setSpeakerName([
+      ...Speakername,
+      {
+        name: "",
+        email: "",
+        country: "",
+        profession: "",
+        interest: "",
+        hospital: "",
+        content_type:"HCP"
+      },
+    ]);
+    setSpeakerNameErr([
+      ...SpeakernameErr,
+      {
+        name: "",
+        email: "",
+      },
+    ]);
+  };
 
-    validationSchema: Yup.object({
-      name: Yup.string().required("Name is required"),
-      email: Yup.string().required("Email is required").email(),
-    }),
-    onSubmit: (values) => {
-      loader("show");
-      let Data = JSON.stringify([values]);
-      ExportApi.EmailSand(props.smartListId, Data)
-        .then((resp) => {
-          if (resp.data) {
-            // console.log(resp.data);
-            if (resp.data.code == 200) {
-              // handleGetSmartListSingleRecord(parms.id);
-              setEditList([...editList,{name:values.name,email:values.email}])
-              setIsOpenAddModal(false);
-              toast.success(resp.data.message);
-            } else {
-              loader("hide");
-              toast.error(resp.data.message, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-              });
-            }
-          }
-        })
+  const handleMultiInputRemove = (i) => {
+    let data1 = Speakername;
+    let dataErr = SpeakernameErr;
+    Speakername.splice(i, 1);
+    SpeakernameErr.splice(i, 1);
+    setTimeout(() => setSpeakerName([...Speakername]), 1000);
+    setTimeout(() => setSpeakerNameErr([...SpeakernameErr]), 1000);
+    setSpeakerName(data1);
+    setSpeakerNameErr(dataErr);
+  };
+  function validateRehearsalData(index, field_name, message) {
+    err = true;
+    if (Speakername[index][field_name].length == 0) {
+      SpeakernameErr[index][field_name] = message;
+      setSpeakerNameErr([...SpeakernameErr]);
+      err = false;
+    }
+    return err;
+  }
+  const handleError = () => {
+    for (let index = 0; index < Speakername.length; index++) {
+      validateRehearsalData(index, "name", "Please Enter name");
+      // validateRehearsalData(index, "email", "Please Enter email");
+        const regex =/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+        if (
+          Speakername[index].email.length == 0 ||
+          regex.test(Speakername[index].email) === false
+        ) {
+          err = false;
+          SpeakernameErr[index].email =
+            "Email address is required";
+          setSpeakerNameErr([...SpeakernameErr]);
+      }
+    }
+    return err;
+  };
 
-        .catch((err) => {
-          loader("hide");
-        });
- loader("hide");
-    },
+  const handleOnChange = (e, i) => {
+    const regex =/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    const { name, value } = e.target;
+    Speakername.splice(i, 1, Speakername[i]);
+    setSpeakerName([...Speakername]);
+    SpeakernameErr[i][name] = "";
 
-    // props.closePopup();
-  });
+    if (name == "name") {
+      Speakername[i][name] = value;
+      if (value == "") {
+        SpeakernameErr[i][name] = "Please Enter name";
+      }
+    } else if (name == "email") {
+      Speakername[i][name] = value;
+      if (value == "") {
+        SpeakernameErr[i][name] = "Please Enter email";
+      }else if(regex.test(value) === false){
+        SpeakernameErr[i][name] = "Invalid email address";
+      }
+    } else if(name=="country"){
+      Speakername[i][name] = value;
+    }
+    else if(name=="interest"){
+      Speakername[i][name] = value;
+    }
+    else if(name=="hospital"){
+      Speakername[i][name] = value;
+    }
+    else if(name=="profession"){
+      Speakername[i][name] = value;
+    }
+    else if(name=="content_type"){
+      Speakername[i][name] = value;
+    }
+    setSpeakerNameErr([...SpeakernameErr]);
+  };
   useEffect(() => {
     setUpdatedData(props.data);
     setEditList(props.data);
@@ -969,7 +1032,7 @@ console.log("email",email)
           <span className="loader-view"> </span>
         </div>
         <div className="page-top-nav smart_list_names">
-            <div className="row justify-content-end align-items-center">
+            {props.upload_by_filter==0?<div className="row justify-content-end align-items-center">
               <div className="col-12 col-md-1">
                 <div className="header-btn-left">
                 <button
@@ -1023,15 +1086,16 @@ console.log("email",email)
                 </div></>:null}
                
               </div>
-            </div>
+            </div>:null}
           </div>
+          <br/>
         <ToastContainer />
         <section className="search-hcp smart-list-view">
         <div className="result-hcp-table">
           <div className="table-title">
-            {!props?.data == 0 ? (
+            {props.upload_by_filter == 0 ? (
               <h4>
-                Uploaded HCPs for the smart list{" "}
+                Uploaded HCPs for the smart list
                 <span>| {editList?.length> 0 ? editList?.length : 0}</span>
               </h4>
             ) : (
@@ -1164,18 +1228,19 @@ console.log("email",email)
                   getNewReaders.length > 0 &&
                   getNewReaders.map((item, index) => (
                     <tr
-                      className="hcps-added"
-                      id={`row-selected` + index}
-                      onClick={(e) =>
-                        editing(
-                          //  e.currentTarget,
-                          item.id,
-                           item.email,
-                          item.name,
-                          index
+                    className="hcps-added"
+                    id={`row-selected` + index}
+                    onClick={(e) =>
+                      editing(
+                        //  e.currentTarget,
+                        item.id,
+                        item.email,
+                        item.name,
+                        index
                         )
                       }
-                    >
+                      >
+                      {console.log(getNewReaders)}
                       {/* <td contenteditable={editable === 0 ? "false" : "true"} id={`field_name` + item.profile_user_id}>
                         {inEditMode.status &&
                         inEditMode.rowKey === item.profile_id ? (
@@ -1235,7 +1300,7 @@ console.log("email",email)
                             <option value="Staff User">Staff User</option>
                             <option value="Test User">Test User</option>
                           </Form.Select>
-                        </div> : <span>{item.contact_type}</span>
+                        </div> : <span>{item.content_type}</span>
                         }
                       </td>
 
@@ -1297,6 +1362,8 @@ console.log("email",email)
                         )
                       }
                     >
+                      {console.log(item)}
+
                             <td
                               id={`field_name` + item.id}
                               contenteditable={
@@ -1340,14 +1407,14 @@ console.log("email",email)
                           //   handleSelect(e.target.value, i);
                           //   handleSelectChange(val.id, val.type);
                           // }}
-                          // value={val.type}
+                          // value={val.content_type}
                           // key={i}
                         >
                           <option value="HCP">HCP</option>
                           <option value="Staff User">Staff User</option>
                           <option value="Test User">Test User</option>
                         </Form.Select>
-                      </div> : <span>{item.contact_type}</span>
+                      </div> : <span>{item.content_type}</span>
                       }
                       </td>
 
@@ -1511,7 +1578,7 @@ console.log("email",email)
               </h5>
               <button
                 onClick={() => {
-                  setIsOpenAdd(false);
+                  setIsOpenAddModal(false);
                 }}
                 type="button"
                 className="btn-close"
@@ -1525,9 +1592,43 @@ console.log("email",email)
                   <form
                     id="add_hcp_form"
                     className={"tab-pane active"}
-                    onSubmit={formik.handleSubmit}
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      if (handleError()) {
+                        let rehearsalSpeakername = JSON.stringify(Speakername);
+                        ExportApi.EmailSand(props.smartListId, rehearsalSpeakername)
+                          .then((resp) => {
+                            if (resp.data) {
+                              // console.log(resp.data);
+                              if (resp.data.code == 200) {
+                                // handleGetSmartListSingleRecord(parms.id);
+                                 Speakername.map((val)=>editList.push(val))
+                                setIsOpenAddModal(false);
+                                toast.success(resp.data.message);
+                              } else {
+                                loader("hide");
+                                toast.error(resp.data.message, {
+                                  position: "top-right",
+                                  autoClose: 5000,
+                                  hideProgressBar: false,
+                                  closeOnClick: true,
+                                  pauseOnHover: true,
+                                  draggable: true,
+                                  progress: undefined,
+                                });
+                              }
+                            }
+                          })
+                  
+                          .catch((err) => {
+                            loader("hide");
+                          });
+                      }
+                    }}
                   >
-                    <div className="add_hcp_boxes">
+                                      {Speakername?.map((val, i) => (
+                    <>
+                    <div className="add_hcp_boxes" div key={i}>
                       <div className="form_action">
                         <div className="row">
                           <div className="col-12 col-md-6">
@@ -1537,15 +1638,13 @@ console.log("email",email)
                                 type="text"
                                 name="name"
                                 className="form-control"
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.name}
+                                onChange={(e) => handleOnChange(e, i)}
+                                value={val.name}
                               />
-                              {formik.touched.name && formik.errors.name ? (
                                 <div className="error" style={{ color: "red" }}>
-                                  {formik.errors.name}
+                                      {SpeakernameErr[i]?.name}
+                                   
                                 </div>
-                              ) : null}
                             </div>
                           </div>
 
@@ -1557,15 +1656,13 @@ console.log("email",email)
                                 className="form-control"
                                 id="email-desc"
                                 name="email"
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.email}
+                                onChange={(e) => handleOnChange(e, i)}
+                                value={val.email}
                               />
-                              {formik.touched.email && formik.errors.email ? (
                                 <div className="error" style={{ color: "red" }}>
-                                  {formik.errors.email}
+                                      {SpeakernameErr[i]?.email}
+                                   
                                 </div>
-                              ) : null}
                             </div>
                           </div>
 
@@ -1573,13 +1670,12 @@ console.log("email",email)
                             <div className="form-group">
                               <label for="">Hospital</label>
                               <input
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.hospital}
-                                name="hospital"
-                                type="text"
                                 className="form-control"
+                                name="hospital"
+                                onChange={(e) => handleOnChange(e, i)}
+                                value={val.hospital}
                               />
+                              
                             </div>
                           </div>
 
@@ -1590,9 +1686,8 @@ console.log("email",email)
                                 type="text"
                                 className="form-control"
                                 name="profession"
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.profession}
+                                onChange={(e) => handleOnChange(e, i)}
+                                value={val.profession}
                               />
                             </div>
                           </div>
@@ -1601,10 +1696,9 @@ console.log("email",email)
                               <label for="">Country</label>
                               <select
                                 name="country"
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.country}
                                 className="country-form"
+                              onChange={(e) => handleOnChange(e, i)}
+                             value={val.country}
                                 aria-label="select"
                               >
                                 <option selected>Select Country</option>
@@ -1618,15 +1712,30 @@ console.log("email",email)
                               </select>
                             </div>
                           </div>
-
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for="">Content Type</label>
+                          < select
+                          name="content_type"
+                          className="country-form"
+                          aria-label="select"
+                          profession onChange={(e) => handleOnChange(e, i)}
+                          value={val.content_type}
+                          // key={i}
+                        >
+                          <option value="HCP">HCP</option>
+                          <option value="Staff User">Staff User</option>
+                          <option value="Test User">Test User</option>
+                        </select>
+                        </div>
+                        </div>
                           <div className="col-12 col-md-6">
                             <div className="form-group">
                               <label for="">Interest</label>
                               <input
                                 name="interest"
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.interest}
+                                onChange={(e) => handleOnChange(e, i)}
+                                value={val.interest}
                                 type="text"
                                 className="form-control"
                               />
@@ -1634,7 +1743,40 @@ console.log("email",email)
                           </div>
                         </div>
                       </div>
+                      <div className="hcp-modal-action">
+                              <div className="hcp-action-block">
+                              {Speakername.length > 1 ? (
+                                        <div className="hcp-remove">
+                                          <button
+                                          type="button"
+                                          className="btn btn-filled"
+                                          onClick={() => {
+                                            handleMultiInputRemove(i);
+                                          }}
+                                          >
+                                            <img src={path_image + "delete.svg"} alt="Add More" />
+                                          </button>
+                                        </div>
+                              ) : null}
+
+                          
+
+                                <ul className="nav nav-tabs" role="tablist">
+                                  <li className="nav-item add_hcp">
+                                    <a
+                                       onClick={handleMultiInputAdd}
+                                      className="nav-link active btn-bordered"
+                                      data-bs-toggle="tab"
+                                      href="javascript:;"
+                                    >
+                                      Add HCP +
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
                     </div>
+                    </>))}
                     <button
                       type="submit"
                       className="btn btn-primary save btn-filled"

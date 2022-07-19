@@ -113,7 +113,7 @@ a { cursor: pointer; text-decoration: none; }
  .email-block-add img { cursor: pointer; max-width: 80px; } 
  .sidebar-menu ul li.active svg path, .sidebar-menu ul li:hover svg path { fill: var(--light-blue); fill-opacity: 1; } 
  .email_box { max-width: 411px; flex: 0 0 411px; height: 100%; width:100%; } 
- .smartlist-view.email_box { width: 253px; flex: 0 0 253px; height: inherit; } 
+ /* .smartlist-view.email_box { width: 253px; flex: 0 0 253px; height: inherit; }  */
  .email-result-block { display: flex; flex-wrap: wrap; justify-content: flex-start; margin: 0 -15px; } 
  .mail-top-title span { font-size: 12px; line-height: 14px; color: var(--white); font-family: "Roboto-Medium"; } 
  .mail-top-title { background: var(--yellow); text-align: center; border-radius: 20px 20px 0 0; position: relative; padding: 0 4px; z-index: 4; } 
@@ -175,12 +175,15 @@ a { cursor: pointer; text-decoration: none; }
  .sidebar-menu ul li a p { margin: 0; flex: 1 1; transition: 0.5s linear opacity; transition-delay: 0.5s; opacity: 1; } 
 
  /**Smart List**/ 
+ .mailbox-table table tr td:last-child {
+  padding: 0;
+}
  .smartlist-result-block .not_found { padding: 15px 15px 15px 15px; width: 100%; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 600; color: var(--blue); } 
  .smartlist-result-block .smartlist_box_block { width: 25%; padding: 0 15px; margin-bottom: 80px; } 
  .smartlist-result-block { display: flex; flex-wrap: wrap; justify-content: flex-start; margin: 0 -15px; } 
- .smartlist-add { border: 2px dashed var(--skyblue); box-sizing: border-box; border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 29px; min-height: 190px; width: 253px; } 
+ .smartlist-add { height:100%;border: 2px dashed var(--skyblue); box-sizing: border-box; border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 29px; min-height: 190px; width: 100%; } 
  .smart-list-result { margin-top: 74px; } 
- .smartlist-view .mail-box-content h5 { color: var(--light-blue); margin: 0 0; } 
+ .smartlist-view .mail-box-content h5 { color: var(--light-blue); margin:0 0 6px; } 
  .smartlist-view .mailbox-table th { font-weight: 400; font-family: "Roboto"; color: var(--blue); padding: 4px 13px 5px 0; } 
  .smartlist-view .mail-box-content { min-height: 190px; padding: 16px 16px 16px 16px; height: inherit; } 
  .mailbox-table td span { background: #e7f4ff; border-radius: 3px; font-size: 14px; line-height: 16px; color: var(--light-blue); font-family: "Roboto-Light"; padding: 1px 29px; } 
@@ -189,7 +192,7 @@ a { cursor: pointer; text-decoration: none; }
  .smartlist-view .mail-stats ul { justify-content: flex-start; } 
  .smartlist-view .mail-box-content .mail-stats { border-top: 1px dashed #b3b3b3; padding-top: 16px; } 
  .smartlist_box_block .mail-time span { font-size: 14px; line-height: 16px; } 
- .smartlist-view .mail-box-content h5, .smartlist-view .mail-box-content .mail-time, .smartlist-view .mail-box-content .smart-list-added-user { padding: 0 26px 0 8px; word-break: break-all; } 
+ .smartlist-view .mail-box-content h5, .smartlist-view .mail-box-content .mail-time, .smartlist-view .mail-box-content .smart-list-added-user { padding: 0 26px 0 0px; word-break: break-all; } 
  .smart-list-added-user { font-size: 18px; line-height: 21px; color: var(--light-blue); display: flex; align-items: center; margin-bottom: 5px; } 
  .smartlist-view ul li span { color: #70899f; } 
  .mail-stats ul li .mail-status img { width: 100%; } 
@@ -1834,7 +1837,7 @@ form#add_hcp_form .row:not(:first-child) {
   justify-content: center;
 }
 .create_smart_list .create_smart_list_inset {
-  max-width: 765px;
+  max-width: 1014px;
   margin: 0 auto;
 }
 .create_smart_list .create-smart-step {
@@ -1845,7 +1848,7 @@ form#add_hcp_form .row:not(:first-child) {
   border: 1px dashed var(--light-blue);
   box-sizing: border-box;
   border-radius: 15px;
-  padding: 26px 12px 31px 75px;
+  padding: 26px 32px 17px;
 }
 .create_smart_list .create-smart-step .create-smart-step-box form label {
   font-size: 20px;
@@ -1868,6 +1871,30 @@ form#add_hcp_form .row:not(:first-child) {
   color: #4e718e;
   font-size: 14px;
 }
+.table-title .selected-hcp-table-action a.show-less-info {
+  font-size: 16px;
+  line-height: 19px;
+  text-decoration-line: underline;
+  text-transform: capitalize;
+  color: var(--skyblue);
+  font-family: 'Roboto-Medium';
+}
+.table-title .selected-hcp-table-action a.show-less-info p {
+  padding-right: 21px;
+  position: relative;
+}
+a.show-less-info p:after {
+  content: ">>";
+  padding-left: 7px;
+  position: absolute;
+  right: 0;
+  border-bottom: 1px solid var(--skyblue);
+  line-height: 14px;
+  top: 2px;
+}
+a.show-less-info p.show_less:after {
+  content: "<<";
+}
 .create-smart-step-box .form-group.col {
   max-width: 456px;
 }
@@ -1876,7 +1903,7 @@ form#add_hcp_form .row:not(:first-child) {
   justify-content: flex-end;
   align-items: center;
   position: relative;
-  margin-bottom: 11px;
+  margin-top: 6px;
 }
 .create-smart-step-box .form-group-content p {
   margin: 0;
@@ -4070,9 +4097,10 @@ header nav.navbar .form-select,
 
 button#test-table-xls-button {
   font-size: 0;
-  width: 52px;
+  width: 40px;
+  margin-right: 16px;
   background-image: url(../images/download.svg);
-  background-size: 24px;
+  background-size: 20px;
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -4080,12 +4108,30 @@ button#test-table-xls-button:hover {
   background-image: url(../images/download-img-hover.svg);
   background-color: var(--light-blue);
 }
+.result-hcp-table .table-title .selected-hcp-table-action .hcp-added, .table-title .hcp-new-user, .table-title .show-less-info {
+  margin-right: 16px;
+}
 
+.table-title .selected-hcp-table-action .btn {
+  filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));
+  background: var(--white);
+  border: 0;
+  border-radius: 30px;
+  height: 40px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
 .form-group input:focus-visible,
 .form-group select:focus-visible {
   outline: none;
 }
-
+.table-title .selected-hcp-table-action .hcp-sort .btn {
+  min-width: 104px;
+}
+.table-title .selected-hcp-table-action .hcp-added .btn:hover, .table-title .selected-hcp-table-action .hcp-sort .btn:hover, .table-title .selected-hcp-table-action .hcp-new-user .btn:hover {
+  background: var(--light-blue);
+}
 #upload-confirm .modal-body {
   padding: 0 32px 24px;
 }
