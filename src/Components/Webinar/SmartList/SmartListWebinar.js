@@ -457,8 +457,7 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
                               </div><span>60%</span></li>
                             </ul>
                           </div> */}
-                        <div className="smartlist-buttons">
-                           
+                        <div className="smartlist-buttons">   
                                 <Link
                                   className="btn btn-primary btn-bordered edit_list"
                                   to={`/webinar/email/editSmartList/${data.id}/${data.name}/${data.file_upload?1:0}`}

@@ -1044,7 +1044,7 @@ const TableView = (props, ref) => {
           <span className="loader-view"> </span>
         </div>
         <div className="page-top-nav smart_list_names">
-          {props.active==1?     <div className="page-top-nav smart_list_names">
+          {props.active==1?<div className="row justify-content-end align-items-center">
           <div className="table-title">
           <div className="header-btn-left">
                 <button
@@ -1081,6 +1081,14 @@ const TableView = (props, ref) => {
                     sheet="tablexls"
                     buttonText="Download "
                   />
+                  {props.active=="0"?null:   <div className="hcp-new-user">
+                    <button
+                      className="btn btn-outline-primary"
+                      onClick={handleShow}
+                    >
+                      <img src={path + "new-user.svg"} alt="New User" />
+                    </button>
+                  </div>}
                   <div className="hcp-new-user">
                     <button
                       className="btn btn-outline-primary"
@@ -1161,7 +1169,7 @@ const TableView = (props, ref) => {
             <div style={{paddingBlock:"20px"}}></div>
             <div className="col-12 col-md-10">
               <div className="page-title">
-                <h2>{props.name } | { editList?.length}</h2>
+                <h2>{props.name } | { editList?.length?editList?.length:0}</h2>
               </div>
             </div>
             <div className="col-12 col-md-2">
@@ -1302,14 +1310,15 @@ const TableView = (props, ref) => {
                     sheet="tablexls"
                     buttonText="Download "
                   />
-                  <div className="hcp-new-user">
+                  {props.active==0?null:  <div className="hcp-new-user">
                     <button
                       className="btn btn-outline-primary"
                       onClick={handleShow}
                     >
                       <img src={path + "new-user.svg"} alt="New User" />
-                    </button>
-                  </div>
+                    </button></div>}
+                
+                  
                   <div className="hcp-added">
                     <button
                       className="btn btn-outline-primary"

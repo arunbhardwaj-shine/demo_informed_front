@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import { BaseApi } from "../../../Api/BaseApi";
 import { popup_alert } from "../../../popup_alert";
+import ExportApi from "../../../Api/ExportApi";
 
 const FilterList = (props) => {
   const inputElement = useRef();
@@ -309,15 +310,25 @@ const FilterList = (props) => {
   const closeClicked = () => {
     navigate("/webinar/email/SmartListCreate");
   };
+  const getData=()=>{
+    ExportApi.GetSmartListSingleRecord(props.id)
+    .then((resp) => {
+      if (resp.data) {
+        setFiltersData(resp.data.data)
+      }
+    })
+}
+useEffect(() => {
+getData()
+}, [props.id])
   return (
     <>
         <div className="loader" id="custom_loader">
           <span className="loader-view"> </span>
         </div>
       {/* {console.log(selectedCountry)} */}
-      <div className={props.active==0?"":"right-sidebar col"}>
+      <div className={props.active==0?"page-top-nav smart_list_names create_filter_list":"right-sidebar col"}>
         {props.active==0?
-         <div className="page-top-nav smart_list_names">
           <div className="row justify-content-end align-items-center">
             <div className="col-12 col-md-6">
               <div className="page-title">
@@ -349,11 +360,9 @@ const FilterList = (props) => {
                 </button>
               </div>
             </div>  
-        <div className="smart-list-name-drop">
-        <h5>Please select who to include to your smart list.You can pick one or more:</h5>
-        </div>
+     
           </div>
-        </div>: <div className="page-top-nav smart_list_names create_filter_list">
+        : <div className="page-top-nav smart_list_names create_filter_list">
           <div className="row justify-content-end align-items-center">
             <div className="col-12 col-md-1">
               <div className="header-btn-left back_btn">
@@ -441,6 +450,9 @@ const FilterList = (props) => {
         <ToastContainer />
 
         <section className="search-hcp smart-list-name">
+        <div className="smart-list-name-drop">
+        <h5>Please select who to include to your smart list.You can pick one or more:</h5>
+        </div>
           <div className="smart-list-name-drop">
             <div className="smart-list-dropdown">
               <div className="dropdown-smart">
@@ -1244,7 +1256,7 @@ const FilterList = (props) => {
             </div>
           </div>
           {console.log(filterData)}
-         <TableView data={filterData} smartListId={props.active==0?props.id:smartListId} upload_by_filter="1"  /> 
+         <TableView data={filterData} smartListId={props.active==0?props.id:smartListId} active={props.active==0?props.active:null} upload_by_filter="1"  /> 
           {/* {filterData?.length > 0 ? (
             <div className="box mt-2">
               <div class="selected-hcp-list">
