@@ -458,20 +458,7 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
                             </ul>
                           </div> */}
                         <div className="smartlist-buttons">
-                          {!deletestatus && (
-                            <>
-                              {data.upload_by_filter == 1 ? (
-                                <Link
-                                  className="btn btn-primary btn-bordered edit_list"
-                                  to={{
-                                    pathname: "/EditList",
-                                    search: "?listId=" + data.id,
-                                  }}
-                                  // onClick={() => linkClicked(data.id)}
-                                >
-                                  Edit List
-                                </Link>
-                              ) : (
+                           
                                 <Link
                                   className="btn btn-primary btn-bordered edit_list"
                                   to={`/webinar/email/editSmartList/${data.id}/${data.name}/${data.file_upload?1:0}`}
@@ -479,7 +466,7 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
                                 >
                                   Edit List
                                 </Link>
-                              )}
+                              
                               <Link
                                 className="btn btn-primary btn-filled view"
                                 to={`/webinar/email/smart-list-view/${data.id}`}
@@ -487,8 +474,7 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
                               >
                                 View
                               </Link>
-                            </>
-                          )}
+                       
                         </div>
                         {deletestatus && (
                           <div className="dlt_btn">
