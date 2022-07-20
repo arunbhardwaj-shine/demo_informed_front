@@ -485,8 +485,8 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
                               )}
                               <Link
                                 className="btn btn-primary btn-filled view"
-                                to={`/webinar/emails/smart-list-view/${data.id}`}
-                                // onClick={() => linkClicked(data.id)}
+                                to={`/webinar/email/smart-list-view/${data.id}`}
+                                 onClick={() => localStorage.setItem("SmartListIdView",data.id)}
                               >
                                 View
                               </Link>

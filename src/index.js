@@ -300,7 +300,7 @@ ReactDOM.render(
                           element={<SmartListUsersWebinar />}
                         />
                         <Route
-                          path="/webinar/emails/smart-list-view/:id"
+                          path="/webinar/email/smart-list-view/:id"
                           element={<SmartListWebinarView />}
                         />
                         <Route

@@ -88,7 +88,9 @@ const Sidebar = () => {
       location.pathname === "/webinar/email/create" ||
       location.pathname === "/webinar/email/smart-list" ||
       location.pathname ===
-        `/webinar/email/smart-list-users/${localStorage.getItem("SmartListId")}`
+        `/webinar/email/smart-list-users/${localStorage.getItem("SmartListId")}`||
+      location.pathname ===
+        `/webinar/email/smart-list-view/${localStorage.getItem("SmartListIdView")}`
     ) {
       // console.log("hi");
       setEmailStatus(true);
@@ -728,7 +730,9 @@ const Sidebar = () => {
                         location.pathname ===
                           "/webinar/email/SmartListCreate/FilterList" ||
                         location.pathname ===
-                          "/webinar/email/SmartListCreate/ExcelUpload"
+                          "/webinar/email/SmartListCreate/ExcelUpload"||
+                          location.pathname ===
+                          `/webinar/email/smart-list-view/${localStorage.getItem("SmartListIdView")}`
                           ? "active"
                           : "side_li"
                       }

@@ -539,11 +539,20 @@ const TableView = (props, ref) => {
         const name_edit = document.getElementById(
           "field_name" + data.id
         ).innerText;
+        const country = document.getElementById(
+          "country" + data.id
+        ).value;
+        const content_type = document.getElementById(
+          "content_type" + data.id
+        ).value;
+
 
         let prev_obj = editList.find((x) => x.id === data.id);
 
         //data.country = country_edit;
         data.name = name_edit;
+        data.country = country;
+        data.content_type = content_type;
       });
     }
 
@@ -1040,7 +1049,7 @@ const TableView = (props, ref) => {
                 <button
                 class="btn btn-primary btn-filled back"
                 onClick={() => {
-                  navigate("/webinar/email/SmartListCreate");
+                  navigate("/webinar/email/WebinarSmartList");
                 }}
               >
                 <svg
@@ -1219,7 +1228,7 @@ const TableView = (props, ref) => {
                   </button>
                   <button
                     className="btn btn-primary btn-bordered"
-                    onClick={()=>saveEditClicked(1)}
+                    onClick={()=>{props.upload_by_filter=="001"?saveEditClicked(0):saveEditClicked(1)}}
                   >
                     Save
                   </button>
@@ -1297,14 +1306,13 @@ const TableView = (props, ref) => {
                       <td>
                       {
                         editable ?  <select
-                        name="Country"
                         className="form-select-lg mb-3"
                         aria-label=".form-select-lg example"
                       >
                         <option >Select Country</option>
                         {country?.map((val, i) => (
                           <React.Fragment key={i}>
-                            <option key={i} value={val.id}>
+                            <option key={i} value={val.name}>
                               {val.country}
                             </option>
                           </React.Fragment>
@@ -1317,6 +1325,7 @@ const TableView = (props, ref) => {
                         {
                           editable ?    <div className="user-type-option">
                           <Form.Select
+                          name="content_type"
                             className="form-select"
                             // onChange={(e) => {
                             //   handleSelect(e.target.value, i);
@@ -1406,14 +1415,14 @@ const TableView = (props, ref) => {
                       <td>
                       {
                         editable ?  <select
-                        name="Country"
+                        id={`country` + item.id}
                         className="form-select-lg mb-3"
                         aria-label=".form-select-lg example"
                       >
                         <option selected>Select Country</option>
                         {country?.map((val, i) => (
                           <React.Fragment key={i}>
-                            <option key={i} value={val.id}>
+                            <option key={i} value={val.value}>
                               {val.country}
                             </option>
                           </React.Fragment>
@@ -1429,6 +1438,7 @@ const TableView = (props, ref) => {
                       {
                         editable ?    <div className="user-type-option">
                         <Form.Select
+                        id={`content_type` + item.id}
                           className="form-select"
                           // onChange={(e) => {
                           //   handleSelect(e.target.value, i);
