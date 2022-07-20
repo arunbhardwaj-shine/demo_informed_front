@@ -13,14 +13,14 @@ import { ToastContainer } from "react-toastify";
 import { BaseApi } from "../../../Api/BaseApi";
 import { popup_alert } from "../../../popup_alert";
 
-const FilterList = () => {
+const FilterList = (props) => {
   const inputElement = useRef();
   const baseURL = BaseApi.getBaseURL();
   const navigate = useNavigate();
   const location = useLocation();
   const [selectedCountryName, setSelectedCountryName] = useState([]);
-  const { smartListName } = location.state;
-  const { smartListId } = location.state;
+  let { smartListName } ="" ;
+  let { smartListId } ="";
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [countryall, setCountryall] = useState([]);
   const [update, setUpdate] = useState(0);
@@ -47,6 +47,15 @@ const FilterList = () => {
 
   const [api_flag, setapi_flag] = useState(0);
   useEffect(() => {
+    if(props.id&&props.name){
+     smartListName  = props.name;
+     smartListId  = props.id;
+    }else{
+      let { smartListName } = location.state;
+      let { smartListId } = location.state;
+      smartListName=smartListName;
+      smartListId=smartListId
+    }
     const getalCountry = async () => {
       const headers = {
         "Content-Type": "application/json",
@@ -306,9 +315,45 @@ const FilterList = () => {
           <span className="loader-view"> </span>
         </div>
       {/* {console.log(selectedCountry)} */}
-      <div className="right-sidebar col">
-        <ToastContainer />
-        <div className="page-top-nav smart_list_names create_filter_list">
+      <div className={props.active==0?"":"right-sidebar col"}>
+        {props.active==0?
+         <div className="page-top-nav smart_list_names">
+          <div className="row justify-content-end align-items-center">
+            <div className="col-12 col-md-6">
+              <div className="page-title">
+                <h2>{props.name}</h2>
+              </div>
+            </div>
+            <div className="col-12 col-md-6">
+              <div className="header-btn">
+                <button
+                  className="btn btn-primary btn-bordered light"
+                //   onClick={closeClicked}
+                >
+                  Close
+                </button>
+                <button
+                  className="btn btn-primary btn-filled save"
+                //  onClick={() => showConfirmation()}
+                //  disabled={
+                //    typeof getfilterdata !== "undefined" &&
+                //    getfilterdata.length > 0
+                //      ? false
+                //      : typeof getNewAddedUser !== "undefined" &&
+                //        getNewAddedUser.length > 0
+                //      ? false
+                //      : true
+                //   }
+                >
+                  Save
+                </button>
+              </div>
+            </div>  
+        <div className="smart-list-name-drop">
+        <h5>Please select who to include to your smart list.You can pick one or more:</h5>
+        </div>
+          </div>
+        </div>: <div className="page-top-nav smart_list_names create_filter_list">
           <div className="row justify-content-end align-items-center">
             <div className="col-12 col-md-1">
               <div className="header-btn-left back_btn">
@@ -392,7 +437,8 @@ const FilterList = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div>}
+        <ToastContainer />
 
         <section className="search-hcp smart-list-name">
           <div className="smart-list-name-drop">
@@ -853,7 +899,7 @@ const FilterList = () => {
           </div>
           <div className="apply-filter">
             <h6>
-              Selected Criterias{" "}
+              Selected Criterias |{props.active==0?filterData.length:null}
               {/* <span>
                 |
                 {typeof getfilterdata !== "undefined" &&
@@ -1198,7 +1244,7 @@ const FilterList = () => {
             </div>
           </div>
           {console.log(filterData)}
-         <TableView data={filterData} smartListId={smartListId} upload_by_filter="1"  /> 
+         <TableView data={filterData} smartListId={props.active==0?props.id:smartListId} upload_by_filter="1"  /> 
           {/* {filterData?.length > 0 ? (
             <div className="box mt-2">
               <div class="selected-hcp-list">

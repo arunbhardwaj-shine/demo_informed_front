@@ -474,11 +474,8 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
                               ) : (
                                 <Link
                                   className="btn btn-primary btn-bordered edit_list"
-                                  to={{
-                                    pathname: "/ViewSmartList",
-                                    search: "?listId=" + data.id,
-                                  }}
-                                  // onClick={() => linkClicked(data.id)}
+                                  to={`/webinar/email/editSmartList/${data.id}/${data.name}/${data.file_upload?1:0}`}
+                                  onClick={() => {localStorage.setItem("SmartListIdView",data.id);localStorage.setItem("SmartListIdViewName",data.name);localStorage.setItem("SmartListIdViewN",data.file_upload?1:0)}}
                                 >
                                   Edit List
                                 </Link>

@@ -39,7 +39,7 @@ const TableView = (props, ref) => {
   const [validator2] = React.useState(new SimpleReactValidator());
   const [validator3] = React.useState(new SimpleReactValidator());
   const [isOpen, setIsOpen] = useState(false);
-  const [showLessInfo, setShowLessInfo] = useState(false);
+  const [showLessInfo, setShowLessInfo] = useState(true);
   const [deleteConfirmation, setOpenDeleteConfirmation] = useState(false);
   const [profileUserId, setProfileUserId] = useState();
   const [data, setData] = useState(0);
@@ -1044,6 +1044,147 @@ const TableView = (props, ref) => {
           <span className="loader-view"> </span>
         </div>
         <div className="page-top-nav smart_list_names">
+          {props.active==1?     <div className="page-top-nav smart_list_names">
+          <div className="table-title">
+          <div className="header-btn-left">
+                <button
+                class="btn btn-primary btn-filled back"
+                onClick={() => {
+                  navigate("/webinar/email/WebinarSmartList");
+                }}
+              >
+                <svg
+                  width="12"
+                  height="19"
+                  viewBox="0 0 12 19"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M8.31557 17.82C8.97165 18.476 10.0354 18.476 10.6915 17.82C11.3475 17.1639 11.3475 16.1002 10.6915 15.4441L4.7522 9.50484L10.6927 3.56431C11.3488 2.90823 11.3488 1.84451 10.6927 1.18843C10.0367 0.532347 8.97294 0.532347 8.31686 1.18843L1.2212 8.28409C1.21 8.29469 1.19891 8.30548 1.18794 8.31646C0.531858 8.97254 0.531858 10.0363 1.18794 10.6923L8.31557 17.82Z"
+                    fill="white"
+                  />
+                </svg>
+              </button>
+                </div>
+
+            <div className="selected-hcp-table-action">
+              {editable == false ? (
+                <>
+                  <ReactHTMLTableToExcel
+                    id="test-table-xls-button"
+                    className="btn btn-outline-primary"
+                    table="table-to-xls"
+                    filename="sample"
+                    sheet="tablexls"
+                    buttonText="Download "
+                  />
+                  <div className="hcp-new-user">
+                    <button
+                      className="btn btn-outline-primary"
+                      onClick={handleShow}
+                    >
+                      <img src={path + "new-user.svg"} alt="New User" />
+                    </button>
+                  </div>
+                  <div className="hcp-added">
+                    <button
+                      className="btn btn-outline-primary"
+                      onClick={editButtonClicked}
+                    >
+                      <img src={path + "edit-button.svg"} alt="Edit" />
+                    </button>
+                  </div>
+                  <div className="hcp-sort">
+                    {sortingCount == 0 ? (
+                      <>
+                        <button
+                          className="btn btn-outline-primary"
+                          onClick={sortSelectedUsers}
+                        >
+                          Sort By{" "}
+                          <img src={path_image + "sort.svg"} alt="Shorting" />
+                        </button>
+                      </>
+                    ) : sorting == 0 ? (
+                      <>
+                        <button
+                          className="btn btn-outline-primary desc"
+                          onClick={sortSelectedUsers}
+                        >
+                          Sort By{" "}
+                          <img
+                            src={path_image + "sort-decending.svg"}
+                            alt="Shorting"
+                          />
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          className="btn btn-outline-primary asc"
+                          onClick={sortSelectedUsers}
+                        >
+                          Sort By{" "}
+                          <img
+                            src={path_image + "sort-assending.svg"}
+                            alt="Shorting"
+                          />
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </>
+              ) : null}
+
+              {saveOpen ? (
+                <>
+                  <button
+                    className="btn btn-primary btn-filled"
+                    onClick={closeClicked}
+                  >
+                    Close
+                  </button>
+                  <button
+                    className="btn btn-primary btn-bordered"
+                    onClick={()=>{props.upload_by_filter=="001"||props.upload_by_filter=="1"?saveEditClicked(0):saveEditClicked(1)}}
+                  >
+                    Save
+                  </button>
+                </>
+              ) : null}
+            </div>
+          </div>
+          <div className="row justify-content-end align-items-center">
+            <div style={{paddingBlock:"20px"}}></div>
+            <div className="col-12 col-md-10">
+              <div className="page-title">
+                <h2>{props.name } | { editList?.length}</h2>
+              </div>
+            </div>
+            <div className="col-12 col-md-2">
+            {editable == false ? (
+                <>
+                  <a
+                    className="col-12 col-md-3"
+                    onClick={(e) => showMoreInfo(e)}
+                  >
+                    {showLessInfo == true ? (
+                      <p className="show_more">Show More information</p>
+                    ) : (
+                      <p className="show_less">Show less information</p>
+                    )}{" "}
+                       </a>
+                    </> ):null}
+            </div>  
+        {/* <div className="smart-list-name-drop">
+        <h5>Please select who to include to your smart list.You can pick one or more:</h5>
+        </div> */}
+          </div>
+        </div>:null}
+       
             {props.upload_by_filter=="001"?<div className="row justify-content-end align-items-center"> <div className="col-12 col-md-1">
                 <div className="header-btn-left">
                 <button
@@ -1068,7 +1209,7 @@ const TableView = (props, ref) => {
                 </svg>
               </button>
                 </div>
-              </div></div>:<div className="row justify-content-end align-items-center">
+              </div></div>:props.upload_by_filter=="1"?null:<div className="row justify-content-end align-items-center">
               <div className="col-12 col-md-1">
                 <div className="header-btn-left">
                 <button
@@ -1128,6 +1269,7 @@ const TableView = (props, ref) => {
         <ToastContainer />
         <section className="search-hcp smart-list-view">
         <div className="result-hcp-table">
+        {props.active==1?  null:
           <div className="table-title">
             {props.upload_by_filter == 0 ? (
               <h4>
@@ -1226,16 +1368,22 @@ const TableView = (props, ref) => {
                   >
                     Close
                   </button>
+                  {props.active==1?  
                   <button
                     className="btn btn-primary btn-bordered"
-                    onClick={()=>{props.upload_by_filter=="001"?saveEditClicked(0):saveEditClicked(1)}}
+                    onClick={()=>{saveEditClicked(1)}}
                   >
                     Save
-                  </button>
+                  </button>: <button
+                    className="btn btn-primary btn-bordered"
+                    onClick={()=>{props.upload_by_filter=="001"||props.upload_by_filter=="1"?saveEditClicked(0):saveEditClicked(1)}}
+                  >
+                    Save
+                  </button>}
                 </>
               ) : null}
             </div>
-          </div>
+          </div>}
           <div className="selected-hcp-list">
             <table className="table" id="table-to-xls">
               <thead className="sticky-header">
@@ -1416,8 +1564,10 @@ const TableView = (props, ref) => {
                       {
                         editable ?  <select
                         id={`country` + item.id}
+                        name="Country"
                         className="form-select-lg mb-3"
                         aria-label=".form-select-lg example"
+                        
                       >
                         <option selected>Select Country</option>
                         {country?.map((val, i) => (
