@@ -33,8 +33,8 @@ const SmartListCreate = () => {
   };
 
   const handleSmartListName = async (event) => {
-    setSmartListName(event.target.value);
-    if (event.target.value == "") {
+    setSmartListName(event);
+    if (event == "") {
       setShowValidationMessage(true);
     } else {
       setShowValidationMessage(false);
@@ -42,15 +42,16 @@ const SmartListCreate = () => {
   };
 
   const segmentCohort = (listId) => {
+    console.log(smartListName)
+    localStorage.setItem("SmartListIdView",listId)
+    localStorage.setItem("SmartListIdViewName",smartListName)
     //console.log(smartListId);
     if (!smartListName.trim()) {
       // toast.warning("Please enter the smart list name first.");
 
       setShowValidationMessage(true);
     } else {
-      navigate("/webinar/email/SmartListCreate/FilterList", {
-        state: { smartListName: smartListName, smartListId: listId },
-      });
+      navigate("/webinar/email/SmartListCreate/FilterList")
     }
   };
 
@@ -280,7 +281,7 @@ const SmartListCreate = () => {
                         className="form-control"
                         id=""
                         value={smartListName}
-                        onChange={(event) =>{setCreatorName(localStorage.getItem("username")); handleSmartListName(event)}}
+                        onChange={(event) =>{setCreatorName(localStorage.getItem("username")); handleSmartListName(event.target.value)}}
                       />
                       {showValidationMessage ? (
                         <p style={{ color: "red" }}>

@@ -23,7 +23,7 @@ import ExportApi from "../../../Api/ExportApi";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 const TableView = (props, ref) => {
-
+console.log(props)
   const baseURL = BaseApi.getBaseURL();
   const [inEditMode, setInEditMode] = useState({
     status: false,
@@ -78,6 +78,7 @@ const TableView = (props, ref) => {
   const [updateCounter, setUpdateCounter] = useState(0);
   const [getNewReaders, setNewReaders] = useState([]);
   const [emailChanged, setEmailChanged] = useState("");
+  const [createData, setCreateData] = useState([]);
   const [Speakername, setSpeakerName] = useState([
     {
       name: "",
@@ -343,7 +344,8 @@ const TableView = (props, ref) => {
       // "mouseleave",
       // async (event) => {
       const name_edit = document.getElementById("field_name" + id).innerText;
-      const email = document.getElementById("field_name" + id).innerText;
+      const email = document.getElementById("field_email" + id).innerText;
+      const content_type = document.getElementById("content_type" + id).innerText;
 
       // console.log(name_edit);
 // console.log("email",email)
@@ -356,7 +358,7 @@ const TableView = (props, ref) => {
         email: email,
         profession: "",
         interest: "",
-        consent: "",
+        consent: content_type,
       });
 
       let prev_obj = editableData.find((x) => x.id === id);
@@ -532,35 +534,37 @@ const TableView = (props, ref) => {
   };
 
   const saveEditClicked = async (id) => {
+   
     if(id==0){
     setEditable(0);
-    if (editableData.length > 0) {
-      editableData.map((data) => {
-        const name_edit = document.getElementById(
-          "field_name" + data.id
-        ).innerText;
-        const country = document.getElementById(
-          "country" + data.id
-        ).value;
-        const content_type = document.getElementById(
-          "content_type" + data.id
-        ).value;
+    // if (createData.length > 0) {
+    //   createData.map((data) => {
+    //     const name_edit = document.getElementById(
+    //       "field_name" + data.id
+    //     ).innerText;
+    //     // const country = document.getElementById(
+    //     //   "country" + data.id
+    //     // ).value;
+    //     console.log(data)
+    //     const content_type = document.getElementById(
+    //       "content_type" + data.id
+    //     ).value;
 
 
-        let prev_obj = editList.find((x) => x.id === data.id);
+    //     let prev_obj = editList.find((x) => x.id === data.id);
 
-        //data.country = country_edit;
-        data.name = name_edit;
-        data.country = country;
-        data.content_type = content_type;
-      });
-    }
+    //     //data.country = country_edit;
+    //     data.name = name_edit;
+    //     data.country = country;
+    //     data.content_type = content_type;
+    //   });
+    // }
 
-    if (editableData.length > 0) {
+    if (createData.length > 0) {
       const body = {
         smart_list_id: props.smartListId,
         upload: "",
-        participants: JSON.stringify(editableData),
+        participants: JSON.stringify(createData),
         // participants: editableData,
       };
 
@@ -610,9 +614,176 @@ const TableView = (props, ref) => {
       setSaveOpen(false);
     }
   }else{
+    setEditable(0);
+    if (editableData.length > 0) {
+      editableData.map((data) => {
+        const name_edit = document.getElementById(
+          "field_name" + data.id
+        ).innerText;
+        const country = document.getElementById(
+          "country" + data.id
+        ).value;
+        const content_type = document.getElementById(
+          "content_type" + data.id
+        ).value;
+
+
+        let prev_obj = editList.find((x) => x.id === data.id);
+
+        //data.country = country_edit;
+        data.name = name_edit;
+        data.country = country;
+        data.content_type = content_type;
+      });
+    }
+
+    if (editableData.length > 0) {
+      const body = {
+        smart_list_id: props.smartListId,
+        upload: "",
+        participants: JSON.stringify(editableData),
+        // participants: editableData,
+      };
+
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("Token")}`,
+      };
+
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      // loader("show");
+      await axios
+        .post(baseURL + `/smart-list/update-participants`, body, { headers })
+        .then((res) => {
+          // console.log(res);
+
+          if (res.data.code == 200) {
+            // popup_alert({
+            //       visible: "show",
+            //       message: "Data updated <br> successfully",
+            //       type: "error",
+            //       redirect: "/webinar/email/WebinarSmartList",
+            //     });
+            // toast.success("Data updated successfully");
+          }
+
+          //  loader("hide");
+
+          // if (res.data.status_code === 200) {
+          //   toast.success("List updated");
+          // } else {
+          //   popup_alert({
+          //     visible: "show",
+          //     message: res.data.message,
+          //     type: "error",
+          //   });
+          // }
+        })
+        .catch((err) => {
+          toast.error("Something went wrong");
+        });
+
+      setSaveOpen(false);
+      setCreateData(editableData)
+      //  setEditableData([]);
+      // setEditList(editList);
+    } else {
+      toast.warning("No update");
+      setSaveOpen(false);
+    }
     setSaveOpen(false);
   }
   };
+  const saveEditClickedView = async (id) => {
+    setEditable(false)
+    // console.log(editable)
+   if(id==0){
+    if (editableData.length > 0) {
+      editableData.map((data) => {
+        const name_edit = document.getElementById(
+          "field_name" + data.id
+        ).innerText;
+        const country = document.getElementById(
+          "country" + data.id
+        ).value;
+        const content_type = document.getElementById(
+          "content_type" + data.id
+        ).value;
+
+
+        let prev_obj = editList.find((x) => x.id === data.id);
+
+        //data.country = country_edit;
+        data.name = name_edit;
+        data.country = country;
+        data.content_type = content_type;
+      });
+    }
+
+    if (editableData.length > 0) {
+      const body = {
+        smart_list_id: props.smartListId,
+        upload: "",
+        participants: JSON.stringify(editableData),
+        // participants: editableData,
+      };
+      // setEditable(0)
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("Token")}`,
+      };
+
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      // loader("show");
+      await axios
+        .post(baseURL + `/smart-list/update-participants`, body, { headers })
+        .then((res) => {
+          // console.log(res);
+
+          if (res.data.code == 200) {
+            popup_alert({
+                  visible: "show",
+                  message: "Data updated <br> successfully",
+                  type: "error",
+                  redirect: "/webinar/email/WebinarSmartList",
+                });
+                setEditable(0)
+            // toast.success("Data updated successfully");
+          }
+
+          //  loader("hide");
+
+          // if (res.data.status_code === 200) {
+          //   toast.success("List updated");
+          // } else {
+          //   popup_alert({
+          //     visible: "show",
+          //     message: res.data.message,
+          //     type: "error",
+          //   });
+          // }
+        })
+        .catch((err) => {
+          toast.error("Something went wrong");
+        });
+
+      setSaveOpen(false);
+      setCreateData(editableData)
+      //  setEditableData([]);
+      // setEditList(editList);
+    } else {
+      toast.warning("No update");
+      setSaveOpen(false);
+    }
+    setSaveOpen(false);
+  
+  }else{
+  
+
+    setSaveOpen(false);
+  }
+
+  }
 
   const handleGetCountry = () => {
     ExportApi.GetCountryData().then((resp) => {
@@ -1157,7 +1328,7 @@ const TableView = (props, ref) => {
                   </button>
                   <button
                     className="btn btn-primary btn-bordered"
-                    onClick={()=>{props.upload_by_filter=="001"||props.upload_by_filter=="1"?saveEditClicked(0):saveEditClicked(1)}}
+                    onClick={()=>{props.upload_by_filter=="001"?saveEditClickedView(0):props.upload_by_filter=="1"?saveEditClicked(0):saveEditClicked(1)}}
                   >
                     Save
                   </button>
@@ -1385,7 +1556,7 @@ const TableView = (props, ref) => {
                     Save
                   </button>: <button
                     className="btn btn-primary btn-bordered"
-                    onClick={()=>{props.upload_by_filter=="001"||props.upload_by_filter=="1"?saveEditClicked(0):saveEditClicked(1)}}
+                    onClick={()=>{props.upload_by_filter=="001"?saveEditClickedView(0):props.upload_by_filter=="1"?saveEditClickedView(0):saveEditClicked(1)}}
                   >
                     Save
                   </button>}
@@ -1462,14 +1633,16 @@ const TableView = (props, ref) => {
                       <td>{item.bounce}</td>
                       <td>
                       {
-                        editable ?  <select
+                        editable?
+                        
+                        <select
                         className="form-select-lg mb-3"
                         aria-label=".form-select-lg example"
                       >
                         <option >Select Country</option>
                         {country?.map((val, i) => (
                           <React.Fragment key={i}>
-                            <option key={i} value={val.name}>
+                            <option key={i} value={props.active==0&&props.upload_by_filter=="1"?val.id:val.name}>
                               {val.country}
                             </option>
                           </React.Fragment>
@@ -1563,10 +1736,10 @@ const TableView = (props, ref) => {
                                 editable === 0 ? "false" : "true"
                               }
                             >
-                              <span>{item.name}</span>
+                              <span>{props.upload_by_filter=="1"&&props.active=="0"?item.participants.name: item.name}</span>
                             </td>
 
-                      <td id={`field_email` + item.profile_user_id}>{item.email}</td>
+                      <td id={`field_email` + item.id}>{props.upload_by_filter=="1"&&props.active=="0"?item.participants.email:item.email}</td>
                       <input type="hidden" id={`field_index` + item.profile_user_id} value={index} />
                       <td id={`field_bounced` + item.profile_user_id}>{item.bounce}</td>
                       <td>
@@ -1610,10 +1783,11 @@ const TableView = (props, ref) => {
                           <option value="Staff User">Staff User</option>
                           <option value="Test User">Test User</option>
                         </Form.Select>
-                      </div> : <span>{item.content_type?item.content_type:item.type}</span>
+                      </div> : <span>{props.upload_by_filter=="1"&&props.active=="0"?item.participants.type:item.content_type?item.content_type:item.type}</span>
                       }
                       </td>
-
+                      {/* http://webinarapi.shinedezign.pro/api/participants?page=2
+                      http://webinarapi.shinedezign.pro/api/participants?page=2 */}
                       {showLessInfo == false ? (
                         <td>
                           <span>{item.consent}</span>{" "}
@@ -1900,7 +2074,7 @@ const TableView = (props, ref) => {
                                 name="country"
                                 className="country-form"
                               onChange={(e) => handleOnChange(e, i)}
-                             value={val.country}
+                            //  value={val.country}
                                 aria-label="select"
                               >
                                 <option selected>Select Country</option>

@@ -23,6 +23,7 @@ const FilterList = (props) => {
   let { smartListName } ="" ;
   let { smartListId } ="";
   const [selectedCountry, setSelectedCountry] = useState([]);
+  const [totalData, setTotalData] = useState([])
   const [countryall, setCountryall] = useState([]);
   const [update, setUpdate] = useState(0);
   const [reRender, setReRender] = useState(0);
@@ -52,11 +53,10 @@ const FilterList = (props) => {
      smartListName  = props.name;
      smartListId  = props.id;
     }else{
-      let { smartListName } = location.state;
-      let { smartListId } = location.state;
-      smartListName=smartListName;
-      smartListId=smartListId
+   
     }
+    // console.log(location.state.smartListId)
+    // console.log(location.state.smartName)
     const getalCountry = async () => {
       const headers = {
         "Content-Type": "application/json",
@@ -210,15 +210,15 @@ const FilterList = (props) => {
     // console.log(smartListId);
     // console.log(smartListName);
     // console.log(participants_id);
-
+// console.log(participants_id)
     const headers = {
       "Content-Type": "application/json",
       Authorization: `${localStorage.getItem("Token")}`,
     };
 
     const body = {
-      id: JSON.stringify(smartListId),
-      name: smartListName,
+      id: props.id?JSON.stringify(smartListId):localStorage.getItem("SmartListIdView"),
+      name:props.name? smartListName:localStorage.getItem("SmartListIdViewName"),
       participants: JSON.stringify(participants_id),
     };
 
@@ -291,10 +291,11 @@ const FilterList = (props) => {
 
         if (res.data.code == 200) {
           setFiltersData(res.data.data);
+          // setFiltersData((oldArray) => [...oldArray, ...res.data.data]);
           loader("hide");
         } else {
           toast.error(res.data.message);
-          setFiltersData([]);
+          // setFiltersData([]);
           loader("hide");
         }
       })
@@ -315,6 +316,7 @@ const FilterList = (props) => {
     .then((resp) => {
       if (resp.data) {
         setFiltersData(resp.data.data)
+        setTotalData((oldArray) => [...oldArray, ...resp.data.data]);
       }
     })
 }
