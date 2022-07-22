@@ -44,10 +44,6 @@ const EmailStatss = () => {
   };
 
   const loadData = ({ skip, limit, sortInfo }) => {
-    console.log(skip);
-    console.log(limit);
-    console.log(sortInfo);
-
     const url =
       process.env.REACT_APP_API_KEY + `distributes/get_send_campaign_list`;
 
@@ -64,8 +60,6 @@ const EmailStatss = () => {
         sortInfo: sortInfo,
       }),
     }).then((response2) => {
-      console.log(response2);
-
       const totalCount = 50;
       return response2.json().then((data2) => {
         const data = data2.response.data;
@@ -74,13 +68,9 @@ const EmailStatss = () => {
     });
   };
 
-  const filterValue = [
-    { name: "list", operator: "contains", type: "string", value: "o" },
-  ];
-
   const columns = [
     {
-      name: "campaign_id",
+      name: "c_id",
       header: <b> Campaign ID</b>,
 
       defaultFlex: 1,
@@ -125,7 +115,6 @@ const EmailStatss = () => {
             columns={columns}
             pagination
             dataSource={dataSources}
-            defaultFilterValue={filterValue}
             defaultLimit={10}
             style={gridStyle}
           />

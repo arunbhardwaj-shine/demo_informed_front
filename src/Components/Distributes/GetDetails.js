@@ -62,35 +62,38 @@ const GetDetails = () => {
   return (
     <>
       {" "}
-      <div className="left-sidebar">
-        <div className="jumbotron">
-          <h1 className="display-4"></h1>
-          Details
-          <p className="lead">Date:{distributeData.sent_data}</p>
-          <hr className="my-4" />
-          <p className="lead">Subject:{distributeData.subject}</p>
-          <p className="lead">Smart List:{distributeData.list}</p>
-          <p className="lead">
-            Total mail sent:{distributeData.total_sent_count}
-          </p>
-          <p className="lead">Email read:{distributeData.total_read_count}</p>
-          <p className="lead">
-            Pending read email:{distributeData.total_pending_count}
-          </p>
-          <p className="lead">
-            Bounce count:{distributeData.total_bouns_count}
-          </p>
-        </div>
-      </div>
+
       <div className="right-sidebar">
-        <div style={{ marginLeft: "60px" }}>
-          <ReactDataGrid
-            idProperty="uniqueId"
-            columns={columns}
-            pagination="local"
-            dataSource={dataSource}
-            style={gridStyle}
-          />
+        <div className="section-1">
+          <div className="jumbotron">
+            <h1 className="display-4"></h1>
+            Details
+            <p className="lead">Date:{distributeData.sent_data}</p>
+            <hr className="my-4" />
+            <p className="lead">Subject:{distributeData.subject}</p>
+            <p className="lead">Smart List:{distributeData.list}</p>
+            <p className="lead">
+              Total mail sent:{distributeData.total_sent_count}
+            </p>
+            <p className="lead">Email read:{distributeData.total_read_count}</p>
+            <p className="lead">
+              Pending read email:{distributeData.total_pending_count}
+            </p>
+            <p className="lead">
+              Bounce count:{distributeData.total_bouns_count}
+            </p>
+          </div>
+        </div>
+        <div className="section-2">
+          <div style={{ marginLeft: "60px" }}>
+            <ReactDataGrid
+              idProperty="uniqueId"
+              columns={columns}
+              pagination="local"
+              dataSource={dataSource}
+              style={gridStyle}
+            />
+          </div>
         </div>
       </div>
     </>
