@@ -53,7 +53,7 @@ const EmailStatss = (props) => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     const body = {
-      user_id: 'rjiGlqA9DXJVH7bDDTX0Lg==',
+      user_id: localStorage.getItem("user_id"),
       distribute_id: dist_id,
       send_status: type,
     };
