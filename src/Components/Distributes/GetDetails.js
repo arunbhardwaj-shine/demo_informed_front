@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 import { loader } from "../../loader";
 import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -21,7 +22,7 @@ const GetDetails = () => {
   const getCampaignReaderDetails = async () => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
-      user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
+      user_id: localStorage.getItem("user_id"),
       distribute_id: distribute_id,
     };
     loader("show");
@@ -32,12 +33,15 @@ const GetDetails = () => {
           console.log(res);
           setData(res.data.response.data.readers);
           setDistributeData(res.data.response.data.distribute_data);
-          loader("hide");
+        }else{
+          toast.warning(res.data.message);
         }
-
+        loader("hide");
         //console.log("here");
       })
       .catch((err) => {
+        loader("hide");
+        toast.error("Something went wrong");
         console.log(err);
         //  / console.log("here");
       });
@@ -136,18 +140,22 @@ const GetDetails = () => {
                       </tr>
                     </thead>
                     <tbody className="form-group">
-                      {data.map((item, index) => (
-                        <tr>
-                          <td>{item.first_name}</td>
+                      {
+                        typeof data != "undefined" && data.length > 0 ?
+                          data.map((item, index) => (
+                          <tr>
+                            <td>{item.first_name}</td>
 
-                          <td>{item.last_name}</td>
+                            <td>{item.last_name}</td>
 
-                          <td>{item.email}</td>
-                          <td>{item.email_read}</td>
-                          <td>{item.article_open}</td>
-                          <td>{item.registered}</td>
-                        </tr>
-                      ))}
+                            <td>{item.email}</td>
+                            <td>{item.email_read}</td>
+                            <td>{item.article_open}</td>
+                            <td>{item.registered}</td>
+                          </tr>
+                        )) :
+                        <div class="not-found"><h4>No Data Found</h4></div>
+                    }
                     </tbody>
                   </table>
                 </div>

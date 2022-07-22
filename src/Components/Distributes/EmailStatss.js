@@ -22,7 +22,7 @@ const EmailStatss = (props) => {
   const getCampaignList = async () => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
-      user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
+      user_id: localStorage.getItem("user_id"),
       page: 1,
     };
     loader("show");
@@ -146,6 +146,8 @@ const EmailStatss = (props) => {
 
 
                 <div class="top-right-action">
+                {
+                  /*
                   <div class="search-bar">
                     <form class="d-flex">
                       <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
@@ -156,8 +158,7 @@ const EmailStatss = (props) => {
                     </form>
                   </div>
 
-                  {
-                    /*
+
                     <div class="filter-by">
                       <button class="btn btn-outline-primary" type="submit">
                       Filter By <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
