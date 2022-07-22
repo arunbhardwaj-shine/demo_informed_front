@@ -75,27 +75,47 @@ const EmailStatss = () => {
 
       defaultFlex: 1,
     },
-    { name: "sent_data", header: "Date", defaultFlex: 1 },
-    { name: "subject", header: "Subject", defaultFlex: 1 },
-    { name: "pdf_title", header: "Article Title", defaultFlex: 1 },
-    { name: "list", header: "Smart List", defaultFlex: 1 },
-    { name: "total_sent_count", header: "Total Mail Sent", defaultFlex: 1 },
-    { name: "total_read_count", header: "Email Read", defaultFlex: 1 },
+    { name: "sent_data", header: "Date", defaultFlex: 1, defaultWidth: 100 },
+    { name: "subject", header: "Subject", defaultFlex: 1, defaultWidth: 100 },
+    {
+      name: "pdf_title",
+      header: "Article Title",
+      defaultFlex: 1,
+    },
+    { name: "list", header: "Smart List", defaultFlex: 1, defaultWidth: 100 },
+    {
+      name: "total_sent_count",
+      header: "Total Mail Sent",
+      defaultFlex: 1,
+    },
+    {
+      name: "total_read_count",
+      header: "Email Read",
+      defaultFlex: 1,
+    },
     {
       name: "total_pending_count",
       header: "Pending Read Email",
       defaultFlex: 1,
     },
-    { name: "total_bouns_count", header: "Bounce Count", defaultFlex: 1 },
+    {
+      name: "total_bouns_count",
+      header: "Bounce Count",
+      defaultFlex: 1,
+    },
     {
       name: "Action",
       header: "Action",
-      defaultFlex: 1,
+      defaultWidth: 300,
+      //defaultFlex: 1,
+
       render: function (id) {
         return (
           <>
             <button onClick={() => getDetails(id)}>get details</button>
+
             <button>Send pending</button>
+
             <button>Send to all</button>
           </>
         );
@@ -104,7 +124,7 @@ const EmailStatss = () => {
   ];
 
   const dataSources = useCallback(loadData, []);
-  const gridStyle = { minHeight: 800 };
+  const gridStyle = { minHeight: 500 };
   return (
     <>
       {console.log(dataSources)}
