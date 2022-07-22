@@ -316,6 +316,7 @@ const FilterList = (props) => {
     .then((resp) => {
       if (resp.data) {
         setFiltersData(resp.data.data)
+        console.log(resp.data.data)
         setTotalData((oldArray) => [...oldArray, ...resp.data.data]);
       }
     })
@@ -470,27 +471,21 @@ getData()
                         <div className="card-body">
                           {countryall.length > 0 && (
                             <>
+                            
                               <div className="col block-smart-name">
                                 <h6>Country</h6>
                                 <div className="smart-name-list">
                                   <ul>
                                     {countryall.map((item, index) => (
                                       <li>
-                                        {/* {console.log(countryall)} */}
+                                       {/* {console.log("filterData",countryall)} */}
                                         <div className="select-multiple-option">
                                           <input
                                             ref={inputElement}
                                             type="checkbox"
                                             id={`custom-checkbox-contact_type-${index}`}
                                             name="contact_type[]"
-                                            value={item.country}
-                                            // checked={
-                                            //   typeof selectedcontacttype !==
-                                            //     "undefined" &&
-                                            //   selectedcontacttype.indexOf(
-                                            //     item
-                                            //   ) !== -1
-                                            // }
+                                            value={item.country_id}
                                             onChange={(e) =>
                                               handleOnCountryChange(e, item)
                                             }

@@ -327,7 +327,7 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
               )}
             </div> */}
         <div className="clear-search">
-          <button
+          {!deletestatus? <button
             className="btn btn-outline-primary"
             onClick={(e) => showDeleteButtons()}
           >
@@ -363,14 +363,17 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
                 fill="#0066BE"
               />
             </svg>
-          </button>
+          </button>:<button
+            className="btn btn-primary btn-filled save"
+            onClick={(e) => showDeleteButtons()}
+          >Cancel</button>}
         </div>
       </div>
     </div>
     <div className="smart-list-result">
           <div className="col smartlist-result-block">
        
-                <div className="smartlist_box_block">
+            {!deletestatus?    <div className="smartlist_box_block">
                   <div className="smartlist-add smartlist-view">
                  
                       <Link to="/webinar/email/SmartListCreate">
@@ -379,7 +382,7 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
                         <p>Create New Smart List</p>
                    
                   </div>
-                </div>
+                </div>:null}
             
             {typeof smartListData !== "undefined" &&
             smartListData.length > 0 ? (

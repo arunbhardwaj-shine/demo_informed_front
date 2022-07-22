@@ -23,7 +23,7 @@ import ExportApi from "../../../Api/ExportApi";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 const TableView = (props, ref) => {
-console.log(props)
+console.log("props", props)
   const baseURL = BaseApi.getBaseURL();
   const [inEditMode, setInEditMode] = useState({
     status: false,
@@ -1252,14 +1252,14 @@ console.log(props)
                     sheet="tablexls"
                     buttonText="Download "
                   />
-                  {props.active=="0"?null:   <div className="hcp-new-user">
+                  {/* {props.active=="0"?null:   <div className="hcp-new-user">
                     <button
                       className="btn btn-outline-primary"
                       onClick={handleShow}
                     >
                       <img src={path + "new-user.svg"} alt="New User" />
                     </button>
-                  </div>}
+                  </div>} */}
                   <div className="hcp-new-user">
                     <button
                       className="btn btn-outline-primary"
@@ -1340,18 +1340,18 @@ console.log(props)
             <div style={{paddingBlock:"20px"}}></div>
             <div className="col-12 col-md-10">
               <div className="page-title">
-                <h2>{props.name } | { editList?.length?editList?.length:0}</h2>
+                <h4>{props.name } | { editList?.length?editList?.length:0}</h4>
               </div>
             </div>
             <div className="col-12 col-md-2">
             {editable == false ? (
                 <>
                   <a
-                    className="col-12 col-md-3"
+                    className="show-less-info"
                     onClick={(e) => showMoreInfo(e)}
                   >
                     {showLessInfo == true ? (
-                      <p className="show_more">Show More information</p>
+                      <p className="show_less">Show More information</p>
                     ) : (
                       <p className="show_less">Show less information</p>
                     )}{" "}
@@ -1639,7 +1639,6 @@ console.log(props)
                         className="form-select-lg mb-3"
                         aria-label=".form-select-lg example"
                       >
-                        <option >Select Country</option>
                         {country?.map((val, i) => (
                           <React.Fragment key={i}>
                             <option key={i} value={props.active==0&&props.upload_by_filter=="1"?val.id:val.name}>
@@ -1749,12 +1748,11 @@ console.log(props)
                         name="Country"
                         className="form-select-lg mb-3"
                         aria-label=".form-select-lg example"
-                        
                       >
-                        <option selected>Select Country</option>
+                        <option value="">Select Country</option>
                         {country?.map((val, i) => (
                           <React.Fragment key={i}>
-                            <option key={i} value={val.value}>
+                            <option key={i} value={props.upload_by_filter=="1"&&props.active=="0"?val.id:val.value}>
                               {val.country}
                             </option>
                           </React.Fragment>
