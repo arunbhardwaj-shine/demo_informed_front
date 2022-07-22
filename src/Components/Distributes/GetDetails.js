@@ -78,6 +78,8 @@ const GetDetails = () => {
                   <div className="smart-list-btns">
                     <div className="top-right-action">
                       <div className="search-bar">
+                      {
+                        /*
                         <form className="d-flex">
                           <input
                             className="form-control me-2"
@@ -103,6 +105,9 @@ const GetDetails = () => {
                             </svg>
                           </button>
                         </form>
+                        */
+                      }
+
                       </div>
                     </div>
                   </div>
