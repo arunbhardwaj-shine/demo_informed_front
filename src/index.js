@@ -118,6 +118,8 @@ import CreateRegistration from "./Components/Webinar/Registration/CreateRegistra
 import NewRegistration from "./Components/Webinar/Registration/NewRegistration";
 import SmartListWebinar from "./Components/Webinar/SmartList/SmartListWebinar";
 import SmartListWebinarView from "./Components/Webinar/SmartList/SmartListWebinarView";
+import EmailStatss from "./Components/Distributes/EmailStatss";
+import GetDetails from "./Components/Distributes/GetDetails";
 import EditSmartList from "./Components/Webinar/SmartList/EditSmartList";
 
 let platform = 0;
@@ -162,7 +164,10 @@ ReactDOM.render(
                       element={<SelectSmartList />}
                     />
                     <Route path="/EmailList" element={<EmailList />} />
-                    <Route path="/TemplateBuilder" element={<TemplateBuilder />} />
+                    <Route
+                      path="/TemplateBuilder"
+                      element={<TemplateBuilder />}
+                    />
                     <Route
                       path="/EmailArticleSelect"
                       element={<EmailArticleSelect />}
@@ -185,6 +190,8 @@ ReactDOM.render(
                     <Route path="/UploadExcel" element={<UploadExcel />} />
                     <Route path="/UpdatedTable" element={<Table />} />
                     <Route path="/ViewTable" element={<ViewTable />} />
+                    <Route path="/EmailStatss" element={<EmailStatss />} />
+                    <Route path="/get-details" element={<GetDetails />} />
                   </Routes>
                 </div>
               </div>

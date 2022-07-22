@@ -57,7 +57,7 @@ const Readers = () => {
   const handleGetReadersData = (id) => {
     ExportApi.ReadersData(id).then((resp) => {
       if (resp.ok) {
-        // console.log(resp);
+         console.log(resp.data.data.paginate.nextPageUrl);
         if (resp.data.code === 404) {
           setMassage("No data found");
           setData();
