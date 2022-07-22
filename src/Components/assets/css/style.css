@@ -5661,3 +5661,34 @@ table thead.sticky-header:after {
   flex: 1 1;
   max-width: 590px;
 }
+.selected-hcp-list#analytics-hcp-table table th:first-child {
+    width: 92px;
+}
+.smart-list-view .selected-hcp-list#analytics-hcp-table table {
+    max-width: 1150px;
+}
+#analytics-hcp-table td button {
+    font-size: 12px;
+    line-height: 15px;
+    color: #4e718e;
+    font-family: "Roboto-Light";
+    padding: 5px 4px;
+    border-color: #4e718e;
+}
+.selected-hcp-list#analytics-hcp-table table tr td:last-child {
+    padding: 10px 5px;
+}
+#analytics-hcp-table.selected-hcp-list table td {
+    padding: 24px 5px;
+}
+.selected-hcp-list#analytics-hcp-table table tr td:nth-last-child(2) {
+    width: 95px;
+}
+#analytics-hcp-table td button:hover{
+  border-color:var(--light-blue);
+  color:var(--white);
+}
+.selected-hcp-list#analytics-hcp-table table th {
+    padding-left: 5px;
+    padding-right: 5px;
+}
