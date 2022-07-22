@@ -11,7 +11,9 @@ const Sidebar = () => {
   const [isHoveringRegistration, setIsHoveringRegistration] = useState(false);
   const [isHoveringEmails, setIsHoveringEmails] = useState(false);
   const [isHoveringReaders, setIsHoveringReaders] = useState(false);
+  const [SmaertEdit, setSmaertEdit] = useState(``);
   const location = useLocation();
+  
   useEffect(() => {
     if (localStorage.getItem("Token")) {
       setToken(true);
@@ -77,7 +79,10 @@ const Sidebar = () => {
   }, []);
 
   useEffect(() => {
+    console.log("bnbn",location.pathname==`/webinar/email/editSmartList/${localStorage.getItem("SmartListIdView")}/${localStorage.getItem("SmartListIdViewName")}/${localStorage.getItem("SmartListIdViewN")}`)
     if (
+      location.pathname ==
+     `/webinar/email/editSmartList/${localStorage.getItem("SmartListIdView")}/${localStorage.getItem("SmartListIdViewName")}/${localStorage.getItem("SmartListIdViewN")}`||
       location.pathname === "/webinar/email/WebinarSmartList" ||
       location.pathname === "/webinar/email/ViewSmartListWebinar" ||
       location.pathname === "/webinar/email/SmartListCreate" ||
@@ -91,6 +96,7 @@ const Sidebar = () => {
         `/webinar/email/smart-list-users/${localStorage.getItem("SmartListId")}`||
       location.pathname ===
         `/webinar/email/smart-list-view/${localStorage.getItem("SmartListIdView")}`
+       
     ) {
       // console.log("hi");
       setEmailStatus(true);
@@ -732,7 +738,9 @@ const Sidebar = () => {
                         location.pathname ===
                           "/webinar/email/SmartListCreate/ExcelUpload"||
                           location.pathname ===
-                          `/webinar/email/smart-list-view/${localStorage.getItem("SmartListIdView")}`
+                          `/webinar/email/smart-list-view/${localStorage.getItem("SmartListIdView")}`||
+                          location.pathname ==
+                          `/webinar/email/editSmartList/${localStorage.getItem("SmartListIdView")}/${localStorage.getItem("SmartListIdViewName")}/${localStorage.getItem("SmartListIdViewN")}`
                           ? "active"
                           : "side_li"
                       }

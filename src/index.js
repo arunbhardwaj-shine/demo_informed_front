@@ -120,6 +120,7 @@ import SmartListWebinar from "./Components/Webinar/SmartList/SmartListWebinar";
 import SmartListWebinarView from "./Components/Webinar/SmartList/SmartListWebinarView";
 import EmailStatss from "./Components/Distributes/EmailStatss";
 import GetDetails from "./Components/Distributes/GetDetails";
+import EditSmartList from "./Components/Webinar/SmartList/EditSmartList";
 
 let platform = 0;
 let show = 0;
@@ -309,6 +310,10 @@ ReactDOM.render(
                         <Route
                           path="/webinar/email/smart-list-view/:id"
                           element={<SmartListWebinarView />}
+                        />
+                        <Route
+                          path="/webinar/email/editSmartList/:id/:name/:active"
+                          element={<EditSmartList />}
                         />
                         <Route
                           path="/webinar/sendemail"

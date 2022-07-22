@@ -33,8 +33,8 @@ const SmartListCreate = () => {
   };
 
   const handleSmartListName = async (event) => {
-    setSmartListName(event.target.value);
-    if (event.target.value == "") {
+    setSmartListName(event);
+    if (event == "") {
       setShowValidationMessage(true);
     } else {
       setShowValidationMessage(false);
@@ -42,15 +42,16 @@ const SmartListCreate = () => {
   };
 
   const segmentCohort = (listId) => {
+    console.log(smartListName)
+    localStorage.setItem("SmartListIdView",listId)
+    localStorage.setItem("SmartListIdViewName",smartListName)
     //console.log(smartListId);
     if (!smartListName.trim()) {
       // toast.warning("Please enter the smart list name first.");
 
       setShowValidationMessage(true);
     } else {
-      navigate("/webinar/email/SmartListCreate/FilterList", {
-        state: { smartListName: smartListName, smartListId: listId },
-      });
+      navigate("/webinar/email/SmartListCreate/FilterList")
     }
   };
 
@@ -220,29 +221,6 @@ const SmartListCreate = () => {
         <div className="page-top-nav smart_list_names">
           <div className="row justify-content-end align-items-center">
             <div className="col-12 col-md-1">
-              <div className="header-btn-left back_btn">
-                <a href="#">
-                  <button
-                    class="btn btn-primary btn-filled back"
-                    onClick={() => navigate("/webinar/email/WebinarSmartList")}
-                  >
-                    <svg
-                      width="12"
-                      height="19"
-                      viewBox="0 0 12 19"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M8.31557 17.82C8.97165 18.476 10.0354 18.476 10.6915 17.82C11.3475 17.1639 11.3475 16.1002 10.6915 15.4441L4.7522 9.50484L10.6927 3.56431C11.3488 2.90823 11.3488 1.84451 10.6927 1.18843C10.0367 0.532347 8.97294 0.532347 8.31686 1.18843L1.2212 8.28409C1.21 8.29469 1.19891 8.30548 1.18794 8.31646C0.531858 8.97254 0.531858 10.0363 1.18794 10.6923L8.31557 17.82Z"
-                        fill="white"
-                      />
-                    </svg>
-                  </button>
-                </a>
-              </div>
             </div>
             <div className="col-12 col-md-10">
               <ul className="tabnav-link">
@@ -250,7 +228,7 @@ const SmartListCreate = () => {
                   <a href="javascript:void(0)">Create smart list</a>
                 </li>
                 <li className="">
-                  <a href="javascript:void(0)">?</a>
+                  <a href="javascript:void(0)">Select & Verify Your HCPs</a>
                 </li>
               </ul>
             </div>
@@ -280,7 +258,7 @@ const SmartListCreate = () => {
                         className="form-control"
                         id=""
                         value={smartListName}
-                        onChange={(event) =>{setCreatorName(localStorage.getItem("username")); handleSmartListName(event)}}
+                        onChange={(event) =>{setCreatorName(localStorage.getItem("username")); handleSmartListName(event.target.value)}}
                       />
                       {showValidationMessage ? (
                         <p style={{ color: "red" }}>

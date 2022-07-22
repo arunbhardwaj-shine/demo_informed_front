@@ -23,7 +23,7 @@ import ExportApi from "../../../Api/ExportApi";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 const TableView = (props, ref) => {
-
+console.log("props", props)
   const baseURL = BaseApi.getBaseURL();
   const [inEditMode, setInEditMode] = useState({
     status: false,
@@ -39,7 +39,7 @@ const TableView = (props, ref) => {
   const [validator2] = React.useState(new SimpleReactValidator());
   const [validator3] = React.useState(new SimpleReactValidator());
   const [isOpen, setIsOpen] = useState(false);
-  const [showLessInfo, setShowLessInfo] = useState(false);
+  const [showLessInfo, setShowLessInfo] = useState(true);
   const [deleteConfirmation, setOpenDeleteConfirmation] = useState(false);
   const [profileUserId, setProfileUserId] = useState();
   const [data, setData] = useState(0);
@@ -78,6 +78,7 @@ const TableView = (props, ref) => {
   const [updateCounter, setUpdateCounter] = useState(0);
   const [getNewReaders, setNewReaders] = useState([]);
   const [emailChanged, setEmailChanged] = useState("");
+  const [createData, setCreateData] = useState([]);
   const [Speakername, setSpeakerName] = useState([
     {
       name: "",
@@ -343,7 +344,8 @@ const TableView = (props, ref) => {
       // "mouseleave",
       // async (event) => {
       const name_edit = document.getElementById("field_name" + id).innerText;
-      const email = document.getElementById("field_name" + id).innerText;
+      const email = document.getElementById("field_email" + id).innerText;
+      const content_type = document.getElementById("content_type" + id).innerText;
 
       // console.log(name_edit);
 // console.log("email",email)
@@ -356,7 +358,7 @@ const TableView = (props, ref) => {
         email: email,
         profession: "",
         interest: "",
-        consent: "",
+        consent: content_type,
       });
 
       let prev_obj = editableData.find((x) => x.id === id);
@@ -532,35 +534,37 @@ const TableView = (props, ref) => {
   };
 
   const saveEditClicked = async (id) => {
+   
     if(id==0){
     setEditable(0);
-    if (editableData.length > 0) {
-      editableData.map((data) => {
-        const name_edit = document.getElementById(
-          "field_name" + data.id
-        ).innerText;
-        const country = document.getElementById(
-          "country" + data.id
-        ).value;
-        const content_type = document.getElementById(
-          "content_type" + data.id
-        ).value;
+    // if (createData.length > 0) {
+    //   createData.map((data) => {
+    //     const name_edit = document.getElementById(
+    //       "field_name" + data.id
+    //     ).innerText;
+    //     // const country = document.getElementById(
+    //     //   "country" + data.id
+    //     // ).value;
+    //     console.log(data)
+    //     const content_type = document.getElementById(
+    //       "content_type" + data.id
+    //     ).value;
 
 
-        let prev_obj = editList.find((x) => x.id === data.id);
+    //     let prev_obj = editList.find((x) => x.id === data.id);
 
-        //data.country = country_edit;
-        data.name = name_edit;
-        data.country = country;
-        data.content_type = content_type;
-      });
-    }
+    //     //data.country = country_edit;
+    //     data.name = name_edit;
+    //     data.country = country;
+    //     data.content_type = content_type;
+    //   });
+    // }
 
-    if (editableData.length > 0) {
+    if (createData.length > 0) {
       const body = {
         smart_list_id: props.smartListId,
         upload: "",
-        participants: JSON.stringify(editableData),
+        participants: JSON.stringify(createData),
         // participants: editableData,
       };
 
@@ -610,9 +614,176 @@ const TableView = (props, ref) => {
       setSaveOpen(false);
     }
   }else{
+    setEditable(0);
+    if (editableData.length > 0) {
+      editableData.map((data) => {
+        const name_edit = document.getElementById(
+          "field_name" + data.id
+        ).innerText;
+        const country = document.getElementById(
+          "country" + data.id
+        ).value;
+        const content_type = document.getElementById(
+          "content_type" + data.id
+        ).value;
+
+
+        let prev_obj = editList.find((x) => x.id === data.id);
+
+        //data.country = country_edit;
+        data.name = name_edit;
+        data.country = country;
+        data.content_type = content_type;
+      });
+    }
+
+    if (editableData.length > 0) {
+      const body = {
+        smart_list_id: props.smartListId,
+        upload: "",
+        participants: JSON.stringify(editableData),
+        // participants: editableData,
+      };
+
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("Token")}`,
+      };
+
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      // loader("show");
+      await axios
+        .post(baseURL + `/smart-list/update-participants`, body, { headers })
+        .then((res) => {
+          // console.log(res);
+
+          if (res.data.code == 200) {
+            // popup_alert({
+            //       visible: "show",
+            //       message: "Data updated <br> successfully",
+            //       type: "error",
+            //       redirect: "/webinar/email/WebinarSmartList",
+            //     });
+            // toast.success("Data updated successfully");
+          }
+
+          //  loader("hide");
+
+          // if (res.data.status_code === 200) {
+          //   toast.success("List updated");
+          // } else {
+          //   popup_alert({
+          //     visible: "show",
+          //     message: res.data.message,
+          //     type: "error",
+          //   });
+          // }
+        })
+        .catch((err) => {
+          toast.error("Something went wrong");
+        });
+
+      setSaveOpen(false);
+      setCreateData(editableData)
+      //  setEditableData([]);
+      // setEditList(editList);
+    } else {
+      toast.warning("No update");
+      setSaveOpen(false);
+    }
     setSaveOpen(false);
   }
   };
+  const saveEditClickedView = async (id) => {
+    setEditable(false)
+    // console.log(editable)
+   if(id==0){
+    if (editableData.length > 0) {
+      editableData.map((data) => {
+        const name_edit = document.getElementById(
+          "field_name" + data.id
+        ).innerText;
+        const country = document.getElementById(
+          "country" + data.id
+        ).value;
+        const content_type = document.getElementById(
+          "content_type" + data.id
+        ).value;
+
+
+        let prev_obj = editList.find((x) => x.id === data.id);
+
+        //data.country = country_edit;
+        data.name = name_edit;
+        data.country = country;
+        data.content_type = content_type;
+      });
+    }
+
+    if (editableData.length > 0) {
+      const body = {
+        smart_list_id: props.smartListId,
+        upload: "",
+        participants: JSON.stringify(editableData),
+        // participants: editableData,
+      };
+      // setEditable(0)
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("Token")}`,
+      };
+
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      // loader("show");
+      await axios
+        .post(baseURL + `/smart-list/update-participants`, body, { headers })
+        .then((res) => {
+          // console.log(res);
+
+          if (res.data.code == 200) {
+            popup_alert({
+                  visible: "show",
+                  message: "Data updated <br> successfully",
+                  type: "error",
+                  redirect: "/webinar/email/WebinarSmartList",
+                });
+                setEditable(0)
+            // toast.success("Data updated successfully");
+          }
+
+          //  loader("hide");
+
+          // if (res.data.status_code === 200) {
+          //   toast.success("List updated");
+          // } else {
+          //   popup_alert({
+          //     visible: "show",
+          //     message: res.data.message,
+          //     type: "error",
+          //   });
+          // }
+        })
+        .catch((err) => {
+          toast.error("Something went wrong");
+        });
+
+      setSaveOpen(false);
+      setCreateData(editableData)
+      //  setEditableData([]);
+      // setEditList(editList);
+    } else {
+      toast.warning("No update");
+      setSaveOpen(false);
+    }
+    setSaveOpen(false);
+  
+  }else{
+  
+
+    setSaveOpen(false);
+  }
+
+  }
 
   const handleGetCountry = () => {
     ExportApi.GetCountryData().then((resp) => {
@@ -1044,8 +1215,9 @@ const TableView = (props, ref) => {
           <span className="loader-view"> </span>
         </div>
         <div className="page-top-nav smart_list_names">
-            {props.upload_by_filter=="001"?<div className="row justify-content-end align-items-center"> <div className="col-12 col-md-1">
-                <div className="header-btn-left">
+          {props.active==1?<div className="row justify-content-end align-items-center">
+          <div className="table-title">
+          <div className="header-btn-left">
                 <button
                 class="btn btn-primary btn-filled back"
                 onClick={() => {
@@ -1068,90 +1240,10 @@ const TableView = (props, ref) => {
                 </svg>
               </button>
                 </div>
-              </div></div>:<div className="row justify-content-end align-items-center">
-              <div className="col-12 col-md-1">
-                <div className="header-btn-left">
-                <button
-                class="btn btn-primary btn-filled back"
-                onClick={() => {
-                  navigate("/webinar/email/SmartListCreate");
-                }}
-              >
-                <svg
-                  width="12"
-                  height="19"
-                  viewBox="0 0 12 19"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M8.31557 17.82C8.97165 18.476 10.0354 18.476 10.6915 17.82C11.3475 17.1639 11.3475 16.1002 10.6915 15.4441L4.7522 9.50484L10.6927 3.56431C11.3488 2.90823 11.3488 1.84451 10.6927 1.18843C10.0367 0.532347 8.97294 0.532347 8.31686 1.18843L1.2212 8.28409C1.21 8.29469 1.19891 8.30548 1.18794 8.31646C0.531858 8.97254 0.531858 10.0363 1.18794 10.6923L8.31557 17.82Z"
-                    fill="white"
-                  />
-                </svg>
-              </button>
-                </div>
-              </div>
-              <div className="col-12 col-md-8">
-                <ul className="tabnav-link">
-                  <li className="">
-                    <a href="javascript:void(0)">Create smart List</a>
-                  </li>
-                  <li className="active active-main">
-                    <a href="javascript:void(0)">Verify Your List</a>
-                  </li>
-                </ul>
-              </div>
-              <div className="col-12 col-md-3">
-                {saveOpen==false?<> <div className="header-btn">
-                <button
-                class="btn btn-outline-primary"
-                onClick={() => navigate("/webinar/email/WebinarSmartList")}
-              >
-                cancel
-              </button>
-                  <button
-                    className="btn btn-primary btn-filled create"
-                     onClick={()=>saveEditClicked(0)}
-                  >
-                  Create
-                
-                  </button>
-                </div></>:null}
-               
-              </div>
-            </div>}
-          </div>
-          <br/>
-        <ToastContainer />
-        <section className="search-hcp smart-list-view">
-        <div className="result-hcp-table">
-          <div className="table-title">
-            {props.upload_by_filter == 0 ? (
-              <h4>
-                Uploaded HCPs for the smart list
-                <span>| {editList?.length> 0 ? editList?.length : 0}</span>
-              </h4>
-            ) : (
-              <h4>Selected HCPs for the smart list</h4>
-            )}
 
             <div className="selected-hcp-table-action">
               {editable == false ? (
                 <>
-                  {" "}
-                  <a
-                    className="show-less-info"
-                    onClick={(e) => showMoreInfo(e)}
-                  >
-                    {showLessInfo == true ? (
-                      <p className="show_more">Show More information</p>
-                    ) : (
-                      <p className="show_less">Show less information</p>
-                    )}{" "}
-                  </a>
                   <ReactHTMLTableToExcel
                     id="test-table-xls-button"
                     className="btn btn-outline-primary"
@@ -1160,6 +1252,14 @@ const TableView = (props, ref) => {
                     sheet="tablexls"
                     buttonText="Download "
                   />
+                  {/* {props.active=="0"?null:   <div className="hcp-new-user">
+                    <button
+                      className="btn btn-outline-primary"
+                      onClick={handleShow}
+                    >
+                      <img src={path + "new-user.svg"} alt="New User" />
+                    </button>
+                  </div>} */}
                   <div className="hcp-new-user">
                     <button
                       className="btn btn-outline-primary"
@@ -1228,7 +1328,7 @@ const TableView = (props, ref) => {
                   </button>
                   <button
                     className="btn btn-primary btn-bordered"
-                    onClick={()=>{props.upload_by_filter=="001"?saveEditClicked(0):saveEditClicked(1)}}
+                    onClick={()=>{props.upload_by_filter=="001"?saveEditClickedView(0):props.upload_by_filter=="1"?saveEditClicked(0):saveEditClicked(1)}}
                   >
                     Save
                   </button>
@@ -1236,6 +1336,234 @@ const TableView = (props, ref) => {
               ) : null}
             </div>
           </div>
+          <div className="row justify-content-end align-items-center">
+            <div style={{paddingBlock:"20px"}}></div>
+            <div className="col-12 col-md-10">
+              <div className="page-title">
+                <h4>{props.name } | { editList?.length?editList?.length:0}</h4>
+              </div>
+            </div>
+            <div className="col-12 col-md-2">
+            {editable == false ? (
+                <>
+                  <a
+                    className="show-less-info"
+                    onClick={(e) => showMoreInfo(e)}
+                  >
+                    {showLessInfo == true ? (
+                      <p className="show_less">Show More information</p>
+                    ) : (
+                      <p className="show_less">Show less information</p>
+                    )}{" "}
+                       </a>
+                    </> ):null}
+            </div>  
+        {/* <div className="smart-list-name-drop">
+        <h5>Please select who to include to your smart list.You can pick one or more:</h5>
+        </div> */}
+          </div>
+        </div>:null}
+       
+            {props.upload_by_filter=="001"?<div className="row justify-content-end align-items-center"> <div className="col-12 col-md-1">
+                <div className="header-btn-left">
+                <button
+                class="btn btn-primary btn-filled back"
+                onClick={() => {
+                  navigate("/webinar/email/WebinarSmartList");
+                }}
+              >
+                <svg
+                  width="12"
+                  height="19"
+                  viewBox="0 0 12 19"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M8.31557 17.82C8.97165 18.476 10.0354 18.476 10.6915 17.82C11.3475 17.1639 11.3475 16.1002 10.6915 15.4441L4.7522 9.50484L10.6927 3.56431C11.3488 2.90823 11.3488 1.84451 10.6927 1.18843C10.0367 0.532347 8.97294 0.532347 8.31686 1.18843L1.2212 8.28409C1.21 8.29469 1.19891 8.30548 1.18794 8.31646C0.531858 8.97254 0.531858 10.0363 1.18794 10.6923L8.31557 17.82Z"
+                    fill="white"
+                  />
+                </svg>
+              </button>
+                </div>
+              </div></div>:props.upload_by_filter=="1"?null:<div className="row justify-content-end align-items-center">
+              <div className="col-12 col-md-1">
+                <div className="header-btn-left">
+                <button
+                class="btn btn-primary btn-filled back"
+                onClick={() => {
+                  navigate("/webinar/email/SmartListCreate");
+                }}
+              >
+                <svg
+                  width="12"
+                  height="19"
+                  viewBox="0 0 12 19"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M8.31557 17.82C8.97165 18.476 10.0354 18.476 10.6915 17.82C11.3475 17.1639 11.3475 16.1002 10.6915 15.4441L4.7522 9.50484L10.6927 3.56431C11.3488 2.90823 11.3488 1.84451 10.6927 1.18843C10.0367 0.532347 8.97294 0.532347 8.31686 1.18843L1.2212 8.28409C1.21 8.29469 1.19891 8.30548 1.18794 8.31646C0.531858 8.97254 0.531858 10.0363 1.18794 10.6923L8.31557 17.82Z"
+                    fill="white"
+                  />
+                </svg>
+              </button>
+                </div>
+              </div>
+              <div className="col-12 col-md-8">
+                <ul className="tabnav-link">
+                  <li className="">
+                    <a href="javascript:void(0)">Create smart List</a>
+                  </li>
+                  <li className="active active-main">
+                    <a href="javascript:void(0)">Verify Your List</a>
+                  </li>
+                </ul>
+              </div>
+              <div className="col-12 col-md-3">
+                {saveOpen==false?<> <div className="header-btn">
+                <button
+                class="btn btn-outline-primary"
+                onClick={() => navigate("/webinar/email/WebinarSmartList")}
+              >
+                cancel
+              </button>
+                  <button
+                    className="btn btn-primary btn-filled create"
+                     onClick={()=>saveEditClicked(0)}
+                  >
+                  Create
+                
+                  </button>
+                </div></>:null}
+               
+              </div>
+            </div>}
+          </div>
+          <br/>
+        <ToastContainer />
+        <section className="search-hcp smart-list-view">
+        <div className="result-hcp-table">
+        {props.active==1?  null:
+          <div className="table-title">
+            {props.upload_by_filter == 0 ? (
+              <h4>
+                Uploaded HCPs for the smart list
+                <span>| {editList?.length> 0 ? editList?.length : 0}</span>
+              </h4>
+            ) : (
+              <h4>Selected HCPs for the smart list</h4>
+            )}
+
+            <div className="selected-hcp-table-action">
+              {editable == false ? (
+                <>
+                  {" "}
+                  <a
+                    className="show-less-info"
+                    onClick={(e) => showMoreInfo(e)}
+                  >
+                    {showLessInfo == true ? (
+                      <p className="show_more">Show More information</p>
+                    ) : (
+                      <p className="show_less">Show less information</p>
+                    )}{" "}
+                  </a>
+                  <ReactHTMLTableToExcel
+                    id="test-table-xls-button"
+                    className="btn btn-outline-primary"
+                    table="table-to-xls"
+                    filename="sample"
+                    sheet="tablexls"
+                    buttonText="Download "
+                  />
+                  {props.active==0?null:  <div className="hcp-new-user">
+                    <button
+                      className="btn btn-outline-primary"
+                      onClick={handleShow}
+                    >
+                      <img src={path + "new-user.svg"} alt="New User" />
+                    </button></div>}
+                
+                  
+                  <div className="hcp-added">
+                    <button
+                      className="btn btn-outline-primary"
+                      onClick={editButtonClicked}
+                    >
+                      <img src={path + "edit-button.svg"} alt="Edit" />
+                    </button>
+                  </div>
+                  <div className="hcp-sort">
+                    {sortingCount == 0 ? (
+                      <>
+                        <button
+                          className="btn btn-outline-primary"
+                          onClick={sortSelectedUsers}
+                        >
+                          Sort By{" "}
+                          <img src={path_image + "sort.svg"} alt="Shorting" />
+                        </button>
+                      </>
+                    ) : sorting == 0 ? (
+                      <>
+                        <button
+                          className="btn btn-outline-primary desc"
+                          onClick={sortSelectedUsers}
+                        >
+                          Sort By{" "}
+                          <img
+                            src={path_image + "sort-decending.svg"}
+                            alt="Shorting"
+                          />
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          className="btn btn-outline-primary asc"
+                          onClick={sortSelectedUsers}
+                        >
+                          Sort By{" "}
+                          <img
+                            src={path_image + "sort-assending.svg"}
+                            alt="Shorting"
+                          />
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </>
+              ) : null}
+
+              {saveOpen ? (
+                <>
+                  <button
+                    className="btn btn-primary btn-filled"
+                    onClick={closeClicked}
+                  >
+                    Close
+                  </button>
+                  {props.active==1?  
+                  <button
+                    className="btn btn-primary btn-bordered"
+                    onClick={()=>{saveEditClicked(1)}}
+                  >
+                    Save
+                  </button>: <button
+                    className="btn btn-primary btn-bordered"
+                    onClick={()=>{props.upload_by_filter=="001"?saveEditClickedView(0):props.upload_by_filter=="1"?saveEditClickedView(0):saveEditClicked(1)}}
+                  >
+                    Save
+                  </button>}
+                </>
+              ) : null}
+            </div>
+          </div>}
           <div className="selected-hcp-list">
             <table className="table" id="table-to-xls">
               <thead className="sticky-header">
@@ -1305,14 +1633,15 @@ const TableView = (props, ref) => {
                       <td>{item.bounce}</td>
                       <td>
                       {
-                        editable ?  <select
+                        editable?
+                        
+                        <select
                         className="form-select-lg mb-3"
                         aria-label=".form-select-lg example"
                       >
-                        <option >Select Country</option>
                         {country?.map((val, i) => (
                           <React.Fragment key={i}>
-                            <option key={i} value={val.name}>
+                            <option key={i} value={props.active==0&&props.upload_by_filter=="1"?val.id:val.name}>
                               {val.country}
                             </option>
                           </React.Fragment>
@@ -1406,23 +1735,24 @@ const TableView = (props, ref) => {
                                 editable === 0 ? "false" : "true"
                               }
                             >
-                              <span>{item.name}</span>
+                              <span>{props.upload_by_filter=="1"&&props.active=="0"?item.participants.name: item.name}</span>
                             </td>
 
-                      <td id={`field_email` + item.profile_user_id}>{item.email}</td>
+                      <td id={`field_email` + item.id}>{props.upload_by_filter=="1"&&props.active=="0"?item.participants.email:item.email}</td>
                       <input type="hidden" id={`field_index` + item.profile_user_id} value={index} />
                       <td id={`field_bounced` + item.profile_user_id}>{item.bounce}</td>
                       <td>
                       {
                         editable ?  <select
                         id={`country` + item.id}
+                        name="Country"
                         className="form-select-lg mb-3"
                         aria-label=".form-select-lg example"
                       >
-                        <option selected>Select Country</option>
+                        <option value="">Select Country</option>
                         {country?.map((val, i) => (
                           <React.Fragment key={i}>
-                            <option key={i} value={val.value}>
+                            <option key={i} value={props.upload_by_filter=="1"&&props.active=="0"?val.id:val.value}>
                               {val.country}
                             </option>
                           </React.Fragment>
@@ -1451,10 +1781,11 @@ const TableView = (props, ref) => {
                           <option value="Staff User">Staff User</option>
                           <option value="Test User">Test User</option>
                         </Form.Select>
-                      </div> : <span>{item.content_type?item.content_type:item.type}</span>
+                      </div> : <span>{props.upload_by_filter=="1"&&props.active=="0"?item.participants.type:item.content_type?item.content_type:item.type}</span>
                       }
                       </td>
-
+                      {/* http://webinarapi.shinedezign.pro/api/participants?page=2
+                      http://webinarapi.shinedezign.pro/api/participants?page=2 */}
                       {showLessInfo == false ? (
                         <td>
                           <span>{item.consent}</span>{" "}
@@ -1741,7 +2072,7 @@ const TableView = (props, ref) => {
                                 name="country"
                                 className="country-form"
                               onChange={(e) => handleOnChange(e, i)}
-                             value={val.country}
+                            //  value={val.country}
                                 aria-label="select"
                               >
                                 <option selected>Select Country</option>

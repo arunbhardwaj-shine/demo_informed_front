@@ -327,7 +327,7 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
               )}
             </div> */}
         <div className="clear-search">
-          <button
+          {!deletestatus? <button
             className="btn btn-outline-primary"
             onClick={(e) => showDeleteButtons()}
           >
@@ -363,14 +363,17 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
                 fill="#0066BE"
               />
             </svg>
-          </button>
+          </button>:<button
+            className="btn btn-primary btn-filled save"
+            onClick={(e) => showDeleteButtons()}
+          >Cancel</button>}
         </div>
       </div>
     </div>
     <div className="smart-list-result">
           <div className="col smartlist-result-block">
        
-                <div className="smartlist_box_block">
+            {!deletestatus?    <div className="smartlist_box_block">
                   <div className="smartlist-add smartlist-view">
                  
                       <Link to="/webinar/email/SmartListCreate">
@@ -379,7 +382,7 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
                         <p>Create New Smart List</p>
                    
                   </div>
-                </div>
+                </div>:null}
             
             {typeof smartListData !== "undefined" &&
             smartListData.length > 0 ? (
@@ -457,32 +460,15 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
                               </div><span>60%</span></li>
                             </ul>
                           </div> */}
-                        <div className="smartlist-buttons">
-                          {!deletestatus && (
-                            <>
-                              {data.upload_by_filter == 1 ? (
+                        <div className="smartlist-buttons">   
                                 <Link
                                   className="btn btn-primary btn-bordered edit_list"
-                                  to={{
-                                    pathname: "/EditList",
-                                    search: "?listId=" + data.id,
-                                  }}
-                                  // onClick={() => linkClicked(data.id)}
+                                  to={`/webinar/email/editSmartList/${data.id}/${data.name}/${data.file_upload?1:0}`}
+                                  onClick={() => {localStorage.setItem("SmartListIdView",data.id);localStorage.setItem("SmartListIdViewName",data.name);localStorage.setItem("SmartListIdViewN",data.file_upload?1:0)}}
                                 >
                                   Edit List
                                 </Link>
-                              ) : (
-                                <Link
-                                  className="btn btn-primary btn-bordered edit_list"
-                                  to={{
-                                    pathname: "/ViewSmartList",
-                                    search: "?listId=" + data.id,
-                                  }}
-                                  // onClick={() => linkClicked(data.id)}
-                                >
-                                  Edit List
-                                </Link>
-                              )}
+                              
                               <Link
                                 className="btn btn-primary btn-filled view"
                                 to={`/webinar/email/smart-list-view/${data.id}`}
@@ -490,8 +476,7 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
                               >
                                 View
                               </Link>
-                            </>
-                          )}
+                       
                         </div>
                         {deletestatus && (
                           <div className="dlt_btn">

@@ -12,16 +12,18 @@ import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import { BaseApi } from "../../../Api/BaseApi";
 import { popup_alert } from "../../../popup_alert";
+import ExportApi from "../../../Api/ExportApi";
 
-const FilterList = () => {
+const FilterList = (props) => {
   const inputElement = useRef();
   const baseURL = BaseApi.getBaseURL();
   const navigate = useNavigate();
   const location = useLocation();
   const [selectedCountryName, setSelectedCountryName] = useState([]);
-  const { smartListName } = location.state;
-  const { smartListId } = location.state;
+  let { smartListName } ="" ;
+  let { smartListId } ="";
   const [selectedCountry, setSelectedCountry] = useState([]);
+  const [totalData, setTotalData] = useState([])
   const [countryall, setCountryall] = useState([]);
   const [update, setUpdate] = useState(0);
   const [reRender, setReRender] = useState(0);
@@ -47,6 +49,14 @@ const FilterList = () => {
 
   const [api_flag, setapi_flag] = useState(0);
   useEffect(() => {
+    if(props.id&&props.name){
+     smartListName  = props.name;
+     smartListId  = props.id;
+    }else{
+   
+    }
+    // console.log(location.state.smartListId)
+    // console.log(location.state.smartName)
     const getalCountry = async () => {
       const headers = {
         "Content-Type": "application/json",
@@ -200,15 +210,15 @@ const FilterList = () => {
     // console.log(smartListId);
     // console.log(smartListName);
     // console.log(participants_id);
-
+// console.log(participants_id)
     const headers = {
       "Content-Type": "application/json",
       Authorization: `${localStorage.getItem("Token")}`,
     };
 
     const body = {
-      id: JSON.stringify(smartListId),
-      name: smartListName,
+      id: props.id?JSON.stringify(smartListId):localStorage.getItem("SmartListIdView"),
+      name:props.name? smartListName:localStorage.getItem("SmartListIdViewName"),
       participants: JSON.stringify(participants_id),
     };
 
@@ -281,10 +291,11 @@ const FilterList = () => {
 
         if (res.data.code == 200) {
           setFiltersData(res.data.data);
+          // setFiltersData((oldArray) => [...oldArray, ...res.data.data]);
           loader("hide");
         } else {
           toast.error(res.data.message);
-          setFiltersData([]);
+          // setFiltersData([]);
           loader("hide");
         }
       })
@@ -300,15 +311,61 @@ const FilterList = () => {
   const closeClicked = () => {
     navigate("/webinar/email/SmartListCreate");
   };
+  const getData=()=>{
+    ExportApi.GetSmartListSingleRecord(props.id)
+    .then((resp) => {
+      if (resp.data) {
+        setFiltersData(resp.data.data)
+        console.log(resp.data.data)
+        setTotalData((oldArray) => [...oldArray, ...resp.data.data]);
+      }
+    })
+}
+useEffect(() => {
+getData()
+}, [props.id])
   return (
     <>
         <div className="loader" id="custom_loader">
           <span className="loader-view"> </span>
         </div>
       {/* {console.log(selectedCountry)} */}
-      <div className="right-sidebar col">
-        <ToastContainer />
-        <div className="page-top-nav smart_list_names create_filter_list">
+      <div className={props.active==0?"page-top-nav smart_list_names create_filter_list":"right-sidebar col"}>
+        {props.active==0?
+          <div className="row justify-content-end align-items-center">
+            <div className="col-12 col-md-6">
+              <div className="page-title">
+                <h2>{props.name}</h2>
+              </div>
+            </div>
+            <div className="col-12 col-md-6">
+              <div className="header-btn">
+                <button
+                  className="btn btn-primary btn-bordered light"
+                //   onClick={closeClicked}
+                >
+                  Close
+                </button>
+                <button
+                  className="btn btn-primary btn-filled save"
+                //  onClick={() => showConfirmation()}
+                //  disabled={
+                //    typeof getfilterdata !== "undefined" &&
+                //    getfilterdata.length > 0
+                //      ? false
+                //      : typeof getNewAddedUser !== "undefined" &&
+                //        getNewAddedUser.length > 0
+                //      ? false
+                //      : true
+                //   }
+                >
+                  Save
+                </button>
+              </div>
+            </div>  
+     
+          </div>
+        : <div className="page-top-nav smart_list_names create_filter_list">
           <div className="row justify-content-end align-items-center">
             <div className="col-12 col-md-1">
               <div className="header-btn-left back_btn">
@@ -392,9 +449,13 @@ const FilterList = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div>}
+        <ToastContainer />
 
         <section className="search-hcp smart-list-name">
+        <div className="smart-list-name-drop">
+        <h5>Please select who to include to your smart list.You can pick one or more:</h5>
+        </div>
           <div className="smart-list-name-drop">
             <div className="smart-list-dropdown">
               <div className="dropdown-smart">
@@ -410,27 +471,21 @@ const FilterList = () => {
                         <div className="card-body">
                           {countryall.length > 0 && (
                             <>
+                            
                               <div className="col block-smart-name">
                                 <h6>Country</h6>
                                 <div className="smart-name-list">
                                   <ul>
                                     {countryall.map((item, index) => (
                                       <li>
-                                        {/* {console.log(countryall)} */}
+                                       {/* {console.log("filterData",countryall)} */}
                                         <div className="select-multiple-option">
                                           <input
                                             ref={inputElement}
                                             type="checkbox"
                                             id={`custom-checkbox-contact_type-${index}`}
                                             name="contact_type[]"
-                                            value={item.country}
-                                            // checked={
-                                            //   typeof selectedcontacttype !==
-                                            //     "undefined" &&
-                                            //   selectedcontacttype.indexOf(
-                                            //     item
-                                            //   ) !== -1
-                                            // }
+                                            value={item.country_id}
                                             onChange={(e) =>
                                               handleOnCountryChange(e, item)
                                             }
@@ -853,7 +908,7 @@ const FilterList = () => {
           </div>
           <div className="apply-filter">
             <h6>
-              Selected Criterias{" "}
+              Selected Criterias |{props.active==0?filterData.length:null}
               {/* <span>
                 |
                 {typeof getfilterdata !== "undefined" &&
@@ -1198,7 +1253,7 @@ const FilterList = () => {
             </div>
           </div>
           {console.log(filterData)}
-         <TableView data={filterData} smartListId={smartListId} upload_by_filter="1"  /> 
+         <TableView data={filterData} smartListId={props.active==0?props.id:smartListId} active={props.active==0?props.active:null} upload_by_filter="1"  /> 
           {/* {filterData?.length > 0 ? (
             <div className="box mt-2">
               <div class="selected-hcp-list">
