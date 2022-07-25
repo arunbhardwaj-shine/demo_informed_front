@@ -358,9 +358,9 @@ console.log("props", props)
         email: email,
         profession: "",
         interest: "",
-        consent: content_type,
+        consent: 0,
       });
-
+            
       let prev_obj = editableData.find((x) => x.id === id);
       // console.log(prev_obj);
 
@@ -549,10 +549,7 @@ console.log("props", props)
     //     const content_type = document.getElementById(
     //       "content_type" + data.id
     //     ).value;
-
-
     //     let prev_obj = editList.find((x) => x.id === data.id);
-
     //     //data.country = country_edit;
     //     data.name = name_edit;
     //     data.country = country;
@@ -609,7 +606,91 @@ console.log("props", props)
       setSaveOpen(false);
       setEditableData([]);
       setEditList(editList);
-    } else {
+    }if(editableData.length>0){
+      if (editableData.length > 0) {
+        editableData.map((data) => {
+          // console.log("is_register",data)
+          const name_edit = document.getElementById(
+            "field_name" + data.id
+          ).innerText;
+          const country = document.getElementById(
+            "country" + data.id
+          ).value;
+          const content_type = document.getElementById(
+            "content_type" + data.id
+          ).value;
+          const register = document.getElementById(
+            "is_register" + data.id
+          ).innerText;
+          // const register = props.data?.filter((item)=>{item.id===data.id})
+  
+          // console.log("eeee",register)
+  
+          let prev_obj = editList.find((x) => x.id === data.id);
+          //data.country = country_edit;
+          data.name = name_edit;
+          data.country_id = country;
+          data.content_type = content_type;
+           data.is_register=register
+        });
+      }
+      const body = {
+        smart_list_id: props.smartListId,
+        upload: "",
+        participants: JSON.stringify(editableData),
+        // participants: editableData,
+      };
+
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("Token")}`,
+      };
+
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      // loader("show");
+      await axios
+        .post(baseURL + `/smart-list/update-participants`, body, { headers })
+        .then((res) => {
+          // console.log(res);
+
+          if (res.data.code == 200) {
+            popup_alert({
+                  visible: "show",
+                  message: "Data updated <br> successfully",
+                  type: "error",
+                  redirect: "/webinar/email/WebinarSmartList",
+                });
+            // toast.success("Data updated successfully");
+          }
+
+          //  loader("hide");
+
+          // if (res.data.status_code === 200) {
+          //   toast.success("List updated");
+          // } else {
+          //   popup_alert({
+          //     visible: "show",
+          //     message: res.data.message,
+          //     type: "error",
+          //   });
+          // }
+        })
+        .catch((err) => {
+          toast.error("Something went wrong");
+        });
+
+      setSaveOpen(false);
+      setEditableData([]);
+      setEditList(editList);
+    }if(props.upload_by_filter=="0"){
+      popup_alert({
+        visible: "show",
+        message: "Data updated <br> successfully",
+        type: "error",
+        redirect: "/webinar/email/WebinarSmartList",
+      });
+    }
+     else {
       toast.warning("No update");
       setSaveOpen(false);
     }
@@ -617,6 +698,7 @@ console.log("props", props)
     setEditable(0);
     if (editableData.length > 0) {
       editableData.map((data) => {
+        // console.log("is_register",data)
         const name_edit = document.getElementById(
           "field_name" + data.id
         ).innerText;
@@ -626,14 +708,17 @@ console.log("props", props)
         const content_type = document.getElementById(
           "content_type" + data.id
         ).value;
-
+        const register = document.getElementById(
+          "is_register" + data.id
+        ).innerText;
 
         let prev_obj = editList.find((x) => x.id === data.id);
 
         //data.country = country_edit;
         data.name = name_edit;
-        data.country = country;
+        data.country_id = country;
         data.content_type = content_type;
+        data.is_register=register
       });
     }
 
@@ -658,12 +743,12 @@ console.log("props", props)
           // console.log(res);
 
           if (res.data.code == 200) {
-            // popup_alert({
-            //       visible: "show",
-            //       message: "Data updated <br> successfully",
-            //       type: "error",
-            //       redirect: "/webinar/email/WebinarSmartList",
-            //     });
+            popup_alert({
+                  visible: "show",
+                  message: "Data updated <br> successfully",
+                  type: "error",
+                  redirect: "/webinar/email/WebinarSmartList",
+                });
             // toast.success("Data updated successfully");
           }
 
@@ -699,7 +784,9 @@ console.log("props", props)
     // console.log(editable)
    if(id==0){
     if (editableData.length > 0) {
-      editableData.map((data) => {
+      console.log(editableData)
+      editableData.map((data,i) => {
+        // console.log("daaaata",data)
         const name_edit = document.getElementById(
           "field_name" + data.id
         ).innerText;
@@ -709,14 +796,17 @@ console.log("props", props)
         const content_type = document.getElementById(
           "content_type" + data.id
         ).value;
-
-
+        const register = document.getElementById(
+          "is_register" + data.id
+        ).innerText;
+        delete data.country;
         let prev_obj = editList.find((x) => x.id === data.id);
-
+            // console.log("sdsssssfs",country)
         //data.country = country_edit;
         data.name = name_edit;
-        data.country = country;
+        data.country_id = country;
         data.content_type = content_type;
+         data.is_register=register
       });
     }
 
@@ -741,12 +831,13 @@ console.log("props", props)
           // console.log(res);
 
           if (res.data.code == 200) {
-            popup_alert({
-                  visible: "show",
-                  message: "Data updated <br> successfully",
-                  type: "error",
-                  redirect: "/webinar/email/WebinarSmartList",
-                });
+           props.saveAlert(true)
+            // popup_alert({
+            //       visible: "show",
+            //       message: "Data updated <br> successfully",
+            //       type: "error",
+            //       redirect: "/webinar/email/WebinarSmartList",
+            //     });
                 setEditable(0)
             // toast.success("Data updated successfully");
           }
@@ -1344,7 +1435,7 @@ console.log("props", props)
               </div>
             </div>
             <div className="col-12 col-md-2">
-            {editable == false ? (
+            {/* {editable == false ? (
                 <>
                   <a
                     className="show-less-info"
@@ -1356,7 +1447,7 @@ console.log("props", props)
                       <p className="show_less">Show less information</p>
                     )}{" "}
                        </a>
-                    </> ):null}
+                    </> ):null} */}
             </div>  
         {/* <div className="smart-list-name-drop">
         <h5>Please select who to include to your smart list.You can pick one or more:</h5>
@@ -1463,7 +1554,7 @@ console.log("props", props)
               {editable == false ? (
                 <>
                   {" "}
-                  <a
+                  {/* <a
                     className="show-less-info"
                     onClick={(e) => showMoreInfo(e)}
                   >
@@ -1472,7 +1563,7 @@ console.log("props", props)
                     ) : (
                       <p className="show_less">Show less information</p>
                     )}{" "}
-                  </a>
+                  </a> */}
                   <ReactHTMLTableToExcel
                     id="test-table-xls-button"
                     className="btn btn-outline-primary"
@@ -1570,11 +1661,11 @@ console.log("props", props)
                 <tr>
                   <th scope="col">Name</th>
                   <th scope="col">Email</th>
-                  <th scope="col">Bounced</th>
+                  {/* <th scope="col">Bounced</th> */}
                   <th scope="col">Country</th>
-                  <th scope="col">Business Unit</th>
+                  {/* <th scope="col">Business Unit</th> */}
                   <th scope="col">Contact Type</th>
-                  {showLessInfo == false ? (
+                  {/* {showLessInfo == false ? (
                     <>
 
                       <th scope="col">Consent</th>
@@ -1584,7 +1675,7 @@ console.log("props", props)
                       <th scope="col">Last Email</th>
                       <th scope="col"></th>
                     </>
-                  ) : null}
+                  ) : null} */}
                 </tr>
               </thead>
               <tbody>
@@ -1593,7 +1684,7 @@ console.log("props", props)
                   getNewReaders.map((item, index) => (
                     <tr
                     className="hcps-added"
-                    id={`row-selected` + index}
+                    id={`row-selected` + item.is_register}
                     onClick={(e) =>
                       editing(
                         //  e.currentTarget,
@@ -1629,8 +1720,8 @@ console.log("props", props)
                           item.name
                         )}
                       </td> */}
-                      <input type="hidden" id={`field_index` + item.profile_user_id} value={index} />
-                      <td>{item.bounce}</td>
+                      {/* <input type="hidden" id={`field_index` + item.profile_user_id} value={index} />
+                      <td>{item.bounce}</td> */}
                       <td>
                       {
                         editable?
@@ -1638,6 +1729,7 @@ console.log("props", props)
                         <select
                         className="form-select-lg mb-3"
                         aria-label=".form-select-lg example"
+                        id={`country` + item.id}
                       >
                         {country?.map((val, i) => (
                           <React.Fragment key={i}>
@@ -1669,7 +1761,7 @@ console.log("props", props)
                         }
                       </td>
 
-                      {showLessInfo == false ? (
+                      {/* {showLessInfo == false ? (
                         <td>
                           <span>{item.consent}</span>{" "}
                         </td>
@@ -1693,7 +1785,7 @@ console.log("props", props)
                         <td>
                           <span>{item.last_email}</span>
                         </td>
-                      ) : null}
+                      ) : null} */}
 
                       <td className="delete_row" colspan="12">
                     
@@ -1715,8 +1807,8 @@ console.log("props", props)
                   editList.length > 0 &&
                   editList.map((item, index) => (
                     <tr
-                      id={`row-selected` + index}
-
+                      id={`row-selected` + item.is_register}
+                        value={item.is_register}
                       onClick={(e) =>
                         editing(
                           //  e.currentTarget,
@@ -1727,7 +1819,7 @@ console.log("props", props)
                         )
                       }
                     >
-                      {/* {console.log(item)} */}
+                      {/* {console.log("item",item)} */}
 
                             <td
                               id={`field_name` + item.id}
@@ -1735,12 +1827,12 @@ console.log("props", props)
                                 editable === 0 ? "false" : "true"
                               }
                             >
-                              <span>{props.upload_by_filter=="1"&&props.active=="0"?item.participants.name: item.name}</span>
+                              <span>{props.upload_by_filter=="1"&&props.active=="0"?item?.name: item?.name}</span>
                             </td>
 
-                      <td id={`field_email` + item.id}>{props.upload_by_filter=="1"&&props.active=="0"?item.participants.email:item.email}</td>
-                      <input type="hidden" id={`field_index` + item.profile_user_id} value={index} />
-                      <td id={`field_bounced` + item.profile_user_id}>{item.bounce}</td>
+                      <td id={`field_email` + item.id}>{props.upload_by_filter=="1"&&props.active=="0"?item?.email:item?.email}</td>
+                      {/* <input type="hidden" id={`field_index` + item.profile_user_id} value={index} />
+                      <td id={`field_bounced` + item.profile_user_id}>{item.bounce}</td> */}
                       <td>
                       {
                         editable ?  <select
@@ -1763,7 +1855,7 @@ console.log("props", props)
                       {/*showLessInfo == false ? (
                         <td id="field_readers">NA</td>
                       ) : null*/}
-                      <td id="field_business_unit">{item.ibu}</td>
+                      {/* <td id="field_business_unit">{item.ibu}</td> */}
                       <td id="field_interest">
                       {
                         editable ?    <div className="user-type-option">
@@ -1781,12 +1873,13 @@ console.log("props", props)
                           <option value="Staff User">Staff User</option>
                           <option value="Test User">Test User</option>
                         </Form.Select>
-                      </div> : <span>{props.upload_by_filter=="1"&&props.active=="0"?item.participants.type:item.content_type?item.content_type:item.type}</span>
+                      </div> : <span>{props.upload_by_filter=="1"&&props.active=="0"?item?.type:item?.content_type?item?.content_type:item?.type}</span>
                       }
                       </td>
+                      <td id={`is_register` + item.id} style={{display:"none"}}>{item.is_register}</td>
                       {/* http://webinarapi.shinedezign.pro/api/participants?page=2
                       http://webinarapi.shinedezign.pro/api/participants?page=2 */}
-                      {showLessInfo == false ? (
+                      {/* {showLessInfo == false ? (
                         <td>
                           <span>{item.consent}</span>{" "}
                         </td>
@@ -1810,7 +1903,8 @@ console.log("props", props)
                         <td>
                           <span>{item.last_email}</span>
                         </td>
-                      ) : null}
+                      ) : null} */}
+
 
                       <td
                         className="delete_row"

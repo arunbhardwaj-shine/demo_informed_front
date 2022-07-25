@@ -4,16 +4,23 @@ import ExportApi from '../../../Api/ExportApi';
 import { loader } from '../../../loader';
 import { Link, useNavigate } from "react-router-dom";
 import { popup_alert } from '../../../popup_alert';
+import { Accordion } from "react-bootstrap";
 import { Modal } from 'react-bootstrap';
 const SmartListWebinar = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_WEBINAR;
     const [search, setSearch] = useState("");
+    const [showfilter, setShowFilter] = useState(false);
     const [smartListData, setSmartListData] = useState([]);
+    const [selectedCountry, setSelectedCountry] = useState([]);
+    const [filterKey, setFilterKey] = useState([]);
     const [massage, setMassage] = useState([]);
     const [deletestatus, setDeleteStatus] = useState(false);
     const [deletecardid, setDeleteCardId] = useState();
     const [prevsmartListData, setPrevSmartListData] = useState([]);
     const [confirmationpopup, setConfirmationPopup] = useState(false);
+    const [selectedType, setSelectedType] = useState([]);
+    const [dates, setDates] = useState([]);
+    
   const submitHandler = (event) => {
     handleSearchList();
     event.preventDefault();
@@ -25,6 +32,24 @@ const SmartListWebinar = () => {
       // getSmartListData(1);
     }
   };
+  const filterData = async () => {
+    handleSearchListFilter()
+  };
+  const handleSearchListFilter = () => {
+    ExportApi.SearchSmartListFilter(selectedCountry,selectedType,dates).then((resp) => {
+      if (resp.ok) {
+        loader("hide");
+        if(resp.data.code === 200){
+          setSmartListData(resp.data.data);
+          setMassage()
+        }
+        if (resp.data.code === 404) {
+          console.log("resp.data.massage",resp.data.message)
+         toast.warning(resp.data.message)
+        }
+      }
+    });
+  };
   const handleSearchList = () => {
     ExportApi.SearchSmartList(search).then((resp) => {
       if (resp.ok) {
@@ -34,10 +59,94 @@ const SmartListWebinar = () => {
           setMassage()
         }
         if (resp.data.code === 404) {
-          setMassage("Data Not Found");
+          toast.warning(resp.data.message)
         }
       }
     });
+  };
+  const getUserType = (e, type) => {
+    const { value, checked } = e.target;
+    // console.log(value);
+    // console.log(checked);
+
+    if (checked) {
+      setSelectedType((oldArray) => [...oldArray, type]);
+      // setSelectedCountryName((oldArray) => [...oldArray, item.country]);
+    } else {
+      const type_selected = selectedType.filter((data) => {
+        return data != type;
+      });
+
+      setSelectedType(type_selected);
+      // setSelectedCountryName(country_selected_name);
+    }
+  };
+  const getUserTypeDate = (e, type) => {
+    const { value, checked } = e.target;
+    // console.log(value);
+    // console.log(checked);
+
+    if (checked) {
+      // yyyy-MM-dd
+const input = type
+const [year, month, day] =  input.split('-')
+// dd/mm/yyyy
+ let datess=`${day}-${month}-${year}`
+console.log(datess)
+      setDates((oldArray) => [...oldArray, datess]);
+      // setSelectedCountryName((oldArray) => [...oldArray, item.country]);
+    } else {
+      const type_selected = selectedType.filter((data) => {
+        return data != type;
+      });
+
+      setDates(type_selected);
+      // setSelectedCountryName(country_selected_name);
+    }
+  };
+  const getCountryFilter = (e, country_id) => {
+    //  console.log(country_id);
+    const { value, checked } = e.target;
+    // console.log(value);
+    // console.log(checked);
+
+    if (checked) {
+      setSelectedCountry((oldArray) => [...oldArray, country_id]);
+      // setSelectedCountryName((oldArray) => [...oldArray, item.country]);
+    } else {
+      const country_selected = selectedCountry.filter((data) => {
+        return data != country_id;
+      });
+
+      setSelectedCountry(country_selected);
+      // setSelectedCountryName(country_selected_name);
+    }
+  };
+  const handleSearchListget = () => {
+    ExportApi.GetSmartListFilterRecord().then((resp) => {
+      if (resp.ok) {
+        if(resp.data.code === 200){
+          console.log(resp.data.data[0])
+          setFilterKey(resp.data.data[0]);
+        }
+      }
+    });
+  };
+  const clearFilter = () => {
+    document.querySelectorAll("input").forEach((checkbox) => {
+      checkbox.checked = false;
+    });
+    setSelectedType([]);
+    setSelectedCountry([]);
+    setDates([])
+    setShowFilter(false);
+
+    // handleGetReadersData(localStorage.getItem("EventIdHeader"));
+    // setNextPageUrl("");
+    // setLastPage();
+    // setCurrentPage(1);
+    handleGetSmartList()
+    // setData(updatedData);
   };
   const handleGetSmartList = () => {
     ExportApi.SearchSmartList().then((resp) => {
@@ -96,6 +205,7 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
   };
   useEffect(() => {
     loader("show")
+    handleSearchListget()
     handleGetSmartList()
   }, [])
   return (
@@ -134,7 +244,13 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
             </button>
           </form>
         </div>
-        {/* <div className="filter-by nav-item dropdown">
+        <div
+              className={
+                showfilter
+                  ? "filter-by nav-item dropdown highlight"
+                  : "filter-by nav-item dropdown"
+              }
+            >
               <button
                 className="btn btn-secondary dropdown"
                 type="button"
@@ -190,124 +306,195 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
                   </svg>
                 )}
               </button>
-
-              {showfilter && (
+        {showfilter && (
                 <div
                   className="dropdown-menu filter-options"
                   aria-labelledby="dropdownMenuButton2"
                 >
                   <h4>Filter By</h4>
                   <Accordion defaultActiveKey="0" flush>
-                    {filterdata.hasOwnProperty("name") &&
-                      filterdata.name.length > 0 && (
-                        <Accordion.Item className="card" eventKey="0">
-                          <Accordion.Header className="card-header">
-                            Name
-                          </Accordion.Header>
-                          <Accordion.Body className="card-body">
-                            <ul>
-                              {Object.entries(filterdata.name).map(
-                                ([index, item]) => (
-                                  <li>
-                                    <label className="select-multiple-option">
-                                      <input
-                                        type="checkbox"
-                                        id={`custom-checkbox-name-${index}`}
-                                        name="names[]"
-                                        value={item}
-                                        checked={
-                                          updateflag > 0 &&
-                                          typeof getfiltername !==
-                                            "undefined" &&
-                                          getfiltername.indexOf(item) !== -1
-                                        }
-                                        onChange={() => handleNameChange(item)}
-                                      />
-                                      {item}
-                                      <span className="checkmark"></span>
-                                    </label>
-                                  </li>
-                                )
-                              )}
-                            </ul>
-                          </Accordion.Body>
-                        </Accordion.Item>
-                      )}
+                    <Accordion.Item className="card" eventKey="0">
+                      <Accordion.Header className="card-header">
+                       Name
+                      </Accordion.Header>
 
-                    {filterdata.hasOwnProperty("creator") &&
-                      filterdata.creator.length > 0 && (
-                        <Accordion.Item className="card" eventKey="1">
-                          <Accordion.Header className="card-header">
-                            Creator
-                          </Accordion.Header>
-                          <Accordion.Body className="card-body">
-                            <ul>
-                              {Object.entries(filterdata.creator).map(
-                                ([index, item]) => (
-                                  <li>
-                                    <label className="select-multiple-option">
-                                      <input
-                                        type="checkbox"
-                                        id={`custom-checkbox-creator-${index}`}
-                                        name="creator[]"
-                                        value={item}
-                                        checked={
-                                          updateflag > 0 &&
-                                          typeof getFilterCreator !==
-                                            "undefined" &&
-                                          getFilterCreator.indexOf(item) !== -1
-                                        }
-                                        onChange={() =>
-                                          handleCreatorChange(item)
-                                        }
-                                      />
-                                      {item}
-                                      <span className="checkmark"></span>
-                                    </label>
-                                  </li>
-                                )
-                              )}
-                            </ul>
-                          </Accordion.Body>
-                        </Accordion.Item>
-                      )}
+                      <Accordion.Body className="card-body">
+                        <ul>
+                          {filterKey?.names.map((data, index) => {
+                            return (
+                              <li>
+                                {/* {console.log(
+                                  selectedCountry.indexOf(data) !== -1
+                                )} */}
+                                {/* {console.log("here")} */}
+                                {data != "" ? (
+                                  <label className="select-multiple-option">
+                                    <input
+                                      type="checkbox"
+                                      id={`custom-checkbox-tags-${index}`}
+                                      name="tags[]"
+                                      value={data}
+                                      // checked={
+                                      //   //    updateflag > 0 &&
+                                      //   //    typeof filtertags !==
+                                      //   //      "undefined" &&
+                                      //   //    filtertags.indexOf(item) !== -1
+                                      //   selectedCountry.indexOf(data) !== -1
+                                      // }
+                                      onChange={(e) =>
+                                        getCountryFilter(e, data)
+                                      }
+                                    />
+                                    {data.charAt(0).toUpperCase() + data.slice(1)}
+                                    <span className="checkmark"></span>
+                                  </label>
+                                ) : null}
+                              </li>
+                            );
+                          })}
 
-                    {filterdata.hasOwnProperty("created") &&
-                      filterdata.created.length > 0 && (
-                        <Accordion.Item className="card" eventKey="2">
-                          <Accordion.Header className="card-header">
-                            Created
-                          </Accordion.Header>
-                          <Accordion.Body className="card-body">
-                            <ul>
-                              {Object.entries(filterdata.created).map(
-                                ([index, item]) => (
-                                  <li>
-                                    <label className="select-multiple-option">
-                                      <input
-                                        type="checkbox"
-                                        id={`custom-checkbox-date-${index}`}
-                                        name="date[]"
-                                        value={item}
-                                        checked={
-                                          updateflag > 0 &&
-                                          typeof filterdate !== "undefined" &&
-                                          filterdate.indexOf(item) !== -1
-                                        }
-                                        onChange={() =>
-                                          handleOnFilterDate(item)
-                                        }
-                                      />
-                                      {item}
-                                      <span className="checkmark"></span>
-                                    </label>
-                                  </li>
-                                )
-                              )}
-                            </ul>
-                          </Accordion.Body>
-                        </Accordion.Item>
-                      )}
+                          {/* {Object.entries(filterdata).map(([index, item]) => (
+                            <li>
+                              {item != "" ? (
+                                <label className="select-multiple-option">
+                                  <input
+                                    type="checkbox"
+                                    id={`custom-checkbox-tags-${index}`}
+                                    name="tags[]"
+                                    value={item}
+                                    checked={
+                                      updateflag > 0 &&
+                                      typeof filtertags !== "undefined" &&
+                                      filtertags.indexOf(item) !== -1
+                                    }
+                                    onChange={() => handleOnFilterTags(item)}
+                                  />
+                                  {item}
+                                  <span className="checkmark"></span>
+                                </label>
+                              ) : null}
+                            </li>
+                          ))} */}
+                        </ul>
+                      </Accordion.Body>
+                    </Accordion.Item>
+
+                    <Accordion.Item className="card" eventKey="1">
+                      <Accordion.Header className="card-header">
+                        Creator
+                      </Accordion.Header>
+
+                      <Accordion.Body className="card-body">
+                        <ul>
+                          {filterKey?.creator.map((data, index) => {
+                            return (
+                              <li>
+                                {data != "" ? (
+                                  <label className="select-multiple-option">
+                                    <input
+                                      type="checkbox"
+                                      id={`custom-checkbox-tags-${index}`}
+                                      name="tags[]"
+                                      value={data}
+                                      //  checked={
+                                      //    updateflag > 0 &&
+                                      //    typeof filtertags !==
+                                      //      "undefined" &&
+                                      //    filtertags.indexOf(item) !== -1
+                                      //  }
+                                      onChange={(e) => getUserType(e, data)}
+                                    />
+                                    {data.charAt(0).toUpperCase() + data.slice(1)}
+                                    <span className="checkmark"></span>
+                                  </label>
+                                ) : null}
+                              </li>
+                            );
+                          })}
+
+                          {/* {Object.entries(filterdata).map(([index, item]) => (
+                            <li>
+                              {item != "" ? (
+                                <label className="select-multiple-option">
+                                  <input
+                                    type="checkbox"
+                                    id={`custom-checkbox-tags-${index}`}
+                                    name="tags[]"
+                                    value={item}
+                                    checked={
+                                      updateflag > 0 &&
+                                      typeof filtertags !== "undefined" &&
+                                      filtertags.indexOf(item) !== -1
+                                    }
+                                    onChange={() => handleOnFilterTags(item)}
+                                  />
+                                  {item}
+                                  <span className="checkmark"></span>
+                                </label>
+                              ) : null}
+                            </li>
+                          ))} */}
+                        </ul>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                    <Accordion.Item className="card" eventKey="2">
+                      <Accordion.Header className="card-header">
+                        Created
+                      </Accordion.Header>
+
+                      <Accordion.Body className="card-body">
+                        <ul>
+                          {filterKey?.dates.map((data, index) => {
+                            return (
+                              <li>
+                                {data != ""? (
+                                  <label className="select-multiple-option">
+                                    <input
+                                      type="checkbox"
+                                      id={`custom-checkbox-tags-${index}`}
+                                      name="tags[]"
+                                      value={data}
+                                      //  checked={
+                                      //    updateflag > 0 &&
+                                      //    typeof filtertags !==
+                                      //      "undefined" &&
+                                      //    filtertags.indexOf(item) !== -1
+                                      //  }
+                                      onChange={(e) => getUserTypeDate(e, data)}
+                                    />
+                                    {data}
+                                    <span className="checkmark"></span>
+                                  </label>
+                                ) : null}
+                              </li>
+                            );
+                          })}
+
+                          {/* {Object.entries(filterdata).map(([index, item]) => (
+                            <li>
+                              {item != "" ? (
+                                <label className="select-multiple-option">
+                                  <input
+                                    type="checkbox"
+                                    id={`custom-checkbox-tags-${index}`}
+                                    name="tags[]"
+                                    value={item}
+                                    checked={
+                                      updateflag > 0 &&
+                                      typeof filtertags !== "undefined" &&
+                                      filtertags.indexOf(item) !== -1
+                                    }
+                                    onChange={() => handleOnFilterTags(item)}
+                                  />
+                                  {item}
+                                  <span className="checkmark"></span>
+                                </label>
+                              ) : null}
+                            </li>
+                          ))} */}
+                        </ul>
+                      </Accordion.Body>
+                    </Accordion.Item>
                   </Accordion>
                   <div className="filter-footer">
                     <button
@@ -318,14 +505,16 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
                     </button>
                     <button
                       className="btn btn-primary btn-filled"
-                      onClick={applyFilter}
+                      onClick={() => {
+                        filterData();
+                      }}
                     >
                       Apply
                     </button>
                   </div>
                 </div>
               )}
-            </div> */}
+              </div>
         <div className="clear-search">
           {!deletestatus? <button
             className="btn btn-outline-primary"
@@ -391,43 +580,43 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
                   <div className="smartlist_box_block">
                     <div className="smartlist-view email_box">
                       <div className="mail-box-content">
-                        <h5>{data.name}</h5>
+                        <h5>{data.name.charAt(0).toUpperCase() + data.name.slice(1)}</h5>
 
                         <div className="mailbox-table">
                           <table>
                             <tbody>
                               <tr>
                                 <th>Contact Type</th>
-                                <td>{data.contact_type}</td>
+                                <td>{data.contact_type?data.contact_type:"N/A"}</td>
                               </tr>
                               <tr>
                                 <th>Speciality</th>
-                                <td>{data.speciality}</td>
+                                <td>{data.speciality?data.speciality:"N/A"}</td>
                               </tr>
                               <tr>
                                 <th>Readers</th>
-                                <td>{data.reader_selection}</td>
+                                <td>{data.reader_selection?data.reader_selection:"N/A"}</td>
                               </tr>
                               <tr>
                                 <th>IBU</th>
-                                <td>{data.ibu}</td>
+                                <td>{data.ibu?data.ibu:"N/A"}</td>
                               </tr>
                               <tr>
                                 <th>Product</th>
-                                <td>{data.product}</td>
+                                <td>{data.product?data.product:"N/A"}</td>
                               </tr>
                               <tr>
                                 <th>Country</th>
-                                <td>{data.country}</td>
+                                <td>{data.country?data.country:"N/A"}</td>
                               </tr>
                               <tr>
                                 <th>Registered</th>
-                                <td>{data.registered}</td>
+                                <td>{data.registered?data.registered:"N/A"}</td>
                               </tr>
                               <tr>
                                 <th>Created By</th>
                                 <td>
-                                  <span>{data.creator}</span>
+                                  <span>{data.creator?data.creator:"N/A"}</span>
                                 </td>
                               </tr>
                             </tbody>

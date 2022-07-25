@@ -151,7 +151,7 @@ const ViewData = (props) => {
             //  loader("false");
             loader("hide");
             // console.log(res.data.data);
-            // setEditList(res.data.data);
+             setEditList(res.data.data);
 
             // setLoading(false);
             // setUploadedBy(res.data.response.upload_by_filter);

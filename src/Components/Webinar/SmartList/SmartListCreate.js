@@ -60,6 +60,7 @@ const SmartListCreate = () => {
   };
 
   const createSmartList = async () => {
+
     if (!smartListName.trim()) {
       setShowValidationMessage(true);
       //  toast.warning("Please enter the Smart list name first");
@@ -68,7 +69,7 @@ const SmartListCreate = () => {
 
     const body = {
       name: smartListName,
-      creator:creatorName
+      creator:creatorName,
     };
 
     const headers = {
@@ -103,10 +104,12 @@ const SmartListCreate = () => {
       setShowValidationMessage(true);
       return;
     }
+ 
+  
 
     const body = {
       name: smartListName,
-      creator:creatorName
+      creator:creatorName,
     };
     const headers = {
       "Content-Type": "application/json",
@@ -123,7 +126,7 @@ const SmartListCreate = () => {
       )
       .then((res) => {
         if (res.data.code == 200) {
-          // console.log(res);
+
           // console.log(res.data.data.smart_list_id);
           setSmartListId(res.data.data.smart_list_id);
           segmentCohort(res.data.data.smart_list_id);
