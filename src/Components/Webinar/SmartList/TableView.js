@@ -784,7 +784,7 @@ const location = useLocation();
     setEditable(false)
     // console.log(editable)
    if(id==0){
-    alert(0)
+    // alert(0)
     if (editableData.length > 0) {
       console.log(editableData)
       editableData.map((data,i) => {
@@ -827,7 +827,7 @@ const location = useLocation();
 
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       // loader("show");
-      alert(1)
+      // alert(1)
       await axios
         .post(baseURL + `/smart-list/update-participants`, body, { headers })
         .then((res) => {
@@ -1574,11 +1574,11 @@ const location = useLocation();
                     id="test-table-xls-button"
                     className="btn btn-outline-primary"
                     table="table-to-xls"
-                    filename="sample"
+                    filename="readers-list"
                     sheet="tablexls"
                     buttonText="Download "
                   />
-                  {props.active==0?null:  <div className="hcp-new-user">
+                  {<div className="hcp-new-user">
                     <button
                       className="btn btn-outline-primary"
                       onClick={handleShow}
@@ -1710,7 +1710,8 @@ const location = useLocation();
                             onChange={(event) => setName(event.target.value)}
                           />
                         ) : (
-                          item.name
+                          item.name.charAt(0).toUpperCase() +  item.name.slice(1)
+          
                         )}
                       </td>
                       <td>
@@ -1729,32 +1730,33 @@ const location = useLocation();
                       <td>
                       {
                         editable?
-                        
                         <select
+                        id={`country` + item.id}
+                        name="Country"
                         className="form-select-lg mb-3"
                         aria-label=".form-select-lg example"
-                        id={`country` + item.id}
+                        defaultValue={item.is_register==1?item.id:item.value}
                       >
+                        <option value="">Select Country</option>
                         {country?.map((val, i) => (
                           <React.Fragment key={i}>
-                            <option key={i} value={props.active==0&&props.upload_by_filter=="1"?val.id:val.name}>
+                            <option key={i} value={item.is_register==1?val.id:val.value}>
                               {val.country}
                             </option>
                           </React.Fragment>
                         ))}
+                    
                       </select> : <span>{item.country}</span>
                       }
                       </td>
                       <td>
                         {
-                          editable ?    <div className="user-type-option">
+                          editable ?     <div className="user-type-option">
                           <Form.Select
-                          name="content_type"
+                          id={`content_type` + item.id}
                             className="form-select"
-                            // onChange={(e) => {
-                            //   handleSelect(e.target.value, i);
-                            //   handleSelectChange(val.id, val.type);
-                            // }}
+                            defaultValue={item.type}
+                            // key={i}
                           >
                             <option value="HCP">HCP</option>
                             <option value="Staff User">Staff User</option>
@@ -1830,25 +1832,26 @@ const location = useLocation();
                                 editable === 0 ? "false" : "true"
                               }
                             >
-                              <span>{props.upload_by_filter=="1"&&props.active=="0"?item?.name: item?.name}</span>
+                              <span>{props.upload_by_filter=="1"&&props.active=="0"?item?.name.charAt(0).toUpperCase() +  item?.name.slice(1): item?.name.charAt(0).toUpperCase() +  item?.name.slice(1)}</span>
                             </td>
 
                       <td id={`field_email` + item.id}>{props.upload_by_filter=="1"&&props.active=="0"?item?.email:item?.email}</td>
                       {/* <input type="hidden" id={`field_index` + item.profile_user_id} value={index} />
                       <td id={`field_bounced` + item.profile_user_id}>{item.bounce}</td> */}
                       <td>
+                        {console.log(item)}
                       {
                         editable ?  <select
                         id={`country` + item.id}
                         name="Country"
                         className="form-select-lg mb-3"
                         aria-label=".form-select-lg example"
-                        defaultValue={item.is_register==1?item.id:item.value}
+                        defaultValue={item.is_register==1?item.id:item.is_register==1?item.value:props.upload_by_filter=="001"?item.id:item.name}
                       >
                         <option value="">Select Country</option>
                         {country?.map((val, i) => (
                           <React.Fragment key={i}>
-                            <option key={i} value={item.is_register==1?val.id:val.value}>
+                            <option key={i} value={item.is_register==1?val.id:props.upload_by_filter=="001"?val.id:val.value}>
                               {val.country}
                             </option>
                           </React.Fragment>
@@ -1862,6 +1865,7 @@ const location = useLocation();
                         <td id="field_readers">NA</td>
                       ) : null*/}
                       {/* <td id="field_business_unit">{item.ibu}</td> */}
+                      <td id={`is_register` + item.id} style={{display:"none"}}>{item.is_register}</td>
                       <td id="field_interest">
                       {
                         editable ?    <div className="user-type-option">
@@ -1878,7 +1882,6 @@ const location = useLocation();
                       </div> : <span>{props.upload_by_filter=="1"&&props.active=="0"?item?.type:item?.content_type?item?.content_type:item?.type}</span>
                       }
                       </td>
-                      <td id={`is_register` + item.id} style={{display:"none"}}>{item.is_register}</td>
                       {/* http://webinarapi.shinedezign.pro/api/participants?page=2
                       http://webinarapi.shinedezign.pro/api/participants?page=2 */}
                       {/* {showLessInfo == false ? (
