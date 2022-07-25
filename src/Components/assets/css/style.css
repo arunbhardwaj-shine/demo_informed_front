@@ -5731,7 +5731,9 @@ table thead.sticky-header:after {
   margin: 0 auto;
   padding: 0px 8px 10px 0px;
 }
-
+.table_xls.search_view {
+  padding: 10px 5px 20px;
+}
 #analytics-hcp-table {
   width: 1170px;
   position: relative;
