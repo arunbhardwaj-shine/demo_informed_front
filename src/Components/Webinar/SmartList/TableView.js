@@ -6,7 +6,7 @@ import React, {
   useRef,
   useImperativeHandle,
 } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button, Form, Modal } from "react-bootstrap";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
@@ -24,6 +24,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 const TableView = (props, ref) => {
 console.log("props", props)
+const location = useLocation();
   const baseURL = BaseApi.getBaseURL();
   const [inEditMode, setInEditMode] = useState({
     status: false,
@@ -783,6 +784,7 @@ console.log("props", props)
     setEditable(false)
     // console.log(editable)
    if(id==0){
+    alert(0)
     if (editableData.length > 0) {
       console.log(editableData)
       editableData.map((data,i) => {
@@ -825,20 +827,24 @@ console.log("props", props)
 
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       // loader("show");
+      alert(1)
       await axios
         .post(baseURL + `/smart-list/update-participants`, body, { headers })
         .then((res) => {
-          // console.log(res);
-
           if (res.data.code == 200) {
-           props.saveAlert(true)
-            // popup_alert({
-            //       visible: "show",
-            //       message: "Data updated <br> successfully",
-            //       type: "error",
-            //       redirect: "/webinar/email/WebinarSmartList",
-            //     });
-                setEditable(0)
+            if(  location.pathname ===
+              `/webinar/email/smart-list-view/${localStorage.getItem("SmartListIdView")}`){
+                popup_alert({
+                  visible: "show",
+                  message: "Data updated <br> successfully",
+                  type: "error",
+                  redirect: "/webinar/email/WebinarSmartList",
+                });
+              }else{
+                props.saveAlert(true)
+
+              }
+              setEditable(0)
             // toast.success("Data updated successfully");
           }
 
@@ -1681,7 +1687,7 @@ console.log("props", props)
               <tbody>
                 {typeof getNewReaders !== "undefined" &&
                   getNewReaders.length > 0 &&
-                  getNewReaders.map((item, index) => (
+                  getNewReaders?.map((item, index) => (
                     <tr
                     className="hcps-added"
                     id={`row-selected` + item.is_register}
@@ -1695,8 +1701,8 @@ console.log("props", props)
                         )
                       }
                       >
-                      {/* {console.log(getNewReaders)} */}
-                      {/* <td contenteditable={editable === 0 ? "false" : "true"} id={`field_name` + item.profile_user_id}>
+                      {console.log("getNewReaders",getNewReaders)}
+                      <td contenteditable={editable === 0 ? "false" : "true"} id={`field_name` + item.profile_user_id}>
                         {inEditMode.status &&
                         inEditMode.rowKey === item.profile_id ? (
                           <input
@@ -1717,11 +1723,9 @@ console.log("props", props)
                             onChange={(event) => setEmail(event.target.value)}
                           />
                         ) : (
-                          item.name
+                          item.email
                         )}
-                      </td> */}
-                      {/* <input type="hidden" id={`field_index` + item.profile_user_id} value={index} />
-                      <td>{item.bounce}</td> */}
+                      </td>
                       <td>
                       {
                         editable?
@@ -1741,7 +1745,6 @@ console.log("props", props)
                       </select> : <span>{item.country}</span>
                       }
                       </td>
-                      <td> {item.ibu}</td>
                       <td>
                         {
                           editable ?    <div className="user-type-option">
@@ -1805,7 +1808,7 @@ console.log("props", props)
                   )}
                 {typeof editList !== "undefined" &&
                   editList.length > 0 &&
-                  editList.map((item, index) => (
+                  editList?.map((item, index) => (
                     <tr
                       id={`row-selected` + item.is_register}
                         value={item.is_register}
@@ -1840,17 +1843,20 @@ console.log("props", props)
                         name="Country"
                         className="form-select-lg mb-3"
                         aria-label=".form-select-lg example"
+                        defaultValue={item.is_register==1?item.id:item.value}
                       >
                         <option value="">Select Country</option>
                         {country?.map((val, i) => (
                           <React.Fragment key={i}>
-                            <option key={i} value={props.upload_by_filter=="1"&&props.active=="0"?val.id:val.value}>
+                            <option key={i} value={item.is_register==1?val.id:val.value}>
                               {val.country}
                             </option>
                           </React.Fragment>
                         ))}
+                    
                       </select> : <span>{item.country}</span>
                       }
+                        {  console.log(item)}
                       </td>
                       {/*showLessInfo == false ? (
                         <td id="field_readers">NA</td>
@@ -1862,11 +1868,7 @@ console.log("props", props)
                         <Form.Select
                         id={`content_type` + item.id}
                           className="form-select"
-                          // onChange={(e) => {
-                          //   handleSelect(e.target.value, i);
-                          //   handleSelectChange(val.id, val.type);
-                          // }}
-                          // value={val.content_type}
+                          defaultValue={item.type}
                           // key={i}
                         >
                           <option value="HCP">HCP</option>
@@ -2061,18 +2063,26 @@ console.log("props", props)
                         ExportApi.EmailSand(props.smartListId, rehearsalSpeakername)
                           .then((resp) => {
                             if (resp.data) {
-                              // console.log(resp.data);
+                         
                               if (resp.data.code == 200) {
-                                ExportApi.GetSmartListSingleRecord(props.smartListId, rehearsalSpeakername)
-                                .then((resp) => {
-                                  if (resp.data) {
-                                    setEditList(resp.data.data)
-                                  }
-                                })
-                                // handleGetSmartListSingleRecord(parms.id);
-                                //  Speakername.map((val)=>editList.push(val))
+                                setNewReaders(...getNewReaders,Speakername)
+                                // setEditList(resp.data.data)
+                                // console.log(resp.data);
                                 setIsOpenAddModal(false);
                                 toast.success(resp.data.message);
+                                // ExportApi.GetSmartListSingleRecord(props.smartListId, rehearsalSpeakername)
+                                // .then((resp) => {
+                                //   if (resp.data) {
+                                //     setNewReaders(...getNewReaders,Speakername)
+                                //     setEditList(resp.data.data)
+                                //     setIsOpenAddModal(false);
+                                //     toast.success(resp.data.message);
+                                //   }
+                                // })
+                                // handleGetSmartListSingleRecord(parms.id);
+                                //  Speakername.map((val)=>editList.push(val))
+                                // setIsOpenAddModal(false);
+                                // toast.success(resp.data.message);
                               } else {
                                 loader("hide");
                                 toast.error(resp.data.message, {
@@ -2089,7 +2099,8 @@ console.log("props", props)
                           })
                   
                           .catch((err) => {
-                            loader("hide");
+                            toast.error("Something went wrong")
+                            // loader("hide");
                           });
                       }
                     }}

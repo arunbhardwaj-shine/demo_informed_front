@@ -8,14 +8,21 @@ import ReactDataGrid from "@inovua/reactdatagrid-community";
 import "@inovua/reactdatagrid-community/index.css";
 
 const GetDetails = () => {
-  const [data, setData] = useState([]);
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const navigate = useNavigate();
+  const [data, setData] = useState([]);
+  const [sortingCount, setSortingCount] = useState(0);
+  const [sortingCountEmail, setSortingCountEmail] = useState(0);
+
+  const [sortingName, setSortingName] = useState(0);
+  const [sortingEmail, setSortingEmail] = useState(0);
 
   const [distributeData, setDistributeData] = useState({});
   const location = useLocation();
   const { distribute_id } = location.state;
 
   useEffect(() => {
+    setData([]);
     getCampaignReaderDetails();
   }, []);
 
@@ -31,9 +38,91 @@ const GetDetails = () => {
       .then((res) => {
         if (res.data.status_code == 200) {
           console.log(res);
-          setData(res.data.response.data.readers);
+
+          const readers = res.data.response.data.readers;
+
+          const filteredData1 = readers.filter((reader) => {
+            if (
+              reader.email_read == "Yes" &&
+              reader.article_open == "Yes" &&
+              reader.registered == "Yes"
+            ) {
+              setData((oldArray) => [...oldArray, reader]);
+            }
+          });
+
+          const filteredData2 = readers.filter((reader) => {
+            if (
+              reader.email_read == "Yes" &&
+              reader.article_open == "Yes" &&
+              reader.registered == "No"
+            ) {
+              setData((oldArray) => [...oldArray, reader]);
+            }
+          });
+
+          const filteredData3 = readers.filter((reader) => {
+            if (
+              reader.email_read == "Yes" &&
+              reader.article_open == "No" &&
+              reader.registered == "Yes"
+            ) {
+              setData((oldArray) => [...oldArray, reader]);
+            }
+          });
+
+          const filteredData4 = readers.filter((reader) => {
+            if (
+              reader.email_read == "Yes" &&
+              reader.article_open == "No" &&
+              reader.registered == "No"
+            ) {
+              setData((oldArray) => [...oldArray, reader]);
+            }
+          });
+
+          const filteredData5 = readers.filter((reader) => {
+            if (
+              reader.email_read == "No" &&
+              reader.article_open == "Yes" &&
+              reader.registered == "Yes"
+            ) {
+              setData((oldArray) => [...oldArray, reader]);
+            }
+          });
+
+          const filteredData6 = readers.filter((reader) => {
+            if (
+              reader.email_read == "No" &&
+              reader.article_open == "Yes" &&
+              reader.registered == "No"
+            ) {
+              setData((oldArray) => [...oldArray, reader]);
+            }
+          });
+
+          const filteredData7 = readers.filter((reader) => {
+            if (
+              reader.email_read == "No" &&
+              reader.article_open == "No" &&
+              reader.registered == "Yes"
+            ) {
+              setData((oldArray) => [...oldArray, reader]);
+            }
+          });
+
+          const filteredData8 = readers.filter((reader) => {
+            if (
+              reader.email_read == "No" &&
+              reader.article_open == "No" &&
+              reader.registered == "No"
+            ) {
+              setData((oldArray) => [...oldArray, reader]);
+            }
+          });
+
           setDistributeData(res.data.response.data.distribute_data);
-        }else{
+        } else {
           toast.warning(res.data.message);
         }
         loader("hide");
@@ -45,6 +134,60 @@ const GetDetails = () => {
         console.log(err);
         //  / console.log("here");
       });
+  };
+
+  const sortName = () => {
+    let normalArr = [];
+    normalArr = data;
+
+    if (sortingName === 0) {
+      normalArr.sort((a, b) =>
+        a.first_name.toLowerCase() > b.first_name.toLowerCase()
+          ? 1
+          : b.first_name.toLowerCase() > a.first_name.toLowerCase()
+          ? -1
+          : 0
+      );
+    } else {
+      normalArr.sort((a, b) =>
+        a.first_name.toLowerCase() < b.first_name.toLowerCase()
+          ? 1
+          : b.first_name.toLowerCase() < a.first_name.toLowerCase()
+          ? -1
+          : 0
+      );
+    }
+
+    setData(normalArr);
+    setSortingName(1 - sortingName);
+    setSortingCount(sortingCount + 1);
+  };
+
+  const sortEmail = () => {
+    let normalArr = [];
+    normalArr = data;
+
+    if (sortingEmail === 0) {
+      normalArr.sort((a, b) =>
+        a.email.toLowerCase() > b.email.toLowerCase()
+          ? 1
+          : b.email.toLowerCase() > a.email.toLowerCase()
+          ? -1
+          : 0
+      );
+    } else {
+      normalArr.sort((a, b) =>
+        a.email.toLowerCase() < b.email.toLowerCase()
+          ? 1
+          : b.email.toLowerCase() < a.email.toLowerCase()
+          ? -1
+          : 0
+      );
+    }
+
+    setData(normalArr);
+    setSortingEmail(1 - sortingEmail);
+    setSortingCountEmail(sortingCountEmail + 1);
   };
 
   return (
@@ -78,8 +221,7 @@ const GetDetails = () => {
                   <div className="smart-list-btns">
                     <div className="top-right-action">
                       <div className="search-bar">
-                      {
-                        /*
+                        {/*
                         <form className="d-flex">
                           <input
                             className="form-control me-2"
@@ -105,9 +247,7 @@ const GetDetails = () => {
                             </svg>
                           </button>
                         </form>
-                        */
-                      }
-
+                        */}
                       </div>
                     </div>
                   </div>
@@ -121,10 +261,10 @@ const GetDetails = () => {
                     {/* {getlistname} <span>| {editList.length}</span> */}
                   </h4>
                 </div>
-                <div className="selected-hcp-list d-flex align-items-start">
+                <div className="selected-hcp-list">
                   {" "}
                   <div className="selected-hcp-list_detail">
-                    <div class="icon-box">
+                    {/* <div class="icon-box">
                       <span>
                         <svg
                           width="24"
@@ -143,82 +283,102 @@ const GetDetails = () => {
                           ></path>
                         </svg>
                       </span>
-                    </div>
-                    <table>
-                      <tbody>
+                    </div> */}
+                    <ul>
+                      <li>
+                        <label>Campaign ID:</label>
+                        <span>{distributeData.c_id}</span>
+                      </li>
+                      <li>
+                        <label>Date:</label>
+                        <span>{distributeData.sent_data}</span>
+                      </li>
+                      <li>
+                        <label>Subject</label>
+                        <span>{distributeData.subject}</span>
+                      </li>
+                      <li>
+                        <label>Smart List</label>
+                        <span>{distributeData.list}</span>
+                      </li>
+                      <li>
+                        <label>Total mail sent:</label>
+                        <span>{distributeData.total_sent_count}</span>
+                      </li>
+                      <li>
+                        <label>Email Read:</label>
+                        <span>{distributeData.total_read_count}</span>
+                      </li>
+                      <li>
+                        <label>Pending Read Email:</label>
+                        <span>{distributeData.total_pending_count}</span>
+                      </li>
+                      <li>
+                        <label>Bounce Count:</label>
+                        <span>{distributeData.total_bouns_count}</span>
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="table_xls">
+                    <table className="table" id="table-to-xls">
+                      <thead className="sticky-header">
                         <tr>
-                          <th>Campaign ID:</th>
-                          <td>{distributeData.c_id}</td>
+                          <th scope="col">
+                            First Name
+                            <div className="hcp-sort">
+                              <button
+                                className="btn btn-outline-primary"
+                                onClick={sortName}
+                              >
+                                <img
+                                  src={path_image + "sort.svg"}
+                                  alt="Shorting"
+                                />
+                              </button>
+                            </div>
+                          </th>
+                          <th scope="col">Last Name</th>
+                          <th scope="col">
+                            Email
+                            <div className="hcp-sort">
+                              <button
+                                className="btn btn-outline-primary"
+                                onClick={sortEmail}
+                              >
+                                <img
+                                  src={path_image + "sort.svg"}
+                                  alt="Shorting"
+                                />
+                              </button>
+                            </div>
+                          </th>
+                          <th scope="col">Email Read</th>
+                          <th scope="col">Link Open</th>
+                          <th scope="col">Registered</th>
                         </tr>
-                        <tr>
-                          <th>Date: </th>
-                          <td>{distributeData.sent_data}</td>
-                        </tr>
-                        <tr>
-                          <th>Subject:</th>
-                          <td>{distributeData.subject}</td>
-                        </tr>
-                        <tr>
-                          <th>Smart List:</th>
-                          <td>{distributeData.list}</td>
-                        </tr>
-                        <tr>
-                          <th>Total mail sent:</th>
-                          <td>{distributeData.total_sent_count}</td>
-                        </tr>
-                        <tr>
-                          <th>Email Read:</th>
-                          <td>{distributeData.total_read_count}</td>
-                        </tr>
-                        <tr>
-                          <th>Pending Read Email:</th>
-                          <td>{distributeData.total_pending_count}</td>
-                        </tr>
-                        <tr>
-                          <th>Bounce Count:</th>
-                          <td>{distributeData.total_bouns_count}</td>
-                        </tr>
+                      </thead>
+                      <tbody className="form-group">
+                        {typeof data != "undefined" && data.length > 0 ? (
+                          data.map((item, index) => (
+                            <tr>
+                              <td>{item.first_name}</td>
+
+                              <td>{item.last_name}</td>
+
+                              <td>{item.email}</td>
+                              <td>{item.email_read}</td>
+                              <td>{item.article_open}</td>
+                              <td>{item.registered}</td>
+                            </tr>
+                          ))
+                        ) : (
+                          <div class="not-found">
+                            <h4>No Data Found</h4>
+                          </div>
+                        )}
                       </tbody>
                     </table>
-                    {/* <p>{distributeData.c_id}</p>
-                    <p>{distributeData.sent_data}</p>
-                    <p>{distributeData.subject}</p>
-                    <p>{distributeData.list}</p>
-                    <p>{distributeData.total_sent_count}</p>
-                    <p>{distributeData.total_read_count}</p>
-                    <p>{distributeData.total_pending_count}</p>
-                    <p>{distributeData.total_bouns_count}</p> */}
                   </div>
-                  <table className="table" id="table-to-xls">
-                    <thead className="sticky-header">
-                      <tr>
-                        <th scope="col">First Name</th>
-                        <th scope="col">Last Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Email Read</th>
-                        <th scope="col">Link Open</th>
-                        <th scope="col">Registered</th>
-                      </tr>
-                    </thead>
-                    <tbody className="form-group">
-                      {
-                        typeof data != "undefined" && data.length > 0 ?
-                          data.map((item, index) => (
-                          <tr>
-                            <td>{item.first_name}</td>
-
-                            <td>{item.last_name}</td>
-
-                            <td>{item.email}</td>
-                            <td>{item.email_read}</td>
-                            <td>{item.article_open}</td>
-                            <td>{item.registered}</td>
-                          </tr>
-                        )) :
-                        <div class="not-found"><h4>No Data Found</h4></div>
-                    }
-                    </tbody>
-                  </table>
                 </div>
               </div>
               {/* <input type="hidden" value={updateCounter} /> */}
