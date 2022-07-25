@@ -1037,7 +1037,7 @@ console.log("props", props)
    popup_alert({
         visible: "show",
         // message: "Please keep atleast one reader or delete the smart list",
-        message: "Data deleted <br> successfully.",
+        message: "Data deleted successfully.",
         type: "error",
         // redirect: "",
       });
