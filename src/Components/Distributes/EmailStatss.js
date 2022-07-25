@@ -140,6 +140,7 @@ const EmailStatss = (props) => {
       );
     }
 
+    setSortingCountDate(0);
     setData(normalArr);
     setSorting(1 - sorting);
     setSortingCount(sortingCount + 1);
@@ -163,6 +164,7 @@ const EmailStatss = (props) => {
       });
     }
     console.log(sortedData);
+    setSortingCount(0);
     setData(sortedData);
     setSortDate(1 - sortDatee);
     setSortingCountDate(sortingCountDate + 1);
@@ -241,30 +243,92 @@ const EmailStatss = (props) => {
             </div>
             <div class="selected-hcp-list" id="analytics-hcp-table">
               <table class="table">
-                <thead>
+                <thead className="sticky-header">
                   <tr>
                     <th scope="col">Campaign ID</th>
                     <th scope="col">
+                      Date{" "}
                       <div className="hcp-sort">
-                        Date{" "}
-                        <button
-                          className="btn btn-outline-primary"
-                          onClick={sortDate}
-                        >
-                          <img src={path_image + "sort.svg"} alt="Shorting" />
-                        </button>
+                        {sortingCountDate == 0 ? (
+                          <>
+                            <button
+                              className="btn btn-outline-primary"
+                              onClick={sortDate}
+                            >
+                              <img
+                                src={path_image + "sort.svg"}
+                                alt="Shorting"
+                              />
+                            </button>
+                          </>
+                        ) : sortDatee == 0 ? (
+                          <>
+                            <button
+                              className="btn btn-outline-primary desc"
+                              onClick={sortDate}
+                            >
+                              <img
+                                src={path_image + "sort-decending.svg"}
+                                alt="Shorting"
+                              />
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <button
+                              className="btn btn-outline-primary asc"
+                              onClick={sortDate}
+                            >
+                              <img
+                                src={path_image + "sort-assending.svg"}
+                                alt="Shorting"
+                              />
+                            </button>
+                          </>
+                        )}
                       </div>
                     </th>
                     <th scope="col">Subject</th>
                     <th scope="col">
                       Article Title{" "}
                       <div className="hcp-sort">
-                        <button
-                          className="btn btn-outline-primary"
-                          onClick={sortTitle}
-                        >
-                          <img src={path_image + "sort.svg"} alt="Shorting" />
-                        </button>
+                        {sortingCount == 0 ? (
+                          <>
+                            <button
+                              className="btn btn-outline-primary"
+                              onClick={sortTitle}
+                            >
+                              <img
+                                src={path_image + "sort.svg"}
+                                alt="Shorting"
+                              />
+                            </button>
+                          </>
+                        ) : sorting == 0 ? (
+                          <>
+                            <button
+                              className="btn btn-outline-primary desc"
+                              onClick={sortTitle}
+                            >
+                              <img
+                                src={path_image + "sort-decending.svg"}
+                                alt="Shorting"
+                              />
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <button
+                              className="btn btn-outline-primary asc"
+                              onClick={sortTitle}
+                            >
+                              <img
+                                src={path_image + "sort-assending.svg"}
+                                alt="Shorting"
+                              />
+                            </button>
+                          </>
+                        )}
                       </div>
                     </th>
 

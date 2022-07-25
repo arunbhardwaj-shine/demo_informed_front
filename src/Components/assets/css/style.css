@@ -5731,7 +5731,20 @@ table thead.sticky-header:after {
   margin: 0 auto;
   padding: 0px 8px 10px 0px;
 }
+
+#analytics-hcp-table {
+  width: 1170px;
+  position: relative;
+  max-height: 78vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin: 0 auto;
+  padding: 0px 15px 10px 0px;
+}
 .table_xls #table-to-xls {
+  margin-top: 0;
+}
+#analytics-hcp-table table.table {
   margin-top: 0;
 }
 .smart-list-view .selected-hcp-list_detail:hover span {
