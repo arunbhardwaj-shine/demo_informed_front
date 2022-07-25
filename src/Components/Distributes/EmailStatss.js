@@ -6,14 +6,23 @@ import { toast } from "react-toastify";
 import { connect } from "react-redux";
 import { useCallback } from "react";
 import { loader } from "../../loader";
-import { getDraftData, getEmailData, getSelectedSmartListData } from "../../actions";
+import {
+  getDraftData,
+  getEmailData,
+  getSelectedSmartListData,
+} from "../../actions";
 
 const EmailStatss = (props) => {
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const [sortingCount, setSortingCount] = useState(0);
   const [totalCount, setTotalCount] = useState([]);
   const [update, setUpdate] = useState(0);
   const navigate = useNavigate();
+  const [sorting, setSorting] = useState(0);
+  const [sortDatee, setSortDate] = useState(0);
   const [campaignData, setData] = useState([]);
   const [showLessInfo, setShowLessInfo] = useState(true);
+  const [sortingCountDate, setSortingCountDate] = useState(0);
 
   useEffect(() => {
     getCampaignList();
@@ -31,7 +40,7 @@ const EmailStatss = (props) => {
       .then((res) => {
         if (res.data.status_code == 200) {
           setData(res.data.response.data);
-        }else{
+        } else {
           toast.warning(res.data.message);
         }
         loader("hide");
@@ -49,7 +58,7 @@ const EmailStatss = (props) => {
     });
   };
 
-  const sendCampaign = (dist_id,type) => {
+  const sendCampaign = (dist_id, type) => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     const body = {
@@ -64,7 +73,7 @@ const EmailStatss = (props) => {
         if (res.data.status_code == 200) {
           console.log(res.data.response.data.campaign_id);
           draftNavigate(res.data.response.data.campaign_id);
-        }else {
+        } else {
           toast.warning(res.data.message);
           loader("hide");
         }
@@ -72,10 +81,8 @@ const EmailStatss = (props) => {
       .catch((err) => {
         loader("hide");
         toast.error("Something went wrong");
-    });
-  }
-
-
+      });
+  };
 
   const draftNavigate = async (campaign_id) => {
     const body = {
@@ -91,8 +98,11 @@ const EmailStatss = (props) => {
           let campaign_data = res.data.response.data;
           let route = res.data.response.data.route_location;
           props.getDraftData(campaign_data);
-          if(campaign_data?.smart_list_data){
-            if(typeof campaign_data.smart_list_data != "undefined" && campaign_data.smart_list_data != ""){
+          if (campaign_data?.smart_list_data) {
+            if (
+              typeof campaign_data.smart_list_data != "undefined" &&
+              campaign_data.smart_list_data != ""
+            ) {
               props.getSelectedSmartListData(campaign_data.smart_list_data);
             }
           }
@@ -108,6 +118,56 @@ const EmailStatss = (props) => {
       });
   };
 
+  const sortTitle = () => {
+    let normalArr = [];
+    normalArr = campaignData;
+
+    if (sorting === 0) {
+      normalArr.sort((a, b) =>
+        a.pdf_title.toLowerCase() > b.pdf_title.toLowerCase()
+          ? 1
+          : b.pdf_title.toLowerCase() > a.pdf_title.toLowerCase()
+          ? -1
+          : 0
+      );
+    } else {
+      normalArr.sort((a, b) =>
+        a.pdf_title.toLowerCase() < b.pdf_title.toLowerCase()
+          ? 1
+          : b.pdf_title.toLowerCase() < a.pdf_title.toLowerCase()
+          ? -1
+          : 0
+      );
+    }
+
+    setData(normalArr);
+    setSorting(1 - sorting);
+    setSortingCount(sortingCount + 1);
+  };
+
+  const sortDate = () => {
+    let normalArr = [];
+    normalArr = campaignData;
+    let sortedData;
+    if (sortDatee == 0) {
+      sortedData = normalArr.sort(function (a, b) {
+        var aa = a.sent_data.split("/").reverse().join(),
+          bb = b.sent_data.split("/").reverse().join();
+        return aa < bb ? -1 : aa > bb ? 1 : 0;
+      });
+    } else {
+      sortedData = normalArr.sort(function (a, b) {
+        var aa = a.sent_data.split("/").reverse().join(),
+          bb = b.sent_data.split("/").reverse().join();
+        return aa > bb ? -1 : aa < bb ? 1 : 0;
+      });
+    }
+    console.log(sortedData);
+    setData(sortedData);
+    setSortDate(1 - sortDatee);
+    setSortingCountDate(sortingCountDate + 1);
+  };
+
   const showMoreInfo = (e) => {
     e.preventDefault();
     setShowLessInfo(!showLessInfo);
@@ -118,20 +178,17 @@ const EmailStatss = (props) => {
       <div class="right-sidebar">
         <div class="page-top-nav smart_list_names">
           <div class="row justify-content-end align-items-center">
-          {
-            /*
+            {/*
             <div class="col-12 col-md-1">
               <div class="header-btn-left">
                 <button class="btn btn-primary btn-bordered back">Back</button>
               </div>
             </div>
-            */
-          }
+            */}
 
             <div class="col-12 col-md-11">
               <div class="smart-list-btns">
-              {
-                /*
+                {/*
                 <div class="smart-list-download">
                   <button class="btn btn-outline-primary"><img src="assets/images/download.svg" alt="Download List" /></button>
                 </div>
@@ -141,13 +198,10 @@ const EmailStatss = (props) => {
                 <div class="hcp-added">
                   <button class="btn btn-outline-primary"><img src="assets/images/edit-button.svg" alt="Edit" /></button>
                 </div>
-                */
-              }
-
+                */}
 
                 <div class="top-right-action">
-                {
-                  /*
+                  {/*
                   <div class="search-bar">
                     <form class="d-flex">
                       <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
@@ -168,61 +222,69 @@ const EmailStatss = (props) => {
                         </svg>
                       </button>
                     </div>
-                    */
-                  }
+                    */}
                 </div>
               </div>
             </div>
-           </div>
+          </div>
         </div>
 
         <section class="search-hcp smart-list-view">
           <div class="result-hcp-table">
             <div class="table-title">
-              <h4>Total Result <span>| {campaignData.length > 0 ? campaignData.length : 0}</span></h4>
-
-              <div class="selected-hcp-table-action">
-                <a
-                  className="show-less-info"
-                  onClick={(e) => showMoreInfo(e)}
-                >
-                  {showLessInfo == true ? (
-                    <p className="show_more">Show More information</p>
-                  ) : (
-                    <p className="show_less">Show less information</p>
-                  )}
-                </a>
-
-              </div>
+              <h4>
+                Total Result{" "}
+                <span>
+                  | {campaignData.length > 0 ? campaignData.length : 0}
+                </span>
+              </h4>
             </div>
             <div class="selected-hcp-list" id="analytics-hcp-table">
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th scope="col">Campaign ID</th>
-                      <th scope="col">Date</th>
-                      <th scope="col">Subject</th>
-                      <th scope="col">Article Title</th>
-                      <th scope="col">Smart List</th>
-                      <th scope="col">Total mail sent</th>
-                      <th scope="col">Email Read</th>
-                      <th scope="col">Pending Read Email</th>
-                      {showLessInfo == false ? (
-                        <>
-                        <th scope="col">Bounce Count</th>
-                        <th scope="col">Details</th>
-                        <th scope="col">Sent to pending</th>
-                        <th scope="col">Sent to all</th>
-                        </>
-                      ) : null}
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Campaign ID</th>
+                    <th scope="col">
+                      <div className="hcp-sort">
+                        Date{" "}
+                        <button
+                          className="btn btn-outline-primary"
+                          onClick={sortDate}
+                        >
+                          <img src={path_image + "sort.svg"} alt="Shorting" />
+                        </button>
+                      </div>
+                    </th>
+                    <th scope="col">Subject</th>
+                    <th scope="col">
+                      Article Title{" "}
+                      <div className="hcp-sort">
+                        <button
+                          className="btn btn-outline-primary"
+                          onClick={sortTitle}
+                        >
+                          <img src={path_image + "sort.svg"} alt="Shorting" />
+                        </button>
+                      </div>
+                    </th>
 
-                    </tr>
-                  </thead>
-                  <tbody>
-                  {
-                    typeof campaignData !== "undefined" && campaignData.length > 0 && campaignData.map((item, index) => (
+                    <th scope="col">Smart List</th>
+                    <th scope="col">Total mail sent</th>
+                    <th scope="col">Email Read</th>
+                    <th scope="col">Pending Read Email</th>
+
+                    <th scope="col">Bounce Count</th>
+                    <th scope="col">Details</th>
+                    <th scope="col">Sent to pending</th>
+                    <th scope="col">Sent to all</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {typeof campaignData !== "undefined" &&
+                    campaignData.length > 0 &&
+                    campaignData.map((item, index) => (
                       <>
-                      <tr>
+                        <tr>
                           <td> {item.c_id}</td>
                           <td> {item.sent_data}</td>
                           <td> {item.subject}</td>
@@ -231,33 +293,44 @@ const EmailStatss = (props) => {
                           <td> {item.total_sent_count}</td>
                           <td> {item.total_read_count}</td>
                           <td> {item.total_pending_count}</td>
-                          {showLessInfo == false ? (
-                            <>
-                            <td> {item.total_bouns_count}</td>
-                            <td>
-                              <button type="button" className="btn btn-primary btn-bordered" onClick={(e) => getDetails(item.distribute_id)}>
-                                Details
-                              </button>
-                            </td>
-                            <td>
-                            <button type="button" className="btn btn-primary btn-bordered" onClick={(e) => sendCampaign(item.distribute_id,2)}>
+
+                          <td> {item.total_bouns_count}</td>
+                          <td>
+                            <button
+                              type="button"
+                              className="btn btn-primary btn-bordered"
+                              onClick={(e) => getDetails(item.distribute_id)}
+                            >
+                              Details
+                            </button>
+                          </td>
+                          <td>
+                            <button
+                              type="button"
+                              className="btn btn-primary btn-bordered"
+                              onClick={(e) =>
+                                sendCampaign(item.distribute_id, 2)
+                              }
+                            >
                               Send pending
                             </button>
-                            </td>
-                            <td>
-                              <button type="button" className="btn btn-primary btn-bordered" onClick={(e) => sendCampaign(item.distribute_id,1)}>
-                                Send all
-                              </button>
-                            </td>
-                            </>
-                          ) : null}
-
+                          </td>
+                          <td>
+                            <button
+                              type="button"
+                              className="btn btn-primary btn-bordered"
+                              onClick={(e) =>
+                                sendCampaign(item.distribute_id, 1)
+                              }
+                            >
+                              Send all
+                            </button>
+                          </td>
                         </tr>
                       </>
-                    ))
-                  }
-                  </tbody>
-                </table>
+                    ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </section>

@@ -5712,68 +5712,89 @@ table thead.sticky-header:after {
 }
 
 .smart-list-view .selected-hcp-list_detail {
-  padding: 40px 16px 16px;
+  padding: 16px 16px;
   background: #fff;
-  box-shadow: 0px 3px 10px -3px rgb(0 102 190 / 20%);
   border-radius: 20px;
   margin-top: 110px;
   position: relative;
+  max-width: 1057px;
+  margin: 0 auto 30px;
+  border: 1px dashed #0066be;
+  box-shadow: 0px 4px 11px rgb(0 102 190 / 15%);
 }
-
-.smart-list-view .selected-hcp-list_detail table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-
-.smart-list-view .selected-hcp-list_detail table tr {
-  box-shadow: none;
-  border-radius: 0;
-}
-
-.selected-hcp-list_detail .icon-box {
-  display: block;
-  position: absolute;
-  top: -44px;
-  left: 50%;
-  background-color: #fff;
-  padding: 6px;
-  border-radius: 50%;
-  transform: translate(-50%, 0%);
-  box-shadow: 0px -8px 9px -4px rgb(0 102 190 / 20%);
-}
-
-.selected-hcp-list_detail .icon-box span {
+.table_xls {
+  width: 1065px;
+  position: relative;
+  max-height: 500px;
+  overflow-y: auto;
+  overflow-x: hidden;
   margin: 0 auto;
-  width: 74px;
-  height: 74px;
-  text-align: center;
-  line-height: 62px;
-  background-color: #0b3a81;
-  color: #ffffff;
-  font-size: 27px;
-  border-radius: 35px 35px 0px 35px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 0px 8px 10px 0px;
 }
-.smart-list-view .selected-hcp-list_detail:hover {
-  background: #0b3a81;
+.table_xls #table-to-xls {
+  margin-top: 0;
 }
-
-.smart-list-view .selected-hcp-list_detail:hover tr th,
-.smart-list-view .selected-hcp-list_detail:hover tr td {
-  background: transparent;
-  color: #fff;
-}
-
-.smart-list-view .selected-hcp-list_detail:hover .icon-box {
-  background: #0b3a81;
-}
-
 .smart-list-view .selected-hcp-list_detail:hover span {
   background: #fff;
 }
 
 .smart-list-view .selected-hcp-list_detail:hover svg path {
   fill: #0b3a81;
+}
+.selected-hcp-list_detail ul {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.selected-hcp-list_detail li {
+  width: 50%;
+  flex: 0 0 50%;
+  list-style: none;
+  margin: 2px 0;
+  font-size: 14px;
+}
+
+.selected-hcp-list_detail li label {
+  padding: 7px;
+  width: 160px;
+  background: #e7f4ff;
+  color: #0066be;
+  border-radius: 4px;
+}
+
+.selected-hcp-list_detail li span {
+  flex: 1 1;
+  color: #004a89;
+  padding-left: 10px;
+}
+.selected-hcp-list table thead th button {
+  border: 0;
+  padding: 0;
+  height: auto;
+  line-height: initial;
+}
+.selected-hcp-list table thead th button img {
+  width: 12px;
+  margin-top: -4px;
+}
+
+.selected-hcp-list table thead th .hcp-sort {
+  display: inline-block;
+  margin-left: 4px;
+}
+
+.selected-hcp-list table thead th {
+  vertical-align: top;
+}
+.selected-hcp-list table thead .hcp-sort .btn:hover,
+.selected-hcp-list table thead .hcp-added .btn:hover {
+  filter: none;
+  background: inherit;
+  color: inherit;
+}
+.selected-hcp-list table thead .hcp-sort .btn:hover img,
+.selected-hcp-list table thead .hcp-added .btn:hover img {
+  filter: none;
 }
