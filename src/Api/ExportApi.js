@@ -837,6 +837,15 @@ const GetSmartListSingleRecord = (id) =>
       },
     }
   );
+const GetSmartListFilterRecord = () =>
+  BaseApi.get(
+    `/smart-list/filter-content`,{},
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
 const UpdateSmartListData = (id, participants) =>
   BaseApi.post(
     `smart-list/update-participants`,
@@ -863,6 +872,16 @@ const DeleteSmartListData = (id, participants) =>
   BaseApi.post(
     `smart-list/lists`,
     { search: search},
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
+  const SearchSmartListFilter = (name=[],creator=[],created=[]) =>
+  BaseApi.post(
+    `smart-list/lists`,
+    {name:name,creator:creator,created:created},
     {
       headers: {
         Authorization: localStorage.getItem("Token"),
@@ -948,6 +967,7 @@ export default {
   EmailSCreate,
   EmailSCreateCollection,
   GetSmartListSingleRecord,
+  GetSmartListFilterRecord,
   UpdateSmartListData,
   DeleteSmartListData,
   GetEmailSCollection,
@@ -957,5 +977,6 @@ export default {
   UpdateRegistrationPageDetail,
   DeleteEvent,
   SearchSmartList,
+  SearchSmartListFilter,
   SmartListDelete
 };
