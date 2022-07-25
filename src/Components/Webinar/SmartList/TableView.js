@@ -1846,7 +1846,7 @@ const location = useLocation();
                         name="Country"
                         className="form-select-lg mb-3"
                         aria-label=".form-select-lg example"
-                        defaultValue={item.is_register==1?item.id:item.is_register==1?item.value:props.upload_by_filter=="001"?item.id:null}
+                        defaultValue={item.is_register==1?item.id:item.is_register==1?item.value:props.upload_by_filter=="001"?item.id:item.name}
                       >
                         <option value="">Select Country</option>
                         {country?.map((val, i) => (
