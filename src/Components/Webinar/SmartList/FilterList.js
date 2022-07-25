@@ -30,6 +30,8 @@ const FilterList = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [filterData, setFiltersData] = useState([]);
   const [selectedConsentVal, setSelectedConsentVal] = useState("");
+  const [saveDataModal, setSaveDataModal] = useState(false);
+
   const [selectedBounceVal, setSelectedBounceVal] = useState("");
 
   const [indexToRemove, setIndexToRemove] = useState();
@@ -48,6 +50,17 @@ const FilterList = (props) => {
   const [selectedbounce, setSelectedBounce] = useState();
 
   const [api_flag, setapi_flag] = useState(0);
+  const showConfirmation =()=>{
+    popup_alert({
+            visible: "show",
+            message: "Data updated <br> successfully",
+            type: "error",
+            redirect: "/webinar/email/WebinarSmartList",
+          });
+  }
+  const saveAlert=(data)=>{
+    setSaveDataModal(data)
+  }
   useEffect(() => {
     if(props.id&&props.name){
      smartListName  = props.name;
@@ -220,6 +233,7 @@ const FilterList = (props) => {
       id: props.id?JSON.stringify(smartListId):localStorage.getItem("SmartListIdView"),
       name:props.name? smartListName:localStorage.getItem("SmartListIdViewName"),
       participants: JSON.stringify(participants_id),
+      creator:localStorage.getItem("username")
     };
 
     // loader("show");
@@ -309,15 +323,21 @@ const FilterList = (props) => {
     setIndexToRemove(index);
   };
   const closeClicked = () => {
-    navigate("/webinar/email/SmartListCreate");
+    if(props.active=="0"){
+      navigate("/webinar/email/WebinarSmartList");
+    }else{
+      navigate("/webinar/email/SmartListCreate");
+    }
   };
   const getData=()=>{
     ExportApi.GetSmartListSingleRecord(props.id)
     .then((resp) => {
-      if (resp.data) {
-        setFiltersData(resp.data.data)
+      if (resp.data.data) {
+        setFiltersData(resp?.data?.data)
         console.log(resp.data.data)
-        setTotalData((oldArray) => [...oldArray, ...resp.data.data]);
+         setTotalData((oldArray) => [...oldArray, ...resp.data.data]);
+      }else{
+        console.log(resp.data)
       }
     })
 }
@@ -342,22 +362,16 @@ getData()
               <div className="header-btn">
                 <button
                   className="btn btn-primary btn-bordered light"
-                //   onClick={closeClicked}
+                  onClick={closeClicked}
                 >
                   Close
                 </button>
                 <button
                   className="btn btn-primary btn-filled save"
-                //  onClick={() => showConfirmation()}
-                //  disabled={
-                //    typeof getfilterdata !== "undefined" &&
-                //    getfilterdata.length > 0
-                //      ? false
-                //      : typeof getNewAddedUser !== "undefined" &&
-                //        getNewAddedUser.length > 0
-                //      ? false
-                //      : true
-                //   }
+                 onClick={() =>saveDataModal? showConfirmation():null}
+                 disabled={
+                  saveDataModal==false?true:false
+                  }
                 >
                   Save
                 </button>
@@ -1252,8 +1266,8 @@ getData()
               </div> */}
             </div>
           </div>
-          {console.log(filterData)}
-         <TableView data={filterData} smartListId={props.active==0?props.id:smartListId} active={props.active==0?props.active:null} upload_by_filter="1"  /> 
+          {console.log("filterData",filterData)}
+         <TableView data={filterData} smartListId={props.active==0?props.id:smartListId} active={props.active==0?props.active:null} saveAlert={saveAlert} upload_by_filter="1"  /> 
           {/* {filterData?.length > 0 ? (
             <div className="box mt-2">
               <div class="selected-hcp-list">

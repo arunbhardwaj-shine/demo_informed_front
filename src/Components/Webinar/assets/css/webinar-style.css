@@ -995,6 +995,7 @@ h4 {
 .result-hcp-table .table-title h4 span,
 .select-smart-list .table-title h4 span {
   font-family: "Roboto-light";
+  margin-left:5px;
 }
 .selected-hcp-list .not-found h4 {
   margin: 0;
@@ -1431,13 +1432,14 @@ form#add_hcp_form .row:not(:first-child) {
   padding-top: 6px;
 }
 .page-top-nav.smart_list_names {
-  margin-bottom: 18px;
+  margin-bottom:28px;
 }
 .smart-list-view .selected-hcp-list table {
   max-width: 100%;
   margin: 8px auto;
   padding-left: 4px;
 }
+
 /* .table tr:hover td { background-color: #fbfbfb; } */
 .table-responsive .table tbody tr:hover {
   box-shadow: 0px 2px 10px -3px rgb(0 102 190 / 60%);
@@ -4176,7 +4178,7 @@ header nav.navbar .form-select,
   cursor: pointer;
 }
 #resend-confirm .modal-body, .modal-dialog .modal-content .modal-body{
-  padding: 0 32px 30px;
+  padding: 0 32px 24px;
   /* overflow-y: auto; */
 }
 .mailbox-buttons button.btn-bordered a {
@@ -4583,6 +4585,9 @@ height: 100px;
   font-size: 18px;
   line-height: 145.19%;
   color: #4E718E;
+}
+.send-confirm .modal-dialog .modal-content {
+  padding:0;
 }
 .send-confirm #upload-confirm .modal-content{padding:0}
 .registration-table table th {
@@ -5181,7 +5186,9 @@ color:#848484;
   border-radius: 15px;
   padding: 35px;
 }
-
+.send-confirm .modal-body .modal-buttons {
+  margin-top: 33px;
+}
 .select_mode, .copy_exixting {
   margin-top: 25px;
 }

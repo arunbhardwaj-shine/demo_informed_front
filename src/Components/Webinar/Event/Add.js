@@ -88,8 +88,8 @@ function Add(props) {
     let data1Err = SpeakerErr;
     Speakername.splice(i, 1);
     data1Err.splice(i, 1);
-    setTimeout(() => setSpeakerName([...Speakername]), 1000);
-    setTimeout(() => setSpeakerErr([...SpeakerErr]), 1000);
+ setSpeakerName([...Speakername])
+    setSpeakerErr([...SpeakerErr])
     setRerender(render + 1);
     setSpeakerName(data1);
     setSpeakerErr(data1Err);
@@ -278,7 +278,7 @@ function Add(props) {
                   className="form-inline row justify-content-between align-items-center"
                 >
                   <div className="form-group col-6 col-md-6">
-                    <label htmlFor="exampleInputEmail1">Speaker's Name</label>
+                    <label htmlFor="exampleInputEmail1">Speaker's Name<span>*</span></label>
                     <input
                       type="text"
                       placeholder="Speaker's Name"
@@ -294,7 +294,7 @@ function Add(props) {
                     </div>
                   </div>
                   <div className="form-group col-6 col-md-6">
-                    <label htmlFor="exampleInputEmail1">Speaker's Email</label>
+                    <label htmlFor="exampleInputEmail1">Speaker's Email<span>*</span></label>
                     <input
                       type="text"
                       placeholder="Speaker's Email"
