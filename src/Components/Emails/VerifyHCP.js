@@ -85,30 +85,36 @@ const VerifyHCP = (props) => {
   );
 
 
-  const updateReader = ()=>{
-    let reducHcp = selectedHcp.map(
-      (item) => {
-        return item.profile_user_id;
-      }
-    );
+  const updateReader = (readers_d = "",type = 1)=>{
+    if(type == 1){
+      var reducHcp = selectedHcp.map(
+        (item) => {
+          return item?.profile_user_id ? item.profile_user_id : item;
+        }
+      );
+    }else{
+      var reducHcp = readers_d;
+    }
+
     let body = {
       user_id: localStorage.getItem("user_id"),
       readers_id: reducHcp
     };
+    loader("show");
     axios
     .post(`emailapi/get_user_details`, body)
     .then((res) => {
       setSelectedHcp(res.data.response.data);
+      loader("hide");
       // setCounter(counter + 1);
     })
     .catch((err) => {
+      loader("hide");
       console.log(err);
     });
   }
 
   useEffect(() => {
-    console.log(props);
-    // props.getDraftData.campaign_data.selectedHcp;
     if (
       typeof props !== "undefined" &&
       props !== null &&
@@ -117,21 +123,17 @@ const VerifyHCP = (props) => {
       if (props.getDraftData !== null) {
         let reducHcp = props.getDraftData.campaign_data.selectedHcp;
 
-        //  let reducHcp = selectedHcp.map(
-        //     (item) => {
-        //       return item.profile_user_id;
-        //     }
-        //   );
-
         if (typeof reducHcp != "undefined") {
-          setSelectedHcp(reducHcp);
+          let check_type_readrs = reducHcp[0];
+            if(typeof check_type_readrs === 'object') {
+               setSelectedHcp(reducHcp);
+               updateReader(reducHcp);
+            }else{
+              updateReader(reducHcp,2);
+            }
         }
       }
     }
-     //console.log(reducHcp);
-
-    updateReader();
-
   }, []);
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
