@@ -39,6 +39,23 @@ const Header = () => {
 				localStorage.setItem("user_id", "rjiGlqA9DXJVH7bDDTX0Lg==");
 			}
 		}
+		if(queryParams?.decrypted_token && queryParams?.decrypted_token != ""){
+			let decrypted_token = localStorage.getItem("decrypted_token");
+			if(decrypted_token){
+				if(decrypted_token != queryParams.id){
+						localStorage.setItem("decrypted_token", queryParams.decrypted_token);
+				}
+			}else{
+				localStorage.setItem("decrypted_token", queryParams.decrypted_token);
+			}
+		}else{
+			let decrypted_token = localStorage.getItem("decrypted_token");
+			if(decrypted_token){
+
+			}else{
+				localStorage.setItem("decrypted_token", "rjiGlqA9DXJVH7bDDTX0Lg==");
+			}
+		}
 
 		if(queryParams?.name && queryParams?.name != ""){
 			setUserName(queryParams.name)
@@ -87,7 +104,7 @@ const Header = () => {
 
 							  <Dropdown.Menu>
 									<Dropdown.Item href="https://informed.pro/Pages/change_password/" className="dropdown-item">Change Password</Dropdown.Item>
-									<Dropdown.Item className="dropdown-item" onClick={() => window.open('https://support.informed.pro/authenticate?token=26000e20e74251939a43e7a95f4ac08481aa5909', "_blank")}>Raise a ticket</Dropdown.Item>
+									<Dropdown.Item className="dropdown-item" onClick={() => window.open('https://support.informed.pro/authenticate?token='+localStorage.getItem("decrypted_token"), "_blank")}>Raise a ticket</Dropdown.Item>
 									<Dropdown.Item href="https://informed.pro/Users/logout/" className="dropdown-item">Logout</Dropdown.Item>
 							  </Dropdown.Menu>
 							</Dropdown>

@@ -59,7 +59,7 @@ const SmartListWebinar = () => {
           setMassage()
         }
         if (resp.data.code === 404) {
-          toast.warning(resp.data.message)
+          toast.warning("No Data Found")
         }
       }
     });

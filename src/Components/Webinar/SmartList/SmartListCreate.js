@@ -295,6 +295,7 @@ const SmartListCreate = () => {
                         >
                           <img src={path_image + "question.svg"} alt="" />
                         </a>
+                        <div class="tooltip">A list that will appeare when you select smart list to <span>send a sample.</span></div>
                       </div>
                     </div>
                   </div>
