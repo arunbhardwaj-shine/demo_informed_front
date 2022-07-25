@@ -157,7 +157,7 @@ const GetDetails = () => {
           : 0
       );
     }
-
+    setSortingCountEmail(0);
     setData(normalArr);
     setSortingName(1 - sortingName);
     setSortingCount(sortingCount + 1);
@@ -166,7 +166,6 @@ const GetDetails = () => {
   const sortEmail = () => {
     let normalArr = [];
     normalArr = data;
-
     if (sortingEmail === 0) {
       normalArr.sort((a, b) =>
         a.email.toLowerCase() > b.email.toLowerCase()
@@ -184,6 +183,8 @@ const GetDetails = () => {
           : 0
       );
     }
+
+    setSortingCount(0);
 
     setData(normalArr);
     setSortingEmail(1 - sortingEmail);
@@ -326,30 +327,86 @@ const GetDetails = () => {
                           <th scope="col">
                             First Name
                             <div className="hcp-sort">
-                              <button
-                                className="btn btn-outline-primary"
-                                onClick={sortName}
-                              >
-                                <img
-                                  src={path_image + "sort.svg"}
-                                  alt="Shorting"
-                                />
-                              </button>
+                              {sortingCount == 0 ? (
+                                <>
+                                  <button
+                                    className="btn btn-outline-primary"
+                                    onClick={sortName}
+                                  >
+                                    <img
+                                      src={path_image + "sort.svg"}
+                                      alt="Shorting"
+                                    />
+                                  </button>
+                                </>
+                              ) : sortingName == 0 ? (
+                                <>
+                                  <button
+                                    className="btn btn-outline-primary desc"
+                                    onClick={sortName}
+                                  >
+                                    <img
+                                      src={path_image + "sort-decending.svg"}
+                                      alt="Shorting"
+                                    />
+                                  </button>
+                                </>
+                              ) : (
+                                <>
+                                  <button
+                                    className="btn btn-outline-primary asc"
+                                    onClick={sortName}
+                                  >
+                                    <img
+                                      src={path_image + "sort-assending.svg"}
+                                      alt="Shorting"
+                                    />
+                                  </button>
+                                </>
+                              )}
                             </div>
                           </th>
                           <th scope="col">Last Name</th>
                           <th scope="col">
                             Email
                             <div className="hcp-sort">
-                              <button
-                                className="btn btn-outline-primary"
-                                onClick={sortEmail}
-                              >
-                                <img
-                                  src={path_image + "sort.svg"}
-                                  alt="Shorting"
-                                />
-                              </button>
+                              {sortingCountEmail == 0 ? (
+                                <>
+                                  <button
+                                    className="btn btn-outline-primary"
+                                    onClick={sortEmail}
+                                  >
+                                    <img
+                                      src={path_image + "sort.svg"}
+                                      alt="Shorting"
+                                    />
+                                  </button>
+                                </>
+                              ) : sortingEmail == 0 ? (
+                                <>
+                                  <button
+                                    className="btn btn-outline-primary desc"
+                                    onClick={sortEmail}
+                                  >
+                                    <img
+                                      src={path_image + "sort-decending.svg"}
+                                      alt="Shorting"
+                                    />
+                                  </button>
+                                </>
+                              ) : (
+                                <>
+                                  <button
+                                    className="btn btn-outline-primary asc"
+                                    onClick={sortEmail}
+                                  >
+                                    <img
+                                      src={path_image + "sort-assending.svg"}
+                                      alt="Shorting"
+                                    />
+                                  </button>
+                                </>
+                              )}
                             </div>
                           </th>
                           <th scope="col">Email Read</th>
