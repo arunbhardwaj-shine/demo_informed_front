@@ -1862,6 +1862,7 @@ const location = useLocation();
                         <td id="field_readers">NA</td>
                       ) : null*/}
                       {/* <td id="field_business_unit">{item.ibu}</td> */}
+                      <td id={`is_register` + item.id} style={{display:"none"}}>{item.is_register}</td>
                       <td id="field_interest">
                       {
                         editable ?    <div className="user-type-option">
@@ -1878,7 +1879,6 @@ const location = useLocation();
                       </div> : <span>{props.upload_by_filter=="1"&&props.active=="0"?item?.type:item?.content_type?item?.content_type:item?.type}</span>
                       }
                       </td>
-                      <td id={`is_register` + item.id} style={{display:"none"}}>{item.is_register}</td>
                       {/* http://webinarapi.shinedezign.pro/api/participants?page=2
                       http://webinarapi.shinedezign.pro/api/participants?page=2 */}
                       {/* {showLessInfo == false ? (

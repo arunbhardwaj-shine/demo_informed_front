@@ -914,10 +914,19 @@ table tbody td span {
   transform-origin: top left;
   top: 54px;
 }
-.table tr.hcps-added:after {
+.selected-hcp-list  .table tr.hcps-added:after {
   content: "Added";
   color: #00d4c0;
   top: 52px;
+}
+.selected-hcp-list .table tr.seprator-add td {
+  padding: 0 0 1px;
+  border-bottom: 1px dashed var(--light-blue);
+  border-radius: 0;
+  box-shadow: none;
+}
+.selected-hcp-list .table tr.seprator-add {
+  box-shadow: none;
 }
 .result-hcp-table .add-new-hcp {
   top: 6px;
