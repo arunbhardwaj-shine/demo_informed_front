@@ -331,10 +331,12 @@ const FilterList = (props) => {
   const getData=()=>{
     ExportApi.GetSmartListSingleRecord(props.id)
     .then((resp) => {
-      if (resp.data) {
-        setFiltersData(resp.data.data)
+      if (resp.data.data) {
+        setFiltersData(resp?.data?.data)
         console.log(resp.data.data)
-        setTotalData((oldArray) => [...oldArray, ...resp.data.data]);
+         setTotalData((oldArray) => [...oldArray, ...resp.data.data]);
+      }else{
+        console.log(resp.data)
       }
     })
 }
