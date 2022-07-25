@@ -233,6 +233,7 @@ const FilterList = (props) => {
       id: props.id?JSON.stringify(smartListId):localStorage.getItem("SmartListIdView"),
       name:props.name? smartListName:localStorage.getItem("SmartListIdViewName"),
       participants: JSON.stringify(participants_id),
+      creator:localStorage.getItem("username")
     };
 
     // loader("show");
