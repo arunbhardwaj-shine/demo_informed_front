@@ -212,7 +212,7 @@ const GetDetails = () => {
 
   const submitHandler = (event) => {
     let r_table = [];
-    data.find(function (item) {
+    updatedData.find(function (item) {
       if (item.first_name.includes(search) || item.email.includes(search)) {
         r_table.push(item);
       }

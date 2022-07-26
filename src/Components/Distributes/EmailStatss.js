@@ -43,6 +43,7 @@ const EmailStatss = (props) => {
       .post(`distributes/get_send_campaign_list`, body)
       .then((res) => {
         if (res.data.status_code == 200) {
+          console.log(res);
           setData(res.data.response.data);
           setUpdatedData(res.data.response.data);
         } else {
@@ -126,7 +127,6 @@ const EmailStatss = (props) => {
   const sortTitle = () => {
     let normalArr = [];
     normalArr = campaignData;
-
     if (sorting === 0) {
       normalArr.sort((a, b) =>
         a.pdf_title.toLowerCase() > b.pdf_title.toLowerCase()
@@ -144,7 +144,6 @@ const EmailStatss = (props) => {
           : 0
       );
     }
-
     setSortingCountDate(0);
     setData(normalArr);
     setSorting(1 - sorting);
@@ -185,7 +184,8 @@ const EmailStatss = (props) => {
 
   const submitHandler = (event) => {
     let r_table = [];
-    campaignData.find(function (item) {
+
+    updatedData.find(function (item) {
       if (
         item.pdf_title.includes(search) ||
         item.subject.includes(search) ||
