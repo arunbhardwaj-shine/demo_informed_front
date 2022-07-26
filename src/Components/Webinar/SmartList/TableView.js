@@ -23,7 +23,7 @@ import ExportApi from "../../../Api/ExportApi";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 const TableView = (props, ref) => {
-console.log("props", props)
+// console.log("props", props)
 const location = useLocation();
   const baseURL = BaseApi.getBaseURL();
   const [inEditMode, setInEditMode] = useState({
@@ -1690,7 +1690,8 @@ const location = useLocation();
                 {typeof getNewReaders !== "undefined" &&
                   getNewReaders.length > 0 &&
                   getNewReaders?.map((item, index) => {
-                     getNewReaders[index].country_id=country.filter((val)=>val.id==getNewReaders[index].country_id)
+                    let dataCountry=country.filter((val)=>val.id==getNewReaders[index].country_id)
+                    
                   return  <tr
                     className="hcps-added"
                     id={`row-selected` + item.is_register}
@@ -1749,7 +1750,7 @@ const location = useLocation();
                           </React.Fragment>
                         ))}
                     
-                      </select> : <span>{getNewReaders[index]?.country_id}</span>
+                      </select> : <span>{dataCountry[index]?.country}</span>
                       }
                       </td>
                       <td>
@@ -1842,7 +1843,7 @@ const location = useLocation();
                       {/* <input type="hidden" id={`field_index` + item.profile_user_id} value={index} />
                       <td id={`field_bounced` + item.profile_user_id}>{item.bounce}</td> */}
                       <td>
-                        {console.log(item)}
+                        {/* {console.log(item)} */}
                       {
                         editable ?  <select
                         id={`country` + item.id}
@@ -1851,7 +1852,7 @@ const location = useLocation();
                         aria-label=".form-select-lg example"
                         defaultValue={item.country_id}
                       >
-                        {console.log("item.country_id",item.country)}
+                        
                         <option value="">Select Country</option>
                         {country?.map((val, i) => (
                           <React.Fragment key={i}>
@@ -1863,7 +1864,6 @@ const location = useLocation();
                     
                       </select> : <span>{item.country}</span>
                       }
-                        {  console.log(item)}
                       </td>
                       {/*showLessInfo == false ? (
                         <td id="field_readers">NA</td>
