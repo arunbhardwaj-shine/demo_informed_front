@@ -30,13 +30,14 @@ const templateClicked = (template, e) => {
     };
  
     const handleGetRegistrationPageSingleData = () => {
+      alert()
       ExportApi.RegistrationPageSingleData(localStorage.getItem("EditRegistrationPageId")).then((resp) => {
         if (resp.ok&&resp.data.code==200) {
+          setMode(resp.data.data)
           if(resp.data.data?.json_data){
-            setMode(resp.data.data)
             setTemplateIdActive(resp.data.data.format)
             setRender(render+2)
-            // console.log("nisdnsidnsidhsidhsih",resp.data.data)
+             console.log("nisdnsidnsidhsidhsih",resp.data.data)
             setData(JSON.parse(resp.data.data?.json_data))
           }
         }
@@ -57,6 +58,7 @@ const templateClicked = (template, e) => {
     };
     const location = useLocation();
     useEffect(() => {
+      handleGetRegistrationPageSingleData()
     if(localStorage.getItem("EditRegistrationPageId")){
       handleGetRegistrationPageSingleData()
     }else{
@@ -85,13 +87,13 @@ const templateClicked = (template, e) => {
                       />
                     </svg>
                   </button></Link>
-            <h3>Registration Page &nbsp;</h3> <h4>{ "  (" +mode?.mode+")"}</h4> 
+            <h3>Registration Page &nbsp;</h3> <h4>{ "  (" +mode?.mode?mode?.mode:"Virtual"+")"}</h4> 
                 {/* <h3>Registration Page Form </h3> */}
             </div>
            
         {console.log("data",data)}
              <a target="_blank" href={`${BaseUrlImage}/SH2022/index${TemplateIdActive}.php?event=${mode?.event?.code}&mode=${
-               mode?.mode
+               mode?.mode?mode?.mode:"virtual"
               }`}><button className="btn btn-primary btn-filled">Link</button></a>
         </div>
   

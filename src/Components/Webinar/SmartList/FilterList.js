@@ -178,21 +178,58 @@ const FilterList = (props) => {
     }
   };
 
-  const removeSelectedCountryFilter = (index) => {
+  const removeSelectedProfessionFilter = (index,name) => {
+    console.log("1",index);
+
+    let country_selected_name = selectedCountryName;
+    const data = country_selected_name.splice(index, 1);
+    console.log("2",country_selected_name);
+    setSelectedCountryName(country_selected_name);
+    
+    let selected_country = selectedCountry;
+    selected_country.splice(index, 1);
+    setSelectedCountry(selected_country);
+    document.getElementById(`custom-checkbox-Country-${name}`).click()
+    setReRender(reRender + 1);
+   //  var elm = document.getElementById(`custom-checkbox-Country-${name}`).checked;
+   //  console.log("elm",elm)
+   //  if (true||false != elm.checked) {
+   //    elm.click();
+   //  }
+   //  document.getElementById().checked=false
+   //  console.log(data);
+
+   const ddd = countryall.find((item) => {
+     return item.country == data;
+   });
+
+   // console.log(ddd);
+
+   // console.log(inputElement.currents);
+   // document.querySelectorAll("input").forEach((checkbox) => {
+   //   checkbox.checked = false;
+   // });
+ };
+  const removeSelectedCountryFilter = (index,name) => {
      console.log("1",index);
 
      let country_selected_name = selectedCountryName;
-     document.getElementById(`custom-checkbox-Country-${country_selected_name}`).checked = false
-    const data = country_selected_name.splice(index, 1);
+     const data = country_selected_name.splice(index, 1);
      console.log("2",country_selected_name);
      setSelectedCountryName(country_selected_name);
      
      let selected_country = selectedCountry;
      selected_country.splice(index, 1);
      setSelectedCountry(selected_country);
+     document.getElementById(`custom-checkbox-Country-${name}`).click()
      setReRender(reRender + 1);
-     
-     console.log(data);
+    //  var elm = document.getElementById(`custom-checkbox-Country-${name}`).checked;
+    //  console.log("elm",elm)
+    //  if (true||false != elm.checked) {
+    //    elm.click();
+    //  }
+    //  document.getElementById().checked=false
+    //  console.log(data);
 
     const ddd = countryall.find((item) => {
       return item.country == data;
@@ -493,12 +530,12 @@ getData()
                                   <ul>
                                     {countryall.map((item, index) => (
                                       <li>
-                                       {/* {console.log("filterData",countryall)} */}
+                                     {/* {console.log("filterData",`custom-checkbox-Country-${item.name}`)}  */}
                                         <div className="select-multiple-option">
                                           <input
                                             ref={inputElement}
                                             type="checkbox"
-                                            id={`custom-checkbox-Country-${item.name}`}
+                                            id={`custom-checkbox-Country-${item.country}`}
                                             name="contact_type[]"
                                             value={item.country_id}
                                             onChange={(e) =>
@@ -944,7 +981,7 @@ getData()
                         <div className="filter-result">
                           {item}
                           <img
-                            onClick={() => removeSelectedCountryFilter(index)}
+                            onClick={() => removeSelectedCountryFilter(index,item)}
                             src={path_image + "filter-close.svg"}
                             alt="Close-filter"
                           />
@@ -964,7 +1001,7 @@ getData()
                         <div className="filter-result">
                           {item}{" "}
                           <img
-                            onClick={() => removeSelectedCountryFilter(index)}
+                            onClick={() => removeSelectedProfessionFilter(index)}
                             src={path_image + "filter-close.svg"}
                             alt="Close-filter"
                           />
@@ -1183,13 +1220,13 @@ getData()
                     <div className="filter-div-list">
                       <div className="filter-result">
                         {selectedBounceVal}{" "}
-                        {/* <img
-                            onClick={() =>
-                              removeindividualfilter("ibu", selectedibu)
-                            }
+                        <img
+                            // onClick={() =>
+                            //   // removeindividualfilter("ibu", selectedibu)
+                            // }
                             src={path_image + "filter-close.svg"}
                             alt="Close-filter"
-                          /> */}
+                          />
                       </div>
                     </div>
                   </div>
