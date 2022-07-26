@@ -179,19 +179,20 @@ const FilterList = (props) => {
   };
 
   const removeSelectedCountryFilter = (index) => {
-    // console.log(selectedCountryName);
+     console.log("1",index);
 
-    let country_selected_name = selectedCountryName;
+     let country_selected_name = selectedCountryName;
+     document.getElementById(`custom-checkbox-Country-${country_selected_name}`).checked = false
     const data = country_selected_name.splice(index, 1);
-    // console.log(country_selected_name);
-    setSelectedCountryName(country_selected_name);
-
-    let selected_country = selectedCountry;
-    selected_country.splice(index, 1);
-    setSelectedCountry(selected_country);
-    setReRender(reRender + 1);
-
-    // console.log(data);
+     console.log("2",country_selected_name);
+     setSelectedCountryName(country_selected_name);
+     
+     let selected_country = selectedCountry;
+     selected_country.splice(index, 1);
+     setSelectedCountry(selected_country);
+     setReRender(reRender + 1);
+     
+     console.log(data);
 
     const ddd = countryall.find((item) => {
       return item.country == data;
@@ -497,7 +498,7 @@ getData()
                                           <input
                                             ref={inputElement}
                                             type="checkbox"
-                                            id={`custom-checkbox-contact_type-${index}`}
+                                            id={`custom-checkbox-Country-${item.name}`}
                                             name="contact_type[]"
                                             value={item.country_id}
                                             onChange={(e) =>
@@ -941,12 +942,12 @@ getData()
                     <div className="filter-div-list">
                       {selectedCountryName.map((item, index) => (
                         <div className="filter-result">
-                          {item}{" "}
-                          {/* <img
+                          {item}
+                          <img
                             onClick={() => removeSelectedCountryFilter(index)}
                             src={path_image + "filter-close.svg"}
                             alt="Close-filter"
-                          /> */}
+                          />
                         </div>
                       ))}
                     </div>
@@ -962,11 +963,11 @@ getData()
                       {selectedProfession.map((item, index) => (
                         <div className="filter-result">
                           {item}{" "}
-                          {/* <img
+                          <img
                             onClick={() => removeSelectedCountryFilter(index)}
                             src={path_image + "filter-close.svg"}
                             alt="Close-filter"
-                          /> */}
+                          />
                         </div>
                       ))}
                     </div>
@@ -982,11 +983,11 @@ getData()
                       {selectedInterest.map((item, index) => (
                         <div className="filter-result">
                           {item}{" "}
-                          {/* <img
+                          <img
                             onClick={() => removeSelectedCountryFilter(index)}
                             src={path_image + "filter-close.svg"}
                             alt="Close-filter"
-                          /> */}
+                          />
                         </div>
                       ))}
                     </div>

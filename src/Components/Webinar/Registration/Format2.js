@@ -155,6 +155,17 @@ const Format2 = (props) => {
         <div className="modal-body-content">
         <div className="reg-middle-div">
         <div className="form-inline row justify-content-between align-items-center">
+        <div className="form-group col-12 ">
+                <label>Page Title </label>
+                <Form.Control
+                  name="page_title"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.page_title}
+                  type="text"
+                  placeholder="Page Title"
+                />
+            </div>
               <div className="form-group ">
                 <label> Title 1</label>
                 <Form.Control
