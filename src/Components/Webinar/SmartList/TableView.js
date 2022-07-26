@@ -1690,7 +1690,7 @@ const location = useLocation();
                 {typeof getNewReaders !== "undefined" &&
                   getNewReaders.length > 0 &&
                   getNewReaders?.map((item, index) => {
-                     getNewReaders[index]?.country_id=country.filter((val)=>val.id==getNewReaders[index].country_id)
+                     getNewReaders[index].country_id=country.filter((val)=>val.id==getNewReaders[index].country_id)
                   return  <tr
                     className="hcps-added"
                     id={`row-selected` + item.is_register}
@@ -1749,7 +1749,7 @@ const location = useLocation();
                           </React.Fragment>
                         ))}
                     
-                      </select> : <span>{dataCountry[index]?.country}</span>
+                      </select> : <span>{getNewReaders[index]?.country_id}</span>
                       }
                       </td>
                       <td>
