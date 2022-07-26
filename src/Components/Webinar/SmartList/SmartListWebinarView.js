@@ -10,6 +10,7 @@ const SmartListWebinarView = () => {
         ExportApi.GetSmartListSingleRecord(parms.id)
         .then((resp) => {
           if (resp.data) {
+            console.log("Ghbv",resp.data.data)
             setData(resp.data.data)
           }
         })
@@ -23,7 +24,7 @@ useEffect(() => {
           <span className="loader-view"> </span>
         </div>
       <div className="right-sidebar col">
-      <TableView data={Data} smartListId={parms.id} upload_by_filter="001" />
+      <TableView data={Data} smartListId={parms.id} upload_by_filter="001"getData={getData} />
     </div>
     </>
   )

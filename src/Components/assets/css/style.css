@@ -5734,7 +5734,7 @@ table thead.sticky-header:after {
 .table_xls.search_view {
   padding: 10px 5px 20px;
 }
-#analytics-hcp-table {
+/* #analytics-hcp-table {
   width: 1170px;
   position: relative;
   max-height: 78vh;
@@ -5742,6 +5742,9 @@ table thead.sticky-header:after {
   overflow-x: hidden;
   margin: 0 auto;
   padding: 0px 15px 10px 0px;
+} */
+#analytics-hcp-table .table_xls {
+  max-height: 71vh;
 }
 .table_xls #table-to-xls {
   margin-top: 0;
@@ -5812,4 +5815,18 @@ table thead.sticky-header:after {
 .selected-hcp-list table thead .hcp-sort .btn:hover img,
 .selected-hcp-list table thead .hcp-added .btn:hover img {
   filter: none;
+}
+table tr.data-not-found,
+table tr.data-not-found:hover {
+  box-shadow: none;
+  background: transparent;
+}
+
+table tr.data-not-found td {
+  text-align: center;
+  background: transparent;
+  font-size: 28px;
+  font-family: "Roboto-Bold";
+  color: var(--blue);
+  margin: 0;
 }
