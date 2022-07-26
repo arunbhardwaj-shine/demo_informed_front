@@ -85,10 +85,10 @@ const templateClicked = (template, e) => {
                       />
                     </svg>
                   </button></Link>
-            <h3>Registration Page </h3>
+            <h3>Registration Page &nbsp;</h3> <h4>{ "  (" +mode?.mode+")"}</h4> 
                 {/* <h3>Registration Page Form </h3> */}
             </div>
-            
+           
         {console.log("data",data)}
              <a target="_blank" href={`${BaseUrlImage}/SH2022/index${TemplateIdActive}.php?event=${mode?.event?.code}&mode=${
                mode?.mode

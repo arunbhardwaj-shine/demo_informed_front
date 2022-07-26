@@ -84,7 +84,7 @@ const location = useLocation();
     {
       name: "",
       email: "",
-      country: "",
+      country_id: "",
       profession: "",
       interest: "",
       hospital: "",
@@ -100,7 +100,7 @@ const location = useLocation();
   let file_name = useRef("");
 
   const [hpc, setHpc] = useState([
-    { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
+    { firstname: "", lastname: "", email: "", contact_type: "", country_id: "" },
   ]);
   const [countryall, setCountryall] = useState([]);
 
@@ -193,7 +193,7 @@ const location = useLocation();
       }else if(regex.test(value) === false){
         SpeakernameErr[i][name] = "Invalid email address";
       }
-    } else if(name=="country"){
+    } else if(name=="country_id"){
       Speakername[i][name] = value;
     }
     else if(name=="interest"){
@@ -1689,8 +1689,9 @@ const location = useLocation();
               <tbody>
                 {typeof getNewReaders !== "undefined" &&
                   getNewReaders.length > 0 &&
-                  getNewReaders?.map((item, index) => (
-                    <tr
+                  getNewReaders?.map((item, index) => {
+                     getNewReaders[index]?.country_id=country.filter((val)=>val.id==getNewReaders[index].country_id)
+                  return  <tr
                     className="hcps-added"
                     id={`row-selected` + item.is_register}
                     onClick={(e) =>
@@ -1748,7 +1749,7 @@ const location = useLocation();
                           </React.Fragment>
                         ))}
                     
-                      </select> : <span>{item.country}</span>
+                      </select> : <span>{dataCountry[index]?.country}</span>
                       }
                       </td>
                       <td>
@@ -1803,7 +1804,7 @@ const location = useLocation();
                         />
                       </td>
                     </tr>
-                  ))}
+})}
                 {typeof getNewReaders !== "undefined" &&
                   getNewReaders.length > 0 && (
                     <tr className="seprator-add">
@@ -2071,7 +2072,8 @@ const location = useLocation();
                             if (resp.data) {
                          
                               if (resp.data.code == 200) {
-                                setNewReaders(...getNewReaders,Speakername)
+                                setNewReaders((oldArray) => [...oldArray, ...Speakername]);
+                                // setNewReaders(...getNewReaders,Speakername)
                                 // setEditList(resp.data.data)
                                 // console.log(resp.data);
                                 setIsOpenAddModal(false);
@@ -2180,7 +2182,7 @@ const location = useLocation();
                             <div className="form-group">
                               <label for="">Country</label>
                               <select
-                                name="country"
+                                name="country_id"
                                 className="country-form"
                               onChange={(e) => handleOnChange(e, i)}
                             //  value={val.country}
@@ -2189,7 +2191,7 @@ const location = useLocation();
                                 <option selected>Select Country</option>
                                 {country?.map((val, i) => (
                                   <React.Fragment key={i}>
-                                    <option key={i} value={val.name}>
+                                    <option key={i} value={val.id}>
                                       {val.country}
                                     </option>
                                   </React.Fragment>
