@@ -1191,6 +1191,10 @@ form#add_hcp_form .row:not(:first-child) {
   display: flex;
   justify-content: space-between;
   padding-right: 51px;
+  position: relative;
+}
+.hcp-action-block .hcp-remove {
+  margin: 0 0 0px 10px;
 }
 .modal form#add_hcp_form .add_hcp_boxes:last-child .form_action {
   margin: 0;
@@ -1203,6 +1207,12 @@ form#add_hcp_form .row:not(:first-child) {
   min-height: 268px;
   display: flex;
   align-items: center;
+}
+#add_hcp .modal-body  button.save {
+  display: block;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 22px;
 }
 #add_hcp .modal-body .hcp-add-form form .add_hcp_boxes .form_action {
   margin-bottom: 25px;
@@ -1218,6 +1228,11 @@ form#add_hcp_form .row:not(:first-child) {
   display: flex;
   align-items: center;
   margin: 12px 0;
+  width: 100%;
+  flex-wrap: wrap;
+}
+#add_hcp .modal-body .hcp-add-form form .form-group .form-control, #add_hcp .modal-body .hcp-add-form form .form-group select {
+  flex: 1 1 0;
 }
 #add_hcp .modal-body .hcp-add-form form .form-group label {
   flex: 0 0 114px;
@@ -1317,10 +1332,7 @@ form#add_hcp_form .row:not(:first-child) {
   color: var(--violet);
   font-family: "Roboto-Medium";
 }
-.hcp-action-block .nav.nav-tabs {
-  border: 0;
-  margin: 0 15px 0 0px;
-}
+
 .nav-item.add_hcp {
   width: 100px;
   text-align: center;
@@ -1378,20 +1390,24 @@ form#add_hcp_form .row:not(:first-child) {
 .hcp-action-block {
   display: flex;
   flex-direction: row-reverse;
-  position: absolute;
-  top: 67px;
-  transform: rotate(-90deg) scaleX(1);
-  transform-origin: bottom left;
-  left: 52px;
 }
 .hcp-modal-action {
-  position: relative;
+  position: absolute;
+  right: -57px;
+  top: 58px;
+  width: 155px;
+  transform: rotate(-90deg) scaleX(1);
+  display: flex;
+  flex-direction: row-reverse;
 }
 .hcp-action-block .nav.nav-tabs {
   border: 0;
-  margin: 0 15px 0 0px;
+  margin: 0 0px 0 0px;
   flex-direction: row-reverse;
   width: auto;
+}
+#add_hcp_form .nav-item.add_hcp a.nav-link {
+  min-width: 100px;
 }
 .modal
   form#add_hcp_form
@@ -5206,7 +5222,13 @@ color:#848484;
 .create-registration #resend-confirm .modal-body {
   padding: 15px 32px 20px;
 }
-
+#add_hcp .modal-body .hcp-add-form form .form-group .error {
+  display: flex;
+  flex: 1 1 100%;
+  font-size: 14px;
+  padding: 4px 0 0 120px;
+  line-height: 1;
+}
 
 
 
