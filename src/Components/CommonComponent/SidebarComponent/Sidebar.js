@@ -385,11 +385,11 @@ const Sidebar = () => {
                 </svg>
                 <p>Smart list</p>
               </Link>
-            </li>
+            </li> 
             <li
               className={
-                (location.pathname == "/EmailStatss" ||
-                  location.pathname == "/get-details") &&
+                (location.pathname === "/EmailStatss" ||
+                  location.pathname === "/get-details") &&
                 c_id == 0
                   ? "active"
                   : "side_li"
