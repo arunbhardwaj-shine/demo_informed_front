@@ -205,7 +205,7 @@ const Sidebar = () => {
                 <p>Auto Email</p>
               </a>
             </li>
-            <li>
+            {/* <li>
               <a href="https://informed.pro/distributes/setAutoPopup">
                 <svg
                   width="24"
@@ -254,7 +254,7 @@ const Sidebar = () => {
                 </svg>
                 <p>Set Popup Text</p>
               </a>
-            </li>
+            </li> */}
             <li>
               {get_user_id == "rjiGlqA9DXJVH7bDDTX0Lg==" ? (
                 <Link to={"/TemplateBuilder"}>
