@@ -354,7 +354,7 @@ const location = useLocation();
       arr.push({
         id: id,
         name: name_edit,
-        country: "",
+        country_id: "",
         hospital: "",
         email: email,
         profession: "",
@@ -801,12 +801,13 @@ const location = useLocation();
         const register = document.getElementById(
           "is_register" + data.id
         ).innerText;
+       
         delete data.country;
         let prev_obj = editList.find((x) => x.id === data.id);
             // console.log("sdsssssfs",country)
         //data.country = country_edit;
         data.name = name_edit;
-        data.country_id = country;
+            data.country_id = country;
         data.content_type = content_type;
          data.is_register=register
       });
@@ -834,11 +835,12 @@ const location = useLocation();
           if (res.data.code == 200) {
             if(  location.pathname ===
               `/webinar/email/smart-list-view/${localStorage.getItem("SmartListIdView")}`){
+                props.getData()
                 popup_alert({
                   visible: "show",
                   message: "Data updated <br> successfully",
                   type: "error",
-                  redirect: "/webinar/email/WebinarSmartList",
+                  // redirect: "/webinar/email/WebinarSmartList",
                 });
               }else{
                 props.saveAlert(true)
@@ -1735,12 +1737,12 @@ const location = useLocation();
                         name="Country"
                         className="form-select-lg mb-3"
                         aria-label=".form-select-lg example"
-                        defaultValue={item.is_register==1?item.id:item.value}
+                        defaultValue={item.country_id}
                       >
                         <option value="">Select Country</option>
                         {country?.map((val, i) => (
                           <React.Fragment key={i}>
-                            <option key={i} value={item.is_register==1?val.id:val.value}>
+                            <option key={i} value={val.id}>
                               {val.country}
                             </option>
                           </React.Fragment>
@@ -1846,12 +1848,13 @@ const location = useLocation();
                         name="Country"
                         className="form-select-lg mb-3"
                         aria-label=".form-select-lg example"
-                        defaultValue={item.is_register==1?item.id:item.is_register==1?item.value:props.upload_by_filter=="001"?item.id:item.name}
+                        defaultValue={item.country_id}
                       >
+                        {console.log("item.country_id",item.country)}
                         <option value="">Select Country</option>
                         {country?.map((val, i) => (
                           <React.Fragment key={i}>
-                            <option key={i} value={item.is_register==1?val.id:props.upload_by_filter=="001"?val.id:val.value}>
+                            <option key={i} value={val.id}>
                               {val.country}
                             </option>
                           </React.Fragment>

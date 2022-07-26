@@ -164,12 +164,12 @@ const Registration = () => {
         <div className="page-title">
           <h3>Registration Page </h3>
         </div>
-        {registrationPageList===undefined||registrationPageList===null? <Button  onClick={()=>handleCreateRegistrationPageFirst()}>Create Registration Page</Button>:<>   {registrationPageList?.length==1||registrationPageList?.length>1?<div className="top-right-action">
+        {registrationPageList?.length==2||registrationPageList?.length>2?null:<>  {registrationPageList===undefined||registrationPageList===null? <Button  onClick={()=>handleCreateRegistrationPageFirst()}>Create Registration Page</Button>:<>   {registrationPageList?.length==1||registrationPageList?.length>1?<div className="top-right-action">
             <Button  onClick={()=>setModalShow1(true)}>Create Registration Page</Button>
         </div>:registrationPageList.length==1?(<> {registrationPageList?.length==2||registrationPageList?.length>2?null:  <div className="top-right-action">
             <Button  onClick={()=>setModalShow1(true)}>Create Registration Page</Button>
-        </div>}</>):null}</>}
-     
+        </div>}</>):null}</>}</>}
+ 
       </div>
         <div className="registration-table">
           <Table>

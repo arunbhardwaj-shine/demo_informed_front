@@ -55,6 +55,7 @@ const Format2 = (props) => {
     // console.log(titleLogo)
     const formik = useFormik({
         initialValues: {
+          page_title:props.data?.page_title?props.data?.page_title: "",
           Title1:props.data?.Title1?props.data?.Title1: "",
           Title2:props.data?.Title2?props.data?.Title2: "",
           Title3:props.data?.Title3?props.data?.Title3: "",
@@ -68,6 +69,9 @@ const Format2 = (props) => {
           BodyFootercontent2:props.data?.BodyFooterLeftcontent1?props.data?.BodyFooterLeftcontent1:'',
           BodyFootercontent3:props.data?.BodyFooterLeftcontent2?props.data?.BodyFooterLeftcontent2:'',
           RadioButton:props.data?.RadioButton?props.data?.RadioButton:'',
+          radio_helthcare:props.data?.radio_helthcare?props.data?.radio_helthcare:"",
+          radio_breakfast:props.data?.radio_breakfast?props.data?.radio_breakfast:"",
+          radio_breakfast_content:props.data?.radio_breakfast_content?props.data?.radio_breakfast_content:"",
           name:props.data?.name?props.data?.name:"",
           country:props.data?.country?props.data?.country:"",
           titleColor:props.data?.titleColor?props.data?.titleColor:"",
@@ -80,6 +84,7 @@ const Format2 = (props) => {
         onSubmit: (values) => {
           // loader("show")
           let jsonData ={
+            page_title :values.page_title,
             Title1: values.Title1,
             Title2: values.Title2,
             Title3: values.Title3,
@@ -95,6 +100,9 @@ const Format2 = (props) => {
             name:values.name,
             countryLabel:values.countryLabel,
             country:values.country,
+            radio_helthcare:values.radio_helthcare,
+            radio_breakfast:values.radio_breakfast,
+            radio_breakfast_content:values.radio_breakfast_content,
             titleColor :values.titleColor,
             textColor:values.textColor,
             backgroundColor:values.backgroundColor,
@@ -212,7 +220,7 @@ const Format2 = (props) => {
                   placeholder="Event Time"
                 />
             </div>
-            <div className="form-group">
+            {props.mode?.mode=="onsite"?<div className="form-group">
                       <label>Address</label>
                       <Form.Control
                         name="Address"
@@ -223,7 +231,7 @@ const Format2 = (props) => {
                         className="form-control"
                         placeholder="Address"
                       />
-                   </div>
+                   </div>:null}
               <div className="form-group">
               <label>Content 1</label>
               <textarea
@@ -300,6 +308,18 @@ const Format2 = (props) => {
            </div> 
               
          </fieldset>
+         {formik.values.radio_breakfast&&props.mode.mode=="onsite"? <div className="form-group">
+              <label>Breakfast Content</label>
+              <Form.Control
+                name="radio_breakfast_content"
+                type="text"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.radio_breakfast_content}
+                className="form-control"
+                placeholder="Breakfast Content"
+              />
+           </div>:null} 
         {/* end of middle content*/}
         
 
@@ -341,6 +361,32 @@ const Format2 = (props) => {
                 />
                 </div>
             </div>
+            <div className="form-group">
+                <label>Health Care </label>
+                <div className="form-check">
+                <Form.Control
+                  name="radio_helthcare"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.radio_helthcare}
+                  checked={formik.values.radio_helthcare}
+                  type="checkbox"
+                />
+                </div>
+            </div>
+            {props.mode?.mode=="onsite"? <div className="form-group">
+                <label>Breakfast </label>
+                <div className="form-check">
+                <Form.Control
+                  name="radio_breakfast"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.radio_breakfast}
+                  checked={formik.values.radio_breakfast}
+                  type="checkbox"
+                />
+                </div>
+            </div>:null}
             </div>
             </div>
             </div>
@@ -422,14 +468,14 @@ const Format2 = (props) => {
                      <div className="head-sec">
                         <h2 className="top-title"style={{color:formik?.values?.titleColor}} >
                         {formik?.values?.Title1}                       </h2>                           <div className="motivate_logo"><img id="imgVieww" src={props?.data?.titleLogo?props?.data?.titleLogo:""} alt="Logo" style={{width:"250px"}}/></div>
-                         <h2 className="top-title-green" style={{color:formik?.values?.titleColor}}>{formik?.values?.Title2}</h2>
-                         <h2 className="top-title-green" style={{color:formik?.values?.titleColor}}>{formik?.values?.Title3}</h2>
+                         <h4 className="top-title-green" style={{color:formik?.values?.titleColor}}>{formik?.values?.Title2}</h4>
+                         <h4 className="top-title-green" style={{color:formik?.values?.titleColor}}>{formik?.values?.Title3}</h4>
                         <div className="mid-section" style={{color:formik?.values?.textColor}}>
                            <div className="mid-section-center">
                                 {/* <p>{formik?.values?.Speakername}</p> */}
                                 <p>{formik?.values?.eventdate}</p>
                                <p>{formik?.values?.eventtime}</p>
-                               <p>{formik?.values?.Address}</p>
+                               {/* <p>{formik?.values?.Address}</p> */}
                         </div>
                         </div>
                         <hr style={{color:formik?.values?.titleColor}} size={10}/>
@@ -452,7 +498,9 @@ const Format2 = (props) => {
                                           <div className="form-group-left">
                                              <input type="checkbox"  id="fullconsent1" value="option1" name="fullconsent"/>
                                              <label htmlFor="fullconsent1"  id="consent-label">{formik?.values?.RadioButton}</label>  
-                                             <input type="hidden" className="fl_cnt_val" value="Full consent*"/>                 
+                                             <input type="hidden" className="fl_cnt_val" value="Full consent*"/> 
+                                             {formik.values.radio_helthcare?<><input type="checkbox"  id="fullconsent1" value="option2" name="radio_helthcare"/>
+                                             <label htmlFor="fullconsent1"  id="consent-label">I confirm that I am a healthcare professional </label></> :null}                  
                                              {/* <a href="javascript:;" className="change-btn">Change</a> */}
                                              {/* <div className="options">
                                                 <p>I consent to</p>
@@ -962,6 +1010,8 @@ const Format2 = (props) => {
                                           <div className="form-group position-relativee">
                                             <input type="text" className="form-control" name="email" id="email" value="" placeholder="Email" />
                                           </div>
+                                          {formik.values.radio_breakfast&&props.mode?.mode=="onsite"?<><input type="checkbox"  id="fullconsent1" value="option2" name="radio_helthcare"/>
+                                             <label htmlFor="fullconsent1"  id="consent-label">{formik.values.radio_breakfast_content}</label></> :null} 
                                            <button className="sumit-btn" type="submit" id="signup_submit">Submit</button> 
                                           </form>
                                           <div className='FooterContent'>
