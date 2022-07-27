@@ -255,6 +255,7 @@ const Template = (props) => {
   const handleGetTemplateList = (id) => {
     ExportApi.UserTemplateList(id).then((resp) => {
       if (resp.ok) {
+        loader("hide");
         if (resp.data.code == 200) {
           setTemplateList(resp.data.data);
           handleGetTemplate(resp.data.data[0].id);
@@ -265,12 +266,13 @@ const Template = (props) => {
             setTemplateList();
             setTemplate();
           } else {
-            loader("hide");
+          
             setMessage("Please create Event");
           }
         }
       }
     });
+   
   };
   const handleDeleteTemplate = () => {
     // console.log("yyy", templateId);
@@ -283,8 +285,8 @@ const Template = (props) => {
     });
   };
   const handleGetTemplate = (idd) => {
-    localStorage.setItem("TEMPLATEID", idd);
     loader("show");
+    localStorage.setItem("TEMPLATEID", idd);
     setDpc();
     setId(idd);
     ExportApi.UserTemplate(idd).then((resp) => {
@@ -292,19 +294,19 @@ const Template = (props) => {
         // console.log("resp.data.data.json_description",resp.data.data.json_description)
         if (resp.data.data.json_description) {
           setTimeout(() => {
+            loader("hide");
             emailEditorRef.current.editor.loadDesign(
               resp.data.data.json_description
                 ? JSON.parse(resp.data.data.json_description)
                 : null
             );
-            loader("hide");
           }, 1500);
         } else {
           setTimeout(() => {
+            loader("hide");
             //  alert("hello")
             // emailEditorRef.current.editor.onLoad();
             emailEditorRef.current.editor.loadDesign();
-            loader("hide");
           }, 2500);
         }
         setFinalTags(resp.data.data.tags);

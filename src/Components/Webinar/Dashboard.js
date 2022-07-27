@@ -28,11 +28,7 @@ const Dashboard = () => {
         <div className="event-details-left">
             <div className="event-details-left-inner">
                 <div className="event-details-left-event">Event Details
-                {EventData
-                  ? EventData?.map((val,i)=>(
-                        <p>{i}</p>
-                    ))
-                  : null}
+                {EventData?.code}
                 </div>
                 <div className="event-details-left-rehearsal">Rehearsal</div>
             </div>
