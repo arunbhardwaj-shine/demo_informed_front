@@ -207,6 +207,7 @@ function Add(props) {
               // console.log(resp.data);
               if (resp.data.code == 200) {
                 loader("hide");
+                window.dispatchEvent(new Event("EventLength"));
                 props.getEventList();
                 props.closePopup();
                 // console.log(typeof resp.data.message);

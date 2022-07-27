@@ -19,7 +19,7 @@ useEffect(() => {
     getData()
 }, [])
   return (
-    <> <div className="right-sidebar col"> {parms.active==1?<TableView data={Data} smartListId={parms.id} name={parms.name} active="1" upload_by_filter="1"  /> : <FilterList id={parms.id} name={parms.name} active="0"/>}
+    <> <div className="right-sidebar col"> {parms.active==1?<TableView getData={getData} data={Data} smartListId={parms.id} name={parms.name} active="1" upload_by_filter="1"  /> : <FilterList id={parms.id} name={parms.name} active="0"/>}
    </div>
         {/* <div className="page-top-nav smart_list_names">
           <div className="row justify-content-end align-items-center">
