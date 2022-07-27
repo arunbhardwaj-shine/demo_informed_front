@@ -762,7 +762,7 @@ header {
   .alice-carousel
   .alice-carousel__next-btn
   .alice-carousel__next-btn-item__inactive {
-  opacity: 0.3;
+  opacity: 0.2;
   pointer-events: none;
 }
 .user-login .dropdown #dropdown-basic::after {
@@ -3814,22 +3814,27 @@ h2 {
   align-items: center;
   justify-content: center;
 }
-.select-mail-template
-  .alice-carousel
-  .alice-carousel__next-btn
-  .alice-carousel__next-btn-item {
-  transform: translateY(-50%) rotate(180deg);
-  right: 16px;
-  background: url(../images/template-slider-arrow.png) no-repeat center center;
-}
+
 .select-mail-template
   .alice-carousel
   .alice-carousel__prev-btn
   .alice-carousel__prev-btn-item {
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-50%) rotate(180deg);
   left: 16px;
   background: url(../images/template-slider-arrow.png) no-repeat center center;
+}
+.select-mail-template
+  .alice-carousel
+  .alice-carousel__next-btn
+  .alice-carousel__next-btn-item {
+  top: 45%;
+  right: 16px;
+  background: url(../images/template-slider-arrow.png) no-repeat center center;
+}
+.alice-carousel__prev-btn,
+.alice-carousel__next-btn {
+  padding: 0;
 }
 .select-mail-template .alice-carousel .alice-carousel__prev-btn span,
 .select-mail-template .alice-carousel .alice-carousel__next-btn span {
@@ -5560,9 +5565,7 @@ table thead.sticky-header:after {
   min-height: 48px;
   width: 300px;
   max-width: 300px;
-  background: var(--white)
-    url(http://localhost:3000/static/media/dropdown-arrow.6ca490ef1efe3175ec81.svg)
-    no-repeat;
+  background: var(--white) url(../images/dropdown-arrow.svg) no-repeat;
   box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
   font-size: 16px;
   padding-left: 25px;
@@ -5723,7 +5726,7 @@ table thead.sticky-header:after {
   box-shadow: 0px 4px 11px rgb(0 102 190 / 15%);
 }
 .table_xls {
-  width: 1065px;
+  max-width: 1065px;
   position: relative;
   max-height: 500px;
   overflow-y: auto;
@@ -5829,4 +5832,50 @@ table tr.data-not-found td {
   font-family: "Roboto-Bold";
   color: var(--blue);
   margin: 0;
+}
+.email-form .form-inline .form-group input[type="text"] {
+  min-width: 330px;
+  margin-right: 10px;
+}
+td.removed_td.centered {
+  text-align: center;
+}
+
+.selected-hcp-list table#table-to-xls tr td:nth-last-child(2) {
+  border-radius: 0;
+}
+
+.selected-hcp-list .table tr.green td {
+  background: #00d4c0;
+  color: #000;
+}
+
+.selected-hcp-list .table tr.orange td {
+  background: #ffbe2c;
+  color: #000;
+}
+.email-form .form-inline .form-group {
+  display: block;
+}
+.email-form .form-inline .template_name {
+  margin-right: 20px;
+  display: inline-block;
+}
+.email-form .form-inline .template-edit {
+  display: inline-block;
+}
+.email-form .form-inline .right-side {
+  float: right;
+}
+.email-form
+  .form-inline
+  .form-group
+  .form-buttons.form-buttons-template.right-sided {
+  display: inline-block;
+}
+section.search-hcp.smart-list-view {
+    position: relative;
+}
+section.search-hcp.smart-list-view .header-btn-left {
+    position: absolute;
 }
