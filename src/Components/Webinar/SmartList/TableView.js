@@ -665,13 +665,14 @@ const location = useLocation();
           // console.log(res);
 
           if (res.data.code == 200) {
-            popup_alert({
-                  visible: "show",
-                  message: "Data updated <br> successfully",
-                  type: "error",
-                  redirect: "/webinar/email/WebinarSmartList",
-                });
-            // toast.success("Data updated successfully");
+            props?.getData()
+            // popup_alert({
+            //       visible: "show",
+            //       message: "Data updated <br> successfully",
+            //       type: "error",
+            //       redirect: "/webinar/email/WebinarSmartList",
+            //     });
+          toast.success("Data updated successfully");
           }
 
           //  loader("hide");
@@ -702,7 +703,7 @@ const location = useLocation();
       });
     }
      else {
-      toast.warning("No update");
+      // toast.warning("No update");
       setSaveOpen(false);
     }
   }else{
@@ -1335,8 +1336,8 @@ const location = useLocation();
                 onClick={() => {
                   navigate("/webinar/email/WebinarSmartList");
                 }}
-              >
-                <svg
+              >Back
+                {/* <svg
                   width="12"
                   height="19"
                   viewBox="0 0 12 19"
@@ -1349,7 +1350,7 @@ const location = useLocation();
                     d="M8.31557 17.82C8.97165 18.476 10.0354 18.476 10.6915 17.82C11.3475 17.1639 11.3475 16.1002 10.6915 15.4441L4.7522 9.50484L10.6927 3.56431C11.3488 2.90823 11.3488 1.84451 10.6927 1.18843C10.0367 0.532347 8.97294 0.532347 8.31686 1.18843L1.2212 8.28409C1.21 8.29469 1.19891 8.30548 1.18794 8.31646C0.531858 8.97254 0.531858 10.0363 1.18794 10.6923L8.31557 17.82Z"
                     fill="white"
                   />
-                </svg>
+                </svg> */}
               </button>
                 </div>
 
@@ -1476,31 +1477,7 @@ const location = useLocation();
           </div>
         </div>:null}
        
-            {props.upload_by_filter=="001"?<div className="row justify-content-end align-items-center"> <div className="col-12 col-md-1">
-                <div className="header-btn-left">
-                <button
-                class="btn btn-primary btn-filled back"
-                onClick={() => {
-                  navigate("/webinar/email/WebinarSmartList");
-                }}
-              >
-                <svg
-                  width="12"
-                  height="19"
-                  viewBox="0 0 12 19"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M8.31557 17.82C8.97165 18.476 10.0354 18.476 10.6915 17.82C11.3475 17.1639 11.3475 16.1002 10.6915 15.4441L4.7522 9.50484L10.6927 3.56431C11.3488 2.90823 11.3488 1.84451 10.6927 1.18843C10.0367 0.532347 8.97294 0.532347 8.31686 1.18843L1.2212 8.28409C1.21 8.29469 1.19891 8.30548 1.18794 8.31646C0.531858 8.97254 0.531858 10.0363 1.18794 10.6923L8.31557 17.82Z"
-                    fill="white"
-                  />
-                </svg>
-              </button>
-                </div>
-              </div></div>:props.upload_by_filter=="1"?null:<div className="row justify-content-end align-items-center">
+            {props.upload_by_filter=="001"?null:props.upload_by_filter=="1"?null:<div className="row justify-content-end align-items-center">
               <div className="col-12 col-md-1">
                 <div className="header-btn-left">
                 <button
@@ -1508,8 +1485,8 @@ const location = useLocation();
                 onClick={() => {
                   navigate("/webinar/email/SmartListCreate");
                 }}
-              >
-                <svg
+              > Back
+                {/* <svg
                   width="12"
                   height="19"
                   viewBox="0 0 12 19"
@@ -1522,7 +1499,7 @@ const location = useLocation();
                     d="M8.31557 17.82C8.97165 18.476 10.0354 18.476 10.6915 17.82C11.3475 17.1639 11.3475 16.1002 10.6915 15.4441L4.7522 9.50484L10.6927 3.56431C11.3488 2.90823 11.3488 1.84451 10.6927 1.18843C10.0367 0.532347 8.97294 0.532347 8.31686 1.18843L1.2212 8.28409C1.21 8.29469 1.19891 8.30548 1.18794 8.31646C0.531858 8.97254 0.531858 10.0363 1.18794 10.6923L8.31557 17.82Z"
                     fill="white"
                   />
-                </svg>
+                </svg> */}
               </button>
                 </div>
               </div>
@@ -1567,8 +1544,29 @@ const location = useLocation();
                 Uploaded HCPs for the smart list
                 <span>| {editList?.length> 0 ? editList?.length : 0}</span>
               </h4>
-            ) : (
-              <h4>Selected HCPs for the smart list</h4>
+            ) : ( <div className="header-btn-left">
+              <button
+              class="btn  btn-filled back"
+              onClick={() => {
+                navigate("/webinar/email/WebinarSmartList");
+              }}
+            > Back
+              {/* <svg
+                width="12"
+                height="19"
+                viewBox="0 0 12 19"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M8.31557 17.82C8.97165 18.476 10.0354 18.476 10.6915 17.82C11.3475 17.1639 11.3475 16.1002 10.6915 15.4441L4.7522 9.50484L10.6927 3.56431C11.3488 2.90823 11.3488 1.84451 10.6927 1.18843C10.0367 0.532347 8.97294 0.532347 8.31686 1.18843L1.2212 8.28409C1.21 8.29469 1.19891 8.30548 1.18794 8.31646C0.531858 8.97254 0.531858 10.0363 1.18794 10.6923L8.31557 17.82Z"
+                  fill="white"
+                />
+              </svg> */}
+            </button>
+              <h4>Selected HCPs for the smart list</h4></div>
             )}
 
             <div className="selected-hcp-table-action">

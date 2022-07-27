@@ -481,7 +481,7 @@ getData()
                   <a href="javascript:void(0)">Create smart list</a>
                 </li>
                 <li className="active active-main">
-                  <a href="javascript:void(0)">Segmentation</a>
+                  <a href="javascript:void(0)">Select & Verify Your HCP</a>
                 </li>
               </ul>
             </div>
@@ -520,7 +520,7 @@ getData()
                     <Accordion.Item className="card" eventKey="0">
                       <div className="card-header">
                         <Accordion.Header className="btn">
-                          Filter your list
+                        Segmentation
                         </Accordion.Header>
                       </div>
                       <Accordion.Body>
@@ -933,7 +933,7 @@ getData()
           </div>
           <div className="apply-filter">
             <h6>
-              Selected Criterias |{props.active==0?filterData.length:null}
+              Selected Criterias
               {/* <span>
                 |
                 {typeof getfilterdata !== "undefined" &&

@@ -48,6 +48,7 @@ const Header = () => {
       .then((resp) => {
         if (resp.data) {
           if (resp.data.code == 200) {
+            localStorage.removeItem("EventIdHeader")
             localStorage.removeItem("Token");
             navigate("/webinar");
           }
@@ -61,14 +62,15 @@ const Header = () => {
         if (resp.ok) {
           setEvent(resp.data.data);
           // console.log(resp.data.code)
-  
           if (resp.data.code == 404) {
-            localStorage.removeItem("EventIdHeader")
-         
+            localStorage.removeItem("EventIdHeader")  
         }else{
           if(eventId==null||eventId==undefined){
+            if(localStorage.getItem("EventIdHeader")){
+              return null
+            }else{
             setEventId(resp.data.data[0].id)
-            localStorage.setItem("EventIdHeader",resp.data.data[0].id)
+            localStorage.setItem("EventIdHeader",resp.data.data[0].id)}
          }
         } 
         }
@@ -77,14 +79,32 @@ const Header = () => {
       console.log("Please Login")
     }
   };
+  const handleGetEventlistChange = () => {
+      ExportApi.GetEventList().then((resp) => {
+        if (resp.ok) {
+          setEvent(resp.data.data);
+          // console.log(resp.data.code
+        }
+      });
+    
+  };
   useEffect(() => {
-    window.addEventListener('EventData',()=> handleGetEventlist())
-    handleGetEventlist()
+    window.addEventListener("EventLength", () =>
+    handleGetEventlistChange());
+    if(localStorage.getItem("EventIdHeader")){
+      return null
+    }else{
+      window.addEventListener('EventData',()=> handleGetEventlist())
+      handleGetEventlist()
+    }
   }, []);
   useEffect(() => {
+    if(localStorage.getItem("EventIdHeader")){
+      return null
+    }else{
     window.addEventListener('EventData',()=> handleGetEventlist())
     handleGetEventlist()
-    handleGetEventlist()
+    handleGetEventlist()}
   }, [token]);
   useEffect(() => {
     if (localStorage.getItem("Token")) {
@@ -147,7 +167,7 @@ const Header = () => {
 
             {token? (
               <Form.Select
-                 value={eventId}
+                 value={localStorage.getItem("EventIdHeader")}
                 onChange={(e) => {
                   localStorage.setItem("EventIdHeader",e.target.value)
                   setEventId(e.target.value);
