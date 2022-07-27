@@ -23,7 +23,7 @@ import ExportApi from "../../../Api/ExportApi";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 const TableView = (props, ref) => {
-console.log("props", props)
+// console.log("props", props)
 const location = useLocation();
   const baseURL = BaseApi.getBaseURL();
   const [inEditMode, setInEditMode] = useState({
@@ -84,7 +84,7 @@ const location = useLocation();
     {
       name: "",
       email: "",
-      country: "",
+      country_id: "",
       profession: "",
       interest: "",
       hospital: "",
@@ -100,7 +100,7 @@ const location = useLocation();
   let file_name = useRef("");
 
   const [hpc, setHpc] = useState([
-    { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
+    { firstname: "", lastname: "", email: "", contact_type: "", country_id: "" },
   ]);
   const [countryall, setCountryall] = useState([]);
 
@@ -193,7 +193,7 @@ const location = useLocation();
       }else if(regex.test(value) === false){
         SpeakernameErr[i][name] = "Invalid email address";
       }
-    } else if(name=="country"){
+    } else if(name=="country_id"){
       Speakername[i][name] = value;
     }
     else if(name=="interest"){
@@ -239,6 +239,16 @@ const location = useLocation();
     handleGetCountry()
   }, []);
 
+    const getData=()=>{
+        ExportApi.GetSmartListSingleRecord(props.smartListId)
+        .then((resp) => {
+          if (resp.data) {
+            console.log("Ghbv",resp.data.data)
+            setEditList(resp.data.data)
+            
+          }
+        })
+    }
   const handleClose = () => {
     setShow(false);
     setCounter([0]);
@@ -354,7 +364,7 @@ const location = useLocation();
       arr.push({
         id: id,
         name: name_edit,
-        country: "",
+        country_id: "",
         hospital: "",
         email: email,
         profession: "",
@@ -801,12 +811,13 @@ const location = useLocation();
         const register = document.getElementById(
           "is_register" + data.id
         ).innerText;
+       
         delete data.country;
         let prev_obj = editList.find((x) => x.id === data.id);
             // console.log("sdsssssfs",country)
         //data.country = country_edit;
         data.name = name_edit;
-        data.country_id = country;
+            data.country_id = country;
         data.content_type = content_type;
          data.is_register=register
       });
@@ -834,13 +845,16 @@ const location = useLocation();
           if (res.data.code == 200) {
             if(  location.pathname ===
               `/webinar/email/smart-list-view/${localStorage.getItem("SmartListIdView")}`){
+                props.getData()
                 popup_alert({
                   visible: "show",
                   message: "Data updated <br> successfully",
                   type: "error",
-                  redirect: "/webinar/email/WebinarSmartList",
+                  // redirect: "/webinar/email/WebinarSmartList",
                 });
               }else{
+                getData()
+                toast.success("Data updated  successfully")
                 props.saveAlert(true)
 
               }
@@ -1312,7 +1326,8 @@ const location = useLocation();
           <span className="loader-view"> </span>
         </div>
         <div className="page-top-nav smart_list_names">
-          {props.active==1?<div className="row justify-content-end align-items-center">
+          {props.active==1?
+          <div className="row justify-content-end align-items-center">
           <div className="table-title">
           <div className="header-btn-left">
                 <button
@@ -1687,8 +1702,10 @@ const location = useLocation();
               <tbody>
                 {typeof getNewReaders !== "undefined" &&
                   getNewReaders.length > 0 &&
-                  getNewReaders?.map((item, index) => (
-                    <tr
+                  getNewReaders?.map((item, index) => {
+                    let dataCountry=country.filter((val)=>val.id==getNewReaders[index].country_id)
+                    
+                  return  <tr
                     className="hcps-added"
                     id={`row-selected` + item.is_register}
                     onClick={(e) =>
@@ -1735,18 +1752,18 @@ const location = useLocation();
                         name="Country"
                         className="form-select-lg mb-3"
                         aria-label=".form-select-lg example"
-                        defaultValue={item.is_register==1?item.id:item.value}
+                        defaultValue={item.country_id}
                       >
                         <option value="">Select Country</option>
                         {country?.map((val, i) => (
                           <React.Fragment key={i}>
-                            <option key={i} value={item.is_register==1?val.id:val.value}>
+                            <option key={i} value={val.id}>
                               {val.country}
                             </option>
                           </React.Fragment>
                         ))}
                     
-                      </select> : <span>{item.country}</span>
+                      </select> : <span>{dataCountry[index]?.country}</span>
                       }
                       </td>
                       <td>
@@ -1801,7 +1818,7 @@ const location = useLocation();
                         />
                       </td>
                     </tr>
-                  ))}
+})}
                 {typeof getNewReaders !== "undefined" &&
                   getNewReaders.length > 0 && (
                     <tr className="seprator-add">
@@ -1839,19 +1856,20 @@ const location = useLocation();
                       {/* <input type="hidden" id={`field_index` + item.profile_user_id} value={index} />
                       <td id={`field_bounced` + item.profile_user_id}>{item.bounce}</td> */}
                       <td>
-                        {console.log(item)}
+                        {/* {console.log(item)} */}
                       {
                         editable ?  <select
                         id={`country` + item.id}
                         name="Country"
                         className="form-select-lg mb-3"
                         aria-label=".form-select-lg example"
-                        defaultValue={item.is_register==1?item.id:item.is_register==1?item.value:props.upload_by_filter=="001"?item.id:item.name}
+                        defaultValue={item.country_id}
                       >
+                        
                         <option value="">Select Country</option>
                         {country?.map((val, i) => (
                           <React.Fragment key={i}>
-                            <option key={i} value={item.is_register==1?val.id:props.upload_by_filter=="001"?val.id:val.value}>
+                            <option key={i} value={val.id}>
                               {val.country}
                             </option>
                           </React.Fragment>
@@ -1859,7 +1877,6 @@ const location = useLocation();
                     
                       </select> : <span>{item.country}</span>
                       }
-                        {  console.log(item)}
                       </td>
                       {/*showLessInfo == false ? (
                         <td id="field_readers">NA</td>
@@ -2068,7 +2085,8 @@ const location = useLocation();
                             if (resp.data) {
                          
                               if (resp.data.code == 200) {
-                                setNewReaders(...getNewReaders,Speakername)
+                                setNewReaders((oldArray) => [...oldArray, ...Speakername]);
+                                // setNewReaders(...getNewReaders,Speakername)
                                 // setEditList(resp.data.data)
                                 // console.log(resp.data);
                                 setIsOpenAddModal(false);
@@ -2177,7 +2195,7 @@ const location = useLocation();
                             <div className="form-group">
                               <label for="">Country</label>
                               <select
-                                name="country"
+                                name="country_id"
                                 className="country-form"
                               onChange={(e) => handleOnChange(e, i)}
                             //  value={val.country}
@@ -2186,7 +2204,7 @@ const location = useLocation();
                                 <option selected>Select Country</option>
                                 {country?.map((val, i) => (
                                   <React.Fragment key={i}>
-                                    <option key={i} value={val.name}>
+                                    <option key={i} value={val.id}>
                                       {val.country}
                                     </option>
                                   </React.Fragment>

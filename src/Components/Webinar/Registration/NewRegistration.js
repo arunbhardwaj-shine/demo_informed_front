@@ -10,6 +10,7 @@ import { BaseUrlImage } from '../../../Api/BaseApi';
 import { format } from 'highcharts';
 const NewRegistration = () => {
     let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+    let path_imagee = process.env.REACT_APP_ASSETS_PATH_WEBINAR;
     const [TemplateIdActive, setTemplateIdActive] = useState(1);
     const [data, setData] = useState();
     const [mode, setMode] = useState();
@@ -31,11 +32,11 @@ const templateClicked = (template, e) => {
     const handleGetRegistrationPageSingleData = () => {
       ExportApi.RegistrationPageSingleData(localStorage.getItem("EditRegistrationPageId")).then((resp) => {
         if (resp.ok&&resp.data.code==200) {
+          setMode(resp.data.data)
           if(resp.data.data?.json_data){
-            setMode(resp.data.data)
             setTemplateIdActive(resp.data.data.format)
             setRender(render+2)
-            // console.log("nisdnsidnsidhsidhsih",resp.data.data)
+             console.log("nisdnsidnsidhsidhsih",resp.data.data)
             setData(JSON.parse(resp.data.data?.json_data))
           }
         }
@@ -56,6 +57,7 @@ const templateClicked = (template, e) => {
     };
     const location = useLocation();
     useEffect(() => {
+      handleGetRegistrationPageSingleData()
     if(localStorage.getItem("EditRegistrationPageId")){
       handleGetRegistrationPageSingleData()
     }else{
@@ -84,13 +86,13 @@ const templateClicked = (template, e) => {
                       />
                     </svg>
                   </button></Link>
-            <h3>Registration Page </h3>
+            <h3>Registration Page &nbsp;</h3> <h4>{ "  (" +mode?.mode?mode?.mode:"Virtual"+")"}</h4> 
                 {/* <h3>Registration Page Form </h3> */}
             </div>
-            
+           
         {console.log("data",data)}
              <a target="_blank" href={`${BaseUrlImage}/SH2022/index${TemplateIdActive}.php?event=${mode?.event?.code}&mode=${
-               mode?.mode
+               mode?.mode?mode?.mode:"virtual"
               }`}><button className="btn btn-primary btn-filled">Link</button></a>
         </div>
   
@@ -101,11 +103,11 @@ const templateClicked = (template, e) => {
         <div className="reg-sidbar">
           {/* {  alert(TemplateIdActive==1?"select-sm img":"img.select_mm")} */}
             <div  className={TemplateIdActive=="1"?"select-sm img":""} onClick={(e) => {templateClicked(1,e);Format(1)}}>
-                <img  className={TemplateIdActive=="1"?"reg-sidbar-img select_mm":"reg-sidbar-img "} value={"virtual"} src={path_image + "content_added1.png"} alt="Format-1"  />
+                <img  className={TemplateIdActive=="1"?"reg-sidbar-img select_mm":"reg-sidbar-img "} value={"virtual"} src={path_imagee + "format1.png"} alt="Format-1"  />
                 <p>{"Format 1"}</p>
             </div>
             <div  className={TemplateIdActive=="2"?"select-sm img":""} onClick={(e) => {templateClicked(2,e);Format(2)}} >
-                <img  className={TemplateIdActive=="2"?"reg-sidbar-img select_mm":"reg-sidbar-img "} value={"onsite"} src={path_image + "content_added1.png"} alt="Format-2" />
+                <img  className={TemplateIdActive=="2"?"reg-sidbar-img select_mm":"reg-sidbar-img "} value={"onsite"} src={path_imagee + "format2.png"} alt="Format-2" />
                 <p>{"Format 2"}</p>
             </div>
         </div>

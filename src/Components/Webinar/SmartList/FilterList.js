@@ -178,20 +178,62 @@ const FilterList = (props) => {
     }
   };
 
-  const removeSelectedCountryFilter = (index) => {
-    // console.log(selectedCountryName);
-
-    let country_selected_name = selectedCountryName;
+  const removeSelectedProfessionFilter = (index,name) => {
+    console.log("1",index);
+    let country_selected_name = selectedProfession;
     const data = country_selected_name.splice(index, 1);
-    // console.log(country_selected_name);
-    setSelectedCountryName(country_selected_name);
+    console.log("2",country_selected_name);
+    setSelectedProfession(country_selected_name);
 
-    let selected_country = selectedCountry;
-    selected_country.splice(index, 1);
-    setSelectedCountry(selected_country);
+    document.getElementById(`custom-checkbox-Profession-${name}`).click()
     setReRender(reRender + 1);
+   const ddd = countryall.find((item) => {
+     return item.country == data;
+   });
+ };
+  const removeSelectedInterestFilter = (index,name) => {
+    console.log("1",index);
+    let country_selected_name = selectedInterest;
+    const data = country_selected_name.splice(index, 1);
+    console.log("2",country_selected_name);
+    setSelectedInterest(country_selected_name);
 
-    // console.log(data);
+    document.getElementById(`custom-checkbox-Interest-${name}`).click()
+    setReRender(reRender + 1);
+   const ddd = countryall.find((item) => {
+     return item.country == data;
+   });
+ };
+  const removeSelectedConsentFilter = (name) => {
+     if(name=="Yes"){
+       setSelectedConsentVal("")
+       document.getElementById(`register_yes`).checked=false
+     }else{
+      setSelectedConsentVal("")
+      document.getElementById(`register_no`).checked=false
+     }
+    setReRender(reRender + 1);
+ };
+  const removeSelectedCountryFilter = (index,name) => {
+     console.log("1",index);
+
+     let country_selected_name = selectedCountryName;
+     const data = country_selected_name.splice(index, 1);
+     console.log("2",country_selected_name);
+     setSelectedCountryName(country_selected_name);
+     
+     let selected_country = selectedCountry;
+     selected_country.splice(index, 1);
+     setSelectedCountry(selected_country);
+     document.getElementById(`custom-checkbox-Country-${name}`).click()
+     setReRender(reRender + 1);
+    //  var elm = document.getElementById(`custom-checkbox-Country-${name}`).checked;
+    //  console.log("elm",elm)
+    //  if (true||false != elm.checked) {
+    //    elm.click();
+    //  }
+    //  document.getElementById().checked=false
+    //  console.log(data);
 
     const ddd = countryall.find((item) => {
       return item.country == data;
@@ -492,12 +534,12 @@ getData()
                                   <ul>
                                     {countryall.map((item, index) => (
                                       <li>
-                                       {/* {console.log("filterData",countryall)} */}
+                                     {/* {console.log("filterData",`custom-checkbox-Country-${item.name}`)}  */}
                                         <div className="select-multiple-option">
                                           <input
                                             ref={inputElement}
                                             type="checkbox"
-                                            id={`custom-checkbox-contact_type-${index}`}
+                                            id={`custom-checkbox-Country-${item.country}`}
                                             name="contact_type[]"
                                             value={item.country_id}
                                             onChange={(e) =>
@@ -514,7 +556,6 @@ getData()
                               </div>
                             </>
                           )}
-
                           {filterList.profession.length > 0 && (
                             <>
                               <div className="col block-smart-name">
@@ -527,7 +568,7 @@ getData()
                                           <div className="select-multiple-option">
                                             <input
                                               type="checkbox"
-                                              id={`custom-checkbox-speciality-${index}`}
+                                              id={`custom-checkbox-Profession-${profession}`}
                                               name="speciality[]"
                                               value={profession}
                                               // checked={
@@ -568,7 +609,7 @@ getData()
                                           <div className="select-multiple-option">
                                             <input
                                               type="checkbox"
-                                              id={`custom-checkbox-speciality-${index}`}
+                                              id={`custom-checkbox-Interest-${interest}`}
                                               name="speciality[]"
                                               value={interest}
                                               // checked={
@@ -746,37 +787,7 @@ getData()
                               </>
                             )}
 
-                          {"consent_type" in filters &&
-                            filters.consent_type.length > 0 && (
-                              <>
-                                <div className="col block-smart-name">
-                                  <h6>Consent Type</h6>
-                                  <div className="smart-name-list">
-                                    <ul>
-                                      {filters.consent_type.map(
-                                        (item, index) => (
-                                          <li>
-                                            <div className="select-multiple-option">
-                                              <input
-                                                type="checkbox"
-                                                id={`custom-checkbox-consent_type-${index}`}
-                                                name="consent_type[]"
-                                                value={index}
-                                                onChange={() =>
-                                                  handleOnConsentChange(index)
-                                                }
-                                              />
-                                              <span className="checkmark"></span>
-                                            </div>
-                                            {item}
-                                          </li>
-                                        )
-                                      )}
-                                    </ul>
-                                  </div>
-                                </div>
-                              </>
-                            )}
+                         
 
                           {"articles" in filters &&
                             Object.keys(filters.articles).length > 0 &&
@@ -856,7 +867,7 @@ getData()
                                 No
                               </li>
                             </ul>
-                            <h6>Bounced</h6>
+                            {/* <h6>Bounced</h6>
                             <ul>
                               <li>
                                 <div className="select-multiple-option">
@@ -892,7 +903,7 @@ getData()
                                 </div>
                                 No
                               </li>
-                            </ul>
+                            </ul> */}
                           </div>
                           {/*Display only in case of create*/}
 
@@ -941,12 +952,12 @@ getData()
                     <div className="filter-div-list">
                       {selectedCountryName.map((item, index) => (
                         <div className="filter-result">
-                          {item}{" "}
-                          {/* <img
-                            onClick={() => removeSelectedCountryFilter(index)}
+                          {item}
+                          <img
+                            onClick={() => removeSelectedCountryFilter(index,item)}
                             src={path_image + "filter-close.svg"}
                             alt="Close-filter"
-                          /> */}
+                          />
                         </div>
                       ))}
                     </div>
@@ -962,11 +973,11 @@ getData()
                       {selectedProfession.map((item, index) => (
                         <div className="filter-result">
                           {item}{" "}
-                          {/* <img
-                            onClick={() => removeSelectedCountryFilter(index)}
+                          <img
+                            onClick={() => removeSelectedProfessionFilter(index,item)}
                             src={path_image + "filter-close.svg"}
                             alt="Close-filter"
-                          /> */}
+                          />
                         </div>
                       ))}
                     </div>
@@ -982,11 +993,11 @@ getData()
                       {selectedInterest.map((item, index) => (
                         <div className="filter-result">
                           {item}{" "}
-                          {/* <img
-                            onClick={() => removeSelectedCountryFilter(index)}
+                          <img
+                            onClick={() => removeSelectedInterestFilter(index,item)}
                             src={path_image + "filter-close.svg"}
                             alt="Close-filter"
-                          /> */}
+                          />
                         </div>
                       ))}
                     </div>
@@ -1162,18 +1173,18 @@ getData()
                     <div className="filter-div-list">
                       <div className="filter-result">
                         {selectedConsentVal}{" "}
-                        {/* <img
+                        <img
                             onClick={() =>
-                              removeindividualfilter("ibu", selectedibu)
+                              removeSelectedConsentFilter(selectedConsentVal)
                             }
                             src={path_image + "filter-close.svg"}
                             alt="Close-filter"
-                          /> */}
+                          />
                       </div>
                     </div>
                   </div>
                 ) : null}
-
+{/* 
                 {selectedBounceVal ? (
                   <div className="filter-div">
                     <div className="filter-div-title">
@@ -1182,17 +1193,17 @@ getData()
                     <div className="filter-div-list">
                       <div className="filter-result">
                         {selectedBounceVal}{" "}
-                        {/* <img
+                        <img
                             onClick={() =>
-                              removeindividualfilter("ibu", selectedibu)
+                              // removeindividualfilter("ibu", selectedibu)
                             }
                             src={path_image + "filter-close.svg"}
                             alt="Close-filter"
-                          /> */}
+                          />
                       </div>
                     </div>
                   </div>
-                ) : null}
+                ) : null} */}
               </div>
               {/* <div className="filter-block-right">
                 {updateflag > 0 ? (
@@ -1267,7 +1278,7 @@ getData()
             </div>
           </div>
           {console.log("filterData",filterData)}
-         <TableView data={filterData} smartListId={props.active==0?props.id:smartListId} active={props.active==0?props.active:null} saveAlert={saveAlert} upload_by_filter="1"  /> 
+         <TableView data={filterData} smartListId={props.active==0?props.id:smartListId} active={props.active==0?props.active:null} saveAlert={saveAlert} upload_by_filter="1" applyFilter={applyFilter} /> 
           {/* {filterData?.length > 0 ? (
             <div className="box mt-2">
               <div class="selected-hcp-list">
