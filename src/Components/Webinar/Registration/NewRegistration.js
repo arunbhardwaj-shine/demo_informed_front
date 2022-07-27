@@ -30,7 +30,6 @@ const templateClicked = (template, e) => {
     };
  
     const handleGetRegistrationPageSingleData = () => {
-      alert()
       ExportApi.RegistrationPageSingleData(localStorage.getItem("EditRegistrationPageId")).then((resp) => {
         if (resp.ok&&resp.data.code==200) {
           setMode(resp.data.data)

@@ -180,35 +180,39 @@ const FilterList = (props) => {
 
   const removeSelectedProfessionFilter = (index,name) => {
     console.log("1",index);
-
-    let country_selected_name = selectedCountryName;
+    let country_selected_name = selectedProfession;
     const data = country_selected_name.splice(index, 1);
     console.log("2",country_selected_name);
-    setSelectedCountryName(country_selected_name);
-    
-    let selected_country = selectedCountry;
-    selected_country.splice(index, 1);
-    setSelectedCountry(selected_country);
-    document.getElementById(`custom-checkbox-Country-${name}`).click()
-    setReRender(reRender + 1);
-   //  var elm = document.getElementById(`custom-checkbox-Country-${name}`).checked;
-   //  console.log("elm",elm)
-   //  if (true||false != elm.checked) {
-   //    elm.click();
-   //  }
-   //  document.getElementById().checked=false
-   //  console.log(data);
+    setSelectedProfession(country_selected_name);
 
+    document.getElementById(`custom-checkbox-Profession-${name}`).click()
+    setReRender(reRender + 1);
    const ddd = countryall.find((item) => {
      return item.country == data;
    });
+ };
+  const removeSelectedInterestFilter = (index,name) => {
+    console.log("1",index);
+    let country_selected_name = selectedInterest;
+    const data = country_selected_name.splice(index, 1);
+    console.log("2",country_selected_name);
+    setSelectedInterest(country_selected_name);
 
-   // console.log(ddd);
-
-   // console.log(inputElement.currents);
-   // document.querySelectorAll("input").forEach((checkbox) => {
-   //   checkbox.checked = false;
-   // });
+    document.getElementById(`custom-checkbox-Interest-${name}`).click()
+    setReRender(reRender + 1);
+   const ddd = countryall.find((item) => {
+     return item.country == data;
+   });
+ };
+  const removeSelectedConsentFilter = (name) => {
+     if(name=="Yes"){
+       setSelectedConsentVal("")
+       document.getElementById(`register_yes`).checked=false
+     }else{
+      setSelectedConsentVal("")
+      document.getElementById(`register_no`).checked=false
+     }
+    setReRender(reRender + 1);
  };
   const removeSelectedCountryFilter = (index,name) => {
      console.log("1",index);
@@ -552,7 +556,6 @@ getData()
                               </div>
                             </>
                           )}
-
                           {filterList.profession.length > 0 && (
                             <>
                               <div className="col block-smart-name">
@@ -565,7 +568,7 @@ getData()
                                           <div className="select-multiple-option">
                                             <input
                                               type="checkbox"
-                                              id={`custom-checkbox-speciality-${index}`}
+                                              id={`custom-checkbox-Profession-${profession}`}
                                               name="speciality[]"
                                               value={profession}
                                               // checked={
@@ -606,7 +609,7 @@ getData()
                                           <div className="select-multiple-option">
                                             <input
                                               type="checkbox"
-                                              id={`custom-checkbox-speciality-${index}`}
+                                              id={`custom-checkbox-Interest-${interest}`}
                                               name="speciality[]"
                                               value={interest}
                                               // checked={
@@ -784,37 +787,7 @@ getData()
                               </>
                             )}
 
-                          {"consent_type" in filters &&
-                            filters.consent_type.length > 0 && (
-                              <>
-                                <div className="col block-smart-name">
-                                  <h6>Consent Type</h6>
-                                  <div className="smart-name-list">
-                                    <ul>
-                                      {filters.consent_type.map(
-                                        (item, index) => (
-                                          <li>
-                                            <div className="select-multiple-option">
-                                              <input
-                                                type="checkbox"
-                                                id={`custom-checkbox-consent_type-${index}`}
-                                                name="consent_type[]"
-                                                value={index}
-                                                onChange={() =>
-                                                  handleOnConsentChange(index)
-                                                }
-                                              />
-                                              <span className="checkmark"></span>
-                                            </div>
-                                            {item}
-                                          </li>
-                                        )
-                                      )}
-                                    </ul>
-                                  </div>
-                                </div>
-                              </>
-                            )}
+                         
 
                           {"articles" in filters &&
                             Object.keys(filters.articles).length > 0 &&
@@ -894,7 +867,7 @@ getData()
                                 No
                               </li>
                             </ul>
-                            <h6>Bounced</h6>
+                            {/* <h6>Bounced</h6>
                             <ul>
                               <li>
                                 <div className="select-multiple-option">
@@ -930,7 +903,7 @@ getData()
                                 </div>
                                 No
                               </li>
-                            </ul>
+                            </ul> */}
                           </div>
                           {/*Display only in case of create*/}
 
@@ -1001,7 +974,7 @@ getData()
                         <div className="filter-result">
                           {item}{" "}
                           <img
-                            onClick={() => removeSelectedProfessionFilter(index)}
+                            onClick={() => removeSelectedProfessionFilter(index,item)}
                             src={path_image + "filter-close.svg"}
                             alt="Close-filter"
                           />
@@ -1021,7 +994,7 @@ getData()
                         <div className="filter-result">
                           {item}{" "}
                           <img
-                            onClick={() => removeSelectedCountryFilter(index)}
+                            onClick={() => removeSelectedInterestFilter(index,item)}
                             src={path_image + "filter-close.svg"}
                             alt="Close-filter"
                           />
@@ -1200,18 +1173,18 @@ getData()
                     <div className="filter-div-list">
                       <div className="filter-result">
                         {selectedConsentVal}{" "}
-                        {/* <img
+                        <img
                             onClick={() =>
-                              removeindividualfilter("ibu", selectedibu)
+                              removeSelectedConsentFilter(selectedConsentVal)
                             }
                             src={path_image + "filter-close.svg"}
                             alt="Close-filter"
-                          /> */}
+                          />
                       </div>
                     </div>
                   </div>
                 ) : null}
-
+{/* 
                 {selectedBounceVal ? (
                   <div className="filter-div">
                     <div className="filter-div-title">
@@ -1221,16 +1194,16 @@ getData()
                       <div className="filter-result">
                         {selectedBounceVal}{" "}
                         <img
-                            // onClick={() =>
-                            //   // removeindividualfilter("ibu", selectedibu)
-                            // }
+                            onClick={() =>
+                              // removeindividualfilter("ibu", selectedibu)
+                            }
                             src={path_image + "filter-close.svg"}
                             alt="Close-filter"
                           />
                       </div>
                     </div>
                   </div>
-                ) : null}
+                ) : null} */}
               </div>
               {/* <div className="filter-block-right">
                 {updateflag > 0 ? (
