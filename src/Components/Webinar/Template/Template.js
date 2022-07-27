@@ -289,13 +289,14 @@ const Template = (props) => {
     setId(idd);
     ExportApi.UserTemplate(idd).then((resp) => {
       if (resp.ok) {
-        // console.log("resp.data.data.json_description",resp.data.data.json_description)
+         console.log("resp.data.data.json_description",resp.data.data.json_description)
         if (resp.data.data.json_description) {
           setTimeout(() => {
+            // onLoad(JSON.parse(resp.data.data.json_description))
+            loader("hide");
             emailEditorRef.current.editor.loadDesign(
-              resp.data.data.json_description
-                ? JSON.parse(resp.data.data.json_description)
-                : null
+              resp.data.data.json_description?JSON.parse(resp.data.data.json_description)
+                : emailEditorRef.current.editor.loadDesign()
             );
             loader("hide");
           }, 1500);
@@ -318,8 +319,9 @@ const Template = (props) => {
   };
 
   const emailEditorRef = useRef(null);
-  const onLoad = () => {
-    // emailEditorRef.current.editor.loadDesign(dpc?dpc:hello);
+  const onLoad = (hello) => {
+    // console.log("dwsjdnjdnsj",hello)
+      // emailEditorRef.current.editor.loadDesign();
   };
   const onReady = () => {
     // await emailEditorRef.current.editor.loadDesign(dpc)

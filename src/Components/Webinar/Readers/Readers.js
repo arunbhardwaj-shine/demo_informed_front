@@ -57,7 +57,7 @@ const Readers = () => {
   const handleGetReadersData = (id) => {
     ExportApi.ReadersData(id).then((resp) => {
       if (resp.ok) {
-         console.log(resp.data.data.paginate.nextPageUrl);
+        //  console.log(resp.data.data.paginate.nextPageUrl);
         if (resp.data.code === 404) {
           setMassage("No data found");
           setData();
@@ -932,7 +932,7 @@ const Readers = () => {
                   <button onClick={showPaginationData}>Load more</button>
                 ) : null} */}
 
-                {lastPage != currentPage ? (
+                {lastPage != currentPage&&data ? (
                   <div onClick={showPaginationData} className="loadmore-button">
                     <span >Load More</span>
                   </div>
