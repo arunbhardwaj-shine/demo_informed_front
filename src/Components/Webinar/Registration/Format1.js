@@ -227,17 +227,7 @@ const Format1 = (props) => {
                   placeholder="Event Time"
                 />
             </div>
-              <div className="form-group">
-                <label>Event Date</label>
-                <Form.Control
-                  name="eventdate"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.eventdate}
-                  type="text"
-                  placeholder="Event Date"
-                />
-            </div>
+        
             {props.mode?.mode=="onsite"?<div className="form-group">
                       <label>Address</label>
                       <Form.Control
@@ -389,7 +379,7 @@ const Format1 = (props) => {
                 />
                 </div>
             </div>
-            {props.mode?.mode=="Onsite"? <div className="form-group">
+            {props.mode?.mode=="onsite"? <div className="form-group">
                 <label>Breakfast </label>
                 <div className="form-check">
                 <Form.Control
@@ -494,18 +484,18 @@ const Format1 = (props) => {
                         <div className="mid-section" style={{color:formik?.values?.textColor}}>
                            <div className="mid-section-center">
                                 <h6>{formik?.values?.Speakername}</h6>
-                                 <h6>{formik?.values?.eventtime}</h6>
                                 <h6>{formik?.values?.eventdate}</h6>
-                                <p>{formik?.values?.Address}</p>
+                                 <h6>{formik?.values?.eventtime}</h6>
+                                <h6>{formik?.values?.Address}</h6>
                             </div>
                         </div>
                         <div className="head-sec-boxes" style={{color:formik?.values?.textColor}}>
                            <div className="boxes-col-center">
                               <p id="uppper_text" className="boldText"> 
                                {formik?.values?.content1}<br />
+                               {formik?.values?.content2}<br/>
                               </p>
                               <p id="uppper_text" className="description_detail"> 
-                               {formik?.values?.content2}<br/>
                                {formik?.values?.content3}<br/>
                                </p>
                             </div>
