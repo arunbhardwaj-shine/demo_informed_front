@@ -239,6 +239,16 @@ const location = useLocation();
     handleGetCountry()
   }, []);
 
+    const getData=()=>{
+        ExportApi.GetSmartListSingleRecord(props.smartListId)
+        .then((resp) => {
+          if (resp.data) {
+            console.log("Ghbv",resp.data.data)
+            setEditList(resp.data.data)
+            
+          }
+        })
+    }
   const handleClose = () => {
     setShow(false);
     setCounter([0]);
@@ -843,6 +853,8 @@ const location = useLocation();
                   // redirect: "/webinar/email/WebinarSmartList",
                 });
               }else{
+                getData()
+                toast.success("Data updated  successfully")
                 props.saveAlert(true)
 
               }
@@ -1314,7 +1326,8 @@ const location = useLocation();
           <span className="loader-view"> </span>
         </div>
         <div className="page-top-nav smart_list_names">
-          {props.active==1?<div className="row justify-content-end align-items-center">
+          {props.active==1?
+          <div className="row justify-content-end align-items-center">
           <div className="table-title">
           <div className="header-btn-left">
                 <button
