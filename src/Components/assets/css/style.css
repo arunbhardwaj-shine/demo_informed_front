@@ -5726,7 +5726,7 @@ table thead.sticky-header:after {
   box-shadow: 0px 4px 11px rgb(0 102 190 / 15%);
 }
 .table_xls {
-  width: 1065px;
+  max-width: 1065px;
   position: relative;
   max-height: 500px;
   overflow-y: auto;
@@ -5850,7 +5850,7 @@ td.removed_td.centered {
   color: #000;
 }
 
-.selected-hcp-list .table tr.green td {
+.selected-hcp-list .table tr.orange td {
   background: #ffbe2c;
   color: #000;
 }
@@ -5872,4 +5872,10 @@ td.removed_td.centered {
   .form-group
   .form-buttons.form-buttons-template.right-sided {
   display: inline-block;
+}
+section.search-hcp.smart-list-view {
+    position: relative;
+}
+section.search-hcp.smart-list-view .header-btn-left {
+    position: absolute;
 }
