@@ -48,7 +48,7 @@ const GetDetails = () => {
             if (
               reader.email_read == "Yes" &&
               reader.article_open == "Yes" &&
-              reader.registered == "Yes"
+              reader.article_register == "Yes"
             ) {
               setData((oldArray) => [...oldArray, reader]);
               setUpdatedData((oldArray) => [...oldArray, reader]);
@@ -59,7 +59,7 @@ const GetDetails = () => {
             if (
               reader.email_read == "Yes" &&
               reader.article_open == "Yes" &&
-              reader.registered == "No"
+              reader.article_register == "No"
             ) {
               setData((oldArray) => [...oldArray, reader]);
               setUpdatedData((oldArray) => [...oldArray, reader]);
@@ -70,7 +70,7 @@ const GetDetails = () => {
             if (
               reader.email_read == "Yes" &&
               reader.article_open == "No" &&
-              reader.registered == "Yes"
+              reader.article_register == "Yes"
             ) {
               setData((oldArray) => [...oldArray, reader]);
               setUpdatedData((oldArray) => [...oldArray, reader]);
@@ -81,7 +81,7 @@ const GetDetails = () => {
             if (
               reader.email_read == "Yes" &&
               reader.article_open == "No" &&
-              reader.registered == "No"
+              reader.article_register == "No"
             ) {
               setData((oldArray) => [...oldArray, reader]);
               setUpdatedData((oldArray) => [...oldArray, reader]);
@@ -92,7 +92,7 @@ const GetDetails = () => {
             if (
               reader.email_read == "No" &&
               reader.article_open == "Yes" &&
-              reader.registered == "Yes"
+              reader.article_register == "Yes"
             ) {
               setData((oldArray) => [...oldArray, reader]);
               setUpdatedData((oldArray) => [...oldArray, reader]);
@@ -103,7 +103,7 @@ const GetDetails = () => {
             if (
               reader.email_read == "No" &&
               reader.article_open == "Yes" &&
-              reader.registered == "No"
+              reader.article_register == "No"
             ) {
               setData((oldArray) => [...oldArray, reader]);
               setUpdatedData((oldArray) => [...oldArray, reader]);
@@ -114,7 +114,7 @@ const GetDetails = () => {
             if (
               reader.email_read == "No" &&
               reader.article_open == "No" &&
-              reader.registered == "Yes"
+              reader.article_register == "Yes"
             ) {
               setData((oldArray) => [...oldArray, reader]);
               setUpdatedData((oldArray) => [...oldArray, reader]);
@@ -125,7 +125,7 @@ const GetDetails = () => {
             if (
               reader.email_read == "No" &&
               reader.article_open == "No" &&
-              reader.registered == "No"
+              reader.article_register == "No"
             ) {
               setData((oldArray) => [...oldArray, reader]);
               setUpdatedData((oldArray) => [...oldArray, reader]);
@@ -150,23 +150,38 @@ const GetDetails = () => {
   const sortName = () => {
     let normalArr = [];
     normalArr = data;
-
+    console.log(sortingName);
     if (sortingName === 0) {
-      normalArr.sort((a, b) =>
-        a.first_name.toLowerCase() > b.first_name.toLowerCase()
-          ? 1
-          : b.first_name.toLowerCase() > a.first_name.toLowerCase()
-          ? -1
-          : 0
-      );
+      normalArr.sort((a, b) => {
+        if (a.first_name === null) {
+          return -1;
+        }
+        if (b.first_name === null) {
+          return 1;
+        }
+        if (a.first_name === b.first_name) {
+           return 0;
+        }
+        return a.first_name.toLowerCase() > b.first_name.toLowerCase()
+        ? 1
+        : b.first_name.toLowerCase() > a.first_name.toLowerCase()
+        ? -1
+        : 0
+      });
     } else {
-      normalArr.sort((a, b) =>
-        a.first_name.toLowerCase() < b.first_name.toLowerCase()
-          ? 1
-          : b.first_name.toLowerCase() < a.first_name.toLowerCase()
-          ? -1
-          : 0
-      );
+      normalArr.sort((a, b) => {
+        if (a.first_name === null) {
+          return 1;
+        }
+        if (b.first_name === null) {
+          return -1;
+        }
+
+        if (a.first_name === b.first_name) {
+           return 0;
+        }
+        return a.first_name.toLowerCase() < b.first_name.toLowerCase() ? 1 : b.first_name.toLowerCase() < a.first_name.toLowerCase() ? -1 : 0
+      });
     }
     setSortingCountEmail(0);
     setData(normalArr);
@@ -211,10 +226,13 @@ const GetDetails = () => {
   };
 
   const submitHandler = (event) => {
+    event.preventDefault();
     let r_table = [];
     updatedData.find(function (item) {
-      if (item.first_name.includes(search) || item.email.includes(search)) {
-        r_table.push(item);
+      if(item.first_name !== null || item.email !== ""){
+        if (item.first_name.includes(search) || item.email.includes(search)) {
+          r_table.push(item);
+        }
       }
     });
     if (r_table.length > 0) {
@@ -227,7 +245,6 @@ const GetDetails = () => {
       // });
       setData([]);
     }
-    event.preventDefault();
     return false;
   };
 
@@ -237,8 +254,11 @@ const GetDetails = () => {
       <div className="col right-sidebar">
         <div className="custom-container">
           <div className="row">
+          {
+            /*
             <div className="page-top-nav smart_list_names">
-              <div className="row justify-content-end align-items-center">
+
+              <div className="row justify-content-start align-items-center">
                 <div className="col-12 col-md-1">
                   <div className="header-btn-left">
                     {true ? (
@@ -258,9 +278,30 @@ const GetDetails = () => {
                     )}
                   </div>
                 </div>
-              </div>
+               </div>
+
+
             </div>
+            */
+          }
             <section className="search-hcp smart-list-view">
+            <div className="header-btn-left">
+              {true ? (
+                <Link
+                  to={{
+                    pathname: "/EmailStatss",
+                  }}
+                >
+                  <button className="btn btn-primary btn-bordered back">
+                    Back
+                  </button>
+                </Link>
+              ) : (
+                <button className="btn btn-primary btn-bordered back">
+                  Back
+                </button>
+              )}
+            </div>
               <div className="result-hcp-table">
                 <div className="table-title">
                   <h4>
@@ -442,16 +483,29 @@ const GetDetails = () => {
                       <tbody className="form-group">
                         {typeof data != "undefined" && data.length > 0 ? (
                           data.map((item, index) => (
-                            <tr>
-                              <td>{item.first_name}</td>
+                            <>
+                              {
+                                  item.email != "" ?
+                                    <tr className= {item.article_already_register == 1 ? "green" : "orange"}>
+                                      <td>{item.first_name}</td>
+                                      <td>{item.last_name}</td>
+                                      <td>{item.email}</td>
+                                      <td>{item.email_read}</td>
+                                      <td>{item.article_open}</td>
+                                      <td>{item.article_register}</td>
+                                    </tr>
+                                   :
+                                  <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td className="removed_td centered">Removed</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                  </tr>
 
-                              <td>{item.last_name}</td>
-
-                              <td>{item.email}</td>
-                              <td>{item.email_read}</td>
-                              <td>{item.article_open}</td>
-                              <td>{item.registered}</td>
-                            </tr>
+                              }
+                            </>
                           ))
                         ) : (
                           <tr className="data-not-found">
