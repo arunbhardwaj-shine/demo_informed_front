@@ -1,0 +1,77 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : 27-Jul-2022, 12:59:36 PM
+    Author     : avtar
+*/
+
+.event-details{
+    
+}
+.event-details-left{
+    float: left;
+    width: 40%;
+    border-radius: 20px;
+}
+.event-details-left-event{
+    float: left;
+    width: 46%;
+    height: 150px;
+    border: 1px solid;
+    border-radius: 20px;
+    margin: 10px;
+    padding: 15px;
+}
+.event-details-left-rehearsal{
+    float: left;
+    width:  46%;
+    height: 150px;
+    border: 1px solid;
+    border-radius: 20px;
+    margin: 10px;
+    padding: 15px;
+}
+.event-details-left-emails{
+    width: 95%;
+    height: 400px;
+    border: 1px solid;
+    border-radius: 20px;
+    margin: 10px;
+    padding: 15px;
+}
+
+.event-details-right{
+    float: left;
+    width: 40%;
+    border-radius: 20px;
+    margin: 10px;
+    padding: 15px;
+}
+.event-details-right-portal{
+    width: 95%;
+    height: 300px;
+    border: 1px solid;
+    border-radius: 20px;
+    margin: 10px;
+    padding: 15px;
+}
+.event-details-right-reg{
+    float: left;
+    width:  46%;
+    border: 1px solid;
+    height: 250px;
+    border-radius: 20px;
+    margin: 10px;
+    padding: 15px;
+}
+.event-details-right-type{
+    float: left;
+    width:  46%;
+    border: 1px solid;
+    height: 250px;
+    border-radius: 20px;
+    margin: 10px;
+    padding: 15px;
+}
