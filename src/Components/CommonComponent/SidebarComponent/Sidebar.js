@@ -27,7 +27,12 @@ const Sidebar = () => {
     document.body.classList.toggle("toggle_sidebar");
   };
 
-  if (location.pathname != "/EmailList" && location.pathname != "/SmartList") {
+  if (
+    location.pathname != "/EmailList" &&
+    location.pathname != "/SmartList" &&
+    location.pathname != "/EmailStatss" &&
+    location.pathname != "/TemplateBuilder"
+  ) {
     document.body.classList.add("toggle_sidebar");
   } else {
     document.body.classList.remove("toggle_sidebar");
