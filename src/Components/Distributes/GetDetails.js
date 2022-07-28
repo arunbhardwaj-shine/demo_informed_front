@@ -486,7 +486,7 @@ const GetDetails = () => {
                             <>
                               {
                                   item.email != "" ?
-                                    <tr className= {item.article_already_register == 1 ? "green" : "orange"}>
+                                    <tr className= {item.article_already_register == 1 ? "green" : item.article_already_register == 0 ? "orange" : ""}>
                                       <td>{item.first_name}</td>
                                       <td>{item.last_name}</td>
                                       <td>{item.email}</td>
