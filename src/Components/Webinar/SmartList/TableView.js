@@ -243,7 +243,7 @@ const location = useLocation();
         ExportApi.GetSmartListSingleRecord(props.smartListId)
         .then((resp) => {
           if (resp.data) {
-            console.log("Ghbv",resp.data.data)
+            // console.log("Ghbv",resp.data.data)
             setEditList(resp.data.data)
             
           }
@@ -798,7 +798,7 @@ const location = useLocation();
    if(id==0){
     // alert(0)
     if (editableData.length > 0) {
-      console.log(editableData)
+      // console.log(editableData)
       editableData.map((data,i) => {
         // console.log("daaaata",data)
         const name_edit = document.getElementById(
@@ -1756,7 +1756,7 @@ const location = useLocation();
                         )
                       }
                       >
-                      {console.log( item)}
+                      {/* {console.log( item)} */}
                       <td contenteditable={editable === 0 ? "false" : "true"} id={`field_name` + item.id}>
                         {inEditMode.status &&
                         inEditMode.rowKey === item.profile_id ? (

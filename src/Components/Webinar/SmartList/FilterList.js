@@ -1184,8 +1184,7 @@ getData()
                     </div>
                   </div>
                 ) : null}
-{/* 
-                {selectedBounceVal ? (
+                  {/* {selectedBounceVal ? (
                   <div className="filter-div">
                     <div className="filter-div-title">
                       <span>Bounce |</span>
@@ -1277,7 +1276,7 @@ getData()
               </div> */}
             </div>
           </div>
-          {console.log("filterData",filterData)}
+          {/* {console.log("filterData",filterData)} */}
          <TableView data={filterData} smartListId={props.active==0?props.id:smartListId} active={props.active==0?props.active:null} saveAlert={saveAlert} upload_by_filter="1" applyFilter={applyFilter} /> 
           {/* {filterData?.length > 0 ? (
             <div className="box mt-2">

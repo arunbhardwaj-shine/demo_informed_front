@@ -290,6 +290,7 @@ const Template = (props) => {
     ExportApi.UserTemplate(idd).then((resp) => {
       if (resp.ok) {
          console.log("resp.data.data.json_description",resp.data.data.json_description)
+         onReady()
         if (resp.data.data.json_description) {
           setTimeout(() => {
             // onLoad(JSON.parse(resp.data.data.json_description))
@@ -299,7 +300,7 @@ const Template = (props) => {
                 : emailEditorRef.current.editor.loadDesign()
             );
             loader("hide");
-          }, 1500);
+          }, 2500);
         } else {
           setTimeout(() => {
             //  alert("hello")

@@ -182,7 +182,7 @@ a { cursor: pointer; text-decoration: none; }
  .smartlist-result-block .smartlist_box_block { width: 25%; padding: 0 15px; margin-bottom: 29px; } 
  .smartlist-result-block { display: flex; flex-wrap: wrap; justify-content: flex-start; margin: 0 -15px; } 
  .smartlist-add { height:100%;border: 2px dashed var(--skyblue); box-sizing: border-box; border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 29px; min-height: 385px; width: 100%; } 
- .smart-list-result { margin-top: 74px; } 
+ .smart-list-result { margin-top: 40px; } 
  .smartlist-view .mail-box-content h5 { color: var(--light-blue); margin:0 0 6px; } 
  .smartlist-view .mailbox-table th { font-family: 'Roboto-Medium'; color: rgba(0, 74, 137, 0.55); padding: 4px 13px 5px 0; } 
  .smartlist-view .mail-box-content { min-height: 190px; padding: 16px 16px 16px 16px; height: inherit; } 
