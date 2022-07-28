@@ -5879,3 +5879,22 @@ section.search-hcp.smart-list-view {
 section.search-hcp.smart-list-view .header-btn-left {
     position: absolute;
 }
+.sidebar-menu ul li a p {
+  margin: 0;
+  flex: 1 1;
+  transition: 0.5s linear opacity;
+  transition-delay: 0.5s;
+  opacity: 1;
+  padding: 0;
+}
+
+.sidebar-menu ul li a,.sidebar-menu ul li p {
+  white-space: nowrap;
+  font-size: 16px;
+  line-height: 19px;
+  color: rgba(0, 102, 190, 0.6);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  padding: 15px 13px;
+}
