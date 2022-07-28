@@ -69,7 +69,7 @@ const SmartListCreate = () => {
 
     const body = {
       name: smartListName,
-      creator:creatorName,
+      creator:creatorName.charAt(0).toUpperCase() + creatorName.slice(1),
     };
 
     const headers = {
@@ -109,7 +109,7 @@ const SmartListCreate = () => {
 
     const body = {
       name: smartListName,
-      creator:creatorName,
+      creator:creatorName.charAt(0).toUpperCase() + creatorName.slice(1),
     };
     const headers = {
       "Content-Type": "application/json",
