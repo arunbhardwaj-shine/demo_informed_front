@@ -1139,14 +1139,26 @@ const TemplateBuilder = (props) => {
                 <h2>Template Builder</h2>
               </div>
               <div className="top-right-action">
-                <div className="header-btn">
-                  <button
-                    className="btn btn-primary btn-bordered send-sample"
-                    onClick={sendSample}
-                  >
-                    Send A Sample
-                  </button>
-                </div>
+                {templateClickedd ? (
+                  <div className="header-btn">
+                    <button
+                      className="btn btn-primary btn-bordered send-sample"
+                      onClick={sendSample}
+                    >
+                      Send A Sample
+                    </button>
+                  </div>
+                ) : (
+                  <div className="header-btn">
+                    <button
+                      disabled
+                      className="btn btn-primary btn-bordered send-sample"
+                      //onClick={sendSample}
+                    >
+                      Send A Sample
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
             <div className="template_builder-option">
