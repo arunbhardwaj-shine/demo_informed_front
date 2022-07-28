@@ -124,7 +124,7 @@ const TemplateBuilder = (props) => {
   const getSmartListData = (flag) => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
-      user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
+      user_id: localStorage.getItem("user_id"),
       search: getsearch,
       filter: "",
     };
@@ -149,7 +149,7 @@ const TemplateBuilder = (props) => {
     loader("show");
     const getalCountry = async () => {
       const body = {
-        user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
+        user_id: localStorage.getItem("user_id"),
         language: "",
         ibu: "",
       };
@@ -188,7 +188,7 @@ const TemplateBuilder = (props) => {
     }
 
     const body = {
-      user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
+      user_id: localStorage.getItem("user_id"),
       language: check_lng_index,
       ibu: ibu,
     };
@@ -252,7 +252,7 @@ const TemplateBuilder = (props) => {
 
   useEffect(() => {
     const body = {
-      user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
+      user_id: localStorage.getItem("user_id"),
     };
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -357,7 +357,7 @@ const TemplateBuilder = (props) => {
     if (typeof getSmartListId != "undefined" && getSmartListId !== 0) {
       loader("show");
       const body = {
-        user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
+        user_id: localStorage.getItem("user_id"),
         list_id: getSmartListId,
       };
       axios
@@ -401,7 +401,7 @@ const TemplateBuilder = (props) => {
 
       loader("show");
       const body = {
-        user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
+        user_id: localStorage.getItem("user_id"),
         pdf_id: "3487",
         subject: emailSubject,
         template_id: templateId,
@@ -503,7 +503,7 @@ const TemplateBuilder = (props) => {
     if (newTemplateName != "") {
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       const body = {
-        user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
+        user_id: localStorage.getItem("user_id"),
         template_id: templateId,
         image_url: "",
         template_name: newTemplateName,
@@ -586,7 +586,7 @@ const TemplateBuilder = (props) => {
       toast.warning("Please enter name or email first");
     } else {
       const body = {
-        user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
+        user_id: localStorage.getItem("user_id"),
         name: name,
         email: email,
       };
@@ -727,7 +727,7 @@ const TemplateBuilder = (props) => {
 
       const body = {
         data: body_data,
-        user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
+        user_id: localStorage.getItem("user_id"),
         smart_list_id: "",
       };
 
@@ -895,7 +895,7 @@ const TemplateBuilder = (props) => {
       }
 
       const body = {
-        user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
+        user_id: localStorage.getItem("user_id"),
         source_code: template,
         template_id: "",
         name: template_name,
@@ -946,7 +946,7 @@ const TemplateBuilder = (props) => {
     setShowLessInfo(true);
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
-      user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
+      user_id: localStorage.getItem("user_id"),
       list_id: smart_list_id,
     };
     loader("show");
@@ -1015,7 +1015,7 @@ const TemplateBuilder = (props) => {
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         if (dataUrl) {
           const body = {
-            user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
+            user_id: localStorage.getItem("user_id"),
             template_id: templateId,
             image_url: dataUrl,
             template_name: "",
@@ -1057,7 +1057,7 @@ const TemplateBuilder = (props) => {
     ) {
       if (editorRef.current) {
         const body = {
-          user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
+          user_id: localStorage.getItem("user_id"),
           source_code: editorRef.current.getContent(),
           template_id: templateId,
           name: templateName,
@@ -1096,7 +1096,7 @@ const TemplateBuilder = (props) => {
       templateId != 0
     ) {
       const body = {
-        user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
+        user_id: localStorage.getItem("user_id"),
         template_id: templateId,
       };
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
