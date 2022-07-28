@@ -354,9 +354,9 @@ const location = useLocation();
       // ignoreClickOnMeElement.addEventListener(
       // "mouseleave",
       // async (event) => {
-      const name_edit = document.getElementById("field_name" + id).innerText;
-      const email = document.getElementById("field_email" + id).innerText;
-      const content_type = document.getElementById("content_type" + id).innerText;
+        const name_edit = document.getElementById("field_name" + id).innerText;
+        const email = document.getElementById("field_email" + id).innerText;
+        const content_type = document.getElementById("content_type" + id).value;
 
       // console.log(name_edit);
 // console.log("email",email)
@@ -672,6 +672,7 @@ const location = useLocation();
             //       type: "error",
             //       redirect: "/webinar/email/WebinarSmartList",
             //     });
+            setNewReaders([])
           toast.success("Data updated successfully");
           }
 
@@ -855,6 +856,7 @@ const location = useLocation();
                 });
               }else{
                 getData()
+                setNewReaders([])
                 toast.success("Data updated  successfully")
                 props.saveAlert(true)
 
@@ -1073,6 +1075,41 @@ const location = useLocation();
     });
 
     setEditList(filtered_list);
+  };
+  const NewdeleteReader = async (id,i) => {
+    const body = {
+      smart_list_id: props.smartListId,
+
+      participant_id: id,
+    };
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `${localStorage.getItem("Token")}`,
+    };
+
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    loader("show");
+    await axios
+      .post(baseURL + `/smart-list/delete-participants`, body, {
+        headers,
+      })
+      .then((res) => {
+        // console.log(res);
+     let datanew=  getNewReaders.splice(1,i)
+     setNewReaders(datanew)
+   popup_alert({
+        visible: "show",
+        // message: "Please keep atleast one reader or delete the smart list",
+        message: "Data deleted successfully.",
+        type: "error",
+        // redirect: "",
+      });
+        loader("hide");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
   };
 
   const onDelete = async ({ participants_id }) => {
@@ -1313,13 +1350,15 @@ const location = useLocation();
     setSortingCount(sortingCount + 1);
   };
 
-  const deleteNewlyAdded = (profile_user_id) => {
-    const data = getNewReaders;
-    const dataUpdated = data.filter((d) => {
-      return d.profile_user_id != profile_user_id;
-    });
-    props.sendDataToParent(dataUpdated, "new");
-    setNewReaders(dataUpdated);
+  const deleteNewlyAdded = (id,index) => {
+      // setIsOpen(true);
+      setProfileUserId(id);
+      NewdeleteReader(id,index)
+    // const dataUpdated = data.filter((d) => {
+    //   return d.profile_user_id != profile_user_id;
+    // });
+    // props.sendDataToParent(dataUpdated, "new");
+    // setNewReaders(dataUpdated);
   };
   return (
     <>
@@ -1702,12 +1741,11 @@ const location = useLocation();
               <tbody>
                 {typeof getNewReaders !== "undefined" &&
                   getNewReaders.length > 0 &&
-                  getNewReaders?.map((item, index) => {
-                    let dataCountry=country.filter((val)=>val.id==getNewReaders[index].country_id)
-                    
+                  getNewReaders?.map((item, index) => {                    
                   return  <tr
                     className="hcps-added"
                     id={`row-selected` + item.is_register}
+                    value={0}
                     onClick={(e) =>
                       editing(
                         //  e.currentTarget,
@@ -1718,8 +1756,8 @@ const location = useLocation();
                         )
                       }
                       >
-                      {console.log("getNewReaders",getNewReaders)}
-                      <td contenteditable={editable === 0 ? "false" : "true"} id={`field_name` + item.profile_user_id}>
+                      {console.log( item)}
+                      <td contenteditable={editable === 0 ? "false" : "true"} id={`field_name` + item.id}>
                         {inEditMode.status &&
                         inEditMode.rowKey === item.profile_id ? (
                           <input
@@ -1731,7 +1769,8 @@ const location = useLocation();
           
                         )}
                       </td>
-                      <td>
+                      <td id={`is_register` + item.id} style={{display:"none"}}>{0}</td>
+                      <td id={`field_email` + item.id}>
                         {" "}
                         {inEditMode.status &&
                         inEditMode.rowKey === item.profile_id ? (
@@ -1763,7 +1802,7 @@ const location = useLocation();
                           </React.Fragment>
                         ))}
                     
-                      </select> : <span>{dataCountry[index]?.country}</span>
+                      </select> : <span>{item.country}</span>
                       }
                       </td>
                       <td>
@@ -1779,7 +1818,7 @@ const location = useLocation();
                             <option value="Staff User">Staff User</option>
                             <option value="Test User">Test User</option>
                           </Form.Select>
-                        </div> : <span>{item.content_type}</span>
+                        </div> : <span>{item.type}</span>
                         }
                       </td>
 
@@ -1814,7 +1853,7 @@ const location = useLocation();
                         <img
                           src={path + "delete.svg"}
                           alt="Delete Row"
-                          onClick={() => deleteNewlyAdded(item.profile_user_id)}
+                          onClick={() => deleteNewlyAdded(item.id,index)}
                         />
                       </td>
                     </tr>
@@ -2085,7 +2124,10 @@ const location = useLocation();
                             if (resp.data) {
                          
                               if (resp.data.code == 200) {
-                                setNewReaders((oldArray) => [...oldArray, ...Speakername]);
+                                resp.data.data.map((item)=>{
+                                  setNewReaders((oldArray) => [...oldArray,item]);
+
+                                })
                                 // setNewReaders(...getNewReaders,Speakername)
                                 // setEditList(resp.data.data)
                                 // console.log(resp.data);
