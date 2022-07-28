@@ -16,6 +16,7 @@ const Sidebar = () => {
   
   useEffect(() => {
     if (localStorage.getItem("Token")) {
+      window.dispatchEvent(new Event("EventData"));
       setToken(true);
     } else {
       document.body.classList.remove("sub_menu_toggle_sidebar");
@@ -37,12 +38,14 @@ const Sidebar = () => {
     }
   }, [localStorage.getItem("Token"), token]);
   useEffect(() => {
+    window.dispatchEvent(new Event("EventData"));
     if (location.pathname === "/webinar/portal/Registrations"||location.pathname === "/webinar/portal/NewRegistration") {
       localStorage.removeItem("registrationPageId")
     }
   }, [localStorage.getItem("Token"), token]);
 
   useEffect(() => {
+    window.dispatchEvent(new Event("EventData"));
     if (
       location.pathname === "/webinar/portal/registrationDetails" ||
       location.pathname === "/webinar/portal/registrationDetailslist"||
@@ -60,6 +63,7 @@ const Sidebar = () => {
     }
   }, []);
   useEffect(() => {
+    window.dispatchEvent(new Event("EventData"));
     if (
       location.pathname === "/webinar/portal/registrationDetails" ||
       location.pathname === "/webinar/portal/registrationDetailslist"||
@@ -79,7 +83,7 @@ const Sidebar = () => {
   }, []);
 
   useEffect(() => {
-    console.log("bnbn",location.pathname==`/webinar/email/editSmartList/${localStorage.getItem("SmartListIdView")}/${localStorage.getItem("SmartListIdViewName")}/${localStorage.getItem("SmartListIdViewN")}`)
+    window.dispatchEvent(new Event("EventData"));
     if (
       location.pathname ==
      `/webinar/email/editSmartList/${localStorage.getItem("SmartListIdView")}/${localStorage.getItem("SmartListIdViewName")}/${localStorage.getItem("SmartListIdViewN")}`||
@@ -110,6 +114,7 @@ const Sidebar = () => {
     }
   }, []);
   const showHideHome = (index) => {
+    window.dispatchEvent(new Event("EventData"));
     const bodyHasClass = document.body.classList.contains(
       "sub_menu_toggle_sidebar"
     );
@@ -139,6 +144,7 @@ const Sidebar = () => {
       setEmailStatus(false);
       setHomeStatus(false);
     }
+    window.dispatchEvent(new Event("EventData"));
   };
 
   const handleMouseOverHome = () => {
@@ -200,12 +206,12 @@ const Sidebar = () => {
                 <ul>
                   <li
                     className={
-                      location.pathname === "/webinar" ? "active" : "side_li"
+                      location.pathname === "/webinar/dashboard" ? "active" : "side_li"
                     }
                     onClick={showHideHome}
                   >
                     <Link
-                      to="/webinar"
+                      to="/webinar/dashboard"
                       onMouseOver={handleMouseOverHome}
                       onMouseOut={handleMouseOutHome}
                     >

@@ -27,6 +27,7 @@ const CreateEmails = (props) => {
   const [message, setMessage] = useState(false);
   const [render, setRender] = useState(0);
   const [modalShow1, setModalShow1] = useState(false);
+  const [notCreateColletion, setnototCreateColletion] = useState(true);
   let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   // ----------------added for new design implementations
@@ -224,6 +225,7 @@ const CreateEmails = (props) => {
             tagClickedFirst
           ).then((resp) => {
             if (resp.ok) {
+              setnototCreateColletion(false)
               toast.success(resp.data.message)
               //  console.log( resp.data.data.collection_id)
               localStorage.setItem(
@@ -482,7 +484,8 @@ const CreateEmails = (props) => {
                   Save As Draft
                 </button>
                 {nextPage ? (
-                  <button
+<>
+                  {notCreateColletion?   <button
                     type="button"
                     className="btn btn-primary btn-filled next"
                     onClick={() => {
@@ -503,7 +506,29 @@ const CreateEmails = (props) => {
                         fill="white"
                       ></path>
                     </svg>
-                  </button>
+                  </button>:   <button
+                  type="button"
+                  className="btn btn-primary btn-filled next"
+                  onClick={() => {
+                    navigate("/webinar/email/smart-list");
+                  }}
+                >
+                  <svg
+                    width="12"
+                    height="19"
+                    viewBox="0 0 12 19"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M3.69224 17.82C3.03616 18.476 1.97244 18.476 1.31636 17.82C0.660279 17.1639 0.660279 16.1002 1.31636 15.4441L7.25561 9.50484L1.31508 3.56431C0.658998 2.90823 0.658998 1.84451 1.31508 1.18843C1.97116 0.532347 3.03488 0.532347 3.69096 1.18843L10.7866 8.28409C10.7978 8.29469 10.8089 8.30548 10.8199 8.31646C11.476 8.97254 11.476 10.0363 10.8199 10.6923L3.69224 17.82Z"
+                      fill="white"
+                    ></path>
+                  </svg>
+                </button>}
+                </>
                 ) : null}
               </div>
             </div>

@@ -44,8 +44,7 @@ const Header = () => {
   }, [localStorage.getItem("Token"), token]);
 
   const Logout = () => {
-    ExportApi.UserLogout()
-      .then((resp) => {
+    ExportApi.UserLogout().then((resp) => {
         if (resp.data) {
           if (resp.data.code == 200) {
             localStorage.removeItem("EventIdHeader")
@@ -54,8 +53,8 @@ const Header = () => {
           }
         }
       })
-      .catch((err) => console.log(err));
-  };
+       .catch((err) => console.log(err))
+  }
   const handleGetEventlist = () => {
     if(localStorage.getItem("Token")){
       ExportApi.GetEventList().then((resp) => {
@@ -67,10 +66,12 @@ const Header = () => {
         }else{
           if(eventId==null||eventId==undefined){
             if(localStorage.getItem("EventIdHeader")){
-              return null
+              console.log("EventIdHeader",localStorage.getItem("EventIdHeader"))
+              // return null
+              setEventId(resp.data.data[0].id)
             }else{
-            setEventId(resp.data.data[0].id)
-            localStorage.setItem("EventIdHeader",resp.data.data[0].id)}
+              localStorage.setItem("EventIdHeader",resp.data.data[0].id)}
+              setEventId(resp.data.data[0].id)
          }
         } 
         }
@@ -92,7 +93,8 @@ const Header = () => {
     window.addEventListener("EventLength", () =>
     handleGetEventlistChange());
     if(localStorage.getItem("EventIdHeader")){
-      return null
+      // return null
+      console.log("first")
     }else{
       window.addEventListener('EventData',()=> handleGetEventlist())
       handleGetEventlist()
@@ -100,7 +102,8 @@ const Header = () => {
   }, []);
   useEffect(() => {
     if(localStorage.getItem("EventIdHeader")){
-      return null
+      // return null
+      console.log("first")
     }else{
     window.addEventListener('EventData',()=> handleGetEventlist())
     handleGetEventlist()

@@ -4,7 +4,7 @@ const WebinarDashboard = () => {
   return (
     <div className="col right-sidebar col">
       <div className="coming-soon">
-        <h2>Dashboard is coming soon</h2>
+        <h2>Home is coming soon</h2>
       </div>
     </div>
   );

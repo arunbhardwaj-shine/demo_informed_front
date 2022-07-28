@@ -36,6 +36,7 @@ const Dashboard = () => {
     }
     
     useEffect(() => {
+        window.dispatchEvent(new Event("EventLength"));
         handleGetEvents(localStorage.getItem("EventIdHeader"));
         handleGetRegistrationPagesList(localStorage.getItem("EventIdHeader"));
         handleGetTemplateList(localStorage.getItem("EventIdHeader"));
