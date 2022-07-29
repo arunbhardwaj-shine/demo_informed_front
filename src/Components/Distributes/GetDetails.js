@@ -354,7 +354,7 @@ const GetDetails = () => {
                       </li>
                     </ul>
                   </div>
-                  
+
                   <div className="color_opt d-flex">
                     <div className="col-md-6">
                       <div class="green-box">
@@ -370,7 +370,7 @@ const GetDetails = () => {
                     </div>
                   </div>
 
-                  <div className="table_xls search_view">
+                  <div className="table_xls search_view sync">
                     <div className="smart-list-btns">
                       <div className="top-left-action">
                         <button className="btn btn-primary btn-bordered back" onClick={(e) => syncData(e)}>Sync
