@@ -37,7 +37,7 @@ const EmailStatss = (props) => {
   const [perPageData, setPerPageData] = useState();
 
   useEffect(() => {
-    getCampaignList(1, "");
+    getCampaignList("1", "");
   }, []);
 
   const getCampaignList = async (page, search) => {
@@ -54,19 +54,25 @@ const EmailStatss = (props) => {
         if (res.data.status_code == 200) {
           console.log(res);
           //setData(res.data.response.data);
+          if (search !== "") {
+            //setData([]);
+            setData(res.data.response.data);
+            setLoadMore(0);
+            setSearch("");
+          } else {
+            setCampaignDataLength(res.data.response.data.length);
+            setData((oldArray) => [...oldArray, ...res.data.response.data]);
+            //setUpdatedData(res.data.response.data);
+            setUpdatedData((oldArray) => [
+              ...oldArray,
+              ...res.data.response.data,
+            ]);
 
-          setCampaignDataLength(res.data.response.data.length);
-          setData((oldArray) => [...oldArray, ...res.data.response.data]);
-          //setUpdatedData(res.data.response.data);
-          setUpdatedData((oldArray) => [
-            ...oldArray,
-            ...res.data.response.data,
-          ]);
+            setLoadMore(1);
 
-          setLoadMore(1);
-
-          setLastPage(res.data.response.pegination.lastPage);
-          setPerPageData(res.data.response.pegination.perPage);
+            setLastPage(res.data.response.pegination.lastPage);
+            setPerPageData(res.data.response.pegination.perPage);
+          }
         } else {
           toast.warning(res.data.message);
         }
@@ -199,8 +205,14 @@ const EmailStatss = (props) => {
     setSearch(e.target.value.trim());
 
     if (e.target.value === "") {
-      setData(updatedData);
+      // setData(updatedData);
+      setLoadMore(1);
+      setPage(1);
+      setSearch("");
       setSearchStarted(0);
+      setData([]);
+      getCampaignList(1, "");
+      // setSearchStarted(0);
     }
   };
 
@@ -231,15 +243,15 @@ const EmailStatss = (props) => {
     // }
     // event.preventDefault();
     // return false;
-
-    getCampaignList(page, search);
+    getCampaignList("", search);
+    // setPage(1);
   };
 
   const load_more = () => {
     //  getContentData(0, 2);
     setloadmore(1);
 
-    getCampaignList(page + 1);
+    getCampaignList(page + 1, search);
     setPage(page + 1);
   };
 

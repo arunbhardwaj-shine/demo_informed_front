@@ -41,8 +41,10 @@ const GetDetails = () => {
       .post(`distributes/get_campaign_readers_details`, body)
       .then((res) => {
         if (res.data.status_code == 200) {
-          console.log(res);
-
+          if(flag == 1){
+              setData([]);
+              setUpdatedData([]);
+          }
           const readers = res.data.response.data.readers;
 
           const filteredData1 = readers.filter((reader) => {
@@ -352,10 +354,28 @@ const GetDetails = () => {
                       </li>
                     </ul>
                   </div>
+                  
+                  <div className="color_opt d-flex">
+                    <div className="col-md-6">
+                      <div class="green-box">
+                          <div class="box"></div>
+                          <p>Reader already registered in system from a previous campaign. </p>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div class="orange-box">
+                        <div class="box"></div>
+                        <p>Email already sent to this user from a previous campaign.</p>
+                      </div>
+                    </div>
+                  </div>
+
                   <div className="table_xls search_view">
                     <div className="smart-list-btns">
                       <div className="top-left-action">
-                        <button className="btn btn-primary btn-bordered back" onClick={(e) => syncData(e)}>Sync</button>
+                        <button className="btn btn-primary btn-bordered back" onClick={(e) => syncData(e)}>Sync
+                        <svg data-name="Layer 1" id="Layer_1" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path fill="#0066be" d="M64,256H34A222,222,0,0,1,430,118.15V85h30V190H355V160h67.27A192.21,192.21,0,0,0,256,64C150.13,64,64,150.13,64,256Zm384,0c0,105.87-86.13,192-192,192A192.21,192.21,0,0,1,89.73,352H157V322H52V427H82V393.85A222,222,0,0,0,478,256Z"/></svg>
+                        </button>
                       </div>
                       <div className="top-right-action">
                         <div className="search-bar">
@@ -495,7 +515,7 @@ const GetDetails = () => {
                             <>
                               {
                                   item.email != "" ?
-                                    <tr className= {item.article_already_register == 1 ? "green" : item.article_already_register == 0 ? "orange" : ""}>
+                                    <tr className= {item.article_already_register == 1 ? "green" : item.already_email_sent == 1 ? "orange" : ""}>
                                       <td>{item.first_name}</td>
                                       <td>{item.last_name}</td>
                                       <td>{item.email}</td>
