@@ -37,14 +37,15 @@ const EmailStatss = (props) => {
   const [perPageData, setPerPageData] = useState();
 
   useEffect(() => {
-    getCampaignList();
+    getCampaignList(1, "");
   }, []);
 
-  const getCampaignList = async (page) => {
+  const getCampaignList = async (page, search) => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
       user_id: localStorage.getItem("user_id"),
       page: page,
+      search: search,
     };
     loader("show");
     await axios
@@ -195,7 +196,7 @@ const EmailStatss = (props) => {
   };
 
   const searchChange = (e) => {
-    setSearch(e.target.value);
+    setSearch(e.target.value.trim());
 
     if (e.target.value === "") {
       setData(updatedData);
@@ -204,31 +205,34 @@ const EmailStatss = (props) => {
   };
 
   const submitHandler = (event) => {
-    let r_table = [];
-    setSearchStarted(1);
-    updatedData.find(function (item) {
-      if (
-        item.pdf_title.includes(search) ||
-        item.subject.includes(search) ||
-        item.list.includes(search)
-      ) {
-        r_table.push(item);
-      }
-    });
-    if (r_table.length > 0) {
-      setData(r_table);
-      setSearchData(r_table);
-    } else {
-      // popup_alert({
-      //   visible: "show",
-      //   message: "Data not found",
-      //   type: "error",
-      // });
-
-      setData([]);
-    }
     event.preventDefault();
-    return false;
+    // let r_table = [];
+    // setSearchStarted(1);
+    // updatedData.find(function (item) {
+    //   if (
+    //     item.pdf_title.includes(search) ||
+    //     item.subject.includes(search) ||
+    //     item.list.includes(search)
+    //   ) {
+    //     r_table.push(item);
+    //   }
+    // });
+    // if (r_table.length > 0) {
+    //   setData(r_table);
+    //   setSearchData(r_table);
+    // } else {
+    //   // popup_alert({
+    //   //   visible: "show",
+    //   //   message: "Data not found",
+    //   //   type: "error",
+    //   // });
+
+    //   setData([]);
+    // }
+    // event.preventDefault();
+    // return false;
+
+    getCampaignList(page, search);
   };
 
   const load_more = () => {
