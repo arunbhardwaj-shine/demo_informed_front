@@ -210,7 +210,7 @@ const EmailStatss = (props) => {
       setLoadMore(1);
       setPage(1);
       setSearch("");
-      setSearchStarted(1);
+      //setSearchStarted();
       setData([]);
       getCampaignList(1, "");
       // setSearchStarted(0);
