@@ -45,6 +45,7 @@ const EmailStatss = (props) => {
     const body = {
       user_id: localStorage.getItem("user_id"),
       page: page,
+      search:'',
     };
     loader("show");
     await axios
