@@ -34,7 +34,7 @@ const GetDetails = () => {
     const body = {
       user_id: localStorage.getItem("user_id"),
       distribute_id: distribute_id,
-      flag: flag,
+      sync_flag: flag,
     };
     loader("show");
     await axios
