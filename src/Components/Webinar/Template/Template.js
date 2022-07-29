@@ -423,7 +423,12 @@ const Template = (props) => {
                   <div
                     key={i}
                     className="item"
-                    onClick={(e) => templateClicked(val, e)}
+                    onClick={(e) =>{ templateClicked(val, e);
+                      localStorage.setItem("TEMPLATEID", val.Id);
+                      handleGetTemplate(val.id);
+                      localStorage.setItem("template", val.name);
+                      setTName(val.name);
+                      setFormShow(true);}}
                   >
                     <div  className={
                           typeof TemplateIdActive !== "undefined" &&
@@ -440,13 +445,13 @@ const Template = (props) => {
                       <img
                         src={path_image + "content_added1.png"}
                         alt=""
-                        onClick={(e) => {
-                          localStorage.setItem("TEMPLATEID", val.Id);
-                          handleGetTemplate(val.id);
-                          localStorage.setItem("template", val.name);
-                          setTName(val.name);
-                          setFormShow(true);
-                        }}
+                        // onClick={(e) => {
+                        //   localStorage.setItem("TEMPLATEID", val.Id);
+                        //   handleGetTemplate(val.id);
+                        //   localStorage.setItem("template", val.name);
+                        //   setTName(val.name);
+                        //   setFormShow(true);
+                        // }}
                        
                       />
                     </div>

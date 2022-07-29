@@ -1585,7 +1585,7 @@ const location = useLocation();
               </h4>
             ) : ( <div className="header-btn-left">
               {location.pathname ==
-     `/webinar/email/editSmartList/${localStorage.getItem("SmartListIdView")}/${localStorage.getItem("SmartListIdViewName")}/${localStorage.getItem("SmartListIdViewN")}`? null:  <button
+     `/webinar/email/editSmartList/${localStorage.getItem("SmartListIdView")}/${localStorage.getItem("SmartListIdViewName")}/${localStorage.getItem("SmartListIdViewN")}`||  location.pathname === "/webinar/email/SmartListCreate/FilterList"? null:  <button
      class="btn  btn-filled back"
      onClick={() => {
        navigate("/webinar/email/WebinarSmartList");
