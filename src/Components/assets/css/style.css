@@ -5770,11 +5770,12 @@ table thead.sticky-header:after {
 }
 
 .selected-hcp-list_detail li {
-  width: 50%;
-  flex: 0 0 50%;
-  list-style: none;
-  margin: 2px 0;
-  font-size: 14px;
+    width: 50%;
+    flex: 0 0 50%;
+    list-style: none;
+    margin: 2px 0;
+    font-size: 14px;
+    display: flex;
 }
 
 .selected-hcp-list_detail li label {

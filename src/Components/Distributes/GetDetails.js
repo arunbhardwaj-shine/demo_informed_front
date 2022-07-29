@@ -26,14 +26,15 @@ const GetDetails = () => {
 
   useEffect(() => {
     setData([]);
-    getCampaignReaderDetails();
+    getCampaignReaderDetails(0);
   }, []);
 
-  const getCampaignReaderDetails = async () => {
+  const getCampaignReaderDetails = async (flag = 0) => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
       user_id: localStorage.getItem("user_id"),
       distribute_id: distribute_id,
+      flag: flag,
     };
     loader("show");
     await axios
@@ -248,6 +249,11 @@ const GetDetails = () => {
     return false;
   };
 
+  const syncData = (e) => {
+    e.preventDefault();
+    getCampaignReaderDetails(1);
+  }
+
   return (
     <>
       {" "}
@@ -348,6 +354,9 @@ const GetDetails = () => {
                   </div>
                   <div className="table_xls search_view">
                     <div className="smart-list-btns">
+                      <div className="top-left-action">
+                        <button className="btn btn-primary btn-bordered back" onClick={(e) => syncData(e)}>Sync</button>
+                      </div>
                       <div className="top-right-action">
                         <div className="search-bar">
                           <form
