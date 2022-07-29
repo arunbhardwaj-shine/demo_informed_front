@@ -13,7 +13,18 @@ const Sidebar = () => {
   const [isHoveringReaders, setIsHoveringReaders] = useState(false);
   const [SmaertEdit, setSmaertEdit] = useState(``);
   const location = useLocation();
-  
+  console.log("location.pathname" ,)
+  useEffect(() => {
+ if(location.pathname==='/webinar/dashboard'||location.pathname==='/webinar/events'||location.pathname==='/webinar/readers'){
+  // alert()
+  setEmailStatus(false);
+  setHomeStatus(false);
+  document.body.classList.remove("sub_menu_toggle_sidebar");
+ }else{
+  console.log("pathname is not mach")
+ }
+
+  }, [location.pathname])
   useEffect(() => {
     if (localStorage.getItem("Token")) {
       window.dispatchEvent(new Event("EventData"));
@@ -93,6 +104,8 @@ const Sidebar = () => {
       location.pathname === "/webinar/email/SmartListCreate/FilterList" ||
       location.pathname === "/webinar/email/SmartListCreate/ExcelUpload" ||
       location.pathname === "/webinar/email/template" ||
+      location.pathname === "/webinar/email/SelectHCP"||
+      location.pathname === "/webinar/email/SelectVerifyHCP"||
       location.pathname === "/webinar/email/emails" ||
       location.pathname === "/webinar/email/create" ||
       location.pathname === "/webinar/email/smart-list" ||
@@ -737,6 +750,8 @@ const Sidebar = () => {
                           "/webinar/email/WebinarSmartList" ||
                         location.pathname ===
                           "/webinar/email/ViewSmartListWebinar" ||
+                          location.pathname === "/webinar/email/SelectHCP"||
+                           location.pathname === "/webinar/email/SelectVerifyHCP"||
                         location.pathname ===
                           "/webinar/email/SmartListCreate" ||
                         location.pathname ===

@@ -217,6 +217,17 @@ const Format1 = (props) => {
                 />
             </div>
             <div className="form-group">
+                <label>Event Date</label>
+                <Form.Control
+                  name="eventdate"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.eventdate}
+                  type="text"
+                  placeholder="Event Date"
+                />
+            </div>
+            <div className="form-group">
                 <label>Event Time</label>
                 <Form.Control
                   name="eventtime"
@@ -227,6 +238,7 @@ const Format1 = (props) => {
                   placeholder="Event Time"
                 />
             </div>
+       
         
             {props.mode?.mode=="onsite"?<div className="form-group">
                       <label>Address</label>

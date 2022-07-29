@@ -5292,3 +5292,82 @@ color:#848484;
 .form-group-content .tooltip span {
   font-family: "Roboto-Medium";
 }
+.send-option-list ul {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}.send-option-list ul li .send-option-img.active, .create-smart-step-box ul li .send-option-img.active, .send-option-list ul li .send-option-img:hover, .create-smart-step-box ul li .send-option-img:hover {
+  border: none;
+  box-shadow: 0px 0px 15px rgb(0 102 190 / 50%);
+}
+.send-option-list ul li .send-option-img {
+  background: var(--white);
+  box-shadow: 0px 1px 8px rgb(0 102 190 / 20%);
+  border-radius: 15px;
+  width: 224px;
+  height: 224px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.send-option-img {
+  cursor: pointer;
+}
+.send-option-list ul li {
+  margin: 0 42px;
+  padding: 0;
+  list-style: none;
+}
+.container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+  width: 100%;
+  padding-right: var(--bs-gutter-x,.75rem);
+  padding-left: var(--bs-gutter-x,.75rem);
+  margin-right: auto;
+  margin-left: auto;
+}
+.send-mail-options {
+  height: calc(100vh - 200px);
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+.search-hcp-table tr .add-new-hcp {
+  top: 50%;
+  right: -100px;
+  transform: translateY(0%);
+  padding-right: 0;
+  position: relative;
+}
+
+.search-hcp-table .add-new-hcp, .result-hcp-table .add-new-hcp {
+  position: absolute;
+  right: 17px;
+  top: 57px;
+  background: transparent;
+}
+.not-found h4 {
+  margin: 0;
+  color: var(--skyblue);
+  font-family: "Roboto-Light";
+}
+.search-hcp .search-hcp-table-inside.not-found {
+  text-align: center;
+  min-height: inherit;
+  align-items: center;
+  justify-content: center;
+}
+.search-hcp .search-hcp-table-inside.not-found {
+  text-align: center;
+  min-height: inherit;
+}
+.search-hcp-table-inside.not-found {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
