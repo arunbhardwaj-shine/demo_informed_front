@@ -70,6 +70,7 @@ const EmailStatss = (props) => {
 
             setLoadMore(1);
 
+            setTotalCount(res.data.response.pegination.totalCount);
             setLastPage(res.data.response.pegination.lastPage);
             setPerPageData(res.data.response.pegination.perPage);
           }
@@ -209,7 +210,7 @@ const EmailStatss = (props) => {
       setLoadMore(1);
       setPage(1);
       setSearch("");
-      setSearchStarted(0);
+      setSearchStarted(1);
       setData([]);
       getCampaignList(1, "");
       // setSearchStarted(0);
@@ -249,7 +250,7 @@ const EmailStatss = (props) => {
 
   const load_more = () => {
     //  getContentData(0, 2);
-    setloadmore(1);
+    setLoadMore(1);
 
     getCampaignList(page + 1, search);
     setPage(page + 1);
@@ -268,10 +269,7 @@ const EmailStatss = (props) => {
           <div class="result-hcp-table">
             <div class="table-title">
               <h4>
-                Total Result{" "}
-                <span>
-                  | {campaignData.length > 0 ? campaignData.length : 0}
-                </span>
+                Total Result <span>| {totalCount}</span>
               </h4>
             </div>
             <div class="selected-hcp-list search_view" id="analytics-hcp-table">
@@ -476,21 +474,20 @@ const EmailStatss = (props) => {
                     )}
                   </tbody>
                 </table>
-
-                {typeof campaignData !== "undefined" &&
-                  page !== lastPage &&
-                  searchStarted == 0 &&
-                  loadmore && (
-                    <div className="load_more">
-                      <button
-                        className="btn btn-primary btn-filled"
-                        onClick={load_more}
-                      >
-                        Load More
-                      </button>
-                    </div>
-                  )}
               </div>
+              {typeof campaignData !== "undefined" &&
+              page !== lastPage &&
+              searchStarted == 0 &&
+              loadmore ? (
+                <div className="load_more">
+                  <button
+                    className="btn btn-primary btn-filled"
+                    onClick={load_more}
+                  >
+                    Load More
+                  </button>
+                </div>
+              ) : null}
             </div>
           </div>
         </section>
