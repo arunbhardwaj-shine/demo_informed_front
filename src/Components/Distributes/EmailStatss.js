@@ -35,6 +35,8 @@ const EmailStatss = (props) => {
   const [sortingCountDate, setSortingCountDate] = useState(0);
   const [loadmore, setLoadMore] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const [showLoader, setShowLoader] = useState(0);
+  const [sortTitleStarted, setSortTitleStarted] = useState(0);
 
   const [perPageData, setPerPageData] = useState();
 
@@ -55,14 +57,15 @@ const EmailStatss = (props) => {
       .then((res) => {
         if (res.data.status_code == 200) {
           console.log(res);
+          setShowLoader(1);
 
           setData((oldArray) => [...oldArray, ...res.data.response.data]);
           setCurrentPage(res.data.response.pegination.currentPage);
-
           setTotalCount(res.data.response.pegination.totalCount);
           setLastPage(res.data.response.pegination.lastPage);
           setPerPageData(res.data.response.pegination.perPage);
         } else {
+          setShowLoader(0);
           toast.warning(res.data.message);
         }
         loader("hide");
@@ -141,6 +144,7 @@ const EmailStatss = (props) => {
   };
 
   const sortTitle = () => {
+    // setSortTitleStarted(1);
     let normalArr = [];
     normalArr = campaignData;
     if (sorting === 0) {
@@ -208,6 +212,10 @@ const EmailStatss = (props) => {
   };
 
   const load_more = () => {
+    setSorting(0);
+    setSortDate(0);
+    setSortingCountDate(0);
+    setSortingCount(0);
     getCampaignList(currentPage + 1, search);
   };
 
@@ -380,8 +388,8 @@ const EmailStatss = (props) => {
                           <tr>
                             <td> {item.c_id}</td>
                             <td> {item.sent_data}</td>
-                            <td> {item.subject}</td>
-                            <td> {item.pdf_title}</td>
+                            <td className="smartlistth"> {item.subject}</td>
+                            <td className="smartlistth"> {item.pdf_title}</td>
                             <td className="smartlistth"> {item.list}</td>
                             <td> {item.total_sent_count}</td>
                             <td> {item.total_read_count}</td>
@@ -433,7 +441,8 @@ const EmailStatss = (props) => {
                 </table>
               </div>
               {typeof campaignData !== "undefined" &&
-              currentPage !== lastPage ? (
+              currentPage !== lastPage &&
+              showLoader ? (
                 <div className="load_more">
                   <button
                     className="btn btn-primary btn-filled"

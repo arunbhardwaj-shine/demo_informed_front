@@ -46,94 +46,95 @@ const GetDetails = () => {
               setUpdatedData([]);
           }
           const readers = res.data.response.data.readers;
-
-          const filteredData1 = readers.filter((reader) => {
-            if (
-              reader.email_read == "Yes" &&
-              reader.article_open == "Yes" &&
-              reader.article_register == "Yes"
-            ) {
-              setData((oldArray) => [...oldArray, reader]);
-              setUpdatedData((oldArray) => [...oldArray, reader]);
-            }
-          });
-
-          const filteredData2 = readers.filter((reader) => {
-            if (
-              reader.email_read == "Yes" &&
-              reader.article_open == "Yes" &&
-              reader.article_register == "No"
-            ) {
-              setData((oldArray) => [...oldArray, reader]);
-              setUpdatedData((oldArray) => [...oldArray, reader]);
-            }
-          });
-
-          const filteredData3 = readers.filter((reader) => {
-            if (
-              reader.email_read == "Yes" &&
-              reader.article_open == "No" &&
-              reader.article_register == "Yes"
-            ) {
-              setData((oldArray) => [...oldArray, reader]);
-              setUpdatedData((oldArray) => [...oldArray, reader]);
-            }
-          });
-
-          const filteredData4 = readers.filter((reader) => {
-            if (
-              reader.email_read == "Yes" &&
-              reader.article_open == "No" &&
-              reader.article_register == "No"
-            ) {
-              setData((oldArray) => [...oldArray, reader]);
-              setUpdatedData((oldArray) => [...oldArray, reader]);
-            }
-          });
-
-          const filteredData5 = readers.filter((reader) => {
-            if (
-              reader.email_read == "No" &&
-              reader.article_open == "Yes" &&
-              reader.article_register == "Yes"
-            ) {
-              setData((oldArray) => [...oldArray, reader]);
-              setUpdatedData((oldArray) => [...oldArray, reader]);
-            }
-          });
-
-          const filteredData6 = readers.filter((reader) => {
-            if (
-              reader.email_read == "No" &&
-              reader.article_open == "Yes" &&
-              reader.article_register == "No"
-            ) {
-              setData((oldArray) => [...oldArray, reader]);
-              setUpdatedData((oldArray) => [...oldArray, reader]);
-            }
-          });
-
-          const filteredData7 = readers.filter((reader) => {
-            if (
-              reader.email_read == "No" &&
-              reader.article_open == "No" &&
-              reader.article_register == "Yes"
-            ) {
-              setData((oldArray) => [...oldArray, reader]);
-              setUpdatedData((oldArray) => [...oldArray, reader]);
-            }
-          });
-
-          const filteredData8 = readers.filter((reader) => {
-            if (
-              reader.email_read == "No" &&
-              reader.article_open == "No" &&
-              reader.article_register == "No"
-            ) {
-              setData((oldArray) => [...oldArray, reader]);
-              setUpdatedData((oldArray) => [...oldArray, reader]);
-            }
-          });
+          setData(readers)
+          setUpdatedData(readers)
+          // const filteredData1 = readers.filter((reader) => {
+          //   if (
+          //     reader.email_read == "Yes" &&
+          //     reader.article_open == "Yes" &&
+          //     reader.article_register == "Yes"
+          //   ) {
+          //     setData((oldArray) => [...oldArray, reader]);
+          //     setUpdatedData((oldArray) => [...oldArray, reader]);
+          //   }
+          // });
+          //
+          // const filteredData2 = readers.filter((reader) => {
+          //   if (
+          //     reader.email_read == "Yes" &&
+          //     reader.article_open == "Yes" &&
+          //     reader.article_register == "No"
+          //   ) {
+          //     setData((oldArray) => [...oldArray, reader]);
+          //     setUpdatedData((oldArray) => [...oldArray, reader]);
+          //   }
+          // });
+          //
+          // const filteredData3 = readers.filter((reader) => {
+          //   if (
+          //     reader.email_read == "Yes" &&
+          //     reader.article_open == "No" &&
+          //     reader.article_register == "Yes"
+          //   ) {
+          //     setData((oldArray) => [...oldArray, reader]);
+          //     setUpdatedData((oldArray) => [...oldArray, reader]);
+          //   }
+          // });
+          //
+          // const filteredData4 = readers.filter((reader) => {
+          //   if (
+          //     reader.email_read == "Yes" &&
+          //     reader.article_open == "No" &&
+          //     reader.article_register == "No"
+          //   ) {
+          //     setData((oldArray) => [...oldArray, reader]);
+          //     setUpdatedData((oldArray) => [...oldArray, reader]);
+          //   }
+          // });
+          //
+          // const filteredData5 = readers.filter((reader) => {
+          //   if (
+          //     reader.email_read == "No" &&
+          //     reader.article_open == "Yes" &&
+          //     reader.article_register == "Yes"
+          //   ) {
+          //     setData((oldArray) => [...oldArray, reader]);
+          //     setUpdatedData((oldArray) => [...oldArray, reader]);
+          //   }
+          // });
+          //
+          // const filteredData6 = readers.filter((reader) => {
+          //   if (
+          //     reader.email_read == "No" &&
+          //     reader.article_open == "Yes" &&
+          //     reader.article_register == "No"
+          //   ) {
+          //     setData((oldArray) => [...oldArray, reader]);
+          //     setUpdatedData((oldArray) => [...oldArray, reader]);
+          //   }
+          // });
+          //
+          // const filteredData7 = readers.filter((reader) => {
+          //   if (
+          //     reader.email_read == "No" &&
+          //     reader.article_open == "No" &&
+          //     reader.article_register == "Yes"
+          //   ) {
+          //     setData((oldArray) => [...oldArray, reader]);
+          //     setUpdatedData((oldArray) => [...oldArray, reader]);
+          //   }
+          // });
+          //
+          // const filteredData8 = readers.filter((reader) => {
+          //   if (
+          //     reader.email_read == "No" &&
+          //     reader.article_open == "No" &&
+          //     reader.article_register == "No"
+          //   ) {
+          //     setData((oldArray) => [...oldArray, reader]);
+          //     setUpdatedData((oldArray) => [...oldArray, reader]);
+          //   }
+          // });
 
           setDistributeData(res.data.response.data.distribute_data);
         } else {
@@ -221,7 +222,8 @@ const GetDetails = () => {
   };
 
   const searchChange = (e) => {
-    setSearch(e.target.value);
+    let search_str = e.target.value.trim();
+    setSearch(search_str);
 
     if (e.target.value === "") {
       setData(updatedData);
@@ -357,14 +359,14 @@ const GetDetails = () => {
 
                   <div className="color_opt d-flex">
                     <div className="col-md-6">
-                      <div class="green-box">
-                          <div class="box"></div>
+                      <div className="green-box">
+                          <div className="box"></div>
                           <p>Reader already registered in system from a previous campaign. </p>
                       </div>
                     </div>
                     <div className="col-md-6">
-                      <div class="orange-box">
-                        <div class="box"></div>
+                      <div className="orange-box">
+                        <div className="box"></div>
                         <p>Email already sent to this user from a previous campaign.</p>
                       </div>
                     </div>
@@ -419,6 +421,7 @@ const GetDetails = () => {
                     <table className="table" id="table-to-xls">
                       <thead className="sticky-header">
                         <tr>
+                          <>
                           <th scope="col">
                             First Name
                             <div className="hcp-sort">
@@ -507,6 +510,24 @@ const GetDetails = () => {
                           <th scope="col">Email Read</th>
                           <th scope="col">Link Open</th>
                           <th scope="col">Registered</th>
+                          {
+                            typeof data != "undefined" && data.length > 0 ? (
+                                <>
+                                {
+                                  data[0]?.all_read_info && data[0].all_read_info != "" ?
+                                  Object.keys(data[0].all_read_info).map((key, index) => (
+                                    <>
+                                    <th>Link Open {index +1 }</th>
+                                    <th>Registered {index +1}</th>
+                                    </>
+                                  ))
+                                  :
+                                  ''
+                                }
+                                </>
+                            ) : ''
+                          }
+                          </>
                         </tr>
                       </thead>
                       <tbody className="form-group">
@@ -522,6 +543,17 @@ const GetDetails = () => {
                                       <td>{item.email_read}</td>
                                       <td>{item.article_open}</td>
                                       <td>{item.article_register}</td>
+                                      {
+                                        item?.all_read_info && item.all_read_info != "" ?
+                                        Object.keys(item.all_read_info).map((key) => (
+                                          <>
+                                          <td>{item.all_read_info[key].article_read}</td>
+                                          <td>{item.all_read_info[key].article_registered}</td>
+                                          </>
+                                        ))
+                                        :
+                                        ''
+                                      }
                                     </tr>
                                    :
                                   <tr>
