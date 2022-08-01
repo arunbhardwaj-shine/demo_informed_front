@@ -13,9 +13,21 @@ const Sidebar = () => {
   const [isHoveringReaders, setIsHoveringReaders] = useState(false);
   const [SmaertEdit, setSmaertEdit] = useState(``);
   const location = useLocation();
-  
+  console.log("location.pathname" ,)
+  useEffect(() => {
+ if(location.pathname==='/webinar/dashboard'||location.pathname==='/webinar/events'||location.pathname==='/webinar/readers'){
+  // alert()
+  setEmailStatus(false);
+  setHomeStatus(false);
+  document.body.classList.remove("sub_menu_toggle_sidebar");
+ }else{
+  console.log("pathname is not mach")
+ }
+
+  }, [location.pathname])
   useEffect(() => {
     if (localStorage.getItem("Token")) {
+      window.dispatchEvent(new Event("EventData"));
       setToken(true);
     } else {
       document.body.classList.remove("sub_menu_toggle_sidebar");
@@ -37,12 +49,14 @@ const Sidebar = () => {
     }
   }, [localStorage.getItem("Token"), token]);
   useEffect(() => {
+    window.dispatchEvent(new Event("EventData"));
     if (location.pathname === "/webinar/portal/Registrations"||location.pathname === "/webinar/portal/NewRegistration") {
       localStorage.removeItem("registrationPageId")
     }
   }, [localStorage.getItem("Token"), token]);
 
   useEffect(() => {
+    window.dispatchEvent(new Event("EventData"));
     if (
       location.pathname === "/webinar/portal/registrationDetails" ||
       location.pathname === "/webinar/portal/registrationDetailslist"||
@@ -60,6 +74,7 @@ const Sidebar = () => {
     }
   }, []);
   useEffect(() => {
+    window.dispatchEvent(new Event("EventData"));
     if (
       location.pathname === "/webinar/portal/registrationDetails" ||
       location.pathname === "/webinar/portal/registrationDetailslist"||
@@ -79,7 +94,7 @@ const Sidebar = () => {
   }, []);
 
   useEffect(() => {
-    console.log("bnbn",location.pathname==`/webinar/email/editSmartList/${localStorage.getItem("SmartListIdView")}/${localStorage.getItem("SmartListIdViewName")}/${localStorage.getItem("SmartListIdViewN")}`)
+    window.dispatchEvent(new Event("EventData"));
     if (
       location.pathname ==
      `/webinar/email/editSmartList/${localStorage.getItem("SmartListIdView")}/${localStorage.getItem("SmartListIdViewName")}/${localStorage.getItem("SmartListIdViewN")}`||
@@ -89,6 +104,8 @@ const Sidebar = () => {
       location.pathname === "/webinar/email/SmartListCreate/FilterList" ||
       location.pathname === "/webinar/email/SmartListCreate/ExcelUpload" ||
       location.pathname === "/webinar/email/template" ||
+      location.pathname === "/webinar/email/SelectHCP"||
+      location.pathname === "/webinar/email/SelectVerifyHCP"||
       location.pathname === "/webinar/email/emails" ||
       location.pathname === "/webinar/email/create" ||
       location.pathname === "/webinar/email/smart-list" ||
@@ -110,6 +127,7 @@ const Sidebar = () => {
     }
   }, []);
   const showHideHome = (index) => {
+    window.dispatchEvent(new Event("EventData"));
     const bodyHasClass = document.body.classList.contains(
       "sub_menu_toggle_sidebar"
     );
@@ -139,6 +157,7 @@ const Sidebar = () => {
       setEmailStatus(false);
       setHomeStatus(false);
     }
+    window.dispatchEvent(new Event("EventData"));
   };
 
   const handleMouseOverHome = () => {
@@ -200,12 +219,12 @@ const Sidebar = () => {
                 <ul>
                   <li
                     className={
-                      location.pathname === "/webinar" ? "active" : "side_li"
+                      location.pathname === "/webinar/dashboard" ? "active" : "side_li"
                     }
                     onClick={showHideHome}
                   >
                     <Link
-                      to="/webinar"
+                      to="/webinar/dashboard"
                       onMouseOver={handleMouseOverHome}
                       onMouseOut={handleMouseOutHome}
                     >
@@ -731,6 +750,8 @@ const Sidebar = () => {
                           "/webinar/email/WebinarSmartList" ||
                         location.pathname ===
                           "/webinar/email/ViewSmartListWebinar" ||
+                          location.pathname === "/webinar/email/SelectHCP"||
+                           location.pathname === "/webinar/email/SelectVerifyHCP"||
                         location.pathname ===
                           "/webinar/email/SmartListCreate" ||
                         location.pathname ===

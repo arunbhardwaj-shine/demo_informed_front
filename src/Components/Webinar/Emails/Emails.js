@@ -60,7 +60,7 @@ const SendEmails = () => {
             setNotFound();
           } else if (resp.data.code == 404) {
             setData();
-            setNotFound("No data found");
+            setNotFound("No Data Found");
             var element = document.getElementById("custom_loader");
             element.classList.remove("show");
           }
@@ -148,6 +148,7 @@ const SendEmails = () => {
     });
   };
   useEffect(() => {
+    window.dispatchEvent(new Event("EventData"));
     handleGetTags()
     loader("show");
     window.addEventListener("EventId", () => {

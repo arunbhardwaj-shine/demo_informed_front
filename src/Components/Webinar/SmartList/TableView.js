@@ -243,7 +243,7 @@ const location = useLocation();
         ExportApi.GetSmartListSingleRecord(props.smartListId)
         .then((resp) => {
           if (resp.data) {
-            console.log("Ghbv",resp.data.data)
+            // console.log("Ghbv",resp.data.data)
             setEditList(resp.data.data)
             
           }
@@ -354,9 +354,9 @@ const location = useLocation();
       // ignoreClickOnMeElement.addEventListener(
       // "mouseleave",
       // async (event) => {
-      const name_edit = document.getElementById("field_name" + id).innerText;
-      const email = document.getElementById("field_email" + id).innerText;
-      const content_type = document.getElementById("content_type" + id).innerText;
+        const name_edit = document.getElementById("field_name" + id).innerText;
+        const email = document.getElementById("field_email" + id).innerText;
+        const content_type = document.getElementById("content_type" + id).value;
 
       // console.log(name_edit);
 // console.log("email",email)
@@ -665,13 +665,15 @@ const location = useLocation();
           // console.log(res);
 
           if (res.data.code == 200) {
-            popup_alert({
-                  visible: "show",
-                  message: "Data updated <br> successfully",
-                  type: "error",
-                  redirect: "/webinar/email/WebinarSmartList",
-                });
-            // toast.success("Data updated successfully");
+            props?.getData()
+            // popup_alert({
+            //       visible: "show",
+            //       message: "Data updated <br> successfully",
+            //       type: "error",
+            //       redirect: "/webinar/email/WebinarSmartList",
+            //     });
+            setNewReaders([])
+          toast.success("Data updated successfully");
           }
 
           //  loader("hide");
@@ -702,7 +704,7 @@ const location = useLocation();
       });
     }
      else {
-      toast.warning("No update");
+      // toast.warning("No update");
       setSaveOpen(false);
     }
   }else{
@@ -796,7 +798,7 @@ const location = useLocation();
    if(id==0){
     // alert(0)
     if (editableData.length > 0) {
-      console.log(editableData)
+      // console.log(editableData)
       editableData.map((data,i) => {
         // console.log("daaaata",data)
         const name_edit = document.getElementById(
@@ -854,6 +856,7 @@ const location = useLocation();
                 });
               }else{
                 getData()
+                setNewReaders([])
                 toast.success("Data updated  successfully")
                 props.saveAlert(true)
 
@@ -1072,6 +1075,41 @@ const location = useLocation();
     });
 
     setEditList(filtered_list);
+  };
+  const NewdeleteReader = async (id,i) => {
+    const body = {
+      smart_list_id: props.smartListId,
+
+      participant_id: id,
+    };
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `${localStorage.getItem("Token")}`,
+    };
+
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    loader("show");
+    await axios
+      .post(baseURL + `/smart-list/delete-participants`, body, {
+        headers,
+      })
+      .then((res) => {
+        // console.log(res);
+     let datanew=  getNewReaders.splice(1,i)
+     setNewReaders(datanew)
+   popup_alert({
+        visible: "show",
+        // message: "Please keep atleast one reader or delete the smart list",
+        message: "Data deleted successfully.",
+        type: "error",
+        // redirect: "",
+      });
+        loader("hide");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
   };
 
   const onDelete = async ({ participants_id }) => {
@@ -1312,13 +1350,15 @@ const location = useLocation();
     setSortingCount(sortingCount + 1);
   };
 
-  const deleteNewlyAdded = (profile_user_id) => {
-    const data = getNewReaders;
-    const dataUpdated = data.filter((d) => {
-      return d.profile_user_id != profile_user_id;
-    });
-    props.sendDataToParent(dataUpdated, "new");
-    setNewReaders(dataUpdated);
+  const deleteNewlyAdded = (id,index) => {
+      // setIsOpen(true);
+      setProfileUserId(id);
+      NewdeleteReader(id,index)
+    // const dataUpdated = data.filter((d) => {
+    //   return d.profile_user_id != profile_user_id;
+    // });
+    // props.sendDataToParent(dataUpdated, "new");
+    // setNewReaders(dataUpdated);
   };
   return (
     <>
@@ -1335,8 +1375,8 @@ const location = useLocation();
                 onClick={() => {
                   navigate("/webinar/email/WebinarSmartList");
                 }}
-              >
-                <svg
+              >Back
+                {/* <svg
                   width="12"
                   height="19"
                   viewBox="0 0 12 19"
@@ -1349,7 +1389,7 @@ const location = useLocation();
                     d="M8.31557 17.82C8.97165 18.476 10.0354 18.476 10.6915 17.82C11.3475 17.1639 11.3475 16.1002 10.6915 15.4441L4.7522 9.50484L10.6927 3.56431C11.3488 2.90823 11.3488 1.84451 10.6927 1.18843C10.0367 0.532347 8.97294 0.532347 8.31686 1.18843L1.2212 8.28409C1.21 8.29469 1.19891 8.30548 1.18794 8.31646C0.531858 8.97254 0.531858 10.0363 1.18794 10.6923L8.31557 17.82Z"
                     fill="white"
                   />
-                </svg>
+                </svg> */}
               </button>
                 </div>
 
@@ -1476,31 +1516,7 @@ const location = useLocation();
           </div>
         </div>:null}
        
-            {props.upload_by_filter=="001"?<div className="row justify-content-end align-items-center"> <div className="col-12 col-md-1">
-                <div className="header-btn-left">
-                <button
-                class="btn btn-primary btn-filled back"
-                onClick={() => {
-                  navigate("/webinar/email/WebinarSmartList");
-                }}
-              >
-                <svg
-                  width="12"
-                  height="19"
-                  viewBox="0 0 12 19"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M8.31557 17.82C8.97165 18.476 10.0354 18.476 10.6915 17.82C11.3475 17.1639 11.3475 16.1002 10.6915 15.4441L4.7522 9.50484L10.6927 3.56431C11.3488 2.90823 11.3488 1.84451 10.6927 1.18843C10.0367 0.532347 8.97294 0.532347 8.31686 1.18843L1.2212 8.28409C1.21 8.29469 1.19891 8.30548 1.18794 8.31646C0.531858 8.97254 0.531858 10.0363 1.18794 10.6923L8.31557 17.82Z"
-                    fill="white"
-                  />
-                </svg>
-              </button>
-                </div>
-              </div></div>:props.upload_by_filter=="1"?null:<div className="row justify-content-end align-items-center">
+            {props.upload_by_filter=="001"?null:props.upload_by_filter=="1"?null:<div className="row justify-content-end align-items-center">
               <div className="col-12 col-md-1">
                 <div className="header-btn-left">
                 <button
@@ -1508,8 +1524,8 @@ const location = useLocation();
                 onClick={() => {
                   navigate("/webinar/email/SmartListCreate");
                 }}
-              >
-                <svg
+              > Back
+                {/* <svg
                   width="12"
                   height="19"
                   viewBox="0 0 12 19"
@@ -1522,7 +1538,7 @@ const location = useLocation();
                     d="M8.31557 17.82C8.97165 18.476 10.0354 18.476 10.6915 17.82C11.3475 17.1639 11.3475 16.1002 10.6915 15.4441L4.7522 9.50484L10.6927 3.56431C11.3488 2.90823 11.3488 1.84451 10.6927 1.18843C10.0367 0.532347 8.97294 0.532347 8.31686 1.18843L1.2212 8.28409C1.21 8.29469 1.19891 8.30548 1.18794 8.31646C0.531858 8.97254 0.531858 10.0363 1.18794 10.6923L8.31557 17.82Z"
                     fill="white"
                   />
-                </svg>
+                </svg> */}
               </button>
                 </div>
               </div>
@@ -1567,8 +1583,31 @@ const location = useLocation();
                 Uploaded HCPs for the smart list
                 <span>| {editList?.length> 0 ? editList?.length : 0}</span>
               </h4>
-            ) : (
-              <h4>Selected HCPs for the smart list</h4>
+            ) : ( <div className="header-btn-left">
+              {location.pathname ==
+     `/webinar/email/editSmartList/${localStorage.getItem("SmartListIdView")}/${localStorage.getItem("SmartListIdViewName")}/${localStorage.getItem("SmartListIdViewN")}`||  location.pathname === "/webinar/email/SmartListCreate/FilterList"? null:  <button
+     class="btn  btn-filled back"
+     onClick={() => {
+       navigate("/webinar/email/WebinarSmartList");
+     }}
+   > Back
+     {/* <svg
+       width="12"
+       height="19"
+       viewBox="0 0 12 19"
+       fill="none"
+       xmlns="http://www.w3.org/2000/svg"
+     >
+       <path
+         fill-rule="evenodd"
+         clip-rule="evenodd"
+         d="M8.31557 17.82C8.97165 18.476 10.0354 18.476 10.6915 17.82C11.3475 17.1639 11.3475 16.1002 10.6915 15.4441L4.7522 9.50484L10.6927 3.56431C11.3488 2.90823 11.3488 1.84451 10.6927 1.18843C10.0367 0.532347 8.97294 0.532347 8.31686 1.18843L1.2212 8.28409C1.21 8.29469 1.19891 8.30548 1.18794 8.31646C0.531858 8.97254 0.531858 10.0363 1.18794 10.6923L8.31557 17.82Z"
+         fill="white"
+       />
+     </svg> */}
+   </button>}
+           
+              <h4>Selected HCPs for the smart list</h4></div>
             )}
 
             <div className="selected-hcp-table-action">
@@ -1702,12 +1741,11 @@ const location = useLocation();
               <tbody>
                 {typeof getNewReaders !== "undefined" &&
                   getNewReaders.length > 0 &&
-                  getNewReaders?.map((item, index) => {
-                    let dataCountry=country.filter((val)=>val.id==getNewReaders[index].country_id)
-                    
+                  getNewReaders?.map((item, index) => {                    
                   return  <tr
                     className="hcps-added"
                     id={`row-selected` + item.is_register}
+                    value={0}
                     onClick={(e) =>
                       editing(
                         //  e.currentTarget,
@@ -1718,8 +1756,8 @@ const location = useLocation();
                         )
                       }
                       >
-                      {console.log("getNewReaders",getNewReaders)}
-                      <td contenteditable={editable === 0 ? "false" : "true"} id={`field_name` + item.profile_user_id}>
+                      {/* {console.log( item)} */}
+                      <td contenteditable={editable === 0 ? "false" : "true"} id={`field_name` + item.id}>
                         {inEditMode.status &&
                         inEditMode.rowKey === item.profile_id ? (
                           <input
@@ -1731,7 +1769,8 @@ const location = useLocation();
           
                         )}
                       </td>
-                      <td>
+                      <td id={`is_register` + item.id} style={{display:"none"}}>{0}</td>
+                      <td id={`field_email` + item.id}>
                         {" "}
                         {inEditMode.status &&
                         inEditMode.rowKey === item.profile_id ? (
@@ -1763,7 +1802,7 @@ const location = useLocation();
                           </React.Fragment>
                         ))}
                     
-                      </select> : <span>{dataCountry[index]?.country}</span>
+                      </select> : <span>{item.country}</span>
                       }
                       </td>
                       <td>
@@ -1779,7 +1818,7 @@ const location = useLocation();
                             <option value="Staff User">Staff User</option>
                             <option value="Test User">Test User</option>
                           </Form.Select>
-                        </div> : <span>{item.content_type}</span>
+                        </div> : <span>{item.type}</span>
                         }
                       </td>
 
@@ -1814,7 +1853,7 @@ const location = useLocation();
                         <img
                           src={path + "delete.svg"}
                           alt="Delete Row"
-                          onClick={() => deleteNewlyAdded(item.profile_user_id)}
+                          onClick={() => deleteNewlyAdded(item.id,index)}
                         />
                       </td>
                     </tr>
@@ -2085,7 +2124,10 @@ const location = useLocation();
                             if (resp.data) {
                          
                               if (resp.data.code == 200) {
-                                setNewReaders((oldArray) => [...oldArray, ...Speakername]);
+                                resp.data.data.map((item)=>{
+                                  setNewReaders((oldArray) => [...oldArray,item]);
+
+                                })
                                 // setNewReaders(...getNewReaders,Speakername)
                                 // setEditList(resp.data.data)
                                 // console.log(resp.data);

@@ -25,18 +25,29 @@ const EmailStatss = (props) => {
   const [sortDatee, setSortDate] = useState(0);
   const [campaignData, setData] = useState([]);
   const [showLessInfo, setShowLessInfo] = useState(true);
+  const [getloadmore, setloadmore] = useState(0);
+  const [lastPage, setLastPage] = useState();
+  const [campaignDataLength, setCampaignDataLength] = useState();
   const [updatedData, setUpdatedData] = useState([]);
+  const [page, setPage] = useState(1);
+  const [searchStarted, setSearchStarted] = useState(0);
+  const [searchData, setSearchData] = useState([]);
   const [sortingCountDate, setSortingCountDate] = useState(0);
+  const [loadmore, setLoadMore] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const [perPageData, setPerPageData] = useState();
 
   useEffect(() => {
-    getCampaignList();
+    getCampaignList(1, "");
   }, []);
 
-  const getCampaignList = async () => {
+  const getCampaignList = async (page, search) => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
       user_id: localStorage.getItem("user_id"),
-      page: 1,
+      page: page,
+      search: search,
     };
     loader("show");
     await axios
@@ -44,8 +55,15 @@ const EmailStatss = (props) => {
       .then((res) => {
         if (res.data.status_code == 200) {
           console.log(res);
-          setData(res.data.response.data);
-          setUpdatedData(res.data.response.data);
+          //setData(res.data.response.data);
+
+          setData((oldArray) => [...oldArray, ...res.data.response.data]);
+          setCurrentPage(res.data.response.pegination.currentPage);
+          //setUpdatedData(res.data.response.data);
+
+          setTotalCount(res.data.response.pegination.totalCount);
+          setLastPage(res.data.response.pegination.lastPage);
+          setPerPageData(res.data.response.pegination.perPage);
         } else {
           toast.warning(res.data.message);
         }
@@ -167,7 +185,7 @@ const EmailStatss = (props) => {
         return aa > bb ? -1 : aa < bb ? 1 : 0;
       });
     }
-    console.log(sortedData);
+    // console.log(sortedData);
     setSortingCount(0);
     setData(sortedData);
     setSortDate(1 - sortDatee);
@@ -175,38 +193,55 @@ const EmailStatss = (props) => {
   };
 
   const searchChange = (e) => {
-    setSearch(e.target.value);
+    setSearch(e.target.value.trim());
 
     if (e.target.value === "") {
-      setData(updatedData);
+      // setData(updatedData);
+
+      //setSearchStarted();
+      setData([]);
+      setSearch("");
+      getCampaignList(1, "");
+      // setSearchStarted(0);
     }
   };
 
   const submitHandler = (event) => {
-    let r_table = [];
-
-    updatedData.find(function (item) {
-      if (
-        item.pdf_title.includes(search) ||
-        item.subject.includes(search) ||
-        item.list.includes(search)
-      ) {
-        r_table.push(item);
-      }
-    });
-    if (r_table.length > 0) {
-      setData(r_table);
-    } else {
-      // popup_alert({
-      //   visible: "show",
-      //   message: "Data not found",
-      //   type: "error",
-      // });
-
-      setData([]);
-    }
     event.preventDefault();
-    return false;
+    // let r_table = [];
+    // setSearchStarted(1);
+    // updatedData.find(function (item) {
+    //   if (
+    //     item.pdf_title.includes(search) ||
+    //     item.subject.includes(search) ||
+    //     item.list.includes(search)
+    //   ) {
+    //     r_table.push(item);
+    //   }
+    // });
+    // if (r_table.length > 0) {
+    //   setData(r_table);
+    //   setSearchData(r_table);
+    // } else {
+    //   // popup_alert({
+    //   //   visible: "show",
+    //   //   message: "Data not found",
+    //   //   type: "error",
+    //   // });
+
+    //   setData([]);
+    // }
+    // event.preventDefault();
+    // return false;
+    setData([]);
+    getCampaignList(1, search);
+    // setPage(1);
+  };
+
+  const load_more = () => {
+    //  getContentData(0, 2);
+
+    getCampaignList(currentPage + 1, search);
   };
 
   return (
@@ -222,10 +257,7 @@ const EmailStatss = (props) => {
           <div class="result-hcp-table">
             <div class="table-title">
               <h4>
-                Total Result{" "}
-                <span>
-                  | {campaignData.length > 0 ? campaignData.length : 0}
-                </span>
+                Total Result <span>| {totalCount}</span>
               </h4>
             </div>
             <div class="selected-hcp-list search_view" id="analytics-hcp-table">
@@ -370,6 +402,7 @@ const EmailStatss = (props) => {
                       <th scope="col">Sent to all</th>
                     </tr>
                   </thead>
+
                   <tbody>
                     {typeof campaignData !== "undefined" &&
                     campaignData.length > 0 ? (
@@ -430,6 +463,17 @@ const EmailStatss = (props) => {
                   </tbody>
                 </table>
               </div>
+              {typeof campaignData !== "undefined" &&
+              currentPage !== lastPage ? (
+                <div className="load_more">
+                  <button
+                    className="btn btn-primary btn-filled"
+                    onClick={load_more}
+                  >
+                    Load More
+                  </button>
+                </div>
+              ) : null}
             </div>
           </div>
         </section>

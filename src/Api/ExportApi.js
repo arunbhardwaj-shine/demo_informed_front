@@ -761,6 +761,16 @@ const UpdateEmailSCreate = (id, collection_id) =>
       },
     }
   );
+const SearchEmailParticipant = (name, email) =>
+  BaseApi.post(
+    `email-participant`,
+    { search_name: name, search_email: email },
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
 const EmailSCreateCollection = (
   approved_status,
   smart_list_id,
@@ -966,6 +976,7 @@ export default {
   getSmartListData,
   EmailSCreate,
   EmailSCreateCollection,
+  SearchEmailParticipant,
   GetSmartListSingleRecord,
   GetSmartListFilterRecord,
   UpdateSmartListData,

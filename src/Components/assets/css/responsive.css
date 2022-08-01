@@ -224,12 +224,19 @@
     margin-right: 20px;
     margin-bottom: 30px;
   }
+  .smart-list-view .result-hcp-table .selected-hcp-list .selected-hcp-list_detail {
+    margin-right: auto;
+    margin-bottom: 15px;
+}
 }
 
 @media only screen and (max-width: 1550px) {
   #add_hcp .modal-body .hcp-add-form form {
     margin-bottom: 0;
   }
+  .smart-list-view .result-hcp-table .selected-hcp-list .selected-hcp-list_detail {
+    margin-top: 0;
+}
   .smartlist-result-block .smartlist_box_block {
     width: 33.3%;
   }
@@ -1003,6 +1010,10 @@
   #send-sample .form-search-hcp .form-button .btn.btn-filled {
     margin-right: 40px;
   }
+  .smart-list-view .result-hcp-table .selected-hcp-list .selected-hcp-list_detail {
+    max-width: 890px;
+    margin-right:0;
+}
   #accordion-smart .card-body .col.consent-type {
     flex: 0 0 194px;
   }

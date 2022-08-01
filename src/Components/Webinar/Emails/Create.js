@@ -27,6 +27,7 @@ const CreateEmails = (props) => {
   const [message, setMessage] = useState(false);
   const [render, setRender] = useState(0);
   const [modalShow1, setModalShow1] = useState(false);
+  const [notCreateColletion, setnototCreateColletion] = useState(true);
   let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   // ----------------added for new design implementations
@@ -211,7 +212,7 @@ const CreateEmails = (props) => {
             //  console.log( resp.data.data.collection_id)
             localStorage.setItem("collection_id", resp.data.data.collection_id);
             if (id == 1) {
-              navigate("/webinar/email/smart-list");
+              navigate("/webinar/email/SelectHCP");
             }
           }
         });
@@ -224,6 +225,7 @@ const CreateEmails = (props) => {
             tagClickedFirst
           ).then((resp) => {
             if (resp.ok) {
+              setnototCreateColletion(false)
               toast.success(resp.data.message)
               //  console.log( resp.data.data.collection_id)
               localStorage.setItem(
@@ -250,7 +252,7 @@ const CreateEmails = (props) => {
                       "collection_id",
                       resp.data.data.collection_id
                     );
-                    navigate("/webinar/email/smart-list");
+                    navigate("/webinar/email/SelectHCP");
                   }
                 })
               : toast.warning("Please enter Subject");
@@ -436,21 +438,8 @@ const CreateEmails = (props) => {
             <div className="col-12 col-md-1">
               <div className="header-btn-left">
                 <Link to="/webinar/email/emails">
-                  <button className="btn btn-primary btn-filled back">
-                    <svg
-                      width="12"
-                      height="19"
-                      viewBox="0 0 12 19"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M8.31557 17.82C8.97165 18.476 10.0354 18.476 10.6915 17.82C11.3475 17.1639 11.3475 16.1002 10.6915 15.4441L4.7522 9.50484L10.6927 3.56431C11.3488 2.90823 11.3488 1.84451 10.6927 1.18843C10.0367 0.532347 8.97294 0.532347 8.31686 1.18843L1.2212 8.28409C1.21 8.29469 1.19891 8.30548 1.18794 8.31646C0.531858 8.97254 0.531858 10.0363 1.18794 10.6923L8.31557 17.82Z"
-                        fill="white"
-                      />
-                    </svg>
+                  <button className="btn btn-primary btn-filled ">
+              Back
                   </button>
                 </Link>
               </div>
@@ -459,10 +448,13 @@ const CreateEmails = (props) => {
             <div className="col-12 col-md-8">
               <ul className="tabnav-link">
                 <li className="active active-main">
-                  <Link to="/EmailArticleSelect">Prepare Your Email</Link>
+                  <a href="#">Prepare Your Email</a>
                 </li>
                 <li className="">
-                  <Link to="/SelectHCP">Select Smart List</Link>
+                  <a href="javascript:void(0)">Select HCPs</a>
+                </li>
+                <li className="">
+                  <a href="#">Select Smart List</a>
                 </li>
                 <li className="">
                   <a href="#">Approve And Send</a>
@@ -482,28 +474,25 @@ const CreateEmails = (props) => {
                   Save As Draft
                 </button>
                 {nextPage ? (
-                  <button
+<>
+                  {notCreateColletion?   <button
                     type="button"
-                    className="btn btn-primary btn-filled next"
+                    className="btn btn-primary btn-filled"
                     onClick={() => {
                       handleEmailSCreate(1);
                     }}
                   >
-                    <svg
-                      width="12"
-                      height="19"
-                      viewBox="0 0 12 19"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M3.69224 17.82C3.03616 18.476 1.97244 18.476 1.31636 17.82C0.660279 17.1639 0.660279 16.1002 1.31636 15.4441L7.25561 9.50484L1.31508 3.56431C0.658998 2.90823 0.658998 1.84451 1.31508 1.18843C1.97116 0.532347 3.03488 0.532347 3.69096 1.18843L10.7866 8.28409C10.7978 8.29469 10.8089 8.30548 10.8199 8.31646C11.476 8.97254 11.476 10.0363 10.8199 10.6923L3.69224 17.82Z"
-                        fill="white"
-                      ></path>
-                    </svg>
-                  </button>
+                   Next
+                  </button>:   <button
+                  type="button"
+                  className="btn btn-primary btn-filled "
+                  onClick={() => {
+                    navigate("/webinar/email/SelectHCP");
+                  }}
+                >
+                Back
+                </button>}
+                </>
                 ) : null}
               </div>
             </div>
@@ -524,7 +513,13 @@ const CreateEmails = (props) => {
                   <div
                     key={i}
                     className="item"
-                    onClick={(e) => templateClicked(val, e)}
+                    onClick={(e) =>{ templateClicked(val, e);
+                      localStorage.setItem("TEMPLATEID", val.id);
+                          handleGetTemplate(val.id);
+                          localStorage.setItem("template", val.name);
+                          setTName(val.name);
+                          setFormShow(true);
+                    }}
                   >
                     <div  className={
                           typeof TemplateIdActive !== "undefined" &&
@@ -539,13 +534,13 @@ const CreateEmails = (props) => {
                         value={val.id}
                         src={path_image + "content_added1.png"}
                         alt=""
-                        onClick={(e) => {
-                          localStorage.setItem("TEMPLATEID", val.id);
-                          handleGetTemplate(val.id);
-                          localStorage.setItem("template", val.name);
-                          setTName(val.name);
-                          setFormShow(true);
-                        }}
+                        // onClick={(e) => {
+                        //   localStorage.setItem("TEMPLATEID", val.id);
+                        //   handleGetTemplate(val.id);
+                        //   localStorage.setItem("template", val.name);
+                        //   setTName(val.name);
+                        //   setFormShow(true);
+                        // }}
                       />
                     </div>
                     <p>{val.name}</p>
@@ -707,6 +702,12 @@ const CreateEmails = (props) => {
 
                     <button className="btn btn-primary btn-filled" type="submit">
                       Save
+                    </button>
+                    <button className="btn btn-primary btn-filled" type="button"  onClick={(e) => {
+                        setModalShow2(true);
+                        setId(localStorage.getItem("idd"));
+                      }}>
+                      Save As Template
                     </button>
                   </div>
                 </div>
@@ -897,6 +898,54 @@ const CreateEmails = (props) => {
         </Modal>
         {/* ---- start model code for Add tags -----------*/}
       </div>
+      {/* <Modal show={isOpen} className="send-confirm" id="delete-smartlist">
+        <Modal.Header>
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="modal"
+            onClick={() => {
+              setIsOpen(false);
+            }}
+          ></button>
+        </Modal.Header>
+        <Modal.Body>
+          <img src={path + "alert.png"} alt="" />
+          <h4>
+            The record will be deleted from the list.
+            <br />
+            Are you sure you want to delete it?
+          </h4>
+
+          <div className="modal-buttons">
+            <button
+              type="button"
+              className="btn btn-primary btn-filled"
+              data-bs-dismiss="modal"
+              onClick={() => {
+                deleteReader(profileUserId);
+                setIsOpen(false);
+
+                setOpenDeleteConfirmation(true);
+                // setUpdatedData(update + 1);
+              }}
+            >
+              Yes Please!
+            </button>
+
+            <button
+              type="button"
+              className="btn btn-primary btn-bordered light"
+              data-bs-dismiss="modal"
+              onClick={() => {
+                setIsOpen(false);
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </Modal.Body>
+      </Modal> */}
     </>
   );
 };

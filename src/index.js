@@ -121,6 +121,8 @@ import SmartListWebinarView from "./Components/Webinar/SmartList/SmartListWebina
 import EmailStatss from "./Components/Distributes/EmailStatss";
 import GetDetails from "./Components/Distributes/GetDetails";
 import EditSmartList from "./Components/Webinar/SmartList/EditSmartList";
+import WebinarSelectHCP from "./Components/Webinar/Emails/WebinarSelectHCP";
+import WebinarVerifyHCP from "./Components/Webinar/Emails/WebinarVerifyHCP";
 
 let platform = 0;
 let show = 0;
@@ -207,7 +209,7 @@ ReactDOM.render(
                 <SidebarWebinar />
                 <>
                   <Routes>
-                    <Route path="/webinar" element={<Dashboard />} />
+                    <Route path="/webinar" element={<WebinarDashboard />} />
                     <Route
                       path="/webinar/register/:code/:url/:stats"
                       element={<Preview />}
@@ -225,7 +227,7 @@ ReactDOM.render(
                       <Route path="/" element={<Proctected />}>
                         <Route
                           path="/webinar/dashboard"
-                          element={<WebinarDashboard />}
+                          element={<Dashboard />}
                         />
                         <Route path="/webinar/regionstats" element={<Home />} />
                         <Route
@@ -286,6 +288,14 @@ ReactDOM.render(
                         <Route
                           path="/webinar/email/emails"
                           element={<SendEmails />}
+                        />
+                        <Route
+                          path="/webinar/email/SelectHCP"
+                          element={<WebinarSelectHCP />}
+                        />
+                        <Route
+                          path="/webinar/email/SelectVerifyHCP"
+                          element={<WebinarVerifyHCP />}
                         />
                         <Route
                           path="/webinar/email/smart-list-users/:id"
