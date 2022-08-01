@@ -386,8 +386,8 @@ const EmailStatss = (props) => {
                           <tr>
                             <td> {item.c_id}</td>
                             <td> {item.sent_data}</td>
-                            <td> {item.subject}</td>
-                            <td> {item.pdf_title}</td>
+                            <td className="smartlistth"> {item.subject}</td>
+                            <td className="smartlistth"> {item.pdf_title}</td>
                             <td className="smartlistth"> {item.list}</td>
                             <td> {item.total_sent_count}</td>
                             <td> {item.total_read_count}</td>
