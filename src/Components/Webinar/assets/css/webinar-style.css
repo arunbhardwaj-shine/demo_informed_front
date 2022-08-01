@@ -1033,15 +1033,7 @@ h4 {
   background: var(--blue);
   border-color: var(--blue);
 }
-.table-title .selected-hcp-table-action .btn {
-  border: 0;
-  border-radius: 30px;
-  background: var(--white);
-  height: 40px;
-  padding: 10px;
-  display: flex;
-  align-items: center;
-}
+
 .table-title .selected-hcp-table-action .btn-bordered {
   margin-left: 16px;
   border: 1px solid var(--light-blue);
@@ -4294,7 +4286,7 @@ button#test-table-xls-button:hover {
   border: 0;
   border-radius: 30px;
   height: 40px;
-  padding: 10px;
+  padding: 10px 15px;
   display: flex;
   align-items: center;
   min-width: inherit;
@@ -4832,10 +4824,10 @@ height: 100px;
   line-height: 1.9;
 }
 button.btn.btn-primary.back {
-  width: 40px;
+  width: auto;
   min-width: 39px;
   height: 40px;
-  padding: 2px;
+  padding: 2px 20px;
 }
 #hcp-form .Consent .form-group-left input#fullconsent1, #hcp-form .Consent .form-group-left input#radio_helthcare {
   order: 1;
@@ -5266,6 +5258,9 @@ color:#848484;
 
 
 
+
+
+
 /* bablu Code*/
 .error-form-check-option{
   color: var(--red);
@@ -5314,7 +5309,8 @@ color:#848484;
   display: flex;
   justify-content: center;
   align-content: center;
-}.send-option-list ul li .send-option-img.active, .create-smart-step-box ul li .send-option-img.active, .send-option-list ul li .send-option-img:hover, .create-smart-step-box ul li .send-option-img:hover {
+}
+.send-option-list ul li .send-option-img.active, .create-smart-step-box ul li .send-option-img.active, .send-option-list ul li .send-option-img:hover, .create-smart-step-box ul li .send-option-img:hover {
   border: none;
   box-shadow: 0px 0px 15px rgb(0 102 190 / 50%);
 }
@@ -5339,13 +5335,7 @@ color:#848484;
   padding: 0;
   list-style: none;
 }
-.container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
-  width: 100%;
-  padding-right: var(--bs-gutter-x,.75rem);
-  padding-left: var(--bs-gutter-x,.75rem);
-  margin-right: auto;
-  margin-left: auto;
-}
+
 .send-mail-options {
   height: calc(100vh - 200px);
   align-items: center;
@@ -5376,10 +5366,6 @@ color:#848484;
   min-height: inherit;
   align-items: center;
   justify-content: center;
-}
-.search-hcp .search-hcp-table-inside.not-found {
-  text-align: center;
-  min-height: inherit;
 }
 .search-hcp-table-inside.not-found {
   display: flex;
