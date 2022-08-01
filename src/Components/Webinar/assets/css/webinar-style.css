@@ -5373,3 +5373,10 @@ color:#848484;
   justify-content: center;
   height: 100%;
 }
+.search-hcp.smart-list-name {
+  padding-top: 20px;
+}
+.table-title .selected-hcp-table-action .hcp-new-user .btn, .table-title .selected-hcp-table-action .hcp-added .btn {
+  padding: 10px;
+  width: 40px;
+}
