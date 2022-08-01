@@ -254,6 +254,7 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
     handleSearchListget()
     handleGetSmartList()
   }, [])
+  const navigate = useNavigate();
   const handleEmailSCreateCollection = (next) => {
     loader("show");
     smartListDataId
@@ -277,7 +278,7 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
                 progress: undefined,
               });
               if(next==1){
-
+                navigate(`/webinar/email/smart-list-users/${smartListDataId}`)
               }
             } else {
               loader("hide");
@@ -342,7 +343,7 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
                 >
                   Save As Draft
                 </button>
-               {active?<Link to={`/webinar/email/smart-list-users/${smartListDataId}`}>Next</Link>:<button
+               {active? <button className="btn btn-primary btn-filled"><Link to={`/webinar/email/smart-list-users/${smartListDataId}`}>Next</Link></button>:<button
                    onClick={() => handleEmailSCreateCollection(1)}
                     disabled={smartListDataId?false:true}
                     className="btn btn-primary btn-filled"

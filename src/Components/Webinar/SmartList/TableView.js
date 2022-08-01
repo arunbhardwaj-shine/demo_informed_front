@@ -2117,7 +2117,6 @@ const location = useLocation();
                     className={"tab-pane active"}
                     onSubmit={(e) => {
                       e.preventDefault(props.smartListId);
-                      alert()
                       if (handleError()) {
                         let rehearsalSpeakername = JSON.stringify(Speakername);
                         ExportApi.EmailSand(props.smartListId, rehearsalSpeakername)
