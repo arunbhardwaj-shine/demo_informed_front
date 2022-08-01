@@ -35,6 +35,7 @@ const EmailStatss = (props) => {
   const [sortingCountDate, setSortingCountDate] = useState(0);
   const [loadmore, setLoadMore] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const [showLoader, setShowLoader] = useState(0);
 
   const [perPageData, setPerPageData] = useState();
 
@@ -56,6 +57,7 @@ const EmailStatss = (props) => {
         if (res.data.status_code == 200) {
           console.log(res);
 
+          setShowLoader(1);
           setData((oldArray) => [...oldArray, ...res.data.response.data]);
           setCurrentPage(res.data.response.pegination.currentPage);
 
@@ -63,6 +65,7 @@ const EmailStatss = (props) => {
           setLastPage(res.data.response.pegination.lastPage);
           setPerPageData(res.data.response.pegination.perPage);
         } else {
+          setShowLoader(0);
           toast.warning(res.data.message);
         }
         loader("hide");
@@ -433,7 +436,8 @@ const EmailStatss = (props) => {
                 </table>
               </div>
               {typeof campaignData !== "undefined" &&
-              currentPage !== lastPage ? (
+              currentPage !== lastPage &&
+              showLoader ? (
                 <div className="load_more">
                   <button
                     className="btn btn-primary btn-filled"
