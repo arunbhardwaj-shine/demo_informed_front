@@ -55,11 +55,9 @@ const EmailStatss = (props) => {
       .then((res) => {
         if (res.data.status_code == 200) {
           console.log(res);
-          //setData(res.data.response.data);
 
           setData((oldArray) => [...oldArray, ...res.data.response.data]);
           setCurrentPage(res.data.response.pegination.currentPage);
-          //setUpdatedData(res.data.response.data);
 
           setTotalCount(res.data.response.pegination.totalCount);
           setLastPage(res.data.response.pegination.lastPage);
@@ -185,7 +183,7 @@ const EmailStatss = (props) => {
         return aa > bb ? -1 : aa < bb ? 1 : 0;
       });
     }
-    // console.log(sortedData);
+
     setSortingCount(0);
     setData(sortedData);
     setSortDate(1 - sortDatee);
@@ -196,51 +194,20 @@ const EmailStatss = (props) => {
     setSearch(e.target.value.trim());
 
     if (e.target.value === "") {
-      // setData(updatedData);
-
-      //setSearchStarted();
       setData([]);
       setSearch("");
       getCampaignList(1, "");
-      // setSearchStarted(0);
     }
   };
 
   const submitHandler = (event) => {
     event.preventDefault();
-    // let r_table = [];
-    // setSearchStarted(1);
-    // updatedData.find(function (item) {
-    //   if (
-    //     item.pdf_title.includes(search) ||
-    //     item.subject.includes(search) ||
-    //     item.list.includes(search)
-    //   ) {
-    //     r_table.push(item);
-    //   }
-    // });
-    // if (r_table.length > 0) {
-    //   setData(r_table);
-    //   setSearchData(r_table);
-    // } else {
-    //   // popup_alert({
-    //   //   visible: "show",
-    //   //   message: "Data not found",
-    //   //   type: "error",
-    //   // });
 
-    //   setData([]);
-    // }
-    // event.preventDefault();
-    // return false;
     setData([]);
     getCampaignList(1, search);
-    // setPage(1);
   };
 
   const load_more = () => {
-    //  getContentData(0, 2);
-
     getCampaignList(currentPage + 1, search);
   };
 
@@ -391,7 +358,9 @@ const EmailStatss = (props) => {
                         </div>
                       </th>
 
-                      <th scope="col">Smart List</th>
+                      <th className="smartlistth" scope="col">
+                        Smart List
+                      </th>
                       <th scope="col">Total mail sent</th>
                       <th scope="col">Email Read</th>
                       <th scope="col">Pending Read Email</th>
