@@ -107,6 +107,7 @@ const Sidebar = () => {
       location.pathname === "/webinar/email/SelectHCP"||
       location.pathname === "/webinar/email/SelectVerifyHCP"||
       location.pathname === "/webinar/email/emails" ||
+      location.pathname === "/webinar/email/WebinarVerifyHcpMAIL" ||
       location.pathname === "/webinar/email/create" ||
       location.pathname === "/webinar/email/smart-list" ||
       location.pathname ===
@@ -730,6 +731,10 @@ const Sidebar = () => {
                       className={
                         location.pathname === "/webinar/email/emails" ||
                         location.pathname === "/webinar/email/create" ||
+                        location.pathname === "/webinar/email/WebinarVerifyHcpMAIL" ||
+
+                        location.pathname === "/webinar/email/SelectHCP"||
+                        location.pathname === "/webinar/email/SelectVerifyHCP"||
                         location.pathname === "/webinar/email/smart-list" ||
                         location.pathname ===
                           `/webinar/email/smart-list-users/${localStorage.getItem(
@@ -750,8 +755,6 @@ const Sidebar = () => {
                           "/webinar/email/WebinarSmartList" ||
                         location.pathname ===
                           "/webinar/email/ViewSmartListWebinar" ||
-                          location.pathname === "/webinar/email/SelectHCP"||
-                           location.pathname === "/webinar/email/SelectVerifyHCP"||
                         location.pathname ===
                           "/webinar/email/SmartListCreate" ||
                         location.pathname ===

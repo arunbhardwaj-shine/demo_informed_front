@@ -82,7 +82,9 @@ const SmartListCreate = () => {
         baseURL + `/smart-list/create`,body,{ headers})
       .then((res) => {
         if (res.data.code == 200) {
-          // console.log(res);
+           console.log(res);
+
+           localStorage.setItem("smartListId",res.data.data.smart_list_id)
           setSmartListId(res.data.data.smart_list_id);
           handleShow();
           loader("hide");
@@ -126,7 +128,7 @@ const SmartListCreate = () => {
       )
       .then((res) => {
         if (res.data.code == 200) {
-
+          localStorage.setItem("smartListId",res.data.data.smart_list_id)
           // console.log(res.data.data.smart_list_id);
           setSmartListId(res.data.data.smart_list_id);
           segmentCohort(res.data.data.smart_list_id);

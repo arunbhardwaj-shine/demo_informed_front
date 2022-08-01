@@ -561,6 +561,16 @@ const EmailSand = (id, name) =>
       },
     }
   );
+const EmailSelectVerifyHCP = (participants, unregister_participants) =>
+  BaseApi.post(
+    `/smart-list/create`,
+    { participants: participants, unregister_participants: unregister_participants,type:false },
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
 const Excelsend = (form) =>
   BaseApi.post(`upload-unregistered-participant`, form, {
     headers: {
@@ -962,6 +972,7 @@ export default {
   EmailStatss,
   EmailStatsPage,
   EmailSand,
+  EmailSelectVerifyHCP,
   EmailSandRegistered,
   EmailSandRegisteredType,
   sandAllmaik,

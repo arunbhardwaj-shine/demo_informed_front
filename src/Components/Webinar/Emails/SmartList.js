@@ -5,6 +5,7 @@ import ExportApi from "../../../Api/ExportApi";
 import { toast, ToastContainer } from "react-toastify";
 import { loader } from "../../../loader";
 import { BaseUrlImage } from "../../../Api/BaseApi";
+import SmartListWebinar from "../SmartList/SmartListWebinar";
 const SelectSmartList = () => {
   const [smartListData, setSmartListData] = useState([]);
   const [smartListDataId, setSmartListDataId] = useState();
@@ -94,7 +95,8 @@ const SelectSmartList = () => {
   }, []);
   return (
     <>
-      <div className="loader" id="custom_loader">
+    <SmartListWebinar toggle ="yes"/>
+      {/* <div className="loader" id="custom_loader">
         <span className="loader-view"> </span>
       </div>
       <div className="right-sidebar col">
@@ -269,7 +271,7 @@ const SelectSmartList = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

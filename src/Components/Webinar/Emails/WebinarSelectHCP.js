@@ -74,8 +74,7 @@ const WebinarSelectHCP = () => {
                   </button>
                 ) : (
                  <Link
-                 to={"/webinar/email/smart-list"}
-                   
+                 to={"/webinar/email/smart-list"}  
                   >
                     <button
                       className="btn btn-primary btn-filled next"

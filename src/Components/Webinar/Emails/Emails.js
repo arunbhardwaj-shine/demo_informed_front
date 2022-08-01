@@ -557,7 +557,7 @@ const SendEmails = () => {
                               localStorage.setItem("stateid", val.id);
                               navigate("/webinar/email/create");
                               localStorage.setItem("stateid", val.id);
-                              // alert(val.id);
+                              //  alert(val.id);
                             }}
                           >
                             {/* <Link

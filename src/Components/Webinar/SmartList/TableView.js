@@ -2116,7 +2116,8 @@ const location = useLocation();
                     id="add_hcp_form"
                     className={"tab-pane active"}
                     onSubmit={(e) => {
-                      e.preventDefault();
+                      e.preventDefault(props.smartListId);
+                      alert()
                       if (handleError()) {
                         let rehearsalSpeakername = JSON.stringify(Speakername);
                         ExportApi.EmailSand(props.smartListId, rehearsalSpeakername)

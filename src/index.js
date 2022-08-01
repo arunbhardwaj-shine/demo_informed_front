@@ -123,6 +123,7 @@ import GetDetails from "./Components/Distributes/GetDetails";
 import EditSmartList from "./Components/Webinar/SmartList/EditSmartList";
 import WebinarSelectHCP from "./Components/Webinar/Emails/WebinarSelectHCP";
 import WebinarVerifyHCP from "./Components/Webinar/Emails/WebinarVerifyHCP";
+import WebinarVerifyHcpMAIL from "./Components/Webinar/Emails/WebinarVerifyHcpMAIL";
 
 let platform = 0;
 let show = 0;
@@ -296,6 +297,10 @@ ReactDOM.render(
                         <Route
                           path="/webinar/email/SelectVerifyHCP"
                           element={<WebinarVerifyHCP />}
+                        />
+                        <Route
+                          path="/webinar/email/WebinarVerifyHcpMAIL"
+                          element={<WebinarVerifyHcpMAIL />}
                         />
                         <Route
                           path="/webinar/email/smart-list-users/:id"
