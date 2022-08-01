@@ -5954,3 +5954,6 @@ section.search-hcp.smart-list-view .header-btn-left {
   word-break: break-word;
   width: 170px;
 }
+#analytics-hcp-table .load_more {
+  margin-top: 20px;
+}
