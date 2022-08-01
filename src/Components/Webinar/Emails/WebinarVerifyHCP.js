@@ -409,7 +409,7 @@ const WebinarVerifyHCP = () => {
                 </li>
               </ul>
             </div>
-          <div className="col-12 col-md-2">
+          <div className="col-12 col-md-3">
             <div className="header-btn">
               <button
                 // onClick={saveAsDraft}

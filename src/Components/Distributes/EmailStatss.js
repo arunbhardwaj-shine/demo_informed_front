@@ -34,10 +34,14 @@ const EmailStatss = (props) => {
   const [searchData, setSearchData] = useState([]);
   const [sortingCountDate, setSortingCountDate] = useState(0);
   const [loadmore, setLoadMore] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [showLoader, setShowLoader] = useState(0);
+  const [sortTitleStarted, setSortTitleStarted] = useState(0);
+
   const [perPageData, setPerPageData] = useState();
 
   useEffect(() => {
-    getCampaignList("1", "");
+    getCampaignList(1, "");
   }, []);
 
   const getCampaignList = async (page, search) => {
@@ -53,28 +57,15 @@ const EmailStatss = (props) => {
       .then((res) => {
         if (res.data.status_code == 200) {
           console.log(res);
-          //setData(res.data.response.data);
-          if (search !== "") {
-            //setData([]);
-            setData(res.data.response.data);
-            setLoadMore(0);
-            setSearch("");
-          } else {
-            setCampaignDataLength(res.data.response.data.length);
-            setData((oldArray) => [...oldArray, ...res.data.response.data]);
-            //setUpdatedData(res.data.response.data);
-            setUpdatedData((oldArray) => [
-              ...oldArray,
-              ...res.data.response.data,
-            ]);
+          setShowLoader(1);
 
-            setLoadMore(1);
-
-            setTotalCount(res.data.response.pegination.totalCount);
-            setLastPage(res.data.response.pegination.lastPage);
-            setPerPageData(res.data.response.pegination.perPage);
-          }
+          setData((oldArray) => [...oldArray, ...res.data.response.data]);
+          setCurrentPage(res.data.response.pegination.currentPage);
+          setTotalCount(res.data.response.pegination.totalCount);
+          setLastPage(res.data.response.pegination.lastPage);
+          setPerPageData(res.data.response.pegination.perPage);
         } else {
+          setShowLoader(0);
           toast.warning(res.data.message);
         }
         loader("hide");
@@ -153,6 +144,7 @@ const EmailStatss = (props) => {
   };
 
   const sortTitle = () => {
+    // setSortTitleStarted(1);
     let normalArr = [];
     normalArr = campaignData;
     if (sorting === 0) {
@@ -195,7 +187,7 @@ const EmailStatss = (props) => {
         return aa > bb ? -1 : aa < bb ? 1 : 0;
       });
     }
-    // console.log(sortedData);
+
     setSortingCount(0);
     setData(sortedData);
     setSortDate(1 - sortDatee);
@@ -206,54 +198,25 @@ const EmailStatss = (props) => {
     setSearch(e.target.value.trim());
 
     if (e.target.value === "") {
-      // setData(updatedData);
-      setLoadMore(1);
-      setPage(1);
-      setSearch("");
-      //setSearchStarted();
       setData([]);
+      setSearch("");
       getCampaignList(1, "");
-      // setSearchStarted(0);
     }
   };
 
   const submitHandler = (event) => {
     event.preventDefault();
-    // let r_table = [];
-    // setSearchStarted(1);
-    // updatedData.find(function (item) {
-    //   if (
-    //     item.pdf_title.includes(search) ||
-    //     item.subject.includes(search) ||
-    //     item.list.includes(search)
-    //   ) {
-    //     r_table.push(item);
-    //   }
-    // });
-    // if (r_table.length > 0) {
-    //   setData(r_table);
-    //   setSearchData(r_table);
-    // } else {
-    //   // popup_alert({
-    //   //   visible: "show",
-    //   //   message: "Data not found",
-    //   //   type: "error",
-    //   // });
 
-    //   setData([]);
-    // }
-    // event.preventDefault();
-    // return false;
-    getCampaignList("", search);
-    // setPage(1);
+    setData([]);
+    getCampaignList(1, search);
   };
 
   const load_more = () => {
-    //  getContentData(0, 2);
-    setLoadMore(1);
-
-    getCampaignList(page + 1, search);
-    setPage(page + 1);
+    setSorting(0);
+    setSortDate(0);
+    setSortingCountDate(0);
+    setSortingCount(0);
+    getCampaignList(currentPage + 1, search);
   };
 
   return (
@@ -403,7 +366,9 @@ const EmailStatss = (props) => {
                         </div>
                       </th>
 
-                      <th scope="col">Smart List</th>
+                      <th className="smartlistth" scope="col">
+                        Smart List
+                      </th>
                       <th scope="col">Total mail sent</th>
                       <th scope="col">Email Read</th>
                       <th scope="col">Pending Read Email</th>
@@ -423,9 +388,9 @@ const EmailStatss = (props) => {
                           <tr>
                             <td> {item.c_id}</td>
                             <td> {item.sent_data}</td>
-                            <td> {item.subject}</td>
-                            <td> {item.pdf_title}</td>
-                            <td> {item.list}</td>
+                            <td className="smartlistth"> {item.subject}</td>
+                            <td className="smartlistth"> {item.pdf_title}</td>
+                            <td className="smartlistth"> {item.list}</td>
                             <td> {item.total_sent_count}</td>
                             <td> {item.total_read_count}</td>
                             <td> {item.total_pending_count}</td>
@@ -476,9 +441,8 @@ const EmailStatss = (props) => {
                 </table>
               </div>
               {typeof campaignData !== "undefined" &&
-              page !== lastPage &&
-              searchStarted == 0 &&
-              loadmore ? (
+              currentPage !== lastPage &&
+              showLoader ? (
                 <div className="load_more">
                   <button
                     className="btn btn-primary btn-filled"

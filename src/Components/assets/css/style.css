@@ -5750,7 +5750,7 @@ table thead.sticky-header:after {
   padding: 0px 15px 10px 0px;
 } */
 #analytics-hcp-table .table_xls {
-  max-height: 71vh;
+  max-height: 66vh;
 }
 .table_xls #table-to-xls {
   margin-top: 0;
@@ -5949,4 +5949,11 @@ section.search-hcp.smart-list-view .header-btn-left {
 
 .orange-box {
     justify-content: flex-end;
+}
+#analytics-hcp-table.selected-hcp-list table th.smartlistth, #analytics-hcp-table.selected-hcp-list table td.smartlistth {
+  word-break: break-word;
+  width: 170px;
+}
+#analytics-hcp-table .load_more {
+  margin-top: 20px;
 }
