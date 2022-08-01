@@ -1749,6 +1749,8 @@ form#add_hcp_form .row:not(:first-child) {
   margin: 0;
   overflow-y: auto;
   max-height: 142px;
+  overflow-x: hidden;
+  word-break: break-word;
 }
 .dropdown-menu.filter-options .accordion .card ul li,
 .approved_list ul li {
@@ -1979,7 +1981,7 @@ a.show-less-info p:after {
   padding-bottom: 10px;
   background: #fbfcfd;
 }
-table thead.sticky-header:after {
+/* table thead.sticky-header:after {
   content: "";
   position: absolute;
   width: 20px;
@@ -1987,7 +1989,7 @@ table thead.sticky-header:after {
   height: 35px;
   right: -11px;
   top: 0;
-}
+} */
 .search-hcp-table tbody tr, .selected-hcp-list tbody tr {
   background: transparent;
   box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
@@ -3644,9 +3646,9 @@ input[type="date"]:before {
   border: 0;
   outline: none;
 }
-.selected-hcp-list tbody td span {
+/* .selected-hcp-list tbody td span {
   padding: 7px 11px;
-}
+} */
 .list-tab-box-inside .tab-content td[contenteditable]:focus-visible {
   background: var(--light-gray);
   border-radius: 30px;
@@ -4835,8 +4837,27 @@ button.btn.btn-primary.back {
   height: 40px;
   padding: 2px;
 }
-#hcp-form .Consent .form-group-left input#fullconsent1 {
+#hcp-form .Consent .form-group-left input#fullconsent1, #hcp-form .Consent .form-group-left input#radio_helthcare {
   order: 1;
+  opacity: 0;
+  display: block;
+  width: 20px;
+  height: 20px;
+  top: -4px;
+  left: 0;
+  position: absolute;
+}
+.login-from .form-group-left {
+  position: relative;
+}
+.login-from .form-group-left label#consent-label {
+  padding-left: 28px;
+  position: relative;
+  max-width: 90%;
+  word-break: break-word;
+  flex: 1 1 auto;
+}
+.login-from .form-group-left input#break_fast {
   opacity: 0;
   display: block;
   width: 20px;
@@ -4912,7 +4933,7 @@ a#close_consent p {
   content: '';
   position: absolute;
   left: 0px;
-  top: 0px;
+  top: 2px;
   width: 17px;
   height: 17px;
   border: 2px solid #2068b3;
@@ -4936,7 +4957,7 @@ a#close_consent p {
   height: 9px;
   background: #2068b3;
   position: absolute;
-  top: 6px;
+  top: 8px;
   left: 6px;
   border-radius: 100%;
   transition: all 0.2s ease;
@@ -4951,13 +4972,8 @@ a#close_consent p {
   font-family: "Roboto-Bold";
   margin-left: 0;
 }
-#hcp-form label {
-  font-size: 17px;
-  color: #2068b3;
-  font-family: "Roboto-Bold";
-  width: 100%;
-  min-width: 40%;
-  max-width: 40%;
+.card-header .accordion-button::after {
+display: none;
 }
 #hcp-form .Consent .form-group-left input.fl_cnt_val {
   order: 3;

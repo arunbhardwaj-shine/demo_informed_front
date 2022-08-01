@@ -511,11 +511,14 @@ const Format1 = (props) => {
                                           <div className="form-group-left">
                                              <input type="checkbox"  id="fullconsent1" value="option1" name="fullconsent"/>
                                              <label htmlFor="fullconsent1"  id="consent-label">Full Consent</label>
-                                             {formik.values.radio_helthcare?<><input type="checkbox"  id="fullconsent1" value="option2" name="radio_helthcare"/>
-                                             <label htmlFor="fullconsent1"  id="consent-label">I confirm that I am a healthcare professional </label></> :null}  
+                                             <a href="javascript:;"onClick={()=>setOption(!option)}  className="change-btn"><p>Change</p></a>
+                                          </div>
+                                          <div className="form-group-left">
+                                             {formik.values.radio_helthcare?<><input type="checkbox"  id="radio_helthcare" value="option2" name="radio_helthcare"/>
+                                             <label htmlFor="radio_helthcare"  id="consent-label">I confirm that I am a healthcare professional </label></> :null}  
                                               
                                              <input type="hidden" className="fl_cnt_val" value="Full consent*"/>                 
-                                             <a href="javascript:;"onClick={()=>setOption(!option)}  className="change-btn"><p>Change</p></a>
+                                             
                                              {option?<div className="options">
                                              <p>I consent to</p>
                                              {formik?.values?.consentRadiotext1?   <div className="option-list">
@@ -1036,12 +1039,14 @@ const Format1 = (props) => {
                                   <div className='form-group position-relativee'>
                                     <input type="text" className="form-control" name="email" id="email"  placeholder="Email" />
                                   </div>
-                                  {formik.values.radio_breakfast?<><input type="checkbox"  id="fullconsent1" value="option2" name="radio_helthcare"/>
-                                             <label htmlFor="fullconsent1"  id="consent-label">{formik.values.radio_breakfast_content}</label></> :null} 
+                                  <div className="form-group-left">
+                                  {formik.values.radio_breakfast?<><input type="checkbox"  id="break_fast" value="option2" name="break_fast"/>
+                                             <label htmlFor="break_fast"  id="consent-label">{formik.values.radio_breakfast_content}</label></> :null} 
                                       <button className="sumit-btn" id="signup_submit">Submit</button>   
+                                  </div>
                                   </form>
                                   </div>
-                                  </div>
+                                </div>
                            </div>
                      </div>
                         </div>
