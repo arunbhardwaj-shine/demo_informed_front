@@ -34,10 +34,12 @@ const EmailStatss = (props) => {
   const [searchData, setSearchData] = useState([]);
   const [sortingCountDate, setSortingCountDate] = useState(0);
   const [loadmore, setLoadMore] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+
   const [perPageData, setPerPageData] = useState();
 
   useEffect(() => {
-    getCampaignList("1", "");
+    getCampaignList(1, "");
   }, []);
 
   const getCampaignList = async (page, search) => {
@@ -54,26 +56,14 @@ const EmailStatss = (props) => {
         if (res.data.status_code == 200) {
           console.log(res);
           //setData(res.data.response.data);
-          if (search !== "") {
-            //setData([]);
-            setData(res.data.response.data);
-            setLoadMore(0);
-            setSearch("");
-          } else {
-            setCampaignDataLength(res.data.response.data.length);
-            setData((oldArray) => [...oldArray, ...res.data.response.data]);
-            //setUpdatedData(res.data.response.data);
-            setUpdatedData((oldArray) => [
-              ...oldArray,
-              ...res.data.response.data,
-            ]);
 
-            setLoadMore(1);
+          setData((oldArray) => [...oldArray, ...res.data.response.data]);
+          setCurrentPage(res.data.response.pegination.currentPage);
+          //setUpdatedData(res.data.response.data);
 
-            setTotalCount(res.data.response.pegination.totalCount);
-            setLastPage(res.data.response.pegination.lastPage);
-            setPerPageData(res.data.response.pegination.perPage);
-          }
+          setTotalCount(res.data.response.pegination.totalCount);
+          setLastPage(res.data.response.pegination.lastPage);
+          setPerPageData(res.data.response.pegination.perPage);
         } else {
           toast.warning(res.data.message);
         }
@@ -207,11 +197,10 @@ const EmailStatss = (props) => {
 
     if (e.target.value === "") {
       // setData(updatedData);
-      setLoadMore(1);
-      setPage(1);
-      setSearch("");
+
       //setSearchStarted();
       setData([]);
+      setSearch("");
       getCampaignList(1, "");
       // setSearchStarted(0);
     }
@@ -244,16 +233,15 @@ const EmailStatss = (props) => {
     // }
     // event.preventDefault();
     // return false;
-    getCampaignList("", search);
+    setData([]);
+    getCampaignList(1, search);
     // setPage(1);
   };
 
   const load_more = () => {
     //  getContentData(0, 2);
-    setLoadMore(1);
 
-    getCampaignList(page + 1, search);
-    setPage(page + 1);
+    getCampaignList(currentPage + 1, search);
   };
 
   return (
@@ -476,9 +464,7 @@ const EmailStatss = (props) => {
                 </table>
               </div>
               {typeof campaignData !== "undefined" &&
-              page !== lastPage &&
-              searchStarted == 0 &&
-              loadmore ? (
+              currentPage !== lastPage ? (
                 <div className="load_more">
                   <button
                     className="btn btn-primary btn-filled"
