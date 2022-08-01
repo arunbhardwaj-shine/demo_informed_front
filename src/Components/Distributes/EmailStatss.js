@@ -36,6 +36,7 @@ const EmailStatss = (props) => {
   const [loadmore, setLoadMore] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [showLoader, setShowLoader] = useState(0);
+  const [sortTitleStarted, setSortTitleStarted] = useState(0);
 
   const [perPageData, setPerPageData] = useState();
 
@@ -60,7 +61,6 @@ const EmailStatss = (props) => {
           setShowLoader(1);
           setData((oldArray) => [...oldArray, ...res.data.response.data]);
           setCurrentPage(res.data.response.pegination.currentPage);
-
           setTotalCount(res.data.response.pegination.totalCount);
           setLastPage(res.data.response.pegination.lastPage);
           setPerPageData(res.data.response.pegination.perPage);
@@ -144,6 +144,7 @@ const EmailStatss = (props) => {
   };
 
   const sortTitle = () => {
+    // setSortTitleStarted(1);
     let normalArr = [];
     normalArr = campaignData;
     if (sorting === 0) {
@@ -211,6 +212,8 @@ const EmailStatss = (props) => {
   };
 
   const load_more = () => {
+    setSortingCountDate(0);
+    setSortingCount(0);
     getCampaignList(currentPage + 1, search);
   };
 
