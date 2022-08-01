@@ -5950,3 +5950,7 @@ section.search-hcp.smart-list-view .header-btn-left {
 .orange-box {
     justify-content: flex-end;
 }
+#analytics-hcp-table.selected-hcp-list table th.smartlistth, #analytics-hcp-table.selected-hcp-list table td.smartlistth {
+  word-break: break-word;
+  width: 170px;
+}
