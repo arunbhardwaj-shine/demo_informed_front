@@ -421,6 +421,7 @@ const GetDetails = () => {
                     <table className="table" id="table-to-xls">
                       <thead className="sticky-header">
                         <tr>
+                          <>
                           <th scope="col">
                             First Name
                             <div className="hcp-sort">
@@ -509,6 +510,24 @@ const GetDetails = () => {
                           <th scope="col">Email Read</th>
                           <th scope="col">Link Open</th>
                           <th scope="col">Registered</th>
+                          {
+                            typeof data != "undefined" && data.length > 0 ? (
+                                <>
+                                {
+                                  data[0]?.all_read_info && data[0].all_read_info != "" ?
+                                  Object.keys(data[0].all_read_info).map((key, index) => (
+                                    <>
+                                    <th>Link Open {index +1 }</th>
+                                    <th>Registered {index +1}</th>
+                                    </>
+                                  ))
+                                  :
+                                  ''
+                                }
+                                </>
+                            ) : ''
+                          }
+                          </>
                         </tr>
                       </thead>
                       <tbody className="form-group">
@@ -524,6 +543,17 @@ const GetDetails = () => {
                                       <td>{item.email_read}</td>
                                       <td>{item.article_open}</td>
                                       <td>{item.article_register}</td>
+                                      {
+                                        item?.all_read_info && item.all_read_info != "" ?
+                                        Object.keys(item.all_read_info).map((key) => (
+                                          <>
+                                          <td>{item.all_read_info[key].article_read}</td>
+                                          <td>{item.all_read_info[key].article_registered}</td>
+                                          </>
+                                        ))
+                                        :
+                                        ''
+                                      }
                                     </tr>
                                    :
                                   <tr>
