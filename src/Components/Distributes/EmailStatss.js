@@ -57,8 +57,8 @@ const EmailStatss = (props) => {
       .then((res) => {
         if (res.data.status_code == 200) {
           console.log(res);
-
           setShowLoader(1);
+
           setData((oldArray) => [...oldArray, ...res.data.response.data]);
           setCurrentPage(res.data.response.pegination.currentPage);
           setTotalCount(res.data.response.pegination.totalCount);
@@ -212,6 +212,8 @@ const EmailStatss = (props) => {
   };
 
   const load_more = () => {
+    setSorting(0);
+    setSortDate(0);
     setSortingCountDate(0);
     setSortingCount(0);
     getCampaignList(currentPage + 1, search);
