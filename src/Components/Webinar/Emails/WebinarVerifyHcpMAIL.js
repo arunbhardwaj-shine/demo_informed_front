@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { ToastContainer } from 'react-bootstrap';
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'react-toastify';
 import ExportApi from '../../../Api/ExportApi'
+import { loader } from '../../../loader';
 
 const WebinarVerifyHcpMAIL = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_WEBINAR;
   let params=useParams()
+  let navigate = useNavigate();
   // const[id,setId]=useState(window.atob(params.id))
   // const[name,setName]=useState(window.atob(params.name))
   const[Tage,setTags]=useState()
@@ -22,13 +26,65 @@ const WebinarVerifyHcpMAIL = () => {
         }
       })
   }
+   const handleSendMail = () => {
+    loader("show");
+    ExportApi.sandAllmaik(localStorage.getItem("collection_id")).then(
+      (resp) => {
+        if (resp.ok) {
+          // console.log(resp.data);
+          if (resp.data.code == 200) {
+            loader("hide");
+            toast.success(resp.data.message, {
+              position: "top-right",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+            setTimeout(() => {
+              navigate("/webinar/email/emails");
+            }, 2000);
+          } else {
+            loader("hide");
+            toast.error(resp.data.message, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+          }
+        }
+      }
+      );
+      loader("hide");
+  };
   useEffect(() => {
     getData()
 }, [])
   // getCollectionData
   return (
     <>
+      <div className="loader" id="custom_loader">
+        <span className="loader-view"> </span>
+      </div>
       <div className="col right-sidebar">
+    
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
         <div className="custom-container">
           <div className="row">
             <div className="page-top-nav">
@@ -63,17 +119,17 @@ const WebinarVerifyHcpMAIL = () => {
                   <div className="header-btn">
                     <button
                       className="btn btn-primary btn-bordered move-draft"
-                    //   onClick={saveAsDraft}
+                      onClick={handleSendMail}
                     >
                       Save As Draft
                     </button>
                     <button
-                    //   className={
-                    //     getSelectedPdfId == 13
-                    //       ? "btn btn-primary btn-filled next send_btn send_disabled"
-                    //       : "btn btn-primary btn-filled next send_btn"
-                    //   }
-                    //   onClick={createEmail}
+                    type='button'
+              //      className={
+                   
+              //       "btn btn-primary btn-filled next send_btn"
+              //  }
+               onClick={()=>{handleSendMail()}}
                     >
                       Send
                     </button>
