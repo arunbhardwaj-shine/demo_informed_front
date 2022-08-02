@@ -102,12 +102,12 @@ const templateClicked = (template, e) => {
         <div className="reg-block">
         <div className="reg-sidbar">
           {/* {  alert(TemplateIdActive==1?"select-sm img":"img.select_mm")} */}
-            <div  className={TemplateIdActive=="1"?"select-sm img":""} onClick={(e) => {templateClicked(1,e);Format(1)}}>
-                <img  className={TemplateIdActive=="1"?"reg-sidbar-img select_mm":"reg-sidbar-img "} value={"virtual"} src={path_imagee + "format1.png"} alt="Format-1"  />
-                <p>{"Format 1"}</p>
-            </div>
             <div  className={TemplateIdActive=="2"?"select-sm img":""} onClick={(e) => {templateClicked(2,e);Format(2)}} >
                 <img  className={TemplateIdActive=="2"?"reg-sidbar-img select_mm":"reg-sidbar-img "} value={"onsite"} src={path_imagee + "format2.png"} alt="Format-2" />
+                <p>{"Format 1"}</p>
+            </div>
+            <div  className={TemplateIdActive=="1"?"select-sm img":""} onClick={(e) => {templateClicked(1,e);Format(1)}}>
+                <img  className={TemplateIdActive=="1"?"reg-sidbar-img select_mm":"reg-sidbar-img "} value={"virtual"} src={path_imagee + "format1.png"} alt="Format-1"  />
                 <p>{"Format 2"}</p>
             </div>
         </div>

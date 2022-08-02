@@ -73,7 +73,9 @@ const Registration = () => {
     };
     const handleCreateRegistrationPage=()=>{
         setError(false);
-        ExportApi.CreateRegistrationPage(localStorage.getItem("EventIdHeader"),modeType).then((resp) => {
+        if(registrationPageList[0]?.mode=="Virtual"){
+            // alert("1")
+        ExportApi.CreateRegistrationPage(localStorage.getItem("EventIdHeader"),"onsite").then((resp) => {
             if (resp.ok) {
                 toast.error(resp.data.message);
                 localStorage.setItem("EditRegistrationPageId",resp.data.data.id);
@@ -92,7 +94,28 @@ const Registration = () => {
                 toast.error(resp.data.message);
             }
         });
-        
+    }else{
+        // alert("2")
+        ExportApi.CreateRegistrationPage(localStorage.getItem("EventIdHeader"),"virtual").then((resp) => {
+            if (resp.ok) {
+                toast.error(resp.data.message);
+                localStorage.setItem("EditRegistrationPageId",resp.data.data.id);
+                setModalShow1(false);
+                setErrorSelectId(false);
+                setError(false);
+                setRegistrationPageIdCopy();
+                //setModeType();
+                setTimeout(() => {
+                    navigate("/webinar/portal/NewRegistration");
+                    setShow(false);
+                }, 1000);
+                    // setData(resp.data.data)
+                    loader("hide");
+            }else{
+                toast.error(resp.data.message);
+            }
+        });
+    }
     };
     
     const handleCreateRegistrationPageFirst=()=>{
@@ -156,9 +179,9 @@ const Registration = () => {
                   <h3>Registration Page </h3>
                 </div>
                 {registrationPageList?.length==2||registrationPageList?.length>2?null:<>  {registrationPageList===undefined||registrationPageList===null? <Button  onClick={()=>handleCreateRegistrationPageFirst()}>Create Registration Page</Button>:<>   {registrationPageList?.length==1||registrationPageList?.length>1? <div className="top-right-action">
-                <Button  onClick={()=>setModalShow1(true)}>Create Registration Page</Button>
+                <Button  onClick={()=>handleCreateRegistrationPage()}>Create Registration Page</Button>
                 </div>:registrationPageList.length==1?(<> {registrationPageList?.length==2||registrationPageList?.length>2?null:  <div className="top-right-action">
-                <Button  onClick={()=>setModalShow1(true)}>Create Registration Page</Button>
+                <Button  onClick={()=>handleCreateRegistrationPage()}>Create Registration Page</Button>
                 </div>}</>):null}</>}</>}
             </div>
             <div className="registration-table">
@@ -173,8 +196,7 @@ const Registration = () => {
                     {registrationPageList?<>{registrationPageList?.map((val, i) => (
                         <tr key={i}>
                             <td>{val.mode} Registration Page</td>
-                            {localStorage.setItem(val.mode + "_page_id",val.id)}
-                            {localStorage.setItem(val.mode + "_page_mode",val.id)}
+                       
                             <td>
                             <ul className="hcp-table-content-right">
                                 <div className="user-type-action">
