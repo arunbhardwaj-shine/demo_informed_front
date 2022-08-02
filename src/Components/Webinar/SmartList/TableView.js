@@ -2124,14 +2124,15 @@ const location = useLocation();
                             if (resp.data) {
                          
                               if (resp.data.code == 200) {
-                                resp.data.data.map((item)=>{
-                                  setNewReaders((oldArray) => [...oldArray,item]);
-
-                                })
+                                setIsOpenAddModal(false);
+                                if(resp.data.data){
+                                  resp?.data?.data.map((item)=>{
+                                    setNewReaders((oldArray) => [...oldArray,item]);
+                                  })
+                                }
                                 // setNewReaders(...getNewReaders,Speakername)
                                 // setEditList(resp.data.data)
                                 // console.log(resp.data);
-                                setIsOpenAddModal(false);
                                 toast.success(resp.data.message);
                                 // ExportApi.GetSmartListSingleRecord(props.smartListId, rehearsalSpeakername)
                                 // .then((resp) => {
@@ -2162,8 +2163,9 @@ const location = useLocation();
                           })
                   
                           .catch((err) => {
-                            toast.error("Something went wrong")
-                            // loader("hide");
+                            console.log(err)
+                            // toast.error("Something went wrong")
+                            // // loader("hide");
                           });
                       }
                     }}

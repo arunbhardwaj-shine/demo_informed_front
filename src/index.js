@@ -124,6 +124,7 @@ import EditSmartList from "./Components/Webinar/SmartList/EditSmartList";
 import WebinarSelectHCP from "./Components/Webinar/Emails/WebinarSelectHCP";
 import WebinarVerifyHCP from "./Components/Webinar/Emails/WebinarVerifyHCP";
 import WebinarVerifyHcpMAIL from "./Components/Webinar/Emails/WebinarVerifyHcpMAIL";
+import TableTypeData from "./Components/Webinar/Emails/TableTypeData";
 
 let platform = 0;
 let show = 0;
@@ -325,6 +326,10 @@ ReactDOM.render(
                         <Route
                           path="/webinar/email/smart-list-view/:id"
                           element={<SmartListWebinarView />}
+                        />
+                        <Route
+                          path="/webinar/email/TableTypeData/:id"
+                          element={<TableTypeData />}
                         />
                         <Route
                           path="/webinar/email/editSmartList/:id/:name/:active"
