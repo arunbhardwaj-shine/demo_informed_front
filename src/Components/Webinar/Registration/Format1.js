@@ -498,7 +498,7 @@ const Format1 = (props) => {
                                 <h6>{formik?.values?.Speakername}</h6>
                                 <h6>{formik?.values?.eventdate}</h6>
                                  <h6>{formik?.values?.eventtime}</h6>
-                                <h6>{formik?.values?.Address}</h6>
+                                 {props.mode?.mode=="onsite"?<p>{formik?.values?.Address}</p>:null} 
                             </div>
                         </div>
                         <div className="head-sec-boxes" style={{color:formik?.values?.textColor}}>

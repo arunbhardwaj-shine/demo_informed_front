@@ -756,12 +756,22 @@ const location = useLocation();
           // console.log(res);
 
           if (res.data.code == 200) {
-            popup_alert({
-                  visible: "show",
-                  message: "Data updated <br> successfully",
-                  type: "error",
-                  redirect: "/webinar/email/WebinarSmartList",
-                });
+            if(location.pathname === `/webinar/email/TableTypeData/${localStorage.getItem("SmartListId")}`){
+              props.getData()
+              popup_alert({
+                visible: "show",
+                message: "Data updated <br> successfully",
+                type: "error",
+                // redirect: "/webinar/email/WebinarSmartList",
+              });
+            }else{
+              popup_alert({
+                    visible: "show",
+                    message: "Data updated <br> successfully",
+                    type: "error",
+                    redirect: "/webinar/email/WebinarSmartList",
+                  });
+            }
             // toast.success("Data updated successfully");
           }
 
@@ -1516,7 +1526,64 @@ const location = useLocation();
           </div>
         </div>:null}
        
-            {props.upload_by_filter=="001"?null:props.upload_by_filter=="1"?null:<div className="row justify-content-end align-items-center">
+
+
+       {props.TableTypeData=="okk"?<div className="page-top-nav">
+          <div className="row justify-content-end align-items-center">
+            <div className="col-12 col-md-1">
+              <div className="header-btn-left">
+                <button
+                  className="btn btn-primary btn-bordered back"
+                  // onClick={backClicked}
+                >
+                  <Link to="/webinar/email/smart-list">Back</Link>
+                 
+                </button>
+              </div>
+            </div>
+            <div className="col-12 col-md-9">
+              <ul className="tabnav-link">
+                <li className="active">
+                  <Link to="/CreateEmail">Prepare Your Email</Link>
+                </li>
+                <li className="active">
+                  <Link to="/SelectSmartList">Select SmartList</Link>
+                </li>
+                {
+                  /*
+                  <li className="active active-main">
+                    <Link to="/SelectSmartList">Select Smart List</Link>
+                  </li>
+                  */
+                }
+                <li className="active active-main">
+                  <a href="javascript:void(0)">Verify Your List</a>
+                </li>
+
+                <li className="">
+                  <a href="javascript:void(0)">Verify your Email</a>
+                </li>
+              </ul>
+            </div>
+            <div className="col-12 col-md-2">
+              <div className="header-btn">
+                <button
+                  className="btn btn-primary btn-bordered move-draft"
+                  //  onClick={() => handleEmailSCreateCollection(0)}
+                >
+                  Save As Draft
+                </button>
+              <button
+                    onClick={() => navigate(`/webinar/email/WebinarVerifyHcpMAIL/${window.btoa(props.smartListId)}/${window.btoa(localStorage.getItem("SmartListName"))}`)}
+                   
+                    className="btn btn-primary btn-filled"
+                  >
+                    Next
+                  </button>              
+              </div>
+            </div>
+          </div>
+        </div>:<>  {props.upload_by_filter=="001"?null:props.upload_by_filter=="1"?null:<div className="row justify-content-end align-items-center">
               <div className="col-12 col-md-1">
                 <div className="header-btn-left">
                 <button
@@ -1525,20 +1592,6 @@ const location = useLocation();
                   navigate("/webinar/email/SmartListCreate");
                 }}
               > Back
-                {/* <svg
-                  width="12"
-                  height="19"
-                  viewBox="0 0 12 19"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M8.31557 17.82C8.97165 18.476 10.0354 18.476 10.6915 17.82C11.3475 17.1639 11.3475 16.1002 10.6915 15.4441L4.7522 9.50484L10.6927 3.56431C11.3488 2.90823 11.3488 1.84451 10.6927 1.18843C10.0367 0.532347 8.97294 0.532347 8.31686 1.18843L1.2212 8.28409C1.21 8.29469 1.19891 8.30548 1.18794 8.31646C0.531858 8.97254 0.531858 10.0363 1.18794 10.6923L8.31557 17.82Z"
-                    fill="white"
-                  />
-                </svg> */}
               </button>
                 </div>
               </div>
@@ -1570,7 +1623,8 @@ const location = useLocation();
                 </div></>:null}
                
               </div>
-            </div>}
+            </div>}</>}
+          
           </div>
           <br/>
         <ToastContainer />
@@ -1585,7 +1639,7 @@ const location = useLocation();
               </h4>
             ) : ( <div className="header-btn-left">
               {location.pathname ==
-     `/webinar/email/editSmartList/${localStorage.getItem("SmartListIdView")}/${localStorage.getItem("SmartListIdViewName")}/${localStorage.getItem("SmartListIdViewN")}`||  location.pathname === "/webinar/email/SmartListCreate/FilterList"? null:  <button
+     `/webinar/email/editSmartList/${localStorage.getItem("SmartListIdView")}/${localStorage.getItem("SmartListIdViewName")}/${localStorage.getItem("SmartListIdViewN")}`||  location.pathname === "/webinar/email/SmartListCreate/FilterList"||location.pathname === `/webinar/email/TableTypeData/${localStorage.getItem("SmartListId")}`? null:  <button
      class="btn  btn-filled back"
      onClick={() => {
        navigate("/webinar/email/WebinarSmartList");

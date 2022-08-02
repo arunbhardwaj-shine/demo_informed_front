@@ -18,10 +18,10 @@ useEffect(() => {
     getData()
 }, [])
   return (
-    <>
+    <div className="right-sidebar col">
 
-<TableView getData={getData} data={Data} smartListId={parms.id}  />
-    </>
+      <TableView getData={getData} data={Data} smartListId={parms.id} TableTypeData="okk" />
+    </div>
   )
 }
 

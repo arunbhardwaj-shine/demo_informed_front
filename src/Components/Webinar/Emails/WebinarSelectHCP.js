@@ -74,7 +74,7 @@ const WebinarSelectHCP = () => {
                   </button>
                 ) : (
                  <Link
-                 to={"/webinar/email/smart-list"}  
+                 to={`/webinar/email/WebinarVerifyHcpMAIL/${window.btoa(localStorage.getItem("SmartListId"))}`}  
                   >
                     <button
                       className="btn btn-primary btn-filled next"

@@ -486,7 +486,7 @@ const Format2 = (props) => {
                                 {/* <p>{formik?.values?.Speakername}</p> */}
                                 <p>{formik?.values?.eventdate}</p>
                                <p>{formik?.values?.eventtime}</p>
-                               {/* <p>{formik?.values?.Address}</p> */}
+                              {props.mode?.mode=="onsite"?<p>{formik?.values?.Address}</p>:null} 
                         </div>
                         </div>
                         <hr style={{color:formik?.values?.titleColor}} size={10}/>

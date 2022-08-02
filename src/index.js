@@ -300,7 +300,11 @@ ReactDOM.render(
                           element={<WebinarVerifyHCP />}
                         />
                         <Route
-                          path="/webinar/email/WebinarVerifyHcpMAIL"
+                          path="/webinar/email/WebinarVerifyHcpMAIL/:id/:name"
+                          element={<WebinarVerifyHcpMAIL />}
+                        />
+                        <Route
+                          path="/webinar/email/WebinarVerifyHcpMAIL/:id"
                           element={<WebinarVerifyHcpMAIL />}
                         />
                         <Route

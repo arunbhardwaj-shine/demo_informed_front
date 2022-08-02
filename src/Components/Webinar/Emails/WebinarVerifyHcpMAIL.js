@@ -1,7 +1,31 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
+import ExportApi from '../../../Api/ExportApi'
 
 const WebinarVerifyHcpMAIL = () => {
+  let path_image = process.env.REACT_APP_ASSETS_PATH_WEBINAR;
+  let params=useParams()
+  // const[id,setId]=useState(window.atob(params.id))
+  // const[name,setName]=useState(window.atob(params.name))
+  const[Tage,setTags]=useState()
+  const[SmartListData,setSmartListData]=useState(JSON.parse(localStorage.getItem("SmartListData")))
+
+ const [Data, setData] = useState()
+  const getData=()=>{
+      ExportApi.getCollectionData(localStorage.getItem("collection_id"))
+      .then((resp) => {
+        if (resp.data) {
+          console.log("first",resp.data)
+          setTags(JSON.parse(resp.data.data.tags))
+          setData(resp.data.data)
+          document.getElementById("preview-mail-box").innerHTML = resp.data.data?.templates.description;
+        }
+      })
+  }
+  useEffect(() => {
+    getData()
+}, [])
+  // getCollectionData
   return (
     <>
       <div className="col right-sidebar">
@@ -66,52 +90,24 @@ const WebinarVerifyHcpMAIL = () => {
                       <div>
                         <h4>Email Details</h4>
                         <h6>
-                          <strong>Campaign Title | </strong>
-                          {/* {props.getEmailData?.emailCampaign
-                            ? props.getEmailData.emailCampaign
-                            : props.getDraftData.campaign} */}
-                        </h6>
-                        <h6>
-                          <strong>Creator | </strong>
-                          {/* {props.getEmailData?.emailCreator
-                            ? props.getEmailData.emailCreator
-                            : props.getDraftData?.creator
-                            ? props.getDraftData.creator
-                            : ""} */}
-                        </h6>
-                        <h6>
                           <strong>Tags | </strong>
-                          {/* <ul>
-                            {props.getEmailData?.tags
-                              ? props.getEmailData.tags.map((tags, i) => {
+                           <ul>
+                            {Tage?.map((tags, i) => {
                                   return (
                                     <>
                                       <li className="list1">
-                                        {tags.innerHTML || tags}{" "}
-                                        <img
+                                        {tags}
+                                        {/* <img
                                           src={path_image + "filter-close.svg"}
                                           alt="Close-filter"
                                           onClick={() => removeTag(i)}
-                                        />
+                                        /> */}
                                       </li>
                                     </>
                                   );
                                 })
-                              : props.getDraftData.tags.map((tags, i) => {
-                                  return (
-                                    <>
-                                      <li className="list1">
-                                        {tags.innerHTML || tags}{" "}
-                                        <img
-                                          src={path_image + "filter-close.svg"}
-                                          alt="Close-filter"
-                                          onClick={() => removeTag(i)}
-                                        />
-                                      </li>
-                                    </>
-                                  );
-                                })}
-                          </ul> */}
+                              }
+                          </ul>
                         </h6>
                       </div>
                       <div className="form-buttons right-side">
@@ -143,97 +139,17 @@ const WebinarVerifyHcpMAIL = () => {
                     </div>
                     <div className="mail-recipt">
                       <div className="row">
-                        <div className="col-12 col-md-12 mail-recipt-right">
-                          <h6>Content that will be send</h6>
-                          <p>
-                            Content <span>| 1</span>
-                          </p>
-                          {/* {typeof getpdfdata !== "undefined" &&
-                            getSelectedPdfId != 13 &&
-                            getSelectedPdfId != 16 && (
-                              <div className="mail-content-select-box">
-                                <div className="mail-content-select-top">
-                                  <div className="mail-preview-img">
-                                    <img
-                                      src={path_image + "dummy-img.png"}
-                                      alt="Preview "
-                                    />
-                                  </div>
-                                  <div className="mail-box-content">
-                                    <h5>{getpdfdata.pdf_title}</h5>
-                                    <p>{getpdfdata.pdf_sub_title}</p>
-                                    <div className="mailbox-tags">
-                                      <ul>
-                                        {typeof getpdfdata.pdf_tags !==
-                                          "undefined" &&
-                                        getpdfdata.pdf_tags.length > 0 ? (
-                                          getpdfdata.pdf_tags.map((tag) => {
-                                            return (
-                                              <li className="list1">{tag}</li>
-                                            );
-                                          })
-                                        ) : (
-                                          <li className="list1">N/A</li>
-                                        )}
-                                      </ul>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="mail-content-table">
-                                  <table>
-                                    <tbody>
-                                      <tr>
-                                        <th>Upload Date</th>
-                                        <td>{getpdfdata.pdf_created}</td>
-                                      </tr>
-                                      <tr>
-                                        <th>Language</th>
-                                        <td>{getpdfdata.pdf_language}</td>
-                                      </tr>
-                                      <tr>
-                                        <th>SPC</th>
-                                        <td>
-                                          {getpdfdata.pdf_spc_included === 0
-                                            ? "No"
-                                            : "Yes"}
-                                        </td>
-                                      </tr>
-                                      <tr>
-                                        <th>Last Email</th>
-                                        <td>
-                                           {getpdfdata.pdf_last_sent == ""
-                                            ? "N/A"
-                                            : getpdfdata.pdf_last_sent} 
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-                                </div>
-                                <div className="mail-content-footer">
-                                  <a
-                                    // href={getpdfdata.pdf_preview_link}
-                                    target="_blank"
-                                  >
-                                    <button className="btn btn-primary btn-filled">
-                                      Preview
-                                    </button>
-                                  </a>
-                                </div>
-                              </div>
-                            )} */}
-                        </div>
-
                         <div className="col-12 col-md-12 mail-recipt-left">
                           <h6>
-                            The recipients <span>| {}</span>
+                            The recipients <span>| {SmartListData?.count}</span>
                           </h6>
-                          <p>{/* Single HCP <span>| 1</span> */}</p>
+                          {/* <p>Single HCP <span>| 1</span></p> */}
 
-                          {/*getSmartListData.length !== 0 && (
+                       
                         <div className="smartlist-view email_box_outer">
                           <div className="smartlist-view email_box">
                             <div className="mail-box-content">
-                              <h5>{getSmartListData.name}</h5>
+                              <h5>{SmartListData?.name}</h5>
 
                               <div className="mailbox-table">
                                 <table>
@@ -269,22 +185,22 @@ const WebinarVerifyHcpMAIL = () => {
                                     <tr>
                                       <th>Created By</th>
                                       <td>
-                                        <span>{getSmartListData.creator}</span>
+                                        <span>{SmartListData?.creator}</span>
                                       </td>
                                     </tr>
                                   </tbody>
                                 </table>
-                              </div>
+                              </div> 
 
                               <div className="mail-time">
-                                <span>{getSmartListData.created_at}</span>
+                                <span>{SmartListData?.mod_date}</span>
                               </div>
                               <div className="smart-list-added-user">
                                 <img
                                   src={path_image + "smartlist-user.svg"}
                                   alt="User icon"
                                 />
-                                {/*getSmartListData.readers_count*/}
+                               { SmartListData?.count}
                           {/*selectedHcp.length*/}
                           {/*</div>*/}
                           {/* <div className="mail-stats">
@@ -348,12 +264,12 @@ const WebinarVerifyHcpMAIL = () => {
                     </div>
                   </div>
                 </div>
+                </div>
+                </div></div></div>
                 <div className="col-12 verify-right">
                   <div className="preview_mail">
                     <h4>
-                      {/* {props.getEmailData?.emailSubject
-                        ? props.getEmailData.emailSubject
-                        : props.getDraftData.subject} */}
+                     {Data?.subject}
                     </h4>
                     {/*
                   <p>
@@ -365,13 +281,15 @@ const WebinarVerifyHcpMAIL = () => {
 
                     <div
                       className="preview-mail-box"
-                    //   dangerouslySetInnerHTML={{
-                    //     __html: var_template_source_code,
-                    //   }}
+                          id="preview-mail-box"
+                      // dangerouslySetInnerHTML={{
+                      //   __html:Data?.templates?.templates
+                      // }}
                     ></div>
                   </div>
                 </div>
               </div>
+              
             </section>
           </div>
         </div>
