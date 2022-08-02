@@ -77,7 +77,7 @@ const Registration = () => {
             // alert("1")
         ExportApi.CreateRegistrationPage(localStorage.getItem("EventIdHeader"),"onsite").then((resp) => {
             if (resp.ok) {
-                toast.error(resp.data.message);
+                // toast.error(resp.data.message);
                 localStorage.setItem("EditRegistrationPageId",resp.data.data.id);
                 setModalShow1(false);
                 setErrorSelectId(false);
@@ -91,14 +91,14 @@ const Registration = () => {
                     // setData(resp.data.data)
                     loader("hide");
             }else{
-                toast.error(resp.data.message);
+             toast.error(resp.data.message);
             }
         });
     }else{
         // alert("2")
         ExportApi.CreateRegistrationPage(localStorage.getItem("EventIdHeader"),"virtual").then((resp) => {
             if (resp.ok) {
-                toast.error(resp.data.message);
+                // toast.error(resp.data.message);
                 localStorage.setItem("EditRegistrationPageId",resp.data.data.id);
                 setModalShow1(false);
                 setErrorSelectId(false);
@@ -112,7 +112,7 @@ const Registration = () => {
                     // setData(resp.data.data)
                     loader("hide");
             }else{
-                toast.error(resp.data.message);
+                 toast.error(resp.data.message);
             }
         });
     }
