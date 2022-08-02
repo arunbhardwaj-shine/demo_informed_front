@@ -72,6 +72,7 @@ const Registration = () => {
         }
     };
     const handleCreateRegistrationPage=()=>{
+        loader("show")
         setError(false);
         if(registrationPageList[0]?.mode=="Virtual"){
             // alert("1")
@@ -84,10 +85,10 @@ const Registration = () => {
                 setError(false);
                 setRegistrationPageIdCopy();
                 //setModeType();
-                setTimeout(() => {
+               
                     navigate("/webinar/portal/NewRegistration");
                     setShow(false);
-                }, 1000);
+            
                     // setData(resp.data.data)
                     loader("hide");
             }else{
@@ -105,10 +106,8 @@ const Registration = () => {
                 setError(false);
                 setRegistrationPageIdCopy();
                 //setModeType();
-                setTimeout(() => {
                     navigate("/webinar/portal/NewRegistration");
                     setShow(false);
-                }, 1000);
                     // setData(resp.data.data)
                     loader("hide");
             }else{

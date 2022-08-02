@@ -66,22 +66,21 @@ const Format1 = (props) => {
         Title1:props.data?.Title1?props.data?.Title1: "",
         Title2:props.data?.Title2?props.data?.Title2: "",
         mode:mode?.mode,
-        Speakername:props.data?.Speakername?props.data?.Speakername:'',
+        Speakername:props.data?.Speakername?props.data?.Speakername:'Dr s .s mathur and by sunita jain',
         eventtime:props.data?.eventtime?props.data?.eventtime:'',
         eventdate:props.data?.eventdate?props.data?.eventdate:'',
         content1:props.data?.content1?props.data?.content1:'',
-        content2:props.data?.content2?props.data?.content2:'',
-        content3:props.data?.content3?props.data?.content3:'',
+        content2:props.data?.content2?props.data?.content2:'Please note our symposia are being recorded and streamed live.',
+        content3:props.data?.content3?props.data?.content3:'Please note our symposia are being recorded and streamed live.',
         Address:props.data?.Address?props.data?.Address:'',
-        consentRadiotext1:props.data?.consentRadiotext1?props.data?.consentRadiotext1:'',
-        consentRadiotext2:props.data?.consentRadiotext2?props.data?.consentRadiotext2:'',
-        consentRadiotext3:props.data?.consentRadiotext3?props.data?.consentRadiotext3:'',
+        consentRadiotext1:props.data?.consentRadiotext1?props.data?.consentRadiotext1:'mi participación durante el simposio en vivo que se graba para transmisión en vivo y uso bajo demanda*',
+        consentRadiotext2:props.data?.consentRadiotext2?props.data?.consentRadiotext2:'recibir correos electrónicos sobre este evento y otras actividades de Octapharma durante ISTH 2022 (estos pueden ser de naturaleza promocional)',
+        consentRadiotext3:props.data?.consentRadiotext3?props.data?.consentRadiotext3:'Please note our symposia are being recorded and streamed live.',
         name:props.data?.name?props.data?.name:"",
         country:props.data?.country?props.data?.country:"",
         radio_helthcare:props.data?.radio_helthcare?props.data?.radio_helthcare:"",
         radio_breakfast:props.data?.radio_breakfast?props.data?.radio_breakfast:"",
         radio_breakfast_content:props.data?.radio_breakfast_content?props.data?.radio_breakfast_content:"",
-
         titleColor:props.data?.titleColor?props.data?.titleColor:"",
         backgroundColor:props.data?.backgroundColor?props.data?.backgroundColor:"",
         borderColor:props.data?.borderColor?props.data?.borderColor:"",
@@ -487,7 +486,7 @@ const Format1 = (props) => {
                   <div className="log-inner">
                      <div className="head-sec">
                         <h3 className="top-title"style={{color:formik?.values?.titleColor}} >
-                       {formik?.values?.Title1?formik?.values?.Title1:<>{props?.mode?.mode+" symposium registration"}</>}
+                       {formik?.values?.Title1?formik?.values?.Title1:<>{props?.mode?.mode.charAt(0).toUpperCase() + props?.mode?.mode.slice(1)+" symposium registration"}</>}
                         </h3>   
                         {/* {console.log(props?.data)}                         */}
                         <div className="motivate_logo"><img id="imgVieww" src={props?.data?.titleLogo?props?.data?.titleLogo:""} alt="Logo" style={{width:"250px"}}/></div>
