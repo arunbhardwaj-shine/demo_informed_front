@@ -69,6 +69,15 @@ const Format1 = (props) => {
         Speakername:props.data?.Speakername?props.data?.Speakername:'Dr s .s mathur and by sunita jain',
         eventtime:props.data?.eventtime?props.data?.eventtime:'',
         eventdate:props.data?.eventdate?props.data?.eventdate:'',
+        Title1_color:props.data?.Title1_color?props.data?.Title1_color: "",
+        Title2_color:props.data?.Title2_color?props.data?.Title2_color: "",
+        Speakername_color:props.data?.Speakername_color?props.data?.Speakername_color:'',
+        eventdate_color:props.data?.eventdate_color?props.data?.eventdate_color:'',
+        content1_color:props.data?.content1_color?props.data?.content1_color:'',
+        content2_color:props.data?.content2_color?props.data?.content2_color:'',
+        content3_color:props.data?.content3_color?props.data?.content3_color:'',
+        formlable_color:props.data?.formlable_color?props.data?.formlable_color:'',
+        consent_color:props.data?.consent_color?props.data?.consent_color:'',
         content1:props.data?.content1?props.data?.content1:'',
         content2:props.data?.content2?props.data?.content2:'Please note our symposia are being recorded and streamed live.',
         content3:props.data?.content3?props.data?.content3:'Please note our symposia are being recorded and streamed live.',
@@ -81,16 +90,25 @@ const Format1 = (props) => {
         radio_helthcare:props.data?.radio_helthcare?props.data?.radio_helthcare:"",
         radio_breakfast:props.data?.radio_breakfast?props.data?.radio_breakfast:"",
         radio_breakfast_content:props.data?.radio_breakfast_content?props.data?.radio_breakfast_content:"",
-        titleColor:props.data?.titleColor?props.data?.titleColor:"",
+        // titleColor:props.data?.titleColor?props.data?.titleColor:"",
         backgroundColor:props.data?.backgroundColor?props.data?.backgroundColor:"",
         borderColor:props.data?.borderColor?props.data?.borderColor:"",
-        textColor:props.data?.textColor?props.data?.textColor:"",
+        // textColor:props.data?.textColor?props.data?.textColor:"",
       },
       enableReinitialize: true,
       onSubmit: (values) => {
         // loader("show")
         let jsonData ={
           page_title :values.page_title,
+          Title1_color:values.Title1_color,
+          Title2_color: values.Title2_color,
+          consent_color: values.consent_color,
+          formlable_color: values.formlable_color,
+          content1_color:values.content1_color,
+          content2_color:values.content2_color,
+          content3_color:values.content3_color,
+          Speakername_color:values.Speakername_color,
+          eventdate_color:values.eventdate_color,
           Title1: values.Title1,
           Title2: values.Title2,
           consentRadiotext1:values.consentRadiotext1,
@@ -108,7 +126,6 @@ const Format1 = (props) => {
           radio_helthcare:values.radio_helthcare,
           radio_breakfast:values.radio_breakfast,
           radio_breakfast_content:values.radio_breakfast_content,
-          titleColor :values.titleColor,
           textColor:values.textColor,
           backgroundColor:values.backgroundColor,
           borderColor:values.borderColor,
@@ -184,9 +201,19 @@ const Format1 = (props) => {
                   type="text"
                   placeholder="Title 1"
                 />
+                  <Form.Control
+                      name='Title1_color'
+                       type="color"
+                       onChange={formik.handleChange}
+                       onBlur={formik.handleBlur}
+                       value={formik.values.Title1_color}
+                       defaultValue="#zwww"
+                       title="Choose your color"
+	                   />
             </div>
               <div className="form-group">
                 <label> Title 2</label>
+
                 <Form.Control
                   name="Title2"
                   onChange={formik.handleChange}
@@ -195,6 +222,15 @@ const Format1 = (props) => {
                   type="text"
                   placeholder="Title 2"
                 />
+                 <Form.Control
+                      name='Title2_color'
+                       type="color"
+                       onChange={formik.handleChange}
+                       onBlur={formik.handleBlur}
+                       value={formik.values.Title2_color}
+                       defaultValue="#zwww"
+                       title="Choose your color"
+	                   />
             </div>
                       <div className="form-group">
                         <label>Speaker Name </label>
@@ -205,6 +241,15 @@ const Format1 = (props) => {
                           value={formik.values.Speakername}
                           type="text"
                         />
+                         <Form.Control
+                      name='Speakername_color'
+                       type="color"
+                       onChange={formik.handleChange}
+                       onBlur={formik.handleBlur}
+                       value={formik.values.Speakername_color}
+                       defaultValue="#zwww"
+                       title="Choose your color"
+	                   />
                     </div>
               <div className="form-group">
                 <label> Title Logo</label>
@@ -225,6 +270,15 @@ const Format1 = (props) => {
                   type="text"
                   placeholder="Event Date"
                 />
+                 <Form.Control
+                      name='eventdate_color'
+                       type="color"
+                       onChange={formik.handleChange}
+                       onBlur={formik.handleBlur}
+                       value={formik.values.eventdate_color}
+                       defaultValue="#zwww"
+                       title="Choose your color"
+	                   />
             </div>
             <div className="form-group">
                 <label>Event Time</label>
@@ -263,6 +317,15 @@ const Format1 = (props) => {
                 className="form-control"
                 placeholder="Content 1"
               />
+               <Form.Control
+                      name='content1_color'
+                       type="color"
+                       onChange={formik.handleChange}
+                       onBlur={formik.handleBlur}
+                       value={formik.values.content1_color}
+                       defaultValue="#zwww"
+                       title="Choose your color"
+	                   />
            </div>
               <div className="form-group">
               <label>Content 2</label>
@@ -275,6 +338,15 @@ const Format1 = (props) => {
                 className="form-control"
                 placeholder="Content 2"
               />
+               <Form.Control
+                      name='content2_color'
+                       type="color"
+                       onChange={formik.handleChange}
+                       onBlur={formik.handleBlur}
+                       value={formik.values.content2_color}
+                       defaultValue="#zwww"
+                       title="Choose your color"
+	                   />
            </div>                      
               <div className="form-group">
               <label>Content 3</label>
@@ -287,6 +359,15 @@ const Format1 = (props) => {
                 className="form-control"
                 placeholder="Content 3"
               />
+               <Form.Control
+                      name='content3_color'
+                       type="color"
+                       onChange={formik.handleChange}
+                       onBlur={formik.handleBlur}
+                       value={formik.values.content3_color}
+                       defaultValue="#zwww"
+                       title="Choose your color"
+	                   />      
            </div>
            <fieldset>
                       <legend> Consent </legend>
@@ -319,6 +400,15 @@ const Format1 = (props) => {
                           value={formik.values.consentRadiotext3}
                           type="text"
                         />
+                    <Form.Control
+                      name='consent_color'
+                       type="color"
+                       onChange={formik.handleChange}
+                       onBlur={formik.handleBlur}
+                       value={formik.values.consent_color}
+                       defaultValue="#zwww"
+                       title="Choose your color"
+	                   />
                     </div>
                    </fieldset> 
                   
@@ -420,7 +510,7 @@ const Format1 = (props) => {
               <div className="mail-box-content-top">
                 <div className="mail-box-content-top-view">
                           <h5>{"Color"}</h5>
-                      <div className="form-group">
+                      {/* <div className="form-group">
                       <label>Title</label>
                       <Form.Control
                       name='titleColor'
@@ -431,21 +521,21 @@ const Format1 = (props) => {
                        defaultValue="#zwww"
                        title="Choose your color"
 	                   />
-                   </div>
+                   </div> */}
                       <div className="form-group">
-                      <label>Text</label>
+                      <label>Form Label</label>
                       <Form.Control
-                      name='textColor'
+                      name='formlable_color'
                        type="color"
                        onChange={formik.handleChange}
                        onBlur={formik.handleBlur}
-                       value={formik.values.textColor}
+                       value={formik.values.formlable_color}
                        defaultValue="#zwww"
                        title="Choose your color"
 	                   />
                    </div>
                       <div className="form-group">
-                      <label >Background</label>
+                      <label>Background</label>
                       <Form.Control
                       name='backgroundColor'
                        type="color"
@@ -485,27 +575,39 @@ const Format1 = (props) => {
       <div className="login-wrapper-inside" >
                   <div className="log-inner">
                      <div className="head-sec">
-                        <h3 className="top-title"style={{color:formik?.values?.titleColor}} >
+                        <h3 className="top-title"style={{color:formik?.values?.Title1_color}} >
                        {formik?.values?.Title1?formik?.values?.Title1:<>{props?.mode?.mode.charAt(0).toUpperCase() + props?.mode?.mode.slice(1)+" symposium registration"}</>}
                         </h3>   
                         {/* {console.log(props?.data)}                         */}
                         <div className="motivate_logo"><img id="imgVieww" src={props?.data?.titleLogo?props?.data?.titleLogo:""} alt="Logo" style={{width:"250px"}}/></div>
-                         <h4 className="top-title-green" style={{color:formik?.values?.titleColor}}>{formik?.values?.Title2}</h4>
-                         <h4 className="top-title-green" style={{color:formik?.values?.titleColor}}>{formik?.values?.Title3}</h4>
-                        <div className="mid-section" style={{color:formik?.values?.textColor}}>
+                         <h4 className="top-title-green" style={{color:formik?.values?.Title2_color}}>{formik?.values?.Title2}</h4>
+                         {/* <h4 className="top-title-green" style={{color:formik?.values?.titleColor}}>{formik?.values?.Title3}</h4> */}
+                        <div className="mid-section" style={{color:formik?.values?.Speakername_color}}>
                            <div className="mid-section-center">
                                 <h6>{formik?.values?.Speakername}</h6>
+                            </div>
+                            <div className="mid-section" style={{color:formik?.values?.eventdate_color}}>
+                           <div className="mid-section-center">
                                 <h6>{formik?.values?.eventdate}</h6>
                                  <h6>{formik?.values?.eventtime}</h6>
                                  {props.mode?.mode=="onsite"?<p>{formik?.values?.Address}</p>:null} 
-                            </div>
+                                 </div></div>
                         </div>
-                        <div className="head-sec-boxes" style={{color:formik?.values?.textColor}}>
+                        <div className="head-sec-boxes" style={{color:formik?.values?.content1_color}}>
                            <div className="boxes-col-center">
                               <p id="uppper_text" className="boldText"> 
-                               {formik?.values?.content1}<br />
+                               {formik?.values?.content1}<br /></p>
+                            </div>
+                        </div>
+                        <div className="head-sec-boxes" style={{color:formik?.values?.content2_color}}>
+                           <div className="boxes-col-center">
+                              <p id="uppper_text" className="boldText"> 
                                {formik?.values?.content2}<br/>
                               </p>
+                            </div>
+                        </div>
+                        <div className="head-sec-boxes" style={{color:formik?.values?.content3_color}}>
+                           <div className="boxes-col-center">
                               <p id="uppper_text" className="description_detail"> 
                                {formik?.values?.content3}<br/>
                                </p>
@@ -530,21 +632,21 @@ const Format1 = (props) => {
                                               
                                              <input type="hidden" className="fl_cnt_val" value="Full consent*"/>                 
                                              
-                                             {option?<div className="options">
-                                             <p>I consent to</p>
-                                             {formik?.values?.consentRadiotext1?   <div className="option-list">
+                                             {option?<div className="options"style={{color:formik?.values?.consent_color}}>
+                                             <p style={{color:formik?.values?.consent_color}}>I consent to</p>
+                                             {formik?.values?.consentRadiotext1?   <div className="option-list"style={{color:formik?.values?.consent_color}}>
                                                 <input className='form-check-input consent-radio-box' type="checkbox" />
-                                                <label>{formik?.values?.consentRadiotext1}</label>
+                                                <label style={{color:formik?.values?.consent_color}}>{formik?.values?.consentRadiotext1}</label>
                                               </div>:null}
-                                             {formik?.values?.consentRadiotext2?   <div className="option-list">
+                                             {formik?.values?.consentRadiotext2?   <div className="option-list"style={{color:formik?.values?.consent_color}}>
                                                 <input className='form-check-input consent-radio-box' type="checkbox" />
-                                                <label>{formik?.values?.consentRadiotext2}</label>
+                                                <label style={{color:formik?.values?.consent_color}}>{formik?.values?.consentRadiotext2}</label>
                                               </div>:null}
-                                             {formik?.values?.consentRadiotext3?   <div className="option-list">
+                                             {formik?.values?.consentRadiotext3?   <div className="option-list"style={{color:formik?.values?.consent_color}}>
                                                 <input className='form-check-input consent-radio-box' type="checkbox" />
-                                                <label>{formik?.values?.consentRadiotext3}</label>
+                                                <label style={{color:formik?.values?.consent_color}}>{formik?.values?.consentRadiotext3}</label>
                                               </div>:null}
-                                                <a href="javascript:;" className="slec_op" id="close_consent"style={{float:"right"}}><p onClick={()=>setOption(!option)}> Done </p></a>
+                                                <a style={{color:formik?.values?.consent_color,float:"right"}} href="javascript:;" className="slec_op" id="close_consent"><p style={{color:formik?.values?.consent_color}} onClick={()=>setOption(!option)}> Done </p></a>
                                                 </div>:null}
                                              </div>
                                           </div>
