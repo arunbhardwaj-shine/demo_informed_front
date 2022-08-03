@@ -94,6 +94,8 @@ const Sidebar = () => {
   }, []);
 
   useEffect(() => {
+    console.log("first",location.pathname)
+   console.log("first2",`/webinar/email/WebinarVerifyHcpMAIL/${localStorage.getItem("SmartListName")}`)
     window.dispatchEvent(new Event("EventData"));
     if (
       location.pathname ==
@@ -104,10 +106,13 @@ const Sidebar = () => {
       location.pathname === "/webinar/email/SmartListCreate/FilterList" ||
       location.pathname === "/webinar/email/SmartListCreate/ExcelUpload" ||
       location.pathname === "/webinar/email/template" ||
+      location.pathname === `/webinar/email/TableTypeData/${localStorage.getItem("SmartListId")}`||
       location.pathname === "/webinar/email/SelectHCP"||
       location.pathname === "/webinar/email/SelectVerifyHCP"||
       location.pathname === "/webinar/email/emails" ||
       location.pathname === "/webinar/email/WebinarVerifyHcpMAIL" ||
+      location.pathname === `/webinar/email/WebinarVerifyHcpMAIL/${window.btoa(localStorage.getItem("SmartListId"))}/${window.btoa(localStorage.getItem("SmartListName"))}`||
+      location.pathname === `/webinar/email/WebinarVerifyHcpMAIL/${localStorage.getItem("SmartListId")}`||
       location.pathname === "/webinar/email/create" ||
       location.pathname === "/webinar/email/smart-list" ||
       location.pathname ===
@@ -727,15 +732,19 @@ const Sidebar = () => {
                         <p>Dashboard</p>
                         </Link>
                       </li> */}
+                      {console.log("first",location.pathname)}
+                      {console.log("first2",`/webinar/email/WebinarVerifyHcpMAIL/${localStorage.getItem("SmartListId")}`)}
                     <li
                       className={
                         location.pathname === "/webinar/email/emails" ||
                         location.pathname === "/webinar/email/create" ||
                         location.pathname === "/webinar/email/WebinarVerifyHcpMAIL" ||
-
+                        location.pathname === `/webinar/email/WebinarVerifyHcpMAIL/${window.btoa(localStorage.getItem("SmartListId"))}/${window.btoa(localStorage.getItem("SmartListName"))}`||
+                        location.pathname === `/webinar/email/WebinarVerifyHcpMAIL/${localStorage.getItem("SmartListId")}`||
                         location.pathname === "/webinar/email/SelectHCP"||
                         location.pathname === "/webinar/email/SelectVerifyHCP"||
                         location.pathname === "/webinar/email/smart-list" ||
+                        location.pathname === `/webinar/email/TableTypeData/${localStorage.getItem("SmartListId")}`||
                         location.pathname ===
                           `/webinar/email/smart-list-users/${localStorage.getItem(
                             "SmartListId"

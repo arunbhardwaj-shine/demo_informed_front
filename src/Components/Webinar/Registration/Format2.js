@@ -58,17 +58,17 @@ const Format2 = (props) => {
           page_title:props.data?.page_title?props.data?.page_title: "",
           Title1:props.data?.Title1?props.data?.Title1: "",
           Title2:props.data?.Title2?props.data?.Title2: "",
-          Title3:props.data?.Title3?props.data?.Title3: "",
+          Title3:props.data?.Title3?props.data?.Title3: "Thanks For Registration",
           mode:mode?.mode,
-          Address:props.data?.Address?props.data?.Address:'',
+          Address:props.data?.Address?props.data?.Address:'Capital Sulte 14-16',
           eventdate:props.data?.eventdate?props.data?.eventdate:'',
           eventtime:props.data?.eventtime?props.data?.eventtime:'',
           content1:props.data?.content1?props.data?.content1:'',
-          content2:props.data?.content2?props.data?.content2:'',
-          BodyFootercontent1:props.data?.BodyFootercontent1?props.data?.BodyFootercontent1:'',
-          BodyFootercontent2:props.data?.BodyFooterLeftcontent1?props.data?.BodyFooterLeftcontent1:'',
-          BodyFootercontent3:props.data?.BodyFooterLeftcontent2?props.data?.BodyFooterLeftcontent2:'',
-          RadioButton:props.data?.RadioButton?props.data?.RadioButton:'',
+          content2:props.data?.content2?props.data?.content2:'Please note our symposia are being recorded and streamed live.',
+          BodyFootercontent1:props.data?.BodyFootercontent1?props.data?.BodyFootercontent1:'That simple question from a pharma client has sent us on a journey in ghost-mode: running live webinars of every type, tweaking our tool suite, learning together and taking medical webinars to the next level with them.',
+          BodyFootercontent2:props.data?.BodyFooterLeftcontent1?props.data?.BodyFooterLeftcontent1:'YOGESH JAKHAR',
+          BodyFootercontent3:props.data?.BodyFooterLeftcontent2?props.data?.BodyFooterLeftcontent2:'DUNGRANA',
+          RadioButton:props.data?.RadioButton?props.data?.RadioButton:'Full Consent',
           radio_helthcare:props.data?.radio_helthcare?props.data?.radio_helthcare:"",
           radio_breakfast:props.data?.radio_breakfast?props.data?.radio_breakfast:"",
           radio_breakfast_content:props.data?.radio_breakfast_content?props.data?.radio_breakfast_content:"",
@@ -478,7 +478,7 @@ const Format2 = (props) => {
                   <div className="log-inner">
                      <div className="head-sec">
                         <h2 className="top-title"style={{color:formik?.values?.titleColor}} >
-                        {formik?.values?.Title1}                       </h2>                           <div className="motivate_logo"><img id="imgVieww" src={props?.data?.titleLogo?props?.data?.titleLogo:""} alt="Logo" style={{width:"250px"}}/></div>
+                        {formik?.values?.Title1?formik?.values?.Title1:<>{props?.mode?.mode.charAt(0).toUpperCase() + props?.mode?.mode.slice(1)+" symposium registration"}</>}                     </h2>                           <div className="motivate_logo"><img id="imgVieww" src={props?.data?.titleLogo?props?.data?.titleLogo:""} alt="Logo" style={{width:"250px"}}/></div>
                          <h4 className="top-title-green" style={{color:formik?.values?.titleColor}}>{formik?.values?.Title2}</h4>
                          <h4 className="top-title-green" style={{color:formik?.values?.titleColor}}>{formik?.values?.Title3}</h4>
                         <div className="mid-section" style={{color:formik?.values?.textColor}}>
@@ -486,7 +486,7 @@ const Format2 = (props) => {
                                 {/* <p>{formik?.values?.Speakername}</p> */}
                                 <p>{formik?.values?.eventdate}</p>
                                <p>{formik?.values?.eventtime}</p>
-                               {/* <p>{formik?.values?.Address}</p> */}
+                              {props.mode?.mode=="onsite"?<p>{formik?.values?.Address}</p>:null} 
                         </div>
                         </div>
                         <hr style={{color:formik?.values?.titleColor}} size={10}/>

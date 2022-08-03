@@ -254,6 +254,7 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
     handleSearchListget()
     handleGetSmartList()
   }, [])
+  const navigate = useNavigate();
   const handleEmailSCreateCollection = (next) => {
     loader("show");
     smartListDataId
@@ -263,10 +264,11 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
           1
         ).then((resp) => {
           if (resp.ok) {
-            //  console.log( resp.data)
             if (resp.data.code == 200) {
+              console.log( resp.data)
               setActive(true)
               loader("hide");
+              localStorage.setItem("collection_id",resp.data.data.collection_id)
               toast.success(resp.data.message, {
                 position: "top-right",
                 autoClose: 2000,
@@ -277,7 +279,7 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
                 progress: undefined,
               });
               if(next==1){
-
+                navigate(`/webinar/email/TableTypeData/${smartListDataId}`)
               }
             } else {
               loader("hide");
@@ -304,9 +306,9 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
               <div className="header-btn-left">
                 <button
                   className="btn btn-primary btn-bordered back"
-                  // onClick={backClicked}
+                  //  onClick={()}
                 >
-                  Back
+                  <Link to="/webinar/email/SelectHCP">Back</Link>
                 </button>
               </div>
             </div>
@@ -316,7 +318,7 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
                   <Link to="/CreateEmail">Prepare Your Email</Link>
                 </li>
                 <li className="active active-main">
-                  <Link to="/SelectSmartList">Select HCPs</Link>
+                  <Link to="/SelectSmartList">Select SmartList</Link>
                 </li>
                 {
                   /*
@@ -342,7 +344,7 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
                 >
                   Save As Draft
                 </button>
-               {active?<Link to={`/webinar/email/smart-list-users/${smartListDataId}`}>Next</Link>:<button
+               {active? <button className="btn btn-primary btn-filled"><Link to={`/webinar/email/TableTypeData/${smartListDataId}`}>Next</Link></button>:<button
                    onClick={() => handleEmailSCreateCollection(1)}
                     disabled={smartListDataId?false:true}
                     className="btn btn-primary btn-filled"
@@ -371,19 +373,9 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
                 </p>
                 <button
                   className="btn btn-primary btn-bordered"
-                  // onClick={() => saveAsDraft("continue")}
+                   onClick={() => navigate("/webinar/email/SmartListCreate")}
                 >
                   Create new smart list
-                </button>
-                <button className="upload-btn btn btn-primary btn-bordered"
-                // onClick={() =>
-                //   setFileUploadPopup(
-                //     (getFileUploadPopup) => !getFileUploadPopup
-                //   )
-                // }
-                >
-
-                  Upload excel file
                 </button>
               </div>
             </div>
@@ -414,6 +406,14 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
                             localStorage.setItem(
                               "SmartListId",
                               data.id
+                            );
+                            localStorage.setItem(
+                              "SmartListName",
+                              data.name
+                            );
+                            localStorage.setItem(
+                              "SmartListData",
+                              JSON.stringify(data)
                             );
                           }}
                         >

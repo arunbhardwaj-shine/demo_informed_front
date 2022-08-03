@@ -73,7 +73,37 @@ const WebinarVerifyHCP = () => {
       .then((resp) => {
         if (resp.data) {
            console.log("Ghbv",resp.data.data)
-           navigate("/webinar/email/WebinarVerifyHcpMAIL")
+           localStorage.setItem("SmartListId",window.btoa(resp.data.data.smart_list_id))
+           resp.data.data.smart_list_id
+           ? ExportApi.EmailSCreateCollectionnext(
+            resp.data.data.smart_list_id,
+               localStorage.getItem("collection_id"),
+               1
+             ).then((resp) => {
+               if (resp.ok) {
+                  console.log( resp.data.data)
+
+                 if (resp.data.code == 200) {
+                  localStorage.setItem("collection_id",resp.data.data.collection_id)
+                  //  loader("hide");
+                   toast.success(resp.data.message, {
+                     position: "top-right",
+                     autoClose: 2000,
+                     hideProgressBar: false,
+                     closeOnClick: true,
+                     pauseOnHover: true,
+                     draggable: true,
+                     progress: undefined,
+                    });
+                   navigate(`/webinar/email/WebinarVerifyHcpMAIL/${localStorage.getItem("SmartListId")}`)
+                 } else {
+                  //  loader("hide");
+                 }
+                 // localStorage.setItem("collection_id",resp.data.data.collection_id)
+                 //  navigate("/webinar/email/smart-list");
+               }
+             })
+           : toast.warning("Please select smart list");
           // setSearchedUsers(resp.data.data)
         }
       })
