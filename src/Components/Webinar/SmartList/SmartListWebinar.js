@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { toast, ToastContainer } from 'react-toastify';
 import ExportApi from '../../../Api/ExportApi';
 import { loader } from '../../../loader';
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useNavigationType } from "react-router-dom";
 import { popup_alert } from '../../../popup_alert';
 import { Accordion } from "react-bootstrap";
 import { Modal } from 'react-bootstrap';
@@ -428,7 +428,11 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
                             //     ? true
                             //     : false
                             // }
+                            defaultChecked={props.params.id==data.id?true:false}
                           />
+                          {console.log(props.params.id)}
+                          {/* {console.log(data.id)} */}
+                          {console.log(props.params.id==data.id?true:false)}
                           <span className="checkmark"></span>
                         </div>
                         <div className="mailbox-table">

@@ -1536,7 +1536,7 @@ const location = useLocation();
                   className="btn btn-primary btn-bordered back"
                   // onClick={backClicked}
                 >
-                  <Link to="/webinar/email/smart-list">Back</Link>
+                  <Link to={`/webinar/email/smart-list/${localStorage.getItem("SmartListId")}`}>Back</Link>
                  
                 </button>
               </div>
