@@ -73,7 +73,6 @@ const WebinarVerifyHcpMAIL = () => {
         <span className="loader-view"> </span>
       </div>
       <div className="col right-sidebar">
-    
         <ToastContainer
           position="top-right"
           autoClose={5000}
@@ -201,8 +200,7 @@ const WebinarVerifyHcpMAIL = () => {
                           </h6>
                           {/* <p>Single HCP <span>| 1</span></p> */}
 
-                       
-                        <div className="smartlist-view email_box_outer">
+                       {params.id&&params.name?    <div className="smartlist-view email_box_outer">
                           <div className="smartlist-view email_box">
                             <div className="mail-box-content">
                               <h5>{SmartListData?.name}</h5>
@@ -318,7 +316,8 @@ const WebinarVerifyHcpMAIL = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div>:null}
+                    
                 </div>
                 </div>
                 </div></div></div>
