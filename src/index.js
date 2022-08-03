@@ -80,6 +80,7 @@ import VerifySmartList from "./Components/Distributes/SmartListComponent/VerifyS
 import ViewList from "./Components/Distributes/SmartListComponent/ViewList";
 import EmailList from "./Components/Emails/EmailListing";
 import TemplateBuilder from "./Components/Emails/TemplateBuilder";
+import AutoEmail from "./Components/Emails/AutoEmail";
 import EmailArticleSelect from "./Components/Emails/EmailArticleSelect";
 import CreateEmail from "./Components/Emails/CreateEmail";
 import VerifyHCP from "./Components/Emails/VerifyHCP";
@@ -172,6 +173,7 @@ ReactDOM.render(
                       path="/TemplateBuilder"
                       element={<TemplateBuilder />}
                     />
+                    <Route path="/AutoEmail" element={<AutoEmail />} />
                     <Route
                       path="/EmailArticleSelect"
                       element={<EmailArticleSelect />}
