@@ -55,6 +55,17 @@ const Format2 = (props) => {
     // console.log(titleLogo)
     const formik = useFormik({
         initialValues: {
+          Title1_color:props.data?.Title1_color?props.data?.Title1_color: "",
+          Title2_color:props.data?.Title2_color?props.data?.Title2_color: "",
+          Title3_color:props.data?.Title3_color?props.data?.Title3_color: "",
+          Footer_color:props.data?.Footer_color?props.data?.Footer_color: "",
+          Speakername_color:props.data?.Speakername_color?props.data?.Speakername_color:'',
+          eventdate_color:props.data?.eventdate_color?props.data?.eventdate_color:'',
+          content1_color:props.data?.content1_color?props.data?.content1_color:'',
+          content2_color:props.data?.content2_color?props.data?.content2_color:'',
+          content3_color:props.data?.content3_color?props.data?.content3_color:'',
+          formlable_color:props.data?.formlable_color?props.data?.formlable_color:'',
+          consent_color:props.data?.consent_color?props.data?.consent_color:'',
           page_title:props.data?.page_title?props.data?.page_title: "",
           Title1:props.data?.Title1?props.data?.Title1: "",
           Title2:props.data?.Title2?props.data?.Title2: "",
@@ -74,10 +85,10 @@ const Format2 = (props) => {
           radio_breakfast_content:props.data?.radio_breakfast_content?props.data?.radio_breakfast_content:"",
           name:props.data?.name?props.data?.name:"",
           country:props.data?.country?props.data?.country:"",
-          titleColor:props.data?.titleColor?props.data?.titleColor:"",
+          // titleColor:props.data?.titleColor?props.data?.titleColor:"",
           backgroundColor:props.data?.backgroundColor?props.data?.backgroundColor:"",
           borderColor:props.data?.borderColor?props.data?.borderColor:"",
-          textColor:props.data?.textColor?props.data?.textColor:"",
+          // textColor:props.data?.textColor?props.data?.textColor:"",
         },
 
         enableReinitialize: true,
@@ -85,6 +96,18 @@ const Format2 = (props) => {
           // loader("show")
           let jsonData ={
             page_title :values.page_title,
+            page_title :values.page_title,
+            Title1_color:values.Title1_color,
+            Title2_color: values.Title2_color,
+            Title3_color: values.Title3_color,
+            consent_color: values.consent_color,
+            formlable_color: values.formlable_color,
+            content1_color:values.content1_color,
+            Footer_color:values.Footer_color,
+            content2_color:values.content2_color,
+            content3_color:values.content3_color,
+            Speakername_color:values.Speakername_color,
+            eventdate_color:values.eventdate_color,
             Title1: values.Title1,
             Title2: values.Title2,
             Title3: values.Title3,
@@ -176,6 +199,15 @@ const Format2 = (props) => {
                   type="text"
                   placeholder="Title 1"
                 />
+                  <Form.Control
+                      name='Title1_color'
+                       type="color"
+                       onChange={formik.handleChange}
+                       onBlur={formik.handleBlur}
+                       value={formik.values.Title1_color}
+                       defaultValue="#zwww"
+                       title="Choose your color"
+	                   />
             </div>
             <div className="form-group">
                 <label> Title 2</label>
@@ -187,6 +219,15 @@ const Format2 = (props) => {
                   type="text"
                   placeholder="Title 2"
                 />
+                  <Form.Control
+                      name='Title2_color'
+                       type="color"
+                       onChange={formik.handleChange}
+                       onBlur={formik.handleBlur}
+                       value={formik.values.Title2_color}
+                       defaultValue="#zwww"
+                       title="Choose your color"
+	                   />
             </div>
            <div className="form-group">
                 <label> Title 3</label>
@@ -198,6 +239,15 @@ const Format2 = (props) => {
                   type="text"
                   placeholder="Title 3"
                 />
+                  <Form.Control
+                      name='Title3_color'
+                       type="color"
+                       onChange={formik.handleChange}
+                       onBlur={formik.handleBlur}
+                       value={formik.values.Title3_color}
+                       defaultValue="#zwww"
+                       title="Choose your color"
+	                   />
             </div>
               <div className="form-group">
                 <label> Title Logo</label>
@@ -219,6 +269,15 @@ const Format2 = (props) => {
                   type="text"
                   placeholder="Event Date"
                 />
+                  <Form.Control
+                      name='eventdate_color'
+                       type="color"
+                       onChange={formik.handleChange}
+                       onBlur={formik.handleBlur}
+                       value={formik.values.eventdate_color}
+                       defaultValue="#zwww"
+                       title="Choose your color"
+	                   />
             </div>
               <div className="form-group">
                 <label>Event Time</label>
@@ -254,6 +313,15 @@ const Format2 = (props) => {
                 className="form-control"
                 placeholder="Content 1"
               />
+                 <Form.Control
+                      name='content1_color'
+                       type="color"
+                       onChange={formik.handleChange}
+                       onBlur={formik.handleBlur}
+                       value={formik.values.content1_color}
+                       defaultValue="#zwww"
+                       title="Choose your color"
+	                   />
            </div>
          
               <div className="form-group">
@@ -267,6 +335,16 @@ const Format2 = (props) => {
                 className="form-control"
                 placeholder="Content 2"
               />
+                 <Form.Control
+                      name='content2_color'
+                       type="color"
+                       onChange={formik.handleChange}
+                       onBlur={formik.handleBlur}
+                       value={formik.values.content2_color}
+                       defaultValue="#zwww"
+                       title="Choose your color"
+	                   />
+
            </div>
            <div className="form-group">
                         <label>Radio Button Title</label>
@@ -281,7 +359,7 @@ const Format2 = (props) => {
                       </div>
                   
                       <fieldset>
-    <legend>Footer:</legend>
+              <legend>Footer:</legend>
               <div className="form-group">
               <label>Content </label>
               <textarea
@@ -317,7 +395,18 @@ const Format2 = (props) => {
                 id="exampleFormControlTextarea1"
               />
            </div> 
-              
+           <div className="form-group">
+           <label>Color</label>
+           <Form.Control
+                      name='Footer_color'
+                       type="color"
+                       onChange={formik.handleChange}
+                       onBlur={formik.handleBlur}
+                       value={formik.values.Footer_color}
+                       defaultValue="#zwww"
+                       title="Choose your color"
+	                   />
+                     </div>
          </fieldset>
          {formik.values.radio_breakfast&&props.mode.mode=="onsite"? <div className="form-group">
               <label>Breakfast Content</label>
@@ -415,17 +504,17 @@ const Format2 = (props) => {
                         <div className="mail-box-content-top-view">
                           <h5>{"Color"}</h5>
                       <div className="form-group">
-                      <label>Title</label>
+                      <label>Form Label</label>
                       <Form.Control
-                      name='titleColor'
+                      name='formlable_color'
                        type="color"
                        onChange={formik.handleChange}
                        onBlur={formik.handleBlur}
-                       value={formik.values.titleColor}
+                       value={formik.values.formlable_color}
                        title="Choose your color"
 	                   />
                    </div>
-                      <div className="form-group">
+                      {/* <div className="form-group">
                       <label>Text</label>
                       <Form.Control
                       name='textColor'
@@ -435,7 +524,7 @@ const Format2 = (props) => {
                        value={formik.values.textColor}
                        title="Choose your color"
 	                   />
-                   </div>
+                   </div> */}
                       <div className="form-group">
                       <label >Background</label>
                       <Form.Control
@@ -477,11 +566,11 @@ const Format2 = (props) => {
       <div className="login-wrapper-inside" >
                   <div className="log-inner">
                      <div className="head-sec">
-                        <h2 className="top-title"style={{color:formik?.values?.titleColor}} >
+                        <h2 className="top-title"style={{color:formik?.values?.Title1_color}} >
                         {formik?.values?.Title1?formik?.values?.Title1:<>{props?.mode?.mode.charAt(0).toUpperCase() + props?.mode?.mode.slice(1)+" symposium registration"}</>}                     </h2>                           <div className="motivate_logo"><img id="imgVieww" src={props?.data?.titleLogo?props?.data?.titleLogo:""} alt="Logo" style={{width:"250px"}}/></div>
-                         <h4 className="top-title-green" style={{color:formik?.values?.titleColor}}>{formik?.values?.Title2}</h4>
-                         <h4 className="top-title-green" style={{color:formik?.values?.titleColor}}>{formik?.values?.Title3}</h4>
-                        <div className="mid-section" style={{color:formik?.values?.textColor}}>
+                         <h4 className="top-title-green" style={{color:formik?.values?.Title2_color}}>{formik?.values?.Title2}</h4>
+                         <h4 className="top-title-green" style={{color:formik?.values?.Title3_color}}>{formik?.values?.Title3}</h4>
+                        <div className="mid-section" style={{color:formik?.values?.eventdate_color}}>
                            <div className="mid-section-center">
                                 {/* <p>{formik?.values?.Speakername}</p> */}
                                 <p>{formik?.values?.eventdate}</p>
@@ -490,12 +579,17 @@ const Format2 = (props) => {
                         </div>
                         </div>
                         <hr style={{color:formik?.values?.titleColor}} size={10}/>
-                        <div className="head-sec-boxes" style={{color:formik?.values?.textColor}}>
+                        <div className="head-sec-boxes" style={{color:formik?.values?.content1_color}}>
                            <div className="boxes-col-center">
                               <p id="uppper_text" className="boldText"> 
-                               {formik?.values?.content1}<br /><br/>
+                               {formik?.values?.content1}<br /></p>
+                            </div>
+                        </div>
+                        <div className="head-sec-boxes" style={{color:formik?.values?.content2_color}}>
+                           <div className="boxes-col-center">
+                              <p id="uppper_text" className="boldText"> 
                                {formik?.values?.content2}<br/>
-                               </p>
+                              </p>
                             </div>
                         </div>
                      <div id="log-tabs">
@@ -1025,20 +1119,20 @@ const Format2 = (props) => {
                                              <label htmlFor="fullconsent1"  id="consent-label">{formik.values.radio_breakfast_content}</label></> :null} 
                                            <button className="sumit-btn" type="submit" id="signup_submit">Submit</button> 
                                           </form>
-                                          <div className='FooterContent'>
-                                               <p>{formik?.values?.BodyFootercontent1}</p>
+                                          <div className='FooterContent'style={{color:formik?.values?.Footer_color}} >
+                                               <p style={{color:formik?.values?.Footer_color}}>{formik?.values?.BodyFootercontent1}</p>
                                                <br/>
                                                <br/>
                                                <Row>
                                                 <Col>
                                                 <div style={{textAlign:"left"}}>
-                                                  <p>{formik?.values?.BodyFootercontent2}</p>
-                                                  <p>{formik?.values?.BodyFootercontent3}</p>
+                                                  <p style={{color:formik?.values?.Footer_color}}>{formik?.values?.BodyFootercontent2}</p>
+                                                  <p style={{color:formik?.values?.Footer_color}}>{formik?.values?.BodyFootercontent3}</p>
                                                 </div>
                                                 </Col>
                                                 <Col>
                                                 <div style={{textAlign:"right"}}>
-                                                  <a href="">Privacy policy</a>
+                                                  <a style={{color:formik?.values?.Footer_color}} href="">Privacy policy</a>
                                                   <img style={{width:"170px"}} src="https://webinar.docintel.app/EAHAD2022/images/Octapharma_blue.png"/>
                                                   </div>
                                                 </Col>

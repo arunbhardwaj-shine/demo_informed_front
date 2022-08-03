@@ -92,6 +92,26 @@ const Sidebar = () => {
       }
     }
   }, []);
+  useEffect(() => {
+    window.dispatchEvent(new Event("EventData"));
+    if (
+      location.pathname === "/webinar/portal/registrationDetails" ||
+      location.pathname === "/webinar/portal/registrationDetailslist"||
+      location.pathname === "/webinar/portal/createRegistration"||
+      location.pathname === "/webinar/portal/Registrations"
+    ) {
+      // console.log("hi");
+      setHomeStatus(true);
+      setEmailStatus(false)
+      const bodyHasClass = document.body.classList.contains(
+        "sub_menu_toggle_sidebar"
+      );
+
+      if (!bodyHasClass) {
+        document.body.classList.toggle("sub_menu_toggle_sidebar");
+      }
+    }
+  }, [location.pathname]);
 
   useEffect(() => {
     console.log("first",location.pathname)
@@ -132,6 +152,46 @@ const Sidebar = () => {
       }
     }
   }, []);
+  useEffect(() => {
+    console.log("first",location.pathname)
+   console.log("first2",`/webinar/email/WebinarVerifyHcpMAIL/${localStorage.getItem("SmartListName")}`)
+    window.dispatchEvent(new Event("EventData"));
+    if (
+      location.pathname ==
+     `/webinar/email/editSmartList/${localStorage.getItem("SmartListIdView")}/${localStorage.getItem("SmartListIdViewName")}/${localStorage.getItem("SmartListIdViewN")}`||
+      location.pathname === "/webinar/email/WebinarSmartList" ||
+      location.pathname === "/webinar/email/ViewSmartListWebinar" ||
+      location.pathname === "/webinar/email/SmartListCreate" ||
+      location.pathname === "/webinar/email/SmartListCreate/FilterList" ||
+      location.pathname === "/webinar/email/SmartListCreate/ExcelUpload" ||
+      location.pathname === "/webinar/email/template" ||
+      location.pathname === `/webinar/email/TableTypeData/${localStorage.getItem("SmartListId")}`||
+      location.pathname === "/webinar/email/SelectHCP"||
+      location.pathname === "/webinar/email/SelectVerifyHCP"||
+      location.pathname === "/webinar/email/emails" ||
+      location.pathname === "/webinar/email/WebinarVerifyHcpMAIL" ||
+      location.pathname === `/webinar/email/WebinarVerifyHcpMAIL/${window.btoa(localStorage.getItem("SmartListId"))}/${window.btoa(localStorage.getItem("SmartListName"))}`||
+      location.pathname === `/webinar/email/WebinarVerifyHcpMAIL/${localStorage.getItem("SmartListId")}`||
+      location.pathname === "/webinar/email/create" ||
+      location.pathname === "/webinar/email/smart-list" ||
+      location.pathname ===
+        `/webinar/email/smart-list-users/${localStorage.getItem("SmartListId")}`||
+      location.pathname ===
+        `/webinar/email/smart-list-view/${localStorage.getItem("SmartListIdView")}`
+       
+    ) {
+      // console.log("hi");
+      setEmailStatus(true);
+      setHomeStatus(false)
+      const bodyHasClass = document.body.classList.contains(
+        "sub_menu_toggle_sidebar"
+      );
+
+      if (!bodyHasClass) {
+        document.body.classList.toggle("sub_menu_toggle_sidebar");
+      }
+    }
+  }, [location.pathname]);
   const showHideHome = (index) => {
     window.dispatchEvent(new Event("EventData"));
     const bodyHasClass = document.body.classList.contains(
