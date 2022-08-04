@@ -261,7 +261,7 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
       ? ExportApi.EmailSCreateCollectionnext(
           smartListDataId,
           localStorage.getItem("collection_id"),
-          1
+          0
         ).then((resp) => {
           if (resp.ok) {
             if (resp.data.code == 200) {

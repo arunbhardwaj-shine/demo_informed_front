@@ -29,7 +29,7 @@ export const Testmail = (props) => {
       let formData = new FormData();
       formData.append("template_id",  localStorage.getItem("TEMPLATEID"));
       formData.append("email", values.Email);
-      formData.append("file", image);
+      // formData.append("file", image);
       formData.append("name", values.Name);
 
       ExportApi.UserTemplateSandMail(formData)
@@ -110,7 +110,7 @@ export const Testmail = (props) => {
               ) : null}
             </Form.Group>
           </Col>
-          <Row>
+          {/* <Row>
             <Col>
               <Form.Group controlId="formFileLg" className="mb-3">
                 <Form.Label>Attachment</Form.Label>
@@ -125,7 +125,7 @@ export const Testmail = (props) => {
                 />
               </Form.Group>
             </Col>
-          </Row>
+          </Row> */}
         </Row>
         <Button type="submit" className="btn-filled">Send</Button>
       </form>

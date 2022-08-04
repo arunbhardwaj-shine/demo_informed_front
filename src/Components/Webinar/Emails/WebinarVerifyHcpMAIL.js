@@ -24,11 +24,12 @@ const WebinarVerifyHcpMAIL = () => {
           data1=resp.data.data?.smart_list?.participants?JSON.parse(resp.data.data?.smart_list?.participants):0
           data2=resp.data.data?.smart_list?.unregister_participants?JSON.parse(resp.data.data?.smart_list?.unregister_participants):0
           // data2=JSON.parse(resp.data.data.smart_list.unregister_participants)
-          console.log("first",resp.data)
+          // console.log(data1.length+data2.length)
+          // console.log("first",data2.length+data1.length)
           setTags(JSON.parse(resp.data.data.tags))
           setData(resp.data.data)
-          // alert(data1.length)
-           setSmartListDataCount(data1.length+data1.length)
+          //  alert(data1.length+data1.length)
+           setSmartListDataCount(data1.length+data2.length)
           document.getElementById("preview-mail-box").innerHTML = resp.data.data?.templates.description;
         }
       })
@@ -83,7 +84,7 @@ const WebinarVerifyHcpMAIL = () => {
       ExportApi.EmailSCreateCollectionnext(
      localStorage.getItem("SmartListId"),
                localStorage.getItem("collection_id"),
-               3
+               1
              ).then((resp) => {
                if (resp.ok) {
                  if (resp.data.code == 200) {
@@ -97,7 +98,7 @@ const WebinarVerifyHcpMAIL = () => {
       ExportApi.EmailSCreateCollectionnext(
        localStorage.getItem("SmartListId"),
                 localStorage.getItem("collection_id"),
-                3
+                1
               ).then((resp) => {
                 if (resp.ok) {
                   if (resp.data.code == 200) {
@@ -194,7 +195,7 @@ const WebinarVerifyHcpMAIL = () => {
                       <div>
                         <h4>Email Details</h4>
                         <h6>
-                          <strong>Tags | </strong>
+                          <strong>{Tage?"Tags" :null}| </strong>
                            <ul>
                             {Tage?.map((tags, i) => {
                                   return (

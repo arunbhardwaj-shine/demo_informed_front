@@ -79,7 +79,7 @@ const WebinarVerifyHCP = () => {
            ? ExportApi.EmailSCreateCollectionnext(
             resp.data.data.smart_list_id,
                localStorage.getItem("collection_id"),
-               1
+               0
              ).then((resp) => {
                if (resp.ok) {
                   console.log( resp.data.data)
@@ -129,7 +129,7 @@ const WebinarVerifyHCP = () => {
            ? ExportApi.EmailSCreateCollectionnext(
             resp.data.data.smart_list_id,
                localStorage.getItem("collection_id"),
-               1
+               0
              ).then((resp) => {
                if (resp.ok) {
                   console.log( resp.data.data)
@@ -866,7 +866,7 @@ const WebinarVerifyHCP = () => {
                       e.preventDefault();
                       if (handleError()) {
                         let rehearsalSpeakername = JSON.stringify(Speakername);
-                        ExportApi.EmailSand( rehearsalSpeakername)
+                        ExportApi.EmailSand("", rehearsalSpeakername)
                           .then((resp) => {
                             if (resp.data) {
                          
