@@ -173,6 +173,7 @@ const SendEmails = () => {
     else if(val.smart_list_id&&val.smart_list.name&&val.approved_status==3){
       localStorage.setItem("collection_id",val.id)
       localStorage.setItem("SmartListId",val.smart_list_id)
+      localStorage.setItem("SmartListName",val.smart_list.name)
       navigate(`/webinar/email/WebinarVerifyHcpMAIL/${window.btoa(val.smart_list_id)}/${window.btoa(val.smart_list.name)}`)  
     }
   }
