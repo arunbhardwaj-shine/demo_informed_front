@@ -5969,6 +5969,9 @@ section.search-hcp.smart-list-view .header-btn-left {
 
 .mail_trigger_content {
   margin-left: 46px;
+  padding: 4px 7px 0;
+  overflow-y: auto;
+  max-height: 426px;
 }
 
 .mail_trigger_mail-icon {
@@ -5987,7 +5990,7 @@ section.search-hcp.smart-list-view .header-btn-left {
   padding:8px;
 }
 .trigger_content_box.active {
-  box-shadow: 0px 1px 15px rgba(0, 111, 207, 0.65);
+  box-shadow: 0px 1px 7px rgba(0, 111, 207, 0.65);
 }
 .trigger_content_image {
   background: #FFFFFF;
@@ -5995,6 +5998,11 @@ section.search-hcp.smart-list-view .header-btn-left {
   border-radius: 6px;
   padding: 7px;
   max-height: 85px;
+  width: 75px;
+  text-align: center;
+}
+.mail_trigger_right_dummy {
+  height: 100%;
 }
 .auto_mail_trigger_right .form-inline label {
   width: 100%;
@@ -6043,7 +6051,7 @@ section.search-hcp.smart-list-view .header-btn-left {
   margin-left: auto;
 }
 .auto_mail_trigger_left {
-  padding-right: 40px;
+  padding-right: 30px;
   border-right: 0.5px solid rgba(0, 102, 190, 0.16);
 }
 .mail_trigger_dummy_content {
