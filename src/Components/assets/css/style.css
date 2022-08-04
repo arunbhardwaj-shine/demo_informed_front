@@ -6057,7 +6057,7 @@ section.search-hcp.smart-list-view .header-btn-left {
 .mail_trigger_dummy_content {
   flex-direction: column;
   align-items: center;
-  height: 100%;
+  padding-top: 250px;
 }
 /* .mail_trigger_right_dummy {
   height: 100%;
