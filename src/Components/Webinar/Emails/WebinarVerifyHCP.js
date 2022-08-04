@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import ExportApi from '../../../Api/ExportApi';
 import { toast, ToastContainer } from "react-toastify";
 import { Button, Form, Modal } from "react-bootstrap";
@@ -7,6 +7,7 @@ import { BaseApi } from "../../../Api/BaseApi";
 import axios from "axios";
 const WebinarVerifyHCP = () => {
     let path_image =process.env.REACT_APP_ASSETS_PATH_WEBINAR;
+    let params=useParams()
     const [hpc, sethpc] = useState([])
     const [searchedUsers, setSearchedUsers] = useState()
     const [saveOpen, setSaveOpen] = useState(false);
@@ -57,6 +58,56 @@ const WebinarVerifyHCP = () => {
     // const [sortingCount, setSortingCount] = useState(0);
     const backClicked = () => { 
         navigate("/webinar/email/SelectHCP");
+      };
+    const SaveAsDarft = () => { 
+      selectedHcp.map((data,i)=>{
+      if(data.is_register==1){
+        participants.push(data.id)
+        setParticipants(participants)
+      }else{
+        unregisterParticipants.push(data.id)
+        setUnregisterParticipants(unregisterParticipants)
+      }
+      })
+
+      ExportApi.EmailSelectVerifyHCP(JSON.stringify(participants),JSON.stringify(unregisterParticipants))
+      .then((resp) => {
+        if (resp.data) {
+           console.log("Ghbv",resp.data.data)
+           localStorage.setItem("SmartListId",window.btoa(resp.data.data.smart_list_id))
+           resp.data.data.smart_list_id
+           ? ExportApi.EmailSCreateCollectionnext(
+            resp.data.data.smart_list_id,
+               localStorage.getItem("collection_id"),
+               1
+             ).then((resp) => {
+               if (resp.ok) {
+                  console.log( resp.data.data)
+
+                 if (resp.data.code == 200) {
+                  localStorage.setItem("collection_id",resp.data.data.collection_id)
+                  //  loader("hide");
+                   toast.success(resp.data.message, {
+                     position: "top-right",
+                     autoClose: 2000,
+                     hideProgressBar: false,
+                     closeOnClick: true,
+                     pauseOnHover: true,
+                     draggable: true,
+                     progress: undefined,
+                    });
+                 } else {
+                  //  loader("hide");
+                 }
+                 // localStorage.setItem("collection_id",resp.data.data.collection_id)
+                 //  navigate("/webinar/email/smart-list");
+               }
+             })
+           : toast.warning("Please select smart list");
+          // setSearchedUsers(resp.data.data)
+        }
+      })
+
       };
     const nextClicked = () => { 
       selectedHcp.map((data,i)=>{
@@ -393,6 +444,14 @@ const WebinarVerifyHCP = () => {
   };
   useEffect(() => {
     handleGetCountry()
+    if(params.id){
+       ExportApi.GetSmartListSingleRecord(params.id)
+      .then((resp) => {
+        if (resp.data) {
+          setSelectedHcp(resp.data.data)
+        }
+      })
+    }
   }, []);
   
   return (
@@ -442,7 +501,7 @@ const WebinarVerifyHCP = () => {
           <div className="col-12 col-md-3">
             <div className="header-btn">
               <button
-                // onClick={saveAsDraft}
+                 onClick={SaveAsDarft}
                 className="btn btn-primary btn-bordered move-draft"
               >
                 Save As Draft

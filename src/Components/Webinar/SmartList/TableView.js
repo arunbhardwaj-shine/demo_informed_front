@@ -1370,6 +1370,29 @@ const location = useLocation();
     // props.sendDataToParent(dataUpdated, "new");
     // setNewReaders(dataUpdated);
   };
+  const handleEmailSCreateCollection = () => {
+  ExportApi.EmailSCreateCollectionnext(
+          localStorage.getItem("SmartListId"),
+          localStorage.getItem("collection_id"),
+          2
+        ).then((resp) => {
+          if (resp.ok) {
+            if (resp.data.code == 200) {
+              localStorage.setItem("collection_id",resp.data.data.collection_id)
+              toast.success(resp.data.message, {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
+            }  
+          }
+        })
+
+  };
   return (
     <>
         <div className="loader" id="custom_loader">
@@ -1569,7 +1592,7 @@ const location = useLocation();
               <div className="header-btn">
                 <button
                   className="btn btn-primary btn-bordered move-draft"
-                  //  onClick={() => handleEmailSCreateCollection(0)}
+                   onClick={() => handleEmailSCreateCollection(2)}
                 >
                   Save As Draft
                 </button>
