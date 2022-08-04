@@ -13,15 +13,23 @@ const WebinarVerifyHcpMAIL = () => {
   // const[name,setName]=useState(window.atob(params.name))
   const[Tage,setTags]=useState()
   const[SmartListData,setSmartListData]=useState(JSON.parse(localStorage.getItem("SmartListData")))
+  const[SmartListDataCount,setSmartListDataCount]=useState()
 
  const [Data, setData] = useState()
   const getData=()=>{
+    let data1;
+    let data2;
       ExportApi.getCollectionData(localStorage.getItem("collection_id"))
       .then((resp) => {
         if (resp.data) {
+          data1=resp.data.data?.smart_list?.participants?JSON.parse(resp.data.data?.smart_list?.participants):0
+          data2=resp.data.data?.smart_list?.unregister_participants?JSON.parse(resp.data.data?.smart_list?.unregister_participants):0
+          // data2=JSON.parse(resp.data.data.smart_list.unregister_participants)
           console.log("first",resp.data)
           setTags(JSON.parse(resp.data.data.tags))
           setData(resp.data.data)
+          // alert(data1.length)
+           setSmartListDataCount(data1.length+data1.length)
           document.getElementById("preview-mail-box").innerHTML = resp.data.data?.templates.description;
         }
       })
@@ -63,6 +71,14 @@ const WebinarVerifyHcpMAIL = () => {
       );
       loader("hide");
   };
+  const backClicked=()=>{
+    if(params.id&&params.name){
+      navigate(`/webinar/email/TableTypeData/${localStorage.getItem("SmartListId")}`)
+    }else{
+      navigate("/webinar/email/SelectVerifyHCP")
+
+    }
+  }
   useEffect(() => {
     getData()
 }, [])
@@ -92,7 +108,7 @@ const WebinarVerifyHcpMAIL = () => {
                   <div className="header-btn-left">
                     <button
                       className="btn btn-primary btn-bordered back"
-                    //   onClick={backClicked}
+                      onClick={backClicked}
                     >
                       Back
                     </button>
@@ -196,7 +212,7 @@ const WebinarVerifyHcpMAIL = () => {
                       <div className="row">
                         <div className="col-12 col-md-12 mail-recipt-left">
                           <h6>
-                            The recipients <span>| {SmartListData?.count}</span>
+                            The recipients <span>| {params.id&&params.name?SmartListData?.count:SmartListDataCount}</span>
                           </h6>
                           {/* <p>Single HCP <span>| 1</span></p> */}
 

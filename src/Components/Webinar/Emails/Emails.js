@@ -104,6 +104,7 @@ const SendEmails = () => {
       }
     );
   };
+  // alert(localStorage.getItem("EventIdHeader"))
   const handleGetTags = () => {
     ExportApi.GetTags().then(
       (resp) => {
@@ -147,6 +148,21 @@ const SendEmails = () => {
       }
     });
   };
+  const Edit =(val)=>{
+    if(val.smart_list_id==null&&val.smart_list==null){
+      console.log(1)
+    }else if(val.smart_list_id&&val.smart_list.name==""&&val.approved_status==1){
+     console.log(2)
+    }else if(val.smart_list_id&&val.smart_list.name){
+    console.log(3)
+    }else if(val.smart_list_id&&val.smart_list.name&&val.approved_status==2){
+   
+   
+   
+    }
+
+
+  }
   useEffect(() => {
     window.dispatchEvent(new Event("EventData"));
     handleGetTags()
@@ -517,7 +533,8 @@ const SendEmails = () => {
                                     alt=""
                                   />
                                 </div>
-                                <span>0</span>
+                                {/* {console.log(val.stats.mail_sent)} */}
+                                <span>{val.stats?.mail_sent?val.stats?.mail_sent:"0(0.0%)"}</span>
                               </li>
                               <li>
                                 <div className="mail-status mail_view">
@@ -526,7 +543,7 @@ const SendEmails = () => {
                                     alt=""
                                   />
                                 </div>
-                                <span>10%</span>
+                                <span>{val.stats?.mail_read?val.stats?.mail_read:"0(0.0%)"}</span>
                               </li>
                               <li>
                                 <div className="mail-status mail_click">
@@ -554,9 +571,10 @@ const SendEmails = () => {
                           <button
                             className="btn btn-primary btn-bordered edit"
                             onClick={() => {
-                              localStorage.setItem("stateid", val.id);
-                              navigate("/webinar/email/create");
-                              localStorage.setItem("stateid", val.id);
+                              Edit(val)
+                              // localStorage.setItem("stateid", val.id);
+                              // navigate("/webinar/email/create");
+                              // localStorage.setItem("stateid", val.id);
                               //  alert(val.id);
                             }}
                           >
@@ -570,8 +588,7 @@ const SendEmails = () => {
                             </Link> */}
                             Edit
                           </button>
-
-                          <button
+                          {val.approved_status == 2? <button
                             type="button"
                             onClick={() => {
                               handleSendMail(val.id);
@@ -579,7 +596,8 @@ const SendEmails = () => {
                             className="btn btn-primary btn-filled send"
                           >
                             Send
-                          </button>
+                          </button>:null}
+                         
                         </div>
                       </div>
                     </div>

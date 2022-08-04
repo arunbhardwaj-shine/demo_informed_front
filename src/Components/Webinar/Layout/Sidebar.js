@@ -121,6 +121,7 @@ const Sidebar = () => {
       location.pathname ==
      `/webinar/email/editSmartList/${localStorage.getItem("SmartListIdView")}/${localStorage.getItem("SmartListIdViewName")}/${localStorage.getItem("SmartListIdViewN")}`||
       location.pathname === "/webinar/email/WebinarSmartList" ||
+      location.pathname === `/webinar/email/WebinarSmartList/${localStorage.getItem("SmartListId")}` ||
       location.pathname === "/webinar/email/ViewSmartListWebinar" ||
       location.pathname === "/webinar/email/SmartListCreate" ||
       location.pathname === "/webinar/email/SmartListCreate/FilterList" ||

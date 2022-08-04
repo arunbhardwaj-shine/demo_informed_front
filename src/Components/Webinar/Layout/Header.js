@@ -61,6 +61,7 @@ const Header = () => {
         if (resp.ok) {
           setEvent(resp.data.data);
           // console.log(resp.data.code)
+          localStorage.setItem("EventIdHeader",resp.data.data[0].id)}
           if (resp.data.code == 404) {
             localStorage.removeItem("EventIdHeader")  
         }else{
@@ -70,7 +71,6 @@ const Header = () => {
               // return null
               setEventId(resp.data.data[0].id)
             }else{
-              localStorage.setItem("EventIdHeader",resp.data.data[0].id)}
               setEventId(resp.data.data[0].id)
          }
         } 
@@ -84,6 +84,7 @@ const Header = () => {
       ExportApi.GetEventList().then((resp) => {
         if (resp.ok) {
           setEvent(resp.data.data);
+          // localStorage.setItem("EventIdHeader",resp.data.data[0].id)
           // console.log(resp.data.code
         }
       });
