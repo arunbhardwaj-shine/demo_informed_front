@@ -34,7 +34,21 @@ const Dashboard = () => {
             } 
         });
     }
+    const handleGetFirstEventId = () => {
+        ExportApi.DashboardData().then((resp) => {
+            if (resp.ok) {
+                // setTemplateList(resp.data.data);
+                console.log(resp.data.data.event_id)
+                handleGetRegistrationPagesList(resp.data.data.event_id)
+                handleGetEvents(resp.data.data.event_id)
+                handleGetTemplateList(resp.data.data.event_id)
+            } 
+        });
+    }
     
+    useEffect(() => {
+        handleGetFirstEventId()
+    }, [])
     useEffect(() => {
         window.dispatchEvent(new Event("EventLength"));
         handleGetEvents(localStorage.getItem("EventIdHeader"));
