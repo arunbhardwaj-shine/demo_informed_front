@@ -128,6 +128,7 @@ const Sidebar = () => {
       location.pathname === "/webinar/email/SmartListCreate/ExcelUpload" ||
       location.pathname === "/webinar/email/template" ||
       location.pathname === `/webinar/email/TableTypeData/${localStorage.getItem("SmartListId")}`||
+      location.pathname === `/webinar/email/SelectVerifyHCP/${localStorage.getItem("SmartListId")}`||
       location.pathname === "/webinar/email/SelectHCP"||
       location.pathname === "/webinar/email/SelectVerifyHCP"||
       location.pathname === "/webinar/email/emails" ||
@@ -161,12 +162,15 @@ const Sidebar = () => {
       location.pathname ==
      `/webinar/email/editSmartList/${localStorage.getItem("SmartListIdView")}/${localStorage.getItem("SmartListIdViewName")}/${localStorage.getItem("SmartListIdViewN")}`||
       location.pathname === "/webinar/email/WebinarSmartList" ||
+      location.pathname === `/webinar/email/smart-list/${localStorage.getItem("SmartListId")}` ||
+
       location.pathname === "/webinar/email/ViewSmartListWebinar" ||
       location.pathname === "/webinar/email/SmartListCreate" ||
       location.pathname === "/webinar/email/SmartListCreate/FilterList" ||
       location.pathname === "/webinar/email/SmartListCreate/ExcelUpload" ||
       location.pathname === "/webinar/email/template" ||
       location.pathname === `/webinar/email/TableTypeData/${localStorage.getItem("SmartListId")}`||
+      location.pathname === `/webinar/email/SelectVerifyHCP/${localStorage.getItem("SmartListId")}`||
       location.pathname === "/webinar/email/SelectHCP"||
       location.pathname === "/webinar/email/SelectVerifyHCP"||
       location.pathname === "/webinar/email/emails" ||
@@ -802,9 +806,11 @@ const Sidebar = () => {
                         location.pathname === "/webinar/email/WebinarVerifyHcpMAIL" ||
                         location.pathname === `/webinar/email/WebinarVerifyHcpMAIL/${window.btoa(localStorage.getItem("SmartListId"))}/${window.btoa(localStorage.getItem("SmartListName"))}`||
                         location.pathname === `/webinar/email/WebinarVerifyHcpMAIL/${localStorage.getItem("SmartListId")}`||
-                        location.pathname === "/webinar/email/SelectHCP"||
+                        location.pathname === "/webinar/email/SelectHCP"||location.pathname === `/webinar/email/smart-list`||
+                        location.pathname === `/webinar/email/smart-list/${localStorage.getItem("SmartListId")}` ||
                         location.pathname === "/webinar/email/SelectVerifyHCP"||
                         location.pathname === "/webinar/email/smart-list" ||
+                        location.pathname === `/webinar/email/SelectVerifyHCP/${localStorage.getItem("SmartListId")}`||
                         location.pathname === `/webinar/email/TableTypeData/${localStorage.getItem("SmartListId")}`||
                         location.pathname ===
                           `/webinar/email/smart-list-users/${localStorage.getItem(

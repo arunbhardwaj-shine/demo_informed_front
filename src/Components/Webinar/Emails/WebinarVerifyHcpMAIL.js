@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { ToastContainer } from 'react-bootstrap';
-import { Link, useNavigate, useParams } from 'react-router-dom'
-import { toast } from 'react-toastify';
+import {  useNavigate, useParams } from 'react-router-dom'
+import { toast, ToastContainer } from 'react-toastify';
 import ExportApi from '../../../Api/ExportApi'
 import { loader } from '../../../loader';
 
@@ -79,6 +78,40 @@ const WebinarVerifyHcpMAIL = () => {
 
     }
   }
+  const handleEmailSCreateCollection = (next) => {
+    if(params.id&&params.name){
+      ExportApi.EmailSCreateCollectionnext(
+     localStorage.getItem("SmartListId"),
+               localStorage.getItem("collection_id"),
+               3
+             ).then((resp) => {
+               if (resp.ok) {
+                 if (resp.data.code == 200) {
+                   toast.success("Collection updated successfully")
+                   localStorage.setItem("collection_id",resp.data.data.collection_id)
+                 }
+              
+               }
+             })
+    }else{
+      ExportApi.EmailSCreateCollectionnext(
+       localStorage.getItem("SmartListId"),
+                localStorage.getItem("collection_id"),
+                3
+              ).then((resp) => {
+                if (resp.ok) {
+                  if (resp.data.code == 200) {
+                    // alert()
+                    toast.success("Collection updated successfully")
+                    localStorage.setItem("collection_id",resp.data.data.collection_id)
+                  
+                  }
+               
+                }
+              })
+    }
+   
+  };
   useEffect(() => {
     getData()
 }, [])
@@ -108,7 +141,7 @@ const WebinarVerifyHcpMAIL = () => {
                   <div className="header-btn-left">
                     <button
                       className="btn btn-primary btn-bordered back"
-                      onClick={backClicked}
+                      onClick={()=>backClicked()}
                     >
                       Back
                     </button>
@@ -134,7 +167,7 @@ const WebinarVerifyHcpMAIL = () => {
                   <div className="header-btn">
                     <button
                       className="btn btn-primary btn-bordered move-draft"
-                      onClick={handleSendMail}
+                      onClick={handleEmailSCreateCollection}
                     >
                       Save As Draft
                     </button>
