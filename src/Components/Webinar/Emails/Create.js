@@ -703,12 +703,12 @@ const CreateEmails = (props) => {
                     <button className="btn btn-primary btn-filled" type="submit">
                       Save
                     </button>
-                    <button className="btn btn-primary btn-filled" type="button"  onClick={(e) => {
+                    {/* <button className="btn btn-primary btn-filled" type="button"  onClick={(e) => {
                         setModalShow2(true);
                         setId(localStorage.getItem("idd"));
                       }}>
                       Save As Template
-                    </button>
+                    </button> */}
                   </div>
                 </div>
               </form>

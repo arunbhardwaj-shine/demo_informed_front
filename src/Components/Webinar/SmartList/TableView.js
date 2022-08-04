@@ -1374,7 +1374,7 @@ const location = useLocation();
   ExportApi.EmailSCreateCollectionnext(
           localStorage.getItem("SmartListId"),
           localStorage.getItem("collection_id"),
-          2
+          0
         ).then((resp) => {
           if (resp.ok) {
             if (resp.data.code == 200) {

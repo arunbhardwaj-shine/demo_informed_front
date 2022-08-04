@@ -62,12 +62,7 @@ const WebinarSelectHCP = () => {
             </div>
             <div className="col-12 col-md-3">
               <div className="header-btn">
-                <button
-                  className="btn btn-primary btn-bordered move-draft"
-                //   onClick={saveAsDraft}
-                >
-                  Save As Draft
-                </button>
+                
                 {1 === 0 ? (
                   <button className="btn btn-primary btn-filled next disabled">
                     Next{" "}

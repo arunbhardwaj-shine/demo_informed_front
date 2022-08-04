@@ -33,6 +33,16 @@ const UserLogout = () =>
       },
     }
   );
+const DashboardData = () =>
+  BaseApi.get(
+    "/latest-event",
+    {},
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
 //Dropdown
 const GetBuData = () =>
   BaseApi.get(
@@ -551,7 +561,7 @@ const EmailStatsPage = (id, eventId, template_id) =>
       },
     }
   );
-const EmailSand = (id, name) =>
+const EmailSand = (id="", name) =>
   BaseApi.post(
     `/create-unregistered-participant`,
     { smart_list_id: id, participants: name },
@@ -919,6 +929,7 @@ const DeleteSmartListData = (id, participants) =>
     }
   );
 export default {
+  DashboardData,
   UserLogin,
   UserForgot,
   UserForgotResetPasswordPost,

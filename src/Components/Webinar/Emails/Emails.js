@@ -151,31 +151,30 @@ const SendEmails = () => {
   const Edit =(val)=>{
     console.log(val)
     if(val.smart_list_id==null&&val.smart_list==null){
+    
      navigate("/webinar/email/create")
-    }else if(val.smart_list_id&&val.smart_list.name==""&&val.approved_status==1){
+    }else if(val.smart_list_id&&val.smart_list.name==""&&val.approved_status==0){ 
       localStorage.setItem("collection_id",val.id)
       localStorage.setItem("SmartListId",val.smart_list_id)
       navigate(`/webinar/email/SelectVerifyHCP/${val.smart_list_id}`)
-    }else if(val.smart_list_id&&val.smart_list.name,val.approved_status==1){
-   localStorage.setItem("collection_id",val.id)
-      localStorage.setItem("SmartListId",val.smart_list_id)
-      navigate(`/webinar/email/smart-list/${val.smart_list_id}`)
-    }else if(val.smart_list_id&&val.smart_list.name,val.approved_status==2){
-   localStorage.setItem("collection_id",val.id)
-      localStorage.setItem("SmartListId",val.smart_list_id)
-      navigate(`/webinar/email/TableTypeData/${val.smart_list_id}`)
     }
-    else if(val.smart_list_id&&val.smart_list.name==""&&val.approved_status==3){
+    else if(val.smart_list_id&&val.smart_list.name&&val.approved_status==0){ 
+       localStorage.setItem("collection_id",val.id)
+          localStorage.setItem("SmartListId",val.smart_list_id)
+          navigate(`/webinar/email/TableTypeData/${val.smart_list_id}`)
+    }
+    else if(val.smart_list_id&&val.smart_list.name==""&&val.approved_status==1||val.smart_list_id&&val.smart_list.name==""&&val.approved_status==2){ 
       localStorage.setItem("collection_id",val.id)
       localStorage.setItem("SmartListId",val.smart_list_id)
       navigate(`/webinar/email/WebinarVerifyHcpMAIL/${val.smart_list_id}`)
     }
-    else if(val.smart_list_id&&val.smart_list.name&&val.approved_status==3){
+    else if(val.smart_list_id&&val.smart_list.name&&val.approved_status==1||val.smart_list_id&&val.smart_list.name&&val.approved_status==2){ 
       localStorage.setItem("collection_id",val.id)
       localStorage.setItem("SmartListId",val.smart_list_id)
       localStorage.setItem("SmartListName",val.smart_list.name)
       navigate(`/webinar/email/WebinarVerifyHcpMAIL/${window.btoa(val.smart_list_id)}/${window.btoa(val.smart_list.name)}`)  
     }
+ 
   }
   useEffect(() => {
     window.dispatchEvent(new Event("EventData"));
@@ -496,9 +495,9 @@ const SendEmails = () => {
                       "email_box " +
                       (val.approved_status == 0
                         ? " email-draft"
-                        : val.approved_status == 2
+                        : val.approved_status == 1
                         ? "draft-approved"
-                        : val.approved_status == 3
+                        : val.approved_status == 2
                         ? " approved"
                         : "draft-approved")
                     }
@@ -506,12 +505,10 @@ const SendEmails = () => {
                     <div className="mail-top-title">
                       {val.approved_status == 0 ? (
                         <span>Draft</span>
-                      ) : val.approved_status == 1 ? (
-                        <span> Draft</span>
-                      ) : val.approved_status == 2 ? (
+                      )  : val.approved_status == 1 ? (
                         <span> Approved Draft</span>
                       ) : 
-                       val.approved_status == 3 ? (
+                       val.approved_status == 2 ? (
                         <span> Approved</span>
                       ) : 
                       (
@@ -598,7 +595,7 @@ const SendEmails = () => {
                           >
                             Edit
                           </button>
-                          {val.approved_status == 3? <button
+                          {val.approved_status == 2? <button
                             type="button"
                             onClick={() => {
                               handleSendMail(val.id);
