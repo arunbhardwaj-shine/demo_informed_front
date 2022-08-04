@@ -608,9 +608,12 @@ const AutoEmail = () => {
         await axios
           .post(`emailapi/add_update_template`, body)
           .then((res) => {
-            console.log(res);
-            toast.success("Auto email created successfully");
-            loader("hide");
+            if (res.data.status_code == 200) {
+              console.log(res);
+              getTemplateListData();
+              toast.success("Template updated");
+              loader("hide");
+            }
           })
           .catch((err) => {
             loader("hide");
