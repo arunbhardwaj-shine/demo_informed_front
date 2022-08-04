@@ -783,6 +783,9 @@ const AutoEmail = () => {
                         </div>
                         <div className="form-inline row justify-content-end align-items-center">
                           <div className="form-buttons right-side col-12 col-md-5">
+                            <button className="btn btn-primary approved-btn btn-bordered">
+                              Approved{" "}
+                            </button>
                             <button
                               onClick={sendSample}
                               className="btn btn-primary btn-bordered btn-large"
