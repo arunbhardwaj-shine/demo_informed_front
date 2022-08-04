@@ -12,6 +12,7 @@ import { popup_alert } from "../../popup_alert";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const AutoEmail = () => {
   const [getsearch, setSearch] = useState("");
+  const [approveClickedd, setApproveClicked] = useState(false);
   const [counterFlag, setCounterFlag] = useState(0);
   const [templates, setTemplates] = useState([]);
   const [countryall, setCountryall] = useState([]);
@@ -37,6 +38,7 @@ const AutoEmail = () => {
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [name, setName] = useState("");
   const [hide, setHide] = useState(false);
+  const [templateSaving, setTemplateSaving] = useState("");
   const [templateName, setTemplateName] = useState("");
   const [hpc, setHpc] = useState([
     { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
@@ -110,6 +112,9 @@ const AutoEmail = () => {
 
   const viewButtonClicked = (template, index) => {
     console.log(template);
+    setEmailSubject("");
+    setEmailDescription("");
+    setApproveClicked(false);
     setTemplateClicked(true);
     setSourceCode(template.source_code);
     setIndexClicked(index);
@@ -120,6 +125,9 @@ const AutoEmail = () => {
 
   const viewReminderClicked = (template, index) => {
     console.log(template);
+    setEmailSubject("");
+    setEmailDescription("");
+    setApproveClicked(false);
     setTemplateClicked(true);
     setSourceCode(template.source_code);
     setIndexClickedReminder(index);
@@ -264,7 +272,6 @@ const AutoEmail = () => {
 
       //console.log(body);
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-
       axios
         .post(`emailapi/send_sample_email`, body)
         .then((res) => {
@@ -590,7 +597,7 @@ const AutoEmail = () => {
       if (editorRef.current) {
         const body = {
           user_id: localStorage.getItem("user_id"),
-          source_code: sourceCode,
+          source_code: editorRef.current.getContent(),
           template_id: templateId,
           name: templateName,
           status: 2,
@@ -615,6 +622,43 @@ const AutoEmail = () => {
     }
   };
 
+  const approveClicked = async (e) => {
+    e.preventDefault();
+    setApproveClicked(true);
+    const body = {
+      user_id: localStorage.getItem("user_id"),
+      pdf_id: "3487",
+      description: emailDescription,
+      creator: "",
+      campaign_name: "",
+      subject: emailSubject,
+      route_location: "AutoEmail",
+      tags: [],
+      campaign_data: {
+        templateId: templateId,
+      },
+      campaign_id: "",
+      status: 3,
+      approved_page: 1,
+    };
+
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    loader("show");
+    await axios
+      .post(`emailapi/save_draft`, body)
+      .then((res) => {
+        loader("hide");
+
+        if (res.data.status_code === 200) {
+          toast.success("Approved Draft saved");
+        } else {
+          toast.warning(res.data.message);
+        }
+      })
+      .catch((err) => {
+        toast.error("Somwthing went wrong");
+      });
+  };
   return (
     <>
       <div className="col right-sidebar">
@@ -673,7 +717,13 @@ const AutoEmail = () => {
                         ? templates.map((template, index) => {
                             return (
                               <>
-                                <div className="trigger_content_box d-flex">
+                                <div
+                                  className={
+                                    indexClicked == index
+                                      ? "trigger_content_box d-flex active"
+                                      : "trigger_content_box d-flex"
+                                  }
+                                >
                                   <div className="trigger_content_image">
                                     <img
                                       src={template.template_img}
@@ -716,7 +766,13 @@ const AutoEmail = () => {
                     <div className="mail_trigger_content">
                       {templates.map((template, index) => {
                         return (
-                          <div className="trigger_content_box d-flex">
+                          <div
+                            className={
+                              indexClickedReminder == index
+                                ? "trigger_content_box d-flex active"
+                                : "trigger_content_box d-flex"
+                            }
+                          >
                             <div className="trigger_content_image">
                               <img src={template.template_img} alt="Preview" />
                             </div>
@@ -746,7 +802,7 @@ const AutoEmail = () => {
                 <div className="auto_mail_trigger_right col-md-8 col-sm-8">
                   {!templateClicked ? (
                     <div className="mail_trigger_right_dummy">
-                      <div className="mail_trigger_dummy_content d-flex ">
+                      <div className="mail_trigger_dummy_content d-flex justify-content-center">
                         <img src={path_image + "auto_mail.svg"} alt="" />
                         <h3>Select one of the auto emails to show here</h3>
                       </div>
@@ -783,9 +839,27 @@ const AutoEmail = () => {
                         </div>
                         <div className="form-inline row justify-content-end align-items-center">
                           <div className="form-buttons right-side col-12 col-md-5">
-                            <button className="btn btn-primary approved-btn btn-bordered">
-                              Approved{" "}
-                            </button>
+                            {approveClickedd == true ? (
+                              <button
+                                className="btn btn-primary approved-btn btn-bordered "
+                                onClick={(e) => approveClicked(e)}
+                              >
+                                Approved{" "}
+                                <img
+                                  src={path_image + "approved-btn.svg"}
+                                  className="approve_btn"
+                                  alt=""
+                                />
+                              </button>
+                            ) : (
+                              <button
+                                className="btn btn-primary approved-btn btn-bordered "
+                                onClick={(e) => approveClicked(e)}
+                              >
+                                Approve?{" "}
+                              </button>
+                            )}
+
                             <button
                               onClick={sendSample}
                               className="btn btn-primary btn-bordered btn-large"
@@ -811,6 +885,9 @@ const AutoEmail = () => {
                                 "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
                               content_style:
                                 "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                            }}
+                            onEditorChange={(content) => {
+                              setTemplateSaving(content);
                             }}
                           />
                         </div>
