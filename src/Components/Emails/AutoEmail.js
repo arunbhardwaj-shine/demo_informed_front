@@ -96,7 +96,7 @@ const AutoEmail = () => {
 
     loader("show");
     await axios
-      .post(`emailapi/get_template_list`, body)
+      .post(`emailapi/get_own_template_list`, body)
       .then((res) => {
         console.log(res);
         setTemplates(res.data.response.data);
@@ -712,7 +712,11 @@ const AutoEmail = () => {
                                     <p>
                                       When New content add to the user library
                                     </p>
-                                    {indexClicked !== index ? (
+
+                                    {template.name !==
+                                      "New Content Added Email" &&
+                                    template.name !== "Invitation" &&
+                                    indexClicked !== index ? (
                                       <button
                                         onClick={() =>
                                           viewButtonClicked(template, index)
@@ -730,7 +734,7 @@ const AutoEmail = () => {
                         : null}
                     </div>
                   </div>
-                  <div className="auto_mail_trigger_box">
+                  {/* <div className="auto_mail_trigger_box">
                     <div className="mail_trigger_left d-flex align-items-center">
                       <div className="mail_trigger_mail-icon">
                         <img
@@ -774,7 +778,7 @@ const AutoEmail = () => {
                         );
                       })}
                     </div>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="auto_mail_trigger_right col-md-8 col-sm-8">
                   {!templateClicked ? (
