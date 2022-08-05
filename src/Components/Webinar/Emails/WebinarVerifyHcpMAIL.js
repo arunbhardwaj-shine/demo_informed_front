@@ -164,7 +164,7 @@ const WebinarVerifyHcpMAIL = () => {
                 </li>
               </ul>
             </div>
-                <div className="col-12 col-md-2">
+                <div className="col-12 col-md-3">
                   <div className="header-btn">
                     <button
                       className="btn btn-primary btn-bordered move-draft"
@@ -174,10 +174,7 @@ const WebinarVerifyHcpMAIL = () => {
                     </button>
                     <button
                     type='button'
-              //      className={
-                   
-              //       "btn btn-primary btn-filled next send_btn"
-              //  }
+                   className={"btn btn-primary btn-filled send_btn"}
                onClick={()=>{handleSendMail()}}
                     >
                       Send

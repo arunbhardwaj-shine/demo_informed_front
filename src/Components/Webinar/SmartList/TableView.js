@@ -1555,16 +1555,17 @@ const location = useLocation();
           <div className="row justify-content-end align-items-center">
             <div className="col-12 col-md-1">
               <div className="header-btn-left">
+              <Link to={`/webinar/email/smart-list/${localStorage.getItem("SmartListId")}`}>
                 <button
                   className="btn btn-primary btn-bordered back"
                   // onClick={backClicked}
                 >
-                  <Link to={`/webinar/email/smart-list/${localStorage.getItem("SmartListId")}`}>Back</Link>
-                 
+                 Back
                 </button>
+                 </Link>
               </div>
             </div>
-            <div className="col-12 col-md-9">
+            <div className="col-12 col-md-8">
               <ul className="tabnav-link">
                 <li className="active">
                   <Link to="/CreateEmail">Prepare Your Email</Link>
@@ -1588,7 +1589,7 @@ const location = useLocation();
                 </li>
               </ul>
             </div>
-            <div className="col-12 col-md-2">
+            <div className="col-12 col-md-3">
               <div className="header-btn">
                 <button
                   className="btn btn-primary btn-bordered move-draft"

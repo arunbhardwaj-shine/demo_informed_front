@@ -304,15 +304,17 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
           <div className="row justify-content-end align-items-center">
             <div className="col-12 col-md-1">
               <div className="header-btn-left">
+              <Link to="/webinar/email/SelectHCP">
                 <button
                   className="btn btn-primary btn-bordered back"
                   //  onClick={()}
                 >
-                  <Link to="/webinar/email/SelectHCP">Back</Link>
+                 Back
                 </button>
+                </Link>
               </div>
             </div>
-            <div className="col-12 col-md-9">
+            <div className="col-12 col-md-8">
               <ul className="tabnav-link">
                 <li className="active">
                   <Link to="/CreateEmail">Prepare Your Email</Link>
@@ -336,7 +338,7 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
                 </li>
               </ul>
             </div>
-            <div className="col-12 col-md-2">
+            <div className="col-12 col-md-3">
               <div className="header-btn">
                 <button
                   className="btn btn-primary btn-bordered move-draft"

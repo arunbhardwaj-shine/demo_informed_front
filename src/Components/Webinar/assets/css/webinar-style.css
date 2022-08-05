@@ -240,33 +240,7 @@ a { cursor: pointer; text-decoration: none; }
   .mail-content-select-top h5 { color: var(--light-blue); padding-right: 18px; } 
   .mail-content-select-top .mailbox-tags li { background: #e7f4ff; color: var(--light-blue); text-transform: capitalize; } 
   .mail-content-select-top .mailbox-tags { margin-top: 12px; } 
-  .select-mail-option { position: absolute; right: -24px; background: var(--white); box-shadow: -3px 3px 7px rgba(0, 102, 190, 0.3); border-radius: 5px 15px 5px 5px; width: 44px; height: 44px; top: -28px; z-index: 5; } 
-  .select-mail-option input { width: 24px; height: 24px; opacity: 0; z-index: 1; position: absolute; left: 10px; top: 10px; border-radius: 50%; cursor: pointer; }
-.select-mail-option .checkmark {
-  border: 1px solid #b3b3b3;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  display: inline-block;
-  margin: 0px;
-  position: relative;
-}
-.select-mail-option input:checked ~ .checkmark {
-  background-color: #b3b3b3;
-}
-.select-mail-option .checkmark:after {
-  content: "";
-  position: absolute;
-}
-.select-mail-option input:checked ~ .checkmark:after {
-  display: block;
-}
-.select-mail-option .checkmark:after {
-  left: 8px;
-  top: 4px;
-  width: 8px;
-  height: 13px; 
-}
+
 .mail-content-table table th {
   font-size: 14px;
   line-height: 16px;
@@ -981,7 +955,7 @@ table tbody td span {
   margin-bottom: 20px;
 }
 .search-hcp {
-  padding-top: 70px;
+  padding-top: 32px;
 }
 h4 {
   font-size: 24px;
@@ -3551,6 +3525,7 @@ input[type="date"]:before {
   width: 33.3%;
   margin-bottom: 80px;
 }
+
 .list-tab .list-tab-box .list-tab-box-inside,
 .list-tab-box-inside {
   max-width: 411px;
@@ -3653,7 +3628,7 @@ input[type="date"]:before {
   min-width: 215px;
   padding: 5px 14px;
 }
-.smartlist-view .mail-box-content .select-mail-option {
+/* .smartlist-view .mail-box-content .select-mail-option {
   box-shadow: none;
   border: 0;
   width: auto;
@@ -3666,7 +3641,7 @@ input[type="date"]:before {
 .smartlist-view .mail-box-content .select-mail-option input {
   left: 0;
   top: 0;
-}
+} */
 .select-mail-option .checkmark::after {
   left: 8px;
   top: 4px;
@@ -4074,6 +4049,39 @@ header nav.navbar .form-select,
   flex: 0 0 24px;
   cursor: pointer;
 }
+.select-mail-option { position: absolute; right: -14px; background: var(--white); box-shadow: -3px 3px 7px rgba(0, 102, 190, 0.3); border-radius: 5px 15px 5px 5px; width: 44px; height: 44px; top: -20px; z-index: 5; } 
+.select-mail-option input { width: 24px; height: 24px; opacity: 0; z-index: 1; position: absolute; left: 10px; top: 10px; border-radius: 50%; cursor: pointer; }
+.select-mail-option .checkmark {
+  background: rgba(112, 137, 158, 0.41);
+width: 24px;
+height: 24px;
+border-radius: 50%;
+display: inline-block;
+margin: 10px;
+position: relative;
+}
+.page-top-nav .header-btn button:last-child {
+  margin-left: 10px;
+}
+.select-mail-option input:checked ~ .checkmark {
+  background-color: var(--green);
+}
+.select-mail-option .checkmark:after {
+content: "";
+position: absolute;
+}
+.select-mail-option input:checked ~ .checkmark:after {
+display: block;
+}
+.select-mail-option .checkmark:after {
+  left: 8px;
+  top: 4px;
+  width: 8px;
+  height: 13px;
+  border: solid var(--white);
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
 .form-inline.box-added.form-group
   .form-check
   .form-check-input:checked[type="checkbox"], .create-registration .form-inline .form-check input:checked[type="radio"] {
@@ -4304,6 +4312,9 @@ button#test-table-xls-button:hover {
 #upload-confirm .modal-body {
   padding: 0 32px 24px;
 }
+
+
+
 .filter-block .filter-block-left .filter-div .filter-div-title,
 .filter-block .filter-block-right .filter-div .filter-div-title {
   margin-right: 6px;
@@ -4406,7 +4417,15 @@ button#test-table-xls-button:hover {
   width: 100%;
   margin-bottom: 24px;
 }
-
+.create-smart-list .upload-btn, .create-smart-list .btn-bordered, .download-sample .upload-btn {
+  padding: 10px 13px;
+  font-size: 16px;
+  line-height: 19px;
+}
+.create-smart-list .upload-btn:hover, .create-smart-list .btn-bordered:hover, .create-smart-list .upload-btn:focus, .create-smart-list .btn-bordered:focus, .create-smart-list .upload-btn:active, .create-smart-list .btn-bordered:active {
+  background: var(--violet);
+  color: var(--white);
+}
 .hcp-table-content ul.hcp-table-content-right,
 .hcp-table-heading ul.hcp-table-heading-right {
   width: 520px;
@@ -4667,7 +4686,7 @@ height: 100px;
 }
 .registration_form .form-inline .form-group input.form-control-color {
   flex: 1 1 auto;
-  width: 50px;
+  max-width: 50px;
   padding: 0;
   border: 0;
   height: auto;
@@ -4730,6 +4749,7 @@ height: 100px;
   text-transform: inherit;
   margin-bottom: 15px;
   font-size: 28px;
+  word-break: break-all;
 }
 .login-wrapper-inside .head-sec .motivate_logo, .login-wrapper-inside .head-sec .top-title-green, .login-wrapper-inside .head-sec .head-sec-boxes, .login-wrapper-inside .head-sec .mid-section {
   text-align: center;
@@ -4766,6 +4786,27 @@ height: 100px;
 .registration_form .login-wrapper {
   position: sticky;
   top: 100px;
+  max-width: 700px;
+}
+.create-smart-list {
+  max-width: 924px;
+  margin: 0 auto;
+  border: 1px dashed var(--skyblue);
+  box-sizing: border-box;
+  border-radius: 57px;
+  padding: 13px 13px 13px 24px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 80px;
+}
+.create-smart-list p {
+  margin: 0;
+  font-size: 18px;
+  line-height: 21px;
+  color: var(--skyblue);
+  font-family: "Roboto-Medium";
 }
 #log-tabs .login-from .form-group input {
   border: 0 none;
@@ -5379,4 +5420,88 @@ color:#848484;
 .table-title .selected-hcp-table-action .hcp-new-user .btn, .table-title .selected-hcp-table-action .hcp-added .btn {
   padding: 10px;
   width: 40px;
+}
+
+
+.mail-recipt h6 {
+  font-size: 18px;
+  line-height: 21px;
+  color: var(--blue);
+  font-family: "Roboto-Medium";
+}
+.preview_mail h4 {
+  margin-bottom: 13px;
+}
+.verify-mail-box {
+  border: 1px dashed var(--light-blue);
+  border-radius: 30px;
+  padding: 20px 24px 11px 28px;
+  height: 100%;
+}
+.verify-email-detail h6 {
+  font-family: "Roboto-Light";
+  color: var(--blue);
+  font-size: 18px;
+  line-height: 21px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: flex-start;
+}
+.verify-email-detail h4 {
+  margin-bottom: 16px;
+}
+.verify-email-detail h6 ul li {
+  list-style: none;
+  display: inline-block;
+  background: #e9deec;
+  border-radius: 3px;
+  font-size: 11px;
+  line-height: 13px;
+  color: var(--violet);
+  font-family: "Roboto-Light";
+  padding: 4px 12px;
+  height: 22px;
+  margin: 0 3px 5px;
+  text-transform: capitalize;
+}
+.verify-email-detail h6 ul li img {
+  height: 8px;
+  width: 10px;
+  margin-left: 12px;
+  display: inline-block;
+}
+.verify-email-detail h6 ul {
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  flex: 1 1;
+}
+.verify-email-detail h6 strong {
+  font-family: "Roboto-Medium";
+  font-weight: 500;
+  margin-right: 6px;
+}
+.verify_email {
+  margin-top: 41px;
+  padding-bottom: 30px;
+}
+.smartlist-buttons button.btn {
+  padding: 6px 14px;
+}
+.verify-email-detail {
+  border-bottom: 1px dashed var(--light-blue);
+  padding-bottom: 6px;
+  margin-bottom: 14px;
+  display: flex;
+  justify-content: space-between;
+}
+.mailbox-table table tr td:last-child {
+  vertical-align: middle;
+}
+.mailbox-table td {
+  font-size: 14px;
+  line-height: 16px;
+  color: #004a89;
+  font-family: "Roboto";
+  word-break: break-word;
 }

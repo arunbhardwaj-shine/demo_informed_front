@@ -5,6 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { Button, Form, Modal } from "react-bootstrap";
 import { BaseApi } from "../../../Api/BaseApi";
 import axios from "axios";
+import { loader } from '../../../loader';
 const WebinarVerifyHCP = () => {
     let path_image =process.env.REACT_APP_ASSETS_PATH_WEBINAR;
     let params=useParams()
@@ -252,6 +253,7 @@ const WebinarVerifyHCP = () => {
       });
     };
     const handleMultiInputRemove = (i) => {
+      loader("show");
       let data1 = Speakername;
       let dataErr = SpeakernameErr;
       Speakername.splice(i, 1);
@@ -260,6 +262,8 @@ const WebinarVerifyHCP = () => {
       setTimeout(() => setSpeakerNameErr([...SpeakernameErr]), 1000);
       setSpeakerName(data1);
       setSpeakerNameErr(dataErr);
+       setTimeout(() =>       loader("hide")
+       , 1000);
     };
     const handleOnChange = (e, i) => {
       const regex =/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
@@ -456,6 +460,9 @@ const WebinarVerifyHCP = () => {
   
   return (
     <>
+        <div className="loader" id="custom_loader">
+        <span className="loader-view"> </span>
+      </div>
     <div className="right-sidebar col">
     <ToastContainer
     position="top-right"
@@ -500,13 +507,17 @@ const WebinarVerifyHCP = () => {
             </div>
           <div className="col-12 col-md-3">
             <div className="header-btn">
+            {selectedHcp.length === 0 ? (
+                <button className="btn btn-primary btn-filled  disabled">
+                  Save As Draft
+                  </button>):(
               <button
                  onClick={SaveAsDarft}
                 className="btn btn-primary btn-bordered move-draft"
               >
                 Save As Draft
               </button>
-
+                  )}
               {selectedHcp.length === 0 ? (
                 <button className="btn btn-primary btn-filled  disabled">
                   Next
@@ -514,7 +525,7 @@ const WebinarVerifyHCP = () => {
               ) : (
                 <button
                   onClick={nextClicked}
-                  className="btn btn-primary btn-filled next"
+                  className="btn btn-primary btn-filled "
                 >
                   Next
                 </button>
@@ -872,7 +883,7 @@ const WebinarVerifyHCP = () => {
                          
                               if (resp.data.code == 200) {
                                 resp.data.data.map((item)=>{
-                                  setNewReaders((oldArray) => [...oldArray,item]);
+                                  setSelectedHcp((oldArray) => [...oldArray,item]);
 
                                 })
                                 // setNewReaders(...getNewReaders,Speakername)
