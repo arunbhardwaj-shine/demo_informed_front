@@ -27,7 +27,7 @@ const AutoEmail = () => {
   const [emailSubject, setEmailSubject] = useState("");
   const [emailDescription, setEmailDescription] = useState("");
   const [isOpen_send, setIsOpensend] = useState(false);
-  //const [addListOpen, setAddListOpen] = useState(false);
+
   const [reRender, setReRender] = useState(0);
   const [getSmartListId, setSmartListId] = useState(0);
   const [addListOpen, setAddListOpen] = useState(false);
@@ -77,9 +77,6 @@ const AutoEmail = () => {
         .post(`distributes/filters_list`, body)
         .then((res) => {
           setCountryall(res.data.response.data.country);
-          //console.log(res.data.response.data.country);
-          // console.log(countryall);
-          // setCounter(counter + 1);
         })
         .catch((err) => {
           console.log(err);
@@ -200,15 +197,13 @@ const AutoEmail = () => {
         .post(`emailapi/search_hcp`, body)
         .then((res) => {
           console.log(res);
-          // console.log(res.data.response.data);
+
           if (res.data.response) {
             setSearchedUsers(res.data.response.data);
           } else {
             toast.warning(res.data.message);
           }
-          // if (res.data.message) {
-          //   setMessage(res.data.message);
-          // }
+
           loader("hide");
         })
         .catch((err) => {
@@ -270,12 +265,10 @@ const AutoEmail = () => {
         source_code: sourceCode,
       };
 
-      //console.log(body);
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       axios
         .post(`emailapi/send_sample_email`, body)
         .then((res) => {
-          //console.log(res);
           loader("hide");
           if (res.data.status_code === 200) {
             popup_alert({
@@ -290,8 +283,6 @@ const AutoEmail = () => {
               type: "error",
             });
           }
-
-          //toast.success("Test Mail sent successfuly");
         })
         .catch((err) => {
           loader("hide");
@@ -309,10 +300,8 @@ const AutoEmail = () => {
 
   const handleScroll = (ev) => {
     if (ev.target.scrollTop > 20) {
-      // document.querySelector("#send-sample").setAttribute("custom-atr", "scroll");
       document.querySelector("#mail-view").setAttribute("custom-atr", "scroll");
     } else {
-      // document.querySelector("#send-sample").setAttribute("custom-atr", "non-scroll");
       document
         .querySelector("#mail-view")
         .setAttribute("custom-atr", "non-scroll");
@@ -334,7 +323,6 @@ const AutoEmail = () => {
     const name = hpc[i].firstname;
     list[i].firstname = value;
     setHpc(list);
-    // console.log(hpc);
   };
 
   const onLastNameChange = (e, i) => {
@@ -343,7 +331,6 @@ const AutoEmail = () => {
     const name = hpc[i].lastname;
     list[i].lastname = value;
     setHpc(list);
-    //console.log(hpc);
   };
 
   const onEmailChange = (e, i) => {
@@ -352,8 +339,6 @@ const AutoEmail = () => {
     const name = hpc[i].email;
     list[i].email = value;
     setHpc(list);
-    // setEmailData(e.target.value);
-    //console.log(hpc);
   };
 
   const onContactTypeChange = (e, i) => {
@@ -366,7 +351,6 @@ const AutoEmail = () => {
   };
 
   const onCountryChange = (e, i) => {
-    // const { value } = e.target;
     const value = e;
     const list = [...hpc];
     const name = hpc[i].country;
@@ -440,7 +424,6 @@ const AutoEmail = () => {
               loader("hide");
             }
             loader("hide");
-            //setSelectedHcp(res.data.response.data);
           })
           .catch((err) => {
             toast.error("Something went wrong");
@@ -569,7 +552,7 @@ const AutoEmail = () => {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
               }
             });
-            // setSelectedHcp(res.data.response.data);
+
             loader("hide");
           } else {
             toast.warning(res.data.message);
@@ -707,15 +690,6 @@ const AutoEmail = () => {
                       <h4>Triggered emails</h4>
                     </div>
                     <div className="mail_trigger_content">
-                      {/* <div className="trigger_content_box d-flex">
-                        <div className="trigger_content">
-                          <h6>New content</h6>
-                          <p>When New content add to the user library</p>
-                          <button className="btn btn-primary btn-filled  d-flex justify-content-center">
-                            View
-                          </button>
-                        </div>
-                      </div> */}
                       {typeof templates !== "undefined" && templates.length > 0
                         ? templates.map((template, index) => {
                             return (
@@ -930,18 +904,7 @@ const AutoEmail = () => {
                 <div
                   className="form-inline row justify-content-start align-items-center"
                   id="popup_subject"
-                >
-                  {/* <div className="form-group col-12 col-md-7">
-                    <label for="exampleInputEmail1">Subject</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="email-subject"
-                      onChange={(e) => emailSubjectChanged(e)}
-                      value={emailSubject}
-                    />
-                  </div> */}
-                </div>
+                ></div>
 
                 <div className="form-inline row justify-content-between align-items-center">
                   <div className="col-12 col-md-7">
