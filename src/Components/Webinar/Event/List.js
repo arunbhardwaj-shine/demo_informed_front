@@ -327,11 +327,7 @@ const EventData = () => {
     handleGetEventlist();
   }, []);
   return (
-    <>
-       <div className="loader" id="custom_loader">
-          <span className="loader-view"> </span>
-        </div>
-    
+    <>    
     <div className="right-sidebar col">
         <div className="custom-container">
         <div className="row">

@@ -123,6 +123,9 @@ const Header = () => {
   const location = useLocation();
   return (
     <>
+      <div className="loader" id="custom_loader">
+          <span className="loader-view"> </span>
+        </div>
     {location.pathname.includes("/webinar/register")||location.pathname.includes("/webinar/editor")?null:<header>
         <nav className="navbar navbar-expand-sm navbar-light">
           <div className="container-fluid">

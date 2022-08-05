@@ -121,6 +121,12 @@ const Dashboard = () => {
                                     <div class="mail-box-content-top-view">
                                         <div class="webinar_time">
                                             <div class="webinar-start-time">
+                                                {eventData?.speaker_data?.map((val)=>{
+                                                  return  <span><strong>Speaker Name:</strong> {val.name}</span>
+
+                                                })}
+                                            </div>
+                                            <div class="webinar-start-time">
                                                 <span><strong>Start Time:</strong> {eventData?.event_start_time}</span>
                                             </div>
                                             <div class="webinar-end-time">
