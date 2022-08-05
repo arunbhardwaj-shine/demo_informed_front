@@ -2,6 +2,7 @@ import React, {useState,useEffect } from "react";
 import "./assets/css/dashboard.css";
 import ExportApi from "../../Api/ExportApi";
 import { loader } from "../../loader";
+import { Link } from "react-router-dom";
 const Dashboard = () => {
     const [eventData, setEventData] = useState();
     const [registrationPageList, setRegistrationPageList] = useState([]);
@@ -119,6 +120,7 @@ const Dashboard = () => {
                             <div className="event-details-left-event">
                                 <div class="mail-box-content-top">
                                     <div class="mail-box-content-top-view">
+                    <Link to="/webinar/events"><button className="btn btn-primary btn-filled send">Edit </button></Link>
                                         <div class="webinar_time">
                                             <div class="webinar-start-time">
                                                 {eventData?.speaker_data?.map((val)=>{
@@ -159,6 +161,7 @@ const Dashboard = () => {
                         </div>
                         <div className="clearfix"></div>
                         <div className="event-details-left-emails">Email Templates
+                        <Link to="/webinar/email/template"><button className="btn btn-primary btn-filled send">Edit </button></Link>
                             {templateList? <> {templateList?.map((val, i) => (
                                     <>
                                         <div className="registration-page">
@@ -172,6 +175,7 @@ const Dashboard = () => {
                     <div className="event-details-right">
                         <div className="event-details-right-portal">Portal Preparation</div>
                         <div className="event-details-right-reg">
+                        <Link to="/webinar/portal/Registrations"><button className="btn btn-primary btn-filled send">Edit </button></Link>
                             {registrationPageList? <> {registrationPageList?.map((val, i) => (
                                     <>
                                         <div className="registration-page"><strong>Registration Page: {i+1}</strong>
