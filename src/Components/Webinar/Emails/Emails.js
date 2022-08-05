@@ -557,9 +557,8 @@ const SendEmails = () => {
                                   />
                                 </div>
                                 {/* {console.log(val.stats.mail_sent)} */}
-                                <span>{val.stats?.mail_total_sent?val.stats?.mail_total_sent:"0(0.0%)"}</span>
+                                <span>{val.stats?.mail_total_sent?val.stats?.mail_total_sent:"0"}</span>
                               </li>
-                              <li>
                               <li>
                                 <div className="mail-status mail_click">
                                   <img
@@ -567,15 +566,16 @@ const SendEmails = () => {
                                     alt=""
                                   />
                                 </div>
-                                <span>{val.stats?.mail_success_sent?val.stats?.mail_success_sent:"0(0.0%)"}</span>
+                                <span>{val.stats?.mail_success_sent?val.stats?.mail_success_sent:"0"}</span>
                               </li>
+                              <li>
                                 <div className="mail-status mail_view">
                                   <img
                                     src={path_image + "/webinar/mail-open.png"}
                                     alt=""
                                   />
                                 </div>
-                                <span>{val.stats?.mail_read?val.stats?.mail_read:"0(0.0%)"}</span>
+                                <span>{val.stats?.mail_read?val.stats?.mail_read:"0"}</span>
                               </li>
                               <li onMouseEnter={()=>handleMouseEnter(i)}
                                        onMouseLeave={()=>handleMouseLeave(i)}>
@@ -585,7 +585,13 @@ const SendEmails = () => {
                                     alt=""
                                   />
                                 </div>
-                                <span >{val.stats?.value_register?val.stats?.value_register:"0(0.0%)"}%</span>
+                                <span >{val.stats?.value_register?val.stats?.value_register:"0"}%</span>
+                                {val.approved_status == 2&&isHovering==i?<div className="options">
+                                  <p>{val.stats.label_register+" : "+val.stats.value_register}</p>
+                                  <p>{val.stats.label_booth+" : "+val.stats.value_booth}</p>
+                                  <p>{val.stats.label_video+" : "+val.stats.value_video}</p>
+
+                                    </div>:null}
                               </li>
                             
                             </ul>
@@ -619,12 +625,7 @@ const SendEmails = () => {
                         </div>
                       </div>
                     </div>
-                    {val.approved_status == 2&&isHovering==i?<div className="options">
-                    <p>{val.stats.label_register+" : "+val.stats.value_register}</p>
-                    <p>{val.stats.label_booth+" : "+val.stats.value_booth}</p>
-                    <p>{val.stats.label_video+" : "+val.stats.value_video}</p>
-
-                      </div>:null}
+                   
                                        
                   </div>
                 </div>

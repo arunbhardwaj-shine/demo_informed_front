@@ -792,7 +792,7 @@ const countryChange=(e,id)=>{
                              index
                             )
                           }
-                        >                      <td id={`is_register` + data.id} style={{display:"none"}}>{data.is_register}</td>
+                        >                   
 
                           <td
                             id={`field_name` + data.id}
@@ -802,6 +802,7 @@ const countryChange=(e,id)=>{
                           >
                             <span>{data.name || data.first_name}</span>
                           </td>
+                          <td id={`is_register` + data.id} style={{display:"none"}}>{data.is_register}</td>
                           <td id={`field_email` + data.id}>{data.email}</td>
                           <input type="hidden" id={`field_index` + data.profile_user_id} value={index} />
                          
@@ -828,7 +829,7 @@ const countryChange=(e,id)=>{
                           }
                           </td>
                          
-                          <td>
+                          <td id="field_interest"> 
                             {
                               editable ?<div className="user-type-option">
                           <Form.Select

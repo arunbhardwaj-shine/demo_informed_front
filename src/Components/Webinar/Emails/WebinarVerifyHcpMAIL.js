@@ -192,7 +192,7 @@ const WebinarVerifyHcpMAIL = () => {
                       <div>
                         <h4>Email Details</h4>
                         <h6>
-                          <strong>{Tage?"Tags" :null}| </strong>
+                          <strong>{Tage?"Tags" :null} | </strong>
                            <ul>
                             {Tage?.map((tags, i) => {
                                   return (
