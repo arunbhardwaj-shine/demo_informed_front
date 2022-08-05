@@ -108,7 +108,7 @@ const AutoEmail = () => {
   };
 
   const viewButtonClicked = (template, index) => {
-    console.log(template);
+    //console.log(template);
     setEmailSubject("");
     setEmailDescription("");
     setApproveClicked(false);
@@ -713,10 +713,7 @@ const AutoEmail = () => {
                                       When New content add to the user library
                                     </p>
 
-                                    {template.name !==
-                                      "New Content Added Email" &&
-                                    template.name !== "Invitation" &&
-                                    indexClicked !== index ? (
+                                    {indexClicked !== index ? (
                                       <button
                                         onClick={() =>
                                           viewButtonClicked(template, index)
@@ -850,27 +847,53 @@ const AutoEmail = () => {
                           </div>
                         </div>
                         <div className="row">
-                          <Editor
-                            apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
-                            onInit={(evt, editor) =>
-                              (editorRef.current = editor)
-                            }
-                            initialValue={sourceCode}
-                            init={{
-                              height: "100vh",
-                              menubar:
-                                "file edit view insert format tools table help",
-                              plugins:
-                                "preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons",
-                              toolbar:
-                                "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
-                              content_style:
-                                "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-                            }}
-                            onEditorChange={(content) => {
-                              setTemplateSaving(content);
-                            }}
-                          />
+                          {templateName == "New content added email" ||
+                          templateName == "Invitation" ? (
+                            <Editor
+                              apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
+                              onInit={(evt, editor) =>
+                                (editorRef.current = editor)
+                              }
+                              initialValue={sourceCode}
+                              disabled={true}
+                              init={{
+                                height: "100vh",
+                                menubar:
+                                  "file edit view insert format tools table help",
+                                plugins:
+                                  "preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons",
+                                toolbar:
+                                  "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
+                                content_style:
+                                  "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                              }}
+                              onEditorChange={(content) => {
+                                setTemplateSaving(content);
+                              }}
+                            />
+                          ) : (
+                            <Editor
+                              apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
+                              onInit={(evt, editor) =>
+                                (editorRef.current = editor)
+                              }
+                              initialValue={sourceCode}
+                              init={{
+                                height: "100vh",
+                                menubar:
+                                  "file edit view insert format tools table help",
+                                plugins:
+                                  "preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons",
+                                toolbar:
+                                  "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
+                                content_style:
+                                  "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                              }}
+                              onEditorChange={(content) => {
+                                setTemplateSaving(content);
+                              }}
+                            />
+                          )}
                         </div>
                       </form>
                     </div>
