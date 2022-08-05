@@ -561,7 +561,7 @@ const Format2 = (props) => {
         {/* end of right sidebar */}    
         </form>
         </Col>
-        <Col>
+      <div className="registration_form_right">
         <div className="login-wrapper" style={{backgroundColor:formik.values.backgroundColor, border:"2px solid "+formik.values.borderColor}}>
       <div className="login-wrapper-inside" >
                   <div className="log-inner">
@@ -1132,8 +1132,14 @@ const Format2 = (props) => {
                                                 </Col>
                                                 <Col>
                                                 <div style={{textAlign:"right"}}>
-                                                  <a style={{color:formik?.values?.Footer_color}} href="">Privacy policy</a>
                                                   <img style={{width:"170px"}} src="https://webinar.docintel.app/EAHAD2022/images/Octapharma_blue.png"/>
+                                                  </div>
+                                                </Col>
+                                               </Row>
+                                               <Row>
+                                               <Col>
+                                                <div style={{textAlign:"right"}}>
+                                                  <a style={{color:formik?.values?.Footer_color}} href="">Privacy policy</a>
                                                   </div>
                                                 </Col>
                                                </Row>
@@ -1145,8 +1151,7 @@ const Format2 = (props) => {
                         </div>
                      </div>
          </div>
-         
-                </Col>
+         </div>
         </div>
         </div>
         
