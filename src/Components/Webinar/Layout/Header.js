@@ -60,20 +60,21 @@ const Header = () => {
       ExportApi.GetEventList().then((resp) => {
         if (resp.ok) {
           setEvent(resp.data.data);
-          // console.log(resp.data.code)
-          localStorage.setItem("EventIdHeader",resp.data.data[0].id)}
+          // localStorage.setItem("EventIdHeader",resp.data.data[0].id)
+         
           if (resp.data.code == 404) {
-            localStorage.removeItem("EventIdHeader")  
-        }else{
-          if(eventId==null||eventId==undefined){
-            if(localStorage.getItem("EventIdHeader")){
-              console.log("EventIdHeader",localStorage.getItem("EventIdHeader"))
-              // return null
-              setEventId(resp.data.data[0].id)
-            }else{
+            // console.log(resp.data.code)
+          }else{
+            if(eventId==null||eventId==undefined){
+              if(localStorage.getItem("EventIdHeader")){
+                console.log("EventIdHeader",localStorage.getItem("EventIdHeader"))
+                setEventId(resp.data.data[0].id)
+              }else{
+              localStorage.removeItem("EventIdHeader")  
               setEventId(resp.data.data[0].id)
          }
         } 
+      }
         }
       });
     }else{
@@ -84,15 +85,16 @@ const Header = () => {
       ExportApi.GetEventList().then((resp) => {
         if (resp.ok) {
           setEvent(resp.data.data);
-          // localStorage.setItem("EventIdHeader",resp.data.data[0].id)
+          let id=document.getElementById("event").value
+         
+           localStorage.setItem("EventIdHeader",id)
           // console.log(resp.data.code
         }
       });
     
   };
   useEffect(() => {
-    window.addEventListener("EventLength", () =>
-    handleGetEventlistChange());
+    window.addEventListener("EventLength", () => handleGetEventlistChange());
     if(localStorage.getItem("EventIdHeader")){
       // return null
       console.log("first")
@@ -171,6 +173,7 @@ const Header = () => {
 
             {token? (
               <Form.Select
+                 id="event"
                  value={localStorage.getItem("EventIdHeader")}
                 onChange={(e) => {
                   localStorage.setItem("EventIdHeader",e.target.value)

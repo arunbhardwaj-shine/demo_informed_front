@@ -6,10 +6,43 @@ const Dashboard = () => {
     const [eventData, setEventData] = useState();
     const [registrationPageList, setRegistrationPageList] = useState([]);
     const [templateList, setTemplateList] = useState([]);
+    const [countdownDate, setCountdownDate] = useState(new Date('08/05/2022 , 12:00 PM PST').getTime());
+    const [state, setState] = useState({days: 0, hours: 0,minutes: 0,seconds: 0,});
+    useEffect(() => {
+      setInterval(() => setNewTime(), 1000);
+    }, []);
+    const setNewTime = () => {
+      if (countdownDate) {
+        const currentTime = new Date().getTime();
+        const distanceToDate = countdownDate - currentTime;
+        let days = Math.floor(distanceToDate / (1000 * 60 * 60 * 24));
+        let hours = Math.floor(
+          (distanceToDate % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),);
+        let minutes = Math.floor(
+          (distanceToDate % (1000 * 60 * 60)) / (1000 * 60),);
+        let seconds = Math.floor((distanceToDate % (1000 * 60)) / 1000);
+        const numbersToAddZeroTo = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        if (numbersToAddZeroTo.includes(days)) {
+          days = `0${days}`;
+        } 
+        if (numbersToAddZeroTo.includes(hours)) {
+          hours = `0${hours}`;
+        } 
+        if (numbersToAddZeroTo.includes(minutes)) {
+          minutes = `0${minutes}`;
+        } 
+         if (numbersToAddZeroTo.includes(seconds)) {
+          seconds = `0${seconds}`;
+        }
+        setState({ days: days, hours: hours, minutes, seconds });
+      }
+    }
     const handleGetEvents = (event_id) => {
         ExportApi.GetEventListData(event_id).then((resp) => {
             if (resp.ok) {
+                console.log(resp.data.data)
                 setEventData(resp.data.data);
+                // let date=resp.data.data+" , "+
             }
         }).catch((err) => {
             console.log(err);
@@ -105,7 +138,11 @@ const Dashboard = () => {
                                         </div>
                                         <div class="mail-stats">
                                             <ul>
-                                                <li><span>15:35 Time Left</span></li>
+                                         
+                {state.days > 0 || state.hours > 0 || state.minutes > 0 || state.seconds > 0 ?
+                    <li><span>{state.days || '0'}:{state.hours || '0'}:{state.minutes || '0'}:{state.seconds || '0'} Time Left</span></li>  : ""}
+  
+                                                {/* // <li><span>15:35 Time Left</span></li>  */}
                                                 <li><span>{eventData?.event_date} ({eventData?.timezone})</span></li>
                                             </ul>
                                         </div>
