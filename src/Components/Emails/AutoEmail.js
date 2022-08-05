@@ -96,7 +96,7 @@ const AutoEmail = () => {
 
     loader("show");
     await axios
-      .post(`emailapi/get_template_list`, body)
+      .post(`emailapi/get_own_template_list`, body)
       .then((res) => {
         console.log(res);
         setTemplates(res.data.response.data);
@@ -108,7 +108,7 @@ const AutoEmail = () => {
   };
 
   const viewButtonClicked = (template, index) => {
-    console.log(template);
+    //console.log(template);
     setEmailSubject("");
     setEmailDescription("");
     setApproveClicked(false);
@@ -712,6 +712,7 @@ const AutoEmail = () => {
                                     <p>
                                       When New content add to the user library
                                     </p>
+
                                     {indexClicked !== index ? (
                                       <button
                                         onClick={() =>
@@ -730,7 +731,7 @@ const AutoEmail = () => {
                         : null}
                     </div>
                   </div>
-                  <div className="auto_mail_trigger_box">
+                  {/* <div className="auto_mail_trigger_box">
                     <div className="mail_trigger_left d-flex align-items-center">
                       <div className="mail_trigger_mail-icon">
                         <img
@@ -774,7 +775,7 @@ const AutoEmail = () => {
                         );
                       })}
                     </div>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="auto_mail_trigger_right col-md-8 col-sm-8">
                   {!templateClicked ? (
@@ -846,27 +847,53 @@ const AutoEmail = () => {
                           </div>
                         </div>
                         <div className="row">
-                          <Editor
-                            apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
-                            onInit={(evt, editor) =>
-                              (editorRef.current = editor)
-                            }
-                            initialValue={sourceCode}
-                            init={{
-                              height: "100vh",
-                              menubar:
-                                "file edit view insert format tools table help",
-                              plugins:
-                                "preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons",
-                              toolbar:
-                                "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
-                              content_style:
-                                "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-                            }}
-                            onEditorChange={(content) => {
-                              setTemplateSaving(content);
-                            }}
-                          />
+                          {templateName == "New content added email" ||
+                          templateName == "Invitation" ? (
+                            <Editor
+                              apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
+                              onInit={(evt, editor) =>
+                                (editorRef.current = editor)
+                              }
+                              initialValue={sourceCode}
+                              disabled={true}
+                              init={{
+                                height: "100vh",
+                                menubar:
+                                  "file edit view insert format tools table help",
+                                plugins:
+                                  "preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons",
+                                toolbar:
+                                  "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
+                                content_style:
+                                  "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                              }}
+                              onEditorChange={(content) => {
+                                setTemplateSaving(content);
+                              }}
+                            />
+                          ) : (
+                            <Editor
+                              apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
+                              onInit={(evt, editor) =>
+                                (editorRef.current = editor)
+                              }
+                              initialValue={sourceCode}
+                              init={{
+                                height: "100vh",
+                                menubar:
+                                  "file edit view insert format tools table help",
+                                plugins:
+                                  "preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons",
+                                toolbar:
+                                  "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
+                                content_style:
+                                  "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                              }}
+                              onEditorChange={(content) => {
+                                setTemplateSaving(content);
+                              }}
+                            />
+                          )}
                         </div>
                       </form>
                     </div>
