@@ -72,7 +72,7 @@ const WebinarSelectHCP = () => {
                  to={`/webinar/email/smart-list`}  
                   >
                     <button
-                      className="btn btn-primary btn-filled next"
+                      className="btn btn-primary btn-filled "
                     //   onClick={(event) => nextClicked(templateId)}
                     >
                       Next

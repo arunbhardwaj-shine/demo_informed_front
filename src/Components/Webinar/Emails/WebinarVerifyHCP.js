@@ -525,7 +525,7 @@ const WebinarVerifyHCP = () => {
               ) : (
                 <button
                   onClick={nextClicked}
-                  className="btn btn-primary btn-filled next"
+                  className="btn btn-primary btn-filled "
                 >
                   Next
                 </button>
