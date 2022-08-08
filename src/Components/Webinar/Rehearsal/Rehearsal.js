@@ -266,21 +266,7 @@ function Rehearsal() {
   return (
     <div class="right-sidebar col">
       <Row>
-        <div className="loader" id="custom_loader">
-          <span className="loader-view"> </span>
-        </div>
         {/* {console.log(Speakername)} */}
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
         <Col class="right-sidebar">
           <div>
             <Link to="/webinar/rehearsallist">

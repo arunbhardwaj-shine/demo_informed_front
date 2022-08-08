@@ -376,21 +376,9 @@ const Template = (props) => {
   }, []);
   return (
     <>
-      <div className="loader" id="custom_loader">
-        <span className="loader-view"> </span>
-      </div>
+   
       <div className="col right-sidebar col">
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
+   
         {localStorage.getItem("EventIdHeader") ? (
           <>
             <div className="top-header">

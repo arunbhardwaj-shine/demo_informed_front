@@ -578,20 +578,6 @@ const EventData = () => {
           </div>
         </div>
         </div>
-      <div className="email-result webinar-result">
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
-     
-      </div>
       </div>
       
       <Modal

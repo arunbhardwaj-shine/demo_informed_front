@@ -1395,9 +1395,6 @@ const location = useLocation();
   };
   return (
     <>
-        <div className="loader" id="custom_loader">
-          <span className="loader-view"> </span>
-        </div>
         <div className="page-top-nav smart_list_names">
           {props.active==1?
           <div className="row justify-content-end align-items-center">
@@ -1651,7 +1648,6 @@ const location = useLocation();
           
           </div>
           <br/>
-        <ToastContainer />
         <section className="search-hcp smart-list-view">
         <div className="result-hcp-table">
         {props.active==1?  null:

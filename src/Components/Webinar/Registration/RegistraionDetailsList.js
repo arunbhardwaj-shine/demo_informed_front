@@ -215,22 +215,7 @@ const RegistrationDetailsList = () => {
   }, []);
   return (
     <>
-  
-      <div className="loader" id="custom_loader">
-        <span className="loader-view"> </span>
-      </div>
     <div class="right-sidebar col">
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
       <div class="top-header">
         <div class="page-title">
           <h3>Registration Page List</h3>

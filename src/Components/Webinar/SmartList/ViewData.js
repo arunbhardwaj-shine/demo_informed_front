@@ -876,9 +876,6 @@ const ViewData = (props) => {
   } else {
     return (
       <>
-          <div className="loader" id="custom_loader">
-            <span className="loader-view"> </span>
-          </div>
         <div class="right-sidebar col">
           {!isOpenAdd ? <ToastContainer /> : null}
           <div class="top-header">

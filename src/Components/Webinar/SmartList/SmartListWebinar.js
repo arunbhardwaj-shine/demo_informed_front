@@ -293,11 +293,7 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
   };
   return (
     <>
-     <div className="loader" id="custom_loader">
-      <span className="loader-view"> </span>
-    </div>
     {props?.toggle=="yes"?<div className="col right-sidebar">
-    <ToastContainer />
       <div className="custom-container">
         <div className="row">
         <div className="page-top-nav">
@@ -557,7 +553,6 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
       </div>
       </div>:<>
   <div className="right-sidebar col">
-    <ToastContainer />
     <div className="top-header">
       <div className="page-title">
         <h3>Smart List</h3>

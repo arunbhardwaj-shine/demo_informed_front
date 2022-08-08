@@ -708,7 +708,7 @@ const AutoEmail = () => {
                                     />
                                   </div>
                                   <div className="trigger_content">
-                                    <h6>{template.name}</h6>
+                                    <h6>{template.name} ({template.language_code})</h6>
                                     <p>
                                       When New content add to the user library
                                     </p>

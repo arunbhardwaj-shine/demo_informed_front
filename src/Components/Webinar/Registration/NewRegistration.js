@@ -69,10 +69,6 @@ const templateClicked = (template, e) => {
     }, []);
   return (
     <> 
-
-    <div className="loader" id="custom_loader">
-        <span className="loader-view"> </span>
-    </div>
     <div className="right-sidebar col">
         {/* top header */}
         <div className="top-header">
