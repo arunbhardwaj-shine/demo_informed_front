@@ -209,7 +209,7 @@ const Registration = () => {
                                     </button>
                                     <button title="Preview"  onClick={()=>{loader("show"); setEventCode(val.code);setFormat(val.format);setMode(val.mode);setModalShow(true); setTimeout(() => {
                                         loader("hide")
-                                        }, 1500);}} className="btn btn-primary btn-filled back">
+                                        }, 1500);}} className="btn btn-primary btn-filled">
                                         <img alt="Preview" src={path_image + "eye-svgrepo-com.svg"} style={{height:"25px",width:"25px"}} />
                                     </button>
                                     <button title="Delete"  onClick={(e) => {
@@ -220,7 +220,7 @@ const Registration = () => {
                                     </button>
                                     <button title="copy-link"  onClick={(e)=>{setCopy(i);setTimeout(() => {
                                         setCopy()
-                                        }, 1000); navigator.clipboard.writeText(`${BaseUrlImage}/SH2022/index${val.format}.php?event=${val.code}&mode=${val.mode}`)}} className="btn btn-primary btn-filled back">
+                                        }, 1000); navigator.clipboard.writeText(`${BaseUrlImage}/SH2022/index${val.format}.php?event=${val.code}&mode=${val.mode}`)}} className="btn btn-primary btn-filled">
                                         <img alt="copy-link" src={path_image + "copy-link.svg"} />
                                     </button>{
                                         copy==i?<p>Copied</p>:null

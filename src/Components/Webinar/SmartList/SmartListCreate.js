@@ -255,7 +255,7 @@ const SmartListCreate = () => {
               <h2>STEP1</h2>
               <div className="create-smart-step-box">
                 <form>
-                  <div className="row justify-content-between align-items-end">
+                  <div className="row justify-content-between align-items-start">
                     <div className="form-group col">
                       <label for="smart-list-name">Enter smart list name</label>
                       <input
