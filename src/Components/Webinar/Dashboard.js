@@ -7,8 +7,9 @@ const Dashboard = () => {
     const [eventData, setEventData] = useState();
     const [registrationPageList, setRegistrationPageList] = useState([]);
     const [templateList, setTemplateList] = useState([]);
-    const [countdownDate, setCountdownDate] = useState(new Date('08/05/2022 , 12:00 PM PST').getTime());
+    const [countdownDate, setCountdownDate] = useState(new Date('08/09/2022 , 12:00 PM PST').getTime());
     const [state, setState] = useState({days: 0, hours: 0,minutes: 0,seconds: 0,});
+
     useEffect(() => {
       setInterval(() => setNewTime(), 1000);
     }, []);
@@ -68,27 +69,21 @@ const Dashboard = () => {
             } 
         });
     }
+    useEffect(() => {
+        handleGetFirstEventId()
+    }, [])
     const handleGetFirstEventId = () => {
         ExportApi.DashboardData().then((resp) => {
             if (resp.ok) {
-                // setTemplateList(resp.data.data);
+            // alert(resp.data.data.event_id)
                 console.log(resp.data.data.event_id)
-                handleGetRegistrationPagesList(resp.data.data.event_id)
                 handleGetEvents(resp.data.data.event_id)
+                handleGetRegistrationPagesList(resp.data.data.event_id)
                 handleGetTemplateList(resp.data.data.event_id)
             } 
         });
     }
     
-    useEffect(() => {
-        handleGetFirstEventId()
-    }, [])
-    useEffect(() => {
-        window.dispatchEvent(new Event("EventLength"));
-        handleGetEvents(localStorage.getItem("EventIdHeader"));
-        handleGetRegistrationPagesList(localStorage.getItem("EventIdHeader"));
-        handleGetTemplateList(localStorage.getItem("EventIdHeader"));
-    },[]);
     useEffect(() => {
         window.addEventListener("EventId", () =>
             handleGetEvents(localStorage.getItem("EventIdHeader")),
@@ -102,7 +97,12 @@ const Dashboard = () => {
           loader("hide");
         }
     }, []);
-    
+    useEffect(() => {
+        setTimeout(() => {
+          
+            handleGetFirstEventId()
+        }, 1000);
+    }, [])
   return (
     <>      
     <div className="loader" id="custom_loader">
@@ -168,7 +168,7 @@ const Dashboard = () => {
                                             <div> {val?.name} </div>
                                         </div>
                                     </>
-                            ))} </> : <div className="hcp-table-content">Registration Page not created yet.</div>}
+                            ))} </> : <div className="hcp-table-content">Email Templates not created yet.</div>}
                         
                         </div>
                     </div>

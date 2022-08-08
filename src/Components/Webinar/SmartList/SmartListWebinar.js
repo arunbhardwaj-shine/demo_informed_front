@@ -138,6 +138,8 @@ console.log(datess)
           setFilterKey(resp.data.data[0]);
         }
       }
+    })   .catch((err) => {
+      toast.error("Something went wrong");
     });
   };
   const clearFilter = () => {
@@ -169,7 +171,10 @@ console.log(datess)
           setMassage("Data Not Found");
         }
       }
+    })   .catch((err) => {
+      toast.error("Something went wrong");
     });
+ 
   };
   const showDeleteButtons = () => {
     if (deletestatus) {
