@@ -5,7 +5,6 @@ import { toast, ToastContainer } from "react-toastify";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import ForgotPassword from "../../../Auth/ForgotPassword";
 import ExportApi from "../../../Api/ExportApi";
-import { handleGetRehearsalListData } from "../Rehearsal/RehearsalList";
 export let EventId;
 const Header = () => {
   let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -123,6 +122,17 @@ const Header = () => {
   const location = useLocation();
   return (
     <>
+          <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
       <div className="loader" id="custom_loader">
           <span className="loader-view"> </span>
         </div>

@@ -155,20 +155,7 @@ const Format2 = (props) => {
       });
   return (
    <>
-       <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-       <div className="loader" id="custom_loader">
-        <span className="loader-view"> </span>
-    </div>
+      
     <Row>
             <div className="webinar-modal-data">
               <div className="registration_form">

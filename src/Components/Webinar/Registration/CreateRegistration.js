@@ -72,26 +72,14 @@ const CreateRegistration = (props) => {
   });
   return (
     <>
-        <div className="loader" id="custom_loader">
-            <span className="loader-view"> </span>
-        </div>
+        
         <div class="right-sidebar col">
             <div class="top-header">
                 <div class="page-title">
                     <h3>Create Registration Page </h3>
                 </div>
             </div>
-            <ToastContainer
-              position="top-right"
-              autoClose={5000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-            />
+            
             <div className="webinar-modal-data create-registration">
                 <form onSubmit={formik.handleSubmit}>
                     <div className="modal-body-content">

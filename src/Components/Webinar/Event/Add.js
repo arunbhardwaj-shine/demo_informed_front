@@ -4,7 +4,7 @@ import ExportApi from "../../../Api/ExportApi";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import * as Yup from "yup";
 import "../webinar.css";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { loader } from "../../../loader";
 function Add(props) {

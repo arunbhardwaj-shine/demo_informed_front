@@ -263,11 +263,8 @@ const WebinarSmartList = () => {
 
   return (
     <>
-        <div className="loader" id="custom_loader">
-          <span className="loader-view"> </span>
-        </div>
       <div class="right-sidebar col">
-        <ToastContainer />
+        
         <div class="top-header">
           <div class="page-title">
             <h3>Smart List</h3>

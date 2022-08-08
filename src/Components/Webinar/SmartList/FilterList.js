@@ -388,9 +388,6 @@ getData()
 }, [props.id])
   return (
     <>
-        <div className="loader" id="custom_loader">
-          <span className="loader-view"> </span>
-        </div>
       {/* {console.log(selectedCountry)} */}
       <div className={props.active==0?"page-top-nav smart_list_names create_filter_list":"right-sidebar col"}>
         {props.active==0?
@@ -506,7 +503,7 @@ getData()
             </div>
           </div>
         </div>}
-        <ToastContainer />
+     
 
         <section className="search-hcp smart-list-name">
         <div className="smart-list-name-drop">
