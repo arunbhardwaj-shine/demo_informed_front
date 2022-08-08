@@ -39,7 +39,7 @@ const CreateWebinarSmartList = () => {
             <h2>STEP1</h2>
             <div class="create-smart-step-box">
               <form>
-                <div class="row justify-content-between align-items-center">
+                <div class="row justify-content-between align-items-start">
                   <div class="form-group col">
                     <label for="smart-list-name">Enter smart list name</label>
                     <input
