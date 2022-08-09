@@ -348,20 +348,6 @@ const EmailSand = () => {
   return (
     <div class="right-sidebar" col>
       <Row>
-        <div className="loader" id="custom_loader">
-          <span className="loader-view"> </span>
-        </div>
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
         <Col md={{ span: 6, offset: 3 }}>
           <h2>Email Send</h2>
           <Row style={{ paddingTop: "20px" }}>

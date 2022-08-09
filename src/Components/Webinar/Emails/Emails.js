@@ -199,17 +199,7 @@ const SendEmails = () => {
         <span className="loader-view"> </span>
       </div>
       <div className="right-sidebar col">
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
+  
         <div className="top-header">
           <div className="page-title">
             <h3>Emails</h3>
