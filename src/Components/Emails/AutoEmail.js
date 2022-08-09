@@ -118,12 +118,12 @@ const AutoEmail = () => {
     setIndexClicked(index);
     setTemplateId(template.id);
     setTempLang(template.language_code);
-    if(template.approved===1){
+    if (template.approved === 1) {
       setApproveClicked(true);
-    }else{
+    } else {
       setApproveClicked(false);
     }
-   
+
     setIndexClickedReminder();
     setTemplateName(template.name);
   };
@@ -577,8 +577,14 @@ const AutoEmail = () => {
       toast.warning("Please select smart list");
     }
   };
-  const updateTemplate = async (e,status=0) => {
+  const updateTemplate = async (e, status = 0) => {
     e.preventDefault();
+    if (approveClickedd) {
+      setApproveClicked(false);
+    } else {
+      setApproveClicked(true);
+    }
+
     let template_id = templateId;
     if (
       typeof template_id != "undefined" &&
@@ -591,7 +597,7 @@ const AutoEmail = () => {
           source_code: editorRef.current.getContent(),
           template_id: templateId,
           name: templateName,
-          status: status===0 ? 2 : status===1 ? 3 :4,
+          status: status === 0 ? 2 : status === 1 ? 3 : 4,
           language: tempLang,
         };
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -618,7 +624,7 @@ const AutoEmail = () => {
 
   const approveClicked = async (e) => {
     e.preventDefault();
-    
+
     const body = {
       user_id: localStorage.getItem("user_id"),
       pdf_id: "3487",
@@ -717,7 +723,9 @@ const AutoEmail = () => {
                                     />
                                   </div>
                                   <div className="trigger_content">
-                                    <h6>{template.name} ({template.language_code})</h6>
+                                    <h6>
+                                      {template.name} ({template.language_code})
+                                    </h6>
                                     <p>
                                       When New content add to the user library
                                     </p>
@@ -829,8 +837,7 @@ const AutoEmail = () => {
                             {approveClickedd === true ? (
                               <button
                                 className="btn btn-primary approved-btn btn-bordered "
-                                onClick={(e) => updateTemplate(e,2)}
-                               
+                                onClick={(e) => updateTemplate(e, 2)}
                               >
                                 Approved{" "}
                                 <img
@@ -842,7 +849,7 @@ const AutoEmail = () => {
                             ) : (
                               <button
                                 className="btn btn-primary approved-btn btn-bordered "
-                                onClick={(e) => updateTemplate(e,1)}
+                                onClick={(e) => updateTemplate(e, 1)}
                               >
                                 Approve?{" "}
                               </button>
