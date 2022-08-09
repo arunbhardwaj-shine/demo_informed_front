@@ -4705,6 +4705,7 @@ height: 100px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  width: 100%;
 }
 .reg-center-checkbox .mail-box-content {
   padding: 15px;
@@ -4718,11 +4719,14 @@ height: 100px;
 }
 .registration_form .form-inline .form-group input.form-control-color {
   flex: 1 1 auto;
-  max-width: 50px;
+  max-width: 45px;
   padding: 0;
   border: 0;
   height: auto;
   background: transparent;
+  height:45px;
+  font-size: 29px;
+  margin-left:10px;
 }
 .login-from #hcp-form .form-group {
   margin-bottom: 5px;
@@ -5628,4 +5632,32 @@ table .u-row  div{
   width: auto;
   display: flex;
   align-items: flex-start;
+}
+.accordion-flush .accordion-item .accordion-button {
+  border-radius: 0;
+  box-shadow: none;
+  line-height: 30px;
+}
+.smart-list-dropdown .card .card-header {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: none;
+}
+.smart-list-dropdown .card.accordion-item {
+  margin-bottom: 13px;
+}
+.smart-list-name-drop #accordion-smart .card-body {
+  padding: 20px 24px 14px;
+}
+ .registration_form .smart-list-name-drop .form-group textarea {
+  height: 100px;
+}
+.registration_form .smart-list-name-drop .form-group input, .registration_form .smart-list-name-drop .form-group textarea, .registration_form .smart-list-name-drop .form-group select{
+  margin-left: 0px;
+}
+.reg-middle-div .form-group {
+  display: flex;
 }
