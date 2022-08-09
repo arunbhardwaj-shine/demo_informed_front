@@ -149,12 +149,13 @@ const Dashboard = () => {
                                         </div>
                                 <div className="titlelogo">
                                    <img src={registrationPageListJson?.titleLogo}/>
-                                   { minutes === 0 && seconds === 0&&horse===0
+                                   {eventData?.days_left==0?<>                                  { minutes === 0 && seconds === 0&&horse===0
                     ? null
-                    : <h1>{horse<10?`0${horse}`:horse} {minutes<10? `0${minutes}`:minutes}:{seconds < 10 ?  `0${seconds}` : seconds}</h1> }  
-                                      <span>{eventData?.event_date}</span> 
+                    : <h1>{horse<10?`0${horse}`:horse}:{minutes}:{seconds < 10 ?  `0${seconds}` : seconds}</h1> } </>:null}
+  
+                                      <span>{eventData?.mod_date}</span> 
                                       <br/>
-                                      <span><strong>Start Time:</strong> {eventData?.event_start_time} ({eventData?.timezone})</span>               
+                                      <span>{eventData?.event_start_time} - {eventData?.event_end_time} ({eventData?.timezone})</span>               
                                          <span style={{float:"right"}}> <strong>Speaker Name:</strong>
                                    {eventData?.speaker_data?.map((val)=>{
                                                   return  <p > {val.name}</p>
@@ -235,7 +236,7 @@ const Dashboard = () => {
                         <h6><strong>Total Register :</strong>{eventDataStats?.total_register}</h6>
                         <h6><strong>HCP :</strong>{eventDataStats?.hcp}</h6>
                         <h6><strong>Test user :</strong>{eventDataStats?.test_user}</h6>
-                        <h6><strong>staff User :</strong>{eventDataStats?.staff_user}</h6>
+                        <h6><strong>Staff User :</strong>{eventDataStats?.staff_user}</h6>
                    
                         </div>
                     </div>

@@ -119,21 +119,8 @@ const WebinarVerifyHcpMAIL = () => {
   // getCollectionData
   return (
     <>
-      <div className="loader" id="custom_loader">
-        <span className="loader-view"> </span>
-      </div>
       <div className="col right-sidebar">
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
+   
         <div className="custom-container">
           <div className="row">
             <div className="page-top-nav">

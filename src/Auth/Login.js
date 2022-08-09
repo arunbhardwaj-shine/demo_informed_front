@@ -66,17 +66,7 @@ const Login = (props) => {
   return (
     <>
     <form onSubmit={formik.handleSubmit}>
-         <ToastContainer
-       position="top-right"
-       autoClose={5000}
-       hideProgressBar={false}
-       newestOnTop={false}
-       closeOnClick
-       rtl={false}
-       pauseOnFocusLoss
-       draggable
-       pauseOnHover
-      />
+ 
       <Form.Group className="mb-3">
         <Form.Label>Email address</Form.Label>
         <Form.Control
