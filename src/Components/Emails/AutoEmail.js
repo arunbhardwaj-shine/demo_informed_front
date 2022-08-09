@@ -109,7 +109,7 @@ const AutoEmail = () => {
   };
 
   const viewButtonClicked = (template, index) => {
-    //console.log(template);
+    console.log(template);
     setEmailSubject("");
     setEmailDescription("");
     setApproveClicked(false);
@@ -117,7 +117,8 @@ const AutoEmail = () => {
     setSourceCode(template.source_code);
     setIndexClicked(index);
     setTemplateId(template.id);
-    setTempLang(template.language)
+    setTempLang(template.language_code);
+   
     setIndexClickedReminder();
     setTemplateName(template.name);
   };
@@ -571,7 +572,7 @@ const AutoEmail = () => {
       toast.warning("Please select smart list");
     }
   };
-  const updateTemplate = async (e) => {
+  const updateTemplate = async (e,status=0) => {
     e.preventDefault();
     let template_id = templateId;
     if (
@@ -585,7 +586,7 @@ const AutoEmail = () => {
           source_code: editorRef.current.getContent(),
           template_id: templateId,
           name: templateName,
-          status: 2,
+          status: status===0 ? 2 : 3,
           language: tempLang,
         };
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -822,7 +823,8 @@ const AutoEmail = () => {
                             {approveClickedd == true ? (
                               <button
                                 className="btn btn-primary approved-btn btn-bordered "
-                                onClick={(e) => approveClicked(e)}
+                                onClick={(e) => updateTemplate(e,1)}
+                               
                               >
                                 Approved{" "}
                                 <img
@@ -834,7 +836,7 @@ const AutoEmail = () => {
                             ) : (
                               <button
                                 className="btn btn-primary approved-btn btn-bordered "
-                                onClick={(e) => approveClicked(e)}
+                                onClick={(e) => updateTemplate(e,1)}
                               >
                                 Approve?{" "}
                               </button>
