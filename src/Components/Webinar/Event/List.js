@@ -211,6 +211,7 @@ const EventData = () => {
     ExportApi.DeleteEvent(deletecardid)
       .then((resp) => {
         if (resp.ok) {
+          window.dispatchEvent(new Event("EventLength"));
           handleGetEventlist();
           toast.success(resp.data.message)
           hideConfirmationModal();

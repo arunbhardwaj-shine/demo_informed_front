@@ -7,6 +7,7 @@ import ExportApi from '../../../Api/ExportApi';
 import { BaseUrlImage } from '../../../Api/BaseApi';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import { Accordion } from "react-bootstrap";
 
 const Format1 = (props) => {
   // console.log(props)
@@ -178,7 +179,18 @@ const Format1 = (props) => {
                   <form onSubmit={formik.handleSubmit}>
                     <div className="modal-body-content">
         {/* Middle content */}
+     
         <div className="reg-middle-div">
+        <div className="smart-list-name-drop">
+            <div className="smart-list-dropdown">
+              <div className="dropdown-smart">
+                <div id="accordion-smart">
+        <Accordion defaultActiveKey="0" flush>
+                    <Accordion.Item className="card" eventKey="0">
+                      <Accordion.Header className="card-header">
+                       Title
+                      </Accordion.Header>
+                      <Accordion.Body className="card-body">
         <div className="form-inline row justify-content-between align-items-center">
               <div className="form-group col-12 ">
                 <label>Page Title </label>
@@ -368,8 +380,21 @@ const Format1 = (props) => {
                        defaultValue="#zwww"
                        title="Choose your color"
 	                   />      
-           </div>
+           
+          </div>
+          </div>
+           </Accordion.Body>
+        </Accordion.Item>
+     
+  
+
+                    <Accordion.Item className="card" eventKey="1">
+                      <Accordion.Header className="card-header">
+                      Consent
+                      </Accordion.Header>
+                      <Accordion.Body className="card-body">
            <fieldset>
+
                       <legend> Consent </legend>
                       <div className="form-group">
                         <label> Text 1</label>
@@ -411,8 +436,7 @@ const Format1 = (props) => {
 	                   />
                     </div>
                    </fieldset> 
-                  
-                  {formik.values.radio_breakfast? <div className="form-group">
+                   {formik.values.radio_breakfast? <div className="form-group">
               <label>Breakfast Content</label>
               <Form.Control
                 name="radio_breakfast_content"
@@ -424,15 +448,14 @@ const Format1 = (props) => {
                 placeholder="Breakfast Content"
               />
            </div>:null} 
-        {/* end of middle content*/}
-        
-
-      
-
-        {/* end of color div content */}
-        </div>
-          {/* right sidebar */}
-          <div className="reg-center-checkbox">
+                  </Accordion.Body>
+                  </Accordion.Item>
+                  <Accordion.Item className="card" eventKey="2">
+                      <Accordion.Header className="card-header">
+                      Fields & Color
+                      </Accordion.Header>
+                      <Accordion.Body className="card-body">
+                      <div className="reg-center-checkbox">
         {/* fields content */}
         <div className="reg-fields-div">
         <div className="email-result">
@@ -565,6 +588,23 @@ const Format1 = (props) => {
                   </div>
                   </div>
                    </div>
+
+                      </Accordion.Body>
+                      </Accordion.Item>
+                    </Accordion>
+    </div></div>
+           
+        {/* end of middle content*/}
+        
+
+      
+
+        {/* end of color div content */}
+        </div>
+          {/* right sidebar */}
+        
+        </div>
+       
         </div>
         </div>
         </form>
