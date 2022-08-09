@@ -7,7 +7,8 @@ const Dashboard = () => {
     const [eventData, setEventData] = useState();
     const [registrationPageList, setRegistrationPageList] = useState([]);
     const [templateList, setTemplateList] = useState([]);
-    const [countdownDate, setCountdownDate] = useState(new Date('08/09/2022 , 12:00 PM PST').getTime());
+    const [countdownDate, setCountdownDate] = useState();
+    const [count, setCount] = useState(1);
     const [state, setState] = useState({days: 0, hours: 0,minutes: 0,seconds: 0,});
 
     useEffect(() => {
@@ -42,15 +43,20 @@ const Dashboard = () => {
     const handleGetEvents = (event_id) => {
         ExportApi.GetEventListData(event_id).then((resp) => {
             if (resp.ok) {
-                console.log(resp.data.data)
                 setEventData(resp.data.data);
-                // let date=resp.data.data+" , "+
+                let date=resp.data.data.even_date+" , "+resp.data.data.event_start_time+" " +"PST"
+                console.log(new Date(date).getTime())
+                console.log(resp.data.data)
+                setCountdownDate(new Date(date).getTime())
+                setCount(count+3)
+                // setNewTime()
             }
         }).catch((err) => {
             console.log(err);
             loader("hide");
         });
     };
+    // console.log(countdownDate)
     
     const handleGetRegistrationPagesList = (event_id) => {
         ExportApi.RegistrationPageList(event_id).then((resp) => {
@@ -99,7 +105,6 @@ const Dashboard = () => {
     }, []);
     useEffect(() => {
         setTimeout(() => {
-          
             handleGetFirstEventId()
         }, 1000);
     }, [])
@@ -116,11 +121,22 @@ const Dashboard = () => {
                 </div>
                 <div className="email-result">
                     <div className="event-details-left">
+
                         <div className="event-details-left-inner">
                             <div className="event-details-left-event">
+                <Link style={{float:"right"}}to="/webinar/events">
+                                        Edit 
+                                        </Link>
+                                
+                                {state.days > 0 || state.hours > 0 || state.minutes > 0 || state.seconds > 0 ?
+                   <span>{state.days || '0'}:{state.hours || '0'}:{state.minutes || '0'}:{state.seconds || '0'}</span> : ""}
+                    <span>{eventData?.event_date}</span>
+                  
+                    <span><strong>Start Time:</strong> {eventData?.event_start_time} ({eventData?.timezone})</span>
                                 <div class="mail-box-content-top">
+                
+                                     
                                     <div class="mail-box-content-top-view">
-                    <Link to="/webinar/events"><button className="btn btn-primary btn-filled send">Edit </button></Link>
                                         <div class="webinar_time">
                                             <div class="webinar-start-time">
                                                 {eventData?.speaker_data?.map((val)=>{
@@ -139,7 +155,7 @@ const Dashboard = () => {
                                             <span><strong>Timezone:</strong> {eventData?.country_timezone} </span>
                                         </div>
                                         <div class="webinar_time">
-                                            <span><strong>Country:</strong>  {eventData?.location}</span>
+                                            <span><strong>Country:</strong>  {eventData?.country}</span>
                                         </div>
                                         <div class="mailbox-description">
                                             <p>{eventData?.description}</p>
@@ -147,18 +163,17 @@ const Dashboard = () => {
                                         <div class="mail-stats">
                                             <ul>
                                          
-                {state.days > 0 || state.hours > 0 || state.minutes > 0 || state.seconds > 0 ?
-                    <li><span>{state.days || '0'}:{state.hours || '0'}:{state.minutes || '0'}:{state.seconds || '0'} Time Left</span></li>  : ""}
+   
   
-                                                {/* // <li><span>15:35 Time Left</span></li>  */}
-                                                <li><span>{eventData?.event_date} ({eventData?.timezone})</span></li>
+                                              
+                                                
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="event-details-left-rehearsal">Rehearsal</div>
-                        </div>
+                            {/* <div className="event-details-left-rehearsal">Rehearsal</div>*/}
+                        </div> 
                         <div className="clearfix"></div>
                         <div className="event-details-left-emails">Email Templates
                         <Link to="/webinar/email/template"><button className="btn btn-primary btn-filled send">Edit </button></Link>
@@ -173,7 +188,7 @@ const Dashboard = () => {
                         </div>
                     </div>
                     <div className="event-details-right">
-                        <div className="event-details-right-portal">Portal Preparation</div>
+                        {/* <div className="event-details-right-portal">Portal Preparation</div> */}
                         <div className="event-details-right-reg">
                         <Link to="/webinar/portal/Registrations"><button className="btn btn-primary btn-filled send">Edit </button></Link>
                             {registrationPageList? <> {registrationPageList?.map((val, i) => (
@@ -186,7 +201,7 @@ const Dashboard = () => {
                                     </>
                             ))} </> : <div className="hcp-table-content">Registration Page not created yet.</div>}
                         </div>
-                        <div className="event-details-right-type">Type</div>
+                        {/* <div className="event-details-right-type">Type</div> */}
                     </div>
                 </div>    
             </div>
