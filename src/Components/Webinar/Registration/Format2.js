@@ -6,7 +6,7 @@ import { loader } from '../../../loader';
 import ExportApi from '../../../Api/ExportApi';
 import { BaseUrlImage } from '../../../Api/BaseApi';
 import { useNavigate } from 'react-router-dom';
-
+import { Accordion } from "react-bootstrap";
 const Format2 = (props) => {
   let navigate=useNavigate();
     const [TemplateIdActive, setTemplateIdActive] = useState(props.TemplateIdActive);
@@ -126,7 +126,6 @@ const Format2 = (props) => {
             radio_helthcare:values.radio_helthcare,
             radio_breakfast:values.radio_breakfast,
             radio_breakfast_content:values.radio_breakfast_content,
-            titleColor :values.titleColor,
             textColor:values.textColor,
             backgroundColor:values.backgroundColor,
             borderColor:values.borderColor,
@@ -164,6 +163,16 @@ const Format2 = (props) => {
         {/* Middle content */}
         <div className="modal-body-content">
         <div className="reg-middle-div">
+        <div className="smart-list-name-drop">
+            <div className="smart-list-dropdown">
+              <div className="dropdown-smart">
+                <div id="accordion-smart">
+        <Accordion defaultActiveKey="0" flush>
+                    <Accordion.Item className="card" eventKey="0">
+                      <Accordion.Header className="card-header">
+                       Title
+                      </Accordion.Header>
+                      <Accordion.Body className="card-body">
         <div className="form-inline row justify-content-between align-items-center">
         <div className="form-group col-12 ">
                 <label>Page Title </label>
@@ -344,7 +353,14 @@ const Format2 = (props) => {
                           type="text"
                         />
                       </div>
-                  
+                      </div>
+                      </Accordion.Body>
+        </Accordion.Item>
+                      <Accordion.Item className="card" eventKey="1">
+                      <Accordion.Header className="card-header">
+                      Consent
+                      </Accordion.Header>
+                      <Accordion.Body className="card-body">
                       <fieldset>
               <legend>Footer:</legend>
               <div className="form-group">
@@ -394,7 +410,9 @@ const Format2 = (props) => {
                        title="Choose your color"
 	                   />
                      </div>
-         </fieldset>
+                   </fieldset>
+                     
+                    
          {formik.values.radio_breakfast&&props.mode.mode=="onsite"? <div className="form-group">
               <label>Breakfast Content</label>
               <Form.Control
@@ -407,9 +425,20 @@ const Format2 = (props) => {
                 placeholder="Breakfast Content"
               />
            </div>:null} 
+           </Accordion.Body>
+        </Accordion.Item>
+       
+       
+       
+       
+      
         {/* end of middle content*/}
         
-
+        <Accordion.Item className="card" eventKey="2">
+                      <Accordion.Header className="card-header">
+                      Fields & Color
+                      </Accordion.Header>
+                      <Accordion.Body className="card-body">
         {/* right sidebar */}
         <div className="reg-center-checkbox">
         {/* fields content */}
@@ -542,7 +571,11 @@ const Format2 = (props) => {
                   </div>
         {/* end of color div content */}
         </div>
-        </div>
+      
+        </Accordion.Body>
+        </Accordion.Item>
+        </Accordion>
+     </div></div> </div></div>  
         </div>
         </div>
         {/* end of right sidebar */}    

@@ -6111,3 +6111,9 @@ section.search-hcp.smart-list-view .header-btn-left {
   border-bottom: 1px dashed #97B6CF;
 }
 /**Auto Mail End **/
+
+
+
+.circular-progressbar{
+  margin:10px auto;
+}
