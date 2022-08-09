@@ -14,6 +14,7 @@ const AutoEmail = () => {
   const [getsearch, setSearch] = useState("");
   const [approveClickedd, setApproveClicked] = useState(false);
   const [counterFlag, setCounterFlag] = useState(0);
+  const [tempLang, setTempLang] = useState(0);
   const [templates, setTemplates] = useState([]);
   const [countryall, setCountryall] = useState([]);
   const [templateClicked, setTemplateClicked] = useState(false);
@@ -116,6 +117,7 @@ const AutoEmail = () => {
     setSourceCode(template.source_code);
     setIndexClicked(index);
     setTemplateId(template.id);
+    setTempLang(template.language)
     setIndexClickedReminder();
     setTemplateName(template.name);
   };
@@ -584,7 +586,7 @@ const AutoEmail = () => {
           template_id: templateId,
           name: templateName,
           status: 2,
-          language: 2,
+          language: tempLang,
         };
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
