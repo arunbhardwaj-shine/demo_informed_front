@@ -391,7 +391,11 @@ const CreateSmartList = () => {
         onHide={handleClose}
       >
         <Modal.Header>
-          <h4>Upload File</h4>
+          {showPreogressBar == true ? (
+            <h4>Processing data, Please be patient!</h4>
+          ) : (
+            <h4>Upload File</h4>
+          )}
           <button
             type="button"
             onClick={handleClose}
@@ -402,12 +406,10 @@ const CreateSmartList = () => {
         <Modal.Body>
           {showPreogressBar == true ? (
             <div
-              className="CircularProgressBar"
+              className="circular-progressbar"
               style={{
-                width: 200,
-                height: 200,
-                position: "relative",
-                marginLeft: "170px",
+                width: 100,
+                height: 100,
               }}
             >
               <CircularProgressbar
