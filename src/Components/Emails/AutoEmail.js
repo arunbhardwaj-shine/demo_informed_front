@@ -825,7 +825,7 @@ const AutoEmail = () => {
                         </div>
                         <div className="form-inline row justify-content-end align-items-center">
                           <div className="form-buttons right-side col-12 col-md-5">
-                            {(approveClickedd == true ? (
+                            {approveClickedd == true ? (
                               <button
                                 className="btn btn-primary approved-btn btn-bordered "
                                 onClick={(e) => updateTemplate(e,1)}
