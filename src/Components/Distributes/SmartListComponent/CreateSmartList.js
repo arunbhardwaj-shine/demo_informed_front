@@ -10,12 +10,22 @@ import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { loader } from "../../../loader";
 import { popup_alert } from "../../../popup_alert";
+import * as XLSX from "xlsx";
+
+import { CircularProgressbar } from "react-circular-progressbar";
+import { buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 const CreateSmartList = () => {
+  const percentage = 98;
+  const [uploadOrDownloadCount, setUploadOrDownloadCount] = React.useState(0);
+  const [fileLength, setFileLength] = useState();
   const location = useLocation();
   const navigate = useNavigate();
+  const [showPreogressBar, setShowProgressBar] = useState(false);
   let file_name = useRef("");
   const { creator } = location.state != null ? location.state : "";
+  const [updateState, setUpdateState] = useState(0);
   const [show, setShow] = useState(false);
   const [smartListName, setSmartListName] = useState("");
   const [creatorName, setCreatorName] = useState("");
@@ -25,6 +35,7 @@ const CreateSmartList = () => {
   const [activeClass, setActiveClass] = useState();
   const [filename, setFileName] = useState();
   const [rendervalidation, setRenderValidation] = useState(0);
+  const [dataRetrieved, setDataRetrieved] = useState(false);
   const [validator] = React.useState(new SimpleReactValidator());
 
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -60,6 +71,21 @@ const CreateSmartList = () => {
   };
 
   const onFileChange = (event) => {
+    var files = event.target.files,
+      f = files[0];
+    var reader = new FileReader();
+    reader.onload = function (event) {
+      var data = event.target.result;
+      let readedData = XLSX.read(data, { type: "binary" });
+      const wsname = readedData.SheetNames[0];
+      const ws = readedData.Sheets[wsname];
+
+      const dataParse = XLSX.utils.sheet_to_json(ws, { header: 1 });
+      console.log(dataParse);
+
+      setFileLength(dataParse.length);
+    };
+    reader.readAsBinaryString(f);
     setSelectedFile(event.target.files[0]);
   };
 
@@ -131,12 +157,38 @@ const CreateSmartList = () => {
       navigate("/SmartList");
     }
   };
+  const delay = (n) => new Promise((r) => setTimeout(r, n));
+
+  function wait(ms, cb) {
+    var waitDateOne = new Date();
+    while (new Date() - waitDateOne <= ms) {
+      //Nothing
+    }
+    if (cb) {
+      eval(cb);
+    }
+  }
+
+  useEffect(() => {
+    if (uploadOrDownloadCount == 100) {
+      setUpdateState(updateState + 1);
+      console.log("in useEffect");
+    }
+  }, [uploadOrDownloadCount]);
 
   const uploadFile = async () => {
-    setShow(false);
+    let i = 0;
+    const intervals_spend = (15 / 100) * fileLength;
+    var intervals_increment = 100 / intervals_spend;
+    let adr = 0;
+    const timer = setInterval(() => {
+      adr = adr + intervals_increment;
+      setUploadOrDownloadCount(parseInt(adr));
+    }, 1000);
+
+    // setShow(false);
     if (selectedFile === null) {
       toast.warning("Please upload file first");
-
       return false;
     }
 
@@ -147,25 +199,27 @@ const CreateSmartList = () => {
     formData.append("reader_file", selectedFile);
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    loader("show");
-
-    console.log(formData);
-    console.log(creatorName);
-
+    setShowProgressBar(true);
     await axios
       .post(`distributes/create_smart_list_with_excel`, formData)
       .then((res) => {
         if (res.data.status_code === 200) {
-          setData(res.data.response.data);
-          navigate("/UploadExcel", {
-            state: {
-              data: res.data.response.data,
-              smartListName: smartListName,
-              creator: creatorName,
-            },
-          });
-
-          setapi_flag(api_flag + 1);
+          setUploadOrDownloadCount(100);
+          setDataRetrieved(true);
+          clearInterval(timer);
+          setTimeout(() => {
+            setData(res.data.response.data);
+            navigate("/UploadExcel", {
+              state: {
+                data: res.data.response.data,
+                smartListName: smartListName,
+                creator: creatorName,
+              },
+            });
+            console.log(uploadOrDownloadCount);
+            setShowProgressBar(false);
+            setapi_flag(api_flag + 1);
+          }, 1000);
         } else {
           popup_alert({
             visible: "show",
@@ -173,7 +227,6 @@ const CreateSmartList = () => {
             type: "error",
           });
         }
-        loader("hide");
       })
       .catch((err) => {
         loader("hide");
@@ -347,56 +400,79 @@ const CreateSmartList = () => {
           ></button>
         </Modal.Header>
         <Modal.Body>
-          <div class="upload-file-box">
-            <div class="box">
-              <input
-                type="file"
-                name="file-4[]"
-                id="file-4"
-                class="inputfile inputfile-3"
-                accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                onChange={onFileChange}
-                data-multiple-caption="{count} files selected"
-                ref={file_name}
+          {showPreogressBar == true ? (
+            <div
+              className="CircularProgressBar"
+              style={{
+                width: 200,
+                height: 200,
+                position: "relative",
+                marginLeft: "170px",
+              }}
+            >
+              <CircularProgressbar
+                value={uploadOrDownloadCount}
+                text={`${uploadOrDownloadCount}%`}
+                strokeWidth={5}
               />
-              {file_name.current?.files === undefined ||
-              file_name.current.files?.length === 0 ? (
-                <>
-                  <label for="file-4">
-                    <span>Choose Your File</span>
-                  </label>
-                  <p>Upload your new list file</p>
-                </>
-              ) : (
-                <h5>{file_name.current.files[0].name}</h5>
-              )}
             </div>
-          </div>
-          <h4>Please upload maximum of 1000 records.</h4>
-          <div class="modal-buttons">
-            {file_name.current?.files === undefined ||
-            file_name.current.files?.length === 0 ? (
-              <>
-                {" "}
-                <button
-                  type="button"
-                  class="btn btn-primary btn-bordered light"
-                  data-bs-dismiss="modal"
-                >
-                  Upload
-                </button>
-              </>
-            ) : (
-              <button
-                type="button"
-                class="btn btn-primary"
-                onClick={uploadFile}
-                data-bs-dismiss="modal"
-              >
-                Upload
-              </button>
-            )}
-          </div>
+          ) : (
+            <div class="upload-file-box">
+              <div class="box">
+                <input
+                  type="file"
+                  name="file-4[]"
+                  id="file-4"
+                  class="inputfile inputfile-3"
+                  accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                  onChange={onFileChange}
+                  data-multiple-caption="{count} files selected"
+                  ref={file_name}
+                />
+                {file_name.current?.files === undefined ||
+                file_name.current.files?.length === 0 ? (
+                  <>
+                    <label for="file-4">
+                      <span>Choose Your File</span>
+                    </label>
+                    <p>Upload your new list file</p>
+                  </>
+                ) : (
+                  <h5>{file_name.current.files[0].name}</h5>
+                )}
+              </div>
+            </div>
+          )}
+          {showPreogressBar !== true ? (
+            <>
+              <h4>Please upload maximum of 1000 records.</h4>
+
+              <div class="modal-buttons">
+                {file_name.current?.files === undefined ||
+                file_name.current.files?.length === 0 ? (
+                  <>
+                    {" "}
+                    <button
+                      type="button"
+                      class="btn btn-primary btn-bordered light"
+                      data-bs-dismiss="modal"
+                    >
+                      Upload
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    onClick={uploadFile}
+                    data-bs-dismiss="modal"
+                  >
+                    Upload
+                  </button>
+                )}
+              </div>
+            </>
+          ) : null}{" "}
         </Modal.Body>
       </Modal>
     </>
