@@ -794,7 +794,11 @@ const SelectSmartList = (props) => {
         id="create_list_popup"
       >
         <Modal.Header>
-          <h4>Upload New List</h4>
+          {showPreogressBar == true ? (
+            <h4>Processing data, Please be patient!</h4>
+          ) : (
+            <h4>Upload New List</h4>
+          )}
           <button
             type="button"
             className="btn-close"
@@ -807,12 +811,10 @@ const SelectSmartList = (props) => {
         <Modal.Body>
           {showPreogressBar == true ? (
             <div
-              className="CircularProgressBar"
+              className="circular-progressbar"
               style={{
-                width: 200,
-                height: 200,
-                position: "relative",
-                marginLeft: "170px",
+                width: 100,
+                height: 100,
               }}
             >
               <CircularProgressbar
@@ -935,64 +937,40 @@ const SelectSmartList = (props) => {
               </div> */}
             </div>
           )}
-
-          {/* <div className="upload-file-box">
-                <div className="box">
-                  <input
-                    type="file"
-                    name="file-4[]"
-                    id="file-4"
-                    className="inputfile inputfile-3"
-                    accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                    onChange={onFileChange}
-                    data-multiple-caption="{count} files selected"
-                    ref={file_name}
-                  />
-                  {file_name.current?.files === undefined ||
-                  file_name.current.files?.length === 0 ? (
-                    <>
-                      <label for="file-4">
-                        <span>Choose Your File</span>
-                      </label>
-                      <p>Upload your new list file</p>
-                    </>
-                  ) : (
-                    <h5>{file_name.current.files[0].name}</h5>
-                  )}
+          {showPreogressBar != true ? (
+            <div className="modal_upload_btns">
+              <div className="download-sample">
+                <p>Download sample Excel file to upload new HCPs</p>
+                <div className="upload-btn" onClick={downloadFile}>
+                  Download File
                 </div>
-              </div> */}
-          <div className="modal_upload_btns">
-            <div className="download-sample">
-              <p>Download sample Excel file to upload new HCPs</p>
-              <div className="upload-btn" onClick={downloadFile}>
-                Download File
               </div>
-            </div>
-            <div className="modal-buttons">
-              {file_name.current?.files === undefined ||
-              file_name.current.files?.length === 0 ? (
-                <>
-                  {" "}
+              <div className="modal-buttons">
+                {file_name.current?.files === undefined ||
+                file_name.current.files?.length === 0 ? (
+                  <>
+                    {" "}
+                    <button
+                      type="button"
+                      className="btn btn-primary btn-bordered light"
+                      data-bs-dismiss="modal"
+                    >
+                      Upload
+                    </button>
+                  </>
+                ) : (
                   <button
                     type="button"
-                    className="btn btn-primary btn-bordered light"
+                    className="btn btn-primary"
+                    onClick={uploadFile}
                     data-bs-dismiss="modal"
                   >
                     Upload
                   </button>
-                </>
-              ) : (
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={uploadFile}
-                  data-bs-dismiss="modal"
-                >
-                  Upload
-                </button>
-              )}
+                )}
+              </div>
             </div>
-          </div>
+          ) : null}{" "}
         </Modal.Body>
       </Modal>
       {/*Modal For Creating Smart list with Excel File end*/}
