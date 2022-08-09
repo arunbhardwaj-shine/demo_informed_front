@@ -233,6 +233,7 @@ const location = useLocation();
     ) {
       setNewReaders(props.newAddedUser);
     }
+
   }, [props.data]);
 
   useEffect(() => {
@@ -1395,9 +1396,6 @@ const location = useLocation();
   };
   return (
     <>
-        <div className="loader" id="custom_loader">
-          <span className="loader-view"> </span>
-        </div>
         <div className="page-top-nav smart_list_names">
           {props.active==1?
           <div className="row justify-content-end align-items-center">
@@ -1651,7 +1649,6 @@ const location = useLocation();
           
           </div>
           <br/>
-        <ToastContainer />
         <section className="search-hcp smart-list-view">
         <div className="result-hcp-table">
         {props.active==1?  null:
@@ -2200,7 +2197,12 @@ const location = useLocation();
                         ExportApi.EmailSand(props.smartListId, rehearsalSpeakername)
                           .then((resp) => {
                             if (resp.data) {
-                         
+                              if( props?.saveAlert){
+
+                               props.saveAlert(true)
+                              }else{
+                                console.log("right")
+                              }
                               if (resp.data.code == 200) {
                                 setIsOpenAddModal(false);
                                 if(resp.data.data){

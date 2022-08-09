@@ -5,7 +5,6 @@ import { toast, ToastContainer } from "react-toastify";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import ForgotPassword from "../../../Auth/ForgotPassword";
 import ExportApi from "../../../Api/ExportApi";
-import { handleGetRehearsalListData } from "../Rehearsal/RehearsalList";
 export let EventId;
 const Header = () => {
   let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -60,20 +59,23 @@ const Header = () => {
       ExportApi.GetEventList().then((resp) => {
         if (resp.ok) {
           setEvent(resp.data.data);
-          // console.log(resp.data.code)
-          localStorage.setItem("EventIdHeader",resp.data.data[0].id)}
+          // localStorage.setItem("EventIdHeader",resp.data.data[0].id)
+     
           if (resp.data.code == 404) {
-            localStorage.removeItem("EventIdHeader")  
-        }else{
-          if(eventId==null||eventId==undefined){
-            if(localStorage.getItem("EventIdHeader")){
-              console.log("EventIdHeader",localStorage.getItem("EventIdHeader"))
-              // return null
-              setEventId(resp.data.data[0].id)
-            }else{
+           
+            // console.log(resp.data.code)
+          }else{
+            if(eventId==null||eventId==undefined){
+              if(localStorage.getItem("EventIdHeader")){
+                console.log("EventIdHeader",localStorage.getItem("EventIdHeader"))
+                setEventId(resp.data.data[0].id)
+              }else{
+               
+                localStorage.setItem("EventIdHeader",resp.data.data[0].id)
               setEventId(resp.data.data[0].id)
          }
         } 
+      }
         }
       });
     }else{
@@ -81,18 +83,20 @@ const Header = () => {
     }
   };
   const handleGetEventlistChange = () => {
+    console.log(document.getElementById("event").value)
       ExportApi.GetEventList().then((resp) => {
         if (resp.ok) {
           setEvent(resp.data.data);
-          // localStorage.setItem("EventIdHeader",resp.data.data[0].id)
+          let id=document.getElementById("event").value
+         alert(11)
+           localStorage.setItem("EventIdHeader",id)
           // console.log(resp.data.code
         }
       });
     
   };
   useEffect(() => {
-    window.addEventListener("EventLength", () =>
-    handleGetEventlistChange());
+    window.addEventListener("EventLength", () => handleGetEventlistChange());
     if(localStorage.getItem("EventIdHeader")){
       // return null
       console.log("first")
@@ -121,6 +125,20 @@ const Header = () => {
   const location = useLocation();
   return (
     <>
+          <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+      <div className="loader" id="custom_loader">
+          <span className="loader-view"> </span>
+        </div>
     {location.pathname.includes("/webinar/register")||location.pathname.includes("/webinar/editor")?null:<header>
         <nav className="navbar navbar-expand-sm navbar-light">
           <div className="container-fluid">
@@ -171,6 +189,7 @@ const Header = () => {
 
             {token? (
               <Form.Select
+                 id="event"
                  value={localStorage.getItem("EventIdHeader")}
                 onChange={(e) => {
                   localStorage.setItem("EventIdHeader",e.target.value)

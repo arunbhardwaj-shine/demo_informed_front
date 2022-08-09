@@ -24,7 +24,7 @@ const WebinarVerifyHCP = () => {
     const navigate = useNavigate();
     const [isOpenAddModal, setIsOpenAddModal] = useState(false);
     const [sortingCount, setSortingCount] = useState(0);
-    const [country, setCountry] = useState(null);
+    const [country, setCountry] = useState([]);
     const [editableData, setEditableData] = useState([]);
     const [update, setUpdate] = useState(0);
     const [Speakername, setSpeakerName] = useState([
@@ -327,21 +327,37 @@ const WebinarVerifyHCP = () => {
       }
       return err;
     }
+const countryChange=(e,id)=>{
+  // console.log(e)
+  // console.log(id)
+  const countryName= country.find((item)=>item.id==e)
+  console.log("countryName",countryName)
+  selectedHcp.map((val,i)=>{
+    if(val.id==id){
+       selectedHcp[i].country=countryName.country
+    }
+    setSelectedHcp(selectedHcp)
+  })
+
+}
     const editing = (
-      id,
+      id,email,
       name,
   
       index
     ) => {
+      // console.log(index)
+     
+      selectedHcp[index].type=document.getElementById("content_type" + id).value;
+      // selectedHcp[index].country=document.getElementById("country2" + id).innerText
       if (editable != 0) {
         // ignoreClickOnMeElement.addEventListener(
         // "mouseleave",
         // async (event) => {
           const name_edit = document.getElementById("field_name" + id).innerText;
           const email = document.getElementById("field_email" + id).innerText;
-          const content_type = document.getElementById("content_type" + id).value;
-  
-        // console.log(name_edit);
+          const content_type = document.getElementById("content_type" + id).innerText;
+          
   // console.log("email",email)
         var arr = [];
         arr.push({
@@ -363,6 +379,7 @@ const WebinarVerifyHCP = () => {
         } else {
           setEditableData((oldArray) => [...oldArray, ...arr]);
         }
+        setSelectedHcp(selectedHcp)
       }
     };
     const saveEditClicked = async (id) => {
@@ -381,6 +398,14 @@ const WebinarVerifyHCP = () => {
             const register = document.getElementById(
               "is_register" + data.id
             ).innerText;
+
+            //  console.log(document.getElementById("content_type1" + data.id))
+            // document.getElementById("content_type1" + data.id).text.replace( document.getElementById(
+            //   "content_type" + data.id
+            // ).value);
+            // document.getElementById("country1" + data.id).innerText.replace(document.getElementById(
+            //   "country2" + data.id
+            // ).innerText);
             // const register = props.data?.filter((item)=>{item.id===data.id})
     
             // console.log("eeee",register)
@@ -391,8 +416,10 @@ const WebinarVerifyHCP = () => {
             data.country_id = country;
             data.content_type = content_type;
              data.is_register=register
+
           });
         }
+
         console.log(editableData)
         const body = {
           // smart_list_id: props.smartListId,
@@ -765,7 +792,7 @@ const WebinarVerifyHCP = () => {
                              index
                             )
                           }
-                        >                      <td id={`is_register` + data.id} style={{display:"none"}}>{data.is_register}</td>
+                        >                   
 
                           <td
                             id={`field_name` + data.id}
@@ -775,12 +802,14 @@ const WebinarVerifyHCP = () => {
                           >
                             <span>{data.name || data.first_name}</span>
                           </td>
+                          <td id={`is_register` + data.id} style={{display:"none"}}>{data.is_register}</td>
                           <td id={`field_email` + data.id}>{data.email}</td>
                           <input type="hidden" id={`field_index` + data.profile_user_id} value={index} />
                          
                           <td>
                           {
                             editable ?   <select
+                            onChange={(e)=>{countryChange(e.target.value,data.id)}}
                         id={`country` + data.id}
                         name="Country"
                         className="form-select-lg mb-3"
@@ -790,17 +819,17 @@ const WebinarVerifyHCP = () => {
                         <option value="">Select Country</option>
                         {country?.map((val, i) => (
                           <React.Fragment key={i}>
-                            <option key={i} value={val.id}>
+                            <option  key={i} value={val.id}>
                               {val.country}
                             </option>
                           </React.Fragment>
                         ))}
                     
-                      </select>  : <span>{data.country}</span>
+                      </select>  : <span id={`country1` + data.id} >{data.country}</span>
                           }
                           </td>
                          
-                          <td>
+                          <td id="field_interest"> 
                             {
                               editable ?<div className="user-type-option">
                           <Form.Select
@@ -813,7 +842,7 @@ const WebinarVerifyHCP = () => {
                             <option value="Staff User">Staff User</option>
                             <option value="Test User">Test User</option>
                           </Form.Select>
-                        </div> : <span>{data.type}</span>
+                        </div> : <span id={`content_type1` + data.id}>{data.type}</span>
                             }
                           </td>
                           <td>

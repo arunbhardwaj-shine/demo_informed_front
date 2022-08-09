@@ -14,6 +14,7 @@ const SendEmails = () => {
   const [NotFound, setNotFound] = useState();
   const navigate = useNavigate();
   const [filterdata, setFilterData] = useState();
+  const [isHovering, setIsHovering] = useState();
   let path_image = "/" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const handleOnFilterTags = (ftag) => {
     let tag_index = filtertags.indexOf(ftag);
@@ -185,7 +186,13 @@ const SendEmails = () => {
     });
     handleGetEmailSCollection(localStorage.getItem("EventIdHeader"));
   }, []);
+  const handleMouseEnter = (i) => {
+    setIsHovering(i);
+  };
 
+  const handleMouseLeave = (i) => {
+    setIsHovering();
+  };
   return (
     <>
       <div className="loader" id="custom_loader">
@@ -487,7 +494,8 @@ const SendEmails = () => {
               </div>
             </div>
             {data?.map((val, i) => {
-              let tags = JSON.parse(val.tags);
+              let tags = JSON.parse(val.tags)
+              console.log(val)
               return (
                 <div key={i} className="email_box_block">
                   <div
@@ -549,25 +557,7 @@ const SendEmails = () => {
                                   />
                                 </div>
                                 {/* {console.log(val.stats.mail_sent)} */}
-                                <span>{val.stats?.mail_sent?val.stats?.mail_sent:"0(0.0%)"}</span>
-                              </li>
-                              <li>
-                                <div className="mail-status mail_view">
-                                  <img
-                                    src={path_image + "/webinar/mail-open.png"}
-                                    alt=""
-                                  />
-                                </div>
-                                <span>{val.stats?.mail_read?val.stats?.mail_read:"0(0.0%)"}</span>
-                              </li>
-                              <li>
-                                <div className="mail-status mail_click">
-                                  <img
-                                    src={path_image + "/webinar/mail-check.png"}
-                                    alt=""
-                                  />
-                                </div>
-                                <span>40%</span>
+                                <span>{val.stats?.mail_total_sent?val.stats?.mail_total_sent:"0"}</span>
                               </li>
                               <li>
                                 <div className="mail-status mail_click">
@@ -576,11 +566,38 @@ const SendEmails = () => {
                                     alt=""
                                   />
                                 </div>
-                                <span>0%</span>
+                                <span>{val.stats?.mail_success_sent?val.stats?.mail_success_sent:"0"}</span>
                               </li>
+                              <li>
+                                <div className="mail-status mail_view">
+                                  <img
+                                    src={path_image + "/webinar/mail-open.png"}
+                                    alt=""
+                                  />
+                                </div>
+                                <span>{val.stats?.mail_read?val.stats?.mail_read:"0"}</span>
+                              </li>
+                              <li onMouseEnter={()=>handleMouseEnter(i)}
+                                       onMouseLeave={()=>handleMouseLeave(i)}>
+                                <div  className="mail-status mail_click">
+                                  <img
+                                    src={path_image + "/webinar/mail-check.png"}
+                                    alt=""
+                                  />
+                                </div>
+                                <span >{val.stats?.value_register?val.stats?.value_register:"0"}%</span>
+                                {val.approved_status == 2&&isHovering==i?<div className="options">
+                                  <p>{val.stats.label_register+" : "+val.stats.value_register}</p>
+                                  <p>{val.stats.label_booth+" : "+val.stats.value_booth}</p>
+                                  <p>{val.stats.label_video+" : "+val.stats.value_video}</p>
+
+                                    </div>:null}
+                              </li>
+                            
                             </ul>
                           </div>
                       </div>
+
                       <div className="mailbox-buttons">
                         <div className="mailbox-buttons-list">
                           <button
@@ -608,6 +625,8 @@ const SendEmails = () => {
                         </div>
                       </div>
                     </div>
+                   
+                                       
                   </div>
                 </div>
               );

@@ -121,21 +121,7 @@ const StpDetails = () => {
   }, []);
   return (
     <div class="right-sidebar col">
-      <div className="loader" id="custom_loader">
-        <span className="loader-view"> </span>
-      </div>
       <Row>
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
         <Col md={{ span: 9, offset: 2 }}>
           <h2 className="mt-3 mb-5" style={{ fontWeight: "bold" }}>
             SMTP Details

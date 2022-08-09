@@ -164,9 +164,6 @@ const RegistraionDetails = () => {
   return (
     <>
       {/* {console.log("selectedName",selectedName)} */}
-      <div className="loader" id="custom_loader">
-        <span className="loader-view"> </span>
-      </div>
       <div class="right-sidebar col">
         <div className="custom-container">
           <Row>
@@ -400,17 +397,6 @@ const RegistraionDetails = () => {
                 <input id="input-file" type="file" />
               </div>
             </div>
-            <ToastContainer
-              position="top-right"
-              autoClose={5000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-            />
           </Row>
         </div>
       </div>

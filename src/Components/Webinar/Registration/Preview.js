@@ -77,9 +77,6 @@ const Preview = () => {
 
   return (
     <>
-     <div className="loader" id="custom_loader">
-	        <span className="loader-view"> </span>
-          </div>
       <Modal
         show={show}
         size="lg"

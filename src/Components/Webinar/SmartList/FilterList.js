@@ -388,9 +388,6 @@ getData()
 }, [props.id])
   return (
     <>
-        <div className="loader" id="custom_loader">
-          <span className="loader-view"> </span>
-        </div>
       {/* {console.log(selectedCountry)} */}
       <div className={props.active==0?"page-top-nav smart_list_names create_filter_list":"right-sidebar col"}>
         {props.active==0?
@@ -426,21 +423,8 @@ getData()
             <div className="col-12 col-md-1">
               <div className="header-btn-left back_btn">
                 <a href="/webinar/email/SmartListCreate">
-                  <button class="btn btn-primary btn-filled back">
-                    <svg
-                      width="12"
-                      height="19"
-                      viewBox="0 0 12 19"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M8.31557 17.82C8.97165 18.476 10.0354 18.476 10.6915 17.82C11.3475 17.1639 11.3475 16.1002 10.6915 15.4441L4.7522 9.50484L10.6927 3.56431C11.3488 2.90823 11.3488 1.84451 10.6927 1.18843C10.0367 0.532347 8.97294 0.532347 8.31686 1.18843L1.2212 8.28409C1.21 8.29469 1.19891 8.30548 1.18794 8.31646C0.531858 8.97254 0.531858 10.0363 1.18794 10.6923L8.31557 17.82Z"
-                        fill="white"
-                      />
-                    </svg>
+                  <button class="btn btn-primary btn-bordered back">
+                    Back
                   </button>
                 </a>
 
@@ -506,7 +490,7 @@ getData()
             </div>
           </div>
         </div>}
-        <ToastContainer />
+     
 
         <section className="search-hcp smart-list-name">
         <div className="smart-list-name-drop">

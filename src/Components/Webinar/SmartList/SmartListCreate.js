@@ -218,11 +218,8 @@ const SmartListCreate = () => {
 
   return (
     <>
-        <div className="loader" id="custom_loader">
-          <span className="loader-view"> </span>
-        </div>
+
       <div className="right-sidebar col">
-        <ToastContainer />
         <div className="page-top-nav smart_list_names">
           <div className="row justify-content-end align-items-center">
             <div className="col-12 col-md-1">
@@ -255,7 +252,7 @@ const SmartListCreate = () => {
               <h2>STEP1</h2>
               <div className="create-smart-step-box">
                 <form>
-                  <div className="row justify-content-between align-items-end">
+                  <div className="row justify-content-between align-items-start">
                     <div className="form-group col">
                       <label for="smart-list-name">Enter smart list name</label>
                       <input

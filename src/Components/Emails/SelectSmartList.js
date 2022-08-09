@@ -8,10 +8,6 @@ import {
   getEmailData,
   getDraftData,
 } from "../../actions";
-import { CircularProgressbar } from "react-circular-progressbar";
-import { buildStyles } from "react-circular-progressbar";
-import "react-circular-progressbar/dist/styles.css";
-import * as XLSX from "xlsx";
 import { Navigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
@@ -25,13 +21,10 @@ const SelectSmartList = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
   const [PdfSelected, setPdfSelected] = useState(0);
-  const [fileLength, setFileLength] = useState();
-  const [uploadOrDownloadCount, setUploadOrDownloadCount] = React.useState(0);
   const [TemplateId, setTemplateId] = useState(0);
   const [getselecedlistid, setselecedlistid] = useState(0);
   const [smartListSelected, setSmartListSelected] = useState({});
   const [getpopupopeningstatus, setpopupopeningstatus] = useState(false);
-  const [showPreogressBar, setShowProgressBar] = useState(false);
   const navigate = useNavigate();
   const campaign_id = old_object?.campaign_id
     ? old_object.campaign_id
@@ -255,35 +248,11 @@ const SelectSmartList = (props) => {
   // }
 
   const onFileChange = (event) => {
-    var files = event.target.files,
-      f = files[0];
-    var reader = new FileReader();
-    reader.onload = function (event) {
-      var data = event.target.result;
-      let readedData = XLSX.read(data, { type: "binary" });
-      const wsname = readedData.SheetNames[0];
-      const ws = readedData.Sheets[wsname];
-
-      const dataParse = XLSX.utils.sheet_to_json(ws, { header: 1 });
-      console.log(dataParse);
-
-      setFileLength(dataParse.length);
-    };
-    reader.readAsBinaryString(f);
     setSelectedFile(event.target.files[0]);
   };
 
   const uploadFile = async () => {
     // setShow(false);
-    let i = 0;
-    const intervals_spend = (15 / 100) * fileLength;
-    var intervals_increment = 100 / intervals_spend;
-    let adr = 0;
-    const timer = setInterval(() => {
-      adr = adr + intervals_increment;
-      setUploadOrDownloadCount(parseInt(adr));
-    }, 1000);
-
     if (getCreatedListName === "") {
       toast.warning("Please enter the smart list name first.");
       return false;
@@ -303,24 +272,18 @@ const SelectSmartList = (props) => {
     formData.append("reader_file", selectedFile);
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    setShowProgressBar(true);
-    // loader("show");
+    loader("show");
     await axios
       .post(`distributes/create_upload_list`, formData)
       .then((res) => {
         if (res.data.status_code === 200) {
-          setUploadOrDownloadCount(100);
-          clearInterval(timer);
-          setTimeout(() => {
-            setFileUploadPopup(false);
-            getSmartListData();
-            popup_alert({
-              visible: "show",
-              message: "Smart list created.",
-              type: "success",
-            });
-            setShowProgressBar(false);
-          }, 1000);
+          setFileUploadPopup(false);
+          getSmartListData();
+          popup_alert({
+            visible: "show",
+            message: "Smart list created.",
+            type: "success",
+          });
         } else {
           setFileUploadPopup(false);
           popup_alert({
@@ -331,7 +294,7 @@ const SelectSmartList = (props) => {
         }
         setCreatedListName("");
         setCreatorName("");
-        //   loader("hide");
+        loader("hide");
       })
       .catch((err) => {
         setCreatedListName("");
@@ -804,109 +767,90 @@ const SelectSmartList = (props) => {
           ></button>
         </Modal.Header>
         <Modal.Body>
-          {showPreogressBar == true ? (
-            <div
-              className="CircularProgressBar"
-              style={{
-                width: 200,
-                height: 200,
-                position: "relative",
-                marginLeft: "170px",
-              }}
-            >
-              <CircularProgressbar
-                value={uploadOrDownloadCount}
-                text={`${uploadOrDownloadCount}%`}
-                strokeWidth={5}
-              />
-            </div>
-          ) : (
-            <div className="add_hcp_boxes">
-              <div className="create-smart-step">
-                <h2>STEP1</h2>
-                <div className="create-smart-step-box">
-                  <form>
-                    <div className="row justify-content-between align-items-end">
-                      <div className="form-group col">
-                        <label for="smart-list-name">
-                          Enter smart list name
-                        </label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          value={getCreatedListName}
-                          onChange={(event) => handleSmartListName(event)}
-                        />
-                      </div>
-                      <div class="form-group col">
-                        <label for="creator-name">Creator’s Name</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          value={creatorName}
-                          onChange={(event) => handleCreatorName(event)}
-                        />
-                      </div>
-                      <div className="form-group col-sm-12">
-                        <div className="form-group-content">
-                          <p>
-                            {" "}
-                            I want this to be a <span>Demo list</span>
-                          </p>
-                          <div className="select-demo-option">
-                            <input type="checkbox" name="checkbox" />
-                            <span className="checkmark"></span>
-                          </div>
-                          <a
-                            href="#"
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="top"
-                            title="Step to create smart list"
-                          >
-                            <img src={path_image + "question.svg"} alt="" />
-                          </a>
-                          <div className="tooltip">
-                            A list that will appeare when you select smart list
-                            to <span>send a sample.</span>
-                          </div>
+          <div className="add_hcp_boxes">
+            <div className="create-smart-step">
+              <h2>STEP1</h2>
+              <div className="create-smart-step-box">
+                <form>
+                  <div className="row justify-content-between align-items-end">
+                    <div className="form-group col">
+                      <label for="smart-list-name">Enter smart list name</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={getCreatedListName}
+                        onChange={(event) => handleSmartListName(event)}
+                      />
+                    </div>
+                    <div class="form-group col">
+                      <label for="creator-name">Creator’s Name</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={creatorName}
+                        onChange={(event) => handleCreatorName(event)}
+                      />
+                    </div>
+                    <div className="form-group col-sm-12">
+                      <div className="form-group-content">
+                        <p>
+                          {" "}
+                          I want this to be a <span>Demo list</span>
+                        </p>
+                        <div className="select-demo-option">
+                          <input type="checkbox" name="checkbox" />
+                          <span className="checkmark"></span>
+                        </div>
+                        <a
+                          href="#"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="top"
+                          title="Step to create smart list"
+                        >
+                          <img src={path_image + "question.svg"} alt="" />
+                        </a>
+                        <div className="tooltip">
+                          A list that will appeare when you select smart list to{" "}
+                          <span>send a sample.</span>
                         </div>
                       </div>
                     </div>
-                  </form>
-                </div>
-              </div>
-              <div className="create-smart-step">
-                <h2>STEP2</h2>
-                <div className="create-smart-step-box">
-                  <div className="upload-file-box">
-                    <div className="box">
-                      <input
-                        type="file"
-                        name="file-4[]"
-                        id="file-4"
-                        className="inputfile inputfile-3"
-                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                        onChange={onFileChange}
-                        data-multiple-caption="{count} files selected"
-                        ref={file_name}
-                      />
-                      {file_name.current?.files === undefined ||
-                      file_name.current.files?.length === 0 ? (
-                        <>
-                          <label for="file-4">
-                            <span>Choose Your File</span>
-                          </label>
-                          <p>Upload your new list file</p>
-                        </>
-                      ) : (
-                        <h5>{file_name.current.files[0].name}</h5>
-                      )}
-                    </div>
-                    <h4>Please upload maximum of 1000 records.</h4>
                   </div>
+                </form>
+              </div>
+            </div>
+            <div className="create-smart-step">
+              <h2>STEP2</h2>
+              <div className="create-smart-step-box">
+                <div className="upload-file-box">
+                  <div className="box">
+                    <input
+                      type="file"
+                      name="file-4[]"
+                      id="file-4"
+                      className="inputfile inputfile-3"
+                      accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                      onChange={onFileChange}
+                      data-multiple-caption="{count} files selected"
+                      ref={file_name}
+                    />
+                    {file_name.current?.files === undefined ||
+                    file_name.current.files?.length === 0 ? (
+                      <>
+                        <label for="file-4">
+                          <span>Choose Your File</span>
+                        </label>
+                        <p>Upload your new list file</p>
+                      </>
+                    ) : (
+                      <h5>{file_name.current.files[0].name}</h5>
+                    )}
+                  </div>
+                  <h4>Please upload maximum of 1000 records.</h4>
                 </div>
               </div>
-              {/* <div className="form_action">
+            </div>
+            {/* <div className="form_action">
                 <div className="row">
                   <div className="col-12 col-md-6">
                     <div className="form-group">
@@ -932,8 +876,7 @@ const SelectSmartList = (props) => {
                   </div>
                 </div>
               </div> */}
-            </div>
-          )}
+          </div>
 
           {/* <div className="upload-file-box">
                 <div className="box">
