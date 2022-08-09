@@ -31,6 +31,7 @@ const SelectSmartList = (props) => {
   const [TemplateId, setTemplateId] = useState(0);
   const [getselecedlistid, setselecedlistid] = useState(0);
   const [smartListSelected, setSmartListSelected] = useState({});
+  const [showAlertPopup, setShowAlertPopup] = useState(false);
   const [getpopupopeningstatus, setpopupopeningstatus] = useState(false);
   const navigate = useNavigate();
   const campaign_id = old_object?.campaign_id
@@ -277,7 +278,7 @@ const SelectSmartList = (props) => {
   const uploadFile = async () => {
     // setShow(false);
     let i = 0;
-    const intervals_spend = (15 / 100) * fileLength;
+    const intervals_spend = (23 / 100) * fileLength;
     var intervals_increment = 100 / intervals_spend;
     let adr = 0;
     const timer = setInterval(() => {
@@ -321,8 +322,13 @@ const SelectSmartList = (props) => {
               type: "success",
             });
             setShowProgressBar(false);
+            setUploadOrDownloadCount(0);
           }, 1000);
         } else {
+          clearInterval(timer);
+          setUploadOrDownloadCount(0);
+          setShowAlertPopup(true);
+          setShowProgressBar(false);
           setFileUploadPopup(false);
           popup_alert({
             visible: "show",
@@ -452,11 +458,12 @@ const SelectSmartList = (props) => {
                     </button>
                     <button
                       className="upload-btn btn btn-primary btn-bordered"
-                      onClick={() =>
+                      onClick={() => {
+                        setShowAlertPopup(false);
                         setFileUploadPopup(
                           (getFileUploadPopup) => !getFileUploadPopup
-                        )
-                      }
+                        );
+                      }}
                     >
                       Upload excel file
                     </button>
@@ -789,7 +796,7 @@ const SelectSmartList = (props) => {
 
       {/*Modal For Creating Smart list with Excel File start*/}
       <Modal
-        show={getFileUploadPopup}
+        show={getFileUploadPopup && showAlertPopup !== true}
         className="send-confirm"
         id="create_list_popup"
       >
@@ -813,8 +820,8 @@ const SelectSmartList = (props) => {
             <div
               className="circular-progressbar"
               style={{
-                width: 100,
-                height: 100,
+                width: 200,
+                height: 200,
               }}
             >
               <CircularProgressbar
@@ -909,32 +916,6 @@ const SelectSmartList = (props) => {
                   </div>
                 </div>
               </div>
-              {/* <div className="form_action">
-                <div className="row">
-                  <div className="col-12 col-md-6">
-                    <div className="form-group">
-                      <label for="smart-list-name">Enter smart list name</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        value= {getCreatedListName}
-                        onChange={(event) => handleSmartListName(event)}
-                      />
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-6">
-                    <div className="form-group">
-                      <label for="creator-name">Creator's Name</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        value={creatorName}
-                        onChange={(event) => handleCreatorName(event)}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div> */}
             </div>
           )}
           {showPreogressBar != true ? (

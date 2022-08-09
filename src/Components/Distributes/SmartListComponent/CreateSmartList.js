@@ -36,6 +36,7 @@ const CreateSmartList = () => {
   const [filename, setFileName] = useState();
   const [rendervalidation, setRenderValidation] = useState(0);
   const [dataRetrieved, setDataRetrieved] = useState(false);
+  const [showAlertPopup, setShowAlertPopup] = useState(false);
   const [validator] = React.useState(new SimpleReactValidator());
 
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -45,6 +46,7 @@ const CreateSmartList = () => {
     setSelectedFile(null);
   };
   const handleShow = () => {
+    setShowAlertPopup(false);
     if (!smartListName.trim()) {
       toast.warning("Please enter the smart list name first");
     } else if (!creatorName.trim()) {
@@ -157,17 +159,6 @@ const CreateSmartList = () => {
       navigate("/SmartList");
     }
   };
-  const delay = (n) => new Promise((r) => setTimeout(r, n));
-
-  function wait(ms, cb) {
-    var waitDateOne = new Date();
-    while (new Date() - waitDateOne <= ms) {
-      //Nothing
-    }
-    if (cb) {
-      eval(cb);
-    }
-  }
 
   useEffect(() => {
     if (uploadOrDownloadCount == 100) {
@@ -221,6 +212,10 @@ const CreateSmartList = () => {
             setapi_flag(api_flag + 1);
           }, 1000);
         } else {
+          clearInterval(timer);
+          setUploadOrDownloadCount(0);
+          setShowAlertPopup(true);
+          setShowProgressBar(false);
           popup_alert({
             visible: "show",
             message: res.data.message,
@@ -387,7 +382,7 @@ const CreateSmartList = () => {
       <Modal
         className="send-confirm"
         id="upload-confirm"
-        show={show}
+        show={show && showAlertPopup !== true}
         onHide={handleClose}
       >
         <Modal.Header>
@@ -396,12 +391,14 @@ const CreateSmartList = () => {
           ) : (
             <h4>Upload File</h4>
           )}
-          <button
-            type="button"
-            onClick={handleClose}
-            class="btn-close"
-            data-bs-dismiss="modal"
-          ></button>
+          {showPreogressBar != true ? (
+            <button
+              type="button"
+              onClick={handleClose}
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          ) : null}
         </Modal.Header>
         <Modal.Body>
           {showPreogressBar == true ? (
