@@ -233,6 +233,7 @@ const location = useLocation();
     ) {
       setNewReaders(props.newAddedUser);
     }
+
   }, [props.data]);
 
   useEffect(() => {
@@ -2196,7 +2197,12 @@ const location = useLocation();
                         ExportApi.EmailSand(props.smartListId, rehearsalSpeakername)
                           .then((resp) => {
                             if (resp.data) {
-                         
+                              if( props?.saveAlert){
+
+                               props.saveAlert(true)
+                              }else{
+                                console.log("right")
+                              }
                               if (resp.data.code == 200) {
                                 setIsOpenAddModal(false);
                                 if(resp.data.data){

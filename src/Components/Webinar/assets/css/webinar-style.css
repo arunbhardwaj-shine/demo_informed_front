@@ -71,7 +71,7 @@ a { cursor: pointer; text-decoration: none; }
  .page-title h2 { color: var(--light-blue); font-size: 36px; line-height: 42px; font-family: "Roboto-Medium"; margin: 0; } 
  .top-header { display: flex; align-content: center; justify-content: space-between; } 
  .toggle_sidebar .right-sidebar { width: calc(100% - 90px); } 
- .right-sidebar { min-height: 91vh; padding-top: 34px; padding-right: 70px; padding-left: 75px; width: calc(100% - 85px); background: #fafbfc; backdrop-filter: blur(254px); z-index: 1; box-shadow: -11px 0px 15px rgba(0, 102, 190, 0.1); border-radius: 25px 0 0 25px; } 
+ .right-sidebar { min-height: 91vh; padding-top: 34px; padding-right: 70px; padding-left: 30px; width: calc(100% - 85px); background: #fafbfc; backdrop-filter: blur(254px); z-index: 1; box-shadow: -11px 0px 15px rgba(0, 102, 190, 0.1); border-radius: 25px 0 0 25px; } 
  .clear-search button { width: 40px; text-align: center; background: var(--white); border-radius: 30px; box-shadow: 0px 2px 10px -3px rgba(0, 102, 190, 0.15); border: 0; padding: 6px; height: 40px; display: flex; align-items: center; justify-content: center; } 
  .clear-search button:hover, .clear-search button:active, .clear-search button:focus { background: var(--light-blue); } 
  .clear-search button:hover svg path, .clear-search button:active svg path, .clear-search button:focus svg path { fill: var(--white); } 
@@ -2467,19 +2467,39 @@ a.show-less-info p.show_less:after {
   background-color: transparent;
   box-shadow: none;
 }
-.smart-list-dropdown .card .card-header .btn button.collapsed::after {
-  transform: rotate(180deg);
+.smart-list-dropdown .card .card-header .btn button {
+  width: 100%;
+  padding: 14px 40px 14px 24px;
+  text-align: left;
+  color: var(--light-blue);
+  font-family: "Roboto-Medium";
+  background: transparent url(../images/dropdown-blue.svg) no-repeat;
+  box-shadow: none;
+  background-position: 98.5% 50%;
 }
-.smart-list-dropdown .card .card-header .btn button::after {
+.smart-list-dropdown .card .card-header .btn button.collapsed::after {
+  content: "";
+  transform: rotate(180deg);
+  background: url(../images/dropdown-blue.svg) no-repeat;
+  width: 16px;
+  height: 16px;
+  position: absolute;
   top: 18px;
   right: 25px;
-  background-image: url(../images/dropdown-blue.svg);
+  z-index: 55;
+}
+/* .smart-list-dropdown .card .card-header .btn button::after {
+  content: "";
+  top: 18px;
+  right: 25px;
+  background: url(../images/dropdown-blue.svg) no-repeat;
   width: 16px;
   height: 16px;
   position: absolute;
   background-size: 100%;
   transform: rotate(0);
-}
+} */
+
 .smart-list-dropdown .card .card-header .btn button:focus {
   box-shadow: none;
   border: 0;
@@ -3707,6 +3727,9 @@ input[type="date"]:before {
   padding: 20px 20px;
   margin: 0 auto;
   text-align: center;
+  max-height: 860px;
+  height: 100%;
+  overflow-y: auto;
 }
 .preview_mail .preview-mail-box table td:last-child {
   border-radius: 0;
@@ -3978,11 +4001,13 @@ header nav.navbar .form-select,
   max-height: 550px;
 }
 .registration_form .registration_left {
-  max-width: 893px;
-  width: 100%;
+  max-width: 100%;
+  width: calc(100% - 700px);
   padding-right: 20px;
 }
-
+.registration_form_right {
+  width: 700px;
+}
 .registration_form .registration_right {
   max-width: 492px;
   padding-left: 20px;
@@ -4584,7 +4609,7 @@ height: 100px;
   display: flex;
   justify-content: flex-start;
   width: 100%;
-  margin-top: 40px;
+  margin-top: 20px;
 }
 
 .select-sm img {
@@ -5122,13 +5147,16 @@ img.reg-sidbar-img.select_mm{
 }
 
 .reg-sidbar p {
-  text-align: left;
-  margin: 5px 0 22px;
-  font-size: 16px;
+  text-align: center;
+  margin: 5px 0 5px;
+  font-size: 14px;
   line-height: 20px;
   color: var(--light-blue);
   font-family: 'Roboto-Medium';
   padding: 0 13px;
+}
+.top-header .reg-sidbar div {
+  margin: 0 5px;
 }
 .FooterContent {
   margin-top: 30px;
@@ -5301,6 +5329,50 @@ color:#848484;
   .sidebar-menu ul {
     margin: 0px -20px 0 0;
   }
+}
+
+@media only screen and (max-width: 1440px) {
+nav #collapsibleNavbar li.nav-item a {
+  padding: 0 21px;
+}
+header nav.navbar {
+  padding: 12px 20px;
+}
+.registration_left .reg-middle-div .form-group label {
+  flex: 1 1;
+  width: 100%;
+  margin-bottom: 4px;
+  flex: 0 0 100%;
+}
+
+.right-sidebar {
+  padding-right: 30px;
+}
+.registration_form .form-group input, .registration_form .form-group textarea, .registration_form .form-group select {
+  margin-left: 0px;
+  font-size: 13px;
+  height: 40px;
+}
+.registration_form .form-inline .form-group input.form-control-color {
+  max-width: 35px;
+  margin-left: 5px;
+}
+.reg-middle-div fieldset legend {
+  font-size: 18px;
+}
+.mail-box-content-top-view .form-group .form-check input.form-control[value="true"] {
+  border: 4px solid #fff;
+}
+.mail-box-content-top-view .form-group .form-check input.form-control {
+  width: 18px;
+  height: 18px;
+}
+}
+@media only screen and (max-width: 1380px) {
+.registration_form_right {
+  width: 600px;
+}
+
 }
 /**Responsive End**/
 
@@ -5534,4 +5606,26 @@ color:#848484;
  .mail-stats ul li span {
     font-size: 12px;
     line-height: 15px;
+}
+.preview_mail h4, .verify-email-detail h4 {
+  color: var(--blue);
+  font-family: "Roboto-Medium";
+}
+table .u-row, table .u-row .u-col-100 {
+  width: 100% !important;
+  min-width: 100%!important;
+}
+table .u-row  div{
+  display:block!important;
+}
+.top-header .reg-sidbar div img {
+  margin: 0 5px;
+  max-height: 95px;
+  height: auto;
+  width: auto;
+}
+.top-header .reg-sidbar {
+  width: auto;
+  display: flex;
+  align-items: flex-start;
 }

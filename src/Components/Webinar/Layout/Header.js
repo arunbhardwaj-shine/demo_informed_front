@@ -60,8 +60,9 @@ const Header = () => {
         if (resp.ok) {
           setEvent(resp.data.data);
           // localStorage.setItem("EventIdHeader",resp.data.data[0].id)
-         
+     
           if (resp.data.code == 404) {
+           
             // console.log(resp.data.code)
           }else{
             if(eventId==null||eventId==undefined){
@@ -69,7 +70,8 @@ const Header = () => {
                 console.log("EventIdHeader",localStorage.getItem("EventIdHeader"))
                 setEventId(resp.data.data[0].id)
               }else{
-              localStorage.removeItem("EventIdHeader")  
+               
+                localStorage.setItem("EventIdHeader",resp.data.data[0].id)
               setEventId(resp.data.data[0].id)
          }
         } 
@@ -81,11 +83,12 @@ const Header = () => {
     }
   };
   const handleGetEventlistChange = () => {
+    console.log(document.getElementById("event").value)
       ExportApi.GetEventList().then((resp) => {
         if (resp.ok) {
           setEvent(resp.data.data);
           let id=document.getElementById("event").value
-         
+         alert(11)
            localStorage.setItem("EventIdHeader",id)
           // console.log(resp.data.code
         }

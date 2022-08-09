@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
+import { loader } from '../../../loader';
 
 const WebinarSelectHCP = () => {
     let path_image =process.env.REACT_APP_ASSETS_PATH_WEBINAR;
@@ -27,6 +28,9 @@ const WebinarSelectHCP = () => {
              navigate('/webinar/email/SelectVerifyHCP');
         }
       };
+      useEffect(() => {
+       loader("hide")
+      }, [])
   return (
   <>
   <div className="col right-sidebar">
