@@ -591,7 +591,7 @@ const AutoEmail = () => {
           source_code: editorRef.current.getContent(),
           template_id: templateId,
           name: templateName,
-          status: status===0 ? 2 : 3,
+          status: status===0 ? 2 : status===1 ? 3 :4,
           language: tempLang,
         };
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -618,7 +618,7 @@ const AutoEmail = () => {
 
   const approveClicked = async (e) => {
     e.preventDefault();
-    setApproveClicked(true);
+    
     const body = {
       user_id: localStorage.getItem("user_id"),
       pdf_id: "3487",
@@ -644,6 +644,7 @@ const AutoEmail = () => {
         loader("hide");
 
         if (res.data.status_code === 200) {
+          setApproveClicked(true);
           toast.success("Approved Draft saved");
         } else {
           toast.warning(res.data.message);
@@ -825,10 +826,10 @@ const AutoEmail = () => {
                         </div>
                         <div className="form-inline row justify-content-end align-items-center">
                           <div className="form-buttons right-side col-12 col-md-5">
-                            {approveClickedd == true ? (
+                            {approveClickedd === true ? (
                               <button
                                 className="btn btn-primary approved-btn btn-bordered "
-                                onClick={(e) => updateTemplate(e,1)}
+                                onClick={(e) => updateTemplate(e,2)}
                                
                               >
                                 Approved{" "}
