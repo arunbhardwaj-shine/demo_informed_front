@@ -29,7 +29,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
     justify-content: space-between;
     height: 100%;
     min-height: 200px;
-    width: 46%;
+    width: 100%;
+    margin-top: 20px;
 }
 .event-details-left-rehearsal, .event-details-right-type{
     margin-left: 15px;
@@ -83,4 +84,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
 }
 .registration-page{
     margin-bottom: 20px;
+}
+.titlelogo img{
+  float: right;
+  width: 120px;
 }

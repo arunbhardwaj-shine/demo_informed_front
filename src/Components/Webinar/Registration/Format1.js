@@ -55,9 +55,6 @@ const Format1 = (props) => {
         // console.log(resp.data.data)
           setMode(resp.data.data)
           setRender(render+2)
-          // setTemplateIdActive(resp.data.data.format)
-          //  console.log(resp.data.data.format)
-          // setData(JSON.parse(resp.data.data?.json_data))
         }
     });
   };
