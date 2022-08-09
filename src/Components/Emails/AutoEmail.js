@@ -118,6 +118,11 @@ const AutoEmail = () => {
     setIndexClicked(index);
     setTemplateId(template.id);
     setTempLang(template.language_code);
+    if(template.approved===1){
+      setApproveClicked(true);
+    }else{
+      setApproveClicked(false);
+    }
    
     setIndexClickedReminder();
     setTemplateName(template.name);
@@ -820,7 +825,7 @@ const AutoEmail = () => {
                         </div>
                         <div className="form-inline row justify-content-end align-items-center">
                           <div className="form-buttons right-side col-12 col-md-5">
-                            {approveClickedd == true ? (
+                            {(approveClickedd == true ? (
                               <button
                                 className="btn btn-primary approved-btn btn-bordered "
                                 onClick={(e) => updateTemplate(e,1)}
