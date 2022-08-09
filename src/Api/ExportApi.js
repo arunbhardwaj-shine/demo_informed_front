@@ -43,6 +43,16 @@ const DashboardData = () =>
       },
     }
   );
+const DashboardDataStats = (event_id) =>
+  BaseApi.get(
+    `participants-stats/${event_id}`,
+    {},
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
 //Dropdown
 const GetBuData = () =>
   BaseApi.get(
@@ -930,6 +940,7 @@ const DeleteSmartListData = (id, participants) =>
   );
 export default {
   DashboardData,
+  DashboardDataStats,
   UserLogin,
   UserForgot,
   UserForgotResetPasswordPost,

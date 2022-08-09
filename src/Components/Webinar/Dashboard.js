@@ -5,50 +5,21 @@ import { loader } from "../../loader";
 import { Link } from "react-router-dom";
 const Dashboard = () => {
     const [eventData, setEventData] = useState();
+    const [eventDataStats, setEventDataStats] = useState();
     const [registrationPageList, setRegistrationPageList] = useState([]);
+    const [registrationPageListJson, setRegistrationPageListJson] = useState();
     const [templateList, setTemplateList] = useState([]);
-    const [countdownDate, setCountdownDate] = useState();
     const [count, setCount] = useState(1);
-    const [state, setState] = useState({days: 0, hours: 0,minutes: 0,seconds: 0,});
-
-    useEffect(() => {
-      setInterval(() => setNewTime(), 1000);
-    }, []);
-    const setNewTime = () => {
-      if (countdownDate) {
-        const currentTime = new Date().getTime();
-        const distanceToDate = countdownDate - currentTime;
-        let days = Math.floor(distanceToDate / (1000 * 60 * 60 * 24));
-        let hours = Math.floor(
-          (distanceToDate % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),);
-        let minutes = Math.floor(
-          (distanceToDate % (1000 * 60 * 60)) / (1000 * 60),);
-        let seconds = Math.floor((distanceToDate % (1000 * 60)) / 1000);
-        const numbersToAddZeroTo = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-        if (numbersToAddZeroTo.includes(days)) {
-          days = `0${days}`;
-        } 
-        if (numbersToAddZeroTo.includes(hours)) {
-          hours = `0${hours}`;
-        } 
-        if (numbersToAddZeroTo.includes(minutes)) {
-          minutes = `0${minutes}`;
-        } 
-         if (numbersToAddZeroTo.includes(seconds)) {
-          seconds = `0${seconds}`;
-        }
-        setState({ days: days, hours: hours, minutes, seconds });
-      }
-    }
+    const [ horse, sethour] = useState();
+    const [ minutes, setMinutes ] = useState();
+    const [seconds, setSeconds ] =  useState(0);
     const handleGetEvents = (event_id) => {
         ExportApi.GetEventListData(event_id).then((resp) => {
             if (resp.ok) {
                 setEventData(resp.data.data);
-                let date=resp.data.data.even_date+" , "+resp.data.data.event_start_time+" " +"PST"
-                console.log(new Date(date).getTime())
                 console.log(resp.data.data)
-                setCountdownDate(new Date(date).getTime())
-                setCount(count+3)
+                sethour(resp.data.data.hour_left)
+                setMinutes(resp.data.data.min_left)
                 // setNewTime()
             }
         }).catch((err) => {
@@ -62,16 +33,27 @@ const Dashboard = () => {
         ExportApi.RegistrationPageList(event_id).then((resp) => {
             if (resp.ok) {
                 if(resp.data.code === 200){
+                    console.log(resp.data.data)
                     setRegistrationPageList(resp.data.data);
+                    setRegistrationPageListJson(JSON.parse(resp.data.data[0].json_data))
+                    // handleGetRegistrationPageSingleData()
                 }
             }
         });
     };
-    
+
     const handleGetTemplateList = (event_id) => {
         ExportApi.UserTemplateList(event_id).then((resp) => {
             if (resp.ok) {
                 setTemplateList(resp.data.data);
+            } 
+        });
+    }
+    const handleGetDashboardDataStats = (event_id) => {
+        ExportApi.DashboardDataStats(event_id).then((resp) => {
+            if (resp.ok) {
+               console.log(resp.data.data);
+               setEventDataStats(resp.data.data);
             } 
         });
     }
@@ -83,6 +65,7 @@ const Dashboard = () => {
             if (resp.ok) {
             // alert(resp.data.data.event_id)
                 console.log(resp.data.data.event_id)
+                handleGetDashboardDataStats(resp.data.data.event_id)
                 handleGetEvents(resp.data.data.event_id)
                 handleGetRegistrationPagesList(resp.data.data.event_id)
                 handleGetTemplateList(resp.data.data.event_id)
@@ -108,45 +91,94 @@ const Dashboard = () => {
             handleGetFirstEventId()
         }, 1000);
     }, [])
+   
+
+    useEffect(()=>{
+    let myInterval = setInterval(() => {
+            if (seconds > 0) {
+                setSeconds(seconds - 1);
+            }
+            if (seconds === 0) {
+                if (minutes === 0) {
+                    clearInterval(myInterval)
+                } else {
+                    setMinutes(minutes - 1);
+                    setSeconds(59);
+                }
+            } if(minutes==0){
+                clearInterval(myInterval)
+                if (minutes === 0) {
+                    sethour(horse-1)
+                    setMinutes(59)
+                    setSeconds(59);
+                }
+            }
+        }, 1000)
+        return ()=> {
+            clearInterval(myInterval);
+          };
+    });
+    const handleGetRegistrationPageSingleData = (id) => {
+        ExportApi.RegistrationPageSingleData(id).then((resp) => {
+          if (resp.ok&&resp.data.code==200) {
+             console.log(resp.data.data)
+            //   setMode(resp.data.data)
+            //   setRender(render+2)
+            }
+        });
+      };
   return (
-    <>      
-    <div className="loader" id="custom_loader">
-        <span className="loader-view"> </span>
-    </div>      
+    <>            
     <div className="col right-sidebar col event-details">
         <div className="custom-container">
             <div className="row">
                 <div className="top-header">
+        
                     <div className="page-title"><h3>{eventData?.title} Event</h3></div>
+     
                 </div>
                 <div className="email-result">
                     <div className="event-details-left">
 
                         <div className="event-details-left-inner">
                             <div className="event-details-left-event">
+                            <div className="titlelogo">
                 <Link style={{float:"right"}}to="/webinar/events">
                                         Edit 
                                         </Link>
-                                
-                                {state.days > 0 || state.hours > 0 || state.minutes > 0 || state.seconds > 0 ?
-                   <span>{state.days || '0'}:{state.hours || '0'}:{state.minutes || '0'}:{state.seconds || '0'}</span> : ""}
-                    <span>{eventData?.event_date}</span>
+                                        </div>
+                                <div className="titlelogo">
+                                   <img src={registrationPageListJson?.titleLogo}/>
+                                   { minutes === 0 && seconds === 0&&horse===0
+                    ? null
+                    : <h1>{horse<10?`0${horse}`:horse} {minutes<10? `0${minutes}`:minutes}:{seconds < 10 ?  `0${seconds}` : seconds}</h1> }  
+                                      <span>{eventData?.event_date}</span> 
+                                      <br/>
+                                      <span><strong>Start Time:</strong> {eventData?.event_start_time} ({eventData?.timezone})</span>               
+                                         <span style={{float:"right"}}> <strong>Speaker Name:</strong>
+                                   {eventData?.speaker_data?.map((val)=>{
+                                                  return  <p > {val.name}</p>
+
+                                                })}</span>
+                                </div>
                   
-                    <span><strong>Start Time:</strong> {eventData?.event_start_time} ({eventData?.timezone})</span>
+                                {/* {state.days > 0 || state.hours > 0 || state.minutes > 0 || state.seconds > 0 ?
+                   <span>{state.hours || '0'}:{state.minutes || '0'}:{state.seconds || '0'}</span> : ""}
+                    <span>{eventData?.event_date}</span> */}
+                  
+                    {/* <span><strong>Start Time:</strong> {eventData?.event_start_time} ({eventData?.timezone})</span> */}
                                 <div class="mail-box-content-top">
+                                        <div class="webinar_time">
+                                            <span><strong>location:</strong>  {registrationPageListJson?.Address}</span>
+                                        </div>
                 
                                      
                                     <div class="mail-box-content-top-view">
                                         <div class="webinar_time">
-                                            <div class="webinar-start-time">
-                                                {eventData?.speaker_data?.map((val)=>{
-                                                  return  <span><strong>Speaker Name:</strong> {val.name}</span>
-
-                                                })}
-                                            </div>
-                                            <div class="webinar-start-time">
-                                                <span><strong>Start Time:</strong> {eventData?.event_start_time}</span>
-                                            </div>
+                                            <span><strong>Country:</strong>  {eventData?.country}</span>
+                                        </div>
+                                        <div class="webinar_time">
+                                          
                                             <div class="webinar-end-time">
                                                 <span><strong>End Time:</strong> {eventData?.event_end_time}</span>
                                             </div>
@@ -154,9 +186,7 @@ const Dashboard = () => {
                                         <div class="webinar_time">
                                             <span><strong>Timezone:</strong> {eventData?.country_timezone} </span>
                                         </div>
-                                        <div class="webinar_time">
-                                            <span><strong>Country:</strong>  {eventData?.country}</span>
-                                        </div>
+                                      
                                         <div class="mailbox-description">
                                             <p>{eventData?.description}</p>
                                         </div>
@@ -201,7 +231,13 @@ const Dashboard = () => {
                                     </>
                             ))} </> : <div className="hcp-table-content">Registration Page not created yet.</div>}
                         </div>
-                        {/* <div className="event-details-right-type">Type</div> */}
+                        <div className="event-details-right-type">
+                        <h6><strong>Total Register :</strong>{eventDataStats?.total_register}</h6>
+                        <h6><strong>HCP :</strong>{eventDataStats?.hcp}</h6>
+                        <h6><strong>Test user :</strong>{eventDataStats?.test_user}</h6>
+                        <h6><strong>staff User :</strong>{eventDataStats?.staff_user}</h6>
+                   
+                        </div>
                     </div>
                 </div>    
             </div>
