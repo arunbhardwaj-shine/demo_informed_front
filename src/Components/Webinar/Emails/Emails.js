@@ -575,7 +575,7 @@ const SendEmails = () => {
                                     alt=""
                                   />
                                 </div>
-                                <span >{val.stats?.value_register?val.stats?.value_register:"0"}%</span>
+                                <span >{val.stats?.value_register?val.stats?.value_register:"0"}</span>
                                 {val.approved_status == 2&&isHovering==i?<div className="options">
                                   <p>{val.stats.label_register+" : "+val.stats.value_register}</p>
                                   <p>{val.stats.label_booth+" : "+val.stats.value_booth}</p>

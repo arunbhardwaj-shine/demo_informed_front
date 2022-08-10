@@ -11,6 +11,7 @@ const Sidebar = () => {
   const [isHoveringRegistration, setIsHoveringRegistration] = useState(false);
   const [isHoveringEmails, setIsHoveringEmails] = useState(false);
   const [isHoveringReaders, setIsHoveringReaders] = useState(false);
+  const [isHoveringQuestionsForm, setIsHoveringQuestionsForm] = useState(false);
   const [SmaertEdit, setSmaertEdit] = useState(``);
   const location = useLocation();
   // console.log("location.pathname" ,)
@@ -270,6 +271,13 @@ const Sidebar = () => {
   const handleMouseOutReaders = () => {
     setIsHoveringReaders(false);
   };
+  const handleMouseOverQuestionsForm = () => {
+    setIsHoveringQuestionsForm(true);
+  };
+
+  const handleMouseOutQuestionsForm = () => {
+    setIsHoveringQuestionsForm(false);
+  };
 
   return (
     <div
@@ -445,6 +453,24 @@ const Sidebar = () => {
                       <img src={path_image + "webinar/hcp.svg"} />
                       {/* <p className="tooltip">HCPs</p> */}
                       {isHoveringReaders && <p className="tooltip">Readers</p>}
+                    </Link>
+                  </li>
+                  <li
+                    className={
+                      location.pathname === "/webinar/survey/create"
+                        ? "active"
+                        : "side_li"
+                    }
+                    onClick={showHideHome}
+                  >
+                    <Link
+                      to="/webinar/survey/create"
+                      onMouseOver={handleMouseOverQuestionsForm}
+                      onMouseOut={handleMouseOutQuestionsForm}
+                    >
+                      <img src={path_image + "webinar/hcp.svg"} />
+                      {/* <p className="tooltip">HCPs</p> */}
+                      {isHoveringQuestionsForm && <p className="tooltip">Questions Form</p>}
                     </Link>
                   </li>
 

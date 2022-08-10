@@ -52,6 +52,7 @@ const Dashboard = () => {
     const handleGetDashboardDataStats = (event_id) => {
         ExportApi.DashboardDataStats(event_id).then((resp) => {
             if (resp.ok) {
+                // alert()
                console.log(resp.data.data);
                setEventDataStats(resp.data.data);
             } 
@@ -74,14 +75,16 @@ const Dashboard = () => {
     }
     
     useEffect(() => {
-        window.addEventListener("EventId", () =>
-            handleGetEvents(localStorage.getItem("EventIdHeader")),
-            handleGetRegistrationPagesList(localStorage.getItem("EventIdHeader")),
-            handleGetTemplateList(localStorage.getItem("EventIdHeader"))
-        );
+        window.addEventListener("EventId", () => {
+            handleGetEvents(localStorage.getItem("EventIdHeader"));
+            handleGetRegistrationPagesList(localStorage.getItem("EventIdHeader"));
+            handleGetTemplateList(localStorage.getItem("EventIdHeader"));
+            handleGetDashboardDataStats(localStorage.getItem("EventIdHeader"))
+        });
         handleGetEvents(localStorage.getItem("EventIdHeader"));
         handleGetRegistrationPagesList(localStorage.getItem("EventIdHeader"));
         handleGetTemplateList(localStorage.getItem("EventIdHeader"));
+        handleGetDashboardDataStats(localStorage.getItem("EventIdHeader"))
         if (!localStorage.getItem("EventIdHeader")) {
           loader("hide");
         }

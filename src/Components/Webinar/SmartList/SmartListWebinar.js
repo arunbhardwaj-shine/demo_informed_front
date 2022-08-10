@@ -664,7 +664,8 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
 
                       <Accordion.Body className="card-body">
                         <ul>
-                          {filterKey?.names.map((data, index) => {
+                          {console.log(filterKey)}
+                          {filterKey.names?.map((data, index) => {
                             return (
                               <li>
                                 {/* {console.log(
@@ -730,7 +731,7 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
 
                       <Accordion.Body className="card-body">
                         <ul>
-                          {filterKey?.creator.map((data, index) => {
+                          {filterKey?.creator?.map((data, index) => {
                             return (
                               <li>
                                 {data != "" ? (
@@ -788,7 +789,7 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
 
                       <Accordion.Body className="card-body">
                         <ul>
-                          {filterKey?.dates.map((data, index) => {
+                          {filterKey?.dates?.map((data, index) => {
                             return (
                               <li>
                                 {data != ""? (

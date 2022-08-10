@@ -126,6 +126,7 @@ import WebinarSelectHCP from "./Components/Webinar/Emails/WebinarSelectHCP";
 import WebinarVerifyHCP from "./Components/Webinar/Emails/WebinarVerifyHCP";
 import WebinarVerifyHcpMAIL from "./Components/Webinar/Emails/WebinarVerifyHcpMAIL";
 import TableTypeData from "./Components/Webinar/Emails/TableTypeData";
+import QuestionsForm from "./Components/Webinar/QuestionsForm";
 
 let platform = 0;
 let show = 0;
@@ -232,6 +233,10 @@ ReactDOM.render(
                         <Route
                           path="/webinar/dashboard"
                           element={<Dashboard />}
+                        />
+                        <Route
+                          path="/webinar/survey/create"
+                          element={<QuestionsForm />}
                         />
                         <Route path="/webinar/regionstats" element={<Home />} />
                         <Route
