@@ -17,6 +17,9 @@ import { toast } from "react-toastify";
 import { Editor } from "@tinymce/tinymce-react";
 import { getSelectedSmartListData } from "../../actions";
 import { toPng } from "html-to-image";
+import { CircularProgressbar } from "react-circular-progressbar";
+import { buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 var dxr = 0;
 var state_object = {};
 const TemplateBuilder = (props) => {
@@ -30,6 +33,10 @@ const TemplateBuilder = (props) => {
   const [UserData, setUserData] = useState([]);
   const location = useLocation();
   const [uniqueId, setUniqueId] = useState("");
+  const [showPreogressBar, setShowProgressBar] = useState(false);
+  const [uploadOrDownloadCount, setUploadOrDownloadCount] = React.useState(0);
+  const [mailsIncrement, setMailsIncrement] = useState(0);
+  const [hcpsSelected, setHcpsSelected] = useState([]);
   const [getsearch, setSearch] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState("All");
   const [selectedIbu, setSelectedIbu] = useState("");
@@ -391,6 +398,30 @@ const TemplateBuilder = (props) => {
   };
 
   const sendsampeap = (event) => {
+    setHcpsSelected(selectedHcp);
+    let i = 0;
+    const intervals_spend = (25 / 100) * selectedHcp.length;
+
+    var intervals_increment = 100 / intervals_spend;
+    var mails_increment = selectedHcp.length / intervals_spend;
+    let adr = 0;
+    let incr_msg = 0;
+    const timer = setInterval(() => {
+      adr = adr + intervals_increment;
+      incr_msg = incr_msg + mails_increment;
+      if (adr >= 98) {
+        setUploadOrDownloadCount(98);
+      } else {
+        setUploadOrDownloadCount(parseInt(adr));
+      }
+
+      if (incr_msg >= selectedHcp.length) {
+        setMailsIncrement(selectedHcp.length);
+      } else {
+        setMailsIncrement(parseInt(incr_msg));
+      }
+    }, 1000);
+
     if (emailSubject != "") {
       setIsOpensend(false);
       setIsOpenAdd(false);
@@ -399,7 +430,8 @@ const TemplateBuilder = (props) => {
         (number) => number["user_id"] || number["profile_user_id"]
       );
 
-      loader("show");
+      //  loader("show");
+      setShowProgressBar(true);
       const body = {
         user_id: localStorage.getItem("user_id"),
         pdf_id: "3487",
@@ -419,17 +451,31 @@ const TemplateBuilder = (props) => {
           //console.log(res);
           loader("hide");
           if (res.data.status_code === 200) {
-            popup_alert({
-              visible: "show",
-              message: "Test mail sent successfully",
-              type: "success",
-            });
+            setUploadOrDownloadCount(100);
+            setMailsIncrement(selectedHcp.length);
+            clearInterval(timer);
+            setTimeout(() => {
+              popup_alert({
+                visible: "show",
+                message: "Email sent successfully",
+                type: "success",
+              });
+
+              setShowProgressBar(false);
+              setUploadOrDownloadCount(0);
+              setMailsIncrement(0);
+            }, 1000);
           } else {
             popup_alert({
               visible: "show",
               message: res.data.message,
               type: "error",
             });
+            clearInterval(timer);
+            setUploadOrDownloadCount(0);
+            setMailsIncrement(0);
+
+            setShowProgressBar(false);
           }
 
           //toast.success("Test Mail sent successfuly");
@@ -2149,6 +2195,33 @@ const TemplateBuilder = (props) => {
             </button>
           </div>
         </Modal.Body>
+      </Modal>
+
+      <Modal
+        show={showPreogressBar}
+        className="send-confirm"
+        id="upload-confirm"
+      >
+        <Modal.Header></Modal.Header>
+        <Modal.Body>
+          <div
+            className="circular-progressbar"
+            style={{
+              width: 100,
+              height: 100,
+            }}
+          >
+            <CircularProgressbar
+              value={uploadOrDownloadCount}
+              text={`${uploadOrDownloadCount}%`}
+              strokeWidth={5}
+            />
+          </div>
+        </Modal.Body>
+        <h4>
+          {" "}
+          {mailsIncrement} mails sent of {hcpsSelected.length}
+        </h4>
       </Modal>
       {/*Confrimation Popup end*/}
     </>

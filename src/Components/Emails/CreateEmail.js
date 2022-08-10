@@ -10,14 +10,19 @@ import "react-alice-carousel/lib/alice-carousel.css";
 import { getCampaignId, getEmailData } from "../../actions";
 import { useNavigate } from "react-router-dom";
 import { Modal, ModalDialog, Dropdown } from "react-bootstrap";
-import DropdownButton from 'react-bootstrap/DropdownButton';
+import DropdownButton from "react-bootstrap/DropdownButton";
 import SimpleReactValidator from "simple-react-validator";
 import { loader } from "../../loader";
 import { popup_alert } from "../../popup_alert";
 import { toast } from "react-toastify";
 import { getSelectedSmartListData } from "../../actions";
-import Select, { createFilter } from 'react-select';
-import { Editor } from '@tinymce/tinymce-react';
+import Select, { createFilter } from "react-select";
+import { Editor } from "@tinymce/tinymce-react";
+
+import { CircularProgressbar } from "react-circular-progressbar";
+import { buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
+
 var dxr = 0;
 var state_object = {};
 
@@ -26,17 +31,22 @@ const CreateEmail = (props) => {
   // console.log(state_object);
   // console.log(props);
   const filterConfig = {
-      matchFrom: 'start',
+    matchFrom: "start",
   };
   let file_name = useRef("");
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const navigate = useNavigate();
+  const [showPreogressBar, setShowProgressBar] = useState(false);
+  const [uploadOrDownloadCount, setUploadOrDownloadCount] = React.useState(0);
+  const [mailsIncrement, setMailsIncrement] = useState(0);
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
   const location = useLocation();
   const [uniqueId, setUniqueId] = useState("");
   const [getsearch, setSearch] = useState("");
   const PdfSelected = props.getEmailData ? dxr : props.getDraftData.pdf_id;
+
+  const [hcpsSelected, setHcpsSelected] = useState([]);
 
   const [manualReRender, setManualReRender] = useState(0);
   const campaign_id = props.getDraftData ? props.getDraftData.campaign_id : "";
@@ -47,9 +57,7 @@ const CreateEmail = (props) => {
   const [activeManual, setActiveManual] = useState("active");
   const [templateList, setTemplateList] = useState([]);
   const [template, setTemplate] = useState(
-    state_object != null &&
-      state_object != "undefined" &&
-      state_object.template
+    state_object != null && state_object != "undefined" && state_object.template
       ? state_object.template
       : props.getDraftData
       ? props.getDraftData.source_code
@@ -141,7 +149,14 @@ const CreateEmail = (props) => {
   const [getIsApprovedStatus, setIsApprovedStatus] = useState(0);
 
   const [hpc, setHpc] = useState([
-    { firstname: "", lastname: "", email: "", contact_type: "", country: "", countryIndex: "" },
+    {
+      firstname: "",
+      lastname: "",
+      email: "",
+      contact_type: "",
+      country: "",
+      countryIndex: "",
+    },
   ]);
 
   const [isOpenAdd, setIsOpenAdd] = useState(false);
@@ -213,13 +228,13 @@ const CreateEmail = (props) => {
             let arr = [];
             Object.entries(country).map(([index, item]) => {
               let label = item;
-                if(index == "B&H"){
-                  label = "Bosnia and Herzegovina";
-                }
-                arr.push({
-                    value: item,
-                    label: label,
-                });
+              if (index == "B&H") {
+                label = "Bosnia and Herzegovina";
+              }
+              arr.push({
+                value: item,
+                label: label,
+              });
             });
             setCountryall(arr);
           }
@@ -239,14 +254,14 @@ const CreateEmail = (props) => {
       : props.getDraftData.pdf_id;
 
     let content_included = 1;
-    if(pdf_id == 16){
+    if (pdf_id == 16) {
       content_included = 0;
     }
     const body = {
       user_id: localStorage.getItem("user_id"),
       language: "",
       ibu: "",
-      content_included: content_included
+      content_included: content_included,
     };
 
     loader("show");
@@ -329,22 +344,28 @@ const CreateEmail = (props) => {
           getSpecificKeyData &&
           getSpecificKeyData.hasOwnProperty("source_code")
         ) {
-
-          if(state_object != null &&  state_object?.template != "" && typeof state_object?.template !== "undefined"){
-                if(state_object.template !== ""){
-                    setTemplate("state_object.template");
-                    setTemplate(state_object.template);
-                }else{
-                  setTemplate(getSpecificKeyData.source_code);
-                }
-          }else if(props.getDraftData != null && props.getDraftData?.source_code != ""){
-            if(props.getDraftData.source_code !== ""){
-              setTemplate("props.getDraftData.source_code");
-              setTemplate(props.getDraftData.source_code);
-            }else{
+          if (
+            state_object != null &&
+            state_object?.template != "" &&
+            typeof state_object?.template !== "undefined"
+          ) {
+            if (state_object.template !== "") {
+              setTemplate("state_object.template");
+              setTemplate(state_object.template);
+            } else {
               setTemplate(getSpecificKeyData.source_code);
             }
-          }else{
+          } else if (
+            props.getDraftData != null &&
+            props.getDraftData?.source_code != ""
+          ) {
+            if (props.getDraftData.source_code !== "") {
+              setTemplate("props.getDraftData.source_code");
+              setTemplate(props.getDraftData.source_code);
+            } else {
+              setTemplate(getSpecificKeyData.source_code);
+            }
+          } else {
             setTemplate(getSpecificKeyData.source_code);
           }
         }
@@ -402,12 +423,11 @@ const CreateEmail = (props) => {
         .post(`distributes/get_reders_list`, body)
         .then((res) => {
           if (res.data.status_code == 200) {
-
             setReaders(res.data.response.data);
 
             res.data.response.data.map((data) => {
-              let prev_obj = selectedHcp.find(x => x.email === data.email);
-              if(typeof prev_obj === "undefined"){
+              let prev_obj = selectedHcp.find((x) => x.email === data.email);
+              if (typeof prev_obj === "undefined") {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
               }
             });
@@ -434,29 +454,55 @@ const CreateEmail = (props) => {
   };
 
   const sendsampeap = (event) => {
+    setHcpsSelected(selectedHcp);
+    let i = 0;
+    const intervals_spend = (25 / 100) * selectedHcp.length;
+
+    var intervals_increment = 100 / intervals_spend;
+    var mails_increment = selectedHcp.length / intervals_spend;
+    let adr = 0;
+    let incr_msg = 0;
+    const timer = setInterval(() => {
+      adr = adr + intervals_increment;
+      incr_msg = incr_msg + mails_increment;
+      if (adr >= 98) {
+        setUploadOrDownloadCount(98);
+      } else {
+        setUploadOrDownloadCount(parseInt(adr));
+      }
+
+      if (incr_msg >= selectedHcp.length) {
+        setMailsIncrement(selectedHcp.length);
+      } else {
+        setMailsIncrement(parseInt(incr_msg));
+      }
+    }, 1000);
+
     let pdf_id = state_object?.PdfSelected
-    ? state_object.PdfSelected
-    : props.getDraftData.pdf_id;
+      ? state_object.PdfSelected
+      : props.getDraftData.pdf_id;
 
     setIsOpensend(false);
     setIsOpenAdd(false);
-    if(pdf_id == 13){
+    if (pdf_id == 13) {
       popup_alert({
         visible: "show",
-        message: "We can't send this email until you've chosen the right content. Please go back to 'Select Content' and pick something. ",
+        message:
+          "We can't send this email until you've chosen the right content. Please go back to 'Select Content' and pick something. ",
         type: "error",
       });
-    }else{
+    } else {
       let selected_ids = selectedHcp.map(
         (number) => number["user_id"] || number["profile_user_id"]
       );
 
-      loader("show");
+      //  loader("show");
+      setShowProgressBar(true);
       const body = {
         user_id: localStorage.getItem("user_id"),
         pdf_id: state_object?.PdfSelected
-        ? state_object.PdfSelected
-        : props.getDraftData.pdf_id,
+          ? state_object.PdfSelected
+          : props.getDraftData.pdf_id,
         subject: emailSubject,
         template_id: templateId,
         user_list: selected_ids,
@@ -468,29 +514,43 @@ const CreateEmail = (props) => {
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
       axios
-      .post(`emailapi/send_sample_email`, body)
-      .then((res) => {
-        //console.log(res);
-        loader("hide");
-        if (res.data.status_code === 200) {
-          popup_alert({
-            visible: "show",
-            message: "Email sent successfully",
-            type: "success",
-          });
-        } else {
-          popup_alert({
-            visible: "show",
-            message: res.data.message,
-            type: "error",
-          });
-        }
-      })
-      .catch((err) => {
-        loader("hide");
-        toast.error("Something went wrong");
-        console.log(err);
-      });
+        .post(`emailapi/send_sample_email`, body)
+        .then((res) => {
+          //console.log(res);
+          loader("hide");
+          if (res.data.status_code === 200) {
+            setUploadOrDownloadCount(100);
+            setMailsIncrement(selectedHcp.length);
+            clearInterval(timer);
+            setTimeout(() => {
+              popup_alert({
+                visible: "show",
+                message: "Email sent successfully",
+                type: "success",
+              });
+
+              setShowProgressBar(false);
+              setUploadOrDownloadCount(0);
+              setMailsIncrement(0);
+            }, 1000);
+          } else {
+            clearInterval(timer);
+            setUploadOrDownloadCount(0);
+            setMailsIncrement(0);
+
+            setShowProgressBar(false);
+            popup_alert({
+              visible: "show",
+              message: res.data.message,
+              type: "error",
+            });
+          }
+        })
+        .catch((err) => {
+          loader("hide");
+          toast.error("Something went wrong");
+          console.log(err);
+        });
 
       setSelectedHcp([]);
       setSearchedUsers([]);
@@ -501,33 +561,42 @@ const CreateEmail = (props) => {
     let arr = [];
     arr = searchedUsers;
     let added_user_id = arr[index].profile_user_id;
-    let prev_obj = selectedHcp.find(x => x.profile_user_id === added_user_id);
-    if(typeof (prev_obj) == "undefined"){
+    let prev_obj = selectedHcp.find((x) => x.profile_user_id === added_user_id);
+    if (typeof prev_obj == "undefined") {
       const removedArray = arr.splice(index, 1);
       setSelectedHcp((oldArray) => [...oldArray, removedArray[0]]);
       setSearchedUsers(arr);
       setReRender(reRender + 1);
-    }else{
+    } else {
       toast.error("User with same email already added in list.");
     }
   };
 
   const saveAsTemplateButtonClicked = async () => {
-    let template_id = props.getEmailData ? templateId : props.getDraftData.template_id;
-    let source = typeof templateSaving !="undefined" && templateSaving != "" ? templateSaving : template;
-    if(typeof template_id != "undefined" && template_id != "" && template_id != 0){
-        const body = {
-          user_id: localStorage.getItem("user_id"),
-          source_code: source,
-          template_id: templateId,
-          name: templateName,
-          status: 2,
-          language: 2,
-        };
+    let template_id = props.getEmailData
+      ? templateId
+      : props.getDraftData.template_id;
+    let source =
+      typeof templateSaving != "undefined" && templateSaving != ""
+        ? templateSaving
+        : template;
+    if (
+      typeof template_id != "undefined" &&
+      template_id != "" &&
+      template_id != 0
+    ) {
+      const body = {
+        user_id: localStorage.getItem("user_id"),
+        source_code: source,
+        template_id: templateId,
+        name: templateName,
+        status: 2,
+        language: 2,
+      };
 
-        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-        loader("show");
-        await axios
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      loader("show");
+      await axios
         .post(`emailapi/add_update_template`, body)
         .then((res) => {
           if (res.data.status_code === 200) {
@@ -542,9 +611,9 @@ const CreateEmail = (props) => {
           loader("hide");
           toast.error("Something went wrong");
         });
-        setNewTemplatePopup(false);
-        setTemplatePopup(false);
-    }else{
+      setNewTemplatePopup(false);
+      setTemplatePopup(false);
+    } else {
       toast.warning("Template not selected.");
     }
   };
@@ -608,7 +677,7 @@ const CreateEmail = (props) => {
         },
 
         campaign_id: campaign_id_st,
-        source_code:template,
+        source_code: template,
         status: 2,
       };
 
@@ -689,11 +758,11 @@ const CreateEmail = (props) => {
 
   const approvedClicked = async (e) => {
     let ab = getIsApprovedStatus;
-    console.log(ab)
-    if(getIsApprovedStatus===3){
-     await setIsApprovedStatus(2);
-     ab = 2;
-    }else{
+    console.log(ab);
+    if (getIsApprovedStatus === 3) {
+      await setIsApprovedStatus(2);
+      ab = 2;
+    } else {
       await setIsApprovedStatus(3);
       ab = 3;
     }
@@ -704,12 +773,11 @@ const CreateEmail = (props) => {
       tagss.push(tags.innerText || tags);
     });
 
-
     const body = {
       user_id: localStorage.getItem("user_id"),
       pdf_id: state_object?.PdfSelected
-      ? state_object.PdfSelected
-      : props.getDraftData.pdf_id,
+        ? state_object.PdfSelected
+        : props.getDraftData.pdf_id,
       description: props.getEmailData
         ? emailDescription
         : props.getDraftData.description,
@@ -728,7 +796,7 @@ const CreateEmail = (props) => {
 
       campaign_id: campaign_id_st,
       status: ab,
-      approved_page:1,
+      approved_page: 1,
     };
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -740,12 +808,11 @@ const CreateEmail = (props) => {
 
         setCampaign_id(res.data.response.data.id);
         if (res.data.status_code === 200) {
-          if(ab===3){
+          if (ab === 3) {
             toast.success("Approved Draft saved");
-          }else{
+          } else {
             toast.success("Draft saved");
           }
-
         } else {
           toast.warning(res.data.message);
         }
@@ -780,30 +847,32 @@ const CreateEmail = (props) => {
     setemailCampaign(e.target.value);
   };
 
-  const addTag = async() => {
+  const addTag = async () => {
     if (typeof newTag == "undefined" || newTag.trim().length == 0) {
       toast.error("Please input a tag");
     } else {
       let temp_tags = tagClickedFirst.map((data) => {
         return data.toLowerCase();
       });
-    //  console.log(allTags)
-     let alltemp_tags = [];
-       Object.entries(allTags).map((data) => {
-          return alltemp_tags.push(...data);
-
+      //  console.log(allTags)
+      let alltemp_tags = [];
+      Object.entries(allTags).map((data) => {
+        return alltemp_tags.push(...data);
       });
       alltemp_tags = alltemp_tags.map((data) => {
-         return data.toLowerCase();
+        return data.toLowerCase();
       });
       console.log(alltemp_tags);
 
-      if (!temp_tags.includes(newTag.toLowerCase()) && !alltemp_tags.includes(newTag.toLowerCase())) {
+      if (
+        !temp_tags.includes(newTag.toLowerCase()) &&
+        !alltemp_tags.includes(newTag.toLowerCase())
+      ) {
         setTagClickedFirst((oldArray) => [...oldArray, newTag]);
 
         const body = {
           user_id: localStorage.getItem("user_id"),
-          tags:newTag
+          tags: newTag,
         };
 
         //console.log(body);
@@ -812,14 +881,11 @@ const CreateEmail = (props) => {
         await axios
           .post(`emailapi/save_tags`, body)
           .then((res) => {
-
             loader("hide");
           })
           .catch((err) => {
             console.log(err);
           });
-
-
       } else {
         toast.error("Tag already in list.");
       }
@@ -982,23 +1048,22 @@ const CreateEmail = (props) => {
   };
 
   const onCountryChange = (e, i) => {
-    if(e == null){
+    if (e == null) {
       const list = [...hpc];
       list[i].country = "";
       list[i].countryIndex = "";
       setHpc(list);
-    }else{
+    } else {
       const value = e.value;
       const list = [...hpc];
       const name = hpc[i].country;
       list[i].country = value;
 
-      let index = countryall.findIndex(x => x.value === value);
+      let index = countryall.findIndex((x) => x.value === value);
       list[i].countryIndex = index;
 
       setHpc(list);
     }
-
   };
 
   const deleteRecord = (i) => {
@@ -1052,18 +1117,18 @@ const CreateEmail = (props) => {
       const status = body.data.map((data) => {
         if (data.email == "") {
           return "Please enter the email atleast";
-        } else if(data.email != ""){
+        } else if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
           if (regex.test(String(useremail).toLowerCase())) {
-            let prev_obj = selectedHcp.find(x => x.email === useremail);
-            if(typeof prev_obj != "undefined"){
+            let prev_obj = selectedHcp.find((x) => x.email === useremail);
+            if (typeof prev_obj != "undefined") {
               return "User with same email already added in list.";
-            }else{
+            } else {
               return "true";
             }
-          }else{
+          } else {
             return "Email format is not valid";
           }
         } else {
@@ -1101,7 +1166,7 @@ const CreateEmail = (props) => {
       }
     } else {
       let formData = new FormData();
-      let user_id =  localStorage.getItem("user_id");
+      let user_id = localStorage.getItem("user_id");
       formData.append("user_id", user_id);
       formData.append("smart_list_id", "");
       formData.append("reader_file", selectedFile);
@@ -1175,9 +1240,18 @@ const CreateEmail = (props) => {
   const savenewtemplate = async (e) => {
     e.preventDefault();
     let template_name = document.getElementById("template_name").value;
-    let template_id = props.getEmailData ? templateId : props.getDraftData.template_id;
-    let source = typeof templateSaving !="undefined" && templateSaving != "" ? templateSaving : template;
-    if(typeof template_id != "undefined" && template_id != "" && template_id != 0){
+    let template_id = props.getEmailData
+      ? templateId
+      : props.getDraftData.template_id;
+    let source =
+      typeof templateSaving != "undefined" && templateSaving != ""
+        ? templateSaving
+        : template;
+    if (
+      typeof template_id != "undefined" &&
+      template_id != "" &&
+      template_id != 0
+    ) {
       if (template_name !== "" && template_name.trim().length > 0) {
         const body = {
           user_id: localStorage.getItem("user_id"),
@@ -1210,7 +1284,7 @@ const CreateEmail = (props) => {
       } else {
         toast.warning("Please enter template name.");
       }
-    }else{
+    } else {
       toast.warning("Template not selected.");
     }
   };
@@ -1280,289 +1354,304 @@ const CreateEmail = (props) => {
 
   const updateTemplate = (e) => {
     e.preventDefault();
-    let template_id = props.getEmailData ? templateId : props.getDraftData.template_id;
-    if(typeof template_id != "undefined" && template_id != "" && template_id != 0){
+    let template_id = props.getEmailData
+      ? templateId
+      : props.getDraftData.template_id;
+    if (
+      typeof template_id != "undefined" &&
+      template_id != "" &&
+      template_id != 0
+    ) {
       if (editorRef.current) {
         setTemplate(editorRef.current.getContent());
         toast.success("Template update successfuly");
       }
-    }else{
-        toast.warning("Template not selected.");
+    } else {
+      toast.warning("Template not selected.");
     }
-  }
+  };
 
   return (
     <>
       <div className="col right-sidebar">
-      <div className="custom-container">
-        <div className="row">
-        <div className="page-top-nav">
-          <div className="row justify-content-end align-items-center">
-            <div className="col-12 col-md-1">
-              <div className="header-btn-left">
-                <button className="btn btn-primary btn-bordered back">
-                  <Link to="/EmailArticleSelect">Back</Link>
-                </button>
-              </div>
-            </div>
-            <div className="col-12 col-md-9">
-              <ul className="tabnav-link">
-                <li className="active">
-                  <Link to="/EmailArticleSelect">Select Content</Link>
-                </li>
-                <li className="active active-main">
-                  <a href="">Create Your Email</a>
-                </li>
-                <li className="">
-                  <a href="">Select HCPs</a>
-                </li>
-                <li className="">
-                  <a href="">Verify your list</a>
-                </li>
-                <li className="">
-                  <a href="">Verify your Email</a>
-                </li>
-              </ul>
-            </div>
-            <div className="col-12 col-md-2">
-              <div className="header-btn">
-                <button
-                  className="btn btn-primary btn-bordered move-draft"
-                  onClick={saveAsDraft}
-                >
-                  Save As Draft
-                </button>
-
-                <button
-                  className="btn btn-primary btn-filled next"
-                  onClick={nextClicked}
-                  disabled={
-                    typeof emailSubject == "undefined" ||
-                    emailSubject.trim().length == 0 ||
-                    typeof templateId == "undefined" ||
-                    templateId == ""
-                  }
-                >
-                  Next
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="top-header">
-          <div className="custom-container">
-            <div className="row">
-              <div className="page-title">
-                <h4>Select your Template</h4>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <section className="select-mail-template">
-          <div className="custom-container">
-            <div className="row">
-              <AliceCarousel
-                mouseTracking
-                disableDotsControls
-                activeIndex={activeIndex}
-                responsive={responsive}
-                onSlideChanged={syncActiveIndex}
-              >
-                {templateList.map((template) => {
-                  return (
-                    <>
-                      <div
-                        className="item"
-                        onClick={(e) => templateClicked(template, e)}
-                      >
-                        <img
-                          id={"template_dyn" + template.id}
-                          src={template.template_img}
-                          alt=""
-                          className={
-                            typeof templateId !== "undefined" &&
-                            templateId == template.id
-                              ? "select_mm"
-                              : ""
-                          }
-                        />
-                        <p>{template.name}</p>
-                      </div>
-                    </>
-                  );
-                })}
-              </AliceCarousel>
-
-              <input type="hidden" id="mail_template" value={templateId} />
-              {validator.message("Templates", templateId, "required")}
-              <div className="email-form">
-                <form>
-                  <div className="form-inline row justify-content-between align-items-center">
-                    <div className="form-group col-12 col-md-7">
-                      <label for="exampleInputEmail1">Email Description </label>
-                      <input
-                        onChange={(e) => emailDescriptionChange(e)}
-                        type="text"
-                        className="form-control"
-                        id="email-desc"
-                        value={emailDescription}
-                      />
-                      {validator.message(
-                        "emailDesc",
-                        emailDescription,
-                        "required"
-                      )}
-                    </div>
-                    <div className="form-group right-side col-12 col-md-5">
-                      <label for="exampleInputEmail1">Email Creator</label>
-                      <input
-                        onChange={(e) => emailCreatorChange(e)}
-                        type="text"
-                        className="form-control"
-                        id="email-address"
-                        value={emailCreator}
-                      />
-                      {validator.message("creator", emailCreator, "required")}
-                    </div>
+        <div className="custom-container">
+          <div className="row">
+            <div className="page-top-nav">
+              <div className="row justify-content-end align-items-center">
+                <div className="col-12 col-md-1">
+                  <div className="header-btn-left">
+                    <button className="btn btn-primary btn-bordered back">
+                      <Link to="/EmailArticleSelect">Back</Link>
+                    </button>
                   </div>
-                  <div className="form-inline row justify-content-between align-items-center">
-                    <div className="form-group">
-                      <label for="exampleInputEmail1">Email Campaign</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="email-campaign"
-                        value={emailCampaign}
-                        onChange={changeEmailCampaign}
-                      />
-                      {validator.message(
-                        "emailCampaign",
-                        emailCampaign,
-                        "required"
-                      )}
-                    </div>
-                  </div>
-                  <div className="input-group w-100">
-                    <div className="input-group-prepend">
-                      <button
-                        className="btn btn-bordered btn-primary"
-                        type="button"
-                        id="tags-add"
-                        data-bs-toggle="modal"
-                        data-bs-target="#tagsModal"
-                        onClick={tagButtonClicked}
-                      >
-                        + Add Tag
-                      </button>
-                    </div>
-                    <div className="tags_added">
-                      <ul>
-                        {finalTags.map((tags, index) => {
-                          return (
-                            <>
-                              <li className="list1">
-                                {tags.innerHTML || tags}{" "}
-                                <img
-                                  src={path_image + "filter-close.svg"}
-                                  alt="Close-filter"
-                                  onClick={() => removeTag(index)}
-                                />
-                              </li>
-                            </>
-                          );
-                        })}
-                      </ul>
-                    </div>
-                  </div>
-                  <div className="form-inline row justify-content-end align-items-center">
-                    <div className="form-group col-12 col-md-7">
-                      <label for="exampleInputEmail1">Email Subject</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="email-subject"
-                        onChange={(e) => emailSubjectChanged(e)}
-                        value={emailSubject}
-                      />
-                      {validator.message(
-                        "emailSubject",
-                        emailSubject,
-                        "required"
-                      )}
-                    </div>
-                    <div className="form-buttons right-side col-12 col-md-5">
-                      <button
-                        className="btn btn-primary btn-filled"
-                        onClick={(e) => updateTemplate(e)}
-                      >
-                        Save
-                      </button>
-                      <button
-                        className={
-                          typeof getIsApprovedStatus !== "undefined" &&
-                          getIsApprovedStatus == 3
-                            ? "btn btn-primary approved-btn btn-bordered checked"
-                            : "btn btn-primary approved-btn btn-bordered"
-                        }
-                        onClick={(e) => approvedClicked(e)}
-                      >
-                      {typeof getIsApprovedStatus !== "undefined" && getIsApprovedStatus == 3 ? "Approved": "Approve?"
+                </div>
+                <div className="col-12 col-md-9">
+                  <ul className="tabnav-link">
+                    <li className="active">
+                      <Link to="/EmailArticleSelect">Select Content</Link>
+                    </li>
+                    <li className="active active-main">
+                      <a href="">Create Your Email</a>
+                    </li>
+                    <li className="">
+                      <a href="">Select HCPs</a>
+                    </li>
+                    <li className="">
+                      <a href="">Verify your list</a>
+                    </li>
+                    <li className="">
+                      <a href="">Verify your Email</a>
+                    </li>
+                  </ul>
+                </div>
+                <div className="col-12 col-md-2">
+                  <div className="header-btn">
+                    <button
+                      className="btn btn-primary btn-bordered move-draft"
+                      onClick={saveAsDraft}
+                    >
+                      Save As Draft
+                    </button>
+
+                    <button
+                      className="btn btn-primary btn-filled next"
+                      onClick={nextClicked}
+                      disabled={
+                        typeof emailSubject == "undefined" ||
+                        emailSubject.trim().length == 0 ||
+                        typeof templateId == "undefined" ||
+                        templateId == ""
                       }
-                        <img
-                          src={path_image + "approved-btn.svg"}
-                          className="approve_btn"
-                          alt=""
-                        />
-                        <img
-                          src={path_image + "/approved-by-btn.svg"}
-                          className="approved_btn"
-                          alt=""
-                        />
-                      </button>
-                      <button
-                        className="btn btn-primary btn-filled btn-large"
-                        onClick={sendSample}
-                      >
-                        Send A Sample
-                      </button>
-                      <button
-                        className="btn btn-primary btn-filled"
-                        onClick={(e) => {
-                          setTemplatePopup(
-                            (getTemplatePopup) => !getTemplatePopup
-                          );
-                          e.preventDefault();
-                        }}
-                      >
-                        Save As template
-                      </button>
-                    </div>
+                    >
+                      Next
+                    </button>
                   </div>
-                </form>
+                </div>
               </div>
             </div>
-            <div className="row">
-            
-            <Editor
-                apiKey='g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8'
-                onInit={(evt, editor) => editorRef.current = editor}
-                initialValue={template}
-                init={{
-                  height: "100vh",
-                  menubar: 'file edit view insert format tools table help',
-                  plugins: 'preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons',
-                  toolbar: 'undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
-                  content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-                }}
-                onEditorChange={(content) => {
-                  setTemplateSaving(content);
-                }}
-              />
 
-            {
-              /*
+            <div className="top-header">
+              <div className="custom-container">
+                <div className="row">
+                  <div className="page-title">
+                    <h4>Select your Template</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <section className="select-mail-template">
+              <div className="custom-container">
+                <div className="row">
+                  <AliceCarousel
+                    mouseTracking
+                    disableDotsControls
+                    activeIndex={activeIndex}
+                    responsive={responsive}
+                    onSlideChanged={syncActiveIndex}
+                  >
+                    {templateList.map((template) => {
+                      return (
+                        <>
+                          <div
+                            className="item"
+                            onClick={(e) => templateClicked(template, e)}
+                          >
+                            <img
+                              id={"template_dyn" + template.id}
+                              src={template.template_img}
+                              alt=""
+                              className={
+                                typeof templateId !== "undefined" &&
+                                templateId == template.id
+                                  ? "select_mm"
+                                  : ""
+                              }
+                            />
+                            <p>{template.name}</p>
+                          </div>
+                        </>
+                      );
+                    })}
+                  </AliceCarousel>
+
+                  <input type="hidden" id="mail_template" value={templateId} />
+                  {validator.message("Templates", templateId, "required")}
+                  <div className="email-form">
+                    <form>
+                      <div className="form-inline row justify-content-between align-items-center">
+                        <div className="form-group col-12 col-md-7">
+                          <label for="exampleInputEmail1">
+                            Email Description{" "}
+                          </label>
+                          <input
+                            onChange={(e) => emailDescriptionChange(e)}
+                            type="text"
+                            className="form-control"
+                            id="email-desc"
+                            value={emailDescription}
+                          />
+                          {validator.message(
+                            "emailDesc",
+                            emailDescription,
+                            "required"
+                          )}
+                        </div>
+                        <div className="form-group right-side col-12 col-md-5">
+                          <label for="exampleInputEmail1">Email Creator</label>
+                          <input
+                            onChange={(e) => emailCreatorChange(e)}
+                            type="text"
+                            className="form-control"
+                            id="email-address"
+                            value={emailCreator}
+                          />
+                          {validator.message(
+                            "creator",
+                            emailCreator,
+                            "required"
+                          )}
+                        </div>
+                      </div>
+                      <div className="form-inline row justify-content-between align-items-center">
+                        <div className="form-group">
+                          <label for="exampleInputEmail1">Email Campaign</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            id="email-campaign"
+                            value={emailCampaign}
+                            onChange={changeEmailCampaign}
+                          />
+                          {validator.message(
+                            "emailCampaign",
+                            emailCampaign,
+                            "required"
+                          )}
+                        </div>
+                      </div>
+                      <div className="input-group w-100">
+                        <div className="input-group-prepend">
+                          <button
+                            className="btn btn-bordered btn-primary"
+                            type="button"
+                            id="tags-add"
+                            data-bs-toggle="modal"
+                            data-bs-target="#tagsModal"
+                            onClick={tagButtonClicked}
+                          >
+                            + Add Tag
+                          </button>
+                        </div>
+                        <div className="tags_added">
+                          <ul>
+                            {finalTags.map((tags, index) => {
+                              return (
+                                <>
+                                  <li className="list1">
+                                    {tags.innerHTML || tags}{" "}
+                                    <img
+                                      src={path_image + "filter-close.svg"}
+                                      alt="Close-filter"
+                                      onClick={() => removeTag(index)}
+                                    />
+                                  </li>
+                                </>
+                              );
+                            })}
+                          </ul>
+                        </div>
+                      </div>
+                      <div className="form-inline row justify-content-end align-items-center">
+                        <div className="form-group col-12 col-md-7">
+                          <label for="exampleInputEmail1">Email Subject</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            id="email-subject"
+                            onChange={(e) => emailSubjectChanged(e)}
+                            value={emailSubject}
+                          />
+                          {validator.message(
+                            "emailSubject",
+                            emailSubject,
+                            "required"
+                          )}
+                        </div>
+                        <div className="form-buttons right-side col-12 col-md-5">
+                          <button
+                            className="btn btn-primary btn-filled"
+                            onClick={(e) => updateTemplate(e)}
+                          >
+                            Save
+                          </button>
+                          <button
+                            className={
+                              typeof getIsApprovedStatus !== "undefined" &&
+                              getIsApprovedStatus == 3
+                                ? "btn btn-primary approved-btn btn-bordered checked"
+                                : "btn btn-primary approved-btn btn-bordered"
+                            }
+                            onClick={(e) => approvedClicked(e)}
+                          >
+                            {typeof getIsApprovedStatus !== "undefined" &&
+                            getIsApprovedStatus == 3
+                              ? "Approved"
+                              : "Approve?"}
+                            <img
+                              src={path_image + "approved-btn.svg"}
+                              className="approve_btn"
+                              alt=""
+                            />
+                            <img
+                              src={path_image + "/approved-by-btn.svg"}
+                              className="approved_btn"
+                              alt=""
+                            />
+                          </button>
+                          <button
+                            className="btn btn-primary btn-filled btn-large"
+                            onClick={sendSample}
+                          >
+                            Send A Sample
+                          </button>
+                          <button
+                            className="btn btn-primary btn-filled"
+                            onClick={(e) => {
+                              setTemplatePopup(
+                                (getTemplatePopup) => !getTemplatePopup
+                              );
+                              e.preventDefault();
+                            }}
+                          >
+                            Save As template
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <div className="row">
+                  <Editor
+                    apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
+                    onInit={(evt, editor) => (editorRef.current = editor)}
+                    initialValue={template}
+                    init={{
+                      height: "100vh",
+                      menubar: "file edit view insert format tools table help",
+                      plugins:
+                        "preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons",
+                      toolbar:
+                        "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
+                      content_style:
+                        "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                    }}
+                    onEditorChange={(content) => {
+                      setTemplateSaving(content);
+                    }}
+                  />
+
+                  {/*
 
               <CKEditor
               editor={ClassicEditor}
@@ -1578,12 +1667,11 @@ const CreateEmail = (props) => {
           onBlur={(event, editor) => {}}
           onFocus={(event, editor) => {}}
           />
-              */
-            }
-            </div>
+              */}
+                </div>
+              </div>
+            </section>
           </div>
-        </section>
-        </div>
         </div>
       </div>
 
@@ -1715,12 +1803,13 @@ const CreateEmail = (props) => {
                           />
                         </div>
                         <div className="form-group col-sm-2">
-                            <button
+                          <button
                             className="btn btn-primary btn-filled"
-                            onClick={(e) => searchHcp(e)}>
+                            onClick={(e) => searchHcp(e)}
+                          >
                             Search
                           </button>
-                      </div>
+                        </div>
                       </div>
                     </div>
                     <div className="form-button col-12 col-md-4">
@@ -1793,32 +1882,32 @@ const CreateEmail = (props) => {
                     </div>
                   ) : (
                     <>
-                     {selectedHcp.map((data, index2) => {
+                      {selectedHcp.map((data, index2) => {
                         return (
                           <>
-                          <div className="search-hcp-box">
-                            <p className="send-hcp-box-title">
-                              Name | <span>{data.name || data.first_name}</span>
-                            </p>
-                            <p className="send-hcp-box-title">
-                              Email | <span>{data.email}</span>
-                            </p>
-                            <p className="send-hcp-box-title">
-                              Contact Type | <span>{data.contact_type}</span>
-                            </p>
-                            <div className="remove-existing-field">
-                              <img
-                                src={path_image + "delete.svg"}
-                                alt="Delete Row"
-                                onClick={() => deleteSelected(index2)}
-                              />
-                            </div>
+                            <div className="search-hcp-box">
+                              <p className="send-hcp-box-title">
+                                Name |{" "}
+                                <span>{data.name || data.first_name}</span>
+                              </p>
+                              <p className="send-hcp-box-title">
+                                Email | <span>{data.email}</span>
+                              </p>
+                              <p className="send-hcp-box-title">
+                                Contact Type | <span>{data.contact_type}</span>
+                              </p>
+                              <div className="remove-existing-field">
+                                <img
+                                  src={path_image + "delete.svg"}
+                                  alt="Delete Row"
+                                  onClick={() => deleteSelected(index2)}
+                                />
+                              </div>
                             </div>
                           </>
                         );
                       })}
                     </>
-
 
                     // <table className="table">
                     //   <thead>
@@ -2207,27 +2296,73 @@ const CreateEmail = (props) => {
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label for="">Contact Type</label>
-                                  <DropdownButton className="dropdown-basic-button split-button-dropup"
-                                   title= {hpc[i].contact_type != "" &&  hpc[i].contact_type != "undefined" ? hpc[i].contact_type : "Select Type" }
-                                   onSelect={(event) => onContactTypeChange(event, i)}
-                                   >
-                                    <Dropdown.Item eventKey="HCP" className = {hpc[i].contact_type == "HCP" ? "active" : "" }>HCP</Dropdown.Item>
-                                    <Dropdown.Item eventKey="Staff" className = {hpc[i].contact_type == "Staff" ? "active" : "" }>Staff</Dropdown.Item>
-                                    <Dropdown.Item eventKey="Test Users" className = {hpc[i].contact_type == "Test Users" ? "active" : "" }>Test Users</Dropdown.Item>
+                                  <DropdownButton
+                                    className="dropdown-basic-button split-button-dropup"
+                                    title={
+                                      hpc[i].contact_type != "" &&
+                                      hpc[i].contact_type != "undefined"
+                                        ? hpc[i].contact_type
+                                        : "Select Type"
+                                    }
+                                    onSelect={(event) =>
+                                      onContactTypeChange(event, i)
+                                    }
+                                  >
+                                    <Dropdown.Item
+                                      eventKey="HCP"
+                                      className={
+                                        hpc[i].contact_type == "HCP"
+                                          ? "active"
+                                          : ""
+                                      }
+                                    >
+                                      HCP
+                                    </Dropdown.Item>
+                                    <Dropdown.Item
+                                      eventKey="Staff"
+                                      className={
+                                        hpc[i].contact_type == "Staff"
+                                          ? "active"
+                                          : ""
+                                      }
+                                    >
+                                      Staff
+                                    </Dropdown.Item>
+                                    <Dropdown.Item
+                                      eventKey="Test Users"
+                                      className={
+                                        hpc[i].contact_type == "Test Users"
+                                          ? "active"
+                                          : ""
+                                      }
+                                    >
+                                      Test Users
+                                    </Dropdown.Item>
                                   </DropdownButton>
                                 </div>
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label for="">Country</label>
-                                  <Select options = {countryall} className= "dropdown-basic-button split-button-dropup edit-country-dropdown" onChange={(event) => onCountryChange(event, i)}
-                                    defaultValue  = {countryall[hpc[i].countryIndex]}
-                                    placeholder   = {typeof  countryall[hpc[i].countryIndex] === "undefined" ? "Select Country" : countryall[hpc[i].countryIndex]}
-                                    filterOption  = {createFilter(filterConfig)}
+                                  <Select
+                                    options={countryall}
+                                    className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                    onChange={(event) =>
+                                      onCountryChange(event, i)
+                                    }
+                                    defaultValue={
+                                      countryall[hpc[i].countryIndex]
+                                    }
+                                    placeholder={
+                                      typeof countryall[hpc[i].countryIndex] ===
+                                      "undefined"
+                                        ? "Select Country"
+                                        : countryall[hpc[i].countryIndex]
+                                    }
+                                    filterOption={createFilter(filterConfig)}
                                     isClearable
                                   />
-                                  {
-                                    /*<DropdownButton className="dropdown-basic-button split-button-dropup country"
+                                  {/*<DropdownButton className="dropdown-basic-button split-button-dropup country"
                                    title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
                                    onSelect={(event) => onCountryChange(event, i)}
                                    >
@@ -2272,8 +2407,7 @@ const CreateEmail = (props) => {
                                             }
                                           )}
                                     </select>
-                                    */
-                                  }
+                                    */}
                                 </div>
                               </div>
                               {/*<div className="col-12 col-md-6 btn_rmv">
@@ -2592,6 +2726,34 @@ const CreateEmail = (props) => {
           </section>
         </Modal.Body>
       </Modal>
+
+      <Modal
+        show={showPreogressBar}
+        className="send-confirm"
+        id="upload-confirm"
+      >
+        <Modal.Header></Modal.Header>
+        <Modal.Body>
+          <div
+            className="circular-progressbar"
+            style={{
+              width: 100,
+              height: 100,
+            }}
+          >
+            <CircularProgressbar
+              value={uploadOrDownloadCount}
+              text={`${uploadOrDownloadCount}%`}
+              strokeWidth={5}
+            />
+          </div>
+        </Modal.Body>
+        <h4>
+          {" "}
+          {mailsIncrement} mails sent of {hcpsSelected.length}
+        </h4>
+      </Modal>
+
       {/*Reader Details popup end*/}
     </>
   );

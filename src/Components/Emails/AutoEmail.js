@@ -9,9 +9,17 @@ import { Modal, ModalDialog, Dropdown } from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { popup_alert } from "../../popup_alert";
 
+import { CircularProgressbar } from "react-circular-progressbar";
+import { buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
+
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const AutoEmail = () => {
   const [getsearch, setSearch] = useState("");
+  const [showPreogressBar, setShowProgressBar] = useState(false);
+  const [uploadOrDownloadCount, setUploadOrDownloadCount] = React.useState(0);
+  const [mailsIncrement, setMailsIncrement] = useState(0);
+  const [hcpsSelected, setHcpsSelected] = useState([]);
   const [approveClickedd, setApproveClicked] = useState(false);
   const [counterFlag, setCounterFlag] = useState(0);
   const [tempLang, setTempLang] = useState(0);
@@ -253,6 +261,30 @@ const AutoEmail = () => {
   };
 
   const sendsampeap = (event) => {
+    setHcpsSelected(selectedHcp);
+    let i = 0;
+    const intervals_spend = (25 / 100) * selectedHcp.length;
+
+    var intervals_increment = 100 / intervals_spend;
+    var mails_increment = selectedHcp.length / intervals_spend;
+    let adr = 0;
+    let incr_msg = 0;
+    const timer = setInterval(() => {
+      adr = adr + intervals_increment;
+      incr_msg = incr_msg + mails_increment;
+      if (adr >= 98) {
+        setUploadOrDownloadCount(98);
+      } else {
+        setUploadOrDownloadCount(parseInt(adr));
+      }
+
+      if (incr_msg >= selectedHcp.length) {
+        setMailsIncrement(selectedHcp.length);
+      } else {
+        setMailsIncrement(parseInt(incr_msg));
+      }
+    }, 1000);
+
     if (emailSubject != "") {
       setIsOpensend(false);
       setIsOpenAdd(false);
@@ -261,7 +293,8 @@ const AutoEmail = () => {
         (number) => number["user_id"] || number["profile_user_id"]
       );
 
-      loader("show");
+      //  loader("show");
+      setShowProgressBar(true);
       const body = {
         user_id: localStorage.getItem("user_id"),
         pdf_id: "3487",
@@ -279,17 +312,31 @@ const AutoEmail = () => {
         .then((res) => {
           loader("hide");
           if (res.data.status_code === 200) {
-            popup_alert({
-              visible: "show",
-              message: "Test mail sent successfully",
-              type: "success",
-            });
+            setUploadOrDownloadCount(100);
+            setMailsIncrement(selectedHcp.length);
+            clearInterval(timer);
+            setTimeout(() => {
+              popup_alert({
+                visible: "show",
+                message: "Email sent successfully",
+                type: "success",
+              });
+
+              setShowProgressBar(false);
+              setUploadOrDownloadCount(0);
+              setMailsIncrement(0);
+            }, 1000);
           } else {
             popup_alert({
               visible: "show",
               message: res.data.message,
               type: "error",
             });
+            clearInterval(timer);
+            setUploadOrDownloadCount(0);
+            setMailsIncrement(0);
+
+            setShowProgressBar(false);
           }
         })
         .catch((err) => {
@@ -1495,6 +1542,33 @@ const AutoEmail = () => {
               Add
             </button>
           </Modal.Footer>
+        </Modal>
+
+        <Modal
+          show={showPreogressBar}
+          className="send-confirm"
+          id="upload-confirm"
+        >
+          <Modal.Header></Modal.Header>
+          <Modal.Body>
+            <div
+              className="circular-progressbar"
+              style={{
+                width: 100,
+                height: 100,
+              }}
+            >
+              <CircularProgressbar
+                value={uploadOrDownloadCount}
+                text={`${uploadOrDownloadCount}%`}
+                strokeWidth={5}
+              />
+            </div>
+          </Modal.Body>
+          <h4>
+            {" "}
+            {mailsIncrement} mails sent of {hcpsSelected.length}
+          </h4>
         </Modal>
       </div>
     </>

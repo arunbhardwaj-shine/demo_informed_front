@@ -340,11 +340,16 @@ const VerifyMAIL = (props) => {
                 type: "success",
                 redirect: "/EmailList",
               });
+              setUploadOrDownloadCount(0);
+              setMailsIncrement(0);
+
               setShowProgressBar(false);
             }, 1000);
           } else {
             clearInterval(timer);
             setUploadOrDownloadCount(0);
+            setMailsIncrement(0);
+
             setShowProgressBar(false);
             popup_alert({
               visible: "show",
