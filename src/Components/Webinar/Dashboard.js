@@ -151,7 +151,7 @@ const Dashboard = () => {
                                    <img src={registrationPageListJson?.titleLogo}/>
                                    {eventData?.days_left==0?<>                                  { minutes === 0 && seconds === 0&&horse===0
                     ? null
-                    : <h1>{horse<10?`0${horse}`:horse}:{minutes}:{seconds < 10 ?  `0${seconds}` : seconds}</h1> } </>:null}
+                    : <h1>{horse}:{minutes}:{seconds < 10 ?  `0${seconds}` : seconds}</h1> } </>:null}
   
                                       <span>{eventData?.mod_date}</span> 
                                       <br/>
