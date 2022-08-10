@@ -82,7 +82,7 @@ const WebinarVerifyHcpMAIL = () => {
   const handleEmailSCreateCollection = (next) => {
     if(params.id&&params.name){
       ExportApi.EmailSCreateCollectionnext(
-     localStorage.getItem("SmartListId"),
+        window.atob( localStorage.getItem("SmartListId")),
                localStorage.getItem("collection_id"),
                1
              ).then((resp) => {
@@ -96,7 +96,7 @@ const WebinarVerifyHcpMAIL = () => {
              })
     }else{
       ExportApi.EmailSCreateCollectionnext(
-       localStorage.getItem("SmartListId"),
+        window.atob( localStorage.getItem("SmartListId")),
                 localStorage.getItem("collection_id"),
                 1
               ).then((resp) => {
@@ -119,21 +119,8 @@ const WebinarVerifyHcpMAIL = () => {
   // getCollectionData
   return (
     <>
-      <div className="loader" id="custom_loader">
-        <span className="loader-view"> </span>
-      </div>
       <div className="col right-sidebar">
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
+   
         <div className="custom-container">
           <div className="row">
             <div className="page-top-nav">

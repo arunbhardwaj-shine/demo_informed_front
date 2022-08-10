@@ -1233,7 +1233,6 @@ const ViewData = (props) => {
           aria-labelledby="contained-modal-title-vcenter"
           centered
         >
-          <ToastContainer />
           <div
             data-bs-backdrop="static"
             data-bs-keyboard="false"

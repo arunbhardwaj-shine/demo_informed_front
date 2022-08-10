@@ -261,7 +261,7 @@ const Sidebar = () => {
                 <p>Set Popup Text</p>
               </a>
             </li> */}
-            {/* <li
+            <li
               className={
                 location.pathname == "/AutoEmail" && c_id == 0
                   ? "active"
@@ -312,7 +312,7 @@ const Sidebar = () => {
 
                 <p>Auto Email</p>
               </Link>
-            </li> */}
+            </li>
             <li
               className={
                 location.pathname == "/TemplateBuilder" && c_id == 0

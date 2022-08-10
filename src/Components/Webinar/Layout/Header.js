@@ -88,7 +88,7 @@ const Header = () => {
         if (resp.ok) {
           setEvent(resp.data.data);
           let id=document.getElementById("event").value
-         alert(11)
+     
            localStorage.setItem("EventIdHeader",id)
           // console.log(resp.data.code
         }

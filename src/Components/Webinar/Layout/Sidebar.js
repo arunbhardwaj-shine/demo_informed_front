@@ -13,7 +13,7 @@ const Sidebar = () => {
   const [isHoveringReaders, setIsHoveringReaders] = useState(false);
   const [SmaertEdit, setSmaertEdit] = useState(``);
   const location = useLocation();
-  console.log("location.pathname" ,)
+  // console.log("location.pathname" ,)
   useEffect(() => {
  if(location.pathname==='/webinar/dashboard'||location.pathname==='/webinar/events'||location.pathname==='/webinar/readers'){
   // alert()
@@ -155,8 +155,8 @@ const Sidebar = () => {
     }
   }, []);
   useEffect(() => {
-    console.log("first",location.pathname)
-   console.log("first2",`/webinar/email/WebinarVerifyHcpMAIL/${localStorage.getItem("SmartListName")}`)
+    // console.log("first",location.pathname)
+  //  console.log("first2",`/webinar/email/WebinarVerifyHcpMAIL/${localStorage.getItem("SmartListName")}`)
     window.dispatchEvent(new Event("EventData"));
     if (
       location.pathname ==
@@ -797,8 +797,8 @@ const Sidebar = () => {
                         <p>Dashboard</p>
                         </Link>
                       </li> */}
-                      {console.log("first",location.pathname)}
-                      {console.log("first2",`/webinar/email/WebinarVerifyHcpMAIL/${localStorage.getItem("SmartListId")}`)}
+                      {/* {console.log("first",location.pathname)} */}
+                      {/* {console.log("first2",`/webinar/email/WebinarVerifyHcpMAIL/${localStorage.getItem("SmartListId")}`)} */}
                     <li
                       className={
                         location.pathname === "/webinar/email/emails" ||
