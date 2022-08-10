@@ -38,7 +38,7 @@ body {
 }
 a { cursor: pointer; text-decoration: none; } 
 .filter-by.nav-item.dropdown button:hover svg path, .filter-by.nav-item.dropdown button:hover svg rect, .filter-by.highlight > button svg rect { fill: var(--white); } 
-.filter-by.nav-item.dropdown > button:hover, .filter-by.highlight > button { background: var(--light-blue); color: var(--white); } 
+.filter-by.nav-item.dropdown > button:hover, .filter-by.dropdown.highlight > button { background: var(--light-blue); color: var(--white); } 
 .container-fluid > .row { justify-content: flex-start; } button:focus, .btn-primary:focus, .btn-primary:active:focus { box-shadow: none; outline: none; } 
 .btn { font-family: "Roboto-Medium"; border-radius: 30px; } .btn:focus, .btn-check:focus + .btn-outline-primary, .btn-outline-primary:focus, .btn-check:active + .btn-outline-primary:focus, .btn-check:checked + .btn-outline-primary:focus, .btn-outline-primary.active:focus, .btn-outline-primary.dropdown-toggle.show:focus, .btn-outline-primary:active:focus { outline: none; box-shadow: none; }
  nav #collapsibleNavbar li.nav-item a { color: var(--light-blue); font-size: 16px; line-height: 19px; padding: 0 51px; } 
@@ -77,10 +77,10 @@ a { cursor: pointer; text-decoration: none; }
  .clear-search button:hover svg path, .clear-search button:active svg path, .clear-search button:focus svg path { fill: var(--white); } 
  .user-login li { list-style: none; } 
  .filter-by button.btn { background: var(--white); font-family: "Roboto"; border-radius: 30px; box-shadow: 0px 2px 10px 0px rgb(0 102 190 / 15%); filter: none; font-weight: 400; font-size: 14px; line-height: 16px; color: var(--skyblue); padding: 11px 18px 12px 27px; border: 0.5px solid transparent; position: relative; z-index: 8; } 
- .filter-by button.btn:hover, .filter-by button.btn:focus { color: var(--light-blue); border-color: var(--light-blue); } 
- .filter-by button.btn:hover path, .filter-by button.btn:focus path, .filter-by button.btn:hover svg rect { fill: var(--white); } 
+ .filter-by button.btn:hover{ color: var(--light-blue); border-color: var(--light-blue); } 
+ .filter-by button.btn:hover path, .filter-by button.btn:hover svg rect { fill: var(--white); } 
  .filter-by button.btn:focus .close-arrow { display: inline-block; width: 16px; } 
- .filter-by button.btn:hover, .filter-by button.btn:active, .filter-by button.btn:focus { background: var(--light-blue); color: var(--white); box-shadow: 0px 2px 10px -3px rgb(0 102 190 / 60%); } 
+ .filter-by button.btn:hover{ background: var(--light-blue); color: var(--white); box-shadow: 0px 2px 10px -3px rgb(0 102 190 / 60%); } 
  .filter-by button.btn:after { display: none; } 
  .filter-by .dropdown-menu { border: 0; background: var(--white); border-radius: 0px 0px 5px 5px; filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2)); width: 100%; top: -22px !important; padding: 31px 0 0; z-index: 5; } 
  .filter-by .dropdown-menu li { padding: 0 4px 4px; } 
@@ -3422,9 +3422,9 @@ input[type="date"]:before {
   font-family: "Roboto-Light";
   color: #4e718e;
 }
-.filter-by button svg.close-arrow {
+/* .filter-by button svg.close-arrow {
   display: none;
-}
+} */
 .create-smart-step-box .form-group.no-padding {
   padding-left: 0;
 }
