@@ -537,14 +537,14 @@ ExportApi.SmartListDelete(deletecardid).then((resp) => {
                         </ul>
                       </div> */}
                         <div className="smartlist-buttons">
-                          <button className="btn view">
                             <a
-                              className="color_blue"
+                              // className="color_blue"
                               onClick={() => getSmartListData(data.id,data.name)}
                             >
+                          <button className="btn btn-primary btn-filled">
                               View
-                            </a>
                           </button>
+                            </a>
                         </div>
                       </div>
                     </div>

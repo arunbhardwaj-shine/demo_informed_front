@@ -82,7 +82,7 @@ const WebinarVerifyHcpMAIL = () => {
   const handleEmailSCreateCollection = (next) => {
     if(params.id&&params.name){
       ExportApi.EmailSCreateCollectionnext(
-        window.atob( localStorage.getItem("SmartListId")),
+       localStorage.getItem("SmartListId"),
                localStorage.getItem("collection_id"),
                1
              ).then((resp) => {
