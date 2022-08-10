@@ -730,15 +730,18 @@ const AutoEmail = () => {
                     >
                       Cancel
                     </button>
-                    <button
-                      className="btn btn-primary btn-filled next"
-                      onClick={(e) => {
-                        updateTemplate(e);
-                        e.preventDefault();
-                      }}
-                    >
-                      Save
-                    </button>
+                    {templateName == "Reset password" ||
+                    templateName == "Welcome mail" ? null : (
+                      <button
+                        className="btn btn-primary btn-filled next"
+                        onClick={(e) => {
+                          updateTemplate(e);
+                          e.preventDefault();
+                        }}
+                      >
+                        Save
+                      </button>
+                    )}
                   </div>
                 ) : null}
               </div>
@@ -886,7 +889,10 @@ const AutoEmail = () => {
                         </div>
                         <div className="form-inline row justify-content-end align-items-center">
                           <div className="form-buttons right-side col-12 col-md-5">
-                            {approveClickedd === true ? (
+                            {templateName == "Welcome mail" ||
+                            templateName ==
+                              "Reset password" ? null : approveClickedd ===
+                              true ? (
                               <button
                                 className="btn btn-primary approved-btn btn-bordered "
                                 onClick={(e) => updateTemplate(e, 2)}
@@ -916,8 +922,8 @@ const AutoEmail = () => {
                           </div>
                         </div>
                         <div className="row">
-                          {templateName == "New content added email" ||
-                          templateName == "Invitation" ? (
+                          {templateName == "Reset password" ||
+                          templateName == "Welcome mail" ? (
                             <Editor
                               apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
                               onInit={(evt, editor) =>
