@@ -337,6 +337,7 @@ const SelectSmartList = (props) => {
         } else {
           clearInterval(timer);
           setUploadOrDownloadCount(0);
+
           setShowAlertPopup(true);
           setShowProgressBar(false);
           setFileUploadPopup(false);

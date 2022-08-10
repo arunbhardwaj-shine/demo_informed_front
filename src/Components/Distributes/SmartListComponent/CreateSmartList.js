@@ -218,6 +218,7 @@ const CreateSmartList = () => {
         } else {
           clearInterval(timer);
           setUploadOrDownloadCount(0);
+
           setShowAlertPopup(true);
           setShowProgressBar(false);
           popup_alert({
