@@ -63,6 +63,11 @@ const AutoEmail = () => {
   const ref = useRef(null);
 
   let file_name = useRef("");
+
+  useEffect(() => {
+    getSmartListData(0);
+  }, []);
+
   useEffect(() => {
     if (addListOpen == true) {
       setIsOpensend(false);
