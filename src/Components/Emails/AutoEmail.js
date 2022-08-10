@@ -921,7 +921,6 @@ const AutoEmail = () => {
                             </button>
                           </div>
                         </div>
-                        {console.log(templateName)}
                         <div className="row">
                           {templateName == "Reset password" ||
                           templateName == "Welcome mail" ? (
