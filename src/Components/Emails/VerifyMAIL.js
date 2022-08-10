@@ -237,12 +237,23 @@ const VerifyMAIL = (props) => {
     const intervals_spend = (25 / 100) * selectedHcp.length;
 
     var intervals_increment = 100 / intervals_spend;
-    var mails_increment = selectedHcp.length / intervals_increment;
+    var mails_increment = selectedHcp.length / intervals_spend;
     let adr = 0;
+    let incr_msg = 0;
     const timer = setInterval(() => {
       adr = adr + intervals_increment;
-      setUploadOrDownloadCount(parseInt(adr));
-      setMailsIncrement(mails_increment);
+      incr_msg = incr_msg + mails_increment;
+      if (adr >= 98) {
+        setUploadOrDownloadCount(98);
+      } else {
+        setUploadOrDownloadCount(parseInt(adr));
+      }
+
+      if (incr_msg >= selectedHcp.length) {
+        setMailsIncrement(selectedHcp.length);
+      } else {
+        setMailsIncrement(parseInt(incr_msg));
+      }
     }, 1000);
 
     if (getSelectedPdfId == 13) {
@@ -492,7 +503,6 @@ const VerifyMAIL = (props) => {
         toast.error("Something went wrong");
       });
   };
-
   return (
     <>
       <div className="col right-sidebar">
@@ -1103,10 +1113,11 @@ const VerifyMAIL = (props) => {
         </Modal.Body>
       </Modal>
       {/*Reader Details popup end*/}
+
       <Modal
         show={showPreogressBar}
-        className="smart_list_popup"
-        id="smart_list_popup_id"
+        className="send-confirm"
+        id="upload-confirm"
       >
         <Modal.Header></Modal.Header>
         <Modal.Body>
@@ -1123,10 +1134,11 @@ const VerifyMAIL = (props) => {
               strokeWidth={5}
             />
           </div>
-          <h4>
-            {mailsIncrement} mails sent out of {selectedHcp.length} mails
-          </h4>
         </Modal.Body>
+        <h4>
+          {" "}
+          {mailsIncrement} mails sent of {selectedHcp.length}
+        </h4>
       </Modal>
     </>
   );

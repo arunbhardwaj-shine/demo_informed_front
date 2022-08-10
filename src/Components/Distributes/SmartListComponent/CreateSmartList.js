@@ -174,7 +174,11 @@ const CreateSmartList = () => {
     let adr = 0;
     const timer = setInterval(() => {
       adr = adr + intervals_increment;
-      setUploadOrDownloadCount(parseInt(adr));
+      if (adr >= 98) {
+        setUploadOrDownloadCount(98);
+      } else {
+        setUploadOrDownloadCount(parseInt(adr));
+      }
     }, 1000);
 
     // setShow(false);
