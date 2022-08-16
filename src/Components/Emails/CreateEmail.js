@@ -547,6 +547,8 @@ const CreateEmail = (props) => {
           }
         })
         .catch((err) => {
+          clearInterval(timer);
+          setShowProgressBar(false);
           loader("hide");
           toast.error("Something went wrong");
           console.log(err);

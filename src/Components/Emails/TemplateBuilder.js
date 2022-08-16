@@ -481,6 +481,8 @@ const TemplateBuilder = (props) => {
           //toast.success("Test Mail sent successfuly");
         })
         .catch((err) => {
+          clearInterval(timer);
+          setShowProgressBar(false);
           loader("hide");
           toast.error("Something went wrong");
           console.log(err);

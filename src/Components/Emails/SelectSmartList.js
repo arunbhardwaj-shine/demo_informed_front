@@ -352,6 +352,8 @@ const SelectSmartList = (props) => {
         //   loader("hide");
       })
       .catch((err) => {
+        clearInterval(timer);
+        setShowProgressBar(false);
         setCreatedListName("");
         setCreatorName("");
         loader("hide");

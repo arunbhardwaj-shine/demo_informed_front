@@ -359,6 +359,8 @@ const VerifyMAIL = (props) => {
           }
         })
         .catch((err) => {
+          clearInterval(timer);
+          setShowProgressBar(false);
           toast.error("Something went wrong");
           console.log(err);
         });
