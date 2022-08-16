@@ -22,86 +22,43 @@ const Header = () => {
 	}
 
 	useEffect(() => {
-
-		sessionStorage.setItem("lastname", "Smith");
-		console.log(sessionStorage.getItem("lastname"));
-
-
-		try {
-
-				if(queryParams?.id && queryParams?.id != ""){
-					let user_id = localStorage.getItem("user_id");
-					if(user_id){
-						if(user_id != queryParams.id){
-								localStorage.setItem("user_id", queryParams.id);
-						}
-					}else{
+		localStorage.setItem("user_idsd","demo");
+		console.log(localStorage.getItem("user_idsd"));
+		if(queryParams?.id && queryParams?.id != ""){
+			let user_id = localStorage.getItem("user_id");
+			if(user_id){
+				if(user_id != queryParams.id){
 						localStorage.setItem("user_id", queryParams.id);
-					}
-				}else{
-					let user_id = localStorage.getItem("user_id");
-					if(user_id){
-
-					}else{
-						localStorage.setItem("user_id", "rjiGlqA9DXJVH7bDDTX0Lg==");
-					}
-				}
-				if(queryParams?.decrypted_token && queryParams?.decrypted_token != ""){
-					let decrypted_token = localStorage.getItem("decrypted_token");
-					if(decrypted_token){
-						if(decrypted_token != queryParams.id){
-								localStorage.setItem("decrypted_token", queryParams.decrypted_token);
-						}
-					}else{
-						localStorage.setItem("decrypted_token", queryParams.decrypted_token);
-					}
-				}else{
-					let decrypted_token = localStorage.getItem("decrypted_token");
-					if(decrypted_token){
-
-					}else{
-						localStorage.setItem("decrypted_token", "rjiGlqA9DXJVH7bDDTX0Lg==");
-					}
-				}
-
-		}catch{
-			if(queryParams?.id && queryParams?.id != ""){
-				let user_id = sessionStorage.getItem("user_id");
-				if(user_id){
-					if(user_id != queryParams.id){
-						sessionStorage.setItem("user_id", queryParams.id);
-					}
-				}else{
-					sessionStorage.setItem("user_id", queryParams.id);
 				}
 			}else{
-				let user_id = sessionStorage.getItem("user_id");
-				if(user_id){
-
-				}else{
-					sessionStorage.setItem("user_id", "rjiGlqA9DXJVH7bDDTX0Lg==");
-				}
+				localStorage.setItem("user_id", queryParams.id);
 			}
-			if(queryParams?.decrypted_token && queryParams?.decrypted_token != ""){
-				let decrypted_token = sessionStorage.getItem("decrypted_token");
-				if(decrypted_token){
-					if(decrypted_token != queryParams.id){
-						sessionStorage.setItem("decrypted_token", queryParams.decrypted_token);
-					}
-				}else{
-					sessionStorage.setItem("decrypted_token", queryParams.decrypted_token);
-				}
+		}else{
+			let user_id = localStorage.getItem("user_id");
+			if(user_id){
+
 			}else{
-				let decrypted_token = sessionStorage.getItem("decrypted_token");
-				if(decrypted_token){
-
-				}else{
-					sessionStorage.setItem("decrypted_token", "rjiGlqA9DXJVH7bDDTX0Lg==");
-				}
+				localStorage.setItem("user_id", "rjiGlqA9DXJVH7bDDTX0Lg==");
 			}
-
-
 		}
+		if(queryParams?.decrypted_token && queryParams?.decrypted_token != ""){
+			let decrypted_token = localStorage.getItem("decrypted_token");
+			if(decrypted_token){
+				if(decrypted_token != queryParams.id){
+						localStorage.setItem("decrypted_token", queryParams.decrypted_token);
+				}
+			}else{
+				localStorage.setItem("decrypted_token", queryParams.decrypted_token);
+			}
+		}else{
+			let decrypted_token = localStorage.getItem("decrypted_token");
+			if(decrypted_token){
+
+			}else{
+				localStorage.setItem("decrypted_token", "rjiGlqA9DXJVH7bDDTX0Lg==");
+			}
+		}
+
 		if(queryParams?.name && queryParams?.name != ""){
 			setUserName(queryParams.name)
 		}
