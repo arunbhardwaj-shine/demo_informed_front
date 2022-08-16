@@ -22,6 +22,9 @@ const Header = () => {
 	}
 
 	useEffect(() => {
+
+		sessionStorage.setItem("lastname", "Smith");
+		console.log(sessionStorage.getItem("lastname"));
 		if(queryParams?.id && queryParams?.id != ""){
 			let user_id = localStorage.getItem("user_id");
 			if(user_id){
