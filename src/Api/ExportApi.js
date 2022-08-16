@@ -1,15 +1,8 @@
 import { BaseApi } from "./BaseApi";
 //Auth
-var auth = 0;
-try{
-  auth = localStorage.getItem("Token");
-}catch{
-   auth = sessionStorage.getItem("Token");
-}
 const UserLogin = (email, password) =>
   BaseApi.post("login", { email: email, password: password });
 const UserForgot = (email) => BaseApi.post("forgot-password", { email: email });
-
 const UserForgotResetPasswordPost = (Token, new_pass, confirm_pass) =>
   BaseApi.post(
     "forgot-reset-password",
@@ -26,7 +19,7 @@ const ResetPasswordPost = (old_pass, new_pass, confirm_pass) =>
     { old_pass: old_pass, new_pass: new_pass, confirm_pass: confirm_pass },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -36,7 +29,7 @@ const UserLogout = () =>
     {},
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -46,7 +39,7 @@ const DashboardData = () =>
     {},
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -56,7 +49,7 @@ const DashboardDataStats = (event_id) =>
     {},
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -67,7 +60,7 @@ const GetBuData = () =>
     {},
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -77,7 +70,7 @@ const GetTimezoneData = () =>
     {},
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -87,7 +80,7 @@ const GetTimezoneregionData = () =>
     {},
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -97,7 +90,7 @@ const GetTags = () =>
     {},
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -107,7 +100,7 @@ const GetCountryData = () =>
     {},
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -118,7 +111,7 @@ const DownloadSampleFile = () =>
     {},
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -129,7 +122,7 @@ const GetEventList = () =>
     {},
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -139,7 +132,7 @@ const GetEventListSerch = (data) =>
     { search: data },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -150,7 +143,7 @@ const GetEventListData = (id) =>
     {},
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -165,7 +158,7 @@ const GetEventListDataUpdate = (id, EventTitle, a, Description) =>
     },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -175,7 +168,7 @@ const DeleteEvent = (id) =>
     { event_id: id },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -215,7 +208,7 @@ const CreatEvent = (
     },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -228,7 +221,7 @@ const CreatRehearsal = (rehearsalSpeakername) =>
     },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -238,7 +231,7 @@ const RehearsalListData = (eventid) =>
     {},
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -248,7 +241,7 @@ const RehearsalDelete = (eventid) =>
     { rehearsal_id: eventid },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -259,7 +252,7 @@ const UserTemplateList = (id) =>
     {},
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -269,14 +262,14 @@ const UserTemplate = (id) =>
     {},
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
 const UserTemplateSandMail = (form) =>
   BaseApi.post("test", form, {
     headers: {
-      Authorization: auth,
+      Authorization: localStorage.getItem("Token"),
     },
   });
 const CreateTemplate = (name, id) =>
@@ -285,7 +278,7 @@ const CreateTemplate = (name, id) =>
     { name: name, event_id: id },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -295,7 +288,7 @@ const DeleteTemplate = (id) =>
     { template_id: id },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -323,7 +316,7 @@ const UpdateTemplate = (
     },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -336,28 +329,28 @@ const CreateRegistrationPage = (eventId,mode,jsonData,TemplateIdActive) =>
     // format :TemplateIdActive
   }, {
     headers: {
-      Authorization: auth,
+      Authorization: localStorage.getItem("Token"),
       "Content-Type": "application/json",
     },
   });
 const RegistrationPageUplodImage = (form) =>
   BaseApi.post("upload-image", form, {
     headers: {
-      Authorization: auth,
+      Authorization: localStorage.getItem("Token"),
       "Content-Type": "application/json",
     },
   });
 const RegistrationPageCopyData = (id) =>
   BaseApi.post("/registration-pages-copy", {registration_page_id :id}, {
     headers: {
-      Authorization: auth,
+      Authorization: localStorage.getItem("Token"),
       "Content-Type": "application/json",
     },
   });
 const RegistrationPageSingleData = (id) =>
   BaseApi.get(`/registration-page/${id}`, {}, {
     headers: {
-      Authorization: auth,
+      Authorization: localStorage.getItem("Token"),
       "Content-Type": "application/json",
     },
   });
@@ -370,21 +363,21 @@ BaseApi.post("/update-registration-page", {
   format :TemplateIdActive
 }, {
     headers: {
-      Authorization: auth,
+      Authorization: localStorage.getItem("Token"),
       "Content-Type": "application/json",
     },
   });
 const RegistrationPageDelete = (id) =>
   BaseApi.post("/delete-registration-page", {register_page_id:id}, {
     headers: {
-      Authorization: auth,
+      Authorization: localStorage.getItem("Token"),
       "Content-Type": "application/json",
     },
   });
 const CreateRegistrationPagedetail = (form) =>
   BaseApi.post("create-registration-detail", form, {
     headers: {
-      Authorization: auth,
+      Authorization: localStorage.getItem("Token"),
       "Content-Type": "application/json",
     },
   });
@@ -394,7 +387,7 @@ const RegistrationPageDetailList = (id) =>
     {},
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
         "Content-Type": "application/json",
       },
     }
@@ -405,7 +398,7 @@ const RegistrationPageDetail = (id) =>
     {},
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
         "Content-Type": "application/json",
       },
     }
@@ -416,7 +409,7 @@ const RegistrationPageList = (id) =>
     {},
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -426,20 +419,20 @@ const RegistrationPageData = (id) =>
     {},
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
 const UpdateRegistrationPageData = (form) =>
   BaseApi.post(`update-registration-page`, form, {
     headers: {
-      Authorization: auth,
+      Authorization: localStorage.getItem("Token"),
     },
   });
 const UpdateRegistrationPageDetail = (form) =>
   BaseApi.post(`update-registration-detail`, form, {
     headers: {
-      Authorization: auth,
+      Authorization: localStorage.getItem("Token"),
     },
   });
 //Public
@@ -453,7 +446,7 @@ const ReadersData = (id) =>
     { event_id: id },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -463,7 +456,7 @@ const ReadersPage = (id, eventId) =>
     { event_id: eventId },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -473,7 +466,7 @@ const ReadersDataSearch = (id, name_email, type, country) =>
     { event_id: id, name_email: name_email, type: type, country_id: country },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -483,7 +476,7 @@ const ReadersType = (id, type, search, countryvalue) =>
     { event_id: id, type: type, name_email: search, country_id: countryvalue },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -493,7 +486,7 @@ const ReadersSingleData = (id) =>
     {},
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -503,7 +496,7 @@ const ReadersSingleDataUpdate = (id,name,country_id,hospital,profession,interest
     {participant_id :id,name,name,country_id:country_id,hospital:hospital,profession:profession,interest:interest},
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -513,7 +506,7 @@ const ReadersType1 = (id, search, countryvalue) =>
     { event_id: id, name_email: search, country_id: countryvalue },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -523,7 +516,7 @@ const ReadersCountry = (id, name, type, search) =>
     { event_id: id, country_id: name, type: type, name_email: search },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -533,7 +526,7 @@ const ReadersBlock = (Participant_id, is_blocked) =>
     { id: Participant_id, is_blocked: is_blocked },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -543,7 +536,7 @@ const ReadersBlockt = (Participant_id, type) =>
     { id: Participant_id, type: type },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -553,7 +546,7 @@ const ReadersDelete = (id, is_deleted) =>
     { id: id, is_deleted: is_deleted },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -564,7 +557,7 @@ const EmailStatss = (id, template_id, search_key) =>
     { template_id: template_id, search_key: search_key },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -574,7 +567,7 @@ const EmailStatsPage = (id, eventId, template_id) =>
     { template_id: template_id },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -584,7 +577,7 @@ const EmailSand = (id="", name) =>
     { smart_list_id: id, participants: name },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -594,14 +587,14 @@ const EmailSelectVerifyHCP = (participants, unregister_participants) =>
     { participants: participants, unregister_participants: unregister_participants,type:false },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
 const Excelsend = (form) =>
   BaseApi.post(`upload-unregistered-participant`, form, {
     headers: {
-      Authorization: auth,
+      Authorization: localStorage.getItem("Token"),
     },
   });
 const EmailSandRegistered = (type, event_id) =>
@@ -610,7 +603,7 @@ const EmailSandRegistered = (type, event_id) =>
     { event_id: event_id, type: type },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -620,7 +613,7 @@ const EmailSandRegisteredType = (type, event_id, user_type) =>
     { event_id: event_id, type: type, user_type: user_type },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -632,7 +625,7 @@ const sandAllmaik = (collection_id) =>
     },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -649,7 +642,7 @@ const CreateParticipant = (name, country, browser, email, alice, stats) =>
     },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -659,7 +652,7 @@ const ParticipantPage = (id, eventId, registeredNonRegistered, search) =>
     { event_id: eventId, type: registeredNonRegistered, search: search },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -680,7 +673,7 @@ const ParticipantPageSearch = (
     },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -707,7 +700,7 @@ const PostSMTP = (
     },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -733,7 +726,7 @@ const UpdateSMTP = (
     },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -743,7 +736,7 @@ const getSMTP = () =>
     {},
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -754,7 +747,7 @@ const getSmartListData = () => {
     {},
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -767,7 +760,7 @@ const getEmailStatsChart = (eventid, templateId) =>
     { event_id: eventid, template_id: templateId },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -784,7 +777,7 @@ const EmailSCreate = (template_id, eventid, subject, tags, smart_list_id) =>
     },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -794,7 +787,7 @@ const UpdateEmailSCreate = (id, collection_id) =>
     { template_id: id, collection_id: collection_id },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -804,7 +797,7 @@ const SearchEmailParticipant = (name, email) =>
     { search_name: name, search_email: email },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -822,7 +815,7 @@ const EmailSCreateCollection = (
     },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -840,7 +833,7 @@ const EmailSCreateCollectionnext = (
     },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -850,7 +843,7 @@ const GetEmailSCollection = (id) =>
     { event_id: id },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -860,7 +853,7 @@ const SearchEmailSCollection = (eventId,tags_search, search) =>
     {event_id:eventId, tags_search: tags_search, search: search },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -870,7 +863,7 @@ const getCollectionData = (id) =>
     {},
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -880,7 +873,7 @@ const GetSmartListSingleRecord = (id) =>
     { smart_list_id: id },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -889,7 +882,7 @@ const GetSmartListFilterRecord = () =>
     `/smart-list/filter-content`,{},
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -899,7 +892,7 @@ const UpdateSmartListData = (id, participants) =>
     { smart_list_id: id, participants: participants },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -909,7 +902,7 @@ const DeleteSmartListData = (id, participants) =>
     { smart_list_id: id, participant_id: participants },
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -921,7 +914,7 @@ const DeleteSmartListData = (id, participants) =>
     { search: search},
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -931,7 +924,7 @@ const DeleteSmartListData = (id, participants) =>
     {name:name,creator:creator,created:created},
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );
@@ -941,7 +934,7 @@ const DeleteSmartListData = (id, participants) =>
     { smart_list_id : id},
     {
       headers: {
-        Authorization: auth,
+        Authorization: localStorage.getItem("Token"),
       },
     }
   );

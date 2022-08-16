@@ -3,7 +3,12 @@ var auth = 0;
 try{
    auth = localStorage.getItem("Token");
 }catch{
-   auth = sessionStorage.getItem("Token");
+  try{
+    auth = sessionStorage.getItem("Token");
+  }catch{
+    auth = "0";
+  }
+   
 }
 const BaseApi = create({
     //  baseURL: 'http://192.168.0.101:8000/api',
