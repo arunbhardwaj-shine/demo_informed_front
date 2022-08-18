@@ -116,6 +116,7 @@ const QuestionsForm = () => {
       }),
       onSubmit: (values) => {
          let previewData={
+          Heading :Hading,
           Speakername: values.Speakername,
           Question: values.Question,
           AnswerType:values.AnswerType,
@@ -125,7 +126,18 @@ const QuestionsForm = () => {
           labelQuestion:Speakername,
           eventid:localStorage.getItem("EventIdHeader")
          }
-      
+        //  speaker:sdsdsdsds
+        //  event_id:352
+        //  question_type:poll
+        //  status:1
+        //  question:sdsdsdsdsdsds
+        //  parent_id:0
+        //  type:sdsdsdsd
+        //  label:sdsdssdas
+        //  color_code:asasasa
+        //  order_of_question:2
+         
+         
            console.log(SQ)
             setData([...Data, previewData])
            console.log(Data);
@@ -184,7 +196,7 @@ const QuestionsForm = () => {
                 </label>
                 <input
                   name="Hading"
-                  placeholder="Hading"
+                  placeholder="Heading"
                   onChange={(e)=>setHading(e.target.value)}
                  value={Hading}
                 />
