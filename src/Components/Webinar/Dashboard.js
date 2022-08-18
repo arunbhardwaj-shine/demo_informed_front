@@ -173,7 +173,7 @@ const Dashboard = () => {
                     {/* <span><strong>Start Time:</strong> {eventData?.event_start_time} ({eventData?.timezone})</span> */}
                                 <div class="mail-box-content-top">
                                         <div class="webinar_time">
-                                            <span><strong>location:</strong>  {registrationPageListJson?.Address}</span>
+                                            <span><strong>Location:</strong>  {registrationPageListJson?.Address}</span>
                                         </div>
                 
                                      

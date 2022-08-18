@@ -468,7 +468,7 @@ const Sidebar = () => {
                       onMouseOver={handleMouseOverQuestionsForm}
                       onMouseOut={handleMouseOutQuestionsForm}
                     >
-                      <img src={path_image + "webinar/hcp.svg"} />
+                    <img src={path_image + "webinar/data-analytics.svg"} />
                       {/* <p className="tooltip">HCPs</p> */}
                       {isHoveringQuestionsForm && <p className="tooltip">Questions Form</p>}
                     </Link>
