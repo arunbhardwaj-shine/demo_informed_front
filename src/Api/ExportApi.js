@@ -938,7 +938,53 @@ const DeleteSmartListData = (id, participants) =>
       },
     }
   );
+  /////poll/////
+  const CreateFormPool_Survey = (id) =>
+  BaseApi.post(
+    `questions/create
+    `,
+    id,
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
+  const listFormPool_Survey = (id,type) =>
+  BaseApi.get(
+    `questions/${type}/${id}
+    `,{},
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
+  const deletelistFormPool_Survey = (id) =>
+  BaseApi.post(
+    `questions/delete
+    `,{id : id},
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
+  const orderlistFormPool_Survey = (id) =>
+  BaseApi.post(
+    `questions/order
+    `,{question: id},
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
 export default {
+  CreateFormPool_Survey,
+  orderlistFormPool_Survey,
+  deletelistFormPool_Survey,
+  listFormPool_Survey,
   DashboardData,
   DashboardDataStats,
   UserLogin,

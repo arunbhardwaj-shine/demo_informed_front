@@ -470,7 +470,7 @@ const Sidebar = () => {
                     >
                     <img src={path_image + "webinar/data-analytics.svg"} />
                       {/* <p className="tooltip">HCPs</p> */}
-                      {isHoveringQuestionsForm && <p className="tooltip">Questions Form</p>}
+                      {isHoveringQuestionsForm && <p className="tooltip">Survey/Poll</p>}
                     </Link>
                   </li>
 
