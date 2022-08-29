@@ -139,7 +139,7 @@ const Header = () => {
       <div className="loader" id="custom_loader">
           <span className="loader-view"> </span>
         </div>
-    {location.pathname.includes("/webinar/register")||location.pathname.includes("/webinar/editor")?null:<header>
+    {location.pathname.includes("/webinar/register")||location.pathname.includes("/webinar/editor")||location.pathname.includes("/webinar/survey/question/")?null:<header>
         <nav className="navbar navbar-expand-sm navbar-light">
           <div className="container-fluid">
             <a className="navbar-brand">

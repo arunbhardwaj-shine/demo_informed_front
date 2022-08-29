@@ -5661,7 +5661,8 @@ table .u-row  div{
 }
 
 
-.survey-tab h4 {
+
+/* .survey-tab h4 {
   margin-bottom: 10px;
   background: transparent;
   color: #00B39A;
@@ -5696,9 +5697,9 @@ table .u-row  div{
     padding: 5px 4px;
     font-weight: 500;
     color: #204e9e;
-}
+} */
 
-.question-select {
+/* .question-select {
   height: 34px;
   border-radius: 9px;
   background-color: #f3f5f8;
@@ -5734,9 +5735,21 @@ table .u-row  div{
   display: initial;
 }
 .SubQue{
-
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  border: #265dc0 solid 1px;
+  background-color: #e5ebf7;
 }
-.question-lab{
+.SubQue1 h6{
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: #204e9e;
+} */
+/* .question-lab{
   font-size: 15px;
   padding: 5px 4px;
   font-weight: 500;
@@ -5745,4 +5758,4 @@ table .u-row  div{
   padding-right: 10px;
   padding-inline: 12px;
 
-}
+} */

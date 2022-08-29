@@ -950,9 +950,9 @@ const DeleteSmartListData = (id, participants) =>
       },
     }
   );
-  const listFormPool_Survey = (id,type) =>
+  const listFormPool_Survey = (id,type,format) =>
   BaseApi.get(
-    `questions/${type}/${id}
+    `questions/${type}/${id}/${format}
     `,{},
     {
       headers: {
@@ -980,7 +980,18 @@ const DeleteSmartListData = (id, participants) =>
       },
     }
   );
+  const orderlistFormPool_Survey_Edit = (id) =>
+  BaseApi.post(
+    `questions/edit
+    `, id,
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
 export default {
+  orderlistFormPool_Survey_Edit,
   CreateFormPool_Survey,
   orderlistFormPool_Survey,
   deletelistFormPool_Survey,

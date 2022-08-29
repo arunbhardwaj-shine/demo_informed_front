@@ -40,6 +40,7 @@ const Example = (props) => {
   function deleteQuestion(id,i) {
     ExportApi.deletelistFormPool_Survey(id).then((resp) => {
       if (resp.ok) {
+        props.handleCancel()
         toast.success(resp.data.message, {
           position: "top-right",
           autoClose: 2000,
@@ -108,13 +109,14 @@ const Example = (props) => {
                 />
               </svg>
               </button>
-       {item.type=="textarea"?<textarea></textarea>:
+              <button  className="btn btn-primary btn-filled send" onClick={()=>props.editDataCallBack(item)}>Edit</button>
+       {item.type=="textarea"?<textarea className='SubQue'></textarea>:
        item.type=="text"?
-       <input type="text"/>:null}
+       <input className='SubQue' type="text"/>:null}
        {item.sub_ques==null?<>   { item.label?.map((item,index)=>{
        return  <div className='question-lab' key={index}> 
         <label htmlFor="exampleInputEmail1">{item.name}</label> 
-        <input name={"name"+index} type="checkbox"/> 
+        <input className='SubQue1' name={"name"+index} type="checkbox"/> 
          </div>
        })}</>:<>
        
@@ -132,13 +134,13 @@ const Example = (props) => {
         // console.log("data",data)
          return<>
         
-         <div className='SubQue'>
+         <div className='SubQue1'>
 
-    <h6 className='question'>{data.question}</h6>
+    <h6 >{data.question}</h6>
        { item.label?.map((item,index)=>{
        return  <div style={{float:"right"}} key={index}> 
         {/* <label htmlFor="exampleInputEmail1">{item.name} </label>  */}
-        <input name={"name"+index} type="checkbox"/></div>
+        <input className='SubQue' name={"name"+index} type="checkbox"/></div>
        })}
          </div>
       </>  
@@ -161,20 +163,20 @@ const Example = (props) => {
         // console.log(item)
        return <>
          {/* <label htmlFor="exampleInputEmail1">{item.name} </label>  */}
-        <input name={"item.name"+index} type="radio"/> 
+        <input className='SubQue' name={"item.name"+index} type="radio"/> 
        </>
       })}
            </>
           }):<> { item.label?.map((item,index)=>{
             return  <div className='question'  key={index}> 
              <label htmlFor="exampleInputEmail1">{item.name}</label> 
-             <input name={"name"+index} type="checkbox"/>  </div>
+             <input className='SubQue' name={"name"+index} type="checkbox"/>  </div>
             })}</>} </div></div>:null}
        </>}
 
         {
        item.type=="date"?
-       <input type="date"/>:null}
+       <input className='SubQue' type="date"/>:null}
         {
        item.type=="Country"?
        <select className="question-select" >
@@ -661,7 +663,7 @@ const Example = (props) => {
     </div>
       </div>
       ))}
-     { console.log(list)}
+     {/* { console.log(list)} */}
     </>
   );
 };

@@ -290,7 +290,7 @@ const Sidebar = () => {
       }
     >
       {location.pathname.includes("/webinar/register") ||
-      location.pathname.includes("/webinar/editor") ? null : (
+      location.pathname.includes("/webinar/editor") ||location.pathname.includes("/webinar/survey/question/")? null : (
         <>
           {token ? (
             <>

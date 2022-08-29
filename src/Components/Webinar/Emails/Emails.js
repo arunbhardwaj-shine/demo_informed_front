@@ -485,7 +485,6 @@ const SendEmails = () => {
             </div>
             {data?.map((val, i) => {
               let tags = JSON.parse(val.tags)
-              console.log(val)
               return (
                 <div key={i} className="email_box_block">
                   <div
@@ -577,9 +576,11 @@ const SendEmails = () => {
                                 </div>
                                 <span >{val.stats?.value_register?val.stats?.value_register:"0"}</span>
                                 {val.approved_status == 2&&isHovering==i?<div className="options">
-                                  <p>{val.stats.label_register+" : "+val.stats.value_register}</p>
-                                  <p>{val.stats.label_booth+" : "+val.stats.value_booth}</p>
-                                  <p>{val.stats.label_video+" : "+val.stats.value_video}</p>
+                               {val.stats.label_register?<p> {val.stats.label_register+" :tyt "+val.stats.value_register}</p>:null}   
+                               {val.stats.label_booth?<p>{val.stats.label_booth+" : "+val.stats.value_booth}</p>:null}   
+                               {val.stats.label_video?  <p>{val.stats.label_video+" : "+val.stats.value_video}</p>:null}   
+                                  {/* <p>{val.stats.label_booth+" : "+val.stats.value_booth}</p>
+                                  <p>{val.stats.label_video+" : "+val.stats.value_video}</p> */}
 
                                     </div>:null}
                               </li>
