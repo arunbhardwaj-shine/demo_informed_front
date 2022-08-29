@@ -55,7 +55,7 @@ const QuestionsPreviewText = () => {
       
 
 
-          setDataAns(sub_ques)
+         
   
     //   DataAns.splice(i, 1, DataAns[i]);
     //   setDataAns([...DataAns]);
@@ -65,15 +65,18 @@ const QuestionsPreviewText = () => {
         let obj={
             id:nodeList2[i].id,
           ques:nodeList2[i].name,
-          answer:nodeList2[i].value}
+          country_id:nodeList2[i].value}
           sub_ques.push(obj)
      console.log(obj);
-      
+     
 
 
      
     //   DataAns.splice(i, 1, DataAns[i]);
     //   setDataAns([...DataAns]);
+    setDataAns(...DataAns,sub_ques)
+    console.log("sub_ques",sub_ques);
+      // 
       }
 
       }
