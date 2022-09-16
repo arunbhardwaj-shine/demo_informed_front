@@ -15,6 +15,8 @@ const FilterSegment = (props) => {
   const [filters, setFilters] = useState(props.filters);
   const [listname, setListName] = useState(props.listname);
   const [selectedcountry, setSelectedCountry] = useState([]);
+  const [selectedprovince, setSelectedProvince] = useState([]);
+  const [selectedterritory, setSelectedTerritory] = useState([]);
   const [selectedcontacttype, setSelectedContactType] = useState([]);
   const [selectedspeciality, setSelectedSpeciality] = useState([]);
   const [selectedreaderselection, setSelectedReaderSelection] = useState("");
@@ -48,6 +50,16 @@ const FilterSegment = (props) => {
       //Country
       if (typeof props.selectedFilter.country !== "undefined") {
         setSelectedCountry(props.selectedFilter.country);
+      }
+
+      //provience
+      if (typeof props.selectedFilter.province !== "undefined") {
+        setSelectedProvince(props.selectedFilter.province);
+      }
+
+      //provience
+      if (typeof props.selectedFilter.territory !== "undefined") {
+        setSelectedTerritory(props.selectedFilter.territory);
       }
 
 
@@ -142,14 +154,44 @@ const FilterSegment = (props) => {
     }
   };
 
+  const handleOnTerritoryChange = (territory) => {
+    let territory_index = selectedterritory.indexOf(territory);
+    if (territory_index !== -1) {
+      selectedterritory.splice(territory_index, 1);
+      setSelectedTerritory(selectedterritory);
+      let up = updateflag + 1;
+      setUpdateFlag(up);
+    } else {
+      selectedterritory.push(territory);
+      setSelectedTerritory(selectedterritory);
+      let up = updateflag + 1;
+      setUpdateFlag(up);
+    }
+  };
+
+  const handleOnProvinceChange = (province) => {
+    let province_index = selectedprovince.indexOf(province);
+    if (province_index !== -1) {
+      selectedprovince.splice(province_index, 1);
+      setSelectedProvince(selectedprovince);
+      let up = updateflag + 1;
+      setUpdateFlag(up);
+    } else {
+      selectedprovince.push(province);
+      setSelectedProvince(selectedprovince);
+      let up = updateflag + 1;
+      setUpdateFlag(up);
+    }
+  };
+
   const closeClicked = () => {
     Navigate("/SmartList");
   };
 
   const handleOnContactTypeChange = (contact_type) => {
-    let country_index = selectedcontacttype.indexOf(contact_type);
-    if (country_index !== -1) {
-      selectedcontacttype.splice(country_index, 1);
+    let contact_index = selectedcontacttype.indexOf(contact_type);
+    if (contact_index !== -1) {
+      selectedcontacttype.splice(contact_index, 1);
     } else {
       selectedcontacttype.push(contact_type);
     }
@@ -159,9 +201,9 @@ const FilterSegment = (props) => {
   };
 
   const handleOnSpecialityChange = (speciality) => {
-    let country_index = selectedspeciality.indexOf(speciality);
-    if (country_index !== -1) {
-      selectedspeciality.splice(country_index, 1);
+    let speciality_index = selectedspeciality.indexOf(speciality);
+    if (speciality_index !== -1) {
+      selectedspeciality.splice(speciality_index, 1);
     } else {
       selectedspeciality.push(speciality);
     }
@@ -191,9 +233,9 @@ const FilterSegment = (props) => {
   };
 
   const handleOnProductChange = (product) => {
-    let country_index = selectedproduct.indexOf(product);
-    if (country_index !== -1) {
-      selectedproduct.splice(country_index, 1);
+    let product_index = selectedproduct.indexOf(product);
+    if (product_index !== -1) {
+      selectedproduct.splice(product_index, 1);
     } else {
       selectedproduct.push(product);
     }
@@ -216,9 +258,9 @@ const FilterSegment = (props) => {
   };
 
   const handleOnArticleChange = (article) => {
-    let country_index = selectedarticles.indexOf(article);
-    if (country_index !== -1) {
-      selectedarticles.splice(country_index, 1);
+    let article_index = selectedarticles.indexOf(article);
+    if (article_index !== -1) {
+      selectedarticles.splice(article_index, 1);
     } else {
       selectedarticles.push(article);
     }
@@ -244,6 +286,8 @@ const FilterSegment = (props) => {
       checkbox.checked = false;
     });
     setSelectedCountry([]);
+    setSelectedProvince([]);
+    setSelectedTerritory([]);
     setSelectedContactType([]);
     setSelectedSpeciality([]);
     setSelectedProduct([]);
@@ -305,6 +349,24 @@ const FilterSegment = (props) => {
         return item;
       });
       Object.assign(payload, { country: country });
+      flag_to_check_data = true;
+    }
+
+    //For Province
+    if (typeof selectedprovince === "object" && selectedprovince.length > 0) {
+      let province = selectedprovince.map((item) => {
+        return item;
+      });
+      Object.assign(payload, { province: province });
+      flag_to_check_data = true;
+    }
+
+    //For territory
+    if (typeof selectedterritory === "object" && selectedterritory.length > 0) {
+      let territory = selectedterritory.map((item) => {
+        return item;
+      });
+      Object.assign(payload, { territory: territory });
       flag_to_check_data = true;
     }
 
@@ -416,7 +478,11 @@ const FilterSegment = (props) => {
   const removeindividualfilter = (src, item) => {
     if (src == "country") {
       handleOnCountryChange(item);
-    } else if (src == "contact_type") {
+    }else if(src == "province"){
+      handleOnProvinceChange(item);
+    }else if(src == "territory"){
+      handleOnTerritoryChange(item);
+    }else if (src == "contact_type") {
       handleOnContactTypeChange(item);
     } else if (src == "speciality") {
       handleOnSpecialityChange(item);
@@ -749,6 +815,85 @@ const FilterSegment = (props) => {
                             </>
                           )}
 
+                          {"province" in filters &&
+                            Object.keys(filters.province).length > 0 && (
+                              <>
+                                <div className="col block-smart-name">
+                                  <h6>Province</h6>
+                                  <div className="smart-name-list">
+                                    <ul>
+                                      {Object.entries(filters.province).map(
+                                        ([index, item]) => (
+                                          <li>
+                                            <div className="select-multiple-option">
+                                              <input
+                                                type="checkbox"
+                                                id={`custom-checkbox-province-${index}`}
+                                                name="province[]"
+                                                value={item}
+                                                checked={
+                                                  typeof selectedprovince !==
+                                                    "undefined" &&
+                                                  selectedprovince.indexOf(
+                                                    item
+                                                  ) !== -1
+                                                }
+                                                onChange={() =>
+                                                  handleOnProvinceChange(item)
+                                                }
+                                              />
+                                              <span className="checkmark"></span>
+                                            </div>
+                                            {item}
+                                          </li>
+                                        )
+                                      )}
+                                    </ul>
+                                  </div>
+                                </div>
+                              </>
+                            )}
+
+                            {"territory" in filters &&
+                              Object.keys(filters.territory).length > 0 && (
+                                <>
+                                  <div className="col block-smart-name">
+                                    <h6>Territory</h6>
+                                    <div className="smart-name-list">
+                                      <ul>
+                                        {Object.entries(filters.territory).map(
+                                          ([index, item]) => (
+                                            <li>
+                                              <div className="select-multiple-option">
+                                                <input
+                                                  type="checkbox"
+                                                  id={`custom-checkbox-territory-${index}`}
+                                                  name="territory[]"
+                                                  value={item}
+                                                  checked={
+                                                    typeof selectedterritory !==
+                                                      "undefined" &&
+                                                    selectedterritory.indexOf(
+                                                      item
+                                                    ) !== -1
+                                                  }
+                                                  onChange={() =>
+                                                    handleOnTerritoryChange(item)
+                                                  }
+                                                />
+                                                <span className="checkmark"></span>
+                                              </div>
+                                              {item}
+                                            </li>
+                                          )
+                                        )}
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </>
+                              )}
+
+
                         {"consent_type" in filters &&
                           filters.consent_type.length > 0 && (
                             <>
@@ -993,6 +1138,56 @@ const FilterSegment = (props) => {
                           <img
                             onClick={() =>
                               removeindividualfilter("country", item)
+                            }
+                            src={path_image + "filter-close.svg"}
+                            alt="Close-filter"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : null
+              ) : null}
+
+              {updateflag > 0 ? (
+                typeof selectedprovince === "object" &&
+                selectedprovince.length > 0 ? (
+                  <div className="filter-div">
+                    <div className="filter-div-title">
+                      <span>Province |</span>
+                    </div>
+                    <div className="filter-div-list">
+                      {Object.entries(selectedprovince).map(([index, item]) => (
+                        <div className="filter-result">
+                          {item}
+                          <img
+                            onClick={() =>
+                              removeindividualfilter("province", item)
+                            }
+                            src={path_image + "filter-close.svg"}
+                            alt="Close-filter"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : null
+              ) : null}
+
+              {updateflag > 0 ? (
+                typeof selectedterritory === "object" &&
+                selectedterritory.length > 0 ? (
+                  <div className="filter-div">
+                    <div className="filter-div-title">
+                      <span>Territory |</span>
+                    </div>
+                    <div className="filter-div-list">
+                      {Object.entries(selectedterritory).map(([index, item]) => (
+                        <div className="filter-result">
+                          {item}
+                          <img
+                            onClick={() =>
+                              removeindividualfilter("territory", item)
                             }
                             src={path_image + "filter-close.svg"}
                             alt="Close-filter"
