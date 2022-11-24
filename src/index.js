@@ -127,6 +127,8 @@ import WebinarVerifyHCP from "./Components/Webinar/Emails/WebinarVerifyHCP";
 import WebinarVerifyHcpMAIL from "./Components/Webinar/Emails/WebinarVerifyHcpMAIL";
 import TableTypeData from "./Components/Webinar/Emails/TableTypeData";
 import QuestionsForm from "./Components/Webinar/QuestionsForm";
+import QuestionsPreview from "./Components/Webinar/QuestionsPreview";
+import QuestionsPreviewText from "./Components/Webinar/Survey/QuestionsPreviewText";
 
 let platform = 0;
 let show = 0;
@@ -148,11 +150,11 @@ ReactDOM.render(
       {platform == 0 ? (
         <>
           <BrowserRouter>
-            <Header />
+            {window.location.pathname !== "/" ? <Header /> : null}
             <div className="warpper">
               <div className="container-fluid">
                 <div className="row">
-                  <Sidebar />
+                  {window.location.pathname !== "/" ? <Sidebar /> : null}
                   <Routes>
                     <Route path="/" element={<App />} />
                     <Route path="/SmartList" element={<SmartList />} />
@@ -218,6 +220,14 @@ ReactDOM.render(
                     <Route
                       path="/webinar/register/:code/:url/:stats"
                       element={<Preview />}
+                    />
+                    <Route
+                      path="/webinar/survey/question/:id/1"
+                      element={<QuestionsPreview />}
+                    />
+                    <Route
+                      path="/webinar/survey/question/:id/2"
+                      element={<QuestionsPreviewText />}
                     />
                     <Route
                       path="/webinar/Forgotpassword"

@@ -244,8 +244,13 @@ const CreateSmartList = () => {
   }, [smartListName]);
 
   const downloadFile = () => {
+    let user_id = localStorage.getItem("user_id");
     let link = document.createElement("a");
-    link.href = "https://informed.pro/sample.xls";
+    if(user_id == "wW0geGtDPvig5gF 6KbJrg==" || user_id == "qDgwPdToP05Kgzc g2VjIQ==" ||  user_id == "z2TunmZQf3QwCsICFTLGGQ==" || user_id == "UbCJcnLM9fe HsRMgX8c1A=="){
+      link.href = "https://informed.pro/sample_st.xls";
+    }else{
+      link.href = "https://informed.pro/sample.xls";
+    }
     link.setAttribute("download", "file.xlsx");
     document.body.appendChild(link);
     link.download = "";

@@ -290,7 +290,7 @@ const Sidebar = () => {
       }
     >
       {location.pathname.includes("/webinar/register") ||
-      location.pathname.includes("/webinar/editor") ? null : (
+      location.pathname.includes("/webinar/editor") ||location.pathname.includes("/webinar/survey/question/")? null : (
         <>
           {token ? (
             <>
@@ -468,9 +468,9 @@ const Sidebar = () => {
                       onMouseOver={handleMouseOverQuestionsForm}
                       onMouseOut={handleMouseOutQuestionsForm}
                     >
-                      <img src={path_image + "webinar/hcp.svg"} />
+                    <img src={path_image + "webinar/data-analytics.svg"} />
                       {/* <p className="tooltip">HCPs</p> */}
-                      {isHoveringQuestionsForm && <p className="tooltip">Questions Form</p>}
+                      {isHoveringQuestionsForm && <p className="tooltip">Survey/Poll</p>}
                     </Link>
                   </li>
 

@@ -173,7 +173,7 @@ const Dashboard = () => {
                     {/* <span><strong>Start Time:</strong> {eventData?.event_start_time} ({eventData?.timezone})</span> */}
                                 <div class="mail-box-content-top">
                                         <div class="webinar_time">
-                                            <span><strong>location:</strong>  {registrationPageListJson?.Address}</span>
+                                            {registrationPageListJson?.Address?<span><strong>Location:</strong>  {registrationPageListJson?.Address}</span>:null}
                                         </div>
                 
                                      
@@ -210,7 +210,7 @@ const Dashboard = () => {
                         </div> 
                         <div className="clearfix"></div>
                         <div className="event-details-left-emails">Email Templates
-                        <Link to="/webinar/email/template"><button className="btn btn-primary btn-filled send">Edit </button></Link>
+                        <Link to="/webinar/email/template">Edit</Link>
                             {templateList? <> {templateList?.map((val, i) => (
                                     <>
                                         <div className="registration-page">
@@ -224,7 +224,7 @@ const Dashboard = () => {
                     <div className="event-details-right">
                         {/* <div className="event-details-right-portal">Portal Preparation</div> */}
                         <div className="event-details-right-reg">
-                        <Link to="/webinar/portal/Registrations"><button className="btn btn-primary btn-filled send">Edit </button></Link>
+                        <Link to="/webinar/portal/Registrations">Edit </Link>
                             {registrationPageList? <> {registrationPageList?.map((val, i) => (
                                     <>
                                         <div className="registration-page"><strong>Registration Page: {i+1}</strong>

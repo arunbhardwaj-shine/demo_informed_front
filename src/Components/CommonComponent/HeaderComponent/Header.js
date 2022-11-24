@@ -22,7 +22,7 @@ const Header = () => {
 	}
 
 	useEffect(() => {
-		
+
 		if(queryParams?.id && queryParams?.id != ""){
 			let user_id = localStorage.getItem("user_id");
 			if(user_id){
