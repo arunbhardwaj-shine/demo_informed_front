@@ -150,11 +150,11 @@ ReactDOM.render(
       {platform == 0 ? (
         <>
           <BrowserRouter>
-            <Header />
+            {window.location.pathname !== "/" ? <Header /> : null}
             <div className="warpper">
               <div className="container-fluid">
                 <div className="row">
-                  <Sidebar />
+                  {window.location.pathname !== "/" ? <Sidebar /> : null}
                   <Routes>
                     <Route path="/" element={<App />} />
                     <Route path="/SmartList" element={<SmartList />} />

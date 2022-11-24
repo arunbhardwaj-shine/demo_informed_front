@@ -6130,3 +6130,6 @@ section.search-hcp.smart-list-view .header-btn-left {
   font-family: "Roboto-Medium";
   margin: 0 0 20px;
 }
+.default_page_not_found {
+    min-height: 100vh;
+}
