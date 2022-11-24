@@ -37,7 +37,8 @@ const Header = () => {
 			if(user_id){
 
 			}else{
-				localStorage.setItem("user_id", "rjiGlqA9DXJVH7bDDTX0Lg==");
+				//localStorage.setItem("user_id", "rjiGlqA9DXJVH7bDDTX0Lg==");
+				localStorage.setItem("user_id", "");
 			}
 		}
 		if(queryParams?.decrypted_token && queryParams?.decrypted_token != ""){
@@ -54,7 +55,8 @@ const Header = () => {
 			if(decrypted_token){
 
 			}else{
-				localStorage.setItem("decrypted_token", "rjiGlqA9DXJVH7bDDTX0Lg==");
+				//localStorage.setItem("decrypted_token", "rjiGlqA9DXJVH7bDDTX0Lg==");
+				localStorage.setItem("decrypted_token", "");
 			}
 		}
 
