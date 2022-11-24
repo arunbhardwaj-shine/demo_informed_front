@@ -22,7 +22,7 @@ const Header = () => {
 	}
 
 	useEffect(() => {
-		
+
 		if(queryParams?.id && queryParams?.id != ""){
 			let user_id = localStorage.getItem("user_id");
 			if(user_id){
@@ -37,7 +37,7 @@ const Header = () => {
 			if(user_id){
 
 			}else{
-				localStorage.setItem("user_id", "rjiGlqA9DXJVH7bDDTX0Lg==");
+				localStorage.setItem("user_id", "rzN1rCFnjTcT7DzkTlJ34Q==");
 			}
 		}
 		if(queryParams?.decrypted_token && queryParams?.decrypted_token != ""){
@@ -54,7 +54,7 @@ const Header = () => {
 			if(decrypted_token){
 
 			}else{
-				localStorage.setItem("decrypted_token", "rjiGlqA9DXJVH7bDDTX0Lg==");
+				localStorage.setItem("decrypted_token", "rzN1rCFnjTcT7DzkTlJ34Q==");
 			}
 		}
 
