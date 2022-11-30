@@ -15,6 +15,8 @@ const EmailStatsss = () => {
                 <DropdownButton
                   className="dropdown-basic-button split-button-dropup "
                   title="Select Event"
+                  key={"secondary"}
+                  variant={"secondary"}
                   // onSelect={(event) => onContactTypeChange(event, i)}
                 >
                   <div className="scroll_div">
@@ -67,6 +69,8 @@ const EmailStatsss = () => {
                 <DropdownButton
                   className="dropdown-basic-button split-button-dropup"
                   title={"Select Template"}
+                  key={"secondary"}
+                  variant={"secondary"}
                   // onSelect={(event) => onContactTypeChange(event, i)}
                 >
                   <div className="scroll_div">
