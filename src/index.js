@@ -13,6 +13,7 @@ import { Provider } from "react-redux";
 import { createStore } from "redux";
 import reducers from "./reducers";
 
+
 // ----------START-------Webinar routes------------------------
 import WebinarHeader from "./Components/NewWebinar/Layout/Header";
 import WebinarSidebar from "./Components/NewWebinar/Layout/Sidebar";
@@ -132,6 +133,8 @@ import TableTypeData from "./Components/Webinar/Emails/TableTypeData";
 import QuestionsForm from "./Components/Webinar/QuestionsForm";
 import QuestionsPreview from "./Components/Webinar/QuestionsPreview";
 import QuestionsPreviewText from "./Components/Webinar/Survey/QuestionsPreviewText";
+<link rel="stylesheet" 
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"></link>
 // import WebinarHeader from "./Components"
 let platform = 0;
 let show = 0;
@@ -146,6 +149,7 @@ if (window.location.pathname == "/new-webinar") {
   // console.log("fdfdfd",window.location.pathname)
   require("./Components/assets/css/style.css");
   require("./Components/assets/fonts/fonts.css");
+  require('./Components/NewWebinar/assets/css/webinar.css')
   platform = 0;
   show = 0;
 }else {

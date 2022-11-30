@@ -1,0 +1,23 @@
+.selected-hcp-list table tr td.table_action table {
+    border-spacing: 0;
+}
+
+.selected-hcp-list table tr td.table_action table tr {
+    box-shadow: none;
+}
+
+.selected-hcp-list table tr td.table_action table tr td {
+    padding: 0 10px;
+}
+
+.selected-hcp-list table tr td.table_action table tr td svg {
+    width: 18px;
+}
+
+table.webinar-reader thead.sticky-header:after {
+    display: none;
+}
+
+.search_view {
+    width: 100%;
+}
