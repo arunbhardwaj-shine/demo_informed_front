@@ -14,6 +14,9 @@ import { createStore } from "redux";
 import reducers from "./reducers";
 
 // ----------START-------Webinar routes------------------------
+import WebinarHeader from "./Components/NewWebinar/Layout/Header";
+import WebinarSidebar from "./Components/NewWebinar/Layout/Sidebar";
+import DefaultWebinar from "./Components/NewWebinar/WebinarFiles/Webinar";
 
 // Dashboard
 import Dashboard from "./Components/Webinar/Dashboard";
@@ -129,7 +132,7 @@ import TableTypeData from "./Components/Webinar/Emails/TableTypeData";
 import QuestionsForm from "./Components/Webinar/QuestionsForm";
 import QuestionsPreview from "./Components/Webinar/QuestionsPreview";
 import QuestionsPreviewText from "./Components/Webinar/Survey/QuestionsPreviewText";
-
+// import WebinarHeader from "./Components"
 let platform = 0;
 let show = 0;
 if (window.location.href.indexOf("/webinar") > -1) {
@@ -137,7 +140,15 @@ if (window.location.href.indexOf("/webinar") > -1) {
   require("./Components/assets/fonts/fonts.css");
   platform = 1;
   show = 1;
-} else {
+ } 
+else 
+if (window.location.pathname == "/new-webinar") {
+  // console.log("fdfdfd",window.location.pathname)
+  require("./Components/assets/css/style.css");
+  require("./Components/assets/fonts/fonts.css");
+  platform = 0;
+  show = 0;
+}else {
   require("./Components/assets/css/style.css");
   require("./Components/assets/css/responsive.css");
   require("./Components/assets/css/custom.css");
@@ -147,54 +158,44 @@ if (window.location.href.indexOf("/webinar") > -1) {
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={createStore(reducers)}>
+      {console.log("-dfdfd",platform)}
       {platform == 0 ? (
         <>
           <BrowserRouter>
-            {window.location.pathname !== "/" ? <Header /> : null}
+
+          {["/","/new-webinar"].includes(window.location.pathname) ?  <WebinarHeader />:<Header /> }
+            {/* {window.location.pathname !== "/" ? <WebinarHeader /> : null} */}
             <div className="warpper">
               <div className="container-fluid">
                 <div className="row">
-                  {window.location.pathname !== "/" ? <Sidebar /> : null}
+                  {["/","/new-webinar"].includes(window.location.pathname) ?  <WebinarSidebar />:<Sidebar /> }
+                  {/* {window.location.pathname !== "/" ? <Sidebar /> : null} */}
                   <Routes>
+                    {/* New webinar */}
+                      {/* <Route path="/new-webinar" element={<WebinarHeader />} /> */}
+                       {/* end webinar */}
+
+                     <Route path="/new-webinar" element={<DefaultWebinar />} />
+
+
                     <Route path="/" element={<App />} />
                     <Route path="/SmartList" element={<SmartList />} />
                     <Route path="/EditList" element={<EditList />} />
-                    <Route
-                      path="/CreateSmartList"
-                      element={<CreateSmartList />}
-                    />
-                    <Route
-                      path="/SmartListFilter"
-                      element={<SmartListFilter />}
-                    />
-                    <Route
-                      path="/SelectSmartList"
-                      element={<SelectSmartList />}
-                    />
+                    <Route path="/CreateSmartList" element={<CreateSmartList />}/>
+                    <Route path="/SmartListFilter" element={<SmartListFilter />}/>
+                    <Route path="/SelectSmartList" element={<SelectSmartList />}/>
                     <Route path="/EmailList" element={<EmailList />} />
-                    <Route
-                      path="/TemplateBuilder"
-                      element={<TemplateBuilder />}
-                    />
+                    <Route path="/TemplateBuilder" element={<TemplateBuilder />} />
                     <Route path="/AutoEmail" element={<AutoEmail />} />
-                    <Route
-                      path="/EmailArticleSelect"
-                      element={<EmailArticleSelect />}
-                    />
+                    <Route path="/EmailArticleSelect" element={<EmailArticleSelect />} />
                     <Route path="/CreateEmail" element={<CreateEmail />} />
                     <Route path="/FilterSegment" element={<FilterSegment />} />
                     <Route path="/SelectHCP" element={<SelectHCP />} />
                     <Route path="/VerifyHCP" element={<VerifyHCP />} />
                     <Route path="/VerifyMAIL" element={<VerifyMAIL />} />
                     <Route path="/VerifyHcpMAIL" element={<VerifyHcpMAIL />} />
-                    <Route
-                      path="/SelectSmartListUsers"
-                      element={<SelectSmartListUsers />}
-                    />
-                    <Route
-                      path="/VerifySmartList"
-                      element={<VerifySmartList />}
-                    />
+                    <Route path="/SelectSmartListUsers" element={<SelectSmartListUsers />} />
+                    <Route path="/VerifySmartList" element={<VerifySmartList />} />
                     <Route path="/ViewSmartList" element={<ViewList />} />
                     <Route path="/UploadExcel" element={<UploadExcel />} />
                     <Route path="/UpdatedTable" element={<Table />} />
