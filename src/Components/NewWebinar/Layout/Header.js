@@ -1,13 +1,13 @@
-import React from 'react'
-import { Button, Dropdown, Modal } from 'react-bootstrap';
-import { Form, Link } from 'react-router-dom';
+import React from "react";
+import { Button, Dropdown, Modal } from "react-bootstrap";
+import { Form, Link } from "react-router-dom";
 
 export const WebinarHeader = () => {
   return (
     <>
-    {/* {console.log("- ium here")} */}
-    <header>
-    <nav className="navbar navbar-expand-sm navbar-light">
+      {/* {console.log("- ium here")} */}
+      <header>
+        <nav className="navbar navbar-expand-sm navbar-light">
           <div className="container-fluid">
             <a className="navbar-brand">
               <img
@@ -38,40 +38,32 @@ export const WebinarHeader = () => {
                   <a className="nav-link">Distrubute</a>
                 </li>
                 <li className="nav-item active active-main">
-                    <a className="nav-link">Webinar</a>
+                  <a className="nav-link">Webinar</a>
                 </li>
               </ul>
             </div>
 
-            
-              {/* <Form.Select
+            {/* <Form.Select
                  id="event"
                  value={localStorage.getItem("EventIdHeader")}>
                 
               </Form.Select> */}
-            
-            <div className="user-login">
-              
-                <Dropdown>
-                  <Dropdown.Toggle id="dropdown-basic">
-                    WelCome
-                  </Dropdown.Toggle>
 
-                  <Dropdown.Menu>
-                    <Dropdown.Item>Setting</Dropdown.Item>
-                    <Dropdown.Item>Reset Password</Dropdown.Item>
-                    <Dropdown.Item>
-                      Logout
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              
+            <div className="user-login">
+              <Dropdown>
+                <Dropdown.Toggle id="dropdown-basic">WelCome</Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  <Dropdown.Item>Setting</Dropdown.Item>
+                  <Dropdown.Item>Reset Password</Dropdown.Item>
+                  <Dropdown.Item>Logout</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
             </div>
           </div>
         </nav>
-        
-        </header>
+      </header>
     </>
-  )
-}
+  );
+};
 export default WebinarHeader;

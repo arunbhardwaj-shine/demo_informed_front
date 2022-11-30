@@ -1,13 +1,12 @@
-import React from 'react'
-import { Col, Row } from 'react-bootstrap'
-import Dropdown from 'react-bootstrap/Dropdown';
+import React from "react";
+import { Col, Row } from "react-bootstrap";
+import Dropdown from "react-bootstrap/Dropdown";
 
 const DefaultWebinar = () => {
-
-  const path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN
+  const path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   return (
-   <>
+    <>
       <Col className="col right-sidebar">
         <div className="custom-container">
             <Row>
@@ -103,9 +102,9 @@ const DefaultWebinar = () => {
             </table>
           </div>
         </div>
-    </Col>
+      </Col>
     </>
-  )
-}
+  );
+};
 
-export default DefaultWebinar
+export default DefaultWebinar;
