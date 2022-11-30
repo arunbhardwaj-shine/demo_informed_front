@@ -6,23 +6,20 @@ const WebinarSidebar = () => {
   let c_id = 0;
   const location = useLocation();
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-  
 
   const toggleClassToBody = () => {
     document.body.classList.toggle("toggle_sidebar");
   };
 
-  if (
-    location.pathname != "/new-webinar"){
+  if (location.pathname != "/new-webinar") {
     document.body.classList.add("toggle_sidebar");
-  }else {
+  } else {
     document.body.classList.remove("toggle_sidebar");
   }
 
-//   ) {
-//     document.body.classList.add("toggle_sidebar");
-//   } else 
-
+  //   ) {
+  //     document.body.classList.add("toggle_sidebar");
+  //   } else
 
   return (
     <>
@@ -34,12 +31,10 @@ const WebinarSidebar = () => {
           <ul>
             <li
               className={
-                location.pathname == "/new-webinar"
-                  ? "active"
-                  : "side_li"
+                location.pathname == "/new-webinar" ? "active" : "side_li"
               }
             >
-              <Link to={"/DefaultWebinar"}>
+              <Link to={"/new-webinar"}>
                 <svg
                   width="24"
                   height="18"
@@ -59,15 +54,15 @@ const WebinarSidebar = () => {
                 <p>Reader</p>
               </Link>
             </li>
-            
+
             <li
               className={
-                location.pathname == "/AutoEmail" && c_id == 0
+                location.pathname == "/contact-form" && c_id == 0
                   ? "active"
                   : "side_li"
               }
             >
-              <Link to={"/AutoEmail"}>
+              <Link to={"/contact-form"}>
                 <svg
                   width="24"
                   height="24"
@@ -114,12 +109,12 @@ const WebinarSidebar = () => {
             </li>
             <li
               className={
-                location.pathname == "/TemplateBuilder" && c_id == 0
+                location.pathname == "/email-statsss" && c_id == 0
                   ? "active"
                   : "side_li"
               }
             >
-              <Link to={"/TemplateBuilder"}>
+              <Link to={"/email-statsss"}>
                 <svg
                   width="24"
                   height="24"
@@ -201,14 +196,12 @@ const WebinarSidebar = () => {
             </li>
             <li
               className={
-                (location.pathname === "/EmailStatss" ||
-                  location.pathname === "/get-details") &&
-                c_id == 0
+                location.pathname === "/webinar-stats" && c_id == 0
                   ? "active"
                   : "side_li"
               }
             >
-              <Link to={"/EmailStatss"}>
+              <Link to={"/webinar-stats"}>
                 <svg
                   width="24"
                   height="24"
@@ -245,7 +238,7 @@ const WebinarSidebar = () => {
                 <p>Webinar Stats</p>
               </Link>
             </li>
-             <li
+            <li
               className={
                 (location.pathname == "/SmartList" ||
                   location.pathname == "/EditList" ||
@@ -321,7 +314,7 @@ const WebinarSidebar = () => {
                 <p>Webinar Setting</p>
               </Link>
             </li>
-             <li
+            <li
               className={
                 (location.pathname == "/SmartList" ||
                   location.pathname == "/EditList" ||
