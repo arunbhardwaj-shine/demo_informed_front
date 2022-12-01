@@ -18,6 +18,9 @@ import reducers from "./reducers";
 import WebinarHeader from "./Components/NewWebinar/Layout/Header";
 import WebinarSidebar from "./Components/NewWebinar/Layout/Sidebar";
 import DefaultWebinar from "./Components/NewWebinar/WebinarFiles/Webinar";
+import ContactForm from "./Components/NewWebinar/WebinarFiles/ContactForm";
+import EmailStatsss from "./Components/NewWebinar/WebinarFiles/EmailStatsss";
+import WebinarStats from "./Components/NewWebinar/WebinarFiles/WebinarStats";
 
 // Dashboard
 import Dashboard from "./Components/Webinar/Dashboard";
@@ -133,9 +136,7 @@ import TableTypeData from "./Components/Webinar/Emails/TableTypeData";
 import QuestionsForm from "./Components/Webinar/QuestionsForm";
 import QuestionsPreview from "./Components/Webinar/QuestionsPreview";
 import QuestionsPreviewText from "./Components/Webinar/Survey/QuestionsPreviewText";
-import ContactForm from "./Components/NewWebinar/WebinarFiles/ContactForm";
-import EmailStatsss from "./Components/NewWebinar/WebinarFiles/EmailStatsss";
-import WebinarStats from "./Components/NewWebinar/WebinarFiles/WebinarStats";
+
 // import WebinarHeader from "./Components"
 let platform = 0;
 let show = 0;
@@ -144,8 +145,7 @@ if (window.location.href.indexOf("/webinar") > -1) {
   require("./Components/assets/fonts/fonts.css");
   platform = 1;
   show = 1;
-} else if (window.location.pathname == "/new-webinar") {
-  // console.log("fdfdfd",window.location.pathname)
+} else if (window.location.pathname == "/new-webinar" || window.location.pathname == "/contact-form" ) {
   require("./Components/assets/css/style.css");
   require("./Components/assets/fonts/fonts.css");
   require('./Components/NewWebinar/assets/css/webinar.css')
@@ -174,7 +174,7 @@ ReactDOM.render(
             <div className="warpper">
               <div className="container-fluid">
                 <div className="row">
-                  {["/", "/new-webinar"].includes(window.location.pathname) ? (
+                  {["/", "/new-webinar", "/contact-form", "/email-stats"].includes(window.location.pathname) ? (
                     <WebinarSidebar />
                   ) : (
                     <Sidebar />
@@ -187,7 +187,7 @@ ReactDOM.render(
 
                     <Route path="/new-webinar" element={<DefaultWebinar />} />
                     <Route path="/contact-form" element={<ContactForm />} />
-                    <Route path="/email-statsss" element={<EmailStatsss />} />
+                    <Route path="/email-stats" element={<EmailStats />} />
                     <Route path="/webinar-stats" element={<WebinarStats />} />
 
                     <Route path="/" element={<App />} />

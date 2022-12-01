@@ -9,18 +9,80 @@ const DefaultWebinar = () => {
     <>
       <Col className="col right-sidebar">
         <div className="custom-container">
-            <Row>
-             <div className="container">
-              <div className="search_view">
+          <Row>
+              <div className="search_view readers">
                   <div className="smart-list-btns">
                     <div className="top-right-action">
-                      <div className="search-bar">
+                      <div className="col">
+                        <label>Select Event</label>
+                        <Dropdown>
+                          <Dropdown.Toggle variant="default">
+                            1:1 meeting with IBU Haematology
+                          </Dropdown.Toggle>
+
+                          <Dropdown.Menu>
+                            <Dropdown.Item href="#">1:1 meeting with IBU Haematology</Dropdown.Item>
+                            <Dropdown.Item href="#">PUP haematology</Dropdown.Item>
+                            <Dropdown.Item href="#">Making informed treatment decisions in previously  untreated patients with severe haemophilia A</Dropdown.Item>
+                            <Dropdown.Item href="#">PUP haematology</Dropdown.Item>
+                            <Dropdown.Item href="#">Haematology</Dropdown.Item>
+                          </Dropdown.Menu>
+                        </Dropdown>
+                      </div>
+                      <div className="col">
+                        <label>Select Country</label>
+                        <Dropdown>
+                          <Dropdown.Toggle variant="default">
+                            Select country
+                          </Dropdown.Toggle>
+
+                          <Dropdown.Menu>
+                            <Dropdown.Item href="#">Afghanistan</Dropdown.Item>
+                            <Dropdown.Item href="#">Australia</Dropdown.Item>
+                            <Dropdown.Item href="#">Ireland</Dropdown.Item>
+                            <Dropdown.Item href="#">Italy</Dropdown.Item>
+                            <Dropdown.Item href="#">Kuwait</Dropdown.Item>
+                            <Dropdown.Item href="#">South Africa</Dropdown.Item>
+                          </Dropdown.Menu>
+                        </Dropdown>
+                      </div>
+                      <div className="col">
+                        <label>Select User type</label>
+                        <Dropdown>
+                          <Dropdown.Toggle variant="default" id="dropdown-basic">
+                            Select type
+                          </Dropdown.Toggle>
+
+                          <Dropdown.Menu>
+                            <Dropdown.Item href="#">HCP</Dropdown.Item>
+                            <Dropdown.Item href="#">HCP Team</Dropdown.Item>
+                            <Dropdown.Item href="#">Staff User</Dropdown.Item>
+                            <Dropdown.Item href="#">Distributor</Dropdown.Item>
+                            <Dropdown.Item href="#">Test user</Dropdown.Item>
+                          </Dropdown.Menu>
+                        </Dropdown>
+                      </div>
+                      <div className="col">
+                        <label>Select Type</label>
+                        <Dropdown>
+                          <Dropdown.Toggle variant="default">
+                            Select type
+                          </Dropdown.Toggle>
+
+                          <Dropdown.Menu>
+                            <Dropdown.Item href="#">Virtual</Dropdown.Item>
+                            <Dropdown.Item href="#">Live</Dropdown.Item>
+                          </Dropdown.Menu>
+                        </Dropdown>
+                      </div>
+                      <div className="search-bar col">
                         <form
                           className="d-flex">
+                             <label>Search</label>
                           <input
                             className="form-control me-2"
                             type="search"
-                            placeholder="Search"
+                            placeholder="Search by name or email"
                             aria-label="Search"/>
                         
                             <button className="btn btn-outline-success" type="submit">
@@ -39,14 +101,16 @@ const DefaultWebinar = () => {
                             </button>
                         </form>
                       </div>
+                      <div className="download-excel col">
+                        <a href="javascript:;" class="dnl_re" onclick="download_user(this)">
+                            <img src="https://cdn-icons-png.flaticon.com/512/338/338840.png" />
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
-                            
-              </div> 
-
             </Row>
-           <div className="selected-hcp-list">
+           <div className="selected-webinar-list">
             <table className="table webinar-reader">
               <thead className="sticky-header">
                 <tr>
@@ -90,9 +154,9 @@ const DefaultWebinar = () => {
                       <table>
                         <tbody>
                           <tr>
-                            <td><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="#0066be" d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/></svg></td>
-                            <td><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="#0066be" d="M352 144c0-44.2 35.8-80 80-80s80 35.8 80 80v48c0 17.7 14.3 32 32 32s32-14.3 32-32V144C576 64.5 511.5 0 432 0S288 64.5 288 144v48H64c-35.3 0-64 28.7-64 64V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V256c0-35.3-28.7-64-64-64H352V144z"/></svg></td>
-                            <td><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="#c50e0e" d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg></td>
+                            <td><a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="#0066be" d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/></svg></a></td>
+                            <td><a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="#0066be" d="M352 144c0-44.2 35.8-80 80-80s80 35.8 80 80v48c0 17.7 14.3 32 32 32s32-14.3 32-32V144C576 64.5 511.5 0 432 0S288 64.5 288 144v48H64c-35.3 0-64 28.7-64 64V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V256c0-35.3-28.7-64-64-64H352V144z"/></svg></a></td>
+                            <td><a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="#c50e0e" d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg></a></td>
                           </tr>
                         </tbody>
                       </table>

@@ -48,8 +48,8 @@ const ContactForm = () => {
               </div>
             </div>
           </Row>
-          <div className="selected-hcp-list">
-            <table className="table" id="table-to-xls">
+          <div className="selected-webinar-list">
+            <table className="table webinar-reader">
               <thead className="sticky-header">
                 <tr>
                   <th scope="col">User Email(Contacts)</th>
