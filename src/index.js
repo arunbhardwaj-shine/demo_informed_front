@@ -13,7 +13,6 @@ import { Provider } from "react-redux";
 import { createStore } from "redux";
 import reducers from "./reducers";
 
-
 // ----------START-------Webinar routes------------------------
 import WebinarHeader from "./Components/NewWebinar/Layout/Header";
 import WebinarSidebar from "./Components/NewWebinar/Layout/Sidebar";
@@ -145,10 +144,13 @@ if (window.location.href.indexOf("/webinar") > -1) {
   require("./Components/assets/fonts/fonts.css");
   platform = 1;
   show = 1;
-} else if (window.location.pathname == "/new-webinar" || window.location.pathname == "/contact-form" ) {
+} else if (
+  window.location.pathname == "/new-webinar" ||
+  window.location.pathname == "/contact-form"
+) {
   require("./Components/assets/css/style.css");
   require("./Components/assets/fonts/fonts.css");
-  require('./Components/NewWebinar/assets/css/webinar.css')
+  require("./Components/NewWebinar/assets/css/webinar.css");
   platform = 0;
   show = 0;
 } else {
@@ -174,7 +176,12 @@ ReactDOM.render(
             <div className="warpper">
               <div className="container-fluid">
                 <div className="row">
-                  {["/", "/new-webinar", "/contact-form", "/email-stats"].includes(window.location.pathname) ? (
+                  {[
+                    "/",
+                    "/new-webinar",
+                    "/contact-form",
+                    "/email-stats",
+                  ].includes(window.location.pathname) ? (
                     <WebinarSidebar />
                   ) : (
                     <Sidebar />
@@ -187,7 +194,7 @@ ReactDOM.render(
 
                     <Route path="/new-webinar" element={<DefaultWebinar />} />
                     <Route path="/contact-form" element={<ContactForm />} />
-                    <Route path="/email-stats" element={<EmailStats />} />
+                    <Route path="/email-statsss" element={<EmailStatsss />} />
                     <Route path="/webinar-stats" element={<WebinarStats />} />
 
                     <Route path="/" element={<App />} />
