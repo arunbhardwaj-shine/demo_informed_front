@@ -2,7 +2,7 @@ import React from "react";
 import { Col, Row } from "react-bootstrap";
 import Dropdown from "react-bootstrap/Dropdown";
 
-const WebinarStatistics = () => {
+const StatsWebinar = () => {
   return (
     <>
       <Col className="col right-sidebar">
@@ -135,4 +135,4 @@ const WebinarStatistics = () => {
     </>
   );
 };
-export default WebinarStatistics;
+export default StatsWebinar;
