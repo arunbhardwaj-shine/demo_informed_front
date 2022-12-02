@@ -135,6 +135,7 @@ import QuestionsForm from "./Components/Webinar/QuestionsForm";
 import QuestionsPreview from "./Components/Webinar/QuestionsPreview";
 import QuestionsPreviewText from "./Components/Webinar/Survey/QuestionsPreviewText";
 import StatsWebinar from "./Components/NewWebinar/WebinarFiles/StatsWebinar";
+import AutoMail from "./Components/NewWebinar/WebinarFiles/AutoMail";
 
 // import WebinarHeader from "./Components"
 let platform = 0;
@@ -175,6 +176,7 @@ ReactDOM.render(
               "/contact-form",
               "/email-statsss",
               "/stats-webinar",
+              "/auto-mail",
             ].includes(window.location.pathname) ? (
               <WebinarHeader />
             ) : (
@@ -189,6 +191,7 @@ ReactDOM.render(
                     "/contact-form",
                     "/email-statsss",
                     "/stats-webinar",
+                    "/auto-mail",
                   ].includes(window.location.pathname) ? (
                     <WebinarSidebar />
                   ) : (
@@ -204,6 +207,7 @@ ReactDOM.render(
                     <Route path="/contact-form" element={<ContactForm />} />
                     <Route path="/email-statsss" element={<EmailStatsss />} />
                     <Route path="/stats-webinar" element={<StatsWebinar />} />
+                    <Route path="/auto-mail" element={<AutoMail />} />
 
                     <Route path="/" element={<App />} />
                     <Route path="/SmartList" element={<SmartList />} />
