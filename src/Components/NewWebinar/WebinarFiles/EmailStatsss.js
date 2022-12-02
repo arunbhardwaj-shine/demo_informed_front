@@ -9,7 +9,12 @@ const EmailStatsss = () => {
       <Col className="col right-sidebar">
         <div className="custom-container">
           <Row>
-            <div className="search_view readers">
+           <div className="top-header">
+            <div className="page-title">
+                <h2>Email Stats</h2>
+              </div>
+           
+            <div className="search_view readers mail_statss">
               <div className="smart-list-btns">
                 <div className="top-right-action">
                   <div className="col">
@@ -89,9 +94,10 @@ const EmailStatsss = () => {
                 </div>
               </div>
             </div>
+            </div>
           </Row>
-          <div className="selected-hcp-list">
-            <table className="table" id="table-to-xls">
+          <div className="selected-webinar-list">
+            <table className="table webinar-reader">
               <thead className="sticky-header">
                 <tr>
                   <th scope="col">Sr No</th>
@@ -104,7 +110,7 @@ const EmailStatsss = () => {
               </thead>
               <tbody className="form-group">
                 <tr className="seprator-add">
-                  <td colspan="5"></td>
+                  <td colspan="6"></td>
                 </tr>
                 <tr id={`row-selected`}>
                   <td id={`field_name`}>
