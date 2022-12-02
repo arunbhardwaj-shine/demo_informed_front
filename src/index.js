@@ -19,7 +19,7 @@ import WebinarSidebar from "./Components/NewWebinar/Layout/Sidebar";
 import DefaultWebinar from "./Components/NewWebinar/WebinarFiles/Webinar";
 import ContactForm from "./Components/NewWebinar/WebinarFiles/ContactForm";
 import EmailStatsss from "./Components/NewWebinar/WebinarFiles/EmailStatsss";
-import WebinarStats from "./Components/NewWebinar/WebinarFiles/WebinarStats";
+import WebinarStatistics from "./Components/NewWebinar/WebinarFiles/WebinarStats";
 
 // Dashboard
 import Dashboard from "./Components/Webinar/Dashboard";
@@ -146,7 +146,8 @@ if (window.location.href.indexOf("/webinar") > -1) {
   show = 1;
 } else if (
   window.location.pathname == "/new-webinar" ||
-  window.location.pathname == "/contact-form"
+  window.location.pathname == "/contact-form" ||
+  window.location.pathname == "/webinar-statistics"
 ) {
   require("./Components/assets/css/style.css");
   require("./Components/assets/fonts/fonts.css");
@@ -163,24 +164,23 @@ if (window.location.href.indexOf("/webinar") > -1) {
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={createStore(reducers)}>
-      {console.log("-dfdfd", platform)}
+      {/* {console.log("-dfdfd", platform)} */}
       {platform == 0 ? (
         <>
           <BrowserRouter>
-            {["/", "/new-webinar"].includes(window.location.pathname) ? (
+            {["/new-webinar","/contact-form","/email-statsss","/webinar-statistics"].includes(window.location.pathname) ? (
               <WebinarHeader />
             ) : (
-              <Header />
+              <Header />  
             )}
             {/* {window.location.pathname !== "/" ? <WebinarHeader /> : null} */}
             <div className="warpper">
               <div className="container-fluid">
                 <div className="row">
                   {[
-                    "/",
                     "/new-webinar",
                     "/contact-form",
-                    "/email-stats",
+                    "/email-statsss",
                   ].includes(window.location.pathname) ? (
                     <WebinarSidebar />
                   ) : (
@@ -195,7 +195,7 @@ ReactDOM.render(
                     <Route path="/new-webinar" element={<DefaultWebinar />} />
                     <Route path="/contact-form" element={<ContactForm />} />
                     <Route path="/email-statsss" element={<EmailStatsss />} />
-                    <Route path="/webinar-stats" element={<WebinarStats />} />
+                    <Route path="/webinar-statistics" element={<WebinarStatistics />} />
 
                     <Route path="/" element={<App />} />
                     <Route path="/SmartList" element={<SmartList />} />

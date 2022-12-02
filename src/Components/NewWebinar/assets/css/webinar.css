@@ -207,9 +207,11 @@ table.webinar-reader thead.sticky-header:after {
 
 .selected-webinar-list {
     margin-top: 40px;
+    display: flex;
+    width: 100%;
 }
 
-.search_view .top-right-action .col .dropdown-menu {
+.top-right-action .col .dropdown-menu {
     border-radius: 13px;
     overflow: hidden;
     padding: 4px;
@@ -220,7 +222,7 @@ table.webinar-reader thead.sticky-header:after {
     width: 100%;
 }
 
-.search_view .dropdown-menu .dropdown-item {
+.dropdown-menu .dropdown-item {
     font-size: 14px;
     text-decoration: none;
     white-space: normal;
@@ -233,14 +235,13 @@ table.webinar-reader thead.sticky-header:after {
     border-radius: 30px;
 }
 
-.search_view .dropdown-menu .dropdown-item:hover {
+.dropdown-menu .dropdown-item:hover {
     background: #e9ecef;
 }
 
-.search_view .dropdown-menu .dropdown-item:active,
+.dropdown-menu .dropdown-item:active,
 .show>.btn.dropdown-toggle {
     color: var(--blue);
-    /* background-color: var(--light-blue); */
     box-shadow: 0px 0px 6px 0px rgb(0 102 190 / 60%);
 }
 
@@ -248,7 +249,48 @@ table.webinar-reader thead.sticky-header:after {
     box-shadow: 0px 0px 6px 0px rgb(0 102 190 / 60%);
 }
 
-.search_view .dropdown-menu .dropdown-item:active {
+.dropdown-menu .dropdown-item:active {
     color: var(--white);
     background-color: var(--light-blue);
+}
+
+.top-right-action .select-event {
+    margin-right: 20px;
+}
+
+.selected-webinar-list .list-webinar-readers {
+    width: 400px;
+    border: 1px dashed #0066BE;
+    border-radius: 30px;
+    margin: 40px 0 0 30px;
+    padding: 45px 20px;
+    background: #FFFFFF;
+    box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.selected-webinar-list .list-webinar-readers h3 {
+    color: #0066be;
+    font-family: "Roboto-Medium";
+    margin: 0px 0 20px;
+}
+
+.selected-webinar-list .list-webinar-readers h2 {
+    color: var(--light-blue);
+    font-size: 36px;
+    line-height: 42px;
+    font-family: "Roboto-Bold";
+    margin: 0 0 15px;
+}
+
+.list-webinar-readers span {
+    font-size: 13px;
+    line-height: 19px;
+    text-transform: capitalize;
+    color: #004A89;
+    font-weight: 500;
 }

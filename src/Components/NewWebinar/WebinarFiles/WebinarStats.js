@@ -2,7 +2,7 @@ import React from "react";
 import { Col, Row } from "react-bootstrap";
 import Dropdown from "react-bootstrap/Dropdown";
 
-const WebinarStats = () => {
+const WebinarStatistics = () => {
   return (
     <>
       <Col className="col right-sidebar">
@@ -73,7 +73,7 @@ const WebinarStats = () => {
               </thead>
               <tbody className="form-group">
                 <tr className="seprator-add">
-                  <td colspan="5"></td>
+                  <td colspan="7"></td>
                 </tr>
                 <tr id={`row-selected`}>
                   <td id={`field_name`}>
@@ -135,4 +135,4 @@ const WebinarStats = () => {
     </>
   );
 };
-export default WebinarStats;
+export default WebinarStatistics;

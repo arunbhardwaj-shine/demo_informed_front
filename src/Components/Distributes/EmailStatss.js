@@ -14,7 +14,7 @@ import {
 } from "../../actions";
 import { popup_alert } from "../../popup_alert";
 
-const EmailStatss = (props) => {
+const EmailStats = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [sortingCount, setSortingCount] = useState(0);
   const [totalCount, setTotalCount] = useState([]);
@@ -468,4 +468,4 @@ export default connect(mapStateToProps, {
   getDraftData: getDraftData,
   getSelectedSmartListData: getSelectedSmartListData,
   getEmailData: getEmailData,
-})(EmailStatss);
+})(EmailStats);

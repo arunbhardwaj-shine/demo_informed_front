@@ -7,6 +7,7 @@ import { getDraftData, getEmailData } from "../../actions";
 import { connect } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 import Accordion from "react-bootstrap/Accordion";
+
 import { toast } from "react-toastify";
 import { popup_alert } from "../../popup_alert";
 import Highcharts from "highcharts";

@@ -11,7 +11,7 @@ const WebinarSidebar = () => {
     document.body.classList.toggle("toggle_sidebar");
   };
 
-  if (location.pathname != "/new-webinar") {
+  if (location.pathname != "/new-webinar" && location.pathname != "/contact-form" && location.pathname != "/email-statsss" && location.pathname != "/webinar-statistics") {
     document.body.classList.add("toggle_sidebar");
   } else {
     document.body.classList.remove("toggle_sidebar");
@@ -166,12 +166,12 @@ const WebinarSidebar = () => {
 
             <li
               className={
-                location.pathname === "/webinar-stats" && c_id == 0
+                location.pathname === "/webinar-statistics" && c_id == 0
                   ? "active"
                   : "side_li"
               }
             >
-              <Link to={"/webinar-stats"}>
+              <Link to={"/webinar-statistics"}>
                 <svg
                   width="24"
                   height="24"
