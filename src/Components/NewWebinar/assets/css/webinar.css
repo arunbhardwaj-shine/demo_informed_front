@@ -145,8 +145,16 @@ table.webinar-reader thead.sticky-header:after {
 
 .readers.search_view .top-right-action {
     display: flex;
-    width: 100%;
     align-items: flex-end;
+    width: 100%;
+}
+
+.readers.search_view.mail_statss .top-right-action {
+    width: auto;
+}
+
+.search_view .top-right-action .dropdown {
+    min-width: 240px;
 }
 
 .readers.search_view .top-right-action label {
