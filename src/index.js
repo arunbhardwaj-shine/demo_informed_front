@@ -135,6 +135,9 @@ import QuestionsForm from "./Components/Webinar/QuestionsForm";
 import QuestionsPreview from "./Components/Webinar/QuestionsPreview";
 import QuestionsPreviewText from "./Components/Webinar/Survey/QuestionsPreviewText";
 import StatsWebinar from "./Components/NewWebinar/WebinarFiles/StatsWebinar";
+import AutoMail from "./Components/NewWebinar/WebinarFiles/AutoMail";
+import EventCreate from "./Components/NewWebinar/WebinarFiles/EventCreate";
+import SettingWebinar from "./Components/NewWebinar/WebinarFiles/SettingWebinar";
 
 // import WebinarHeader from "./Components"
 let platform = 0;
@@ -148,7 +151,9 @@ if (window.location.href.indexOf("/webinar") > -1) {
   window.location.pathname == "/new-webinar" ||
   window.location.pathname == "/contact-form" ||
   window.location.pathname == "/email-statsss" ||
-  window.location.pathname == "/stats-webinar"
+  window.location.pathname == "/stats-webinar" ||
+  window.location.pathname == "/event-create" ||
+  window.location.pathname == "/setting-webinar"
 ) {
   require("./Components/assets/css/style.css");
   require("./Components/assets/fonts/fonts.css");
@@ -175,6 +180,9 @@ ReactDOM.render(
               "/contact-form",
               "/email-statsss",
               "/stats-webinar",
+              "/auto-mail",
+              "/event-create",
+              "/setting-webinar",
             ].includes(window.location.pathname) ? (
               <WebinarHeader />
             ) : (
@@ -189,6 +197,9 @@ ReactDOM.render(
                     "/contact-form",
                     "/email-statsss",
                     "/stats-webinar",
+                    "/auto-mail",
+                    "/event-create",
+                    "/setting-webinar",
                   ].includes(window.location.pathname) ? (
                     <WebinarSidebar />
                   ) : (
@@ -204,6 +215,13 @@ ReactDOM.render(
                     <Route path="/contact-form" element={<ContactForm />} />
                     <Route path="/email-statsss" element={<EmailStatsss />} />
                     <Route path="/stats-webinar" element={<StatsWebinar />} />
+                    <Route path="/auto-mail" element={<AutoMail />} />
+
+                    <Route path="/event-create" element={<EventCreate />} />
+                    <Route
+                      path="/setting-webinar"
+                      element={<SettingWebinar />}
+                    />
 
                     <Route path="/" element={<App />} />
                     <Route path="/SmartList" element={<SmartList />} />

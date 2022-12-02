@@ -1,72 +1,133 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { useState } from "react";
-import { loader } from "../../../loader";
-import { toast } from "react-toastify";
-import { useRef } from "react";
-import { Editor } from "@tinymce/tinymce-react";
+import { Link, useLocation } from "react-router-dom";
+import { connect } from "react-redux";
+import AliceCarousel from "react-alice-carousel";
+import "react-alice-carousel/lib/alice-carousel.css";
+
+import { getCampaignId, getEmailData } from "../../../actions";
+import { useNavigate } from "react-router-dom";
 import { Modal, ModalDialog, Dropdown } from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
+import SimpleReactValidator from "simple-react-validator";
+import { loader } from "../../../loader";
+import Select from "react-select";
 import { popup_alert } from "../../../popup_alert";
-
+import { toast } from "react-toastify";
+import { Editor } from "@tinymce/tinymce-react";
+import { getSelectedSmartListData } from "../../../actions";
+import { toPng } from "html-to-image";
 import { CircularProgressbar } from "react-circular-progressbar";
 import { buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-const AutoMail = () => {
-  const [getsearch, setSearch] = useState("");
+var dxr = 0;
+var state_object = {};
+const AutoMail = (props) => {
+  const editorRef = useRef(null);
+  const ref = useRef(null);
+
+  const options = [
+    {
+      value: "1:1 meeting with IBU Hamatology",
+      label: "1:1 meeting with IBU Hamatology",
+    },
+    { value: "PUP haematology", label: "PUP haematology" },
+    { value: "Haematology", label: "Haematology" },
+  ];
+
+  let file_name = useRef("");
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const navigate = useNavigate();
+  const [SendListData, setSendListData] = useState([]);
+
+  const [UserData, setUserData] = useState([]);
+  const location = useLocation();
+  const [uniqueId, setUniqueId] = useState("");
   const [showPreogressBar, setShowProgressBar] = useState(false);
   const [uploadOrDownloadCount, setUploadOrDownloadCount] = React.useState(0);
   const [mailsIncrement, setMailsIncrement] = useState(0);
   const [hcpsSelected, setHcpsSelected] = useState([]);
-  const [approveClickedd, setApproveClicked] = useState(false);
-  const [counterFlag, setCounterFlag] = useState(0);
-  const [tempLang, setTempLang] = useState(0);
-  const [templates, setTemplates] = useState([]);
-  const [countryall, setCountryall] = useState([]);
-  const [templateClicked, setTemplateClicked] = useState(false);
-  const [sourceCode, setSourceCode] = useState("");
-  const [indexClicked, setIndexClicked] = useState();
-  const [indexClickedReminder, setIndexClickedReminder] = useState();
-  const [smartListData, setSmartListData] = useState([]);
-  const [prevsmartListData, setPrevSmartListData] = useState([]);
-  const [activeManual, setActiveManual] = useState("active");
-  const [templateId, setTemplateId] = useState(0);
-  const [emailSubject, setEmailSubject] = useState("");
-  const [emailDescription, setEmailDescription] = useState("");
-  const [isOpen_send, setIsOpensend] = useState(false);
-
-  const [reRender, setReRender] = useState(0);
-  const [getSmartListId, setSmartListId] = useState(0);
-  const [addListOpen, setAddListOpen] = useState(false);
+  const [getsearch, setSearch] = useState("");
+  const [selectedLanguage, setSelectedLanguage] = useState(
+    "1:1 meeting with IBU Haematology"
+  );
+  const [selectedIbu, setSelectedIbu] = useState("");
+  const PdfSelected = "";
+  const [newTemplateName, setNewTemplateName] = useState("");
+  const [manualReRender, setManualReRender] = useState(0);
+  const campaign_id = "";
+  const [selectedFile, setSelectedFile] = useState(null);
   const [activeExcel, setActiveExcel] = useState("");
-  const [searchedUsers, setSearchedUsers] = useState([]);
-  const [selectedHcp, setSelectedHcp] = useState([]);
-  const [email, setEmail] = useState("");
-  const [isOpenAdd, setIsOpenAdd] = useState(false);
-  const [name, setName] = useState("");
-  const [hide, setHide] = useState(false);
+  const [addFileReRender, setAddFileReRender] = useState(0);
+  const [counterFlag, setCounterFlag] = useState(0);
+  const [activeManual, setActiveManual] = useState("active");
+  const [templateList, setTemplateList] = useState([]);
+  const [editableTemplate, setEdiatbleTemplate] = useState(false);
+  const [template, setTemplate] = useState("");
+  var [selectedCountry, setSelectedCountry] = useState("");
+  const [readers, setReaders] = useState([]);
+  const [campaign_id_st, setCampaign_id] = useState(campaign_id);
   const [templateSaving, setTemplateSaving] = useState("");
+  const [getTemplateLanguage, setTemplateLanguage] = useState([]);
+  const [getTemplateIbu, setTemplateIbu] = useState([]);
+  const [counter, setCounter] = useState(0);
+  const [modalCounter, setModalCounter] = useState(0);
+  const [emailSubject, setEmailSubject] = useState("");
+  const [templateId, setTemplateId] = useState();
   const [templateName, setTemplateName] = useState("");
+  const [renderAfterValidation, setRenderAfterValidation] = useState(0);
+  const [tagClickedFirst, setTagClickedFirst] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen_send, setIsOpensend] = useState(false);
+  const [showConfirmation, setshowConfirmation] = useState(false);
+  const [allTags, setAllTags] = useState({});
+  const [newTag, setNewTag] = useState("");
+  const [tagsReRender, setTagsReRender] = useState(0);
+  const [tagsCounter, setTagsCounter] = useState(0);
+  const [countryOption, setCountryOption] = useState(0);
+  const [ibuOption, setIbuOption] = useState("");
+  const [validator] = React.useState(new SimpleReactValidator());
+
+  const [searchedUsers, setSearchedUsers] = useState([]);
+  const [countryall, setCountryall] = useState([]);
+  const [message, setMessage] = useState("");
+  const [reRender, setReRender] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [name, setName] = useState("");
+  const [viewEmailModal, setviewEmailModal] = useState(false);
+  const [email, setEmail] = useState("");
+  const [editClicked, setEditClicked] = useState(true);
+  const [selectedHcp, setSelectedHcp] = useState([]);
+  const slidePrev = () => setActiveIndex(activeIndex - 1);
+  const slideNext = () => setActiveIndex(activeIndex + 1);
+  const syncActiveIndex = ({ item }) => setActiveIndex(item);
+
+  const [getTemplatePopup, setTemplatePopup] = useState(false);
+  const [getNewTemplatePopup, setNewTemplatePopup] = useState(false);
+
+  const [getIsApprovedStatus, setIsApprovedStatus] = useState(0);
+  const [getDefaultTemplate, setDefaultTemplate] = useState(0);
+
   const [hpc, setHpc] = useState([
     { firstname: "", lastname: "", email: "", contact_type: "", country: "" },
   ]);
 
-  const [readers, setReaders] = useState([]);
+  const [isOpenAdd, setIsOpenAdd] = useState(false);
+
+  const [addListOpen, setAddListOpen] = useState(false);
+  const [smartListData, setSmartListData] = useState([]);
+  const [prevsmartListData, setPrevSmartListData] = useState([]);
 
   const [getReaderDetails, setReaderDetails] = useState({});
   const [getSmartListName, setSmartListName] = useState("");
   const [getSmartListPopupStatus, setSmartListPopupStatus] = useState(false);
+  const [showLessInfo, setShowLessInfo] = useState(true);
+  const [getSmartListId, setSmartListId] = useState(0);
+  const [templateClickedd, setTemplateClicked] = useState(false);
 
-  const editorRef = useRef(null);
-  const ref = useRef(null);
-
-  let file_name = useRef("");
-
-  useEffect(() => {
-    getSmartListData(0);
-  }, []);
+  const newArr = [];
 
   useEffect(() => {
     if (addListOpen == true) {
@@ -74,12 +135,39 @@ const AutoMail = () => {
     }
   }, [addListOpen]);
 
-  useEffect(() => {
-    getTemplateListData();
-  }, []);
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
   useEffect(() => {
-    loader("show");
+    getTemplateListData(0, "All", "");
+    getSmartListData(0);
+  }, []);
+
+  const getSmartListData = (flag) => {
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    const body = {
+      user_id: localStorage.getItem("user_id"),
+      search: getsearch,
+      filter: "",
+    };
+    // loader("show");
+    axios
+      .post(`distributes/get_smart_list`, body)
+      .then((res) => {
+        setSmartListData(res.data.response.data);
+        if (flag == 0) {
+          setPrevSmartListData(res.data.response.data);
+        } else {
+          //   loader("hide");
+        }
+      })
+      .catch((err) => {
+        // loader("hide");
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    //  loader("show");
     const getalCountry = async () => {
       const body = {
         user_id: localStorage.getItem("user_id"),
@@ -91,6 +179,9 @@ const AutoMail = () => {
         .post(`distributes/filters_list`, body)
         .then((res) => {
           setCountryall(res.data.response.data.country);
+          //console.log(res.data.response.data.country);
+          // console.log(countryall);
+          // setCounter(counter + 1);
         })
         .catch((err) => {
           console.log(err);
@@ -101,167 +192,222 @@ const AutoMail = () => {
   }, []);
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-  const getTemplateListData = async () => {
+  const getTemplateListData = async (flag, lng, ibu) => {
+    let check_lng_index = 10;
+    if (lng == "All") {
+      check_lng_index = 10;
+    } else if (lng == "english") {
+      check_lng_index = 0;
+    } else if (lng == "italian") {
+      check_lng_index = 1;
+    } else if (lng == "germany") {
+      check_lng_index = 2;
+    } else if (lng == "spanish") {
+      check_lng_index = 3;
+    } else if (lng == "russian") {
+      check_lng_index = 4;
+    }
+
     const body = {
       user_id: localStorage.getItem("user_id"),
-      language: "",
-      ibu: "",
+      language: check_lng_index,
+      ibu: ibu,
     };
 
-    loader("show");
+    //  loader("show");
     await axios
-      .post(`emailapi/get_own_template_list`, body)
+      .post(`emailapi/get_template_list`, body)
       .then((res) => {
-        console.log(res);
-        setTemplates(res.data.response.data);
-        loader("hide");
+        let lang = res.data.response.language;
+
+        let lng_arr = [];
+        Object.entries(lang).map(([index, item]) => {
+          let label = item;
+          lng_arr.push({
+            value: item,
+            label: label.toUpperCase(),
+          });
+        });
+
+        let ibu = res.data.response.ibu;
+        let ibu_arr = [];
+        if (ibu.length > 0) {
+          Object.entries(ibu).map(([index, item]) => {
+            let label = item;
+            ibu_arr.push({
+              value: item,
+              label: label,
+            });
+          });
+        }
+
+        let index = lng_arr.findIndex((x) => x.value === selectedLanguage);
+        setCountryOption(index);
+
+        setTemplateLanguage(lng_arr);
+
+        setTemplateIbu(ibu_arr);
+        setTemplateList(res.data.response.data);
+        getSelectedTemplateSource(res.data.response.data);
+        setDefaultTemplate(res.data.response.is_default);
+        setCounter(counter + 1);
       })
       .catch((err) => {
         console.log(err);
       });
-  };
-
-  const viewButtonClicked = (template, index) => {
-    console.log(template);
-    setEmailSubject("");
-    setEmailDescription("");
-    setApproveClicked(false);
-    setTemplateClicked(true);
-    setSourceCode(template.source_code);
-    setIndexClicked(index);
-    setTemplateId(template.id);
-    setTempLang(template.language_code);
-    if (template.approved === 1) {
-      setApproveClicked(true);
-    } else {
-      setApproveClicked(false);
-    }
-
-    setIndexClickedReminder();
-    setTemplateName(template.name);
-  };
-
-  const viewReminderClicked = (template, index) => {
-    console.log(template);
-    setEmailSubject("");
-    setEmailDescription("");
-    setApproveClicked(false);
-    setTemplateClicked(true);
-    setSourceCode(template.source_code);
-    setIndexClickedReminder(index);
-    setTemplateId(template.id);
-    setTemplateName(template.name);
-    setIndexClicked();
-  };
-
-  const searchChange = (e) => {
-    setSearch(e.target.value);
-    if (e.target.value === "") {
-      setSmartListData(prevsmartListData);
+    if (flag == 1) {
+      //     loader("hide");
+      toast.success("Template saved successfully");
+    } else if (flag == 2) {
+      setTemplateId();
+      setTemplateName("");
+      setNewTemplateName("");
+      setTemplate("");
+      //   loader("hide");
     }
   };
 
-  const cancelClicked = () => {
-    setIndexClicked();
-    setTemplateClicked(false);
-    setSourceCode("");
-  };
+  useEffect(() => {
+    //console.log("sdsdsd");
+  }, [selectedHcp]);
 
-  const sendSample = (event) => {
-    event.preventDefault();
-    if (emailSubject == "") {
-      toast.warning("Please enter the email subject line ");
-      return;
-    } else if (emailDescription == "") {
-      toast.warning("Please enter the email description");
-      return;
-    } else {
-      if (templateId == "" || templateId == 0) {
-        console.log(templateId);
-        toast.warning("Please select email template first");
-      } else {
-        setIsOpensend(true);
+  useEffect(() => {
+    const body = {
+      user_id: localStorage.getItem("user_id"),
+    };
+
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    const getAllTags = async () => {
+      await axios
+        .post(`emailapi/get_tags`, body)
+        .then((res) => {
+          setAllTags(res.data.response.data);
+          // console.log(campaign_id_st);
+          // if (typeof campaign_id_st === "undefined" || campaign_id_st == 0) {
+          //   loader("hide");
+          // }
+        })
+        .catch((err) => {
+          //   loader("hide");
+          //console.log(err);
+        });
+    };
+    getAllTags();
+    // getCampaignData();
+  }, []);
+
+  const getSelectedTemplateSource = (dd) => {
+    if (
+      typeof props !== "undefined" &&
+      props !== null &&
+      props.hasOwnProperty("getDraftData")
+    ) {
+      if (typeof dd !== "undefined") {
+        let getSpecificKeyData = dd.find(
+          (e) => e.id === props.getDraftData.campaign_data.template_id
+        );
+        if (
+          getSpecificKeyData &&
+          getSpecificKeyData.hasOwnProperty("source_code")
+        ) {
+          console.log(state_object);
+          if (state_object != null && state_object?.template != "") {
+            if (state_object.template !== "") {
+              setTemplate("state_object.template");
+              setTemplate(state_object.template);
+            } else {
+              setTemplate(getSpecificKeyData.source_code);
+            }
+          } else if (
+            props.getDraftData != null &&
+            props.getDraftData?.source_code != ""
+          ) {
+            if (props.getDraftData.source_code !== "") {
+              setTemplate("props.getDraftData.source_code");
+              setTemplate(props.getDraftData.source_code);
+            } else {
+              setTemplate(getSpecificKeyData.source_code);
+            }
+          } else {
+            setTemplate(getSpecificKeyData.source_code);
+          }
+        }
       }
     }
   };
 
-  const emailSubjectChanged = (e) => {
-    setEmailSubject(e.target.value);
-  };
+  const addMoreHcp = () => {
+    const status = hpc.map((data) => {
+      if (data.email == "") {
+        return "false";
+      } else {
+        return "true";
+      }
+    });
 
-  const emailDescriptionChanged = (e) => {
-    setEmailDescription(e.target.value);
-  };
-  const nameChanged = (e) => {
-    setName(e.target.value);
-  };
-
-  const emailChanged = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const searchHcp = async (e) => {
-    e.preventDefault();
-    if (name == "" && email == "") {
-      toast.warning("Please enter name or email first");
+    if (status.every((element) => element == "true")) {
+      setHpc([
+        ...hpc,
+        {
+          firstname: "",
+          lastname: "",
+          email: "",
+          contact_type: "",
+          country: "",
+        },
+      ]);
     } else {
-      const body = {
-        user_id: localStorage.getItem("user_id"),
-        name: name,
-        email: email,
-      };
-
-      //console.log(body);
-      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      loader("show");
-      await axios
-        .post(`emailapi/search_hcp`, body)
-        .then((res) => {
-          console.log(res);
-
-          if (res.data.response) {
-            setSearchedUsers(res.data.response.data);
-          } else {
-            toast.warning(res.data.message);
-          }
-
-          loader("hide");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      toast.warning("Please input the email atleast");
     }
   };
 
-  const addNewContactClicked = () => {
-    setIsOpenAdd(true);
-    setIsOpensend(false);
-    setHpc([
-      {
-        firstname: "",
-        lastname: "",
-        email: "",
-        contact_type: "",
-        country: "",
-      },
-    ]);
-    setActiveManual("active");
-    setActiveExcel("");
-    //console.log("hi");
+  const deleteSelected = (index) => {
+    let arr = [];
+    arr = selectedHcp;
+    arr.splice(index, 1);
+
+    setSelectedHcp(arr);
+    setReRender(reRender + 1);
   };
 
-  const selectHcp = (index) => {
-    let arr = [];
-    arr = searchedUsers;
-    let added_user_id = arr[index].profile_user_id;
-    let prev_obj = selectedHcp.find((x) => x.profile_user_id === added_user_id);
-    if (typeof prev_obj == "undefined") {
-      const removedArray = arr.splice(index, 1);
-      setSelectedHcp((oldArray) => [...oldArray, removedArray[0]]);
-      setSearchedUsers(arr);
-      setReRender(reRender + 1);
+  const onFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const addClicked = (e) => {
+    if (typeof getSmartListId != "undefined" && getSmartListId !== 0) {
+      // loader("show");
+      const body = {
+        user_id: localStorage.getItem("user_id"),
+        list_id: getSmartListId,
+      };
+      axios
+        .post(`distributes/get_reders_list`, body)
+        .then((res) => {
+          if (res.data.status_code == 200) {
+            setReaders(res.data.response.data);
+
+            res.data.response.data.map((data) => {
+              let prev_obj = selectedHcp.find((x) => x.email === data.email);
+              if (typeof prev_obj === "undefined") {
+                setSelectedHcp((oldArray) => [...oldArray, data]);
+              }
+            });
+            // setSelectedHcp(res.data.response.data);
+            // loader("hide");
+          } else {
+            toast.warning(res.data.message);
+            // loader("hide");
+          }
+          setIsOpensend(true);
+          setAddListOpen(false);
+        })
+        .catch((err) => {
+          toast.warning("Something went wrong");
+          //   loader("hide");
+        });
     } else {
-      toast.error("User with same email already added in list.");
+      toast.warning("Please select smart list");
     }
   };
 
@@ -304,18 +450,20 @@ const AutoMail = () => {
         user_id: localStorage.getItem("user_id"),
         pdf_id: "3487",
         subject: emailSubject,
-        description: emailDescription,
         template_id: templateId,
         user_list: selected_ids,
         smartlist_id: "",
-        source_code: sourceCode,
+        source_code: template,
       };
 
+      //console.log(body);
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+
       axios
         .post(`emailapi/send_sample_email`, body)
         .then((res) => {
-          loader("hide");
+          //console.log(res);
+          //   loader("hide");
           if (res.data.status_code === 200) {
             setUploadOrDownloadCount(100);
             setMailsIncrement(selectedHcp.length);
@@ -343,16 +491,17 @@ const AutoMail = () => {
 
             setShowProgressBar(false);
           }
+
+          //toast.success("Test Mail sent successfuly");
         })
         .catch((err) => {
           clearInterval(timer);
           setShowProgressBar(false);
-          loader("hide");
+          //   loader("hide");
           toast.error("Something went wrong");
           console.log(err);
         });
       setEmailSubject("");
-      setEmailDescription("");
       setSelectedHcp([]);
       setSearchedUsers([]);
     } else {
@@ -360,23 +509,187 @@ const AutoMail = () => {
     }
   };
 
-  const handleScroll = (ev) => {
-    if (ev.target.scrollTop > 20) {
-      document.querySelector("#mail-view").setAttribute("custom-atr", "scroll");
+  const selectHcp = (index) => {
+    let arr = [];
+    arr = searchedUsers;
+    let added_user_id = arr[index].profile_user_id;
+    let prev_obj = selectedHcp.find((x) => x.profile_user_id === added_user_id);
+    if (typeof prev_obj == "undefined") {
+      const removedArray = arr.splice(index, 1);
+      setSelectedHcp((oldArray) => [...oldArray, removedArray[0]]);
+      setSearchedUsers(arr);
+      setReRender(reRender + 1);
     } else {
-      document
-        .querySelector("#mail-view")
-        .setAttribute("custom-atr", "non-scroll");
+      toast.error("User with same email already added in list.");
     }
   };
 
-  const deleteSelected = (index) => {
-    let arr = [];
-    arr = selectedHcp;
-    arr.splice(index, 1);
+  const nameChanged = (e) => {
+    setName(e.target.value);
+  };
 
-    setSelectedHcp(arr);
-    setReRender(reRender + 1);
+  const emailChanged = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const closeModal = () => {
+    //console.log("closed");
+    setIsOpen(false);
+  };
+
+  const templateNameChange = (e) => {
+    setNewTemplateName(e.target.value);
+  };
+
+  const templateClicked = (template, e) => {
+    const div = document.querySelector("img.select_mm");
+
+    if (div) {
+      div.classList.remove("select_mm");
+    }
+    setTemplateClicked(true);
+    setTemplateId(template.id);
+    setTemplateName(template.name);
+    setNewTemplateName(template.name);
+    setTemplate(template.source_code);
+    e.target.classList.toggle("select_mm");
+  };
+
+  const emailSubjectChanged = (e) => {
+    setEmailSubject(e.target.value);
+  };
+
+  const saveTemplateEdit = (e) => {
+    setEditClicked(true);
+    e.preventDefault();
+    if (newTemplateName != "") {
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      const body = {
+        user_id: localStorage.getItem("user_id"),
+        template_id: templateId,
+        image_url: "",
+        template_name: newTemplateName,
+      };
+      axios
+        .post(`emailapi/update_template`, body)
+        .then((res) => {
+          if (res.data.status_code == 200) {
+            toast.success(res.data.message);
+            setTemplateName(newTemplateName);
+            getTemplateListData(0, selectedLanguage, selectedIbu);
+            // loader("hide");
+          } else {
+            toast.warning(res.data.message);
+            // loader("hide");
+          }
+          setEdiatbleTemplate(false);
+        })
+        .catch((err) => {
+          setEdiatbleTemplate(false);
+          //   loader("hide");
+          toast.error("Something went wrong.");
+        });
+    } else {
+      toast.warning("Please enter template name.");
+    }
+  };
+
+  const closeTemplateEdit = (e) => {
+    setEditClicked(true);
+    e.preventDefault();
+    setEdiatbleTemplate(false);
+    setNewTemplateName("");
+  };
+
+  const editTemplateClicked = (e) => {
+    e.preventDefault();
+    setEditClicked(false);
+    setNewTemplateName(templateName);
+    setEdiatbleTemplate(true);
+  };
+
+  const sendSample = (event) => {
+    //  console.log(selectedHcp);
+
+    event.preventDefault();
+    if (templateId == "" || templateId == 0) {
+      toast.warning("Please select email template first");
+    } else {
+      setIsOpensend(true);
+    }
+  };
+
+  const addNewContactClicked = () => {
+    setIsOpenAdd(true);
+    setIsOpensend(false);
+    setHpc([
+      {
+        firstname: "",
+        lastname: "",
+        email: "",
+        contact_type: "",
+        country: "",
+      },
+    ]);
+    setActiveManual("active");
+    setActiveExcel("");
+    //console.log("hi");
+  };
+
+  const responsive = {
+    0: { items: 1 },
+    568: { items: 2 },
+    1024: { items: 5 },
+  };
+
+  const searchHcp = async (e) => {
+    e.preventDefault();
+    if (name == "" && email == "") {
+      toast.warning("Please enter name or email first");
+    } else {
+      const body = {
+        user_id: localStorage.getItem("user_id"),
+        name: name,
+        email: email,
+      };
+
+      //console.log(body);
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      //   loader("show");
+      await axios
+        .post(`emailapi/search_hcp`, body)
+        .then((res) => {
+          console.log(res);
+          // console.log(res.data.response.data);
+          if (res.data.response) {
+            setSearchedUsers(res.data.response.data);
+          } else {
+            toast.warning(res.data.message);
+          }
+          // if (res.data.message) {
+          //   setMessage(res.data.message);
+          // }
+          //   loader("hide");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
+  const addFile = (e) => {
+    const addfile_btn = document.getElementById("add_file_btn");
+    if (document.querySelector("#add_file_btn .active") !== null) {
+      addfile_btn.classList.remove("active");
+    } else {
+      addfile_btn.classList.add("active");
+    }
+    document.querySelector("#add_hcp_btn").classList.remove("active");
+
+    e.preventDefault();
+    setActiveExcel("active");
+    setActiveManual("");
+    setAddFileReRender(addFileReRender + 1);
   };
 
   const onFirstNameChange = (e, i) => {
@@ -385,6 +698,7 @@ const AutoMail = () => {
     const name = hpc[i].firstname;
     list[i].firstname = value;
     setHpc(list);
+    // console.log(hpc);
   };
 
   const onLastNameChange = (e, i) => {
@@ -393,6 +707,7 @@ const AutoMail = () => {
     const name = hpc[i].lastname;
     list[i].lastname = value;
     setHpc(list);
+    //console.log(hpc);
   };
 
   const onEmailChange = (e, i) => {
@@ -401,6 +716,8 @@ const AutoMail = () => {
     const name = hpc[i].email;
     list[i].email = value;
     setHpc(list);
+    // setEmailData(e.target.value);
+    //console.log(hpc);
   };
 
   const onContactTypeChange = (e, i) => {
@@ -412,7 +729,18 @@ const AutoMail = () => {
     console.log(hpc);
   };
 
+  const getCountrySelected = (e) => {
+    // const { value } = e.target;
+
+    setSelectedCountry(e);
+
+    const value = e;
+    // const list = [...hpc];
+    console.log(value);
+  };
+
   const onCountryChange = (e, i) => {
+    // const { value } = e.target;
     const value = e;
     const list = [...hpc];
     const name = hpc[i].country;
@@ -427,6 +755,26 @@ const AutoMail = () => {
     setHpc(list);
     setCounterFlag(counterFlag + 1);
   };
+
+  const addHcp = (e) => {
+    const addhcp_btn = document.getElementById("add_hcp_btn");
+    if (document.querySelector("#add_hcp_btn .active") !== null) {
+      addhcp_btn.classList.remove("active");
+    } else {
+      addhcp_btn.classList.add("active");
+    }
+    document.querySelector("#add_file_btn").classList.remove("active");
+
+    e.preventDefault();
+    setActiveExcel("");
+    setActiveManual("active");
+    setManualReRender(manualReRender + 1);
+  };
+
+  const handleSelect = (data, e) => {
+    setSmartListId(data.id);
+  };
+
   const saveClicked = async () => {
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
@@ -468,7 +816,7 @@ const AutoMail = () => {
       });
       status.sort();
       if (status.every((element) => element == "true")) {
-        loader("show");
+        //   loader("show");
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         await axios
           .post(`distributes/add_new_readers_in_list`, body)
@@ -483,27 +831,65 @@ const AutoMail = () => {
               setIsOpensend(true);
             } else {
               toast.warning(res.data.message);
-              loader("hide");
+              //   loader("hide");
             }
-            loader("hide");
+            // loader("hide");
+            //setSelectedHcp(res.data.response.data);
           })
           .catch((err) => {
             toast.error("Something went wrong");
-            loader("hide");
+            // loader("hide");
           });
       } else {
         toast.warning(status[0]);
       }
+    } else {
+      let formData = new FormData();
+      let user_id = localStorage.getItem("user_id");
+      formData.append("user_id", user_id);
+      formData.append("smart_list_id", "");
+      formData.append("reader_file", selectedFile);
+
+      console.log(formData);
+
+      if (selectedFile) {
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+        //    loader("show");
+        await axios
+          .post(`distributes/update_reader_list`, formData)
+          .then((res) => {
+            if (res.data.status_code === 200) {
+              toast.success("User added successfuly");
+
+              res.data.response.data.map((data) => {
+                setSelectedHcp((oldArray) => [...oldArray, data]);
+              });
+
+              //   loader("hide");
+              setIsOpenAdd(false);
+              setActiveManual("active");
+              setActiveExcel("");
+              setSelectedFile(null);
+              setIsOpensend(true);
+            } else {
+              toast.warning(res.data.message);
+              //   loader("hide");
+            }
+          })
+          .catch((err) => {
+            console.log("something went wrong");
+          });
+        setIsOpen(false);
+      } else {
+        toast.error("Please add a excel file");
+      }
     }
   };
 
-  const handleSmartListPopupScroll = (ev) => {
-    if (ev.target.scrollTop > 20) {
-      document.querySelector("#add-list").setAttribute("custom-atr", "scroll");
-    } else {
-      document
-        .querySelector("#add-list")
-        .setAttribute("custom-atr", "non-scroll");
+  const searchChange = (e) => {
+    setSearch(e.target.value);
+    if (e.target.value === "") {
+      setSmartListData(prevsmartListData);
     }
   };
 
@@ -517,65 +903,115 @@ const AutoMail = () => {
     return false;
   };
 
-  const getSmartListData = (flag) => {
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    const body = {
-      user_id: localStorage.getItem("user_id"),
-      search: getsearch,
-      filter: "",
-    };
-    loader("show");
-    axios
-      .post(`distributes/get_smart_list`, body)
-      .then((res) => {
-        setSmartListData(res.data.response.data);
-        if (flag == 0) {
-          setPrevSmartListData(res.data.response.data);
-        } else {
-          loader("hide");
-        }
-      })
-      .catch((err) => {
-        loader("hide");
-        console.log(err);
-      });
-  };
-  const handleSelect = (data, e) => {
-    setSmartListId(data.id);
+  const hideTemplatePopup = () => {
+    setTemplatePopup(false);
   };
 
-  const addMoreHcp = () => {
-    const status = hpc.map((data) => {
-      if (data.email == "") {
-        return "false";
-      } else {
-        return "true";
-      }
-    });
-
-    if (status.every((element) => element == "true")) {
-      setHpc([
-        ...hpc,
-        {
-          firstname: "",
-          lastname: "",
-          email: "",
-          contact_type: "",
-          country: "",
-        },
-      ]);
+  const clickNewTemplate = () => {
+    if (
+      typeof templateId != "undefined" &&
+      templateId != "" &&
+      templateId != 0
+    ) {
+      setTemplatePopup(false);
+      setNewTemplatePopup(true);
     } else {
-      toast.warning("Please input the email atleast");
+      toast.warning("Template not selected.");
     }
   };
 
+  const hideNewTemplatePopup = () => {
+    setNewTemplatePopup(false);
+  };
+
+  const languageSelected = (e) => {
+    // loader("show");
+    console.log(e);
+    setSelectedLanguage(e.value);
+    getTemplateListData(2, e.value, selectedIbu);
+  };
+
+  const ibuSelected = (e) => {
+    //  loader("show");
+    setSelectedIbu(e.value);
+    let index = getTemplateIbu.findIndex((x) => x.value === e.value);
+    setIbuOption(index);
+    getTemplateListData(2, selectedLanguage, e.value);
+  };
+
+  const savenewtemplate = async (e) => {
+    e.preventDefault();
+    let template_name = document.getElementById("template_name").value;
+    if (template_name !== "" && template_name.trim().length > 0) {
+      let lang = 0;
+      if (selectedLanguage == "All" || selectedLanguage == "english") {
+        lang = 0;
+      } else if (selectedLanguage == "italian") {
+        lang = 1;
+      } else if (selectedLanguage == "germany") {
+        lang = 2;
+      } else if (selectedLanguage == "spanish") {
+        lang = 3;
+      } else if (selectedLanguage == "russian") {
+        lang = 4;
+      }
+
+      const body = {
+        user_id: localStorage.getItem("user_id"),
+        source_code: template,
+        template_id: "",
+        name: template_name,
+        ibu: selectedIbu,
+        status: 1,
+        language: lang,
+      };
+
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      //   loader("show");
+      await axios
+        .post(`emailapi/add_update_template`, body)
+        .then((res) => {
+          if (res.data.status_code === 200) {
+            getTemplateListData(1, selectedLanguage, selectedIbu);
+            setTemplateId(res.data.response.data.last_id);
+          } else {
+            // loader("hide");
+            toast.warning("Template not selected.");
+          }
+        })
+        .catch((err) => {
+          //   loader("hide");
+          toast.error("Something went wrong");
+        });
+      setNewTemplatePopup(false);
+      setTemplatePopup(false);
+    } else {
+      toast.warning("Please enter template name.");
+    }
+  };
+
+  const downloadFile = () => {
+    let link = document.createElement("a");
+    link.href = "https://informed.pro/sample.xls";
+    link.setAttribute("download", "file.xlsx");
+    document.body.appendChild(link);
+    link.download = "";
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const showMoreInfo = (e) => {
+    e.preventDefault();
+    setShowLessInfo(!showLessInfo);
+  };
   const openSmartListPopup = async (smart_list_id) => {
+    setShowLessInfo(true);
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
       user_id: localStorage.getItem("user_id"),
       list_id: smart_list_id,
     };
-    loader("show");
+    //  loader("show");
     await axios
       .post(`distributes/get_reders_list`, body)
       .then((res) => {
@@ -587,58 +1023,94 @@ const AutoMail = () => {
         } else {
           toast.warning(res.data.message);
         }
-        loader("hide");
+        // loader("hide");
       })
       .catch((err) => {
         toast.warning("Something went wrong");
-        loader("hide");
+        // loader("hide");
       });
   };
 
-  const addClicked = (e) => {
-    if (typeof getSmartListId != "undefined" && getSmartListId !== 0) {
-      loader("show");
-      const body = {
-        user_id: localStorage.getItem("user_id"),
-        list_id: getSmartListId,
-      };
-      axios
-        .post(`distributes/get_reders_list`, body)
-        .then((res) => {
-          if (res.data.status_code == 200) {
-            setReaders(res.data.response.data);
-
-            res.data.response.data.map((data) => {
-              let prev_obj = selectedHcp.find((x) => x.email === data.email);
-              if (typeof prev_obj === "undefined") {
-                setSelectedHcp((oldArray) => [...oldArray, data]);
-              }
-            });
-
-            loader("hide");
-          } else {
-            toast.warning(res.data.message);
-            loader("hide");
-          }
-          setIsOpensend(true);
-          setAddListOpen(false);
-        })
-        .catch((err) => {
-          toast.warning("Something went wrong");
-          loader("hide");
-        });
+  const handleScroll = (ev) => {
+    if (ev.target.scrollTop > 20) {
+      // document.querySelector("#send-sample").setAttribute("custom-atr", "scroll");
+      document.querySelector("#mail-view").setAttribute("custom-atr", "scroll");
     } else {
-      toast.warning("Please select smart list");
+      // document.querySelector("#send-sample").setAttribute("custom-atr", "non-scroll");
+      document
+        .querySelector("#mail-view")
+        .setAttribute("custom-atr", "non-scroll");
     }
   };
-  const updateTemplate = async (e, status = 0) => {
-    e.preventDefault();
-    if (approveClickedd) {
-      setApproveClicked(false);
-    } else {
-      setApproveClicked(true);
-    }
 
+  const handleSmartListPopupScroll = (ev) => {
+    if (ev.target.scrollTop > 20) {
+      document.querySelector("#add-list").setAttribute("custom-atr", "scroll");
+    } else {
+      document
+        .querySelector("#add-list")
+        .setAttribute("custom-atr", "non-scroll");
+    }
+  };
+
+  const openPreviewThumbPopup = (e) => {
+    e.preventDefault();
+    if (
+      typeof templateId != "undefined" &&
+      templateId != "" &&
+      templateId != 0
+    ) {
+      console.log(templateId);
+      setviewEmailModal(true);
+    } else {
+      toast.warning("Template not selected.");
+    }
+  };
+
+  const generate_thumb = useCallback(() => {
+    if (ref.current === null) {
+      return;
+    }
+    // loader("show");
+    toPng(ref.current, { pixelRatio: 1 })
+      .then((dataUrl) => {
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+        if (dataUrl) {
+          const body = {
+            user_id: localStorage.getItem("user_id"),
+            template_id: templateId,
+            image_url: dataUrl,
+            template_name: "",
+          };
+          axios
+            .post(`emailapi/update_template`, body)
+            .then((res) => {
+              if (res.data.status_code == 200) {
+                toast.success(res.data.message);
+                getTemplateListData(0, selectedLanguage, selectedIbu);
+              } else {
+                toast.warning(res.data.message);
+              }
+              setviewEmailModal(false);
+              //   loader("hide");
+            })
+            .catch((err) => {
+              setviewEmailModal(false);
+              //   loader("hide");
+              toast.error("Something went wrong.");
+            });
+        }
+      })
+      .catch((err) => {
+        setviewEmailModal(false);
+        // loader("hide");
+        toast.error("Something went wrong.");
+        console.log(err);
+      });
+  }, [ref, templateId]);
+
+  const updateTemplate = async (e) => {
+    e.preventDefault();
     let template_id = templateId;
     if (
       typeof template_id != "undefined" &&
@@ -651,333 +1123,307 @@ const AutoMail = () => {
           source_code: editorRef.current.getContent(),
           template_id: templateId,
           name: templateName,
-          status: status === 0 ? 2 : status === 1 ? 3 : 4,
-          language: tempLang,
+          status: 2,
+          language: 2,
         };
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-        loader("show");
+        //  loader("show");
         await axios
           .post(`emailapi/add_update_template`, body)
           .then((res) => {
-            if (res.data.status_code == 200) {
-              console.log(res);
-              getTemplateListData();
-              toast.success("Template updated");
-              loader("hide");
+            if (res.data.status_code === 200) {
+              getTemplateListData(1, selectedLanguage, selectedIbu);
+            } else {
+              //   loader("hide");
+              toast.warning("Template not selected.");
             }
           })
           .catch((err) => {
-            loader("hide");
+            // loader("hide");
             toast.error("Something went wrong");
           });
+        setNewTemplatePopup(false);
+        setTemplatePopup(false);
       }
     } else {
       toast.warning("Template not selected.");
     }
   };
 
-  const approveClicked = async (e) => {
+  const deleteTemplate = async (e) => {
     e.preventDefault();
-
-    const body = {
-      user_id: localStorage.getItem("user_id"),
-      pdf_id: "3487",
-      description: emailDescription,
-      creator: "",
-      campaign_name: "",
-      subject: emailSubject,
-      route_location: "AutoEmail",
-      tags: [],
-      campaign_data: {
-        templateId: templateId,
-      },
-      campaign_id: "",
-      status: 3,
-      approved_page: 1,
-    };
-
-    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    loader("show");
-    await axios
-      .post(`emailapi/save_draft`, body)
-      .then((res) => {
-        loader("hide");
-
-        if (res.data.status_code === 200) {
-          setApproveClicked(true);
-          toast.success("Approved Draft saved");
-        } else {
-          toast.warning(res.data.message);
-        }
-      })
-      .catch((err) => {
-        toast.error("Somwthing went wrong");
-      });
+    if (
+      typeof templateId != "undefined" &&
+      templateId != "" &&
+      templateId != 0
+    ) {
+      const body = {
+        user_id: localStorage.getItem("user_id"),
+        template_id: templateId,
+      };
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      //  loader("show");
+      await axios
+        .post(`emailapi/delete_template`, body)
+        .then((res) => {
+          if (res.data.status_code === 200) {
+            setshowConfirmation(false);
+            getTemplateListData(0, selectedLanguage, selectedIbu);
+            setTemplateId();
+            setTemplateName("");
+            setNewTemplateName("");
+            setTemplate("");
+            // loader("hide");
+          } else {
+            // loader("hide");
+            setshowConfirmation(false);
+            toast.warning("Template not selected.");
+          }
+        })
+        .catch((err) => {
+          //   loader("hide");
+          setshowConfirmation(false);
+          toast.error("Something went wrong");
+        });
+    } else {
+      setshowConfirmation(false);
+      toast.warning("Template not selected.");
+    }
   };
+
   return (
     <>
       <div className="col right-sidebar">
         <div className="custom-container">
           <div className="row">
             <div className="top-header">
-              <div class="page-title">
-                <h2>Auto Email</h2>
-              </div>
-              <div className="top-right-action">
-                {templateClicked ? (
-                  <div className="header-btn">
-                    <button
-                      className="btn btn-primary btn-bordered"
-                      onClick={cancelClicked}
-                    >
-                      Cancel
-                    </button>
-                    {templateName == "Reset password" ||
-                    templateName == "Welcome mail" ? null : (
-                      <button
-                        className="btn btn-primary btn-filled next"
-                        onClick={(e) => {
-                          updateTemplate(e);
-                          e.preventDefault();
-                        }}
-                      >
-                        Save
-                      </button>
-                    )}
-                  </div>
-                ) : null}
+              <div className="page-title">
+                <h2>Auto Mail Editor</h2>
               </div>
             </div>
-            <div className="auto_mail_trigger">
-              <div className="row">
-                <div className="auto_mail_trigger_left col-sm-4 col-md-4">
-                  <div className="auto_mail_trigger_box">
-                    <div className="mail_trigger_left d-flex align-items-center">
-                      <div className="mail_trigger_mail-icon">
-                        <img
-                          src={path_image + "triggered_mail.svg"}
-                          alt="Preview"
-                        />
-                      </div>
-                      <h4>Triggered emails</h4>
-                    </div>
-                    <div className="mail_trigger_content">
-                      {typeof templates !== "undefined" && templates.length > 0
-                        ? templates.map((template, index) => {
-                            return (
-                              <>
-                                <div
-                                  className={
-                                    indexClicked == index
-                                      ? "trigger_content_box d-flex active"
-                                      : "trigger_content_box d-flex"
-                                  }
-                                >
-                                  <div className="trigger_content_image">
-                                    <img
-                                      src={template.template_img}
-                                      alt="Preview"
-                                    />
-                                  </div>
-                                  <div className="trigger_content">
-                                    <h6>
-                                      {template.name} ({template.language_code})
-                                    </h6>
-                                    <p>
-                                      When New content add to the user library
-                                    </p>
-
-                                    {indexClicked !== index ? (
-                                      <button
-                                        onClick={() =>
-                                          viewButtonClicked(template, index)
-                                        }
-                                        className="btn btn-primary btn-filled  d-flex justify-content-center"
-                                      >
-                                        View
-                                      </button>
-                                    ) : null}
-                                  </div>
-                                </div>
-                              </>
-                            );
-                          })
-                        : null}
-                    </div>
+            <div className="template_builder-option">
+              <div className="d-flex justify-content-start align-items-center">
+                <div className="template_language">
+                  <span>Select Event</span>
+                  <div className="form-group">
+                    <Select
+                      defaultValue={"1:1 meeting with IBU haenati"}
+                      placeholder={"Select Event"}
+                      onChange={(e) => languageSelected(e)}
+                      options={options}
+                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                    />
                   </div>
-                  {/* <div className="auto_mail_trigger_box">
-                    <div className="mail_trigger_left d-flex align-items-center">
-                      <div className="mail_trigger_mail-icon">
-                        <img
-                          src={path_image + "triggered_mail.svg"}
-                          alt="Preview"
-                        />
-                      </div>
-                      <h4>Reminder AutoMails</h4>
-                    </div>
-                    <div className="mail_trigger_content">
-                      {templates.map((template, index) => {
-                        return (
-                          <div
-                            className={
-                              indexClickedReminder == index
-                                ? "trigger_content_box d-flex active"
-                                : "trigger_content_box d-flex"
-                            }
-                          >
-                            <div className="trigger_content_image">
-                              <img src={template.template_img} alt="Preview" />
-                            </div>
-                            <div className="trigger_content">
-                              <h6>{template.name}</h6>
-                              <p>
-                                Link to app, goes out after 1 week from last
-                                activation if user have not logged into app.
-                              </p>
-                              {indexClickedReminder !== index ? (
-                                <button
-                                  className="btn btn-primary btn-filled d-flex justify-content-center"
-                                  onClick={() =>
-                                    viewReminderClicked(template, index)
-                                  }
-                                >
-                                  View
-                                </button>
-                              ) : null}{" "}
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div> */}
                 </div>
-                <div className="auto_mail_trigger_right col-md-8 col-sm-8">
-                  {!templateClicked ? (
-                    <div className="mail_trigger_right_dummy">
-                      <div className="mail_trigger_dummy_content d-flex justify-content-center">
-                        <img src={path_image + "auto_mail.svg"} alt="" />
-                        <h3>Select one of the auto emails to show here</h3>
-                      </div>
-                    </div>
-                  ) : null}
-                  {templateClicked ? (
-                    <div className="email-form">
-                      <form>
-                        <div className="form-inline row justify-content-between align-items-center">
-                          <div className="form-group col-12 col-md-6">
-                            <label for="exampleInputEmail1">
-                              Email Subject Line
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              id="email-desc"
-                              onChange={(e) => emailSubjectChanged(e)}
-                              value={emailSubject}
-                            />
-                          </div>
-                          <div className="form-group right-side col-12 col-md-6">
-                            <label for="exampleInputEmail1">
-                              Email description{" "}
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              id="email-address"
-                              onChange={(e) => emailDescriptionChanged(e)}
-                              value={emailDescription}
-                            />
-                          </div>
-                        </div>
-                        <div className="form-inline row justify-content-end align-items-center">
-                          <div className="form-buttons right-side col-12 col-md-5">
-                            {templateName == "Welcome mail" ||
-                            templateName ==
-                              "Reset password" ? null : approveClickedd ===
-                              true ? (
-                              <button
-                                className="btn btn-primary approved-btn btn-bordered "
-                                onClick={(e) => updateTemplate(e, 2)}
-                              >
-                                Approved{" "}
-                                <img
-                                  src={path_image + "approved-btn.svg"}
-                                  className="approve_btn"
-                                  alt=""
-                                />
-                              </button>
-                            ) : (
-                              <button
-                                className="btn btn-primary approved-btn btn-bordered "
-                                onClick={(e) => updateTemplate(e, 1)}
-                              >
-                                Approve?{" "}
-                              </button>
-                            )}
+              </div>
+            </div>
 
-                            <button
-                              onClick={sendSample}
-                              className="btn btn-primary btn-bordered btn-large"
-                            >
-                              Send A Sample
-                            </button>
+            <div className="top-header">
+              <div className="custom-container">
+                <div className="row">
+                  <div className="page-title">
+                    <h5>Select Template</h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <section className="select-mail-template">
+              <div className="custom-container">
+                <div className="row">
+                  <AliceCarousel
+                    mouseTracking
+                    disableDotsControls
+                    activeIndex={activeIndex}
+                    responsive={responsive}
+                    onSlideChanged={syncActiveIndex}
+                  >
+                    {templateList.map((template) => {
+                      return (
+                        <>
+                          <div
+                            className="item"
+                            onClick={(e) => templateClicked(template, e)}
+                          >
+                            <img
+                              id={"template_dyn" + template.id}
+                              src={template.template_img}
+                              alt=""
+                              className={
+                                typeof templateId !== "undefined" &&
+                                templateId == template.id
+                                  ? "select_mm"
+                                  : ""
+                              }
+                            />
+                            <p>{template.name}</p>
                           </div>
+                        </>
+                      );
+                    })}
+                  </AliceCarousel>
+                  <div className="email-form">
+                    <form>
+                      <div className="form-inline row justify-content-between align-items-center">
+                        <div className="form-group col-12 col-md-7">
+                          <label for="exampleInputEmail1">Name </label>
+                          <input
+                            //   onChange={(e) => emailDescriptionChange(e)}
+                            type="text"
+                            className="form-control"
+                            id="email-desc"
+                            //  value={emailDescription}
+                          />
                         </div>
-                        <div className="row">
-                          {templateName == "Reset password" ||
-                          templateName == "Welcome mail" ? (
-                            <Editor
-                              apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
-                              onInit={(evt, editor) =>
-                                (editorRef.current = editor)
-                              }
-                              initialValue={sourceCode}
-                              disabled={true}
-                              init={{
-                                height: "100vh",
-                                menubar:
-                                  "file edit view insert format tools table help",
-                                plugins:
-                                  "preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons",
-                                toolbar:
-                                  "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
-                                content_style:
-                                  "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-                              }}
-                              onEditorChange={(content) => {
-                                setTemplateSaving(content);
-                              }}
-                            />
+                        <div className="form-group right-side col-12 col-md-5">
+                          <label for="exampleInputEmail1">Email</label>
+                          <input
+                            //     onChange={(e) => emailCreatorChange(e)}
+                            type="text"
+                            className="form-control"
+                            id="email-address"
+                            //      value={emailCreator}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="form-inline row justify-content-end align-items-center">
+                        <div className="form-group col-12 col-md-7">
+                          <label for="exampleInputEmail1">Email Subject</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            id="email-subject"
+                            //  onChange={(e) => emailSubjectChanged(e)}
+                            //  value={emailSubject}
+                          />
+                        </div>
+                        <div className="form-buttons right-side col-12 col-md-5">
+                          <button
+                            className="btn btn-primary btn-filled"
+                            //  onClick={(e) => updateTemplate(e)}
+                          >
+                            Send
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+
+                  <input type="hidden" id="mail_template" value={templateId} />
+                  {validator.message("Templates", templateId, "required")}
+                  <div className="email-form">
+                    <form>
+                      <div className="form-inline row justify-content-between align-items-center"></div>
+                      <div className="form-inline row justify-content-end align-items-center">
+                        <div className="form-group col-12 col-md-12">
+                          {templateName != "" && (
+                            <>
+                              {editableTemplate ? (
+                                <input
+                                  type="text"
+                                  value={newTemplateName}
+                                  onChange={(e) => templateNameChange(e)}
+                                ></input>
+                              ) : (
+                                <div className="template_name">
+                                  <h4>{templateName}</h4>
+                                </div>
+                              )}
+
+                              {editClicked == true ? (
+                                <div className="template-edit">
+                                  <button
+                                    className="btn btn-outline-primary"
+                                    onClick={(e) => editTemplateClicked(e)}
+                                  >
+                                    <img
+                                      src={path_image + "edit-button.svg"}
+                                      alt="Edit"
+                                    />
+                                  </button>
+                                </div>
+                              ) : null}
+                            </>
+                          )}
+                          {editableTemplate ? (
+                            <div className="form-buttons form-buttons-template right-sided">
+                              <button
+                                className="btn btn-primary btn-filled"
+                                onClick={(e) => saveTemplateEdit(e)}
+                              >
+                                Save
+                              </button>
+                              <button
+                                className="btn btn-primary btn-bordered"
+                                onClick={(e) => closeTemplateEdit(e)}
+                              >
+                                Cancel
+                              </button>
+                            </div>
                           ) : (
-                            <Editor
-                              apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
-                              onInit={(evt, editor) =>
-                                (editorRef.current = editor)
-                              }
-                              initialValue={sourceCode}
-                              init={{
-                                height: "100vh",
-                                menubar:
-                                  "file edit view insert format tools table help",
-                                plugins:
-                                  "preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons",
-                                toolbar:
-                                  "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
-                                content_style:
-                                  "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-                              }}
-                              onEditorChange={(content) => {
-                                setTemplateSaving(content);
-                              }}
-                            />
+                            <div className="form-buttons form-buttons-template right-side">
+                              {templateClickedd ? (
+                                <>
+                                  <button
+                                    className="btn btn-primary btn-filled"
+                                    onClick={(e) => {
+                                      updateTemplate(e);
+                                      e.preventDefault();
+                                    }}
+                                  >
+                                    Save
+                                  </button>
+                                </>
+                              ) : null}
+                            </div>
                           )}
                         </div>
-                      </form>
-                    </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+
+                <div className="row">
+                  {templateClickedd ? (
+                    <Editor
+                      apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
+                      onInit={(evt, editor) => (editorRef.current = editor)}
+                      initialValue={template}
+                      init={{
+                        height: "100vh",
+                        menubar:
+                          "file edit view insert format tools table help",
+                        plugins:
+                          "preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons",
+                        toolbar:
+                          "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
+                        content_style:
+                          "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                      }}
+                      onEditorChange={(content) => {
+                        setTemplateSaving(content);
+                      }}
+                    />
                   ) : null}
+                  {/*
+                  <CKEditor
+                    editor={ClassicEditor}
+                    data={template}
+                    readOnly={true}
+                    onReady={(editor) => {
+                    }}
+                    onChange={(event, editor) => {
+                      const data = editor.getData();
+                      setTemplate(data);
+                    }}
+                    onBlur={(event, editor) => {}}
+                    onFocus={(event, editor) => {}}
+                  />
+                  */}
                 </div>
               </div>
-            </div>
+            </section>
           </div>
         </div>
       </div>
@@ -1008,7 +1454,18 @@ const AutoMail = () => {
                 <div
                   className="form-inline row justify-content-start align-items-center"
                   id="popup_subject"
-                ></div>
+                >
+                  <div className="form-group col-12 col-md-7">
+                    <label for="exampleInputEmail1">Subject</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="email-subject"
+                      onChange={(e) => emailSubjectChanged(e)}
+                      value={emailSubject}
+                    />
+                  </div>
+                </div>
 
                 <div className="form-inline row justify-content-between align-items-center">
                   <div className="col-12 col-md-7">
@@ -1556,34 +2013,160 @@ const AutoMail = () => {
             </button>
           </Modal.Footer>
         </Modal>
+      </div>
 
+      {/*Email Template image preview start*/}
+      <div>
         <Modal
-          show={showPreogressBar}
-          className="send-confirm"
-          id="upload-confirm"
+          id="mail-thumb-preview"
+          show={viewEmailModal}
+          custom-atr="non-scroll"
         >
-          <Modal.Header></Modal.Header>
+          <Modal.Header>
+            <h4>Email View</h4>
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              onClick={() =>
+                setviewEmailModal((viewEmailModal) => !viewEmailModal)
+              }
+            ></button>
+            <div class="upload_view">
+              <button
+                class="btn btn-primary btn-bordered"
+                onClick={generate_thumb}
+              >
+                Upload
+              </button>
+            </div>
+          </Modal.Header>
+
           <Modal.Body>
-            <div
-              className="circular-progressbar"
-              style={{
-                width: 100,
-                height: 100,
-              }}
-            >
-              <CircularProgressbar
-                value={uploadOrDownloadCount}
-                text={`${uploadOrDownloadCount}%`}
-                strokeWidth={5}
-              />
+            <div className="modal-body-view">
+              <div
+                className="thumbnail_email_view"
+                ref={ref}
+                dangerouslySetInnerHTML={{
+                  __html: templateSaving,
+                }}
+              ></div>
             </div>
           </Modal.Body>
-          <h4>
-            {" "}
-            {mailsIncrement} mails sent of {hcpsSelected.length}
-          </h4>
         </Modal>
       </div>
+      {/*Email Template image preview end*/}
+
+      {/*Modal for save new template start*/}
+      <div className="save_new_template_action">
+        <Modal
+          className="modal send-confirm"
+          id="save_new_template_action_modal"
+          show={getNewTemplatePopup}
+        >
+          <Modal.Header>
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              onClick={hideNewTemplatePopup}
+            ></button>
+          </Modal.Header>
+
+          <Modal.Body>
+            <form>
+              <div className="form-group">
+                <label>Enter new template name</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="template_name"
+                />
+              </div>
+              <button
+                type="submit"
+                className="btn btn-primary btn-filled"
+                onClick={savenewtemplate}
+              >
+                Save
+              </button>
+            </form>
+          </Modal.Body>
+        </Modal>
+      </div>
+      {/*Modal for save new template end*/}
+
+      {/*Confrimation Popup start*/}
+      <Modal
+        show={showConfirmation}
+        className="send-confirm"
+        id="resend-confirm"
+      >
+        <Modal.Header>
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="modal"
+            onClick={() => {
+              setshowConfirmation((showConfirmation) => !showConfirmation);
+            }}
+          ></button>
+        </Modal.Header>
+        <Modal.Body>
+          <img src={path_image + "alert.png"} alt="" />
+          <h4>Are you sure you want to delete the selected template?</h4>
+          <div className="modal-buttons">
+            <button
+              type="button"
+              className="btn btn-primary btn-filled"
+              data-bs-dismiss="modal"
+              onClick={(e) => {
+                deleteTemplate(e);
+              }}
+            >
+              Yes Please!
+            </button>
+            <button
+              type="button"
+              className="btn btn-primary btn-bordered light"
+              data-bs-dismiss="modal"
+              onClick={() => {
+                setshowConfirmation((showConfirmation) => !showConfirmation);
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        show={showPreogressBar}
+        className="send-confirm"
+        id="upload-confirm"
+      >
+        <Modal.Header></Modal.Header>
+        <Modal.Body>
+          <div
+            className="circular-progressbar"
+            style={{
+              width: 100,
+              height: 100,
+            }}
+          >
+            <CircularProgressbar
+              value={uploadOrDownloadCount}
+              text={`${uploadOrDownloadCount}%`}
+              strokeWidth={5}
+            />
+          </div>
+        </Modal.Body>
+        <h4>
+          {" "}
+          {mailsIncrement} mails sent of {hcpsSelected.length}
+        </h4>
+      </Modal>
+      {/*Confrimation Popup end*/}
     </>
   );
 };

@@ -18,20 +18,25 @@ const ContactForm = () => {
               <div className="top-right-action">
                 <div className="select-event">
                   <div className="col">
-                        <Dropdown>
-                          <Dropdown.Toggle variant="default">
-                            1:1 meeting with IBU Haematology
-                          </Dropdown.Toggle>
+                    <Dropdown>
+                      <Dropdown.Toggle variant="default">
+                        1:1 meeting with IBU Haematology
+                      </Dropdown.Toggle>
 
-                          <Dropdown.Menu>
-                            <Dropdown.Item href="#">1:1 meeting with IBU Haematology</Dropdown.Item>
-                            <Dropdown.Item href="#">PUP haematology</Dropdown.Item>
-                            <Dropdown.Item href="#">Making informed treatment decisions in previously  untreated patients with severe haemophilia A</Dropdown.Item>
-                            <Dropdown.Item href="#">PUP haematology</Dropdown.Item>
-                            <Dropdown.Item href="#">Haematology</Dropdown.Item>
-                          </Dropdown.Menu>
-                        </Dropdown>
-                      </div>
+                      <Dropdown.Menu>
+                        <Dropdown.Item href="#">
+                          1:1 meeting with IBU Haematology
+                        </Dropdown.Item>
+                        <Dropdown.Item href="#">PUP haematology</Dropdown.Item>
+                        <Dropdown.Item href="#">
+                          Making informed treatment decisions in previously
+                          untreated patients with severe haemophilia A
+                        </Dropdown.Item>
+                        <Dropdown.Item href="#">PUP haematology</Dropdown.Item>
+                        <Dropdown.Item href="#">Haematology</Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </div>
                 </div>
                 <div className="search-bar">
                   <form
