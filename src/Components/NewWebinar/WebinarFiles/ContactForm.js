@@ -10,14 +10,15 @@ const ContactForm = () => {
       <Col className="col right-sidebar">
         <div className="custom-container">
           <Row>
-            <div className="top-header">
+            <div className="top-header webinar-view">
               <div className="page-title">
                 <h2>Contacts</h2>
               </div>
 
               <div className="top-right-action">
-                <div className="select-event">
                   <div className="col">
+                <div className="select-event">
+                    <label>Select Event</label>
                     <Dropdown>
                       <Dropdown.Toggle variant="default">
                         1:1 meeting with IBU Haematology
@@ -38,11 +39,13 @@ const ContactForm = () => {
                     </Dropdown>
                   </div>
                 </div>
+                <div className="col">
                 <div className="search-bar">
                   <form
                     className="d-flex"
                     // onSubmit={(e) => submitHandler(e)}
                   >
+                     <label>Search</label>
                     <input
                       className="form-control me-2"
                       type="search"
@@ -66,6 +69,7 @@ const ContactForm = () => {
                       </svg>
                     </button>
                   </form>
+                </div>
                 </div>
               </div>
             </div>

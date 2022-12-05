@@ -8,10 +8,10 @@ const StatsWebinar = () => {
       <Col className="col right-sidebar">
         <div className="custom-container">
           <Row>
-            <div className="search_view readers">
-              <div className="smart-list-btns">
-                <div className="top-right-action">
+             <div className="top-header webinar-view">
+                <div className="top-right-action left-sided">
                   <div className="col">
+                    <div className="select-event">
                     <label>Select Event</label>
                     <Dropdown>
                       <Dropdown.Toggle variant="default">
@@ -23,8 +23,10 @@ const StatsWebinar = () => {
                         <Dropdown.Item href="#">ISTH 2020</Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>
+                    </div>
                   </div>
                   <div className="col">
+                    <div className="select-event">
                     <label>Select Type</label>
                     <Dropdown>
                       <Dropdown.Toggle variant="default">
@@ -39,55 +41,34 @@ const StatsWebinar = () => {
                         <Dropdown.Item href="#">Test user</Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>
-                  </div>
-
-                  <div className="col">
-                    <label>Select Report Type</label>
-                    <Dropdown>
-                      <Dropdown.Toggle variant="default">
-                        Select Report Type
-                      </Dropdown.Toggle>
-
-                      <Dropdown.Menu>
-                        <Dropdown.Item href="#">All</Dropdown.Item>
-                        <Dropdown.Item href="#">Poll</Dropdown.Item>
-                        <Dropdown.Item href="#">Survey</Dropdown.Item>
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </div>
-
-                  <div className="col">
-                    <label>Select Report Type</label>
-                    <Dropdown>
-                      <Dropdown.Toggle variant="default">
-                        Select Report Type
-                      </Dropdown.Toggle>
-
-                      <Dropdown.Menu>
-                        <Dropdown.Item href="#">All</Dropdown.Item>
-                        <Dropdown.Item href="#">Poll</Dropdown.Item>
-                        <Dropdown.Item href="#">Survey</Dropdown.Item>
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </div>
-
-                  <div className="top-right-action">
-                    <div className="smart-list-btns">
-                      <div className="smart-list-download">
-                        <button
-                          id="test-table-xls-button"
-                          class="btn btn-outline-primary"
-                          type="button"
-                        >
-                          Download
-                        </button>
-                      </div>
                     </div>
+                  </div>
+
+                  <div className="col">
+                    <div className="select-event">
+                    <label>Select Report Type</label>
+                    <Dropdown>
+                      <Dropdown.Toggle variant="default">
+                        Select Report Type
+                      </Dropdown.Toggle>
+
+                      <Dropdown.Menu>
+                        <Dropdown.Item href="#">All</Dropdown.Item>
+                        <Dropdown.Item href="#">Poll</Dropdown.Item>
+                        <Dropdown.Item href="#">Survey</Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </div>
+                  </div>
+                  </div>
+                <div className="top-right-action right-sided">
+                  <div className="col">
                     <div className="search-bar">
                       <form
                         className="d-flex"
                         // onSubmit={(e) => submitHandler(e)}
                       >
+                         <label>Search</label>
                         <input
                           className="form-control me-2"
                           type="search"
@@ -116,18 +97,35 @@ const StatsWebinar = () => {
                       </form>
                     </div>
                   </div>
+                  <div className="col">
+                    <div className="smart-list-download">
+                      <button
+                        id="test-table-xls-button"
+                        class="btn btn-outline-primary"
+                        type="button">
+                        Download
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
+              <div className="top-header webinar-view">
+                <div className="page-title">
+                  <h2>Webinar Stats</h2>
+                </div>
+                <div className="show-event-date">
+                  <p>Event Date : 20-04-2023</p>
+                </div>
+              </div>
           </Row>
           <div className="selected-hcp-list">
-            <table className="table" id="table-to-xls">
+            <table className="table webinar-reader" id="table-to-xls">
               <thead className="sticky-header">
                 <tr>
                   <th scope="col">Name</th>
                   <th scope="col">Email</th>
                   <th scope="col">Country</th>
-                  <th scope="col">Webonar Watched </th>
+                  <th scope="col">Webinar Watched </th>
                   <th scope="col">Start Time</th>
                   <th scope="col">End Time</th>
                   <th scope="col">Spent Time</th>

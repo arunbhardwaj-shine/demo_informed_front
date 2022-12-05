@@ -1196,16 +1196,24 @@ const AutoMail = (props) => {
       <div className="col right-sidebar">
         <div className="custom-container">
           <div className="row">
-            <div className="top-header">
+            <div className="top-header webinar-view">
               <div className="page-title">
                 <h2>Auto Mail Editor</h2>
               </div>
-            </div>
-            <div className="template_builder-option">
-              <div className="d-flex justify-content-start align-items-center">
+              <div className="top-right-action">
                 <div className="template_language">
-                  <span>Select Event</span>
-                  <div className="form-group">
+                  <label>Select Event</label>
+                  <Dropdown>
+                      <Dropdown.Toggle variant="default">
+                        Select Event
+                      </Dropdown.Toggle>
+
+                      <Dropdown.Menu>
+                        <Dropdown.Item href="#">testing</Dropdown.Item>
+                        <Dropdown.Item href="#">ISTH 2020</Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  {/* <div className="form-group">
                     <Select
                       defaultValue={"1:1 meeting with IBU haenati"}
                       placeholder={"Select Event"}
@@ -1213,12 +1221,12 @@ const AutoMail = (props) => {
                       options={options}
                       className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                     />
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
 
-            <div className="top-header">
+            <div className="top-header webinar-view last">
               <div className="custom-container">
                 <div className="row">
                   <div className="page-title">
@@ -1265,7 +1273,7 @@ const AutoMail = (props) => {
                   <div className="email-form">
                     <form>
                       <div className="form-inline row justify-content-between align-items-center">
-                        <div className="form-group col-12 col-md-7">
+                        <div className="form-group col-12 col-md-4">
                           <label for="exampleInputEmail1">Name </label>
                           <input
                             //   onChange={(e) => emailDescriptionChange(e)}
@@ -1275,7 +1283,7 @@ const AutoMail = (props) => {
                             //  value={emailDescription}
                           />
                         </div>
-                        <div className="form-group right-side col-12 col-md-5">
+                        <div className="form-group right-side col-12 col-md-4">
                           <label for="exampleInputEmail1">Email</label>
                           <input
                             //     onChange={(e) => emailCreatorChange(e)}
@@ -1285,10 +1293,7 @@ const AutoMail = (props) => {
                             //      value={emailCreator}
                           />
                         </div>
-                      </div>
-
-                      <div className="form-inline row justify-content-end align-items-center">
-                        <div className="form-group col-12 col-md-7">
+                        <div className="form-group col-12 col-md-4">
                           <label for="exampleInputEmail1">Email Subject</label>
                           <input
                             type="text"
@@ -1298,7 +1303,7 @@ const AutoMail = (props) => {
                             //  value={emailSubject}
                           />
                         </div>
-                        <div className="form-buttons right-side col-12 col-md-5">
+                        <div className="form-buttons right-side col-12 col-md-12">
                           <button
                             className="btn btn-primary btn-filled"
                             //  onClick={(e) => updateTemplate(e)}
