@@ -5,14 +5,78 @@ import { Col, Row } from "react-bootstrap";
 import { Dropdown } from "react-bootstrap";
 import { Button, Modal } from "react-bootstrap";
 import Select, { createFilter } from "react-select";
+import SimpleReactValidator from "simple-react-validator";
 import DropdownButton from "react-bootstrap/DropdownButton";
+import { toast } from "react-toastify";
 
 const EventCreate = () => {
   const path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const [descriptionEdit, setDesciptionEdit] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [editEvent, setEditEvent] = useState(false);
   const [addEventClicked, setAddEventClicked] = useState(false);
+
+  const [renderAfterValidation, setRenderAfterValidation] = useState(0);
+
+  const [eventDate, setEventDate] = useState("");
+
+  const [eventCode, setEventCode] = useState("");
+
+  const [timezone, setTimezone] = useState("BST");
+  const [validator] = React.useState(new SimpleReactValidator());
+  const [date, setDate] = useState("");
+
+  const [codeEdit, setCodeEdit] = useState("");
+
+  const [contactType, setContactType] = useState("Hamatology");
+
+  const [eventDescription, setEventDescription] = useState("");
+
+  const [eventName, setEventName] = useState("");
+  const [country, setCountry] = useState("Africa/johnanesburg");
+
+  const [startTime, setStartTime] = useState("2:1");
+
+  const [endTime, setEndTime] = useState("2:1");
+
+  const [eventTitle, setEventTitle] = useState("");
+
+  const onContactTypeChange = (e) => {
+    setContactType(e);
+  };
+
+  const onTimezoneChange = (e) => {
+    setTimezone(e);
+  };
+
+  const onCountryChange = (e) => {
+    setCountry(e);
+  };
+
+  const startTimeChange = (e) => {
+    setStartTime(e);
+  };
+
+  const onEndTimeChange = (e) => {
+    setEndTime(e);
+  };
+
+  const saveClicked = (e) => {
+    e.preventDefault();
+
+    if (eventTitle == "") {
+      toast.warning("Title is a required field");
+    } else if (eventDate == "") {
+      toast.warning("Event Date is a required field");
+    } else if (eventCode == "") {
+      toast.warning("Event Code is a required field");
+    } else if (eventDescription == "") {
+      toast.warning("Event description is a required field");
+    }
+  };
+
+  const saveEditClicked = () => {};
 
   return (
     <>
@@ -420,7 +484,12 @@ const EventCreate = () => {
               //   setActiveExcel("");
               // }}
               type="button"
-              onClick={() => setAddEventClicked(false)}
+              onClick={() => {
+                setAddEventClicked(false);
+                setEventTitle("");
+                setEventCode("");
+                setEventDescription("");
+              }}
               className="btn-close"
               data-bs-dismiss="modal"
               aria-label="Close"
@@ -441,10 +510,10 @@ const EventCreate = () => {
                                 type="text"
                                 placeholder="Event Title"
                                 className="form-control"
-                                // onChange={(event) =>
-                                //   onFirstNameChange(event, i)
-                                // }
-                                // value={val.firstname}
+                                onChange={(event) =>
+                                  setEventTitle(event.target.value)
+                                }
+                                value={eventTitle}
                               />
                             </div>
                           </div>
@@ -453,26 +522,24 @@ const EventCreate = () => {
                               <label for="">BU</label>
                               <DropdownButton
                                 className="dropdown-basic-button split-button-dropup"
-                                title={"Select Type"}
-                                // onSelect={(event) =>
-                                //   onContactTypeChange(event, i)
-                                // }
+                                title={contactType}
+                                onSelect={(event) => onContactTypeChange(event)}
                               >
                                 <div className="scroll_div">
                                   <Dropdown.Item
-                                    eventKey="HCP"
+                                    eventKey="Hamatology"
                                     // className={"active"}
                                   >
                                     Hamatology
                                   </Dropdown.Item>
                                   <Dropdown.Item
-                                    eventKey="Staff"
+                                    eventKey="Critical Care"
                                     // className={"active"}
                                   >
                                     Critical Care
                                   </Dropdown.Item>
                                   <Dropdown.Item
-                                    eventKey="Test Users"
+                                    eventKey="Immunotherapy"
                                     // className={"active"}
                                   >
                                     Immunotherapy
@@ -487,26 +554,24 @@ const EventCreate = () => {
                               <label for="">Timezone</label>
                               <DropdownButton
                                 className="dropdown-basic-button split-button-dropup"
-                                title={"Select Type"}
-                                // onSelect={(event) =>
-                                //   onContactTypeChange(event, i)
-                                // }
+                                title={timezone}
+                                onSelect={(event) => onTimezoneChange(event)}
                               >
                                 <div className="scroll_div">
                                   <Dropdown.Item
-                                    eventKey="HCP"
+                                    eventKey="BST"
                                     // className={"active"}
                                   >
                                     BST
                                   </Dropdown.Item>
                                   <Dropdown.Item
-                                    eventKey="Staff"
+                                    eventKey="CDT"
                                     // className={"active"}
                                   >
                                     CDT
                                   </Dropdown.Item>
                                   <Dropdown.Item
-                                    eventKey="Test Users"
+                                    eventKey="IST"
                                     // className={"active"}
                                   >
                                     IST
@@ -521,26 +586,24 @@ const EventCreate = () => {
                               <label for=""> Country</label>
                               <DropdownButton
                                 className="dropdown-basic-button split-button-dropup"
-                                title={"Select Type"}
-                                // onSelect={(event) =>
-                                //   onContactTypeChange(event, i)
-                                // }
+                                title={country}
+                                onSelect={(event) => onCountryChange(event)}
                               >
                                 <div className="scroll_div">
                                   <Dropdown.Item
-                                    eventKey="HCP"
+                                    eventKey="Africa/johnanesburg"
                                     // className={"active"}
                                   >
                                     Africa/johnanesburg
                                   </Dropdown.Item>
                                   <Dropdown.Item
-                                    eventKey="Staff"
+                                    eventKey="America/Chicago"
                                     // className={"active"}
                                   >
                                     America/Chicago
                                   </Dropdown.Item>
                                   <Dropdown.Item
-                                    eventKey="Test Users"
+                                    eventKey="Asia/Kolkata"
                                     // className={"active"}
                                   >
                                     Asia/Kolkata
@@ -556,10 +619,10 @@ const EventCreate = () => {
                                 type="text"
                                 className="form-control"
                                 placeholder="Event Date"
-                                // onChange={(event) =>
-                                //   onFirstNameChange(event, i)
-                                // }
-                                // value={val.firstname}
+                                onChange={(event) =>
+                                  setEventDate(event.target.value)
+                                }
+                                value={eventDate}
                               />
                             </div>
                           </div>
@@ -569,26 +632,24 @@ const EventCreate = () => {
                               <label for=""> Event Start Time</label>
                               <DropdownButton
                                 className="dropdown-basic-button split-button-dropup"
-                                title={"Select Type"}
-                                // onSelect={(event) =>
-                                //   onContactTypeChange(event, i)
-                                // }
+                                title={startTime}
+                                onSelect={(event) => startTimeChange(event)}
                               >
                                 <div className="scroll_div">
                                   <Dropdown.Item
-                                    eventKey="HCP"
+                                    eventKey="2:1"
                                     // className={"active"}
                                   >
                                     2:1
                                   </Dropdown.Item>
                                   <Dropdown.Item
-                                    eventKey="Staff"
+                                    eventKey="4:2"
                                     // className={"active"}
                                   >
                                     4:2
                                   </Dropdown.Item>
                                   <Dropdown.Item
-                                    eventKey="Test Users"
+                                    eventKey="7:2"
                                     // className={"active"}
                                   >
                                     7:2
@@ -603,26 +664,24 @@ const EventCreate = () => {
                               <label for=""> Event End Time</label>
                               <DropdownButton
                                 className="dropdown-basic-button split-button-dropup"
-                                title={"Select Type"}
-                                // onSelect={(event) =>
-                                //   onContactTypeChange(event, i)
-                                // }
+                                title={endTime}
+                                onSelect={(event) => onEndTimeChange(event)}
                               >
                                 <div className="scroll_div">
                                   <Dropdown.Item
-                                    eventKey="HCP"
+                                    eventKey="5:1"
                                     // className={"active"}
                                   >
                                     5:1
                                   </Dropdown.Item>
                                   <Dropdown.Item
-                                    eventKey="Staff"
+                                    eventKey="7:4"
                                     // className={"active"}
                                   >
                                     7:4
                                   </Dropdown.Item>
                                   <Dropdown.Item
-                                    eventKey="Test Users"
+                                    eventKey="7:3"
                                     // className={"active"}
                                   >
                                     7:3
@@ -638,10 +697,10 @@ const EventCreate = () => {
                                 type="text"
                                 placeholder="Event Code"
                                 className="form-control"
-                                // onChange={(event) =>
-                                //   onFirstNameChange(event, i)
-                                // }
-                                // value={val.firstname}
+                                onChange={(event) =>
+                                  setEventCode(event.target.value)
+                                }
+                                value={eventCode}
                               />
                             </div>
                           </div>
@@ -653,10 +712,10 @@ const EventCreate = () => {
                                 type="text"
                                 placeholder="Event Description"
                                 className="form-control"
-                                // onChange={(event) =>
-                                //   onFirstNameChange(event, i)
-                                // }
-                                // value={val.firstname}
+                                onChange={(event) =>
+                                  setEventDescription(event.target.value)
+                                }
+                                value={eventDescription}
                               />
                             </div>
                           </div>
@@ -691,9 +750,9 @@ const EventCreate = () => {
             <button
               type="button"
               className="btn btn-primary save btn-filled"
-              // onClick={(e) => {
-              //   saveClicked(e);
-              // }}
+              onClick={(e) => {
+                saveClicked(e);
+              }}
             >
               Save
             </button>
@@ -760,10 +819,10 @@ const EventCreate = () => {
                                 type="text"
                                 placeholder="Event Title"
                                 className="form-control"
-                                // onChange={(event) =>
-                                //   onFirstNameChange(event, i)
-                                // }
-                                // value={val.firstname}
+                                onChange={(event) =>
+                                  setEventName(event.target.value)
+                                }
+                                value={eventName}
                               />
                             </div>
                           </div>
@@ -875,10 +934,7 @@ const EventCreate = () => {
                                 type="text"
                                 className="form-control"
                                 placeholder="Event Date"
-                                // onChange={(event) =>
-                                //   onFirstNameChange(event, i)
-                                // }
-                                // value={val.firstname}
+                                onChange={(e) => setDate(e.target.value)}
                               />
                             </div>
                           </div>
@@ -957,10 +1013,10 @@ const EventCreate = () => {
                                 type="text"
                                 placeholder="Event Code"
                                 className="form-control"
-                                // onChange={(event) =>
-                                //   onFirstNameChange(event, i)
-                                // }
-                                // value={val.firstname}
+                                onChange={(event) =>
+                                  setCodeEdit(event.target.value)
+                                }
+                                value={codeEdit}
                               />
                             </div>
                           </div>
@@ -972,10 +1028,10 @@ const EventCreate = () => {
                                 type="text"
                                 placeholder="Event Description"
                                 className="form-control"
-                                // onChange={(event) =>
-                                //   onFirstNameChange(event, i)
-                                // }
-                                // value={val.firstname}
+                                onChange={(event) =>
+                                  setDesciptionEdit(event.target.value)
+                                }
+                                value={descriptionEdit}
                               />
                             </div>
                           </div>
@@ -1010,9 +1066,7 @@ const EventCreate = () => {
             <button
               type="button"
               className="btn btn-primary save btn-filled"
-              // onClick={(e) => {
-              //   saveClicked(e);
-              // }}
+              onClick={saveEditClicked}
             >
               Save
             </button>

@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Dropdown, Modal } from "react-bootstrap";
 import { Form, Link } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 export const WebinarHeader = () => {
   return (
@@ -63,6 +64,18 @@ export const WebinarHeader = () => {
           </div>
         </nav>
       </header>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </>
   );
 };
