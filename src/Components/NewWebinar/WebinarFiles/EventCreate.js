@@ -11,6 +11,7 @@ const EventCreate = () => {
   const path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [isOpen, setIsOpen] = useState(false);
+  const [editEvent, setEditEvent] = useState(false);
   const [addEventClicked, setAddEventClicked] = useState(false);
 
   return (
@@ -89,7 +90,7 @@ const EventCreate = () => {
                     <table>
                       <tbody>
                         <tr>
-                          <td>
+                          <td onClick={() => setEditEvent(true)}>
                             <a href="#">
                               <svg
                                 width="52"
@@ -187,7 +188,7 @@ const EventCreate = () => {
                     <table>
                       <tbody>
                         <tr>
-                          <td>
+                          <td onClick={() => setEditEvent(true)}>
                             <a href="#">
                               <svg
                                 width="52"
@@ -285,7 +286,7 @@ const EventCreate = () => {
                     <table>
                       <tbody>
                         <tr>
-                          <td>
+                          <td onClick={() => setEditEvent(true)}>
                             <a href="#">
                               <svg
                                 width="52"
@@ -695,6 +696,336 @@ const EventCreate = () => {
               // }}
             >
               Save
+            </button>
+          </div>
+        </div>
+      </Modal>
+
+      <Modal
+        id="add_hcp"
+        show={editEvent}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+        onHide={() => {
+          setEditEvent(false);
+        }}
+      >
+        <div
+          data-bs-backdrop="static"
+          data-bs-keyboard="false"
+          tabindex="-1"
+          aria-hidden="true"
+        >
+          <div className="modal-header">
+            <h5 className="modal-title" id="staticBackdropLabel">
+              Edit Event
+            </h5>
+            <button
+              // onClick={() => {
+              //   setIsOpenAdd(false);
+              //   setHpc([
+              //     {
+              //       firstname: "",
+              //       lastname: "",
+              //       email: "",
+              //       contact_type: "",
+              //       country: "",
+              //       countryIndex: "",
+              //     },
+              //   ]);
+              //   setActiveManual("active");
+              //   document.querySelector("#file-4").value = "";
+              //   setActiveExcel("");
+              // }}
+              type="button"
+              onClick={() => setEditEvent(false)}
+              className="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div className="modal-body">
+            <div className="hcp-add-box">
+              <div className="hcp-add-form tab-content" id="upload-confirm">
+                <form id="add_hcp_form" className={"tab-pane" + "active"}>
+                  <>
+                    <div className="add_hcp_boxes">
+                      <div className="form_action">
+                        <div className="row">
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for="">Event Title</label>
+                              <input
+                                type="text"
+                                placeholder="Event Title"
+                                className="form-control"
+                                // onChange={(event) =>
+                                //   onFirstNameChange(event, i)
+                                // }
+                                // value={val.firstname}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for="">BU</label>
+                              <DropdownButton
+                                className="dropdown-basic-button split-button-dropup"
+                                title={"Select Type"}
+                                // onSelect={(event) =>
+                                //   onContactTypeChange(event, i)
+                                // }
+                              >
+                                <div className="scroll_div">
+                                  <Dropdown.Item
+                                    eventKey="HCP"
+                                    // className={"active"}
+                                  >
+                                    Hamatology
+                                  </Dropdown.Item>
+                                  <Dropdown.Item
+                                    eventKey="Staff"
+                                    // className={"active"}
+                                  >
+                                    Critical Care
+                                  </Dropdown.Item>
+                                  <Dropdown.Item
+                                    eventKey="Test Users"
+                                    // className={"active"}
+                                  >
+                                    Immunotherapy
+                                  </Dropdown.Item>
+                                </div>
+                              </DropdownButton>
+                            </div>
+                          </div>
+
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for="">Timezone</label>
+                              <DropdownButton
+                                className="dropdown-basic-button split-button-dropup"
+                                title={"Select Type"}
+                                // onSelect={(event) =>
+                                //   onContactTypeChange(event, i)
+                                // }
+                              >
+                                <div className="scroll_div">
+                                  <Dropdown.Item
+                                    eventKey="HCP"
+                                    // className={"active"}
+                                  >
+                                    BST
+                                  </Dropdown.Item>
+                                  <Dropdown.Item
+                                    eventKey="Staff"
+                                    // className={"active"}
+                                  >
+                                    CDT
+                                  </Dropdown.Item>
+                                  <Dropdown.Item
+                                    eventKey="Test Users"
+                                    // className={"active"}
+                                  >
+                                    IST
+                                  </Dropdown.Item>
+                                </div>
+                              </DropdownButton>
+                            </div>
+                          </div>
+
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for=""> Country</label>
+                              <DropdownButton
+                                className="dropdown-basic-button split-button-dropup"
+                                title={"Select Type"}
+                                // onSelect={(event) =>
+                                //   onContactTypeChange(event, i)
+                                // }
+                              >
+                                <div className="scroll_div">
+                                  <Dropdown.Item
+                                    eventKey="HCP"
+                                    // className={"active"}
+                                  >
+                                    Africa/johnanesburg
+                                  </Dropdown.Item>
+                                  <Dropdown.Item
+                                    eventKey="Staff"
+                                    // className={"active"}
+                                  >
+                                    America/Chicago
+                                  </Dropdown.Item>
+                                  <Dropdown.Item
+                                    eventKey="Test Users"
+                                    // className={"active"}
+                                  >
+                                    Asia/Kolkata
+                                  </Dropdown.Item>
+                                </div>
+                              </DropdownButton>
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for="">Event Date</label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Event Date"
+                                // onChange={(event) =>
+                                //   onFirstNameChange(event, i)
+                                // }
+                                // value={val.firstname}
+                              />
+                            </div>
+                          </div>
+
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for=""> Event Start Time</label>
+                              <DropdownButton
+                                className="dropdown-basic-button split-button-dropup"
+                                title={"Select Type"}
+                                // onSelect={(event) =>
+                                //   onContactTypeChange(event, i)
+                                // }
+                              >
+                                <div className="scroll_div">
+                                  <Dropdown.Item
+                                    eventKey="HCP"
+                                    // className={"active"}
+                                  >
+                                    2:1
+                                  </Dropdown.Item>
+                                  <Dropdown.Item
+                                    eventKey="Staff"
+                                    // className={"active"}
+                                  >
+                                    4:2
+                                  </Dropdown.Item>
+                                  <Dropdown.Item
+                                    eventKey="Test Users"
+                                    // className={"active"}
+                                  >
+                                    7:2
+                                  </Dropdown.Item>
+                                </div>
+                              </DropdownButton>
+                            </div>
+                          </div>
+
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for=""> Event End Time</label>
+                              <DropdownButton
+                                className="dropdown-basic-button split-button-dropup"
+                                title={"Select Type"}
+                                // onSelect={(event) =>
+                                //   onContactTypeChange(event, i)
+                                // }
+                              >
+                                <div className="scroll_div">
+                                  <Dropdown.Item
+                                    eventKey="HCP"
+                                    // className={"active"}
+                                  >
+                                    5:1
+                                  </Dropdown.Item>
+                                  <Dropdown.Item
+                                    eventKey="Staff"
+                                    // className={"active"}
+                                  >
+                                    7:4
+                                  </Dropdown.Item>
+                                  <Dropdown.Item
+                                    eventKey="Test Users"
+                                    // className={"active"}
+                                  >
+                                    7:3
+                                  </Dropdown.Item>
+                                </div>
+                              </DropdownButton>
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for="">Event Code</label>
+                              <input
+                                type="text"
+                                placeholder="Event Code"
+                                className="form-control"
+                                // onChange={(event) =>
+                                //   onFirstNameChange(event, i)
+                                // }
+                                // value={val.firstname}
+                              />
+                            </div>
+                          </div>
+
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label for="">Event Description</label>
+                              <input
+                                type="text"
+                                placeholder="Event Description"
+                                className="form-control"
+                                // onChange={(event) =>
+                                //   onFirstNameChange(event, i)
+                                // }
+                                // value={val.firstname}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="hcp-modal-action">
+                        <div className="hcp-action-block">
+                          <>
+                            <div className="hcp-remove">
+                              <button
+                                type="button"
+                                className="btn btn-filled"
+                                // onClick={() => deleteRecord(i)}
+                              >
+                                <img
+                                  src={path_image + "delete.svg"}
+                                  alt="Add More"
+                                />
+                              </button>
+                            </div>
+                          </>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div className="modal-footer">
+            <button
+              type="button"
+              className="btn btn-primary save btn-filled"
+              // onClick={(e) => {
+              //   saveClicked(e);
+              // }}
+            >
+              Save
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setEditEvent(false)}
+              className="btn btn-primary save btn-filled"
+              // onClick={(e) => {
+              //   saveClicked(e);
+              // }}
+            >
+              Close
             </button>
           </div>
         </div>

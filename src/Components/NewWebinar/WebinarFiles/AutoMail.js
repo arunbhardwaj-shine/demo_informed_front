@@ -1204,15 +1204,15 @@ const AutoMail = (props) => {
                 <div className="template_language">
                   <label>Select Event</label>
                   <Dropdown>
-                      <Dropdown.Toggle variant="default">
-                        Select Event
-                      </Dropdown.Toggle>
+                    <Dropdown.Toggle variant="default">
+                      Select Event
+                    </Dropdown.Toggle>
 
-                      <Dropdown.Menu>
-                        <Dropdown.Item href="#">testing</Dropdown.Item>
-                        <Dropdown.Item href="#">ISTH 2020</Dropdown.Item>
-                      </Dropdown.Menu>
-                    </Dropdown>
+                    <Dropdown.Menu>
+                      <Dropdown.Item href="#">testing</Dropdown.Item>
+                      <Dropdown.Item href="#">ISTH 2020</Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
                   {/* <div className="form-group">
                     <Select
                       defaultValue={"1:1 meeting with IBU haenati"}
@@ -1306,7 +1306,7 @@ const AutoMail = (props) => {
                         <div className="form-buttons right-side col-12 col-md-12">
                           <button
                             className="btn btn-primary btn-filled"
-                            //  onClick={(e) => updateTemplate(e)}
+                            onClick={(e) => e.preventDefault()}
                           >
                             Send
                           </button>
