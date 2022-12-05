@@ -25,6 +25,8 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 var dxr = 0;
 var state_object = {};
 const AutoMail = (props) => {
+  const [eventSelected, setEventSelected] = useState("testing");
+
   const editorRef = useRef(null);
   const ref = useRef(null);
 
@@ -37,11 +39,17 @@ const AutoMail = (props) => {
     { value: "Haematology", label: "Haematology" },
   ];
 
+  const eventDropDownClicked = (e) => {
+    console.log(e);
+    setEventSelected(e);
+  };
+
   let file_name = useRef("");
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const navigate = useNavigate();
   const [SendListData, setSendListData] = useState([]);
 
+  const [subject, setSubject] = useState("");
   const [UserData, setUserData] = useState([]);
   const location = useLocation();
   const [uniqueId, setUniqueId] = useState("");
@@ -270,6 +278,18 @@ const AutoMail = (props) => {
   useEffect(() => {
     //console.log("sdsdsd");
   }, [selectedHcp]);
+
+  const sendClicked = (e) => {
+    e.preventDefault();
+    if (validator.allValid()) {
+      console.log("all valid");
+    } else {
+      //console.log("show error messages");
+      //console.log(validator.errorMessages);
+      validator.showMessages();
+      setRenderAfterValidation(renderAfterValidation + 1);
+    }
+  };
 
   useEffect(() => {
     const body = {
@@ -1203,16 +1223,16 @@ const AutoMail = (props) => {
               <div className="top-right-action">
                 <div className="template_language">
                   <label>Select Event</label>
-                  <Dropdown>
-                    <Dropdown.Toggle variant="default">
-                      Select Event
-                    </Dropdown.Toggle>
-
-                    <Dropdown.Menu>
-                      <Dropdown.Item href="#">testing</Dropdown.Item>
-                      <Dropdown.Item href="#">ISTH 2020</Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
+                  <DropdownButton
+                    className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                    title={eventSelected}
+                    onSelect={(event) => eventDropDownClicked(event)}
+                  >
+                    <Dropdown.Item eventKey="testing">testing</Dropdown.Item>
+                    <Dropdown.Item eventKey="ISTH 2020">
+                      ISTH 2020
+                    </Dropdown.Item>
+                  </DropdownButton>
                   {/* <div className="form-group">
                     <Select
                       defaultValue={"1:1 meeting with IBU haenati"}
@@ -1276,22 +1296,26 @@ const AutoMail = (props) => {
                         <div className="form-group col-12 col-md-4">
                           <label for="exampleInputEmail1">Name </label>
                           <input
-                            //   onChange={(e) => emailDescriptionChange(e)}
+                            onChange={(e) => setName(e.target.value)}
                             type="text"
                             className="form-control"
                             id="email-desc"
-                            //  value={emailDescription}
+                            value={name}
                           />
+                          {validator.message("name", name, "required")}
                         </div>
                         <div className="form-group right-side col-12 col-md-4">
                           <label for="exampleInputEmail1">Email</label>
                           <input
                             //     onChange={(e) => emailCreatorChange(e)}
+                            onChange={(e) => setEmail(e.target.value)}
                             type="text"
                             className="form-control"
                             id="email-address"
-                            //      value={emailCreator}
+                            value={email}
                           />
+
+                          {validator.message("email", email, "required")}
                         </div>
                         <div className="form-group col-12 col-md-4">
                           <label for="exampleInputEmail1">Email Subject</label>
@@ -1299,14 +1323,16 @@ const AutoMail = (props) => {
                             type="text"
                             className="form-control"
                             id="email-subject"
-                            //  onChange={(e) => emailSubjectChanged(e)}
-                            //  value={emailSubject}
+                            onChange={(e) => setSubject(e.target.value)}
+                            value={subject}
                           />
+
+                          {validator.message("subject", subject, "required")}
                         </div>
                         <div className="form-buttons right-side col-12 col-md-12">
                           <button
                             className="btn btn-primary btn-filled"
-                            onClick={(e) => e.preventDefault()}
+                            onClick={(e) => sendClicked(e)}
                           >
                             Send
                           </button>
@@ -1316,7 +1342,7 @@ const AutoMail = (props) => {
                   </div>
 
                   <input type="hidden" id="mail_template" value={templateId} />
-                  {validator.message("Templates", templateId, "required")}
+
                   <div className="email-form">
                     <form>
                       <div className="form-inline row justify-content-between align-items-center"></div>
