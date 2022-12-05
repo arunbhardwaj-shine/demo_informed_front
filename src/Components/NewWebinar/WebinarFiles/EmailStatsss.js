@@ -3,16 +3,17 @@ import Dropdown from "react-bootstrap/Dropdown";
 import { Col, Row } from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Select, { createFilter } from "react-select";
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const EmailStatsss = () => {
   return (
     <>
       <Col className="col right-sidebar">
         <div className="custom-container">
           <Row>
-           <div className="top-header">
+           <div className="top-header webinar-view">
             <div className="page-title">
                 <h2>Email Stats</h2>
-              </div>
+            </div>
            
             <div className="search_view readers mail_statss">
               <div className="smart-list-btns">
@@ -57,12 +58,13 @@ const EmailStatsss = () => {
                     </Dropdown>
                   </div>
 
-                  <div className="top-right-action">
+                  <div className="col">
                     <div className="search-bar">
                       <form
                         className="d-flex"
                         // onSubmit={(e) => submitHandler(e)}
                       >
+                        <label>Search</label>
                         <input
                           className="form-control me-2"
                           type="search"
@@ -89,6 +91,11 @@ const EmailStatsss = () => {
                           </svg>
                         </button>
                       </form>
+                    </div>
+                  </div>
+                  <div className="col">
+                    <div className="clear-search">
+                      <img src={path_image + "reset-filter.png"} alt=""/>
                     </div>
                   </div>
                 </div>
