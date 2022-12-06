@@ -8,7 +8,7 @@ import Select, { createFilter } from "react-select";
 import SimpleReactValidator from "simple-react-validator";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { toast } from "react-toastify";
-
+import { popup_alert } from "../../../popup_alert";
 const EventCreate = () => {
   const path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -73,10 +73,27 @@ const EventCreate = () => {
       toast.warning("Event Code is a required field");
     } else if (eventDescription == "") {
       toast.warning("Event description is a required field");
+    } else {
+      setAddEventClicked(false);
+      popup_alert({
+        visible: "show",
+        message: "Event added successfully!",
+        type: "success",
+        // redirect: "/EmailList",
+      });
     }
   };
 
-  const saveEditClicked = () => {};
+  const saveEditClicked = () => {
+    setEditEvent(false);
+
+    popup_alert({
+      visible: "show",
+      message: "Data edited successfully!",
+      type: "success",
+      // redirect: "/EmailList",
+    });
+  };
 
   return (
     <>
@@ -95,6 +112,10 @@ const EventCreate = () => {
                       className="btn btn-primary"
                       onClick={() => {
                         setAddEventClicked(true);
+                        setEventTitle("");
+                        setEventDate("");
+                        setEventCode("");
+                        setEventDescription("");
                       }}
                     >
                       Add Event
