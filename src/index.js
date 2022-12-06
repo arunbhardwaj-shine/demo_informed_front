@@ -13,6 +13,11 @@ import { Provider } from "react-redux";
 import { createStore } from "redux";
 import reducers from "./reducers";
 
+//Library routes
+import LibraryContent from "./Components/Library/Content/LibraryContent";
+import LibraryCreate from "./Components/Library/CreateChange/LibraryCreate";
+
+
 // ----------START-------Webinar routes------------------------
 import WebinarHeader from "./Components/NewWebinar/Layout/Header";
 import WebinarSidebar from "./Components/NewWebinar/Layout/Sidebar";
@@ -210,7 +215,8 @@ ReactDOM.render(
                     {/* New webinar */}
                     {/* <Route path="/new-webinar" element={<WebinarHeader />} /> */}
                     {/* end webinar */}
-
+                    <Route path="/library-content" element={<LibraryContent />} />
+                    <Route path="/library-create" element={<LibraryCreate />} />
                     <Route path="/new-webinar" element={<DefaultWebinar />} />
                     <Route path="/contact-form" element={<ContactForm />} />
                     <Route path="/email-statsss" element={<EmailStatsss />} />
