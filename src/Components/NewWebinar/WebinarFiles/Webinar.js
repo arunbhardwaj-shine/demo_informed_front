@@ -12,6 +12,7 @@ const DefaultWebinar = () => {
   );
 
   const [countrySelected, setCountrySelected] = useState("Afganistan");
+  const [renderAfterValidation, setRenderAfterValidation] = useState(0);
 
   const [userType, setUserType] = useState("HCP");
 
@@ -44,7 +45,17 @@ const DefaultWebinar = () => {
     setSearch(e.target.value);
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validator.allValid()) {
+      console.log("All Valid");
+    } else {
+      //console.log("show error messages");
+      //console.log(validator.errorMessages);
+      validator.showMessages();
+      setRenderAfterValidation(renderAfterValidation + 1);
+    }
+  };
 
   return (
     <>
@@ -136,7 +147,7 @@ const DefaultWebinar = () => {
                     </DropdownButton>
                   </div>
                   <div className="search-bar col">
-                    <form className="d-flex" onSubmit={handleSubmit}>
+                    <form className="d-flex" onSubmit={(e) => handleSubmit(e)}>
                       <label>Search</label>
                       <input
                         className="form-control me-2"
