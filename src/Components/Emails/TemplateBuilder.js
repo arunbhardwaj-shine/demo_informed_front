@@ -960,6 +960,7 @@ const TemplateBuilder = (props) => {
           if (res.data.status_code === 200) {
             getTemplateListData(1, selectedLanguage, selectedIbu);
             setTemplateId(res.data.response.data.last_id);
+            setTemplateName(template_name);
           } else {
             loader("hide");
             toast.warning("Template not selected.");
