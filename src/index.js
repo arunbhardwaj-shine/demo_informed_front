@@ -186,7 +186,7 @@ ReactDOM.render(
             ].includes(window.location.pathname) ? (
               <WebinarHeader />
             ) : (
-              <Header />
+              window.location.pathname !== "/" ? <Header /> : null
             )}
             {/* {window.location.pathname !== "/" ? <WebinarHeader /> : null} */}
             <div className="warpper">
@@ -203,7 +203,7 @@ ReactDOM.render(
                   ].includes(window.location.pathname) ? (
                     <WebinarSidebar />
                   ) : (
-                    <Sidebar />
+                    window.location.pathname !== "/" ? <Sidebar /> : null
                   )}
                   {/* {window.location.pathname !== "/" ? <Sidebar /> : null} */}
                   <Routes>
