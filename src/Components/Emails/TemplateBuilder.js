@@ -1312,7 +1312,7 @@ const TemplateBuilder = (props) => {
                     <form>
                       <div className="form-inline row justify-content-between align-items-center"></div>
                       <div className="form-inline row justify-content-end align-items-center">
-                        <div className="form-group col-12 col-md-12">
+                        <div className="form-group template_builder_div col-12 col-md-12">
                           {templateName != "" && (
                             <>
                               {editableTemplate ? (
