@@ -28,10 +28,18 @@ const StatsWebinar = () => {
       <Col className="col right-sidebar">
         <div className="custom-container">
           <Row>
-            <div className="top-header webinar-view">
-              <div className="top-right-action left-sided">
-                <div className="col">
-                  <div className="select-event">
+              <div className="top-header webinar-view">
+                <div className="page-title">
+                  <h2>Webinar Stats</h2>
+                </div>
+                <div className="show-event-date">
+                  <p>Event Date : 20-04-2023</p>
+                </div>
+              </div>
+              <div className="top-header webinar-view">
+                <div className="top-right-action left-sided">
+                  <div className="col">
+                    <div className="select-event">
                     <label>Select Event</label>
                     <DropdownButton
                       className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -85,6 +93,7 @@ const StatsWebinar = () => {
                   </div>
                 </div>
               </div>
+              </div>
               <div className="top-right-action right-sided">
                 <div className="col">
                   <div className="search-bar">
@@ -118,27 +127,7 @@ const StatsWebinar = () => {
                     </form>
                   </div>
                 </div>
-                <div className="col">
-                  <div className="smart-list-download">
-                    <button
-                      id="test-table-xls-button"
-                      class="btn btn-outline-primary"
-                      type="button"
-                    >
-                      Download
-                    </button>
-                  </div>
-                </div>
               </div>
-            </div>
-            <div className="top-header webinar-view">
-              <div className="page-title">
-                <h2>Webinar Stats</h2>
-              </div>
-              <div className="show-event-date">
-                <p>Event Date : 20-04-2023</p>
-              </div>
-            </div>
           </Row>
           <div className="selected-hcp-list">
             <table className="table webinar-reader" id="table-to-xls">
