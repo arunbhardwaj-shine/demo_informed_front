@@ -8,7 +8,16 @@ const StatsWebinar = () => {
       <Col className="col right-sidebar">
         <div className="custom-container">
           <Row>
-             <div className="top-header webinar-view">
+             
+              <div className="top-header webinar-view">
+                <div className="page-title">
+                  <h2>Webinar Stats</h2>
+                </div>
+                <div className="show-event-date">
+                  <p>Event Date : 20-04-2023</p>
+                </div>
+              </div>
+              <div className="top-header webinar-view">
                 <div className="top-right-action left-sided">
                   <div className="col">
                     <div className="select-event">
@@ -107,14 +116,6 @@ const StatsWebinar = () => {
                       </button>
                     </div>
                   </div>
-                </div>
-              </div>
-              <div className="top-header webinar-view">
-                <div className="page-title">
-                  <h2>Webinar Stats</h2>
-                </div>
-                <div className="show-event-date">
-                  <p>Event Date : 20-04-2023</p>
                 </div>
               </div>
           </Row>

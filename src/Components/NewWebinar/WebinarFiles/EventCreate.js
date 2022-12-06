@@ -28,7 +28,7 @@ const EventCreate = () => {
                 <div className="select-event">
                   <div className="col">
                     <button
-                      className="btn btn-primary"
+                      className="btn btn-primary btn-filled"
                       onClick={() => {
                         setAddEventClicked(true);
                       }}
@@ -85,79 +85,14 @@ const EventCreate = () => {
                 <tr>
                   <td>1</td>
                   <td>Infoshiv</td>
-
                   <td className="table_action">
                     <table>
                       <tbody>
                         <tr>
                           <td onClick={() => setEditEvent(true)}>
                             <a href="#">
-                              <svg
-                                width="52"
-                                height="52"
-                                viewBox="0 0 52 52"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <g filter="url(#filter0_d_698_5305)">
-                                  <rect
-                                    x="6"
-                                    y="5"
-                                    width="40"
-                                    height="40"
-                                    rx="20"
-                                    fill="white"
-                                  />
-                                  <path
-                                    fill-rule="evenodd"
-                                    clip-rule="evenodd"
-                                    d="M18.1661 27.8329C17.9976 28.0151 17.8798 28.2448 17.8262 28.4959L17.0103 32.3182C16.847 33.0833 17.4812 33.7689 18.1889 33.5924L21.7245 32.7103C21.9568 32.6524 22.1693 32.525 22.3379 32.3428L31.932 21.9707C32.6545 21.1897 32.6545 19.9234 31.932 19.1423L30.3766 17.4608C29.6541 16.6797 28.4828 16.6797 27.7603 17.4608L18.1661 27.8329ZM18.5079 31.9734L19.1707 28.8682L26.5408 20.9005L28.7503 23.2891L21.3802 31.2568L18.5079 31.9734ZM29.7314 22.2284L27.5219 19.8398L28.7414 18.5214C28.922 18.3262 29.2149 18.3262 29.3955 18.5214L30.9509 20.203C31.1315 20.3982 31.1315 20.7148 30.9509 20.9101L29.7314 22.2284Z"
-                                    fill="#0066BE"
-                                  />
-                                </g>
-                                <defs>
-                                  <filter
-                                    id="filter0_d_698_5305"
-                                    x="0"
-                                    y="0"
-                                    width="52"
-                                    height="52"
-                                    filterUnits="userSpaceOnUse"
-                                    color-interpolation-filters="sRGB"
-                                  >
-                                    <feFlood
-                                      flood-opacity="0"
-                                      result="BackgroundImageFix"
-                                    />
-                                    <feColorMatrix
-                                      in="SourceAlpha"
-                                      type="matrix"
-                                      values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                                      result="hardAlpha"
-                                    />
-                                    <feOffset dy="1" />
-                                    <feGaussianBlur stdDeviation="3" />
-                                    <feComposite
-                                      in2="hardAlpha"
-                                      operator="out"
-                                    />
-                                    <feColorMatrix
-                                      type="matrix"
-                                      values="0 0 0 0 0 0 0 0 0 0.4 0 0 0 0 0.745098 0 0 0 0.2 0"
-                                    />
-                                    <feBlend
-                                      mode="normal"
-                                      in2="BackgroundImageFix"
-                                      result="effect1_dropShadow_698_5305"
-                                    />
-                                    <feBlend
-                                      mode="normal"
-                                      in="SourceGraphic"
-                                      in2="effect1_dropShadow_698_5305"
-                                      result="shape"
-                                    />
-                                  </filter>
-                                </defs>
+                              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M2.15259 11.8329C1.97037 12.0151 1.84302 12.2448 1.78507 12.4959L0.903019 16.3182C0.726463 17.0833 1.41215 17.7689 2.17722 17.5924L5.99946 16.7103C6.25056 16.6524 6.48033 16.525 6.66255 16.3428L17.0346 5.97075C17.8157 5.1897 17.8157 3.92337 17.0346 3.14232L15.3531 1.46079C14.572 0.679739 13.3057 0.679736 12.5247 1.46079L2.15259 11.8329ZM2.52201 15.9734L3.2386 12.8682L11.2063 4.90046L13.5949 7.2891L5.62724 15.2568L2.52201 15.9734ZM14.6556 6.22844L12.267 3.8398L13.5853 2.52145C13.7806 2.32618 14.0972 2.32618 14.2924 2.52145L15.974 4.20298C16.1692 4.39824 16.1692 4.71483 15.974 4.91009L14.6556 6.22844Z" fill="#0066BE"/>
                               </svg>
                             </a>
                           </td>
@@ -190,72 +125,8 @@ const EventCreate = () => {
                         <tr>
                           <td onClick={() => setEditEvent(true)}>
                             <a href="#">
-                              <svg
-                                width="52"
-                                height="52"
-                                viewBox="0 0 52 52"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <g filter="url(#filter0_d_698_5305)">
-                                  <rect
-                                    x="6"
-                                    y="5"
-                                    width="40"
-                                    height="40"
-                                    rx="20"
-                                    fill="white"
-                                  />
-                                  <path
-                                    fill-rule="evenodd"
-                                    clip-rule="evenodd"
-                                    d="M18.1661 27.8329C17.9976 28.0151 17.8798 28.2448 17.8262 28.4959L17.0103 32.3182C16.847 33.0833 17.4812 33.7689 18.1889 33.5924L21.7245 32.7103C21.9568 32.6524 22.1693 32.525 22.3379 32.3428L31.932 21.9707C32.6545 21.1897 32.6545 19.9234 31.932 19.1423L30.3766 17.4608C29.6541 16.6797 28.4828 16.6797 27.7603 17.4608L18.1661 27.8329ZM18.5079 31.9734L19.1707 28.8682L26.5408 20.9005L28.7503 23.2891L21.3802 31.2568L18.5079 31.9734ZM29.7314 22.2284L27.5219 19.8398L28.7414 18.5214C28.922 18.3262 29.2149 18.3262 29.3955 18.5214L30.9509 20.203C31.1315 20.3982 31.1315 20.7148 30.9509 20.9101L29.7314 22.2284Z"
-                                    fill="#0066BE"
-                                  />
-                                </g>
-                                <defs>
-                                  <filter
-                                    id="filter0_d_698_5305"
-                                    x="0"
-                                    y="0"
-                                    width="52"
-                                    height="52"
-                                    filterUnits="userSpaceOnUse"
-                                    color-interpolation-filters="sRGB"
-                                  >
-                                    <feFlood
-                                      flood-opacity="0"
-                                      result="BackgroundImageFix"
-                                    />
-                                    <feColorMatrix
-                                      in="SourceAlpha"
-                                      type="matrix"
-                                      values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                                      result="hardAlpha"
-                                    />
-                                    <feOffset dy="1" />
-                                    <feGaussianBlur stdDeviation="3" />
-                                    <feComposite
-                                      in2="hardAlpha"
-                                      operator="out"
-                                    />
-                                    <feColorMatrix
-                                      type="matrix"
-                                      values="0 0 0 0 0 0 0 0 0 0.4 0 0 0 0 0.745098 0 0 0 0.2 0"
-                                    />
-                                    <feBlend
-                                      mode="normal"
-                                      in2="BackgroundImageFix"
-                                      result="effect1_dropShadow_698_5305"
-                                    />
-                                    <feBlend
-                                      mode="normal"
-                                      in="SourceGraphic"
-                                      in2="effect1_dropShadow_698_5305"
-                                      result="shape"
-                                    />
-                                  </filter>
-                                </defs>
+                              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M2.15259 11.8329C1.97037 12.0151 1.84302 12.2448 1.78507 12.4959L0.903019 16.3182C0.726463 17.0833 1.41215 17.7689 2.17722 17.5924L5.99946 16.7103C6.25056 16.6524 6.48033 16.525 6.66255 16.3428L17.0346 5.97075C17.8157 5.1897 17.8157 3.92337 17.0346 3.14232L15.3531 1.46079C14.572 0.679739 13.3057 0.679736 12.5247 1.46079L2.15259 11.8329ZM2.52201 15.9734L3.2386 12.8682L11.2063 4.90046L13.5949 7.2891L5.62724 15.2568L2.52201 15.9734ZM14.6556 6.22844L12.267 3.8398L13.5853 2.52145C13.7806 2.32618 14.0972 2.32618 14.2924 2.52145L15.974 4.20298C16.1692 4.39824 16.1692 4.71483 15.974 4.91009L14.6556 6.22844Z" fill="#0066BE"/>
                               </svg>
                             </a>
                           </td>
@@ -288,72 +159,8 @@ const EventCreate = () => {
                         <tr>
                           <td onClick={() => setEditEvent(true)}>
                             <a href="#">
-                              <svg
-                                width="52"
-                                height="52"
-                                viewBox="0 0 52 52"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <g filter="url(#filter0_d_698_5305)">
-                                  <rect
-                                    x="6"
-                                    y="5"
-                                    width="40"
-                                    height="40"
-                                    rx="20"
-                                    fill="white"
-                                  />
-                                  <path
-                                    fill-rule="evenodd"
-                                    clip-rule="evenodd"
-                                    d="M18.1661 27.8329C17.9976 28.0151 17.8798 28.2448 17.8262 28.4959L17.0103 32.3182C16.847 33.0833 17.4812 33.7689 18.1889 33.5924L21.7245 32.7103C21.9568 32.6524 22.1693 32.525 22.3379 32.3428L31.932 21.9707C32.6545 21.1897 32.6545 19.9234 31.932 19.1423L30.3766 17.4608C29.6541 16.6797 28.4828 16.6797 27.7603 17.4608L18.1661 27.8329ZM18.5079 31.9734L19.1707 28.8682L26.5408 20.9005L28.7503 23.2891L21.3802 31.2568L18.5079 31.9734ZM29.7314 22.2284L27.5219 19.8398L28.7414 18.5214C28.922 18.3262 29.2149 18.3262 29.3955 18.5214L30.9509 20.203C31.1315 20.3982 31.1315 20.7148 30.9509 20.9101L29.7314 22.2284Z"
-                                    fill="#0066BE"
-                                  />
-                                </g>
-                                <defs>
-                                  <filter
-                                    id="filter0_d_698_5305"
-                                    x="0"
-                                    y="0"
-                                    width="52"
-                                    height="52"
-                                    filterUnits="userSpaceOnUse"
-                                    color-interpolation-filters="sRGB"
-                                  >
-                                    <feFlood
-                                      flood-opacity="0"
-                                      result="BackgroundImageFix"
-                                    />
-                                    <feColorMatrix
-                                      in="SourceAlpha"
-                                      type="matrix"
-                                      values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                                      result="hardAlpha"
-                                    />
-                                    <feOffset dy="1" />
-                                    <feGaussianBlur stdDeviation="3" />
-                                    <feComposite
-                                      in2="hardAlpha"
-                                      operator="out"
-                                    />
-                                    <feColorMatrix
-                                      type="matrix"
-                                      values="0 0 0 0 0 0 0 0 0 0.4 0 0 0 0 0.745098 0 0 0 0.2 0"
-                                    />
-                                    <feBlend
-                                      mode="normal"
-                                      in2="BackgroundImageFix"
-                                      result="effect1_dropShadow_698_5305"
-                                    />
-                                    <feBlend
-                                      mode="normal"
-                                      in="SourceGraphic"
-                                      in2="effect1_dropShadow_698_5305"
-                                      result="shape"
-                                    />
-                                  </filter>
-                                </defs>
+                              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M2.15259 11.8329C1.97037 12.0151 1.84302 12.2448 1.78507 12.4959L0.903019 16.3182C0.726463 17.0833 1.41215 17.7689 2.17722 17.5924L5.99946 16.7103C6.25056 16.6524 6.48033 16.525 6.66255 16.3428L17.0346 5.97075C17.8157 5.1897 17.8157 3.92337 17.0346 3.14232L15.3531 1.46079C14.572 0.679739 13.3057 0.679736 12.5247 1.46079L2.15259 11.8329ZM2.52201 15.9734L3.2386 12.8682L11.2063 4.90046L13.5949 7.2891L5.62724 15.2568L2.52201 15.9734ZM14.6556 6.22844L12.267 3.8398L13.5853 2.52145C13.7806 2.32618 14.0972 2.32618 14.2924 2.52145L15.974 4.20298C16.1692 4.39824 16.1692 4.71483 15.974 4.91009L14.6556 6.22844Z" fill="#0066BE"/>
                               </svg>
                             </a>
                           </td>
@@ -383,7 +190,7 @@ const EventCreate = () => {
       </Col>
 
       <Modal
-        id="add_hcp"
+        id="add_hcp" className="event_edit"
         show={addEventClicked}
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
@@ -702,7 +509,7 @@ const EventCreate = () => {
       </Modal>
 
       <Modal
-        id="add_hcp"
+        id="add_hcp" className="event_edit"
         show={editEvent}
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
@@ -1020,7 +827,7 @@ const EventCreate = () => {
             <button
               type="button"
               onClick={() => setEditEvent(false)}
-              className="btn btn-primary save btn-filled"
+              className="btn btn-primary btn-bordered"
               // onClick={(e) => {
               //   saveClicked(e);
               // }}

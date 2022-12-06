@@ -166,6 +166,8 @@ table.webinar-reader thead.sticky-header:after {
 
 .search_view .top-right-action .dropdown {
   min-width: 240px;
+  max-width: 278px;
+  width: 100%;
 }
 
 .top-right-action label {
@@ -196,13 +198,16 @@ table.webinar-reader thead.sticky-header:after {
   width: 100%;
   color: #97b6cf;
   font-family: "Roboto-Light";
-  background: #fff url(../../../assets/images/dropdown-arrow.svg);
+  background: #fff url(http://localhost:3000/static/media/dropdown-arrow.a159b8bf1aff92097823.svg);
   background-repeat: no-repeat;
   background-size: 14px;
   background-position: 93% center;
   text-align: left;
   font-size: 14px;
   line-height: 24px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .top-right-action .dropdown button::after {
@@ -226,7 +231,6 @@ table.webinar-reader thead.sticky-header:after {
 }
 
 .selected-webinar-list {
-  margin-top: 40px;
   display: flex;
   width: 100%;
 }
@@ -263,6 +267,7 @@ table.webinar-reader thead.sticky-header:after {
 .show>.btn.dropdown-toggle {
   color: var(--blue);
   box-shadow: 0px 0px 6px 0px rgb(0 102 190 / 60%);
+  background: inherit;
 }
 
 .show>.btn-light.dropdown-toggle:focus {
@@ -398,6 +403,31 @@ table.webinar-reader thead.sticky-header:after {
   margin-bottom: 7px;
 }
 
+.select-mail-template .form-inline .form-group input#email-address {
+  max-width: 100%;
+}
+
+.event_edit .modal-header {
+  margin: 0;
+}
+
+.event_edit .modal-body .hcp-add-form#upload-confirm form .form-group label {
+  font-size: 16px;
+  flex: 0 0 136px;
+}
+
+.event_edit.modal form#add_hcp_form .add_hcp_boxes {
+  padding-right: 0;
+}
+
+.event_edit .modal-body .hcp-add-form form .form-group .dropdown.split-button-dropup .dropdown-menu {
+  transform: translate(0px, 47px) !important;
+}
+
+.event_edit #add_hcp .modal-footer button.btn {
+  margin: 14px 10px 0;
+}
+
 /* css */
 
 .main-webinar-content {
@@ -408,16 +438,11 @@ table.webinar-reader thead.sticky-header:after {
 
 .websetting-content {
   position: relative;
-
   width: 50%;
-
   margin: 0 auto;
-
   border: 1px dashed #0066be;
-
   border-radius: 15px;
-
-  padding: 54px;
+  padding: 40px 55px;
 }
 
 .websetting {
@@ -429,43 +454,38 @@ table.webinar-reader thead.sticky-header:after {
 }
 
 .websetting span {
-  width: 50%;
+  width: 45%;
+  color: #004A89;
 }
 
 .websetting-radio {
   display: flex;
-
-  width: 30%;
+  width: 45%;
 }
 
 .websetting-radio .form-check-label {
   min-width: 64px;
+  color: #70899E;
 }
 
 .websetting-radio .button-reset {
   background-color: #6fd1c3;
-
   border-color: #6fd1c3;
-
   width: 97px;
-
   height: 19px;
-
   font-family: "Roboto";
-
   font-style: normal;
-
   font-weight: 500;
-
   font-size: 16px;
-
-  /* identical to box height */
-
   text-transform: capitalize;
 }
 
-.websetting-button {
-  position: absolute;
-
-  right: 77px;
+button.btn.websetting-button {
+  margin: 0 auto;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 130px;
+  margin-top: 15px;
 }
