@@ -66,7 +66,7 @@ const EmailStats = (props) => {
           setPerPageData(res.data.response.pegination.perPage);
         } else {
           setShowLoader(0);
-          toast.warning(res.data.message);
+          // toast.warning(res.data.message);
         }
         loader("hide");
       })
