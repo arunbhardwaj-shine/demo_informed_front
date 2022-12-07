@@ -6967,3 +6967,11 @@ section.search-hcp.smart-list-view .header-btn-left {
 .default_page_not_found {
   min-height: 100vh;
 }
+
+.email-form .form-inline .form-group.template_builder_div {
+    display: flex;
+}
+
+.form-inline .template_builder_div .right-side {
+    margin-left: auto;
+}
