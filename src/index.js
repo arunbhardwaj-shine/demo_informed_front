@@ -16,6 +16,8 @@ import reducers from "./reducers";
 //Library routes
 import LibraryContent from "./Components/Library/Content/LibraryContent";
 import LibraryCreate from "./Components/Library/CreateChange/LibraryCreate";
+import LibrarySidebar from "./Components/Library/Layout/Sidebar";
+import LibraryHeader from "./Components/Library/Layout/Header";
 
 
 // ----------START-------Webinar routes------------------------
@@ -144,6 +146,7 @@ import AutoMail from "./Components/NewWebinar/WebinarFiles/AutoMail";
 import EventCreate from "./Components/NewWebinar/WebinarFiles/EventCreate";
 import SettingWebinar from "./Components/NewWebinar/WebinarFiles/SettingWebinar";
 
+
 // import WebinarHeader from "./Components"
 let platform = 0;
 let show = 0;
@@ -158,7 +161,9 @@ if (window.location.href.indexOf("/webinar") > -1) {
   window.location.pathname == "/email-statsss" ||
   window.location.pathname == "/stats-webinar" ||
   window.location.pathname == "/event-create" ||
-  window.location.pathname == "/setting-webinar"
+  window.location.pathname == "/setting-webinar"||
+  window.location.pathname == "/library-content"||
+  window.location.pathname == "/library-create"
 ) {
   require("./Components/assets/css/style.css");
   require("./Components/assets/fonts/fonts.css");
@@ -180,7 +185,8 @@ ReactDOM.render(
       {platform == 0 ? (
         <>
           <BrowserRouter>
-            {[
+            {
+            [
               "/new-webinar",
               "/contact-form",
               "/email-statsss",
@@ -190,6 +196,11 @@ ReactDOM.render(
               "/setting-webinar",
             ].includes(window.location.pathname) ? (
               <WebinarHeader />
+            ) :     [
+              "/library-content",
+              "/library-create",
+            ].includes(window.location.pathname) ? (
+              <LibraryHeader />
             ) : (
               window.location.pathname !== "/" ? <Header /> : null
             )}
@@ -207,6 +218,11 @@ ReactDOM.render(
                     "/setting-webinar",
                   ].includes(window.location.pathname) ? (
                     <WebinarSidebar />
+                  ): [
+                     "/library-content",
+                      "/library-create",
+                  ].includes(window.location.pathname) ? (
+                    <LibrarySidebar />
                   ) : (
                     window.location.pathname !== "/" ? <Sidebar /> : null
                   )}

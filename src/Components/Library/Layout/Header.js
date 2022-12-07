@@ -5,7 +5,7 @@ import { ToastContainer } from "react-toastify";
 
 import { useNavigate } from "react-router-dom";
 
-export const WebinarHeader = () => {
+export const LibraryHeader = () => {
   const navigate = useNavigate();
 
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;

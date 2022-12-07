@@ -59,7 +59,7 @@ const DefaultWebinar = () => {
 
   return (
     <>
-      <Col className="col right-sidebar">
+      <Col className="right-sidebar">
         <div className="custom-container">
           <Row>
             <div className="search_view readers">
