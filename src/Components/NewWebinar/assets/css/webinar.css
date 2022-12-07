@@ -62,7 +62,7 @@ table.webinar-reader thead.sticky-header:after {
   border-spacing: 0px 10px;
 }
 
-.selected-webinar-list .table> :not(:first-child) {
+.selected-webinar-list .table > :not(:first-child) {
   border-top: none;
 }
 
@@ -113,7 +113,7 @@ table.webinar-reader thead.sticky-header:after {
 }
 
 .dropdown .btn.dropdown-toggle:active:focus,
-.show>.btn-light.dropdown-toggle {
+.show > .btn-light.dropdown-toggle {
   box-shadow: 0px 0px 6px 0px rgb(0 102 190 / 60%);
   color: var(--blue);
 }
@@ -260,12 +260,12 @@ table.webinar-reader thead.sticky-header:after {
 }
 
 .dropdown-menu .dropdown-item:active,
-.show>.btn.dropdown-toggle {
+.show > .btn.dropdown-toggle {
   color: var(--blue);
   box-shadow: 0px 0px 6px 0px rgb(0 102 190 / 60%);
 }
 
-.show>.btn-light.dropdown-toggle:focus {
+.show > .btn-light.dropdown-toggle:focus {
   box-shadow: 0px 0px 6px 0px rgb(0 102 190 / 60%);
 }
 
@@ -323,7 +323,6 @@ table.webinar-reader thead.sticky-header:after {
   justify-content: flex-end;
 }
 
-
 .top-header.webinar-view .right-sided button {
   margin: 0;
 }
@@ -353,15 +352,18 @@ table.webinar-reader thead.sticky-header:after {
   border: 0;
   filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));
   border-radius: 30px;
-  background: #FFFFFF;
+  background: #ffffff;
 }
 
-.top-header.webinar-view .right-sided .smart-list-download button#test-table-xls-button {
+.top-header.webinar-view
+  .right-sided
+  .smart-list-download
+  button#test-table-xls-button {
   margin: 0;
 }
 
 .webinar-view .show-event-date p {
-  color: #97B6CF;
+  color: #97b6cf;
   font-size: 16px;
   line-height: 19px;
   font-weight: 500;
@@ -468,4 +470,10 @@ table.webinar-reader thead.sticky-header:after {
   position: absolute;
 
   right: 77px;
+}
+
+.right-sidebar .nav-link.active {
+  color: #ffffff;
+
+  background-color: #0d3c82;
 }
