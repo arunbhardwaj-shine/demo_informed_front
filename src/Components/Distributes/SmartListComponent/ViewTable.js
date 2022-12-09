@@ -568,10 +568,15 @@ const ViewTable = (props) => {
         console.log(err);
       });
 
+    const filtered_list_update = updateData.filter((data) => {
+      return data.profile_user_id != profile_user_id;
+    });
+
     const filtered_list = editList.filter((data) => {
       return data.profile_user_id != profile_user_id;
     });
 
+    setUpdatedData(filtered_list_update);
     setEditList(filtered_list);
   };
 
@@ -679,7 +684,7 @@ const ViewTable = (props) => {
     country,
     profile_user_id,
   }) => {
-    if (editList.length > 1) {
+    if (updateData.length > 1) {
       setIsOpen(true);
       setProfileUserId(profile_user_id);
     } else {
