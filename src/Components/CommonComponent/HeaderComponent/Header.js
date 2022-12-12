@@ -22,7 +22,6 @@ const Header = () => {
 	}
 
 	useEffect(() => {
-
 		if(queryParams?.id && queryParams?.id != ""){
 			let user_id = localStorage.getItem("user_id");
 			if(user_id){
@@ -93,9 +92,13 @@ const Header = () => {
 					  <li className="nav-item active active-main">
 						<a className="nav-link" href="https://informed.pro/Distributes/MailEngine">EMAIL</a>
 					  </li>
-					  <li className="nav-item">
-						<a className="nav-link"  href="https://informed.pro/Webinar/readers_webinar">WEBINAR</a>
-					  </li>
+						{
+							queryParams?.webinar_flag && queryParams.webinar_flag == 1 ?
+							<li className="nav-item">
+							<a className="nav-link"  href="https://informed.pro/Webinar/readers_webinar">WEBINAR</a>
+							</li>
+							: ""
+						}
 				</ul>
 				</div>
 				<div className="user-login">
