@@ -20,6 +20,16 @@ import LibrarySidebar from "./Components/Library/Layout/Sidebar";
 import LibraryHeader from "./Components/Library/Layout/Header";
 
 
+//Readers routes
+import NewReaders from "./Components/Readers/ReadersView/ReadersList";
+import ReaderSidebar from "./Components/Readers/Layout/Sidebar";
+import ReaderHeader from "./Components/Readers/Layout/Header";
+import ReaderEdit from "./Components/Readers/ReaderEdit/ReaderEdit";
+import ReaderAdd from "./Components/Readers/AddReader/AddReader";
+import SmartListAdd from "./Components/Readers/SmartList/SmartList";
+import ReaderReview from "./Components/Readers/ReaderReview/ReaderReview";
+import TimelineDetail from "./Components/Readers/Timeline/TimelineDetail";
+
 // ----------START-------Webinar routes------------------------
 import WebinarHeader from "./Components/NewWebinar/Layout/Header";
 import WebinarSidebar from "./Components/NewWebinar/Layout/Sidebar";
@@ -107,12 +117,6 @@ import ResetPassword from "./Auth/ResetPassword";
 import ForgotPassword from "./Auth/ForgotPassword";
 import ForgotResetPassword from "./Auth/ForgotResetPassword";
 
-// import Rehearsal1 from "./Components/Webinar/Rehearsal/Rehearsal1";
-// import WebinarSmartList from "./Components/Webinar/SmartList/WebinarSmartList";
-// import RegistraionDetails from "./Components/Webinar/Registration/RegistrationDetails";
-// import RehearsalList from "./Components/Webinar/Rehearsal/RehearsalList";
-// import ViewSmartListWebinar from "./Components/Webinar/SmartList/ViewSmartListWebinar";
-// import WebinarDashboard from "./Components/Webinar/WebinarDashboard";
 import RegistrationDetailsList from "./Components/Webinar/Registration/RegistraionDetailsList";
 
 import SmartListCreate from "./Components/Webinar/SmartList/SmartListCreate";
@@ -147,7 +151,6 @@ import EventCreate from "./Components/NewWebinar/WebinarFiles/EventCreate";
 import SettingWebinar from "./Components/NewWebinar/WebinarFiles/SettingWebinar";
 
 
-// import WebinarHeader from "./Components"
 let platform = 0;
 let show = 0;
 if (window.location.href.indexOf("/webinar") > -1) {
@@ -156,14 +159,18 @@ if (window.location.href.indexOf("/webinar") > -1) {
   platform = 1;
   show = 1;
 } else if (
-  window.location.pathname == "/new-webinar" ||
-  window.location.pathname == "/contact-form" ||
-  window.location.pathname == "/email-statsss" ||
-  window.location.pathname == "/stats-webinar" ||
-  window.location.pathname == "/event-create" ||
+  window.location.pathname == "/new-webinar"    ||
+  window.location.pathname == "/contact-form"   ||
+  window.location.pathname == "/email-statsss"  ||
+  window.location.pathname == "/stats-webinar"  ||
+  window.location.pathname == "/event-create"   ||
   window.location.pathname == "/setting-webinar"||
   window.location.pathname == "/library-content"||
-  window.location.pathname == "/library-create"
+  window.location.pathname == "/library-create" ||
+  window.location.pathname == "/readers-view"   ||
+  window.location.pathname == "/reader-add"     ||
+  window.location.pathname == "/reader-review"  ||
+   window.location.pathname == "/timeline-detail"  
 ) {
   require("./Components/assets/css/style.css");
   require("./Components/assets/fonts/fonts.css");
@@ -180,13 +187,10 @@ if (window.location.href.indexOf("/webinar") > -1) {
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={createStore(reducers)}>
-      {/* {console.log("-dfdfd", platform)} */}
-      {console.log(window.location.pathname)}
       {platform == 0 ? (
         <>
           <BrowserRouter>
-            {
-            [
+            {[
               "/new-webinar",
               "/contact-form",
               "/email-statsss",
@@ -196,11 +200,21 @@ ReactDOM.render(
               "/setting-webinar",
             ].includes(window.location.pathname) ? (
               <WebinarHeader />
-            ) :     [
+            ) : [
               "/library-content",
               "/library-create",
             ].includes(window.location.pathname) ? (
               <LibraryHeader />
+            ) : [
+              "/readers-view",
+              "/reader-add",
+              "/reader-edit",
+              "/smart-list-add",
+              "/reader-review",
+              "/timeline-detail"
+
+            ].includes(window.location.pathname) ? (
+              <ReaderHeader />
             ) : (
               window.location.pathname !== "/" ? <Header /> : null
             )}
@@ -221,8 +235,18 @@ ReactDOM.render(
                   ): [
                      "/library-content",
                       "/library-create",
+                      "/library-edit",
                   ].includes(window.location.pathname) ? (
                     <LibrarySidebar />
+                  ) : [
+                      "/readers-view",
+                      "/reader-add",
+                      "/reader-edit",
+                      "/smart-list-add",
+                      "/reader-review",
+                      "/timeline-detail"
+                  ].includes(window.location.pathname) ? (
+                    <ReaderSidebar />
                   ) : (
                     window.location.pathname !== "/" ? <Sidebar /> : null
                   )}
@@ -231,6 +255,14 @@ ReactDOM.render(
                     {/* New webinar */}
                     {/* <Route path="/new-webinar" element={<WebinarHeader />} /> */}
                     {/* end webinar */}
+
+                    <Route path="/readers-view" element={<NewReaders />} />
+                    <Route path="/reader-edit" element={<ReaderEdit />} />
+                    <Route path="/reader-add"  element={<ReaderAdd />} />
+                    <Route path="/smart-list-add" element={<SmartListAdd />} />
+                    <Route path="/reader-review" element={<ReaderReview />} />
+                    <Route path="/timeline-detail" element={<TimelineDetail />} />
+
                     <Route path="/library-content" element={<LibraryContent />} />
                     <Route path="/library-create" element={<LibraryCreate />} />
                     <Route path="/new-webinar" element={<DefaultWebinar />} />

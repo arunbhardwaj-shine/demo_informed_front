@@ -2,6 +2,8 @@ import React from 'react';
 import { useState } from "react";
 import { Col, Dropdown, DropdownButton, Nav, NavDropdown, NavItem, Row, Tab, Tabs } from 'react-bootstrap';
 import SimpleReactValidator from "simple-react-validator";
+import Tooltip from 'react-bootstrap/Tooltip';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LibraryContent = () => {
@@ -47,7 +49,18 @@ const LibraryContent = () => {
       setRenderAfterValidation(renderAfterValidation + 1);
     }
   };
-
+function LinkWithTooltip({ id, children, href, tooltip }) {
+  return (
+    <OverlayTrigger
+      overlay={<Tooltip id={id}>{tooltip}</Tooltip>}
+      placement="top"
+      delayShow={300}
+      delayHide={150}
+    >
+      <a href={href}>{children}</a>
+    </OverlayTrigger>
+  );
+}
   return (
     <>
     <Col className="right-sidebar">
@@ -55,7 +68,7 @@ const LibraryContent = () => {
           <Row>
             <div className="search_view readers">
               <div className="smart-list-btns">
-                <div className="top-right-action">
+                <div className="top-right-action library_content_view">
                   <div className="col">
                     <label>Select Tags</label>
                     <DropdownButton
@@ -103,1370 +116,416 @@ const LibraryContent = () => {
             </div>
             </Row>
             <Row>
-                
+            <div className='library-content-box-layuot d-flex'>   
             <div className="doc-content-main-box col">
                 <div className="doc-content-header">
-                    <a href="#"><img alt="doc-logo" src={path_image + "dummy-img.png"}
-                            style={{width:"57px"}}/>
-                    </a>
+                    <div className="doc-content-header-logo"><a href="#"><img alt="doc-logo" src={path_image + "dummy-img.png"} style={{width:"57px"}}/></a></div>
                     <div className="doc-content">
                         <h4>Dignoastic</h4>
-                        <p>Sub-Title: For Testing purpose</p>
+                        <h5>Sub-Title: For Testing purpose</h5>
                     </div>
-                    <a href="#" className="refresh-btn">
-                            <img src={path_image + "refresh1.png"} alt="refresh-btn" style={{width:"20px"}}/>
-                    </a>
-
+                    <div className="refresh-btn">
+                        <img src={path_image + "refresh1.png"} alt="refresh-btn" style={{width:"20px"}}/>
+                    </div>
                 </div>
-
-                <Tabs
-                    defaultActiveKey="docintel-link"
-                    id="fill-tab-example"
-                    className="mb-3"
-                    fill
-                    >
+                <Tabs defaultActiveKey="docintel-link" className="mb-3" fill>
                     <Tab eventKey="docintel-link" title="Docintel Link">
-                      <div className="tab-pane">
-                        <a href="#" className="doc-link">kfdfjdi</a>
+                      <div className="tab-panel">
+                        <div className="tab-content-links">
+                        <a href="#" className="doc-link">https://www.informed.pro</a>
                         <ul className="tab-mail-list">
                             <li>
-                                <h5>
-                                    Link type:
-                                </h5>
-                                <p>
-                                    Sunshine
-                                </p>
+                                <h5 className='tab-content-title'><strong>Link type:</strong></h5>
+                                <h5>Sunshine</h5>
                             </li>
                             <li>
-                                <h5>
-                                    Publisher:
-                                </h5>
-                                <p>
-                                    Simms-Cendan
-                                </p>
+                                <h5 className='tab-content-title'><strong>Publisher:</strong></h5>
+                                <h5>Simms-Cendan</h5>
                             </li>
                             <li>
-                                <h5>
-                                    Usage limits:
-                                </h5>
-                                <p>
-                                    20
-                                </p>
+                                <h5 className='tab-content-title'><strong>Usage limits:</strong></h5>
+                                <h5>20</h5>
                             </li>
                             <li>
-                                <h5>
-                                    Expiration date:
-                                </h5>
-                                <p>
-                                    20 September 2023
-                                </p>
+                                <h5 className='tab-content-title'><strong>Expiration date:</strong></h5>
+                                <h5>20 September 2023</h5>
                             </li>
                             <li>
-                                <h5>
-                                    inforMedGO Code:
-                                </h5>
-                                <p>
-                                    18659065
-                                </p>
+                                <h5 className='tab-content-title'><strong>inforMedGO Code:</strong></h5>
+                                <h5>18659065</h5>
                             </li>
                             <li>
-                                <h5>
-                                    Docintel Code:
-                                </h5>
-                                <p>
-                                    741453971
-                                </p>
+                                <h5 className='tab-content-title'><strong>Docintel Code:</strong></h5>
+                                <h5>741453971</h5>
                             </li>
                             <li>
-                                <h5>
-                                    Language:
-                                </h5>
-                                <p>
-                                    English
-                                </p>
+                                <h5 className='tab-content-title'><strong>Language:</strong></h5>
+                                <h5>English</h5>
                             </li>
                         </ul>
-
-                        <div className="footer-btn-wrapper">
+                        </div>
+                        <div className='data-main-footer-sec'>
+                            <div className="footer-btn-wrapper">
                             <a href="#" className="footer-btn">Preview Aritcle</a>
                             <a href="#" className="footer-btn">Download QR</a>
                             <a href="#" className="footer-btn">Send in Email</a>
+                            <a href="#" className="footer-btn">Copy Docintel Link</a>
                         </div>
                         <ul className="tab-mail-list tag">
                             <li>
-                                <h5>
-                                    Tags:
-                                </h5>
-                                <p>
-                                    N/A
-                                </p>
+                                <b>Tags:</b>
+                                <a href="#">N/A </a> <a href="#">N/A </a>
                             </li>
                         </ul>
+                        </div>
+                        
                     </div>
                     </Tab>
                     <Tab eventKey="data-tab" title="Data">
-                     <div className="tab-pane">
                         <div className="data-main-box">
                             <ul className="tab-mail-list data">
                                 <li>
-                                    <h5>
-                                        Unique Reader (total) :
-                                    </h5>
-                                    <p>
-                                        6
-                                    </p>
+                                    <h5>Unique Reader (total): 
+                                        <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
+                                    <p className='data_box'>6</p>
                                 </li>
                                 <li>
-                                    <h5>
-                                        Openings (total) :
-                                    </h5>
-                                    <p>
-                                        32
-                                    </p>
+                                    <h5>Openings (total): <LinkWithTooltip tooltip="Number of opening counts for specific article." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
+                                    <p className='data_box'>32</p>
                                 </li>
                                 <li>
-                                    <h5>
-                                        Registered Readers :
-                                    </h5>
-                                    <p>
-                                        23
-                                    </p>
+                                    <h5>Registered Readers: <LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
+                                    <p className='data_box'>23</p>
                                 </li>
                             </ul>
+                            <div className="data-main-footer-sec">
+                                <div className="footer-btn-wrapper">
+                                 <a href="#" className="footer-btn">Analytics</a>
+                                </div>
+                                <ul className="tab-mail-list tag">
+                                    <li>
+                                        <b>Tags:</b>
+                                        <a href="#">N/A </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            
                         </div>
-                    </div>
+                        
                     </Tab>
                     <Tab eventKey="change-tab" title="Change">
-                       <div className="tab-pane">
                         <div className="data-main-box change-tab-main-box">
                             <ul className="tab-mail-list data change">
                                 <li>
-                                    <h5>
-                                        Article Type:
-                                    </h5>
+                                    <h5 className='tab-content-title'><strong>Article Type:</strong></h5>
                                     <div className="select-dropdown-wrapper">
                                         <div className="select">
                                             <select>
-                                                <option value="1">Pure CSS Select</option>
-                                                <option value="2">No JS</option>
-                                                <option value="3">Nice!</option>
+                                                <option value="1">Sunshine</option>
+                                                <option value="2">Offline Offer</option>
+                                                <option value="3">Online Only</option>
                                             </select>
                                         </div>
                                     </div>
                                 </li>
                                 <li>
-                                    <h5>
-                                        Tags:
-                                    </h5>
-                                    <p>
-                                        N/A
-                                    </p>
+                                    <b>Tags:</b>
+                                    <a href="#" className='tags'>N/A </a>
                                 </li>
                             </ul>
+                            <div className="data-main-footer-sec">
+                                <div className="footer-btn-wrapper">
+                                     <a href="#" className="footer-btn">Edit Docintel Link</a>
+                                     <a href="#" className="footer-btn">Add / Remove Tags</a>
+                                     <a href="#" className="footer-btn">New Sublink</a>
+                                </div>
+                                <div className="footer-btn">
+                                    <button className="btn btn-primary btn-filled" type="submit">Save</button>
+                                </div>
+                            </div>
+                            
                         </div>
-                    </div>
                     </Tab>
-                    </Tabs>
-
-
-
-                {/* <ul className="nav nav-pills doc-tab" id="pills-tab" role="tablist">
-                    <li className="nav-item" role="presentation">
-                        <button className="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
-                            data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
-                            aria-selected="true">Docintel Link</button>
-                    </li>
-                    <li className="nav-item" role="presentation">
-                        <button className="nav-link" id="pills-profile-tab" data-bs-toggle="pill"
-                            data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile"
-                            aria-selected="false">Data</button>
-                    </li>
-                    <li className="nav-item" role="presentation">
-                        <button className="nav-link" id="pills-contact-tab" data-bs-toggle="pill"
-                            data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact"
-                            aria-selected="false">Change</button>
-                    </li>
-
-                </ul>
-
-                <div className="tab-content doc-tab-content" id="pills-tabContent">
-                    <div className="tab-pane fade show active" id="pills-home" role="tabpanel"
-                        aria-labelledby="pills-home-tab" tabindex="0">
-                        <a href="#" className="doc-link">kfdfjdi</a>
-                        <ul className="tab-mail-list">
-                            <li>
-                                <h5>
-                                    Link type:
-                                </h5>
-                                <p>
-                                    Sunshine
-                                </p>
-                            </li>
-                            <li>
-                                <h5>
-                                    Publisher:
-                                </h5>
-                                <p>
-                                    Simms-Cendan
-                                </p>
-                            </li>
-                            <li>
-                                <h5>
-                                    Usage limits:
-                                </h5>
-                                <p>
-                                    20
-                                </p>
-                            </li>
-                            <li>
-                                <h5>
-                                    Expiration date:
-                                </h5>
-                                <p>
-                                    20 September 2023
-                                </p>
-                            </li>
-                            <li>
-                                <h5>
-                                    inforMedGO Code:
-                                </h5>
-                                <p>
-                                    18659065
-                                </p>
-                            </li>
-                            <li>
-                                <h5>
-                                    Docintel Code:
-                                </h5>
-                                <p>
-                                    741453971
-                                </p>
-                            </li>
-                            <li>
-                                <h5>
-                                    Language:
-                                </h5>
-                                <p>
-                                    English
-                                </p>
-                            </li>
-                        </ul>
-
-                        <div className="footer-btn-wrapper">
-                            <a href="#" className="footer-btn">Preview Aritcle</a>
-                            <a href="#" className="footer-btn">Download QR</a>
-                            <a href="#" className="footer-btn">Send in Email</a>
-                        </div>
-                        <ul className="tab-mail-list tag">
-                            <li>
-                                <h5>
-                                    Tags:
-                                </h5>
-                                <p>
-                                    N/A
-                                </p>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div className="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab"
-                        tabindex="0">
-                        <div className="data-main-box">
-                            <ul className="tab-mail-list data">
-                                <li>
-                                    <h5>
-                                        Unique Reader (total) :
-                                    </h5>
-                                    <p>
-                                        6
-                                    </p>
-                                </li>
-                                <li>
-                                    <h5>
-                                        Openings (total) :
-                                    </h5>
-                                    <p>
-                                        32
-                                    </p>
-                                </li>
-                                <li>
-                                    <h5>
-                                        Registered Readers :
-                                    </h5>
-                                    <p>
-                                        23
-                                    </p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-
-                    <div className="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab"
-                        tabindex="0">
-                        <div className="data-main-box change-tab-main-box">
-                            <ul className="tab-mail-list data change">
-                                <li>
-                                    <h5>
-                                        Article Type:
-                                    </h5>
-                                    <div className="select-dropdown-wrapper">
-                                        <div className="select">
-                                            <select>
-                                                <option value="1">Pure CSS Select</option>
-                                                <option value="2">No JS</option>
-                                                <option value="3">Nice!</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <h5>
-                                        Tags:
-                                    </h5>
-                                    <p>
-                                        N/A
-                                    </p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                </div> */}
-
-
+                </Tabs>
             </div>
             <div className="doc-content-main-box col">
                 <div className="doc-content-header">
-                    <a href="#"><img alt="doc-logo" src={path_image + "dummy-img.png"}
-                            style={{width:"57px"}}/>
-                    </a>
+                    <div className="doc-content-header-logo"><a href="#"><img alt="doc-logo" src={path_image + "dummy-img.png"} style={{width:"57px"}}/></a></div>
                     <div className="doc-content">
                         <h4>Dignoastic</h4>
-                        <p>Sub-Title: For Testing purpose</p>
+                        <h5>Sub-Title: For Testing purpose</h5>
                     </div>
-                    <a href="#" className="refresh-btn">
-                            <img src={path_image + "refresh1.png"} alt="refresh-btn" style={{width:"20px"}}/>
-                    </a>
-
+                    <div className="refresh-btn">
+                        <img src={path_image + "refresh1.png"} alt="refresh-btn" style={{width:"20px"}}/>
+                    </div>
                 </div>
-
-                <Tabs
-                    defaultActiveKey="docintel-link"
-                    id="fill-tab-example"
-                    className="mb-3"
-                    fill
-                    >
+                <Tabs defaultActiveKey="docintel-link" className="mb-3" fill>
                     <Tab eventKey="docintel-link" title="Docintel Link">
-                      <div className="tab-pane">
-                        <a href="#" className="doc-link">kfdfjdi</a>
+                      <div className="tab-panel">
+                        <div className="tab-content-links">
+                        <a href="#" className="doc-link">https://www.informed.pro</a>
                         <ul className="tab-mail-list">
                             <li>
-                                <h5>
-                                    Link type:
-                                </h5>
-                                <p>
-                                    Sunshine
-                                </p>
+                                <h5 className='tab-content-title'><strong>Link type:</strong></h5>
+                                <h5>Sunshine</h5>
                             </li>
                             <li>
-                                <h5>
-                                    Publisher:
-                                </h5>
-                                <p>
-                                    Simms-Cendan
-                                </p>
+                                <h5 className='tab-content-title'><strong>Publisher:</strong></h5>
+                                <h5>Simms-Cendan</h5>
                             </li>
                             <li>
-                                <h5>
-                                    Usage limits:
-                                </h5>
-                                <p>
-                                    20
-                                </p>
+                                <h5 className='tab-content-title'><strong>Usage limits:</strong></h5>
+                                <h5>20</h5>
                             </li>
                             <li>
-                                <h5>
-                                    Expiration date:
-                                </h5>
-                                <p>
-                                    20 September 2023
-                                </p>
+                                <h5 className='tab-content-title'><strong>Expiration date:</strong></h5>
+                                <h5>20 September 2023</h5>
                             </li>
                             <li>
-                                <h5>
-                                    inforMedGO Code:
-                                </h5>
-                                <p>
-                                    18659065
-                                </p>
+                                <h5 className='tab-content-title'><strong>inforMedGO Code:</strong></h5>
+                                <h5>18659065</h5>
                             </li>
                             <li>
-                                <h5>
-                                    Docintel Code:
-                                </h5>
-                                <p>
-                                    741453971
-                                </p>
+                                <h5 className='tab-content-title'><strong>Docintel Code:</strong></h5>
+                                <h5>741453971</h5>
                             </li>
                             <li>
-                                <h5>
-                                    Language:
-                                </h5>
-                                <p>
-                                    English
-                                </p>
+                                <h5 className='tab-content-title'><strong>Language:</strong></h5>
+                                <h5>English</h5>
                             </li>
                         </ul>
-
-                        <div className="footer-btn-wrapper">
+                        </div>
+                        <div className='data-main-footer-sec'>
+                            <div className="footer-btn-wrapper">
                             <a href="#" className="footer-btn">Preview Aritcle</a>
                             <a href="#" className="footer-btn">Download QR</a>
                             <a href="#" className="footer-btn">Send in Email</a>
+                            <a href="#" className="footer-btn">Copy Docintel Link</a>
                         </div>
                         <ul className="tab-mail-list tag">
                             <li>
-                                <h5>
-                                    Tags:
-                                </h5>
-                                <p>
-                                    N/A
-                                </p>
+                                <b>Tags:</b>
+                                <a href="#">N/A </a> <a href="#">N/A </a>
                             </li>
                         </ul>
+                        </div>
+                        
                     </div>
                     </Tab>
                     <Tab eventKey="data-tab" title="Data">
-                     <div className="tab-pane">
                         <div className="data-main-box">
                             <ul className="tab-mail-list data">
                                 <li>
-                                    <h5>
-                                        Unique Reader (total) :
-                                    </h5>
-                                    <p>
-                                        6
-                                    </p>
+                                    <h5>Unique Reader (total): 
+                                        <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
+                                    <p className='data_box'>6</p>
                                 </li>
                                 <li>
-                                    <h5>
-                                        Openings (total) :
-                                    </h5>
-                                    <p>
-                                        32
-                                    </p>
+                                    <h5>Openings (total): <LinkWithTooltip tooltip="Number of opening counts for specific article." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
+                                    <p className='data_box'>32</p>
                                 </li>
                                 <li>
-                                    <h5>
-                                        Registered Readers :
-                                    </h5>
-                                    <p>
-                                        23
-                                    </p>
+                                    <h5>Registered Readers: <LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
+                                    <p className='data_box'>23</p>
                                 </li>
                             </ul>
+                            <div className="data-main-footer-sec">
+                                <div className="footer-btn-wrapper">
+                                 <a href="#" className="footer-btn">Analytics</a>
+                                </div>
+                                <ul className="tab-mail-list tag">
+                                    <li>
+                                        <b>Tags:</b>
+                                        <a href="#">N/A </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            
                         </div>
-                    </div>
+                        
                     </Tab>
                     <Tab eventKey="change-tab" title="Change">
-                       <div className="tab-pane">
                         <div className="data-main-box change-tab-main-box">
                             <ul className="tab-mail-list data change">
                                 <li>
-                                    <h5>
-                                        Article Type:
-                                    </h5>
+                                    <h5 className='tab-content-title'><strong>Article Type:</strong></h5>
                                     <div className="select-dropdown-wrapper">
                                         <div className="select">
                                             <select>
-                                                <option value="1">Pure CSS Select</option>
-                                                <option value="2">No JS</option>
-                                                <option value="3">Nice!</option>
+                                                <option value="1">Sunshine</option>
+                                                <option value="2">Offline Offer</option>
+                                                <option value="3">Online Only</option>
                                             </select>
                                         </div>
                                     </div>
                                 </li>
                                 <li>
-                                    <h5>
-                                        Tags:
-                                    </h5>
-                                    <p>
-                                        N/A
-                                    </p>
+                                    <b>Tags:</b>
+                                    <a href="#" className='tags'>N/A </a>
                                 </li>
                             </ul>
+                            <div className="data-main-footer-sec">
+                                <div className="footer-btn-wrapper">
+                                     <a href="#" className="footer-btn">Edit Docintel Link</a>
+                                     <a href="#" className="footer-btn">Add / Remove Tags</a>
+                                     <a href="#" className="footer-btn">New Sublink</a>
+                                </div>
+                                <div className="footer-btn">
+                                    <button className="btn btn-primary btn-filled" type="submit">Save</button>
+                                </div>
+                            </div>
+                            
                         </div>
-                    </div>
                     </Tab>
-                    </Tabs>
-
-
-
-                {/* <ul className="nav nav-pills doc-tab" id="pills-tab" role="tablist">
-                    <li className="nav-item" role="presentation">
-                        <button className="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
-                            data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
-                            aria-selected="true">Docintel Link</button>
-                    </li>
-                    <li className="nav-item" role="presentation">
-                        <button className="nav-link" id="pills-profile-tab" data-bs-toggle="pill"
-                            data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile"
-                            aria-selected="false">Data</button>
-                    </li>
-                    <li className="nav-item" role="presentation">
-                        <button className="nav-link" id="pills-contact-tab" data-bs-toggle="pill"
-                            data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact"
-                            aria-selected="false">Change</button>
-                    </li>
-
-                </ul>
-
-                <div className="tab-content doc-tab-content" id="pills-tabContent">
-                    <div className="tab-pane fade show active" id="pills-home" role="tabpanel"
-                        aria-labelledby="pills-home-tab" tabindex="0">
-                        <a href="#" className="doc-link">kfdfjdi</a>
-                        <ul className="tab-mail-list">
-                            <li>
-                                <h5>
-                                    Link type:
-                                </h5>
-                                <p>
-                                    Sunshine
-                                </p>
-                            </li>
-                            <li>
-                                <h5>
-                                    Publisher:
-                                </h5>
-                                <p>
-                                    Simms-Cendan
-                                </p>
-                            </li>
-                            <li>
-                                <h5>
-                                    Usage limits:
-                                </h5>
-                                <p>
-                                    20
-                                </p>
-                            </li>
-                            <li>
-                                <h5>
-                                    Expiration date:
-                                </h5>
-                                <p>
-                                    20 September 2023
-                                </p>
-                            </li>
-                            <li>
-                                <h5>
-                                    inforMedGO Code:
-                                </h5>
-                                <p>
-                                    18659065
-                                </p>
-                            </li>
-                            <li>
-                                <h5>
-                                    Docintel Code:
-                                </h5>
-                                <p>
-                                    741453971
-                                </p>
-                            </li>
-                            <li>
-                                <h5>
-                                    Language:
-                                </h5>
-                                <p>
-                                    English
-                                </p>
-                            </li>
-                        </ul>
-
-                        <div className="footer-btn-wrapper">
-                            <a href="#" className="footer-btn">Preview Aritcle</a>
-                            <a href="#" className="footer-btn">Download QR</a>
-                            <a href="#" className="footer-btn">Send in Email</a>
-                        </div>
-                        <ul className="tab-mail-list tag">
-                            <li>
-                                <h5>
-                                    Tags:
-                                </h5>
-                                <p>
-                                    N/A
-                                </p>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div className="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab"
-                        tabindex="0">
-                        <div className="data-main-box">
-                            <ul className="tab-mail-list data">
-                                <li>
-                                    <h5>
-                                        Unique Reader (total) :
-                                    </h5>
-                                    <p>
-                                        6
-                                    </p>
-                                </li>
-                                <li>
-                                    <h5>
-                                        Openings (total) :
-                                    </h5>
-                                    <p>
-                                        32
-                                    </p>
-                                </li>
-                                <li>
-                                    <h5>
-                                        Registered Readers :
-                                    </h5>
-                                    <p>
-                                        23
-                                    </p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-
-                    <div className="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab"
-                        tabindex="0">
-                        <div className="data-main-box change-tab-main-box">
-                            <ul className="tab-mail-list data change">
-                                <li>
-                                    <h5>
-                                        Article Type:
-                                    </h5>
-                                    <div className="select-dropdown-wrapper">
-                                        <div className="select">
-                                            <select>
-                                                <option value="1">Pure CSS Select</option>
-                                                <option value="2">No JS</option>
-                                                <option value="3">Nice!</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <h5>
-                                        Tags:
-                                    </h5>
-                                    <p>
-                                        N/A
-                                    </p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                </div> */}
-
-
+                </Tabs>
             </div>
             <div className="doc-content-main-box col">
                 <div className="doc-content-header">
-                    <a href="#"><img alt="doc-logo" src={path_image + "dummy-img.png"}
-                            style={{width:"57px"}}/>
-                    </a>
+                    <div className="doc-content-header-logo"><a href="#"><img alt="doc-logo" src={path_image + "dummy-img.png"} style={{width:"57px"}}/></a></div>
                     <div className="doc-content">
                         <h4>Dignoastic</h4>
-                        <p>Sub-Title: For Testing purpose</p>
+                        <h5>Sub-Title: For Testing purpose</h5>
                     </div>
-                    <a href="#" className="refresh-btn">
-                            <img src={path_image + "refresh1.png"} alt="refresh-btn" style={{width:"20px"}}/>
-                    </a>
-
+                    <div className="refresh-btn">
+                        <img src={path_image + "refresh1.png"} alt="refresh-btn" style={{width:"20px"}}/>
+                    </div>
                 </div>
-
-                <Tabs
-                    defaultActiveKey="docintel-link"
-                    id="fill-tab-example"
-                    className="mb-3"
-                    fill
-                    >
+                <Tabs defaultActiveKey="docintel-link" className="mb-3" fill>
                     <Tab eventKey="docintel-link" title="Docintel Link">
-                      <div className="tab-pane">
-                        <a href="#" className="doc-link">kfdfjdi</a>
+                      <div className="tab-panel">
+                        <div className="tab-content-links">
+                        <a href="#" className="doc-link">https://www.informed.pro</a>
                         <ul className="tab-mail-list">
                             <li>
-                                <h5>
-                                    Link type:
-                                </h5>
-                                <p>
-                                    Sunshine
-                                </p>
+                                <h5 className='tab-content-title'><strong>Link type:</strong></h5>
+                                <h5>Sunshine</h5>
                             </li>
                             <li>
-                                <h5>
-                                    Publisher:
-                                </h5>
-                                <p>
-                                    Simms-Cendan
-                                </p>
+                                <h5 className='tab-content-title'><strong>Publisher:</strong></h5>
+                                <h5>Simms-Cendan</h5>
                             </li>
                             <li>
-                                <h5>
-                                    Usage limits:
-                                </h5>
-                                <p>
-                                    20
-                                </p>
+                                <h5 className='tab-content-title'><strong>Usage limits:</strong></h5>
+                                <h5>20</h5>
                             </li>
                             <li>
-                                <h5>
-                                    Expiration date:
-                                </h5>
-                                <p>
-                                    20 September 2023
-                                </p>
+                                <h5 className='tab-content-title'><strong>Expiration date:</strong></h5>
+                                <h5>20 September 2023</h5>
                             </li>
                             <li>
-                                <h5>
-                                    inforMedGO Code:
-                                </h5>
-                                <p>
-                                    18659065
-                                </p>
+                                <h5 className='tab-content-title'><strong>inforMedGO Code:</strong></h5>
+                                <h5>18659065</h5>
                             </li>
                             <li>
-                                <h5>
-                                    Docintel Code:
-                                </h5>
-                                <p>
-                                    741453971
-                                </p>
+                                <h5 className='tab-content-title'><strong>Docintel Code:</strong></h5>
+                                <h5>741453971</h5>
                             </li>
                             <li>
-                                <h5>
-                                    Language:
-                                </h5>
-                                <p>
-                                    English
-                                </p>
+                                <h5 className='tab-content-title'><strong>Language:</strong></h5>
+                                <h5>English</h5>
                             </li>
                         </ul>
-
-                        <div className="footer-btn-wrapper">
+                        </div>
+                        <div className='data-main-footer-sec'>
+                            <div className="footer-btn-wrapper">
                             <a href="#" className="footer-btn">Preview Aritcle</a>
                             <a href="#" className="footer-btn">Download QR</a>
                             <a href="#" className="footer-btn">Send in Email</a>
+                            <a href="#" className="footer-btn">Copy Docintel Link</a>
                         </div>
                         <ul className="tab-mail-list tag">
                             <li>
-                                <h5>
-                                    Tags:
-                                </h5>
-                                <p>
-                                    N/A
-                                </p>
+                                <b>Tags:</b>
+                                <a href="#">N/A </a> <a href="#">N/A </a>
                             </li>
                         </ul>
+                        </div>
+                        
                     </div>
                     </Tab>
                     <Tab eventKey="data-tab" title="Data">
-                     <div className="tab-pane">
                         <div className="data-main-box">
                             <ul className="tab-mail-list data">
                                 <li>
-                                    <h5>
-                                        Unique Reader (total) :
-                                    </h5>
-                                    <p>
-                                        6
-                                    </p>
+                                    <h5>Unique Reader (total): 
+                                        <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
+                                    <p className='data_box'>6</p>
                                 </li>
                                 <li>
-                                    <h5>
-                                        Openings (total) :
-                                    </h5>
-                                    <p>
-                                        32
-                                    </p>
+                                    <h5>Openings (total): <LinkWithTooltip tooltip="Number of opening counts for specific article." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
+                                    <p className='data_box'>32</p>
                                 </li>
                                 <li>
-                                    <h5>
-                                        Registered Readers :
-                                    </h5>
-                                    <p>
-                                        23
-                                    </p>
+                                    <h5>Registered Readers: <LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
+                                    <p className='data_box'>23</p>
                                 </li>
                             </ul>
+                            <div className="data-main-footer-sec">
+                                <div className="footer-btn-wrapper">
+                                 <a href="#" className="footer-btn">Analytics</a>
+                                </div>
+                                <ul className="tab-mail-list tag">
+                                    <li>
+                                        <b>Tags:</b>
+                                        <a href="#">N/A </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            
                         </div>
-                    </div>
+                        
                     </Tab>
                     <Tab eventKey="change-tab" title="Change">
-                       <div className="tab-pane">
                         <div className="data-main-box change-tab-main-box">
                             <ul className="tab-mail-list data change">
                                 <li>
-                                    <h5>
-                                        Article Type:
-                                    </h5>
+                                    <h5 className='tab-content-title'><strong>Article Type:</strong></h5>
                                     <div className="select-dropdown-wrapper">
                                         <div className="select">
                                             <select>
-                                                <option value="1">Pure CSS Select</option>
-                                                <option value="2">No JS</option>
-                                                <option value="3">Nice!</option>
+                                                <option value="1">Sunshine</option>
+                                                <option value="2">Offline Offer</option>
+                                                <option value="3">Online Only</option>
                                             </select>
                                         </div>
                                     </div>
                                 </li>
                                 <li>
-                                    <h5>
-                                        Tags:
-                                    </h5>
-                                    <p>
-                                        N/A
-                                    </p>
+                                    <b>Tags:</b>
+                                    <a href="#" className='tags'>N/A </a>
                                 </li>
                             </ul>
+                            <div className="data-main-footer-sec">
+                                <div className="footer-btn-wrapper">
+                                     <a href="#" className="footer-btn">Edit Docintel Link</a>
+                                     <a href="#" className="footer-btn">Add / Remove Tags</a>
+                                     <a href="#" className="footer-btn">New Sublink</a>
+                                </div>
+                                <div className="footer-btn">
+                                    <button className="btn btn-primary btn-filled" type="submit">Save</button>
+                                </div>
+                            </div>
+                            
                         </div>
-                    </div>
                     </Tab>
-                    </Tabs>
+                </Tabs>
+            </div>               
+            </div> 
 
-
-
-                {/* <ul className="nav nav-pills doc-tab" id="pills-tab" role="tablist">
-                    <li className="nav-item" role="presentation">
-                        <button className="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
-                            data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
-                            aria-selected="true">Docintel Link</button>
-                    </li>
-                    <li className="nav-item" role="presentation">
-                        <button className="nav-link" id="pills-profile-tab" data-bs-toggle="pill"
-                            data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile"
-                            aria-selected="false">Data</button>
-                    </li>
-                    <li className="nav-item" role="presentation">
-                        <button className="nav-link" id="pills-contact-tab" data-bs-toggle="pill"
-                            data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact"
-                            aria-selected="false">Change</button>
-                    </li>
-
-                </ul>
-
-                <div className="tab-content doc-tab-content" id="pills-tabContent">
-                    <div className="tab-pane fade show active" id="pills-home" role="tabpanel"
-                        aria-labelledby="pills-home-tab" tabindex="0">
-                        <a href="#" className="doc-link">kfdfjdi</a>
-                        <ul className="tab-mail-list">
-                            <li>
-                                <h5>
-                                    Link type:
-                                </h5>
-                                <p>
-                                    Sunshine
-                                </p>
-                            </li>
-                            <li>
-                                <h5>
-                                    Publisher:
-                                </h5>
-                                <p>
-                                    Simms-Cendan
-                                </p>
-                            </li>
-                            <li>
-                                <h5>
-                                    Usage limits:
-                                </h5>
-                                <p>
-                                    20
-                                </p>
-                            </li>
-                            <li>
-                                <h5>
-                                    Expiration date:
-                                </h5>
-                                <p>
-                                    20 September 2023
-                                </p>
-                            </li>
-                            <li>
-                                <h5>
-                                    inforMedGO Code:
-                                </h5>
-                                <p>
-                                    18659065
-                                </p>
-                            </li>
-                            <li>
-                                <h5>
-                                    Docintel Code:
-                                </h5>
-                                <p>
-                                    741453971
-                                </p>
-                            </li>
-                            <li>
-                                <h5>
-                                    Language:
-                                </h5>
-                                <p>
-                                    English
-                                </p>
-                            </li>
-                        </ul>
-
-                        <div className="footer-btn-wrapper">
-                            <a href="#" className="footer-btn">Preview Aritcle</a>
-                            <a href="#" className="footer-btn">Download QR</a>
-                            <a href="#" className="footer-btn">Send in Email</a>
-                        </div>
-                        <ul className="tab-mail-list tag">
-                            <li>
-                                <h5>
-                                    Tags:
-                                </h5>
-                                <p>
-                                    N/A
-                                </p>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div className="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab"
-                        tabindex="0">
-                        <div className="data-main-box">
-                            <ul className="tab-mail-list data">
-                                <li>
-                                    <h5>
-                                        Unique Reader (total) :
-                                    </h5>
-                                    <p>
-                                        6
-                                    </p>
-                                </li>
-                                <li>
-                                    <h5>
-                                        Openings (total) :
-                                    </h5>
-                                    <p>
-                                        32
-                                    </p>
-                                </li>
-                                <li>
-                                    <h5>
-                                        Registered Readers :
-                                    </h5>
-                                    <p>
-                                        23
-                                    </p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-
-                    <div className="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab"
-                        tabindex="0">
-                        <div className="data-main-box change-tab-main-box">
-                            <ul className="tab-mail-list data change">
-                                <li>
-                                    <h5>
-                                        Article Type:
-                                    </h5>
-                                    <div className="select-dropdown-wrapper">
-                                        <div className="select">
-                                            <select>
-                                                <option value="1">Pure CSS Select</option>
-                                                <option value="2">No JS</option>
-                                                <option value="3">Nice!</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <h5>
-                                        Tags:
-                                    </h5>
-                                    <p>
-                                        N/A
-                                    </p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                </div> */}
-
-
-            </div>
-            {/* <div className="doc-content-main-box col">
-                <div className="doc-content-header">
-                    <a href="#"><img alt="doc-logo" src={path_image + "dummy-img.png"}
-                            style={{width:"57px"}}/>
-                    </a>
-                    <div className="doc-content">
-                        <h4>Dignoastic</h4>
-                        <p>Sub-Title: For Testing purpose</p>
-                    </div>
-                    <a href="#" className="refresh-btn">
-                            <img src={path_image + "refresh1.png"} alt="refresh-btn" style={{width:"20px"}}/>
-                    </a>
-
-                </div>
-
-                <ul className="nav nav-pills doc-tab" id="pills-tab" role="tablist">
-                    <li className="nav-item" role="presentation">
-                        <button className="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
-                            data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
-                            aria-selected="true">Docintel Link</button>
-                    </li>
-                    <li className="nav-item" role="presentation">
-                        <button className="nav-link" id="pills-profile-tab" data-bs-toggle="pill"
-                            data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile"
-                            aria-selected="false">Data</button>
-                    </li>
-                    <li className="nav-item" role="presentation">
-                        <button className="nav-link" id="pills-contact-tab" data-bs-toggle="pill"
-                            data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact"
-                            aria-selected="false">Change</button>
-                    </li>
-
-                </ul>
-
-                <div className="tab-content doc-tab-content" id="pills-tabContent">
-                    <div className="tab-pane fade show active" id="pills-home" role="tabpanel"
-                        aria-labelledby="pills-home-tab" tabindex="0">
-                        <a href="#" className="doc-link">kfdfjdi</a>
-                        <ul className="tab-mail-list">
-                            <li>
-                                <h5>
-                                    Link type:
-                                </h5>
-                                <p>
-                                    Sunshine
-                                </p>
-                            </li>
-                            <li>
-                                <h5>
-                                    Publisher:
-                                </h5>
-                                <p>
-                                    Simms-Cendan
-                                </p>
-                            </li>
-                            <li>
-                                <h5>
-                                    Usage limits:
-                                </h5>
-                                <p>
-                                    20
-                                </p>
-                            </li>
-                            <li>
-                                <h5>
-                                    Expiration date:
-                                </h5>
-                                <p>
-                                    20 September 2023
-                                </p>
-                            </li>
-                            <li>
-                                <h5>
-                                    inforMedGO Code:
-                                </h5>
-                                <p>
-                                    18659065
-                                </p>
-                            </li>
-                            <li>
-                                <h5>
-                                    Docintel Code:
-                                </h5>
-                                <p>
-                                    741453971
-                                </p>
-                            </li>
-                            <li>
-                                <h5>
-                                    Language:
-                                </h5>
-                                <p>
-                                    English
-                                </p>
-                            </li>
-                        </ul>
-
-                        <div className="footer-btn-wrapper">
-                            <a href="#" className="footer-btn">Preview Aritcle</a>
-                            <a href="#" className="footer-btn">Download QR</a>
-                            <a href="#" className="footer-btn">Send in Email</a>
-                        </div>
-                        <ul className="tab-mail-list tag">
-                            <li>
-                                <h5>
-                                    Tags:
-                                </h5>
-                                <p>
-                                    N/A
-                                </p>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div className="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab"
-                        tabindex="0">
-                        <div className="data-main-box">
-                            <ul className="tab-mail-list data">
-                                <li>
-                                    <h5>
-                                        Unique Reader (total) :
-                                    </h5>
-                                    <p>
-                                        6
-                                    </p>
-                                </li>
-                                <li>
-                                    <h5>
-                                        Openings (total) :
-                                    </h5>
-                                    <p>
-                                        32
-                                    </p>
-                                </li>
-                                <li>
-                                    <h5>
-                                        Registered Readers :
-                                    </h5>
-                                    <p>
-                                        23
-                                    </p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-
-                    <div className="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab"
-                        tabindex="0">
-                        <div className="data-main-box change-tab-main-box">
-                            <ul className="tab-mail-list data change">
-                                <li>
-                                    <h5>
-                                        Article Type:
-                                    </h5>
-                                    <div className="select-dropdown-wrapper">
-                                        <div className="select">
-                                            <select>
-                                                <option value="1">Pure CSS Select</option>
-                                                <option value="2">No JS</option>
-                                                <option value="3">Nice!</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <h5>
-                                        Tags:
-                                    </h5>
-                                    <p>
-                                        N/A
-                                    </p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                </div>
-
-
-            </div> */}
-            <div className="doc-content-main-box col">
-                <div className="doc-content-header">
-                    <a href="#"><img alt="doc-logo" src={path_image + "dummy-img.png"}
-                            style={{width:"57px"}}/>
-                    </a>
-                    <div className="doc-content">
-                        <h4>Dignoastic</h4>
-                        <p>Sub-Title: For Testing purpose</p>
-                    </div>
-                    <a href="#" className="refresh-btn">
-                            <img src={path_image + "refresh1.png"} alt="refresh-btn" style={{width:"20px"}}/>
-                    </a>
-
-                </div>
-
-                <ul className="nav nav-pills doc-tab" id="pills-tab" role="tablist">
-                    <li className="nav-item" role="presentation">
-                        <button className="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
-                            data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
-                            aria-selected="true">Docintel Link</button>
-                    </li>
-                    <li className="nav-item" role="presentation">
-                        <button className="nav-link" id="pills-profile-tab" data-bs-toggle="pill"
-                            data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile"
-                            aria-selected="false">Data</button>
-                    </li>
-                    <li className="nav-item" role="presentation">
-                        <button className="nav-link" id="pills-contact-tab" data-bs-toggle="pill"
-                            data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact"
-                            aria-selected="false">Change</button>
-                    </li>
-
-                </ul>
-
-                <div className="tab-content doc-tab-content" id="pills-tabContent">
-                    <div className="tab-pane fade show active" id="pills-home" role="tabpanel"
-                        aria-labelledby="pills-home-tab" tabindex="0">
-                        <a href="#" className="doc-link">kfdfjdi</a>
-                        <ul className="tab-mail-list">
-                            <li>
-                                <h5>
-                                    Link type:
-                                </h5>
-                                <p>
-                                    Sunshine
-                                </p>
-                            </li>
-                            <li>
-                                <h5>
-                                    Publisher:
-                                </h5>
-                                <p>
-                                    Simms-Cendan
-                                </p>
-                            </li>
-                            <li>
-                                <h5>
-                                    Usage limits:
-                                </h5>
-                                <p>
-                                    20
-                                </p>
-                            </li>
-                            <li>
-                                <h5>
-                                    Expiration date:
-                                </h5>
-                                <p>
-                                    20 September 2023
-                                </p>
-                            </li>
-                            <li>
-                                <h5>
-                                    inforMedGO Code:
-                                </h5>
-                                <p>
-                                    18659065
-                                </p>
-                            </li>
-                            <li>
-                                <h5>
-                                    Docintel Code:
-                                </h5>
-                                <p>
-                                    741453971
-                                </p>
-                            </li>
-                            <li>
-                                <h5>
-                                    Language:
-                                </h5>
-                                <p>
-                                    English
-                                </p>
-                            </li>
-                        </ul>
-
-                        <div className="footer-btn-wrapper">
-                            <a href="#" className="footer-btn">Preview Aritcle</a>
-                            <a href="#" className="footer-btn">Download QR</a>
-                            <a href="#" className="footer-btn">Send in Email</a>
-                        </div>
-                        <ul className="tab-mail-list tag">
-                            <li>
-                                <h5>
-                                    Tags:
-                                </h5>
-                                <p>
-                                    N/A
-                                </p>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div className="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab"
-                        tabindex="0">
-                        <div className="data-main-box">
-                            <ul className="tab-mail-list data">
-                                <li>
-                                    <h5>
-                                        Unique Reader (total) :
-                                    </h5>
-                                    <p>
-                                        6
-                                    </p>
-                                </li>
-                                <li>
-                                    <h5>
-                                        Openings (total) :
-                                    </h5>
-                                    <p>
-                                        32
-                                    </p>
-                                </li>
-                                <li>
-                                    <h5>
-                                        Registered Readers :
-                                    </h5>
-                                    <p>
-                                        23
-                                    </p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-
-                    <div className="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab"
-                        tabindex="0">
-                        <div className="data-main-box change-tab-main-box">
-                            <ul className="tab-mail-list data change">
-                                <li>
-                                    <h5>
-                                        Article Type:
-                                    </h5>
-                                    <div className="select-dropdown-wrapper">
-                                        <div className="select">
-                                            <select>
-                                                <option value="1">Pure CSS Select</option>
-                                                <option value="2">No JS</option>
-                                                <option value="3">Nice!</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <h5>
-                                        Tags:
-                                    </h5>
-                                    <p>
-                                        N/A
-                                    </p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                </div>
-
-
-            </div>
           </Row>
           </div>
       </Col>
     </>
-  )
+  );
 }
 
 export default LibraryContent;
