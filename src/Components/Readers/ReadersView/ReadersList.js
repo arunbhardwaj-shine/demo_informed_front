@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import { Accordion, Col, Dropdown, DropdownButton, OverlayTrigger, Row, Tab, Tabs, Tooltip } from 'react-bootstrap';
+import { Accordion, Button, Col, Dropdown, DropdownButton, OverlayTrigger, Row, Tab, Tabs, Tooltip } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
  
@@ -27,14 +27,16 @@ const data = [
   }
 ]
   const [eventSelected, setEventSelected] = useState("Webinar registered");
-  const eventDropDownClicked = (e) => {console.log(e);setEventSelected(e);};
+  const eventDropDownClicked = (e) => {setEventSelected(e);};
   const [articleSelected, setArticleSelected] = useState("Select Tags");
-  const articleDropDownClicked = (e) => {console.log(e); setArticleSelected(e);};
+  const articleDropDownClicked = (e) => {setArticleSelected(e);};
   const [actionSelected, setActionSelected] = useState("Select Title");
-  const actionDropDownClicked = (e) => {console.log(e); setActionSelected(e);};
+  const actionDropDownClicked = (e) => {setActionSelected(e);};
   const [sortSelected, setSortSelected] = useState("User Action");
-  const sortDropDownClicked = (e) => {console.log(e);setSortSelected(e);};
-    const [filterdata, setFilterData] = useState([]);
+  const sortDropDownClicked = (e) => {setSortSelected(e);};
+  const [sortUser, setSortUserd] = useState("Select User");
+  const userDropDownClicked = (e) => {setSortUserd(e);};
+  const [filterdata, setFilterData] = useState([]);
 
 function LinkWithTooltip({ id, children, href, tooltip }) {
   return (
@@ -57,6 +59,50 @@ function LinkWithTooltip({ id, children, href, tooltip }) {
     <Col className="right-sidebar">
       <div className="custom-container">
         <Row>
+            <div class="top-header reader_list">
+                <div class="page-title">
+                    <h2>Readers</h2>
+                </div>
+                <div class="top-right-action">
+                    <div className="filter-by nav-item dropdown highlight">
+                        <Dropdown>
+                            <Dropdown.Toggle variant="success" id="dropdown-basic">
+                                Sort By
+                            </Dropdown.Toggle>
+
+                            <Dropdown.Menu>
+                                <Dropdown.Item href="#">By Registered User</Dropdown.Item>
+                                <Dropdown.Item href="#">By Unregistered User</Dropdown.Item>
+                                <Dropdown.Item href="#">All User</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                        {/* <div className="albert-block">
+                {normalData.length > 0 ? (
+                  <div className="switch6">
+                    <label className="switch6-light">
+                      <input type="checkbox" onChange={checkboxClicked} />
+                      <span>
+                        <span className="grid_view">
+                          <img
+                            src="../../images/grid-view.png"
+                            alt="Grid View"
+                          />
+                        </span>
+                        <span className="list_view">
+                          <img
+                            src="../../images/list-view.png"
+                            alt="List View"
+                          />
+                        </span>
+                      </span>
+                      <a className="btn"></a>
+                    </label>
+                  </div>
+                ) : null}{" "}
+              </div> */}
+                    </div>
+                </div>
+            </div>
             <div className="search_view readers">
               <div className="smart-list-btns">
                 <div className="top-right-action library_content_view">
@@ -71,7 +117,7 @@ function LinkWithTooltip({ id, children, href, tooltip }) {
                     </DropdownButton>
                   </div>
                   <div className="col">
-                    <label>Select Tags</label>
+                    <label>Select Tags</label>,
                     <DropdownButton
                       className="dropdown-basic-button split-button-dropup edit-country-dropdown" title={articleSelected} onSelect={(event) => articleDropDownClicked(event)}>
                       <Dropdown.Item eventKey="All Tags">All Tags</Dropdown.Item>
@@ -99,7 +145,7 @@ function LinkWithTooltip({ id, children, href, tooltip }) {
                   <div className="col">
                     <label>Select User</label>
                      <DropdownButton
-                      className="dropdown-basic-button split-button-dropup edit-country-dropdown" title={sortSelected} onSelect={(event) => sortDropDownClicked(event)}>
+                      className="dropdown-basic-button split-button-dropup edit-country-dropdown" title={sortUser} onSelect={(event) => userDropDownClicked(event)}>
                       <Dropdown.Item eventKey="All Users">All Users</Dropdown.Item>
                       <Dropdown.Item eventKey="HCP Users">HCP Users</Dropdown.Item>
                       <Dropdown.Item eventKey="Test Users">Test Users</Dropdown.Item>
