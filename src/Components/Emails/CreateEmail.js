@@ -657,6 +657,12 @@ const CreateEmail = (props) => {
 
     if (typeof campaign !== "undefined" && campaign !== "") {
       console.log(props.getDraftData);
+
+      let up_temp = template;
+      if (editorRef.current) {
+         up_temp = editorRef.current.getContent();
+      }
+
       const body = {
         user_id: localStorage.getItem("user_id"),
         pdf_id: state_object?.PdfSelected
@@ -679,7 +685,7 @@ const CreateEmail = (props) => {
         },
 
         campaign_id: campaign_id_st,
-        source_code: template,
+        source_code: up_temp,
         status: 2,
       };
 
