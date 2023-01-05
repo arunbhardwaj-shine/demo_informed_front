@@ -64,6 +64,7 @@ const SelectSmartList = (props) => {
       user_id: localStorage.getItem("user_id"),
       search: "",
       filter: "",
+      paging: '32'
     };
     loader("show");
     axios
@@ -596,7 +597,7 @@ const SelectSmartList = (props) => {
                 </div>
 
                 {typeof SendListData !== "undefined" &&
-                  SendListData.length == 30 &&
+                  SendListData.length == 32 &&
                   getloadmore === 0 && (
                     <div className="load_more">
                       <button

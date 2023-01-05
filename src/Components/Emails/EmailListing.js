@@ -1318,7 +1318,7 @@ const EmailList = (props) => {
           </div>
         </div>
         {typeof SendListData !== "undefined" &&
-          SendListData.length == 30 &&
+          SendListData.length == 32 &&
           getloadmore === 0 && (
             <div className="load_more">
               <button

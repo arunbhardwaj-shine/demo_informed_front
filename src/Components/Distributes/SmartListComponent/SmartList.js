@@ -35,6 +35,7 @@ const SmartList = (props) => {
     user_id: localStorage.getItem("user_id"),
     search: search,
     filter: filter,
+    paging: '31'
   };
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const getSmartListData = async (flag,page=1) => {
@@ -782,7 +783,7 @@ const SmartList = (props) => {
           </div>
         </div>
         {typeof smartListData !== "undefined" &&
-          smartListData.length == 30 &&
+          smartListData.length == 31 &&
           getloadmore === 0 && (
             <div className="load_more">
               <button
