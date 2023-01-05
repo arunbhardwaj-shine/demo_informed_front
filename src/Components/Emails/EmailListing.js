@@ -46,6 +46,7 @@ const EmailList = (props) => {
   const [filterapplied, setFilterApply] = useState(false);
   const [getDraftEmailSendStatus, setDraftEmailSendStatus] = useState(false);
   const [getDraftCamapignId, setDraftCamapignId] = useState(0);
+  const [getloadmore, setloadmore] = useState(0);
   const [options_ch, setOptions_ch] = useState({
     chart: {
       type: "column",
@@ -124,7 +125,7 @@ const EmailList = (props) => {
   };
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-  const getData = (stage) => {
+  const getData = (stage,page=1) => {
     loader("show");
     const body = {
       user_id: localStorage.getItem("user_id"),
@@ -132,7 +133,7 @@ const EmailList = (props) => {
       filter: filter,
     };
     axios
-      .post(`emailapi/getlist`, body)
+      .post(`emailapi/getlist?page=` + page, body)
       .then((res) => {
         if (res.data.status_code == 200) {
           setSendListData(res.data.response.data.emails);
@@ -140,7 +141,7 @@ const EmailList = (props) => {
             setOriginalSendListData(res.data.response.data.emails);
 
             setFilterData(res.data.response.data.filter);
-            console.log(res.data.response.data.filter);
+
           }
           setUserData(res.data.response.data.user);
         } else if (res.data.status_code == 201) {
@@ -552,6 +553,11 @@ const EmailList = (props) => {
         toast.error("Something went wrong");
       });
   }
+
+  const load_more = () => {
+    getData('initial', 2);
+    setloadmore(1);
+  };
 
 
 
@@ -1311,6 +1317,18 @@ const EmailList = (props) => {
             )}
           </div>
         </div>
+        {typeof SendListData !== "undefined" &&
+          SendListData.length == 30 &&
+          getloadmore === 0 && (
+            <div className="load_more">
+              <button
+                className="btn btn-primary btn-filled"
+                onClick={load_more}
+              >
+                Load More
+              </button>
+            </div>
+          )}
       </div>
       </div>
       </div>
