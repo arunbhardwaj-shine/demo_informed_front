@@ -94,7 +94,7 @@ const Header = () => {
 						<a className="nav-link" href="https://informed.pro/Distributes/MailEngine">EMAIL</a>
 					  </li>
 					  <li className="nav-item">
-						<a className="nav-link"  href="https://informed.pro/Webinar/readers_webinar">WEBINAR</a>
+						<a className="nav-link" href="https://informed.pro/Webinar/readers_webinar">WEBINAR</a>
 					  </li>
 				</ul>
 				</div>

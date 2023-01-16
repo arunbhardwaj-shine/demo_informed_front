@@ -1,7 +1,5 @@
 import React from 'react'
 import { Col, Row } from 'react-bootstrap';
-
-
 const data = [
   {
     itemdetail:"Web Details:",
@@ -18,7 +16,6 @@ const data = [
        markimage:"https://docintel.s3-eu-west-1.amazonaws.com/ebook/pdftoimage/Haematology_Octapharma/3681/ios_page2.png"
        }
     ]
-
   },
   {
      itemdetail:"Android Details:",
@@ -31,7 +28,6 @@ const data = [
      date:"15 Dec 2022",
      time:"Time: 10:34 AM ( Europe/London )",
      activity:"Activity: Login to docintel app",
-
   },
   {
     itemdetail:"Web Details:",
@@ -50,8 +46,6 @@ const data = [
        markimage:"https://docintel.s3-eu-west-1.amazonaws.com/ebook/pdftoimage/Haematology_Octapharma/3755/ios_page3.png"
        }
     ]
-
-
   },
   {
     itemdetail:"Web Details:",
@@ -90,36 +84,42 @@ const TimelineDetail = () => {
                       <div className="vertical-timeline-element-content-arrow" style={{borderRight: "7px solid rgb(255, 255, 255)"}}></div>
                      
                      {item.chapter?.map(value =>(
-                       <div className="mark-kriger-inside">	
-                          <h3>{value?.chapter}</h3>
-                           <div className="media">
-                             <div className="media-left">
-                               <img src={value?.markimage} className="media-object" style={{width:"80px"}} alt="ebook"/>						
-                              <p>Page: 1</p>
-                            </div>
-                            <div className="media-body">
-                              <div className="pro-bar second-bar">
-                                <label for="file">Ignored</label>
-                                <div className="progress">
-                                  <div className="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style={{width:"10%",backgroundColor:"#B13000"}}>0</div>
-                                </div>
-                                <label for="file">Browsed:</label>
-                                <div className="progress">
-                                  <div className="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style={{width:"10%",backgroundColor:"#C7C008"}}>0</div>
-                                          </div>
-                                <label for="file">Read</label>
-                                <div className="progress">
-                                  <div className="progress-bar progress-bar-success changecolorbypercentage" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style={{width: "10%", backgroundColor: "rgb(86, 195, 187)"}}>0</div>
-                                </div>
-                                <label for="file">Readers</label>
-                                <div className="progress">
-                                  <div className="progress-bar bg-info" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style={{width:"10%",background:"#729EFF"}}>0</div>    
+                      <div className="mark-kriger-inside">	
+                        <h3>{value?.chapter}</h3>
+                        <div className="media">
+                          <div className="media-left">
+                            <img src={value?.markimage} className="media-object" style={{width:"80px"}} alt="ebook"/>						
+                            <p>Page: 1</p>
+                          </div>
+                          <div className="media-body">
+                            <div className="pro-bar second-bar">
+                              <label for="file">Ignored</label>
+                              <div className="progress">
+                                <div className="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style={{width:"10%",backgroundColor:"#B13000"}}>0</div>
                               </div>
-                              <p><span>Time Needed:  14.48 seconds </span> <span> Time Spent: 305 seconds</span></p>
+
+                              <label for="file">Browsed:</label>
+                              <div className="progress">
+                                <div className="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style={{width:"10%",backgroundColor:"#C7C008"}}>0</div>
+                              </div>
+
+                              <label for="file">Read</label>
+                              <div className="progress">
+                                <div className="progress-bar progress-bar-success changecolorbypercentage" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style={{width: "10%", backgroundColor: "rgb(86, 195, 187)"}}>0</div>
+                              </div>
+
+                              <label for="file">Readers</label>
+                              <div className="progress">
+                                <div className="progress-bar bg-info" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style={{width:"10%",background:"#729EFF"}}>0</div>    
+                              </div>
+                              <p>
+                                <span>Time Needed: 14.48 seconds </span> 
+                                <span>Time Spent: 305 seconds</span>
+                              </p>
                             </div>    
                           </div>
-                          </div>
                         </div>
+                      </div>
                       ))}
                       </div>
                      </div>

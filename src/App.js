@@ -1,4 +1,4 @@
-import "./App.css";
+import "./App.scss";
 
 function App() {
   return (
@@ -8,6 +8,19 @@ function App() {
           <h2>✴ Home Page ✴</h2>
        </div>
       </div>
+      <div class="wrapper">
+        <button>sdfsf sskfsfsd</button>
+        <div className="container">
+            <div className="article" role="main">
+          asdjashkjxjhadhlagdlA SDGJKasdbnAGSDa ndguASLDBJ;siodhABKJSDjoai;ds
+        </div>
+        <div className="aside" role="complementary">
+          asdjashkjxjhadhlagdlA SDGJKasdbnAGSDa ndguASLDBJ;siodhABKJSDjoai;ds
+        </div>
+        </div>
+      
+      </div>
+      
     </>
   );
 }

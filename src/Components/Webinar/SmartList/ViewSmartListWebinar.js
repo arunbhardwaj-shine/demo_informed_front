@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "../../../App.css";
+import "../../../App.scss";
 import queryString from "query-string";
 import { Link } from "react-router-dom";
 import { loader } from "../../../loader";

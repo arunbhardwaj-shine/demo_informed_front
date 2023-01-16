@@ -37,7 +37,7 @@ const data = [
   const [sortUser, setSortUserd] = useState("Select User");
   const userDropDownClicked = (e) => {setSortUserd(e);};
   const [filterdata, setFilterData] = useState([]);
-
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 function LinkWithTooltip({ id, children, href, tooltip }) {
   return (
     <OverlayTrigger
@@ -76,35 +76,27 @@ function LinkWithTooltip({ id, children, href, tooltip }) {
                                 <Dropdown.Item href="#">All User</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
-                        {/* <div className="albert-block">
-                {normalData.length > 0 ? (
-                  <div className="switch6">
-                    <label className="switch6-light">
-                      <input type="checkbox" onChange={checkboxClicked} />
-                      <span>
-                        <span className="grid_view">
-                          <img
-                            src="../../images/grid-view.png"
-                            alt="Grid View"
-                          />
-                        </span>
-                        <span className="list_view">
-                          <img
-                            src="../../images/list-view.png"
-                            alt="List View"
-                          />
-                        </span>
-                      </span>
-                      <a className="btn"></a>
-                    </label>
-                  </div>
-                ) : null}{" "}
-              </div> */}
+                    </div>
+                    <div className="albert-block">
+                        <div className="switch6">
+                            <label className="switch6-light">
+                            <input type="checkbox" />
+                            <span>
+                                <span className="grid_view">
+                                    <img src={path_image + "grid-view.png"} alt="Grid View"/>
+                                </span>
+                                <span className="list_view">
+                                    <img src={path_image + "list-view.png"} alt="List View"/>
+                                </span>
+                            </span>
+                            <a className="btn"></a>
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
             <div className="search_view readers">
-              <div className="smart-list-btns">
+              <div className="smart-list-btns readers-view">
                 <div className="top-right-action library_content_view">
                   <div className="col">
                     <label>Webinar registered</label>
@@ -151,17 +143,15 @@ function LinkWithTooltip({ id, children, href, tooltip }) {
                       <Dropdown.Item eventKey="Test Users">Test Users</Dropdown.Item>
                     </DropdownButton>
                   </div>
+                </div>
+                <div className="top-right-action library_content_view">
                   <div className="search-bar col">
                     <form className="d-flex">
                       <label>Search</label>
                       <input
                         className="form-control me-2"
                         type="search"
-                        placeholder="Search by name or email"
-                        aria-label="Search"
-                        value={search}
-                        onChange={(e) => searchChange(e)}
-                      />
+                        placeholder="Search by name or email" aria-label="Search" value={search} onChange={(e) => searchChange(e)}/>
 
                       <button className="btn btn-outline-success" type="submit">
                         <svg
@@ -289,7 +279,7 @@ function LinkWithTooltip({ id, children, href, tooltip }) {
                         </ul>
                             <div className="data-main-footer-sec">
                                 <div className="footer-btn">
-                                    <button className="btn btn-primary btn-filled" type="submit">See Timeline</button>
+                                    <button className="btn btn-primary btn-filled" type="submit"><Link to="/timeline-detail">See Timeline</Link></button>
                                 </div>
                             </div>
                         </div>
@@ -429,7 +419,7 @@ function LinkWithTooltip({ id, children, href, tooltip }) {
                         </ul>
                             <div className="data-main-footer-sec">
                                 <div className="footer-btn">
-                                    <button className="btn btn-primary btn-filled" type="submit">See Timeline</button>
+                                     <button className="btn btn-primary btn-filled" type="submit"><Link to="/timeline-detail">See Timeline</Link></button>
                                 </div>
                             </div>
                         </div>
@@ -519,37 +509,37 @@ function LinkWithTooltip({ id, children, href, tooltip }) {
                             <ul className="tab-mail-list data">
                                 <li>
                                     <h5>Emails Sent : <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)." href="#">
-                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
+                                    <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
                                     <p className='data_box'>6</p>
                                 </li>
                                 <li>
                                     <h5>Emails Opened : <LinkWithTooltip tooltip="Number of opening counts for specific article." href="#">
-                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
+                                    <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
                                     <p className='data_box'>32</p>
                                 </li>
                                 <li>
                                     <h5>Content Delivered : <LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content." href="#">
-                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
+                                    <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
                                     <p className='data_box'>23</p>
                                 </li>
                                 <li>
                                     <h5>Content with RTR : <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)." href="#">
-                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
+                                    <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
                                     <p className='data_box'>6</p>
                                 </li>
                                 <li>
                                     <h5>QR Openings : <LinkWithTooltip tooltip="Number of opening counts for specific article." href="#">
-                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
+                                    <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
                                     <p className='data_box'>32</p>
                                 </li>
                                 <li>
                                     <h5>GO Openings : <LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content." href="#">
-                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
+                                    <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
                                     <p className='data_box'>23</p>
                                 </li>
                                 <li>
                                     <h5>Content Openings : <LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content." href="#">
-                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
+                                    <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
                                     <p className='data_box'>2</p>
                                 </li>
                             </ul>
@@ -569,7 +559,7 @@ function LinkWithTooltip({ id, children, href, tooltip }) {
                         </ul>
                             <div className="data-main-footer-sec">
                                 <div className="footer-btn">
-                                    <button className="btn btn-primary btn-filled" type="submit">See Timeline</button>
+                                     <button className="btn btn-primary btn-filled" type="submit"><Link to="/timeline-detail">See Timeline</Link></button>
                                 </div>
                             </div>
                         </div>

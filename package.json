@@ -54,6 +54,8 @@
 		"react-table": "^7.7.0",
 		"react-toastify": "^8.2.0",
 		"redux": "^4.1.2",
+		"sass": "^1.57.1",
+		"sass-math": "^1.0.0",
 		"simple-react-validator": "^1.6.1",
 		"tinymce": "^6.1.0",
 		"utils": "^0.3.1",

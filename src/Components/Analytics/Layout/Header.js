@@ -5,7 +5,7 @@ import { ToastContainer } from "react-toastify";
 
 import { useNavigate } from "react-router-dom";
 
-export const ReaderHeader = () => {
+export const AnalyticsHeader = () => {
   const navigate = useNavigate();
 
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -44,10 +44,10 @@ export const ReaderHeader = () => {
                 <li className="nav-item">
                   <Link className="nav-link" to="/">Library</Link>
                 </li>
-                <li className="nav-item active active-main">
+                <li className="nav-item active">
                   <Link className="nav-link" to="/">Readers</Link>
                 </li>
-                <li className="nav-item">
+                <li className="nav-item active-main">
                   <Link className="nav-link" to="/">Analytics</Link>
                 </li>
                 <li className="nav-item">
@@ -89,4 +89,4 @@ export const ReaderHeader = () => {
     </>
   );
 };
-export default ReaderHeader;
+export default AnalyticsHeader;

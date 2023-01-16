@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
+import "./index.scss";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import {
@@ -19,7 +19,10 @@ import LibraryCreate from "./Components/Library/CreateChange/LibraryCreate";
 import LibrarySidebar from "./Components/Library/Layout/Sidebar";
 import LibraryHeader from "./Components/Library/Layout/Header";
 
-
+//Analytics routes 
+import AnalyticsHeader from "./Components/Analytics/Layout/Header";
+import Totalhcp from "./Components/Analytics/TotalHCP/Totalhcp";
+import AnalyticsSidebar from "./Components/Analytics/Layout/Sidebar";
 //Readers routes
 import NewReaders from "./Components/Readers/ReadersView/ReadersList";
 import ReaderSidebar from "./Components/Readers/Layout/Sidebar";
@@ -215,6 +218,10 @@ ReactDOM.render(
 
             ].includes(window.location.pathname) ? (
               <ReaderHeader />
+            ) : [
+              "/Analytics"
+            ].includes(window.location.pathname) ? (
+              <AnalyticsHeader />
             ) : (
               window.location.pathname !== "/" ? <Header /> : null
             )}
@@ -239,6 +246,10 @@ ReactDOM.render(
                   ].includes(window.location.pathname) ? (
                     <LibrarySidebar />
                   ) : [
+                      "/totalhcp",
+                      ].includes(window.location.pathname) ? (
+                     <AnalyticsSidebar />
+                  ) : [
                       "/readers-view",
                       "/reader-add",
                       "/reader-edit",
@@ -255,7 +266,7 @@ ReactDOM.render(
                     {/* New webinar */}
                     {/* <Route path="/new-webinar" element={<WebinarHeader />} /> */}
                     {/* end webinar */}
-
+                    <Route path="/totalhcp" element={<Totalhcp />} />
                     <Route path="/readers-view" element={<NewReaders />} />
                     <Route path="/reader-edit" element={<ReaderEdit />} />
                     <Route path="/reader-add"  element={<ReaderAdd />} />

@@ -16,15 +16,15 @@ const ReaderAdd = () => {
         <Row>
           <div className="page-top-nav">
           <div className="row justify-content-end align-items-center">
-            <div className="col-12 col-md-1">
+            <div className="col-12 col-md-2">
               <div className="header-btn-left">
                 <button  className="btn btn-primary btn-bordered back"><Link to="/readers-view">Back</Link></button>
               </div>
             </div>
-            <div className="col-12 col-md-9">
+            <div className="col-12 col-md-6">
 
             </div>
-            <div className="col-12 col-md-2">
+            <div className="col-12 col-md-4">
               <div className="header-btn">
                 <button onClick={handleShow}
                   className="btn btn-primary btn-bordered upload">
