@@ -21,6 +21,9 @@ export const LibraryHeader = () => {
   };
   return (
     <>
+      <div className="loader" id="custom_loader">
+        <span className="loader-view"> </span>
+      </div>
       {/* {console.log("- ium here")} */}
       <header>
         <nav className="navbar navbar-expand-sm navbar-light">
@@ -85,7 +88,6 @@ export const LibraryHeader = () => {
         draggable
         pauseOnHover
       />
-
     </>
   );
 };

@@ -1,69 +1,162 @@
-import React from 'react';
+import React, { useEffect } from "react";
 import { useState } from "react";
-import { Col, Dropdown, DropdownButton, Nav, NavDropdown, NavItem, Row, Tab, Tabs } from 'react-bootstrap';
+import moment from "moment";
+import { postData } from "../../../axios/apiHelper";
+import { ENDPOINT } from "../../../axios/apiConfig";
+
+import {
+  Col,
+  Dropdown,
+  DropdownButton,
+  Nav,
+  NavDropdown,
+  NavItem,
+  Row,
+  Tab,
+  Tabs,
+} from "react-bootstrap";
 import SimpleReactValidator from "simple-react-validator";
-import Tooltip from 'react-bootstrap/Tooltip';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from "react-bootstrap/Tooltip";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import { loader } from "../../../loader";
+
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LibraryContent = () => {
-     const [search, setSearch] = useState("");
-       const searchChange = (e) => {
-        setSearch(e.target.value);
-     };
- 
-  const [eventSelected, setEventSelected] = useState(
-    "All Tags"
-  );
+  const [articleSelected, setArticleSelected] = useState("Select By Article");
+  const [actionSelected, setActionSelected] = useState("0");
+  const [sortSelected, setSortSelected] = useState("Select By");
+  const [renderAfterValidation, setRenderAfterValidation] = useState(0);
+  const [sorting, setSorting] = useState(0);
+  const [validator] = React.useState(new SimpleReactValidator());
+  const [page, setPage] = useState(1);
 
-    const eventDropDownClicked = (e) => {
+  const [libraryData, setLibraryData] = useState([]);
+
+  const loadMoreClicked = () => {
+    setPage(page + 1);
+  };
+
+  useEffect(() => {
+    getTags();
+  }, []);
+
+  const getTags = async () => {
+    try {
+      let body = {
+        id: 18207,
+      };
+      loader("show");
+      const res = await postData(ENDPOINT.TAGS, body);
+      console.log(res);
+
+      loader("hide");
+      console.log(res);
+    } catch (err) {
+      console.log("err");
+    }
+  };
+
+  useEffect(() => {
+    getLibraryData(page, articleSelected, actionSelected);
+  }, [page, articleSelected, actionSelected]);
+
+  const getLibraryData = async (page, expire_data, actionSelected) => {
+    try {
+      let body = {
+        id: 18207,
+        page: page,
+        expire: expire_data,
+        draft: actionSelected,
+      };
+      loader("show");
+      const res = await postData(ENDPOINT.LIBRARY, body);
+      setLibraryData((oldArray) => [...oldArray, ...res.data.data]);
+
+      loader("hide");
+      console.log(res);
+    } catch (err) {
+      console.log("err");
+    }
+  };
+
+  const [search, setSearch] = useState("");
+  const searchChange = (e) => {
+    setSearch(e.target.value);
+  };
+
+  const [eventSelected, setEventSelected] = useState("All Tags");
+
+  const eventDropDownClicked = (e) => {
     console.log(e);
     setEventSelected(e);
-   };
-    const articleDropDownClicked = (e) => {
-    console.log(e);
-    setArticleSelected(e);
   };
-   const actionDropDownClicked = (e) => {
+  const articleDropDownClicked = (e) => {
     console.log(e);
-    setActionSelected(e);
+    setLibraryData([]);
+    setPage(1);
+    setArticleSelected(e);
+    // getLibraryData(1, e);
+  };
+  const actionDropDownClicked = (e) => {
+    setLibraryData([]);
+    setPage(1);
+    if (e == "Draft") {
+      setActionSelected("0");
+    } else {
+      setActionSelected("1");
+    }
   };
   const sortDropDownClicked = (e) => {
-    console.log(e);
     setSortSelected(e);
+    console.log("hi");
+    //console.log(readers);
+    let normalArr = [];
+    normalArr = libraryData;
+    if (e == "Ascending") {
+      normalArr.sort((a, b) =>
+        a.title.toLowerCase() > b.title.toLowerCase()
+          ? 1
+          : b.title.toLowerCase() > a.title.toLowerCase()
+          ? -1
+          : 0
+      );
+    } else {
+      normalArr.sort((a, b) =>
+        a.title.toLowerCase() < b.title.toLowerCase()
+          ? 1
+          : b.title.toLowerCase() < a.title.toLowerCase()
+          ? -1
+          : 0
+      );
+    }
+    setLibraryData(normalArr);
   };
 
-    const [articleSelected, setArticleSelected] = useState("Select By Article");
-    const [actionSelected, setActionSelected] = useState("Select Action");
-    const [sortSelected, setSortSelected] = useState("Select By");
-    const [renderAfterValidation, setRenderAfterValidation] = useState(0);
-    const [validator] = React.useState(new SimpleReactValidator());
-    const handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (validator.allValid()) {
       console.log("All Valid");
     } else {
-      //console.log("show error messages");
-      //console.log(validator.errorMessages);
       validator.showMessages();
       setRenderAfterValidation(renderAfterValidation + 1);
     }
   };
-function LinkWithTooltip({ id, children, href, tooltip }) {
-  return (
-    <OverlayTrigger
-      overlay={<Tooltip id={id}>{tooltip}</Tooltip>}
-      placement="top"
-      delayShow={300}
-      delayHide={150}
-    >
-      <a href={href}>{children}</a>
-    </OverlayTrigger>
-  );
-}
+  function LinkWithTooltip({ id, children, href, tooltip }) {
+    return (
+      <OverlayTrigger
+        overlay={<Tooltip id={id}>{tooltip}</Tooltip>}
+        placement="top"
+        delayShow={300}
+        delayHide={150}
+      >
+        <a href={href}>{children}</a>
+      </OverlayTrigger>
+    );
+  }
   return (
     <>
-    <Col className="right-sidebar">
+      <Col className="right-sidebar">
         <div className="custom-container">
           <Row>
             <div className="search_view readers">
@@ -73,9 +166,12 @@ function LinkWithTooltip({ id, children, href, tooltip }) {
                     <label>Select Tags</label>
                     <DropdownButton
                       className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                        title={eventSelected}
-                      onSelect={(event) => eventDropDownClicked(event)}>
-                      <Dropdown.Item eventKey="All Tags">All Tags</Dropdown.Item>
+                      title={eventSelected}
+                      onSelect={(event) => eventDropDownClicked(event)}
+                    >
+                      <Dropdown.Item eventKey="All Tags">
+                        All Tags
+                      </Dropdown.Item>
                       <Dropdown.Item eventKey="Tags 1">Tags 1</Dropdown.Item>
                       <Dropdown.Item eventKey="Tags 2">Tags 2</Dropdown.Item>
                       <Dropdown.Item eventKey="Tags 3">Tags 3</Dropdown.Item>
@@ -86,446 +182,305 @@ function LinkWithTooltip({ id, children, href, tooltip }) {
                     <label>Select By Article</label>
 
                     <DropdownButton
-                      className="dropdown-basic-button split-button-dropup edit-country-dropdown" title={articleSelected} onSelect={(event) => articleDropDownClicked(event)}>
-                      <Dropdown.Item eventKey=" Select By Article">Select By Article</Dropdown.Item>
-                      <Dropdown.Item eventKey="Expired">Expired</Dropdown.Item>
-                      <Dropdown.Item eventKey="Non-Expired">Non-Expired</Dropdown.Item>
+                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                      title={articleSelected}
+                      onSelect={(event) => articleDropDownClicked(event)}
+                    >
+                      <Dropdown.Item eventKey=" Select By Article">
+                        Select By Article
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="expire">Expired</Dropdown.Item>
+                      <Dropdown.Item eventKey="unexpire">
+                        Non-Expired
+                      </Dropdown.Item>
                     </DropdownButton>
                   </div>
                   <div className="col">
                     <label>Select Action</label>
                     <DropdownButton
-                      className="dropdown-basic-button split-button-dropup edit-country-dropdown" title={actionSelected} onSelect={(event) => actionDropDownClicked(event)}>
-                      <Dropdown.Item eventKey=" Select Action">Select Action</Dropdown.Item>
+                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                      title={actionSelected == "0" ? "draft" : "link"}
+                      onSelect={(event) => actionDropDownClicked(event)}
+                    >
+                      <Dropdown.Item eventKey=" Select Action">
+                        Select Action
+                      </Dropdown.Item>
                       <Dropdown.Item eventKey="Draft">Draft</Dropdown.Item>
                       <Dropdown.Item eventKey="Live">Live</Dropdown.Item>
                     </DropdownButton>
                   </div>
                   <div className="col">
                     <label>Sort By</label>
-                     <DropdownButton
-                      className="dropdown-basic-button split-button-dropup edit-country-dropdown" title={sortSelected} onSelect={(event) => sortDropDownClicked(event)}>
-                      <Dropdown.Item eventKey="Select By">Select By</Dropdown.Item>
-                      <Dropdown.Item eventKey="Desending">Desending</Dropdown.Item>
-                      <Dropdown.Item eventKey="Ascending">Ascending</Dropdown.Item>
+                    <DropdownButton
+                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                      title={sortSelected}
+                      onSelect={(event) => sortDropDownClicked(event)}
+                    >
+                      <Dropdown.Item eventKey="Desending">
+                        Desending
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Ascending">
+                        Ascending
+                      </Dropdown.Item>
                     </DropdownButton>
                   </div>
-                  
                 </div>
               </div>
             </div>
-            </Row>
-            <Row>
-            <div className='library-content-box-layuot d-flex'>   
-            <div className="doc-content-main-box col">
-                <div className="doc-content-header">
-                    <div className="doc-content-header-logo"><a href="#"><img alt="doc-logo" src={path_image + "dummy-img.png"} style={{width:"57px"}}/></a></div>
-                    <div className="doc-content">
-                        <h4>Dignoastic</h4>
-                        <h5>Sub-Title: For Testing purpose</h5>
-                    </div>
-                    <div className="refresh-btn">
-                        <img src={path_image + "refresh1.png"} alt="refresh-btn" style={{width:"20px"}}/>
-                    </div>
-                </div>
-                <Tabs defaultActiveKey="docintel-link" className="mb-3" fill>
-                    <Tab eventKey="docintel-link" title="Docintel Link">
-                      <div className="tab-panel">
-                        <div className="tab-content-links">
-                        <a href="#" className="doc-link">https://www.informed.pro</a>
-                        <ul className="tab-mail-list">
-                            <li>
-                                <h5 className='tab-content-title'><strong>Link type:</strong></h5>
-                                <h5>Sunshine</h5>
-                            </li>
-                            <li>
-                                <h5 className='tab-content-title'><strong>Publisher:</strong></h5>
-                                <h5>Simms-Cendan</h5>
-                            </li>
-                            <li>
-                                <h5 className='tab-content-title'><strong>Usage limits:</strong></h5>
-                                <h5>20</h5>
-                            </li>
-                            <li>
-                                <h5 className='tab-content-title'><strong>Expiration date:</strong></h5>
-                                <h5>20 September 2023</h5>
-                            </li>
-                            <li>
-                                <h5 className='tab-content-title'><strong>inforMedGO Code:</strong></h5>
-                                <h5>18659065</h5>
-                            </li>
-                            <li>
-                                <h5 className='tab-content-title'><strong>Docintel Code:</strong></h5>
-                                <h5>741453971</h5>
-                            </li>
-                            <li>
-                                <h5 className='tab-content-title'><strong>Language:</strong></h5>
-                                <h5>English</h5>
-                            </li>
-                        </ul>
-                        </div>
-                        <div className='data-main-footer-sec'>
-                            <div className="footer-btn-wrapper">
-                            <a href="#" className="footer-btn">Preview Aritcle</a>
-                            <a href="#" className="footer-btn">Download QR</a>
-                            <a href="#" className="footer-btn">Send in Email</a>
-                            <a href="#" className="footer-btn">Copy Docintel Link</a>
-                        </div>
-                        <ul className="tab-mail-list tag">
-                            <li>
-                                <b>Tags:</b>
-                                <a href="#">N/A </a> <a href="#">N/A </a>
-                            </li>
-                        </ul>
-                        </div>
-                        
-                    </div>
-                    </Tab>
-                    <Tab eventKey="data-tab" title="Data">
-                        <div className="data-main-box">
-                            <ul className="tab-mail-list data">
-                                <li>
-                                    <h5>Unique Reader (total): 
-                                        <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)." href="#">
-                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
-                                    <p className='data_box'>6</p>
-                                </li>
-                                <li>
-                                    <h5>Openings (total): <LinkWithTooltip tooltip="Number of opening counts for specific article." href="#">
-                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
-                                    <p className='data_box'>32</p>
-                                </li>
-                                <li>
-                                    <h5>Registered Readers: <LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content." href="#">
-                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
-                                    <p className='data_box'>23</p>
-                                </li>
-                            </ul>
-                            <div className="data-main-footer-sec">
-                                <div className="footer-btn-wrapper">
-                                 <a href="#" className="footer-btn">Analytics</a>
-                                </div>
-                                <ul className="tab-mail-list tag">
-                                    <li>
-                                        <b>Tags:</b>
-                                        <a href="#">N/A </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            
-                        </div>
-                        
-                    </Tab>
-                    <Tab eventKey="change-tab" title="Change">
-                        <div className="data-main-box change-tab-main-box">
-                            <ul className="tab-mail-list data change">
-                                <li>
-                                    <h5 className='tab-content-title'><strong>Article Type:</strong></h5>
-                                    <div className="select-dropdown-wrapper">
-                                        <div className="select">
-                                            <select>
-                                                <option value="1">Sunshine</option>
-                                                <option value="2">Offline Offer</option>
-                                                <option value="3">Online Only</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <b>Tags:</b>
-                                    <a href="#" className='tags'>N/A </a>
-                                </li>
-                            </ul>
-                            <div className="data-main-footer-sec">
-                                <div className="footer-btn-wrapper">
-                                     <a href="#" className="footer-btn">Edit Docintel Link</a>
-                                     <a href="#" className="footer-btn">Add / Remove Tags</a>
-                                     <a href="#" className="footer-btn">New Sublink</a>
-                                </div>
-                                <div className="footer-btn">
-                                    <button className="btn btn-primary btn-filled" type="submit">Save</button>
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </Tab>
-                </Tabs>
-            </div>
-            <div className="doc-content-main-box col">
-                <div className="doc-content-header">
-                    <div className="doc-content-header-logo"><a href="#"><img alt="doc-logo" src={path_image + "dummy-img.png"} style={{width:"57px"}}/></a></div>
-                    <div className="doc-content">
-                        <h4>Dignoastic</h4>
-                        <h5>Sub-Title: For Testing purpose</h5>
-                    </div>
-                    <div className="refresh-btn">
-                        <img src={path_image + "refresh1.png"} alt="refresh-btn" style={{width:"20px"}}/>
-                    </div>
-                </div>
-                <Tabs defaultActiveKey="docintel-link" className="mb-3" fill>
-                    <Tab eventKey="docintel-link" title="Docintel Link">
-                      <div className="tab-panel">
-                        <div className="tab-content-links">
-                        <a href="#" className="doc-link">https://www.informed.pro</a>
-                        <ul className="tab-mail-list">
-                            <li>
-                                <h5 className='tab-content-title'><strong>Link type:</strong></h5>
-                                <h5>Sunshine</h5>
-                            </li>
-                            <li>
-                                <h5 className='tab-content-title'><strong>Publisher:</strong></h5>
-                                <h5>Simms-Cendan</h5>
-                            </li>
-                            <li>
-                                <h5 className='tab-content-title'><strong>Usage limits:</strong></h5>
-                                <h5>20</h5>
-                            </li>
-                            <li>
-                                <h5 className='tab-content-title'><strong>Expiration date:</strong></h5>
-                                <h5>20 September 2023</h5>
-                            </li>
-                            <li>
-                                <h5 className='tab-content-title'><strong>inforMedGO Code:</strong></h5>
-                                <h5>18659065</h5>
-                            </li>
-                            <li>
-                                <h5 className='tab-content-title'><strong>Docintel Code:</strong></h5>
-                                <h5>741453971</h5>
-                            </li>
-                            <li>
-                                <h5 className='tab-content-title'><strong>Language:</strong></h5>
-                                <h5>English</h5>
-                            </li>
-                        </ul>
-                        </div>
-                        <div className='data-main-footer-sec'>
-                            <div className="footer-btn-wrapper">
-                            <a href="#" className="footer-btn">Preview Aritcle</a>
-                            <a href="#" className="footer-btn">Download QR</a>
-                            <a href="#" className="footer-btn">Send in Email</a>
-                            <a href="#" className="footer-btn">Copy Docintel Link</a>
-                        </div>
-                        <ul className="tab-mail-list tag">
-                            <li>
-                                <b>Tags:</b>
-                                <a href="#">N/A </a> <a href="#">N/A </a>
-                            </li>
-                        </ul>
-                        </div>
-                        
-                    </div>
-                    </Tab>
-                    <Tab eventKey="data-tab" title="Data">
-                        <div className="data-main-box">
-                            <ul className="tab-mail-list data">
-                                <li>
-                                    <h5>Unique Reader (total): 
-                                        <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)." href="#">
-                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
-                                    <p className='data_box'>6</p>
-                                </li>
-                                <li>
-                                    <h5>Openings (total): <LinkWithTooltip tooltip="Number of opening counts for specific article." href="#">
-                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
-                                    <p className='data_box'>32</p>
-                                </li>
-                                <li>
-                                    <h5>Registered Readers: <LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content." href="#">
-                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
-                                    <p className='data_box'>23</p>
-                                </li>
-                            </ul>
-                            <div className="data-main-footer-sec">
-                                <div className="footer-btn-wrapper">
-                                 <a href="#" className="footer-btn">Analytics</a>
-                                </div>
-                                <ul className="tab-mail-list tag">
-                                    <li>
-                                        <b>Tags:</b>
-                                        <a href="#">N/A </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            
-                        </div>
-                        
-                    </Tab>
-                    <Tab eventKey="change-tab" title="Change">
-                        <div className="data-main-box change-tab-main-box">
-                            <ul className="tab-mail-list data change">
-                                <li>
-                                    <h5 className='tab-content-title'><strong>Article Type:</strong></h5>
-                                    <div className="select-dropdown-wrapper">
-                                        <div className="select">
-                                            <select>
-                                                <option value="1">Sunshine</option>
-                                                <option value="2">Offline Offer</option>
-                                                <option value="3">Online Only</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <b>Tags:</b>
-                                    <a href="#" className='tags'>N/A </a>
-                                </li>
-                            </ul>
-                            <div className="data-main-footer-sec">
-                                <div className="footer-btn-wrapper">
-                                     <a href="#" className="footer-btn">Edit Docintel Link</a>
-                                     <a href="#" className="footer-btn">Add / Remove Tags</a>
-                                     <a href="#" className="footer-btn">New Sublink</a>
-                                </div>
-                                <div className="footer-btn">
-                                    <button className="btn btn-primary btn-filled" type="submit">Save</button>
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </Tab>
-                </Tabs>
-            </div>
-            <div className="doc-content-main-box col">
-                <div className="doc-content-header">
-                    <div className="doc-content-header-logo"><a href="#"><img alt="doc-logo" src={path_image + "dummy-img.png"} style={{width:"57px"}}/></a></div>
-                    <div className="doc-content">
-                        <h4>Dignoastic</h4>
-                        <h5>Sub-Title: For Testing purpose</h5>
-                    </div>
-                    <div className="refresh-btn">
-                        <img src={path_image + "refresh1.png"} alt="refresh-btn" style={{width:"20px"}}/>
-                    </div>
-                </div>
-                <Tabs defaultActiveKey="docintel-link" className="mb-3" fill>
-                    <Tab eventKey="docintel-link" title="Docintel Link">
-                      <div className="tab-panel">
-                        <div className="tab-content-links">
-                        <a href="#" className="doc-link">https://www.informed.pro</a>
-                        <ul className="tab-mail-list">
-                            <li>
-                                <h5 className='tab-content-title'><strong>Link type:</strong></h5>
-                                <h5>Sunshine</h5>
-                            </li>
-                            <li>
-                                <h5 className='tab-content-title'><strong>Publisher:</strong></h5>
-                                <h5>Simms-Cendan</h5>
-                            </li>
-                            <li>
-                                <h5 className='tab-content-title'><strong>Usage limits:</strong></h5>
-                                <h5>20</h5>
-                            </li>
-                            <li>
-                                <h5 className='tab-content-title'><strong>Expiration date:</strong></h5>
-                                <h5>20 September 2023</h5>
-                            </li>
-                            <li>
-                                <h5 className='tab-content-title'><strong>inforMedGO Code:</strong></h5>
-                                <h5>18659065</h5>
-                            </li>
-                            <li>
-                                <h5 className='tab-content-title'><strong>Docintel Code:</strong></h5>
-                                <h5>741453971</h5>
-                            </li>
-                            <li>
-                                <h5 className='tab-content-title'><strong>Language:</strong></h5>
-                                <h5>English</h5>
-                            </li>
-                        </ul>
-                        </div>
-                        <div className='data-main-footer-sec'>
-                            <div className="footer-btn-wrapper">
-                            <a href="#" className="footer-btn">Preview Aritcle</a>
-                            <a href="#" className="footer-btn">Download QR</a>
-                            <a href="#" className="footer-btn">Send in Email</a>
-                            <a href="#" className="footer-btn">Copy Docintel Link</a>
-                        </div>
-                        <ul className="tab-mail-list tag">
-                            <li>
-                                <b>Tags:</b>
-                                <a href="#">N/A </a> <a href="#">N/A </a>
-                            </li>
-                        </ul>
-                        </div>
-                        
-                    </div>
-                    </Tab>
-                    <Tab eventKey="data-tab" title="Data">
-                        <div className="data-main-box">
-                            <ul className="tab-mail-list data">
-                                <li>
-                                    <h5>Unique Reader (total): 
-                                        <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)." href="#">
-                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
-                                    <p className='data_box'>6</p>
-                                </li>
-                                <li>
-                                    <h5>Openings (total): <LinkWithTooltip tooltip="Number of opening counts for specific article." href="#">
-                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
-                                    <p className='data_box'>32</p>
-                                </li>
-                                <li>
-                                    <h5>Registered Readers: <LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content." href="#">
-                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
-                                    <p className='data_box'>23</p>
-                                </li>
-                            </ul>
-                            <div className="data-main-footer-sec">
-                                <div className="footer-btn-wrapper">
-                                 <a href="#" className="footer-btn">Analytics</a>
-                                </div>
-                                <ul className="tab-mail-list tag">
-                                    <li>
-                                        <b>Tags:</b>
-                                        <a href="#">N/A </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            
-                        </div>
-                        
-                    </Tab>
-                    <Tab eventKey="change-tab" title="Change">
-                        <div className="data-main-box change-tab-main-box">
-                            <ul className="tab-mail-list data change">
-                                <li>
-                                    <h5 className='tab-content-title'><strong>Article Type:</strong></h5>
-                                    <div className="select-dropdown-wrapper">
-                                        <div className="select">
-                                            <select>
-                                                <option value="1">Sunshine</option>
-                                                <option value="2">Offline Offer</option>
-                                                <option value="3">Online Only</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <b>Tags:</b>
-                                    <a href="#" className='tags'>N/A </a>
-                                </li>
-                            </ul>
-                            <div className="data-main-footer-sec">
-                                <div className="footer-btn-wrapper">
-                                     <a href="#" className="footer-btn">Edit Docintel Link</a>
-                                     <a href="#" className="footer-btn">Add / Remove Tags</a>
-                                     <a href="#" className="footer-btn">New Sublink</a>
-                                </div>
-                                <div className="footer-btn">
-                                    <button className="btn btn-primary btn-filled" type="submit">Save</button>
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </Tab>
-                </Tabs>
-            </div>               
-            </div> 
-
           </Row>
-          </div>
+          <Row>
+            <div className="library-content-box-layuot d-flex">
+              {libraryData != undefined && libraryData.length > 0
+                ? libraryData.map((data) => {
+                    return (
+                      <>
+                        <div className="doc-content-main-box col">
+                          <div className="doc-content-header">
+                            <div className="doc-content-header-logo">
+                              <a href="#">
+                                <img
+                                  alt="doc-logo"
+                                  src={path_image + "dummy-img.png"}
+                                  style={{ width: "57px" }}
+                                />
+                              </a>
+                            </div>
+                            <div className="doc-content">
+                              <h4>{data.title}</h4>
+                              <h5>{data.subTitle}</h5>
+                            </div>
+                            <div className="refresh-btn">
+                              <img
+                                src={path_image + "refresh1.png"}
+                                alt="refresh-btn"
+                                style={{ width: "20px" }}
+                              />
+                            </div>
+                          </div>
+                          <Tabs
+                            defaultActiveKey="docintel-link"
+                            className="mb-3"
+                            fill
+                          >
+                            <Tab eventKey="docintel-link" title="Docintel Link">
+                              <div className="tab-panel">
+                                <div className="tab-content-links">
+                                  <a href="#" className="doc-link">
+                                    {data.docintelLink}
+                                  </a>
+                                  <ul className="tab-mail-list">
+                                    <li>
+                                      <h5 className="tab-content-title">
+                                        <strong>Link type:</strong>
+                                      </h5>
+                                      <h5>{data.article}</h5>
+                                    </li>
+                                    <li>
+                                      <h5 className="tab-content-title">
+                                        <strong>Publisher:</strong>
+                                      </h5>
+                                      <h5>{data.publisherName}</h5>
+                                    </li>
+                                    <li>
+                                      <h5 className="tab-content-title">
+                                        <strong>Usage limits:</strong>
+                                      </h5>
+                                      <h5>{data.limit}</h5>
+                                    </li>
+                                    <li>
+                                      <h5 className="tab-content-title">
+                                        <strong>Expiration date:</strong>
+                                      </h5>
+                                      <h5>
+                                        {" "}
+                                        {moment(data.expireDateTime).format(
+                                          "MMMM DD ,YYYY"
+                                        )}
+                                      </h5>
+                                    </li>
+                                    <li>
+                                      <h5 className="tab-content-title">
+                                        <strong>inforMedGO Code:</strong>
+                                      </h5>
+                                      <h5>{data.informedCode}</h5>
+                                    </li>
+                                    <li>
+                                      <h5 className="tab-content-title">
+                                        <strong>Docintel Code:</strong>
+                                      </h5>
+                                      <h5>{data.docintelCode}</h5>
+                                    </li>
+                                    <li>
+                                      <h5 className="tab-content-title">
+                                        <strong>Language:</strong>
+                                      </h5>
+                                      <h5>English</h5>
+                                    </li>
+                                  </ul>
+                                </div>
+                                <div className="data-main-footer-sec">
+                                  <div className="footer-btn-wrapper">
+                                    <a href="#" className="footer-btn">
+                                      Preview Aritcle
+                                    </a>
+                                    <a href="#" className="footer-btn">
+                                      Download QR
+                                    </a>
+                                    <a href="#" className="footer-btn">
+                                      Send in Email
+                                    </a>
+                                    <a href="#" className="footer-btn">
+                                      Copy Docintel Link
+                                    </a>
+                                  </div>
+                                  <ul className="tab-mail-list tag">
+                                    <li>
+                                      <b>Tags:</b>
+                                      <a href="#">N/A </a> <a href="#">N/A </a>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                            </Tab>
+                            <Tab eventKey="data-tab" title="Data">
+                              <div className="data-main-box">
+                                <ul className="tab-mail-list data">
+                                  <li>
+                                    <h5>
+                                      Unique Reader (total):
+                                      <LinkWithTooltip
+                                        tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
+                                        href="#"
+                                      >
+                                        <img
+                                          src={
+                                            path_image + "info_circle_icon.svg"
+                                          }
+                                          alt="refresh-btn"
+                                        />
+                                      </LinkWithTooltip>
+                                    </h5>
+                                    <p className="data_box">6</p>
+                                  </li>
+                                  <li>
+                                    <h5>
+                                      Openings (total):{" "}
+                                      <LinkWithTooltip
+                                        tooltip="Number of opening counts for specific article."
+                                        href="#"
+                                      >
+                                        <img
+                                          src={
+                                            path_image + "info_circle_icon.svg"
+                                          }
+                                          alt="refresh-btn"
+                                        />
+                                      </LinkWithTooltip>
+                                    </h5>
+                                    <p className="data_box">32</p>
+                                  </li>
+                                  <li>
+                                    <h5>
+                                      Registered Readers:{" "}
+                                      <LinkWithTooltip
+                                        tooltip="Number of HCPs who have register for or activated the content."
+                                        href="#"
+                                      >
+                                        <img
+                                          src={
+                                            path_image + "info_circle_icon.svg"
+                                          }
+                                          alt="refresh-btn"
+                                        />
+                                      </LinkWithTooltip>
+                                    </h5>
+                                    <p className="data_box">23</p>
+                                  </li>
+                                </ul>
+                                <div className="data-main-footer-sec">
+                                  <div className="footer-btn-wrapper">
+                                    <a href="#" className="footer-btn">
+                                      Analytics
+                                    </a>
+                                  </div>
+                                  <ul className="tab-mail-list tag">
+                                    <li>
+                                      <b>Tags:</b>
+                                      <a href="#">N/A </a>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                            </Tab>
+                            <Tab eventKey="change-tab" title="Change">
+                              <div className="data-main-box change-tab-main-box">
+                                <ul className="tab-mail-list data change">
+                                  <li>
+                                    <h5 className="tab-content-title">
+                                      <strong>Article Type:</strong>
+                                    </h5>
+                                    <div className="select-dropdown-wrapper">
+                                      <div className="select">
+                                        <select>
+                                          <option value="1">Sunshine</option>
+                                          <option value="2">
+                                            Offline Offer
+                                          </option>
+                                          <option value="3">Online Only</option>
+                                        </select>
+                                      </div>
+                                    </div>
+                                  </li>
+                                  <li>
+                                    <b>Tags:</b>
+                                    <a href="#" className="tags">
+                                      N/A{" "}
+                                    </a>
+                                  </li>
+                                </ul>
+                                <div className="data-main-footer-sec">
+                                  <div className="footer-btn-wrapper">
+                                    <a href="#" className="footer-btn">
+                                      Edit Docintel Link
+                                    </a>
+                                    <a href="#" className="footer-btn">
+                                      Add / Remove Tags
+                                    </a>
+                                    <a href="#" className="footer-btn">
+                                      New Sublink
+                                    </a>
+                                  </div>
+                                  <div className="footer-btn">
+                                    <button
+                                      className="btn btn-primary btn-filled"
+                                      type="submit"
+                                    >
+                                      Save
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </Tab>
+                          </Tabs>
+                        </div>
+                      </>
+                    );
+                  })
+                : null}
+            </div>
+            <div className="load_more">
+              <button
+                className="btn btn-primary btn-filled"
+                onClick={loadMoreClicked}
+              >
+                Load More
+              </button>
+            </div>
+          </Row>
+        </div>
       </Col>
     </>
   );
-}
+};
 
 export default LibraryContent;
