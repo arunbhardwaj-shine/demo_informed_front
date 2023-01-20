@@ -237,26 +237,11 @@ ReactDOM.render(
                     "/setting-webinar",
                   ].includes(window.location.pathname) ? (
                     <WebinarSidebar />
-                  ): [
-                     "/library-content",
-                      "/library-create",
-                      "/library-edit",
-                  ].includes(window.location.pathname) ? (
-                    <LibrarySidebar />
-                  ) : [
+                  ):  [
                       "/totalhcp",
                       ].includes(window.location.pathname) ? (
                      <AnalyticsSidebar />
-                  ) : [
-                      "/readers-view",
-                      "/reader-add",
-                      "/reader-edit",
-                      "/smart-list-add",
-                      "/reader-review",
-                      "/timeline-detail"
-                  ].includes(window.location.pathname) ? (
-                    <ReaderSidebar />
-                  ) : (
+                  ) :   (
                     window.location.pathname !== "/" ? <Sidebar /> : null
                   )}
                   {/* {window.location.pathname !== "/" ? <Sidebar /> : null} */}
