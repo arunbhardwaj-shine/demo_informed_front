@@ -1231,9 +1231,19 @@ select::-ms-expand {
   justify-content: space-between;
 }
 
+.filter-by .dropdown-menu {
+  padding: 31px 4px 4px !important;
+}
+
 .filter-by.nav-item.dropdown.highlight button {
   line-height: 20px;
   padding: 6px 35px 6px 20px;
+  color: var(--light-blue);
+  background: #fff url(../../../../Components/assets/images/dropdown-arrow.svg) no-repeat;
+  background-size: 14px;
+  background-position: 93% center;
+  font-size: 14px;
+  border-color: transparent;
 }
 
 .top-right-action .albert-block {

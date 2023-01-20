@@ -66,6 +66,11 @@ nav #collapsibleNavbar li.nav-item a {
   font-size: 16px;
   line-height: 19px;
   padding: 0 51px;
+  text-decoration: none;
+}
+
+.readers.search_view .top-right-action.library_content_view button {
+  top: 13px;
 }
 
 header nav {
@@ -6969,9 +6974,9 @@ section.search-hcp.smart-list-view .header-btn-left {
 }
 
 .email-form .form-inline .form-group.template_builder_div {
-    display: flex;
+  display: flex;
 }
 
 .form-inline .template_builder_div .right-side {
-    margin-left: auto;
+  margin-left: auto;
 }

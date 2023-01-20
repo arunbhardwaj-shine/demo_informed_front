@@ -5,6 +5,7 @@ import { Button, Dropdown, Modal } from "react-bootstrap";
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import { Link } from 'react-router-dom'
 import queryString from "query-string";
 
 const Header = () => {
@@ -80,7 +81,7 @@ const Header = () => {
 				  <span className="navbar-toggler-icon"></span>
 				</button>
 				<div className="collapse navbar-collapse" id="collapsibleNavbar">
-				  <ul className="navbar-nav">
+				  {/* <ul className="navbar-nav">
 					<li className="nav-item active">
 						<a className="nav-link" href="https://informed.pro/Libraries/home">LIBRARY</a>
 					  </li>
@@ -91,6 +92,27 @@ const Header = () => {
 						<a className="nav-link" href="https://informed.pro/Analytics">ANALYTICS</a>
 					  </li>
 					  <li className="nav-item active active-main">
+						<a className="nav-link" href="https://informed.pro/Distributes/MailEngine">EMAIL</a>
+					  </li>
+					  <li className="nav-item">
+						<a className="nav-link" href="https://informed.pro/Webinar/readers_webinar">WEBINAR</a>
+					  </li>
+				</ul> */}
+				 <ul className="navbar-nav">
+					 {console.log(window.location.pathname)}
+					<li className=  {window.location.pathname == "/library-content" || window.location.pathname == "/library-create" || window.location.pathname == "/library-campaign"|| window.location.pathname == "/spc" || window.location.pathname == "/library-delete" || window.location.pathname == "/library-create-pharma" ?"nav-item active active-main":"nav-item"}>
+						{/* <a className="nav-link" href="https://informed.pro/Libraries/home">LIBRARY</a> */} 
+						<Link to="/library-content">LIBRARY</Link>
+					  </li>
+					  <li className=  {window.location.pathname == "/readers-view" || window.location.pathname == "/reader-add" || window.location.pathname == "/reader-edit" || window.location.pathname == "/smart-list-add" || window.location.pathname == "/reader-review" || window.location.pathname == "/timeline-detail"   ?"nav-item active active-main":"nav-item"}>
+						{/* <a className="nav-link" href="https://informed.pro/Readers">READERS</a> */}
+						<Link to="/readers-view">READERS</Link>
+					  </li>
+					  <li className="nav-item">
+						<a className="nav-link" href="https://informed.pro/Analytics">ANALYTICS</a>
+						
+					  </li>
+					  <li className=  {window.location.pathname == "/SmartList" || window.location.pathname == "/EditList" || window.location.pathname == "/CreateSmartList" || window.location.pathname == "/SmartListFilter" || window.location.pathname == "/SelectSmartList" || window.location.pathname == "/EmailList" || window.location.pathname == "/EmailList" || window.location.pathname == "/TemplateBuilder" || window.location.pathname == "/AutoEmail" || window.location.pathname == "/EmailArticleSelect" || window.location.pathname == "/CreateEmail"|| window.location.pathname == "/FilterSegment"|| window.location.pathname == "/SelectHCP"|| window.location.pathname == "/VerifyHCP" || window.location.pathname == "/VerifyMAIL" || window.location.pathname == "/VerifyHcpMAIL" || window.location.pathname == "/VerifyHCP" || window.location.pathname == "/SelectSmartListUsers" || window.location.pathname == "/VerifySmartList" || window.location.pathname == "/ViewSmartList" || window.location.pathname == "/UploadExcel" || window.location.pathname == "/UpdatedTable" || window.location.pathname == "/ViewTable"|| window.location.pathname == "/EmailStatss"|| window.location.pathname == "/get-details" ?"nav-item active active-main":"nav-item"}>
 						<a className="nav-link" href="https://informed.pro/Distributes/MailEngine">EMAIL</a>
 					  </li>
 					  <li className="nav-item">

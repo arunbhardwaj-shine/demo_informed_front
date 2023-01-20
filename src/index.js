@@ -17,7 +17,8 @@ import reducers from "./reducers";
 import LibraryContent from "./Components/Library/Content/LibraryContent";
 import LibraryCreate from "./Components/Library/CreateChange/LibraryCreate";
 import LibrarySidebar from "./Components/Library/Layout/Sidebar";
-import LibraryHeader from "./Components/Library/Layout/Header";
+import LibraryCampaign from "./Components/Library/LibraryCampaign";
+import Spc from "./Components/Library/Spc";
 
 //Analytics routes 
 import AnalyticsHeader from "./Components/Analytics/Layout/Header";
@@ -157,6 +158,7 @@ import SettingWebinar from "./Components/NewWebinar/WebinarFiles/SettingWebinar"
 let platform = 0;
 let show = 0;
 if (window.location.href.indexOf("/webinar") > -1) {
+  console.log("in if if")
   require("./Components/Webinar/assets/css/webinar-style.css");
   require("./Components/assets/fonts/fonts.css");
   platform = 1;
@@ -167,20 +169,16 @@ if (window.location.href.indexOf("/webinar") > -1) {
   window.location.pathname == "/email-statsss"  ||
   window.location.pathname == "/stats-webinar"  ||
   window.location.pathname == "/event-create"   ||
-  window.location.pathname == "/setting-webinar"||
-  window.location.pathname == "/library-content"||
-  window.location.pathname == "/library-create" ||
-  window.location.pathname == "/readers-view"   ||
-  window.location.pathname == "/reader-add"     ||
-  window.location.pathname == "/reader-review"  ||
-   window.location.pathname == "/timeline-detail"  
+  window.location.pathname == "/setting-webinar"
 ) {
+  console.log("in if");
   require("./Components/assets/css/style.css");
   require("./Components/assets/fonts/fonts.css");
-  require("./Components/NewWebinar/assets/css/webinar.css");
   platform = 0;
   show = 0;
 } else {
+  console.log("in else");
+  require("./Components/NewWebinar/assets/css/webinar.css");
   require("./Components/assets/css/style.css");
   require("./Components/assets/css/responsive.css");
   require("./Components/assets/css/custom.css");
@@ -207,7 +205,7 @@ ReactDOM.render(
               "/library-content",
               "/library-create",
             ].includes(window.location.pathname) ? (
-              <LibraryHeader />
+              <Header />
             ) : [
               "/readers-view",
               "/reader-add",
@@ -217,11 +215,11 @@ ReactDOM.render(
               "/timeline-detail"
 
             ].includes(window.location.pathname) ? (
-              <ReaderHeader />
+             <Header />
             ) : [
               "/Analytics"
             ].includes(window.location.pathname) ? (
-              <AnalyticsHeader />
+             <Header />
             ) : (
               window.location.pathname !== "/" ? <Header /> : null
             )}
@@ -276,6 +274,9 @@ ReactDOM.render(
 
                     <Route path="/library-content" element={<LibraryContent />} />
                     <Route path="/library-create" element={<LibraryCreate />} />
+                     <Route path="/library-campaign" element={<LibraryCampaign />} />
+                     <Route path="/spc" element={<Spc />} />
+
                     <Route path="/new-webinar" element={<DefaultWebinar />} />
                     <Route path="/contact-form" element={<ContactForm />} />
                     <Route path="/email-statsss" element={<EmailStatsss />} />
