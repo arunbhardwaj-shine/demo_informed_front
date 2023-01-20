@@ -37,9 +37,9 @@ const LibraryContent = () => {
     setPage(page + 1);
   };
 
-  useEffect(() => {
-    getTags();
-  }, []);
+  // useEffect(() => {
+  //   getTags();
+  // }, []);
 
   const getTags = async () => {
     try {
@@ -57,9 +57,9 @@ const LibraryContent = () => {
     }
   };
 
-  useEffect(() => {
-    getLibraryData(page, articleSelected, actionSelected);
-  }, [page, articleSelected, actionSelected]);
+  // useEffect(() => {
+  //   getLibraryData(page, articleSelected, actionSelected);
+  // }, [page, articleSelected, actionSelected]);
 
   const getLibraryData = async (page, expire_data, actionSelected) => {
     try {
@@ -167,7 +167,7 @@ const LibraryContent = () => {
                     <DropdownButton
                       className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                       title={eventSelected}
-                      onSelect={(event) => eventDropDownClicked(event)}
+                      // onSelect={(event) => eventDropDownClicked(event)}
                     >
                       <Dropdown.Item eventKey="All Tags">
                         All Tags
@@ -184,7 +184,7 @@ const LibraryContent = () => {
                     <DropdownButton
                       className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                       title={articleSelected}
-                      onSelect={(event) => articleDropDownClicked(event)}
+                      // onSelect={(event) => articleDropDownClicked(event)}
                     >
                       <Dropdown.Item eventKey=" Select By Article">
                         Select By Article
@@ -200,7 +200,7 @@ const LibraryContent = () => {
                     <DropdownButton
                       className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                       title={actionSelected == "0" ? "draft" : "link"}
-                      onSelect={(event) => actionDropDownClicked(event)}
+                    //  onSelect={(event) => actionDropDownClicked(event)}
                     >
                       <Dropdown.Item eventKey=" Select Action">
                         Select Action
@@ -213,8 +213,8 @@ const LibraryContent = () => {
                     <label>Sort By</label>
                     <DropdownButton
                       className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                      title={sortSelected}
-                      onSelect={(event) => sortDropDownClicked(event)}
+                       title={sortSelected}
+                    //  onSelect={(event) => sortDropDownClicked(event)}
                     >
                       <Dropdown.Item eventKey="Desending">
                         Desending
@@ -229,10 +229,7 @@ const LibraryContent = () => {
             </div>
           </Row>
           <Row>
-            <div className="library-content-box-layuot d-flex">
-              {libraryData != undefined && libraryData.length > 0
-                ? libraryData.map((data) => {
-                    return (
+            <div className="library-content-box-layuot d-flex">       
                       <>
                         <div className="doc-content-main-box col">
                           <div className="doc-content-header">
@@ -246,8 +243,8 @@ const LibraryContent = () => {
                               </a>
                             </div>
                             <div className="doc-content">
-                              <h4>{data.title}</h4>
-                              <h5>{data.subTitle}</h5>
+                              <h4>Single pdf</h4>
+                              <h5>Sub-Title: arunp</h5>
                             </div>
                             <div className="refresh-btn">
                               <img
@@ -266,49 +263,725 @@ const LibraryContent = () => {
                               <div className="tab-panel">
                                 <div className="tab-content-links">
                                   <a href="#" className="doc-link">
-                                    {data.docintelLink}
+                                    https://docintel.app/arunp/WLMflJzX
                                   </a>
                                   <ul className="tab-mail-list">
                                     <li>
                                       <h5 className="tab-content-title">
                                         <strong>Link type:</strong>
                                       </h5>
-                                      <h5>{data.article}</h5>
+                                      <h5>Online Only</h5>
                                     </li>
                                     <li>
                                       <h5 className="tab-content-title">
                                         <strong>Publisher:</strong>
                                       </h5>
-                                      <h5>{data.publisherName}</h5>
+                                      <h5> Arun bhardwaj</h5>
                                     </li>
                                     <li>
                                       <h5 className="tab-content-title">
                                         <strong>Usage limits:</strong>
                                       </h5>
-                                      <h5>{data.limit}</h5>
+                                      <h5>22</h5>
                                     </li>
                                     <li>
                                       <h5 className="tab-content-title">
                                         <strong>Expiration date:</strong>
                                       </h5>
                                       <h5>
-                                        {" "}
-                                        {moment(data.expireDateTime).format(
-                                          "MMMM DD ,YYYY"
-                                        )}
+                                        13 January 2024
                                       </h5>
                                     </li>
                                     <li>
                                       <h5 className="tab-content-title">
                                         <strong>inforMedGO Code:</strong>
                                       </h5>
-                                      <h5>{data.informedCode}</h5>
+                                      <h5>30505415</h5>
                                     </li>
                                     <li>
                                       <h5 className="tab-content-title">
                                         <strong>Docintel Code:</strong>
                                       </h5>
-                                      <h5>{data.docintelCode}</h5>
+                                      <h5>129696493</h5>
+                                    </li>
+                                    <li>
+                                      <h5 className="tab-content-title">
+                                        <strong>Language:</strong>
+                                      </h5>
+                                      <h5>English</h5>
+                                    </li>
+                                  </ul>
+                                </div>
+                                <div className="data-main-footer-sec">
+                                  <div className="footer-btn-wrapper">
+                                    <a href="#" className="footer-btn">
+                                      Preview Aritcle
+                                    </a>
+                                    <a href="#" className="footer-btn">
+                                      Download QR
+                                    </a>
+                                    <a href="#" className="footer-btn">
+                                      Send in Email
+                                    </a>
+                                    <a href="#" className="footer-btn">
+                                      Copy Docintel Link
+                                    </a>
+                                  </div>
+                                  <ul className="tab-mail-list tag">
+                                    <li>
+                                      <b>Tags:</b>
+                                      <a href="#">N/A </a> <a href="#">N/A </a>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                            </Tab>
+                            <Tab eventKey="data-tab" title="Data">
+                              <div className="data-main-box">
+                                <ul className="tab-mail-list data">
+                                  <li>
+                                    <h5>
+                                      Unique Reader (total):
+                                      <LinkWithTooltip
+                                        tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
+                                        href="#"
+                                      >
+                                        <img
+                                          src={
+                                            path_image + "info_circle_icon.svg"
+                                          }
+                                          alt="refresh-btn"
+                                        />
+                                      </LinkWithTooltip>
+                                    </h5>
+                                    <p className="data_box">6</p>
+                                  </li>
+                                  <li>
+                                    <h5>
+                                      Openings (total):{" "}
+                                      <LinkWithTooltip
+                                        tooltip="Number of opening counts for specific article."
+                                        href="#"
+                                      >
+                                        <img
+                                          src={
+                                            path_image + "info_circle_icon.svg"
+                                          }
+                                          alt="refresh-btn"
+                                        />
+                                      </LinkWithTooltip>
+                                    </h5>
+                                    <p className="data_box">32</p>
+                                  </li>
+                                  <li>
+                                    <h5>
+                                      Registered Readers:{" "}
+                                      <LinkWithTooltip
+                                        tooltip="Number of HCPs who have register for or activated the content."
+                                        href="#"
+                                      >
+                                        <img
+                                          src={
+                                            path_image + "info_circle_icon.svg"
+                                          }
+                                          alt="refresh-btn"
+                                        />
+                                      </LinkWithTooltip>
+                                    </h5>
+                                    <p className="data_box">23</p>
+                                  </li>
+                                </ul>
+                                <div className="data-main-footer-sec">
+                                  <div className="footer-btn-wrapper">
+                                    <a href="#" className="footer-btn">
+                                      Analytics
+                                    </a>
+                                  </div>
+                                  <ul className="tab-mail-list tag">
+                                    <li>
+                                      <b>Tags:</b>
+                                      <a href="#">N/A </a>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                            </Tab>
+                            <Tab eventKey="change-tab" title="Change">
+                              <div className="data-main-box change-tab-main-box">
+                                <ul className="tab-mail-list data change">
+                                  <li>
+                                    <h5 className="tab-content-title">
+                                      <strong>Article Type:</strong>
+                                    </h5>
+                                    <div className="select-dropdown-wrapper">
+                                      <div className="select">
+                                        <select>
+                                          <option value="1">Sunshine</option>
+                                          <option value="2">
+                                            Offline Offer
+                                          </option>
+                                          <option value="3">Online Only</option>
+                                        </select>
+                                      </div>
+                                    </div>
+                                  </li>
+                                  <li>
+                                    <b>Tags:</b>
+                                    <a href="#" className="tags">
+                                      N/A{" "}
+                                    </a>
+                                  </li>
+                                </ul>
+                                <div className="data-main-footer-sec">
+                                  <div className="footer-btn-wrapper">
+                                    <a href="#" className="footer-btn">
+                                      Edit Docintel Link
+                                    </a>
+                                    <a href="#" className="footer-btn">
+                                      Add / Remove Tags
+                                    </a>
+                                    <a href="#" className="footer-btn">
+                                      New Sublink
+                                    </a>
+                                  </div>
+                                  <div className="footer-btn">
+                                    <button
+                                      className="btn btn-primary btn-filled"
+                                      type="submit"
+                                    >
+                                      Save
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </Tab>
+                          </Tabs>
+                        </div>
+                         <div className="doc-content-main-box col">
+                          <div className="doc-content-header">
+                            <div className="doc-content-header-logo">
+                              <a href="#">
+                                <img
+                                  alt="doc-logo"
+                                  src={path_image + "dummy-img.png"}
+                                  style={{ width: "57px" }}
+                                />
+                              </a>
+                            </div>
+                            <div className="doc-content">
+                              <h4>Pdf_image_clicklink</h4>
+                              <h5>Sub-Title: Pdf_image_clicklink</h5>
+                            </div>
+                            <div className="refresh-btn">
+                              <img
+                                src={path_image + "refresh1.png"}
+                                alt="refresh-btn"
+                                style={{ width: "20px" }}
+                              />
+                            </div>
+                          </div>
+                          <Tabs
+                            defaultActiveKey="docintel-link"
+                            className="mb-3"
+                            fill
+                          >
+                            <Tab eventKey="docintel-link" title="Docintel Link">
+                              <div className="tab-panel">
+                                <div className="tab-content-links">
+                                  <a href="#" className="doc-link">
+                                    https://docintel.app/arunp/AudxUcLn
+                                  </a>
+                                  <ul className="tab-mail-list">
+                                    <li>
+                                      <h5 className="tab-content-title">
+                                        <strong>Link type:</strong>
+                                      </h5>
+                                      <h5>Online Only</h5>
+                                    </li>
+                                    <li>
+                                      <h5 className="tab-content-title">
+                                        <strong>Publisher:</strong>
+                                      </h5>
+                                      <h5>Arun bhardwaj</h5>
+                                    </li>
+                                    <li>
+                                      <h5 className="tab-content-title">
+                                        <strong>Usage limits:</strong>
+                                      </h5>
+                                      <h5>5</h5>
+                                    </li>
+                                    <li>
+                                      <h5 className="tab-content-title">
+                                        <strong>Expiration date:</strong>
+                                      </h5>
+                                      <h5>
+                                        10 January 2024
+                                      </h5>
+                                    </li>
+                                    <li>
+                                      <h5 className="tab-content-title">
+                                        <strong>inforMedGO Code:</strong>
+                                      </h5>
+                                      <h5>27463272</h5>
+                                    </li>
+                                    <li>
+                                      <h5 className="tab-content-title">
+                                        <strong>Docintel Code:</strong>
+                                      </h5>
+                                      <h5>6576876578768</h5>
+                                    </li>
+                                    <li>
+                                      <h5 className="tab-content-title">
+                                        <strong>Language:</strong>
+                                      </h5>
+                                      <h5>English</h5>
+                                    </li>
+                                  </ul>
+                                </div>
+                                <div className="data-main-footer-sec">
+                                  <div className="footer-btn-wrapper">
+                                    <a href="#" className="footer-btn">
+                                      Preview Aritcle
+                                    </a>
+                                    <a href="#" className="footer-btn">
+                                      Download QR
+                                    </a>
+                                    <a href="#" className="footer-btn">
+                                      Send in Email
+                                    </a>
+                                    <a href="#" className="footer-btn">
+                                      Copy Docintel Link
+                                    </a>
+                                  </div>
+                                  <ul className="tab-mail-list tag">
+                                    <li>
+                                      <b>Tags:</b>
+                                      <a href="#">N/A </a> <a href="#">N/A </a>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                            </Tab>
+                            <Tab eventKey="data-tab" title="Data">
+                              <div className="data-main-box">
+                                <ul className="tab-mail-list data">
+                                  <li>
+                                    <h5>
+                                      Unique Reader (total):
+                                      <LinkWithTooltip
+                                        tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
+                                        href="#"
+                                      >
+                                        <img
+                                          src={
+                                            path_image + "info_circle_icon.svg"
+                                          }
+                                          alt="refresh-btn"
+                                        />
+                                      </LinkWithTooltip>
+                                    </h5>
+                                    <p className="data_box">6</p>
+                                  </li>
+                                  <li>
+                                    <h5>
+                                      Openings (total):{" "}
+                                      <LinkWithTooltip
+                                        tooltip="Number of opening counts for specific article."
+                                        href="#"
+                                      >
+                                        <img
+                                          src={
+                                            path_image + "info_circle_icon.svg"
+                                          }
+                                          alt="refresh-btn"
+                                        />
+                                      </LinkWithTooltip>
+                                    </h5>
+                                    <p className="data_box">32</p>
+                                  </li>
+                                  <li>
+                                    <h5>
+                                      Registered Readers:{" "}
+                                      <LinkWithTooltip
+                                        tooltip="Number of HCPs who have register for or activated the content."
+                                        href="#"
+                                      >
+                                        <img
+                                          src={
+                                            path_image + "info_circle_icon.svg"
+                                          }
+                                          alt="refresh-btn"
+                                        />
+                                      </LinkWithTooltip>
+                                    </h5>
+                                    <p className="data_box">23</p>
+                                  </li>
+                                </ul>
+                                <div className="data-main-footer-sec">
+                                  <div className="footer-btn-wrapper">
+                                    <a href="#" className="footer-btn">
+                                      Analytics
+                                    </a>
+                                  </div>
+                                  <ul className="tab-mail-list tag">
+                                    <li>
+                                      <b>Tags:</b>
+                                      <a href="#">N/A </a>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                            </Tab>
+                            <Tab eventKey="change-tab" title="Change">
+                              <div className="data-main-box change-tab-main-box">
+                                <ul className="tab-mail-list data change">
+                                  <li>
+                                    <h5 className="tab-content-title">
+                                      <strong>Article Type:</strong>
+                                    </h5>
+                                    <div className="select-dropdown-wrapper">
+                                      <div className="select">
+                                        <select>
+                                          <option value="1">Sunshine</option>
+                                          <option value="2">
+                                            Offline Offer
+                                          </option>
+                                          <option value="3">Online Only</option>
+                                        </select>
+                                      </div>
+                                    </div>
+                                  </li>
+                                  <li>
+                                    <b>Tags:</b>
+                                    <a href="#" className="tags">
+                                      N/A{" "}
+                                    </a>
+                                  </li>
+                                </ul>
+                                <div className="data-main-footer-sec">
+                                  <div className="footer-btn-wrapper">
+                                    <a href="#" className="footer-btn">
+                                      Edit Docintel Link
+                                    </a>
+                                    <a href="#" className="footer-btn">
+                                      Add / Remove Tags
+                                    </a>
+                                    <a href="#" className="footer-btn">
+                                      New Sublink
+                                    </a>
+                                  </div>
+                                  <div className="footer-btn">
+                                    <button
+                                      className="btn btn-primary btn-filled"
+                                      type="submit"
+                                    >
+                                      Save
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </Tab>
+                          </Tabs>
+                        </div>
+                         <div className="doc-content-main-box col">
+                          <div className="doc-content-header">
+                            <div className="doc-content-header-logo">
+                              <a href="#">
+                                <img
+                                  alt="doc-logo"
+                                  src={path_image + "dummy-img.png"}
+                                  style={{ width: "57px" }}
+                                />
+                              </a>
+                            </div>
+                            <div className="doc-content">
+                              <h4>Ebook_click_link</h4>
+                              <h5>Sub-Title: Ebook_click_link</h5>
+                            </div>
+                            <div className="refresh-btn">
+                              <img
+                                src={path_image + "refresh1.png"}
+                                alt="refresh-btn"
+                                style={{ width: "20px" }}
+                              />
+                            </div>
+                          </div>
+                          <Tabs
+                            defaultActiveKey="docintel-link"
+                            className="mb-3"
+                            fill
+                          >
+                            <Tab eventKey="docintel-link" title="Docintel Link">
+                              <div className="tab-panel">
+                                <div className="tab-content-links">
+                                  <a href="#" className="doc-link">
+                                    https://docintel.app/arunp/nIKaZfvC
+                                  </a>
+                                  <ul className="tab-mail-list">
+                                    <li>
+                                      <h5 className="tab-content-title">
+                                        <strong>Link type:</strong>
+                                      </h5>
+                                      <h5>Online Only</h5>
+                                    </li>
+                                    <li>
+                                      <h5 className="tab-content-title">
+                                        <strong>Publisher:</strong>
+                                      </h5>
+                                      <h5>Arun bhardwaj</h5>
+                                    </li>
+                                    <li>
+                                      <h5 className="tab-content-title">
+                                        <strong>Usage limits:</strong>
+                                      </h5>
+                                      <h5>50</h5>
+                                    </li>
+                                    <li>
+                                      <h5 className="tab-content-title">
+                                        <strong>Expiration date:</strong>
+                                      </h5>
+                                      <h5>
+                                        19 January 2024
+                                      </h5>
+                                    </li>
+                                    <li>
+                                      <h5 className="tab-content-title">
+                                        <strong>inforMedGO Code:</strong>
+                                      </h5>
+                                      <h5>77928198</h5>
+                                    </li>
+                                    <li>
+                                      <h5 className="tab-content-title">
+                                        <strong>Docintel Code:</strong>
+                                      </h5>
+                                      <h5>928250476</h5>
+                                    </li>
+                                    <li>
+                                      <h5 className="tab-content-title">
+                                        <strong>Language:</strong>
+                                      </h5>
+                                      <h5>English</h5>
+                                    </li>
+                                  </ul>
+                                </div>
+                                <div className="data-main-footer-sec">
+                                  <div className="footer-btn-wrapper">
+                                    <a href="#" className="footer-btn">
+                                      Preview Aritcle
+                                    </a>
+                                    <a href="#" className="footer-btn">
+                                      Download QR
+                                    </a>
+                                    <a href="#" className="footer-btn">
+                                      Send in Email
+                                    </a>
+                                    <a href="#" className="footer-btn">
+                                      Copy Docintel Link
+                                    </a>
+                                  </div>
+                                  <ul className="tab-mail-list tag">
+                                    <li>
+                                      <b>Tags:</b>
+                                      <a href="#">N/A </a> <a href="#">N/A </a>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                            </Tab>
+                            <Tab eventKey="data-tab" title="Data">
+                              <div className="data-main-box">
+                                <ul className="tab-mail-list data">
+                                  <li>
+                                    <h5>
+                                      Unique Reader (total):
+                                      <LinkWithTooltip
+                                        tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
+                                        href="#"
+                                      >
+                                        <img
+                                          src={
+                                            path_image + "info_circle_icon.svg"
+                                          }
+                                          alt="refresh-btn"
+                                        />
+                                      </LinkWithTooltip>
+                                    </h5>
+                                    <p className="data_box">6</p>
+                                  </li>
+                                  <li>
+                                    <h5>
+                                      Openings (total):{" "}
+                                      <LinkWithTooltip
+                                        tooltip="Number of opening counts for specific article."
+                                        href="#"
+                                      >
+                                        <img
+                                          src={
+                                            path_image + "info_circle_icon.svg"
+                                          }
+                                          alt="refresh-btn"
+                                        />
+                                      </LinkWithTooltip>
+                                    </h5>
+                                    <p className="data_box">32</p>
+                                  </li>
+                                  <li>
+                                    <h5>
+                                      Registered Readers:{" "}
+                                      <LinkWithTooltip
+                                        tooltip="Number of HCPs who have register for or activated the content."
+                                        href="#"
+                                      >
+                                        <img
+                                          src={
+                                            path_image + "info_circle_icon.svg"
+                                          }
+                                          alt="refresh-btn"
+                                        />
+                                      </LinkWithTooltip>
+                                    </h5>
+                                    <p className="data_box">23</p>
+                                  </li>
+                                </ul>
+                                <div className="data-main-footer-sec">
+                                  <div className="footer-btn-wrapper">
+                                    <a href="#" className="footer-btn">
+                                      Analytics
+                                    </a>
+                                  </div>
+                                  <ul className="tab-mail-list tag">
+                                    <li>
+                                      <b>Tags:</b>
+                                      <a href="#">N/A </a>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                            </Tab>
+                            <Tab eventKey="change-tab" title="Change">
+                              <div className="data-main-box change-tab-main-box">
+                                <ul className="tab-mail-list data change">
+                                  <li>
+                                    <h5 className="tab-content-title">
+                                      <strong>Article Type:</strong>
+                                    </h5>
+                                    <div className="select-dropdown-wrapper">
+                                      <div className="select">
+                                        <select>
+                                          <option value="1">Sunshine</option>
+                                          <option value="2">
+                                            Offline Offer
+                                          </option>
+                                          <option value="3">Online Only</option>
+                                        </select>
+                                      </div>
+                                    </div>
+                                  </li>
+                                  <li>
+                                    <b>Tags:</b>
+                                    <a href="#" className="tags">
+                                      N/A{" "}
+                                    </a>
+                                  </li>
+                                </ul>
+                                <div className="data-main-footer-sec">
+                                  <div className="footer-btn-wrapper">
+                                    <a href="#" className="footer-btn">
+                                      Edit Docintel Link
+                                    </a>
+                                    <a href="#" className="footer-btn">
+                                      Add / Remove Tags
+                                    </a>
+                                    <a href="#" className="footer-btn">
+                                      New Sublink
+                                    </a>
+                                  </div>
+                                  <div className="footer-btn">
+                                    <button
+                                      className="btn btn-primary btn-filled"
+                                      type="submit"
+                                    >
+                                      Save
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </Tab>
+                          </Tabs>
+                        </div>
+
+                         <div className="doc-content-main-box col">
+                          <div className="doc-content-header">
+                            <div className="doc-content-header-logo">
+                              <a href="#">
+                                <img
+                                  alt="doc-logo"
+                                  src={path_image + "dummy-img.png"}
+                                  style={{ width: "57px" }}
+                                />
+                              </a>
+                            </div>
+                            <div className="doc-content">
+                              <h4>Test_click_link</h4>
+                              <h5>Sub-Title: Test_click_link</h5>
+                            </div>
+                            <div className="refresh-btn">
+                              <img
+                                src={path_image + "refresh1.png"}
+                                alt="refresh-btn"
+                                style={{ width: "20px" }}
+                              />
+                            </div>
+                          </div>
+                          <Tabs
+                            defaultActiveKey="docintel-link"
+                            className="mb-3"
+                            fill
+                          >
+                            <Tab eventKey="docintel-link" title="Docintel Link">
+                              <div className="tab-panel">
+                                <div className="tab-content-links">
+                                  <a href="#" className="doc-link">
+                                    https://docintel.app/arunp/uGhlrkBI
+                                  </a>
+                                  <ul className="tab-mail-list">
+                                    <li>
+                                      <h5 className="tab-content-title">
+                                        <strong>Link type:</strong>
+                                      </h5>
+                                      <h5>Online Only</h5>
+                                    </li>
+                                    <li>
+                                      <h5 className="tab-content-title">
+                                        <strong>Publisher:</strong>
+                                      </h5>
+                                      <h5>Arun bhardwaj</h5>
+                                    </li>
+                                    <li>
+                                      <h5 className="tab-content-title">
+                                        <strong>Usage limits:</strong>
+                                      </h5>
+                                      <h5>10</h5>
+                                    </li>
+                                    <li>
+                                      <h5 className="tab-content-title">
+                                        <strong>Expiration date:</strong>
+                                      </h5>
+                                      <h5>
+                                        27 November 2022
+                                      </h5>
+                                    </li>
+                                    <li>
+                                      <h5 className="tab-content-title">
+                                        <strong>inforMedGO Code:</strong>
+                                      </h5>
+                                      <h5>71376564</h5>
+                                    </li>
+                                    <li>
+                                      <h5 className="tab-content-title">
+                                        <strong>Docintel Code:</strong>
+                                      </h5>
+                                      <h5>390669566</h5>
                                     </li>
                                     <li>
                                       <h5 className="tab-content-title">
@@ -464,18 +1137,18 @@ const LibraryContent = () => {
                           </Tabs>
                         </div>
                       </>
-                    );
-                  })
-                : null}
+                   
+                 
+              
             </div>
-            <div className="load_more">
+            {/* <div className="load_more">
               <button
                 className="btn btn-primary btn-filled"
                 onClick={loadMoreClicked}
               >
                 Load More
               </button>
-            </div>
+            </div> */}
           </Row>
         </div>
       </Col>
