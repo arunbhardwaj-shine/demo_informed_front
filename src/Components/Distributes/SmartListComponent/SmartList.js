@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import CssBaseline from "@material-ui/core/CssBaseline";
+
 import { loader } from "../../../loader";
 import { connect } from "react-redux";
 import { Button, Modal } from "react-bootstrap";

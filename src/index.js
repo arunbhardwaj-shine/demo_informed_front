@@ -3,12 +3,7 @@ import ReactDOM from "react-dom";
 import "./index.scss";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  MemoryRouter as Router,
-} from "react-router-dom";
+import {BrowserRouter,Routes,Route, MemoryRouter as Router} from "react-router-dom";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import reducers from "./reducers";
@@ -16,7 +11,7 @@ import reducers from "./reducers";
 //Library routes
 import LibraryContent from "./Components/Library/Content/LibraryContent";
 import LibraryCreate from "./Components/Library/CreateChange/LibraryCreate";
-import LibrarySidebar from "./Components/Library/Layout/Sidebar";
+
 import LibraryCampaign from "./Components/Library/LibraryCampaign";
 import Spc from "./Components/Library/Spc";
 
@@ -26,8 +21,7 @@ import Totalhcp from "./Components/Analytics/TotalHCP/Totalhcp";
 import AnalyticsSidebar from "./Components/Analytics/Layout/Sidebar";
 //Readers routes
 import NewReaders from "./Components/Readers/ReadersView/ReadersList";
-import ReaderSidebar from "./Components/Readers/Layout/Sidebar";
-import ReaderHeader from "./Components/Readers/Layout/Header";
+
 import ReaderEdit from "./Components/Readers/ReaderEdit/ReaderEdit";
 import ReaderAdd from "./Components/Readers/AddReader/AddReader";
 import SmartListAdd from "./Components/Readers/SmartList/SmartList";
@@ -42,54 +36,7 @@ import ContactForm from "./Components/NewWebinar/WebinarFiles/ContactForm";
 import EmailStatsss from "./Components/NewWebinar/WebinarFiles/EmailStatsss";
 
 // Dashboard
-import Dashboard from "./Components/Webinar/Dashboard";
-import WebinarDashboard from "./Components/Webinar/WebinarDashboard";
 
-// Event
-import Add from "./Components/Webinar/Event/Add";
-import EventList from "./Components/Webinar/Event/List";
-
-// RegionStat
-import Home from "./Components/Webinar/Regionstats/Home";
-
-// Rehearsal
-import Rehearsal from "./Components/Webinar/Rehearsal/Rehearsal";
-// import Rehearsal1 from "./Components/Webinar/Rehearsal/Rehearsal1";
-import RehearsalList from "./Components/Webinar/Rehearsal/RehearsalList";
-
-// Layout
-import SidebarWebinar from "./Components/Webinar/Layout/Sidebar";
-import HeaderWebinar from "./Components/Webinar/Layout/Header";
-
-// Registration
-import Registration from "./Components/Webinar/Registration/Registration";
-import Preview from "./Components/Webinar/Registration/Preview";
-import EditorEmail from "./Components/Webinar/Registration/EditorEmail";
-import RegistraionDetails from "./Components/Webinar/Registration/RegistrationDetails";
-
-//Email Stats
-import EmailStats from "./Components/Webinar/Email Stats/EmailStats";
-import EmailSend from "./Components/Webinar/Email Stats/EmailSend";
-
-// Emails
-import SendEmails from "./Components/Webinar/Emails/Emails";
-import CreateEmailWebinar from "./Components/Webinar/Emails/Create";
-import CreateSmartListWebinar from "./Components/Webinar/Emails/SmartList";
-import SmartListUsersWebinar from "./Components/Webinar/Emails/SmartListUsers";
-
-// Readers
-import Readers from "./Components/Webinar/Readers/Readers";
-
-// Templates
-import Template from "./Components/Webinar/Template/Template";
-
-// SmartList
-import WebinarSmartList from "./Components/Webinar/SmartList/WebinarSmartList";
-import ViewSmartListWebinar from "./Components/Webinar/SmartList/ViewSmartListWebinar";
-
-// More
-import StpDetails from "./Components/Webinar/Smtp/StpDetails";
-import Contacts from "./Components/Webinar/Contacts/List";
 
 // -------END----------Webinar routes------------------------
 
@@ -116,39 +63,10 @@ import VerifyHcpMAIL from "./Components/Emails/VerifyHcpMAIL";
 import SelectSmartList from "./Components/Emails/SelectSmartList";
 import SelectSmartListUsers from "./Components/Emails/SelectSmartListUsers";
 import UploadExcel from "./Components/Distributes/SmartListComponent/UploadExcel";
-import Proctected from "./Auth/Proctected ";
-import ResetPassword from "./Auth/ResetPassword";
-import ForgotPassword from "./Auth/ForgotPassword";
-import ForgotResetPassword from "./Auth/ForgotResetPassword";
 
-import RegistrationDetailsList from "./Components/Webinar/Registration/RegistraionDetailsList";
-
-import SmartListCreate from "./Components/Webinar/SmartList/SmartListCreate";
-import FilterList from "./Components/Webinar/SmartList/FilterList";
-
-import ExcelUpload from "./Components/Webinar/SmartList/ExcelUpload";
-import CustomizeRehearsalInvites from "./Components/Webinar/Rehearsal/CustomizeRehearsalInvites";
-import PortalPreparation from "./Components/Webinar/PortalPreparation/PortalPreparation";
-import Polls from "./Components/Webinar/PortalPreparation/Polls";
-import EmailsAnalaytics from "./Components/Webinar/Emails/EmailsAnalaytics";
-import LiveTools from "./Components/Webinar/LiveTools/LiveTools";
-import Analytics from "./Components/Webinar/Analytics/Analytics";
-import Files from "./Components/Webinar/File/Files";
-import SmartListUsers from "./Components/Webinar/Emails/SmartListUsers";
-import CreateRegistration from "./Components/Webinar/Registration/CreateRegistration";
-import NewRegistration from "./Components/Webinar/Registration/NewRegistration";
-import SmartListWebinar from "./Components/Webinar/SmartList/SmartListWebinar";
-import SmartListWebinarView from "./Components/Webinar/SmartList/SmartListWebinarView";
 import EmailStatss from "./Components/Distributes/EmailStatss";
 import GetDetails from "./Components/Distributes/GetDetails";
-import EditSmartList from "./Components/Webinar/SmartList/EditSmartList";
-import WebinarSelectHCP from "./Components/Webinar/Emails/WebinarSelectHCP";
-import WebinarVerifyHCP from "./Components/Webinar/Emails/WebinarVerifyHCP";
-import WebinarVerifyHcpMAIL from "./Components/Webinar/Emails/WebinarVerifyHcpMAIL";
-import TableTypeData from "./Components/Webinar/Emails/TableTypeData";
-import QuestionsForm from "./Components/Webinar/QuestionsForm";
-import QuestionsPreview from "./Components/Webinar/QuestionsPreview";
-import QuestionsPreviewText from "./Components/Webinar/Survey/QuestionsPreviewText";
+
 import StatsWebinar from "./Components/NewWebinar/WebinarFiles/StatsWebinar";
 import AutoMail from "./Components/NewWebinar/WebinarFiles/AutoMail";
 import EventCreate from "./Components/NewWebinar/WebinarFiles/EventCreate";
@@ -157,13 +75,14 @@ import SettingWebinar from "./Components/NewWebinar/WebinarFiles/SettingWebinar"
 
 let platform = 0;
 let show = 0;
-if (window.location.href.indexOf("/webinar") > -1) {
-  console.log("in if if")
-  require("./Components/Webinar/assets/css/webinar-style.css");
-  require("./Components/assets/fonts/fonts.css");
-  platform = 1;
-  show = 1;
-} else if (
+// if (window.location.href.indexOf("/webinar") > -1) {
+//   console.log("in if if")
+//   require("./Components/Webinar/assets/css/webinar-style.css");
+//   require("./Components/assets/fonts/fonts.css");
+//   platform = 1;
+//   show = 1;
+// }
+  if (
   window.location.pathname == "/new-webinar"    ||
   window.location.pathname == "/contact-form"   ||
   window.location.pathname == "/email-statsss"  ||
@@ -188,7 +107,7 @@ if (window.location.href.indexOf("/webinar") > -1) {
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={createStore(reducers)}>
-      {platform == 0 ? (
+   
         <>
           <BrowserRouter>
             {[
@@ -325,228 +244,7 @@ ReactDOM.render(
             </div>
           </BrowserRouter>
         </>
-      ) : (
-        <BrowserRouter>
-          <HeaderWebinar />
-          <div className="warpper">
-            <div className="container-fluid">
-              <div className="row">
-                <SidebarWebinar />
-                <>
-                  <Routes>
-                    <Route path="/webinar" element={<WebinarDashboard />} />
-                    <Route
-                      path="/webinar/register/:code/:url/:stats"
-                      element={<Preview />}
-                    />
-                    <Route
-                      path="/webinar/survey/question/:id/1"
-                      element={<QuestionsPreview />}
-                    />
-                    <Route
-                      path="/webinar/survey/question/:id/2"
-                      element={<QuestionsPreviewText />}
-                    />
-                    <Route
-                      path="/webinar/Forgotpassword"
-                      element={<ForgotPassword />}
-                    />
-                    <Route
-                      path="/webinar/forgot-password/:id"
-                      element={<ForgotResetPassword />}
-                    />
-                    <React.Fragment>
-                      {/* <Route path="/webinar" element={<App />} /> */}
-                      <Route path="/" element={<Proctected />}>
-                        <Route
-                          path="/webinar/dashboard"
-                          element={<Dashboard />}
-                        />
-                        <Route
-                          path="/webinar/survey/create"
-                          element={<QuestionsForm />}
-                        />
-                        <Route path="/webinar/regionstats" element={<Home />} />
-                        <Route
-                          path="/webinar/resetpassword"
-                          element={<ResetPassword />}
-                        />
-                        <Route path="/webinar/event/add" element={<Add />} />
-                        <Route
-                          path="/webinar/rehearsal"
-                          element={<Rehearsal />}
-                        />
-                        <Route
-                          path="/webinar/rehearsallist"
-                          element={<RehearsalList />}
-                        />
-                        <Route
-                          path="/webinar/portal/portalpreparation"
-                          element={<PortalPreparation />}
-                        />
-                        <Route
-                          path="/webinar/portal/portalfeatures"
-                          element={<PortalPreparation />}
-                        />
-                        <Route
-                          path="/webinar/customizerehearsalinvites"
-                          element={<CustomizeRehearsalInvites />}
-                        />
-                        <Route path="/webinar/readers" element={<Readers />} />
-                        <Route
-                          path="/webinar/email/template"
-                          element={<Template />}
-                        />
-                        <Route path="/webinar/events" element={<EventList />} />
-                        <Route
-                          path="/webinar/registration"
-                          element={<Registration />}
-                        />
-                        <Route
-                          path="/webinar/portal/createRegistration"
-                          element={<CreateRegistration />}
-                        />
-                        <Route
-                          path="/webinar/portal/NewRegistration"
-                          element={<NewRegistration />}
-                        />
-                        <Route
-                          path="/webinar/portal/Registrations"
-                          element={<Registration />}
-                        />
-                        <Route
-                          path="/webinar/portal/polls"
-                          element={<Polls />}
-                        />
-                        <Route
-                          path="/webinar/emailstats"
-                          element={<EmailStats />}
-                        />
-                        <Route
-                          path="/webinar/email/emails"
-                          element={<SendEmails />}
-                        />
-                        <Route
-                          path="/webinar/email/SelectHCP"
-                          element={<WebinarSelectHCP />}
-                        />
-                        <Route
-                          path="/webinar/email/SelectVerifyHCP"
-                          element={<WebinarVerifyHCP />}
-                        />
-                        <Route
-                          path="/webinar/email/SelectVerifyHCP/:id"
-                          element={<WebinarVerifyHCP />}
-                        />
-                        <Route
-                          path="/webinar/email/WebinarVerifyHcpMAIL/:id/:name"
-                          element={<WebinarVerifyHcpMAIL />}
-                        />
-                        <Route
-                          path="/webinar/email/WebinarVerifyHcpMAIL/:id"
-                          element={<WebinarVerifyHcpMAIL />}
-                        />
-                        <Route
-                          path="/webinar/email/smart-list-users/:id"
-                          element={<SmartListUsers />}
-                        />
-                        <Route
-                          path="/webinar/email/EmailsAnalaytics"
-                          element={<EmailsAnalaytics />}
-                        />
-                        <Route
-                          path="/webinar/email/create"
-                          element={<CreateEmailWebinar />}
-                        />
-                        <Route
-                          path="/webinar/email/smart-list"
-                          element={<CreateSmartListWebinar />}
-                        />
-                        <Route
-                          path="/webinar/email/smart-list/:id"
-                          element={<CreateSmartListWebinar />}
-                        />
-                        <Route
-                          path="/webinar/emails/smart-list-users"
-                          element={<SmartListUsersWebinar />}
-                        />
-                        <Route
-                          path="/webinar/email/smart-list-view/:id"
-                          element={<SmartListWebinarView />}
-                        />
-                        <Route
-                          path="/webinar/email/TableTypeData/:id"
-                          element={<TableTypeData />}
-                        />
-                        <Route
-                          path="/webinar/email/editSmartList/:id/:name/:active"
-                          element={<EditSmartList />}
-                        />
-                        <Route
-                          path="/webinar/sendemail"
-                          element={<EmailSend />}
-                        />
-                        <Route
-                          path="/webinar/stpdetails"
-                          element={<StpDetails />}
-                        />
-                        <Route
-                          path="/webinar/contacts"
-                          element={<Contacts />}
-                        />
-                        <Route
-                          path="/webinar/LiveTools"
-                          element={<LiveTools />}
-                        />
-                        <Route
-                          path="/webinar/analytics"
-                          element={<Analytics />}
-                        />
-                        <Route path="/webinar/files" element={<Files />} />
-                        <Route
-                          path="/webinar/email/WebinarSmartList"
-                          element={<SmartListWebinar />}
-                        />
-                        <Route
-                          path="/webinar/email/ViewSmartListWebinar"
-                          element={<ViewSmartListWebinar />}
-                        />
-                        <Route
-                          path="/webinar/portal/registrationDetails"
-                          element={<RegistraionDetails />}
-                        />
-                        <Route
-                          path="/webinar/portal/registrationDetailslist"
-                          element={<RegistrationDetailsList />}
-                        />
-                        <Route
-                          path="/webinar/email/SmartListCreate"
-                          element={<SmartListCreate />}
-                        />
-                        <Route
-                          path="/webinar/email/SmartListCreate/FilterList"
-                          element={<FilterList />}
-                        />
-                        <Route
-                          path="/webinar/email/SmartListCreate/ExcelUpload"
-                          element={<ExcelUpload />}
-                        />
-                      </Route>
-                    </React.Fragment>
-                  </Routes>
-                  {/* {localStorage.getItem("Token")?<Routes>
-            <Route path="/webinar" element={<Home />} />
-            <Route path="/webinar/dashboard" element={<Dashboard />} />
-            <Route path="/webinar/event/add" element={<Add />} />
-            <Route path="/webinar/event/edit" element={<EventData />} />
-            <Route path="/webinar/rehearsal" element={<Rehearsal />} />
-          </Routes>:null} */}
-                </>
-              </div>
-            </div>
-          </div>
-        </BrowserRouter>
-      )}
+      
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

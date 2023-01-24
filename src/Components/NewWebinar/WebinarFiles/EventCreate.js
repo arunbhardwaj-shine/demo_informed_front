@@ -1,4 +1,4 @@
-import { useScrollTrigger } from "@material-ui/core";
+
 import React from "react";
 import { useState } from "react";
 import { Col, Row } from "react-bootstrap";
