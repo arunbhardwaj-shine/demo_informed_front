@@ -825,8 +825,7 @@ const LibraryContent = () => {
                                       <LinkWithTooltip
                                         tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
                                         href="#"
-                                      >
-                                        <img
+                                      ><img
                                           src={
                                             path_image + "info_circle_icon.svg"
                                           }
@@ -847,8 +846,7 @@ const LibraryContent = () => {
                                       <LinkWithTooltip
                                         tooltip="Number of opening counts for specific article."
                                         href="#"
-                                      >
-                                        <img
+                                      ><img
                                           src={
                                             path_image + "info_circle_icon.svg"
                                           }
@@ -864,8 +862,7 @@ const LibraryContent = () => {
                                       <LinkWithTooltip
                                         tooltip="Number of HCPs who have register for or activated the content."
                                         href="#"
-                                      >
-                                        <img
+                                      ><img
                                           src={
                                             path_image + "info_circle_icon.svg"
                                           }
@@ -1098,55 +1095,57 @@ const LibraryContent = () => {
                               <div className="data-main-box">
                                 <ul className="tab-mail-list data">
                                   <li>
-                                    <h5>
-                                      Unique Reader (total):
+                                    <h6 className="tab-content-title">
+                                      Unique Reader (total)
                                       <LinkWithTooltip
                                         tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
                                         href="#"
-                                      >
-                                        <img
+                                      ><img
                                           src={
                                             path_image + "info_circle_icon.svg"
                                           }
                                           alt="refresh-btn"
                                         />
                                       </LinkWithTooltip>
-                                    </h5>
-                                    <p className="data_box">6</p>
+                                    </h6>
+                                    <div className="">
+                                     <ProgressBar variant="warning" now={105} label={105} />
+                                     <span>Agreed Limit | 300</span>
+                                    </div>
+                                    <span><large>195</large>Left</span>
+
                                   </li>
                                   <li>
-                                    <h5>
-                                      Openings (total):{" "}
+                                    <h6 className="tab-content-title">
+                                      Openings (total){" "}
                                       <LinkWithTooltip
                                         tooltip="Number of opening counts for specific article."
                                         href="#"
-                                      >
-                                        <img
+                                      ><img
                                           src={
                                             path_image + "info_circle_icon.svg"
                                           }
                                           alt="refresh-btn"
                                         />
                                       </LinkWithTooltip>
-                                    </h5>
-                                    <p className="data_box">32</p>
+                                    </h6>
+                                     <ProgressBar variant="success" now={43} label={43} />
                                   </li>
                                   <li>
-                                    <h5>
-                                      Registered Readers:{" "}
+                                    <h6 className="tab-content-title">
+                                      Registered readers{" "}
                                       <LinkWithTooltip
                                         tooltip="Number of HCPs who have register for or activated the content."
                                         href="#"
-                                      >
-                                        <img
+                                      ><img
                                           src={
                                             path_image + "info_circle_icon.svg"
                                           }
                                           alt="refresh-btn"
                                         />
                                       </LinkWithTooltip>
-                                    </h5>
-                                    <p className="data_box">23</p>
+                                    </h6>
+                                      <ProgressBar variant="danger" now={3} label={3} />
                                   </li>
                                 </ul>
                                 <div className="data-main-footer-sec">
@@ -1154,13 +1153,10 @@ const LibraryContent = () => {
                                     <a href="#" className="footer-btn">
                                       Analytics
                                     </a>
+                                    <a href="#" className="footer-btn reset">
+                                      Reset the collected data
+                                    </a>
                                   </div>
-                                  <ul className="tab-mail-list tag">
-                                    <li>
-                                      <b>Tags:</b>
-                                      <a href="#">N/A </a>
-                                    </li>
-                                  </ul>
                                 </div>
                               </div>
                             </Tab>
@@ -1169,7 +1165,7 @@ const LibraryContent = () => {
                                 <ul className="tab-mail-list data change">
                                   <li>
                                     <h5 className="tab-content-title">
-                                      <strong>Article Type:</strong>
+                                      <strong>Upload date</strong>
                                     </h5>
                                     <div className="select-dropdown-wrapper">
                                       <div className="select">
@@ -1183,12 +1179,6 @@ const LibraryContent = () => {
                                       </div>
                                     </div>
                                   </li>
-                                  <li>
-                                    <b>Tags:</b>
-                                    <a href="#" className="tags">
-                                      N/A{" "}
-                                    </a>
-                                  </li>
                                 </ul>
                                 <div className="data-main-footer-sec">
                                   <div className="footer-btn-wrapper">
@@ -1201,14 +1191,6 @@ const LibraryContent = () => {
                                     <a href="#" className="footer-btn">
                                       New Sublink
                                     </a>
-                                  </div>
-                                  <div className="footer-btn">
-                                    <button
-                                      className="btn btn-primary btn-filled"
-                                      type="submit"
-                                    >
-                                      Save
-                                    </button>
                                   </div>
                                 </div>
                               </div>
@@ -1314,8 +1296,8 @@ const LibraryContent = () => {
                               <div className="data-main-box">
                                 <ul className="tab-mail-list data">
                                   <li>
-                                    <h5>
-                                      Unique Reader (total):
+                                    <h6 className="tab-content-title">
+                                      Unique Reader (total)
                                       <LinkWithTooltip
                                         tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
                                         href="#"
@@ -1327,12 +1309,17 @@ const LibraryContent = () => {
                                           alt="refresh-btn"
                                         />
                                       </LinkWithTooltip>
-                                    </h5>
-                                    <p className="data_box">6</p>
+                                    </h6>
+                                    <div className="">
+                                     <ProgressBar variant="warning" now={105} label={105} />
+                                     <span>Agreed Limit | 300</span>
+                                    </div>
+                                    <span><large>195</large>Left</span>
+
                                   </li>
                                   <li>
-                                    <h5>
-                                      Openings (total):{" "}
+                                    <h6 className="tab-content-title">
+                                      Openings (total){" "}
                                       <LinkWithTooltip
                                         tooltip="Number of opening counts for specific article."
                                         href="#"
@@ -1344,12 +1331,12 @@ const LibraryContent = () => {
                                           alt="refresh-btn"
                                         />
                                       </LinkWithTooltip>
-                                    </h5>
-                                    <p className="data_box">32</p>
+                                    </h6>
+                                     <ProgressBar variant="success" now={43} label={43} />
                                   </li>
                                   <li>
-                                    <h5>
-                                      Registered Readers:{" "}
+                                    <h6 className="tab-content-title">
+                                      Registered readers{" "}
                                       <LinkWithTooltip
                                         tooltip="Number of HCPs who have register for or activated the content."
                                         href="#"
@@ -1361,8 +1348,8 @@ const LibraryContent = () => {
                                           alt="refresh-btn"
                                         />
                                       </LinkWithTooltip>
-                                    </h5>
-                                    <p className="data_box">23</p>
+                                    </h6>
+                                      <ProgressBar variant="danger" now={3} label={3} />
                                   </li>
                                 </ul>
                                 <div className="data-main-footer-sec">
@@ -1370,13 +1357,10 @@ const LibraryContent = () => {
                                     <a href="#" className="footer-btn">
                                       Analytics
                                     </a>
+                                    <a href="#" className="footer-btn reset">
+                                      Reset the collected data
+                                    </a>
                                   </div>
-                                  <ul className="tab-mail-list tag">
-                                    <li>
-                                      <b>Tags:</b>
-                                      <a href="#">N/A </a>
-                                    </li>
-                                  </ul>
                                 </div>
                               </div>
                             </Tab>
@@ -1385,7 +1369,7 @@ const LibraryContent = () => {
                                 <ul className="tab-mail-list data change">
                                   <li>
                                     <h5 className="tab-content-title">
-                                      <strong>Article Type:</strong>
+                                      <strong>Upload date</strong>
                                     </h5>
                                     <div className="select-dropdown-wrapper">
                                       <div className="select">
@@ -1398,12 +1382,6 @@ const LibraryContent = () => {
                                         </select>
                                       </div>
                                     </div>
-                                  </li>
-                                  <li>
-                                    <b>Tags:</b>
-                                    <a href="#" className="tags">
-                                      N/A{" "}
-                                    </a>
                                   </li>
                                 </ul>
                                 <div className="data-main-footer-sec">
@@ -1418,15 +1396,81 @@ const LibraryContent = () => {
                                       New Sublink
                                     </a>
                                   </div>
-                                  <div className="footer-btn">
-                                    <button
-                                      className="btn btn-primary btn-filled"
-                                      type="submit"
-                                    >
-                                      Save
-                                    </button>
-                                  </div>
                                 </div>
+                              </div>
+                            </Tab>
+                            <Tab eventKey="sales" title="Sales">
+                              <div className="tab-panel">
+                                  <ul className="tab-mail-list">
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        <strong>Sales person</strong>
+                                      </h6>
+                                      <h6>Sales person name</h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        <strong>Production person</strong>
+                                      </h6>
+                                      <h6>Production person name</h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        <strong>Client name</strong>
+                                      </h6>
+                                      <h6>Jacob Flindt</h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        <strong>Client product</strong>
+                                      </h6>
+                                      <h6>
+                                        Product name
+                                      </h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        <strong>Client country</strong>
+                                      </h6>
+                                      <h6>United Kingdom</h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        <strong>Opening limit</strong>
+                                      </h6>
+                                      <h6>300</h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        <strong>Link type</strong>
+                                      </h6>
+                                      <h6>Sunshine</h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        <strong>Print</strong>
+                                      </h6>
+                                      <h6>No</h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        <strong>Download</strong>
+                                      </h6>
+                                      <h6>Yes</h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        <strong>Uploade date</strong>
+                                      </h6>
+                                      <h6>4 August 2022</h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        <strong>Expiration date</strong>
+                                      </h6>
+                                      <h6>1 August 2023</h6>
+                                    </li>
+                                  </ul>
                               </div>
                             </Tab>
                           </Tabs>
@@ -1531,8 +1575,8 @@ const LibraryContent = () => {
                               <div className="data-main-box">
                                 <ul className="tab-mail-list data">
                                   <li>
-                                    <h5>
-                                      Unique Reader (total):
+                                    <h6 className="tab-content-title">
+                                      Unique Reader (total)
                                       <LinkWithTooltip
                                         tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
                                         href="#"
@@ -1544,12 +1588,17 @@ const LibraryContent = () => {
                                           alt="refresh-btn"
                                         />
                                       </LinkWithTooltip>
-                                    </h5>
-                                    <p className="data_box">6</p>
+                                    </h6>
+                                    <div className="">
+                                     <ProgressBar variant="warning" now={105} label={105} />
+                                     <span>Agreed Limit | 300</span>
+                                    </div>
+                                    <span><large>195</large>Left</span>
+
                                   </li>
                                   <li>
-                                    <h5>
-                                      Openings (total):{" "}
+                                    <h6 className="tab-content-title">
+                                      Openings (total){" "}
                                       <LinkWithTooltip
                                         tooltip="Number of opening counts for specific article."
                                         href="#"
@@ -1561,12 +1610,12 @@ const LibraryContent = () => {
                                           alt="refresh-btn"
                                         />
                                       </LinkWithTooltip>
-                                    </h5>
-                                    <p className="data_box">32</p>
+                                    </h6>
+                                     <ProgressBar variant="success" now={43} label={43} />
                                   </li>
                                   <li>
-                                    <h5>
-                                      Registered Readers:{" "}
+                                    <h6 className="tab-content-title">
+                                      Registered readers{" "}
                                       <LinkWithTooltip
                                         tooltip="Number of HCPs who have register for or activated the content."
                                         href="#"
@@ -1578,8 +1627,8 @@ const LibraryContent = () => {
                                           alt="refresh-btn"
                                         />
                                       </LinkWithTooltip>
-                                    </h5>
-                                    <p className="data_box">23</p>
+                                    </h6>
+                                      <ProgressBar variant="danger" now={3} label={3} />
                                   </li>
                                 </ul>
                                 <div className="data-main-footer-sec">
@@ -1587,13 +1636,10 @@ const LibraryContent = () => {
                                     <a href="#" className="footer-btn">
                                       Analytics
                                     </a>
+                                    <a href="#" className="footer-btn reset">
+                                      Reset the collected data
+                                    </a>
                                   </div>
-                                  <ul className="tab-mail-list tag">
-                                    <li>
-                                      <b>Tags:</b>
-                                      <a href="#">N/A </a>
-                                    </li>
-                                  </ul>
                                 </div>
                               </div>
                             </Tab>
@@ -1602,7 +1648,7 @@ const LibraryContent = () => {
                                 <ul className="tab-mail-list data change">
                                   <li>
                                     <h5 className="tab-content-title">
-                                      <strong>Article Type:</strong>
+                                      <strong>Upload date</strong>
                                     </h5>
                                     <div className="select-dropdown-wrapper">
                                       <div className="select">
@@ -1616,12 +1662,6 @@ const LibraryContent = () => {
                                       </div>
                                     </div>
                                   </li>
-                                  <li>
-                                    <b>Tags:</b>
-                                    <a href="#" className="tags">
-                                      N/A{" "}
-                                    </a>
-                                  </li>
                                 </ul>
                                 <div className="data-main-footer-sec">
                                   <div className="footer-btn-wrapper">
@@ -1634,14 +1674,6 @@ const LibraryContent = () => {
                                     <a href="#" className="footer-btn">
                                       New Sublink
                                     </a>
-                                  </div>
-                                  <div className="footer-btn">
-                                    <button
-                                      className="btn btn-primary btn-filled"
-                                      type="submit"
-                                    >
-                                      Save
-                                    </button>
                                   </div>
                                 </div>
                               </div>
