@@ -8,7 +8,7 @@ function App() {
           <h2>✴ Home Page ✴</h2>
        </div>
       </div>
-      {/* <div class="wrapper">
+      <div class="wrapper">
         <button>sdfsf sskfsfsd</button>
         <div className="container">
             <div className="article" role="main">
@@ -19,7 +19,7 @@ function App() {
         </div>
         </div>
       
-      </div> */}
+      </div>
       
     </>
   );

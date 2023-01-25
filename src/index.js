@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.scss";
+import "./Components/assets/css/library.scss"
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import {BrowserRouter,Routes,Route, MemoryRouter as Router} from "react-router-dom";
@@ -11,7 +12,6 @@ import reducers from "./reducers";
 //Library routes
 import LibraryContent from "./Components/Library/Content/LibraryContent";
 import LibraryCreate from "./Components/Library/CreateChange/LibraryCreate";
-
 import LibraryCampaign from "./Components/Library/LibraryCampaign";
 import Spc from "./Components/Library/Spc";
 
@@ -21,7 +21,6 @@ import Totalhcp from "./Components/Analytics/TotalHCP/Totalhcp";
 import AnalyticsSidebar from "./Components/Analytics/Layout/Sidebar";
 //Readers routes
 import NewReaders from "./Components/Readers/ReadersView/ReadersList";
-
 import ReaderEdit from "./Components/Readers/ReaderEdit/ReaderEdit";
 import ReaderAdd from "./Components/Readers/AddReader/AddReader";
 import SmartListAdd from "./Components/Readers/SmartList/SmartList";
@@ -63,10 +62,8 @@ import VerifyHcpMAIL from "./Components/Emails/VerifyHcpMAIL";
 import SelectSmartList from "./Components/Emails/SelectSmartList";
 import SelectSmartListUsers from "./Components/Emails/SelectSmartListUsers";
 import UploadExcel from "./Components/Distributes/SmartListComponent/UploadExcel";
-
 import EmailStatss from "./Components/Distributes/EmailStatss";
 import GetDetails from "./Components/Distributes/GetDetails";
-
 import StatsWebinar from "./Components/NewWebinar/WebinarFiles/StatsWebinar";
 import AutoMail from "./Components/NewWebinar/WebinarFiles/AutoMail";
 import EventCreate from "./Components/NewWebinar/WebinarFiles/EventCreate";
