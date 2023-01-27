@@ -111,11 +111,42 @@ padding:2px 10px;
   }
   }
 
-
-
-
 }
 
+.tab-mail-list.data .progress {
+  width: 182px;
+  background: rgba(151, 182, 207, 0.2);
+  border-radius: 27px;
+  height: 24px;
+}
+
+.tab-mail-list.data .progress .progress-bar {
+  border-radius: 27px;
+  padding: 5px 7px;
+  min-width: 25px;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+}
+.tab-mail-list.data .progress .progress-bar.bg-warning {
+  color: #AA7D17;
+  background: #FAC755!important;
+}
+
+.tab-mail-list.data .progress .progress-bar.bg-success {
+  background: #00D4C0!important;
+  color: #05766B;
+}
+
+.tab-mail-list.data .progress .progress-bar.bg-danger {
+  color: #A53239;
+  background: #F58289!important;
+}
+.data-progress span {
+  font-size: 11px;
+  line-height: 13px;
+  color: rgba(0, 74, 137, 0.5);
+}
 .doc-content h4 {
   font-weight: 700;
   font-size: 20px;

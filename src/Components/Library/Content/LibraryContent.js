@@ -374,7 +374,7 @@ const LibraryContent = () => {
                 </button>
               </form>
             </div>
-                    <div className={showfilter ? "filter-by nav-item dropdown highlight" : "filter-by nav-item dropdown"}>
+            <div className={showfilter ? "filter-by nav-item dropdown highlight" : "filter-by nav-item dropdown"}>
               <button
                 className="btn btn-secondary dropdown"
                 type="button"
@@ -833,11 +833,11 @@ const LibraryContent = () => {
                                         />
                                       </LinkWithTooltip>
                                     </h6>
-                                    <div className="">
+                                    <div className="data-progress">
                                      <ProgressBar variant="warning" now={105} label={105} />
                                      <span>Agreed Limit | 300</span>
                                     </div>
-                                    <span><large>195</large>Left</span>
+                                    <span className="total-left">195<small>Left</small></span>
 
                                   </li>
                                   <li>
@@ -1108,7 +1108,7 @@ const LibraryContent = () => {
                                         />
                                       </LinkWithTooltip>
                                     </h6>
-                                    <div className="">
+                                    <div className="data-progress">
                                      <ProgressBar variant="warning" now={105} label={105} />
                                      <span>Agreed Limit | 300</span>
                                     </div>
@@ -1310,7 +1310,7 @@ const LibraryContent = () => {
                                         />
                                       </LinkWithTooltip>
                                     </h6>
-                                    <div className="">
+                                    <div className="data-progress">
                                      <ProgressBar variant="warning" now={105} label={105} />
                                      <span>Agreed Limit | 300</span>
                                     </div>
@@ -1589,7 +1589,7 @@ const LibraryContent = () => {
                                         />
                                       </LinkWithTooltip>
                                     </h6>
-                                    <div className="">
+                                    <div className="data-progress">
                                      <ProgressBar variant="warning" now={105} label={105} />
                                      <span>Agreed Limit | 300</span>
                                     </div>
