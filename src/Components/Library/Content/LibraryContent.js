@@ -1715,7 +1715,14 @@ const LibraryContent = () => {
                 </div>
               </>
             </div>
-            
+            {/* <div className="load_more">
+              <button
+                className="btn btn-primary btn-filled"
+                onClick={loadMoreClicked}
+              >
+                Load More
+              </button>
+            </div> */}
           </Row>
         </div>
       </Col>
