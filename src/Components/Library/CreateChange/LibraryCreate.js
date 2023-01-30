@@ -6,22 +6,17 @@ const data = [
   {
     image:`${path_image}create-icon.png`,
     title:"Create",
-    subtitle:"Upload Content here to create  a new 1 ClickLink"
+    subtitle:"Upload Content here to create  a new 1ClickLink"
   },
   {
      image:`${path_image}edit-icon.png`,
      title:"Edit",
-     subtitle:"Change or Replace an existing 1 ClickLink from here"
+     subtitle:"Change or Replace an existing 1ClickLink from here"
   },
   {
      image:`${path_image}link-icon.png`,
      title:"New SubLink",
-     subtitle:"SubLinks leads to 1 ClickLinks but are tracked seperately"
-  },
-  {
-     image:`${path_image}content-msg-icon.png`,
-     title:"Set Content Message",
-     subtitle:"You can set content message per article page"
+     subtitle:"SubLinks leads to 1ClickLinks but are tracked seperately"
   },
   {
      image:`${path_image}popup-icon.png`,
@@ -49,8 +44,8 @@ const LibraryCreate = () => {
                         <img src={item.image} alt="Content msg Library"/>
                     </div>
                     <div className="create-library-content">
-                        <h4>{item.title}</h4>
-                        <p>{item.subtitle}</p>
+                        <h3>{item.title}</h3>
+                        <h5>{item.subtitle}</h5>
                     </div>
                   </div>
                 ))

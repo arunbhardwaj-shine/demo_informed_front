@@ -2188,11 +2188,22 @@ form .input-group {
   padding-top: 32px;
 }
 
+h3 {
+  font-size: 28px;
+  line-height: 33px;
+}
+
 h4 {
   font-size: 24px;
   line-height: 28px;
   text-transform: capitalize;
 }
+
+h5 {
+  font-size: 18px;
+  line-height: 24px;
+}
+
 
 .selected-hcp-table {
   margin-top: 34px;
@@ -4700,9 +4711,9 @@ h2 {
   cursor: pointer;
 }
 
-  .send-confirm .modal-body .modal-buttons button:first-child {
-    margin-left: 0;
-  }
+.send-confirm .modal-body .modal-buttons button:first-child {
+  margin-left: 0;
+}
 
 /* Smart List */
 .smart_list_names .header-btn .btn {
