@@ -374,7 +374,7 @@ const LibraryContent = () => {
     hideConfirmationModal();
     popup_alert({
       visible: "show",
-      message: "The Email record has been deleted <br />successfully !",
+      message: "Your content has been deleted <br />successfully !",
       type: "success",
       redirect: "",
     });
@@ -1916,27 +1916,27 @@ const LibraryContent = () => {
             <label for="">Size</label>
             <DropdownButton
               className="dropdown-basic-button split-button-dropup "
-              title={size == "" && size != "undefined" ? size : "Select Size"}
+              title={size != "" ? size : "Select Size"}
               onSelect={(event) => onSizeChange(event)}
             >
               <div className="scroll_div">
                 <Dropdown.Item
-                  eventKey="Medium"
-                  className={size == "Medium" ? "active" : ""}
+                  eventKey="Tiny"
+                  className={size == "Tiny" ? "active" : ""}
                 >
-                  Medium
+                  Tiny
                 </Dropdown.Item>
                 <Dropdown.Item
-                  eventKey="Large"
-                  className={size == "Large" ? "active" : ""}
+                  eventKey="Article"
+                  className={size == "Article" ? "active" : ""}
                 >
-                  Large
+                  Article
                 </Dropdown.Item>
                 <Dropdown.Item
-                  eventKey="Small"
-                  className={size == "Small" ? "active" : ""}
+                  eventKey="Large Print"
+                  className={size == "Large Print" ? "active" : ""}
                 >
-                  Small
+                  Large Print
                 </Dropdown.Item>
               </div>
             </DropdownButton>
@@ -1972,9 +1972,10 @@ const LibraryContent = () => {
           <Modal.Body>
             <img src={path_image + "alert.png"} alt="" />
             <h4>
-              This email will be deleted.
+              You are about to remove this content from any reader and every
+              device forever.
               <br />
-              Are you sure you wish to go ahead?
+              Are you sure you want to do this?
             </h4>
             <div className="modal-buttons">
               <button
