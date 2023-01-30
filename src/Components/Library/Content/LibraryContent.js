@@ -1373,7 +1373,7 @@ const LibraryContent = () => {
           </div>
         </div>
       </Modal> */}
-      <Modal show={show} className="send-confirm" id="resend-confirm">
+      <Modal show={show} className="send-confirm" id="download-qr">
         <Modal.Header>
           <h5 className="modal-title" id="staticBackdropLabel">
             Download QR
