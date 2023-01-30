@@ -1028,11 +1028,17 @@ const LibraryContent = () => {
                       <div className="data-main-footer-sec">
                         <div className="footer-btn-wrapper">
                           <Button className="footer-btn">Analytics</Button>
-                          <Button className="footer-btn reset">Reset the collected data</Button>
+                          <Button className="footer-btn reset">
+                            Reset the collected data
+                          </Button>
                         </div>
                       </div>
                     </Tab>
-                    <Tab eventKey="change-tab" title="Change" className="change-tab">
+                    <Tab
+                      eventKey="change-tab"
+                      title="Change"
+                      className="change-tab"
+                    >
                       <div className="data-main-box change-tab-main-box tab-panel">
                         <ul className="tab-mail-list data change">
                           <li>
@@ -1052,13 +1058,17 @@ const LibraryContent = () => {
                           </li>
                         </ul>
                       </div>
-                        <div className="data-main-footer-sec">
-                          <div className="footer-btn-wrapper">
-                            <Button className="footer-btn">Edit Docintel Link</Button>
-                            <Button className="footer-btn">Add / Remove Tags</Button>
-                            <Button className="footer-btn">New Sublink</Button>
-                          </div>
+                      <div className="data-main-footer-sec">
+                        <div className="footer-btn-wrapper">
+                          <Button className="footer-btn">
+                            Edit Docintel Link
+                          </Button>
+                          <Button className="footer-btn">
+                            Add / Remove Tags
+                          </Button>
+                          <Button className="footer-btn">New Sublink</Button>
                         </div>
+                      </div>
                     </Tab>
                     <Tab eventKey="sales" title="Sales">
                       <div className="tab-panel">
@@ -1239,9 +1249,7 @@ const LibraryContent = () => {
                           >
                             Download QR
                           </Button>
-                          <Button className="footer-btn">
-                            Send in Email
-                          </Button>
+                          <Button className="footer-btn">Send in Email</Button>
                         </div>
                       </div>
                       {deletestatus ? (
@@ -1321,16 +1329,18 @@ const LibraryContent = () => {
                       </div>
                       <div className="data-main-footer-sec">
                         <div className="footer-btn-wrapper">
-                          <Button className="footer-btn">
-                            Analytics
-                          </Button>
+                          <Button className="footer-btn">Analytics</Button>
                           <Button className="footer-btn reset">
                             Reset the collected data
                           </Button>
                         </div>
                       </div>
                     </Tab>
-                    <Tab eventKey="change-tab" title="Change" className="change-tab">
+                    <Tab
+                      eventKey="change-tab"
+                      title="Change"
+                      className="change-tab"
+                    >
                       <div className="data-main-box change-tab-main-box tab-panel">
                         <ul className="tab-mail-list data change">
                           <li>
@@ -1349,15 +1359,19 @@ const LibraryContent = () => {
                           </li>
                         </ul>
                       </div>
+                      <div className="data-main-footer-sec">
                         <div className="data-main-footer-sec">
-                          <div className="data-main-footer-sec">
                           <div className="footer-btn-wrapper">
-                            <Button className="footer-btn">Edit Docintel Link</Button>
-                            <Button className="footer-btn">Add / Remove Tags</Button>
+                            <Button className="footer-btn">
+                              Edit Docintel Link
+                            </Button>
+                            <Button className="footer-btn">
+                              Add / Remove Tags
+                            </Button>
                             <Button className="footer-btn">New Sublink</Button>
                           </div>
                         </div>
-                        </div>
+                      </div>
                     </Tab>
                   </Tabs>
                 </div>
@@ -1466,9 +1480,7 @@ const LibraryContent = () => {
                           >
                             Download QR
                           </Button>
-                          <Button className="footer-btn">
-                            Send in Email
-                          </Button>
+                          <Button className="footer-btn">Send in Email</Button>
                         </div>
                       </div>
                       {deletestatus ? (
@@ -1548,16 +1560,18 @@ const LibraryContent = () => {
                       </div>
                       <div className="data-main-footer-sec">
                         <div className="footer-btn-wrapper">
-                          <Button className="footer-btn">
-                            Analytics
-                          </Button>
+                          <Button className="footer-btn">Analytics</Button>
                           <Button className="footer-btn reset">
                             Reset the collected data
                           </Button>
                         </div>
                       </div>
                     </Tab>
-                    <Tab eventKey="change-tab" title="Change" className="change-tab">
+                    <Tab
+                      eventKey="change-tab"
+                      title="Change"
+                      className="change-tab"
+                    >
                       <div className="data-main-box change-tab-main-box tab-panel">
                         <ul className="tab-mail-list data change">
                           <li>
@@ -1576,13 +1590,17 @@ const LibraryContent = () => {
                           </li>
                         </ul>
                       </div>
-                        <div className="data-main-footer-sec">
-                          <div className="footer-btn-wrapper">
-                            <Button className="footer-btn">Edit Docintel Link</Button>
-                            <Button className="footer-btn">Add / Remove Tags</Button>
-                            <Button className="footer-btn">New Sublink</Button>
-                          </div>
+                      <div className="data-main-footer-sec">
+                        <div className="footer-btn-wrapper">
+                          <Button className="footer-btn">
+                            Edit Docintel Link
+                          </Button>
+                          <Button className="footer-btn">
+                            Add / Remove Tags
+                          </Button>
+                          <Button className="footer-btn">New Sublink</Button>
                         </div>
+                      </div>
                     </Tab>
                   </Tabs>
                 </div>
@@ -1684,12 +1702,8 @@ const LibraryContent = () => {
                           <Button className="footer-btn">
                             Preview Aritcle
                           </Button>
-                          <Button className="footer-btn">
-                            Download QR
-                          </Button>
-                          <Button className="footer-btn">
-                            Send in Email
-                          </Button>
+                          <Button className="footer-btn">Download QR</Button>
+                          <Button className="footer-btn">Send in Email</Button>
                         </div>
                       </div>
                       {deletestatus ? (
@@ -1769,16 +1783,18 @@ const LibraryContent = () => {
                       </div>
                       <div className="data-main-footer-sec">
                         <div className="footer-btn-wrapper">
-                          <Button className="footer-btn">
-                            Analytics
-                          </Button>
+                          <Button className="footer-btn">Analytics</Button>
                           <Button className="footer-btn reset">
                             Reset the collected data
                           </Button>
                         </div>
                       </div>
                     </Tab>
-                    <Tab eventKey="change-tab" title="Change" className="change-tab">
+                    <Tab
+                      eventKey="change-tab"
+                      title="Change"
+                      className="change-tab"
+                    >
                       <div className="data-main-box change-tab-main-box tab-panel">
                         <ul className="tab-mail-list data change">
                           <li>
@@ -1797,15 +1813,19 @@ const LibraryContent = () => {
                           </li>
                         </ul>
                       </div>
+                      <div className="data-main-footer-sec">
                         <div className="data-main-footer-sec">
-                          <div className="data-main-footer-sec">
                           <div className="footer-btn-wrapper">
-                            <Button className="footer-btn">Edit Docintel Link</Button>
-                            <Button className="footer-btn">Add / Remove Tags</Button>
+                            <Button className="footer-btn">
+                              Edit Docintel Link
+                            </Button>
+                            <Button className="footer-btn">
+                              Add / Remove Tags
+                            </Button>
                             <Button className="footer-btn">New Sublink</Button>
                           </div>
                         </div>
-                        </div>
+                      </div>
                     </Tab>
                   </Tabs>
                 </div>
@@ -1913,7 +1933,7 @@ const LibraryContent = () => {
           {/* <img src={path + "alert.png"} alt="" /> */}
 
           <div className="form-group">
-            <label for="">Size</label>
+            <label for="">Select Size</label>
             <DropdownButton
               className="dropdown-basic-button split-button-dropup "
               title={size != "" ? size : "Select Size"}
