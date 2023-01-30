@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import moment from "moment";
 import axios from "axios";
+import "react-toastify/dist/ReactToastify.css";
+import { popup_alert } from "../../../popup_alert";
 import { postData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { Link, useNavigate } from "react-router-dom";
@@ -34,6 +36,7 @@ const LibraryContent = () => {
   const [size, setSize] = useState("Small");
   const navigate = useNavigate();
   const [SendListData, setSendListData] = useState([]);
+  const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [show, setShow] = useState(false);
   const [UserData, setUserData] = useState([]);
   const [getoriginalsendlistdata, setOriginalSendListData] = useState([]);
@@ -183,6 +186,10 @@ const LibraryContent = () => {
     setUpdateFlag(up);
   };
 
+  const hideConfirmationModal = () => {
+    setConfirmationPopup(false);
+  };
+
   const clearFilter = () => {
     document.querySelectorAll("input").forEach((checkbox) => {
       checkbox.checked = false;
@@ -265,7 +272,7 @@ const LibraryContent = () => {
       })
       .catch((err) => {
         loader("hide");
-        // toast.error("Something went wrong");
+        toast.error("Something went wrong");
       });
   };
   // useEffect(() => {
@@ -353,6 +360,26 @@ const LibraryContent = () => {
       setRenderAfterValidation(renderAfterValidation + 1);
     }
   };
+
+  const showConfirmationPopup = () => {
+    if (confirmationpopup) {
+      setConfirmationPopup(false);
+    } else {
+      setConfirmationPopup(true);
+    }
+    //    setDeleteCardId(id);
+  };
+
+  const deleteEmail = () => {
+    hideConfirmationModal();
+    popup_alert({
+      visible: "show",
+      message: "The Email record has been deleted <br />successfully !",
+      type: "success",
+      redirect: "",
+    });
+  };
+
   function LinkWithTooltip({ id, children, href, tooltip }) {
     return (
       <OverlayTrigger
@@ -365,6 +392,7 @@ const LibraryContent = () => {
       </OverlayTrigger>
     );
   }
+
   return (
     <>
       <Col className="right-sidebar">
@@ -896,31 +924,42 @@ const LibraryContent = () => {
                             <h6>Sunshine</h6>
                           </li>
                         </ul>
+                      </div>
+                      <div className="data-main-footer-sec">
+                        <div className="footer-btn-wrapper">
+                          <Button className="footer-btn">
+                            Preview Aritcle
+                          </Button>
+                          <Button
+                            onClick={() => {
+                              setShow(true);
+                            }}
+                            className="footer-btn"
+                          >
+                            Download QR
+                          </Button>
+                          <Button
+                            className="footer-btn"
+                            onClick={() => {
+                              navigate("/CreateEmail");
+                            }}
+                            // href="https://informed.pro/Distributes/MailEngine"
+                            // target="_blank"
+                          >
+                            Send in Email
+                          </Button>
                         </div>
-                        <div className="data-main-footer-sec">
-                          <div className="footer-btn-wrapper">
-                            <Button className="footer-btn">Preview Aritcle</Button>
-                            <Button onClick={() => {
-                                setShow(true);
-                              }}className="footer-btn">Download QR</Button>
-                              <Button onClick={() => {
-                                navigate("/CreateEmail");
-                              }}className="footer-btn">Send in Email</Button>
-
-                          </div>
+                      </div>
+                      {deletestatus ? (
+                        <div className="dlt_btn">
+                          <button onClick={(e) => showConfirmationPopup()}>
+                            <img
+                              src={path_image + "delete.svg"}
+                              alt="Delete Row"
+                            />
+                          </button>
                         </div>
-                        {deletestatus ? (
-                          <div className="dlt_btn">
-                            <button
-                            //  onClick={(e) => showConfirmationPopup(data.id)}
-                            >
-                              <img
-                                src={path_image + "delete.svg"}
-                                alt="Delete Row"
-                              />
-                            </button>
-                          </div>
-                        ) : null}
+                      ) : null}
                     </Tab>
                     <Tab eventKey="data-tab" title="Data">
                       <div className="data-main-box tab-panel">
@@ -989,7 +1028,7 @@ const LibraryContent = () => {
                       <div className="data-main-footer-sec">
                         <div className="footer-btn-wrapper">
                           <Button className="footer-btn">Analytics</Button>
-                          <Button to="#" className="footer-btn reset">Reset the collected data</Button>
+                          <Button className="footer-btn reset">Reset the collected data</Button>
                         </div>
                       </div>
                     </Tab>
@@ -1186,37 +1225,35 @@ const LibraryContent = () => {
                             <h6>Sunshine</h6>
                           </li>
                         </ul>
+                      </div>
+                      <div className="data-main-footer-sec">
+                        <div className="footer-btn-wrapper">
+                          <Button className="footer-btn">
+                            Preview Aritcle
+                          </Button>
+                          <Button
+                            onClick={() => {
+                              setShow(true);
+                            }}
+                            className="footer-btn"
+                          >
+                            Download QR
+                          </Button>
+                          <Button className="footer-btn">
+                            Send in Email
+                          </Button>
                         </div>
-                        <div className="data-main-footer-sec">
-                          <div className="footer-btn-wrapper">
-                            <Button className="footer-btn">
-                              Preview Aritcle
-                            </Button>
-                            <Button
-                              onClick={() => {
-                                setShow(true);
-                              }}
-                              className="footer-btn"
-                            >
-                              Download QR
-                            </Button>
-                            <Button className="footer-btn">
-                              Send in Email
-                            </Button>
-                          </div>
+                      </div>
+                      {deletestatus ? (
+                        <div className="dlt_btn">
+                          <button onClick={(e) => showConfirmationPopup()}>
+                            <img
+                              src={path_image + "delete.svg"}
+                              alt="Delete Row"
+                            />
+                          </button>
                         </div>
-                        {deletestatus ? (
-                          <div className="dlt_btn">
-                            <button
-                            //  onClick={(e) => showConfirmationPopup(data.id)}
-                            >
-                              <img
-                                src={path_image + "delete.svg"}
-                                alt="Delete Row"
-                              />
-                            </button>
-                          </div>
-                        ) : null}
+                      ) : null}
                     </Tab>
                     <Tab eventKey="data-tab" title="Data">
                       <div className="data-main-box tab-panel">
@@ -1284,12 +1321,12 @@ const LibraryContent = () => {
                       </div>
                       <div className="data-main-footer-sec">
                         <div className="footer-btn-wrapper">
-                          <a href="#" className="footer-btn">
+                          <Button className="footer-btn">
                             Analytics
-                          </a>
-                          <a href="#" className="footer-btn reset">
+                          </Button>
+                          <Button className="footer-btn reset">
                             Reset the collected data
-                          </a>
+                          </Button>
                         </div>
                       </div>
                     </Tab>
@@ -1415,37 +1452,35 @@ const LibraryContent = () => {
                             <h6>Sunshine</h6>
                           </li>
                         </ul>
+                      </div>
+                      <div className="data-main-footer-sec">
+                        <div className="footer-btn-wrapper">
+                          <Button className="footer-btn">
+                            Preview Aritcle
+                          </Button>
+                          <Button
+                            onClick={() => {
+                              setShow(true);
+                            }}
+                            className="footer-btn"
+                          >
+                            Download QR
+                          </Button>
+                          <Button className="footer-btn">
+                            Send in Email
+                          </Button>
                         </div>
-                        <div className="data-main-footer-sec">
-                          <div className="footer-btn-wrapper">
-                            <a href="#" className="footer-btn">
-                              Preview Aritcle
-                            </a>
-                            <a
-                              onClick={() => {
-                                setShow(true);
-                              }}
-                              className="footer-btn"
-                            >
-                              Download QR
-                            </a>
-                            <a href="#" className="footer-btn">
-                              Send in Email
-                            </a>
-                          </div>
+                      </div>
+                      {deletestatus ? (
+                        <div className="dlt_btn">
+                          <button onClick={(e) => showConfirmationPopup()}>
+                            <img
+                              src={path_image + "delete.svg"}
+                              alt="Delete Row"
+                            />
+                          </button>
                         </div>
-                        {deletestatus ? (
-                          <div className="dlt_btn">
-                            <button
-                            //  onClick={(e) => showConfirmationPopup(data.id)}
-                            >
-                              <img
-                                src={path_image + "delete.svg"}
-                                alt="Delete Row"
-                              />
-                            </button>
-                          </div>
-                        ) : null}
+                      ) : null}
                     </Tab>
                     <Tab eventKey="data-tab" title="Data">
                       <div className="data-main-box tab-panel">
@@ -1643,32 +1678,30 @@ const LibraryContent = () => {
                             <h6>Sunshine</h6>
                           </li>
                         </ul>
-                       </div>
-                        <div className="data-main-footer-sec">
-                          <div className="footer-btn-wrapper">
-                            <Button className="footer-btn">
-                              Preview Aritcle
-                            </Button>
-                            <Button className="footer-btn">
-                              Download QR
-                            </Button>
-                            <Button className="footer-btn">
-                              Send in Email
-                            </Button>
-                          </div>
+                      </div>
+                      <div className="data-main-footer-sec">
+                        <div className="footer-btn-wrapper">
+                          <Button className="footer-btn">
+                            Preview Aritcle
+                          </Button>
+                          <Button className="footer-btn">
+                            Download QR
+                          </Button>
+                          <Button className="footer-btn">
+                            Send in Email
+                          </Button>
                         </div>
-                        {deletestatus ? (
-                          <div className="dlt_btn">
-                            <button
-                            //  onClick={(e) => showConfirmationPopup(data.id)}
-                            >
-                              <img
-                                src={path_image + "delete.svg"}
-                                alt="Delete Row"
-                              />
-                            </button>
-                          </div>
-                        ) : null}
+                      </div>
+                      {deletestatus ? (
+                        <div className="dlt_btn">
+                          <button onClick={(e) => showConfirmationPopup()}>
+                            <img
+                              src={path_image + "delete.svg"}
+                              alt="Delete Row"
+                            />
+                          </button>
+                        </div>
+                      ) : null}
                     </Tab>
                     <Tab eventKey="data-tab" title="Data">
                       <div className="data-main-box tab-panel">
@@ -1919,6 +1952,49 @@ const LibraryContent = () => {
           </button>
         </div>
       </Modal>
+
+      <div className="delete">
+        <Modal
+          className="modal send-confirm"
+          id="delete-confirm"
+          show={confirmationpopup}
+        >
+          <Modal.Header>
+            {/* <Modal.Title>Heading Text</Modal.Title>*/}
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              onClick={(e) => hideConfirmationModal()}
+            ></button>
+          </Modal.Header>
+
+          <Modal.Body>
+            <img src={path_image + "alert.png"} alt="" />
+            <h4>
+              This email will be deleted.
+              <br />
+              Are you sure you wish to go ahead?
+            </h4>
+            <div className="modal-buttons">
+              <button
+                type="button"
+                className="btn btn-primary btn-filled"
+                onClick={(e) => deleteEmail()}
+              >
+                Yes Please!
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary btn-bordered light"
+                onClick={(e) => hideConfirmationModal()}
+              >
+                Cancel
+              </button>
+            </div>
+          </Modal.Body>
+        </Modal>
+      </div>
     </>
   );
 };

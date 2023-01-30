@@ -104,10 +104,10 @@
           color: $primary-color;
           text-decoration: none;
           min-width: 30%;
-          	&:hover {
-		        background: $primary-color;
-		        color: $white;
-	        }
+          &:hover {
+            background: $primary-color;
+            color: $white;
+          }
         }
         .footer-btn.reset {
           border-color: $voilet;
@@ -127,20 +127,19 @@
       }
     }
   }
-
 }
 ul.tab-mail-list.data span.total-left {
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 16px;
-    color: rgba(0, 74, 137, 0.5);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  color: rgba(0, 74, 137, 0.5);
 }
 ul.tab-mail-list.data span.total-left small {
-    font-size: 12px;
-    line-height: 14px;
+  font-size: 12px;
+  line-height: 14px;
 }
 .data-progress {
-    margin-right: 8px;
+  margin-right: 8px;
 }
 .tab-mail-list.data .progress {
   width: 182px;
@@ -158,18 +157,18 @@ ul.tab-mail-list.data span.total-left small {
   line-height: 17px;
 }
 .tab-mail-list.data .progress .progress-bar.bg-warning {
-  color: #AA7D17;
-  background: #FAC755!important;
+  color: #aa7d17;
+  background: #fac755 !important;
 }
 
 .tab-mail-list.data .progress .progress-bar.bg-success {
-  background: #00D4C0!important;
-  color: #05766B;
+  background: #00d4c0 !important;
+  color: #05766b;
 }
 
 .tab-mail-list.data .progress .progress-bar.bg-danger {
-  color: #A53239;
-  background: #F58289!important;
+  color: #a53239;
+  background: #f58289 !important;
 }
 .data-progress span {
   font-size: 11px;
@@ -490,11 +489,11 @@ select::-ms-expand {
   padding: 20px 16px 0;
   min-height: 330px;
 }
-.doc-content-main-box .tab-content>.active {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-height: 310px;
-    flex-wrap: wrap;
+.doc-content-main-box .tab-content > .active {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 310px;
+  flex-wrap: wrap;
 }
 /**Library Style End**/
