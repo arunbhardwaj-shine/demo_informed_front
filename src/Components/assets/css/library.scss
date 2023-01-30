@@ -510,6 +510,9 @@ select::-ms-expand {
   cursor: pointer;
   box-shadow: 0px 0px 13px -3px rgba(0, 102, 190, 0.2);
 }
+.library_create-box:hover {
+  box-shadow: 0px 0px 13px -3px rgba(0, 102, 190, 0.4);
+}
 .library_create-box .create-library-img {
   margin: 0 auto;
   text-align: center;
@@ -524,12 +527,12 @@ select::-ms-expand {
   color: #0066be;
 }
 .library_create {
-  gap: 100px 0;
-  flex-wrap: wrap;
-  max-width: 910px;
-  margin: 0 auto;
-  justify-content: space-between;
-  padding: 0;
+    gap: 100px 0;
+    flex-wrap: wrap;
+    max-width: 910px;
+    margin: 0 auto;
+    justify-content: space-between;
+    padding: 100px 0 0;
 }
 .library_create-box .create-library-content {
   text-align: center;
