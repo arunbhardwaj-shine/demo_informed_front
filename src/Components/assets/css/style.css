@@ -4700,9 +4700,9 @@ h2 {
   cursor: pointer;
 }
 
-.send-confirm .modal-body .modal-buttons button:first-child {
-  margin-left: 0;
-}
+  .send-confirm .modal-body .modal-buttons button:first-child {
+    margin-left: 0;
+  }
 
 /* Smart List */
 .smart_list_names .header-btn .btn {

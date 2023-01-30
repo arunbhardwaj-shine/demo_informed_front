@@ -3,6 +3,7 @@ import { useState } from "react";
 import moment from "moment";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
+import { popup_alert } from "../../../popup_alert";
 import { postData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { useNavigate } from "react-router-dom";
@@ -34,6 +35,7 @@ const LibraryContent = () => {
   const [size, setSize] = useState("Small");
   const navigate = useNavigate();
   const [SendListData, setSendListData] = useState([]);
+  const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [show, setShow] = useState(false);
   const [UserData, setUserData] = useState([]);
   const [getoriginalsendlistdata, setOriginalSendListData] = useState([]);
@@ -181,6 +183,10 @@ const LibraryContent = () => {
     setFilter(getfilter);
     let up = updateflag + 1;
     setUpdateFlag(up);
+  };
+
+  const hideConfirmationModal = () => {
+    setConfirmationPopup(false);
   };
 
   const clearFilter = () => {
@@ -353,6 +359,26 @@ const LibraryContent = () => {
       setRenderAfterValidation(renderAfterValidation + 1);
     }
   };
+
+  const showConfirmationPopup = () => {
+    if (confirmationpopup) {
+      setConfirmationPopup(false);
+    } else {
+      setConfirmationPopup(true);
+    }
+    //    setDeleteCardId(id);
+  };
+
+  const deleteEmail = () => {
+    hideConfirmationModal();
+    popup_alert({
+      visible: "show",
+      message: "The Email record has been deleted <br />successfully !",
+      type: "success",
+      redirect: "",
+    });
+  };
+
   function LinkWithTooltip({ id, children, href, tooltip }) {
     return (
       <OverlayTrigger
@@ -365,6 +391,7 @@ const LibraryContent = () => {
       </OverlayTrigger>
     );
   }
+
   return (
     <>
       <Col className="right-sidebar">
@@ -924,9 +951,7 @@ const LibraryContent = () => {
                       </div>
                       {deletestatus ? (
                         <div className="dlt_btn">
-                          <button
-                          //  onClick={(e) => showConfirmationPopup(data.id)}
-                          >
+                          <button onClick={(e) => showConfirmationPopup()}>
                             <img
                               src={path_image + "delete.svg"}
                               alt="Delete Row"
@@ -1229,9 +1254,7 @@ const LibraryContent = () => {
                       </div>
                       {deletestatus ? (
                         <div className="dlt_btn">
-                          <button
-                          //  onClick={(e) => showConfirmationPopup(data.id)}
-                          >
+                          <button onClick={(e) => showConfirmationPopup()}>
                             <img
                               src={path_image + "delete.svg"}
                               alt="Delete Row"
@@ -1465,9 +1488,7 @@ const LibraryContent = () => {
                       </div>
                       {deletestatus ? (
                         <div className="dlt_btn">
-                          <button
-                          //  onClick={(e) => showConfirmationPopup(data.id)}
-                          >
+                          <button onClick={(e) => showConfirmationPopup()}>
                             <img
                               src={path_image + "delete.svg"}
                               alt="Delete Row"
@@ -1697,9 +1718,7 @@ const LibraryContent = () => {
                       </div>
                       {deletestatus ? (
                         <div className="dlt_btn">
-                          <button
-                          //  onClick={(e) => showConfirmationPopup(data.id)}
-                          >
+                          <button onClick={(e) => showConfirmationPopup()}>
                             <img
                               src={path_image + "delete.svg"}
                               alt="Delete Row"
@@ -1964,6 +1983,49 @@ const LibraryContent = () => {
           </button>
         </div>
       </Modal>
+
+      <div className="delete">
+        <Modal
+          className="modal send-confirm"
+          id="delete-confirm"
+          show={confirmationpopup}
+        >
+          <Modal.Header>
+            {/* <Modal.Title>Heading Text</Modal.Title>*/}
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              onClick={(e) => hideConfirmationModal()}
+            ></button>
+          </Modal.Header>
+
+          <Modal.Body>
+            <img src={path_image + "alert.png"} alt="" />
+            <h4>
+              This email will be deleted.
+              <br />
+              Are you sure you wish to go ahead?
+            </h4>
+            <div className="modal-buttons">
+              <button
+                type="button"
+                className="btn btn-primary btn-filled"
+                onClick={(e) => deleteEmail()}
+              >
+                Yes Please!
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary btn-bordered light"
+                onClick={(e) => hideConfirmationModal()}
+              >
+                Cancel
+              </button>
+            </div>
+          </Modal.Body>
+        </Modal>
+      </div>
     </>
   );
 };
