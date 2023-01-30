@@ -278,26 +278,26 @@ const LibraryContent = () => {
         toast.error("Something went wrong");
       });
   };
-  // useEffect(() => {
-  //   getLibraryData(page, articleSelected, actionSelected);
-  // }, [page, articleSelected, actionSelected]);
+  useEffect(() => {
+    getLibraryData();
+  }, []);
 
-  const getLibraryData = async (page, expire_data, actionSelected) => {
+  const getLibraryData = async () => {
     try {
       let body = {
         id: 18207,
-        page: page,
-        expire: expire_data,
-        draft: actionSelected,
+        page: 1,
       };
       loader("show");
+      // console.log("in get library data");
       const res = await postData(ENDPOINT.LIBRARY, body);
+      console.log(res);
       setLibraryData((oldArray) => [...oldArray, ...res.data.data]);
 
       loader("hide");
-      console.log(res);
     } catch (err) {
       console.log("err");
+      loader("hide");
     }
   };
 
@@ -924,1012 +924,369 @@ const LibraryContent = () => {
           <Row>
             <div className="library-content-box-layuot d-flex">
               <>
-                <div className="doc-content-main-box col">
-                  <div className="doc-content-header">
-                    <div className="doc-content-header-logo">
-                      <a href="#">
-                        <img
-                          alt="doc-logo"
-                          src={path_image + "dummy-img1.png"}
-                          style={{ width: "67px" }}
-                        />
-                      </a>
-                    </div>
-                    <div className="doc-content">
-                      <h5>Single pdf</h5>
-                      <h6>Sub-Title: arunp</h6>
-                      <p>Author</p>
-                      <div className="select-tags">
-                        <div>Topic1</div>
-                        <div>Topic2</div>
-                        <div>Topic3</div>
-                        <div>Topic4</div>
-                      </div>
-                    </div>
-                    {/* <div className="refresh-btn">
+                {libraryData.length > 0
+                  ? libraryData.map((data) => {
+                      return (
+                        <>
+                          <div className="doc-content-main-box col">
+                            <div className="doc-content-header">
+                              <div className="doc-content-header-logo">
+                                <a href="#">
+                                  <img
+                                    alt="doc-logo"
+                                    src={path_image + "dummy-img1.png"}
+                                    style={{ width: "67px" }}
+                                  />
+                                </a>
+                              </div>
+                              <div className="doc-content">
+                                <h5>{data.title}</h5>
+                                <h6>Sub-Title: arunp</h6>
+                                <p>Author</p>
+                                <div className="select-tags">
+                                  <div>Topic1</div>
+                                  <div>Topic2</div>
+                                  <div>Topic3</div>
+                                  <div>Topic4</div>
+                                </div>
+                              </div>
+                              {/* <div className="refresh-btn">
                               <img
                                 src={path_image + "refresh1.png"}
                                 alt="refresh-btn"
                                 style={{ width: "20px" }}
                               />
                             </div> */}
-                  </div>
-                  <Tabs defaultActiveKey="docintel-link" className="mb-3" fill>
-                    <Tab eventKey="docintel-link" title="Docintel Link">
-                      <div className="tab-panel">
-                        <div className="tab-content-links">
-                          <a href="#" className="doc-link">
-                            https://docintel.app/arunp/WLMflJzX
-                          </a>
-                          <span className="copy-content">
-                            <img
-                              src={path_image + "copy-content.svg"}
-                              alt="Copy"
-                            />
-                          </span>
-                        </div>
-                        <ul className="tab-mail-list">
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>Upload date</strong>
-                            </h6>
-                            <h6>4 August 2022</h6>
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>inforMedGo code</strong>
-                            </h6>
-                            <h6>
-                              cmlm1918717{" "}
-                              <span className="copy-content">
-                                <img
-                                  src={path_image + "copy-content.svg"}
-                                  alt="Copy"
-                                />
-                              </span>
-                            </h6>
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>Docintel code</strong>
-                            </h6>
-                            <h6>
-                              032884387{" "}
-                              <span className="copy-content">
-                                <img
-                                  src={path_image + "copy-content.svg"}
-                                  alt="Copy"
-                                />
-                              </span>
-                            </h6>
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>SPC included</strong>
-                            </h6>
-                            <h6>032884387</h6>
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>Language</strong>
-                            </h6>
-                            <h6>No</h6>
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>Link type</strong>
-                            </h6>
-                            <h6>Sunshine</h6>
-                          </li>
-                        </ul>
-                      </div>
-                      {deletestatus == false ? (
-                        <div className="data-main-footer-sec">
-                          <div className="footer-btn-wrapper">
-                            <Button className="footer-btn">
-                              Preview Aritcle
-                            </Button>
-                            <Button
-                              onClick={() => {
-                                setShow(true);
-                              }}
-                              className="footer-btn"
+                            </div>
+                            <Tabs
+                              defaultActiveKey="docintel-link"
+                              className="mb-3"
+                              fill
                             >
-                              Download QR
-                            </Button>
-                            <Button
-                              className="footer-btn"
-                              onClick={() => {
-                                navigate("/CreateEmail");
-                              }}
-                              // href="https://informed.pro/Distributes/MailEngine"
-                              // target="_blank"
-                            >
-                              Send in Email
-                            </Button>
-                          </div>
-                        </div>
-                      ) : null}
+                              <Tab
+                                eventKey="docintel-link"
+                                title="Docintel Link"
+                              >
+                                <div className="tab-panel">
+                                  <div className="tab-content-links">
+                                    <a href="#" className="doc-link">
+                                      https://docintel.app/arunp/WLMflJzX
+                                    </a>
+                                    <span className="copy-content">
+                                      <img
+                                        src={path_image + "copy-content.svg"}
+                                        alt="Copy"
+                                      />
+                                    </span>
+                                  </div>
+                                  <ul className="tab-mail-list">
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        <strong>Upload date</strong>
+                                      </h6>
+                                      <h6>4 August 2022</h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        <strong>inforMedGo code</strong>
+                                      </h6>
+                                      <h6>
+                                        cmlm1918717{" "}
+                                        <span className="copy-content">
+                                          <img
+                                            src={
+                                              path_image + "copy-content.svg"
+                                            }
+                                            alt="Copy"
+                                          />
+                                        </span>
+                                      </h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        <strong>Docintel code</strong>
+                                      </h6>
+                                      <h6>
+                                        032884387{" "}
+                                        <span className="copy-content">
+                                          <img
+                                            src={
+                                              path_image + "copy-content.svg"
+                                            }
+                                            alt="Copy"
+                                          />
+                                        </span>
+                                      </h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        <strong>SPC included</strong>
+                                      </h6>
+                                      <h6>032884387</h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        <strong>Language</strong>
+                                      </h6>
+                                      <h6>No</h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        <strong>Link type</strong>
+                                      </h6>
+                                      <h6>Sunshine</h6>
+                                    </li>
+                                  </ul>
+                                </div>
+                                {deletestatus == false ? (
+                                  <div className="data-main-footer-sec">
+                                    <div className="footer-btn-wrapper">
+                                      <Button className="footer-btn">
+                                        Preview Aritcle
+                                      </Button>
+                                      <Button
+                                        onClick={() => {
+                                          setShow(true);
+                                        }}
+                                        className="footer-btn"
+                                      >
+                                        Download QR
+                                      </Button>
+                                      <Button
+                                        className="footer-btn"
+                                        onClick={() => {
+                                          navigate("/CreateEmail");
+                                        }}
+                                        // href="https://informed.pro/Distributes/MailEngine"
+                                        // target="_blank"
+                                      >
+                                        Send in Email
+                                      </Button>
+                                    </div>
+                                  </div>
+                                ) : null}
 
-                      {deletestatus ? (
-                        <div className="dlt_btn">
-                          <button onClick={(e) => showConfirmationPopup()}>
-                            <img
-                              src={path_image + "delete.svg"}
-                              alt="Delete Row"
-                            />
-                          </button>
-                        </div>
-                      ) : null}
-                    </Tab>
-                    <Tab eventKey="data-tab" title="Data">
-                      <div className="data-main-box tab-panel">
-                        <ul className="tab-mail-list data">
-                          <li>
-                            <h6 className="tab-content-title">
-                              Unique Reader (total)
-                              <LinkWithTooltip
-                                tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
-                                href="#"
+                                {deletestatus ? (
+                                  <div className="dlt_btn">
+                                    <button
+                                      onClick={(e) => showConfirmationPopup()}
+                                    >
+                                      <img
+                                        src={path_image + "delete.svg"}
+                                        alt="Delete Row"
+                                      />
+                                    </button>
+                                  </div>
+                                ) : null}
+                              </Tab>
+                              <Tab eventKey="data-tab" title="Data">
+                                <div className="data-main-box tab-panel">
+                                  <ul className="tab-mail-list data">
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Unique Reader (total)
+                                        <LinkWithTooltip
+                                          tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
+                                          href="#"
+                                        >
+                                          <img
+                                            src={
+                                              path_image +
+                                              "info_circle_icon.svg"
+                                            }
+                                            alt="refresh-btn"
+                                          />
+                                        </LinkWithTooltip>
+                                      </h6>
+                                      <div className="data-progress">
+                                        <ProgressBar
+                                          variant="warning"
+                                          now={75}
+                                          label={105}
+                                        />
+                                        <span>Agreed Limit | 300</span>
+                                      </div>
+                                      <span className="total-left">
+                                        195<small>Left</small>
+                                      </span>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Openings (total){" "}
+                                        <LinkWithTooltip
+                                          tooltip="Number of opening counts for specific article."
+                                          href="#"
+                                        >
+                                          <img
+                                            src={
+                                              path_image +
+                                              "info_circle_icon.svg"
+                                            }
+                                            alt="refresh-btn"
+                                          />
+                                        </LinkWithTooltip>
+                                      </h6>
+                                      <ProgressBar
+                                        variant="success"
+                                        now={43}
+                                        label={43}
+                                      />
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Registered readers{" "}
+                                        <LinkWithTooltip
+                                          tooltip="Number of HCPs who have register for or activated the content."
+                                          href="#"
+                                        >
+                                          <img
+                                            src={
+                                              path_image +
+                                              "info_circle_icon.svg"
+                                            }
+                                            alt="refresh-btn"
+                                          />
+                                        </LinkWithTooltip>
+                                      </h6>
+                                      <ProgressBar
+                                        variant="danger"
+                                        now={3}
+                                        label={3}
+                                      />
+                                    </li>
+                                  </ul>
+                                </div>
+                                <div className="data-main-footer-sec">
+                                  <div className="footer-btn-wrapper">
+                                    <Button className="footer-btn">
+                                      Analytics
+                                    </Button>
+                                    <Button className="footer-btn reset">
+                                      Reset the collected data
+                                    </Button>
+                                  </div>
+                                </div>
+                              </Tab>
+                              <Tab
+                                eventKey="change-tab"
+                                title="Change"
+                                className="change-tab"
                               >
-                                <img
-                                  src={path_image + "info_circle_icon.svg"}
-                                  alt="refresh-btn"
-                                />
-                              </LinkWithTooltip>
-                            </h6>
-                            <div className="data-progress">
-                              <ProgressBar
-                                variant="warning"
-                                now={75}
-                                label={105}
-                              />
-                              <span>Agreed Limit | 300</span>
-                            </div>
-                            <span className="total-left">
-                              195<small>Left</small>
-                            </span>
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              Openings (total){" "}
-                              <LinkWithTooltip
-                                tooltip="Number of opening counts for specific article."
-                                href="#"
-                              >
-                                <img
-                                  src={path_image + "info_circle_icon.svg"}
-                                  alt="refresh-btn"
-                                />
-                              </LinkWithTooltip>
-                            </h6>
-                            <ProgressBar
-                              variant="success"
-                              now={43}
-                              label={43}
-                            />
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              Registered readers{" "}
-                              <LinkWithTooltip
-                                tooltip="Number of HCPs who have register for or activated the content."
-                                href="#"
-                              >
-                                <img
-                                  src={path_image + "info_circle_icon.svg"}
-                                  alt="refresh-btn"
-                                />
-                              </LinkWithTooltip>
-                            </h6>
-                            <ProgressBar variant="danger" now={3} label={3} />
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="data-main-footer-sec">
-                        <div className="footer-btn-wrapper">
-                          <Button className="footer-btn">Analytics</Button>
-                          <Button className="footer-btn reset">
-                            Reset the collected data
-                          </Button>
-                        </div>
-                      </div>
-                    </Tab>
-                    <Tab
-                      eventKey="change-tab"
-                      title="Change"
-                      className="change-tab"
-                    >
-                      <div className="data-main-box change-tab-main-box tab-panel">
-                        <ul className="tab-mail-list data change">
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>Upload date</strong>
-                            </h6>
-                            <div className="select-dropdown-wrapper">
-                              <div className="select">
-                                <select>
-                                  <option value="1">Sunshine</option>
-                                  <option value="2">Offline Offer</option>
-                                  <option value="3">Online Only</option>
-                                </select>
-                                <Button>Update</Button>
-                              </div>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="data-main-footer-sec">
-                        <div className="footer-btn-wrapper">
-                          <Button className="footer-btn">
-                            Edit Docintel Link
-                          </Button>
-                          <Button className="footer-btn">
-                            Add / Remove Tags
-                          </Button>
-                          <Button className="footer-btn">New Sublink</Button>
-                        </div>
-                      </div>
-                    </Tab>
-                    <Tab eventKey="sales" title="Sales">
-                      <div className="tab-panel">
-                        <ul className="tab-mail-list">
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>Sales person</strong>
-                            </h6>
-                            <h6>Sales person name</h6>
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>Production person</strong>
-                            </h6>
-                            <h6>Production person name</h6>
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>Client name</strong>
-                            </h6>
-                            <h6>Jacob Flindt</h6>
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>Client product</strong>
-                            </h6>
-                            <h6>Product name</h6>
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>Client country</strong>
-                            </h6>
-                            <h6>United Kingdom</h6>
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>Opening limit</strong>
-                            </h6>
-                            <h6>300</h6>
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>Link type</strong>
-                            </h6>
-                            <h6>Sunshine</h6>
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>Print</strong>
-                            </h6>
-                            <h6>No</h6>
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>Download</strong>
-                            </h6>
-                            <h6>Yes</h6>
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>Uploade date</strong>
-                            </h6>
-                            <h6>4 August 2022</h6>
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>Expiration date</strong>
-                            </h6>
-                            <h6>1 August 2023</h6>
-                          </li>
-                        </ul>
-                      </div>
-                    </Tab>
-                  </Tabs>
-                </div>
-                <div className="doc-content-main-box col">
-                  <div className="doc-content-header">
-                    <div className="doc-content-header-logo">
-                      <a href="#">
-                        <img
-                          alt="doc-logo"
-                          src={path_image + "dummy-img1.png"}
-                          style={{ width: "67px" }}
-                        />
-                      </a>
-                    </div>
-                    <div className="doc-content">
-                      <h5>Single pdf</h5>
-                      <h6>Sub-Title: arunp</h6>
-                      <p>Author</p>
-                      <div className="select-tags">
-                        <div>Topic1</div>
-                        <div>Topic2</div>
-                        <div>Topic3</div>
-                        <div>Topic4</div>
-                      </div>
-                    </div>
-                  </div>
-                  <Tabs defaultActiveKey="docintel-link" className="mb-3" fill>
-                    <Tab eventKey="docintel-link" title="Docintel Link">
-                      <div className="tab-panel">
-                        <div className="tab-content-links">
-                          <a href="#" className="doc-link">
-                            https://docintel.app/arunp/WLMflJzX
-                          </a>
-                          <span className="copy-content">
-                            <img
-                              src={path_image + "copy-content.svg"}
-                              alt="Copy"
-                            />
-                          </span>
-                        </div>
-                        <ul className="tab-mail-list">
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>Upload date</strong>
-                            </h6>
-                            <h6>4 August 2022</h6>
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>inforMedGo code</strong>
-                            </h6>
-                            <h6>
-                              cmlm1918717{" "}
-                              <span className="copy-content">
-                                <img
-                                  src={path_image + "copy-content.svg"}
-                                  alt="Copy"
-                                />
-                              </span>
-                            </h6>
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>Docintel code</strong>
-                            </h6>
-                            <h6>
-                              032884387{" "}
-                              <span className="copy-content">
-                                <img
-                                  src={path_image + "copy-content.svg"}
-                                  alt="Copy"
-                                />
-                              </span>
-                            </h6>
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>SPC included</strong>
-                            </h6>
-                            <h6>032884387</h6>
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>Language</strong>
-                            </h6>
-                            <h6>No</h6>
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>Link type</strong>
-                            </h6>
-                            <h6>Sunshine</h6>
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="data-main-footer-sec">
-                        <div className="footer-btn-wrapper">
-                          <Button className="footer-btn">
-                            Preview Aritcle
-                          </Button>
-                          <Button
-                            onClick={() => {
-                              setShow(true);
-                            }}
-                            className="footer-btn"
-                          >
-                            Download QR
-                          </Button>
-                          <Button className="footer-btn">Send in Email</Button>
-                        </div>
-                      </div>
-                      {deletestatus ? (
-                        <div className="dlt_btn">
-                          <button onClick={(e) => showConfirmationPopup()}>
-                            <img
-                              src={path_image + "delete.svg"}
-                              alt="Delete Row"
-                            />
-                          </button>
-                        </div>
-                      ) : null}
-                    </Tab>
-                    <Tab eventKey="data-tab" title="Data">
-                      <div className="data-main-box tab-panel">
-                        <ul className="tab-mail-list data">
-                          <li>
-                            <h6 className="tab-content-title">
-                              Unique Reader (total)
-                              <LinkWithTooltip
-                                tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
-                                href="#"
-                              >
-                                <img
-                                  src={path_image + "info_circle_icon.svg"}
-                                  alt="refresh-btn"
-                                />
-                              </LinkWithTooltip>
-                            </h6>
-                            <div className="data-progress">
-                              <ProgressBar
-                                variant="warning"
-                                now={75}
-                                label={105}
-                              />
-                              <span>Agreed Limit | 300</span>
-                            </div>
-                            <span className="total-left">
-                              195<small>Left</small>
-                            </span>
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              Openings (total){" "}
-                              <LinkWithTooltip
-                                tooltip="Number of opening counts for specific article."
-                                href="#"
-                              >
-                                <img
-                                  src={path_image + "info_circle_icon.svg"}
-                                  alt="refresh-btn"
-                                />
-                              </LinkWithTooltip>
-                            </h6>
-                            <ProgressBar
-                              variant="success"
-                              now={43}
-                              label={43}
-                            />
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              Registered readers{" "}
-                              <LinkWithTooltip
-                                tooltip="Number of HCPs who have register for or activated the content."
-                                href="#"
-                              >
-                                <img
-                                  src={path_image + "info_circle_icon.svg"}
-                                  alt="refresh-btn"
-                                />
-                              </LinkWithTooltip>
-                            </h6>
-                            <ProgressBar variant="danger" now={3} label={3} />
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="data-main-footer-sec">
-                        <div className="footer-btn-wrapper">
-                          <Button className="footer-btn">Analytics</Button>
-                          <Button className="footer-btn reset">
-                            Reset the collected data
-                          </Button>
-                        </div>
-                      </div>
-                    </Tab>
-                    <Tab
-                      eventKey="change-tab"
-                      title="Change"
-                      className="change-tab"
-                    >
-                      <div className="data-main-box change-tab-main-box tab-panel">
-                        <ul className="tab-mail-list data change">
-                          <li>
-                            <h5 className="tab-content-title">
-                              <strong>Upload date</strong>
-                            </h5>
-                            <div className="select-dropdown-wrapper">
-                              <div className="select">
-                                <select>
-                                  <option value="1">Sunshine</option>
-                                  <option value="2">Offline Offer</option>
-                                  <option value="3">Online Only</option>
-                                </select>
-                              </div>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="data-main-footer-sec">
-                        <div className="data-main-footer-sec">
-                          <div className="footer-btn-wrapper">
-                            <Button className="footer-btn">
-                              Edit Docintel Link
-                            </Button>
-                            <Button className="footer-btn">
-                              Add / Remove Tags
-                            </Button>
-                            <Button className="footer-btn">New Sublink</Button>
+                                <div className="data-main-box change-tab-main-box tab-panel">
+                                  <ul className="tab-mail-list data change">
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        <strong>Upload date</strong>
+                                      </h6>
+                                      <div className="select-dropdown-wrapper">
+                                        <div className="select">
+                                          <select>
+                                            <option value="1">Sunshine</option>
+                                            <option value="2">
+                                              Offline Offer
+                                            </option>
+                                            <option value="3">
+                                              Online Only
+                                            </option>
+                                          </select>
+                                          <Button>Update</Button>
+                                        </div>
+                                      </div>
+                                    </li>
+                                  </ul>
+                                </div>
+                                <div className="data-main-footer-sec">
+                                  <div className="footer-btn-wrapper">
+                                    <Button className="footer-btn">
+                                      Edit Docintel Link
+                                    </Button>
+                                    <Button className="footer-btn">
+                                      Add / Remove Tags
+                                    </Button>
+                                    <Button className="footer-btn">
+                                      New Sublink
+                                    </Button>
+                                  </div>
+                                </div>
+                              </Tab>
+                              <Tab eventKey="sales" title="Sales">
+                                <div className="tab-panel">
+                                  <ul className="tab-mail-list">
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        <strong>Sales person</strong>
+                                      </h6>
+                                      <h6>Sales person name</h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        <strong>Production person</strong>
+                                      </h6>
+                                      <h6>Production person name</h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        <strong>Client name</strong>
+                                      </h6>
+                                      <h6>Jacob Flindt</h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        <strong>Client product</strong>
+                                      </h6>
+                                      <h6>Product name</h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        <strong>Client country</strong>
+                                      </h6>
+                                      <h6>United Kingdom</h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        <strong>Opening limit</strong>
+                                      </h6>
+                                      <h6>300</h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        <strong>Link type</strong>
+                                      </h6>
+                                      <h6>Sunshine</h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        <strong>Print</strong>
+                                      </h6>
+                                      <h6>No</h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        <strong>Download</strong>
+                                      </h6>
+                                      <h6>Yes</h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        <strong>Uploade date</strong>
+                                      </h6>
+                                      <h6>4 August 2022</h6>
+                                    </li>
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        <strong>Expiration date</strong>
+                                      </h6>
+                                      <h6>1 August 2023</h6>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </Tab>
+                            </Tabs>
                           </div>
-                        </div>
-                      </div>
-                    </Tab>
-                  </Tabs>
-                </div>
-                <div className="doc-content-main-box col">
-                  <div className="doc-content-header">
-                    <div className="doc-content-header-logo">
-                      <a href="#">
-                        <img
-                          alt="doc-logo"
-                          src={path_image + "dummy-img1.png"}
-                          style={{ width: "67px" }}
-                        />
-                      </a>
-                    </div>
-                    <div className="doc-content">
-                      <h5>Single pdf</h5>
-                      <h6>Sub-Title: arunp</h6>
-                      <p>Author</p>
-                      <div className="select-tags">
-                        <div>Topic1</div>
-                        <div>Topic2</div>
-                        <div>Topic3</div>
-                        <div>Topic4</div>
-                      </div>
-                    </div>
-                  </div>
-                  <Tabs defaultActiveKey="docintel-link" className="mb-3" fill>
-                    <Tab eventKey="docintel-link" title="Docintel Link">
-                      <div className="tab-panel">
-                        <div className="tab-content-links">
-                          <a href="#" className="doc-link">
-                            https://docintel.app/arunp/WLMflJzX
-                          </a>
-                          <span className="copy-content">
-                            <img
-                              src={path_image + "copy-content.svg"}
-                              alt="Copy"
-                            />
-                          </span>
-                        </div>
-                        <ul className="tab-mail-list">
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>Upload date</strong>
-                            </h6>
-                            <h6>4 August 2022</h6>
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>inforMedGo code</strong>
-                            </h6>
-                            <h6>
-                              cmlm1918717{" "}
-                              <span className="copy-content">
-                                <img
-                                  src={path_image + "copy-content.svg"}
-                                  alt="Copy"
-                                />
-                              </span>
-                            </h6>
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>Docintel code</strong>
-                            </h6>
-                            <h6>
-                              032884387{" "}
-                              <span className="copy-content">
-                                <img
-                                  src={path_image + "copy-content.svg"}
-                                  alt="Copy"
-                                />
-                              </span>
-                            </h6>
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>SPC included</strong>
-                            </h6>
-                            <h6>032884387</h6>
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>Language</strong>
-                            </h6>
-                            <h6>No</h6>
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>Link type</strong>
-                            </h6>
-                            <h6>Sunshine</h6>
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="data-main-footer-sec">
-                        <div className="footer-btn-wrapper">
-                          <Button className="footer-btn">
-                            Preview Aritcle
-                          </Button>
-                          <Button
-                            onClick={() => {
-                              setShow(true);
-                            }}
-                            className="footer-btn"
-                          >
-                            Download QR
-                          </Button>
-                          <Button className="footer-btn">Send in Email</Button>
-                        </div>
-                      </div>
-                      {deletestatus ? (
-                        <div className="dlt_btn">
-                          <button onClick={(e) => showConfirmationPopup()}>
-                            <img
-                              src={path_image + "delete.svg"}
-                              alt="Delete Row"
-                            />
-                          </button>
-                        </div>
-                      ) : null}
-                    </Tab>
-                    <Tab eventKey="data-tab" title="Data">
-                      <div className="data-main-box tab-panel">
-                        <ul className="tab-mail-list data">
-                          <li>
-                            <h6 className="tab-content-title">
-                              Unique Reader (total)
-                              <LinkWithTooltip
-                                tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
-                                href="#"
-                              >
-                                <img
-                                  src={path_image + "info_circle_icon.svg"}
-                                  alt="refresh-btn"
-                                />
-                              </LinkWithTooltip>
-                            </h6>
-                            <div className="data-progress">
-                              <ProgressBar
-                                variant="warning"
-                                now={75}
-                                label={105}
-                              />
-                              <span>Agreed Limit | 300</span>
-                            </div>
-                            <span className="total-left">
-                              195<small>Left</small>
-                            </span>
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              Openings (total){" "}
-                              <LinkWithTooltip
-                                tooltip="Number of opening counts for specific article."
-                                href="#"
-                              >
-                                <img
-                                  src={path_image + "info_circle_icon.svg"}
-                                  alt="refresh-btn"
-                                />
-                              </LinkWithTooltip>
-                            </h6>
-                            <ProgressBar
-                              variant="success"
-                              now={43}
-                              label={43}
-                            />
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              Registered readers{" "}
-                              <LinkWithTooltip
-                                tooltip="Number of HCPs who have register for or activated the content."
-                                href="#"
-                              >
-                                <img
-                                  src={path_image + "info_circle_icon.svg"}
-                                  alt="refresh-btn"
-                                />
-                              </LinkWithTooltip>
-                            </h6>
-                            <ProgressBar variant="danger" now={3} label={3} />
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="data-main-footer-sec">
-                        <div className="footer-btn-wrapper">
-                          <Button className="footer-btn">Analytics</Button>
-                          <Button className="footer-btn reset">
-                            Reset the collected data
-                          </Button>
-                        </div>
-                      </div>
-                    </Tab>
-                    <Tab
-                      eventKey="change-tab"
-                      title="Change"
-                      className="change-tab"
-                    >
-                      <div className="data-main-box change-tab-main-box tab-panel">
-                        <ul className="tab-mail-list data change">
-                          <li>
-                            <h5 className="tab-content-title">
-                              <strong>Upload date</strong>
-                            </h5>
-                            <div className="select-dropdown-wrapper">
-                              <div className="select">
-                                <select>
-                                  <option value="1">Sunshine</option>
-                                  <option value="2">Offline Offer</option>
-                                  <option value="3">Online Only</option>
-                                </select>
-                              </div>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="data-main-footer-sec">
-                        <div className="footer-btn-wrapper">
-                          <Button className="footer-btn">
-                            Edit Docintel Link
-                          </Button>
-                          <Button className="footer-btn">
-                            Add / Remove Tags
-                          </Button>
-                          <Button className="footer-btn">New Sublink</Button>
-                        </div>
-                      </div>
-                    </Tab>
-                  </Tabs>
-                </div>
-
-                <div className="doc-content-main-box col">
-                  <div className="doc-content-header">
-                    <div className="doc-content-header-logo">
-                      <a href="#">
-                        <img
-                          alt="doc-logo"
-                          src={path_image + "dummy-img1.png"}
-                          style={{ width: "67px" }}
-                        />
-                      </a>
-                    </div>
-                    <div className="doc-content">
-                      <h5>Single pdf</h5>
-                      <h6>Sub-Title: arunp</h6>
-                      <p>Author</p>
-                      <div className="select-tags">
-                        <div>Topic1</div>
-                        <div>Topic2</div>
-                        <div>Topic3</div>
-                        <div>Topic4</div>
-                      </div>
-                    </div>
-                  </div>
-                  <Tabs defaultActiveKey="docintel-link" className="mb-3" fill>
-                    <Tab eventKey="docintel-link" title="Docintel Link">
-                      <div className="tab-panel">
-                        <div className="tab-content-links">
-                          <a href="#" className="doc-link">
-                            https://docintel.app/arunp/WLMflJzX
-                          </a>
-                          <span className="copy-content">
-                            <img
-                              src={path_image + "copy-content.svg"}
-                              alt="Copy"
-                            />
-                          </span>
-                        </div>
-                        <ul className="tab-mail-list">
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>Upload date</strong>
-                            </h6>
-                            <h6>4 August 2022</h6>
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>inforMedGo code</strong>
-                            </h6>
-                            <h6>
-                              cmlm1918717{" "}
-                              <span className="copy-content">
-                                <img
-                                  src={path_image + "copy-content.svg"}
-                                  alt="Copy"
-                                />
-                              </span>
-                            </h6>
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>Docintel code</strong>
-                            </h6>
-                            <h6>
-                              032884387{" "}
-                              <span className="copy-content">
-                                <img
-                                  src={path_image + "copy-content.svg"}
-                                  alt="Copy"
-                                />
-                              </span>
-                            </h6>
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>SPC included</strong>
-                            </h6>
-                            <h6>032884387</h6>
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>Language</strong>
-                            </h6>
-                            <h6>No</h6>
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              <strong>Link type</strong>
-                            </h6>
-                            <h6>Sunshine</h6>
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="data-main-footer-sec">
-                        <div className="footer-btn-wrapper">
-                          <Button className="footer-btn">
-                            Preview Aritcle
-                          </Button>
-                          <Button className="footer-btn">Download QR</Button>
-                          <Button className="footer-btn">Send in Email</Button>
-                        </div>
-                      </div>
-                      {deletestatus ? (
-                        <div className="dlt_btn">
-                          <button onClick={(e) => showConfirmationPopup()}>
-                            <img
-                              src={path_image + "delete.svg"}
-                              alt="Delete Row"
-                            />
-                          </button>
-                        </div>
-                      ) : null}
-                    </Tab>
-                    <Tab eventKey="data-tab" title="Data">
-                      <div className="data-main-box tab-panel">
-                        <ul className="tab-mail-list data">
-                          <li>
-                            <h6 className="tab-content-title">
-                              Unique Reader (total)
-                              <LinkWithTooltip
-                                tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
-                                href="#"
-                              >
-                                <img
-                                  src={path_image + "info_circle_icon.svg"}
-                                  alt="refresh-btn"
-                                />
-                              </LinkWithTooltip>
-                            </h6>
-                            <div className="data-progress">
-                              <ProgressBar
-                                variant="warning"
-                                now={75}
-                                label={105}
-                              />
-                              <span>Agreed Limit | 300</span>
-                            </div>
-                            <span className="total-left">
-                              195<small>Left</small>
-                            </span>
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              Openings (total){" "}
-                              <LinkWithTooltip
-                                tooltip="Number of opening counts for specific article."
-                                href="#"
-                              >
-                                <img
-                                  src={path_image + "info_circle_icon.svg"}
-                                  alt="refresh-btn"
-                                />
-                              </LinkWithTooltip>
-                            </h6>
-                            <ProgressBar
-                              variant="success"
-                              now={43}
-                              label={43}
-                            />
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              Registered readers{" "}
-                              <LinkWithTooltip
-                                tooltip="Number of HCPs who have register for or activated the content."
-                                href="#"
-                              >
-                                <img
-                                  src={path_image + "info_circle_icon.svg"}
-                                  alt="refresh-btn"
-                                />
-                              </LinkWithTooltip>
-                            </h6>
-                            <ProgressBar variant="danger" now={3} label={3} />
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="data-main-footer-sec">
-                        <div className="footer-btn-wrapper">
-                          <Button className="footer-btn">Analytics</Button>
-                          <Button className="footer-btn reset">
-                            Reset the collected data
-                          </Button>
-                        </div>
-                      </div>
-                    </Tab>
-                    <Tab
-                      eventKey="change-tab"
-                      title="Change"
-                      className="change-tab"
-                    >
-                      <div className="data-main-box change-tab-main-box tab-panel">
-                        <ul className="tab-mail-list data change">
-                          <li>
-                            <h5 className="tab-content-title">
-                              <strong>Upload date</strong>
-                            </h5>
-                            <div className="select-dropdown-wrapper">
-                              <div className="select">
-                                <select>
-                                  <option value="1">Sunshine</option>
-                                  <option value="2">Offline Offer</option>
-                                  <option value="3">Online Only</option>
-                                </select>
-                              </div>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="data-main-footer-sec">
-                        <div className="data-main-footer-sec">
-                          <div className="footer-btn-wrapper">
-                            <Button className="footer-btn">
-                              Edit Docintel Link
-                            </Button>
-                            <Button className="footer-btn">
-                              Add / Remove Tags
-                            </Button>
-                            <Button className="footer-btn">New Sublink</Button>
-                          </div>
-                        </div>
-                      </div>
-                    </Tab>
-                  </Tabs>
-                </div>
+                        </>
+                      );
+                    })
+                  : null}
               </>
             </div>
             {/* <div className="load_more">
