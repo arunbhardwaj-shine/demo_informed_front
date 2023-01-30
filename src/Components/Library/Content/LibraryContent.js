@@ -279,14 +279,14 @@ const LibraryContent = () => {
       });
   };
   useEffect(() => {
-    getLibraryData();
-  }, []);
+    getLibraryData(page);
+  }, [page]);
 
-  const getLibraryData = async () => {
+  const getLibraryData = async (page) => {
     try {
       let body = {
         id: 18207,
-        page: 1,
+        page: page,
       };
       loader("show");
       // console.log("in get library data");
@@ -941,8 +941,8 @@ const LibraryContent = () => {
                               </div>
                               <div className="doc-content">
                                 <h5>{data.title}</h5>
-                                <h6>Sub-Title: arunp</h6>
-                                <p>Author</p>
+                                <h6>{data.pdf_sub_title}</h6>
+                                <p>{data.key_author}</p>
                                 <div className="select-tags">
                                   <div>Topic1</div>
                                   <div>Topic2</div>
@@ -1007,7 +1007,7 @@ const LibraryContent = () => {
                                         <strong>Docintel code</strong>
                                       </h6>
                                       <h6>
-                                        032884387{" "}
+                                        {data.docintel_code}
                                         <span className="copy-content">
                                           <img
                                             src={
@@ -1288,6 +1288,14 @@ const LibraryContent = () => {
                     })
                   : null}
               </>
+            </div>
+            <div className="load_more">
+              <button
+                className="btn btn-primary btn-filled"
+                onClick={loadMoreClicked}
+              >
+                Load More
+              </button>
             </div>
             {/* <div className="load_more">
               <button
