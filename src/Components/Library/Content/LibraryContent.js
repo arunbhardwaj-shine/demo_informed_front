@@ -836,6 +836,7 @@ const LibraryContent = () => {
                             <h6>Sunshine</h6>
                           </li>
                         </ul>
+                        </div>
                         <div className="data-main-footer-sec">
                           <div className="footer-btn-wrapper">
                             <a href="#" className="footer-btn">
@@ -861,7 +862,7 @@ const LibraryContent = () => {
                             </a>
                           </div>
                         </div>
-                      </div>
+                     
                     </Tab>
                     <Tab eventKey="data-tab" title="Data">
                       <div className="data-main-box">
@@ -879,16 +880,16 @@ const LibraryContent = () => {
                                 />
                               </LinkWithTooltip>
                             </h6>
-                            <div className="">
+                            <div className="data-progress">
                               <ProgressBar
                                 variant="warning"
-                                now={105}
+                                now={75}
                                 label={105}
                               />
                               <span>Agreed Limit | 300</span>
                             </div>
-                            <span>
-                              <large>195</large>Left
+                            <span className="total-left">
+                              195<small>Left</small>
                             </span>
                           </li>
                           <li>
@@ -1136,6 +1137,7 @@ const LibraryContent = () => {
                             <h6>Sunshine</h6>
                           </li>
                         </ul>
+                        </div>
                         <div className="data-main-footer-sec">
                           <div className="footer-btn-wrapper">
                             <a href="#" className="footer-btn">
@@ -1154,7 +1156,6 @@ const LibraryContent = () => {
                             </a>
                           </div>
                         </div>
-                      </div>
                     </Tab>
                     <Tab eventKey="data-tab" title="Data">
                       <div className="data-main-box">
@@ -1360,6 +1361,7 @@ const LibraryContent = () => {
                             <h6>Sunshine</h6>
                           </li>
                         </ul>
+                        </div>
                         <div className="data-main-footer-sec">
                           <div className="footer-btn-wrapper">
                             <a href="#" className="footer-btn">
@@ -1378,7 +1380,6 @@ const LibraryContent = () => {
                             </a>
                           </div>
                         </div>
-                      </div>
                     </Tab>
                     <Tab eventKey="data-tab" title="Data">
                       <div className="data-main-box">
@@ -1585,6 +1586,7 @@ const LibraryContent = () => {
                             <h6>Sunshine</h6>
                           </li>
                         </ul>
+                       </div>
                         <div className="data-main-footer-sec">
                           <div className="footer-btn-wrapper">
                             <a href="#" className="footer-btn">
@@ -1598,10 +1600,10 @@ const LibraryContent = () => {
                             </a>
                           </div>
                         </div>
-                      </div>
+
                     </Tab>
                     <Tab eventKey="data-tab" title="Data">
-                      <div className="data-main-box">
+                      <div className="data-main-box tab-panel">
                         <ul className="tab-mail-list data">
                           <li>
                             <h5>
@@ -1649,23 +1651,23 @@ const LibraryContent = () => {
                             <p className="data_box">23</p>
                           </li>
                         </ul>
-                        <div className="data-main-footer-sec">
-                          <div className="footer-btn-wrapper">
-                            <a href="#" className="footer-btn">
-                              Analytics
-                            </a>
-                          </div>
-                          <ul className="tab-mail-list tag">
-                            <li>
-                              <b>Tags:</b>
-                              <a href="#">N/A </a>
-                            </li>
-                          </ul>
+                      </div>
+                      <div className="data-main-footer-sec">
+                        <div className="footer-btn-wrapper">
+                          <a href="#" className="footer-btn">
+                            Analytics
+                          </a>
                         </div>
+                        <ul className="tab-mail-list tag">
+                          <li>
+                            <b>Tags:</b>
+                            <a href="#">N/A </a>
+                          </li>
+                        </ul>
                       </div>
                     </Tab>
                     <Tab eventKey="change-tab" title="Change">
-                      <div className="data-main-box change-tab-main-box">
+                      <div className="data-main-box change-tab-main-box tab-panel">
                         <ul className="tab-mail-list data change">
                           <li>
                             <h5 className="tab-content-title">
@@ -1688,6 +1690,7 @@ const LibraryContent = () => {
                             </a>
                           </li>
                         </ul>
+                      </div>
                         <div className="data-main-footer-sec">
                           <div className="footer-btn-wrapper">
                             <a href="#" className="footer-btn">
@@ -1709,7 +1712,7 @@ const LibraryContent = () => {
                             </button>
                           </div>
                         </div>
-                      </div>
+                      
                     </Tab>
                   </Tabs>
                 </div>

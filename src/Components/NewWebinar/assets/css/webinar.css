@@ -198,7 +198,7 @@ table.webinar-reader thead.sticky-header:after {
   padding: 8px 35px 8px 20px;
   width: 100%;
   color: #97b6cf;
-  font-family: "Roboto-Light";
+  font-weight: 300;
   background: #fff url(../../../../Components/assets/images/dropdown-arrow.svg);
   background-repeat: no-repeat;
   background-size: 14px;
@@ -222,7 +222,7 @@ table.webinar-reader thead.sticky-header:after {
 
 .search-bar form.d-flex input {
   font-size: 14px;
-  font-family: "Roboto-Light";
+  font-weight: 300;
 }
 
 .search-bar form.d-flex button {
@@ -243,7 +243,7 @@ table.webinar-reader thead.sticky-header:after {
   padding: 4px;
   border: 0;
   box-shadow: 0px 2px 10px 0px rgb(0 102 190 / 15%);
-  inset: 3px auto auto 0px !important;
+  /* inset: 3px auto auto 0px !important; */
   max-width: 290px;
   width: 100%;
 }
@@ -256,7 +256,7 @@ table.webinar-reader thead.sticky-header:after {
   border: 0;
   word-break: break-word;
   color: #4e718e;
-  font-family: "Roboto-Light";
+  font-weight: 300;
   margin: 0 0 2px;
   border-radius: 30px;
 }
@@ -302,7 +302,7 @@ table.webinar-reader thead.sticky-header:after {
 
 .selected-webinar-list .list-webinar-readers h3 {
   color: #0066be;
-  font-family: "Roboto-Medium";
+  font-weight: 500;
   margin: 0px 0 20px;
 }
 
@@ -310,7 +310,7 @@ table.webinar-reader thead.sticky-header:after {
   color: var(--light-blue);
   font-size: 36px;
   line-height: 42px;
-  font-family: "Roboto-Bold";
+  font-weight: bold;
   margin: 0 0 15px;
 }
 

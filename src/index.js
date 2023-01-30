@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.scss";
-import "./Components/assets/css/library.scss"
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import {BrowserRouter,Routes,Route, MemoryRouter as Router} from "react-router-dom";
@@ -94,7 +93,8 @@ let show = 0;
   show = 0;
 } else {
   console.log("in else");
-  require("./Components/NewWebinar/assets/css/webinar.css");
+  // require("./Components/NewWebinar/assets/css/webinar.css");
+  require("./Components/assets/css/library.scss");
   require("./Components/assets/css/style.css");
   require("./Components/assets/css/responsive.css");
   require("./Components/assets/css/custom.css");
