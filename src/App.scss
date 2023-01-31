@@ -26,34 +26,3 @@
 .App-link {
   color: #61dafb;
 }
-.wrapper {
-background-color: $background-color;
-color: $text-color;
-padding: $block-padding;
-&__btns {
-@include vertical-list;
-button {
-width: $btn-width;
-height: $btn-height;
-}
-}
-}
-.container {
-  display: flex;
-}
-.article[role="main"] {
-  width: math.div(600px, 960px) * 100%;
-}
-
-.aside[role="complementary"] {
-  width: math.div(300px, 960px) * 100%;
-  margin-left: auto;
-}
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}

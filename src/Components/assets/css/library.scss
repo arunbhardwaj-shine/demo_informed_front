@@ -83,13 +83,24 @@
             margin-left: 4px;
           }
         }
+        
       }
+      .tab-mail-list.data {
+        li{
+          padding:10px 0 16px;
+        }
+      }
+      .tab-mail-list.change {
+        h6.tab-content-title {
+          flex: 0 0 95px;
+        }
+      }
+
       .footer-btn-wrapper {
         margin: 0px 0px;
         display: flex;
         align-items: center;
         gap: 0px;
-        // flex-wrap: wrap;
         justify-content: space-between;
         .footer-btn {
           display: inline-block;
@@ -148,11 +159,14 @@ ul.tab-mail-list.data span.total-left {
   color: rgba(0, 74, 137, 0.5);
 }
 ul.tab-mail-list.data span.total-left small {
-  font-size: 12px;
-  line-height: 14px;
+    font-size: 12px;
+    line-height: 14px;
+    font-weight: 400;
+    margin-left: 3px;
 }
 .data-progress {
-  margin-right: 8px;
+    margin-right: 8px;
+    padding: 20px 0 0 35px;
 }
 .tab-mail-list.data .progress {
   width: 182px;
@@ -437,11 +451,6 @@ ul.tab-mail-list.tag a {
   flex-direction: column;
   justify-content: space-between;
 }
-.doc-content-main-box .tab-content .tab-panel,
-.doc-content-main-box .tab-content .tab-pane {
-  height: 100%;
-}
-
 .doc-content-main-box .tab-content .tab-panel {
   display: flex;
   flex-direction: column;
@@ -476,19 +485,35 @@ ul.tab-mail-list.tag a {
 .doc-content-main-box ul.tab-mail-list.data.change li h5 {
   flex: 0 0 150px;
 }
+.select-dropdown-wrapper .select {
+    display: flex;
+    align-items: center;
+}
 
+.select-dropdown-wrapper .select button.btn {
+    font-size: 14px;
+    line-height: 13px;
+    text-transform: capitalize;
+    color: $white;
+    box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
+    padding: 8px 14px;
+    min-width: 89px;
+}
 ul.tab-mail-list.data li .select-dropdown-wrapper select {
   box-shadow: 0px 1px 6px rgb(0 102 190 / 20%);
   border-radius: 30px;
   border: 0;
-  padding: 6px 14px 7px 14px;
+  padding: 9px 14px;
   width: 100%;
   color: #97b6cf;
   font-weight: 300;
   appearance: none;
   background-color: transparent;
   font-size: 14px;
-  min-width: 200px;
+  min-width: 222px;
+  margin-right: 16px;
+  background: var(--white) url(../images/dropdown-arrow.svg) no-repeat;
+  background-position: 93% center;
 }
 
 select::-ms-expand {
@@ -554,6 +579,20 @@ select::-ms-expand {
   mix-blend-mode: normal;
   box-shadow: 0px -5px 8px rgb(0 102 190 / 8%);
   border-radius: 20px 20px 0 0;
+  z-index: 2;
+  position: relative;
+}
+.doc-content-main-box .nav-tabs .nav-item button.active:after {
+    content: "";
+    background: #ffffff;
+    width: 100%;
+    position: absolute;
+    height: 45px;
+    top: 0;
+    left: 0;
+    border-radius: 20px 20px 0 0;
+    z-index: -1;
+    mix-blend-mode: normal;
 }
 .doc-content-main-box .nav-tabs .nav-item button {
   border: 0;
@@ -567,7 +606,7 @@ select::-ms-expand {
   background: $white;
   mix-blend-mode: normal;
   box-shadow: 0px -4px 8px rgb(0 102 190 / 7%);
-  border-radius: 0px 20px 20px 20px;
+  border-radius: 20px 20px 20px;
   margin: 1px -16px 0;
   padding: 20px 16px 0;
   min-height: 330px;
@@ -576,7 +615,7 @@ select::-ms-expand {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 310px;
+  min-height: 313px;
   flex-wrap: wrap;
 }
 

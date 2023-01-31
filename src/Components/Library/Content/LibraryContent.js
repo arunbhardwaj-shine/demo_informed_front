@@ -501,235 +501,6 @@ const LibraryContent = () => {
                       aria-labelledby="dropdownMenuButton2"
                     >
                       <h4>Filter By</h4>
-                      {/* <Accordion defaultActiveKey="0" flush>
-                        {filterdata.hasOwnProperty("language") &&
-                          filterdata.language.length > 0 && (
-                            <Accordion.Item className="card" eventKey="0">
-                              <Accordion.Header className="card-header">
-                                Language
-                              </Accordion.Header>
-                              <Accordion.Body className="card-body">
-                                <ul>
-                                  {Object.entries(filterdata.language).map(
-                                    ([index, item]) => (
-                                      <li>
-                                        {item != "" ? (
-                                          <label className="select-multiple-option">
-                                            <input
-                                              type="checkbox"
-                                              id={`custom-checkbox-tags-${index}`}
-                                              name="tags[]"
-                                              value={item}
-                                              checked={
-                                                updateflag > 0 &&
-                                                typeof filtertags !==
-                                                  "undefined" &&
-                                                filtertags.indexOf(item) !== -1
-                                              }
-                                              onChange={() =>
-                                                handleOnFilterTags(item)
-                                              }
-                                            />
-                                            {item}
-                                            <span className="checkmark"></span>
-                                          </label>
-                                        ) : null}
-                                      </li>
-                                    )
-                                  )}
-                                </ul>
-                              </Accordion.Body>
-                            </Accordion.Item>
-                          )}
-
-                        {filterdata.hasOwnProperty("business_unit") &&
-                          filterdata.business_unit.length > 0 && (
-                            <Accordion.Item className="card" eventKey="1">
-                              <Accordion.Header className="card-header">
-                                Business Unit
-                              </Accordion.Header>
-                              <Accordion.Body className="card-body">
-                                <ul>
-                                  {Object.entries(filterdata.business_unit).map(
-                                    ([index, item]) => (
-                                      <li>
-                                        <label className="select-multiple-option">
-                                          <input
-                                            type="checkbox"
-                                            id={`custom-checkbox-creator-${index}`}
-                                            name="creator[]"
-                                            value={item}
-                                            checked={
-                                              updateflag > 0 &&
-                                              typeof filtercreator !==
-                                                "undefined" &&
-                                              filtercreator.indexOf(item) !== -1
-                                            }
-                                            onChange={() =>
-                                              handleOnFilterCreator(item)
-                                            }
-                                          />
-                                          {item}
-                                          <span className="checkmark"></span>
-                                        </label>
-                                      </li>
-                                    )
-                                  )}
-                                </ul>
-                              </Accordion.Body>
-                            </Accordion.Item>
-                          )}
-                        {filterdata.hasOwnProperty("product") &&
-                          filterdata.product.length > 0 && (
-                            <Accordion.Item className="card" eventKey="2">
-                              <Accordion.Header className="card-header">
-                                Product
-                              </Accordion.Header>
-                              <Accordion.Body className="card-body">
-                                <ul>
-                                  {Object.entries(filterdata.product).map(
-                                    ([index, item]) => (
-                                      <li>
-                                        <label className="select-multiple-option">
-                                          <input
-                                            type="checkbox"
-                                            id={`custom-checkbox-date-${index}`}
-                                            name="date[]"
-                                            value={item}
-                                            checked={
-                                              updateflag > 0 &&
-                                              typeof filterdate !==
-                                                "undefined" &&
-                                              filterdate.indexOf(item) !== -1
-                                            }
-                                            onChange={() =>
-                                              handleOnFilterDate(item)
-                                            }
-                                          />
-                                          {item}
-                                          <span className="checkmark"></span>
-                                        </label>
-                                      </li>
-                                    )
-                                  )}
-                                </ul>
-                              </Accordion.Body>
-                            </Accordion.Item>
-                          )}
-                        {filterdata.hasOwnProperty("topic") &&
-                          filterdata.topic.length > 0 && (
-                            <Accordion.Item className="card" eventKey="3">
-                              <Accordion.Header className="card-header">
-                                Topic
-                              </Accordion.Header>
-                              <Accordion.Body className="card-body">
-                                <ul>
-                                  {Object.entries(filterdata.topic).map(
-                                    ([index, item]) => (
-                                      <li>
-                                        <label className="select-multiple-option">
-                                          <input
-                                            type="checkbox"
-                                            id={`custom-checkbox-date-${index}`}
-                                            name="date[]"
-                                            value={item}
-                                            checked={
-                                              updateflag > 0 &&
-                                              typeof filterdate !==
-                                                "undefined" &&
-                                              filterdate.indexOf(item) !== -1
-                                            }
-                                            onChange={() =>
-                                              handleOnFilterDate(item)
-                                            }
-                                          />
-                                          {item}
-                                          <span className="checkmark"></span>
-                                        </label>
-                                      </li>
-                                    )
-                                  )}
-                                </ul>
-                              </Accordion.Body>
-                            </Accordion.Item>
-                          )}
-                        {filterdata.hasOwnProperty("format") &&
-                          filterdata.format.length > 0 && (
-                            <Accordion.Item className="card" eventKey="4">
-                              <Accordion.Header className="card-header">
-                                Format
-                              </Accordion.Header>
-                              <Accordion.Body className="card-body">
-                                <ul>
-                                  {Object.entries(filterdata.format).map(
-                                    ([index, item]) => (
-                                      <li>
-                                        <label className="select-multiple-option">
-                                          <input
-                                            type="checkbox"
-                                            id={`custom-checkbox-date-${index}`}
-                                            name="date[]"
-                                            value={item}
-                                            checked={
-                                              updateflag > 0 &&
-                                              typeof filterdate !==
-                                                "undefined" &&
-                                              filterdate.indexOf(item) !== -1
-                                            }
-                                            onChange={() =>
-                                              handleOnFilterDate(item)
-                                            }
-                                          />
-                                          {item}
-                                          <span className="checkmark"></span>
-                                        </label>
-                                      </li>
-                                    )
-                                  )}
-                                </ul>
-                              </Accordion.Body>
-                            </Accordion.Item>
-                          )}
-
-                        {filterdata.hasOwnProperty("list") &&
-                          filterdata.list.length > 0 && (
-                            <Accordion.Item className="card" eventKey="5">
-                              <Accordion.Header className="card-header">
-                                List
-                              </Accordion.Header>
-                              <Accordion.Body className="card-body">
-                                <ul>
-                                  {Object.entries(filterdata.list).map(
-                                    ([index, item]) => (
-                                      <li>
-                                        <label className="select-multiple-option">
-                                          <input
-                                            type="checkbox"
-                                            id={`custom-checkbox-date-${index}`}
-                                            name="date[]"
-                                            value={item}
-                                            checked={
-                                              updateflag > 0 &&
-                                              typeof filterdate !==
-                                                "undefined" &&
-                                              filterdate.indexOf(item) !== -1
-                                            }
-                                            onChange={() =>
-                                              handleOnFilterDate(item)
-                                            }
-                                          />
-                                          {item}
-                                          <span className="checkmark"></span>
-                                        </label>
-                                      </li>
-                                    )
-                                  )}
-                                </ul>
-                              </Accordion.Body>
-                            </Accordion.Item>
-                          )}
-                      </Accordion> */}
-
                       <Accordion defaultActiveKey="0" flush>
                         {Object.keys(filterdata).map(function (key, index) {
                           console.log(key);
@@ -793,14 +564,6 @@ const LibraryContent = () => {
                       </div>
                     </div>
                   )}
-
-                  {/*
-                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                     <li><a className="dropdown-item" href="#">Filter1 <img src={path + "filter-close.svg"} alt="Close-filter" /></a></li>
-                     <li><a className="dropdown-item" href="#">Filter2 <img src={path + "filter-close.svg"} alt="Close-filter" /></a></li>
-                     <li><a className="dropdown-item" href="#">Filter3 <img src={path + "filter-close.svg"} alt="Close-filter" /></a></li>
-                 </ul>
-                 */}
                 </div>
                 <div className="clear-search">
                   {deletestatus ? (
@@ -852,74 +615,6 @@ const LibraryContent = () => {
                 </div>
               </div>
             </div>
-            {/* <div className="search_view readers">
-              <div className="smart-list-btns">
-                <div className="top-right-action library_content_view">
-                  <div className="col">
-                    <label>Select Tags</label>
-                    <DropdownButton
-                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                      title={eventSelected}
-                      // onSelect={(event) => eventDropDownClicked(event)}
-                    >
-                      <Dropdown.Item eventKey="All Tags">
-                        All Tags
-                      </Dropdown.Item>
-                      <Dropdown.Item eventKey="Tags 1">Tags 1</Dropdown.Item>
-                      <Dropdown.Item eventKey="Tags 2">Tags 2</Dropdown.Item>
-                      <Dropdown.Item eventKey="Tags 3">Tags 3</Dropdown.Item>
-                      <Dropdown.Item eventKey="Tags 4">Tags 4</Dropdown.Item>
-                    </DropdownButton>
-                  </div>
-                  <div className="col">
-                    <label>Select By Article</label>
-
-                    <DropdownButton
-                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                      title={articleSelected}
-                      // onSelect={(event) => articleDropDownClicked(event)}
-                    >
-                      <Dropdown.Item eventKey=" Select By Article">
-                        Select By Article
-                      </Dropdown.Item>
-                      <Dropdown.Item eventKey="expire">Expired</Dropdown.Item>
-                      <Dropdown.Item eventKey="unexpire">
-                        Non-Expired
-                      </Dropdown.Item>
-                    </DropdownButton>
-                  </div>
-                  <div className="col">
-                    <label>Select Action</label>
-                    <DropdownButton
-                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                      title={actionSelected == "0" ? "draft" : "link"}
-                    //  onSelect={(event) => actionDropDownClicked(event)}
-                    >
-                      <Dropdown.Item eventKey=" Select Action">
-                        Select Action
-                      </Dropdown.Item>
-                      <Dropdown.Item eventKey="Draft">Draft</Dropdown.Item>
-                      <Dropdown.Item eventKey="Live">Live</Dropdown.Item>
-                    </DropdownButton>
-                  </div>
-                  <div className="col">
-                    <label>Sort By</label>
-                    <DropdownButton
-                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                       title={sortSelected}
-                    //  onSelect={(event) => sortDropDownClicked(event)}
-                    >
-                      <Dropdown.Item eventKey="Desending">
-                        Desending
-                      </Dropdown.Item>
-                      <Dropdown.Item eventKey="Ascending">
-                        Ascending
-                      </Dropdown.Item>
-                    </DropdownButton>
-                  </div>
-                </div>
-              </div>
-            </div> */}
           </Row>
           <Row>
             <div className="library-content-box-layuot d-flex">
@@ -950,13 +645,6 @@ const LibraryContent = () => {
                                   <div>Topic4</div>
                                 </div>
                               </div>
-                              {/* <div className="refresh-btn">
-                              <img
-                                src={path_image + "refresh1.png"}
-                                alt="refresh-btn"
-                                style={{ width: "20px" }}
-                              />
-                            </div> */}
                             </div>
                             <Tabs
                               defaultActiveKey="docintel-link"
@@ -1067,8 +755,6 @@ const LibraryContent = () => {
                                         onClick={() => {
                                           navigate("/CreateEmail");
                                         }}
-                                        // href="https://informed.pro/Distributes/MailEngine"
-                                        // target="_blank"
                                       >
                                         Send in Email
                                       </Button>
@@ -1136,33 +822,21 @@ const LibraryContent = () => {
                                           />
                                         </LinkWithTooltip>
                                       </h6>
-                                      <ProgressBar
-                                        variant="success"
-                                        now={43}
-                                        label={43}
-                                      />
+                                       <div className="data-progress">
+                                          <ProgressBar variant="success" now={43} label={43} />
+                                      </div>
                                     </li>
                                     <li>
                                       <h6 className="tab-content-title">
                                         Registered readers{" "}
                                         <LinkWithTooltip
-                                          tooltip="Number of HCPs who have register for or activated the content."
-                                          href="#"
-                                        >
-                                          <img
-                                            src={
-                                              path_image +
-                                              "info_circle_icon.svg"
-                                            }
-                                            alt="refresh-btn"
-                                          />
+                                          tooltip="Number of HCPs who have register for or activated the content." href="#">
+                                          <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/>
                                         </LinkWithTooltip>
                                       </h6>
-                                      <ProgressBar
-                                        variant="danger"
-                                        now={3}
-                                        label={3}
-                                      />
+                                      <div className="data-progress">
+                                         <ProgressBar variant="danger" now={3} label={3} />
+                                      </div>
                                     </li>
                                   </ul>
                                 </div>
