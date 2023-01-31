@@ -976,7 +976,17 @@ const LibraryContent = () => {
                                     <a href="#" className="doc-link">
                                       https://docintel.app/arunp/WLMflJzX
                                     </a>
-                                    <span className="copy-content">
+                                    <span
+                                      className="copy-content"
+                                      onClick={() => {
+                                        toast.success(
+                                          "content copied to the clipboard!"
+                                        );
+                                        navigator.clipboard.writeText(
+                                          "https://docintel.app/arunp/WLMflJzX"
+                                        );
+                                      }}
+                                    >
                                       <img
                                         src={path_image + "copy-content.svg"}
                                         alt="Copy"
@@ -988,15 +998,30 @@ const LibraryContent = () => {
                                       <h6 className="tab-content-title">
                                         <strong>Upload date</strong>
                                       </h6>
-                                      <h6>4 August 2022</h6>
+                                      <h6>
+                                        {" "}
+                                        {moment(data?.created).format(
+                                          "DD MMM, YYYY"
+                                        )}
+                                      </h6>
                                     </li>
                                     <li>
                                       <h6 className="tab-content-title">
                                         <strong>inforMedGo code</strong>
                                       </h6>
                                       <h6>
-                                        cmlm1918717{" "}
-                                        <span className="copy-content">
+                                        {data.code}
+                                        <span
+                                          className="copy-content"
+                                          onClick={() => {
+                                            toast.success(
+                                              "content copied to the clipboard!"
+                                            );
+                                            navigator.clipboard.writeText(
+                                              data.code
+                                            );
+                                          }}
+                                        >
                                           <img
                                             src={
                                               path_image + "copy-content.svg"
