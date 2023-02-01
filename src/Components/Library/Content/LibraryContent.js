@@ -35,6 +35,7 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const LibraryContent = () => {
   const [size, setSize] = useState("Small");
   const location = useLocation();
+  const [search, setSearch] = useState("");
 
   const navigate = useNavigate();
   let obj = {};
@@ -85,7 +86,7 @@ const LibraryContent = () => {
         id: 18207,
       };
       const res = await postData(ENDPOINT.FILTERS, body);
-      console.log(res);
+      // console.log(res);
       setFilterData(res.data.data);
 
       loader("hide");
@@ -116,9 +117,8 @@ const LibraryContent = () => {
     }
   };
   const submitHandler = (event) => {
-    setShowFilter(false);
-    getData("progress");
-    setSubmiHandle(1);
+    setLibraryData([]);
+    getLibraryData(page, filterObject, search);
     event.preventDefault();
     return false;
   };
@@ -139,6 +139,9 @@ const LibraryContent = () => {
       if (index > -1) {
         // only splice array when item is found
         filterObject[key].splice(index, 1); // 2nd parameter means remove one item only
+        if (filterObject[key].length == 0) {
+          delete filterObject[key];
+        }
       }
     }
 
@@ -223,7 +226,7 @@ const LibraryContent = () => {
     setFilterObject({});
     setLibraryData([]);
 
-    getLibraryData(page, {});
+    getLibraryData(page, {}, search);
     setSearch("");
 
     setShowFilter(false);
@@ -234,7 +237,7 @@ const LibraryContent = () => {
     setLibraryData([]);
 
     setFilterObject(filterObject);
-    getLibraryData(page, filterObject);
+    getLibraryData(page, filterObject, search);
 
     setShowFilter(false);
   };
@@ -299,23 +302,24 @@ const LibraryContent = () => {
       });
   };
   useEffect(() => {
-    getLibraryData(page, filterObject);
+    getLibraryData(page, filterObject, search);
   }, [page]);
 
-  const getLibraryData = async (page, obj) => {
+  const getLibraryData = async (page, obj, search) => {
     try {
       // let body = {
       //   id: 18207,
       //   page: page,
       // };
       //console.log(filterObject);
-      let body;
-      if (Object.keys(obj).length !== 0) {
-        body = obj;
-      }
 
-      body.id = 18207;
-      body.page = page;
+      let data = {
+        id: 18207,
+        page: page,
+        search: search,
+      };
+
+      let body = { ...data, ...obj };
 
       loader("show");
       // console.log("in get library data");
@@ -332,9 +336,12 @@ const LibraryContent = () => {
     }
   };
 
-  const [search, setSearch] = useState("");
   const searchChange = (e) => {
     setSearch(e.target.value);
+    if (e.target.value === "") {
+      setLibraryData([]);
+      getLibraryData(page, filterObject, "");
+    }
   };
 
   const [eventSelected, setEventSelected] = useState("All Tags");
@@ -427,10 +434,29 @@ const LibraryContent = () => {
     );
   }
 
+  const removeindividualfilter = (key, item) => {
+    console.log(key);
+    console.log(item);
+    console.log(filterObject);
+    let old_object = filterObject;
+
+    const index = old_object[key].indexOf(item);
+    if (index > -1) {
+      // only splice array when item is found
+      old_object[key].splice(index, 1); // 2nd parameter means remove one item only
+      if (old_object[key].length == 0) {
+        delete old_object[key];
+      }
+    }
+
+    //console.log(old_object);
+    setFilterObject(old_object);
+    setLibraryData([]);
+    getLibraryData(page, old_object);
+  };
+
   return (
     <>
-      {console.log(Object.keys(filterObject).length)}
-      {console.log(filterObject)}
       <Col className="right-sidebar">
         <div className="custom-container">
           <Row>
@@ -552,13 +578,6 @@ const LibraryContent = () => {
                                             <input
                                               type="checkbox"
                                               id={`custom-checkbox-tags-${index}`}
-                                              // checked={
-                                              //   updateflag > 0 &&
-                                              //   typeof filtercreator !==
-                                              //     "undefined" &&
-                                              //   filtercreator.indexOf(item) !==
-                                              //     -1
-                                              // }
                                               value={item}
                                               defaultChecked={
                                                 filterObject.hasOwnProperty(key)
@@ -711,37 +730,41 @@ const LibraryContent = () => {
                 );
               })}
             </Accordion> */}
-
+            {console.log(filterObject)}
             {Object.keys(filterObject).length !== 0 ? (
               <div className="apply-filter">
                 <h6>Applied filters</h6>
                 <div className="filter-block">
                   <div className="filter-block-left full">
-                    {Object.keys(
-                      filterObject?.map((key, index) => {
-                        <div className="filter-div">
-                          <div className="filter-div-title">
-                            <span>{key} |</span>
-                          </div>
-                          <div className="filter-div-list">
-                            {filterObject[key].map((item, index) => (
-                              <div
-                                className="filter-result"
-                                // onClick={(event) =>
-                                // //  removeindividualfilter("tag", item)
-                                // }
-                              >
-                                {item}
-                                <img
-                                  src={path_image + "filter-close.svg"}
-                                  alt="Close-filter"
-                                />
+                    {Object.keys(filterObject).map((key, index) => {
+                      return (
+                        <>
+                          {filterObject[key].length > 0 ? (
+                            <div className="filter-div">
+                              <div className="filter-div-title">
+                                <span>{key} |</span>
                               </div>
-                            ))}
-                          </div>
-                        </div>;
-                      })
-                    )}
+                              <div className="filter-div-list">
+                                {filterObject[key].map((item, index) => (
+                                  <div
+                                    className="filter-result"
+                                    onClick={(event) =>
+                                      removeindividualfilter(key, item)
+                                    }
+                                  >
+                                    {item}
+                                    <img
+                                      src={path_image + "filter-close.svg"}
+                                      alt="Close-filter"
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          ) : null}
+                        </>
+                      );
+                    })}
                   </div>
                   <div class="clear-filter">
                     <button
