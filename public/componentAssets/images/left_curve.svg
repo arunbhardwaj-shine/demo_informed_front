@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="75" height="56" viewBox="0 0 75 56">
+  <defs>
+    <style>
+      .cls-1 {
+		box-shadow: 0px -2px 7px rgba(0, 102, 190, 0.13);
+      }
+    </style>
+  </defs>
+  <path class="cls-1" d="M75,0V56H0s14.726-.857,23-14c0,0,9.3-17.429,10-21A36.31,36.31,0,0,1,56,2S62.857-.429,75,0Z" fill="#ffffff"/>
+</svg>
