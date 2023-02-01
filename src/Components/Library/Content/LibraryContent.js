@@ -37,7 +37,7 @@ const LibraryContent = () => {
   const location = useLocation();
 
   const navigate = useNavigate();
-  var obj = {};
+  let obj = {};
   const [filterObject, setFilterObject] = useState({});
   const [SendListData, setSendListData] = useState([]);
   const [confirmationpopup, setConfirmationPopup] = useState(false);
@@ -128,21 +128,23 @@ const LibraryContent = () => {
   };
 
   const handleOnFilterChange = (e, item, index, key) => {
-    if (!obj[key]) {
-      obj[key] = [];
+    if (!filterObject[key]) {
+      filterObject[key] = [];
     }
 
     if (e.target.checked == true) {
-      obj[key].push(item);
+      filterObject[key].push(item);
     } else {
-      const index = obj[key].indexOf(item);
+      const index = filterObject[key].indexOf(item);
       if (index > -1) {
         // only splice array when item is found
-        obj[key].splice(index, 1); // 2nd parameter means remove one item only
+        filterObject[key].splice(index, 1); // 2nd parameter means remove one item only
       }
     }
 
-    console.log(obj);
+    //  setLibraryData((oldArray) => [...oldArray, ...res.data.data.library]);
+
+    setFilterObject(filterObject);
   };
 
   const handleOnFilterCreator = (fcreator) => {
@@ -230,9 +232,9 @@ const LibraryContent = () => {
   const applyFilter = (e) => {
     e.preventDefault();
     setLibraryData([]);
-    console.log(obj);
-    setFilterObject(obj);
-    getLibraryData(page, obj);
+
+    setFilterObject(filterObject);
+    getLibraryData(page, filterObject);
 
     setShowFilter(false);
   };
@@ -307,15 +309,18 @@ const LibraryContent = () => {
       //   page: page,
       // };
       //console.log(filterObject);
+      let body;
+      if (Object.keys(obj).length !== 0) {
+        body = obj;
+      }
 
-      let body = obj;
       body.id = 18207;
       body.page = page;
 
       loader("show");
       // console.log("in get library data");
       const res = await postData(ENDPOINT.LIBRARY, body);
-      console.log(res);
+
       setLibraryData((oldArray) => [...oldArray, ...res.data.data.library]);
 
       // setNextPage(res.data.data.next);
@@ -424,6 +429,8 @@ const LibraryContent = () => {
 
   return (
     <>
+      {console.log(Object.keys(filterObject).length)}
+      {console.log(filterObject)}
       <Col className="right-sidebar">
         <div className="custom-container">
           <Row>
@@ -545,6 +552,21 @@ const LibraryContent = () => {
                                             <input
                                               type="checkbox"
                                               id={`custom-checkbox-tags-${index}`}
+                                              // checked={
+                                              //   updateflag > 0 &&
+                                              //   typeof filtercreator !==
+                                              //     "undefined" &&
+                                              //   filtercreator.indexOf(item) !==
+                                              //     -1
+                                              // }
+                                              value={item}
+                                              defaultChecked={
+                                                filterObject.hasOwnProperty(key)
+                                                  ? filterObject[key].indexOf(
+                                                      item
+                                                    ) !== -1
+                                                  : false
+                                              }
                                               name="tags[]"
                                               onChange={(e) =>
                                                 handleOnFilterChange(
@@ -638,6 +660,100 @@ const LibraryContent = () => {
                 ) : null}
               </div>
             </div>
+
+            {/* <Accordion defaultActiveKey="0" flush>
+              {Object.keys(filterdata).map(function (key, index) {
+                return (
+                  <>
+                    <Accordion.Item className="card" eventKey={index}>
+                      <Accordion.Header className="card-header">
+                        {key}
+                      </Accordion.Header>
+                      {console.log(filterObject)}
+
+                      <Accordion.Body className="card-body">
+                        <ul>
+                          {filterdata[key].map((item, index) => (
+                            <li>
+                              {item != "" ? (
+                                <label className="select-multiple-option">
+                                  <input
+                                    type="checkbox"
+                                    id={`custom-checkbox-tags-${index}`}
+                                    // checked={
+                                    //   updateflag > 0 &&
+                                    //   typeof filtercreator !==
+                                    //     "undefined" &&
+                                    //   filtercreator.indexOf(item) !==
+                                    //     -1
+                                    // }
+                                    value={item}
+                                    defaultChecked={
+                                      filterObject.hasOwnProperty(key)
+                                        ? filterObject[key].indexOf(item) !== -1
+                                        : false
+                                    }
+                                    name="tags[]"
+                                    onChange={(e) =>
+                                      handleOnFilterChange(e, item, index, key)
+                                    }
+                                  />
+                                  {item}
+                                  <span className="checkmark"></span>
+                                </label>
+                              ) : null}
+                            </li>
+                          ))}
+                        </ul>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </>
+                );
+              })}
+            </Accordion> */}
+
+            {Object.keys(filterObject).length !== 0 ? (
+              <div className="apply-filter">
+                <h6>Applied filters</h6>
+                <div className="filter-block">
+                  <div className="filter-block-left full">
+                    {Object.keys(
+                      filterObject?.map((key, index) => {
+                        <div className="filter-div">
+                          <div className="filter-div-title">
+                            <span>{key} |</span>
+                          </div>
+                          <div className="filter-div-list">
+                            {filterObject[key].map((item, index) => (
+                              <div
+                                className="filter-result"
+                                // onClick={(event) =>
+                                // //  removeindividualfilter("tag", item)
+                                // }
+                              >
+                                {item}
+                                <img
+                                  src={path_image + "filter-close.svg"}
+                                  alt="Close-filter"
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </div>;
+                      })
+                    )}
+                  </div>
+                  <div class="clear-filter">
+                    <button
+                      class="btn btn-outline-primary btn-bordered"
+                      onClick={clearFilter}
+                    >
+                      Remove All
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : null}
           </Row>
           <Row>
             <div className="library-content-box-layuot d-flex">
