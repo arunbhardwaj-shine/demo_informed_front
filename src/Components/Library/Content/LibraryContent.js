@@ -35,8 +35,10 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const LibraryContent = () => {
   const [size, setSize] = useState("Small");
   const location = useLocation();
-  console.log(location?.state?.data);
+
   const navigate = useNavigate();
+  let obj = {};
+  const [filterObject, setFilterObject] = useState({});
   const [SendListData, setSendListData] = useState([]);
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [show, setShow] = useState(false);
@@ -58,6 +60,7 @@ const LibraryContent = () => {
     list: ["list1", "list2", "list3"],
   });
 
+  const [nextPage, setNextPage] = useState();
   const [deletestatus, setDeleteStatus] = useState(false);
   const [filtertags, setFilterTags] = useState([]);
   const [filtercreator, setFilterCreators] = useState([]);
@@ -71,13 +74,31 @@ const LibraryContent = () => {
 
   const [libraryData, setLibraryData] = useState([]);
 
-  const loadMoreClicked = () => {
-    setPage(page + 1);
+  useEffect(() => {
+    applyFilters();
+  }, []);
+
+  const applyFilters = async () => {
+    loader("show");
+    try {
+      let body = {
+        id: 18207,
+      };
+      const res = await postData(ENDPOINT.FILTERS, body);
+      console.log(res);
+      setFilterData(res.data.data);
+
+      loader("hide");
+    } catch (err) {
+      console.log("err");
+      loader("hide");
+    }
   };
 
-  // useEffect(() => {
-  //   getTags();
-  // }, []);
+  const loadMoreClicked = () => {
+    setLibraryData([]);
+    setPage("All");
+  };
 
   const getTags = async () => {
     try {
@@ -106,26 +127,24 @@ const LibraryContent = () => {
     setSize(event);
   };
 
-  const handleOnFilterTags = (ftag) => {
-    let tag_index = filtertags.indexOf(ftag);
-    if (tag_index !== -1) {
-      filtertags.splice(tag_index, 1);
-      setFilterTags(filtertags);
-    } else {
-      filtertags.push(ftag);
-      setFilterTags(filtertags);
+  const handleOnFilterChange = (e, item, index, key) => {
+    if (!filterObject[key]) {
+      filterObject[key] = [];
     }
 
-    let getfilter = filter;
-    if (getfilter.hasOwnProperty("tags")) {
-      getfilter.tags = filtertags;
+    if (e.target.checked == true) {
+      filterObject[key].push(item);
     } else {
-      getfilter = Object.assign({ tags: filtertags }, filter);
+      const index = filterObject[key].indexOf(item);
+      if (index > -1) {
+        // only splice array when item is found
+        filterObject[key].splice(index, 1); // 2nd parameter means remove one item only
+      }
     }
-    setFilter(getfilter);
 
-    let up = updateflag + 1;
-    setUpdateFlag(up);
+    //  setLibraryData((oldArray) => [...oldArray, ...res.data.data.library]);
+
+    setFilterObject(filterObject);
   };
 
   const handleOnFilterCreator = (fcreator) => {
@@ -199,25 +218,24 @@ const LibraryContent = () => {
     document.querySelectorAll("input").forEach((checkbox) => {
       checkbox.checked = false;
     });
-    document.getElementById("email_search").value = "";
+    // document.getElementById("email_search").value = "";
+    obj = {};
+    setFilterObject({});
+    setLibraryData([]);
+
+    getLibraryData(page, {});
     setSearch("");
-    setFilterTags([]);
-    setFilterCreators([]);
-    setFilterDate([]);
-    setFilterCampaigns([]);
-    setFilter([]);
-    let up = updateflag + 1;
-    setUpdateFlag(up);
-    if (filterapplied) {
-      setSendListData(getoriginalsendlistdata);
-    }
+
     setShowFilter(false);
   };
 
   const applyFilter = (e) => {
     e.preventDefault();
-    setFilterApply(true);
-    getData("progress");
+    setLibraryData([]);
+
+    setFilterObject(filterObject);
+    getLibraryData(page, filterObject);
+
     setShowFilter(false);
   };
 
@@ -229,25 +247,25 @@ const LibraryContent = () => {
     }
   };
 
-  const removeindividualfilter = (src, item) => {
-    // setRemoveFlag(true);
-    loader("show");
-    if (src == "tag") {
-      handleOnFilterTags(item);
-    } else if (src == "campaign") {
-      handleOnFilterCampaign(item);
-    } else if (src == "date") {
-      handleOnFilterDate(item);
-    } else if (src == "creator") {
-      handleOnFilterCreator(item);
-    }
-    if (filterapplied) {
-      getData("progress");
-    } else {
-      loader("hide");
-    }
-    setShowFilter(false);
-  };
+  // const removeindividualfilter = (src, item) => {
+  //   // setRemoveFlag(true);
+  //   loader("show");
+  //   if (src == "tag") {
+  //     handleOnFilterTags(item);
+  //   } else if (src == "campaign") {
+  //     handleOnFilterCampaign(item);
+  //   } else if (src == "date") {
+  //     handleOnFilterDate(item);
+  //   } else if (src == "creator") {
+  //     handleOnFilterCreator(item);
+  //   }
+  //   if (filterapplied) {
+  //     getData("progress");
+  //   } else {
+  //     loader("hide");
+  //   }
+  //   setShowFilter(false);
+  // };
   const getData = (stage) => {
     loader("show");
     const body = {
@@ -281,20 +299,31 @@ const LibraryContent = () => {
       });
   };
   useEffect(() => {
-    getLibraryData(page);
+    getLibraryData(page, filterObject);
   }, [page]);
 
-  const getLibraryData = async (page) => {
+  const getLibraryData = async (page, obj) => {
     try {
-      let body = {
-        id: 18207,
-        page: page,
-      };
+      // let body = {
+      //   id: 18207,
+      //   page: page,
+      // };
+      //console.log(filterObject);
+      let body;
+      if (Object.keys(obj).length !== 0) {
+        body = obj;
+      }
+
+      body.id = 18207;
+      body.page = page;
+
       loader("show");
       // console.log("in get library data");
       const res = await postData(ENDPOINT.LIBRARY, body);
-      console.log(res);
-      setLibraryData((oldArray) => [...oldArray, ...res.data.data]);
+
+      setLibraryData((oldArray) => [...oldArray, ...res.data.data.library]);
+
+      // setNextPage(res.data.data.next);
 
       loader("hide");
     } catch (err) {
@@ -400,6 +429,8 @@ const LibraryContent = () => {
 
   return (
     <>
+      {console.log(Object.keys(filterObject).length)}
+      {console.log(filterObject)}
       <Col className="right-sidebar">
         <div className="custom-container">
           <Row>
@@ -505,9 +536,6 @@ const LibraryContent = () => {
                       <h4>Filter By</h4>
                       <Accordion defaultActiveKey="0" flush>
                         {Object.keys(filterdata).map(function (key, index) {
-                          console.log(key);
-                          console.log(filterdata[key]);
-
                           return (
                             <>
                               <Accordion.Item className="card" eventKey={index}>
@@ -524,16 +552,29 @@ const LibraryContent = () => {
                                             <input
                                               type="checkbox"
                                               id={`custom-checkbox-tags-${index}`}
-                                              name="tags[]"
+                                              // checked={
+                                              //   updateflag > 0 &&
+                                              //   typeof filtercreator !==
+                                              //     "undefined" &&
+                                              //   filtercreator.indexOf(item) !==
+                                              //     -1
+                                              // }
                                               value={item}
-                                              checked={
-                                                updateflag > 0 &&
-                                                typeof filtertags !==
-                                                  "undefined" &&
-                                                filtertags.indexOf(item) !== -1
+                                              defaultChecked={
+                                                filterObject.hasOwnProperty(key)
+                                                  ? filterObject[key].indexOf(
+                                                      item
+                                                    ) !== -1
+                                                  : false
                                               }
-                                              onChange={() =>
-                                                handleOnFilterTags(item)
+                                              name="tags[]"
+                                              onChange={(e) =>
+                                                handleOnFilterChange(
+                                                  e,
+                                                  item,
+                                                  index,
+                                                  key
+                                                )
                                               }
                                             />
                                             {item}
@@ -619,6 +660,100 @@ const LibraryContent = () => {
                 ) : null}
               </div>
             </div>
+
+            {/* <Accordion defaultActiveKey="0" flush>
+              {Object.keys(filterdata).map(function (key, index) {
+                return (
+                  <>
+                    <Accordion.Item className="card" eventKey={index}>
+                      <Accordion.Header className="card-header">
+                        {key}
+                      </Accordion.Header>
+                      {console.log(filterObject)}
+
+                      <Accordion.Body className="card-body">
+                        <ul>
+                          {filterdata[key].map((item, index) => (
+                            <li>
+                              {item != "" ? (
+                                <label className="select-multiple-option">
+                                  <input
+                                    type="checkbox"
+                                    id={`custom-checkbox-tags-${index}`}
+                                    // checked={
+                                    //   updateflag > 0 &&
+                                    //   typeof filtercreator !==
+                                    //     "undefined" &&
+                                    //   filtercreator.indexOf(item) !==
+                                    //     -1
+                                    // }
+                                    value={item}
+                                    defaultChecked={
+                                      filterObject.hasOwnProperty(key)
+                                        ? filterObject[key].indexOf(item) !== -1
+                                        : false
+                                    }
+                                    name="tags[]"
+                                    onChange={(e) =>
+                                      handleOnFilterChange(e, item, index, key)
+                                    }
+                                  />
+                                  {item}
+                                  <span className="checkmark"></span>
+                                </label>
+                              ) : null}
+                            </li>
+                          ))}
+                        </ul>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </>
+                );
+              })}
+            </Accordion> */}
+
+            {Object.keys(filterObject).length !== 0 ? (
+              <div className="apply-filter">
+                <h6>Applied filters</h6>
+                <div className="filter-block">
+                  <div className="filter-block-left full">
+                    {Object.keys(
+                      filterObject?.map((key, index) => {
+                        <div className="filter-div">
+                          <div className="filter-div-title">
+                            <span>{key} |</span>
+                          </div>
+                          <div className="filter-div-list">
+                            {filterObject[key].map((item, index) => (
+                              <div
+                                className="filter-result"
+                                // onClick={(event) =>
+                                // //  removeindividualfilter("tag", item)
+                                // }
+                              >
+                                {item}
+                                <img
+                                  src={path_image + "filter-close.svg"}
+                                  alt="Close-filter"
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </div>;
+                      })
+                    )}
+                  </div>
+                  <div class="clear-filter">
+                    <button
+                      class="btn btn-outline-primary btn-bordered"
+                      onClick={clearFilter}
+                    >
+                      Remove All
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : null}
           </Row>
           <Row>
             <div className="library-content-box-layuot d-flex">
@@ -863,20 +998,36 @@ const LibraryContent = () => {
                                           />
                                         </LinkWithTooltip>
                                       </h6>
-                                       <div className="data-progress">
-                                          <ProgressBar variant="success" now={43} label={43} />
+                                      <div className="data-progress">
+                                        <ProgressBar
+                                          variant="success"
+                                          now={43}
+                                          label={43}
+                                        />
                                       </div>
                                     </li>
                                     <li>
                                       <h6 className="tab-content-title">
                                         Registered readers{" "}
                                         <LinkWithTooltip
-                                          tooltip="Number of HCPs who have register for or activated the content." href="#">
-                                          <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/>
+                                          tooltip="Number of HCPs who have register for or activated the content."
+                                          href="#"
+                                        >
+                                          <img
+                                            src={
+                                              path_image +
+                                              "info_circle_icon.svg"
+                                            }
+                                            alt="refresh-btn"
+                                          />
                                         </LinkWithTooltip>
                                       </h6>
                                       <div className="data-progress">
-                                         <ProgressBar variant="danger" now={3} label={3} />
+                                        <ProgressBar
+                                          variant="danger"
+                                          now={3}
+                                          label={3}
+                                        />
                                       </div>
                                     </li>
                                   </ul>
@@ -1014,14 +1165,17 @@ const LibraryContent = () => {
                   : null}
               </>
             </div>
-            <div className="load_more">
-              <button
-                className="btn btn-primary btn-filled"
-                onClick={loadMoreClicked}
-              >
-                Load More
-              </button>
-            </div>
+            {page == 1 ? (
+              <div className="load_more">
+                <button
+                  className="btn btn-primary btn-filled"
+                  onClick={loadMoreClicked}
+                >
+                  Load More
+                </button>
+              </div>
+            ) : null}
+
             {/* <div className="load_more">
               <button
                 className="btn btn-primary btn-filled"
