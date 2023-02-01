@@ -310,9 +310,9 @@ const LibraryContent = () => {
       // };
       //console.log(filterObject);
       let body;
-      if (Object.keys(obj).length !== 0) {
-        body = obj;
-      }
+   
+      body = obj;
+      
 
       body.id = 18207;
       body.page = page;
@@ -712,7 +712,7 @@ const LibraryContent = () => {
               })}
             </Accordion> */}
 
-            {Object.keys(filterObject).length !== 0 ? (
+            {/* {Object.keys(filterObject).length !== 0 ? (
               <div className="apply-filter">
                 <h6>Applied filters</h6>
                 <div className="filter-block">
@@ -753,7 +753,7 @@ const LibraryContent = () => {
                   </div>
                 </div>
               </div>
-            ) : null}
+            ) : null} */}
           </Row>
           <Row>
             <div className="library-content-box-layuot d-flex">
