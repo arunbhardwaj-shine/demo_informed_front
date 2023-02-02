@@ -1,6 +1,6 @@
 import React from "react";
 import Select from "react-select";
-import { Link } from "react-router-dom";
+import { Form, Link } from "react-router-dom";
 
 const LibraryCreateUser = () => {
   return (
@@ -46,65 +46,70 @@ const LibraryCreateUser = () => {
                 </div>
               </div>
             </div>
-            <div className="form_action">
-              <div className="row">
-                <div className="col-12 col-md-12">
-                  <div className="form-group">
-                    <label for="">Company</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      //onChange={(event) => onFirstNameChange(event, i)}
-                      //value={val.firstname}
-                    />
+            <div className="create-change-content">
+              <div className="form_action">
+                <h4>Who is involved</h4>
+                <div className="row">
+                  <div className="col-12 col-md-6">
+                    <div className="form-group">
+                      <label for="">Company</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        //onChange={(event) => onFirstNameChange(event, i)}
+                        //value={val.firstname}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label for="">Country</label>
+                      <Select
+                        className="dropdown-basic-button split-button-dropup"
+                        isClearable
+                      />
+                    </div>
+                     <div className="form-group">
+                      <label for="">Client product</label>
+                      <input
+                        type="text"
+                        className="form-control"/>
+                    </div>
+                    <div className="form-group">
+                      <label for="">Production</label>
+                      <Select
+                        className="dropdown-basic-button split-button-dropup edit-production-dropdown"
+                        isClearable />
+                    </div>
+                    <div className="form-group">
+                      <label for="">Sales</label>
+                      <Select
+                        className="dropdown-basic-button split-button-dropup edit-sales-dropdown"
+                        isClearable />
+                    </div>
                   </div>
-                </div>
-
-                <div className="col-12 col-md-6">
-                  <div className="form-group">
-                    <label for="">Country</label>
-                    <Select
-                      // options={countryall}
-                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                      isClearable
-                    />
-                    {/*
-                                    <DropdownButton className="dropdown-basic-button split-button-dropup country"
-                                        title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
-                                        onSelect={(event) => onCountryChange(event, i)}
-                                        >
-                                        <div className="scroll_div">
-                                        {countryall.length === 0
-                                        ? ""
-                                        : Object.entries(countryall).map(
-                                        ([index, item]) => {
-                                        return (
-                                        <>
-                                        <Dropdown.Item eventKey={index} className = {hpc[i].country == index ? "active" : "" }>{item == "B&H" ? "Bosnia and Herzegovina" : item}</Dropdown.Item>
-                                        </>
-                                      );
-                                    }
-                                  )}
-                                  </div>
-                                  </DropdownButton>
-                                    */}
-                  </div>
-                </div>
-                {/*
-                              <div className="col-12 col-md-6 btn_rmv">
-                                <div className="form-group">
-                                  {i !== 0 && (
-                                    <button
-                                      type="button"
-                                      className="btn btn-filled"
-                                      onClick={() => deleteRecord(i)}
-                                    >
-                                      Remove
-                                    </button>
-                                  )}
-                                </div>
+                  <div className="col-12 col-md-6 d-flex align-items-end">
+                        <div className="form-group">
+                           <label for="">Reseller</label>
+                            <div className="form-check-group">
+                              <div className="form-check">
+                                <input className="form-check-input" value="" id="flexCheckDefault" type="checkbox" />
+                                <label className="form-check-label" for="flexCheckDefault">N/A</label>
                               </div>
-                              */}
+                              <div className="form-check">
+                                <input className="form-check-input" value="" id="flexCheckReseller" type="checkbox" />
+                                <label className="form-check-label" for="flexCheckReseller">Reseller Name</label>
+                              </div>
+                              <div className="form-check">
+                              <input className="form-check-input" value="" id="flexCheckReseller1" type="checkbox" />
+                                  <label className="form-check-label" for="flexCheckReseller1">Reseller Name</label>
+                              </div>
+                              <div className="form-check">
+                                <input className="form-check-input" value="" id="flexCheckReseller2" type="checkbox" />
+                                <label className="form-check-label" for="flexCheckReseller2">Reseller Name</label>
+                              </div>
+                            </div>
+                        </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

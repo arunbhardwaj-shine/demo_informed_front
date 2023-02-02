@@ -19,4 +19,33 @@ font-weight: 400;
 font-size: 12px;
 line-height: 14px;
 }
-
+@mixin split-btn{
+  max-width: 445px;
+  min-width: 60px;
+  padding: 8px 15px;
+  font-size: 16px;
+  line-height: 20px;
+  background-size: 12px;
+  background: $white url(../images/dropdown-arrow.svg) no-repeat;
+  background-position: 93% center;
+    box-shadow: 0px 1px 6px rgb(0 102 190 / 20%);
+    border-radius: 30px;
+    border: 0;
+      color: #97B6CF;
+  font-weight: 300;
+  text-align: left;
+  height: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+@mixin split-btn-dropdown{
+  width: 100%;
+  border: 0.5px solid rgba(0, 102, 190, 0.06);
+  box-sizing: border-box;
+  box-shadow: 0 0 20px -3px rgb(0 102 190 / 18%);
+  border-radius: 15px;
+  width: 100%;
+  padding: 8px;
+  max-height: 150px;
+}

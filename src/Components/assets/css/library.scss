@@ -71,7 +71,7 @@
         margin: 0;
         h6 {
           @include h6;
-          color: #004a89;
+          color: $dark-blue;
         }
         h6.tab-content-title {
           font-weight: 500;
@@ -231,7 +231,7 @@ ul.tab-mail-list.data span.total-left small {
   font-size: 18px;
   line-height: 21px;
   text-transform: capitalize;
-  color: #004a89;
+  color: $dark-blue;
   margin-right: 16px;
 }
 #download-qr .modal-body .form-group {
@@ -526,7 +526,7 @@ select::-ms-expand {
 }
 
 .library_create-box {
-  background: #ffffff;
+  background: $white;;
   border-radius: 20px;
   position: relative;
   flex: 0 0 50%;
@@ -584,7 +584,7 @@ select::-ms-expand {
 }
 .doc-content-main-box .nav-tabs .nav-item button.active:after {
     content: "";
-    background: #ffffff;
+    background: $white;;
     width: 100%;
     position: absolute;
     height: 45px;
@@ -619,4 +619,90 @@ select::-ms-expand {
   flex-wrap: wrap;
 }
 
+
+
+
+.create-change-content {
+    background: rgba(0, 102, 190, 0.03);
+    border-radius: 20px;
+    padding: 24px 72px;
+}
+
+.create-change-content .form-group {
+    display: flex;
+    align-items: center;
+    margin: 18px 0 36px;
+    width: 100%;
+}
+.create-change-content .form-group label {
+    font-size: 18px;
+    line-height: 21px;
+    text-transform: capitalize;
+    color: $dark-blue;
+    flex: 0 0 150px;
+}
+
+.create-change-content .form-group .form-control {
+    background: $white;
+    box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
+    border-radius: 30px;
+    border: 0;
+    padding: 12px 27px;
+    width: 100%;
+    color: #4e718e;
+    font-weight: 300;
+    max-width: 445px;
+}
+
+.create-change-content .form-group .form-control:focus {
+    box-shadow: 0px 0px 5px rgb(0 102 190 / 87%);
+    color: var(--blue);
+}
+
+.create-change-content .form-group .dropdown-basic-button {
+    width: 100%;
+}
+.create-change-content .split-button-dropup > div:nth-child(3) {
+    @include split-btn;
+}
+.create-change-content .split-button-dropup div:nth-child(3)>div div {
+    font-size: 16px;
+    color:#97B6CF;
+}
+.create-change-content .split-button-dropup .dropdown-menu {
+    @include split-btn-dropdown;
+}
+.create-change-content .split-button-dropup .dropdown-menu a.dropdown-item {
+  color: var(--blue);
+  border-radius: 15px;
+  cursor: pointer;
+  margin: 0 0 2px;
+  word-break: break-word;
+  white-space: normal;
+  font-size: 13px;
+  line-height: 15px;
+  padding: 3px 7px;
+}
+.split-button-dropup div:nth-child(3) > div:nth-child(2) span, .split-button-dropup > div:nth-child(3) div:nth-child(2) div {
+    display: none;
+}
+.form-check-group {
+    background: $white;
+    box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
+    border-radius: 20px;
+    padding: 14px 16px;
+    max-width: 445px;
+    width: 100%;
+}
+.create-change-content .form-group .form-check label {
+    font-size: 15px;
+    line-height: 18px;
+    font-weight: 300;
+    color: #70899E;
+}
+.form_action h4{
+  color:$dark-blue;
+  font-weight: 500;
+    margin-bottom: 12px;
+}
 /**Library Style End**/
