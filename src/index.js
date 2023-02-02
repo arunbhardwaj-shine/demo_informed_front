@@ -71,6 +71,7 @@ import StatsWebinar from "./Components/NewWebinar/WebinarFiles/StatsWebinar";
 import AutoMail from "./Components/NewWebinar/WebinarFiles/AutoMail";
 import EventCreate from "./Components/NewWebinar/WebinarFiles/EventCreate";
 import SettingWebinar from "./Components/NewWebinar/WebinarFiles/SettingWebinar";
+import LibraryCreateUser from "./Components/Library/CreateChange/LibraryCreateUser";
 
 let platform = 0;
 let show = 0;
@@ -172,6 +173,10 @@ ReactDOM.render(
                   <Route path="/library-content" element={<LibraryContent />} />
                   <Route path="/library-edit" element={<LibraryContent />} />
                   <Route path="/library-create" element={<LibraryCreate />} />
+                  <Route
+                    path="/library-create-user"
+                    element={<LibraryCreateUser />}
+                  />
                   <Route
                     path="/library-campaign"
                     element={<LibraryCampaign />}

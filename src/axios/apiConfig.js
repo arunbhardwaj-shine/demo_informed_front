@@ -2,4 +2,5 @@
 export const ENDPOINT = {
   LIBRARY: `/library/get-library`,
   FILTERS: `/library/library-filter`,
+  DELETE: `library/delete-library`,
 };

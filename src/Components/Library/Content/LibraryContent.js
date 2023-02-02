@@ -4,7 +4,7 @@ import moment from "moment";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import { popup_alert } from "../../../popup_alert";
-import { postData } from "../../../axios/apiHelper";
+import { deleteData, postData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
@@ -28,7 +28,6 @@ import Tooltip from "react-bootstrap/Tooltip";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import { loader } from "../../../loader";
 import { toast } from "react-toastify";
-import Select from "react-select";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -39,6 +38,7 @@ const LibraryContent = () => {
 
   const navigate = useNavigate();
   let obj = {};
+  const [userId, setUserId] = useState();
   const [filterObject, setFilterObject] = useState({});
   const [SendListData, setSendListData] = useState([]);
   const [confirmationpopup, setConfirmationPopup] = useState(false);
@@ -101,21 +101,6 @@ const LibraryContent = () => {
     setPage("All");
   };
 
-  const getTags = async () => {
-    try {
-      let body = {
-        id: 18207,
-      };
-      loader("show");
-      const res = await postData(ENDPOINT.TAGS, body);
-      console.log(res);
-
-      loader("hide");
-      console.log(res);
-    } catch (err) {
-      console.log("err");
-    }
-  };
   const submitHandler = (event) => {
     setLibraryData([]);
     getLibraryData(page, filterObject, search);
@@ -137,80 +122,14 @@ const LibraryContent = () => {
     } else {
       const index = filterObject[key].indexOf(item);
       if (index > -1) {
-        // only splice array when item is found
-        filterObject[key].splice(index, 1); // 2nd parameter means remove one item only
+        filterObject[key].splice(index, 1);
         if (filterObject[key].length == 0) {
           delete filterObject[key];
         }
       }
     }
 
-    //  setLibraryData((oldArray) => [...oldArray, ...res.data.data.library]);
-
     setFilterObject(filterObject);
-  };
-
-  const handleOnFilterCreator = (fcreator) => {
-    let tag_index = filtercreator.indexOf(fcreator);
-    if (tag_index !== -1) {
-      filtercreator.splice(tag_index, 1);
-      setFilterCreators(filtercreator);
-    } else {
-      filtercreator.push(fcreator);
-      setFilterCreators(filtercreator);
-    }
-
-    let getfilter = filter;
-    if (getfilter.hasOwnProperty("creator")) {
-      getfilter.creator = filtercreator;
-    } else {
-      getfilter = Object.assign({ creator: filtercreator }, filter);
-    }
-    setFilter(getfilter);
-    let up = updateflag + 1;
-    setUpdateFlag(up);
-  };
-
-  const handleOnFilterDate = (fdate) => {
-    let tag_index = filterdate.indexOf(fdate);
-    if (tag_index !== -1) {
-      filterdate.splice(tag_index, 1);
-      setFilterDate(filterdate);
-    } else {
-      filterdate.push(fdate);
-      setFilterDate(filterdate);
-    }
-
-    let getfilter = filter;
-    if (getfilter.hasOwnProperty("date")) {
-      getfilter.date = filterdate;
-    } else {
-      getfilter = Object.assign({ date: filterdate }, filter);
-    }
-    setFilter(getfilter);
-    let up = updateflag + 1;
-    setUpdateFlag(up);
-  };
-
-  const handleOnFilterCampaign = (fcampaign) => {
-    let tag_index = filtercampaign.indexOf(fcampaign);
-    if (tag_index !== -1) {
-      filtercampaign.splice(tag_index, 1);
-      setFilterCampaigns(filtercampaign);
-    } else {
-      filtercampaign.push(fcampaign);
-      setFilterCampaigns(filtercampaign);
-    }
-
-    let getfilter = filter;
-    if (getfilter.hasOwnProperty("campaign")) {
-      getfilter.campaign = filtercampaign;
-    } else {
-      getfilter = Object.assign({ campaign: filtercampaign }, filter);
-    }
-    setFilter(getfilter);
-    let up = updateflag + 1;
-    setUpdateFlag(up);
   };
 
   const hideConfirmationModal = () => {
@@ -221,7 +140,7 @@ const LibraryContent = () => {
     document.querySelectorAll("input").forEach((checkbox) => {
       checkbox.checked = false;
     });
-    // document.getElementById("email_search").value = "";
+
     obj = {};
     setFilterObject({});
     setLibraryData([]);
@@ -250,69 +169,12 @@ const LibraryContent = () => {
     }
   };
 
-  // const removeindividualfilter = (src, item) => {
-  //   // setRemoveFlag(true);
-  //   loader("show");
-  //   if (src == "tag") {
-  //     handleOnFilterTags(item);
-  //   } else if (src == "campaign") {
-  //     handleOnFilterCampaign(item);
-  //   } else if (src == "date") {
-  //     handleOnFilterDate(item);
-  //   } else if (src == "creator") {
-  //     handleOnFilterCreator(item);
-  //   }
-  //   if (filterapplied) {
-  //     getData("progress");
-  //   } else {
-  //     loader("hide");
-  //   }
-  //   setShowFilter(false);
-  // };
-  const getData = (stage) => {
-    loader("show");
-    const body = {
-      user_id: localStorage.getItem("user_id"),
-      search: search,
-      filter: filter,
-    };
-    axios
-      .post(`emailapi/getlist`, body)
-      .then((res) => {
-        if (res.data.status_code == 200) {
-          setSendListData(res.data.response.data.emails);
-          if (stage == "initial") {
-            setOriginalSendListData(res.data.response.data.emails);
-
-            setFilterData(res.data.response.data.filter);
-            console.log(res.data.response.data.filter);
-          }
-          setUserData(res.data.response.data.user);
-        } else if (res.data.status_code == 201) {
-          setSendListData([]);
-        } else {
-          setSendListData([]);
-          toast.warning(res.data.message);
-        }
-        loader("hide");
-      })
-      .catch((err) => {
-        loader("hide");
-        toast.error("Something went wrong");
-      });
-  };
   useEffect(() => {
     getLibraryData(page, filterObject, search);
   }, [page]);
 
   const getLibraryData = async (page, obj, search) => {
     try {
-      // let body = {
-      //   id: 18207,
-      //   page: page,
-      // };
-      //console.log(filterObject);
-
       let data = {
         id: 18207,
         page: page,
@@ -320,15 +182,9 @@ const LibraryContent = () => {
       };
 
       let body = { ...data, ...obj };
-
       loader("show");
-      // console.log("in get library data");
       const res = await postData(ENDPOINT.LIBRARY, body);
-
       setLibraryData((oldArray) => [...oldArray, ...res.data.data.library]);
-
-      // setNextPage(res.data.data.next);
-
       loader("hide");
     } catch (err) {
       console.log("err");
@@ -344,81 +200,39 @@ const LibraryContent = () => {
     }
   };
 
-  const [eventSelected, setEventSelected] = useState("All Tags");
-
-  const eventDropDownClicked = (e) => {
-    console.log(e);
-    setEventSelected(e);
-  };
-  const articleDropDownClicked = (e) => {
-    console.log(e);
-    setLibraryData([]);
-    setPage(1);
-    setArticleSelected(e);
-    // getLibraryData(1, e);
-  };
-  const actionDropDownClicked = (e) => {
-    setLibraryData([]);
-    setPage(1);
-    if (e == "Draft") {
-      setActionSelected("0");
-    } else {
-      setActionSelected("1");
-    }
-  };
-  const sortDropDownClicked = (e) => {
-    setSortSelected(e);
-    console.log("hi");
-    //console.log(readers);
-    let normalArr = [];
-    normalArr = libraryData;
-    if (e == "Ascending") {
-      normalArr.sort((a, b) =>
-        a.title.toLowerCase() > b.title.toLowerCase()
-          ? 1
-          : b.title.toLowerCase() > a.title.toLowerCase()
-          ? -1
-          : 0
-      );
-    } else {
-      normalArr.sort((a, b) =>
-        a.title.toLowerCase() < b.title.toLowerCase()
-          ? 1
-          : b.title.toLowerCase() < a.title.toLowerCase()
-          ? -1
-          : 0
-      );
-    }
-    setLibraryData(normalArr);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validator.allValid()) {
-      console.log("All Valid");
-    } else {
-      validator.showMessages();
-      setRenderAfterValidation(renderAfterValidation + 1);
-    }
-  };
-
-  const showConfirmationPopup = () => {
+  const showConfirmationPopup = (e, id) => {
+    setUserId(id);
     if (confirmationpopup) {
       setConfirmationPopup(false);
     } else {
       setConfirmationPopup(true);
     }
-    //    setDeleteCardId(id);
   };
 
-  const deleteEmail = () => {
+  const deleteUser = async () => {
+    loader("show");
+    try {
+      const res = await deleteData(ENDPOINT.DELETE, userId);
+      console.log(res);
+      if (res.data.message == "Library deleted successfully") {
+        loader("hide");
+        popup_alert({
+          visible: "show",
+          message: "Your content has been deleted <br />successfully !",
+          type: "success",
+          redirect: "",
+        });
+        setLibraryData([]);
+        getLibraryData(page, filterObject, search);
+      }
+
+      loader("hide");
+    } catch (err) {
+      console.log("err");
+      loader("hide");
+    }
+
     hideConfirmationModal();
-    popup_alert({
-      visible: "show",
-      message: "Your content has been deleted <br />successfully !",
-      type: "success",
-      redirect: "",
-    });
   };
 
   function LinkWithTooltip({ id, children, href, tooltip }) {
@@ -442,8 +256,7 @@ const LibraryContent = () => {
 
     const index = old_object[key].indexOf(item);
     if (index > -1) {
-      // only splice array when item is found
-      old_object[key].splice(index, 1); // 2nd parameter means remove one item only
+      old_object[key].splice(index, 1);
       if (old_object[key].length == 0) {
         delete old_object[key];
       }
@@ -680,56 +493,6 @@ const LibraryContent = () => {
               </div>
             </div>
 
-            {/* <Accordion defaultActiveKey="0" flush>
-              {Object.keys(filterdata).map(function (key, index) {
-                return (
-                  <>
-                    <Accordion.Item className="card" eventKey={index}>
-                      <Accordion.Header className="card-header">
-                        {key}
-                      </Accordion.Header>
-                      {console.log(filterObject)}
-
-                      <Accordion.Body className="card-body">
-                        <ul>
-                          {filterdata[key].map((item, index) => (
-                            <li>
-                              {item != "" ? (
-                                <label className="select-multiple-option">
-                                  <input
-                                    type="checkbox"
-                                    id={`custom-checkbox-tags-${index}`}
-                                    // checked={
-                                    //   updateflag > 0 &&
-                                    //   typeof filtercreator !==
-                                    //     "undefined" &&
-                                    //   filtercreator.indexOf(item) !==
-                                    //     -1
-                                    // }
-                                    value={item}
-                                    defaultChecked={
-                                      filterObject.hasOwnProperty(key)
-                                        ? filterObject[key].indexOf(item) !== -1
-                                        : false
-                                    }
-                                    name="tags[]"
-                                    onChange={(e) =>
-                                      handleOnFilterChange(e, item, index, key)
-                                    }
-                                  />
-                                  {item}
-                                  <span className="checkmark"></span>
-                                </label>
-                              ) : null}
-                            </li>
-                          ))}
-                        </ul>
-                      </Accordion.Body>
-                    </Accordion.Item>
-                  </>
-                );
-              })}
-            </Accordion> */}
             {console.log(filterObject)}
             {Object.keys(filterObject).length !== 0 ? (
               <div className="apply-filter">
@@ -952,9 +715,7 @@ const LibraryContent = () => {
                                 ) : null}
                                 {location?.state?.data == "edit" ? (
                                   <div className="dlt_btn">
-                                    <button
-                                    // onClick={(e) => showConfirmationPopup()}
-                                    >
+                                    <button>
                                       <img
                                         src={path_image + "edit-white.svg"}
                                         alt="Delete Row"
@@ -964,7 +725,9 @@ const LibraryContent = () => {
                                 ) : deletestatus ? (
                                   <div className="dlt_btn">
                                     <button
-                                      onClick={(e) => showConfirmationPopup()}
+                                      onClick={(e) =>
+                                        showConfirmationPopup(e, data.id)
+                                      }
                                     >
                                       <img
                                         src={path_image + "delete.svg"}
@@ -1198,91 +961,10 @@ const LibraryContent = () => {
                 </button>
               </div>
             ) : null}
-
-            {/* <div className="load_more">
-              <button
-                className="btn btn-primary btn-filled"
-                onClick={loadMoreClicked}
-              >
-                Load More
-              </button>
-            </div> */}
           </Row>
         </div>
       </Col>
-      {/* <Modal
-        id="add_hcp"
-        show={show}
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <div
-          data-bs-backdrop="static"
-          data-bs-keyboard="false"
-          tabindex="-1"
-          aria-hidden="true"
-        >
-          <div className="modal-header">
-            <h5 className="modal-title" id="staticBackdropLabel">
-              Download QR
-            </h5>
-          </div>
-          <div className="modal-body">
-            <div className="hcp-add-box">
-              <div className="hcp-add-form tab-content" id="upload-confirm">
-                <div className="add_hcp_boxes">
-                  <div className="form_action">
-                    <div className="row">
-                      <div className="col-12 col-md-12">
-                        <div className="form-group">
-                          <label for="">Download QR</label>
-                          <DropdownButton
-                            className="dropdown-basic-button split-button-dropup"
-                            title={
-                              size == "" && size != "undefined"
-                                ? size
-                                : "Select Size"
-                            }
-                            onSelect={(event) => onSizeChange(event)}
-                          >
-                            <div className="scroll_div">
-                              <Dropdown.Item
-                                eventKey="Medium"
-                                className={size == "Medium" ? "active" : ""}
-                              >
-                                Medium
-                              </Dropdown.Item>
-                              <Dropdown.Item
-                                eventKey="Large"
-                                className={size == "Large" ? "active" : ""}
-                              >
-                                Large
-                              </Dropdown.Item>
-                              <Dropdown.Item
-                                eventKey="Small"
-                                className={size == "Small" ? "active" : ""}
-                              >
-                                Small
-                              </Dropdown.Item>
-                            </div>
-                          </DropdownButton>
-                        </div>
-                      </div>
-                   
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="modal-footer">
-            <button type="button" className="btn btn-primary save btn-filled">
-              Save
-            </button>
-          </div>
-        </div>
-      </Modal> */}
+
       <Modal show={show} className="send-confirm" id="download-qr">
         <Modal.Header>
           <h5 className="modal-title" id="staticBackdropLabel">
@@ -1298,8 +980,6 @@ const LibraryContent = () => {
           ></button>
         </Modal.Header>
         <Modal.Body>
-          {/* <img src={path + "alert.png"} alt="" /> */}
-
           <div className="form-group">
             <label for="">Select Size</label>
             <DropdownButton
@@ -1331,11 +1011,7 @@ const LibraryContent = () => {
           </div>
         </Modal.Body>
         <div className="modal-footer">
-          <button
-            type="button"
-            className="btn btn-primary save btn-filled"
-            //onClick={saveClicked}
-          >
+          <button type="button" className="btn btn-primary save btn-filled">
             Save
           </button>
         </div>
@@ -1348,7 +1024,6 @@ const LibraryContent = () => {
           show={confirmationpopup}
         >
           <Modal.Header>
-            {/* <Modal.Title>Heading Text</Modal.Title>*/}
             <button
               type="button"
               className="btn-close"
@@ -1369,7 +1044,7 @@ const LibraryContent = () => {
               <button
                 type="button"
                 className="btn btn-primary btn-filled"
-                onClick={(e) => deleteEmail()}
+                onClick={(e) => deleteUser()}
               >
                 Yes Please!
               </button>

@@ -378,6 +378,7 @@ const Sidebar = () => {
             window.location.pathname == "/library-campaign" ||
             window.location.pathname == "/spc" ||
             window.location.pathname == "/library-delete" ||
+            window.location.pathname == "/library-create-user" ||
             window.location.pathname == "/library-create-pharma" ? (
             <ul>
               <li
@@ -405,7 +406,8 @@ const Sidebar = () => {
               <li
                 className={
                   (location.pathname == "/library-create" ||
-                    location.pathname == "/library-edit") &&
+                    location.pathname == "/library-edit" ||
+                    location.pathname == "/library-create-user") &&
                   c_id == 0
                     ? "active"
                     : "side_li"

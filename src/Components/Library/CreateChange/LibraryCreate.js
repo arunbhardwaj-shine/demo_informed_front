@@ -31,7 +31,9 @@ const LibraryCreate = () => {
   let [active, setActive] = useState();
   const handleChange = (value) => {
     setActive(value);
-    if (value == 1) {
+    if (value == 0) {
+      navigate("/library-create-user");
+    } else if (value == 1) {
       navigate("/library-edit", {
         state: {
           data: "edit",
