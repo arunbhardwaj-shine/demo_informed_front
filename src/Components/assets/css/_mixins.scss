@@ -1,7 +1,7 @@
 @mixin vertical-list {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
+display: flex;
+align-items: center;
+flex-direction: column;
 }
 @mixin h5{
 font-weight: 500;

@@ -175,6 +175,12 @@ const LibraryContent = () => {
 
   const getLibraryData = async (page, obj, search) => {
     try {
+      // let body = {
+      //   id: 18207,
+      //   page: page,
+      // };
+      //console.log(filterObject);
+
       let data = {
         id: 18207,
         page: page,
