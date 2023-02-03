@@ -33,12 +33,17 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LibraryContent = () => {
   const [size, setSize] = useState("Small");
+  const [update, setUpdate] = useState(0);
   const location = useLocation();
   const [search, setSearch] = useState("");
+  const [opening_details, setOpeningDetails] = useState([]);
 
   const navigate = useNavigate();
   let obj = {};
   const [userId, setUserId] = useState();
+  const [uniqueReader, setUniqueReader] = useState();
+  const [opening, setOpening] = useState();
+  const [registeredReader, setRegisteredReader] = useState();
   const [filterObject, setFilterObject] = useState({});
   const [SendListData, setSendListData] = useState([]);
   const [confirmationpopup, setConfirmationPopup] = useState(false);
@@ -132,6 +137,53 @@ const LibraryContent = () => {
     setFilterObject(filterObject);
   };
 
+  const tabClicked = async (event, id) => {
+    console.log(event);
+    let normal_data = opening_details;
+    setUserId(id);
+    if (event == "data-tab") {
+      loader("show");
+      try {
+        let body = {
+          pdfId: [id],
+        };
+        const res = await postData(ENDPOINT.LIBRARYSTATS, body);
+        // console.log(res);
+        // setUniqueReader(res.data.data[0].unique);
+        // setOpening(res.data.data[0].opening);
+        // setRegisteredReader(res.data.data[0].unique);
+        console.log(res);
+
+        const status = normal_data.map((datas) => {
+          if (datas.pdf_id == id) {
+            return "true";
+          } else {
+            return "false";
+          }
+        });
+        if (status.every((ele) => ele == "false")) {
+          normal_data.push({
+            pdf_id: id,
+            uniqueReader: res.data.data[0].unique,
+            opening: res.data.data[0].opening,
+            registeredReader: res.data.data[0].reader,
+          });
+        }
+
+        console.log(normal_data);
+
+        setOpeningDetails(normal_data);
+
+        setUpdate(update + 1);
+
+        loader("hide");
+      } catch (err) {
+        console.log("err");
+        loader("hide");
+      }
+    }
+  };
+
   const hideConfirmationModal = () => {
     setConfirmationPopup(false);
   };
@@ -214,6 +266,7 @@ const LibraryContent = () => {
       setConfirmationPopup(true);
     }
   };
+  var num = 20;
 
   const deleteUser = async () => {
     loader("show");
@@ -576,8 +629,32 @@ const LibraryContent = () => {
                                   <div>Topic4</div>
                                 </div>
                               </div>
+                              {location?.state?.data == "edit" ? (
+                                <div className="dlt_btn">
+                                  <button>
+                                    <img
+                                      src={path_image + "edit-white.svg"}
+                                      alt="Delete Row"
+                                    />
+                                  </button>
+                                </div>
+                              ) : deletestatus ? (
+                                <div className="dlt_btn">
+                                  <button
+                                    onClick={(e) =>
+                                      showConfirmationPopup(e, data.id)
+                                    }
+                                  >
+                                    <img
+                                      src={path_image + "delete.svg"}
+                                      alt="Delete Row"
+                                    />
+                                  </button>
+                                </div>
+                              ) : null}
                             </div>
                             <Tabs
+                              onSelect={(key) => tabClicked(key, data.id)}
                               defaultActiveKey="docintel-link"
                               className="mb-3"
                               fill
@@ -719,29 +796,6 @@ const LibraryContent = () => {
                                     </div>
                                   </div>
                                 ) : null}
-                                {location?.state?.data == "edit" ? (
-                                  <div className="dlt_btn">
-                                    <button>
-                                      <img
-                                        src={path_image + "edit-white.svg"}
-                                        alt="Delete Row"
-                                      />
-                                    </button>
-                                  </div>
-                                ) : deletestatus ? (
-                                  <div className="dlt_btn">
-                                    <button
-                                      onClick={(e) =>
-                                        showConfirmationPopup(e, data.id)
-                                      }
-                                    >
-                                      <img
-                                        src={path_image + "delete.svg"}
-                                        alt="Delete Row"
-                                      />
-                                    </button>
-                                  </div>
-                                ) : null}
                               </Tab>
                               <Tab eventKey="data-tab" title="Data">
                                 <div className="data-main-box tab-panel">
@@ -762,17 +816,29 @@ const LibraryContent = () => {
                                           />
                                         </LinkWithTooltip>
                                       </h6>
-                                      <div className="data-progress">
-                                        <ProgressBar
-                                          variant="warning"
-                                          now={100}
-                                          label={105}
-                                        />
-                                        <span>Agreed Limit | 300</span>
-                                      </div>
-                                      <span className="total-left">
-                                        195<small>Left</small>
-                                      </span>
+                                      {opening_details.map((details) => {
+                                        if (details.pdf_id == data.id) {
+                                          return (
+                                            <>
+                                              <div>
+                                                <div className="data-progress">
+                                                  <ProgressBar
+                                                    variant="warning"
+                                                    now={details.uniqueReader}
+                                                    label={details.uniqueReader}
+                                                  />
+                                                  <span>
+                                                    Agreed Limit | 300
+                                                  </span>
+                                                </div>
+                                                <span className="total-left">
+                                                  195<small>Left</small>
+                                                </span>
+                                              </div>
+                                            </>
+                                          );
+                                        }
+                                      })}
                                     </li>
                                     <li>
                                       <h6 className="tab-content-title">
@@ -790,13 +856,23 @@ const LibraryContent = () => {
                                           />
                                         </LinkWithTooltip>
                                       </h6>
-                                      <div className="data-progress">
-                                        <ProgressBar
-                                          variant="success"
-                                          now={80}
-                                          label={80}
-                                        />
-                                      </div>
+                                      {opening_details.map((details) => {
+                                        if (details.pdf_id == data.id) {
+                                          return (
+                                            <>
+                                              <div>
+                                                <div className="data-progress">
+                                                  <ProgressBar
+                                                    variant="success"
+                                                    now={details.opening}
+                                                    label={details.opening}
+                                                  />
+                                                </div>
+                                              </div>
+                                            </>
+                                          );
+                                        }
+                                      })}
                                     </li>
                                     <li>
                                       <h6 className="tab-content-title">
@@ -814,13 +890,27 @@ const LibraryContent = () => {
                                           />
                                         </LinkWithTooltip>
                                       </h6>
-                                      <div className="data-progress">
-                                        <ProgressBar
-                                          variant="danger"
-                                          now={3}
-                                          label={3}
-                                        />
-                                      </div>
+                                      {opening_details.map((details) => {
+                                        if (details.pdf_id == data.id) {
+                                          return (
+                                            <>
+                                              <div>
+                                                <div className="data-progress">
+                                                  <ProgressBar
+                                                    variant="danger"
+                                                    now={
+                                                      details.registeredReader
+                                                    }
+                                                    label={
+                                                      details.registeredReader
+                                                    }
+                                                  />
+                                                </div>
+                                              </div>
+                                            </>
+                                          );
+                                        }
+                                      })}
                                     </li>
                                   </ul>
                                 </div>
