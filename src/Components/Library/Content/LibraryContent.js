@@ -624,9 +624,15 @@ const LibraryContent = () => {
                                 <h6>{data.pdf_sub_title}</h6>
                                 <p>{data.key_author}</p>
                                 <div className="select-tags">
-                                  {data.tags.map((data) => {
-                                    <div>{data}</div>;
-                                  })}
+                                  {data?.tags.length
+                                    ? JSON.parse(data.tags)?.map((data) => {
+                                        return (
+                                          <>
+                                            <div>{data}</div>
+                                          </>
+                                        );
+                                      })
+                                    : ""}
                                 </div>
                               </div>
                               {location?.state?.data == "edit" ? (
@@ -666,7 +672,7 @@ const LibraryContent = () => {
                                 <div className="tab-panel">
                                   <div className="tab-content-links">
                                     <a href="#" className="doc-link">
-                                      https://docintel.app/arunp/WLMflJzX
+                                      {data.docintelLink}
                                     </a>
                                     <span
                                       className="copy-content"
@@ -675,7 +681,7 @@ const LibraryContent = () => {
                                           "content copied to the clipboard!"
                                         );
                                         navigator.clipboard.writeText(
-                                          "https://docintel.app/arunp/WLMflJzX"
+                                          data.docintelLink
                                         );
                                       }}
                                     >
@@ -753,7 +759,9 @@ const LibraryContent = () => {
                                       <h6 className="tab-content-title">
                                         <strong>SPC included</strong>
                                       </h6>
-                                      <h6>032884387</h6>
+                                      <h6>
+                                        {data.spc_included == 0 ? "No" : "Yes"}
+                                      </h6>
                                     </li>
                                     <li>
                                       <h6 className="tab-content-title">
@@ -765,7 +773,7 @@ const LibraryContent = () => {
                                       <h6 className="tab-content-title">
                                         <strong>Link type</strong>
                                       </h6>
-                                      <h6>Sunshine</h6>
+                                      <h6>{data.Linktype}</h6>
                                     </li>
                                   </ul>
                                 </div>
