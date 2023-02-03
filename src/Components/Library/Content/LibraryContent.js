@@ -765,7 +765,7 @@ const LibraryContent = () => {
                                       <div className="data-progress">
                                         <ProgressBar
                                           variant="warning"
-                                          now={75}
+                                          now={100}
                                           label={105}
                                         />
                                         <span>Agreed Limit | 300</span>
@@ -793,8 +793,8 @@ const LibraryContent = () => {
                                       <div className="data-progress">
                                         <ProgressBar
                                           variant="success"
-                                          now={43}
-                                          label={43}
+                                          now={80}
+                                          label={80}
                                         />
                                       </div>
                                     </li>
