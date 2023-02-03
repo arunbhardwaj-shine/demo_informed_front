@@ -582,7 +582,8 @@ select::-ms-expand {
   z-index: 2;
   position: relative;
 }
-.doc-content-main-box .nav-tabs .nav-item button.active:after {
+
+.doc-content-main-box .nav-tabs .nav-item button.active:before {
     content: "";
     background: $white;;
     width: 100%;
@@ -593,6 +594,19 @@ select::-ms-expand {
     border-radius: 20px 20px 0 0;
     z-index: -1;
     mix-blend-mode: normal;
+}
+.doc-content-main-box .nav-tabs .nav-item button.active:after {
+  content: "";
+  position: absolute;
+  right: -20px;
+  height:100%;
+  background: url(../images/right_curve.svg) no-repeat;
+  width: 44px;
+  top: 0;
+  background-size: 44px;
+  z-index: 77;
+  box-shadow: 0px -5px 8px rgb(0 102 190 / 8%);
+  border-radius: 0 80px 0px 0;
 }
 .doc-content-main-box .nav-tabs .nav-item button {
   border: 0;
@@ -626,6 +640,7 @@ select::-ms-expand {
     background: rgba(0, 102, 190, 0.03);
     border-radius: 20px;
     padding: 24px 72px;
+    margin: 0 0 40px;
 }
 
 .create-change-content .form-group {
@@ -637,12 +652,11 @@ select::-ms-expand {
 .create-change-content .form-group label {
     font-size: 18px;
     line-height: 21px;
-    text-transform: capitalize;
     color: $dark-blue;
-    flex: 0 0 150px;
+    flex: 0 0 154px;
 }
 
-.create-change-content .form-group .form-control {
+.create-change-content .form-group .form-control, .create-change-content .react-datepicker__input-container input {
     background: $white;
     box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
     border-radius: 30px;
@@ -656,7 +670,7 @@ select::-ms-expand {
 
 .create-change-content .form-group .form-control:focus {
     box-shadow: 0px 0px 5px rgb(0 102 190 / 87%);
-    color: var(--blue);
+    color: $dark-blue;
 }
 
 .create-change-content .form-group .dropdown-basic-button {
@@ -673,7 +687,7 @@ select::-ms-expand {
     @include split-btn-dropdown;
 }
 .create-change-content .split-button-dropup .dropdown-menu a.dropdown-item {
-  color: var(--blue);
+  color: $dark-blue;
   border-radius: 15px;
   cursor: pointer;
   margin: 0 0 2px;
@@ -703,6 +717,103 @@ select::-ms-expand {
 .form_action h4{
   color:$dark-blue;
   font-weight: 500;
-    margin-bottom: 12px;
+  margin-bottom: 12px;
+}
+
+.create-change-content .form-group fieldset {
+    display: flex;
+    align-items: center;
+}
+
+.create-change-content .form-group fieldset input, .create-change-content .form-group .form-check-group input {
+    border: 1px solid #97b6cf;
+    width: 16px;
+    height: 16px;
+    padding: 1px;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    appearance: none;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    display: inline-block;
+    flex: 0 0 16px;
+    margin: 0 16px 0 0;
+}
+.create-change-content .form-group fieldset label {
+    font-size: 16px;
+    line-height: 19px;
+    color: #70899E;
+    flex: 0 0 80px;
+    font-weight: 400;
+}
+.create-change-content .form-group fieldset input:checked[type="checkbox"], .create-change-content .form-group .form-check-group input:checked[type="radio"] {
+    background-color: var(--green);
+    border-color: var(--green);
+    background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27%3e%3cpath fill=%27none%27 stroke=%27%23fff%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%273%27 d=%27m6 10 3 3 6-6%27/%3e%3c/svg%3e");
+}
+.create-change-content .form-group textarea.form-control {
+    min-height: 223px;
+    resize: none;
+}
+.create-change-content .right-change .form-group {
+    align-items: flex-start;
+}
+
+.create-change-content .right-change .form-group > label {
+    padding-top: 18px;
+}
+.form-check-group .form-check {
+    display: flex;
+    align-items: center;
+    margin-bottom: 7px;
+}
+.create-change-content .upload-file-box {
+    width: 100%;
+    border: 1px dashed var(--light-blue);
+    box-sizing: border-box;
+    border-radius: 15px;
+    padding: 16px;
+    max-width: 445px;
+    margin: 0 0 15px;
+}
+.create-change-content .upload-file-box .box {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+    align-items: center;
+    width: 100%;
+}
+.create-change-content .inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+.create-change-content .inputfile ~ label {
+    max-width: 80%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    padding: 11px;
+    background: var(--light-blue);
+    border-radius: 30px;
+    color: var(--white) !important;
+    font-size: 16px;
+    line-height: 1;
+    font-weight: 500;
+    min-width: 171px;
+    text-align: center;
+    height: 39px;
+}
+.create-change-content .upload-file-box .box p{
+    margin: 0;
+    font-size: 16px;
+    line-height: 145.19%;
+    color: #97B6CF;
 }
 /**Library Style End**/
