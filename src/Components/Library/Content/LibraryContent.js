@@ -167,6 +167,7 @@ const LibraryContent = () => {
             uniqueReader: res.data.data[0].unique,
             opening: res.data.data[0].opening,
             registeredReader: res.data.data[0].reader,
+            limit: res.data.data[0].limit,
           });
         }
 
@@ -820,21 +821,34 @@ const LibraryContent = () => {
                                         if (details.pdf_id == data.id) {
                                           return (
                                             <>
-                                              <div>
-                                                <div className="data-progress">
-                                                  <ProgressBar
-                                                    variant="warning"
-                                                    now={details.uniqueReader}
-                                                    label={details.uniqueReader}
-                                                  />
-                                                  <span>
-                                                    Agreed Limit | 300
-                                                  </span>
-                                                </div>
-                                                <span className="total-left">
-                                                  195<small>Left</small>
+                                              <div className="data-progress">
+                                                <ProgressBar
+                                                  variant="warning"
+                                                  now={
+                                                    details.limit == 0
+                                                      ? (details.uniqueReader /
+                                                          1000) *
+                                                        100
+                                                      : (details.uniqueReader /
+                                                          details.limit) *
+                                                        100
+                                                  }
+                                                  label={details.uniqueReader}
+                                                />
+                                                <span>
+                                                  Agreed Limit |
+                                                  {details.limit == 0
+                                                    ? 1000
+                                                    : details.limit}
                                                 </span>
                                               </div>
+                                              <span className="total-left">
+                                                {details.limit == 0
+                                                  ? 1000 - details.uniqueReader
+                                                  : details.limit -
+                                                    details.uniqueReader}
+                                                <small>Left</small>
+                                              </span>
                                             </>
                                           );
                                         }
@@ -860,14 +874,20 @@ const LibraryContent = () => {
                                         if (details.pdf_id == data.id) {
                                           return (
                                             <>
-                                              <div>
-                                                <div className="data-progress">
-                                                  <ProgressBar
-                                                    variant="success"
-                                                    now={details.opening}
-                                                    label={details.opening}
-                                                  />
-                                                </div>
+                                              <div className="data-progress">
+                                                <ProgressBar
+                                                  variant="success"
+                                                  now={
+                                                    details.limit == 0
+                                                      ? (details.opening /
+                                                          1000) *
+                                                        100
+                                                      : (details.opening /
+                                                          details.limit) *
+                                                        100
+                                                  }
+                                                  label={details.opening}
+                                                />
                                               </div>
                                             </>
                                           );
@@ -894,18 +914,22 @@ const LibraryContent = () => {
                                         if (details.pdf_id == data.id) {
                                           return (
                                             <>
-                                              <div>
-                                                <div className="data-progress">
-                                                  <ProgressBar
-                                                    variant="danger"
-                                                    now={
-                                                      details.registeredReader
-                                                    }
-                                                    label={
-                                                      details.registeredReader
-                                                    }
-                                                  />
-                                                </div>
+                                              <div className="data-progress">
+                                                <ProgressBar
+                                                  variant="danger"
+                                                  now={
+                                                    details.limit == 0
+                                                      ? (details.registeredReader /
+                                                          1000) *
+                                                        100
+                                                      : (details.registeredReader /
+                                                          details.limit) *
+                                                        100
+                                                  }
+                                                  label={
+                                                    details.registeredReader
+                                                  }
+                                                />
                                               </div>
                                             </>
                                           );
