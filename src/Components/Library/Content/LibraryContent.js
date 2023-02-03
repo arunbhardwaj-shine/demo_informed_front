@@ -624,10 +624,9 @@ const LibraryContent = () => {
                                 <h6>{data.pdf_sub_title}</h6>
                                 <p>{data.key_author}</p>
                                 <div className="select-tags">
-                                  <div>Topic1</div>
-                                  <div>Topic2</div>
-                                  <div>Topic3</div>
-                                  <div>Topic4</div>
+                                  {data.tags.map((data) => {
+                                    <div>{data}</div>;
+                                  })}
                                 </div>
                               </div>
                               {location?.state?.data == "edit" ? (
