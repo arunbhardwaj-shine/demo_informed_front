@@ -167,6 +167,7 @@ const LibraryContent = () => {
             uniqueReader: res.data.data[0].unique,
             opening: res.data.data[0].opening,
             registeredReader: res.data.data[0].reader,
+            limit: res.data.data[0].limit,
           });
         }
 
@@ -623,10 +624,15 @@ const LibraryContent = () => {
                                 <h6>{data.pdf_sub_title}</h6>
                                 <p>{data.key_author}</p>
                                 <div className="select-tags">
-                                  <div>Topic1</div>
-                                  <div>Topic2</div>
-                                  <div>Topic3</div>
-                                  <div>Topic4</div>
+                                  {data?.tags.length
+                                    ? JSON.parse(data.tags)?.map((data) => {
+                                        return (
+                                          <>
+                                            <div>{data}</div>
+                                          </>
+                                        );
+                                      })
+                                    : ""}
                                 </div>
                               </div>
                               {location?.state?.data == "edit" ? (
@@ -666,7 +672,7 @@ const LibraryContent = () => {
                                 <div className="tab-panel">
                                   <div className="tab-content-links">
                                     <a href="#" className="doc-link">
-                                      https://docintel.app/arunp/WLMflJzX
+                                      {data.docintelLink}
                                     </a>
                                     <span
                                       className="copy-content"
@@ -675,7 +681,7 @@ const LibraryContent = () => {
                                           "content copied to the clipboard!"
                                         );
                                         navigator.clipboard.writeText(
-                                          "https://docintel.app/arunp/WLMflJzX"
+                                          data.docintelLink
                                         );
                                       }}
                                     >
@@ -753,7 +759,9 @@ const LibraryContent = () => {
                                       <h6 className="tab-content-title">
                                         <strong>SPC included</strong>
                                       </h6>
-                                      <h6>032884387</h6>
+                                      <h6>
+                                        {data.spc_included == 0 ? "No" : "Yes"}
+                                      </h6>
                                     </li>
                                     <li>
                                       <h6 className="tab-content-title">
@@ -765,7 +773,7 @@ const LibraryContent = () => {
                                       <h6 className="tab-content-title">
                                         <strong>Link type</strong>
                                       </h6>
-                                      <h6>Sunshine</h6>
+                                      <h6>{data.Linktype}</h6>
                                     </li>
                                   </ul>
                                 </div>
@@ -820,21 +828,34 @@ const LibraryContent = () => {
                                         if (details.pdf_id == data.id) {
                                           return (
                                             <>
-                                              <div>
-                                                <div className="data-progress">
-                                                  <ProgressBar
-                                                    variant="warning"
-                                                    now={details.uniqueReader}
-                                                    label={details.uniqueReader}
-                                                  />
-                                                  <span>
-                                                    Agreed Limit | 300
-                                                  </span>
-                                                </div>
-                                                <span className="total-left">
-                                                  195<small>Left</small>
+                                              <div className="data-progress">
+                                                <ProgressBar
+                                                  variant="warning"
+                                                  now={
+                                                    details.limit == 0
+                                                      ? (details.uniqueReader /
+                                                          1000) *
+                                                        100
+                                                      : (details.uniqueReader /
+                                                          details.limit) *
+                                                        100
+                                                  }
+                                                  label={details.uniqueReader}
+                                                />
+                                                <span>
+                                                  Agreed Limit |
+                                                  {details.limit == 0
+                                                    ? 1000
+                                                    : details.limit}
                                                 </span>
                                               </div>
+                                              <span className="total-left">
+                                                {details.limit == 0
+                                                  ? 1000 - details.uniqueReader
+                                                  : details.limit -
+                                                    details.uniqueReader}
+                                                <small>Left</small>
+                                              </span>
                                             </>
                                           );
                                         }
@@ -860,14 +881,20 @@ const LibraryContent = () => {
                                         if (details.pdf_id == data.id) {
                                           return (
                                             <>
-                                              <div>
-                                                <div className="data-progress">
-                                                  <ProgressBar
-                                                    variant="success"
-                                                    now={details.opening}
-                                                    label={details.opening}
-                                                  />
-                                                </div>
+                                              <div className="data-progress">
+                                                <ProgressBar
+                                                  variant="success"
+                                                  now={
+                                                    details.limit == 0
+                                                      ? (details.opening /
+                                                          1000) *
+                                                        100
+                                                      : (details.opening /
+                                                          details.limit) *
+                                                        100
+                                                  }
+                                                  label={details.opening}
+                                                />
                                               </div>
                                             </>
                                           );
@@ -894,18 +921,22 @@ const LibraryContent = () => {
                                         if (details.pdf_id == data.id) {
                                           return (
                                             <>
-                                              <div>
-                                                <div className="data-progress">
-                                                  <ProgressBar
-                                                    variant="danger"
-                                                    now={
-                                                      details.registeredReader
-                                                    }
-                                                    label={
-                                                      details.registeredReader
-                                                    }
-                                                  />
-                                                </div>
+                                              <div className="data-progress">
+                                                <ProgressBar
+                                                  variant="danger"
+                                                  now={
+                                                    details.limit == 0
+                                                      ? (details.registeredReader /
+                                                          1000) *
+                                                        100
+                                                      : (details.registeredReader /
+                                                          details.limit) *
+                                                        100
+                                                  }
+                                                  label={
+                                                    details.registeredReader
+                                                  }
+                                                />
                                               </div>
                                             </>
                                           );
