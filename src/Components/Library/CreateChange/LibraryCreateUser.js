@@ -222,7 +222,7 @@ const LibraryCreateUser = () => {
                       ) : null} */}
                     </div>
                   </div>
-                  <div className="col-12 col-md-6 d-flex align-items-end right-change">
+                  <div className="col-12 col-md-6 d-flex justify-content-end align-items-end right-change">
                     <div className="form-group justify-content-end">
                       <label for="">Reseller</label>
                       <div className="form-check-group">
@@ -338,7 +338,7 @@ const LibraryCreateUser = () => {
                       </fieldset>
                     </div>
                   </div>
-                  <div className="col-12 col-md-6 d-flex align-items-end right-change">
+                  <div className="col-12 col-md-6 d-flex justify-content-end align-items-end right-change">
                     <div className="form-group justify-content-end">
                       <label for="">Invoice notes</label>
                       <textarea
@@ -442,7 +442,7 @@ const LibraryCreateUser = () => {
                       ) : null}
                     </div>
                   </div>
-                  <div className="col-12 col-md-6 d-flex align-items-end right-change">
+                  <div className="col-12 col-md-6 d-flex justify-content-end align-items-end right-change">
                     <div className="form-group justify-content-end">
                       <label for="">Production notes to Docintel team</label>
                       <textarea

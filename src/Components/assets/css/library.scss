@@ -626,6 +626,26 @@ select::-ms-expand {
 
 
 
+.login-validation {
+  color: #d61975;
+  font-size: 12px;
+  position: absolute;
+  right: 0px;
+  top: 55px;
+}
+
+.login-validation-upload {
+  color: #d61975;
+  font-size: 12px;
+  position: absolute;
+  left:auto;
+  right: 0px;
+  bottom: -10px;
+}
+
+.val {
+  position: relative;
+}
 
 .create-change-content {
     background: rgba(0, 102, 190, 0.03);
@@ -639,6 +659,7 @@ select::-ms-expand {
     align-items: center;
     margin: 18px 0 36px;
     width: 100%;
+    max-width: 600px;
 }
 .create-change-content .form-group label {
     font-size: 18px;
@@ -738,7 +759,7 @@ select::-ms-expand {
     flex: 0 0 80px;
     font-weight: 400;
 }
-.create-change-content .form-group fieldset input:checked[type="checkbox"], .create-change-content .form-group .form-check-group input:checked[type="radio"] {
+.create-change-content .form-group input:checked[type="checkbox"], .create-change-content .form-group .form-check-group input:checked[type="radio"] {
     background-color: var(--green);
     border-color: var(--green);
     background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27%3e%3cpath fill=%27none%27 stroke=%27%23fff%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%273%27 d=%27m6 10 3 3 6-6%27/%3e%3c/svg%3e");
@@ -758,6 +779,7 @@ select::-ms-expand {
     display: flex;
     align-items: center;
     margin-bottom: 7px;
+    padding-left: 0;
 }
 .create-change-content .upload-file-box {
     width: 100%;
