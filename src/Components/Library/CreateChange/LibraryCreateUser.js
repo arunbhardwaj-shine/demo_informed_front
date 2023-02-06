@@ -12,8 +12,11 @@ const today = new Date();
 const LibraryCreateUser = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [error, setError] = useState({});
+  const [image, setImage] = useState("");
   const [company, setCompany] = useState("");
+  const [contentTitle, setContentTitle] = useState("");
   const [clientProduct, setClientProduct] = useState("");
+  const [pdfFile, setPdfFile] = useState("");
 
   const [countryAll, setCountryAll] = useState([
     { value: "India", label: "India" },
@@ -34,6 +37,14 @@ const LibraryCreateUser = () => {
     { value: "sales3", label: "sales3" },
   ]);
 
+  const [ePrintType, setePrintType] = useState([
+    { value: "ePrintType1", label: "ePrintType1" },
+    { value: "ePrintType2", label: "ePrintType2" },
+    { value: "ePrintType3", label: "ePrintType3" },
+  ]);
+
+  const [ePrint, setEPrint] = useState("");
+
   const onSalesChange = (event) => {
     setSales(event.value);
   };
@@ -52,20 +63,28 @@ const LibraryCreateUser = () => {
     console.log(event);
     setCountry(event.value);
   };
+
+  const ePrintTypeChange = (e) => {
+    setEPrint(e);
+  };
+
   const onProductionChange = (event) => {
     console.log(event);
     setProduction(event.value);
+  };
+
+  const contentTitleChanged = (e) => {
+    setContentTitle(e.target.value);
   };
 
   const nextButtonClicked = (e) => {
     e.preventDefault();
 
     const data = {
-      company: company,
-      country: country,
-      clientProduct: clientProduct,
-      production: production,
-      sales: sales,
+      contentTitle: contentTitle,
+      ePrint: ePrint,
+      pdfFile: pdfFile,
+      image: image,
     };
 
     const err = createContent(data);
@@ -78,6 +97,16 @@ const LibraryCreateUser = () => {
       console.log("no error");
     }
   };
+
+  const handleFileChange = (e) => {
+    console.log(e.target.files[0]);
+    setPdfFile(e.target.files[0]);
+  };
+
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
+  };
+
   return (
     <>
       <div className="col right-sidebar">
@@ -137,9 +166,9 @@ const LibraryCreateUser = () => {
                         onChange={(event) => onCompanyChange(event)}
                         //value={val.firstname}
                       />
-                      {error?.company ? (
+                      {/* {error?.company ? (
                         <div className="login-validation">{error?.company}</div>
-                      ) : null}
+                      ) : null} */}
                     </div>
                     <div className="form-group">
                       <label for="">Country</label>
@@ -149,9 +178,9 @@ const LibraryCreateUser = () => {
                         className="dropdown-basic-button split-button-dropup"
                         isClearable
                       />
-                      {error?.country ? (
+                      {/* {error?.country ? (
                         <div className="login-validation">{error?.country}</div>
-                      ) : null}
+                      ) : null} */}
                     </div>
                     <div className="form-group">
                       <label for="">Client product</label>
@@ -160,11 +189,11 @@ const LibraryCreateUser = () => {
                         className="form-control"
                         onChange={(e) => onClientProductChange(e)}
                       />
-                      {error?.clientProduct ? (
+                      {/* {error?.clientProduct ? (
                         <div className="login-validation">
                           {error?.clientProduct}
                         </div>
-                      ) : null}
+                      ) : null} */}
                     </div>
                     <div className="form-group">
                       <label for="">Production</label>
@@ -174,11 +203,11 @@ const LibraryCreateUser = () => {
                         className="dropdown-basic-button split-button-dropup edit-production-dropdown"
                         isClearable
                       />
-                      {error?.production ? (
+                      {/* {error?.production ? (
                         <div className="login-validation">
                           {error?.production}
                         </div>
-                      ) : null}
+                      ) : null} */}
                     </div>
                     <div className="form-group">
                       <label for="">Sales</label>
@@ -188,9 +217,9 @@ const LibraryCreateUser = () => {
                         className="dropdown-basic-button split-button-dropup edit-sales-dropdown"
                         isClearable
                       />
-                      {error?.sales ? (
+                      {/* {error?.sales ? (
                         <div className="login-validation">{error?.sales}</div>
-                      ) : null}
+                      ) : null} */}
                     </div>
                   </div>
                   <div className="col-12 col-md-6 d-flex align-items-end">
@@ -327,9 +356,18 @@ const LibraryCreateUser = () => {
                 <h4>Creating the eprint</h4>
                 <div className="row">
                   <div className="col-12 col-md-6">
-                    <div className="form-group">
+                    <div className="form-group val">
                       <label for="">Content title *</label>
-                      <input type="text" className="form-control" required />
+                      <input
+                        type="text"
+                        className="form-control"
+                        onChange={(e) => contentTitleChanged(e)}
+                      />
+                      {error?.contentTitle ? (
+                        <div className="login-validation">
+                          {error?.contentTitle}
+                        </div>
+                      ) : null}
                     </div>
                     <div className="form-group">
                       <label for="">Journal title</label>
@@ -339,14 +377,19 @@ const LibraryCreateUser = () => {
                       <label for="">Author</label>
                       <input type="text" className="form-control" />
                     </div>
-                    <div className="form-group">
+                    <div className="form-group val">
                       <label for="">ePrint type *</label>
                       <Select
                         className="dropdown-basic-button split-button-dropup"
+                        options={ePrintType}
+                        onChange={(event) => ePrintTypeChange(event)}
                         isClearable
                       />
+                      {error?.ePrint ? (
+                        <div className="login-validation">{error?.ePrint}</div>
+                      ) : null}
                     </div>
-                    <div className="form-group">
+                    <div className="form-group val">
                       <label for="">Upload PDF</label>
                       <div class="upload-file-box">
                         <div class="box">
@@ -355,7 +398,8 @@ const LibraryCreateUser = () => {
                             name="file-6[]"
                             id="file-6"
                             class="inputfile inputfile-6"
-                            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                            accept=".doc .csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                            onChange={(e) => handleFileChange(e)}
                           />
                           <label for="file-6">
                             <span>Choose Your File</span>
@@ -363,9 +407,14 @@ const LibraryCreateUser = () => {
                           <p>Upload your PDF</p>
                         </div>
                       </div>
+                      {error?.pdfFile ? (
+                        <div className="login-validation-upload">
+                          {error?.pdfFile}
+                        </div>
+                      ) : null}
                     </div>
-                    <div className="form-group">
-                      <label for="">Upload PDF</label>
+                    <div className="form-group val">
+                      <label for="">Upload Cover Image</label>
                       <div class="upload-file-box">
                         <div class="box">
                           <input
@@ -373,7 +422,8 @@ const LibraryCreateUser = () => {
                             name="file-5[]"
                             id="file-5"
                             class="inputfile inputfile-5"
-                            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                            accept="image/png, image/jpeg"
+                            onChange={handleImageChange}
                           />
                           <label for="file-5">
                             <span>Choose Your File</span>
@@ -385,6 +435,11 @@ const LibraryCreateUser = () => {
                           </p>
                         </div>
                       </div>
+                      {error?.image ? (
+                        <div className="login-validation-upload">
+                          {error?.image}
+                        </div>
+                      ) : null}
                     </div>
                   </div>
                   <div className="col-12 col-md-6 d-flex align-items-end right-change">
