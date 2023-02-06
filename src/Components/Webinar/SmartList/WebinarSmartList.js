@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import CssBaseline from "@material-ui/core/CssBaseline";
 
 import { connect } from "react-redux";
 import { Button, Modal, ToastContainer } from "react-bootstrap";
@@ -264,7 +263,6 @@ const WebinarSmartList = () => {
   return (
     <>
       <div class="right-sidebar col">
-        
         <div class="top-header">
           <div class="page-title">
             <h3>Smart List</h3>
@@ -431,7 +429,7 @@ const WebinarSmartList = () => {
             </div>
             {typeof smartListData !== "undefined" &&
             smartListData.length > 0 ? (
-              smartListData.map((data , i) => {
+              smartListData.map((data, i) => {
                 return (
                   <div key={i} class="smartlist_box_block">
                     {/* {console.log(data)} */}

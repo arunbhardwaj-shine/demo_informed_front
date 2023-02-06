@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link, NavigationType } from "react-router-dom";
 import Table from "./Table";
 import { useNavigate } from "react-router-dom";
-import CssBaseline from "@material-ui/core/CssBaseline";
+
 import { Button, Modal } from "react-bootstrap";
 import SimpleReactValidator from "simple-react-validator";
 import { useLocation } from "react-router-dom";
@@ -246,9 +246,14 @@ const CreateSmartList = () => {
   const downloadFile = () => {
     let user_id = localStorage.getItem("user_id");
     let link = document.createElement("a");
-    if(user_id == "wW0geGtDPvig5gF 6KbJrg==" || user_id == "qDgwPdToP05Kgzc g2VjIQ==" ||  user_id == "z2TunmZQf3QwCsICFTLGGQ==" || user_id == "UbCJcnLM9fe HsRMgX8c1A=="){
+    if (
+      user_id == "wW0geGtDPvig5gF 6KbJrg==" ||
+      user_id == "qDgwPdToP05Kgzc g2VjIQ==" ||
+      user_id == "z2TunmZQf3QwCsICFTLGGQ==" ||
+      user_id == "UbCJcnLM9fe HsRMgX8c1A=="
+    ) {
       link.href = "https://informed.pro/sample_st.xls";
-    }else{
+    } else {
       link.href = "https://informed.pro/sample.xls";
     }
     link.setAttribute("download", "file.xlsx");
