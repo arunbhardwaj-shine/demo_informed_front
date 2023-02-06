@@ -1,116 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import Select from "react-select";
-import { Form, Link } from "react-router-dom";
 import DatePicker from "react-datepicker";
+import { Link } from "react-router-dom";
+import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-import { useNavigate } from "react-router-dom";
 
-import { createContent } from "../../CommonComponent/Validations";
-import { useSSRSafeId } from "@react-aria/ssr";
-// import Placeholder from "react-select/dist/declarations/src/components/Placeholder";
-const today = new Date();
-
-const LibraryCreateUser = () => {
-  const navigate = useNavigate();
+const CreateDocintelLink = () => {
   const [startDate, setStartDate] = useState(new Date());
-  const [error, setError] = useState({});
-  const [image, setImage] = useState("");
-  const [company, setCompany] = useState("");
-  const [contentTitle, setContentTitle] = useState("");
-  const [clientProduct, setClientProduct] = useState("");
-  const [pdfFile, setPdfFile] = useState("");
-
-  const [countryAll, setCountryAll] = useState([
-    { value: "India", label: "India" },
-    { value: "Australia", label: "Australia" },
-    { value: "Russia", label: "Russia" },
-  ]);
-
-  const [productionAll, setProductionAll] = useState([
-    { value: "production1", label: "production1" },
-    { value: "production2", label: "production2" },
-    { value: "production3", label: "production3" },
-  ]);
-
-  const [sales, setSales] = useState("");
-  const [salesAll, setSalesAll] = useState([
-    { value: "sales1", label: "sales1" },
-    { value: "sales2", label: "sales2" },
-    { value: "sales3", label: "sales3" },
-  ]);
-
-  const [ePrintType, setePrintType] = useState([
-    { value: "ePrintType1", label: "ePrintType1" },
-    { value: "ePrintType2", label: "ePrintType2" },
-    { value: "ePrintType3", label: "ePrintType3" },
-  ]);
-
-  const [ePrint, setEPrint] = useState("");
-
-  const onSalesChange = (event) => {
-    setSales(event.value);
-  };
-
-  const [production, setProduction] = useState("");
-  const [country, setCountry] = useState("");
-  const onCompanyChange = (event) => {
-    setCompany(event.target.value);
-  };
-
-  const onClientProductChange = (event) => {
-    setClientProduct(event.target.value);
-  };
-
-  const onCountryChange = (event) => {
-    console.log(event);
-    setCountry(event.value);
-  };
-
-  const ePrintTypeChange = (e) => {
-    setEPrint(e);
-  };
-
-  const onProductionChange = (event) => {
-    console.log(event);
-    setProduction(event.value);
-  };
-
-  const contentTitleChanged = (e) => {
-    setContentTitle(e.target.value);
-  };
-
-  const nextButtonClicked = (e) => {
-    e.preventDefault();
-
-    const data = {
-      contentTitle: contentTitle,
-      ePrint: ePrint,
-      pdfFile: pdfFile,
-      image: image,
-    };
-
-    const err = createContent(data);
-    if (Object.keys(err)?.length) {
-      setError(err);
-
-      console.log(err);
-      return;
-    } else {
-      navigate("/create-docintel-link");
-      setError(err);
-      console.log("no error");
-    }
-  };
-
-  const handleFileChange = (e) => {
-    console.log(e.target.files[0]);
-    setPdfFile(e.target.files[0]);
-  };
-
-  const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
-  };
-
+  console.log("in create docintel link");
   return (
     <>
       <div className="col right-sidebar">
@@ -149,7 +46,7 @@ const LibraryCreateUser = () => {
 
                     <button
                       className="btn btn-primary btn-filled next"
-                      onClick={nextButtonClicked}
+                      //   onClick={nextButtonClicked}
                     >
                       Next
                     </button>
@@ -159,26 +56,14 @@ const LibraryCreateUser = () => {
             </div>
             <div className="create-change-content">
               <div className="form_action">
-                <h4>Who is involved</h4>
+                <h4>About the Docintel link you're making</h4>
                 <div className="row">
                   <div className="col-12 col-md-6">
                     <div className="form-group">
-                      <label for="">Company</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        onChange={(event) => onCompanyChange(event)}
-                        //value={val.firstname}
-                      />
-                      {/* {error?.company ? (
-                        <div className="login-validation">{error?.company}</div>
-                      ) : null} */}
-                    </div>
-                    <div className="form-group">
-                      <label for="">Country</label>
+                      <label for="">Category</label>
                       <Select
-                        options={countryAll}
-                        onChange={(event) => onCountryChange(event)}
+                        // options={countryAll}
+                        // onChange={(event) => onCountryChange(event)}
                         className="dropdown-basic-button split-button-dropup"
                         isClearable
                       />
@@ -186,24 +71,12 @@ const LibraryCreateUser = () => {
                         <div className="login-validation">{error?.country}</div>
                       ) : null} */}
                     </div>
+
                     <div className="form-group">
-                      <label for="">Client product</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        onChange={(e) => onClientProductChange(e)}
-                      />
-                      {/* {error?.clientProduct ? (
-                        <div className="login-validation">
-                          {error?.clientProduct}
-                        </div>
-                      ) : null} */}
-                    </div>
-                    <div className="form-group">
-                      <label for="">Production</label>
+                      <label for="">Format</label>
                       <Select
-                        options={productionAll}
-                        onChange={(event) => onProductionChange(event)}
+                        //options={productionAll}
+                        // onChange={(event) => onProductionChange(event)}
                         className="dropdown-basic-button split-button-dropup edit-production-dropdown"
                         isClearable
                       />
@@ -214,10 +87,22 @@ const LibraryCreateUser = () => {
                       ) : null} */}
                     </div>
                     <div className="form-group">
-                      <label for="">Sales</label>
+                      <label for="">Product</label>
                       <Select
-                        options={salesAll}
-                        onChange={(event) => onSalesChange(event)}
+                        // options={salesAll}
+                        // onChange={(event) => onSalesChange(event)}
+                        className="dropdown-basic-button split-button-dropup edit-sales-dropdown"
+                        isClearable
+                      />
+                      {/* {error?.sales ? (
+                        <div className="login-validation">{error?.sales}</div>
+                      ) : null} */}
+                    </div>
+                    <div className="form-group">
+                      <label for="">Business Unit</label>
+                      <Select
+                        // options={salesAll}
+                        // onChange={(event) => onSalesChange(event)}
                         className="dropdown-basic-button split-button-dropup edit-sales-dropdown"
                         isClearable
                       />
@@ -292,72 +177,10 @@ const LibraryCreateUser = () => {
                 </div>
               </div>
             </div>
+
             <div className="create-change-content">
               <div className="form_action">
-                <h4>Limits agreed</h4>
-                <div className="row">
-                  <div className="col-12 col-md-6">
-                    <div className="form-group">
-                      <label for="">Cost centre</label>
-                      <Select
-                        className="dropdown-basic-button split-button-dropup"
-                        isClearable
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label for="">Expiration date</label>
-                      <DatePicker
-                        selected={startDate}
-                        onChange={(date) => setStartDate(date)}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label for="">Set limit of usage</label>
-                      <input type="text" className="form-control" />
-                    </div>
-                    <div className="form-group">
-                      <label for="">Enable</label>
-                      <fieldset id="group2">
-                        <input
-                          type="checkbox"
-                          value="value1"
-                          name="group2"
-                          id="limitagreed1"
-                        />
-                        <label for="limitagreed1">Print</label>
-                        <input
-                          type="checkbox"
-                          value="value2"
-                          name="group2"
-                          id="limitagreed2"
-                        />
-                        <label for="limitagreed2">Download</label>
-                        <input
-                          type="checkbox"
-                          value="value3"
-                          name="group2"
-                          id="limitagreed3"
-                        />
-                        <label for="limitagreed3">Share</label>
-                      </fieldset>
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-6 d-flex justify-content-end align-items-end right-change">
-                    <div className="form-group justify-content-end">
-                      <label for="">Invoice notes</label>
-                      <textarea
-                        class="form-control"
-                        id="formControlTextarea"
-                        rows="3"
-                      ></textarea>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="create-change-content">
-              <div className="form_action">
-                <h4>Creating the eprint</h4>
+                <h4>Creating the Docintel Link</h4>
                 <div className="row">
                   <div className="col-12 col-md-6">
                     <div className="form-group val">
@@ -365,16 +188,11 @@ const LibraryCreateUser = () => {
                       <input
                         type="text"
                         className="form-control"
-                        onChange={(e) => contentTitleChanged(e)}
+                        //  onChange={(e) => contentTitleChanged(e)}
                       />
-                      {error?.contentTitle ? (
-                        <div className="login-validation">
-                          {error?.contentTitle}
-                        </div>
-                      ) : null}
                     </div>
                     <div className="form-group">
-                      <label for="">Journal title</label>
+                      <label for="">Sub title</label>
                       <input type="text" className="form-control" />
                     </div>
                     <div className="form-group">
@@ -382,16 +200,18 @@ const LibraryCreateUser = () => {
                       <input type="text" className="form-control" />
                     </div>
                     <div className="form-group val">
-                      <label for="">ePrint type *</label>
+                      <label for="">Enable</label>
                       <Select
                         className="dropdown-basic-button split-button-dropup"
-                        options={ePrintType}
-                        onChange={(event) => ePrintTypeChange(event)}
                         isClearable
                       />
-                      {error?.ePrint ? (
-                        <div className="login-validation">{error?.ePrint}</div>
-                      ) : null}
+                    </div>
+                    <div className="form-group val">
+                      <label for="">Docintel type</label>
+                      <Select
+                        className="dropdown-basic-button split-button-dropup"
+                        isClearable
+                      />
                     </div>
                     <div className="form-group val">
                       <label for="">Upload PDF</label>
@@ -403,7 +223,7 @@ const LibraryCreateUser = () => {
                             id="file-6"
                             class="inputfile inputfile-6"
                             accept=".doc .csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                            onChange={(e) => handleFileChange(e)}
+                            //   onChange={(e) => handleFileChange(e)}
                           />
                           <label for="file-6">
                             <span>Choose Your File</span>
@@ -411,11 +231,6 @@ const LibraryCreateUser = () => {
                           <p>Upload your PDF</p>
                         </div>
                       </div>
-                      {error?.pdfFile ? (
-                        <div className="login-validation-upload">
-                          {error?.pdfFile}
-                        </div>
-                      ) : null}
                     </div>
                     <div className="form-group val">
                       <label for="">Upload Cover Image</label>
@@ -427,7 +242,7 @@ const LibraryCreateUser = () => {
                             id="file-5"
                             class="inputfile inputfile-5"
                             accept="image/png, image/jpeg"
-                            onChange={handleImageChange}
+                            //   onChange={handleImageChange}
                           />
                           <label for="file-5">
                             <span>Choose Your File</span>
@@ -439,11 +254,6 @@ const LibraryCreateUser = () => {
                           </p>
                         </div>
                       </div>
-                      {error?.image ? (
-                        <div className="login-validation-upload">
-                          {error?.image}
-                        </div>
-                      ) : null}
                     </div>
                   </div>
                   <div className="col-12 col-md-6 d-flex justify-content-end align-items-end right-change">
@@ -465,4 +275,4 @@ const LibraryCreateUser = () => {
     </>
   );
 };
-export default LibraryCreateUser;
+export default CreateDocintelLink;

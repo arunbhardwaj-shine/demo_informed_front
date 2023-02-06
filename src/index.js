@@ -72,6 +72,7 @@ import AutoMail from "./Components/NewWebinar/WebinarFiles/AutoMail";
 import EventCreate from "./Components/NewWebinar/WebinarFiles/EventCreate";
 import SettingWebinar from "./Components/NewWebinar/WebinarFiles/SettingWebinar";
 import LibraryCreateUser from "./Components/Library/CreateChange/LibraryCreateUser";
+import CreateDocintelLink from "./Components/Library/CreateChange/CreateDocintelLink";
 
 let platform = 0;
 let show = 0;
@@ -180,6 +181,10 @@ ReactDOM.render(
                   <Route
                     path="/library-campaign"
                     element={<LibraryCampaign />}
+                  />
+                  <Route
+                    path="/create-docintel-link"
+                    element={<CreateDocintelLink />}
                   />
                   <Route path="/spc" element={<Spc />} />
 
