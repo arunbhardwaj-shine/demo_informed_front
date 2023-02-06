@@ -193,8 +193,8 @@ const LibraryCreateUser = () => {
                       ) : null}
                     </div>
                   </div>
-                  <div className="col-12 col-md-6 d-flex align-items-end">
-                    <div className="form-group">
+                  <div className="col-12 col-md-6 d-flex align-items-end right-change">
+                    <div className="form-group justify-content-end">
                       <label for="">Reseller</label>
                       <div className="form-check-group">
                         <div className="form-check">
