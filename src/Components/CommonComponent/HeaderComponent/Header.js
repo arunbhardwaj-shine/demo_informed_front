@@ -129,7 +129,8 @@ const Header = () => {
                   ""
                 )}
 
-                {queryParams?.survey_flag && queryParams.survey_flag == 1 ? (
+                {localStorage.getItem("user_id") ==
+                "56Ek4feL/1A8mZgIKQWEqg==" ? (
                   <li className="nav-item">
                     <a
                       className="nav-link"

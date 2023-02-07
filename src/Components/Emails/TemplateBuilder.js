@@ -1217,6 +1217,7 @@ const TemplateBuilder = (props) => {
           .then((res) => {
             if (res.data.status_code === 200) {
               getTemplateListData(1, selectedLanguage, selectedIbu);
+              setTemplate(templateSaving);
             } else {
               loader("hide");
               toast.warning("Template not selected.");
@@ -1660,6 +1661,7 @@ const TemplateBuilder = (props) => {
                           "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
                       }}
                       onEditorChange={(content) => {
+                        console.log(content);
                         setTemplateSaving(content);
                       }}
                     />
