@@ -32,8 +32,8 @@ const SmartList = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   const body = {
-    // user_id: localStorage.getItem("user_id"),
-    user_id: "56Ek4feL/1A8mZgIKQWEqg==",
+    user_id: localStorage.getItem("user_id"),
+    // user_id: "56Ek4feL/1A8mZgIKQWEqg==",
     search: search,
     filter: filter,
     paging: "31",
