@@ -48,17 +48,12 @@ const LibraryCreate = () => {
           <Row>
             <div class="top-header">
               <div class="page-title">
-                <h2>Create & Change</h2>
+                <h2>Create &amp; Change</h2>
               </div>
               <div class="top-right-action">
                 <div className="search-bar">
                   <form className="d-flex">
-                    <input
-                      className="form-control me-2"
-                      type="text"
-                      placeholder="Search"
-                      aria-label="Search"
-                      id="email_search"
+                    <input className="form-control me-2" type="text" placeholder="Search" aria-label="Search" id="email_search"
                       //    onChange={(e) => searchChange(e)}
                     />
                     <button className="btn btn-outline-success" type="submit">
@@ -78,12 +73,7 @@ const LibraryCreate = () => {
                   </form>
                 </div>
                 <div className={"filter-by nav-item dropdown"}>
-                  <button
-                    className="btn btn-secondary dropdown"
-                    type="button"
-                    id="dropdownMenuButton2"
-                    //onClick={() => setShowFilter((showfilter) => !showfilter)}
-                  >
+                  <button className="btn btn-secondary dropdown" type="button" id="dropdownMenuButton2">
                     Filter By
                     <svg
                       className="close-arrow"
