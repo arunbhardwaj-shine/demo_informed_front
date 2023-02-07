@@ -373,6 +373,7 @@ const Sidebar = () => {
               </li>
             </ul>
           ) : window.location.pathname == "/library-content" ||
+            location.pathname == "/create-docintel-link" ||
             window.location.pathname == "/library-create" ||
             window.location.pathname == "/library-edit" ||
             window.location.pathname == "/library-campaign" ||
@@ -407,7 +408,8 @@ const Sidebar = () => {
                 className={
                   (location.pathname == "/library-create" ||
                     location.pathname == "/library-edit" ||
-                    location.pathname == "/library-create-user") &&
+                    location.pathname == "/library-create-user" ||
+                    location.pathname == "/create-docintel-link") &&
                   c_id == 0
                     ? "active"
                     : "side_li"
