@@ -5792,11 +5792,11 @@ table thead.sticky-header:after {
   overflow: hidden;
 }
 
-.split-button-dropup.edit-country-dropdown div:nth-child(4)>div {
+.split-button-dropup div:nth-child(4)>div {
   max-height: 130px;
 }
 
-.split-button-dropup.edit-country-dropdown div:nth-child(4)>div div {
+.split-button-dropup div:nth-child(4)>div div {
   font-size: 13px;
   line-height: 15px;
   padding: 3px 7px;
@@ -5810,7 +5810,7 @@ table thead.sticky-header:after {
   margin-right: 2px;
 }
 
-.split-button-dropup.edit-country-dropdown div:nth-child(4)>div div:hover {
+.split-button-dropup div:nth-child(4)>div div:hover {
   background-color: #e9ecef;
 }
 

@@ -611,10 +611,8 @@ select::-ms-expand {
   flex-wrap: wrap;
 }
 
-
-
 .login-validation {
-  color: #d61975;
+  color: $pink;
   font-size: 12px;
   position: absolute;
   right: 0px;
@@ -622,7 +620,7 @@ select::-ms-expand {
 }
 
 .login-validation-upload {
-  color: #d61975;
+  color: $pink;
   font-size: 12px;
   position: absolute;
   left:auto;
@@ -711,27 +709,6 @@ select::-ms-expand {
   overflow: hidden;
 }
 
-.split-button-dropup div:nth-child(4)>div {
-  max-height: 130px;
-}
-
-.split-button-dropup div:nth-child(4)>div div {
-  font-size: 13px;
-  line-height: 15px;
-  padding: 3px 7px;
-  color: var(--blue);
-  border-radius: 15px;
-  cursor: pointer;
-  margin: 0 0 2px;
-  word-break: break-word;
-  white-space: normal;
-  width: calc(100% - 4px);
-  margin-right: 2px;
-}
-
-.split-button-dropup div:nth-child(4)>div div:hover {
-  background-color: #e9ecef;
-}
 .split-button-dropup>div:nth-child(4)>div {
   padding-right: 5px;
 }
