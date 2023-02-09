@@ -7148,3 +7148,28 @@ section.search-hcp.smart-list-view .header-btn-left {
 .top-header .justify-content-between button {
   width: auto;
 }
+.add-content-form {
+  border-bottom: 1px dashed var(--light-blue);
+  padding: 20px 15px;
+  position: relative;
+}
+.add-content-form .delete_btn {
+  position: absolute;
+  right: -55px;
+  top: 0;
+}
+
+.add-content-form .delete_btn button {
+  height: 40px;
+  width: 40px;
+  padding: 6px 6px;
+}
+.add-content-form:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.add-new-hcp-site {
+  padding-top: 20px;
+  border-top: 1px dashed var(--light-blue);
+  margin-top: 20px;
+}

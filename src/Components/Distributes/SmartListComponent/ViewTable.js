@@ -36,6 +36,9 @@ const ViewTable = (props) => {
   const [validator3] = React.useState(new SimpleReactValidator());
   const [manualReRender, setManualReRender] = useState(0);
   const [update, setUpdate] = useState(0);
+  const [siteNameAll, setSiteNameAll] = useState([]);
+  const [siteStreetAll, setSiteStreetAll] = useState([]);
+  const [siteCityAll, setSiteCityAll] = useState([]);
   const [saveOpen, setSaveOpen] = useState(false);
   const [siteNumber, setSiteNumber] = useState("");
   const [data, setData] = useState(0);
@@ -53,6 +56,7 @@ const ViewTable = (props) => {
   const [email_edits, setEmailEdit] = useState("");
 
   const [addNewData, setAddNewData] = useState(0);
+  const [siteNumberAll, setSiteNumberAll] = useState([]);
 
   const [profile_user_id, setProfileUserId] = useState();
 
@@ -62,6 +66,7 @@ const ViewTable = (props) => {
 
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [activeManual, setActiveManual] = useState("active");
+  const [sitePostalCodeAll, setSitePostCodeAll] = useState([]);
   const [newData, setNewData] = useState([]);
   const [showLessUpdate, setShowLessUpdate] = useState(0);
   const [activeExcel, setActiveExcel] = useState("");
@@ -99,18 +104,40 @@ const ViewTable = (props) => {
             let arrUserType;
             let arrSubRole;
             let arrBlindType;
+            let site_number;
+            let arrSiteNumber;
             let country = res.data.response.data.country;
+            let site_name;
+            let arrSiteName;
+            let site_street;
+            let arrSiteStreet;
+            let site_postcode;
+            let site_city;
+            let arrSiteCity;
+            let arrSitePostCode;
+
             let arr = [];
             console.log("outside");
             if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
               console.log("inside");
+              console.log(res);
               user_type = res.data.response.data.investigator_type;
               sub_role = res.data.response.data.sub_role;
               blind_type = res.data.response.data.blind_type;
+              site_number = res.data.response.data.site_number;
+              site_name = res.data.response.data.site_name;
+              site_street = res.data.response.data.site_street;
+              site_postcode = res.data.response.data.site_post_code;
+              site_city = res.data.response.data.site_city;
 
               arrUserType = [];
               arrSubRole = [];
               arrBlindType = [];
+              arrSiteNumber = [];
+              arrSiteName = [];
+              arrSiteStreet = [];
+              arrSitePostCode = [];
+              arrSiteCity = [];
             }
 
             //  const data = Object.assign({}, res.data.response.data.blind_type);
@@ -128,6 +155,51 @@ const ViewTable = (props) => {
             });
 
             if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+              Object.entries(site_number).map(([index, item]) => {
+                let label = item;
+
+                arrSiteNumber.push({
+                  value: item,
+                  label: label,
+                });
+              });
+
+              Object.entries(site_street).map(([index, item]) => {
+                let label = item;
+
+                arrSiteStreet.push({
+                  value: item,
+                  label: label,
+                });
+              });
+
+              Object.entries(site_city).map(([index, item]) => {
+                let label = item;
+
+                arrSiteCity.push({
+                  value: item,
+                  label: label,
+                });
+              });
+
+              Object.entries(site_postcode).map(([index, item]) => {
+                let label = item;
+
+                arrSitePostCode.push({
+                  value: item,
+                  label: label,
+                });
+              });
+
+              Object.entries(site_name).map(([index, item]) => {
+                let label = item;
+
+                arrSiteName.push({
+                  value: item,
+                  label: label,
+                });
+              });
+
               Object.entries(user_type).map(([index, item]) => {
                 let label = item;
 
@@ -167,6 +239,11 @@ const ViewTable = (props) => {
             if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
               setUserTypeAll(arrUserType);
               setSubUserTypeAll(arrSubRole);
+              setSiteNumberAll(arrSiteNumber);
+              setSiteNameAll(arrSiteName);
+              setSiteStreetAll(arrSiteStreet);
+              setSitePostCodeAll(arrSitePostCode);
+              setSiteCityAll(arrSiteCity);
               //console.log(res.data.response.data.blind_type);
               setBlindTypeAll(arrBlindType);
             }
@@ -223,19 +300,29 @@ const ViewTable = (props) => {
       userType: "",
       userTypeIndex: "",
       subUserType: "",
+      siteNumber: "",
       subUserTypeIndex: "",
+      siteNumberIndex: "",
       blindType: "",
       blindTypeIndex: "",
+      sitePostCode: "",
+      sitePostCodeIndex: "",
+      siteCity: "",
+      siteCityIndex: "",
+      siteStreet: "",
+      siteStreetIndex: "",
+      siteName: "",
+      siteNameIndex: "",
 
-      siteDetails: [
-        {
-          siteNumber: "",
-          siteName: "",
-          siteStreet: "",
-          sitePostCode: "",
-          siteCity: "",
-        },
-      ],
+      // siteDetails: [
+      //   {
+      //     siteNumber: "",
+      //     siteName: "",
+      //     siteStreet: "",
+      //     sitePostCode: "",
+      //     siteCity: "",
+      //   },
+      // ],
     },
   ]);
 
@@ -471,7 +558,8 @@ const ViewTable = (props) => {
     setShowLessInfo(!showLessInfo);
   };
 
-  const addMoreHcp = () => {
+  const addMoreHcp = (e) => {
+    e.preventDefault();
     const status = hpc.map((data) => {
       if (data.email == "") {
         return "false";
@@ -496,16 +584,16 @@ const ViewTable = (props) => {
           subUserTypeIndex: "",
           blindType: "",
           blindTypeIndex: "",
-
-          siteDetails: [
-            {
-              siteNumber: "",
-              siteName: "",
-              siteStreet: "",
-              sitePostCode: "",
-              siteCity: "",
-            },
-          ],
+          siteNumber: "",
+          siteName: "",
+          siteStreet: "",
+          sitePostCode: "",
+          siteCity: "",
+          siteNumberIndex: "",
+          siteNameIndex: "",
+          siteStreetIndex: "",
+          sitePostCodeIndex: "",
+          siteCityIndex: "",
         },
       ]);
     } else {
@@ -883,100 +971,109 @@ const ViewTable = (props) => {
     setHpc(list);
     setEmailData(e.target.value);
   };
-  const onSiteNumberChange = (e, index, i) => {
-    // e.preventDefault();
-    if (index != 0) {
-      const { value } = e.target;
-      const old_hpc = hpc;
-      old_hpc[i].siteDetails[index].siteNumber = value;
+  const onSiteNumberChange = (e, i) => {
+    if (e == null) {
+      const list = [...hpc];
+      list[i].siteNumber = "";
+      list[i].siteNumber = "";
+      setHpc(list);
+    } else {
+      const value = e.value;
+      const list = [...hpc];
+      const name = hpc[i].siteNumber;
+      list[i].siteNumber = value;
 
-      setHpc(old_hpc);
-      setUpdate(update + 1);
-    } else if (index == 0) {
-      const { value } = e;
-      const old_hpc = hpc;
-      old_hpc[i].siteDetails[index].siteNumber = value;
-
-      setHpc(old_hpc);
-      setUpdate(update + 1);
-    }
-  };
-
-  const onSiteNameChange = (e, index, i) => {
-    if (index != 0) {
-      const { value } = e.target;
-      const old_hpc = hpc;
-      old_hpc[i].siteDetails[index].siteName = value;
-
-      setHpc(old_hpc);
-      setUpdate(update + 1);
-    } else if (index == 0) {
-      const { value } = e;
-      const old_hpc = hpc;
-      old_hpc[i].siteDetails[index].siteName = value;
-
-      setHpc(old_hpc);
-      setUpdate(update + 1);
+      let index = siteNumberAll.findIndex((x) => x.value === value);
+      list[i].siteNumberIndex = index;
+      setHpc(list);
     }
     // e.preventDefault();
+    // if (index != 0) {
+    //   const { value } = e.target;
+    //   const old_hpc = hpc;
+    //   old_hpc[i].siteDetails[index].siteNumber = value;
+
+    //   setHpc(old_hpc);
+    //   setUpdate(update + 1);
+    // } else if (index == 0) {
+    //   const { value } = e;
+    //   const old_hpc = hpc;
+    //   old_hpc[i].siteDetails[index].siteNumber = value;
+
+    //   setHpc(old_hpc);
+    //   setUpdate(update + 1);
+    // }
   };
 
-  const onSiteStreetChange = (e, index, i) => {
-    // e.preventDefault();
-    if (index != 0) {
-      const { value } = e.target;
-      const old_hpc = hpc;
-      old_hpc[i].siteDetails[index].siteStreet = value;
+  const onSiteNameChange = (e, i) => {
+    if (e == null) {
+      const list = [...hpc];
+      list[i].siteName = "";
+      list[i].siteName = "";
+      setHpc(list);
+    } else {
+      const value = e.value;
+      const list = [...hpc];
+      const name = hpc[i].siteName;
+      list[i].siteName = value;
 
-      setHpc(old_hpc);
-      setUpdate(update + 1);
-    } else if (index == 0) {
-      const { value } = e;
-      const old_hpc = hpc;
-      old_hpc[i].siteDetails[index].siteStreet = value;
-
-      setHpc(old_hpc);
-      setUpdate(update + 1);
+      let index = siteNameAll.findIndex((x) => x.value === value);
+      list[i].siteNameIndex = index;
+      setHpc(list);
     }
   };
 
-  const onSiteCityChange = (e, index, i) => {
-    //   e.preventDefault();
+  const onSiteStreetChange = (e, i) => {
+    if (e == null) {
+      const list = [...hpc];
+      list[i].siteStreet = "";
+      list[i].siteStreet = "";
+      setHpc(list);
+    } else {
+      const value = e.value;
+      const list = [...hpc];
+      const name = hpc[i].siteStreet;
+      list[i].siteStreet = value;
 
-    if (index != 0) {
-      const { value } = e.target;
-      const old_hpc = hpc;
-      old_hpc[i].siteDetails[index].siteCity = value;
-
-      setHpc(old_hpc);
-      setUpdate(update + 1);
-    } else if (index == 0) {
-      const { value } = e;
-      const old_hpc = hpc;
-      old_hpc[i].siteDetails[index].siteCity = value;
-
-      setHpc(old_hpc);
-      setUpdate(update + 1);
+      let index = siteStreetAll.findIndex((x) => x.value === value);
+      list[i].siteStreetIndex = index;
+      setHpc(list);
     }
   };
 
-  const onSitePostCode = (e, index, i) => {
-    //  e.preventDefault();
-    if (index != 0) {
-      const { value } = e.target;
-      const old_hpc = hpc;
-      old_hpc[i].siteDetails[index].sitePostCode = value;
+  const onSiteCityChange = (e, i) => {
+    if (e == null) {
+      const list = [...hpc];
+      list[i].siteCity = "";
+      list[i].siteCity = "";
+      setHpc(list);
+    } else {
+      const value = e.value;
+      const list = [...hpc];
+      const name = hpc[i].siteCity;
+      list[i].siteCity = value;
 
-      setHpc(old_hpc);
-      setUpdate(update + 1);
-    } else if (index == 0) {
-      const { value } = e;
-      const old_hpc = hpc;
-      old_hpc[i].siteDetails[index].sitePostCode = value;
-
-      setHpc(old_hpc);
-      setUpdate(update + 1);
+      let index = siteCityAll.findIndex((x) => x.value === value);
+      list[i].siteCityIndex = index;
+      setHpc(list);
     }
+  };
+
+  const onSitePostCode = (e, i) => {
+    // if (e == null) {
+    //   const list = [...hpc];
+    //   list[i].sitePostCode = "";
+    //   list[i].sitePostCode = "";
+    //   setHpc(list);
+    // } else {
+    const value = e.value;
+    const list = [...hpc];
+    const name = hpc[i].sitePostCode;
+    list[i].sitePostCode = value;
+
+    let index = sitePostalCodeAll.findIndex((x) => x.value === value);
+    list[i].sitePostCodeIndex = index;
+    setHpc(list);
   };
 
   const onContactTypeChange = (e, i) => {
@@ -1118,7 +1215,7 @@ const ViewTable = (props) => {
           siteCity: data.siteCity ? data.siteCity : "",
         };
       });
-
+      console.log(body_data);
       var pattern = "^w+@[a-zA-Z_]+?.[a-zA-Z]{2,3}$";
 
       const body = {
@@ -2014,23 +2111,232 @@ const ViewTable = (props) => {
                                       />
                                     </div>
                                   </div>
-                                  <hr />
-                                  <p>Site Details</p>
+
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Site Number</label>
+                                      <Select
+                                        options={siteNumberAll}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onSiteNumberChange(event, i)
+                                        }
+                                        defaultValue={
+                                          siteNumberAll[hpc[i].siteNumberIndex]
+                                        }
+                                        placeholder={
+                                          typeof siteNumberAll[
+                                            hpc[i].siteNumberIndex
+                                          ] === "undefined"
+                                            ? "Select Site Number"
+                                            : siteNumberAll[
+                                                hpc[i].siteNumberIndex
+                                              ]
+                                        }
+                                        // onChange={(event) =>
+                                        //   onUserTypeChange(event, i)
+                                        // }
+                                        // defaultValue={
+                                        //   userTypeAll[
+                                        //     hpc[i].userTypeIndex
+                                        //   ]
+                                        // }
+                                        // placeholder={
+                                        //   typeof userTypeAll[
+                                        //     hpc[i].userTypeIndex
+                                        //   ] === "undefined"
+                                        //     ? "Select User Type"
+                                        //     : userTypeAll[
+                                        //         hpc[i].userTypeIndex
+                                        //       ]
+                                        // }
+                                        // filterOption={createFilter(filterConfig)}
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Site Name</label>
+                                      <Select
+                                        options={siteNameAll}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onSiteNameChange(
+                                            event,
+
+                                            i
+                                          )
+                                        }
+                                        // onChange={(event) =>
+                                        //   onUserTypeChange(event, i)
+                                        // }
+                                        // defaultValue={
+                                        //   userTypeAll[
+                                        //     hpc[i].userTypeIndex
+                                        //   ]
+                                        // }
+                                        defaultValue={
+                                          siteNameAll[hpc[i].siteNameIndex]
+                                        }
+                                        placeholder={
+                                          typeof siteNameAll[
+                                            hpc[i].siteNameIndex
+                                          ] === "undefined"
+                                            ? "Select Site Name"
+                                            : siteNameAll[hpc[i].siteNameIndex]
+                                        }
+                                        // filterOption={createFilter(filterConfig)}
+                                      />
+                                    </div>
+                                  </div>
+
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Site Street</label>
+                                      <Select
+                                        options={siteStreetAll}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onSiteStreetChange(
+                                            event,
+
+                                            i
+                                          )
+                                        }
+                                        defaultValue={
+                                          siteStreetAll[hpc[i].siteStreetIndex]
+                                        }
+                                        placeholder={
+                                          typeof siteStreetAll[
+                                            hpc[i].siteStreetIndex
+                                          ] === "undefined"
+                                            ? "Select Site Street"
+                                            : siteStreetAll[
+                                                hpc[i].siteStreetIndex
+                                              ]
+                                        }
+                                        // onChange={(event) =>
+                                        //   onUserTypeChange(event, i)
+                                        // }
+                                        // defaultValue={
+                                        //   userTypeAll[
+                                        //     hpc[i].userTypeIndex
+                                        //   ]
+                                        // }
+                                        // placeholder={
+                                        //   typeof userTypeAll[
+                                        //     hpc[i].userTypeIndex
+                                        //   ] === "undefined"
+                                        //     ? "Select User Type"
+                                        //     : userTypeAll[
+                                        //         hpc[i].userTypeIndex
+                                        //       ]
+                                        // }
+                                        // filterOption={createFilter(filterConfig)}
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Site Post Code</label>
+                                      <Select
+                                        options={sitePostalCodeAll}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onSitePostCode(
+                                            event,
+
+                                            i
+                                          )
+                                        }
+                                        defaultValue={
+                                          sitePostalCodeAll[
+                                            hpc[i].sitePostCodeIndex
+                                          ]
+                                        }
+                                        placeholder={
+                                          typeof sitePostalCodeAll[
+                                            hpc[i].sitePostCodeIndex
+                                          ] === "undefined"
+                                            ? "Select Post Code"
+                                            : sitePostalCodeAll[
+                                                hpc[i].sitePostCodeIndex
+                                              ]
+                                        }
+                                        // onChange={(event) =>
+                                        //   onUserTypeChange(event, i)
+                                        // }
+                                        // defaultValue={
+                                        //   userTypeAll[
+                                        //     hpc[i].userTypeIndex
+                                        //   ]
+                                        // }
+                                        // placeholder={
+                                        //   typeof userTypeAll[
+                                        //     hpc[i].userTypeIndex
+                                        //   ] === "undefined"
+                                        //     ? "Select User Type"
+                                        //     : userTypeAll[
+                                        //         hpc[i].userTypeIndex
+                                        //       ]
+                                        // }
+                                        // filterOption={createFilter(filterConfig)}
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Site City</label>
+                                      <Select
+                                        options={siteCityAll}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onSiteCityChange(
+                                            event,
+
+                                            i
+                                          )
+                                        }
+                                        defaultValue={
+                                          siteStreetAll[hpc[i].siteStreetIndex]
+                                        }
+                                        placeholder={
+                                          typeof siteCityAll[
+                                            hpc[i].siteCityIndex
+                                          ] === "undefined"
+                                            ? "Select Site City"
+                                            : siteCityAll[hpc[i].siteCityIndex]
+                                        }
+                                        // onChange={(event) =>
+                                        //   onUserTypeChange(event, i)
+                                        // }
+                                        // defaultValue={
+                                        //   userTypeAll[
+                                        //     hpc[i].userTypeIndex
+                                        //   ]
+                                        // }
+                                        // placeholder={
+                                        //   typeof userTypeAll[
+                                        //     hpc[i].userTypeIndex
+                                        //   ] === "undefined"
+                                        //     ? "Select User Type"
+                                        //     : userTypeAll[
+                                        //         hpc[i].userTypeIndex
+                                        //       ]
+                                        // }
+                                        // filterOption={createFilter(filterConfig)}
+                                      />
+                                    </div>
+                                  </div>
 
                                   {/* <button onClick={(e) => addMoreSite(i, e)}>
                                     +
                                   </button> */}
-                                  <img
-                                    src={path_image + "add-button.svg"}
-                                    height="200"
-                                    width="200"
-                                    onClick={(e) => addMoreSite(i, e)}
-                                  />
 
                                   {val?.siteDetails?.map((data, index) => {
                                     return (
                                       <>
-                                        {index !== 0 ? (
+                                        {/* {index !== 0 ? (
                                           <>
                                             <div className="add-content-form">
                                               <div className="row">
@@ -2139,7 +2445,7 @@ const ViewTable = (props) => {
                                                       value={data.siteCity}
                                                     />
                                                   </div>
-                                                  <div>
+                                                  <div className="delete_btn">
                                                     {index !== 0 ? (
                                                       <button
                                                         type="button"
@@ -2166,226 +2472,13 @@ const ViewTable = (props) => {
                                               </div>
                                             </div>
                                           </>
-                                        ) : (
-                                          <>
-                                            <div className="add-content-form">
-                                              <div className="row">
-                                                <div className="col-12 col-md-6">
-                                                  <div className="form-group">
-                                                    <label for="">
-                                                      Site Number
-                                                    </label>
-                                                    <Select
-                                                      options={userTypeAll}
-                                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                                      onChange={(event) =>
-                                                        onSiteNumberChange(
-                                                          event,
-                                                          index,
-                                                          i
-                                                        )
-                                                      }
-                                                      placeholder={
-                                                        hpc[i].siteDetails[0]
-                                                          .siteNumber == ""
-                                                          ? "Select Site Number"
-                                                          : hpc[i]
-                                                              .siteDetails[0]
-                                                              .siteNumber
-                                                      }
-                                                      // onChange={(event) =>
-                                                      //   onUserTypeChange(event, i)
-                                                      // }
-                                                      // defaultValue={
-                                                      //   userTypeAll[
-                                                      //     hpc[i].userTypeIndex
-                                                      //   ]
-                                                      // }
-                                                      // placeholder={
-                                                      //   typeof userTypeAll[
-                                                      //     hpc[i].userTypeIndex
-                                                      //   ] === "undefined"
-                                                      //     ? "Select User Type"
-                                                      //     : userTypeAll[
-                                                      //         hpc[i].userTypeIndex
-                                                      //       ]
-                                                      // }
-                                                      // filterOption={createFilter(filterConfig)}
-                                                    />
-                                                  </div>
-                                                </div>
-                                                <div className="col-12 col-md-6">
-                                                  <div className="form-group">
-                                                    <label for="">
-                                                      Site Name
-                                                    </label>
-                                                    <Select
-                                                      options={userTypeAll}
-                                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                                      onChange={(event) =>
-                                                        onSiteNameChange(
-                                                          event,
-                                                          index,
-                                                          i
-                                                        )
-                                                      }
-                                                      // onChange={(event) =>
-                                                      //   onUserTypeChange(event, i)
-                                                      // }
-                                                      // defaultValue={
-                                                      //   userTypeAll[
-                                                      //     hpc[i].userTypeIndex
-                                                      //   ]
-                                                      // }
-                                                      placeholder={
-                                                        hpc[i].siteDetails[0]
-                                                          .siteName == ""
-                                                          ? "Select Site Name"
-                                                          : hpc[i]
-                                                              .siteDetails[0]
-                                                              .siteName
-                                                      }
-                                                      // filterOption={createFilter(filterConfig)}
-                                                    />
-                                                  </div>
-                                                </div>
-
-                                                <div className="col-12 col-md-6">
-                                                  <div className="form-group">
-                                                    <label for="">
-                                                      Site Street
-                                                    </label>
-                                                    <Select
-                                                      options={userTypeAll}
-                                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                                      onChange={(event) =>
-                                                        onSiteStreetChange(
-                                                          event,
-                                                          index,
-                                                          i
-                                                        )
-                                                      }
-                                                      placeholder={
-                                                        hpc[i].siteDetails[0]
-                                                          .siteStreet == ""
-                                                          ? "Select Site Street"
-                                                          : hpc[i]
-                                                              .siteDetails[0]
-                                                              .siteStreet
-                                                      }
-                                                      // onChange={(event) =>
-                                                      //   onUserTypeChange(event, i)
-                                                      // }
-                                                      // defaultValue={
-                                                      //   userTypeAll[
-                                                      //     hpc[i].userTypeIndex
-                                                      //   ]
-                                                      // }
-                                                      // placeholder={
-                                                      //   typeof userTypeAll[
-                                                      //     hpc[i].userTypeIndex
-                                                      //   ] === "undefined"
-                                                      //     ? "Select User Type"
-                                                      //     : userTypeAll[
-                                                      //         hpc[i].userTypeIndex
-                                                      //       ]
-                                                      // }
-                                                      // filterOption={createFilter(filterConfig)}
-                                                    />
-                                                  </div>
-                                                </div>
-                                                <div className="col-12 col-md-6">
-                                                  <div className="form-group">
-                                                    <label for="">
-                                                      Site Post Code
-                                                    </label>
-                                                    <Select
-                                                      options={userTypeAll}
-                                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                                      onChange={(event) =>
-                                                        onSitePostCode(
-                                                          event,
-                                                          index,
-                                                          i
-                                                        )
-                                                      }
-                                                      placeholder={
-                                                        hpc[i].siteDetails[0]
-                                                          .sitePostCode == ""
-                                                          ? "Select Site Post Code"
-                                                          : hpc[i]
-                                                              .siteDetails[0]
-                                                              .sitePostCode
-                                                      }
-                                                      // onChange={(event) =>
-                                                      //   onUserTypeChange(event, i)
-                                                      // }
-                                                      // defaultValue={
-                                                      //   userTypeAll[
-                                                      //     hpc[i].userTypeIndex
-                                                      //   ]
-                                                      // }
-                                                      // placeholder={
-                                                      //   typeof userTypeAll[
-                                                      //     hpc[i].userTypeIndex
-                                                      //   ] === "undefined"
-                                                      //     ? "Select User Type"
-                                                      //     : userTypeAll[
-                                                      //         hpc[i].userTypeIndex
-                                                      //       ]
-                                                      // }
-                                                      // filterOption={createFilter(filterConfig)}
-                                                    />
-                                                  </div>
-                                                </div>
-                                                <div className="col-12 col-md-6">
-                                                  <div className="form-group">
-                                                    <label for="">
-                                                      Site City
-                                                    </label>
-                                                    <Select
-                                                      options={userTypeAll}
-                                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                                      onChange={(event) =>
-                                                        onSiteCityChange(
-                                                          event,
-                                                          index,
-                                                          i
-                                                        )
-                                                      }
-                                                      placeholder={
-                                                        hpc[i].siteDetails[0]
-                                                          .siteCity == ""
-                                                          ? "Select Site City"
-                                                          : hpc[i]
-                                                              .siteDetails[0]
-                                                              .siteCity
-                                                      }
-                                                      // onChange={(event) =>
-                                                      //   onUserTypeChange(event, i)
-                                                      // }
-                                                      // defaultValue={
-                                                      //   userTypeAll[
-                                                      //     hpc[i].userTypeIndex
-                                                      //   ]
-                                                      // }
-                                                      // placeholder={
-                                                      //   typeof userTypeAll[
-                                                      //     hpc[i].userTypeIndex
-                                                      //   ] === "undefined"
-                                                      //     ? "Select User Type"
-                                                      //     : userTypeAll[
-                                                      //         hpc[i].userTypeIndex
-                                                      //       ]
-                                                      // }
-                                                      // filterOption={createFilter(filterConfig)}
-                                                    />
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </>
-                                        )}
+                                        ) : ( */}
+                                        <>
+                                          <div className="add-content-form">
+                                            <div className="row"></div>
+                                          </div>
+                                        </>
+                                        {/* )} */}
                                       </>
                                     );
                                   })}
@@ -2432,7 +2525,7 @@ const ViewTable = (props) => {
                               <ul className="nav nav-tabs" role="tablist">
                                 <li className="nav-item add_hcp">
                                   <a
-                                    onClick={addMoreHcp}
+                                    onClick={(e) => addMoreHcp(e)}
                                     className="nav-link active btn-bordered"
                                     data-bs-toggle="tab"
                                     href="javascript:;"
