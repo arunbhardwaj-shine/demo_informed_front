@@ -1602,7 +1602,7 @@ const FilterSegment = (props) => {
                 selectedsitenumber.length > 0 ? (
                   <div className="filter-div">
                     <div className="filter-div-title">
-                      <span>User Type |</span>
+                      <span>Site Number |</span>
                     </div>
                     <div className="filter-div-list">
                       {Object.entries(selectedsitenumber).map(
