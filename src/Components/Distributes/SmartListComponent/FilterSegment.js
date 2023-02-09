@@ -19,6 +19,9 @@ const FilterSegment = (props) => {
   const [selectedterritory, setSelectedTerritory] = useState([]);
   const [selectedcontacttype, setSelectedContactType] = useState([]);
   const [selectedspeciality, setSelectedSpeciality] = useState([]);
+  const [selectedinvestigatorType, setSelectedinvestigatorType] = useState([]);
+  const [selectedsitenumber, setSelectedsitenumber] = useState([]);
+  const [selectedsitename, setSelectedsitename] = useState([]);
   const [selectedreaderselection, setSelectedReaderSelection] = useState("");
   const [selectedibu, setSelectedIbu] = useState();
   const [selectedproduct, setSelectedProduct] = useState([]);
@@ -98,6 +101,21 @@ const FilterSegment = (props) => {
       //Speciality
       if (typeof props.selectedFilter.speciality !== "undefined") {
         selectedspeciality(props.selectedFilter.speciality);
+      }
+
+      //investigator_type
+      if (typeof props.selectedFilter.investigator_type !== "undefined") {
+        selectedinvestigatorType(props.selectedFilter.investigator_type);
+      }
+
+      //site_number
+      if (typeof props.selectedFilter.site_number !== "undefined") {
+        selectedsitenumber(props.selectedFilter.site_number);
+      }
+
+      //site_number
+      if (typeof props.selectedFilter.site_name !== "undefined") {
+        selectedsitename(props.selectedFilter.site_name);
       }
 
       //product
@@ -212,6 +230,42 @@ const FilterSegment = (props) => {
     setUpdateFlag(up);
   };
 
+  const handleOnInvestigatorChange = (investigator) => {
+    let speciality_index = selectedinvestigatorType.indexOf(investigator);
+    if (speciality_index !== -1) {
+      selectedinvestigatorType.splice(speciality_index, 1);
+    } else {
+      selectedinvestigatorType.push(investigator);
+    }
+    setSelectedinvestigatorType(selectedinvestigatorType);
+    let up = updateflag + 1;
+    setUpdateFlag(up);
+  };
+
+  const handleOnSiteNumberChange = (sitenumber) => {
+    let site_number_index = selectedsitenumber.indexOf(sitenumber);
+    if (site_number_index !== -1) {
+      selectedsitenumber.splice(site_number_index, 1);
+    } else {
+      selectedsitenumber.push(sitenumber);
+    }
+    setSelectedsitenumber(selectedsitenumber);
+    let up = updateflag + 1;
+    setUpdateFlag(up);
+  };
+
+  const handleOnSiteNameChange = (sitename) => {
+    let site_name_index = selectedsitename.indexOf(sitename);
+    if (site_name_index !== -1) {
+      selectedsitename.splice(site_name_index, 1);
+    } else {
+      selectedsitename.push(sitename);
+    }
+    setSelectedsitename(selectedsitename);
+    let up = updateflag + 1;
+    setUpdateFlag(up);
+  };
+
   const handleOnReaderSelectionChange = (reader_selection) => {
     if(selectedreaderselection == reader_selection){
       setSelectedReaderSelection("");
@@ -290,6 +344,9 @@ const FilterSegment = (props) => {
     setSelectedTerritory([]);
     setSelectedContactType([]);
     setSelectedSpeciality([]);
+    setSelectedinvestigatorType([]);
+    setSelectedsitenumber([]);
+    setSelectedsitename([]);
     setSelectedProduct([]);
     setSelectedArticles([]);
     setConsent([]);
@@ -340,6 +397,42 @@ const FilterSegment = (props) => {
         return item;
       });
       Object.assign(payload, { speciality: speciality });
+      flag_to_check_data = true;
+    }
+
+    //For User Type
+    if (
+      typeof selectedinvestigatorType === "object" &&
+      selectedinvestigatorType.length > 0
+    ) {
+      let investigator_type = selectedinvestigatorType.map((item) => {
+        return item;
+      });
+      Object.assign(payload, { investigator_type: investigator_type });
+      flag_to_check_data = true;
+    }
+
+    //For User Type
+    if (
+      typeof selectedsitenumber === "object" &&
+      selectedsitenumber.length > 0
+    ) {
+      let site_number = selectedsitenumber.map((item) => {
+        return item;
+      });
+      Object.assign(payload, { site_number: site_number });
+      flag_to_check_data = true;
+    }
+
+    //For User Type
+    if (
+      typeof selectedsitename === "object" &&
+      selectedsitename.length > 0
+    ) {
+      let site_name = selectedsitename.map((item) => {
+        return item;
+      });
+      Object.assign(payload, { site_name: site_name });
       flag_to_check_data = true;
     }
 
@@ -500,7 +593,14 @@ const FilterSegment = (props) => {
       setSelectedRegister();
     } else if (src == "bounce") {
       setSelectedBounce();
+    }else if (src == "investigator_type") {
+      handleOnInvestigatorChange(item);
+    }else if (src == "site_number") {
+      handleOnSiteNumberChange(item);
+    }else if (src == "site_name") {
+      handleOnSiteNameChange(item);
     }
+
   };
 
   const closeCancelClicked = () => {
@@ -971,6 +1071,123 @@ const FilterSegment = (props) => {
                             </>
                           )}
 
+                          {"investigator_type" in filters &&
+                            Object.keys(filters.investigator_type).length > 0 && (
+                              <>
+                                <div className="col block-smart-name">
+                                  <h6>User Type</h6>
+                                  <div className="smart-name-list">
+                                    <ul>
+                                      {Object.entries(filters.investigator_type).map(
+                                        ([index, item]) => (
+                                          <li>
+                                            <div className="select-multiple-option">
+                                              <input
+                                                type="checkbox"
+                                                id={`custom-checkbox-investigator_type-${index}`}
+                                                name="investigator_type[]"
+                                                value={item}
+                                                checked={
+                                                  typeof selectedinvestigatorType !==
+                                                    "undefined" &&
+                                                  selectedinvestigatorType.indexOf(
+                                                    item
+                                                  ) !== -1
+                                                }
+                                                onChange={() =>
+                                                  handleOnInvestigatorChange(item)
+                                                }
+                                              />
+                                              <span className="checkmark"></span>
+                                            </div>
+                                            {item}
+                                          </li>
+                                        )
+                                      )}
+                                    </ul>
+                                  </div>
+                                </div>
+                              </>
+                            )}
+
+                            {"site_number" in filters &&
+                              Object.keys(filters.site_number).length > 0 && (
+                                <>
+                                  <div className="col block-smart-name">
+                                    <h6>Site Number</h6>
+                                    <div className="smart-name-list">
+                                      <ul>
+                                        {Object.entries(filters.site_number).map(
+                                          ([index, item]) => (
+                                            <li>
+                                              <div className="select-multiple-option">
+                                                <input
+                                                  type="checkbox"
+                                                  id={`custom-checkbox-site_number-${index}`}
+                                                  name="site_number[]"
+                                                  value={item}
+                                                  checked={
+                                                    typeof selectedsitenumber !==
+                                                      "undefined" &&
+                                                    selectedsitenumber.indexOf(
+                                                      item
+                                                    ) !== -1
+                                                  }
+                                                  onChange={() =>
+                                                    handleOnSiteNumberChange(item)
+                                                  }
+                                                />
+                                                <span className="checkmark"></span>
+                                              </div>
+                                              {item}
+                                            </li>
+                                          )
+                                        )}
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </>
+                              )}
+
+                              {"site_name" in filters &&
+                              Object.keys(filters.site_name).length > 0 && (
+                                <>
+                                  <div className="col block-smart-name">
+                                    <h6>Site Name</h6>
+                                    <div className="smart-name-list">
+                                      <ul>
+                                        {Object.entries(filters.site_name).map(
+                                          ([index, item]) => (
+                                            <li>
+                                              <div className="select-multiple-option">
+                                                <input
+                                                  type="checkbox"
+                                                  id={`custom-checkbox-site_name-${index}`}
+                                                  name="site_name[]"
+                                                  value={item}
+                                                  checked={
+                                                    typeof selectedsitename !==
+                                                      "undefined" &&
+                                                    selectedsitename.indexOf(
+                                                      item
+                                                    ) !== -1
+                                                  }
+                                                  onChange={() =>
+                                                    handleOnSiteNameChange(item)
+                                                  }
+                                                />
+                                                <span className="checkmark"></span>
+                                              </div>
+                                              {item}
+                                            </li>
+                                          )
+                                        )}
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </>
+                              )}
+
                           {"reader_selection" in filters &&
                             Object.keys(filters.reader_selection).length > 0 &&
                             showhidearticle == 1 && (
@@ -1226,32 +1443,32 @@ const FilterSegment = (props) => {
                 ) : null
               ) : null}
 
-              {updateflag > 0 ? (
-                typeof selectedspeciality === "object" &&
-                selectedspeciality.length > 0 ? (
-                  <div className="filter-div">
-                    <div className="filter-div-title">
-                      <span>Speciality |</span>
+                {updateflag > 0 ? (
+                  typeof selectedspeciality === "object" &&
+                  selectedspeciality.length > 0 ? (
+                    <div className="filter-div">
+                      <div className="filter-div-title">
+                        <span>Speciality |</span>
+                      </div>
+                      <div className="filter-div-list">
+                        {Object.entries(selectedspeciality).map(
+                          ([index, item]) => (
+                            <div className="filter-result">
+                              {item}{" "}
+                              <img
+                                onClick={() =>
+                                  removeindividualfilter("speciality", item)
+                                }
+                                src={path_image + "filter-close.svg"}
+                                alt="Close-filter"
+                              />
+                            </div>
+                          )
+                        )}
+                      </div>
                     </div>
-                    <div className="filter-div-list">
-                      {Object.entries(selectedspeciality).map(
-                        ([index, item]) => (
-                          <div className="filter-result">
-                            {item}{" "}
-                            <img
-                              onClick={() =>
-                                removeindividualfilter("speciality", item)
-                              }
-                              src={path_image + "filter-close.svg"}
-                              alt="Close-filter"
-                            />
-                          </div>
-                        )
-                      )}
-                    </div>
-                  </div>
-                ) : null
-              ) : null}
+                  ) : null
+                ) : null}
 
               {updateflag > 0 ? (
                 typeof selectedproduct === "object" &&
@@ -1352,6 +1569,89 @@ const FilterSegment = (props) => {
                   </div>
                 ) : null
               ) : null}
+
+              {updateflag > 0 ? (
+                typeof selectedinvestigatorType === "object" &&
+                selectedinvestigatorType.length > 0 ? (
+                  <div className="filter-div">
+                    <div className="filter-div-title">
+                      <span>User Type |</span>
+                    </div>
+                    <div className="filter-div-list">
+                      {Object.entries(selectedinvestigatorType).map(
+                        ([index, item]) => (
+                          <div className="filter-result">
+                            {item}{" "}
+                            <img
+                              onClick={() =>
+                                removeindividualfilter("investigator_type", item)
+                              }
+                              src={path_image + "filter-close.svg"}
+                              alt="Close-filter"
+                            />
+                          </div>
+                        )
+                      )}
+                    </div>
+                  </div>
+                ) : null
+              ) : null}
+
+              {updateflag > 0 ? (
+                typeof selectedsitenumber === "object" &&
+                selectedsitenumber.length > 0 ? (
+                  <div className="filter-div">
+                    <div className="filter-div-title">
+                      <span>User Type |</span>
+                    </div>
+                    <div className="filter-div-list">
+                      {Object.entries(selectedsitenumber).map(
+                        ([index, item]) => (
+                          <div className="filter-result">
+                            {item}{" "}
+                            <img
+                              onClick={() =>
+                                removeindividualfilter("site_number", item)
+                              }
+                              src={path_image + "filter-close.svg"}
+                              alt="Close-filter"
+                            />
+                          </div>
+                        )
+                      )}
+                    </div>
+                  </div>
+                ) : null
+              ) : null}
+
+
+              {updateflag > 0 ? (
+                typeof selectedsitename === "object" &&
+                selectedsitename.length > 0 ? (
+                  <div className="filter-div">
+                    <div className="filter-div-title">
+                      <span>Site Name |</span>
+                    </div>
+                    <div className="filter-div-list">
+                      {Object.entries(selectedsitename).map(
+                        ([index, item]) => (
+                          <div className="filter-result">
+                            {item}{" "}
+                            <img
+                              onClick={() =>
+                                removeindividualfilter("site_name", item)
+                              }
+                              src={path_image + "filter-close.svg"}
+                              alt="Close-filter"
+                            />
+                          </div>
+                        )
+                      )}
+                    </div>
+                  </div>
+                ) : null
+              ) : null}
+
             </div>
 
             {/*Right Block*/}
