@@ -1075,7 +1075,7 @@ const FilterSegment = (props) => {
                             Object.keys(filters.investigator_type).length > 0 && (
                               <>
                                 <div className="col block-smart-name">
-                                  <h6>User Type</h6>
+                                  <h6>Role</h6>
                                   <div className="smart-name-list">
                                     <ul>
                                       {Object.entries(filters.investigator_type).map(
