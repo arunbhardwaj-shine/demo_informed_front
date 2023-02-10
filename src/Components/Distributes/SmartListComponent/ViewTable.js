@@ -1967,6 +1967,7 @@ const ViewTable = (props) => {
                                   />
                                 </div>
                               </div>
+                              <hr />
                               {localStorage.getItem("user_id") !=
                               "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <div className="col-12 col-md-6">
@@ -2150,7 +2151,7 @@ const ViewTable = (props) => {
                                       />
                                     </div>
                                   </div>
-                                  <hr />
+
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">Site Number</label>
@@ -2411,6 +2412,53 @@ const ViewTable = (props) => {
                                         // }
                                         // filterOption={createFilter(filterConfig)}
                                       />
+                                    </div>
+                                  </div>
+
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">Country</label>
+                                      <Select
+                                        options={countryall}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onCountryChange(event, i)
+                                        }
+                                        defaultValue={
+                                          countryall[hpc[i].countryIndex]
+                                        }
+                                        placeholder={
+                                          typeof countryall[
+                                            hpc[i].countryIndex
+                                          ] === "undefined"
+                                            ? "Select Country"
+                                            : countryall[hpc[i].countryIndex]
+                                        }
+                                        filterOption={createFilter(
+                                          filterConfig
+                                        )}
+                                        isClearable
+                                      />
+                                      {/*
+                                    <DropdownButton className="dropdown-basic-button split-button-dropup country"
+                                        title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
+                                        onSelect={(event) => onCountryChange(event, i)}
+                                        >
+                                        <div className="scroll_div">
+                                        {countryall.length === 0
+                                        ? ""
+                                        : Object.entries(countryall).map(
+                                        ([index, item]) => {
+                                        return (
+                                        <>
+                                        <Dropdown.Item eventKey={index} className = {hpc[i].country == index ? "active" : "" }>{item == "B&H" ? "Bosnia and Herzegovina" : item}</Dropdown.Item>
+                                        </>
+                                      );
+                                    }
+                                  )}
+                                  </div>
+                                  </DropdownButton>
+                                    */}
                                     </div>
                                   </div>
 
