@@ -2075,7 +2075,7 @@ const ViewTable = (props) => {
                                 <>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Roll</label>
+                                      <label for="">Role</label>
                                       <Select
                                         options={userTypeAll}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -2089,7 +2089,7 @@ const ViewTable = (props) => {
                                           typeof userTypeAll[
                                             hpc[i].userTypeIndex
                                           ] === "undefined"
-                                            ? "Select User Type"
+                                            ? "Select Role"
                                             : userTypeAll[hpc[i].userTypeIndex]
                                         }
                                         // filterOption={createFilter(filterConfig)}
@@ -2099,7 +2099,7 @@ const ViewTable = (props) => {
 
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Sub Roll</label>
+                                      <label for="">Sub Role</label>
                                       <Select
                                         options={subUserTypeAll}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -2115,7 +2115,7 @@ const ViewTable = (props) => {
                                           typeof subUserTypeAll[
                                             hpc[i].subUserTypeIndex
                                           ] === "undefined"
-                                            ? "Select Sub User Type"
+                                            ? "Select Sub Role"
                                             : subUserTypeAll[
                                                 hpc[i].subUserTypeIndex
                                               ]
