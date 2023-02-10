@@ -5054,7 +5054,7 @@ h2 {
 }
 
 #accordion-smart .card-body .col.registered {
-  flex: 0 0 72px;
+  flex: 0 0 90px;
 }
 
 #accordion-smart .card-body .col.registered::after {
@@ -7172,4 +7172,10 @@ section.search-hcp.smart-list-view .header-btn-left {
   padding-top: 20px;
   border-top: 1px dashed var(--light-blue);
   margin-top: 20px;
+}
+.form_action hr {
+  border-top: 1px dashed var(--light-blue);
+  background: transparent;
+  opacity: 1;
+  margin: 15px 0;
 }

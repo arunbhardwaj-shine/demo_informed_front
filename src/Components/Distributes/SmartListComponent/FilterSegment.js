@@ -33,6 +33,7 @@ const FilterSegment = (props) => {
   const [selectedArticleCompleted, setSelectedArticleCompleted] =
     useState("yes");
   const [selectedbounce, setSelectedBounce] = useState();
+  const [selectedContentRead, setSelectedContentRead] = useState();
   const [selectedIrt, setSelectedIrt] = useState("yes");
   const [showhidearticle, setShowHideArticle] = useState(1);
   const [getfilterdata, setFilterData] = useState();
@@ -144,6 +145,12 @@ const FilterSegment = (props) => {
       if (typeof props.selectedFilter.bounce !== "undefined") {
         let bounce = props.selectedFilter.bounce == 1 ? "yes" : "no";
         setSelectedBounce(bounce);
+      }
+
+      if (typeof props.selectedFilter.selectedContentRead !== "undefined") {
+        let selectedContent =
+          props.selectedFilter.selectedContentRead == 1 ? "yes" : "no";
+        setSelectedContentRead(selectedContent);
       }
 
       console.log(props.selectedFilter);
@@ -351,6 +358,10 @@ const FilterSegment = (props) => {
     setSelectedBounce(bounce_val);
   };
 
+  const handleContentRead = (item) => {
+    setSelectedContentRead(item);
+  };
+
   const handleArticleCompleted = (val) => {
     setSelectedArticleCompleted(val);
   };
@@ -402,6 +413,7 @@ const FilterSegment = (props) => {
     setSelectedReaderSelection();
     setSelectedRegister();
     setSelectedBounce();
+    setSelectedContentRead();
     setFilterData([]);
     let up = updateflag + 1;
     setUpdateFlag(up);
@@ -569,6 +581,16 @@ const FilterSegment = (props) => {
       // Object.assign(payload, { bounce: 1 });
     }
 
+    if (typeof selectedContentRead !== "undefined") {
+      if (selectedContentRead == "yes") {
+        Object.assign(payload, { contentRead: 1 });
+      } else {
+        Object.assign(payload, { contentRead: 0 });
+      }
+      flag_to_check_data = true;
+      // Object.assign(payload, { bounce: 1 });
+    }
+
     if (typeof selectedIrt !== "undefined") {
       if (selectedIrt == "yes") {
         Object.assign(payload, { bounce: 1 });
@@ -677,6 +699,8 @@ const FilterSegment = (props) => {
       setSelectedRegister();
     } else if (src == "bounce") {
       setSelectedBounce();
+    } else if (src == "selectedContentRead") {
+      setSelectedContentRead();
     } else if (src == "investigator_type") {
       handleOnInvestigatorChange(item);
     } else if (src == "sub_role") {
@@ -812,44 +836,49 @@ const FilterSegment = (props) => {
                     </div>
                     <Accordion.Body>
                       <div className="card-body">
-                        {"contact_type" in filters &&
-                          Object.keys(filters.contact_type).length > 0 && (
-                            <>
-                              <div className="col block-smart-name">
-                                <h6>Contact Type</h6>
-                                <div className="smart-name-list">
-                                  <ul>
-                                    {Object.entries(filters.contact_type).map(
-                                      ([index, item]) => (
-                                        <li>
-                                          <div className="select-multiple-option">
-                                            <input
-                                              type="checkbox"
-                                              id={`custom-checkbox-contact_type-${index}`}
-                                              name="contact_type[]"
-                                              value={item}
-                                              checked={
-                                                typeof selectedcontacttype !==
-                                                  "undefined" &&
-                                                selectedcontacttype.indexOf(
-                                                  item
-                                                ) !== -1
-                                              }
-                                              onChange={() =>
-                                                handleOnContactTypeChange(item)
-                                              }
-                                            />
-                                            <span className="checkmark"></span>
-                                          </div>
-                                          {item}
-                                        </li>
-                                      )
-                                    )}
-                                  </ul>
+                        {localStorage.getItem("user_id") !=
+                        "56Ek4feL/1A8mZgIKQWEqg=="
+                          ? "contact_type" in filters &&
+                            Object.keys(filters.contact_type).length > 0 && (
+                              <>
+                                <div className="col block-smart-name">
+                                  <h6>Contact Type</h6>
+                                  <div className="smart-name-list">
+                                    <ul>
+                                      {Object.entries(filters.contact_type).map(
+                                        ([index, item]) => (
+                                          <li>
+                                            <div className="select-multiple-option">
+                                              <input
+                                                type="checkbox"
+                                                id={`custom-checkbox-contact_type-${index}`}
+                                                name="contact_type[]"
+                                                value={item}
+                                                checked={
+                                                  typeof selectedcontacttype !==
+                                                    "undefined" &&
+                                                  selectedcontacttype.indexOf(
+                                                    item
+                                                  ) !== -1
+                                                }
+                                                onChange={() =>
+                                                  handleOnContactTypeChange(
+                                                    item
+                                                  )
+                                                }
+                                              />
+                                              <span className="checkmark"></span>
+                                            </div>
+                                            {item}
+                                          </li>
+                                        )
+                                      )}
+                                    </ul>
+                                  </div>
                                 </div>
-                              </div>
-                            </>
-                          )}
+                              </>
+                            )
+                          : null}
 
                         {"speciality" in filters &&
                           Object.keys(filters.speciality).length > 0 && (
@@ -1115,46 +1144,6 @@ const FilterSegment = (props) => {
                             </>
                           )}
 
-                        {"articles" in filters &&
-                          Object.keys(filters.articles).length > 0 &&
-                          showhidearticle == 1 && (
-                            <>
-                              <div className="col block-smart-name">
-                                <h6>Articles</h6>
-                                <div className="smart-name-list">
-                                  <ul>
-                                    {Object.entries(filters.articles).map(
-                                      ([index, item]) => (
-                                        <li>
-                                          <div className="select-multiple-option">
-                                            <input
-                                              type="checkbox"
-                                              id={`custom-checkbox-articles-${index}`}
-                                              name="articles[]"
-                                              value={index}
-                                              checked={
-                                                typeof selectedarticles !==
-                                                  "undefined" &&
-                                                selectedarticles.indexOf(
-                                                  item
-                                                ) !== -1
-                                              }
-                                              onChange={() =>
-                                                handleOnArticleChange(item)
-                                              }
-                                            />
-                                            <span className="checkmark"></span>
-                                          </div>
-                                          {item}
-                                        </li>
-                                      )
-                                    )}
-                                  </ul>
-                                </div>
-                              </div>
-                            </>
-                          )}
-
                         {"investigator_type" in filters &&
                           Object.keys(filters.investigator_type).length > 0 && (
                             <>
@@ -1336,6 +1325,46 @@ const FilterSegment = (props) => {
                                               }
                                               onChange={() =>
                                                 handleOnSiteNameChange(item)
+                                              }
+                                            />
+                                            <span className="checkmark"></span>
+                                          </div>
+                                          {item}
+                                        </li>
+                                      )
+                                    )}
+                                  </ul>
+                                </div>
+                              </div>
+                            </>
+                          )}
+
+                        {"articles" in filters &&
+                          Object.keys(filters.articles).length > 0 &&
+                          showhidearticle == 1 && (
+                            <>
+                              <div className="col block-smart-name">
+                                <h6>Articles</h6>
+                                <div className="smart-name-list">
+                                  <ul>
+                                    {Object.entries(filters.articles).map(
+                                      ([index, item]) => (
+                                        <li>
+                                          <div className="select-multiple-option">
+                                            <input
+                                              type="checkbox"
+                                              id={`custom-checkbox-articles-${index}`}
+                                              name="articles[]"
+                                              value={index}
+                                              checked={
+                                                typeof selectedarticles !==
+                                                  "undefined" &&
+                                                selectedarticles.indexOf(
+                                                  item
+                                                ) !== -1
+                                              }
+                                              onChange={() =>
+                                                handleOnArticleChange(item)
                                               }
                                             />
                                             <span className="checkmark"></span>
@@ -1558,6 +1587,41 @@ const FilterSegment = (props) => {
                               </ul>
                             </>
                           )}
+
+                          {localStorage.getItem("user_id") ==
+                          "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                            <>
+                              <h6>Content Read</h6>
+                              <ul>
+                                <li>
+                                  <div className="select-multiple-option">
+                                    <input
+                                      type="radio"
+                                      value="yes"
+                                      id="content_read"
+                                      name="content_read"
+                                      checked={selectedContentRead == "yes"}
+                                      onChange={() => handleContentRead("yes")}
+                                    />
+                                    <span className="checkmark"></span>
+                                  </div>
+                                  Yes
+                                </li>
+                                <li>
+                                  <div className="select-multiple-option">
+                                    <input
+                                      type="radio"
+                                      value="no"
+                                      checked={selectedContentRead == "no"}
+                                      onChange={() => handleContentRead("no")}
+                                    />
+                                    <span className="checkmark"></span>
+                                  </div>
+                                  No
+                                </li>
+                              </ul>
+                            </>
+                          ) : null}
                         </div>
                         {/*Display only in case of create*/}
 
@@ -2058,6 +2122,32 @@ const FilterSegment = (props) => {
                   </div>
                 ) : null
               ) : null}
+
+              {updateflag > 0 ? (
+                selectedContentRead ? (
+                  <div className="filter-div">
+                    <div className="filter-div-title">
+                      <span>Content Read |</span>
+                    </div>
+                    <div className="filter-div-list">
+                      <div className="filter-result">
+                        {selectedContentRead}{" "}
+                        <img
+                          onClick={() =>
+                            removeindividualfilter(
+                              "selectedContentRead",
+                              selectedContentRead
+                            )
+                          }
+                          src={path_image + "filter-close.svg"}
+                          alt="Close-filter"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ) : null
+              ) : null}
+
               {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? (
                 updateflag > 0 ? (
                   selectedIrt ? (

@@ -71,6 +71,7 @@ const ViewTable = (props) => {
   const [showLessUpdate, setShowLessUpdate] = useState(0);
   const [activeExcel, setActiveExcel] = useState("");
   const [editableData, setEditableData] = useState([]);
+  const [siteIrtAll, setSiteIrtAll] = useState([]);
   const animatedComponents = makeAnimated();
   let file_name = useRef("");
 
@@ -115,6 +116,7 @@ const ViewTable = (props) => {
             let site_city;
             let arrSiteCity;
             let arrSitePostCode;
+            let arrSiteIrt;
 
             let arr = [];
             console.log("outside");
@@ -138,6 +140,10 @@ const ViewTable = (props) => {
               arrSiteStreet = [];
               arrSitePostCode = [];
               arrSiteCity = [];
+              arrSiteIrt = [
+                { value: "Yes", label: "Yes" },
+                { value: "No", label: "No" },
+              ];
             }
 
             //  const data = Object.assign({}, res.data.response.data.blind_type);
@@ -237,6 +243,7 @@ const ViewTable = (props) => {
 
             setCountryall(arr);
             if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+              console.log(arrUserType);
               setUserTypeAll(arrUserType);
               setSubUserTypeAll(arrSubRole);
               setSiteNumberAll(arrSiteNumber);
@@ -244,6 +251,7 @@ const ViewTable = (props) => {
               setSiteStreetAll(arrSiteStreet);
               setSitePostCodeAll(arrSitePostCode);
               setSiteCityAll(arrSiteCity);
+              setSiteIrtAll(arrSiteIrt);
               //console.log(res.data.response.data.blind_type);
               setBlindTypeAll(arrBlindType);
             }
@@ -313,6 +321,8 @@ const ViewTable = (props) => {
       siteStreetIndex: "",
       siteName: "",
       siteNameIndex: "",
+      siteIrt: "",
+      siteIrtIndex: "",
 
       // siteDetails: [
       //   {
@@ -594,6 +604,8 @@ const ViewTable = (props) => {
           siteStreetIndex: "",
           sitePostCodeIndex: "",
           siteCityIndex: "",
+          siteIrt: "",
+          siteIrtIndex: "",
         },
       ]);
     } else {
@@ -1041,6 +1053,24 @@ const ViewTable = (props) => {
     }
   };
 
+  const onSiteIrtChange = (e, i) => {
+    if (e == null) {
+      const list = [...hpc];
+      list[i].siteIrt = "";
+      list[i].siteIrt = "";
+      setHpc(list);
+    } else {
+      const value = e.value;
+      const list = [...hpc];
+      const name = hpc[i].siteIrt;
+      list[i].siteIrt = value;
+
+      let index = siteIrtAll.findIndex((x) => x.value === value);
+      list[i].siteIrtIndex = index;
+      setHpc(list);
+    }
+  };
+
   const onSiteCityChange = (e, i) => {
     if (e == null) {
       const list = [...hpc];
@@ -1213,6 +1243,7 @@ const ViewTable = (props) => {
           siteStreet: data.siteStreet ? data.siteStreet : "",
           sitePostalCode: data.sitePostCode ? data.sitePostCode : "",
           siteCity: data.siteCity ? data.siteCity : "",
+          siteIrt: data.siteIrt == "Yes" ? 1 : 0,
         };
       });
       console.log(body_data);
@@ -1936,78 +1967,85 @@ const ViewTable = (props) => {
                                   />
                                 </div>
                               </div>
-                              <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label for="">Contact Type</label>
-                                  <DropdownButton
-                                    className="dropdown-basic-button split-button-dropup"
-                                    title={
-                                      hpc[i].contact_type != "" &&
-                                      hpc[i].contact_type != "undefined"
-                                        ? hpc[i].contact_type
-                                        : "Select Type"
-                                    }
-                                    onSelect={(event) =>
-                                      onContactTypeChange(event, i)
-                                    }
-                                  >
-                                    <div className="scroll_div">
-                                      <Dropdown.Item
-                                        eventKey="HCP"
-                                        className={
-                                          hpc[i].contact_type == "HCP"
-                                            ? "active"
-                                            : ""
-                                        }
-                                      >
-                                        HCP
-                                      </Dropdown.Item>
-                                      <Dropdown.Item
-                                        eventKey="Staff"
-                                        className={
-                                          hpc[i].contact_type == "Staff"
-                                            ? "active"
-                                            : ""
-                                        }
-                                      >
-                                        Staff
-                                      </Dropdown.Item>
-                                      <Dropdown.Item
-                                        eventKey="Test Users"
-                                        className={
-                                          hpc[i].contact_type == "Test Users"
-                                            ? "active"
-                                            : ""
-                                        }
-                                      >
-                                        Test Users
-                                      </Dropdown.Item>
-                                    </div>
-                                  </DropdownButton>
+                              {localStorage.getItem("user_id") !=
+                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                <div className="col-12 col-md-6">
+                                  <div className="form-group">
+                                    <label for="">Contact Type</label>
+                                    <DropdownButton
+                                      className="dropdown-basic-button split-button-dropup"
+                                      title={
+                                        hpc[i].contact_type != "" &&
+                                        hpc[i].contact_type != "undefined"
+                                          ? hpc[i].contact_type
+                                          : "Select Type"
+                                      }
+                                      onSelect={(event) =>
+                                        onContactTypeChange(event, i)
+                                      }
+                                    >
+                                      <div className="scroll_div">
+                                        <Dropdown.Item
+                                          eventKey="HCP"
+                                          className={
+                                            hpc[i].contact_type == "HCP"
+                                              ? "active"
+                                              : ""
+                                          }
+                                        >
+                                          HCP
+                                        </Dropdown.Item>
+                                        <Dropdown.Item
+                                          eventKey="Staff"
+                                          className={
+                                            hpc[i].contact_type == "Staff"
+                                              ? "active"
+                                              : ""
+                                          }
+                                        >
+                                          Staff
+                                        </Dropdown.Item>
+                                        <Dropdown.Item
+                                          eventKey="Test Users"
+                                          className={
+                                            hpc[i].contact_type == "Test Users"
+                                              ? "active"
+                                              : ""
+                                          }
+                                        >
+                                          Test Users
+                                        </Dropdown.Item>
+                                      </div>
+                                    </DropdownButton>
+                                  </div>
                                 </div>
-                              </div>
-                              <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label for="">Country</label>
-                                  <Select
-                                    options={countryall}
-                                    className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                    onChange={(event) =>
-                                      onCountryChange(event, i)
-                                    }
-                                    defaultValue={
-                                      countryall[hpc[i].countryIndex]
-                                    }
-                                    placeholder={
-                                      typeof countryall[hpc[i].countryIndex] ===
-                                      "undefined"
-                                        ? "Select Country"
-                                        : countryall[hpc[i].countryIndex]
-                                    }
-                                    filterOption={createFilter(filterConfig)}
-                                    isClearable
-                                  />
-                                  {/*
+                              ) : null}
+
+                              {localStorage.getItem("user_id") !=
+                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                <div className="col-12 col-md-6">
+                                  <div className="form-group">
+                                    <label for="">Country</label>
+                                    <Select
+                                      options={countryall}
+                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                      onChange={(event) =>
+                                        onCountryChange(event, i)
+                                      }
+                                      defaultValue={
+                                        countryall[hpc[i].countryIndex]
+                                      }
+                                      placeholder={
+                                        typeof countryall[
+                                          hpc[i].countryIndex
+                                        ] === "undefined"
+                                          ? "Select Country"
+                                          : countryall[hpc[i].countryIndex]
+                                      }
+                                      filterOption={createFilter(filterConfig)}
+                                      isClearable
+                                    />
+                                    {/*
                                     <DropdownButton className="dropdown-basic-button split-button-dropup country"
                                         title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
                                         onSelect={(event) => onCountryChange(event, i)}
@@ -2027,15 +2065,16 @@ const ViewTable = (props) => {
                                   </div>
                                   </DropdownButton>
                                     */}
+                                  </div>
                                 </div>
-                              </div>
+                              ) : null}
 
                               {localStorage.getItem("user_id") ==
                               "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">User Type</label>
+                                      <label for="">Roll</label>
                                       <Select
                                         options={userTypeAll}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -2059,7 +2098,7 @@ const ViewTable = (props) => {
 
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Sub User Type</label>
+                                      <label for="">Sub Roll</label>
                                       <Select
                                         options={subUserTypeAll}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -2111,7 +2150,7 @@ const ViewTable = (props) => {
                                       />
                                     </div>
                                   </div>
-
+                                  <hr />
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">Site Number</label>
@@ -2307,6 +2346,52 @@ const ViewTable = (props) => {
                                             ? "Select Site City"
                                             : siteCityAll[hpc[i].siteCityIndex]
                                         }
+                                        // onChange={(event) =>
+                                        //   onUserTypeChange(event, i)
+                                        // }
+                                        // defaultValue={
+                                        //   userTypeAll[
+                                        //     hpc[i].userTypeIndex
+                                        //   ]
+                                        // }
+                                        // placeholder={
+                                        //   typeof userTypeAll[
+                                        //     hpc[i].userTypeIndex
+                                        //   ] === "undefined"
+                                        //     ? "Select User Type"
+                                        //     : userTypeAll[
+                                        //         hpc[i].userTypeIndex
+                                        //       ]
+                                        // }
+                                        // filterOption={createFilter(filterConfig)}
+                                      />
+                                    </div>
+                                  </div>
+
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
+                                      <label for="">IRT</label>
+                                      <Select
+                                        options={siteIrtAll}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onSiteIrtChange(
+                                            event,
+
+                                            i
+                                          )
+                                        }
+                                        defaultValue={
+                                          siteIrtAll[hpc[i].siteIrtIndex]
+                                        }
+                                        placeholder={
+                                          typeof siteIrtAll[
+                                            hpc[i].siteIrtIndex
+                                          ] === "undefined"
+                                            ? "Select Site IRT"
+                                            : siteIrtAll[hpc[i].siteIrtIndex]
+                                        }
+
                                         // onChange={(event) =>
                                         //   onUserTypeChange(event, i)
                                         // }
