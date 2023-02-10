@@ -20,6 +20,8 @@ const FilterSegment = (props) => {
   const [selectedcontacttype, setSelectedContactType] = useState([]);
   const [selectedspeciality, setSelectedSpeciality] = useState([]);
   const [selectedinvestigatorType, setSelectedinvestigatorType] = useState([]);
+  const [selectedSubRole, setSelectedSubRole] = useState([]);
+  const [selectedBlindType, setSelectedBlindType] = useState([]);
   const [selectedsitenumber, setSelectedsitenumber] = useState([]);
   const [selectedsitename, setSelectedsitename] = useState([]);
   const [selectedreaderselection, setSelectedReaderSelection] = useState("");
@@ -28,7 +30,10 @@ const FilterSegment = (props) => {
   const [selectedarticles, setSelectedArticles] = useState([]);
   const [selectedconsent, setConsent] = useState([]);
   const [selectedregister, setSelectedRegister] = useState("yes");
+  const [selectedArticleCompleted, setSelectedArticleCompleted] =
+    useState("yes");
   const [selectedbounce, setSelectedBounce] = useState();
+  const [selectedIrt, setSelectedIrt] = useState("yes");
   const [showhidearticle, setShowHideArticle] = useState(1);
   const [getfilterdata, setFilterData] = useState();
   const [apifilterflag, setApiFilterFlag] = useState(0);
@@ -41,11 +46,10 @@ const FilterSegment = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   useEffect(() => {
-
     var x = localStorage.getItem("sd_i");
-    if(x){
+    if (x) {
       setStorageState(true);
-    }else{
+    } else {
       setStorageState(false);
     }
 
@@ -65,15 +69,12 @@ const FilterSegment = (props) => {
         setSelectedTerritory(props.selectedFilter.territory);
       }
 
-
       //Consent
       if (typeof props.selectedFilter.Consent !== "undefined") {
-        let consent = props.selectedFilter.Consent.map(
-          (item) => {
-            let val = filters.consent_type[item];
-            return val;
-          }
-        );
+        let consent = props.selectedFilter.Consent.map((item) => {
+          let val = filters.consent_type[item];
+          return val;
+        });
         setConsent(consent);
       }
 
@@ -108,6 +109,14 @@ const FilterSegment = (props) => {
         selectedinvestigatorType(props.selectedFilter.investigator_type);
       }
 
+      if (typeof props?.selectedFilter?.sub_role !== "undefined") {
+        selectedSubRole(props.selectedFilter.sub_role);
+      }
+
+      if (typeof props?.selectedBlindType?.blind_type !== "undefined") {
+        selectedBlindType(props.selectedFilter.blind_type);
+      }
+
       //site_number
       if (typeof props.selectedFilter.site_number !== "undefined") {
         selectedsitenumber(props.selectedFilter.site_number);
@@ -136,6 +145,13 @@ const FilterSegment = (props) => {
         let bounce = props.selectedFilter.bounce == 1 ? "yes" : "no";
         setSelectedBounce(bounce);
       }
+
+      console.log(props.selectedFilter);
+
+      //  if (typeof props.selectedFilter.irt !== "undefined") {
+      //    let bounce = props.selectedFilter.bounce == 1 ? "yes" : "no";
+      //    setSelectedBounce(bounce);
+      //  }
 
       //Articles
       if (typeof props.selectedFilter.registered_on_article !== "undefined") {
@@ -242,6 +258,30 @@ const FilterSegment = (props) => {
     setUpdateFlag(up);
   };
 
+  const handleOnSubRoleChange = (subRole) => {
+    let subrole_index = selectedSubRole.indexOf(subRole);
+    if (subrole_index !== -1) {
+      selectedSubRole.splice(subrole_index, 1);
+    } else {
+      selectedSubRole.push(subRole);
+    }
+    setSelectedSubRole(selectedSubRole);
+    let up = updateflag + 1;
+    setUpdateFlag(up);
+  };
+
+  const handleOnBlindTypeChange = (blindType) => {
+    let blindType_index = selectedBlindType.indexOf(blindType);
+    if (blindType_index !== -1) {
+      selectedBlindType.splice(blindType_index, 1);
+    } else {
+      selectedBlindType.push(blindType);
+    }
+    setSelectedBlindType(selectedBlindType);
+    let up = updateflag + 1;
+    setUpdateFlag(up);
+  };
+
   const handleOnSiteNumberChange = (sitenumber) => {
     let site_number_index = selectedsitenumber.indexOf(sitenumber);
     if (site_number_index !== -1) {
@@ -267,9 +307,9 @@ const FilterSegment = (props) => {
   };
 
   const handleOnReaderSelectionChange = (reader_selection) => {
-    if(selectedreaderselection == reader_selection){
+    if (selectedreaderselection == reader_selection) {
       setSelectedReaderSelection("");
-    }else{
+    } else {
       setSelectedReaderSelection(reader_selection);
     }
     let up = updateflag + 1;
@@ -277,9 +317,9 @@ const FilterSegment = (props) => {
   };
 
   const handleOnIbuChange = (ibu) => {
-    if(selectedibu == ibu){
+    if (selectedibu == ibu) {
       setSelectedIbu("");
-    }else{
+    } else {
       setSelectedIbu(ibu);
     }
     let up = updateflag + 1;
@@ -309,6 +349,14 @@ const FilterSegment = (props) => {
 
   const handleBounce = (bounce_val) => {
     setSelectedBounce(bounce_val);
+  };
+
+  const handleArticleCompleted = (val) => {
+    setSelectedArticleCompleted(val);
+  };
+
+  const handleIrt = (irt_val) => {
+    setSelectedIrt(irt_val);
   };
 
   const handleOnArticleChange = (article) => {
@@ -412,6 +460,22 @@ const FilterSegment = (props) => {
       flag_to_check_data = true;
     }
 
+    if (typeof selectedSubRole === "object" && selectedSubRole.length > 0) {
+      let sub_role = selectedSubRole.map((item) => {
+        return item;
+      });
+      Object.assign(payload, { sub_role: sub_role });
+      flag_to_check_data = true;
+    }
+
+    if (typeof selectedBlindType === "object" && selectedBlindType.length > 0) {
+      let blind_type = selectedBlindType.map((item) => {
+        return item;
+      });
+      Object.assign(payload, { blind_type: blind_type });
+      flag_to_check_data = true;
+    }
+
     //For User Type
     if (
       typeof selectedsitenumber === "object" &&
@@ -425,10 +489,7 @@ const FilterSegment = (props) => {
     }
 
     //For User Type
-    if (
-      typeof selectedsitename === "object" &&
-      selectedsitename.length > 0
-    ) {
+    if (typeof selectedsitename === "object" && selectedsitename.length > 0) {
       let site_name = selectedsitename.map((item) => {
         return item;
       });
@@ -488,9 +549,28 @@ const FilterSegment = (props) => {
       flag_to_check_data = true;
     }
 
+    if (selectedArticleCompleted) {
+      if (selectedArticleCompleted == "yes") {
+        Object.assign(payload, { article_completed: 1 });
+      } else {
+        Object.assign(payload, { article_completed: 0 });
+      }
+      flag_to_check_data = true;
+    }
+
     //For Bounce
     if (typeof selectedbounce !== "undefined") {
       if (selectedbounce == "yes") {
+        Object.assign(payload, { bounce: 1 });
+      } else {
+        Object.assign(payload, { bounce: 0 });
+      }
+      flag_to_check_data = true;
+      // Object.assign(payload, { bounce: 1 });
+    }
+
+    if (typeof selectedIrt !== "undefined") {
+      if (selectedIrt == "yes") {
         Object.assign(payload, { bounce: 1 });
       } else {
         Object.assign(payload, { bounce: 0 });
@@ -565,17 +645,21 @@ const FilterSegment = (props) => {
 
   const createListWithFilters = (flag) => {
     setConfirmationPopupStatus(false);
-    tableCompRef.current.createSmartList(getfilterdata, getNewAddedUser,flag);
+    tableCompRef.current.createSmartList(getfilterdata, getNewAddedUser, flag);
   };
 
   const removeindividualfilter = (src, item) => {
     if (src == "country") {
       handleOnCountryChange(item);
-    }else if(src == "province"){
+    } else if (src == "province") {
       handleOnProvinceChange(item);
-    }else if(src == "territory"){
+    } else if (src == "selectedArticleCompleted") {
+      setSelectedArticleCompleted();
+    } else if (src == "territory") {
       handleOnTerritoryChange(item);
-    }else if (src == "contact_type") {
+    } else if (src == "irt") {
+      setSelectedIrt();
+    } else if (src == "contact_type") {
       handleOnContactTypeChange(item);
     } else if (src == "speciality") {
       handleOnSpecialityChange(item);
@@ -593,25 +677,28 @@ const FilterSegment = (props) => {
       setSelectedRegister();
     } else if (src == "bounce") {
       setSelectedBounce();
-    }else if (src == "investigator_type") {
+    } else if (src == "investigator_type") {
       handleOnInvestigatorChange(item);
-    }else if (src == "site_number") {
+    } else if (src == "sub_role") {
+      handleOnSubRoleChange(item);
+    } else if (src == "site_number") {
       handleOnSiteNumberChange(item);
-    }else if (src == "site_name") {
+    } else if (src == "site_name") {
       handleOnSiteNameChange(item);
+    } else if (src == "blind_type") {
+      handleOnBlindTypeChange(item);
     }
-
   };
 
   const closeCancelClicked = () => {
     var x = localStorage.getItem("sd_i");
-    if(x){
+    if (x) {
       localStorage.removeItem("sd_i");
       Navigate("/SelectSmartList");
-    }else{
+    } else {
       Navigate("/SmartList");
     }
-  }
+  };
 
   return (
     <>
@@ -678,13 +765,14 @@ const FilterSegment = (props) => {
 
             <div className="col-12 col-md-3">
               <div className="header-btn">
-                <button className="btn btn-primary btn-bordered light" onClick={closeCancelClicked}>
-                Cancel
-                  {
-                    /*
+                <button
+                  className="btn btn-primary btn-bordered light"
+                  onClick={closeCancelClicked}
+                >
+                  Cancel
+                  {/*
                      <NavLink to="/CreateSmartList">Cancel</NavLink>
-                    */
-                  }
+                    */}
                 </button>
                 <button
                   className="btn btn-primary btn-bordered save-as"
@@ -699,9 +787,7 @@ const FilterSegment = (props) => {
                       : true
                   }
                 >
-                    {
-                      getStorageState ? "Create & go to email" : "Create"
-                    }
+                  {getStorageState ? "Create & go to email" : "Create"}
                 </button>
               </div>
             </div>
@@ -915,84 +1001,83 @@ const FilterSegment = (props) => {
                             </>
                           )}
 
-                          {"province" in filters &&
-                            Object.keys(filters.province).length > 0 && (
-                              <>
-                                <div className="col block-smart-name">
-                                  <h6>Province</h6>
-                                  <div className="smart-name-list">
-                                    <ul>
-                                      {Object.entries(filters.province).map(
-                                        ([index, item]) => (
-                                          <li>
-                                            <div className="select-multiple-option">
-                                              <input
-                                                type="checkbox"
-                                                id={`custom-checkbox-province-${index}`}
-                                                name="province[]"
-                                                value={item}
-                                                checked={
-                                                  typeof selectedprovince !==
-                                                    "undefined" &&
-                                                  selectedprovince.indexOf(
-                                                    item
-                                                  ) !== -1
-                                                }
-                                                onChange={() =>
-                                                  handleOnProvinceChange(item)
-                                                }
-                                              />
-                                              <span className="checkmark"></span>
-                                            </div>
-                                            {item}
-                                          </li>
-                                        )
-                                      )}
-                                    </ul>
-                                  </div>
+                        {"province" in filters &&
+                          Object.keys(filters.province).length > 0 && (
+                            <>
+                              <div className="col block-smart-name">
+                                <h6>Province</h6>
+                                <div className="smart-name-list">
+                                  <ul>
+                                    {Object.entries(filters.province).map(
+                                      ([index, item]) => (
+                                        <li>
+                                          <div className="select-multiple-option">
+                                            <input
+                                              type="checkbox"
+                                              id={`custom-checkbox-province-${index}`}
+                                              name="province[]"
+                                              value={item}
+                                              checked={
+                                                typeof selectedprovince !==
+                                                  "undefined" &&
+                                                selectedprovince.indexOf(
+                                                  item
+                                                ) !== -1
+                                              }
+                                              onChange={() =>
+                                                handleOnProvinceChange(item)
+                                              }
+                                            />
+                                            <span className="checkmark"></span>
+                                          </div>
+                                          {item}
+                                        </li>
+                                      )
+                                    )}
+                                  </ul>
                                 </div>
-                              </>
-                            )}
+                              </div>
+                            </>
+                          )}
 
-                            {"territory" in filters &&
-                              Object.keys(filters.territory).length > 0 && (
-                                <>
-                                  <div className="col block-smart-name">
-                                    <h6>Territory</h6>
-                                    <div className="smart-name-list">
-                                      <ul>
-                                        {Object.entries(filters.territory).map(
-                                          ([index, item]) => (
-                                            <li>
-                                              <div className="select-multiple-option">
-                                                <input
-                                                  type="checkbox"
-                                                  id={`custom-checkbox-territory-${index}`}
-                                                  name="territory[]"
-                                                  value={item}
-                                                  checked={
-                                                    typeof selectedterritory !==
-                                                      "undefined" &&
-                                                    selectedterritory.indexOf(
-                                                      item
-                                                    ) !== -1
-                                                  }
-                                                  onChange={() =>
-                                                    handleOnTerritoryChange(item)
-                                                  }
-                                                />
-                                                <span className="checkmark"></span>
-                                              </div>
-                                              {item}
-                                            </li>
-                                          )
-                                        )}
-                                      </ul>
-                                    </div>
-                                  </div>
-                                </>
-                              )}
-
+                        {"territory" in filters &&
+                          Object.keys(filters.territory).length > 0 && (
+                            <>
+                              <div className="col block-smart-name">
+                                <h6>Territory</h6>
+                                <div className="smart-name-list">
+                                  <ul>
+                                    {Object.entries(filters.territory).map(
+                                      ([index, item]) => (
+                                        <li>
+                                          <div className="select-multiple-option">
+                                            <input
+                                              type="checkbox"
+                                              id={`custom-checkbox-territory-${index}`}
+                                              name="territory[]"
+                                              value={item}
+                                              checked={
+                                                typeof selectedterritory !==
+                                                  "undefined" &&
+                                                selectedterritory.indexOf(
+                                                  item
+                                                ) !== -1
+                                              }
+                                              onChange={() =>
+                                                handleOnTerritoryChange(item)
+                                              }
+                                            />
+                                            <span className="checkmark"></span>
+                                          </div>
+                                          {item}
+                                        </li>
+                                      )
+                                    )}
+                                  </ul>
+                                </div>
+                              </div>
+                            </>
+                          )}
 
                         {"consent_type" in filters &&
                           filters.consent_type.length > 0 && (
@@ -1012,9 +1097,8 @@ const FilterSegment = (props) => {
                                             checked={
                                               typeof selectedconsent !==
                                                 "undefined" &&
-                                              selectedconsent.indexOf(
-                                                item
-                                              ) !== -1
+                                              selectedconsent.indexOf(item) !==
+                                                -1
                                             }
                                             onChange={() =>
                                               handleOnConsentChange(item)
@@ -1071,160 +1155,288 @@ const FilterSegment = (props) => {
                             </>
                           )}
 
-                          {"investigator_type" in filters &&
-                            Object.keys(filters.investigator_type).length > 0 && (
-                              <>
-                                <div className="col block-smart-name">
-                                  <h6>Role</h6>
-                                  <div className="smart-name-list">
-                                    <ul>
-                                      {Object.entries(filters.investigator_type).map(
-                                        ([index, item]) => (
-                                          <li>
-                                            <div className="select-multiple-option">
-                                              <input
-                                                type="checkbox"
-                                                id={`custom-checkbox-investigator_type-${index}`}
-                                                name="investigator_type[]"
-                                                value={item}
-                                                checked={
-                                                  typeof selectedinvestigatorType !==
-                                                    "undefined" &&
-                                                  selectedinvestigatorType.indexOf(
-                                                    item
-                                                  ) !== -1
-                                                }
-                                                onChange={() =>
-                                                  handleOnInvestigatorChange(item)
-                                                }
-                                              />
-                                              <span className="checkmark"></span>
-                                            </div>
-                                            {item}
-                                          </li>
-                                        )
-                                      )}
-                                    </ul>
-                                  </div>
+                        {"investigator_type" in filters &&
+                          Object.keys(filters.investigator_type).length > 0 && (
+                            <>
+                              <div className="col block-smart-name">
+                                <h6>Role</h6>
+                                <div className="smart-name-list">
+                                  <ul>
+                                    {Object.entries(
+                                      filters.investigator_type
+                                    ).map(([index, item]) => (
+                                      <li>
+                                        <div className="select-multiple-option">
+                                          <input
+                                            type="checkbox"
+                                            id={`custom-checkbox-investigator_type-${index}`}
+                                            name="investigator_type[]"
+                                            value={item}
+                                            checked={
+                                              typeof selectedinvestigatorType !==
+                                                "undefined" &&
+                                              selectedinvestigatorType.indexOf(
+                                                item
+                                              ) !== -1
+                                            }
+                                            onChange={() =>
+                                              handleOnInvestigatorChange(item)
+                                            }
+                                          />
+                                          <span className="checkmark"></span>
+                                        </div>
+                                        {item}
+                                      </li>
+                                    ))}
+                                  </ul>
                                 </div>
-                              </>
-                            )}
+                              </div>
+                            </>
+                          )}
 
-                            {"site_number" in filters &&
-                              Object.keys(filters.site_number).length > 0 && (
-                                <>
-                                  <div className="col block-smart-name">
-                                    <h6>Site Number</h6>
-                                    <div className="smart-name-list">
-                                      <ul>
-                                        {Object.entries(filters.site_number).map(
-                                          ([index, item]) => (
-                                            <li>
-                                              <div className="select-multiple-option">
-                                                <input
-                                                  type="checkbox"
-                                                  id={`custom-checkbox-site_number-${index}`}
-                                                  name="site_number[]"
-                                                  value={item}
-                                                  checked={
-                                                    typeof selectedsitenumber !==
-                                                      "undefined" &&
-                                                    selectedsitenumber.indexOf(
-                                                      item
-                                                    ) !== -1
-                                                  }
-                                                  onChange={() =>
-                                                    handleOnSiteNumberChange(item)
-                                                  }
-                                                />
-                                                <span className="checkmark"></span>
-                                              </div>
-                                              {item}
-                                            </li>
-                                          )
-                                        )}
-                                      </ul>
-                                    </div>
-                                  </div>
-                                </>
-                              )}
-
-                              {"site_name" in filters &&
-                              Object.keys(filters.site_name).length > 0 && (
-                                <>
-                                  <div className="col block-smart-name">
-                                    <h6>Site Name</h6>
-                                    <div className="smart-name-list">
-                                      <ul>
-                                        {Object.entries(filters.site_name).map(
-                                          ([index, item]) => (
-                                            <li>
-                                              <div className="select-multiple-option">
-                                                <input
-                                                  type="checkbox"
-                                                  id={`custom-checkbox-site_name-${index}`}
-                                                  name="site_name[]"
-                                                  value={item}
-                                                  checked={
-                                                    typeof selectedsitename !==
-                                                      "undefined" &&
-                                                    selectedsitename.indexOf(
-                                                      item
-                                                    ) !== -1
-                                                  }
-                                                  onChange={() =>
-                                                    handleOnSiteNameChange(item)
-                                                  }
-                                                />
-                                                <span className="checkmark"></span>
-                                              </div>
-                                              {item}
-                                            </li>
-                                          )
-                                        )}
-                                      </ul>
-                                    </div>
-                                  </div>
-                                </>
-                              )}
-
-                          {"reader_selection" in filters &&
-                            Object.keys(filters.reader_selection).length > 0 &&
-                            showhidearticle == 1 && (
-                              <>
-                                <div className="col block-smart-name">
-                                  <h6>Reader Selection</h6>
-                                  <div className="smart-name-list">
-                                    <ul>
-                                      {Object.entries(
-                                        filters.reader_selection
-                                      ).map(([index, item]) => (
+                        {"sub_role" in filters &&
+                          Object.keys(filters.sub_role).length > 0 && (
+                            <>
+                              <div className="col block-smart-name">
+                                <h6>Sub Roles</h6>
+                                <div className="smart-name-list">
+                                  <ul>
+                                    {Object.entries(filters.sub_role).map(
+                                      ([index, item]) => (
                                         <li>
                                           <div className="select-multiple-option">
                                             <input
-                                              type="radio"
-                                              id={`custom-checkbox-reader_selection-${index}`}
-                                              name="reader_selection[]"
+                                              type="checkbox"
+                                              id={`custom-checkbox-investigator_type-${index}`}
+                                              name="investigator_type[]"
                                               value={item}
                                               checked={
-                                                selectedreaderselection == item
+                                                typeof selectedSubRole !==
+                                                  "undefined" &&
+                                                selectedSubRole.indexOf(
+                                                  item
+                                                ) !== -1
                                               }
                                               onChange={() =>
-                                                handleOnReaderSelectionChange(
-                                                  item
-                                                )
+                                                handleOnSubRoleChange(item)
                                               }
                                             />
                                             <span className="checkmark"></span>
                                           </div>
                                           {item}
                                         </li>
-                                      ))}
-                                    </ul>
-                                  </div>
+                                      )
+                                    )}
+                                  </ul>
                                 </div>
-                              </>
-                            )}
+                              </div>
+                            </>
+                          )}
+
+                        {"blind_type" in filters &&
+                          Object.keys(filters.blind_type).length > 0 && (
+                            <>
+                              <div className="col block-smart-name">
+                                <h6>Blind Type</h6>
+                                <div className="smart-name-list">
+                                  <ul>
+                                    {Object.entries(filters.blind_type).map(
+                                      ([index, item]) => (
+                                        <li>
+                                          <div className="select-multiple-option">
+                                            <input
+                                              type="checkbox"
+                                              id={`custom-checkbox-investigator_type-${index}`}
+                                              name="investigator_type[]"
+                                              value={item}
+                                              checked={
+                                                typeof selectedBlindType !==
+                                                  "undefined" &&
+                                                selectedBlindType.indexOf(
+                                                  item
+                                                ) !== -1
+                                              }
+                                              onChange={() =>
+                                                handleOnBlindTypeChange(item)
+                                              }
+                                            />
+                                            <span className="checkmark"></span>
+                                          </div>
+                                          {item}
+                                        </li>
+                                      )
+                                    )}
+                                  </ul>
+                                </div>
+                              </div>
+                            </>
+                          )}
+
+                        {"site_number" in filters &&
+                          Object.keys(filters.site_number).length > 0 && (
+                            <>
+                              <div className="col block-smart-name">
+                                <h6>Site Number</h6>
+                                <div className="smart-name-list">
+                                  <ul>
+                                    {Object.entries(filters.site_number).map(
+                                      ([index, item]) => (
+                                        <li>
+                                          <div className="select-multiple-option">
+                                            <input
+                                              type="checkbox"
+                                              id={`custom-checkbox-site_number-${index}`}
+                                              name="site_number[]"
+                                              value={item}
+                                              checked={
+                                                typeof selectedsitenumber !==
+                                                  "undefined" &&
+                                                selectedsitenumber.indexOf(
+                                                  item
+                                                ) !== -1
+                                              }
+                                              onChange={() =>
+                                                handleOnSiteNumberChange(item)
+                                              }
+                                            />
+                                            <span className="checkmark"></span>
+                                          </div>
+                                          {item}
+                                        </li>
+                                      )
+                                    )}
+                                  </ul>
+                                </div>
+                              </div>
+                            </>
+                          )}
+
+                        {"site_name" in filters &&
+                          Object.keys(filters.site_name).length > 0 && (
+                            <>
+                              <div className="col block-smart-name">
+                                <h6>Site Name</h6>
+                                <div className="smart-name-list">
+                                  <ul>
+                                    {Object.entries(filters.site_name).map(
+                                      ([index, item]) => (
+                                        <li>
+                                          <div className="select-multiple-option">
+                                            <input
+                                              type="checkbox"
+                                              id={`custom-checkbox-site_name-${index}`}
+                                              name="site_name[]"
+                                              value={item}
+                                              checked={
+                                                typeof selectedsitename !==
+                                                  "undefined" &&
+                                                selectedsitename.indexOf(
+                                                  item
+                                                ) !== -1
+                                              }
+                                              onChange={() =>
+                                                handleOnSiteNameChange(item)
+                                              }
+                                            />
+                                            <span className="checkmark"></span>
+                                          </div>
+                                          {item}
+                                        </li>
+                                      )
+                                    )}
+                                  </ul>
+                                </div>
+                              </div>
+                            </>
+                          )}
+
+                        {selectedsitename.length > 0 ? (
+                          <div className="col block-smart-name">
+                            <h6>Articles Completed</h6>
+                            <div className="smart-name-list">
+                              <ul>
+                                <li>
+                                  <div className="select-multiple-option">
+                                    <input
+                                      type="radio"
+                                      id="bounce_yes"
+                                      name="bounce"
+                                      value="yes"
+                                      checked={
+                                        typeof selectedArticleCompleted !==
+                                          "undefined" &&
+                                        selectedArticleCompleted == "yes"
+                                      }
+                                      onChange={() =>
+                                        handleArticleCompleted("yes")
+                                      }
+                                    />
+                                    <span className="checkmark"></span>
+                                  </div>
+                                  Yes
+                                </li>
+                                <li>
+                                  <div className="select-multiple-option">
+                                    <input
+                                      type="radio"
+                                      id="bounce_no"
+                                      name="bounce"
+                                      value="no"
+                                      checked={
+                                        typeof selectedArticleCompleted !==
+                                          "undefined" &&
+                                        selectedArticleCompleted == "no"
+                                      }
+                                      onChange={() =>
+                                        handleArticleCompleted("no")
+                                      }
+                                    />
+                                    <span className="checkmark"></span>
+                                  </div>
+                                  No
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        ) : null}
+
+                        {"reader_selection" in filters &&
+                          Object.keys(filters.reader_selection).length > 0 &&
+                          showhidearticle == 1 && (
+                            <>
+                              <div className="col block-smart-name">
+                                <h6>Reader Selection</h6>
+                                <div className="smart-name-list">
+                                  <ul>
+                                    {Object.entries(
+                                      filters.reader_selection
+                                    ).map(([index, item]) => (
+                                      <li>
+                                        <div className="select-multiple-option">
+                                          <input
+                                            type="radio"
+                                            id={`custom-checkbox-reader_selection-${index}`}
+                                            name="reader_selection[]"
+                                            value={item}
+                                            checked={
+                                              selectedreaderselection == item
+                                            }
+                                            onChange={() =>
+                                              handleOnReaderSelectionChange(
+                                                item
+                                              )
+                                            }
+                                          />
+                                          <span className="checkmark"></span>
+                                        </div>
+                                        {item}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              </div>
+                            </>
+                          )}
 
                         <div className="col block-smart-name registered">
                           <h6>Registered</h6>
@@ -1264,43 +1476,88 @@ const FilterSegment = (props) => {
                               No
                             </li>
                           </ul>
-                          <h6>Bounced</h6>
-                          <ul>
-                            <li>
-                              <div className="select-multiple-option">
-                                <input
-                                  type="radio"
-                                  id="bounce_yes"
-                                  name="bounce"
-                                  value="yes"
-                                  checked={
-                                    typeof selectedbounce !== "undefined" &&
-                                    selectedbounce == "yes"
-                                  }
-                                  onChange={() => handleBounce("yes")}
-                                />
-                                <span className="checkmark"></span>
-                              </div>
-                              Yes
-                            </li>
-                            <li>
-                              <div className="select-multiple-option">
-                                <input
-                                  type="radio"
-                                  id="bounce_no"
-                                  name="bounce"
-                                  value="no"
-                                  checked={
-                                    typeof selectedbounce !== "undefined" &&
-                                    selectedbounce == "no"
-                                  }
-                                  onChange={() => handleBounce("no")}
-                                />
-                                <span className="checkmark"></span>
-                              </div>
-                              No
-                            </li>
-                          </ul>
+                          {localStorage.getItem("user_id") !=
+                          "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                            <>
+                              <h6>Bounced</h6>
+                              <ul>
+                                <li>
+                                  <div className="select-multiple-option">
+                                    <input
+                                      type="radio"
+                                      id="bounce_yes"
+                                      name="bounce"
+                                      value="yes"
+                                      checked={
+                                        typeof selectedbounce !== "undefined" &&
+                                        selectedbounce == "yes"
+                                      }
+                                      onChange={() => handleBounce("yes")}
+                                    />
+                                    <span className="checkmark"></span>
+                                  </div>
+                                  Yes
+                                </li>
+                                <li>
+                                  <div className="select-multiple-option">
+                                    <input
+                                      type="radio"
+                                      id="bounce_no"
+                                      name="bounce"
+                                      value="no"
+                                      checked={
+                                        typeof selectedbounce !== "undefined" &&
+                                        selectedbounce == "no"
+                                      }
+                                      onChange={() => handleBounce("no")}
+                                    />
+                                    <span className="checkmark"></span>
+                                  </div>
+                                  No
+                                </li>
+                              </ul>
+                            </>
+                          ) : (
+                            <>
+                              <h6>IRT</h6>
+                              <ul>
+                                <li>
+                                  <div className="select-multiple-option">
+                                    <input
+                                      type="radio"
+                                      id="irt_yes"
+                                      name="irt"
+                                      value="yes"
+                                      checked={
+                                        typeof selectedIrt !== "undefined" &&
+                                        selectedIrt == "yes"
+                                      }
+                                      onChange={() => handleIrt("yes")}
+                                    />
+                                    <span className="checkmark"></span>
+                                  </div>
+                                  Yes
+                                </li>
+                                <li>
+                                  <div className="select-multiple-option">
+                                    <input
+                                      type="radio"
+                                      id="bounce_no"
+                                      name="bounce"
+                                      value="no"
+                                      checked={
+                                        typeof selectedIrt !== "undefined" &&
+                                        selectedIrt == "no"
+                                      }
+                                      onChange={() => handleIrt("no")}
+                                    />
+                                    <span className="checkmark"></span>
+                                  </div>
+                                  No
+                                </li>
+                              </ul>
+                            </>
+                          )}
                         </div>
                         {/*Display only in case of create*/}
 
@@ -1334,9 +1591,9 @@ const FilterSegment = (props) => {
             Selected Criterias{" "}
             <span>
               |
-              {typeof getfilterdata !== "undefined" && getfilterdata.length > 0
+              {/* {typeof getfilterdata !== "undefined" && getfilterdata.length > 0
                 ? getfilterdata.length
-                : 0}
+                : 0} */}
             </span>
           </h6>
           <div className="filter-block">
@@ -1399,18 +1656,20 @@ const FilterSegment = (props) => {
                       <span>Territory |</span>
                     </div>
                     <div className="filter-div-list">
-                      {Object.entries(selectedterritory).map(([index, item]) => (
-                        <div className="filter-result">
-                          {item}
-                          <img
-                            onClick={() =>
-                              removeindividualfilter("territory", item)
-                            }
-                            src={path_image + "filter-close.svg"}
-                            alt="Close-filter"
-                          />
-                        </div>
-                      ))}
+                      {Object.entries(selectedterritory).map(
+                        ([index, item]) => (
+                          <div className="filter-result">
+                            {item}
+                            <img
+                              onClick={() =>
+                                removeindividualfilter("territory", item)
+                              }
+                              src={path_image + "filter-close.svg"}
+                              alt="Close-filter"
+                            />
+                          </div>
+                        )
+                      )}
                     </div>
                   </div>
                 ) : null
@@ -1443,32 +1702,32 @@ const FilterSegment = (props) => {
                 ) : null
               ) : null}
 
-                {updateflag > 0 ? (
-                  typeof selectedspeciality === "object" &&
-                  selectedspeciality.length > 0 ? (
-                    <div className="filter-div">
-                      <div className="filter-div-title">
-                        <span>Speciality |</span>
-                      </div>
-                      <div className="filter-div-list">
-                        {Object.entries(selectedspeciality).map(
-                          ([index, item]) => (
-                            <div className="filter-result">
-                              {item}{" "}
-                              <img
-                                onClick={() =>
-                                  removeindividualfilter("speciality", item)
-                                }
-                                src={path_image + "filter-close.svg"}
-                                alt="Close-filter"
-                              />
-                            </div>
-                          )
-                        )}
-                      </div>
+              {updateflag > 0 ? (
+                typeof selectedspeciality === "object" &&
+                selectedspeciality.length > 0 ? (
+                  <div className="filter-div">
+                    <div className="filter-div-title">
+                      <span>Speciality |</span>
                     </div>
-                  ) : null
-                ) : null}
+                    <div className="filter-div-list">
+                      {Object.entries(selectedspeciality).map(
+                        ([index, item]) => (
+                          <div className="filter-result">
+                            {item}{" "}
+                            <img
+                              onClick={() =>
+                                removeindividualfilter("speciality", item)
+                              }
+                              src={path_image + "filter-close.svg"}
+                              alt="Close-filter"
+                            />
+                          </div>
+                        )
+                      )}
+                    </div>
+                  </div>
+                ) : null
+              ) : null}
 
               {updateflag > 0 ? (
                 typeof selectedproduct === "object" &&
@@ -1584,7 +1843,62 @@ const FilterSegment = (props) => {
                             {item}{" "}
                             <img
                               onClick={() =>
-                                removeindividualfilter("investigator_type", item)
+                                removeindividualfilter(
+                                  "investigator_type",
+                                  item
+                                )
+                              }
+                              src={path_image + "filter-close.svg"}
+                              alt="Close-filter"
+                            />
+                          </div>
+                        )
+                      )}
+                    </div>
+                  </div>
+                ) : null
+              ) : null}
+
+              {updateflag > 0 ? (
+                typeof selectedSubRole === "object" &&
+                selectedSubRole.length > 0 ? (
+                  <div className="filter-div">
+                    <div className="filter-div-title">
+                      <span>Sub Role |</span>
+                    </div>
+                    <div className="filter-div-list">
+                      {Object.entries(selectedSubRole).map(([index, item]) => (
+                        <div className="filter-result">
+                          {item}{" "}
+                          <img
+                            onClick={() =>
+                              removeindividualfilter("sub_role", item)
+                            }
+                            src={path_image + "filter-close.svg"}
+                            alt="Close-filter"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : null
+              ) : null}
+
+              {updateflag > 0 ? (
+                typeof selectedBlindType === "object" &&
+                selectedBlindType.length > 0 ? (
+                  <div className="filter-div">
+                    <div className="filter-div-title">
+                      <span>Blind Type |</span>
+                    </div>
+                    <div className="filter-div-list">
+                      {Object.entries(selectedBlindType).map(
+                        ([index, item]) => (
+                          <div className="filter-result">
+                            {item}{" "}
+                            <img
+                              onClick={() =>
+                                removeindividualfilter("blind_type", item)
                               }
                               src={path_image + "filter-close.svg"}
                               alt="Close-filter"
@@ -1624,6 +1938,32 @@ const FilterSegment = (props) => {
                 ) : null
               ) : null}
 
+              {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                updateflag > 0 ? (
+                  selectedArticleCompleted ? (
+                    <div className="filter-div">
+                      <div className="filter-div-title">
+                        <span>Articles Completed |</span>
+                      </div>
+                      <div className="filter-div-list">
+                        <div className="filter-result">
+                          {selectedArticleCompleted}{" "}
+                          <img
+                            onClick={() =>
+                              removeindividualfilter(
+                                "selectedArticleCompleted",
+                                selectedArticleCompleted
+                              )
+                            }
+                            src={path_image + "filter-close.svg"}
+                            alt="Close-filter"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ) : null
+                ) : null
+              ) : null}
 
               {updateflag > 0 ? (
                 typeof selectedsitename === "object" &&
@@ -1633,25 +1973,22 @@ const FilterSegment = (props) => {
                       <span>Site Name |</span>
                     </div>
                     <div className="filter-div-list">
-                      {Object.entries(selectedsitename).map(
-                        ([index, item]) => (
-                          <div className="filter-result">
-                            {item}{" "}
-                            <img
-                              onClick={() =>
-                                removeindividualfilter("site_name", item)
-                              }
-                              src={path_image + "filter-close.svg"}
-                              alt="Close-filter"
-                            />
-                          </div>
-                        )
-                      )}
+                      {Object.entries(selectedsitename).map(([index, item]) => (
+                        <div className="filter-result">
+                          {item}{" "}
+                          <img
+                            onClick={() =>
+                              removeindividualfilter("site_name", item)
+                            }
+                            src={path_image + "filter-close.svg"}
+                            alt="Close-filter"
+                          />
+                        </div>
+                      ))}
                     </div>
                   </div>
                 ) : null
               ) : null}
-
             </div>
 
             {/*Right Block*/}
@@ -1719,6 +2056,29 @@ const FilterSegment = (props) => {
                       </div>
                     </div>
                   </div>
+                ) : null
+              ) : null}
+              {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                updateflag > 0 ? (
+                  selectedIrt ? (
+                    <div className="filter-div">
+                      <div className="filter-div-title">
+                        <span>IRT |</span>
+                      </div>
+                      <div className="filter-div-list">
+                        <div className="filter-result">
+                          {selectedIrt}{" "}
+                          <img
+                            onClick={() =>
+                              removeindividualfilter("irt", selectedIrt)
+                            }
+                            src={path_image + "filter-close.svg"}
+                            alt="Close-filter"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ) : null
                 ) : null
               ) : null}
             </div>
