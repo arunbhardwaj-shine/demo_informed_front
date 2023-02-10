@@ -16,6 +16,7 @@ import reducers from "./reducers";
 //Library routes
 import LibraryContent from "./Components/Library/Content/LibraryContent";
 import LibraryCreate from "./Components/Library/CreateChange/LibraryCreate";
+import LibraryPopupSet from "./Components/Library/CreateChange/LibraryPopupSet";
 import LibraryCampaign from "./Components/Library/LibraryCampaign";
 import Spc from "./Components/Library/Spc";
 
@@ -174,6 +175,7 @@ ReactDOM.render(
                   <Route path="/library-content" element={<LibraryContent />} />
                   <Route path="/library-edit" element={<LibraryContent />} />
                   <Route path="/library-create" element={<LibraryCreate />} />
+                  <Route path="/library-popup" element={<LibraryPopupSet />} />
                   <Route
                     path="/library-create-user"
                     element={<LibraryCreateUser />}

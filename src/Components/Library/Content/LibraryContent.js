@@ -659,17 +659,17 @@ const LibraryContent = () => {
                                 </div>
                               ) : null}
                             </div>
-                            <Tabs
+                            <div className="tabs-data">
+                                 <Tabs
                               onSelect={(key) => tabClicked(key, data.id)}
                               defaultActiveKey="docintel-link"
-                              className="mb-3"
                               fill
                             >
                               <Tab
                                 eventKey="docintel-link"
-                                title="Docintel Link"
+                                title="Docintel Link" className="flex-column justify-content-between"
                               >
-                                <div className="tab-panel">
+                                <div className="tab-panel d-flex flex-column justify-content-between">
                                   <div className="tab-content-links">
                                     <a href="#" className="doc-link">
                                       {data.docintelLink}
@@ -805,14 +805,14 @@ const LibraryContent = () => {
                                   </div>
                                 ) : null}
                               </Tab>
-                              <Tab eventKey="data-tab" title="Data">
-                                <div className="data-main-box tab-panel">
+                              <Tab eventKey="data-tab" title="Data" className="flex-column justify-content-between">
+                                <div className="data-main-box tab-panel d-flex flex-column justify-content-between">
                                   <ul className="tab-mail-list data">
-                                    <li>
+                                    <li className="justify-content-between d-flex align-center">
                                       <h6 className="tab-content-title">
                                         Unique Reader (total)
                                         <LinkWithTooltip
-                                          tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
+                                          tooltip="Number of unique HCPs who have opened the content (based on ip address, device &amp; browser)."
                                           href="#"
                                         >
                                           <img
@@ -843,7 +843,7 @@ const LibraryContent = () => {
                                                   label={details.uniqueReader}
                                                 />
                                                 <span>
-                                                  Agreed Limit |
+                                                  Agreed Limit |&nbsp;
                                                   {details.limit == 0
                                                     ? 1000
                                                     : details.limit}
@@ -957,9 +957,9 @@ const LibraryContent = () => {
                                 </div>
                               </Tab>
                               <Tab
+                               className="change-tab flex-column justify-content-between"
                                 eventKey="change-tab"
                                 title="Change"
-                                className="change-tab"
                               >
                                 <div className="data-main-box change-tab-main-box tab-panel">
                                   <ul className="tab-mail-list data change">
@@ -998,7 +998,7 @@ const LibraryContent = () => {
                                   </div>
                                 </div>
                               </Tab>
-                              <Tab eventKey="sales" title="Sales">
+                              <Tab eventKey="sales" title="Sales" className="flex-column justify-content-between">
                                 <div className="tab-panel">
                                   <ul className="tab-mail-list">
                                     <li>
@@ -1071,6 +1071,8 @@ const LibraryContent = () => {
                                 </div>
                               </Tab>
                             </Tabs>
+                            </div>
+                           
                           </div>
                         </>
                       );
