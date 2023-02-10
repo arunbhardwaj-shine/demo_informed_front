@@ -988,4 +988,110 @@ select::-ms-expand {
 }
 
 
+
+.switch {
+    width: 115px;
+    padding: 3px 4px;
+    margin: 0;
+    position: relative;
+    background: #FFFFFF;
+    box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
+    border-radius: 30px;
+    max-width: 115px;
+}
+
+
+.switch label.switch-light {
+    display: block;
+    height: 34px;
+    position: relative;
+    overflow: visible;
+    padding: 0px;
+    margin-left: 0px;
+}
+
+.switch .switch-light>span {
+    position: absolute;
+    left: -100px;
+    width: 100%;
+    margin: 0px;
+    padding-right: 100px;
+    text-align: left;
+    top: auto;
+    position: absolute;
+    top: 3px;
+    left: 0;
+}
+
+.switch-light input[type="checkbox"]:not(:checked)+span span:last-child,
+.switch-light input[type="checkbox"]:checked+span span:first-child {
+    color: #fff;
+}
+
+.switch .switch-light>span span {
+    position: absolute;
+    cursor: pointer;
+    top: 3px;
+    left: 0px;
+    z-index: 5;
+    display: block;
+    width: 50%;
+    margin-left: 0px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 22px;
+    color: #97B6CF;
+}
+
+.switch .switch span {
+    position: absolute;
+    top: 2px;
+    left: 0;
+}
+
+.switch .switch-light input[type="checkbox"]:checked+span span:last-child {
+    color: rgba(0, 20, 137, 0.4);
+}
+
+.switch .switch-light>span span:last-child {
+    left: 50%;
+}
+
+.switch .switch-light input[type="checkbox"]:checked~a.btn {
+    right: 50%;
+}
+
+.switch a.btn {
+    position: absolute;
+    right: 0%;
+    top: 1px;
+    z-index: 4;
+    display: block;
+    width: 50%;
+    padding: 16px 20px;
+    border: 0;
+    color: #FFFFFF;
+    transition: all 0.3s ease-in-out;
+    background: #8A4E9C;
+    box-shadow: 0px 0px 4px rgba(0, 102, 190, 0.2);
+    border-radius: 30px;
+    margin: 0 auto;
+}
+
+.switch .switch-light input[type="checkbox"] {
+    opacity: 0;
+}
+.form_action .switch + .btn-bordered {
+    border: 1px solid #8A4E9C;
+    color: #8A4E9C;
+    flex: 1 1;
+    margin-left: 24px;
+}
+.form_action .switch + .btn-bordered:hover {
+ background-color: #8A4E9C;
+ color:$white
+}
+
+
 /**Library Style End**/

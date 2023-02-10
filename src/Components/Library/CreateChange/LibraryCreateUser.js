@@ -4,13 +4,20 @@ import { Form, Link } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
-
+import Modal from 'react-bootstrap/Modal';
+import ReactSelect from 'react-select';
 import { createContent } from "../../CommonComponent/Validations";
 import { useSSRSafeId } from "@react-aria/ssr";
+import { Button } from "react-bootstrap";
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 // import Placeholder from "react-select/dist/declarations/src/components/Placeholder";
 const today = new Date();
 
 const LibraryCreateUser = () => {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   const navigate = useNavigate();
   const [startDate, setStartDate] = useState(new Date());
   const [error, setError] = useState({});
@@ -417,6 +424,20 @@ const LibraryCreateUser = () => {
                         </div>
                       ) : null}
                     </div>
+                    <div class="form-group">
+                      <label for="">Set as draft</label>
+                      <div class="switch">
+                        <label class="switch-light">
+                          <input type="checkbox" />
+                          <span>
+                            <span class="switch-btn active">No</span>
+                            <span class="switch-btn">Yes</span>
+                          </span>
+                          <a class="btn"></a>
+                        </label>
+                      </div>
+                      <Button className="btn-bordered" onClick={handleShow}>click to embed your Videos </Button>
+                    </div>
                     <div className="form-group val">
                       <label for="">Upload Cover Image</label>
                       <div class="upload-file-box">
@@ -462,6 +483,64 @@ const LibraryCreateUser = () => {
           </div>
         </div>
       </div>
+        <Modal className="pdf-video-link" show={show} onHide={handleClose}>
+        <Modal.Header>
+          <div className="form_action embedding-video">
+            <div className="side-step-text first-step">
+                <div className='embedded-video-step'>
+                    <h2>Step1</h2>
+                </div>
+                    <p>Select the chapter </p>
+                    <Form.Group className='formgroup'>
+                        <Form.Label>Chapters</Form.Label>
+                        <ReactSelect placeholder="Select your chapter"
+                        className="dropdown-basic-button split-button-dropup"
+                        isClearable
+                      />
+                    </Form.Group>
+            </div>
+            <div className="side-step-text second-step">
+                <div className='embedded-video-step'>
+                    <h2>Step2</h2>
+                </div>
+                <p>Select the video and highlight the area you want to embed the video in </p>
+                <Form.Group className='formgroup'>
+                    <Form.Label>Videos *</Form.Label>
+                    <ReactSelect placeholder="Select your chapter"
+                    className="dropdown-basic-button split-button-dropup"
+                    isClearable
+                  />
+                  <div class="upload-file-box">
+                  <input
+                        type="file"
+                        name="file-10[]"
+                        id="file-10"
+                        class="inputfile inputfile-6"
+                          accept=".mp4"
+                        />
+                        <label for="file-10">
+                        <span>Upload new Video +</span>
+                      </label>
+              </div>
+                </Form.Group>
+                    
+            </div>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+            <div className="modal-body-content">
+                 <img src={path_image + "pdf-dummy.png"} alt="Close-filter"/>
+            </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button className="btn-bordered" variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button className="btn-filled" variant="primary" onClick={handleClose}>
+            Save
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };
