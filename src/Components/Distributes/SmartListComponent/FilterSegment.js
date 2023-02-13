@@ -34,7 +34,7 @@ const FilterSegment = (props) => {
     useState("yes");
   const [selectedbounce, setSelectedBounce] = useState();
   const [selectedContentRead, setSelectedContentRead] = useState();
-  const [selectedIrt, setSelectedIrt] = useState("yes");
+  const [selectedIrt, setSelectedIrt] = useState("Training");
   const [showhidearticle, setShowHideArticle] = useState(1);
   const [getfilterdata, setFilterData] = useState();
   const [apifilterflag, setApiFilterFlag] = useState(0);
@@ -621,24 +621,25 @@ const FilterSegment = (props) => {
       setfilterapplied(1);
       setPayload(payload);
       setApiFilterFlag(0);
-      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      loader("show");
-      await axios
-        .post(`distributes/get_smart_list_with_filter_data`, payload)
-        .then((res) => {
-          console.log(res.data.status_code);
-          if (res.data.status_code == 200) {
-            setFilterData(res.data.response.data);
-          } else {
-            setFilterData();
-          }
-          setApiFilterFlag(1);
-          loader("hide");
-        })
-        .catch((err) => {
-          loader("hide");
-          console.log(err);
-        });
+      console.log(payload);
+      // axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      // loader("show");
+      // await axios
+      //   .post(`distributes/get_smart_list_with_filter_data`, payload)
+      //   .then((res) => {
+      //     console.log(res.data.status_code);
+      //     if (res.data.status_code == 200) {
+      //       setFilterData(res.data.response.data);
+      //     } else {
+      //       setFilterData();
+      //     }
+      //     setApiFilterFlag(1);
+      //     loader("hide");
+      //   })
+      //   .catch((err) => {
+      //     loader("hide");
+      //     console.log(err);
+      //   });
     } else {
       toast.error("Please select any filter.");
     }
@@ -1344,7 +1345,17 @@ const FilterSegment = (props) => {
                           showhidearticle == 1 && (
                             <>
                               <div className="col block-smart-name">
+                              {localStorage.getItem("user_id") ==
+                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                <>
+                                <h6>Library</h6>
+                                </>
+                              ) : (
+                                <>
                                 <h6>Articles</h6>
+                                </>
+                              )}
+
                                 <div className="smart-name-list">
                                   <ul>
                                     {Object.entries(filters.articles).map(
@@ -1468,7 +1479,13 @@ const FilterSegment = (props) => {
                           )}
 
                         <div className="col block-smart-name registered">
+                        {localStorage.getItem("user_id") ==
+                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                          <h6>Registered ?</h6>
+                        ) : (
                           <h6>Registered</h6>
+                        )}
+
                           <ul>
                             <li>
                               <div className="select-multiple-option">
@@ -1550,6 +1567,23 @@ const FilterSegment = (props) => {
                             <>
                               <h6>IRT</h6>
                               <ul>
+                              <li>
+                                <div className="select-multiple-option">
+                                  <input
+                                    type="radio"
+                                    id="irt_training"
+                                    name="irt"
+                                    value="Training"
+                                    checked={
+                                      typeof selectedIrt !== "undefined" &&
+                                      selectedIrt == "Training"
+                                    }
+                                    onChange={() => handleIrt("Training")}
+                                  />
+                                  <span className="checkmark"></span>
+                                </div>
+                                Training
+                              </li>
                                 <li>
                                   <div className="select-multiple-option">
                                     <input
@@ -1571,8 +1605,8 @@ const FilterSegment = (props) => {
                                   <div className="select-multiple-option">
                                     <input
                                       type="radio"
-                                      id="bounce_no"
-                                      name="bounce"
+                                      id="irt_no"
+                                      name="irt"
                                       value="no"
                                       checked={
                                         typeof selectedIrt !== "undefined" &&
@@ -1591,7 +1625,7 @@ const FilterSegment = (props) => {
                           {localStorage.getItem("user_id") ==
                           "56Ek4feL/1A8mZgIKQWEqg==" ? (
                             <>
-                              <h6>Content Read</h6>
+                              <h6>Content Completed</h6>
                               <ul>
                                 <li>
                                   <div className="select-multiple-option">

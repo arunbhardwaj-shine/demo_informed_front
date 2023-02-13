@@ -72,6 +72,7 @@ const ViewTable = (props) => {
   const [activeExcel, setActiveExcel] = useState("");
   const [editableData, setEditableData] = useState([]);
   const [siteIrtAll, setSiteIrtAll] = useState([]);
+  const [siteData, setSiteData] = useState([]);
   const animatedComponents = makeAnimated();
   let file_name = useRef("");
 
@@ -141,6 +142,7 @@ const ViewTable = (props) => {
               arrSitePostCode = [];
               arrSiteCity = [];
               arrSiteIrt = [
+                { value: "Training", label: "Training" },
                 { value: "Yes", label: "Yes" },
                 { value: "No", label: "No" },
               ];
@@ -254,6 +256,7 @@ const ViewTable = (props) => {
               setSiteIrtAll(arrSiteIrt);
               //console.log(res.data.response.data.blind_type);
               setBlindTypeAll(arrBlindType);
+              setSiteData(res.data.response.data.site_data);
             }
 
             // setCountryall(res.data.response.data.country);
@@ -987,13 +990,18 @@ const ViewTable = (props) => {
     if (e == null) {
       const list = [...hpc];
       list[i].siteNumber = "";
-      list[i].siteNumber = "";
       setHpc(list);
     } else {
+      let getSiteData = siteData;
+      let site_name_value = getSiteData[e.value];
       const value = e.value;
       const list = [...hpc];
       const name = hpc[i].siteNumber;
       list[i].siteNumber = value;
+      list[i].siteName = site_name_value;
+
+      let snameindex = siteNameAll.findIndex((x) => x.value === site_name_value);
+      list[i].siteNameIndex = snameindex;
 
       let index = siteNumberAll.findIndex((x) => x.value === value);
       list[i].siteNumberIndex = index;
@@ -1021,13 +1029,19 @@ const ViewTable = (props) => {
     if (e == null) {
       const list = [...hpc];
       list[i].siteName = "";
-      list[i].siteName = "";
       setHpc(list);
     } else {
       const value = e.value;
+      let getSiteData = siteData;
+      let site_number_value = Object.keys(getSiteData).find(key => getSiteData[key] === e.value);
+
       const list = [...hpc];
       const name = hpc[i].siteName;
       list[i].siteName = value;
+      list[i].siteNumber = site_number_value;
+
+      let snameindex = siteNumberAll.findIndex((x) => x.value === site_number_value);
+      list[i].siteNumberIndex = snameindex;
 
       let index = siteNameAll.findIndex((x) => x.value === value);
       list[i].siteNameIndex = index;
@@ -1243,7 +1257,7 @@ const ViewTable = (props) => {
           siteStreet: data.siteStreet ? data.siteStreet : "",
           sitePostalCode: data.sitePostCode ? data.sitePostCode : "",
           siteCity: data.siteCity ? data.siteCity : "",
-          siteIrt: data.siteIrt == "Yes" ? 1 : 0,
+          siteIrt: data.siteIrt == "Yes" ? 1 : data.siteIrt == "Training" ? 2 : 0,
         };
       });
       console.log(body_data);
@@ -1967,7 +1981,7 @@ const ViewTable = (props) => {
                                   />
                                 </div>
                               </div>
-                              <hr />
+
                               {localStorage.getItem("user_id") !=
                               "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <div className="col-12 col-md-6">
@@ -2073,6 +2087,7 @@ const ViewTable = (props) => {
                               {localStorage.getItem("user_id") ==
                               "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <>
+                                  <hr />
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">Role</label>
@@ -2154,6 +2169,33 @@ const ViewTable = (props) => {
 
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
+                                      <label for="">IRT</label>
+                                      <Select
+                                        options={siteIrtAll}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onSiteIrtChange(
+                                            event,
+
+                                            i
+                                          )
+                                        }
+                                        defaultValue={
+                                          siteIrtAll[hpc[i].siteIrtIndex]
+                                        }
+                                        placeholder={
+                                          typeof siteIrtAll[
+                                            hpc[i].siteIrtIndex
+                                          ] === "undefined"
+                                            ? "Select Site IRT"
+                                            : siteIrtAll[hpc[i].siteIrtIndex]
+                                        }
+                                      />
+                                    </div>
+                                  </div>
+
+                                  <div className="col-12 col-md-6">
+                                    <div className="form-group">
                                       <label for="">Site Number</label>
                                       <Select
                                         options={siteNumberAll}
@@ -2161,6 +2203,7 @@ const ViewTable = (props) => {
                                         onChange={(event) =>
                                           onSiteNumberChange(event, i)
                                         }
+                                        value={siteNumberAll[hpc[i].siteNumberIndex]}
                                         defaultValue={
                                           siteNumberAll[hpc[i].siteNumberIndex]
                                         }
@@ -2203,7 +2246,6 @@ const ViewTable = (props) => {
                                         onChange={(event) =>
                                           onSiteNameChange(
                                             event,
-
                                             i
                                           )
                                         }
@@ -2215,9 +2257,13 @@ const ViewTable = (props) => {
                                         //     hpc[i].userTypeIndex
                                         //   ]
                                         // }
+                                        // valueField={
+                                        //   siteNameAll[hpc[i].siteNameIndex]?.value
+                                        // }
                                         defaultValue={
                                           siteNameAll[hpc[i].siteNameIndex]
                                         }
+                                        value={siteNameAll[hpc[i].siteNameIndex]}
                                         placeholder={
                                           typeof siteNameAll[
                                             hpc[i].siteNameIndex
@@ -2230,7 +2276,7 @@ const ViewTable = (props) => {
                                     </div>
                                   </div>
 
-                                  <div className="col-12 col-md-6">
+                                  {/* <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">Site Street</label>
                                       <Select
@@ -2255,24 +2301,6 @@ const ViewTable = (props) => {
                                                 hpc[i].siteStreetIndex
                                               ]
                                         }
-                                        // onChange={(event) =>
-                                        //   onUserTypeChange(event, i)
-                                        // }
-                                        // defaultValue={
-                                        //   userTypeAll[
-                                        //     hpc[i].userTypeIndex
-                                        //   ]
-                                        // }
-                                        // placeholder={
-                                        //   typeof userTypeAll[
-                                        //     hpc[i].userTypeIndex
-                                        //   ] === "undefined"
-                                        //     ? "Select User Type"
-                                        //     : userTypeAll[
-                                        //         hpc[i].userTypeIndex
-                                        //       ]
-                                        // }
-                                        // filterOption={createFilter(filterConfig)}
                                       />
                                     </div>
                                   </div>
@@ -2303,24 +2331,6 @@ const ViewTable = (props) => {
                                                 hpc[i].sitePostCodeIndex
                                               ]
                                         }
-                                        // onChange={(event) =>
-                                        //   onUserTypeChange(event, i)
-                                        // }
-                                        // defaultValue={
-                                        //   userTypeAll[
-                                        //     hpc[i].userTypeIndex
-                                        //   ]
-                                        // }
-                                        // placeholder={
-                                        //   typeof userTypeAll[
-                                        //     hpc[i].userTypeIndex
-                                        //   ] === "undefined"
-                                        //     ? "Select User Type"
-                                        //     : userTypeAll[
-                                        //         hpc[i].userTypeIndex
-                                        //       ]
-                                        // }
-                                        // filterOption={createFilter(filterConfig)}
                                       />
                                     </div>
                                   </div>
@@ -2347,73 +2357,9 @@ const ViewTable = (props) => {
                                             ? "Select Site City"
                                             : siteCityAll[hpc[i].siteCityIndex]
                                         }
-                                        // onChange={(event) =>
-                                        //   onUserTypeChange(event, i)
-                                        // }
-                                        // defaultValue={
-                                        //   userTypeAll[
-                                        //     hpc[i].userTypeIndex
-                                        //   ]
-                                        // }
-                                        // placeholder={
-                                        //   typeof userTypeAll[
-                                        //     hpc[i].userTypeIndex
-                                        //   ] === "undefined"
-                                        //     ? "Select User Type"
-                                        //     : userTypeAll[
-                                        //         hpc[i].userTypeIndex
-                                        //       ]
-                                        // }
-                                        // filterOption={createFilter(filterConfig)}
                                       />
                                     </div>
-                                  </div>
-
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">IRT</label>
-                                      <Select
-                                        options={siteIrtAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onSiteIrtChange(
-                                            event,
-
-                                            i
-                                          )
-                                        }
-                                        defaultValue={
-                                          siteIrtAll[hpc[i].siteIrtIndex]
-                                        }
-                                        placeholder={
-                                          typeof siteIrtAll[
-                                            hpc[i].siteIrtIndex
-                                          ] === "undefined"
-                                            ? "Select Site IRT"
-                                            : siteIrtAll[hpc[i].siteIrtIndex]
-                                        }
-
-                                        // onChange={(event) =>
-                                        //   onUserTypeChange(event, i)
-                                        // }
-                                        // defaultValue={
-                                        //   userTypeAll[
-                                        //     hpc[i].userTypeIndex
-                                        //   ]
-                                        // }
-                                        // placeholder={
-                                        //   typeof userTypeAll[
-                                        //     hpc[i].userTypeIndex
-                                        //   ] === "undefined"
-                                        //     ? "Select User Type"
-                                        //     : userTypeAll[
-                                        //         hpc[i].userTypeIndex
-                                        //       ]
-                                        // }
-                                        // filterOption={createFilter(filterConfig)}
-                                      />
-                                    </div>
-                                  </div>
+                                  </div>*/}
 
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
