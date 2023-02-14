@@ -142,7 +142,7 @@ const ViewTable = (props) => {
               arrSitePostCode = [];
               arrSiteCity = [];
               arrSiteIrt = [
-                { value: "Training", label: "Training" },
+               
                 { value: "Yes", label: "Yes" },
                 { value: "No", label: "No" },
               ];

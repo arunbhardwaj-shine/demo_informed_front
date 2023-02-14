@@ -1250,7 +1250,7 @@ const FilterSegment = (props) => {
                             <>
                               <div className="col block-smart-name">
                                 <h6>Blind Type</h6>
-                                <div className="smart-name-list">
+                                <div className="NAME">
                                   <ul>
                                     {Object.entries(filters.blind_type).map(
                                       ([index, item]) => (
@@ -1543,7 +1543,7 @@ const FilterSegment = (props) => {
                           {showhidearticle == 1 ? (
                             <div className="col block-smart-name">
                               <h6>Reading/Viewing Completed</h6>
-                              <div className="smart-name-list">
+                              <div className="name">
                                 <ul>
                                   <li>
                                     <div className="select-multiple-option">
@@ -1596,23 +1596,7 @@ const FilterSegment = (props) => {
                             <>
                               <h6>IRT</h6>
                               <ul>
-                              <li>
-                                <div className="select-multiple-option">
-                                  <input
-                                    type="radio"
-                                    id="irt_training"
-                                    name="irt"
-                                    value="Training"
-                                    checked={
-                                      typeof selectedIrt !== "undefined" &&
-                                      selectedIrt == "Training"
-                                    }
-                                    onChange={() => handleIrt("Training")}
-                                  />
-                                  <span className="checkmark"></span>
-                                </div>
-                                Training
-                              </li>
+                             
                                 <li>
                                   <div className="select-multiple-option">
                                     <input
