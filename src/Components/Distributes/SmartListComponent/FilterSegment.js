@@ -107,25 +107,25 @@ const FilterSegment = (props) => {
 
       //investigator_type
       if (typeof props.selectedFilter.investigator_type !== "undefined") {
-        selectedinvestigatorType(props.selectedFilter.investigator_type);
+        setSelectedinvestigatorType(props.selectedFilter.investigator_type);
       }
 
       if (typeof props?.selectedFilter?.sub_role !== "undefined") {
-        selectedSubRole(props.selectedFilter.sub_role);
+        setSelectedSubRole(props.selectedFilter.sub_role);
       }
 
       if (typeof props?.selectedBlindType?.blind_type !== "undefined") {
-        selectedBlindType(props.selectedFilter.blind_type);
+        setSelectedBlindType(props.selectedFilter.blind_type);
       }
 
       //site_number
       if (typeof props.selectedFilter.site_number !== "undefined") {
-        selectedsitenumber(props.selectedFilter.site_number);
+        setSelectedsitenumber(props.selectedFilter.site_number);
       }
 
       //site_number
       if (typeof props.selectedFilter.site_name !== "undefined") {
-        selectedsitename(props.selectedFilter.site_name);
+        setSelectedsitename(props.selectedFilter.site_name);
       }
 
       //product
@@ -153,7 +153,7 @@ const FilterSegment = (props) => {
         setSelectedContentRead(selectedContent);
       }
 
-      console.log(props.selectedFilter);
+      // console.log(props.selectedFilter);
 
       //  if (typeof props.selectedFilter.irt !== "undefined") {
       //    let bounce = props.selectedFilter.bounce == 1 ? "yes" : "no";
@@ -636,18 +636,18 @@ const FilterSegment = (props) => {
       Object.assign(payload, { Consent: consent });
       flag_to_check_data = true;
     }
-    console.log(payload);
+    // console.log(payload);
     if (flag_to_check_data) {
       setfilterapplied(1);
       setPayload(payload);
       setApiFilterFlag(0);
-      console.log(payload);
+      // console.log(payload);
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
       await axios
         .post(`distributes/get_smart_list_with_filter_data`, payload)
         .then((res) => {
-          console.log(res.data.status_code);
+          // console.log(res.data.status_code);
           if (res.data.status_code == 200) {
             setFilterData(res.data.response.data);
           } else {
@@ -658,7 +658,7 @@ const FilterSegment = (props) => {
         })
         .catch((err) => {
           loader("hide");
-          console.log(err);
+          // console.log(err);
         });
     } else {
       toast.error("Please select any filter.");
