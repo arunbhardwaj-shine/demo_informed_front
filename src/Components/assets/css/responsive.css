@@ -180,11 +180,17 @@
     margin-bottom: 30px;
   }
   #accordion-smart .card-body .col.block-smart-name::after {
-    right: -21px;
+    right: -15px;
   }
-  #accordion-smart .card-body .col {
+  #accordion-smart .smart-name-list {
+    padding: 16px 10px 16px 10px;
+}
+.dropdown-menu.filter-options .card .select-multiple-option, .smart-list-dropdown .card .select-multiple-option, .select-multiple-option {
+    margin-right: 8px;
+}
+  /* #accordion-smart .card-body .col {
     margin-right: 42px;
-  }
+  } */
   .btn.btn-primary {
     font-size: 14px;
     min-width: 60px;
@@ -1010,13 +1016,16 @@
   #send-sample .form-search-hcp .form-button .btn.btn-filled {
     margin-right: 40px;
   }
+  #accordion-smart .card-body .col {
+    flex: 0 0 17.5%;
+}
   .smart-list-view .result-hcp-table .selected-hcp-list .selected-hcp-list_detail {
     max-width: 890px;
     margin-right:0;
 }
-  #accordion-smart .card-body .col.consent-type {
+  /* #accordion-smart .card-body .col.consent-type {
     flex: 0 0 194px;
-  }
+  } */
   .smartlist-view .mail-box-content {
     min-height: 343px;
   }

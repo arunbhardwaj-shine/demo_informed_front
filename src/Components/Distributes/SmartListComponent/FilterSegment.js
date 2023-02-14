@@ -289,7 +289,7 @@ const FilterSegment = (props) => {
     setUpdateFlag(up);
   };
 
-  const handleOnSiteNumberChange = (sitenumber) => {
+  const handleOnSiteNumberChange = (sitenumber,sitenumberflag=0) => {
     let site_number_index = selectedsitenumber.indexOf(sitenumber);
     if (site_number_index !== -1) {
       selectedsitenumber.splice(site_number_index, 1);
@@ -299,9 +299,17 @@ const FilterSegment = (props) => {
     setSelectedsitenumber(selectedsitenumber);
     let up = updateflag + 1;
     setUpdateFlag(up);
+
+    if(sitenumberflag == 0){
+      if('site_data' in filters){
+        let getSiteData = filters.site_data;
+        let site_name_value = getSiteData[sitenumber];
+        handleOnSiteNameChange(site_name_value,1);
+      }
+    }
   };
 
-  const handleOnSiteNameChange = (sitename) => {
+  const handleOnSiteNameChange = (sitename,sitenameflag=0) => {
     let site_name_index = selectedsitename.indexOf(sitename);
     if (site_name_index !== -1) {
       selectedsitename.splice(site_name_index, 1);
@@ -311,6 +319,14 @@ const FilterSegment = (props) => {
     setSelectedsitename(selectedsitename);
     let up = updateflag + 1;
     setUpdateFlag(up);
+
+    if(sitenameflag == 0){
+      if('site_data' in filters){
+        let getSiteData = filters.site_data;
+        let site_number_value = Object.keys(getSiteData).find(key => getSiteData[key] === sitename);
+        handleOnSiteNumberChange(site_number_value,1);
+      }
+    }
   };
 
   const handleOnReaderSelectionChange = (reader_selection) => {
@@ -583,9 +599,9 @@ const FilterSegment = (props) => {
 
     if (typeof selectedContentRead !== "undefined") {
       if (selectedContentRead == "yes") {
-        Object.assign(payload, { contentRead: 1 });
+        Object.assign(payload, { trainingcompleted: 1 });
       } else {
-        Object.assign(payload, { contentRead: 0 });
+        Object.assign(payload, { trainingcompleted: 0 });
       }
       flag_to_check_data = true;
       // Object.assign(payload, { bounce: 1 });
@@ -593,9 +609,11 @@ const FilterSegment = (props) => {
 
     if (typeof selectedIrt !== "undefined") {
       if (selectedIrt == "yes") {
-        Object.assign(payload, { bounce: 1 });
+        Object.assign(payload, { irt: 1 });
+      }else if (selectedIrt == "Training") {
+        Object.assign(payload, { irt: 2 });
       } else {
-        Object.assign(payload, { bounce: 0 });
+        Object.assign(payload, { irt: 0 });
       }
       flag_to_check_data = true;
       // Object.assign(payload, { bounce: 1 });
@@ -616,30 +634,30 @@ const FilterSegment = (props) => {
       Object.assign(payload, { Consent: consent });
       flag_to_check_data = true;
     }
-
+    console.log(payload);
     if (flag_to_check_data) {
       setfilterapplied(1);
       setPayload(payload);
       setApiFilterFlag(0);
       console.log(payload);
-      // axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      // loader("show");
-      // await axios
-      //   .post(`distributes/get_smart_list_with_filter_data`, payload)
-      //   .then((res) => {
-      //     console.log(res.data.status_code);
-      //     if (res.data.status_code == 200) {
-      //       setFilterData(res.data.response.data);
-      //     } else {
-      //       setFilterData();
-      //     }
-      //     setApiFilterFlag(1);
-      //     loader("hide");
-      //   })
-      //   .catch((err) => {
-      //     loader("hide");
-      //     console.log(err);
-      //   });
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      loader("show");
+      await axios
+        .post(`distributes/get_smart_list_with_filter_data`, payload)
+        .then((res) => {
+          console.log(res.data.status_code);
+          if (res.data.status_code == 200) {
+            setFilterData(res.data.response.data);
+          } else {
+            setFilterData();
+          }
+          setApiFilterFlag(1);
+          loader("hide");
+        })
+        .catch((err) => {
+          loader("hide");
+          console.log(err);
+        });
     } else {
       toast.error("Please select any filter.");
     }
@@ -1340,56 +1358,6 @@ const FilterSegment = (props) => {
                             </>
                           )}
 
-                        {"articles" in filters &&
-                          Object.keys(filters.articles).length > 0 &&
-                          showhidearticle == 1 && (
-                            <>
-                              <div className="col block-smart-name">
-                              {localStorage.getItem("user_id") ==
-                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                                <>
-                                <h6>Library</h6>
-                                </>
-                              ) : (
-                                <>
-                                <h6>Articles</h6>
-                                </>
-                              )}
-
-                                <div className="smart-name-list">
-                                  <ul>
-                                    {Object.entries(filters.articles).map(
-                                      ([index, item]) => (
-                                        <li>
-                                          <div className="select-multiple-option">
-                                            <input
-                                              type="checkbox"
-                                              id={`custom-checkbox-articles-${index}`}
-                                              name="articles[]"
-                                              value={index}
-                                              checked={
-                                                typeof selectedarticles !==
-                                                  "undefined" &&
-                                                selectedarticles.indexOf(
-                                                  item
-                                                ) !== -1
-                                              }
-                                              onChange={() =>
-                                                handleOnArticleChange(item)
-                                              }
-                                            />
-                                            <span className="checkmark"></span>
-                                          </div>
-                                          {item}
-                                        </li>
-                                      )
-                                    )}
-                                  </ul>
-                                </div>
-                              </div>
-                            </>
-                          )}
-
                         {selectedsitename.length > 0 ? (
                           <div className="col block-smart-name">
                             <h6>Articles Completed</h6>
@@ -1523,7 +1491,7 @@ const FilterSegment = (props) => {
                             </li>
                           </ul>
                           {localStorage.getItem("user_id") !=
-                          "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                          "56Ek4feL/1A8mZgIKQWEqg==" && (
                             <>
                               <h6>Bounced</h6>
                               <ul>
@@ -1563,7 +1531,64 @@ const FilterSegment = (props) => {
                                 </li>
                               </ul>
                             </>
-                          ) : (
+                          )}
+
+                        </div>
+
+
+                        {"articles" in filters &&
+                          Object.keys(filters.articles).length > 0 &&
+                          showhidearticle == 1 && (
+                            <>
+                              <div className="col block-smart-name">
+                              {localStorage.getItem("user_id") ==
+                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                <>
+                                <h6>Library</h6>
+                                </>
+                              ) : (
+                                <>
+                                <h6>Articles</h6>
+                                </>
+                              )}
+
+                                <div className="smart-name-list">
+                                  <ul>
+                                    {Object.entries(filters.articles).map(
+                                      ([index, item]) => (
+                                        <li>
+                                          <div className="select-multiple-option">
+                                            <input
+                                              type="checkbox"
+                                              id={`custom-checkbox-articles-${index}`}
+                                              name="articles[]"
+                                              value={index}
+                                              checked={
+                                                typeof selectedarticles !==
+                                                  "undefined" &&
+                                                selectedarticles.indexOf(
+                                                  item
+                                                ) !== -1
+                                              }
+                                              onChange={() =>
+                                                handleOnArticleChange(item)
+                                              }
+                                            />
+                                            <span className="checkmark"></span>
+                                          </div>
+                                          {item}
+                                        </li>
+                                      )
+                                    )}
+                                  </ul>
+                                </div>
+                              </div>
+                            </>
+                          )}
+
+                        <div className="col block-smart-name">
+                          {localStorage.getItem("user_id") ==
+                          "56Ek4feL/1A8mZgIKQWEqg==" && (
                             <>
                               <h6>IRT</h6>
                               <ul>
@@ -1621,11 +1646,13 @@ const FilterSegment = (props) => {
                               </ul>
                             </>
                           )}
+                        </div>
 
+                        <div className="col block-smart-name">
                           {localStorage.getItem("user_id") ==
-                          "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                          "56Ek4feL/1A8mZgIKQWEqg==" && selectedIrt == "Training" &&(
                             <>
-                              <h6>Content Completed</h6>
+                              <h6>Training Completed</h6>
                               <ul>
                                 <li>
                                   <div className="select-multiple-option">
@@ -1655,7 +1682,7 @@ const FilterSegment = (props) => {
                                 </li>
                               </ul>
                             </>
-                          ) : null}
+                          )}
                         </div>
                         {/*Display only in case of create*/}
 
@@ -2158,10 +2185,10 @@ const FilterSegment = (props) => {
               ) : null}
 
               {updateflag > 0 ? (
-                selectedContentRead ? (
+                selectedContentRead && selectedIrt == "Training" ? (
                   <div className="filter-div">
                     <div className="filter-div-title">
-                      <span>Content Read |</span>
+                      <span>Training Completed |</span>
                     </div>
                     <div className="filter-div-list">
                       <div className="filter-result">
