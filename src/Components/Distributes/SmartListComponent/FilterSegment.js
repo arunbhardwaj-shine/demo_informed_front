@@ -110,6 +110,16 @@ const FilterSegment = (props) => {
         setSelectedinvestigatorType(props.selectedFilter.investigator_type);
       }
 
+      if (typeof props?.selectedFilter?.irt !== "undefined") {
+        if(props.selectedFilter.irt == 2){
+            setSelectedIrt("Training");
+        }else if(props.selectedFilter.irt == 1){
+            setSelectedIrt("yes");
+        }else if(props.selectedFilter.irt == 0){
+           setSelectedIrt("no");
+        }
+      }
+
       if (typeof props?.selectedFilter?.sub_role !== "undefined") {
         setSelectedSubRole(props.selectedFilter.sub_role);
       }
