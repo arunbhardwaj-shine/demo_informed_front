@@ -31,10 +31,10 @@ const FilterSegment = (props) => {
   const [selectedconsent, setConsent] = useState([]);
   const [selectedregister, setSelectedRegister] = useState("yes");
   const [selectedArticleCompleted, setSelectedArticleCompleted] =
-    useState("yes");
+    useState("");
   const [selectedbounce, setSelectedBounce] = useState();
   const [selectedContentRead, setSelectedContentRead] = useState();
-  const [selectedIrt, setSelectedIrt] = useState("Training");
+  const [selectedIrt, setSelectedIrt] = useState("");
   const [showhidearticle, setShowHideArticle] = useState(1);
   const [getfilterdata, setFilterData] = useState();
   const [apifilterflag, setApiFilterFlag] = useState(0);
@@ -365,6 +365,8 @@ const FilterSegment = (props) => {
     if (register_val == "yes") {
       setShowHideArticle(1);
     } else {
+      setSelectedArticles([]);
+      setSelectedArticleCompleted([]);
       setShowHideArticle(0);
     }
     setSelectedRegister(register_val);
@@ -580,7 +582,7 @@ const FilterSegment = (props) => {
     if (selectedArticleCompleted) {
       if (selectedArticleCompleted == "yes") {
         Object.assign(payload, { article_completed: 1 });
-      } else {
+      } else if (selectedArticleCompleted == "no") {
         Object.assign(payload, { article_completed: 0 });
       }
       flag_to_check_data = true;
@@ -612,7 +614,7 @@ const FilterSegment = (props) => {
         Object.assign(payload, { irt: 1 });
       }else if (selectedIrt == "Training") {
         Object.assign(payload, { irt: 2 });
-      } else {
+      } else if (selectedIrt == "no") {
         Object.assign(payload, { irt: 0 });
       }
       flag_to_check_data = true;
@@ -716,6 +718,8 @@ const FilterSegment = (props) => {
       handleOnIbuChange(item);
     } else if (src == "register") {
       setSelectedRegister();
+      setSelectedArticles([]);
+      setSelectedArticleCompleted([]);
     } else if (src == "bounce") {
       setSelectedBounce();
     } else if (src == "selectedContentRead") {
@@ -1358,56 +1362,6 @@ const FilterSegment = (props) => {
                             </>
                           )}
 
-                        {selectedsitename.length > 0 ? (
-                          <div className="col block-smart-name">
-                            <h6>Articles Completed</h6>
-                            <div className="smart-name-list">
-                              <ul>
-                                <li>
-                                  <div className="select-multiple-option">
-                                    <input
-                                      type="radio"
-                                      id="bounce_yes"
-                                      name="bounce"
-                                      value="yes"
-                                      checked={
-                                        typeof selectedArticleCompleted !==
-                                          "undefined" &&
-                                        selectedArticleCompleted == "yes"
-                                      }
-                                      onChange={() =>
-                                        handleArticleCompleted("yes")
-                                      }
-                                    />
-                                    <span className="checkmark"></span>
-                                  </div>
-                                  Yes
-                                </li>
-                                <li>
-                                  <div className="select-multiple-option">
-                                    <input
-                                      type="radio"
-                                      id="bounce_no"
-                                      name="bounce"
-                                      value="no"
-                                      checked={
-                                        typeof selectedArticleCompleted !==
-                                          "undefined" &&
-                                        selectedArticleCompleted == "no"
-                                      }
-                                      onChange={() =>
-                                        handleArticleCompleted("no")
-                                      }
-                                    />
-                                    <span className="checkmark"></span>
-                                  </div>
-                                  No
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                        ) : null}
-
                         {"reader_selection" in filters &&
                           Object.keys(filters.reader_selection).length > 0 &&
                           showhidearticle == 1 && (
@@ -1586,6 +1540,56 @@ const FilterSegment = (props) => {
                             </>
                           )}
 
+                          {showhidearticle == 1 ? (
+                            <div className="col block-smart-name">
+                              <h6>Reading/Viewing Completed</h6>
+                              <div className="smart-name-list">
+                                <ul>
+                                  <li>
+                                    <div className="select-multiple-option">
+                                      <input
+                                        type="radio"
+                                        id="bounce_yes"
+                                        name="bounce"
+                                        value="yes"
+                                        checked={
+                                          typeof selectedArticleCompleted !==
+                                            "undefined" &&
+                                          selectedArticleCompleted == "yes"
+                                        }
+                                        onChange={() =>
+                                          handleArticleCompleted("yes")
+                                        }
+                                      />
+                                      <span className="checkmark"></span>
+                                    </div>
+                                    Yes
+                                  </li>
+                                  <li>
+                                    <div className="select-multiple-option">
+                                      <input
+                                        type="radio"
+                                        id="bounce_no"
+                                        name="bounce"
+                                        value="no"
+                                        checked={
+                                          typeof selectedArticleCompleted !==
+                                            "undefined" &&
+                                          selectedArticleCompleted == "no"
+                                        }
+                                        onChange={() =>
+                                          handleArticleCompleted("no")
+                                        }
+                                      />
+                                      <span className="checkmark"></span>
+                                    </div>
+                                    No
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                          ) : null}
+
                         <div className="col block-smart-name">
                           {localStorage.getItem("user_id") ==
                           "56Ek4feL/1A8mZgIKQWEqg==" && (
@@ -1648,7 +1652,8 @@ const FilterSegment = (props) => {
                           )}
                         </div>
 
-                        <div className="col block-smart-name">
+                        {/*
+                          <div className="col block-smart-name">
                           {localStorage.getItem("user_id") ==
                           "56Ek4feL/1A8mZgIKQWEqg==" && selectedIrt == "Training" &&(
                             <>
@@ -1683,7 +1688,7 @@ const FilterSegment = (props) => {
                               </ul>
                             </>
                           )}
-                        </div>
+                        </div>*/}
                         {/*Display only in case of create*/}
 
                         <div className="segmentation-button">
@@ -1884,7 +1889,17 @@ const FilterSegment = (props) => {
                 selectedarticles.length > 0 ? (
                   <div className="filter-div">
                     <div className="filter-div-title">
-                      <span>Articles |</span>
+                      {localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        <>
+                        <span>Library |</span>
+                        </>
+                      ) : (
+                        <>
+                        <span>Articles |</span>
+                        </>
+                      )}
+
                     </div>
                     <div className="filter-div-list">
                       {Object.entries(selectedarticles).map(([index, item]) => (
@@ -2065,10 +2080,10 @@ const FilterSegment = (props) => {
 
               {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? (
                 updateflag > 0 ? (
-                  selectedArticleCompleted ? (
+                  selectedArticleCompleted != "" && showhidearticle == 1 ? (
                     <div className="filter-div">
                       <div className="filter-div-title">
-                        <span>Articles Completed |</span>
+                        <span>Reading/Viewing Completed |</span>
                       </div>
                       <div className="filter-div-list">
                         <div className="filter-result">
