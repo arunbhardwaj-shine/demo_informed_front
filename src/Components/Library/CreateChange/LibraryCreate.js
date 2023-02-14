@@ -24,6 +24,11 @@ const data = [
     title: "Set Pop up",
     subtitle: "Update and add the Pop up text and design from here",
   },
+  {
+    image: `${path_image}topics.png`,
+    title: "Topics",
+    subtitle: "Add new or delete an existing topic",
+  },
 ];
 
 const LibraryCreate = () => {

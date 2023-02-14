@@ -378,6 +378,7 @@ const Sidebar = () => {
             window.location.pathname == "/library-edit" ||
             window.location.pathname == "/library-campaign" ||
             window.location.pathname == "/spc" ||
+             window.location.pathname == "/products" ||
             window.location.pathname == "/library-delete" ||
             window.location.pathname == "/library-create-user" ||
             window.location.pathname == "/library-create-pharma" ? (
@@ -505,7 +506,7 @@ const Sidebar = () => {
                     : "side_li"
                 }
               >
-                <Link to={"/"}>
+                <Link to={"/products"}>
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                     <path
                       d="M2.10988 0.703674V2.81433C2.10988 3.20288 2.42485 3.51801 2.81321 3.51801H8.43913C8.82749 3.51801 9.14228 3.20288 9.14228 2.81433V0.703674C9.14228 0.315124 8.82749 0 8.43913 0H2.81321C2.42485 0 2.10988 0.315124 2.10988 0.703674Z"
