@@ -114,7 +114,7 @@ const FilterSegment = (props) => {
         setSelectedSubRole(props.selectedFilter.sub_role);
       }
 
-      if (typeof props?.selectedBlindType?.blind_type !== "undefined") {
+      if (typeof props?.selectedFilter?.blind_type !== "undefined") {
         setSelectedBlindType(props.selectedFilter.blind_type);
       }
 
@@ -1258,8 +1258,8 @@ const FilterSegment = (props) => {
                                           <div className="select-multiple-option">
                                             <input
                                               type="checkbox"
-                                              id={`custom-checkbox-investigator_type-${index}`}
-                                              name="investigator_type[]"
+                                              id={`custom-checkbox-blind_type-${index}`}
+                                              name="blind_type[]"
                                               value={item}
                                               checked={
                                                 typeof selectedBlindType !==
