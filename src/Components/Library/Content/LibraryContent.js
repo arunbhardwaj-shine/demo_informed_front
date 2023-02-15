@@ -153,6 +153,7 @@ const LibraryContent = () => {
       normal_data.filter((data) => {
         if (data.pdf_id == id) {
           contains_already = true;
+          setFlag(1);
         }
       });
 
@@ -458,51 +459,62 @@ const LibraryContent = () => {
                         {Object.keys(filterdata).map(function (key, index) {
                           return (
                             <>
-                              <Accordion.Item className="card" eventKey={index}>
-                                <Accordion.Header className="card-header">
-                                  {key}
-                                </Accordion.Header>
+                              {filterdata[key].length > 0 ? (
+                                <Accordion.Item
+                                  className="card"
+                                  eventKey={index}
+                                >
+                                  <Accordion.Header className="card-header">
+                                    {key}
+                                  </Accordion.Header>
 
-                                <Accordion.Body className="card-body">
-                                  <ul>
-                                    {filterdata[key].length > 0
-                                      ? filterdata[key].map((item, index) => (
-                                          <li>
-                                            {item != "" ? (
-                                              <label className="select-multiple-option">
-                                                <input
-                                                  type="checkbox"
-                                                  id={`custom-checkbox-tags-${index}`}
-                                                  value={item}
-                                                  defaultChecked={
-                                                    filterObject.hasOwnProperty(
-                                                      key
-                                                    )
-                                                      ? filterObject[
-                                                          key
-                                                        ].indexOf(item) !== -1
-                                                      : false
-                                                  }
-                                                  name="tags[]"
-                                                  onChange={(e) =>
-                                                    handleOnFilterChange(
-                                                      e,
-                                                      item,
-                                                      index,
-                                                      key
-                                                    )
-                                                  }
-                                                />
-                                                {item}
-                                                <span className="checkmark"></span>
-                                              </label>
-                                            ) : null}
-                                          </li>
-                                        ))
-                                      : null}
-                                  </ul>
-                                </Accordion.Body>
-                              </Accordion.Item>
+                                  <Accordion.Body className="card-body">
+                                    <ul>
+                                      {filterdata[key].length > 0
+                                        ? filterdata[key].map((item, index) => (
+                                            <li>
+                                              {item != "" ? (
+                                                <label className="select-multiple-option">
+                                                  <input
+                                                    type="checkbox"
+                                                    id={`custom-checkbox-tags-${index}`}
+                                                    value={item}
+                                                    defaultChecked={
+                                                      filterObject.hasOwnProperty(
+                                                        key
+                                                      )
+                                                        ? filterObject[
+                                                            key
+                                                          ].indexOf(item) !== -1
+                                                        : false
+                                                    }
+                                                    name="tags[]"
+                                                    onChange={(e) =>
+                                                      handleOnFilterChange(
+                                                        e,
+                                                        item,
+                                                        index,
+                                                        key
+                                                      )
+                                                    }
+                                                  />
+
+                                                  {key == "draft" && item == "0"
+                                                    ? "live"
+                                                    : key == "draft" &&
+                                                      item == "1"
+                                                    ? "draft"
+                                                    : item}
+                                                  <span className="checkmark"></span>
+                                                </label>
+                                              ) : null}
+                                            </li>
+                                          ))
+                                        : null}
+                                    </ul>
+                                  </Accordion.Body>
+                                </Accordion.Item>
+                              ) : null}
                             </>
                           );
                         })}
@@ -600,7 +612,11 @@ const LibraryContent = () => {
                                       removeindividualfilter(key, item)
                                     }
                                   >
-                                    {item}
+                                    {key == "draft" && item == "0"
+                                      ? "live"
+                                      : key == "draft" && item == "1"
+                                      ? "draft"
+                                      : item}
                                     <img
                                       src={path_image + "filter-close.svg"}
                                       alt="Close-filter"
