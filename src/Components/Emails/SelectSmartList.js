@@ -823,7 +823,7 @@ const SelectSmartList = (props) => {
                           onChange={(event) => handleSmartListName(event)}
                         />
                       </div>
-                      <div class="form-group col">
+                      <div className="form-group col">
                         <label for="creator-name">Creator’s Name</label>
                         <input
                           type="text"

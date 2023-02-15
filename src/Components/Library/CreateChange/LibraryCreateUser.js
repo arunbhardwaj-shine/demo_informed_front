@@ -353,7 +353,7 @@ const LibraryCreateUser = () => {
                     <div className="form-group justify-content-end">
                       <label for="">Invoice notes</label>
                       <textarea
-                        class="form-control"
+                        className="form-control"
                         id="formControlTextarea"
                         rows="3"
                       ></textarea>
@@ -402,13 +402,13 @@ const LibraryCreateUser = () => {
                     </div>
                     <div className="form-group val">
                       <label for="">Upload PDF</label>
-                      <div class="upload-file-box">
-                        <div class="box">
+                      <div className="upload-file-box">
+                        <div className="box">
                           <input
                             type="file"
                             name="file-6[]"
                             id="file-6"
-                            class="inputfile inputfile-6"
+                            className="inputfile inputfile-6"
                             accept=".doc .csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                             onChange={(e) => handleFileChange(e)}
                           />
@@ -424,31 +424,31 @@ const LibraryCreateUser = () => {
                         </div>
                       ) : null}
                     </div>
-                    <div class="form-group">
+                    <div className="form-group">
                       <label for="">Set as draft</label>
-                      <div class="switch">
-                        <label class="switch-light">
+                      <div className="switch">
+                        <label className="switch-light">
                           <input type="checkbox" />
                           <span>
-                            <span class="switch-btn active">No</span>
-                            <span class="switch-btn">Yes</span>
+                            <span className="switch-btn active">No</span>
+                            <span className="switch-btn">Yes</span>
                           </span>
-                          <a class="btn"></a>
+                          <a className="btn"></a>
                         </label>
                       </div>
-                      <Button className="btn-bordered" onClick={handleShow}>
+                      <Button className="btn-bordered btn-voilet" onClick={handleShow}>
                         click to embed your Videos{" "}
                       </Button>
                     </div>
                     <div className="form-group val">
                       <label for="">Upload Cover Image</label>
-                      <div class="upload-file-box">
-                        <div class="box">
+                      <div className="upload-file-box">
+                        <div className="box">
                           <input
                             type="file"
                             name="file-5[]"
                             id="file-5"
-                            class="inputfile inputfile-5"
+                            className="inputfile inputfile-5"
                             accept="image/png, image/jpeg"
                             onChange={handleImageChange}
                           />
@@ -473,7 +473,7 @@ const LibraryCreateUser = () => {
                     <div className="form-group justify-content-end">
                       <label for="">Production notes to Docintel team</label>
                       <textarea
-                        class="form-control"
+                        className="form-control"
                         id="formControlTextarea"
                         rows="5"
                       ></textarea>
@@ -517,12 +517,12 @@ const LibraryCreateUser = () => {
                   className="dropdown-basic-button split-button-dropup"
                   isClearable
                 />
-                <div class="upload-file-box">
+                <div className="upload-file-box">
                   <input
                     type="file"
                     name="file-10[]"
                     id="file-10"
-                    class="inputfile inputfile-6"
+                    className="inputfile inputfile-6"
                     accept=".mp4"
                   />
                   <label for="file-10">

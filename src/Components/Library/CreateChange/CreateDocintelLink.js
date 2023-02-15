@@ -215,13 +215,13 @@ const CreateDocintelLink = () => {
                     </div>
                     <div className="form-group val">
                       <label for="">Upload PDF</label>
-                      <div class="upload-file-box">
-                        <div class="box">
+                      <div className="upload-file-box">
+                        <div className="box">
                           <input
                             type="file"
                             name="file-6[]"
                             id="file-6"
-                            class="inputfile inputfile-6"
+                            className="inputfile inputfile-6"
                             accept=".doc .csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                             //   onChange={(e) => handleFileChange(e)}
                           />
@@ -234,13 +234,13 @@ const CreateDocintelLink = () => {
                     </div>
                     <div className="form-group val">
                       <label for="">Upload Cover Image</label>
-                      <div class="upload-file-box">
-                        <div class="box">
+                      <div className="upload-file-box">
+                        <div className="box">
                           <input
                             type="file"
                             name="file-5[]"
                             id="file-5"
-                            class="inputfile inputfile-5"
+                            className="inputfile inputfile-5"
                             accept="image/png, image/jpeg"
                             //   onChange={handleImageChange}
                           />
@@ -260,7 +260,7 @@ const CreateDocintelLink = () => {
                     <div className="form-group justify-content-end">
                       <label for="">Production notes to Docintel team</label>
                       <textarea
-                        class="form-control"
+                        className="form-control"
                         id="formControlTextarea"
                         rows="5"
                       ></textarea>

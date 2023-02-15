@@ -124,7 +124,6 @@ const Sidebar = () => {
           window.location.pathname == "/SmartListFilter" ||
           window.location.pathname == "/SelectSmartList" ||
           window.location.pathname == "/EmailList" ||
-          window.location.pathname == "/EmailList" ||
           window.location.pathname == "/TemplateBuilder" ||
           window.location.pathname == "/AutoEmail" ||
           window.location.pathname == "/EmailArticleSelect" ||
@@ -134,7 +133,6 @@ const Sidebar = () => {
           window.location.pathname == "/VerifyHCP" ||
           window.location.pathname == "/VerifyMAIL" ||
           window.location.pathname == "/VerifyHcpMAIL" ||
-          window.location.pathname == "/VerifyHCP" ||
           window.location.pathname == "/SelectSmartListUsers" ||
           window.location.pathname == "/VerifySmartList" ||
           window.location.pathname == "/ViewSmartList" ||
@@ -378,7 +376,8 @@ const Sidebar = () => {
             window.location.pathname == "/library-edit" ||
             window.location.pathname == "/library-campaign" ||
             window.location.pathname == "/spc" ||
-             window.location.pathname == "/products" ||
+            window.location.pathname == "/spc-create" ||
+            window.location.pathname == "/products" ||
             window.location.pathname == "/library-delete" ||
             window.location.pathname == "/library-create-user" ||
             window.location.pathname == "/library-create-pharma" ? (
@@ -461,7 +460,7 @@ const Sidebar = () => {
 
               <li
                 className={
-                  location.pathname == "/spc" && c_id == 0
+                  (location.pathname == "/spc" || location.pathname == "/spc-create") && c_id == 0
                     ? "active"
                     : "side_li"
                 }
@@ -924,7 +923,7 @@ const Sidebar = () => {
                     </div>
 
                     <div className="help-popup-content-preview">
-                      <div class="btn-form">
+                      <div className="btn-form">
                         <a
                           href="javascript:;"
                           className="btn btn-primary btn-filled"
@@ -949,7 +948,7 @@ const Sidebar = () => {
                     </div>
 
                     <div className="help-popup-next">
-                      <div class="btn-form">
+                      <div className="btn-form">
                         <a
                           href="javascript:;"
                           className="btn btn-primary btn-filled"
@@ -1094,7 +1093,7 @@ const Sidebar = () => {
                     </div>
 
                     <div className="help-popup-content-preview">
-                      <div class="btn-form">
+                      <div className="btn-form">
                         <a
                           href="javascript:;"
                           className="btn btn-primary btn-filled"
@@ -1118,7 +1117,7 @@ const Sidebar = () => {
                     </div>
 
                     <div className="help-popup-content-preview">
-                      <div class="btn-form">
+                      <div className="btn-form">
                         <a
                           href="javascript:;"
                           className="btn btn-primary btn-filled"
@@ -1133,7 +1132,7 @@ const Sidebar = () => {
                     </div>
 
                     <div className="help-popup-content-preview">
-                      <div class="btn-form">
+                      <div className="btn-form">
                         <a
                           href="javascript:;"
                           className="btn btn-primary btn-filled"
@@ -1149,7 +1148,7 @@ const Sidebar = () => {
                     </div>
 
                     <div className="help-popup-content-preview">
-                      <div class="btn-form">
+                      <div className="btn-form">
                         <a
                           href="javascript:;"
                           className="btn btn-primary btn-filled"
@@ -1172,7 +1171,7 @@ const Sidebar = () => {
                     </div>
 
                     <div className="help-popup-next">
-                      <div class="btn-form">
+                      <div className="btn-form">
                         <a
                           href="javascript:;"
                           className="btn btn-primary btn-filled"
@@ -1294,7 +1293,7 @@ const Sidebar = () => {
                     </div>
 
                     <div className="help-popup-next">
-                      <div class="btn-form">
+                      <div className="btn-form">
                         <a
                           href="javascript:;"
                           className="btn btn-primary btn-filled"
@@ -1310,7 +1309,7 @@ const Sidebar = () => {
                     </div>
 
                     <div className="help-popup-next">
-                      <div class="btn-form">
+                      <div className="btn-form">
                         <a
                           href="javascript:;"
                           className="btn btn-primary btn-filled"
@@ -1427,7 +1426,7 @@ const Sidebar = () => {
                     </div>
 
                     <div className="help-popup-next">
-                      <div class="btn-form">
+                      <div className="btn-form">
                         <a
                           href="javascript:;"
                           className="btn btn-primary btn-filled"
@@ -1475,7 +1474,7 @@ const Sidebar = () => {
                     </div>
 
                     <div className="help-popup-next">
-                      <div class="btn-form">
+                      <div className="btn-form">
                         <a
                           href="javascript:;"
                           className="btn btn-primary btn-filled"
@@ -1491,7 +1490,7 @@ const Sidebar = () => {
                     </div>
 
                     <div className="help-popup-next">
-                      <div class="btn-form">
+                      <div className="btn-form">
                         <a
                           href="javascript:;"
                           className="btn btn-primary btn-filled"
@@ -1507,7 +1506,7 @@ const Sidebar = () => {
                     </div>
 
                     <div className="help-popup-next">
-                      <div class="btn-form">
+                      <div className="btn-form">
                         <a
                           href="javascript:;"
                           className="btn btn-primary btn-filled"
@@ -1522,7 +1521,7 @@ const Sidebar = () => {
                     </div>
 
                     <div className="help-popup-next">
-                      <div class="btn-form">
+                      <div className="btn-form">
                         <a
                           href="javascript:;"
                           className="btn btn-primary btn-filled"
@@ -1648,7 +1647,7 @@ const Sidebar = () => {
                     </div>
 
                     <div className="help-popup-next">
-                      <div class="btn-form">
+                      <div className="btn-form">
                         <a
                           href="javascript:;"
                           className="btn btn-primary btn-filled"
@@ -1667,7 +1666,7 @@ const Sidebar = () => {
                     </div>
 
                     <div className="help-popup-next">
-                      <div class="btn-form">
+                      <div className="btn-form">
                         <a
                           href="javascript:;"
                           className="btn btn-primary btn-filled"
@@ -1718,7 +1717,7 @@ const Sidebar = () => {
                     </div>
 
                     <div className="help-popup-next">
-                      <div class="btn-form">
+                      <div className="btn-form">
                         <a
                           href="javascript:;"
                           className="btn btn-primary btn-filled"
@@ -1733,7 +1732,7 @@ const Sidebar = () => {
                     </div>
 
                     <div className="help-popup-next">
-                      <div class="btn-form">
+                      <div className="btn-form">
                         <a
                           href="javascript:;"
                           className="btn btn-primary btn-filled"
@@ -1856,7 +1855,7 @@ const Sidebar = () => {
                     </div>
 
                     <div className="help-popup-next">
-                      <div class="btn-form">
+                      <div className="btn-form">
                         <a
                           href="javascript:;"
                           className="btn btn-primary btn-filled"
@@ -1872,7 +1871,7 @@ const Sidebar = () => {
                     </div>
 
                     <div className="help-popup-next">
-                      <div class="btn-form">
+                      <div className="btn-form">
                         <a
                           href="javascript:;"
                           className="btn btn-primary btn-filled"
@@ -1887,7 +1886,7 @@ const Sidebar = () => {
                     </div>
 
                     <div className="help-popup-next">
-                      <div class="btn-form">
+                      <div className="btn-form">
                         <a
                           href="javascript:;"
                           className="btn btn-primary btn-filled"
@@ -2046,7 +2045,7 @@ const Sidebar = () => {
                     </div>
 
                     <div className="help-popup-content-preview">
-                      <div class="btn-form">
+                      <div className="btn-form">
                         <a
                           href="javascript:;"
                           className="btn btn-primary btn-filled"
@@ -2277,7 +2276,7 @@ const Sidebar = () => {
                   </ul>
                 </div>
                 <div className="help-popup-content-preview">
-                  <div class="btn-form">
+                  <div className="btn-form">
                     <a href="javascript:;" className="btn btn-primary btn-filled">Preview</a>
                   </div>
                   <p>You can preview the content to be sure it’s the right content that you want to send.</p>
@@ -2291,7 +2290,7 @@ const Sidebar = () => {
                   </ul>
                 </div>
                 <div className="help-popup-next">
-                  <div class="btn-form">
+                  <div className="btn-form">
                     <a href="javascript:;" className="btn btn-primary btn-filled">Next</a>
                     </div>
                   <p>After selecting you click next to go to start writing the email.</p>

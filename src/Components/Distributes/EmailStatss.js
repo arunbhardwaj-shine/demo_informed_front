@@ -221,21 +221,21 @@ const EmailStats = (props) => {
 
   return (
     <>
-      <div class="right-sidebar">
-        <div class="page-top-nav smart_list_names">
-          <div class="row justify-content-end align-items-center">
-            <div class="col-12 col-md-11"></div>
+      <div className="right-sidebar">
+        <div className="page-top-nav smart_list_names">
+          <div className="row justify-content-end align-items-center">
+            <div className="col-12 col-md-11"></div>
           </div>
         </div>
 
-        <section class="search-hcp smart-list-view">
-          <div class="result-hcp-table">
-            <div class="table-title">
+        <section className="search-hcp smart-list-view">
+          <div className="result-hcp-table">
+            <div className="table-title">
               <h4>
                 Total Result <span>| {totalCount}</span>
               </h4>
             </div>
-            <div class="selected-hcp-list search_view" id="analytics-hcp-table">
+            <div className="selected-hcp-list search_view" id="analytics-hcp-table">
               <div className="table_xls search_view">
                 <div className="smart-list-btns">
                   <div className="top-right-action">
@@ -276,7 +276,7 @@ const EmailStats = (props) => {
                 </div>
               </div>
               <div className="table_xls">
-                <table class="table">
+                <table className="table">
                   <thead className="sticky-header">
                     <tr>
                       <th scope="col">Campaign ID</th>

@@ -1033,9 +1033,9 @@ const EmailList = (props) => {
                         </div>
                       )}
                     </div>
-                    <div class="clear-filter">
+                    <div className="clear-filter">
                       <button
-                        class="btn btn-outline-primary btn-bordered"
+                        className="btn btn-outline-primary btn-bordered"
                         onClick={clearFilter}
                       >
                         Remove All

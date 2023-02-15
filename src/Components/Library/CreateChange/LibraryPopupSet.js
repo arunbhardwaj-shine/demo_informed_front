@@ -45,12 +45,12 @@ const LibraryPopupSet = () => {
                     className="dropdown-basic-button split-button-dropup"
                     isClearable
                   />
-                  <div class="upload-file-box">
+                  <div className="upload-file-box">
                   <input
                         type="file"
                         name="file-10[]"
                         id="file-10"
-                        class="inputfile inputfile-6"
+                        className="inputfile inputfile-6"
                           accept=".mp4"
                         />
                         <label for="file-10">

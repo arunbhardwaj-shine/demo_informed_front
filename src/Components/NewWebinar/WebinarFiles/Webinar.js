@@ -177,7 +177,7 @@ const DefaultWebinar = () => {
                   <div className="download-excel col">
                     <a
                       href="javascript:;"
-                      class="dnl_re"
+                      className="dnl_re"
                       onclick="download_user(this)"
                     >
                       <img src="https://cdn-icons-png.flaticon.com/512/338/338840.png" />

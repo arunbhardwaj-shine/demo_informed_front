@@ -351,9 +351,9 @@ const SmartListAdd = () => {
         </Modal.Header>
         <Modal.Body>
             <p>Use this side for adding multiple contacts via an excel sheet. <br/><a href="https:informed.pro/Readers/download" id="download_excel_id" title="Please download the sample Excel file, follow the same format and save it in your pc, then upload file." download="">Download the sample Excel file</a></p>
-            <div class="upload-file-box">
-              <div class="box">
-                <input type="file" name="file" id="upload-file"class="inputfile inputfile-5" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" data-multiple-caption="{count} files selected"/>
+            <div className="upload-file-box">
+              <div className="box">
+                <input type="file" name="file" id="upload-file"className="inputfile inputfile-5" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" data-multiple-caption="{count} files selected"/>
                   <>
                     <label for="upload-file">
                       <span>Choose Your File</span>
@@ -363,7 +363,7 @@ const SmartListAdd = () => {
               </div>
         </div>
               <h4>Please upload max 300 readers at once.</h4>
-        <div class="modal-buttons"> <button type="button"  onClick={handleClose} class="btn btn-primary btn-bordered light" data-bs-dismiss="modal">Upload</button></div>
+        <div className="modal-buttons"> <button type="button"  onClick={handleClose} className="btn btn-primary btn-bordered light" data-bs-dismiss="modal">Upload</button></div>
         </Modal.Body>
       </Modal>
     </Col>

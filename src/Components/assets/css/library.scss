@@ -194,12 +194,15 @@
 	border-radius: 20px;
 	padding: 24px 72px;
 	margin: 0 0 40px;
+  &.spc-content{
+    background: transparent;
+    padding: 36px 12px;
+  }
 	.form-group {
 		display: flex;
 		align-items: center;
 		margin: 18px 0 36px;
 		width: 100%;
-		max-width: 600px;
 		label {
 			font-size: 18px;
 			line-height: 21px;
@@ -215,6 +218,7 @@
 		}
 		.dropdown-basic-button {
 			width: 100%;
+      max-width: 445px;
 		}
     .react-datepicker__input-container {
 		input {
@@ -850,11 +854,10 @@ select::-ms-expand {
     border-radius: 30px;
     color: var(--white) !important;
     font-size: 16px;
-    line-height: 1;
+    line-height: 1.1;
     font-weight: 500;
     min-width: 171px;
     text-align: center;
-    height: 39px;
 }
 .create-change-content .upload-file-box .box p{
     margin: 0;
@@ -1086,16 +1089,32 @@ select::-ms-expand {
 .switch .switch-light input[type="checkbox"] {
     opacity: 0;
 }
+.form-group .add_product span {
+    height: 50px;
+    border-left: 1px solid #97B6CF;
+    background: transparent;
+    width: 1px;
+    display: inline-block;
+    padding: 0 16px 0 0;
+    margin-left: 16px;
+}
 .form_action .switch + .btn-bordered {
-    border: 1px solid #8A4E9C;
-    color: #8A4E9C;
-    flex: 1 1;
     margin-left: 24px;
 }
-.form_action .switch + .btn-bordered:hover {
- background-color: #8A4E9C;
- color:$white
+.header-btn .btn.send_btn {
+    min-width: 106px;
 }
-
+.btn.btn-bordered.cancel {
+    margin-right: 10px;
+    min-width: 82px;
+}
+.btn.btn-bordered.btn-voilet{
+    border: 1px solid $voilet;
+    color: $voilet;
+    &:hover{
+      color:$white;
+      background-color: $voilet;
+    }
+}
 
 /**Library Style End**/

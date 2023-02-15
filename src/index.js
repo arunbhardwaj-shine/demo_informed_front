@@ -19,6 +19,7 @@ import LibraryCreate from "./Components/Library/CreateChange/LibraryCreate";
 import LibraryPopupSet from "./Components/Library/CreateChange/LibraryPopupSet";
 import LibraryCampaign from "./Components/Library/LibraryCampaign";
 import Spc from "./Components/Library/Spc";
+import SpcCreate from "./Components/Library/SpcCreate";
 import Products from "./Components/Library/Products";
 
 //Analytics routes
@@ -190,6 +191,7 @@ ReactDOM.render(
                     element={<CreateDocintelLink />}
                   />
                   <Route path="/spc" element={<Spc />} />
+                  <Route path="/spc-create" element={<SpcCreate />} />
                   <Route path="/products" element={<Products />} />
 
 

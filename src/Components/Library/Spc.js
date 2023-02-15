@@ -1,5 +1,6 @@
 import React,{useState} from 'react'
 import { Col, Row } from 'react-bootstrap';
+import { useNavigate } from "react-router-dom";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const data = [
@@ -22,16 +23,21 @@ const data = [
 
 
 const Spc = () => {
+
+  const navigate  = useNavigate();
    let [active,setActive] = useState()
   const handleChange  = (value)=>{
     setActive(value)
+    if(value == 0) {
+        navigate("/spc-create")  
+    }
   }
   return (
     <Col className="right-sidebar">
         <div className="custom-container">
           <Row>
-            <div class="top-header">
-              <div class="page-title">
+            <div className="top-header">
+              <div className="page-title">
                 <h2>SPC</h2>
               </div>
             </div>

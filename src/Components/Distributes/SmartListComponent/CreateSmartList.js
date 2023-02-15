@@ -260,25 +260,25 @@ const CreateSmartList = () => {
 
   return (
     <>
-      <div class="col right-sidebar">
+      <div className="col right-sidebar">
         <div className="custom-container">
           <div className="row">
             <div className="page-top-nav smart_list_names">
-              <div class="row justify-content-end align-items-center">
-                <div class="col-12 col-md-11">
-                  <ul class="tabnav-link">
-                    <li class="active active-main">
+              <div className="row justify-content-end align-items-center">
+                <div className="col-12 col-md-11">
+                  <ul className="tabnav-link">
+                    <li className="active active-main">
                       <a href="javascript:void(0)">Create smart list</a>
                     </li>
-                    <li class="">
+                    <li className="">
                       <a href="javascript:void(0)">Select & Verify Your HCPs</a>
                     </li>
                   </ul>
                 </div>
-                <div class="col-12 col-md-1">
-                  <div class="header-btn-right">
+                <div className="col-12 col-md-1">
+                  <div className="header-btn-right">
                     <button
-                      class="btn btn-primary btn-bordered light"
+                      className="btn btn-primary btn-bordered light"
                       onClick={closeClicked}
                     >
                       Cancel
@@ -288,42 +288,42 @@ const CreateSmartList = () => {
               </div>
             </div>
             <section className="create_smart_list">
-              <div class="create_smart_list_inset">
-                <div class="create-smart-step">
+              <div className="create_smart_list_inset">
+                <div className="create-smart-step">
                   <h2>STEP1</h2>
-                  <div class="create-smart-step-box">
+                  <div className="create-smart-step-box">
                     <form>
-                      <div class="row justify-content-between align-items-center">
-                        <div class="form-group col">
+                      <div className="row justify-content-between align-items-center">
+                        <div className="form-group col">
                           <label for="smart-list-name">
                             Enter smart list name
                           </label>
                           <input
                             type="text"
-                            class="form-control"
+                            className="form-control"
                             value={smartListName}
                             onChange={(event) => handleSmartListName(event)}
                           />
                         </div>
 
-                        <div class="form-group col">
+                        <div className="form-group col">
                           <label for="creator-name">Creator’s Name</label>
                           <input
                             type="text"
-                            class="form-control"
+                            className="form-control"
                             value={creatorName}
                             onChange={(event) => handleCreatorName(event)}
                           />
                         </div>
 
-                        <div class="form-group col-sm-12">
-                          <div class="form-group-content">
+                        <div className="form-group col-sm-12">
+                          <div className="form-group-content">
                             <p>
                               I want this to be a <span>Demo list</span>
                             </p>
-                            <div class="select-demo-option">
+                            <div className="select-demo-option">
                               <input type="checkbox" name="cherk" />
-                              <span class="checkmark"></span>
+                              <span className="checkmark"></span>
                             </div>
                             <a
                               href="#"
@@ -342,13 +342,13 @@ const CreateSmartList = () => {
                     </form>
                   </div>
                 </div>
-                <div class="create-smart-step">
+                <div className="create-smart-step">
                   <h2>STEP2</h2>
-                  <div class="create-smart-step-box">
+                  <div className="create-smart-step-box">
                     <h5>How do you want to create your smart list ?</h5>
                     <ul>
                       <li>
-                        <div class="send-option-img group-opt">
+                        <div className="send-option-img group-opt">
                           <input
                             onClick={(event) => toggleSelection("group-opt")}
                             type="radio"
@@ -362,7 +362,7 @@ const CreateSmartList = () => {
                       </li>
                       <li>
                         <div
-                          class="send-option-img upload-opt"
+                          className="send-option-img upload-opt"
                           data-bs-toggle="modal"
                           data-bs-target="#upload-confirm"
                         >
@@ -379,9 +379,9 @@ const CreateSmartList = () => {
                     </ul>
                   </div>
                 </div>
-                <div class="download-sample">
+                <div className="download-sample">
                   <p>Download sample Excel file to upload new HCPs</p>
-                  <div class="upload-btn" onClick={downloadFile}>
+                  <div className="upload-btn" onClick={downloadFile}>
                     Download File
                   </div>
                 </div>
@@ -407,7 +407,7 @@ const CreateSmartList = () => {
             <button
               type="button"
               onClick={handleClose}
-              class="btn-close"
+              className="btn-close"
               data-bs-dismiss="modal"
             ></button>
           ) : null}
@@ -428,13 +428,13 @@ const CreateSmartList = () => {
               />
             </div>
           ) : (
-            <div class="upload-file-box">
-              <div class="box">
+            <div className="upload-file-box">
+              <div className="box">
                 <input
                   type="file"
                   name="file-4[]"
                   id="file-4"
-                  class="inputfile inputfile-3"
+                  className="inputfile inputfile-3"
                   accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                   onChange={onFileChange}
                   data-multiple-caption="{count} files selected"
@@ -458,14 +458,14 @@ const CreateSmartList = () => {
             <>
               <h4>Please upload maximum of 1000 records.</h4>
 
-              <div class="modal-buttons">
+              <div className="modal-buttons">
                 {file_name.current?.files === undefined ||
                 file_name.current.files?.length === 0 ? (
                   <>
                     {" "}
                     <button
                       type="button"
-                      class="btn btn-primary btn-bordered light"
+                      className="btn btn-primary btn-bordered light"
                       data-bs-dismiss="modal"
                     >
                       Upload
@@ -474,7 +474,7 @@ const CreateSmartList = () => {
                 ) : (
                   <button
                     type="button"
-                    class="btn btn-primary"
+                    className="btn btn-primary"
                     onClick={uploadFile}
                     data-bs-dismiss="modal"
                   >

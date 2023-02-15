@@ -2063,9 +2063,9 @@ const AutoMail = (props) => {
                 setviewEmailModal((viewEmailModal) => !viewEmailModal)
               }
             ></button>
-            <div class="upload_view">
+            <div className="upload_view">
               <button
-                class="btn btn-primary btn-bordered"
+                className="btn btn-primary btn-bordered"
                 onClick={generate_thumb}
               >
                 Upload

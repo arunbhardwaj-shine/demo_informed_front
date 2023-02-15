@@ -1386,7 +1386,7 @@ const VerifyHCP = (props) => {
 
                 {/*
                   <form id="add_file" className={"tab-pane" + activeExcel}>
-                  <div class="file_upload-box">
+                  <div className="file_upload-box">
                     <div className="upload-file-box">
                       <div className="form-group files">
                         <div className="box">

@@ -333,11 +333,11 @@ const LibraryContent = () => {
       <Col className="right-sidebar">
         <div className="custom-container">
           <Row>
-            <div class="top-header">
-              <div class="page-title">
+            <div className="top-header">
+              <div className="page-title">
                 <h2>{location?.state?.data == "edit" ? "Edit" : "Content"}</h2>
               </div>
-              <div class="top-right-action">
+              <div className="top-right-action">
                 <div className="search-bar">
                   <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
                     <input
@@ -589,9 +589,9 @@ const LibraryContent = () => {
                       );
                     })}
                   </div>
-                  <div class="clear-filter">
+                  <div className="clear-filter">
                     <button
-                      class="btn btn-outline-primary btn-bordered"
+                      className="btn btn-outline-primary btn-bordered"
                       onClick={clearFilter}
                     >
                       Remove All

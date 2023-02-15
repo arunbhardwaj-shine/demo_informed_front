@@ -51,11 +51,11 @@ const LibraryCreate = () => {
       <Col className="right-sidebar">
         <div className="custom-container">
           <Row>
-            <div class="top-header">
-              <div class="page-title">
+            <div className="top-header">
+              <div className="page-title">
                 <h2>Create &amp; Change</h2>
               </div>
-              <div class="top-right-action">
+              <div className="top-right-action">
                 <div className="search-bar">
                   <form className="d-flex">
                     <input className="form-control me-2" type="text" placeholder="Search" aria-label="Search" id="email_search"
