@@ -804,6 +804,16 @@ const LibraryContent = () => {
                                         </h6>
                                         <h6>{data.Linktype}</h6>
                                       </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          <strong>Include</strong>
+                                        </h6>
+                                        <div className="include-links">
+                                          <Link><img src={path_image + "spc-img.png"} alt="" /></Link>
+                                          <Link><img src={path_image + "video-img.png"} alt="" /></Link>
+                                          <Link><img src={path_image + "link-img.png"} alt="" /></Link>
+                                        </div>
+                                      </li>
                                     </ul>
                                   </div>
 

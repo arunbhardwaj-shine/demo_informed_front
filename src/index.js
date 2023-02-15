@@ -17,6 +17,7 @@ import reducers from "./reducers";
 import LibraryContent from "./Components/Library/Content/LibraryContent";
 import LibraryCreate from "./Components/Library/CreateChange/LibraryCreate";
 import LibraryPopupSet from "./Components/Library/CreateChange/LibraryPopupSet";
+import LibrarySublink from "./Components/Library/CreateChange/LibrarySublink";
 import LibraryCampaign from "./Components/Library/LibraryCampaign";
 import Spc from "./Components/Library/Spc";
 import SpcCreate from "./Components/Library/SpcCreate";
@@ -178,18 +179,10 @@ ReactDOM.render(
                   <Route path="/library-edit" element={<LibraryContent />} />
                   <Route path="/library-create" element={<LibraryCreate />} />
                   <Route path="/library-popup" element={<LibraryPopupSet />} />
-                  <Route
-                    path="/library-create-user"
-                    element={<LibraryCreateUser />}
-                  />
-                  <Route
-                    path="/library-campaign"
-                    element={<LibraryCampaign />}
-                  />
-                  <Route
-                    path="/create-docintel-link"
-                    element={<CreateDocintelLink />}
-                  />
+                  <Route path="/library-create-user" element={<LibraryCreateUser />}/>
+                  <Route path="/library-sublink" element={<LibrarySublink />}/>
+                  <Route path="/library-campaign" element={<LibraryCampaign />} />
+                  <Route path="/create-docintel-link" element={<CreateDocintelLink />} />
                   <Route path="/spc" element={<Spc />} />
                   <Route path="/spc-create" element={<SpcCreate />} />
                   <Route path="/products" element={<Products />} />
