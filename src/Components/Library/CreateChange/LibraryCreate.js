@@ -38,10 +38,18 @@ const LibraryCreate = () => {
     setActive(value);
     if (value == 0) {
       navigate("/library-create-user");
-    } else if (value == 1) {
+    }
+     else if (value == 1) {
       navigate("/library-edit", {
         state: {
           data: "edit",
+        },
+      });
+    }
+    else if (value == 2) {
+      navigate("/library-sublink", {
+        state: {
+          data: "sublink",
         },
       });
     }
@@ -104,15 +112,6 @@ const LibraryCreate = () => {
                       />
                     </svg>
                   </button>
-                  {/*Code for show filters*/}
-
-                  {/*
-                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                     <li><a className="dropdown-item" href="#">Filter1 <img src={path + "filter-close.svg"} alt="Close-filter" /></a></li>
-                     <li><a className="dropdown-item" href="#">Filter2 <img src={path + "filter-close.svg"} alt="Close-filter" /></a></li>
-                     <li><a className="dropdown-item" href="#">Filter3 <img src={path + "filter-close.svg"} alt="Close-filter" /></a></li>
-                 </ul>
-                 */}
                 </div>
               </div>
             </div>
