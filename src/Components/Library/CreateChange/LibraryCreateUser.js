@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Select from "react-select";
-import {Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
@@ -128,7 +128,7 @@ const LibraryCreateUser = () => {
                 <div className="col-12 col-md-1">
                   <div className="header-btn-left">
                     <button className="btn btn-primary btn-bordered back">
-                      <Link to="/EmailArticleSelect">Back</Link>
+                      <Link to="/library-create">Back</Link>
                     </button>
                   </div>
                 </div>
