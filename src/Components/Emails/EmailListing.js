@@ -566,7 +566,7 @@ const EmailList = (props) => {
           <div className="row">
             <div className="top-header">
               <div className="page-title">
-                <h2>Emails</h2>
+                <h2>Email</h2>
               </div>
               <div className="top-right-action">
                 <div className="search-bar">
