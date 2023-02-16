@@ -208,16 +208,16 @@ const SpcEdit = () => {
               )} */}
 
             <div className="smart-list-result">
-              <div className="col smartlist-result-block">
+              <div className="col smartlist-result-block spc-edit">
                 <div className="smartlist_box_block">
                   <div className="smartlist-view email_box">
                     <div className="mail-box-content">
-                      <h5>
+                      <div className="mailbox-table">
+                       <h5>
                         SPC Title mote condi ment zcsum dolor nihibdolor masa
                         euismod pharta donec mas faucibus quisque
                       </h5>
 
-                      <div className="mailbox-table">
                         <table>
                           <tbody>
                             <tr>
@@ -295,12 +295,11 @@ const SpcEdit = () => {
                 <div className="smartlist_box_block">
                   <div className="smartlist-view email_box">
                     <div className="mail-box-content">
+                      <div className="mailbox-table">
                       <h5>
                         SPC Title mote condi ment zcsum dolor nihibdolor masa
                         euismod pharta donec mas faucibus quisque
                       </h5>
-
-                      <div className="mailbox-table">
                         <table>
                           <tbody>
                             <tr>
@@ -381,12 +380,11 @@ const SpcEdit = () => {
                 <div className="smartlist_box_block">
                   <div className="smartlist-view email_box">
                     <div className="mail-box-content">
+                      <div className="mailbox-table">
                       <h5>
                         SPC Title mote condi ment zcsum dolor nihibdolor masa
                         euismod pharta donec mas faucibus quisque
                       </h5>
-
-                      <div className="mailbox-table">
                         <table>
                           <tbody>
                             <tr>

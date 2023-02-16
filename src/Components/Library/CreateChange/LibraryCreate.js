@@ -51,6 +51,13 @@ const LibraryCreate = () => {
         },
       });
     }
+    else if (value == 4) {
+      navigate("/library-topics", {
+        state: {
+          data: "sublink",
+        },
+      });
+    }
   };
   return (
     <>

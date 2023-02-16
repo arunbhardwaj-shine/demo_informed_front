@@ -375,6 +375,7 @@ const Sidebar = () => {
             window.location.pathname == "/library-create" ||
             window.location.pathname == "/library-edit" ||
             window.location.pathname == "/library-sublink" ||
+            window.location.pathname == "/library-topics" ||
             window.location.pathname == "/library-campaign" ||
             window.location.pathname == "/spc" ||
             window.location.pathname == "/spc-edit" ||
@@ -412,6 +413,7 @@ const Sidebar = () => {
                   (location.pathname == "/library-create" ||
                     location.pathname == "/library-edit" ||
                     location.pathname == "/library-sublink" ||
+                    location.pathname == "/library-topics" ||
                     location.pathname == "/library-create-user" ||
                     location.pathname == "/create-docintel-link") &&
                   c_id == 0

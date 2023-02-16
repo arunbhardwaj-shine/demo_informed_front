@@ -173,7 +173,7 @@ const SpcCreate = () => {
         </div>
       </Col>
 
-      <Modal show={show} className="send-confirm" id="download-qr">
+      <Modal show={show} className="send-confirm spc-create" id="download-qr">
         <Modal.Header>
           <h5 className="modal-title" id="staticBackdropLabel">
             Add New Product
@@ -193,9 +193,10 @@ const SpcCreate = () => {
             <div className="col-12">
               <Form>
                 <div className="form-group">
-                  <label for=""> Add New Product</label>
+                  <label for="">Product Name</label>
                   <input
                     type="text"
+                    placeholder="Type your product name"
                     className="form-control"
                     onChange={(e) => addNewProductChanged(e)}
                   />
