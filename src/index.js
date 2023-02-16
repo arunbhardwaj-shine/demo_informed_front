@@ -18,6 +18,7 @@ import LibraryContent from "./Components/Library/Content/LibraryContent";
 import LibraryCreate from "./Components/Library/CreateChange/LibraryCreate";
 import LibraryPopupSet from "./Components/Library/CreateChange/LibraryPopupSet";
 import LibrarySublink from "./Components/Library/CreateChange/LibrarySublink";
+import LibraryTopics from "./Components/Library/CreateChange/LibraryTopics";
 import LibraryCampaign from "./Components/Library/LibraryCampaign";
 import Spc from "./Components/Library/Spc";
 import SpcCreate from "./Components/Library/SpcCreate";
@@ -186,6 +187,7 @@ ReactDOM.render(
                   />
                   <Route path="/spc-edit" element={<SpcEdit />} />
                   <Route path="/library-sublink" element={<LibrarySublink />} />
+                  <Route path="/library-topics" element={<LibraryTopics />} />
                   <Route
                     path="/library-campaign"
                     element={<LibraryCampaign />}
