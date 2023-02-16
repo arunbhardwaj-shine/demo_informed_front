@@ -15,6 +15,7 @@ const today = new Date();
 
 const LibraryCreateUser = () => {
   const [show, setShow] = useState(false);
+  const [limitOfUsage, setLimitOfUsage] = useState("");
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -31,6 +32,13 @@ const LibraryCreateUser = () => {
     { value: "India", label: "India" },
     { value: "Australia", label: "Australia" },
     { value: "Russia", label: "Russia" },
+  ]);
+
+  const [types, setTypes] = useState([
+    { value: "Online", label: "Online" },
+    { value: "Offline", label: "Offline" },
+
+    { value: "Sunshine", label: "Sunshine" },
   ]);
 
   const [productionAll, setProductionAll] = useState([
@@ -94,6 +102,7 @@ const LibraryCreateUser = () => {
       ePrint: ePrint,
       pdfFile: pdfFile,
       image: image,
+      limitOfUsage: limitOfUsage,
     };
 
     const err = createContent(data);
@@ -320,7 +329,16 @@ const LibraryCreateUser = () => {
                     </div>
                     <div className="form-group">
                       <label for="">Set limit of usage</label>
-                      <input type="text" className="form-control" />
+                      <input
+                        type="text"
+                        className="form-control"
+                        onChange={(e) => setLimitOfUsage(e.target.value)}
+                      />
+                      {error?.limitOfUsage ? (
+                        <div className="login-validation">
+                          {error?.limitOfUsage}
+                        </div>
+                      ) : null}
                     </div>
                     <div className="form-group">
                       <label for="">Enable</label>
@@ -436,7 +454,10 @@ const LibraryCreateUser = () => {
                           <a className="btn"></a>
                         </label>
                       </div>
-                      <Button className="btn-bordered btn-voilet" onClick={handleShow}>
+                      <Button
+                        className="btn-bordered btn-voilet"
+                        onClick={handleShow}
+                      >
                         click to embed your Videos{" "}
                       </Button>
                     </div>

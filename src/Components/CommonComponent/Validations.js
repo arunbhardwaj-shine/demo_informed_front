@@ -5,6 +5,9 @@ export const createContent = (data) => {
   if (!data?.contentTitle) {
     error.contentTitle = "Content Title is required!";
   }
+  if (!data?.limitOfUsage) {
+    error.limitOfUsage = "Limit of usage is required!";
+  }
   if (!data?.ePrint) {
     error.ePrint = "Eprint is required!";
   }

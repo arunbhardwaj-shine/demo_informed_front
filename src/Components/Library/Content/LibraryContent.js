@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { popup_alert } from "../../../popup_alert";
 import { deleteData, postData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
+import Select from "react-select";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
 
@@ -35,6 +36,12 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const LibraryContent = () => {
   const [size, setSize] = useState("Small");
   const [flag, setFlag] = useState(0);
+  const [types, setTypes] = useState([
+    { value: "Online", label: "Online" },
+    { value: "Offline", label: "Offline" },
+
+    { value: "Sunshine", label: "Sunshine" },
+  ]);
   const [update, setUpdate] = useState(0);
   const location = useLocation();
   const [search, setSearch] = useState("");
@@ -818,16 +825,43 @@ const LibraryContent = () => {
                                         <h6 className="tab-content-title">
                                           <strong>Link type</strong>
                                         </h6>
-                                        <h6>{data.Linktype}</h6>
+                                        <h6>
+                                          {" "}
+                                          {data.first_popup == 0 &&
+                                          data.only_first_popup == 0
+                                            ? "online"
+                                            : data.first_popup == 1 &&
+                                              data.only_first_popup == 1
+                                            ? "offline"
+                                            : data.first_popup == 1 &&
+                                              data.only_first_popup == 0
+                                            ? "sunshine"
+                                            : ""}
+                                        </h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
                                           <strong>Include</strong>
                                         </h6>
                                         <div className="include-links">
-                                          <Link><img src={path_image + "spc-img.png"} alt="" /></Link>
-                                          <Link><img src={path_image + "video-img.png"} alt="" /></Link>
-                                          <Link><img src={path_image + "link-img.png"} alt="" /></Link>
+                                          <Link>
+                                            <img
+                                              src={path_image + "spc-img.png"}
+                                              alt=""
+                                            />
+                                          </Link>
+                                          <Link>
+                                            <img
+                                              src={path_image + "video-img.png"}
+                                              alt=""
+                                            />
+                                          </Link>
+                                          <Link>
+                                            <img
+                                              src={path_image + "link-img.png"}
+                                              alt=""
+                                            />
+                                          </Link>
                                         </div>
                                       </li>
                                     </ul>
@@ -884,7 +918,7 @@ const LibraryContent = () => {
                                           </LinkWithTooltip>
                                         </h6>
 
-                                        {flag == 0 ? (
+                                        {flag == 0 && userId == data.id ? (
                                           <div className="data-progress">
                                             <ProgressBar
                                               variant="warning"
@@ -1038,27 +1072,20 @@ const LibraryContent = () => {
                                 >
                                   <div className="data-main-box change-tab-main-box tab-panel">
                                     <ul className="tab-mail-list data change">
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          <strong>Upload date</strong>
-                                        </h6>
-                                        <div className="select-dropdown-wrapper">
-                                          <div className="select">
-                                            <select>
-                                              <option value="1">
-                                                Sunshine
-                                              </option>
-                                              <option value="2">
-                                                Offline Offer
-                                              </option>
-                                              <option value="3">
-                                                Online Only
-                                              </option>
-                                            </select>
-                                            <Button>Update</Button>
-                                          </div>
-                                        </div>
-                                      </li>
+                                      <div className="form-group">
+                                        {/* <label for="">Country</label> */}
+                                        <Select
+                                          options={types}
+                                          // onChange={(event) =>
+                                          //   onCountryChange(event)
+                                          // }
+                                          className="dropdown-basic-button split-button-dropup"
+                                          isClearable
+                                        />
+                                        {/* {error?.country ? (
+                        <div className="login-validation">{error?.country}</div>
+                      ) : null} */}
+                                      </div>
                                     </ul>
                                   </div>
                                   <div className="data-main-footer-sec">
