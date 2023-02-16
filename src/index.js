@@ -175,7 +175,6 @@ ReactDOM.render(
                   <Route path="/smart-list-add" element={<SmartListAdd />} />
                   <Route path="/reader-review" element={<ReaderReview />} />
                   <Route path="/timeline-detail" element={<TimelineDetail />} />
-
                   <Route path="/library-content" element={<LibraryContent />} />
                   <Route path="/library-edit" element={<LibraryContent />} />
                   <Route path="/library-create" element={<LibraryCreate />} />
@@ -185,6 +184,7 @@ ReactDOM.render(
                     element={<LibraryCreateUser />}
                   />
                   <Route path="/spc-edit" element={<SpcEdit />} />
+                  <Route path="/spc-delete" element={<SpcEdit />} />
                   <Route path="/library-sublink" element={<LibrarySublink />} />
                   <Route
                     path="/library-campaign"
@@ -197,16 +197,13 @@ ReactDOM.render(
                   <Route path="/spc" element={<Spc />} />
                   <Route path="/spc-create" element={<SpcCreate />} />
                   <Route path="/products" element={<Products />} />
-
                   <Route path="/new-webinar" element={<DefaultWebinar />} />
                   <Route path="/contact-form" element={<ContactForm />} />
                   <Route path="/email-statsss" element={<EmailStatsss />} />
                   <Route path="/stats-webinar" element={<StatsWebinar />} />
                   <Route path="/auto-mail" element={<AutoMail />} />
-
                   <Route path="/event-create" element={<EventCreate />} />
                   <Route path="/setting-webinar" element={<SettingWebinar />} />
-
                   <Route path="/" element={<App />} />
                   <Route path="/SmartList" element={<SmartList />} />
                   <Route path="/EditList" element={<EditList />} />

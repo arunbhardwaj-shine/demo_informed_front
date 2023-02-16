@@ -29,7 +29,17 @@ const Spc = () => {
     if (value == 0) {
       navigate("/spc-create");
     } else if (value == 1) {
-      navigate("/spc-edit");
+      navigate("/spc-edit", {
+        state: {
+          data: "edit",
+        },
+      });
+    } else if (value == 2) {
+      navigate("/spc-delete", {
+        state: {
+          data: "delete",
+        },
+      });
     }
   };
   return (

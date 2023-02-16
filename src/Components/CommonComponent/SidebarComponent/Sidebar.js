@@ -378,6 +378,7 @@ const Sidebar = () => {
             window.location.pathname == "/library-campaign" ||
             window.location.pathname == "/spc" ||
             window.location.pathname == "/spc-edit" ||
+            window.location.pathname == "/spc-delete" ||
             window.location.pathname == "/spc-create" ||
             window.location.pathname == "/products" ||
             window.location.pathname == "/library-delete" ||
@@ -465,7 +466,8 @@ const Sidebar = () => {
                 className={
                   (location.pathname == "/spc" ||
                     location.pathname == "/spc-create" ||
-                    location.pathname == "/spc-edit") &&
+                    location.pathname == "/spc-edit" ||
+                    location.pathname == "/spc-delete") &&
                   c_id == 0
                     ? "active"
                     : "side_li"
