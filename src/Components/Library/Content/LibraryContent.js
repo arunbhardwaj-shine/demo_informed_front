@@ -832,7 +832,7 @@ const LibraryContent = () => {
                                         </h6>
 
                                         {flag == 0 ? (
-                                          <div className="data-progress">
+                                          <div className="data-progress limited">
                                             <ProgressBar
                                               variant="warning"
                                               now={100}
@@ -844,7 +844,7 @@ const LibraryContent = () => {
                                             if (details.pdf_id == data.id) {
                                               return (
                                                 <>
-                                                  <div className="data-progress">
+                                                  <div className="data-progress limited">
                                                     <ProgressBar
                                                       variant="warning"
                                                       now={
@@ -901,8 +901,12 @@ const LibraryContent = () => {
                                           if (details.pdf_id == data.id) {
                                             return (
                                               <>
-                                                <div className="data-progress success">
-                                                  <span>{details.opening}</span>
+                                                <div className="data-progress">
+                                                  <ProgressBar
+                                                    variant="success"
+                                                    now={100}
+                                                    label={details.opening}
+                                                  />
                                                   {/* <ProgressBar
                                                     variant="success"
                                                     now={
@@ -942,9 +946,9 @@ const LibraryContent = () => {
                                           if (details.pdf_id == data.id) {
                                             return (
                                               <>
-                                                <div className="data-progress danger">
-                                                  <span>{details.registeredReader}</span>
-                                                  {/* <ProgressBar
+                                                <div className="data-progress">
+                                                  {/* <span>{details.registeredReader}</span> */}
+                                                  <ProgressBar
                                                     variant="danger"
                                                     now={
                                                       details.limit == 0
@@ -958,7 +962,7 @@ const LibraryContent = () => {
                                                     label={
                                                       details.registeredReader
                                                     }
-                                                  /> */}
+                                                  />
                                                 </div>
                                               </>
                                             );

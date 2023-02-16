@@ -184,7 +184,7 @@ const LibraryCreateUser = () => {
                     <div className="form-group">
                       <label for="">Country</label>
                       <Select
-                        options={countryAll}
+                        options={countryAll} placeholder="Select country"
                         onChange={(event) => onCountryChange(event)}
                         className="dropdown-basic-button split-button-dropup"
                         isClearable
@@ -209,7 +209,7 @@ const LibraryCreateUser = () => {
                     <div className="form-group">
                       <label for="">Production</label>
                       <Select
-                        options={productionAll}
+                        options={productionAll} placeholder="Select own production person"
                         onChange={(event) => onProductionChange(event)}
                         className="dropdown-basic-button split-button-dropup edit-production-dropdown"
                         isClearable
@@ -223,7 +223,7 @@ const LibraryCreateUser = () => {
                     <div className="form-group">
                       <label for="">Sales</label>
                       <Select
-                        options={salesAll}
+                        options={salesAll} placeholder="Who made the sale?"
                         onChange={(event) => onSalesChange(event)}
                         className="dropdown-basic-button split-button-dropup edit-sales-dropdown"
                         isClearable
@@ -308,7 +308,7 @@ const LibraryCreateUser = () => {
                       <label for="">Cost centre</label>
                       <Select
                         className="dropdown-basic-button split-button-dropup"
-                        isClearable
+                        isClearable placeholder="Select cost center"
                       />
                     </div>
                     <div className="form-group">
@@ -320,7 +320,7 @@ const LibraryCreateUser = () => {
                     </div>
                     <div className="form-group">
                       <label for="">Set limit of usage</label>
-                      <input type="text" className="form-control" />
+                      <input type="text" className="form-control" placeholder="“0” value means unlimited limit"/>
                     </div>
                     <div className="form-group">
                       <label for="">Enable</label>
@@ -349,13 +349,14 @@ const LibraryCreateUser = () => {
                       </fieldset>
                     </div>
                   </div>
-                  <div className="col-12 col-md-6 d-flex justify-content-end align-items-end right-change">
+                  <div className="col-12 col-md-6 d-flex justify-content-start align-items-start right-change">
                     <div className="form-group justify-content-end">
                       <label for="">Invoice notes</label>
                       <textarea
                         className="form-control"
                         id="formControlTextarea"
-                        rows="3"
+                        rows="5"
+                        placeholder="Please type your notes here.."
                       ></textarea>
                     </div>
                   </div>
@@ -389,12 +390,12 @@ const LibraryCreateUser = () => {
                       <input type="text" className="form-control" />
                     </div>
                     <div className="form-group val">
-                      <label for="">ePrint type *</label>
+                      <label for="">Docintel format *</label>
                       <Select
                         className="dropdown-basic-button split-button-dropup"
                         options={ePrintType}
                         onChange={(event) => ePrintTypeChange(event)}
-                        isClearable
+                        isClearable placeholder="Select type of Docintel format "
                       />
                       {error?.ePrint ? (
                         <div className="login-validation">{error?.ePrint}</div>
@@ -425,7 +426,7 @@ const LibraryCreateUser = () => {
                       ) : null}
                     </div>
                     <div className="form-group">
-                      <label for="">Set as draft</label>
+                      <label for="">Include video</label>
                       <div className="switch">
                         <label className="switch-light">
                           <input type="checkbox" />
@@ -441,7 +442,7 @@ const LibraryCreateUser = () => {
                       </Button>
                     </div>
                     <div className="form-group val">
-                      <label for="">Upload Cover Image</label>
+                      <label for="">Content cover</label>
                       <div className="upload-file-box">
                         <div className="box">
                           <input
@@ -469,13 +470,14 @@ const LibraryCreateUser = () => {
                       ) : null}
                     </div>
                   </div>
-                  <div className="col-12 col-md-6 d-flex justify-content-end  align-items-end right-change">
+                  <div className="col-12 col-md-6 d-flex justify-content-start align-items-start right-change">
                     <div className="form-group justify-content-end">
                       <label for="">Production notes to Docintel team</label>
                       <textarea
                         className="form-control"
                         id="formControlTextarea"
                         rows="5"
+                         placeholder="Please type your notes here.."
                       ></textarea>
                     </div>
                   </div>

@@ -396,6 +396,9 @@ ul.tab-mail-list.data span.total-left small {
     margin-right: 8px;
     padding: 0px 0 0 35px;
 }
+.data-progress.limited {
+    margin-top: -5px;
+}
 .tab-mail-list.data .progress {
   width: 182px;
   background: rgba(151, 182, 207, 0.2);
@@ -419,12 +422,12 @@ ul.tab-mail-list.data span.total-left small {
   background: #fac755 !important;
 }
 
-.tab-mail-list.data .data-progress.success span{
+.tab-mail-list.data .progress .progress-bar.bg-success{
   color: #05766b;
   background: #00d4c0 !important;
 }
 
-.tab-mail-list.data .data-progress.danger span{
+.tab-mail-list.data .progress .progress-bar.bg-danger{
   color: #a53239;
   background: #f58289 !important;
 }
@@ -815,6 +818,8 @@ select::-ms-expand {
 .create-change-content .form-group textarea.form-control {
     min-height: 223px;
     resize: none;
+    border-radius: 20px;
+    padding: 16px;
 }
 .create-change-content .right-change .form-group {
     align-items: flex-start;
@@ -875,6 +880,10 @@ select::-ms-expand {
     font-size: 16px;
     line-height: 145.19%;
     color: #97B6CF;
+}
+.create-change-content .upload-file-box .box p span{
+    font-size: 14px;
+    line-height: 16px;
 }
 
 
@@ -1126,6 +1135,27 @@ select::-ms-expand {
       color:$white;
       background-color: $voilet;
     }
+}
+
+.form-control::-webkit-input-placeholder {
+  color: #97B6CF;
+  opacity: 1;
+  font-weight: 300;
+}
+.form-control::-moz-placeholder {
+  color: #97B6CF;
+  opacity: 1;
+  font-weight: 300;
+}
+.form-control:-ms-input-placeholder {
+  color: #97B6CF;
+  opacity: 1;
+  font-weight: 300;
+}
+.form-control:-moz-placeholder { 
+  color: #97B6CF;
+  opacity: 1;
+  font-weight: 300;
 }
 
 /**Library Style End**/
