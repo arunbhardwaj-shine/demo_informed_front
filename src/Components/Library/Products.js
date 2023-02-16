@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import { Col, Form, Row } from 'react-bootstrap';
+import { Button, Col, Form, Row } from 'react-bootstrap';
 import Select from "react-select";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -27,7 +27,7 @@ function Products() {
                 <h4>Please select the business unit to show the products </h4>
                 <div className="row">
                   <div className="col-12">
-                    <Form>
+                    <Form className='product-unit d-flex justify-content-between align-items-center'>
                         <div className="form-group">
                             <label for="">Business Unit</label>
                             <Select
@@ -38,10 +38,65 @@ function Products() {
                                 isClearable
                             />
                         </div>
+                        <Button className="btn-bordered btn-voilet">Add New Product +</Button>
                       </Form>
                   </div>
-                  <div className='col-12'>
-                    
+                  <div className='col-12 no-type-selected'>
+                      <div className='no-data-selected'>
+                          <h3>No type selected yet!</h3>
+                        <img src={path_image + "dummy-product.png"} alt="" />
+                      </div>
+                  </div>
+                  <div className='col-12 selected-products-list d-flex'>
+                      <Col xxl={3} xl={4} md={6}>
+                        <div className="products-listing">
+                          Product Name
+                          <button className='dlt_btn'><img src={path_image + "delete.svg"} alt="Delete Row"/></button>
+                        </div>
+                      </Col>
+                      <Col xxl={3} xl={4} md={6}>
+                        <div className="products-listing">
+                          Product Name
+                          <button className='dlt_btn'><img src={path_image + "delete.svg"} alt="Delete Row"/></button>
+                        </div>
+                      </Col>
+                      <Col xxl={3} xl={4} md={6}>
+                        <div className="products-listing">
+                          Product Name
+                          <button className='dlt_btn'><img src={path_image + "delete.svg"} alt="Delete Row"/></button>
+                        </div>
+                      </Col>
+                      <Col xxl={3} xl={4} md={6}>
+                        <div className="products-listing">
+                          Product Name
+                          <button className='dlt_btn'><img src={path_image + "delete.svg"} alt="Delete Row"/></button>
+                        </div>
+                      </Col>
+                      <Col xxl={3} xl={4} md={6}>
+                        <div className="products-listing">
+                          Product Name
+                          <button className='dlt_btn'><img src={path_image + "delete.svg"} alt="Delete Row"/></button>
+                        </div>
+                      </Col>
+                      <Col xxl={3} xl={4} md={6}>
+                        <div className="products-listing">
+                          Product Name
+                          <button className='dlt_btn'><img src={path_image + "delete.svg"} alt="Delete Row"/></button>
+                        </div>
+                      </Col>
+                      <Col xxl={3} xl={4} md={6}>
+                        <div className="products-listing">
+                          Product Name
+                          <button className='dlt_btn'><img src={path_image + "delete.svg"} alt="Delete Row"/></button>
+                        </div>
+                      </Col>
+                      <Col xxl={3} xl={4} md={6}>
+                        <div className="products-listing">
+                          Product Name
+                          <button className='dlt_btn'><img src={path_image + "delete.svg"} alt="Delete Row"/></button>
+                        </div>
+                      </Col>
+                  
                   </div>
                 </div>
               </div>

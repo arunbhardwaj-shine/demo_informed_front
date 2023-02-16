@@ -206,6 +206,11 @@
     background: transparent;
     padding: 36px 12px;
   }
+  .product-unit{
+    .form-group {
+    margin: 18px 0;
+    }
+  } 
 	.form-group {
 		display: flex;
 		align-items: center;
@@ -359,6 +364,58 @@
 	}
 }
 }
+
+.no-type-selected {
+    margin: 0 auto;
+    padding: 50px 0;
+      .no-data-selected {
+      text-align: center;
+        h3 {
+        font-size: 36px;
+        line-height: 42px;
+        color: #97B6CF;
+        font-weight: 300;
+        margin-bottom: 56px;
+        }
+          img {
+          max-width: 209px;
+          width: 100%;
+          }
+      }
+  }
+  .selected-products-list{
+    border-top: 1px dashed #70899E;
+    padding: 46px 0 0;
+    flex-wrap: wrap;
+    .products-listing {
+      position: relative;
+      max-width: 283px;
+      width:100%;
+      background: $white;
+      box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
+      border-radius: 13px;
+      padding: 23px 14px;
+      font-size: 16px;
+      line-height: 19px;
+      color: $dark-gray;
+      margin: 16px 0;
+    button.dlt_btn {
+      top: 50%;
+      transform: translateY(-50%);
+      border: 0;
+      background: $primary-color;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      right: -20px;
+    }
+    }
+  } 
+
+
+
+
+
 
 
 .library-content-box-layuot .dlt_btn button img {
@@ -1138,24 +1195,19 @@ select::-ms-expand {
 }
 
 .form-control::-webkit-input-placeholder {
-  color: #97B6CF;
-  opacity: 1;
-  font-weight: 300;
+@include form-placeholder;
 }
 .form-control::-moz-placeholder {
-  color: #97B6CF;
-  opacity: 1;
-  font-weight: 300;
+@include form-placeholder;
 }
 .form-control:-ms-input-placeholder {
-  color: #97B6CF;
-  opacity: 1;
-  font-weight: 300;
+@include form-placeholder;
 }
 .form-control:-moz-placeholder { 
-  color: #97B6CF;
-  opacity: 1;
-  font-weight: 300;
+@include form-placeholder;
+}
+.product-unit button {
+    flex: 0 0 171px;
 }
 
 /**Library Style End**/
