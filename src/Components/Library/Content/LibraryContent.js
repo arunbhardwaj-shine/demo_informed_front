@@ -910,9 +910,10 @@ const LibraryContent = () => {
                                         {flag == 0 && userId == data.id ? (
                                           <div className="data-progress limited">
                                             <ProgressBar
-                                              variant="warning"
+                                              variant="default"
                                               now={100}
-                                              label={"loading"}
+                                              label={"Loading"}
+                                              
                                             />
                                           </div>
                                         ) : (
@@ -976,7 +977,7 @@ const LibraryContent = () => {
                                         {flag == 0 && userId == data.id ? (
                                           <div className="data-progress limited">
                                             <ProgressBar
-                                              variant="warning"
+                                              variant="default"
                                               now={100}
                                               label={"loading"}
                                             />
@@ -1031,7 +1032,7 @@ const LibraryContent = () => {
                                         {flag == 0 && userId == data.id ? (
                                           <div className="data-progress limited">
                                             <ProgressBar
-                                              variant="warning"
+                                              variant="default"
                                               now={100}
                                               label={"loading"}
                                             />
