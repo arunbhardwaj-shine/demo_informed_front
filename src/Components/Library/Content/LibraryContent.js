@@ -890,7 +890,7 @@ const LibraryContent = () => {
                                 >
                                   <div className="data-main-box tab-panel d-flex flex-column justify-content-between">
                                     <ul className="tab-mail-list data">
-                                      <li className="justify-content-between d-flex align-center">
+                                      <li className="d-flex align-center">
                                         <h6 className="tab-content-title">
                                           Unique Reader (total)
                                           <LinkWithTooltip
@@ -907,7 +907,7 @@ const LibraryContent = () => {
                                           </LinkWithTooltip>
                                         </h6>
 
-                                        {flag == 0 ? (
+                                        {flag == 0 && userId == data.id ? (
                                           <div className="data-progress limited">
                                             <ProgressBar
                                               variant="warning"
@@ -973,17 +973,26 @@ const LibraryContent = () => {
                                             />
                                           </LinkWithTooltip>
                                         </h6>
-                                        {opening_details.map((details) => {
-                                          if (details.pdf_id == data.id) {
-                                            return (
-                                              <>
-                                                <div className="data-progress">
-                                                  <ProgressBar
-                                                    variant="success"
-                                                    now={100}
-                                                    label={details.opening}
-                                                  />
-                                                  {/* <ProgressBar
+                                        {flag == 0 && userId == data.id ? (
+                                          <div className="data-progress limited">
+                                            <ProgressBar
+                                              variant="warning"
+                                              now={100}
+                                              label={"loading"}
+                                            />
+                                          </div>
+                                        ) : (
+                                          opening_details.map((details) => {
+                                            if (details.pdf_id == data.id) {
+                                              return (
+                                                <>
+                                                  <div className="data-progress">
+                                                    <ProgressBar
+                                                      variant="success"
+                                                      now={100}
+                                                      label={details.opening}
+                                                    />
+                                                    {/* <ProgressBar
                                                     variant="success"
                                                     now={
                                                       details.limit == 0
@@ -996,11 +1005,12 @@ const LibraryContent = () => {
                                                     }
                                                     label={details.opening}
                                                   /> */}
-                                                </div>
-                                              </>
-                                            );
-                                          }
-                                        })}
+                                                  </div>
+                                                </>
+                                              );
+                                            }
+                                          })
+                                        )}
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
@@ -1018,32 +1028,42 @@ const LibraryContent = () => {
                                             />
                                           </LinkWithTooltip>
                                         </h6>
-                                        {opening_details.map((details) => {
-                                          if (details.pdf_id == data.id) {
-                                            return (
-                                              <>
-                                                <div className="data-progress">
-                                                  {/* <span>{details.registeredReader}</span> */}
-                                                  <ProgressBar
-                                                    variant="danger"
-                                                    now={
-                                                      details.limit == 0
-                                                        ? (details.registeredReader /
-                                                            1000) *
-                                                          100
-                                                        : (details.registeredReader /
-                                                            details.limit) *
-                                                          100
-                                                    }
-                                                    label={
-                                                      details.registeredReader
-                                                    }
-                                                  />
-                                                </div>
-                                              </>
-                                            );
-                                          }
-                                        })}
+                                        {flag == 0 && userId == data.id ? (
+                                          <div className="data-progress limited">
+                                            <ProgressBar
+                                              variant="warning"
+                                              now={100}
+                                              label={"loading"}
+                                            />
+                                          </div>
+                                        ) : (
+                                          opening_details.map((details) => {
+                                            if (details.pdf_id == data.id) {
+                                              return (
+                                                <>
+                                                  <div className="data-progress">
+                                                    {/* <span>{details.registeredReader}</span> */}
+                                                    <ProgressBar
+                                                      variant="danger"
+                                                      now={
+                                                        details.limit == 0
+                                                          ? (details.registeredReader /
+                                                              1000) *
+                                                            100
+                                                          : (details.registeredReader /
+                                                              details.limit) *
+                                                            100
+                                                      }
+                                                      label={
+                                                        details.registeredReader
+                                                      }
+                                                    />
+                                                  </div>
+                                                </>
+                                              );
+                                            }
+                                          })
+                                        )}
                                       </li>
                                     </ul>
                                   </div>
