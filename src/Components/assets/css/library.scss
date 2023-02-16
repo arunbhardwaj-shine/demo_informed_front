@@ -482,11 +482,17 @@ ul.tab-mail-list.data span.total-left small {
 .tab-mail-list.data .progress .progress-bar.bg-success{
   color: #05766b;
   background: #00d4c0 !important;
+  width: auto !important;
+  margin:0 auto;
 }
 
 .tab-mail-list.data .progress .progress-bar.bg-danger{
   color: #a53239;
   background: #f58289 !important;
+}
+.tab-mail-list.data .progress .progress-bar.bg-default {
+    background: rgba(151, 182, 207, 0.2);
+    color: #97b6cf;
 }
 .data-progress span {
   font-size: 11px;
