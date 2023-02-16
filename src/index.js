@@ -77,6 +77,7 @@ import EventCreate from "./Components/NewWebinar/WebinarFiles/EventCreate";
 import SettingWebinar from "./Components/NewWebinar/WebinarFiles/SettingWebinar";
 import LibraryCreateUser from "./Components/Library/CreateChange/LibraryCreateUser";
 import CreateDocintelLink from "./Components/Library/CreateChange/CreateDocintelLink";
+import SpcEdit from "./Components/Library/SpcEdit";
 
 let platform = 0;
 let show = 0;
@@ -179,14 +180,23 @@ ReactDOM.render(
                   <Route path="/library-edit" element={<LibraryContent />} />
                   <Route path="/library-create" element={<LibraryCreate />} />
                   <Route path="/library-popup" element={<LibraryPopupSet />} />
-                  <Route path="/library-create-user" element={<LibraryCreateUser />}/>
-                  <Route path="/library-sublink" element={<LibrarySublink />}/>
-                  <Route path="/library-campaign" element={<LibraryCampaign />} />
-                  <Route path="/create-docintel-link" element={<CreateDocintelLink />} />
+                  <Route
+                    path="/library-create-user"
+                    element={<LibraryCreateUser />}
+                  />
+                  <Route path="/spc-edit" element={<SpcEdit />} />
+                  <Route path="/library-sublink" element={<LibrarySublink />} />
+                  <Route
+                    path="/library-campaign"
+                    element={<LibraryCampaign />}
+                  />
+                  <Route
+                    path="/create-docintel-link"
+                    element={<CreateDocintelLink />}
+                  />
                   <Route path="/spc" element={<Spc />} />
                   <Route path="/spc-create" element={<SpcCreate />} />
                   <Route path="/products" element={<Products />} />
-
 
                   <Route path="/new-webinar" element={<DefaultWebinar />} />
                   <Route path="/contact-form" element={<ContactForm />} />

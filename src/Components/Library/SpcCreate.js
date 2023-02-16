@@ -13,6 +13,7 @@ import {
   Tabs,
   ProgressBar,
 } from "react-bootstrap";
+import { popup_alert } from "../../popup_alert";
 
 const SpcCreate = () => {
   const [countryAll, setCountryAll] = useState([
@@ -20,6 +21,10 @@ const SpcCreate = () => {
     { value: "Australia", label: "Australia" },
     { value: "Russia", label: "Russia" },
   ]);
+
+  const [productArr, setProductArr] = useState([]);
+
+  const [newProduct, setNewProduct] = useState("");
 
   const [show, setShow] = useState(false);
   const [country, setCountry] = useState("");
@@ -31,7 +36,32 @@ const SpcCreate = () => {
 
   const addNewProductClicked = (e) => {
     e.preventDefault();
+    setNewProduct("");
     setShow(true);
+  };
+
+  const addProductClicked = () => {
+    //setNewProduct("");
+    setShow(false);
+    if (newProduct != "") {
+      setProductArr((oldArray) => [
+        ...oldArray,
+        { value: newProduct, label: newProduct },
+      ]);
+    }
+  };
+
+  const addNewProductChanged = (e) => {
+    setNewProduct(e.target.value);
+  };
+
+  const publishClicked = () => {
+    popup_alert({
+      visible: "show",
+      message: "Your HCP has been published <br />successfully !",
+      type: "success",
+      redirect: "",
+    });
   };
 
   return (
@@ -45,7 +75,12 @@ const SpcCreate = () => {
               </div>
               <div className="header-btn">
                 <Button className="btn-bordered cancel">Cancel</Button>
-                <Button className="btn-filled send_btn">Publish</Button>
+                <Button
+                  className="btn-filled send_btn"
+                  onClick={publishClicked}
+                >
+                  Publish
+                </Button>
               </div>
             </div>
             <div className="create-change-content spc-content">
@@ -91,7 +126,7 @@ const SpcCreate = () => {
                       <div className="form-group">
                         <label for="">Product</label>
                         <Select
-                          options={countryAll}
+                          options={productArr}
                           placeholder="Select product"
                           onChange={(event) => onCountryChange(event)}
                           className="dropdown-basic-button split-button-dropup"
@@ -149,42 +184,32 @@ const SpcCreate = () => {
             data-bs-dismiss="modal"
             onClick={() => {
               setShow(false);
+              setNewProduct("");
             }}
           ></button>
         </Modal.Header>
         <Modal.Body>
-          <div className="form-group">
-            <label for="">Download QR</label>
-            <DropdownButton
-              className="dropdown-basic-button split-button-dropup "
-              //   title={size != "" ? size : "Select Size"}
-              //  onSelect={(event) => onSizeChange(event)}
-            >
-              <div className="scroll_div">
-                <Dropdown.Item
-                  eventKey="Tiny"
-                  //   className={size == "Tiny" ? "active" : ""}
-                >
-                  Product 1
-                </Dropdown.Item>
-                <Dropdown.Item
-                  eventKey="Article"
-                  // className={size == "Article" ? "active" : ""}
-                >
-                  Product 2
-                </Dropdown.Item>
-                <Dropdown.Item
-                  eventKey="Large Print"
-                  // className={size == "Large Print" ? "active" : ""}
-                >
-                  Product 3
-                </Dropdown.Item>
-              </div>
-            </DropdownButton>
+          <div className="row">
+            <div className="col-12">
+              <Form>
+                <div className="form-group">
+                  <label for=""> Add New Product</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    onChange={(e) => addNewProductChanged(e)}
+                  />
+                </div>
+              </Form>
+            </div>
           </div>
         </Modal.Body>
         <div className="modal-footer">
-          <button type="button" className="btn btn-primary save btn-filled">
+          <button
+            type="button"
+            className="btn btn-primary save btn-filled"
+            onClick={addProductClicked}
+          >
             Add
           </button>
         </div>
