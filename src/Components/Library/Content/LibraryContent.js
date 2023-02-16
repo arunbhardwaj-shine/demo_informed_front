@@ -100,7 +100,6 @@ const LibraryContent = () => {
         id: 18207,
       };
       const res = await postData(ENDPOINT.FILTERS, body);
-      // console.log(res);
       setFilterData(res.data.data);
 
       loader("hide");
@@ -111,7 +110,6 @@ const LibraryContent = () => {
   };
 
   const loadMoreClicked = () => {
-    //setLibraryData([]);
     setPage("All");
   };
 
@@ -167,17 +165,12 @@ const LibraryContent = () => {
       setOpeningDetails(normal_data);
 
       if (contains_already != true) {
-        // loader("show");
         try {
           let body = {
             pdfId: [id],
           };
           const res = await postData(ENDPOINT.LIBRARYSTATS, body);
 
-          // console.log(res);
-          // setUniqueReader(res.data.data[0].unique);
-          // setOpening(res.data.data[0].opening);
-          // setRegisteredReader(res.data.data[0].unique);
           console.log(res);
 
           const status = normal_data.map((datas) => {
@@ -196,8 +189,6 @@ const LibraryContent = () => {
               limit: res.data.data[0].limit,
             });
           }
-
-          console.log(normal_data);
 
           setOpeningDetails(normal_data);
           setFlag(1);
@@ -596,8 +587,6 @@ const LibraryContent = () => {
                 ) : null}
               </div>
             </div>
-
-            {console.log(filterObject)}
             {Object.keys(filterObject).length !== 0 ? (
               <div className="apply-filter">
                 <h6>Applied filters</h6>
@@ -988,8 +977,8 @@ const LibraryContent = () => {
                                           if (details.pdf_id == data.id) {
                                             return (
                                               <>
-                                                <div className="data-progress">
-                                                  {details.opening}
+                                                <div className="data-progress success">
+                                                  <span>{details.opening}</span>
                                                   {/* <ProgressBar
                                                     variant="success"
                                                     now={
@@ -1029,8 +1018,10 @@ const LibraryContent = () => {
                                           if (details.pdf_id == data.id) {
                                             return (
                                               <>
-                                                <div className="data-progress">
-                                                  {details.registeredReader}
+                                                <div className="data-progress danger">
+                                                  <span>
+                                                    {details.registeredReader}
+                                                  </span>
                                                   {/* <ProgressBar
                                                     variant="danger"
                                                     now={
