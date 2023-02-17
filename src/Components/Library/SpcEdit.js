@@ -213,10 +213,10 @@ const SpcEdit = () => {
                   <div className="smartlist-view email_box">
                     <div className="mail-box-content">
                       <div className="mailbox-table">
-                       <h5>
-                        SPC Title mote condi ment zcsum dolor nihibdolor masa
-                        euismod pharta donec mas faucibus quisque
-                      </h5>
+                        <h5>
+                          SPC Title mote condi ment zcsum dolor nihibdolor masa
+                          euismod pharta donec mas faucibus quisque
+                        </h5>
 
                         <table>
                           <tbody>
@@ -296,10 +296,10 @@ const SpcEdit = () => {
                   <div className="smartlist-view email_box">
                     <div className="mail-box-content">
                       <div className="mailbox-table">
-                      <h5>
-                        SPC Title mote condi ment zcsum dolor nihibdolor masa
-                        euismod pharta donec mas faucibus quisque
-                      </h5>
+                        <h5>
+                          SPC Title mote condi ment zcsum dolor nihibdolor masa
+                          euismod pharta donec mas faucibus quisque
+                        </h5>
                         <table>
                           <tbody>
                             <tr>
@@ -381,10 +381,10 @@ const SpcEdit = () => {
                   <div className="smartlist-view email_box">
                     <div className="mail-box-content">
                       <div className="mailbox-table">
-                      <h5>
-                        SPC Title mote condi ment zcsum dolor nihibdolor masa
-                        euismod pharta donec mas faucibus quisque
-                      </h5>
+                        <h5>
+                          SPC Title mote condi ment zcsum dolor nihibdolor masa
+                          euismod pharta donec mas faucibus quisque
+                        </h5>
                         <table>
                           <tbody>
                             <tr>
@@ -746,7 +746,7 @@ const SpcEdit = () => {
           <Modal.Body>
             <img src={path_image + "alert.png"} alt="" />
             <h4>
-              The Smart List will be deleted from the list.
+              The SPC be deleted from the list.
               <br />
               Are you sure you want to delete it?
             </h4>
@@ -758,8 +758,7 @@ const SpcEdit = () => {
                   setConfirmationPopup(false);
                   popup_alert({
                     visible: "show",
-                    message:
-                      "Your content has been deleted <br />successfully !",
+                    message: "The SPC has been deleted <br />successfully !",
                     type: "success",
                     redirect: "",
                   });

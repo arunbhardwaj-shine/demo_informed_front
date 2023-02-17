@@ -50,8 +50,9 @@ const LibraryCreate = () => {
           data: "sublink",
         },
       });
-    }
-    else if (value == 4) {
+    } else if (value == 3) {
+      navigate("/set-popup");
+    } else if (value == 4) {
       navigate("/library-topics", {
         state: {
           data: "sublink",

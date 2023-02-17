@@ -79,6 +79,7 @@ import SettingWebinar from "./Components/NewWebinar/WebinarFiles/SettingWebinar"
 import LibraryCreateUser from "./Components/Library/CreateChange/LibraryCreateUser";
 import CreateDocintelLink from "./Components/Library/CreateChange/CreateDocintelLink";
 import SpcEdit from "./Components/Library/SpcEdit";
+import SetPopup from "./Components/Library/CreateChange/SetPopup";
 
 let platform = 0;
 let show = 0;
@@ -184,6 +185,7 @@ ReactDOM.render(
                     path="/library-create-user"
                     element={<LibraryCreateUser />}
                   />
+                  <Route path="/set-popup" element={<SetPopup />} />
                   <Route path="/spc-edit" element={<SpcEdit />} />
                   <Route path="/spc-delete" element={<SpcEdit />} />
                   <Route path="/library-sublink" element={<LibrarySublink />} />
