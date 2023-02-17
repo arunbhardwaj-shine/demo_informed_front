@@ -14,10 +14,49 @@ const LibraryTopics = () => {
     { value: "Immunotherapy", label: "Immunotherapy" },
   ]);
 
-  const [data, setData] = useState([1, 2, 3, 4, 5, 6, 7, 8]);
+  const [newTopic, setNewTopic] = useState("");
+
+  const [data, setData] = useState([
+    "Product1",
+    "Product2",
+    "Product3",
+    "Product4",
+    "Product5",
+    "Product6",
+    "Product7",
+    "Product8",
+  ]);
+
+  const addNewTopicChange = (e) => {
+    setNewTopic(e.target.value);
+  };
+
+  const addTopicClicked = () => {
+    if (newTopic != "") {
+      setData((oldArray) => [...oldArray, newTopic]);
+    }
+
+    setShow(false);
+  };
 
   const [BusinessUnit, setBusinessUnit] = useState("");
   const onBusinessUnitChange = (event) => {
+    if (event.value == "Haematology") {
+      setData([
+        "Product1",
+        "Product2",
+        "Product3",
+        "Product4",
+        "Product5",
+        "Product6",
+        "Product7",
+        "Product8",
+      ]);
+    } else if (event.value == "Immunotherapy") {
+      setData(["Product1", "Product2", "Product3", "Product4", "Product5"]);
+    } else if (event.value == "Critical") {
+      setData(["Product1", "Product2"]);
+    }
     setBusinessUnit(event.value);
   };
   return (
@@ -48,13 +87,16 @@ const LibraryTopics = () => {
                       </div>
                       <Button
                         className="btn-bordered btn-voilet"
-                        onClick={() => setShow(true)}
+                        onClick={() => {
+                          setNewTopic("");
+                          setShow(true);
+                        }}
                       >
                         Add New Topic +
                       </Button>
                     </Form>
                   </div>
-                  {data.length == 0 ? (
+                  {BusinessUnit == "" ? (
                     <div className="col-12 no-type-selected">
                       <div className="no-data-selected">
                         <h3>No BU selected yet!</h3>
@@ -68,7 +110,7 @@ const LibraryTopics = () => {
                           <>
                             <Col xxl={3} xl={4} md={6}>
                               <div className="products-listing">
-                                Product Name
+                                {data}
                                 <button
                                   className="dlt_btn"
                                   onClick={() => setConfirmationPopup(true)}
@@ -168,7 +210,7 @@ const LibraryTopics = () => {
                     type="text"
                     placeholder="Type your product name"
                     className="form-control"
-                    //  onChange={(e) => addNewProductChanged(e)}
+                    onChange={(e) => addNewTopicChange(e)}
                   />
                 </div>
               </Form>
@@ -179,7 +221,7 @@ const LibraryTopics = () => {
           <button
             type="button"
             className="btn btn-primary save btn-filled"
-            //   onClick={addProductClicked}
+            onClick={addTopicClicked}
           >
             Add
           </button>

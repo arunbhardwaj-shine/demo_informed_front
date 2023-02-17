@@ -7,17 +7,56 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 function Products() {
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [show, setShow] = useState(false);
+  const [newProduct, setNewProduct] = useState("");
   const [BusinessUnitAll, setBusinessUnitAll] = useState([
     { value: "Critical", label: "Critical Care" },
     { value: "Haematology", label: "Haematology" },
     { value: "Immunotherapy", label: "Immunotherapy" },
   ]);
 
-  const [data, setData] = useState([1, 2, 3, 4, 5, 6, 7, 8]);
+  const [data, setData] = useState([
+    "Product1",
+    "Product2",
+    "Product3",
+    "Product4",
+    "Product5",
+    "Product6",
+    "Product7",
+    "Product8",
+  ]);
 
   const [BusinessUnit, setBusinessUnit] = useState("");
   const onBusinessUnitChange = (event) => {
+    console.log(event.value);
+    if (event.value == "Haematology") {
+      setData([
+        "Product1",
+        "Product2",
+        "Product3",
+        "Product4",
+        "Product5",
+        "Product6",
+        "Product7",
+        "Product8",
+      ]);
+    } else if (event.value == "Immunotherapy") {
+      setData(["Product1", "Product2", "Product3", "Product4", "Product5"]);
+    } else if (event.value == "Critical") {
+      setData(["Product1", "Product2"]);
+    }
     setBusinessUnit(event.value);
+  };
+
+  const addProductClicked = () => {
+    if (newProduct != "") {
+      setData((oldArray) => [...oldArray, newProduct]);
+    }
+
+    setShow(false);
+  };
+
+  const addNewProductChanged = (e) => {
+    setNewProduct(e.target.value);
   };
   return (
     <Col className="right-sidebar">
@@ -46,13 +85,16 @@ function Products() {
                     </div>
                     <Button
                       className="btn-bordered btn-voilet"
-                      onClick={() => setShow(true)}
+                      onClick={() => {
+                        setNewProduct("");
+                        setShow(true);
+                      }}
                     >
                       Add New Product +
                     </Button>
                   </Form>
                 </div>
-                {data.length == 0 ? (
+                {BusinessUnit == "" ? (
                   <div className="col-12 no-type-selected">
                     <div className="no-data-selected">
                       <h3>No BU selected yet!</h3>
@@ -66,7 +108,7 @@ function Products() {
                         <>
                           <Col xxl={3} xl={4} md={6}>
                             <div className="products-listing">
-                              Product Name
+                              {data}
                               <button
                                 className="dlt_btn"
                                 onClick={() => setConfirmationPopup(true)}
@@ -165,7 +207,7 @@ function Products() {
                     type="text"
                     placeholder="Type your product name"
                     className="form-control"
-                    //  onChange={(e) => addNewProductChanged(e)}
+                    onChange={(e) => addNewProductChanged(e)}
                   />
                 </div>
               </Form>
@@ -176,7 +218,7 @@ function Products() {
           <button
             type="button"
             className="btn btn-primary save btn-filled"
-            //   onClick={addProductClicked}
+            onClick={addProductClicked}
           >
             Add
           </button>
