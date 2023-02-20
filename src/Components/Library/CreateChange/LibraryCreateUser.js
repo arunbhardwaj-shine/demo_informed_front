@@ -526,7 +526,7 @@ const LibraryCreateUser = () => {
                         </div>
                       </div>   
                       <div class="chapter-btn-wrapper">
-                        <Button class="btn btn-primary btn-bordered btn-voilet move-draft chappter-add-btn">Add Ch +</Button>
+                        <Button className="btn btn-primary btn-bordered btn-voilet move-draft chappter-add-btn">Add Ch +</Button>
                         <Button className="dlt_btn"><img src={path_image + "delete.svg"} alt="Delete Row"/></Button>
                       </div>
                     </div>
