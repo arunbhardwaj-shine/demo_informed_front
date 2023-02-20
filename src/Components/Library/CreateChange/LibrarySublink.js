@@ -45,6 +45,9 @@ const LibrarySublink = () => {
                                 isClearable
                             />
                         </div>
+                        <div className="form-group blank">
+                            <span>OR</span>
+                        </div>
                         <div className="form-group">
                             <label for="">URL</label>
                             <Select
