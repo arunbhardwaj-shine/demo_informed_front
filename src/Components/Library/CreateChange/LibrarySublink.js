@@ -73,8 +73,7 @@ const LibrarySublink = () => {
                         <img src={path_image + "dummy-sublink.png"} alt="" />
                     </div>
                     <div className='sublink-list'>
-                        <div className='sublink-listed-view'>
-                          <div className='d-flex align-items-center'>
+                        <div className='sublink-listed-view d-flex align-items-center'>
                           <div className='sublink-listed-view-block'>
                             <h5>Identifier text ipsum quamodio</h5>
                             <h6>Social media</h6>
@@ -92,7 +91,6 @@ const LibrarySublink = () => {
                               </div>
                           </div>
                           <Button className="btn-bordered">Analytics</Button>
-                          </div>
                         </div>
                     </div>
                     </div>

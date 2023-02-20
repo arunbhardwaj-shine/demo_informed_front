@@ -358,17 +358,12 @@ const LibraryCreateUser = () => {
                           id="limitagreed2"
                         />
                         <label for="limitagreed2">Download</label>
-                        <input
-                          type="checkbox"
-                          value="value3"
-                          name="group2"
-                          id="limitagreed3"
-                        />
+                        <input type="checkbox" value="value3" name="group2" id="limitagreed3"/>
                         <label for="limitagreed3">Share</label>
                       </fieldset>
                     </div>
                   </div>
-                  <div className="col-12 col-md-6 d-flex justify-content-start align-items-start right-change">
+                  <div className="col-12 col-md-6 d-flex justify-content-end align-items-start right-change">
                     <div className="form-group justify-content-end">
                       <label for="">Invoice notes</label>
                       <textarea
@@ -444,6 +439,25 @@ const LibraryCreateUser = () => {
                         </div>
                       ) : null}
                     </div>
+                    <div class="form-group val chapter-title">
+                      <div className="ebook-format">
+                        <label for="">Chapter title 1</label>
+                        <input type="text" class="form-control"/>
+                        <div class="upload-file-box">
+                          <div class="box">
+                            <input type="file" name="file-6[]" id="file-6" class="inputfile inputfile-6" accept=".doc .csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+                            <label for="file-6">
+                              <span>Choose Your File</span>
+                            </label>
+                            <p>Upload your PDF file</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="chapter-btn-wrapper">
+                        <Button class="btn btn-primary btn-bordered btn-voilet move-draft chappter-add-btn">Add Ch +</Button>
+                        <Button className="dlt_btn"><img src={path_image + "delete.svg"} alt="Delete Row"/></Button>
+                      </div>
+                    </div>
                     <div className="form-group">
                       <label for="">Include video</label>
                       <div className="switch">
@@ -492,7 +506,7 @@ const LibraryCreateUser = () => {
                       ) : null}
                     </div>
                   </div>
-                  <div className="col-12 col-md-6 d-flex justify-content-start align-items-start right-change">
+                  <div className="col-12 col-md-6 d-flex justify-content-end align-items-start right-change">
                     <div className="form-group justify-content-end">
                       <label for="">Production notes to Docintel team</label>
                       <textarea
