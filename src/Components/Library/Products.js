@@ -83,15 +83,17 @@ function Products() {
                         isClearable
                       />
                     </div>
-                    <Button
-                      className="btn-bordered btn-voilet"
-                      onClick={() => {
-                        setNewProduct("");
-                        setShow(true);
-                      }}
-                    >
-                      Add New Product +
-                    </Button>
+                    {BusinessUnit !== "" ? (
+                      <Button
+                        className="btn-bordered btn-voilet"
+                        onClick={() => {
+                          setNewProduct("");
+                          setShow(true);
+                        }}
+                      >
+                        Add New Product +
+                      </Button>
+                    ) : null}
                   </Form>
                 </div>
                 {BusinessUnit == "" ? (

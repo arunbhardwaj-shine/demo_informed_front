@@ -85,15 +85,17 @@ const LibraryTopics = () => {
                           isClearable
                         />
                       </div>
-                      <Button
-                        className="btn-bordered btn-voilet"
-                        onClick={() => {
-                          setNewTopic("");
-                          setShow(true);
-                        }}
-                      >
-                        Add New Topic +
-                      </Button>
+                      {BusinessUnit !== "" ? (
+                        <Button
+                          className="btn-bordered btn-voilet"
+                          onClick={() => {
+                            setNewTopic("");
+                            setShow(true);
+                          }}
+                        >
+                          Add New Topic +
+                        </Button>
+                      ) : null}
                     </Form>
                   </div>
                   {BusinessUnit == "" ? (

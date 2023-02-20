@@ -14,6 +14,11 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const today = new Date();
 
 const LibraryCreateUser = () => {
+  const [selectedPdfName, setSelectedPdfName] = useState("");
+  const [selectedVideoName, setSelectedVideoName] = useState("");
+  const [selectedEbookName, setSelectedEbookName] = useState("");
+
+  const [checked, setChecked] = useState(false);
   const [show, setShow] = useState(false);
   const [limitOfUsage, setLimitOfUsage] = useState("");
   const handleClose = () => setShow(false);
@@ -27,6 +32,8 @@ const LibraryCreateUser = () => {
   const [contentTitle, setContentTitle] = useState("");
   const [clientProduct, setClientProduct] = useState("");
   const [pdfFile, setPdfFile] = useState("");
+  const [videoFile, setVideoFile] = useState("");
+  const [ebookFile, setEbookFile] = useState("");
 
   const [countryAll, setCountryAll] = useState([
     { value: "India", label: "India" },
@@ -55,9 +62,9 @@ const LibraryCreateUser = () => {
   ]);
 
   const [ePrintType, setePrintType] = useState([
-    { value: "ePrintType1", label: "ePrintType1" },
-    { value: "ePrintType2", label: "ePrintType2" },
-    { value: "ePrintType3", label: "ePrintType3" },
+    { value: "PDF", label: "PDF" },
+    { value: "video", label: "video" },
+    { value: "eBook", label: "eBook" },
   ]);
 
   const [ePrint, setEPrint] = useState("");
@@ -82,7 +89,7 @@ const LibraryCreateUser = () => {
   };
 
   const ePrintTypeChange = (e) => {
-    setEPrint(e);
+    setEPrint(e.value);
   };
 
   const onProductionChange = (event) => {
@@ -120,11 +127,32 @@ const LibraryCreateUser = () => {
 
   const handleFileChange = (e) => {
     console.log(e.target.files[0]);
+    setSelectedPdfName(e.target.files[0].name);
     setPdfFile(e.target.files[0]);
+  };
+
+  const handleEbookChange = (e) => {
+    console.log(e.target.files[0]);
+    setSelectedEbookName(e.target.files[0].name);
+    setEbookFile(e.target.files[0]);
+  };
+
+  const handleVideoChange = (e) => {
+    console.log(e.target.files[0]);
+    setSelectedVideoName(e.target.files[0].name);
+    setVideoFile(e.target.files[0]);
   };
 
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
+  };
+
+  const includeVideoCheckboxChanged = (e) => {
+    if (e.target.checked == true) {
+      setChecked(true);
+    } else {
+      setChecked(false);
+    }
   };
 
   return (
@@ -193,7 +221,8 @@ const LibraryCreateUser = () => {
                     <div className="form-group">
                       <label for="">Country</label>
                       <Select
-                        options={countryAll} placeholder="Select country"
+                        options={countryAll}
+                        placeholder="Select country"
                         onChange={(event) => onCountryChange(event)}
                         className="dropdown-basic-button split-button-dropup"
                         isClearable
@@ -218,7 +247,8 @@ const LibraryCreateUser = () => {
                     <div className="form-group">
                       <label for="">Production</label>
                       <Select
-                        options={productionAll} placeholder="Select own production person"
+                        options={productionAll}
+                        placeholder="Select own production person"
                         onChange={(event) => onProductionChange(event)}
                         className="dropdown-basic-button split-button-dropup edit-production-dropdown"
                         isClearable
@@ -232,7 +262,8 @@ const LibraryCreateUser = () => {
                     <div className="form-group">
                       <label for="">Sales</label>
                       <Select
-                        options={salesAll} placeholder="Who made the sale?"
+                        options={salesAll}
+                        placeholder="Who made the sale?"
                         onChange={(event) => onSalesChange(event)}
                         className="dropdown-basic-button split-button-dropup edit-sales-dropdown"
                         isClearable
@@ -317,7 +348,8 @@ const LibraryCreateUser = () => {
                       <label for="">Cost centre</label>
                       <Select
                         className="dropdown-basic-button split-button-dropup"
-                        isClearable placeholder="Select cost center"
+                        isClearable
+                        placeholder="Select cost center"
                       />
                     </div>
                     <div className="form-group">
@@ -414,41 +446,114 @@ const LibraryCreateUser = () => {
                         className="dropdown-basic-button split-button-dropup"
                         options={ePrintType}
                         onChange={(event) => ePrintTypeChange(event)}
-                        isClearable placeholder="Select type of Docintel format "
+                        isClearable
+                        placeholder="Select type of Docintel format "
                       />
                       {error?.ePrint ? (
                         <div className="login-validation">{error?.ePrint}</div>
                       ) : null}
                     </div>
-                    <div className="form-group val">
-                      <label for="">Upload PDF</label>
-                      <div className="upload-file-box">
-                        <div className="box">
-                          <input
-                            type="file"
-                            name="file-6[]"
-                            id="file-6"
-                            className="inputfile inputfile-6"
-                            accept=".doc .csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                            onChange={(e) => handleFileChange(e)}
-                          />
-                          <label for="file-6">
-                            <span>Choose Your File</span>
-                          </label>
-                          <p>Upload your PDF</p>
+
+                    {console.log(ePrint)}
+
+                    {ePrint == "PDF" ? (
+                      <div className="form-group val">
+                        <label for="">Upload PDF</label>
+                        <div className="upload-file-box">
+                          <div className="box">
+                            <input
+                              type="file"
+                              name="file-6[]"
+                              id="file-6"
+                              className="inputfile inputfile-6"
+                              accept="application/pdf"
+                              onChange={(e) => handleFileChange(e)}
+                            />
+                            <label for="file-6">
+                              <span>Choose Your File</span>
+                            </label>
+
+                            <p>
+                              {selectedPdfName == ""
+                                ? "Upload your PDF"
+                                : selectedPdfName}{" "}
+                            </p>
+                          </div>
                         </div>
+                        {error?.pdfFile ? (
+                          <div className="login-validation-upload">
+                            {error?.pdfFile}
+                          </div>
+                        ) : null}
                       </div>
-                      {error?.pdfFile ? (
-                        <div className="login-validation-upload">
-                          {error?.pdfFile}
+                    ) : ePrint == "video" ? (
+                      <div className="form-group val">
+                        <label for="">Upload video</label>
+                        <div className="upload-file-box">
+                          <div className="box">
+                            <input
+                              type="file"
+                              name="file-6[]"
+                              id="file-6"
+                              className="inputfile inputfile-6"
+                              accept="video/*"
+                              onChange={(e) => handleVideoChange(e)}
+                            />
+                            <label for="file-6">
+                              <span>Choose Your File</span>
+                            </label>
+                            <p>
+                              {selectedVideoName == ""
+                                ? "Upload your Video file"
+                                : selectedVideoName}{" "}
+                            </p>
+                          </div>
                         </div>
-                      ) : null}
-                    </div>
+                        {error?.pdfFile ? (
+                          <div className="login-validation-upload">
+                            {error?.pdfFile}
+                          </div>
+                        ) : null}
+                      </div>
+                    ) : ePrint == "eBook" ? (
+                      <div className="form-group val">
+                        <label for="">Upload Ebook</label>
+                        <div className="upload-file-box">
+                          <div className="box">
+                            <input
+                              type="file"
+                              name="file-6[]"
+                              id="file-6"
+                              className="inputfile inputfile-6"
+                              accept="application/pdf"
+                              onChange={(e) => handleEbookChange(e)}
+                            />
+                            <label for="file-6">
+                              <span>Choose Your File</span>
+                            </label>
+                            <p>
+                              {selectedEbookName == ""
+                                ? "Upload your Ebook file"
+                                : selectedEbookName}{" "}
+                            </p>
+                          </div>
+                        </div>
+                        {error?.pdfFile ? (
+                          <div className="login-validation-upload">
+                            {error?.pdfFile}
+                          </div>
+                        ) : null}
+                      </div>
+                    ) : null}
+
                     <div className="form-group">
                       <label for="">Include video</label>
                       <div className="switch">
                         <label className="switch-light">
-                          <input type="checkbox" />
+                          <input
+                            type="checkbox"
+                            onChange={(e) => includeVideoCheckboxChanged(e)}
+                          />
                           <span>
                             <span className="switch-btn active">No</span>
                             <span className="switch-btn">Yes</span>
@@ -456,12 +561,16 @@ const LibraryCreateUser = () => {
                           <a className="btn"></a>
                         </label>
                       </div>
-                      <Button
-                        className="btn-bordered btn-voilet"
-                        onClick={handleShow}
-                      >
-                        click to embed your Videos{" "}
-                      </Button>
+                      {checked == false ? (
+                        <Button
+                          className="btn-bordered btn-voilet"
+                          onClick={handleShow}
+                        >
+                          click to embed your Videos{" "}
+                        </Button>
+                      ) : (
+                        false
+                      )}
                     </div>
                     <div className="form-group val">
                       <label for="">Content cover</label>
@@ -499,7 +608,7 @@ const LibraryCreateUser = () => {
                         className="form-control"
                         id="formControlTextarea"
                         rows="5"
-                         placeholder="Please type your notes here.."
+                        placeholder="Please type your notes here.."
                       ></textarea>
                     </div>
                   </div>
