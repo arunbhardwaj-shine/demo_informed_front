@@ -378,7 +378,9 @@ const Sidebar = () => {
             window.location.pathname == "/library-topics" ||
             window.location.pathname == "/library-campaign" ||
             window.location.pathname == "/spc" ||
+            window.location.pathname == "/set-popup" ||
             window.location.pathname == "/spc-edit" ||
+            window.location.pathname == "/spc-delete" ||
             window.location.pathname == "/spc-create" ||
             window.location.pathname == "/products" ||
             window.location.pathname == "/library-delete" ||
@@ -413,6 +415,7 @@ const Sidebar = () => {
                     location.pathname == "/library-edit" ||
                     location.pathname == "/library-sublink" ||
                     location.pathname == "/library-topics" ||
+                    location.pathname == "/set-popup" ||
                     location.pathname == "/library-create-user" ||
                     location.pathname == "/create-docintel-link") &&
                   c_id == 0
@@ -467,7 +470,8 @@ const Sidebar = () => {
                 className={
                   (location.pathname == "/spc" ||
                     location.pathname == "/spc-create" ||
-                    location.pathname == "/spc-edit") &&
+                    location.pathname == "/spc-edit" ||
+                    location.pathname == "/spc-delete") &&
                   c_id == 0
                     ? "active"
                     : "side_li"

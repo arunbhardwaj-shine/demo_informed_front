@@ -38,22 +38,21 @@ const LibraryCreate = () => {
     setActive(value);
     if (value == 0) {
       navigate("/library-create-user");
-    }
-     else if (value == 1) {
+    } else if (value == 1) {
       navigate("/library-edit", {
         state: {
           data: "edit",
         },
       });
-    }
-    else if (value == 2) {
+    } else if (value == 2) {
       navigate("/library-sublink", {
         state: {
           data: "sublink",
         },
       });
-    }
-    else if (value == 4) {
+    } else if (value == 3) {
+      navigate("/set-popup");
+    } else if (value == 4) {
       navigate("/library-topics", {
         state: {
           data: "sublink",
@@ -73,7 +72,12 @@ const LibraryCreate = () => {
               <div className="top-right-action">
                 <div className="search-bar">
                   <form className="d-flex">
-                    <input className="form-control me-2" type="text" placeholder="Search" aria-label="Search" id="email_search"
+                    <input
+                      className="form-control me-2"
+                      type="text"
+                      placeholder="Search"
+                      aria-label="Search"
+                      id="email_search"
                       //    onChange={(e) => searchChange(e)}
                     />
                     <button className="btn btn-outline-success" type="submit">
@@ -93,7 +97,11 @@ const LibraryCreate = () => {
                   </form>
                 </div>
                 <div className={"filter-by nav-item dropdown"}>
-                  <button className="btn btn-secondary dropdown" type="button" id="dropdownMenuButton2">
+                  <button
+                    className="btn btn-secondary dropdown"
+                    type="button"
+                    id="dropdownMenuButton2"
+                  >
                     Filter By
                     <svg
                       className="close-arrow"

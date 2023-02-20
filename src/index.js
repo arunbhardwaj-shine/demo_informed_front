@@ -79,6 +79,7 @@ import SettingWebinar from "./Components/NewWebinar/WebinarFiles/SettingWebinar"
 import LibraryCreateUser from "./Components/Library/CreateChange/LibraryCreateUser";
 import CreateDocintelLink from "./Components/Library/CreateChange/CreateDocintelLink";
 import SpcEdit from "./Components/Library/SpcEdit";
+import SetPopup from "./Components/Library/CreateChange/SetPopup";
 
 let platform = 0;
 let show = 0;
@@ -176,7 +177,6 @@ ReactDOM.render(
                   <Route path="/smart-list-add" element={<SmartListAdd />} />
                   <Route path="/reader-review" element={<ReaderReview />} />
                   <Route path="/timeline-detail" element={<TimelineDetail />} />
-
                   <Route path="/library-content" element={<LibraryContent />} />
                   <Route path="/library-edit" element={<LibraryContent />} />
                   <Route path="/library-create" element={<LibraryCreate />} />
@@ -185,7 +185,9 @@ ReactDOM.render(
                     path="/library-create-user"
                     element={<LibraryCreateUser />}
                   />
+                  <Route path="/set-popup" element={<SetPopup />} />
                   <Route path="/spc-edit" element={<SpcEdit />} />
+                  <Route path="/spc-delete" element={<SpcEdit />} />
                   <Route path="/library-sublink" element={<LibrarySublink />} />
                   <Route path="/library-topics" element={<LibraryTopics />} />
                   <Route
@@ -199,16 +201,13 @@ ReactDOM.render(
                   <Route path="/spc" element={<Spc />} />
                   <Route path="/spc-create" element={<SpcCreate />} />
                   <Route path="/products" element={<Products />} />
-
                   <Route path="/new-webinar" element={<DefaultWebinar />} />
                   <Route path="/contact-form" element={<ContactForm />} />
                   <Route path="/email-statsss" element={<EmailStatsss />} />
                   <Route path="/stats-webinar" element={<StatsWebinar />} />
                   <Route path="/auto-mail" element={<AutoMail />} />
-
                   <Route path="/event-create" element={<EventCreate />} />
                   <Route path="/setting-webinar" element={<SettingWebinar />} />
-
                   <Route path="/" element={<App />} />
                   <Route path="/SmartList" element={<SmartList />} />
                   <Route path="/EditList" element={<EditList />} />
