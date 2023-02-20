@@ -31,9 +31,9 @@ const LibrarySublink = () => {
             </div>
             <div className="create-change-content spc-content">
               <div className="form_action">
-                <h5>Please find the content you'd like a new subLink for</h5>
                 <div className="row">
                   <Col className="sublink_left">
+                    <h5>Please find the content you'd like a new subLink for</h5>
                     <div className='product-unit d-flex justify-content-between align-items-center'>
                         <div className="form-group">
                             <label for="">Content</label>
