@@ -297,6 +297,7 @@
 			background-clip: padding-box;
 			position: absolute;
 			overflow: hidden;
+      z-index: 99;
 			>div {
 				padding-right: 5px;
 				div {
