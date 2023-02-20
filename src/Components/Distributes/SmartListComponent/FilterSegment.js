@@ -453,10 +453,14 @@ const FilterSegment = (props) => {
 
   const handleIrt = (irt_val) => {
     setSelectedIrt(irt_val);
+    let up = updateflag + 1;
+    setUpdateFlag(up);
   };
 
   const handleTrialRegister = (val) => {
     setSelectedTrialRegister(val);
+    let up = updateflag + 1;
+    setUpdateFlag(up);
   };
 
   const handleOnArticleChange = (article) => {
