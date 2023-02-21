@@ -9,6 +9,8 @@ import { ENDPOINT } from "../../../axios/apiConfig";
 import Select from "react-select";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Oval } from "react-loader-spinner";
+import { Spinner } from "react-activity";
+import "react-activity/dist/library.css";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 import {
@@ -549,6 +551,7 @@ const LibraryContent = () => {
                     </div>
                   )}
                 </div>
+
                 {location?.state?.data !== "edit" ? (
                   <div className="clear-search">
                     {deletestatus ? (
@@ -597,6 +600,17 @@ const LibraryContent = () => {
                         </svg>
                       </button>
                     )}
+                  </div>
+                ) : null}
+
+                {location?.state?.data == "edit" ? (
+                  <div className="clear-search">
+                    <button
+                      className="btn btn-outline-primary cancel"
+                      onClick={(e) => navigate("/library-create")}
+                    >
+                      Cancel
+                    </button>
                   </div>
                 ) : null}
               </div>
@@ -1235,15 +1249,7 @@ const LibraryContent = () => {
                   display: "flex",
                 }}
               >
-                <Oval
-                  height="40"
-                  width="40"
-                  radius="9"
-                  color="green"
-                  ariaLabel="loading"
-                  wrapperStyle
-                  wrapperClass
-                />
+                <Spinner color="#53aff4" size={32} speed={1} animating={true} />
               </div>
             ) : null}
           </Row>

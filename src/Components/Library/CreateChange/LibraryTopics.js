@@ -2,10 +2,12 @@ import React, { useState } from "react";
 
 import { Modal, Button, Col, Form, Row } from "react-bootstrap";
 import Select from "react-select";
+import { Link, useNavigate } from "react-router-dom";
 import { popup_alert } from "../../../popup_alert";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LibraryTopics = () => {
+  const navigate = useNavigate();
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [show, setShow] = useState(false);
   const [BusinessUnitAll, setBusinessUnitAll] = useState([
@@ -67,6 +69,16 @@ const LibraryTopics = () => {
             <div className="top-header">
               <div className="page-title">
                 <h2>Topics</h2>
+              </div>
+              <div className="top-right-action">
+                <div className="header-btn">
+                  <Button
+                    className="btn-bordered cancel"
+                    onClick={() => navigate("/library-create")}
+                  >
+                    Close
+                  </Button>
+                </div>
               </div>
             </div>
             <div className="create-change-content spc-content">

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import Select from "react-select";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Accordion,
   Dropdown,
@@ -21,6 +22,7 @@ const SpcCreate = () => {
     { value: "Australia", label: "Australia" },
     { value: "Russia", label: "Russia" },
   ]);
+  const navigate = useNavigate();
 
   const [productArr, setProductArr] = useState([]);
 
@@ -74,7 +76,12 @@ const SpcCreate = () => {
                 <h2>Create SPC</h2>
               </div>
               <div className="header-btn">
-                <Button className="btn-bordered cancel">Cancel</Button>
+                <Button
+                  className="btn-bordered cancel"
+                  onClick={() => navigate("/spc")}
+                >
+                  Cancel
+                </Button>
                 <Button
                   className="btn-filled send_btn"
                   onClick={publishClicked}
