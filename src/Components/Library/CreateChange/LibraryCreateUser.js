@@ -131,7 +131,7 @@ const LibraryCreateUser = () => {
     setPdfFile(e.target.files[0]);
   };
 
-  const handleEbookChange = (e) => {
+  const handleOnEbookChange = (e) => {
     console.log(e.target.files[0]);
     setSelectedEbookName(e.target.files[0].name);
     setEbookFile(e.target.files[0]);
@@ -390,7 +390,12 @@ const LibraryCreateUser = () => {
                           id="limitagreed2"
                         />
                         <label for="limitagreed2">Download</label>
-                        <input type="checkbox" value="value3" name="group2" id="limitagreed3"/>
+                        <input
+                          type="checkbox"
+                          value="value3"
+                          name="group2"
+                          id="limitagreed3"
+                        />
                         <label for="limitagreed3">Share</label>
                       </fieldset>
                     </div>
@@ -512,53 +517,67 @@ const LibraryCreateUser = () => {
                       </div>
                     ) : ePrint == "eBook" ? (
                       <div class="form-group val chapter-title">
-                      <div className="ebook-format">
-                        <label for="">Chapter title 1</label>
-                        <input type="text" class="form-control"/>
-                        <div class="upload-file-box">
-                          <div class="box">
-                            <input type="file" name="file-6[]" id="file-6" class="inputfile inputfile-6" accept=".doc .csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
-                            <label for="file-6">
-                              <span>Choose Your File</span>
-                            </label>
-                            <p>Upload your PDF file</p>
+                        <div className="ebook-format">
+                          <label for="">Chapter title 1</label>
+                          <input type="text" class="form-control" />
+                          <div class="upload-file-box">
+                            <div class="box">
+                              <input
+                                type="file"
+                                name="file-6[]"
+                                id="file-6"
+                                class="inputfile inputfile-6"
+                                accept="application/pdf"
+                                onChange={(e) => handleOnEbookChange(e)}
+                              />
+                              <label for="file-6">
+                                <span>Choose Your File</span>
+                              </label>
+                              <p>Upload your PDF file</p>
+                            </div>
                           </div>
                         </div>
-                      </div>   
-                      <div class="chapter-btn-wrapper">
-                        <Button className="btn btn-primary btn-bordered btn-voilet move-draft chappter-add-btn">Add Ch +</Button>
-                        <Button className="dlt_btn"><img src={path_image + "delete.svg"} alt="Delete Row"/></Button>
+                        <div class="chapter-btn-wrapper">
+                          <Button className="btn btn-primary btn-bordered btn-voilet move-draft chappter-add-btn">
+                            Add Ch +
+                          </Button>
+                          <Button className="dlt_btn">
+                            <img
+                              src={path_image + "delete.svg"}
+                              alt="Delete Row"
+                            />
+                          </Button>
+                        </div>
                       </div>
-                    </div>
-                      // <div className="form-group val">
-                      //   <label for="">Upload Ebook</label>
-                      //   <div className="upload-file-box">
-                      //     <div className="box">
-                      //       <input
-                      //         type="file"
-                      //         name="file-6[]"
-                      //         id="file-6"
-                      //         className="inputfile inputfile-6"
-                      //         accept="application/pdf"
-                      //         onChange={(e) => handleEbookChange(e)}
-                      //       />
-                      //       <label for="file-6">
-                      //         <span>Choose Your File</span>
-                      //       </label>
-                      //       <p>
-                      //         {selectedEbookName == ""
-                      //           ? "Upload your Ebook file"
-                      //           : selectedEbookName}{" "}
-                      //       </p>
-                      //     </div>
-                      //   </div>
-                      //   {error?.pdfFile ? (
-                      //     <div className="login-validation-upload">
-                      //       {error?.pdfFile}
-                      //     </div>
-                      //   ) : null}
-                      // </div>
-                    ) : null}
+                    ) : // <div className="form-group val">
+                    //   <label for="">Upload Ebook</label>
+                    //   <div className="upload-file-box">
+                    //     <div className="box">
+                    //       <input
+                    //         type="file"
+                    //         name="file-6[]"
+                    //         id="file-6"
+                    //         className="inputfile inputfile-6"
+                    //         accept="application/pdf"
+                    //         onChange={(e) => handleEbookChange(e)}
+                    //       />
+                    //       <label for="file-6">
+                    //         <span>Choose Your File</span>
+                    //       </label>
+                    //       <p>
+                    //         {selectedEbookName == ""
+                    //           ? "Upload your Ebook file"
+                    //           : selectedEbookName}{" "}
+                    //       </p>
+                    //     </div>
+                    //   </div>
+                    //   {error?.pdfFile ? (
+                    //     <div className="login-validation-upload">
+                    //       {error?.pdfFile}
+                    //     </div>
+                    //   ) : null}
+                    // </div>
+                    null}
 
                     <div className="form-group">
                       <label for="">Include video</label>

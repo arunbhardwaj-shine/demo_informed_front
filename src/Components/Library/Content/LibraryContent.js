@@ -8,6 +8,7 @@ import { deleteData, postData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import Select from "react-select";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Oval } from "react-loader-spinner";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 import {
@@ -42,8 +43,10 @@ const LibraryContent = () => {
 
     { value: "Sunshine", label: "Sunshine" },
   ]);
+  const [pageAllClicked, setPageAllClicked] = useState(false);
   const [update, setUpdate] = useState(0);
   const location = useLocation();
+  const [pageAll, setPageAll] = useState(false);
   const [search, setSearch] = useState("");
   const [opening_details, setOpeningDetails] = useState([]);
 
@@ -110,6 +113,7 @@ const LibraryContent = () => {
   };
 
   const loadMoreClicked = () => {
+    setPageAllClicked(true);
     setPage("All");
   };
 
@@ -260,10 +264,20 @@ const LibraryContent = () => {
       };
 
       let body = { ...data, ...obj };
-      loader("show");
+
+      console.log(data.page);
+
+      if (pageAllClicked == true) {
+        setPageAll(true);
+      } else {
+        loader("show");
+      }
+
       const res = await postData(ENDPOINT.LIBRARY, body);
       setLibraryData((oldArray) => [...oldArray, ...res.data.data.library]);
       loader("hide");
+      setPageAll(false);
+      setPageAllClicked(false);
     } catch (err) {
       console.log("err");
       loader("hide");
@@ -274,6 +288,8 @@ const LibraryContent = () => {
     setSearch(e.target.value);
     if (e.target.value === "") {
       setLibraryData([]);
+      setPageAllClicked(false);
+
       getLibraryData(page, filterObject, "");
     }
   };
@@ -719,7 +735,7 @@ const LibraryContent = () => {
                                           toast.success(
                                             "content copied to the clipboard!"
                                           );
-                                          navigator.clipboard.writeText(
+                                          window.navigator.clipboard.writeText(
                                             data.docintelLink
                                           );
                                         }}
@@ -1209,6 +1225,27 @@ const LibraryContent = () => {
                 >
                   Load More
                 </button>
+              </div>
+            ) : null}
+
+            {pageAll == true ? (
+              <div
+                className="load_more"
+                style={{
+                  margin: "0 auto",
+                  justifyContent: "center",
+                  display: "flex",
+                }}
+              >
+                <Oval
+                  height="40"
+                  width="40"
+                  radius="9"
+                  color="green"
+                  ariaLabel="loading"
+                  wrapperStyle
+                  wrapperClass
+                />
               </div>
             ) : null}
           </Row>
