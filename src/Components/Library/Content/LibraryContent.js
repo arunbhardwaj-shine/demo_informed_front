@@ -1085,8 +1085,8 @@ const LibraryContent = () => {
                                 >
                                   <div className="data-main-box change-tab-main-box tab-panel">
                                     <ul className="tab-mail-list data change">
-                                      <div className="form-group">
-                                        {/* <label for="">Country</label> */}
+                                      <div className="form-group d-flex align-items-center">
+                                        <label for="">Consent type</label>
                                         <Select
                                           options={types}
                                           // onChange={(event) =>

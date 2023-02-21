@@ -181,23 +181,14 @@ ReactDOM.render(
                   <Route path="/library-edit" element={<LibraryContent />} />
                   <Route path="/library-create" element={<LibraryCreate />} />
                   <Route path="/library-popup" element={<LibraryPopupSet />} />
-                  <Route
-                    path="/library-create-user"
-                    element={<LibraryCreateUser />}
-                  />
+                  <Route path="/library-create-user" element={<LibraryCreateUser />} />
                   <Route path="/set-popup" element={<SetPopup />} />
                   <Route path="/spc-edit" element={<SpcEdit />} />
                   <Route path="/spc-delete" element={<SpcEdit />} />
                   <Route path="/library-sublink" element={<LibrarySublink />} />
                   <Route path="/library-topics" element={<LibraryTopics />} />
-                  <Route
-                    path="/library-campaign"
-                    element={<LibraryCampaign />}
-                  />
-                  <Route
-                    path="/create-docintel-link"
-                    element={<CreateDocintelLink />}
-                  />
+                  <Route path="/library-campaign" element={<LibraryCampaign />} />
+                  <Route path="/create-docintel-link" element={<CreateDocintelLink />} />
                   <Route path="/spc" element={<Spc />} />
                   <Route path="/spc-create" element={<SpcCreate />} />
                   <Route path="/products" element={<Products />} />
@@ -211,42 +202,21 @@ ReactDOM.render(
                   <Route path="/" element={<App />} />
                   <Route path="/SmartList" element={<SmartList />} />
                   <Route path="/EditList" element={<EditList />} />
-                  <Route
-                    path="/CreateSmartList"
-                    element={<CreateSmartList />}
-                  />
-                  <Route
-                    path="/SmartListFilter"
-                    element={<SmartListFilter />}
-                  />
-                  <Route
-                    path="/SelectSmartList"
-                    element={<SelectSmartList />}
-                  />
+                  <Route path="/CreateSmartList" element={<CreateSmartList />} /> 
+                  <Route path="/SmartListFilter" element={<SmartListFilter />} /> 
+                  <Route path="/SelectSmartList" element={<SelectSmartList />} />
                   <Route path="/EmailList" element={<EmailList />} />
-                  <Route
-                    path="/TemplateBuilder"
-                    element={<TemplateBuilder />}
-                  />
+                  <Route path="/TemplateBuilder" element={<TemplateBuilder />} />
                   <Route path="/AutoEmail" element={<AutoEmail />} />
-                  <Route
-                    path="/EmailArticleSelect"
-                    element={<EmailArticleSelect />}
-                  />
+                  <Route path="/EmailArticleSelect" element={<EmailArticleSelect />} />
                   <Route path="/CreateEmail" element={<CreateEmail />} />
                   <Route path="/FilterSegment" element={<FilterSegment />} />
                   <Route path="/SelectHCP" element={<SelectHCP />} />
                   <Route path="/VerifyHCP" element={<VerifyHCP />} />
                   <Route path="/VerifyMAIL" element={<VerifyMAIL />} />
                   <Route path="/VerifyHcpMAIL" element={<VerifyHcpMAIL />} />
-                  <Route
-                    path="/SelectSmartListUsers"
-                    element={<SelectSmartListUsers />}
-                  />
-                  <Route
-                    path="/VerifySmartList"
-                    element={<VerifySmartList />}
-                  />
+                  <Route path="/SelectSmartListUsers" element={<SelectSmartListUsers />} /> 
+                  <Route path="/VerifySmartList" element={<VerifySmartList />} />
                   <Route path="/ViewSmartList" element={<ViewList />} />
                   <Route path="/UploadExcel" element={<UploadExcel />} />
                   <Route path="/UpdatedTable" element={<Table />} />

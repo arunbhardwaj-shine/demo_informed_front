@@ -119,6 +119,33 @@
       .tab-mail-list {
         padding: 0;
         margin: 0;
+        &.change{
+          .form-group{
+            label{
+              font-weight: 500;
+              font-size: 14px;
+              line-height: 16px;
+              color: rgba(0, 74, 137, 0.55);
+              flex:0 0 93px;
+            }
+            .split-button-dropup{
+              width:100%;
+              margin-right:16px;
+              & > div {
+		          &:nth-child(3) {
+                max-width: 229px;
+                padding:3px 15px;
+              }
+            }
+            }
+            .btn{
+              padding: 8px 14px;
+              min-width: 89px;
+              line-height: 1;
+              font-size: 14px;
+            }
+          }
+        }
         h6 {
           @include h6;
           color: $dark-blue;
@@ -223,7 +250,6 @@
 			line-height: 21px;
 			color: $dark-blue;
 			flex: 0 0 154px;
-      
 		}
 		.form-control {
 			@include custom-input-drop;
@@ -243,13 +269,11 @@
         align-items: center;
     }
     .react-datepicker__input-container {
-		input {
-				@include custom-input-drop;
-		}
+      input {
+          @include custom-input-drop;
+      }
+	  }
 	}
-	}
-
-
 }
 	.split-button-dropup {
     >div{
@@ -491,7 +515,7 @@ ul.tab-mail-list.data span.total-left small {
 
 .tab-mail-list.data .progress .progress-bar.bg-success{
   color: #05766b;
-  background: #00d4c0 !important;
+  background: transparent !important;
   width: auto !important;
   margin:0 auto;
 }
@@ -526,86 +550,6 @@ ul.tab-mail-list.data span.total-left small {
   @include custom-input-drop;
   max-width: 327px;
 }
-// .spc-create #download-qr .modal-body .form-group label {
-//     margin-right: 24px; 
-// }
-// #download-qr .modal-body {
-//   padding: 18px 32px 44px;
-// }
-// #download-qr .modal-footer {
-//   border: 0;
-//   justify-content: center;
-//   padding-top: 8px;
-//   padding-bottom: 20px;
-// }
-
-// #download-qr .modal-footer button {
-//   min-width: 106px;
-// }
-// #download-qr .modal-body .form-group label {
-//   font-size: 18px;
-//   line-height: 21px;
-//   text-transform: capitalize;
-//   color: $dark-blue;
-//   margin-right: 16px;
-// }
-// #download-qr .modal-body .form-group {
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-// }
-
-// #download-qr .dropdown button {
-//   min-height: 48px;
-//   width: 300px;
-//   max-width: 300px;
-//   background: $white url(../images/dropdown-arrow.svg) no-repeat;
-//   box-shadow: 0px 1px 6px rgb(0 102 190 / 20%);
-//   font-size: 16px;
-//   padding-left: 25px;
-//   background-position: 93% center;
-//   padding: 7px 30px 7px 27px;
-//   border: 0;
-//   color: $light-gray;
-//   font-weight: 400;
-//   font-size: 16px;
-//   line-height: 19px;
-//   text-align: left;
-// }
-// #download-qr .dropdown-menu {
-//   background: $white;
-//   box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
-//   border-radius: 18px;
-//   border: 0;
-//   width: 100%;
-//   margin-top: 5px;
-//   padding: 0;
-// }
-
-// #download-qr .dropdown-menu .dropdown-item {
-//   font-weight: 400;
-//   font-size: 16px;
-//   line-height: 19px;
-//   text-transform: capitalize;
-//   color: $light-gray;
-//   padding: 8px 25px;
-//   border-radius: 21px;
-// }
-// #download-qr .dropdown-menu .dropdown-item.active {
-//   color: $white;
-// }
-// #download-qr .dropdown-menu .scroll_div {
-//   padding: 2px;
-// }
-
-// #download-qr .dropdown-menu .dropdown-item:hover {
-//   background: $primary-color;
-//   box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
-//   color: $white;
-// }
-// #download-qr .modal-body .form-group .dropdown button:after {
-//   display: none;
-// }
 .spc-create {
 	#download-qr {
 		.modal-body {
@@ -1194,99 +1138,195 @@ select::-ms-expand {
 
 
 
+// .switch {
+//     width: 115px;
+//     padding: 3px 4px;
+//     margin: 0;
+//     position: relative;
+//     background: $white;
+//     box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
+//     border-radius: 30px;
+//     max-width: 115px;
+// }
+// .switch label.switch-light {
+//     display: block;
+//     height: 34px;
+//     position: relative;
+//     overflow: visible;
+//     padding: 0px;
+//     margin-left: 0px;
+// }
+// .switch .switch-light>span {
+//     position: absolute;
+//     left: -100px;
+//     width: 100%;
+//     margin: 0px;
+//     padding-right: 100px;
+//     text-align: left;
+//     top: auto;
+//     position: absolute;
+//     top: 3px;
+//     left: 0;
+// }
+
+// .switch-light input[type="checkbox"]:not(:checked)+span span:last-child,
+// .switch-light input[type="checkbox"]:checked+span span:first-child {
+//     color: $white;
+// }
+
+// .switch .switch-light>span span {
+//     position: absolute;
+//     cursor: pointer;
+//     top: 3px;
+//     left: 0px;
+//     z-index: 5;
+//     display: block;
+//     width: 50%;
+//     margin-left: 0px;
+//     text-align: center;
+//     font-weight: 500;
+//     font-size: 14px;
+//     line-height: 22px;
+//     color: $light-gray;
+// }
+
+// .switch .switch span {
+//     position: absolute;
+//     top: 2px;
+//     left: 0;
+// }
+
+// .switch .switch-light input[type="checkbox"]:checked+span span:last-child {
+//     color: rgba(0, 20, 137, 0.4);
+// }
+
+// .switch .switch-light>span span:last-child {
+//     left: 50%;
+// }
+
+// .switch .switch-light input[type="checkbox"]:checked~a.btn {
+//     right: 50%;
+// }
+
+// .switch a.btn {
+//     position: absolute;
+//     right: 0%;
+//     top: 1px;
+//     z-index: 4;
+//     display: block;
+//     width: 50%;
+//     padding: 16px 20px;
+//     border: 0;
+//     color: $white;
+//     transition: all 0.3s ease-in-out;
+//     background: $voilet;
+//     box-shadow: 0px 0px 4px rgba(0, 102, 190, 0.2);
+//     border-radius: 30px;
+//     margin: 0 auto;
+// }
+
+// .switch .switch-light input[type="checkbox"] {
+//     opacity: 0;
+// }
 .switch {
-    width: 115px;
-    padding: 3px 4px;
-    margin: 0;
-    position: relative;
-    background: $white;
-    box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
-    border-radius: 30px;
-    max-width: 115px;
+	width: 115px;
+	padding: 3px 4px;
+	margin: 0;
+	position: relative;
+	background: $white;
+	box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
+	border-radius: 30px;
+	max-width: 115px;
+	label {
+		&.switch-light {
+			display: block;
+			height: 34px;
+			position: relative;
+			overflow: visible;
+			padding: 0px;
+			margin-left: 0px;
+		}
+	}
+	.switch-light {
+		& > span {
+			position: absolute;
+			left: -100px;
+			width: 100%;
+			margin: 0px;
+			padding-right: 100px;
+			text-align: left;
+			top: auto;
+			position: absolute;
+			top: 3px;
+			left: 0;
+			span {
+				position: absolute;
+				cursor: pointer;
+				top: 3px;
+				left: 0px;
+				z-index: 5;
+				display: block;
+				width: 50%;
+				margin-left: 0px;
+				text-align: center;
+				font-weight: 500;
+				font-size: 14px;
+				line-height: 22px;
+				color: $light-gray;
+				&:last-child {
+					left: 50%;
+				}
+			}
+		}
+		input[type="checkbox"]:checked {
+			& + span {
+				span {
+					&:last-child {
+						color: rgba(0, 20, 137, 0.4);
+					}
+				}
+			}
+			& ~ a {
+				&.btn {
+					right: 50%;
+				}
+			}
+		}
+		input[type="checkbox"] {
+			opacity: 0;
+		}
+	}
+	.switch {
+		span {
+			position: absolute;
+			top: 2px;
+			left: 0;
+		}
+	}
+	a {
+		&.btn {
+			position: absolute;
+			right: 0%;
+			top: 1px;
+			z-index: 4;
+			display: block;
+			width: 50%;
+			padding: 16px 20px;
+			border: 0;
+			color: $white;
+			transition: all 0.3s ease-in-out;
+			background: $voilet;
+			box-shadow: 0px 0px 4px rgba(0, 102, 190, 0.2);
+			border-radius: 30px;
+			margin: 0 auto;
+		}
+	}
 }
-
-
-.switch label.switch-light {
-    display: block;
-    height: 34px;
-    position: relative;
-    overflow: visible;
-    padding: 0px;
-    margin-left: 0px;
-}
-
-.switch .switch-light>span {
-    position: absolute;
-    left: -100px;
-    width: 100%;
-    margin: 0px;
-    padding-right: 100px;
-    text-align: left;
-    top: auto;
-    position: absolute;
-    top: 3px;
-    left: 0;
-}
-
 .switch-light input[type="checkbox"]:not(:checked)+span span:last-child,
 .switch-light input[type="checkbox"]:checked+span span:first-child {
-    color: $white;
+	color: $white;
 }
 
-.switch .switch-light>span span {
-    position: absolute;
-    cursor: pointer;
-    top: 3px;
-    left: 0px;
-    z-index: 5;
-    display: block;
-    width: 50%;
-    margin-left: 0px;
-    text-align: center;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 22px;
-    color: $light-gray;
-}
-
-.switch .switch span {
-    position: absolute;
-    top: 2px;
-    left: 0;
-}
-
-.switch .switch-light input[type="checkbox"]:checked+span span:last-child {
-    color: rgba(0, 20, 137, 0.4);
-}
-
-.switch .switch-light>span span:last-child {
-    left: 50%;
-}
-
-.switch .switch-light input[type="checkbox"]:checked~a.btn {
-    right: 50%;
-}
-
-.switch a.btn {
-    position: absolute;
-    right: 0%;
-    top: 1px;
-    z-index: 4;
-    display: block;
-    width: 50%;
-    padding: 16px 20px;
-    border: 0;
-    color: $white;
-    transition: all 0.3s ease-in-out;
-    background: $voilet;
-    box-shadow: 0px 0px 4px rgba(0, 102, 190, 0.2);
-    border-radius: 30px;
-    margin: 0 auto;
-}
-
-.switch .switch-light input[type="checkbox"] {
-    opacity: 0;
-}
 .form-group .add_product span {
     height: 50px;
     border-left: 1px solid $light-gray;
@@ -1316,17 +1356,18 @@ select::-ms-expand {
 }
 
 .form-control::-webkit-input-placeholder {
-@include form-placeholder;
+  @include form-placeholder;
 }
 .form-control::-moz-placeholder {
-@include form-placeholder;
+  @include form-placeholder;
 }
 .form-control:-ms-input-placeholder {
-@include form-placeholder;
+  @include form-placeholder;
 }
 .form-control:-moz-placeholder { 
-@include form-placeholder;
+  @include form-placeholder;
 }
+
 .product-unit button {
     flex: 0 0 171px;
 }
