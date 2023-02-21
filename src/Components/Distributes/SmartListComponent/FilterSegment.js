@@ -38,11 +38,10 @@ const FilterSegment = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   useEffect(() => {
-
     var x = localStorage.getItem("sd_i");
-    if(x){
+    if (x) {
       setStorageState(true);
-    }else{
+    } else {
       setStorageState(false);
     }
 
@@ -62,15 +61,12 @@ const FilterSegment = (props) => {
         setSelectedTerritory(props.selectedFilter.territory);
       }
 
-
       //Consent
       if (typeof props.selectedFilter.Consent !== "undefined") {
-        let consent = props.selectedFilter.Consent.map(
-          (item) => {
-            let val = filters.consent_type[item];
-            return val;
-          }
-        );
+        let consent = props.selectedFilter.Consent.map((item) => {
+          let val = filters.consent_type[item];
+          return val;
+        });
         setConsent(consent);
       }
 
@@ -213,9 +209,9 @@ const FilterSegment = (props) => {
   };
 
   const handleOnReaderSelectionChange = (reader_selection) => {
-    if(selectedreaderselection == reader_selection){
+    if (selectedreaderselection == reader_selection) {
       setSelectedReaderSelection("");
-    }else{
+    } else {
       setSelectedReaderSelection(reader_selection);
     }
     let up = updateflag + 1;
@@ -223,9 +219,9 @@ const FilterSegment = (props) => {
   };
 
   const handleOnIbuChange = (ibu) => {
-    if(selectedibu == ibu){
+    if (selectedibu == ibu) {
       setSelectedIbu("");
-    }else{
+    } else {
       setSelectedIbu(ibu);
     }
     let up = updateflag + 1;
@@ -472,17 +468,17 @@ const FilterSegment = (props) => {
 
   const createListWithFilters = (flag) => {
     setConfirmationPopupStatus(false);
-    tableCompRef.current.createSmartList(getfilterdata, getNewAddedUser,flag);
+    tableCompRef.current.createSmartList(getfilterdata, getNewAddedUser, flag);
   };
 
   const removeindividualfilter = (src, item) => {
     if (src == "country") {
       handleOnCountryChange(item);
-    }else if(src == "province"){
+    } else if (src == "province") {
       handleOnProvinceChange(item);
-    }else if(src == "territory"){
+    } else if (src == "territory") {
       handleOnTerritoryChange(item);
-    }else if (src == "contact_type") {
+    } else if (src == "contact_type") {
       handleOnContactTypeChange(item);
     } else if (src == "speciality") {
       handleOnSpecialityChange(item);
@@ -505,13 +501,13 @@ const FilterSegment = (props) => {
 
   const closeCancelClicked = () => {
     var x = localStorage.getItem("sd_i");
-    if(x){
+    if (x) {
       localStorage.removeItem("sd_i");
       Navigate("/SelectSmartList");
-    }else{
+    } else {
       Navigate("/SmartList");
     }
-  }
+  };
 
   return (
     <>
@@ -578,13 +574,14 @@ const FilterSegment = (props) => {
 
             <div className="col-12 col-md-3">
               <div className="header-btn">
-                <button className="btn btn-primary btn-bordered light" onClick={closeCancelClicked}>
-                Cancel
-                  {
-                    /*
+                <button
+                  className="btn btn-primary btn-bordered light"
+                  onClick={closeCancelClicked}
+                >
+                  Cancel
+                  {/*
                      <NavLink to="/CreateSmartList">Cancel</NavLink>
-                    */
-                  }
+                    */}
                 </button>
                 <button
                   className="btn btn-primary btn-bordered save-as"
@@ -599,9 +596,7 @@ const FilterSegment = (props) => {
                       : true
                   }
                 >
-                    {
-                      getStorageState ? "Create & go to email" : "Create"
-                    }
+                  {getStorageState ? "Create & go to email" : "Create"}
                 </button>
               </div>
             </div>
@@ -815,84 +810,83 @@ const FilterSegment = (props) => {
                             </>
                           )}
 
-                          {"province" in filters &&
-                            Object.keys(filters.province).length > 0 && (
-                              <>
-                                <div className="col block-smart-name">
-                                  <h6>Province</h6>
-                                  <div className="smart-name-list">
-                                    <ul>
-                                      {Object.entries(filters.province).map(
-                                        ([index, item]) => (
-                                          <li>
-                                            <div className="select-multiple-option">
-                                              <input
-                                                type="checkbox"
-                                                id={`custom-checkbox-province-${index}`}
-                                                name="province[]"
-                                                value={item}
-                                                checked={
-                                                  typeof selectedprovince !==
-                                                    "undefined" &&
-                                                  selectedprovince.indexOf(
-                                                    item
-                                                  ) !== -1
-                                                }
-                                                onChange={() =>
-                                                  handleOnProvinceChange(item)
-                                                }
-                                              />
-                                              <span className="checkmark"></span>
-                                            </div>
-                                            {item}
-                                          </li>
-                                        )
-                                      )}
-                                    </ul>
-                                  </div>
+                        {"province" in filters &&
+                          Object.keys(filters.province).length > 0 && (
+                            <>
+                              <div className="col block-smart-name">
+                                <h6>Province</h6>
+                                <div className="smart-name-list">
+                                  <ul>
+                                    {Object.entries(filters.province).map(
+                                      ([index, item]) => (
+                                        <li>
+                                          <div className="select-multiple-option">
+                                            <input
+                                              type="checkbox"
+                                              id={`custom-checkbox-province-${index}`}
+                                              name="province[]"
+                                              value={item}
+                                              checked={
+                                                typeof selectedprovince !==
+                                                  "undefined" &&
+                                                selectedprovince.indexOf(
+                                                  item
+                                                ) !== -1
+                                              }
+                                              onChange={() =>
+                                                handleOnProvinceChange(item)
+                                              }
+                                            />
+                                            <span className="checkmark"></span>
+                                          </div>
+                                          {item}
+                                        </li>
+                                      )
+                                    )}
+                                  </ul>
                                 </div>
-                              </>
-                            )}
+                              </div>
+                            </>
+                          )}
 
-                            {"territory" in filters &&
-                              Object.keys(filters.territory).length > 0 && (
-                                <>
-                                  <div className="col block-smart-name">
-                                    <h6>Territory</h6>
-                                    <div className="smart-name-list">
-                                      <ul>
-                                        {Object.entries(filters.territory).map(
-                                          ([index, item]) => (
-                                            <li>
-                                              <div className="select-multiple-option">
-                                                <input
-                                                  type="checkbox"
-                                                  id={`custom-checkbox-territory-${index}`}
-                                                  name="territory[]"
-                                                  value={item}
-                                                  checked={
-                                                    typeof selectedterritory !==
-                                                      "undefined" &&
-                                                    selectedterritory.indexOf(
-                                                      item
-                                                    ) !== -1
-                                                  }
-                                                  onChange={() =>
-                                                    handleOnTerritoryChange(item)
-                                                  }
-                                                />
-                                                <span className="checkmark"></span>
-                                              </div>
-                                              {item}
-                                            </li>
-                                          )
-                                        )}
-                                      </ul>
-                                    </div>
-                                  </div>
-                                </>
-                              )}
-
+                        {"territory" in filters &&
+                          Object.keys(filters.territory).length > 0 && (
+                            <>
+                              <div className="col block-smart-name">
+                                <h6>Territory</h6>
+                                <div className="smart-name-list">
+                                  <ul>
+                                    {Object.entries(filters.territory).map(
+                                      ([index, item]) => (
+                                        <li>
+                                          <div className="select-multiple-option">
+                                            <input
+                                              type="checkbox"
+                                              id={`custom-checkbox-territory-${index}`}
+                                              name="territory[]"
+                                              value={item}
+                                              checked={
+                                                typeof selectedterritory !==
+                                                  "undefined" &&
+                                                selectedterritory.indexOf(
+                                                  item
+                                                ) !== -1
+                                              }
+                                              onChange={() =>
+                                                handleOnTerritoryChange(item)
+                                              }
+                                            />
+                                            <span className="checkmark"></span>
+                                          </div>
+                                          {item}
+                                        </li>
+                                      )
+                                    )}
+                                  </ul>
+                                </div>
+                              </div>
+                            </>
+                          )}
 
                         {"consent_type" in filters &&
                           filters.consent_type.length > 0 && (
@@ -912,9 +906,8 @@ const FilterSegment = (props) => {
                                             checked={
                                               typeof selectedconsent !==
                                                 "undefined" &&
-                                              selectedconsent.indexOf(
-                                                item
-                                              ) !== -1
+                                              selectedconsent.indexOf(item) !==
+                                                -1
                                             }
                                             onChange={() =>
                                               handleOnConsentChange(item)
@@ -971,43 +964,43 @@ const FilterSegment = (props) => {
                             </>
                           )}
 
-                          {"reader_selection" in filters &&
-                            Object.keys(filters.reader_selection).length > 0 &&
-                            showhidearticle == 1 && (
-                              <>
-                                <div className="col block-smart-name">
-                                  <h6>Reader Selection</h6>
-                                  <div className="smart-name-list">
-                                    <ul>
-                                      {Object.entries(
-                                        filters.reader_selection
-                                      ).map(([index, item]) => (
-                                        <li>
-                                          <div className="select-multiple-option">
-                                            <input
-                                              type="radio"
-                                              id={`custom-checkbox-reader_selection-${index}`}
-                                              name="reader_selection[]"
-                                              value={item}
-                                              checked={
-                                                selectedreaderselection == item
-                                              }
-                                              onChange={() =>
-                                                handleOnReaderSelectionChange(
-                                                  item
-                                                )
-                                              }
-                                            />
-                                            <span className="checkmark"></span>
-                                          </div>
-                                          {item}
-                                        </li>
-                                      ))}
-                                    </ul>
-                                  </div>
+                        {"reader_selection" in filters &&
+                          Object.keys(filters.reader_selection).length > 0 &&
+                          showhidearticle == 1 && (
+                            <>
+                              <div className="col block-smart-name">
+                                <h6>Reader Selection</h6>
+                                <div className="smart-name-list">
+                                  <ul>
+                                    {Object.entries(
+                                      filters.reader_selection
+                                    ).map(([index, item]) => (
+                                      <li>
+                                        <div className="select-multiple-option">
+                                          <input
+                                            type="radio"
+                                            id={`custom-checkbox-reader_selection-${index}`}
+                                            name="reader_selection[]"
+                                            value={item}
+                                            checked={
+                                              selectedreaderselection == item
+                                            }
+                                            onChange={() =>
+                                              handleOnReaderSelectionChange(
+                                                item
+                                              )
+                                            }
+                                          />
+                                          <span className="checkmark"></span>
+                                        </div>
+                                        {item}
+                                      </li>
+                                    ))}
+                                  </ul>
                                 </div>
-                              </>
-                            )}
+                              </div>
+                            </>
+                          )}
 
                         <div className="col block-smart-name registered">
                           <h6>Registered</h6>
@@ -1182,18 +1175,20 @@ const FilterSegment = (props) => {
                       <span>Territory |</span>
                     </div>
                     <div className="filter-div-list">
-                      {Object.entries(selectedterritory).map(([index, item]) => (
-                        <div className="filter-result">
-                          {item}
-                          <img
-                            onClick={() =>
-                              removeindividualfilter("territory", item)
-                            }
-                            src={path_image + "filter-close.svg"}
-                            alt="Close-filter"
-                          />
-                        </div>
-                      ))}
+                      {Object.entries(selectedterritory).map(
+                        ([index, item]) => (
+                          <div className="filter-result">
+                            {item}
+                            <img
+                              onClick={() =>
+                                removeindividualfilter("territory", item)
+                              }
+                              src={path_image + "filter-close.svg"}
+                              alt="Close-filter"
+                            />
+                          </div>
+                        )
+                      )}
                     </div>
                   </div>
                 ) : null
