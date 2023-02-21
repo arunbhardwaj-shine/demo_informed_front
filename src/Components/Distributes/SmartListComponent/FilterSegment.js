@@ -449,6 +449,8 @@ const FilterSegment = (props) => {
 
   const handleArticleCompleted = (val) => {
     setSelectedArticleCompleted(val);
+    let up = updateflag + 1;
+    setUpdateFlag(up);
   };
 
   const handleIrt = (irt_val) => {
@@ -811,7 +813,7 @@ const FilterSegment = (props) => {
     } else if (src == "province") {
       handleOnProvinceChange(item);
     } else if (src == "selectedArticleCompleted") {
-      setSelectedArticleCompleted();
+      setSelectedArticleCompleted("");
     } else if (src == "territory") {
       handleOnTerritoryChange(item);
     } else if (src == "irt") {
