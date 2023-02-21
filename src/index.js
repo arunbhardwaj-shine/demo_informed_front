@@ -106,10 +106,10 @@ if (
 } else {
   console.log("in else");
   // require("./Components/NewWebinar/assets/css/webinar.css");
-  require("./Components/assets/css/library.scss");
   require("./Components/assets/css/style.css");
   require("./Components/assets/css/responsive.css");
   require("./Components/assets/css/custom.css");
+  require("./Components/assets/css/library.scss");
   require("./Components/assets/fonts/fonts.css");
   require("./Components/assets/css/video.css");
 }
