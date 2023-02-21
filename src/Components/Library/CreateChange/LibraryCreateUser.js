@@ -6,6 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import ReactSelect from "react-select";
+import { toast } from "react-toastify";
 import { createContent } from "../../CommonComponent/Validations";
 import { useSSRSafeId } from "@react-aria/ssr";
 import { Button, Form } from "react-bootstrap";
@@ -15,6 +16,7 @@ const today = new Date();
 
 const LibraryCreateUser = () => {
   const [selectedPdfName, setSelectedPdfName] = useState("");
+  const [counterFlag, setCounterFlag] = useState(0);
   const [selectedVideoName, setSelectedVideoName] = useState("");
   const [selectedEbookName, setSelectedEbookName] = useState("");
 
@@ -34,6 +36,13 @@ const LibraryCreateUser = () => {
   const [pdfFile, setPdfFile] = useState("");
   const [videoFile, setVideoFile] = useState("");
   const [ebookFile, setEbookFile] = useState("");
+
+  const [chapter, setChapter] = useState([
+    {
+      chapterTitle: "",
+      uploadFile: "",
+    },
+  ]);
 
   const [countryAll, setCountryAll] = useState([
     { value: "India", label: "India" },
@@ -92,6 +101,37 @@ const LibraryCreateUser = () => {
     setEPrint(e.value);
   };
 
+  const addMoreChClicked = () => {
+    const status = chapter.map((data) => {
+      if (data.chapterTitle == "") {
+        return "false";
+      } else {
+        return "true";
+      }
+    });
+
+    if (status.every((element) => element == "true")) {
+      setChapter([
+        ...chapter,
+        {
+          chapterTitle: "",
+          uploadFile: "",
+        },
+      ]);
+    } else {
+      toast.warning("Please input the chapter title atleast!");
+    }
+  };
+
+  const deleteRecord = (i) => {
+    const list = chapter;
+
+    list.splice(i, 1);
+
+    setChapter(list);
+    setCounterFlag(counterFlag + 1);
+  };
+
   const onProductionChange = (event) => {
     console.log(event);
     setProduction(event.value);
@@ -131,12 +171,6 @@ const LibraryCreateUser = () => {
     setPdfFile(e.target.files[0]);
   };
 
-  const handleOnEbookChange = (e) => {
-    console.log(e.target.files[0]);
-    setSelectedEbookName(e.target.files[0].name);
-    setEbookFile(e.target.files[0]);
-  };
-
   const handleVideoChange = (e) => {
     console.log(e.target.files[0]);
     setSelectedVideoName(e.target.files[0].name);
@@ -153,6 +187,21 @@ const LibraryCreateUser = () => {
     } else {
       setChecked(false);
     }
+  };
+
+  const onChapterTitleChange = (e, i) => {
+    const { value } = e.target;
+    const list = [...chapter];
+    const name = chapter[i].chapterTitle;
+    list[i].chapterTitle = value;
+    setChapter(list);
+  };
+
+  const handleOnEbookChange = (e, i) => {
+    const { value } = e.target.files[0].name;
+    const list = [...chapter];
+    list[i].uploadFile = value;
+    setChapter(list);
   };
 
   return (
@@ -516,39 +565,66 @@ const LibraryCreateUser = () => {
                         ) : null}
                       </div>
                     ) : ePrint == "eBook" ? (
-                      <div class="form-group val chapter-title">
-                        <div className="ebook-format">
-                          <label for="">Chapter title 1</label>
-                          <input type="text" class="form-control" />
-                          <div class="upload-file-box">
-                            <div class="box">
-                              <input
-                                type="file"
-                                name="file-6[]"
-                                id="file-6"
-                                class="inputfile inputfile-6"
-                                accept="application/pdf"
-                                onChange={(e) => handleOnEbookChange(e)}
-                              />
-                              <label for="file-6">
-                                <span>Choose Your File</span>
-                              </label>
-                              <p>Upload your PDF file</p>
+                      chapter.map((val, i) => {
+                        return (
+                          <>
+                            <div class="form-group val chapter-title">
+                              <div className="ebook-format">
+                                <label for="">Chapter title {i + 1}</label>
+                                <input
+                                  type="text"
+                                  class="form-control"
+                                  onChange={(e) => onChapterTitleChange(e, i)}
+                                  value={val.chapterTitle}
+                                />
+                                <div class="upload-file-box">
+                                  <div class="box">
+                                    <input
+                                      type="file"
+                                      name="file-6[]"
+                                      id="file-6"
+                                      class="inputfile inputfile-6"
+                                      accept="application/pdf"
+                                      onChange={(e) =>
+                                        handleOnEbookChange(e, i)
+                                      }
+                                    />
+                                    <label for="file-6">
+                                      <span>Choose Your File</span>
+                                    </label>
+
+                                    <p>
+                                      {val.uploadFile == ""
+                                        ? "Upload your PDF file"
+                                        : val.uploadFile}
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="chapter-btn-wrapper">
+                                <Button
+                                  className="btn btn-primary btn-bordered btn-voilet move-draft chappter-add-btn"
+                                  onClick={addMoreChClicked}
+                                >
+                                  Add Ch +
+                                </Button>
+
+                                {chapter.length > 1 ? (
+                                  <Button
+                                    className="dlt_btn"
+                                    onClick={() => deleteRecord(i)}
+                                  >
+                                    <img
+                                      src={path_image + "delete.svg"}
+                                      alt="Delete Row"
+                                    />
+                                  </Button>
+                                ) : null}
+                              </div>
                             </div>
-                          </div>
-                        </div>
-                        <div class="chapter-btn-wrapper">
-                          <Button className="btn btn-primary btn-bordered btn-voilet move-draft chappter-add-btn">
-                            Add Ch +
-                          </Button>
-                          <Button className="dlt_btn">
-                            <img
-                              src={path_image + "delete.svg"}
-                              alt="Delete Row"
-                            />
-                          </Button>
-                        </div>
-                      </div>
+                          </>
+                        );
+                      })
                     ) : // <div className="form-group val">
                     //   <label for="">Upload Ebook</label>
                     //   <div className="upload-file-box">
