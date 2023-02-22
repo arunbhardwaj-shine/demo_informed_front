@@ -585,15 +585,15 @@ const LibraryCreateUser = () => {
                                   <div class="box">
                                     <input
                                       type="file"
-                                      name="file-6[]"
-                                      id="file-6"
+                                      name={`file-${i}`}
+                                      id={`file-${i}`}
                                       class="inputfile inputfile-6"
                                       accept="application/pdf"
                                       onChange={(e) =>
                                         handleOnEbookChange(e, i)
                                       }
                                     />
-                                    <label for="file-6">
+                                    <label for={`file-${i}`}>
                                       <span>Choose Your File</span>
                                     </label>
 
