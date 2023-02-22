@@ -190,6 +190,7 @@ const LibraryCreateUser = () => {
   };
 
   const onChapterTitleChange = (e, i) => {
+    console.log(i);
     const { value } = e.target;
     const list = [...chapter];
     const name = chapter[i].chapterTitle;
@@ -198,9 +199,11 @@ const LibraryCreateUser = () => {
   };
 
   const handleOnEbookChange = (e, i) => {
+    console.log(i);
     const value = e.target.files[0].name;
     const list = [...chapter];
     list[i].uploadFile = value;
+
     console.log(list);
     setChapter(list);
   };
