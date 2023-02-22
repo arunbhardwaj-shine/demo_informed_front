@@ -18,3 +18,24 @@ $dark-gray:#70899E;
 $primary-color:#0066BE;
 $dark-blue:#004A89;
 $light-blue:#e7f4ff;
+$layout-breakpoint-extraSmall: 576px;
+$layout-breakpoint-small: 767px;
+$layout-breakpoint-medium: 991px;
+$layout-breakpoint-large: 1199px;
+$layout-breakpoint-extraLarge: 1399px;
+$layout-breakpoint-xextraLarge: 1400px;
+
+
+
+// $size__site_content_width: 1024px;
+
+/* Media Queries */
+// $media_queries(
+//     'mobile'    : "only screen and (max-width: 667px)",
+//     'tablet'    : "only screen and (min-width: 668px) and (max-width: $size__site_content_width)",
+//     'desktop'   : "only screen and (min-width: ($size__site_content_width + 1))",
+//     'retina2'   : "only screen and (-webkit-min-device-pixel-ratio: 2) and (min-resolution: 192dpi)",
+//     'retina3'   : "only screen and (-webkit-min-device-pixel-ratio: 3) and (min-resolution: 288dpi)",
+//     'landscape' : "screen and (orientation:landscape)",    
+//     'portrait'  : "screen and (orientation:portrait)"
+// );

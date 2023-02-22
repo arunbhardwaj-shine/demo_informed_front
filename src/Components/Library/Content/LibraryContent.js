@@ -24,9 +24,7 @@ import {
   Modal,
   Row,
   Tab,
-  Tabs,
-  ProgressBar,
-  Button,
+  Tabs,ProgressBar,Button,
 } from "react-bootstrap";
 import SimpleReactValidator from "simple-react-validator";
 import Tooltip from "react-bootstrap/Tooltip";
