@@ -1653,20 +1653,12 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 /**Library Style End**/
 
 
-
-ul, ol {
-  text-align: left;
-
-  & & {
-    padding: {
-      bottom: 0;
-      left: 0;
-    }
-  }
+/**Library Responsive**/
+@media (min-width: $layout-breakpoint-extraLarge) {
+ 
+button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
+    min-width: 100px;
 }
-
-
-
-@media (min-width: $layout-breakpoint-xextraLarge) {
-  
+ 
 }
+/**Library Responsive**/
