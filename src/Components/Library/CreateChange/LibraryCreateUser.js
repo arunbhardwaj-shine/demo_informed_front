@@ -190,6 +190,7 @@ const LibraryCreateUser = () => {
   };
 
   const onChapterTitleChange = (e, i) => {
+    console.log(i);
     const { value } = e.target;
     const list = [...chapter];
     const name = chapter[i].chapterTitle;
@@ -198,9 +199,11 @@ const LibraryCreateUser = () => {
   };
 
   const handleOnEbookChange = (e, i) => {
+    console.log(i);
     const value = e.target.files[0].name;
     const list = [...chapter];
     list[i].uploadFile = value;
+
     console.log(list);
     setChapter(list);
   };
@@ -582,15 +585,15 @@ const LibraryCreateUser = () => {
                                   <div class="box">
                                     <input
                                       type="file"
-                                      name="file-6[]"
-                                      id="file-6"
+                                      name={`file-${i}`}
+                                      id={`file-${i}`}
                                       class="inputfile inputfile-6"
                                       accept="application/pdf"
                                       onChange={(e) =>
                                         handleOnEbookChange(e, i)
                                       }
                                     />
-                                    <label for="file-6">
+                                    <label for={`file-${i}`}>
                                       <span>Choose Your File</span>
                                     </label>
 
