@@ -1014,7 +1014,7 @@ const LibraryContent = () => {
                                             if (details.pdf_id == data.id) {
                                               return (
                                                 <>
-                                                  <div className="data-progress">
+                                                  <div className="data-progress success-progress">
                                                     <ProgressBar
                                                       variant="success"
                                                       now={100}

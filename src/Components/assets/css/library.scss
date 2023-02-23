@@ -149,6 +149,7 @@
         h6 {
           @include h6;
           color: $dark-blue;
+          margin: 0;
         }
         h6.tab-content-title {
           font-weight: 500;
@@ -496,7 +497,9 @@ ul.tab-mail-list.data span.total-left small {
   border-radius: 27px;
   height: 24px;
 }
-
+.tab-mail-list.data .success-progress  .progress {
+  background: #00D4C0;
+}
 .tab-mail-list.data .progress .progress-bar, .tab-mail-list.data .data-progress.success span, .tab-mail-list.data .data-progress.danger span {
     border-radius: 27px;
     padding: 4px 7px;
@@ -556,6 +559,8 @@ ul.tab-mail-list.data span.total-left small {
 			.form-group {
 				label {
 					margin-right: 24px;
+          flex: 0 0 115px;
+          text-transform: unset;
 				}
 			}
 		}
@@ -563,7 +568,7 @@ ul.tab-mail-list.data span.total-left small {
 }
 #download-qr {
 	.modal-body {
-		padding: 18px 32px 44px;
+		padding: 18px 32px 34px;
 		.form-group {
 			display: flex;
 			align-items: center;
@@ -695,7 +700,7 @@ ul.tab-mail-list.data span.total-left small {
 .doc-content-main-box ul.tab-mail-list li {
   display: flex;
   align-items: center;
-  margin: 0 0 3px;
+  margin: 0 0 10px;
 }
 
 .doc-content-main-box ul.tab-mail-list li h5 {
@@ -1136,98 +1141,6 @@ select::-ms-expand {
 	}
 }
 
-
-
-// .switch {
-//     width: 115px;
-//     padding: 3px 4px;
-//     margin: 0;
-//     position: relative;
-//     background: $white;
-//     box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
-//     border-radius: 30px;
-//     max-width: 115px;
-// }
-// .switch label.switch-light {
-//     display: block;
-//     height: 34px;
-//     position: relative;
-//     overflow: visible;
-//     padding: 0px;
-//     margin-left: 0px;
-// }
-// .switch .switch-light>span {
-//     position: absolute;
-//     left: -100px;
-//     width: 100%;
-//     margin: 0px;
-//     padding-right: 100px;
-//     text-align: left;
-//     top: auto;
-//     position: absolute;
-//     top: 3px;
-//     left: 0;
-// }
-
-// .switch-light input[type="checkbox"]:not(:checked)+span span:last-child,
-// .switch-light input[type="checkbox"]:checked+span span:first-child {
-//     color: $white;
-// }
-
-// .switch .switch-light>span span {
-//     position: absolute;
-//     cursor: pointer;
-//     top: 3px;
-//     left: 0px;
-//     z-index: 5;
-//     display: block;
-//     width: 50%;
-//     margin-left: 0px;
-//     text-align: center;
-//     font-weight: 500;
-//     font-size: 14px;
-//     line-height: 22px;
-//     color: $light-gray;
-// }
-
-// .switch .switch span {
-//     position: absolute;
-//     top: 2px;
-//     left: 0;
-// }
-
-// .switch .switch-light input[type="checkbox"]:checked+span span:last-child {
-//     color: rgba(0, 20, 137, 0.4);
-// }
-
-// .switch .switch-light>span span:last-child {
-//     left: 50%;
-// }
-
-// .switch .switch-light input[type="checkbox"]:checked~a.btn {
-//     right: 50%;
-// }
-
-// .switch a.btn {
-//     position: absolute;
-//     right: 0%;
-//     top: 1px;
-//     z-index: 4;
-//     display: block;
-//     width: 50%;
-//     padding: 16px 20px;
-//     border: 0;
-//     color: $white;
-//     transition: all 0.3s ease-in-out;
-//     background: $voilet;
-//     box-shadow: 0px 0px 4px rgba(0, 102, 190, 0.2);
-//     border-radius: 30px;
-//     margin: 0 auto;
-// }
-
-// .switch .switch-light input[type="checkbox"] {
-//     opacity: 0;
-// }
 .switch {
 	width: 115px;
 	padding: 3px 4px;
@@ -1342,9 +1255,12 @@ select::-ms-expand {
 .header-btn .btn.send_btn {
     min-width: 106px;
 }
-.btn.btn-bordered.cancel {
+.btn.cancel {
     margin-right: 10px;
     min-width: 82px;
+}
+.search-bar + .btn.cancel {
+    margin-left: 10px;
 }
 .btn.btn-bordered.btn-voilet{
     border: 1px solid $voilet;
@@ -1452,57 +1368,6 @@ select::-ms-expand {
     word-break: break-all;
 	}
 }
-
-
-// .sublink-qr {
-//     margin: 0 14px 0 35px;
-//     align-items: center;
-//     display: flex;
-// }
-// .sublink-qr .sublink-qr-download {
-//     padding: 8px;
-//     background: $white;
-//     box-shadow: 0px 1px 6px rgb(0 102 190 / 20%);
-//     border-radius: 13px;
-//     display: flex;
-//     align-items: center;
-// }
-// .sublink-qr .sublink-qr-download img {
-//     max-width: 48px;
-// }
-// .sublink-qr .sublink-qr-download a {
-//     margin-left: 5px;
-//     width: 40px;
-//     height: 40px;
-//     display: flex;
-//     text-align: center;
-//     align-items: center;
-//     justify-content: center;
-// }
-// .sublink-listed-view button.btn-bordered {
-//     @include h6;
-//     min-width: 106px;
-// }
-// .sublink-listed-view-block .sublink-list-link {
-//     display: flex;
-// }
-// .create-change-content .sublink_left .product-unit {
-//     flex-direction: column;
-// }
-// .create-change-content .sublink_left .product-unit .form-group {
-//     margin: 9px 0 0;
-// }
-// .create-change-content .sublink_left .product-unit .form-group.blank {
-//     margin: 0px 0;
-// }
-// .create-change-content .sublink_left .product-unit .form-group.blank span {
-//     @include h5;  
-//     font-weight: 300;
-//     color: $light-gray;
-// }
-// .create-change-content .sublink_left .product-unit .form-group label {
-//     flex: 0 0 88px;
-// }
 
 .sublink-qr {
 	margin: 0 14px 0 35px;
@@ -1654,11 +1519,230 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 
 
 /**Library Responsive**/
-@media (min-width: $layout-breakpoint-extraLarge) {
- 
-button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
-    min-width: 100px;
+@media only screen and (max-width:1700px){
+  .library-content-box-layuot {
+    gap: 0% 2%;
 }
- 
+.library-content-box-layuot .doc-content-main-box {
+    flex: 0 0 32%;
+    margin: 20px 0 30px;
+}
+.tab-mail-list.data .progress {
+    width: 100%;
+    max-width: 145px;
+}
+.data-progress {
+    width:100%;
+}
+.library-content-box-layuot .doc-content-main-box .tab-content .footer-btn-wrapper .footer-btn {
+    padding: 7px 10px;
+}
+} 
+@media only screen and (max-width:1599px){
+.library_create .library_create-box {
+    max-width: 373px;
+}
+.create-change-content {
+    padding: 24px 24px;
+}
+.create-change-content .form-group label {
+    font-size: 15px;
+    flex: 0 0 140px;
+}
+form.product-unit .btn-voilet.btn.btn-primary, #download-qr .modal-footer button {
+    font-size: 15px;
+    padding: 9px 14px;
+}
+}
+@media only screen and (max-width:1500px){
+  .library_create .library_create-box, .library_create .library_create-box.spc {
+    max-width: 31.3%;
+}
+.selected-products-list .products-listing {
+    max-width: 250px;
+    font-size: 14px;
+}
+.library_create.spc-box {
+    gap: 50px 0;
+    justify-content: space-between;
+}
+.library_create {
+    gap: 60px 3%;
+    padding: 60px 0 0;
+}
+.library_create .library_create-box .create-library-content h3 {
+    font-size: 24px;
+    line-height: 30px;
+}
+.library-content-box-layuot .doc-content-main-box {
+    flex: 0 0 32%;
+    width: 32%;
+}
+.library-content-box-layuot {
+    gap: 0% 2%;
+}
+.library-content-box-layuot .doc-content-main-box .tab-content .tab-content-links a {
+    font-size: 13px;
+}
+.library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list h6 {
+    font-size: 13px;
+    line-height: 15px;
+}
+.library-content-box-layuot .doc-content-main-box .tab-content .footer-btn-wrapper .footer-btn {
+    padding: 7px 8px;
+    font-size: 13px;
+    line-height: 15px;
+}
+.library-content-box-layuot .doc-content-main-box .doc-content h5 {
+    font-size: 15px;
+    line-height: 18px;
+}
+.data-progress {
+    padding: 0px 0 0 5px;
+}
+.split-button-dropup div:nth-child(3) > div div {
+    font-size: 13px;
+}
+.library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list.change .form-group .btn {
+    min-width: 80px;
+    font-size: 12px;
+}
+.library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list.change .form-group label {
+    font-size: 13px;
+}
+.split-button-dropup >div:nth-child(4) >div{
+    padding-right:0px;
+}
+.split-button-dropup >div:nth-child(4) >div div {
+    font-size: 13px;
+    padding: 5px 10px;
+}
+.library-content-box-layuot .dlt_btn button img {
+    width: 16px;
+}
+.create-change-content .form-group .form-control, .create-change-content .form-group .react-datepicker__input-container input  {
+    padding: 9px 24px;
+    max-width: 350px;
+}
+.split-button-dropup > div:nth-child(3) {
+    max-width: 350px;
+    padding: 5px 15px;
+    font-size: 16px;
+}
+.form-check-group {
+    max-width: 350px;
+}
+.selected-products-list .products-listing button.dlt_btn {
+    width: 35px;
+    height: 35px;
+}
+.selected-products-list .products-listing button.dlt_btn img{
+  width: 22px;
+}
+.no-type-selected .no-data-selected h3 {
+    font-size: 30px;
+    line-height: 38px;
+    margin-bottom: 30px;
+}
+}
+@media (max-width: $layout-breakpoint-extraLarge) {
+  .library_create .library_create-box {
+    padding: 22px 22px;
+}
+.library_create {
+    padding: 40px 12px 0;
+}
+.library_create .library_create-box .create-library-content h5 {
+    margin:0;
+    font-size: 16px;
+}
+.library_create .library_create-box .create-library-img {
+    padding-bottom: 8px;
+}
+.library_create .library_create-box .create-library-content h3 {
+    font-size: 21px;
+    line-height: 27px;
+}
+.library_create .library_create-box .create-library-img img {
+    max-height: 33px;
+}
+.doc-content-header-logo img {
+    width: 55px!important;
+}
+ .library-content-box-layuot .doc-content-main-box .doc-content-header-logo {
+    width: 57px;
+    margin-right: 10px;
+}
+.library-content-box-layuot .doc-content-main-box .tab-content .tab-content-links a {
+    font-size: 12px;
+    word-break: break-all;
+}
+.library-content-box-layuot .doc-content-main-box .doc-content h5 {
+    font-size: 14px;
+    line-height: 17px;
+}
+.library-content-box-layuot .doc-content-main-box .doc-content h6, .library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list h6 {
+    font-size: 12px;
+}
+.library-content-box-layuot .doc-content-main-box .doc-content .select-tags div {
+    font-size: 9px;
+    margin: 0 6px 5px 0;
+    padding: 2px 8px;
+}
+.library-content-box-layuot .doc-content-main-box {
+    margin: 20px 0 10px;
+}
+.library-content-box-layuot .doc-content-main-box .tab-content {
+    padding: 20px 10px 0;
+}
+.library-content-box-layuot .doc-content-main-box .tab-content .footer-btn-wrapper .footer-btn {
+    padding: 6px 6px;
+    font-size: 10px;
+}
+.library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list h6.tab-content-title {
+    flex: 0 0 120px;
+}
+.data-progress {
+    margin-right: 4px;
+}
+.library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list.data li {
+    padding: 8px 0 8px;
+}
+.data-progress span {
+    font-size: 9px;
+}
+ul.tab-mail-list.data span.total-left small {
+    font-size: 10px;
+}
+ul.tab-mail-list.data span.total-left {
+    font-size: 12px;
+}
+ul.tab-mail-list.data.change .form-group {
+    flex-wrap: wrap;
+}
+ul.tab-mail-list.data.change .form-group button {
+    margin: 10px auto;
+}
+.library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list.change .form-group .split-button-dropup {
+    width: calc(100% - 94px);
+    margin-right: 0;
+}
+.library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list.change .form-group .split-button-dropup > div:nth-child(3) {
+    background-size: 13px;
+}
+.library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list .include-links a img {
+    width: 20px;
+}
+#download-qr .modal-body {
+    padding: 18px 30px 20px;
+}
+.library-content-box-layuot .doc-content-main-box .tab-content .footer-btn-wrapper {
+    padding-top: 14px;
+}
+}
+@media (max-width: $layout-breakpoint-large) {
+  .library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list h6.tab-content-title {
+    flex: 0 0 103px;
+}
 }
 /**Library Responsive**/

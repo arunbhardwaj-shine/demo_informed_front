@@ -204,7 +204,7 @@ function Products() {
             <div className="col-12">
               <Form>
                 <div className="form-group">
-                  <label for="">Product</label>
+                  <label for="">Product name</label>
                   <input
                     type="text"
                     placeholder="Type your product name"

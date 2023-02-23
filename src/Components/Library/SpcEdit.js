@@ -64,7 +64,13 @@ const SpcEdit = () => {
          
                   </button>
                 </div> */}
-                <div className="filter-by nav-item dropdown">
+                 <button
+                    className="btn-bordered cancel btn btn-primary"
+                    type="button"
+                    onClick={() => navigate("/spc")}>
+                    Close
+                  </button>
+                {/* <div className="filter-by nav-item dropdown">
                   <button
                     className="btn btn-secondary dropdown"
                     type="button"
@@ -73,7 +79,7 @@ const SpcEdit = () => {
                   >
                     Close
                   </button>
-                </div>
+                </div> */}
               </div>
             </div>
 
