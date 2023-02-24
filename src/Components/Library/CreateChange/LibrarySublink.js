@@ -26,6 +26,7 @@ const LibrarySublink = () => {
   const [BusinessUnit, setBusinessUnit] = useState("");
   const [createNewLink, setCreateNewLink] = useState(false);
   const [deliveryChange, setDeliveryChange] = useState("");
+  const [identifierChange, setIdentifierChange] = useState("");
   const onBusinessUnitChange = (event) => {
     setBusinessUnit(event.value);
   };
@@ -37,6 +38,11 @@ const LibrarySublink = () => {
   const onDeliveryChange = (event) => {
     // console.log("d", event);
     setDeliveryChange(event);
+  };
+
+  const onIdentifierChange = (event) => {
+    // console.log("I", event);
+    setIdentifierChange(event);
   };
 
   const navigate = useNavigate();
@@ -209,30 +215,47 @@ const LibrarySublink = () => {
                 </Dropdown.Item>
               </div>
             </DropdownButton>
-            {/* <label for="">Identifier</label>
+          </div>
+
+          <div className="form-group">
+            <label for="">Identifier</label>
             <DropdownButton
               className="dropdown-basic-button split-button-dropup "
-              // title={size != "" ? size : "Select Size"}
-              // onSelect={(event) => onSizeChange(event)}
+              title={
+                identifierChange != ""
+                  ? identifierChange
+                  : "Select identifier Change"
+              }
+              onSelect={(event) => onIdentifierChange(event)}
             >
               <div className="scroll_div">
-                <Dropdown.Item eventKey="Tiny" className={"active"}>
-                  Tiny
+                <Dropdown.Item
+                  eventKey="Social Media"
+                  className={identifierChange == "Social Media" ? "active" : ""}
+                >
+                  Social Media
                 </Dropdown.Item>
-                <Dropdown.Item eventKey="Article" className={"active"}>
+                <Dropdown.Item
+                  eventKey="Article"
+                  className={identifierChange == "Article" ? "active" : ""}
+                >
                   Article
                 </Dropdown.Item>
-                <Dropdown.Item eventKey="Large Print" className={"active"}>
+                <Dropdown.Item
+                  eventKey="Large Print"
+                  className={identifierChange == "Large Print" ? "active" : ""}
+                >
                   Large Print
                 </Dropdown.Item>
               </div>
-            </DropdownButton> */}
+            </DropdownButton>
           </div>
         </Modal.Body>
+
         <div className="modal-footer">
           <button
             type="button"
-            disabled={deliveryChange == "" ? true : false}
+            disabled={deliveryChange && identifierChange ? false : true}
             className="btn btn-primary save btn-filled"
             onClick={() => setCreateNewLink(false)}
           >
