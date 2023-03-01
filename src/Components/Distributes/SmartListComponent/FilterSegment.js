@@ -31,14 +31,16 @@ const FilterSegment = (props) => {
   const [selectedibu, setSelectedIbu] = useState();
   const [selectedproduct, setSelectedProduct] = useState([]);
   const [selectedarticles, setSelectedArticles] = useState([]);
+  const [selectedcampaign, setSelectedCampaign] = useState([]);
   const [selectedconsent, setConsent] = useState([]);
-  const [selectedregister, setSelectedRegister] = useState("yes");
+  const [selectedregister, setSelectedRegister] = useState("no");
   const [selectedArticleCompleted, setSelectedArticleCompleted] = useState("");
   const [selectedbounce, setSelectedBounce] = useState();
   const [selectedContentRead, setSelectedContentRead] = useState();
   const [selectedIrt, setSelectedIrt] = useState("");
+  const [selectedReadOpen, setSelectedReadOpen] = useState("");
   const [selectedTrialRegister, setSelectedTrialRegister] = useState("");
-  const [showhidearticle, setShowHideArticle] = useState(1);
+  const [showhidearticle, setShowHideArticle] = useState(0);
   const [getfilterdata, setFilterData] = useState();
   const [apifilterflag, setApiFilterFlag] = useState(0);
   const [getpayload, setPayload] = useState(0);
@@ -200,6 +202,15 @@ const FilterSegment = (props) => {
           return val;
         });
         setSelectedArticles(article);
+      }
+
+      //Campaign
+      if (typeof props.selectedFilter.campaign_listing !== "undefined") {
+        setSelectedCampaign(props.selectedFilter.campaign_listing);
+      }
+
+      if (typeof props.selectedFilter.campaing_status !== "undefined") {
+          setSelectedReadOpen(props.selectedFilter.campaing_status);
       }
 
       //Display table In case of update
@@ -459,6 +470,12 @@ const FilterSegment = (props) => {
     setUpdateFlag(up);
   };
 
+  const handleReadOpen = (val) => {
+    setSelectedReadOpen(val);
+    let up = updateflag + 1;
+    setUpdateFlag(up);
+  };
+
   const handleTrialRegister = (val) => {
     setSelectedTrialRegister(val);
     let up = updateflag + 1;
@@ -473,6 +490,21 @@ const FilterSegment = (props) => {
       selectedarticles.push(article);
     }
     setSelectedArticles(selectedarticles);
+    let up = updateflag + 1;
+    setUpdateFlag(up);
+  };
+
+  const handleOnCampaingChange = (campaign) => {
+    let campaign_index = selectedcampaign.indexOf(campaign);
+    if (campaign_index !== -1) {
+      selectedcampaign.splice(campaign_index, 1);
+    } else {
+      selectedcampaign.push(campaign);
+    }
+    setSelectedCampaign(selectedcampaign);
+    if(selectedcampaign.length == 0){
+      setSelectedReadOpen();
+    }
     let up = updateflag + 1;
     setUpdateFlag(up);
   };
@@ -505,6 +537,8 @@ const FilterSegment = (props) => {
     setSelectedsitename([]);
     setSelectedProduct([]);
     setSelectedArticles([]);
+    setSelectedCampaign([]);
+    setSelectedReadOpen();
     setConsent([]);
     setSelectedIbu();
     setSelectedReaderSelection();
@@ -583,6 +617,21 @@ const FilterSegment = (props) => {
       });
       Object.assign(payload, { blind_type: blind_type });
       flag_to_check_data = true;
+    }
+
+    // for Campaign listing
+    if (typeof selectedcampaign === "object" && selectedcampaign.length > 0) {
+      let campaign = selectedcampaign.map((item) => {
+        return item;
+      });
+      Object.assign(payload, { campaign_listing: campaign });
+      flag_to_check_data = true;
+    }
+
+    // for Campaign status Read Open
+    if (selectedReadOpen) {
+        Object.assign(payload, { campaing_status: selectedReadOpen });
+        flag_to_check_data = true;
     }
 
     //For User Type
@@ -852,6 +901,10 @@ const FilterSegment = (props) => {
       handleOnSiteNameChange(item);
     } else if (src == "blind_type") {
       handleOnBlindTypeChange(item);
+    }else if (src == "campaign") {
+      handleOnCampaingChange(item);
+    }else if (src == "campaign_status") {
+      setSelectedReadOpen();
     }
   };
 
@@ -1223,11 +1276,10 @@ const FilterSegment = (props) => {
                                     {Object.entries(filters.company).map(
                                       ([index, item]) => (
                                         <li>
-                                          {console.log(item)}
                                           <div className="select-multiple-option">
                                             <input
                                               type="checkbox"
-                                              id={`custom-checkbox-country-${index}`}
+                                              id={`custom-checkbox-company-${index}`}
                                               name="company[]"
                                               value={item}
                                               checked={
@@ -1600,6 +1652,90 @@ const FilterSegment = (props) => {
                             </>
                           )}
 
+                          {"campaign_listing" in filters &&
+                            Object.keys(filters.campaign_listing).length > 0 &&  (
+                              <>
+                                <div className="col block-smart-name">
+                                  <h6>Campaign</h6>
+
+                                  <div className="smart-name-list">
+                                    <ul>
+                                      {Object.entries(filters.campaign_listing).map(
+                                        ([index, item]) => (
+                                          <li>
+                                            <div className="select-multiple-option">
+                                              <input
+                                                type="checkbox"
+                                                id={`custom-checkbox-campaign_listing-${index}`}
+                                                name="campaign_listing[]"
+                                                value={index}
+                                                checked={
+                                                  typeof selectedcampaign !==
+                                                    "undefined" &&
+                                                  selectedcampaign.indexOf(
+                                                    index
+                                                  ) !== -1
+                                                }
+                                                onChange={() =>
+                                                  handleOnCampaingChange(index)
+                                                }
+                                              />
+                                              <span className="checkmark"></span>
+                                            </div>
+                                            {item}
+                                          </li>
+                                        )
+                                      )}
+                                    </ul>
+                                  </div>
+                                </div>
+                              </>
+                            )}
+
+                            {selectedcampaign.length > 0 && (
+                              <>
+                                <div className="col block-smart-name registered">
+                                  <h6>Campaign?</h6>
+                                  <ul>
+                                    <li>
+                                      <div className="select-multiple-option">
+                                        <input
+                                          type="radio"
+                                          id="read_camp"
+                                          name="read"
+                                          value="Read"
+                                          checked={
+                                            typeof selectedReadOpen !== "undefined" &&
+                                            selectedReadOpen == "Read"
+                                          }
+                                          onChange={() => handleReadOpen("Read")}
+                                        />
+                                        <span className="checkmark"></span>
+                                      </div>
+                                      Read
+                                    </li>
+                                    <li>
+                                      <div className="select-multiple-option">
+                                        <input
+                                          type="radio"
+                                          id="open_camp"
+                                          name="open"
+                                          value="Open"
+                                          checked={
+                                            typeof selectedReadOpen !== "undefined" &&
+                                            selectedReadOpen == "Open"
+                                          }
+                                          onChange={() => handleReadOpen("Open")}
+                                        />
+                                        <span className="checkmark"></span>
+                                      </div>
+                                      Open
+                                    </li>
+                                  </ul>
+                            </div>
+                            </>
+                          )}
+
                         <div className="col block-smart-name registered">
                           {localStorage.getItem("user_id") ==
                           "56Ek4feL/1A8mZgIKQWEqg==" ? (
@@ -1738,6 +1874,7 @@ const FilterSegment = (props) => {
                             </>
                           )}
 
+
                         {showhidearticle == 1 &&
                         localStorage.getItem("user_id") ==
                           "56Ek4feL/1A8mZgIKQWEqg==" ? (
@@ -1790,10 +1927,10 @@ const FilterSegment = (props) => {
                           </div>
                         ) : null}
 
-                        <div className="col block-smart-name">
-                          {localStorage.getItem("user_id") ==
-                            "56Ek4feL/1A8mZgIKQWEqg==" && (
-                            <>
+                        {localStorage.getItem("user_id") ==
+                          "56Ek4feL/1A8mZgIKQWEqg==" && (
+                          <>
+                            <div className="col block-smart-name">
                               <h6>IRT</h6>
                               <ul>
                                 <li>
@@ -1848,14 +1985,14 @@ const FilterSegment = (props) => {
                                   No
                                 </li>
                               </ul>
-                            </>
-                          )}
                         </div>
+                        </>
+                      )}
 
-                        <div className="col block-smart-name">
-                          {localStorage.getItem("user_id") ==
-                            "56Ek4feL/1A8mZgIKQWEqg==" && (
-                            <>
+                      {localStorage.getItem("user_id") ==
+                        "56Ek4feL/1A8mZgIKQWEqg==" && (
+                        <>
+                        <div className="col block-smart-name 21">
                               <h6>Trial Registered ?</h6>
                               <ul>
                                 <li>
@@ -1897,9 +2034,9 @@ const FilterSegment = (props) => {
                                   No
                                 </li>
                               </ul>
-                            </>
-                          )}
                         </div>
+                        </>
+                      )}
 
                         {/*
                           <div className="col block-smart-name">
@@ -2353,6 +2490,59 @@ const FilterSegment = (props) => {
                   </div>
                 ) : null
               ) : null}
+
+
+              {updateflag > 0 ? (
+                typeof selectedcampaign === "object" &&
+                selectedcampaign.length > 0 ? (
+                  <div className="filter-div">
+                    <div className="filter-div-title">
+                      <span>Campaign |</span>
+                    </div>
+                    <div className="filter-div-list">
+                      {Object.entries(selectedcampaign).map(
+                        ([index, item]) => (
+                          <div className="filter-result">
+                            {
+                              filters.campaign_listing[item]
+                            }{" "}
+                            <img
+                              onClick={() =>
+                                removeindividualfilter("campaign", item)
+                              }
+                              src={path_image + "filter-close.svg"}
+                              alt="Close-filter"
+                            />
+                          </div>
+                        )
+                      )}
+                    </div>
+                  </div>
+                ) : null
+              ) : null}
+
+              {
+                updateflag > 0 ? (
+                  typeof selectedcampaign === "object" && typeof selectedReadOpen !== "undefined" ? (
+                    <div className="filter-div">
+                      <div className="filter-div-title">
+                        <span>Campaign? |</span>
+                      </div>
+                      <div className="filter-div-list">
+                        <div className="filter-result">
+                          {selectedReadOpen}
+                          <img
+                            onClick={() =>
+                              removeindividualfilter("campaign_status",selectedReadOpen)
+                            }
+                            src={path_image + "filter-close.svg"}
+                            alt="Close-filter"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ) : null
+                ) : null}
 
               {updateflag > 0 ? (
                 typeof selectedsitenumber === "object" &&
