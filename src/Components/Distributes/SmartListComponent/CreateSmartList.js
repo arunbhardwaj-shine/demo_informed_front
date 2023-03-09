@@ -246,9 +246,14 @@ const CreateSmartList = () => {
   const downloadFile = () => {
     let user_id = localStorage.getItem("user_id");
     let link = document.createElement("a");
-    if(user_id == "wW0geGtDPvig5gF 6KbJrg==" || user_id == "qDgwPdToP05Kgzc g2VjIQ==" ||  user_id == "z2TunmZQf3QwCsICFTLGGQ==" || user_id == "UbCJcnLM9fe HsRMgX8c1A=="){
+    if (
+      user_id == "wW0geGtDPvig5gF 6KbJrg==" ||
+      user_id == "qDgwPdToP05Kgzc g2VjIQ==" ||
+      user_id == "z2TunmZQf3QwCsICFTLGGQ==" ||
+      user_id == "UbCJcnLM9fe HsRMgX8c1A=="
+    ) {
       link.href = "https://informed.pro/sample_st.xls";
-    }else{
+    } else {
       link.href = "https://informed.pro/sample.xls";
     }
     link.setAttribute("download", "file.xlsx");
@@ -295,7 +300,7 @@ const CreateSmartList = () => {
                     <form>
                       <div className="row justify-content-between align-items-center">
                         <div className="form-group col">
-                          <label for="smart-list-name">
+                          <label htmlFor="smart-list-name">
                             Enter smart list name
                           </label>
                           <input
@@ -307,7 +312,7 @@ const CreateSmartList = () => {
                         </div>
 
                         <div className="form-group col">
-                          <label for="creator-name">Creator’s Name</label>
+                          <label htmlFor="creator-name">Creator’s Name</label>
                           <input
                             type="text"
                             className="form-control"
@@ -443,7 +448,7 @@ const CreateSmartList = () => {
                 {file_name.current?.files === undefined ||
                 file_name.current.files?.length === 0 ? (
                   <>
-                    <label for="file-4">
+                    <label htmlFor="file-4">
                       <span>Choose Your File</span>
                     </label>
                     <p>Upload your new list file</p>

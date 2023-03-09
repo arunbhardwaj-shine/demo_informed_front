@@ -29,7 +29,7 @@ const LibraryCreateUser = () => {
   const navigate = useNavigate();
   const [startDate, setStartDate] = useState(new Date());
   const [error, setError] = useState({});
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState({});
   const [company, setCompany] = useState("");
   const [contentTitle, setContentTitle] = useState("");
   const [clientProduct, setClientProduct] = useState("");
@@ -171,19 +171,17 @@ const LibraryCreateUser = () => {
   };
 
   const handleFileChange = (e) => {
-    console.log(e.target.files[0]);
     setSelectedPdfName(e.target.files[0].name);
     setPdfFile(e.target.files[0]);
   };
 
   const handleVideoChange = (e) => {
-    console.log(e.target.files[0]);
-    setSelectedVideoName(e.target.files[0].name);
-    setVideoFile(e.target.files[0]);
+    setSelectedVideoName(e?.target?.files[0]?.name);
+    setVideoFile(e?.target?.files[0]);
   };
 
-  const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
+  const handleImageChange = (e, isSelectedName) => {
+    setImage({ ...image, [isSelectedName]: e?.target?.files });
   };
 
   const includeVideoCheckboxChanged = (e) => {
@@ -195,7 +193,6 @@ const LibraryCreateUser = () => {
   };
 
   const onChapterTitleChange = (e, i) => {
-    console.log(i);
     const { value } = e.target;
     const list = [...chapter];
     const name = chapter[i].chapterTitle;
@@ -204,22 +201,18 @@ const LibraryCreateUser = () => {
   };
 
   const handleOnEbookChange = (e, i) => {
-    console.log(i);
     const value = e.target.files[0].name;
     const list = [...chapter];
     list[i].uploadFile = value;
 
-    console.log(list);
     setChapter(list);
   };
 
   const onChapterSelect = (event) => {
-    // console.log("C", event);
     setChapterSelect(event);
   };
 
   const onVideoSelect = (event) => {
-    // console.log("V", event);
     setVideoSelect(event);
   };
 
@@ -227,7 +220,6 @@ const LibraryCreateUser = () => {
     setUploadNewVideo(true);
   };
   const onChangeEmbeddedVideo = (event) => {
-    // console.log("AA", event);
     setChangeEmbeddedVideo(event);
   };
 
@@ -283,7 +275,7 @@ const LibraryCreateUser = () => {
                 <div className="row">
                   <div className="col-12 col-md-6">
                     <div className="form-group">
-                      <label for="">Company</label>
+                      <label htmlFor="">Company</label>
                       <input
                         type="text"
                         className="form-control"
@@ -295,7 +287,7 @@ const LibraryCreateUser = () => {
                       ) : null} */}
                     </div>
                     <div className="form-group">
-                      <label for="">Country</label>
+                      <label htmlFor="">Country</label>
                       <Select
                         options={countryAll}
                         placeholder="Select country"
@@ -308,7 +300,7 @@ const LibraryCreateUser = () => {
                       ) : null} */}
                     </div>
                     <div className="form-group">
-                      <label for="">Client product</label>
+                      <label htmlFor="">Client product</label>
                       <input
                         type="text"
                         className="form-control"
@@ -321,7 +313,7 @@ const LibraryCreateUser = () => {
                       ) : null} */}
                     </div>
                     <div className="form-group">
-                      <label for="">Production</label>
+                      <label htmlFor="">Production</label>
                       <Select
                         options={productionAll}
                         placeholder="Select own production person"
@@ -336,7 +328,7 @@ const LibraryCreateUser = () => {
                       ) : null} */}
                     </div>
                     <div className="form-group">
-                      <label for="">Sales</label>
+                      <label htmlFor="">Sales</label>
                       <Select
                         options={salesAll}
                         placeholder="Who made the sale?"
@@ -351,7 +343,7 @@ const LibraryCreateUser = () => {
                   </div>
                   <div className="col-12 col-md-6 d-flex justify-content-end align-items-end right-change">
                     <div className="form-group justify-content-end">
-                      <label for="">Reseller</label>
+                      <label htmlFor="">Reseller</label>
                       <div className="form-check-group">
                         <div className="form-check">
                           <input
@@ -362,7 +354,7 @@ const LibraryCreateUser = () => {
                           />
                           <label
                             className="form-check-label"
-                            for="flexCheckDefault"
+                            htmlFor="flexCheckDefault"
                           >
                             N/A
                           </label>
@@ -376,7 +368,7 @@ const LibraryCreateUser = () => {
                           />
                           <label
                             className="form-check-label"
-                            for="flexCheckReseller"
+                            htmlFor="flexCheckReseller"
                           >
                             Reseller Name
                           </label>
@@ -390,7 +382,7 @@ const LibraryCreateUser = () => {
                           />
                           <label
                             className="form-check-label"
-                            for="flexCheckReseller1"
+                            htmlFor="flexCheckReseller1"
                           >
                             Reseller Name
                           </label>
@@ -404,7 +396,7 @@ const LibraryCreateUser = () => {
                           />
                           <label
                             className="form-check-label"
-                            for="flexCheckReseller2"
+                            htmlFor="flexCheckReseller2"
                           >
                             Reseller Name
                           </label>
@@ -421,7 +413,7 @@ const LibraryCreateUser = () => {
                 <div className="row">
                   <div className="col-12 col-md-6">
                     <div className="form-group">
-                      <label for="">Cost centre</label>
+                      <label htmlFor="">Cost centre</label>
                       <Select
                         className="dropdown-basic-button split-button-dropup"
                         isClearable
@@ -429,14 +421,14 @@ const LibraryCreateUser = () => {
                       />
                     </div>
                     <div className="form-group">
-                      <label for="">Expiration date</label>
+                      <label htmlFor="">Expiration date</label>
                       <DatePicker
                         selected={startDate}
                         onChange={(date) => setStartDate(date)}
                       />
                     </div>
                     <div className="form-group">
-                      <label for="">Set limit of usage</label>
+                      <label htmlFor="">Set limit of usage</label>
                       <input
                         type="text"
                         className="form-control"
@@ -450,7 +442,7 @@ const LibraryCreateUser = () => {
                       ) : null}
                     </div>
                     <div className="form-group">
-                      <label for="">Enable</label>
+                      <label htmlFor="">Enable</label>
                       <fieldset id="group2">
                         <input
                           type="checkbox"
@@ -458,27 +450,27 @@ const LibraryCreateUser = () => {
                           name="group2"
                           id="limitagreed1"
                         />
-                        <label for="limitagreed1">Print</label>
+                        <label htmlFor="limitagreed1">Print</label>
                         <input
                           type="checkbox"
                           value="value2"
                           name="group2"
                           id="limitagreed2"
                         />
-                        <label for="limitagreed2">Download</label>
+                        <label htmlFor="limitagreed2">Download</label>
                         <input
                           type="checkbox"
                           value="value3"
                           name="group2"
                           id="limitagreed3"
                         />
-                        <label for="limitagreed3">Share</label>
+                        <label htmlFor="limitagreed3">Share</label>
                       </fieldset>
                     </div>
                   </div>
                   <div className="col-12 col-md-6 d-flex justify-content-end align-items-start right-change">
                     <div className="form-group justify-content-end">
-                      <label for="">Invoice notes</label>
+                      <label htmlFor="">Invoice notes</label>
                       <textarea
                         className="form-control"
                         id="formControlTextarea"
@@ -496,7 +488,7 @@ const LibraryCreateUser = () => {
                 <div className="row">
                   <div className="col-12 col-md-6">
                     <div className="form-group val">
-                      <label for="">Content title *</label>
+                      <label htmlFor="">Content title *</label>
                       <input
                         type="text"
                         className="form-control"
@@ -509,15 +501,15 @@ const LibraryCreateUser = () => {
                       ) : null}
                     </div>
                     <div className="form-group">
-                      <label for="">Journal title</label>
+                      <label htmlFor="">Journal title</label>
                       <input type="text" className="form-control" />
                     </div>
                     <div className="form-group">
-                      <label for="">Author</label>
+                      <label htmlFor="">Author</label>
                       <input type="text" className="form-control" />
                     </div>
                     <div className="form-group val">
-                      <label for="">Docintel format *</label>
+                      <label htmlFor="">Docintel format *</label>
                       <Select
                         className="dropdown-basic-button split-button-dropup"
                         options={ePrintType}
@@ -534,7 +526,7 @@ const LibraryCreateUser = () => {
 
                     {ePrint == "PDF" ? (
                       <div className="form-group val">
-                        <label for="">Upload PDF</label>
+                        <label htmlFor="">Upload PDF</label>
                         <div className="upload-file-box">
                           <div className="box">
                             <input
@@ -545,7 +537,7 @@ const LibraryCreateUser = () => {
                               accept="application/pdf"
                               onChange={(e) => handleFileChange(e)}
                             />
-                            <label for="file-6">
+                            <label htmlFor="file-6">
                               <span>Choose Your File</span>
                             </label>
 
@@ -564,7 +556,7 @@ const LibraryCreateUser = () => {
                       </div>
                     ) : ePrint == "video" ? (
                       <div className="form-group val">
-                        <label for="">Upload video</label>
+                        <label htmlFor="">Upload video</label>
                         <div className="upload-file-box">
                           <div className="box">
                             <input
@@ -575,7 +567,7 @@ const LibraryCreateUser = () => {
                               accept="video/*"
                               onChange={(e) => handleVideoChange(e)}
                             />
-                            <label for="file-6">
+                            <label htmlFor="file-6">
                               <span>Choose Your File</span>
                             </label>
                             <p>
@@ -597,7 +589,7 @@ const LibraryCreateUser = () => {
                           <>
                             <div class="form-group val chapter-title">
                               <div className="ebook-format">
-                                <label for="">Chapter title {i + 1}</label>
+                                <label htmlFor="">Chapter title {i + 1}</label>
                                 <input
                                   type="text"
                                   class="form-control"
@@ -616,7 +608,7 @@ const LibraryCreateUser = () => {
                                         handleOnEbookChange(e, i)
                                       }
                                     />
-                                    <label for={`file-${i}`}>
+                                    <label htmlFor={`file-${i}`}>
                                       <span>Choose Your File</span>
                                     </label>
 
@@ -653,7 +645,7 @@ const LibraryCreateUser = () => {
                         );
                       })
                     ) : // <div className="form-group val">
-                    //   <label for="">Upload Ebook</label>
+                    //   <label htmlFor="">Upload Ebook</label>
                     //   <div className="upload-file-box">
                     //     <div className="box">
                     //       <input
@@ -664,7 +656,7 @@ const LibraryCreateUser = () => {
                     //         accept="application/pdf"
                     //         onChange={(e) => handleEbookChange(e)}
                     //       />
-                    //       <label for="file-6">
+                    //       <label htmlFor="file-6">
                     //         <span>Choose Your File</span>
                     //       </label>
                     //       <p>
@@ -683,7 +675,7 @@ const LibraryCreateUser = () => {
                     null}
 
                     <div className="form-group">
-                      <label for="">Include video</label>
+                      <label htmlFor="">Include video</label>
                       <div className="switch">
                         <label className="switch-light">
                           <input
@@ -709,7 +701,7 @@ const LibraryCreateUser = () => {
                       )}
                     </div>
                     <div className="form-group val">
-                      <label for="">Content cover</label>
+                      <label htmlFor="">Content cover</label>
                       <div className="upload-file-box">
                         <div className="box">
                           <input
@@ -718,16 +710,24 @@ const LibraryCreateUser = () => {
                             id="file-5"
                             className="inputfile inputfile-5"
                             accept="image/png, image/jpeg"
-                            onChange={handleImageChange}
+                            onChange={(e) => handleImageChange(e, "image")}
                           />
-                          <label for="file-5">
+                          <label htmlFor="file-5">
                             <span>Choose Your File</span>
                           </label>
-                          <p>
+                          {image?.image?.[0]?.name ? (
+                            <h5>{image?.image?.[0]?.name}</h5>
+                          ) : (
+                            <p>
+                              Upload your cover image <br />
+                              <span>(Recommended size 00 X 00)</span>
+                            </p>
+                          )}
+                          {/* <p>
                             Upload your cover image
                             <br />
                             <span>(Recommended size 00 X 00)</span>
-                          </p>
+                          </p> */}
                         </div>
                       </div>
                       {error?.image ? (
@@ -739,7 +739,9 @@ const LibraryCreateUser = () => {
                   </div>
                   <div className="col-12 col-md-6 d-flex justify-content-end align-items-start right-change">
                     <div className="form-group justify-content-end">
-                      <label for="">Production notes to Docintel team</label>
+                      <label htmlFor="">
+                        Production notes to Docintel team
+                      </label>
                       <textarea
                         className="form-control"
                         id="formControlTextarea"
@@ -851,7 +853,7 @@ const LibraryCreateUser = () => {
                     className="inputfile inputfile-6"
                     accept=".mp4"
                   />
-                  <label for="file-10">
+                  <label htmlFor="file-10">
                     <span>Upload new Video +</span>
                   </label> */}
                   <Button
@@ -905,7 +907,7 @@ const LibraryCreateUser = () => {
         </Modal.Header>
         <Modal.Body>
           <div className="form-group">
-            <label for="">Video</label>
+            <label htmlFor="">Video</label>
             <DropdownButton
               className="dropdown-basic-button split-button-dropup "
               title={

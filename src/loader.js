@@ -1,10 +1,10 @@
 const loader = (data) => {
-  if(data == "show"){
-    var element = document.getElementById("custom_loader");
-    console.log(element)
+  if (data == "show") {
+    const element = document.getElementById("custom_loader");
+
     element?.classList?.add("show");
-  }else{
-    var element = document.getElementById("custom_loader");
+  } else {
+    const element = document.getElementById("custom_loader");
     element?.classList?.remove("show");
   }
 };

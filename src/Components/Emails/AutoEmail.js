@@ -865,7 +865,7 @@ const AutoEmail = () => {
                       <form>
                         <div className="form-inline row justify-content-between align-items-center">
                           <div className="form-group col-12 col-md-6">
-                            <label for="exampleInputEmail1">
+                            <label htmlFor="exampleInputEmail1">
                               Email Subject Line
                             </label>
                             <input
@@ -877,7 +877,7 @@ const AutoEmail = () => {
                             />
                           </div>
                           <div className="form-group right-side col-12 col-md-6">
-                            <label for="exampleInputEmail1">
+                            <label htmlFor="exampleInputEmail1">
                               Email description{" "}
                             </label>
                             <input
@@ -1014,7 +1014,7 @@ const AutoEmail = () => {
                   <div className="col-12 col-md-7">
                     <div className="row justify-content-between align-items-center">
                       <div className="form-group col-sm-6">
-                        <label for="hcp-name">Name</label>
+                        <label htmlFor="hcp-name">Name</label>
                         <input
                           type="text"
                           className="form-control"
@@ -1023,7 +1023,7 @@ const AutoEmail = () => {
                         />
                       </div>
                       <div className="form-group col-sm-6">
-                        <label for="hcp-email">Email </label>
+                        <label htmlFor="hcp-email">Email </label>
                         <input
                           type="mail"
                           onChange={(e) => emailChanged(e)}
@@ -1071,7 +1071,7 @@ const AutoEmail = () => {
                 ) : (
                   searchedUsers.map((data, index) => {
                     return (
-                      <div className="search-hcp-box">
+                      <div className="search-hcp-box" key={data}>
                         <p className="send-hcp-box-title">
                           Name | <span>{data.name}</span>
                         </p>
@@ -1112,7 +1112,7 @@ const AutoEmail = () => {
                     {selectedHcp.map((data, index2) => {
                       return (
                         <>
-                          <div className="search-hcp-box">
+                          <div className="search-hcp-box" key={data}>
                             <p className="send-hcp-box-title">
                               Name | <span>{data.name || data.first_name}</span>
                             </p>
@@ -1214,7 +1214,7 @@ const AutoEmail = () => {
                             <div className="row">
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">First Name</label>
+                                  <label htmlFor="">First Name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -1227,7 +1227,7 @@ const AutoEmail = () => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Last Name</label>
+                                  <label htmlFor="">Last Name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -1240,7 +1240,7 @@ const AutoEmail = () => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Email *</label>
+                                  <label htmlFor="">Email *</label>
                                   <input
                                     type="email"
                                     className="form-control"
@@ -1255,7 +1255,7 @@ const AutoEmail = () => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Contact Type</label>
+                                  <label htmlFor="">Contact Type</label>
                                   <DropdownButton
                                     className="dropdown-basic-button split-button-dropup"
                                     title={
@@ -1303,7 +1303,7 @@ const AutoEmail = () => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Country</label>
+                                  <label htmlFor="">Country</label>
                                   <DropdownButton
                                     className="dropdown-basic-button split-button-dropup country"
                                     title={

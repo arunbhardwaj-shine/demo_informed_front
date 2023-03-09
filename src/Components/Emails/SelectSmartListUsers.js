@@ -9,14 +9,14 @@ import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../popup_alert";
 import { Modal, Dropdown } from "react-bootstrap";
-import DropdownButton from 'react-bootstrap/DropdownButton';
+import DropdownButton from "react-bootstrap/DropdownButton";
 import EditCountry from "../CommonComponent/EditCountry";
 import EditContactType from "../CommonComponent/EditContactType";
-import Select, { createFilter } from 'react-select';
+import Select, { createFilter } from "react-select";
 var old_object = {};
 const SelectSmartListUsers = (props) => {
   const filterConfig = {
-      matchFrom: 'start',
+    matchFrom: "start",
   };
   const navigate = useNavigate();
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -45,7 +45,14 @@ const SelectSmartListUsers = (props) => {
   const [updateCounter, setUpdateCounter] = useState(0);
   const [sortingCount, setSortingCount] = useState(0);
   const [hpc, setHpc] = useState([
-    { firstname: "", lastname: "", email: "", contact_type: "", country: "", countryIndex: ""},
+    {
+      firstname: "",
+      lastname: "",
+      email: "",
+      contact_type: "",
+      country: "",
+      countryIndex: "",
+    },
   ]);
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -56,20 +63,27 @@ const SelectSmartListUsers = (props) => {
 
   useEffect(() => {
     let campaign_id =
-      typeof old_object === "object" && old_object !== null && old_object?.campaign_id
+      typeof old_object === "object" &&
+      old_object !== null &&
+      old_object?.campaign_id
         ? old_object.campaign_id
-        : props.getDraftData?.campaign_id ? props.getDraftData.campaign_id : "";
+        : props.getDraftData?.campaign_id
+        ? props.getDraftData.campaign_id
+        : "";
     setCampaign_id(campaign_id);
 
-// removedHcp
-    if(old_object?.removedHcp){
-      if(old_object.removedHcp.length > 0){
+    // removedHcp
+    if (old_object?.removedHcp) {
+      if (old_object.removedHcp.length > 0) {
         console.log(old_object.removedHcp);
         setRemovedReaders(old_object.removedHcp);
       }
-    }else{
-      if(props?.getDraftData && props.getDraftData.campaign_data?.removedHcp){
-        if(typeof props.getDraftData.campaign_data.removedHcp != "undefined" && props.getDraftData.campaign_data.removedHcp != ""){
+    } else {
+      if (props?.getDraftData && props.getDraftData.campaign_data?.removedHcp) {
+        if (
+          typeof props.getDraftData.campaign_data.removedHcp != "undefined" &&
+          props.getDraftData.campaign_data.removedHcp != ""
+        ) {
           setRemovedReaders(props.getDraftData.campaign_data.removedHcp);
         }
       }
@@ -86,54 +100,57 @@ const SelectSmartListUsers = (props) => {
         : props.getDraftData.campaign_data.smart_list_id,
     };
 
-
-    if(props.getSelectedSmartListData?.id){
-
+    if (props.getSelectedSmartListData?.id) {
       loader("show");
       axios
-      .post(`distributes/get_reders_list`, body)
-      .then((res) => {
+        .post(`distributes/get_reders_list`, body)
+        .then((res) => {
           // console.log(removedReaders)
-          if(old_object?.removedHcp){
-            if(old_object.removedHcp.length > 0){
+          if (old_object?.removedHcp) {
+            if (old_object.removedHcp.length > 0) {
               var removedUsers = old_object.removedHcp;
               var allUsers = res.data.response.data;
-              var pendingUsers = allUsers.filter(function(objFromA) {
-                return !removedUsers.find(function(objFromB) {
-                  return objFromA.profile_id === objFromB.profile_id
-                })
-              })
+              var pendingUsers = allUsers.filter(function (objFromA) {
+                return !removedUsers.find(function (objFromB) {
+                  return objFromA.profile_id === objFromB.profile_id;
+                });
+              });
               setReaders(pendingUsers);
-            }else{
+            } else {
               setReaders(res.data.response.data);
             }
-          }else if(props?.getDraftData && props.getDraftData.campaign_data?.removedHcp){
-            if(typeof props.getDraftData.campaign_data.removedHcp != "undefined" && props.getDraftData.campaign_data.removedHcp != ""){
+          } else if (
+            props?.getDraftData &&
+            props.getDraftData.campaign_data?.removedHcp
+          ) {
+            if (
+              typeof props.getDraftData.campaign_data.removedHcp !=
+                "undefined" &&
+              props.getDraftData.campaign_data.removedHcp != ""
+            ) {
               var removedUsers = props.getDraftData.campaign_data.removedHcp;
               var allUsers = res.data.response.data;
-              var pendingUsers = allUsers.filter(function(objFromA) {
-                return !removedUsers.find(function(objFromB) {
-                  return objFromA.profile_id === objFromB.profile_id
-                })
-              })
+              var pendingUsers = allUsers.filter(function (objFromA) {
+                return !removedUsers.find(function (objFromB) {
+                  return objFromA.profile_id === objFromB.profile_id;
+                });
+              });
               setReaders(pendingUsers);
-            }else{
+            } else {
               setReaders(res.data.response.data);
             }
-          }else{
+          } else {
             setReaders(res.data.response.data);
           }
 
-        loader("hide");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    }else{
+          loader("hide");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
       setReaders(props.getDraftData.campaign_data.selectedHcp);
     }
-
   }, []);
 
   const backClicked = () => {
@@ -153,16 +170,16 @@ const SelectSmartListUsers = (props) => {
             let arr = [];
             Object.entries(country).map(([index, item]) => {
               let label = item;
-                if(index == "B&H"){
-                  label = "Bosnia and Herzegovina";
-                }
-                arr.push({
-                    value: item,
-                    label: label,
-                });
+              if (index == "B&H") {
+                label = "Bosnia and Herzegovina";
+              }
+              arr.push({
+                value: item,
+                label: label,
+              });
             });
             setCountryall(arr);
-         }
+          }
           // setCountryall(res.data.response.data.country);
           //console.log(countryall)
           // setCounter(counter + 1);
@@ -182,10 +199,14 @@ const SelectSmartListUsers = (props) => {
         : props.getDraftData.pdf_id,
       description: old_object?.emailDescription
         ? old_object.emailDescription
-        : props.getDraftData?.description ? props.getDraftData.description : '',
+        : props.getDraftData?.description
+        ? props.getDraftData.description
+        : "",
       creator: old_object?.emailCreator
         ? old_object.emailCreator
-        : props.getDraftData?.creator ? props.getDraftData.creator : '',
+        : props.getDraftData?.creator
+        ? props.getDraftData.creator
+        : "",
       campaign_name: old_object?.emailCampaign
         ? old_object.emailCampaign
         : props.getDraftData.campaign,
@@ -193,9 +214,7 @@ const SelectSmartListUsers = (props) => {
         ? old_object.emailSubject
         : props.getDraftData.subject,
       route_location: "SelectSmartListUsers",
-      tags: old_object?.tags
-        ? old_object.tags
-        : props.getDraftData.tags,
+      tags: old_object?.tags ? old_object.tags : props.getDraftData.tags,
       campaign_data: {
         template_id: old_object?.templateId
           ? old_object.templateId
@@ -254,7 +273,7 @@ const SelectSmartListUsers = (props) => {
       // smartListName: smartListName,
       state: {
         selectedHcp: [...readers, ...readersNewlyAdded],
-        removedHcp: removedReaders
+        removedHcp: removedReaders,
       },
     });
   };
@@ -303,12 +322,12 @@ const SelectSmartListUsers = (props) => {
   };
 
   const onCountryChange = (e, i) => {
-    if(e == null){
+    if (e == null) {
       const list = [...hpc];
       list[i].country = "";
       list[i].countryIndex = "";
       setHpc(list);
-    }else{
+    } else {
       const value = e.value;
       const list = [...hpc];
       const name = hpc[i].country;
@@ -352,11 +371,11 @@ const SelectSmartListUsers = (props) => {
     const newlyAdded = readersNewlyAdded;
     newlyAdded.splice(i, 1);
     setReadersNewlyAdded(newlyAdded);
-    let merged_array = [reader,...readersRemoved];
+    let merged_array = [reader, ...readersRemoved];
     old_object.removedHcp = merged_array;
 
-    if(props.getDraftData?.campaign_data){
-      if(props.getDraftData.campaign_data?.removedHcp){
+    if (props.getDraftData?.campaign_data) {
+      if (props.getDraftData.campaign_data?.removedHcp) {
         props.getDraftData.campaign_data.removedHcp = merged_array;
       }
     }
@@ -480,31 +499,41 @@ const SelectSmartListUsers = (props) => {
     names,
     contact_type
   ) => {
-    if(editable != 0){
-      const name_edit    = document.getElementById("field_name" + profile_user_id).innerText;
-      const country_edit = document.getElementById("field_country" + profile_user_id).value;
-      const contact_type_edit = document.getElementById("field_contact_type" + profile_user_id).value;
+    if (editable != 0) {
+      const name_edit = document.getElementById(
+        "field_name" + profile_user_id
+      ).innerText;
+      const country_edit = document.getElementById(
+        "field_country" + profile_user_id
+      ).value;
+      const contact_type_edit = document.getElementById(
+        "field_contact_type" + profile_user_id
+      ).value;
 
-        const arr = [];
-        arr.push({
-          profile_id: profile_id,
-          profile_user_id: profile_user_id,
-          email: email,
-          jobTitle: jobTitle,
-          company: company,
-          country: country_edit,
-          username: name_edit,
-          contact_type:contact_type_edit,
-        });
+      const arr = [];
+      arr.push({
+        profile_id: profile_id,
+        profile_user_id: profile_user_id,
+        email: email,
+        jobTitle: jobTitle,
+        company: company,
+        country: country_edit,
+        username: name_edit,
+        contact_type: contact_type_edit,
+      });
 
-        let prev_obj = editableData.find(x => x.profile_user_id === profile_user_id);
-        if(typeof (prev_obj) != "undefined") {
-            //update existing
-           editableData.map(obj => arr.find(o => o.profile_user_id === profile_user_id) || obj);
-        }else{
-          //create new
-          setEditableData((oldArray) => [...oldArray, ...arr]);
-        }
+      let prev_obj = editableData.find(
+        (x) => x.profile_user_id === profile_user_id
+      );
+      if (typeof prev_obj != "undefined") {
+        //update existing
+        editableData.map(
+          (obj) => arr.find((o) => o.profile_user_id === profile_user_id) || obj
+        );
+      } else {
+        //create new
+        setEditableData((oldArray) => [...oldArray, ...arr]);
+      }
     }
   };
   const deleteReader = (i) => {
@@ -513,11 +542,11 @@ const SelectSmartListUsers = (props) => {
     const removedReader = readersList.splice(i, 1);
     setReaders(readersList);
     setRemovedReaders((oldArray) => [...oldArray, removedReader[0]]);
-    let merged_array = [...previous_removed_users,...removedReader];
+    let merged_array = [...previous_removed_users, ...removedReader];
     old_object.removedHcp = merged_array;
 
-    if(props.getDraftData?.campaign_data){
-      if(props.getDraftData.campaign_data?.removedHcp){
+    if (props.getDraftData?.campaign_data) {
+      if (props.getDraftData.campaign_data?.removedHcp) {
         props.getDraftData.campaign_data.removedHcp = merged_array;
       }
     }
@@ -525,27 +554,36 @@ const SelectSmartListUsers = (props) => {
 
   const saveEditClicked = async () => {
     setEditable(0);
-    if(editableData.length > 0){
-
+    if (editableData.length > 0) {
       editableData.map((data) => {
-        const name_edit    = document.getElementById("field_name" + data.profile_user_id).innerText;
-        const country_edit = document.getElementById("field_country" + data.profile_user_id).value;
-        const edit_index = document.getElementById("field_index" + data.profile_user_id).value;
-        const contact_type_edit = document.getElementById("field_contact_type" + data.profile_user_id).value;
+        const name_edit = document.getElementById(
+          "field_name" + data.profile_user_id
+        ).innerText;
+        const country_edit = document.getElementById(
+          "field_country" + data.profile_user_id
+        ).value;
+        const edit_index = document.getElementById(
+          "field_index" + data.profile_user_id
+        ).value;
+        const contact_type_edit = document.getElementById(
+          "field_contact_type" + data.profile_user_id
+        ).value;
 
-        let prev_obj = readers.find(x => x.profile_user_id === data.profile_user_id);
-        if(typeof prev_obj != "undefined"){
-          if(typeof readers[edit_index] != "undefined"){
-              readers[edit_index].country = country_edit;
+        let prev_obj = readers.find(
+          (x) => x.profile_user_id === data.profile_user_id
+        );
+        if (typeof prev_obj != "undefined") {
+          if (typeof readers[edit_index] != "undefined") {
+            readers[edit_index].country = country_edit;
           }
-          if(typeof readers[edit_index] != "undefined"){
-              readers[edit_index].contact_type = contact_type_edit;
+          if (typeof readers[edit_index] != "undefined") {
+            readers[edit_index].contact_type = contact_type_edit;
           }
-        }else{
-          if(typeof readersNewlyAdded[edit_index] != "undefined"){
+        } else {
+          if (typeof readersNewlyAdded[edit_index] != "undefined") {
             readersNewlyAdded[edit_index].country = country_edit;
           }
-          if(typeof readersNewlyAdded[edit_index] != "undefined"){
+          if (typeof readersNewlyAdded[edit_index] != "undefined") {
             readersNewlyAdded[edit_index].contact_type = contact_type_edit;
           }
         }
@@ -562,24 +600,24 @@ const SelectSmartListUsers = (props) => {
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
       await axios
-      .post(`distributes/update_reders_details`, body)
-      .then((res) => {
-        loader("hide");
-        if (res.data.status_code === 200) {
-          toast.success("List updated");
-        } else {
-          popup_alert({
-            visible: "show",
-            message: res.data.message,
-            type: "error",
-          });
-        }
-      })
-      .catch((err) => {
-        toast.error("Something went wrong");
-      });
+        .post(`distributes/update_reders_details`, body)
+        .then((res) => {
+          loader("hide");
+          if (res.data.status_code === 200) {
+            toast.success("List updated");
+          } else {
+            popup_alert({
+              visible: "show",
+              message: res.data.message,
+              type: "error",
+            });
+          }
+        })
+        .catch((err) => {
+          toast.error("Something went wrong");
+        });
       setEditableData([]);
-    }else{
+    } else {
       setSaveOpen(false);
       toast.warning("No row update");
     }
@@ -619,19 +657,19 @@ const SelectSmartListUsers = (props) => {
       const status = body.data.map((data) => {
         if (data.email == "") {
           return "Please enter the email atleast";
-        } else if(data.email != ""){
+        } else if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
           if (regex.test(String(useremail).toLowerCase())) {
-            let prev_obj = readers.find(x => x.email === useremail);
-            if(typeof prev_obj != "undefined"){
+            let prev_obj = readers.find((x) => x.email === useremail);
+            if (typeof prev_obj != "undefined") {
               return "User with same email already added in list.";
-            }else{
+            } else {
               return "true";
             }
             return "true";
-          }else{
+          } else {
             return "Email format is not valid";
           }
         } else {
@@ -672,7 +710,7 @@ const SelectSmartListUsers = (props) => {
       //  setIsOpen(false);
     } else {
       let formData = new FormData();
-      let user_id =  localStorage.getItem("user_id");
+      let user_id = localStorage.getItem("user_id");
       formData.append("user_id", user_id);
       formData.append("smart_list_id", "");
       formData.append("reader_file", selectedFile);
@@ -721,220 +759,230 @@ const SelectSmartListUsers = (props) => {
   return (
     <>
       <div className="col right-sidebar">
-      <div className="custom-container">
-        <div className="row">
-        <div className="page-top-nav">
-          <div className="row justify-content-end align-items-center">
-            <div className="col-12 col-md-1">
-              <div className="header-btn-left">
-                <button
-                  className="btn btn-primary btn-bordered back"
-                  onClick={backClicked}
-                >
-                  Back
-                </button>
-              </div>
-            </div>
-            <div className="col-12 col-md-9">
-              <ul className="tabnav-link">
-                <li className="active">
-                  <Link to="/EmailArticleSelect">Select Content</Link>
-                </li>
-                <li className="active">
-                  <Link to="/CreateEmail">Create Your Email</Link>
-                </li>
-                <li className="active">
-                  <Link to="/SelectSmartList">Select HCPs</Link>
-                </li>
-                {
-                  /*
+        <div className="custom-container">
+          <div className="row">
+            <div className="page-top-nav">
+              <div className="row justify-content-end align-items-center">
+                <div className="col-12 col-md-1">
+                  <div className="header-btn-left">
+                    <button
+                      className="btn btn-primary btn-bordered back"
+                      onClick={backClicked}
+                    >
+                      Back
+                    </button>
+                  </div>
+                </div>
+                <div className="col-12 col-md-9">
+                  <ul className="tabnav-link">
+                    <li className="active">
+                      <Link to="/EmailArticleSelect">Select Content</Link>
+                    </li>
+                    <li className="active">
+                      <Link to="/CreateEmail">Create Your Email</Link>
+                    </li>
+                    <li className="active">
+                      <Link to="/SelectSmartList">Select HCPs</Link>
+                    </li>
+                    {/*
                   <li className="active">
                     <Link to="/SelectSmartList">Select Smart List</Link>
                   </li>
-                  */
-                }
+                  */}
 
-                <li className="active active-main">
-                  <Link to="/SelectSmartListUsers">Verify Your List</Link>
-                </li>
+                    <li className="active active-main">
+                      <Link to="/SelectSmartListUsers">Verify Your List</Link>
+                    </li>
 
-                <li className="">
-                  <a href="javascript:void(0)">Verify Your Email</a>
-                </li>
-              </ul>
-            </div>
-            <div className="col-12 col-md-2">
-              <div className="header-btn">
-                <button
-                  className="btn btn-primary btn-bordered move-draft"
-                  onClick={saveAsDraft}
-                >
-                  Save As Draft
-                </button>
-                <button
-                  className="btn btn-primary btn-filled next"
-                  onClick={nextClicked}
-                >
-                  Next
-                </button>
+                    <li className="">
+                      <a href="javascript:void(0)">Verify Your Email</a>
+                    </li>
+                  </ul>
+                </div>
+                <div className="col-12 col-md-2">
+                  <div className="header-btn">
+                    <button
+                      className="btn btn-primary btn-bordered move-draft"
+                      onClick={saveAsDraft}
+                    >
+                      Save As Draft
+                    </button>
+                    <button
+                      className="btn btn-primary btn-filled next"
+                      onClick={nextClicked}
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        <section className="search-hcp">
-          <div className="result-hcp-table">
-            <div className="table-title">
-              <h4>
-                {/* HCPs <span>| {smartListSelected.readers_count}</span> */}
-              </h4>
-              <div className="selected-hcp-table-action">
-                {editable == false ? (
-                  <>
-                    <a
-                      className="show-less-info"
-                      onClick={(e) => showMoreInfo(e)}
-                    >
-                      {showLessInfo == true ? (
-                        <p className="show_more">Show More information</p>
-                      ) : (
-                        <p className="show_less">Show less information</p>
-                      )}{" "}
-                    </a>
-                    <div className="hcp-new-user">
-                      <button
-                        className="btn btn-outline-primary"
-                        onClick={addNewUser}
-                      >
-                        <img src={path_image + "new-user.svg"} alt="New User" />
-                      </button>
-                    </div>
-                    <div className="hcp-added">
-                      <button
-                        className="btn btn-outline-primary"
-                        onClick={editButtonClicked}
-                      >
-                        <img src={path_image + "edit.svg"} alt="Edit" />
-                      </button>
-                    </div>
-                    <div className="hcp-sort">
-                      {sortingCount == 0 ? (
-                        <>
+            <section className="search-hcp">
+              <div className="result-hcp-table">
+                <div className="table-title">
+                  <h4>
+                    {/* HCPs <span>| {smartListSelected.readers_count}</span> */}
+                  </h4>
+                  <div className="selected-hcp-table-action">
+                    {editable == false ? (
+                      <>
+                        <a
+                          className="show-less-info"
+                          onClick={(e) => showMoreInfo(e)}
+                        >
+                          {showLessInfo == true ? (
+                            <p className="show_more">Show More information</p>
+                          ) : (
+                            <p className="show_less">Show less information</p>
+                          )}{" "}
+                        </a>
+                        <div className="hcp-new-user">
                           <button
                             className="btn btn-outline-primary"
-                            onClick={sortSelectedUsers}
+                            onClick={addNewUser}
                           >
-                            Sort By{" "}
-                            <img src={path_image + "sort.svg"} alt="Shorting" />
-                          </button>
-                        </>
-                      ) : sorting == 0 ? (
-                        <>
-                          <button
-                            className="btn btn-outline-primary desc"
-                            onClick={sortSelectedUsers}
-                          >
-                            Sort By{" "}
                             <img
-                              src={path_image + "sort-decending.svg"}
-                              alt="Shorting"
+                              src={path_image + "new-user.svg"}
+                              alt="New User"
                             />
                           </button>
-                        </>
-                      ) : (
-                        <>
+                        </div>
+                        <div className="hcp-added">
                           <button
-                            className="btn btn-outline-primary asc"
-                            onClick={sortSelectedUsers}
+                            className="btn btn-outline-primary"
+                            onClick={editButtonClicked}
                           >
-                            Sort By{" "}
-                            <img
-                              src={path_image + "sort-assending.svg"}
-                              alt="Shorting"
-                            />
+                            <img src={path_image + "edit.svg"} alt="Edit" />
                           </button>
-                        </>
-                      )}
-                    </div>
-                  </>
-                ) : null}
-                {saveOpen ? (
-                  <>
-                    <button
-                      className="btn btn-primary btn-filled"
-                      onClick={closeClicked}
-                    >
-                      Close
-                    </button>
-
-                    <button
-                      className="btn btn-primary btn-bordered"
-                      onClick={saveEditClicked}
-                    >
-                      Save
-                    </button>
-                  </>
-                ) : null}
-              </div>
-            </div>
-            <div className="selected-hcp-list">
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Bounced</th>
-                    <th scope="col">Country</th>
-                    <th scope="col">Business Unit</th>
-                    <th scope="col">Contact Type</th>
-                    {showLessInfo == false ? (
-                      <>
-                        <th scope="col">Consent</th>
-                        <th scope="col">Email Received</th>
-                        <th scope="col">Openings</th>
-                        <th scope="col">Registrations</th>
-                        <th scope="col">Last Email</th>
+                        </div>
+                        <div className="hcp-sort">
+                          {sortingCount == 0 ? (
+                            <>
+                              <button
+                                className="btn btn-outline-primary"
+                                onClick={sortSelectedUsers}
+                              >
+                                Sort By{" "}
+                                <img
+                                  src={path_image + "sort.svg"}
+                                  alt="Shorting"
+                                />
+                              </button>
+                            </>
+                          ) : sorting == 0 ? (
+                            <>
+                              <button
+                                className="btn btn-outline-primary desc"
+                                onClick={sortSelectedUsers}
+                              >
+                                Sort By{" "}
+                                <img
+                                  src={path_image + "sort-decending.svg"}
+                                  alt="Shorting"
+                                />
+                              </button>
+                            </>
+                          ) : (
+                            <>
+                              <button
+                                className="btn btn-outline-primary asc"
+                                onClick={sortSelectedUsers}
+                              >
+                                Sort By{" "}
+                                <img
+                                  src={path_image + "sort-assending.svg"}
+                                  alt="Shorting"
+                                />
+                              </button>
+                            </>
+                          )}
+                        </div>
                       </>
                     ) : null}
-                  </tr>
-                </thead>
-                <tbody>
-                  {removedReaders.map((rr, i) => {
-                    return (
+                    {saveOpen ? (
                       <>
-                        <tr className="hcps-deleted">
-                          <td><span>{rr.first_name + " " + rr.last_name}</span></td>
-                          <td>{rr.email}</td>
-                          <td>{rr.bounce}</td>
-                          <td><span>{rr.country}</span></td>
-                          <td>{rr.ibu}</td>
-                          <td>{rr.contact_type}</td>
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>{rr.consent}</span>{" "}
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>{rr.email_received}</span>
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>{rr.email_opening}</span>
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>{rr.registration}</span>
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>{rr.last_email}</span>
-                            </td>
-                          ) : null}
-                          {/* <td>NA</td>
+                        <button
+                          className="btn btn-primary btn-filled"
+                          onClick={closeClicked}
+                        >
+                          Close
+                        </button>
+
+                        <button
+                          className="btn btn-primary btn-bordered"
+                          onClick={saveEditClicked}
+                        >
+                          Save
+                        </button>
+                      </>
+                    ) : null}
+                  </div>
+                </div>
+                <div className="selected-hcp-list">
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Bounced</th>
+                        <th scope="col">Country</th>
+                        <th scope="col">Business Unit</th>
+                        <th scope="col">Contact Type</th>
+                        {showLessInfo == false ? (
+                          <>
+                            <th scope="col">Consent</th>
+                            <th scope="col">Email Received</th>
+                            <th scope="col">Openings</th>
+                            <th scope="col">Registrations</th>
+                            <th scope="col">Last Email</th>
+                          </>
+                        ) : null}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {removedReaders.map((rr, i) => {
+                        return (
+                          <>
+                            <tr className="hcps-deleted">
+                              <td>
+                                <span>
+                                  {rr.first_name + " " + rr.last_name}
+                                </span>
+                              </td>
+                              <td>{rr.email}</td>
+                              <td>{rr.bounce}</td>
+                              <td>
+                                <span>{rr.country}</span>
+                              </td>
+                              <td>{rr.ibu}</td>
+                              <td>{rr.contact_type}</td>
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>{rr.consent}</span>{" "}
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>{rr.email_received}</span>
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>{rr.email_opening}</span>
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>{rr.registration}</span>
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>{rr.last_email}</span>
+                                </td>
+                              ) : null}
+                              {/* <td>NA</td>
                           <td>
                             <span>NA</span>
                           </td>
@@ -950,18 +998,18 @@ const SelectSmartListUsers = (props) => {
                           <td>
                             <span>NA</span>
                           </td> */}
-                          <td className="add-new-hcp" colspan="12">
-                            <img
-                              src={path_image + "add-row.png"}
-                              alt="Add Row"
-                              onClick={() => readersAdded(rr, i)}
-                            />
-                          </td>
-                        </tr>
-                      </>
-                    );
-                  })}
-                  {/* <tr className="hcps-added">
+                              <td className="add-new-hcp" colspan="12">
+                                <img
+                                  src={path_image + "add-row.png"}
+                                  alt="Add Row"
+                                  onClick={() => readersAdded(rr, i)}
+                                />
+                              </td>
+                            </tr>
+                          </>
+                        );
+                      })}
+                      {/* <tr className="hcps-added">
                     <td>Jacob Flindt</td>
                     <td>User@docintel.app</td>
                     <td>No</td>
@@ -988,168 +1036,209 @@ const SelectSmartListUsers = (props) => {
                       <img src="assets/images/delete.svg" alt="Delete Row" />
                     </td>
                   </tr>*/}
-                  <tr className="seprator-add">
-                    <td colspan="13"></td>
-                  </tr>
-                  {readersNewlyAdded.map((readers, i) => {
-                    return (
-                      <>
-                        <tr className="hcps-added"
-                        onClick={(e) =>
-                          editing(
-                            readers.profile_id,
-                            readers.profile_user_id,
-                            readers.email,
-                            readers.jobTitle,
-                            readers.company,
-                            readers.country,
-                            readers.first_name + " " + readers.last_name,
-                            readers.contact_type,
-                          )
-                        }
-                        >
-                          <td
-                            id={`field_name` + readers.profile_user_id}
-                            contenteditable={editable === 0 ? "false" : "true"}
-                          >
-                            <span>{readers.first_name + " " + readers.last_name}</span>
-                          </td>
-                          <td>{readers.email}</td>
-                          <input type="hidden" id={`field_index` + readers.profile_user_id} value={i} />
-                          <td>{readers.bounce}</td>
-                          <td>
-                          {
-                            editable ? <EditCountry selected_country={readers.country} profile_user={readers.profile_user_id}></EditCountry> : <span>{readers.country}</span>
-                          }
-                          </td>
-                          <td>{readers.ibu}</td>
-                          <td>
-                            {
-                              editable ? <EditContactType selected_ibu={readers.contact_type} profile_user={readers.profile_user_id}></EditContactType> : <span>{readers.contact_type}</span>
-                            }
-                          </td>
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>{readers.consent}</span>{" "}
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>{readers.email_received}</span>
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>{readers.email_opening}</span>
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>{readers.registration}</span>
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>{readers.last_email}</span>
-                            </td>
-                          ) : null}
-                          <td className="delete_row" colspan="12">
-                            <img
-                              src={path_image + "delete.svg"}
-                              alt="Delete Row"
-                              onClick={() => newlyAddedRemoved(readers, i)}
-                            />
-                          </td>
-                        </tr>
-                      </>
-                    );
-                  })}
-                  {readers.map((readers, i) => {
-                    return (
-                      <>
-                        <tr
-                          id={`row-selected` + i}
-                          onClick={(e) =>
-                            editing(
-                              readers.profile_id,
-                              readers.profile_user_id,
-                              readers.email,
-                              readers.jobTitle,
-                              readers.company,
-                              readers.country,
-                              readers.first_name + " " + readers.last_name,
-                              readers.contact_type,
-                            )
-                          }
-                        >
-                          <td
-                            id={`field_name` + readers.profile_user_id}
-                            contenteditable={editable === 0 ? "false" : "true"}
-                          >
-                            <span>
-                              {" "}
-                              {readers.first_name +
-                                " " +
-                                readers.last_name}{" "}
-                            </span>
-                          </td>
-                          <td id={`field_email` + readers.profile_user_id}>{readers.email}</td>
-                          <input type="hidden" id={`field_index` + readers.profile_user_id} value={i} />
-                          <td id={`field_bounced` + readers.profile_user_id}>{readers.bounce}</td>
-                          <td>
-                          {
-                            editable ? <EditCountry selected_country={readers.country} profile_user={readers.profile_user_id}></EditCountry> : <span>{readers.country}</span>
-                          }
-                          </td>
-                          <td>{readers.ibu}</td>
-                          <td>
-                            {
-                              editable ? <EditContactType selected_ibu={readers.contact_type} profile_user={readers.profile_user_id}></EditContactType> : <span>{readers.contact_type}</span>
-                            }
-                          </td>
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>{readers.consent}</span>
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>{readers.email_received}</span>
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>{readers.email_opening}</span>
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>{readers.registration}</span>
-                            </td>
-                          ) : null}
-                          {showLessInfo == false ? (
-                            <td>
-                              <span>{readers.last_email}</span>
-                            </td>
-                          ) : null}
-                          <td className="delete_row" colspan="12">
-                            <img
-                              src={path_image + "delete.svg"}
-                              alt="Add Row"
-                              onClick={() => deleteReader(i)}
-                            />
-                          </td>
-                        </tr>
-                      </>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
+                      <tr className="seprator-add">
+                        <td colspan="13"></td>
+                      </tr>
+                      {readersNewlyAdded.map((readers, i) => {
+                        return (
+                          <>
+                            <tr
+                              className="hcps-added"
+                              onClick={(e) =>
+                                editing(
+                                  readers.profile_id,
+                                  readers.profile_user_id,
+                                  readers.email,
+                                  readers.jobTitle,
+                                  readers.company,
+                                  readers.country,
+                                  readers.first_name + " " + readers.last_name,
+                                  readers.contact_type
+                                )
+                              }
+                            >
+                              <td
+                                id={`field_name` + readers.profile_user_id}
+                                contenteditable={
+                                  editable === 0 ? "false" : "true"
+                                }
+                              >
+                                <span>
+                                  {readers.first_name + " " + readers.last_name}
+                                </span>
+                              </td>
+                              <td>{readers.email}</td>
+                              <input
+                                type="hidden"
+                                id={`field_index` + readers.profile_user_id}
+                                value={i}
+                              />
+                              <td>{readers.bounce}</td>
+                              <td>
+                                {editable ? (
+                                  <EditCountry
+                                    selected_country={readers.country}
+                                    profile_user={readers.profile_user_id}
+                                  ></EditCountry>
+                                ) : (
+                                  <span>{readers.country}</span>
+                                )}
+                              </td>
+                              <td>{readers.ibu}</td>
+                              <td>
+                                {editable ? (
+                                  <EditContactType
+                                    selected_ibu={readers.contact_type}
+                                    profile_user={readers.profile_user_id}
+                                  ></EditContactType>
+                                ) : (
+                                  <span>{readers.contact_type}</span>
+                                )}
+                              </td>
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>{readers.consent}</span>{" "}
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>{readers.email_received}</span>
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>{readers.email_opening}</span>
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>{readers.registration}</span>
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>{readers.last_email}</span>
+                                </td>
+                              ) : null}
+                              <td className="delete_row" colspan="12">
+                                <img
+                                  src={path_image + "delete.svg"}
+                                  alt="Delete Row"
+                                  onClick={() => newlyAddedRemoved(readers, i)}
+                                />
+                              </td>
+                            </tr>
+                          </>
+                        );
+                      })}
+                      {readers.map((readers, i) => {
+                        return (
+                          <>
+                            <tr
+                              id={`row-selected` + i}
+                              onClick={(e) =>
+                                editing(
+                                  readers.profile_id,
+                                  readers.profile_user_id,
+                                  readers.email,
+                                  readers.jobTitle,
+                                  readers.company,
+                                  readers.country,
+                                  readers.first_name + " " + readers.last_name,
+                                  readers.contact_type
+                                )
+                              }
+                            >
+                              <td
+                                id={`field_name` + readers.profile_user_id}
+                                contenteditable={
+                                  editable === 0 ? "false" : "true"
+                                }
+                              >
+                                <span>
+                                  {" "}
+                                  {readers.first_name +
+                                    " " +
+                                    readers.last_name}{" "}
+                                </span>
+                              </td>
+                              <td id={`field_email` + readers.profile_user_id}>
+                                {readers.email}
+                              </td>
+                              <input
+                                type="hidden"
+                                id={`field_index` + readers.profile_user_id}
+                                value={i}
+                              />
+                              <td
+                                id={`field_bounced` + readers.profile_user_id}
+                              >
+                                {readers.bounce}
+                              </td>
+                              <td>
+                                {editable ? (
+                                  <EditCountry
+                                    selected_country={readers.country}
+                                    profile_user={readers.profile_user_id}
+                                  ></EditCountry>
+                                ) : (
+                                  <span>{readers.country}</span>
+                                )}
+                              </td>
+                              <td>{readers.ibu}</td>
+                              <td>
+                                {editable ? (
+                                  <EditContactType
+                                    selected_ibu={readers.contact_type}
+                                    profile_user={readers.profile_user_id}
+                                  ></EditContactType>
+                                ) : (
+                                  <span>{readers.contact_type}</span>
+                                )}
+                              </td>
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>{readers.consent}</span>
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>{readers.email_received}</span>
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>{readers.email_opening}</span>
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>{readers.registration}</span>
+                                </td>
+                              ) : null}
+                              {showLessInfo == false ? (
+                                <td>
+                                  <span>{readers.last_email}</span>
+                                </td>
+                              ) : null}
+                              <td className="delete_row" colspan="12">
+                                <img
+                                  src={path_image + "delete.svg"}
+                                  alt="Add Row"
+                                  onClick={() => deleteReader(i)}
+                                />
+                              </td>
+                            </tr>
+                          </>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </section>
           </div>
-        </section>
-      </div>
-      </div>
+        </div>
       </div>
 
       <Modal
@@ -1179,7 +1268,7 @@ const SelectSmartListUsers = (props) => {
                     email: "",
                     contact_type: "",
                     country: "",
-                    countryIndex: ""
+                    countryIndex: "",
                   },
                 ]);
                 setActiveManual("active");
@@ -1204,7 +1293,7 @@ const SelectSmartListUsers = (props) => {
                             <div className="row">
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">First Name</label>
+                                  <label htmlFor="">First Name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -1217,7 +1306,7 @@ const SelectSmartListUsers = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Last Name</label>
+                                  <label htmlFor="">Last Name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -1230,7 +1319,7 @@ const SelectSmartListUsers = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Email *</label>
+                                  <label htmlFor="">Email *</label>
                                   <input
                                     type="email"
                                     className="form-control"
@@ -1245,28 +1334,74 @@ const SelectSmartListUsers = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Contact Type</label>
-                                  <DropdownButton className="dropdown-basic-button split-button-dropup"
-                                   title= {hpc[i].contact_type != "" &&  hpc[i].contact_type != "undefined" ? hpc[i].contact_type : "Select Type" }
-                                   onSelect={(event) => onContactTypeChange(event, i)}
-                                   >
-                                    <Dropdown.Item eventKey="HCP" className = {hpc[i].contact_type == "HCP" ? "active" : "" }>HCP</Dropdown.Item>
-                                    <Dropdown.Item eventKey="Staff" className = {hpc[i].contact_type == "Staff" ? "active" : "" }>Staff</Dropdown.Item>
-                                    <Dropdown.Item eventKey="Test Users" className = {hpc[i].contact_type == "Test Users" ? "active" : "" }>Test Users</Dropdown.Item>
+                                  <label htmlFor="">Contact Type</label>
+                                  <DropdownButton
+                                    className="dropdown-basic-button split-button-dropup"
+                                    title={
+                                      hpc[i].contact_type != "" &&
+                                      hpc[i].contact_type != "undefined"
+                                        ? hpc[i].contact_type
+                                        : "Select Type"
+                                    }
+                                    onSelect={(event) =>
+                                      onContactTypeChange(event, i)
+                                    }
+                                  >
+                                    <Dropdown.Item
+                                      eventKey="HCP"
+                                      className={
+                                        hpc[i].contact_type == "HCP"
+                                          ? "active"
+                                          : ""
+                                      }
+                                    >
+                                      HCP
+                                    </Dropdown.Item>
+                                    <Dropdown.Item
+                                      eventKey="Staff"
+                                      className={
+                                        hpc[i].contact_type == "Staff"
+                                          ? "active"
+                                          : ""
+                                      }
+                                    >
+                                      Staff
+                                    </Dropdown.Item>
+                                    <Dropdown.Item
+                                      eventKey="Test Users"
+                                      className={
+                                        hpc[i].contact_type == "Test Users"
+                                          ? "active"
+                                          : ""
+                                      }
+                                    >
+                                      Test Users
+                                    </Dropdown.Item>
                                   </DropdownButton>
                                 </div>
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Country</label>
-                                  <Select options = {countryall} className= "dropdown-basic-button split-button-dropup edit-country-dropdown" onChange={(event) => onCountryChange(event, i)}
-                                    defaultValue  = {countryall[hpc[i].countryIndex]}
-                                    placeholder   = {typeof  countryall[hpc[i].countryIndex] === "undefined" ? "Select Country" : countryall[hpc[i].countryIndex]}
-                                    filterOption  = {createFilter(filterConfig)}
+                                  <label htmlFor="">Country</label>
+                                  <Select
+                                    options={countryall}
+                                    className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                    onChange={(event) =>
+                                      onCountryChange(event, i)
+                                    }
+                                    defaultValue={
+                                      countryall[hpc[i].countryIndex]
+                                    }
+                                    placeholder={
+                                      typeof countryall[hpc[i].countryIndex] ===
+                                      "undefined"
+                                        ? "Select Country"
+                                        : countryall[hpc[i].countryIndex]
+                                    }
+                                    filterOption={createFilter(filterConfig)}
                                     isClearable
                                   />
-                                  {
-                                    /*
+                                  {/*
                                     <DropdownButton className="dropdown-basic-button split-button-dropup country"
                                             title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
                                             onSelect={(event) => onCountryChange(event, i)}
@@ -1285,8 +1420,7 @@ const SelectSmartListUsers = (props) => {
                                       )}
                                       </div>
                                       </DropdownButton>
-                                    */
-                                  }
+                                    */}
                                 </div>
                               </div>
                               {/*
@@ -1391,7 +1525,7 @@ const SelectSmartListUsers = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  old_object =  state.getEmailData ? state.getEmailData : {};
+  old_object = state.getEmailData ? state.getEmailData : {};
   return state;
 };
 

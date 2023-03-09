@@ -1,34 +1,40 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-
+import React, { useEffect } from "react";
+import { useState } from "react";
+import moment from "moment";
+import axios from "axios";
+import "react-toastify/dist/ReactToastify.css";
 import { popup_alert } from "../../../popup_alert";
 import { deleteData, postData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import Select from "react-select";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Oval } from "react-loader-spinner";
 import { Spinner } from "react-activity";
-import CommonModel from "../../../Model/CommonModel";
-import SimpleReactValidator from "simple-react-validator";
-import Tooltip from "react-bootstrap/Tooltip";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import "react-activity/dist/library.css";
+import InfiniteScroll from "react-infinite-scroll-component";
+
 import {
   Accordion,
   Col,
-  Row,
+  Dropdown,
+  DropdownButton,
+  Nav,
+  NavDropdown,
+  NavItem,
   Modal,
+  Row,
   Tab,
   Tabs,
   ProgressBar,
   Button,
 } from "react-bootstrap";
-
-import "react-toastify/dist/ReactToastify.css";
-import "react-activity/dist/library.css";
-
+import SimpleReactValidator from "simple-react-validator";
+import Tooltip from "react-bootstrap/Tooltip";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import { loader } from "../../../loader";
 import { toast } from "react-toastify";
-import moment from "moment";
 
-const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LibraryContent = () => {
   const [size, setSize] = useState("Small");
@@ -36,9 +42,9 @@ const LibraryContent = () => {
   const [types, setTypes] = useState([
     { value: "Online", label: "Online" },
     { value: "Offline", label: "Offline" },
+
     { value: "Sunshine", label: "Sunshine" },
   ]);
-
   const [pageAllClicked, setPageAllClicked] = useState(false);
   const [update, setUpdate] = useState(0);
   const location = useLocation();
@@ -49,9 +55,22 @@ const LibraryContent = () => {
   const navigate = useNavigate();
   let obj = {};
   const [userId, setUserId] = useState();
+  const [uniqueReader, setUniqueReader] = useState();
+  const [opening, setOpening] = useState();
+  const [registeredReader, setRegisteredReader] = useState();
   const [filterObject, setFilterObject] = useState({});
+  const [SendListData, setSendListData] = useState([]);
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [show, setShow] = useState(false);
+  const [UserData, setUserData] = useState([]);
+  const [getoriginalsendlistdata, setOriginalSendListData] = useState([]);
+  const [articleSelected, setArticleSelected] = useState("Select By Article");
+  const [actionSelected, setActionSelected] = useState("0");
+  const [sortSelected, setSortSelected] = useState("Select By");
+  const [renderAfterValidation, setRenderAfterValidation] = useState(0);
+  const [sorting, setSorting] = useState(0);
+  const [filter, setFilter] = useState("");
+  const [submiHandle, setSubmiHandle] = useState("");
   const [filterdata, setFilterData] = useState({
     language: ["English", "Russian", "Spanish", "italian"],
     business_unit: ["IBU", "MPU", "KSU"],
@@ -61,49 +80,37 @@ const LibraryContent = () => {
     list: ["list1", "list2", "list3"],
   });
 
+  const [nextPage, setNextPage] = useState();
   const [deletestatus, setDeleteStatus] = useState(false);
+  const [filtertags, setFilterTags] = useState([]);
+  const [filtercreator, setFilterCreators] = useState([]);
+  const [filterdate, setFilterDate] = useState([]);
+  const [filtercampaign, setFilterCampaigns] = useState([]);
+  const [filterapplied, setFilterApply] = useState(false);
+  const [updateflag, setUpdateFlag] = useState([]);
+  const [validator] = React.useState(new SimpleReactValidator());
   const [page, setPage] = useState(1);
   const [showfilter, setShowFilter] = useState(false);
 
   const [libraryData, setLibraryData] = useState([]);
-  const downloadQRData = [
-    {
-      label: "Select Size",
-      type: "dropdown",
-      dropdown: [
-        {
-          key: "Tiny",
-        },
-        {
-          key: "Article",
-        },
-        {
-          key: "Large Print",
-        },
-      ],
-    },
-    {
-      label: "Product name",
-      type: "input",
-      placeholder: "Type your product name",
-    },
-  ];
 
   useEffect(() => {
     applyFilters();
   }, []);
 
   const applyFilters = async () => {
+    loader("show");
     try {
-      loader("show");
-      const res = await postData(ENDPOINT.FILTERS, {
+      let body = {
         id: 18207,
-      });
-      setFilterData(res?.data?.data);
+      };
+      const res = await postData(ENDPOINT.FILTERS, body);
+      setFilterData(res.data.data);
+
       loader("hide");
     } catch (err) {
-      loader("hide");
       console.log("err");
+      loader("hide");
     }
   };
 
@@ -119,18 +126,22 @@ const LibraryContent = () => {
     return false;
   };
 
+  const onSizeChange = (event) => {
+    setSize(event);
+  };
+
   const handleOnFilterChange = (e, item, index, key) => {
     if (!filterObject[key]) {
       filterObject[key] = [];
     }
 
-    if (e?.target?.checked == true) {
-      filterObject[key]?.push(item);
+    if (e.target.checked == true) {
+      filterObject[key].push(item);
     } else {
-      const index = filterObject[key]?.indexOf(item);
+      const index = filterObject[key].indexOf(item);
       if (index > -1) {
-        filterObject[key]?.splice(index, 1);
-        if (filterObject[key]?.length == 0) {
+        filterObject[key].splice(index, 1);
+        if (filterObject[key].length == 0) {
           delete filterObject[key];
         }
       }
@@ -141,6 +152,7 @@ const LibraryContent = () => {
 
   const tabClicked = async (event, id) => {
     setFlag(0);
+    console.log(event);
 
     let normal_data = opening_details;
     setUserId(id);
@@ -148,8 +160,9 @@ const LibraryContent = () => {
     let contains_already;
 
     if (event == "data-tab") {
-      normal_data?.filter((data) => {
-        if (data?.pdf_id == id) {
+      console.log(opening_details);
+      normal_data.filter((data) => {
+        if (data.pdf_id == id) {
           contains_already = true;
           setFlag(1);
         }
@@ -164,20 +177,22 @@ const LibraryContent = () => {
           };
           const res = await postData(ENDPOINT.LIBRARYSTATS, body);
 
-          const status = normal_data?.map((datas) => {
-            if (datas?.pdf_id == id) {
+          console.log(res);
+
+          const status = normal_data.map((datas) => {
+            if (datas.pdf_id == id) {
               return "true";
             } else {
               return "false";
             }
           });
-          if (status?.every((ele) => ele == "false")) {
-            normal_data?.push({
+          if (status.every((ele) => ele == "false")) {
+            normal_data.push({
               pdf_id: id,
-              uniqueReader: res?.data?.data[0]?.unique,
-              opening: res?.data?.data[0]?.opening,
-              registeredReader: res?.data?.data[0]?.reader,
-              limit: res?.data?.data[0]?.limit,
+              uniqueReader: res.data.data[0].unique,
+              opening: res.data.data[0].opening,
+              registeredReader: res.data.data[0].reader,
+              limit: res.data.data[0].limit,
             });
           }
 
@@ -200,7 +215,7 @@ const LibraryContent = () => {
   };
 
   const clearFilter = () => {
-    document.querySelectorAll("input")?.forEach((checkbox) => {
+    document.querySelectorAll("input").forEach((checkbox) => {
       checkbox.checked = false;
     });
 
@@ -252,6 +267,8 @@ const LibraryContent = () => {
 
       let body = { ...data, ...obj };
 
+      console.log(data.page);
+
       if (pageAllClicked == true) {
         setPageAll(true);
       } else {
@@ -259,7 +276,7 @@ const LibraryContent = () => {
       }
 
       const res = await postData(ENDPOINT.LIBRARY, body);
-      setLibraryData((oldArray) => [...oldArray, ...res?.data?.data?.library]);
+      setLibraryData((oldArray) => [...oldArray, ...res.data.data.library]);
       loader("hide");
       setPageAll(false);
       setPageAllClicked(false);
@@ -270,8 +287,8 @@ const LibraryContent = () => {
   };
 
   const searchChange = (e) => {
-    setSearch(e?.target?.value);
-    if (e?.target?.value === "") {
+    setSearch(e.target.value);
+    if (e.target.value === "") {
       setLibraryData([]);
       setPageAllClicked(false);
 
@@ -287,12 +304,14 @@ const LibraryContent = () => {
       setConfirmationPopup(true);
     }
   };
+  var num = 20;
 
   const deleteUser = async () => {
     loader("show");
     try {
       const res = await deleteData(ENDPOINT.DELETE, userId);
-      if (res?.data?.message == "Library deleted successfully") {
+      console.log(res);
+      if (res.data.message == "Library deleted successfully") {
         loader("hide");
         popup_alert({
           visible: "show",
@@ -313,10 +332,6 @@ const LibraryContent = () => {
     hideConfirmationModal();
   };
 
-  const commonModelFun = () => {
-    setShow(true);
-  };
-
   function LinkWithTooltip({ id, children, href, tooltip }) {
     return (
       <OverlayTrigger
@@ -331,16 +346,20 @@ const LibraryContent = () => {
   }
 
   const removeindividualfilter = (key, item) => {
+    console.log(key);
+    console.log(item);
+    console.log(filterObject);
     let old_object = filterObject;
 
-    const index = old_object[key]?.indexOf(item);
+    const index = old_object[key].indexOf(item);
     if (index > -1) {
-      old_object[key]?.splice(index, 1);
-      if (old_object[key]?.length == 0) {
+      old_object[key].splice(index, 1);
+      if (old_object[key].length == 0) {
         delete old_object[key];
       }
     }
 
+    //console.log(old_object);
     setFilterObject(old_object);
     setLibraryData([]);
     getLibraryData(page, old_object);
@@ -451,10 +470,10 @@ const LibraryContent = () => {
                     >
                       <h4>Filter By</h4>
                       <Accordion defaultActiveKey="0" flush>
-                        {Object.keys(filterdata)?.map(function (key, index) {
+                        {Object.keys(filterdata).map(function (key, index) {
                           return (
                             <>
-                              {filterdata[key]?.length > 0 ? (
+                              {filterdata[key].length > 0 ? (
                                 <Accordion.Item
                                   className="card"
                                   eventKey={index}
@@ -465,50 +484,46 @@ const LibraryContent = () => {
 
                                   <Accordion.Body className="card-body">
                                     <ul>
-                                      {filterdata[key]?.length > 0
-                                        ? filterdata[key]?.map(
-                                            (item, index) => (
-                                              <li>
-                                                {item != "" ? (
-                                                  <label className="select-multiple-option">
-                                                    <input
-                                                      type="checkbox"
-                                                      id={`custom-checkbox-tags-${index}`}
-                                                      value={item}
-                                                      defaultChecked={
-                                                        filterObject?.hasOwnProperty(
-                                                          key
-                                                        )
-                                                          ? filterObject[
-                                                              key
-                                                            ]?.indexOf(item) !==
-                                                            -1
-                                                          : false
-                                                      }
-                                                      name="tags[]"
-                                                      onChange={(e) =>
-                                                        handleOnFilterChange(
-                                                          e,
-                                                          item,
-                                                          index,
-                                                          key
-                                                        )
-                                                      }
-                                                    />
+                                      {filterdata[key].length > 0
+                                        ? filterdata[key].map((item, index) => (
+                                            <li>
+                                              {item != "" ? (
+                                                <label className="select-multiple-option">
+                                                  <input
+                                                    type="checkbox"
+                                                    id={`custom-checkbox-tags-${index}`}
+                                                    value={item}
+                                                    defaultChecked={
+                                                      filterObject.hasOwnProperty(
+                                                        key
+                                                      )
+                                                        ? filterObject[
+                                                            key
+                                                          ].indexOf(item) !== -1
+                                                        : false
+                                                    }
+                                                    name="tags[]"
+                                                    onChange={(e) =>
+                                                      handleOnFilterChange(
+                                                        e,
+                                                        item,
+                                                        index,
+                                                        key
+                                                      )
+                                                    }
+                                                  />
 
-                                                    {key == "draft" &&
-                                                    item == "0"
-                                                      ? "live"
-                                                      : key == "draft" &&
-                                                        item == "1"
-                                                      ? "draft"
-                                                      : item}
-                                                    <span className="checkmark"></span>
-                                                  </label>
-                                                ) : null}
-                                              </li>
-                                            )
-                                          )
+                                                  {key == "draft" && item == "0"
+                                                    ? "live"
+                                                    : key == "draft" &&
+                                                      item == "1"
+                                                    ? "draft"
+                                                    : item}
+                                                  <span className="checkmark"></span>
+                                                </label>
+                                              ) : null}
+                                            </li>
+                                          ))
                                         : null}
                                     </ul>
                                   </Accordion.Body>
@@ -600,21 +615,21 @@ const LibraryContent = () => {
                 ) : null}
               </div>
             </div>
-            {Object.keys(filterObject)?.length !== 0 ? (
+            {Object.keys(filterObject).length !== 0 ? (
               <div className="apply-filter">
                 <h6>Applied filters</h6>
                 <div className="filter-block">
                   <div className="filter-block-left full">
-                    {Object.keys(filterObject)?.map((key, index) => {
+                    {Object.keys(filterObject).map((key, index) => {
                       return (
                         <>
-                          {filterObject[key]?.length > 0 ? (
+                          {filterObject[key].length > 0 ? (
                             <div className="filter-div">
                               <div className="filter-div-title">
                                 <span>{key} |</span>
                               </div>
                               <div className="filter-div-list">
-                                {filterObject[key]?.map((item, index) => (
+                                {filterObject[key].map((item, index) => (
                                   <div
                                     className="filter-result"
                                     onClick={(event) =>
@@ -655,8 +670,8 @@ const LibraryContent = () => {
           <Row>
             <div className="library-content-box-layuot d-flex">
               <>
-                {libraryData?.length
-                  ? libraryData?.map((data) => {
+                {libraryData.length > 0
+                  ? libraryData.map((data) => {
                       return (
                         <>
                           <div className="doc-content-main-box col">
@@ -671,13 +686,17 @@ const LibraryContent = () => {
                                 </a>
                               </div>
                               <div className="doc-content">
-                                <h5>{data?.title}</h5>
-                                <h6>{data?.pdf_sub_title}</h6>
-                                <p>{data?.key_author}</p>
+                                <h5>{data.title}</h5>
+                                <h6>{data.pdf_sub_title}</h6>
+                                <p>{data.key_author}</p>
                                 <div className="select-tags">
-                                  {data?.tags?.length
+                                  {data?.tags.length
                                     ? JSON.parse(data.tags)?.map((data) => {
-                                        return <div>{data}</div>;
+                                        return (
+                                          <>
+                                            <div>{data}</div>
+                                          </>
+                                        );
                                       })
                                     : ""}
                                 </div>
@@ -695,7 +714,7 @@ const LibraryContent = () => {
                                 <div className="dlt_btn">
                                   <button
                                     onClick={(e) =>
-                                      showConfirmationPopup(e, data?.id)
+                                      showConfirmationPopup(e, data.id)
                                     }
                                   >
                                     <img
@@ -708,7 +727,7 @@ const LibraryContent = () => {
                             </div>
                             <div className="tabs-data">
                               <Tabs
-                                onSelect={(key) => tabClicked(key, data?.id)}
+                                onSelect={(key) => tabClicked(key, data.id)}
                                 defaultActiveKey="docintel-link"
                                 fill
                               >
@@ -720,7 +739,7 @@ const LibraryContent = () => {
                                   <div className="tab-panel d-flex flex-column justify-content-between">
                                     <div className="tab-content-links">
                                       <a href="#" className="doc-link">
-                                        {data?.docintelLink}
+                                        {data.docintelLink}
                                       </a>
                                       <span
                                         className="copy-content"
@@ -729,7 +748,7 @@ const LibraryContent = () => {
                                             "content copied to the clipboard!"
                                           );
                                           window.navigator.clipboard.writeText(
-                                            data?.docintelLink
+                                            data.docintelLink
                                           );
                                         }}
                                       >
@@ -745,6 +764,7 @@ const LibraryContent = () => {
                                           <strong>Upload date</strong>
                                         </h6>
                                         <h6>
+                                          {" "}
                                           {moment(data?.created).format(
                                             "DD MMM, YYYY"
                                           )}
@@ -755,7 +775,7 @@ const LibraryContent = () => {
                                           <strong>inforMedGo code</strong>
                                         </h6>
                                         <h6>
-                                          {data?.code}
+                                          {data.code}
                                           <span
                                             className="copy-content"
                                             onClick={() => {
@@ -763,7 +783,7 @@ const LibraryContent = () => {
                                                 "content copied to the clipboard!"
                                               );
                                               navigator.clipboard.writeText(
-                                                data?.code
+                                                data.code
                                               );
                                             }}
                                           >
@@ -789,7 +809,7 @@ const LibraryContent = () => {
                                                 "content copied to the clipboard!"
                                               );
                                               navigator.clipboard.writeText(
-                                                data?.docintel_code
+                                                data.docintel_code
                                               );
                                             }}
                                           >
@@ -807,7 +827,7 @@ const LibraryContent = () => {
                                           <strong>SPC included</strong>
                                         </h6>
                                         <h6>
-                                          {data?.spc_included == 0
+                                          {data.spc_included == 0
                                             ? "No"
                                             : "Yes"}
                                         </h6>
@@ -872,7 +892,9 @@ const LibraryContent = () => {
                                           Preview Aritcle
                                         </Button>
                                         <Button
-                                          onClick={commonModelFun}
+                                          onClick={() => {
+                                            setShow(true);
+                                          }}
                                           className="footer-btn"
                                         >
                                           Download QR
@@ -913,7 +935,7 @@ const LibraryContent = () => {
                                           </LinkWithTooltip>
                                         </h6>
 
-                                        {flag == 0 && userId == data?.id ? (
+                                        {flag == 0 && userId == data.id ? (
                                           <div className="data-progress limited">
                                             <ProgressBar
                                               variant="default"
@@ -922,39 +944,39 @@ const LibraryContent = () => {
                                             />
                                           </div>
                                         ) : (
-                                          opening_details?.map((details) => {
-                                            if (details?.pdf_id == data?.id) {
+                                          opening_details.map((details) => {
+                                            if (details.pdf_id == data.id) {
                                               return (
                                                 <>
                                                   <div className="data-progress limited">
                                                     <ProgressBar
                                                       variant="warning"
                                                       now={
-                                                        details?.limit == 0
-                                                          ? (details?.uniqueReader /
+                                                        details.limit == 0
+                                                          ? (details.uniqueReader /
                                                               1000) *
                                                             100
-                                                          : (details?.uniqueReader /
-                                                              details?.limit) *
+                                                          : (details.uniqueReader /
+                                                              details.limit) *
                                                             100
                                                       }
                                                       label={
-                                                        details?.uniqueReader
+                                                        details.uniqueReader
                                                       }
                                                     />
                                                     <span>
                                                       Agreed Limit |&nbsp;
-                                                      {details?.limit == 0
+                                                      {details.limit == 0
                                                         ? 1000
-                                                        : details?.limit}
+                                                        : details.limit}
                                                     </span>
                                                   </div>
                                                   <span className="total-left">
-                                                    {details?.limit == 0
+                                                    {details.limit == 0
                                                       ? 1000 -
-                                                        details?.uniqueReader
-                                                      : details?.limit -
-                                                        details?.uniqueReader}
+                                                        details.uniqueReader
+                                                      : details.limit -
+                                                        details.uniqueReader}
                                                     <small>Left</small>
                                                   </span>
                                                 </>
@@ -979,7 +1001,7 @@ const LibraryContent = () => {
                                             />
                                           </LinkWithTooltip>
                                         </h6>
-                                        {flag == 0 && userId == data?.id ? (
+                                        {flag == 0 && userId == data.id ? (
                                           <div className="data-progress limited">
                                             <ProgressBar
                                               variant="default"
@@ -988,15 +1010,15 @@ const LibraryContent = () => {
                                             />
                                           </div>
                                         ) : (
-                                          opening_details?.map((details) => {
-                                            if (details?.pdf_id == data?.id) {
+                                          opening_details.map((details) => {
+                                            if (details.pdf_id == data.id) {
                                               return (
                                                 <>
                                                   <div className="data-progress success-progress">
                                                     <ProgressBar
                                                       variant="success"
                                                       now={100}
-                                                      label={details?.opening}
+                                                      label={details.opening}
                                                     />
                                                     {/* <ProgressBar
                                                     variant="success"
@@ -1234,7 +1256,7 @@ const LibraryContent = () => {
         </div>
       </Col>
 
-      {/* <Modal show={show} className="send-confirm" id="download-qr">
+      <Modal show={show} className="send-confirm" id="download-qr">
         <Modal.Header>
           <h5 className="modal-title" id="staticBackdropLabel">
             Download QR
@@ -1284,15 +1306,7 @@ const LibraryContent = () => {
             Save
           </button>
         </div>
-      </Modal> */}
-
-      <CommonModel
-        show={show}
-        onClose={setShow}
-        heading={"Download QR"}
-        data={downloadQRData}
-        inputValue
-      />
+      </Modal>
 
       <div className="delete">
         <Modal

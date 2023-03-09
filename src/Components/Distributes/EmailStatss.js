@@ -235,7 +235,10 @@ const EmailStats = (props) => {
                 Total Result <span>| {totalCount}</span>
               </h4>
             </div>
-            <div className="selected-hcp-list search_view" id="analytics-hcp-table">
+            <div
+              className="selected-hcp-list search_view"
+              id="analytics-hcp-table"
+            >
               <div className="table_xls search_view">
                 <div className="smart-list-btns">
                   <div className="top-right-action">
@@ -385,7 +388,7 @@ const EmailStats = (props) => {
                     campaignData.length > 0 ? (
                       campaignData.map((item, index) => (
                         <>
-                          <tr>
+                          <tr key={index}>
                             <td> {item.c_id}</td>
                             <td> {item.sent_data}</td>
                             <td className="smartlistth"> {item.subject}</td>

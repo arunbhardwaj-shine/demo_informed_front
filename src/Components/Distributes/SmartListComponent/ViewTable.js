@@ -14,16 +14,16 @@ import { toast } from "react-toastify";
 import { connect } from "react-redux";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { popup_alert } from "../../../popup_alert";
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import Select, { createFilter }  from 'react-select';
-import makeAnimated from 'react-select/animated';
+import DropdownButton from "react-bootstrap/DropdownButton";
+import Select, { createFilter } from "react-select";
+import makeAnimated from "react-select/animated";
 const ViewTable = (props) => {
   const [inEditMode, setInEditMode] = useState({
     status: false,
     rowKey: null,
   });
   const filterConfig = {
-      matchFrom: 'start',
+    matchFrom: "start",
   };
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   //let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -96,13 +96,13 @@ const ViewTable = (props) => {
             let arr = [];
             Object.entries(country).map(([index, item]) => {
               let label = item;
-                if(index == "B&H"){
-                  label = "Bosnia and Herzegovina";
-                }
-                arr.push({
-                    value: item,
-                    label: label,
-                });
+              if (index == "B&H") {
+                label = "Bosnia and Herzegovina";
+              }
+              arr.push({
+                value: item,
+                label: label,
+              });
             });
             setCountryall(arr);
             // setCountryall(res.data.response.data.country);
@@ -147,7 +147,14 @@ const ViewTable = (props) => {
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [show, setShow] = useState(false);
   const [hpc, setHpc] = useState([
-    { firstname: "", lastname: "", email: "", contact_type: "", country: "", countryIndex: "" },
+    {
+      firstname: "",
+      lastname: "",
+      email: "",
+      contact_type: "",
+      country: "",
+      countryIndex: "",
+    },
   ]);
   const [renderCounterData, setCounterData] = useState([]);
 
@@ -212,7 +219,7 @@ const ViewTable = (props) => {
     setNewData([]);
     setTimeout(() => {
       setEditList(vr);
-      setNewData(new_add_arr)
+      setNewData(new_add_arr);
       console.log("This will run after 1 second!");
       setUpdateCounter(updateCounter + 1);
     }, 50);
@@ -381,7 +388,7 @@ const ViewTable = (props) => {
           email: "",
           contact_type: "",
           country: "",
-          countryIndex: ""
+          countryIndex: "",
         },
       ]);
     } else {
@@ -397,26 +404,36 @@ const ViewTable = (props) => {
 
   const saveEditClicked = async () => {
     setEditable(0);
-    if(editableData.length > 0){
+    if (editableData.length > 0) {
       editableData.map((data) => {
-        const name_edit    = document.getElementById("field_name" + data.profile_user_id).innerText;
-        const country_edit = document.getElementById("field_country" + data.profile_user_id).value;
-        const edit_index = document.getElementById("field_index" + data.profile_user_id).value;
-        const contact_type_edit = document.getElementById("field_contact_type" + data.profile_user_id).value;
+        const name_edit = document.getElementById(
+          "field_name" + data.profile_user_id
+        ).innerText;
+        const country_edit = document.getElementById(
+          "field_country" + data.profile_user_id
+        ).value;
+        const edit_index = document.getElementById(
+          "field_index" + data.profile_user_id
+        ).value;
+        const contact_type_edit = document.getElementById(
+          "field_contact_type" + data.profile_user_id
+        ).value;
 
-        let prev_obj = editList.find(x => x.profile_user_id === data.profile_user_id);
-        if(typeof prev_obj != "undefined"){
-          if(typeof editList[edit_index] != "undefined"){
-              editList[edit_index].country = country_edit;
+        let prev_obj = editList.find(
+          (x) => x.profile_user_id === data.profile_user_id
+        );
+        if (typeof prev_obj != "undefined") {
+          if (typeof editList[edit_index] != "undefined") {
+            editList[edit_index].country = country_edit;
           }
-          if(typeof editList[edit_index] != "undefined"){
-              editList[edit_index].contact_type = contact_type_edit;
+          if (typeof editList[edit_index] != "undefined") {
+            editList[edit_index].contact_type = contact_type_edit;
           }
-        }else{
-          if(typeof newData[edit_index] != "undefined"){
+        } else {
+          if (typeof newData[edit_index] != "undefined") {
             newData[edit_index].country = country_edit;
           }
-          if(typeof newData[edit_index] != "undefined"){
+          if (typeof newData[edit_index] != "undefined") {
             newData[edit_index].contact_type = contact_type_edit;
           }
         }
@@ -427,8 +444,7 @@ const ViewTable = (props) => {
       });
     }
 
-    if(editableData.length > 0){
-
+    if (editableData.length > 0) {
       const body = {
         user_id: localStorage.getItem("user_id"),
         edit_list_array: editableData,
@@ -439,24 +455,24 @@ const ViewTable = (props) => {
       await axios
         .post(`distributes/update_reders_details`, body)
         .then((res) => {
-            loader("hide");
-            if (res.data.status_code === 200) {
-                toast.success("List updated");
-              } else {
-                  popup_alert({
-                      visible: "show",
-                      message: res.data.message,
-                      type: "error",
-                    });
-                  }
-                })
-                .catch((err) => {
-                    toast.error("Something went wrong");
-                  });
+          loader("hide");
+          if (res.data.status_code === 200) {
+            toast.success("List updated");
+          } else {
+            popup_alert({
+              visible: "show",
+              message: res.data.message,
+              type: "error",
+            });
+          }
+        })
+        .catch((err) => {
+          toast.error("Something went wrong");
+        });
 
-                setSaveOpen(false);
-                setEditableData([]);
-    }else{
+      setSaveOpen(false);
+      setEditableData([]);
+    } else {
       setSaveOpen(false);
       toast.warning("No row update");
     }
@@ -589,44 +605,54 @@ const ViewTable = (props) => {
     //   "row-selected" + index
     // );
 
-    if(editable != 0){
-        // ignoreClickOnMeElement.addEventListener(
-        //   "mouseleave",
-        //   async (event) => {
-            const name_edit    = document.getElementById("field_name" + profile_user_id).innerText;
-            const country_edit = document.getElementById("field_country" + profile_user_id).value;
-            const contact_type_edit = document.getElementById("field_contact_type" + profile_user_id).value;
+    if (editable != 0) {
+      // ignoreClickOnMeElement.addEventListener(
+      //   "mouseleave",
+      //   async (event) => {
+      const name_edit = document.getElementById(
+        "field_name" + profile_user_id
+      ).innerText;
+      const country_edit = document.getElementById(
+        "field_country" + profile_user_id
+      ).value;
+      const contact_type_edit = document.getElementById(
+        "field_contact_type" + profile_user_id
+      ).value;
 
-            var arr = [];
-            arr.push({
-              profile_id: profile_id,
-              profile_user_id: profile_user_id,
-              email: email,
-              jobTitle: jobTitle,
-              company: company,
-              country: country_edit,
-              username: name_edit,
-              contact_type:contact_type_edit
-            });
+      var arr = [];
+      arr.push({
+        profile_id: profile_id,
+        profile_user_id: profile_user_id,
+        email: email,
+        jobTitle: jobTitle,
+        company: company,
+        country: country_edit,
+        username: name_edit,
+        contact_type: contact_type_edit,
+      });
 
-            // if(editableData.length > 0){
-                let prev_obj = editableData.find(x => x.profile_user_id === profile_user_id);
-                if(typeof (prev_obj) != "undefined") {
-                    //update existing
-                   editableData.map(obj => arr.find(o => o.profile_user_id === profile_user_id) || obj);
-                }else{
-                  //create new
-                  setEditableData((oldArray) => [...oldArray, ...arr]);
-                }
-            // }else{
-            //     //create new
-            //     setEditableData((oldArray) => [...oldArray, ...arr]);
-            // }
-            // console.log(name_edit);
-            // console.log(editableData);
-          // },
-          // { once: true }
-        // );
+      // if(editableData.length > 0){
+      let prev_obj = editableData.find(
+        (x) => x.profile_user_id === profile_user_id
+      );
+      if (typeof prev_obj != "undefined") {
+        //update existing
+        editableData.map(
+          (obj) => arr.find((o) => o.profile_user_id === profile_user_id) || obj
+        );
+      } else {
+        //create new
+        setEditableData((oldArray) => [...oldArray, ...arr]);
+      }
+      // }else{
+      //     //create new
+      //     setEditableData((oldArray) => [...oldArray, ...arr]);
+      // }
+      // console.log(name_edit);
+      // console.log(editableData);
+      // },
+      // { once: true }
+      // );
     }
 
     // ignoreClickOnMeElement.addEventListener("mouseleave", async (event) => {
@@ -726,18 +752,18 @@ const ViewTable = (props) => {
   };
 
   const onCountryChange = (e, i) => {
-    if(e == null){
+    if (e == null) {
       const list = [...hpc];
       list[i].country = "";
       list[i].countryIndex = "";
       setHpc(list);
-    }else{
+    } else {
       const value = e.value;
       const list = [...hpc];
       const name = hpc[i].country;
       list[i].country = value;
 
-      let index = countryall.findIndex(x => x.value === value);
+      let index = countryall.findIndex((x) => x.value === value);
       list[i].countryIndex = index;
       setHpc(list);
     }
@@ -805,20 +831,20 @@ const ViewTable = (props) => {
       const status = body.data.map((data) => {
         if (data.email == "") {
           return "Please enter the email atleast";
-        } else if(data.email != ""){
+        } else if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();
           // var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
           // if (!regex.test(String(useremail).toLowerCase())) {
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
           if (regex.test(String(useremail).toLowerCase())) {
-            let prev_obj = editList.find(x => x.email === useremail);
-            if(typeof prev_obj != "undefined"){
+            let prev_obj = editList.find((x) => x.email === useremail);
+            if (typeof prev_obj != "undefined") {
               return "User with same email already added in list.";
-            }else{
+            } else {
               return "true";
             }
-          }else{
+          } else {
             return "Email format is not valid";
           }
         } else {
@@ -862,7 +888,7 @@ const ViewTable = (props) => {
       }
     } else {
       let formData = new FormData();
-      let user_id =  localStorage.getItem("user_id");
+      let user_id = localStorage.getItem("user_id");
       formData.append("user_id", user_id);
       formData.append("smart_list_id", getlistid);
       formData.append("reader_file", selectedFile);
@@ -914,7 +940,7 @@ const ViewTable = (props) => {
       setShowUploadMenu(!showUploadMenu);
 
       let formData = new FormData();
-      let user_id =  localStorage.getItem("user_id");
+      let user_id = localStorage.getItem("user_id");
       formData.append("user_id", user_id);
       formData.append("smart_list_id", getlistid);
       formData.append("reader_file", selectedFile);
@@ -1156,19 +1182,25 @@ const ViewTable = (props) => {
               <tbody className="form-group">
                 {newData.map((item, index) => (
                   <tr
+                    key={item}
                     className="hcps-added"
-                    onClick={(e) => editing(
-                      item.profile_id,
-                      item.profile_user_id,
-                      item.email,
-                      item.jobTitle,
-                      item.company,
-                      item.country,
-                      item.first_name + " " + item.last_name,
-                      item.contact_type,
-                    )}
+                    onClick={(e) =>
+                      editing(
+                        item.profile_id,
+                        item.profile_user_id,
+                        item.email,
+                        item.jobTitle,
+                        item.company,
+                        item.country,
+                        item.first_name + " " + item.last_name,
+                        item.contact_type
+                      )
+                    }
                   >
-                    <td contenteditable={editable === 0 ? "false" : "true"} id={`field_name` + item.profile_user_id}>
+                    <td
+                      contenteditable={editable === 0 ? "false" : "true"}
+                      id={`field_name` + item.profile_user_id}
+                    >
                       {inEditMode.status &&
                       inEditMode.rowKey === item.profile_id ? (
                         <input
@@ -1192,20 +1224,32 @@ const ViewTable = (props) => {
                         item.email
                       )}
                     </td>
-                    <input type="hidden" id={`field_index` + item.profile_user_id} value={index} />
+                    <input
+                      type="hidden"
+                      id={`field_index` + item.profile_user_id}
+                      value={index}
+                    />
                     <td>{item.bounce}</td>
                     <td>
-                    {
-                      editable ? <EditCountry selected_country={item.country} profile_user={item.profile_user_id}></EditCountry> : <span>{item.country}</span>
-                    }
+                      {editable ? (
+                        <EditCountry
+                          selected_country={item.country}
+                          profile_user={item.profile_user_id}
+                        ></EditCountry>
+                      ) : (
+                        <span>{item.country}</span>
+                      )}
                     </td>
+                    <td>{item.ibu}</td>
                     <td>
-                      {item.ibu}
-                    </td>
-                    <td>
-                    {
-                      editable ? <EditContactType selected_ibu={item.contact_type} profile_user={item.profile_user_id}></EditContactType> : <span>{item.contact_type}</span>
-                    }
+                      {editable ? (
+                        <EditContactType
+                          selected_ibu={item.contact_type}
+                          profile_user={item.profile_user_id}
+                        ></EditContactType>
+                      ) : (
+                        <span>{item.contact_type}</span>
+                      )}
                     </td>
                     {showLessInfo == false ? (
                       <td>
@@ -1246,9 +1290,9 @@ const ViewTable = (props) => {
                   <td colspan="13"></td>
                 </tr>
 
-                {
-                  editList.map((item, index) => (
+                {editList.map((item, index) => (
                   <tr
+                    key={item}
                     id={`row-selected` + index}
                     onClick={(e) =>
                       editing(
@@ -1260,7 +1304,7 @@ const ViewTable = (props) => {
                         item.company,
                         item.country,
                         item.first_name + " " + item.last_name,
-                        item.contact_type,
+                        item.contact_type
                       )
                     }
                   >
@@ -1271,21 +1315,38 @@ const ViewTable = (props) => {
                       <span> {item.first_name + " " + item.last_name} </span>
                     </td>
 
-                    <td id={`field_email` + item.profile_user_id}>{item.email}</td>
-                    <input type="hidden" id={`field_index` + item.profile_user_id} value={index} />
-                    <td id={`field_bounced` + item.profile_user_id}>{item.bounce}</td>
+                    <td id={`field_email` + item.profile_user_id}>
+                      {item.email}
+                    </td>
+                    <input
+                      type="hidden"
+                      id={`field_index` + item.profile_user_id}
+                      value={index}
+                    />
+                    <td id={`field_bounced` + item.profile_user_id}>
+                      {item.bounce}
+                    </td>
                     <td>
-                      {
-                        editable ? <EditCountry selected_country={item.country} profile_user={item.profile_user_id}></EditCountry> : <span>{item.country}</span>
-                      }
+                      {editable ? (
+                        <EditCountry
+                          selected_country={item.country}
+                          profile_user={item.profile_user_id}
+                        ></EditCountry>
+                      ) : (
+                        <span>{item.country}</span>
+                      )}
                     </td>
                     <td id="field_business_unit">{item.ibu}</td>
                     <td id="field_interest">
-                    {
-                      editable ? <EditContactType selected_ibu={item.contact_type} profile_user={item.profile_user_id}></EditContactType> : <span>{item.contact_type}</span>
-                    }
+                      {editable ? (
+                        <EditContactType
+                          selected_ibu={item.contact_type}
+                          profile_user={item.profile_user_id}
+                        ></EditContactType>
+                      ) : (
+                        <span>{item.contact_type}</span>
+                      )}
                     </td>
-
 
                     {showLessInfo == false ? (
                       <td>
@@ -1313,7 +1374,6 @@ const ViewTable = (props) => {
                       </td>
                     ) : null}
 
-
                     <td className="delete_row" colspan="12">
                       <img
                         src={path + "delete.svg"}
@@ -1333,10 +1393,8 @@ const ViewTable = (props) => {
                         }
                       />
                     </td>
-
                   </tr>
-                ))
-              }
+                ))}
               </tbody>
             </table>
           </div>
@@ -1420,7 +1478,7 @@ const ViewTable = (props) => {
                     email: "",
                     contact_type: "",
                     country: "",
-                    countryIndex:""
+                    countryIndex: "",
                   },
                 ]);
                 setActiveManual("active");
@@ -1446,7 +1504,7 @@ const ViewTable = (props) => {
                             <div className="row">
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">First Name</label>
+                                  <label htmlFor="">First Name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -1459,7 +1517,7 @@ const ViewTable = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Last Name</label>
+                                  <label htmlFor="">Last Name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -1472,7 +1530,7 @@ const ViewTable = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Email *</label>
+                                  <label htmlFor="">Email *</label>
                                   <input
                                     type="email"
                                     className="form-control"
@@ -1487,30 +1545,76 @@ const ViewTable = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Contact Type</label>
-                                  <DropdownButton className="dropdown-basic-button split-button-dropup"
-                                    title= {hpc[i].contact_type != "" &&  hpc[i].contact_type != "undefined" ? hpc[i].contact_type : "Select Type" }
-                                    onSelect={(event) => onContactTypeChange(event, i)}
-                                    >
-                                  <div className="scroll_div">
-                                      <Dropdown.Item eventKey="HCP" className = {hpc[i].contact_type == "HCP" ? "active" : "" }>HCP</Dropdown.Item>
-                                      <Dropdown.Item eventKey="Staff" className = {hpc[i].contact_type == "Staff" ? "active" : "" }>Staff</Dropdown.Item>
-                                      <Dropdown.Item eventKey="Test Users" className = {hpc[i].contact_type == "Test Users" ? "active" : "" }>Test Users</Dropdown.Item>
-                                  </div>
-                                </DropdownButton>
+                                  <label htmlFor="">Contact Type</label>
+                                  <DropdownButton
+                                    className="dropdown-basic-button split-button-dropup"
+                                    title={
+                                      hpc[i].contact_type != "" &&
+                                      hpc[i].contact_type != "undefined"
+                                        ? hpc[i].contact_type
+                                        : "Select Type"
+                                    }
+                                    onSelect={(event) =>
+                                      onContactTypeChange(event, i)
+                                    }
+                                  >
+                                    <div className="scroll_div">
+                                      <Dropdown.Item
+                                        eventKey="HCP"
+                                        className={
+                                          hpc[i].contact_type == "HCP"
+                                            ? "active"
+                                            : ""
+                                        }
+                                      >
+                                        HCP
+                                      </Dropdown.Item>
+                                      <Dropdown.Item
+                                        eventKey="Staff"
+                                        className={
+                                          hpc[i].contact_type == "Staff"
+                                            ? "active"
+                                            : ""
+                                        }
+                                      >
+                                        Staff
+                                      </Dropdown.Item>
+                                      <Dropdown.Item
+                                        eventKey="Test Users"
+                                        className={
+                                          hpc[i].contact_type == "Test Users"
+                                            ? "active"
+                                            : ""
+                                        }
+                                      >
+                                        Test Users
+                                      </Dropdown.Item>
+                                    </div>
+                                  </DropdownButton>
                                 </div>
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Country</label>
-                                  <Select options = {countryall} className= "dropdown-basic-button split-button-dropup edit-country-dropdown" onChange={(event) => onCountryChange(event, i)}
-                                    defaultValue  = {countryall[hpc[i].countryIndex]}
-                                    placeholder   = {typeof  countryall[hpc[i].countryIndex] === "undefined" ? "Select Country" : countryall[hpc[i].countryIndex]}
-                                    filterOption  = {createFilter(filterConfig)}
+                                  <label htmlFor="">Country</label>
+                                  <Select
+                                    options={countryall}
+                                    className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                    onChange={(event) =>
+                                      onCountryChange(event, i)
+                                    }
+                                    defaultValue={
+                                      countryall[hpc[i].countryIndex]
+                                    }
+                                    placeholder={
+                                      typeof countryall[hpc[i].countryIndex] ===
+                                      "undefined"
+                                        ? "Select Country"
+                                        : countryall[hpc[i].countryIndex]
+                                    }
+                                    filterOption={createFilter(filterConfig)}
                                     isClearable
-                                    />
-                                  {
-                                    /*
+                                  />
+                                  {/*
                                     <DropdownButton className="dropdown-basic-button split-button-dropup country"
                                         title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
                                         onSelect={(event) => onCountryChange(event, i)}
@@ -1529,8 +1633,7 @@ const ViewTable = (props) => {
                                   )}
                                   </div>
                                   </DropdownButton>
-                                    */
-                                  }
+                                    */}
                                 </div>
                               </div>
                               {/*
@@ -1624,7 +1727,7 @@ const ViewTable = (props) => {
                           {file_name.current?.files === undefined ||
                           file_name.current.files?.length === 0 ? (
                             <>
-                              <label for="file-4">
+                              <label htmlFor="file-4">
                                 <span>Choose Your File</span>
                               </label>
                               <p>Upload your excel file</p>

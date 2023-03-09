@@ -130,7 +130,7 @@ const WebinarSidebar = () => {
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <g clip-path="url(#clip0_2612_34718)">
+                  <g clipPath="url(#clip0_2612_34718)">
                     <path
                       d="M14.7656 12.7676H19.0834V15.5121H14.7656V12.7676Z"
                       fill="#0066BE"

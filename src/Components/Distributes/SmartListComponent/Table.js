@@ -17,17 +17,17 @@ import { popup_alert } from "../../../popup_alert";
 import queryString from "query-string";
 import { connect } from "react-redux";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import DropdownButton from 'react-bootstrap/DropdownButton';
+import DropdownButton from "react-bootstrap/DropdownButton";
 import EditCountry from "../../CommonComponent/EditCountry";
 import EditContactType from "../../CommonComponent/EditContactType";
-import Select, { createFilter } from 'react-select';
+import Select, { createFilter } from "react-select";
 const Table = (props, ref) => {
   const [inEditMode, setInEditMode] = useState({
     status: false,
     rowKey: null,
   });
   const filterConfig = {
-      matchFrom: 'start',
+    matchFrom: "start",
   };
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   //let validator = new SimpleReactValidator();
@@ -80,7 +80,14 @@ const Table = (props, ref) => {
   let file_name = useRef("");
 
   const [hpc, setHpc] = useState([
-    { firstname: "", lastname: "", email: "", contact_type: "", country: "", countryIndex: "" },
+    {
+      firstname: "",
+      lastname: "",
+      email: "",
+      contact_type: "",
+      country: "",
+      countryIndex: "",
+    },
   ]);
   const [countryall, setCountryall] = useState([]);
 
@@ -89,22 +96,20 @@ const Table = (props, ref) => {
   useImperativeHandle(
     ref,
     () => ({
-      createSmartList(dd, newReaders,flag) {
-        showFileInReadersList(dd, newReaders,flag);
+      createSmartList(dd, newReaders, flag) {
+        showFileInReadersList(dd, newReaders, flag);
       },
     }),
     []
   );
 
   useEffect(() => {
-
     var x = localStorage.getItem("sd_i");
-    if(x){
+    if (x) {
       setStorageState(true);
-    }else{
+    } else {
       setStorageState(false);
     }
-
 
     setUpdatedData(props.data);
     setEditList(props.data);
@@ -144,13 +149,13 @@ const Table = (props, ref) => {
             let arr = [];
             Object.entries(country).map(([index, item]) => {
               let label = item;
-                if(index == "B&H"){
-                  label = "Bosnia and Herzegovina";
-                }
-                arr.push({
-                    value: item,
-                    label: label,
-                });
+              if (index == "B&H") {
+                label = "Bosnia and Herzegovina";
+              }
+              arr.push({
+                value: item,
+                label: label,
+              });
             });
             setCountryall(arr);
           }
@@ -220,7 +225,7 @@ const Table = (props, ref) => {
       setShowUploadMenu(!showUploadMenu);
 
       let formData = new FormData();
-      let user_id =  localStorage.getItem("user_id");
+      let user_id = localStorage.getItem("user_id");
       formData.append("user_id", user_id);
       formData.append("smart_list_id", getlistid);
       formData.append("reader_file", selectedFile);
@@ -272,34 +277,44 @@ const Table = (props, ref) => {
     index,
     contact_type
   ) => {
-    if(editable != 0){
-        const name_edit    = document.getElementById("field_name" + profile_user_id).innerText;
-        const country_edit = document.getElementById("field_country" + profile_user_id).value;
-        const contact_type_edit = document.getElementById("field_contact_type" + profile_user_id).value;
+    if (editable != 0) {
+      const name_edit = document.getElementById(
+        "field_name" + profile_user_id
+      ).innerText;
+      const country_edit = document.getElementById(
+        "field_country" + profile_user_id
+      ).value;
+      const contact_type_edit = document.getElementById(
+        "field_contact_type" + profile_user_id
+      ).value;
 
-        const arr = [];
-        arr.push({
-          profile_id: profile_id,
-          profile_user_id: profile_user_id,
-          email: email,
-          jobTitle: jobTitle,
-          company: company,
-          country: country_edit,
-          username: name_edit,
-          contact_type:contact_type_edit
-        });
-        let prev_obj = editableData.find(x => x.profile_user_id === profile_user_id);
-        if(typeof (prev_obj) != "undefined") {
-            //update existing
-           editableData.map(obj => arr.find(o => o.profile_user_id === profile_user_id) || obj);
-        }else{
-          //create new
-          setEditableData((oldArray) => [...oldArray, ...arr]);
-        }
+      const arr = [];
+      arr.push({
+        profile_id: profile_id,
+        profile_user_id: profile_user_id,
+        email: email,
+        jobTitle: jobTitle,
+        company: company,
+        country: country_edit,
+        username: name_edit,
+        contact_type: contact_type_edit,
+      });
+      let prev_obj = editableData.find(
+        (x) => x.profile_user_id === profile_user_id
+      );
+      if (typeof prev_obj != "undefined") {
+        //update existing
+        editableData.map(
+          (obj) => arr.find((o) => o.profile_user_id === profile_user_id) || obj
+        );
+      } else {
+        //create new
+        setEditableData((oldArray) => [...oldArray, ...arr]);
+      }
     }
   };
 
-  const showFileInReadersList = async (fdata, newReaders,flag) => {
+  const showFileInReadersList = async (fdata, newReaders, flag) => {
     let body = {};
     if (typeof editList != "undefined" && editList.length > 0) {
       //for Normal flow
@@ -358,20 +373,20 @@ const Table = (props, ref) => {
       .then((res) => {
         loader("hide");
         if (res.data.status_code == 200) {
-          if(flag == "update"){
+          if (flag == "update") {
             popup_alert({
               visible: "show",
               message: "Your changes has been saved <br />successfully !",
               type: "success",
               redirect: "/SmartList",
             });
-          }else{
+          } else {
             var path = "";
             var x = localStorage.getItem("sd_i");
-            if(x){
+            if (x) {
               localStorage.removeItem("sd_i");
               path = "/SelectSmartList";
-            }else{
+            } else {
               path = "/SmartList";
             }
             popup_alert({
@@ -480,26 +495,36 @@ const Table = (props, ref) => {
   const saveEditClicked = async () => {
     setEditable(0);
 
-    if(editableData.length > 0){
+    if (editableData.length > 0) {
       editableData.map((data) => {
-        const name_edit    = document.getElementById("field_name" + data.profile_user_id).innerText;
-        const country_edit = document.getElementById("field_country" + data.profile_user_id).value;
-        const edit_index = document.getElementById("field_index" + data.profile_user_id).value;
-        const contact_type_edit = document.getElementById("field_contact_type" + data.profile_user_id).value;
+        const name_edit = document.getElementById(
+          "field_name" + data.profile_user_id
+        ).innerText;
+        const country_edit = document.getElementById(
+          "field_country" + data.profile_user_id
+        ).value;
+        const edit_index = document.getElementById(
+          "field_index" + data.profile_user_id
+        ).value;
+        const contact_type_edit = document.getElementById(
+          "field_contact_type" + data.profile_user_id
+        ).value;
 
-        let prev_obj = editList.find(x => x.profile_user_id === data.profile_user_id);
-        if(typeof prev_obj != "undefined"){
-          if(typeof editList[edit_index] != "undefined"){
-              editList[edit_index].country = country_edit;
+        let prev_obj = editList.find(
+          (x) => x.profile_user_id === data.profile_user_id
+        );
+        if (typeof prev_obj != "undefined") {
+          if (typeof editList[edit_index] != "undefined") {
+            editList[edit_index].country = country_edit;
           }
-          if(typeof editList[edit_index] != "undefined"){
-              editList[edit_index].contact_type = contact_type_edit;
+          if (typeof editList[edit_index] != "undefined") {
+            editList[edit_index].contact_type = contact_type_edit;
           }
-        }else{
-          if(typeof getNewReaders[edit_index] != "undefined"){
+        } else {
+          if (typeof getNewReaders[edit_index] != "undefined") {
             getNewReaders[edit_index].country = country_edit;
           }
-          if(typeof getNewReaders[edit_index] != "undefined"){
+          if (typeof getNewReaders[edit_index] != "undefined") {
             getNewReaders[edit_index].contact_type = contact_type_edit;
           }
         }
@@ -508,7 +533,6 @@ const Table = (props, ref) => {
         data.username = name_edit;
         data.contact_type = contact_type_edit;
       });
-
 
       const body = {
         user_id: localStorage.getItem("user_id"),
@@ -537,7 +561,7 @@ const Table = (props, ref) => {
         });
       setSaveOpen(false);
       setEditableData([]);
-    }else{
+    } else {
       setSaveOpen(false);
       toast.warning("No row update");
     }
@@ -639,7 +663,7 @@ const Table = (props, ref) => {
           email: "",
           contact_type: "",
           country: "",
-          countryIndex: ""
+          countryIndex: "",
         },
       ]);
     } else {
@@ -707,10 +731,9 @@ const Table = (props, ref) => {
     country,
     profile_user_id,
   }) => {
+    let temp_len = parseInt(editList.length) + parseInt(getNewReaders.length);
 
-    let temp_len = parseInt(editList.length)+parseInt(getNewReaders.length);
-
-    if (temp_len>1 ) {
+    if (temp_len > 1) {
       setIsOpen(true);
       setProfileUserId(profile_user_id);
     } else {
@@ -758,18 +781,18 @@ const Table = (props, ref) => {
   };
 
   const onCountryChange = (e, i) => {
-    if(e == null){
+    if (e == null) {
       const list = [...hpc];
       list[i].country = "";
       list[i].countryIndex = "";
       setHpc(list);
-    }else{
+    } else {
       const value = e.value;
       const list = [...hpc];
       const name = hpc[i].country;
       list[i].country = value;
 
-      let index = countryall.findIndex(x => x.value === value);
+      let index = countryall.findIndex((x) => x.value === value);
       list[i].countryIndex = index;
       setHpc(list);
     }
@@ -807,20 +830,20 @@ const Table = (props, ref) => {
         //   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
         if (data.email == "") {
           return "Please enter the email atleast";
-        } else if(data.email != ""){
+        } else if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
           if (regex.test(String(useremail).toLowerCase())) {
-            let prev_obj = editList.find(x => x.email === useremail);
-            if(typeof prev_obj != "undefined"){
+            let prev_obj = editList.find((x) => x.email === useremail);
+            if (typeof prev_obj != "undefined") {
               return "User with same email already added in list.";
-            }else{
+            } else {
               return "true";
             }
 
             return "true";
-          }else{
+          } else {
             return "Email format is not valid";
           }
         } else {
@@ -872,7 +895,7 @@ const Table = (props, ref) => {
       //setIsOpen(false);
     } else {
       let formData = new FormData();
-      let user_id =  localStorage.getItem("user_id");
+      let user_id = localStorage.getItem("user_id");
       formData.append("user_id", user_id);
       formData.append("smart_list_id", getlistid);
       formData.append("reader_file", selectedFile);
@@ -968,9 +991,9 @@ const Table = (props, ref) => {
 
   const deleteNewlyAdded = (profile_user_id) => {
     const data = getNewReaders;
-    let temp_len = parseInt(editList.length)+parseInt(getNewReaders.length);
+    let temp_len = parseInt(editList.length) + parseInt(getNewReaders.length);
 
-    if (temp_len>1 ) {
+    if (temp_len > 1) {
       setIsOpen(true);
       const dataUpdated = data.filter((d) => {
         return d.profile_user_id != profile_user_id;
@@ -985,7 +1008,6 @@ const Table = (props, ref) => {
         redirect: "",
       });
     }
-
   };
 
   return (
@@ -1020,9 +1042,7 @@ const Table = (props, ref) => {
                     className="btn btn-primary btn-filled create"
                     onClick={showFileInReadersList}
                   >
-                  {
-                    getStorageState ? "Create & go to email" : "Create"
-                  }
+                    {getStorageState ? "Create & go to email" : "Create"}
                   </button>
                 </div>
               </div>
@@ -1168,6 +1188,7 @@ const Table = (props, ref) => {
                   getNewReaders.length > 0 &&
                   getNewReaders.map((item, index) => (
                     <tr
+                      key={item}
                       className="hcps-added"
                       id={`row-selected` + index}
                       onClick={(e) =>
@@ -1179,11 +1200,14 @@ const Table = (props, ref) => {
                           item.company,
                           item.country,
                           item.first_name + " " + item.last_name,
-                          item.contact_type,
+                          item.contact_type
                         )
                       }
                     >
-                      <td contenteditable={editable === 0 ? "false" : "true"} id={`field_name` + item.profile_user_id}>
+                      <td
+                        contenteditable={editable === 0 ? "false" : "true"}
+                        id={`field_name` + item.profile_user_id}
+                      >
                         {inEditMode.status &&
                         inEditMode.rowKey === item.profile_id ? (
                           <input
@@ -1207,18 +1231,32 @@ const Table = (props, ref) => {
                           item.email
                         )}
                       </td>
-                      <input type="hidden" id={`field_index` + item.profile_user_id} value={index} />
+                      <input
+                        type="hidden"
+                        id={`field_index` + item.profile_user_id}
+                        value={index}
+                      />
                       <td>{item.bounce}</td>
                       <td>
-                      {
-                        editable ? <EditCountry selected_country={item.country} profile_user={item.profile_user_id}></EditCountry> : <span>{item.country}</span>
-                      }
+                        {editable ? (
+                          <EditCountry
+                            selected_country={item.country}
+                            profile_user={item.profile_user_id}
+                          ></EditCountry>
+                        ) : (
+                          <span>{item.country}</span>
+                        )}
                       </td>
                       <td> {item.ibu}</td>
                       <td>
-                        {
-                          editable ? <EditContactType selected_ibu={item.contact_type} profile_user={item.profile_user_id}></EditContactType> : <span>{item.contact_type}</span>
-                        }
+                        {editable ? (
+                          <EditContactType
+                            selected_ibu={item.contact_type}
+                            profile_user={item.profile_user_id}
+                          ></EditContactType>
+                        ) : (
+                          <span>{item.contact_type}</span>
+                        )}
                       </td>
 
                       {showLessInfo == false ? (
@@ -1266,8 +1304,8 @@ const Table = (props, ref) => {
                   editList.length > 0 &&
                   editList.map((item, index) => (
                     <tr
+                      key={item}
                       id={`row-selected` + index}
-
                       onClick={(e) =>
                         editing(
                           //  e.currentTarget,
@@ -1278,32 +1316,51 @@ const Table = (props, ref) => {
                           item.company,
                           item.country,
                           item.first_name + " " + item.last_name,
-                          item.contact_type,
+                          item.contact_type
                         )
                       }
                     >
-                      <td id={`field_name` + item.profile_user_id}
+                      <td
+                        id={`field_name` + item.profile_user_id}
                         contenteditable={editable === 0 ? "false" : "true"}
                       >
                         <span>{item.first_name + " " + item.last_name}</span>
                       </td>
 
-                      <td id={`field_email` + item.profile_user_id}>{item.email}</td>
-                      <input type="hidden" id={`field_index` + item.profile_user_id} value={index} />
-                      <td id={`field_bounced` + item.profile_user_id}>{item.bounce}</td>
+                      <td id={`field_email` + item.profile_user_id}>
+                        {item.email}
+                      </td>
+                      <input
+                        type="hidden"
+                        id={`field_index` + item.profile_user_id}
+                        value={index}
+                      />
+                      <td id={`field_bounced` + item.profile_user_id}>
+                        {item.bounce}
+                      </td>
                       <td>
-                      {
-                        editable ? <EditCountry selected_country={item.country} profile_user={item.profile_user_id}></EditCountry> : <span>{item.country}</span>
-                      }
+                        {editable ? (
+                          <EditCountry
+                            selected_country={item.country}
+                            profile_user={item.profile_user_id}
+                          ></EditCountry>
+                        ) : (
+                          <span>{item.country}</span>
+                        )}
                       </td>
                       {/*showLessInfo == false ? (
                         <td id="field_readers">NA</td>
                       ) : null*/}
                       <td id="field_business_unit">{item.ibu}</td>
                       <td id="field_interest">
-                      {
-                        editable ? <EditContactType selected_ibu={item.contact_type} profile_user={item.profile_user_id}></EditContactType> : <span>{item.contact_type}</span>
-                      }
+                        {editable ? (
+                          <EditContactType
+                            selected_ibu={item.contact_type}
+                            profile_user={item.profile_user_id}
+                          ></EditContactType>
+                        ) : (
+                          <span>{item.contact_type}</span>
+                        )}
                       </td>
 
                       {showLessInfo == false ? (
@@ -1437,7 +1494,7 @@ const Table = (props, ref) => {
                               name={`${fieldName}.contact_type`}
                               value="HCP"
                             />
-                            <label for="HCP">HPC</label>
+                            <label htmlFor="HCP">HPC</label>
                             <input
                               type="radio"
                               id="staff"
@@ -1447,7 +1504,7 @@ const Table = (props, ref) => {
                               }
                               value="staff"
                             />
-                            <label for="staff">staff</label>
+                            <label htmlFor="staff">staff</label>
                             <input
                               type="radio"
                               id="test-users"
@@ -1457,7 +1514,7 @@ const Table = (props, ref) => {
                               }
                               value="test users"
                             />
-                            <label for="test-users">Test Users</label>
+                            <label htmlFor="test-users">Test Users</label>
                             <br />
                             country{" "}
                             <input
@@ -1525,7 +1582,7 @@ const Table = (props, ref) => {
                     email: "",
                     contact_type: "",
                     country: "",
-                    countryIndex:""
+                    countryIndex: "",
                   },
                 ]);
                 setActiveManual("active");
@@ -1546,12 +1603,12 @@ const Table = (props, ref) => {
                     const fieldName = `hpc[${i}]`;
                     return (
                       <>
-                      <div className="add_hcp_boxes">
+                        <div className="add_hcp_boxes">
                           <div className="form_action">
                             <div className="row">
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">First Name</label>
+                                  <label htmlFor="">First Name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -1564,52 +1621,102 @@ const Table = (props, ref) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Last Name</label>
+                                  <label htmlFor="">Last Name</label>
                                   <input
                                     type="text"
                                     className="form-control"
-                                    onChange={(event) => onLastNameChange(event, i)}
+                                    onChange={(event) =>
+                                      onLastNameChange(event, i)
+                                    }
                                     value={val.lastname}
                                   />
                                 </div>
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Email *</label>
+                                  <label htmlFor="">Email *</label>
                                   <input
                                     type="email"
                                     className="form-control"
                                     id="email-desc"
                                     name={`${fieldName}.email`}
-                                    onChange={(event) => onEmailChange(event, i)}
+                                    onChange={(event) =>
+                                      onEmailChange(event, i)
+                                    }
                                     value={val.email}
                                   />
                                 </div>
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Contact Type</label>
-                                  <DropdownButton className="dropdown-basic-button split-button-dropup"
-                                   title= {hpc[i].contact_type != "" &&  hpc[i].contact_type != "undefined" ? hpc[i].contact_type : "Select Type" }
-                                   onSelect={(event) => onContactTypeChange(event, i)}
-                                   >
-                                    <Dropdown.Item eventKey="HCP" className = {hpc[i].contact_type == "HCP" ? "active" : "" }>HCP</Dropdown.Item>
-                                    <Dropdown.Item eventKey="Staff" className = {hpc[i].contact_type == "Staff" ? "active" : "" }>Staff</Dropdown.Item>
-                                    <Dropdown.Item eventKey="Test Users" className = {hpc[i].contact_type == "Test Users" ? "active" : "" }>Test Users</Dropdown.Item>
+                                  <label htmlFor="">Contact Type</label>
+                                  <DropdownButton
+                                    className="dropdown-basic-button split-button-dropup"
+                                    title={
+                                      hpc[i].contact_type != "" &&
+                                      hpc[i].contact_type != "undefined"
+                                        ? hpc[i].contact_type
+                                        : "Select Type"
+                                    }
+                                    onSelect={(event) =>
+                                      onContactTypeChange(event, i)
+                                    }
+                                  >
+                                    <Dropdown.Item
+                                      eventKey="HCP"
+                                      className={
+                                        hpc[i].contact_type == "HCP"
+                                          ? "active"
+                                          : ""
+                                      }
+                                    >
+                                      HCP
+                                    </Dropdown.Item>
+                                    <Dropdown.Item
+                                      eventKey="Staff"
+                                      className={
+                                        hpc[i].contact_type == "Staff"
+                                          ? "active"
+                                          : ""
+                                      }
+                                    >
+                                      Staff
+                                    </Dropdown.Item>
+                                    <Dropdown.Item
+                                      eventKey="Test Users"
+                                      className={
+                                        hpc[i].contact_type == "Test Users"
+                                          ? "active"
+                                          : ""
+                                      }
+                                    >
+                                      Test Users
+                                    </Dropdown.Item>
                                   </DropdownButton>
                                 </div>
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Country</label>
-                                  <Select options = {countryall} className= "dropdown-basic-button split-button-dropup edit-country-dropdown" onChange={(event) => onCountryChange(event, i)}
-                                    defaultValue  = {countryall[hpc[i].countryIndex]}
-                                    placeholder   = {typeof  countryall[hpc[i].countryIndex] === "undefined" ? "Select Country" : countryall[hpc[i].countryIndex]}
-                                    filterOption  = {createFilter(filterConfig)}
+                                  <label htmlFor="">Country</label>
+                                  <Select
+                                    options={countryall}
+                                    className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                    onChange={(event) =>
+                                      onCountryChange(event, i)
+                                    }
+                                    defaultValue={
+                                      countryall[hpc[i].countryIndex]
+                                    }
+                                    placeholder={
+                                      typeof countryall[hpc[i].countryIndex] ===
+                                      "undefined"
+                                        ? "Select Country"
+                                        : countryall[hpc[i].countryIndex]
+                                    }
+                                    filterOption={createFilter(filterConfig)}
                                     isClearable
                                   />
-                                  {
-                                    /*
+                                  {/*
                                     <DropdownButton className="dropdown-basic-button split-button-dropup country"
                                             title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
                                             onSelect={(event) => onCountryChange(event, i)}
@@ -1628,13 +1735,11 @@ const Table = (props, ref) => {
                                       )}
                                       </div>
                                       </DropdownButton>
-                                    */
-                                  }
+                                    */}
                                 </div>
                               </div>
 
-                              {
-                                /*
+                              {/*
                                 <div className="col-12 col-md-6 btn_rmv">
                                   <div className="form-group">
                                     {i !== 0 && (
@@ -1648,47 +1753,44 @@ const Table = (props, ref) => {
                                     )}
                                   </div>
                                 </div>
-                                */
-                              }
-
+                                */}
                             </div>
-                            </div>
+                          </div>
 
-                            <div className="hcp-modal-action">
-                              <div className="hcp-action-block">
-                                {activeManual == "active" ? (
-                                  <>
-                                  {
-                                    hpc.length > 1 && (
-                                        <div className="hcp-remove">
-                                          <button
-                                          type="button"
-                                          className="btn btn-filled"
-                                          onClick={() => deleteRecord(i)}
-                                          >
-                                            <img src={path_image + "delete.svg"} alt="Add More" />
-                                          </button>
-                                        </div>
-                                    )
-                                  }
+                          <div className="hcp-modal-action">
+                            <div className="hcp-action-block">
+                              {activeManual == "active" ? (
+                                <>
+                                  {hpc.length > 1 && (
+                                    <div className="hcp-remove">
+                                      <button
+                                        type="button"
+                                        className="btn btn-filled"
+                                        onClick={() => deleteRecord(i)}
+                                      >
+                                        <img
+                                          src={path_image + "delete.svg"}
+                                          alt="Add More"
+                                        />
+                                      </button>
+                                    </div>
+                                  )}
+                                </>
+                              ) : null}
 
-                                  </>
-                                ) : null}
+                              <ul className="nav nav-tabs" role="tablist">
+                                <li className="nav-item add_hcp">
+                                  <a
+                                    onClick={addMoreHcp}
+                                    className="nav-link active btn-bordered"
+                                    data-bs-toggle="tab"
+                                    href="javascript:;"
+                                  >
+                                    Add HCP +
+                                  </a>
+                                </li>
 
-                                <ul className="nav nav-tabs" role="tablist">
-                                  <li className="nav-item add_hcp">
-                                    <a
-                                      onClick={addMoreHcp}
-                                      className="nav-link active btn-bordered"
-                                      data-bs-toggle="tab"
-                                      href="javascript:;"
-                                    >
-                                      Add HCP +
-                                    </a>
-                                  </li>
-
-                                  {
-                                    /*
+                                {/*
                                     <li className="nav-item add-file">
                                       <a
                                         onClick={(e) => addFile(e)}
@@ -1699,19 +1801,17 @@ const Table = (props, ref) => {
                                         Add File
                                       </a>
                                     </li>
-                                    */
-                                  }
-                                </ul>
-                              </div>
+                                    */}
+                              </ul>
                             </div>
+                          </div>
                         </div>
                       </>
                     );
                   })}
                 </form>
 
-                {
-                  /*
+                {/*
                   <form id="add_file" className={"tab-pane" + activeExcel}>
                     <div className="form-group files">
                       <div className="box">
@@ -1726,7 +1826,7 @@ const Table = (props, ref) => {
                         {file_name.current?.files === undefined ||
                         file_name.current.files?.length === 0 ? (
                           <>
-                            <label for="file-4">
+                            <label htmlFor="file-4">
                               <span>Choose Your File</span>
                             </label>
                             <p>Upload your excel file</p>
@@ -1737,9 +1837,7 @@ const Table = (props, ref) => {
                       </div>
                     </div>
                   </form>
-                  */
-                }
-
+                  */}
               </div>
             </div>
           </div>

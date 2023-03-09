@@ -22,7 +22,7 @@ requestHelper.interceptors.request.use(
 requestHelper.interceptors.response.use(
   (res) => {
     if (res.status === 201 || res.status === 200) {
-      console.log("Posted Successfully");
+      // console.log("Posted Successfully");
     }
     return res;
   },

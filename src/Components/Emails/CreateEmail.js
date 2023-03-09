@@ -1452,10 +1452,11 @@ const CreateEmail = (props) => {
                     responsive={responsive}
                     onSlideChanged={syncActiveIndex}
                   >
-                    {templateList.map((template) => {
+                    {templateList.map((template, index) => {
                       return (
                         <>
                           <div
+                            key={index}
                             className="item"
                             onClick={(e) => templateClicked(template, e)}
                           >
@@ -1483,7 +1484,7 @@ const CreateEmail = (props) => {
                     <form>
                       <div className="form-inline row justify-content-between align-items-center">
                         <div className="form-group col-12 col-md-7">
-                          <label for="exampleInputEmail1">
+                          <label htmlFor="exampleInputEmail1">
                             Email Description{" "}
                           </label>
                           <input
@@ -1500,7 +1501,9 @@ const CreateEmail = (props) => {
                           )}
                         </div>
                         <div className="form-group right-side col-12 col-md-5">
-                          <label for="exampleInputEmail1">Email Creator</label>
+                          <label htmlFor="exampleInputEmail1">
+                            Email Creator
+                          </label>
                           <input
                             onChange={(e) => emailCreatorChange(e)}
                             type="text"
@@ -1517,7 +1520,9 @@ const CreateEmail = (props) => {
                       </div>
                       <div className="form-inline row justify-content-between align-items-center">
                         <div className="form-group">
-                          <label for="exampleInputEmail1">Email Campaign</label>
+                          <label htmlFor="exampleInputEmail1">
+                            Email Campaign
+                          </label>
                           <input
                             type="text"
                             className="form-control"
@@ -1550,7 +1555,7 @@ const CreateEmail = (props) => {
                             {finalTags.map((tags, index) => {
                               return (
                                 <>
-                                  <li className="list1">
+                                  <li className="list1" key={index}>
                                     {tags.innerHTML || tags}{" "}
                                     <img
                                       src={path_image + "filter-close.svg"}
@@ -1566,7 +1571,9 @@ const CreateEmail = (props) => {
                       </div>
                       <div className="form-inline row justify-content-end align-items-center">
                         <div className="form-group col-12 col-md-7">
-                          <label for="exampleInputEmail1">Email Subject</label>
+                          <label htmlFor="exampleInputEmail1">
+                            Email Subject
+                          </label>
                           <input
                             type="text"
                             className="form-control"
@@ -1696,10 +1703,12 @@ const CreateEmail = (props) => {
               <h6>Select Tag :</h6>
               <div className="tag-lists">
                 <div className="tag-lists-view">
-                  {Object.values(allTags).map((data) => {
+                  {Object.values(allTags).map((data, index) => {
                     return (
                       <>
-                        <div onClick={(event) => tagClicked(data)}>{data} </div>
+                        <div key={index} onClick={() => tagClicked(data)}>
+                          {data}{" "}
+                        </div>
                       </>
                     );
                   })}
@@ -1715,7 +1724,7 @@ const CreateEmail = (props) => {
                 {tagClickedFirst.map((data, index) => {
                   return (
                     <>
-                      <div className="tag-cross">
+                      <div className="tag-cross" key={index}>
                         {data.innerHTML || data}
                         <img
                           src={path_image + "filter-close.svg"}
@@ -1732,7 +1741,7 @@ const CreateEmail = (props) => {
           <Modal.Footer>
             <form>
               <div className="form-group">
-                <label for="new-tag">New Tag</label>
+                <label htmlFor="new-tag">New Tag</label>
                 <input
                   type="text"
                   className="form-control"
@@ -1787,7 +1796,7 @@ const CreateEmail = (props) => {
                     <div className="col-12 col-md-8">
                       <div className="row justify-content-between align-items-center">
                         <div className="form-group col-sm-5">
-                          <label for="hcp-name">Name</label>
+                          <label htmlFor="hcp-name">Name</label>
                           <input
                             type="text"
                             className="form-control"
@@ -1796,7 +1805,7 @@ const CreateEmail = (props) => {
                           />
                         </div>
                         <div className="form-group col-sm-5">
-                          <label for="hcp-email">Email </label>
+                          <label htmlFor="hcp-email">Email </label>
                           <input
                             type="mail"
                             onChange={(e) => emailChanged(e)}
@@ -1846,7 +1855,7 @@ const CreateEmail = (props) => {
                   ) : (
                     searchedUsers.map((data, index) => {
                       return (
-                        <div className="search-hcp-box">
+                        <div className="search-hcp-box" key={index}>
                           <p className="send-hcp-box-title">
                             Name | <span>{data.name}</span>
                           </p>
@@ -1887,7 +1896,7 @@ const CreateEmail = (props) => {
                       {selectedHcp.map((data, index2) => {
                         return (
                           <>
-                            <div className="search-hcp-box">
+                            <div className="search-hcp-box" key={index2}>
                               <p className="send-hcp-box-title">
                                 Name |{" "}
                                 <span>{data.name || data.first_name}</span>
@@ -1924,7 +1933,7 @@ const CreateEmail = (props) => {
                     //     {selectedHcp.map((data, index2) => {
                     //       return (
                     //         <>
-                    //           <tr>
+                    //           <tr key={index2}>
                     //             <td>{data.name || data.first_name}</td>
                     //             <td>{data.email}</td>
                     //
@@ -2047,10 +2056,10 @@ const CreateEmail = (props) => {
             <div className="col smartlist-result-block">
               {typeof smartListData !== "undefined" &&
               smartListData.length > 0 ? (
-                smartListData.map((data) => {
+                smartListData.map((data, index) => {
                   return (
                     <>
-                      <div className="smartlist_box_block">
+                      <div className="smartlist_box_block" key={index}>
                         <div className="smartlist-view email_box">
                           <div className="mail-box-content">
                             <h5>{data.name}</h5>
@@ -2251,12 +2260,12 @@ const CreateEmail = (props) => {
                     const fieldName = `hpc[${i}]`;
                     return (
                       <>
-                        <div className="add_hcp_boxes">
+                        <div className="add_hcp_boxes" key={i}>
                           <div className="form_action">
                             <div className="row">
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">First Name</label>
+                                  <label htmlFor="">First Name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -2269,7 +2278,7 @@ const CreateEmail = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Last Name</label>
+                                  <label htmlFor="">Last Name</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -2282,7 +2291,7 @@ const CreateEmail = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Email *</label>
+                                  <label htmlFor="">Email *</label>
                                   <input
                                     type="email"
                                     className="form-control"
@@ -2297,7 +2306,7 @@ const CreateEmail = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Contact Type</label>
+                                  <label htmlFor="">Contact Type</label>
                                   <DropdownButton
                                     className="dropdown-basic-button split-button-dropup"
                                     title={
@@ -2345,7 +2354,7 @@ const CreateEmail = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label for="">Country</label>
+                                  <label htmlFor="">Country</label>
                                   <Select
                                     options={countryall}
                                     className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -2401,7 +2410,7 @@ const CreateEmail = (props) => {
                                             ([index, item]) => {
                                               return (
                                                 <>
-                                                  <option value={index}>
+                                                  <option value={index} key={index}>
                                                     {item}
                                                   </option>
                                                 </>
@@ -2492,7 +2501,7 @@ const CreateEmail = (props) => {
                           onChange={onFileChange}
                           ref={file_name}
                         />
-                        {(file_name.current?.files===undefined || file_name.current.files?.length===0 )? <><label for="file-4"><span>Choose Your File</span></label>
+                        {(file_name.current?.files===undefined || file_name.current.files?.length===0 )? <><label htmlFor="file-4"><span>Choose Your File</span></label>
                         <p>Upload your excel file</p></> : <h5>{file_name.current.files[0].name}</h5> }
 
 
@@ -2684,7 +2693,7 @@ const CreateEmail = (props) => {
                       getReaderDetails.map((rr, i) => {
                         return (
                           <>
-                            <tr>
+                            <tr key={i}>
                               <td>{rr.first_name}</td>
                               <td>{rr.email}</td>
                               <td>{rr.bounce}</td>

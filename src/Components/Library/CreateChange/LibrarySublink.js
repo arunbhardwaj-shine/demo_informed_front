@@ -25,8 +25,11 @@ const LibrarySublink = () => {
   ]);
   const [BusinessUnit, setBusinessUnit] = useState("");
   const [createNewLink, setCreateNewLink] = useState(false);
-  const [deliveryChange, setDeliveryChange] = useState("");
-  const [identifierChange, setIdentifierChange] = useState("");
+  const [newLink, setLink] = useState({
+    delivery: "",
+    identifier: "",
+    isCheckBoth: false,
+  });
   const onBusinessUnitChange = (event) => {
     setBusinessUnit(event.value);
   };
@@ -34,15 +37,16 @@ const LibrarySublink = () => {
   const createNewLinkClicked = () => {
     setCreateNewLink(true);
   };
-
-  const onDeliveryChange = (event) => {
-    // console.log("d", event);
-    setDeliveryChange(event);
+  const handleChange = (name, e) => {
+    setLink({ ...newLink, [name]: e });
   };
 
-  const onIdentifierChange = (event) => {
-    // console.log("I", event);
-    setIdentifierChange(event);
+  const handleSubmit = () => {
+    setLink({
+      ...newLink,
+      isCheckBoth: newLink?.delivery && newLink?.identifier,
+    });
+    setCreateNewLink(false);
   };
 
   const navigate = useNavigate();
@@ -73,7 +77,7 @@ const LibrarySublink = () => {
                     </h5>
                     <div className="product-unit d-flex justify-content-between align-items-center">
                       <div className="form-group">
-                        <label for="">Content</label>
+                        <label htmlFor="">Content</label>
                         <Select
                           options={BusinessUnitAll}
                           placeholder="Select business unit"
@@ -86,7 +90,7 @@ const LibrarySublink = () => {
                         <span>OR</span>
                       </div>
                       <div className="form-group">
-                        <label for="">URL</label>
+                        <label htmlFor="">URL</label>
                         <Select
                           options={BusinessUnitAll}
                           placeholder="Select business unit"
@@ -106,12 +110,13 @@ const LibrarySublink = () => {
                       <Button
                         className="btn-filled"
                         onClick={createNewLinkClicked}
+                        disabled={!BusinessUnit}
                       >
                         Create New Link +
                       </Button>
                     </div>
                     <div className="sublink_right_block">
-                      {deliveryChange == "" ? (
+                      {!newLink?.isCheckBoth ? (
                         <div className="no-sublink">
                           <img src={path_image + "dummy-sublink.png"} alt="" />
                         </div>
@@ -186,30 +191,33 @@ const LibrarySublink = () => {
         </Modal.Header>
         <Modal.Body>
           <div className="form-group">
-            <label for="">Delivery</label>
+            <label htmlFor="">Delivery</label>
             <DropdownButton
               className="dropdown-basic-button split-button-dropup "
               title={
-                deliveryChange != "" ? deliveryChange : "Select delivery Change"
+                newLink?.delivery ? newLink?.delivery : "Select delivery Change"
               }
-              onSelect={(event) => onDeliveryChange(event)}
+              name="delivery"
+              onSelect={(e) => handleChange("delivery", e)}
             >
               <div className="scroll_div">
                 <Dropdown.Item
                   eventKey="Social Media"
-                  className={deliveryChange == "Social Media" ? "active" : ""}
+                  className={
+                    newLink?.delivery == "Social Media" ? "active" : ""
+                  }
                 >
                   Social Media
                 </Dropdown.Item>
                 <Dropdown.Item
                   eventKey="Article"
-                  className={deliveryChange == "Article" ? "active" : ""}
+                  className={newLink?.delivery == "Article" ? "active" : ""}
                 >
                   Article
                 </Dropdown.Item>
                 <Dropdown.Item
                   eventKey="Large Print"
-                  className={deliveryChange == "Large Print" ? "active" : ""}
+                  className={newLink?.delivery == "Large Print" ? "active" : ""}
                 >
                   Large Print
                 </Dropdown.Item>
@@ -218,32 +226,37 @@ const LibrarySublink = () => {
           </div>
 
           <div className="form-group">
-            <label for="">Identifier</label>
+            <label htmlFor="">Identifier</label>
             <DropdownButton
               className="dropdown-basic-button split-button-dropup "
+              name="identifier"
               title={
-                identifierChange != ""
-                  ? identifierChange
+                newLink?.identifier
+                  ? newLink?.identifier
                   : "Select identifier Change"
               }
-              onSelect={(event) => onIdentifierChange(event)}
+              onSelect={(e) => handleChange("identifier", e)}
             >
               <div className="scroll_div">
                 <Dropdown.Item
                   eventKey="Social Media"
-                  className={identifierChange == "Social Media" ? "active" : ""}
+                  className={
+                    newLink?.identifier == "Social Media" ? "active" : ""
+                  }
                 >
                   Social Media
                 </Dropdown.Item>
                 <Dropdown.Item
                   eventKey="Article"
-                  className={identifierChange == "Article" ? "active" : ""}
+                  className={newLink?.identifier == "Article" ? "active" : ""}
                 >
                   Article
                 </Dropdown.Item>
                 <Dropdown.Item
                   eventKey="Large Print"
-                  className={identifierChange == "Large Print" ? "active" : ""}
+                  className={
+                    newLink?.identifier == "Large Print" ? "active" : ""
+                  }
                 >
                   Large Print
                 </Dropdown.Item>
@@ -255,9 +268,9 @@ const LibrarySublink = () => {
         <div className="modal-footer">
           <button
             type="button"
-            disabled={deliveryChange && identifierChange ? false : true}
+            disabled={!(newLink?.delivery && newLink?.identifier)}
             className="btn btn-primary save btn-filled"
-            onClick={() => setCreateNewLink(false)}
+            onClick={() => handleSubmit()}
           >
             Apply
           </button>

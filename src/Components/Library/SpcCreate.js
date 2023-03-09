@@ -1,20 +1,10 @@
 import React, { useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import Select from "react-select";
-import { Link, useNavigate } from "react-router-dom";
-import {
-  Accordion,
-  Dropdown,
-  DropdownButton,
-  Nav,
-  NavDropdown,
-  NavItem,
-  Modal,
-  Tab,
-  Tabs,
-  ProgressBar,
-} from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { Modal } from "react-bootstrap";
 import { popup_alert } from "../../popup_alert";
+import { SPCValidation } from "../Validations/LibraryValidation/SPCValidation";
 
 const SpcCreate = () => {
   const [countryAll, setCountryAll] = useState([
@@ -29,12 +19,36 @@ const SpcCreate = () => {
   const [newProduct, setNewProduct] = useState("");
 
   const [show, setShow] = useState(false);
-  const [country, setCountry] = useState("");
-  const onCountryChange = (event) => {
-    console.log(event);
-    setCountry(event.value);
+
+  const [userInputs, setSpcFormInputs] = useState({});
+  const [error, setError] = useState({});
+
+  const handleChange = (e, isSelectedName) => {
+    if (e?.target?.files?.length < 1) {
+      return;
+    }
+    setSpcFormInputs({
+      ...userInputs,
+      [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+        ? e?.target?.files
+          ? e?.target?.files
+          : e
+        : e?.target?.value,
+    });
+    const result = SPCValidation({
+      ...userInputs,
+      [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+        ? e?.target?.files
+          ? e?.target?.files
+          : e
+        : e?.target?.value,
+    });
+    if (Object.keys(result)?.length) {
+      setError(result);
+      return;
+    }
+    setError({});
   };
-  const handleFileChange = (e) => {};
 
   const addNewProductClicked = (e) => {
     e.preventDefault();
@@ -43,7 +57,6 @@ const SpcCreate = () => {
   };
 
   const addProductClicked = () => {
-    //setNewProduct("");
     setShow(false);
     if (newProduct != "") {
       setProductArr((oldArray) => [
@@ -58,6 +71,12 @@ const SpcCreate = () => {
   };
 
   const publishClicked = () => {
+    const result = SPCValidation(userInputs);
+
+    if (Object.keys(result)?.length) {
+      setError(result);
+      return;
+    }
     popup_alert({
       visible: "show",
       message: "Your HCP has been published <br />successfully !",
@@ -90,6 +109,7 @@ const SpcCreate = () => {
                 </Button>
               </div>
             </div>
+
             <div className="create-change-content spc-content">
               <div className="form_action">
                 <h4>Please fill the following and upload SPC needed</h4>
@@ -97,45 +117,68 @@ const SpcCreate = () => {
                   <div className="col-12">
                     <Form>
                       <div className="form-group">
-                        <label for="">Title of SPC</label>
-                        <input type="text" className="form-control" />
+                        <label htmlFor="">Title of SPC</label>
+
+                        <input
+                          type="text"
+                          onChange={(e) => handleChange(e)}
+                          className="form-control"
+                          name="title"
+                        />
+                        {error?.title ? <span>{error?.title}</span> : ""}
                       </div>
+
                       <div className="form-group">
-                        <label for="">Country</label>
+                        <label htmlFor="">Country</label>
                         <Select
                           options={countryAll}
                           placeholder="Select country"
-                          onChange={(event) => onCountryChange(event)}
+                          onChange={(event) =>
+                            handleChange(event?.value, "country")
+                          }
                           className="dropdown-basic-button split-button-dropup"
                           isClearable
                         />
+                        {error?.country ? <span>{error?.country}</span> : ""}
                       </div>
                       <div className="form-group">
-                        <label for="">Language</label>
+                        <label htmlFor="">Language</label>
                         <Select
                           options={countryAll}
                           placeholder="Select SPC language"
-                          onChange={(event) => onCountryChange(event)}
+                          onChange={(event) =>
+                            handleChange(event?.value, "language")
+                          }
                           className="dropdown-basic-button split-button-dropup"
                           isClearable
                         />
+                        {error?.language ? <span>{error?.language}</span> : ""}
                       </div>
                       <div className="form-group">
-                        <label for="">Business Unit</label>
+                        <label htmlFor="">Business Unit</label>
                         <Select
                           options={countryAll}
                           placeholder="Select Business Unit"
-                          onChange={(event) => onCountryChange(event)}
+                          onChange={(event) =>
+                            handleChange(event?.value, "businessunit")
+                          }
                           className="dropdown-basic-button split-button-dropup"
                           isClearable
                         />
+                        {error?.businessunit ? (
+                          <span>{error?.businessunit}</span>
+                        ) : (
+                          ""
+                        )}
                       </div>
                       <div className="form-group">
-                        <label for="">Product</label>
+                        <label htmlFor="">Product</label>
                         <Select
                           options={productArr}
                           placeholder="Select product"
-                          onChange={(event) => onCountryChange(event)}
+                          onChange={(event) =>
+                            handleChange(event?.value, "product")
+                          }
                           className="dropdown-basic-button split-button-dropup"
                           isClearable
                         />
@@ -148,9 +191,10 @@ const SpcCreate = () => {
                             Add New Product +
                           </Button>
                         </div>
+                        {error?.product ? <span>{error?.product}</span> : ""}
                       </div>
                       <div className="form-group val">
-                        <label for="">Upload SPC</label>
+                        <label htmlFor="">Upload SPC</label>
                         <div className="upload-file-box">
                           <div className="box">
                             <input
@@ -159,17 +203,28 @@ const SpcCreate = () => {
                               id="file-6"
                               className="inputfile inputfile-6"
                               accept=".doc .csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                              onChange={(e) => handleFileChange(e)}
+                              onChange={(event) =>
+                                handleChange(event, "uploadspc")
+                              }
                             />
-                            <label for="file-6">
+                            <label htmlFor="file-6">
                               <span>Choose Your File</span>
                             </label>
-                            <p>
-                              Upload your SPC file <br />
-                              <span>(Please upload PDF file only)</span>
-                            </p>
+                            {userInputs?.uploadspc?.[0]?.name ? (
+                              <h5>{userInputs?.uploadspc?.[0]?.name}</h5>
+                            ) : (
+                              <p>
+                                Upload your SPC file <br />
+                                <span>(Please upload PDF file only)</span>
+                              </p>
+                            )}
                           </div>
                         </div>
+                        {error?.uploadspc ? (
+                          <span>{error?.uploadspc}</span>
+                        ) : (
+                          ""
+                        )}
                       </div>
                     </Form>
                   </div>
@@ -200,7 +255,7 @@ const SpcCreate = () => {
             <div className="col-12">
               <Form>
                 <div className="form-group">
-                  <label for="">Product Name</label>
+                  <label htmlFor="">Product Name</label>
                   <input
                     type="text"
                     placeholder="Type your product name"

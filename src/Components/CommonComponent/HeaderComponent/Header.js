@@ -107,7 +107,7 @@ const Header = () => {
 					  </li>
 				</ul> */}
               <ul className="navbar-nav">
-                {console.log(window.location.pathname)}
+                {/* {console.log(window.location.pathname)} */}
                 <li
                   className={
                     window.location.pathname == "/library-content" ||

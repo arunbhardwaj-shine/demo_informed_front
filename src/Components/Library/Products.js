@@ -74,7 +74,7 @@ function Products() {
                 <div className="col-12">
                   <Form className="product-unit d-flex justify-content-between align-items-center">
                     <div className="form-group">
-                      <label for="">Business Unit</label>
+                      <label htmlFor="">Business Unit</label>
                       <Select
                         options={BusinessUnitAll}
                         placeholder="Select business unit"
@@ -204,7 +204,7 @@ function Products() {
             <div className="col-12">
               <Form>
                 <div className="form-group">
-                  <label for="">Product name</label>
+                  <label htmlFor="">Product name</label>
                   <input
                     type="text"
                     placeholder="Type your product name"

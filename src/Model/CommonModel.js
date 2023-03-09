@@ -1,0 +1,100 @@
+import React, { useState } from "react";
+import { Dropdown, DropdownButton, Modal, Form } from "react-bootstrap";
+
+const CommonModel = ({ show, onClose, heading, data }) => {
+  const [selecteValue, setSelectedValue] = useState("Select Size");
+  const handleSelect = (value) => {
+    setSelectedValue(value);
+  };
+  const handleClose = () => {
+    onClose(false);
+  };
+
+  const modelDropdown = (item) => {
+    return (
+      <div className="form-group">
+        <label htmlFor="">{item.label}</label>
+        <DropdownButton
+          className="dropdown-basic-button split-button-dropup "
+          title={selecteValue}
+          onSelect={handleSelect}
+        >
+          <div className="scroll_div">
+            {item?.dropdown?.map((values, newKeys) => {
+              return (
+                <Dropdown.Item
+                  eventKey={values?.key}
+                  key={newKeys}
+                  className={selecteValue == values?.key ? "active" : ""}
+                >
+                  {values?.key}
+                </Dropdown.Item>
+              );
+            })}
+          </div>
+        </DropdownButton>
+      </div>
+    );
+  };
+  const modelInput = (item) => {
+    return (
+      <>
+        <Form>
+          <div className="form-group">
+            <label htmlFor="">{item?.label}</label>
+            <input
+              type="text"
+              placeholder={item?.placeholder}
+              className="form-control"
+              //   onChange={(e) => addNewProductChanged(e)}
+            />
+          </div>
+        </Form>
+      </>
+    );
+  };
+
+  return (
+    <>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        className="send-confirm"
+        id="download-qr"
+      >
+        <Modal.Header>
+          <h5 className="modal-title" id="staticBackdropLabel">
+            {heading}
+          </h5>
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="modal"
+            onClick={handleClose}
+          ></button>
+        </Modal.Header>
+        <Modal.Body>
+          {data?.map((item, index) => {
+            return (
+              <React.Fragment key={index}>
+                {item?.type == "dropdown"
+                  ? modelDropdown(item)
+                  : item?.type == "input"
+                  ? modelInput(item)
+                  : null}
+              </React.Fragment>
+            );
+          })}
+          {/* </div> */}
+        </Modal.Body>
+        <div className="modal-footer">
+          <button type="button" className="btn btn-primary save btn-filled">
+            Save
+          </button>
+        </div>
+      </Modal>
+    </>
+  );
+};
+
+export default CommonModel;

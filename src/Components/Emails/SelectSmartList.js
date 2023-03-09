@@ -813,7 +813,7 @@ const SelectSmartList = (props) => {
                   <form>
                     <div className="row justify-content-between align-items-end">
                       <div className="form-group col">
-                        <label for="smart-list-name">
+                        <label htmlFor="smart-list-name">
                           Enter smart list name
                         </label>
                         <input
@@ -824,7 +824,7 @@ const SelectSmartList = (props) => {
                         />
                       </div>
                       <div className="form-group col">
-                        <label for="creator-name">Creator’s Name</label>
+                        <label htmlFor="creator-name">Creator’s Name</label>
                         <input
                           type="text"
                           className="form-control"
@@ -878,7 +878,7 @@ const SelectSmartList = (props) => {
                       {file_name.current?.files === undefined ||
                       file_name.current.files?.length === 0 ? (
                         <>
-                          <label for="file-4">
+                          <label htmlFor="file-4">
                             <span>Choose Your File</span>
                           </label>
                           <p>Upload your new list file</p>

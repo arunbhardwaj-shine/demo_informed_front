@@ -88,7 +88,7 @@ const LibraryTopics = () => {
                   <div className="col-12">
                     <Form className="product-unit d-flex justify-content-between align-items-center">
                       <div className="form-group">
-                        <label for="">Business unit</label>
+                        <label htmlFor="">Business unit</label>
                         <Select
                           options={BusinessUnitAll}
                           placeholder="Select business unit"
@@ -219,7 +219,7 @@ const LibraryTopics = () => {
             <div className="col-12">
               <Form>
                 <div className="form-group">
-                  <label for="">Topic</label>
+                  <label htmlFor="">Topic</label>
                   <input
                     type="text"
                     placeholder="Type your product name"
