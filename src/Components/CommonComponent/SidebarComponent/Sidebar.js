@@ -385,6 +385,7 @@ const Sidebar = () => {
             window.location.pathname == "/products" ||
             window.location.pathname == "/library-delete" ||
             window.location.pathname == "/library-create-user" ||
+            window.location.pathname == "/edit-Consent-Options" ||
             window.location.pathname == "/library-create-pharma" ? (
             <ul>
               <li
@@ -417,6 +418,7 @@ const Sidebar = () => {
                     location.pathname == "/library-topics" ||
                     location.pathname == "/set-popup" ||
                     location.pathname == "/library-create-user" ||
+                    location.pathname == "/edit-Consent-Options" ||
                     location.pathname == "/create-docintel-link") &&
                   c_id == 0
                     ? "active"

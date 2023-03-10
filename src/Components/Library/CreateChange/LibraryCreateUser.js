@@ -9,7 +9,7 @@ import ReactSelect from "react-select";
 import { toast } from "react-toastify";
 import { createContent } from "../../CommonComponent/Validations";
 import { useSSRSafeId } from "@react-aria/ssr";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Dropdown, DropdownButton } from "react-bootstrap";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 // import Placeholder from "react-select/dist/declarations/src/components/Placeholder";
 const today = new Date();
@@ -50,12 +50,12 @@ const LibraryCreateUser = () => {
     { value: "Russia", label: "Russia" },
   ]);
 
-  const [types, setTypes] = useState([
-    { value: "Online", label: "Online" },
-    { value: "Offline", label: "Offline" },
+  // const [types, setTypes] = useState([
+  //   { value: "Online", label: "Online" },
+  //   { value: "Offline", label: "Offline" },
 
-    { value: "Sunshine", label: "Sunshine" },
-  ]);
+  //   { value: "Sunshine", label: "Sunshine" },
+  // ]);
 
   const [productionAll, setProductionAll] = useState([
     { value: "production1", label: "production1" },
@@ -77,6 +77,11 @@ const LibraryCreateUser = () => {
   ]);
 
   const [ePrint, setEPrint] = useState("");
+
+  const [chapterSelect, setChapterSelect] = useState("");
+  const [videoSelect, setVideoSelect] = useState("");
+  const [uploadNewVideo, setUploadNewVideo] = useState(false);
+  const [changeEmbeddedVideo, setChangeEmbeddedVideo] = useState("");
 
   const onSalesChange = (event) => {
     setSales(event.value);
@@ -206,6 +211,24 @@ const LibraryCreateUser = () => {
 
     console.log(list);
     setChapter(list);
+  };
+
+  const onChapterSelect = (event) => {
+    // console.log("C", event);
+    setChapterSelect(event);
+  };
+
+  const onVideoSelect = (event) => {
+    // console.log("V", event);
+    setVideoSelect(event);
+  };
+
+  const onUploadNewVideoClicked = () => {
+    setUploadNewVideo(true);
+  };
+  const onChangeEmbeddedVideo = (event) => {
+    // console.log("AA", event);
+    setChangeEmbeddedVideo(event);
   };
 
   return (
@@ -742,11 +765,40 @@ const LibraryCreateUser = () => {
               <p>Select the chapter </p>
               <Form.Group className="formgroup">
                 <Form.Label>Chapters</Form.Label>
-                <ReactSelect
+                {/* <ReactSelect
                   placeholder="Select your chapter"
+                  options={types}
                   className="dropdown-basic-button split-button-dropup"
                   isClearable
-                />
+                /> */}
+                <DropdownButton
+                  className="dropdown-basic-button split-button-dropup "
+                  title={
+                    chapterSelect != "" ? chapterSelect : "Select your chapter"
+                  }
+                  onSelect={(event) => onChapterSelect(event)}
+                >
+                  <div className="scroll_div">
+                    <Dropdown.Item
+                      eventKey="Chapter 1"
+                      className={chapterSelect == "Chapter 1" ? "active" : ""}
+                    >
+                      Chapter 1
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      eventKey="Chapter 2"
+                      className={chapterSelect == "Chapter 2" ? "active" : ""}
+                    >
+                      Chapter 2
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      eventKey="Chapter 3"
+                      className={chapterSelect == "Chapter 3" ? "active" : ""}
+                    >
+                      Chapter 3
+                    </Dropdown.Item>
+                  </div>
+                </DropdownButton>
               </Form.Group>
             </div>
             <div className="side-step-text second-step">
@@ -759,13 +811,41 @@ const LibraryCreateUser = () => {
               </p>
               <Form.Group className="formgroup">
                 <Form.Label>Videos *</Form.Label>
-                <ReactSelect
+                {/* <ReactSelect
                   placeholder="Select your chapter"
                   className="dropdown-basic-button split-button-dropup"
                   isClearable
-                />
+                /> */}
+
+                <DropdownButton
+                  className="dropdown-basic-button split-button-dropup "
+                  title={videoSelect != "" ? videoSelect : "Select your video"}
+                  onSelect={(event) => onVideoSelect(event)}
+                >
+                  <div className="scroll_div">
+                    <Dropdown.Item
+                      eventKey="Video 1"
+                      className={videoSelect == "Video 1" ? "active" : ""}
+                    >
+                      Video 1
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      eventKey="Video 2"
+                      className={videoSelect == "Video 2" ? "active" : ""}
+                    >
+                      Video 2
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      eventKey="Video 3"
+                      className={videoSelect == "Video 3" ? "active" : ""}
+                    >
+                      Video 3
+                    </Dropdown.Item>
+                  </div>
+                </DropdownButton>
+
                 <div className="upload-file-box">
-                  <input
+                  {/* <input
                     type="file"
                     name="file-10[]"
                     id="file-10"
@@ -774,7 +854,13 @@ const LibraryCreateUser = () => {
                   />
                   <label for="file-10">
                     <span>Upload new Video +</span>
-                  </label>
+                  </label> */}
+                  <Button
+                    className="btn-filled"
+                    onClick={onUploadNewVideoClicked}
+                  >
+                    Upload new Video +
+                  </Button>
                 </div>
               </Form.Group>
             </div>
@@ -796,11 +882,80 @@ const LibraryCreateUser = () => {
           <Button
             className="btn-filled"
             variant="primary"
-            onClick={handleClose}
+            // onClick={handleClose}
+            onClick={() => navigate("/edit-Consent-Options")}
           >
             Save
           </Button>
         </Modal.Footer>
+      </Modal>
+
+      <Modal show={uploadNewVideo} className="send-confirm" id="download-qr">
+        <Modal.Header>
+          <h5 className="modal-title" id="staticBackdropLabel">
+            Change Embedded Video
+          </h5>
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="modal"
+            onClick={() => {
+              setUploadNewVideo(false);
+            }}
+          ></button>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="form-group">
+            <label for="">Video</label>
+            <DropdownButton
+              className="dropdown-basic-button split-button-dropup "
+              title={
+                changeEmbeddedVideo != ""
+                  ? changeEmbeddedVideo
+                  : "Select your video"
+              }
+              onSelect={(event) => onChangeEmbeddedVideo(event)}
+            >
+              <div className="scroll_div">
+                <Dropdown.Item
+                  eventKey="Change Video 1"
+                  className={
+                    changeEmbeddedVideo == "Change Video 1" ? "active" : ""
+                  }
+                >
+                  Change Video 1
+                </Dropdown.Item>
+                <Dropdown.Item
+                  eventKey="Change Video 2"
+                  className={
+                    changeEmbeddedVideo == "Change Video 2" ? "active" : ""
+                  }
+                >
+                  Change Video 2
+                </Dropdown.Item>
+                <Dropdown.Item
+                  eventKey="Change Video 3"
+                  className={
+                    changeEmbeddedVideo == "Change Video 3" ? "active" : ""
+                  }
+                >
+                  Change Video 3
+                </Dropdown.Item>
+              </div>
+            </DropdownButton>
+          </div>
+        </Modal.Body>
+
+        <div className="modal-footer">
+          <button
+            type="button"
+            disabled={changeEmbeddedVideo == "" ? true : false}
+            className="btn btn-primary save btn-filled"
+            onClick={() => setUploadNewVideo(false)}
+          >
+            Apply
+          </button>
+        </div>
       </Modal>
     </>
   );
