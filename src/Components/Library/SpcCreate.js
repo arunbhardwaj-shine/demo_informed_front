@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import { popup_alert } from "../../popup_alert";
 import { SPCValidation } from "../Validations/LibraryValidation/SPCValidation";
+import CommonModel from "../../Model/CommonModel";
 
 const SpcCreate = () => {
   const [countryAll, setCountryAll] = useState([
@@ -13,13 +14,9 @@ const SpcCreate = () => {
     { value: "Russia", label: "Russia" },
   ]);
   const navigate = useNavigate();
-
   const [productArr, setProductArr] = useState([]);
-
   const [newProduct, setNewProduct] = useState("");
-
   const [show, setShow] = useState(false);
-
   const [userInputs, setSpcFormInputs] = useState({});
   const [error, setError] = useState({});
 
@@ -35,18 +32,18 @@ const SpcCreate = () => {
           : e
         : e?.target?.value,
     });
-    const result = SPCValidation({
-      ...userInputs,
-      [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
-        ? e?.target?.files
-          ? e?.target?.files
-          : e
-        : e?.target?.value,
-    });
-    if (Object.keys(result)?.length) {
-      setError(result);
-      return;
-    }
+    // const result = SPCValidation({
+    //   ...userInputs,
+    //   [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+    //     ? e?.target?.files
+    //       ? e?.target?.files
+    //       : e
+    //     : e?.target?.value,
+    // });
+    // if (Object.keys(result)?.length) {
+    //   setError(result);
+    //   return;
+    // }
     setError({});
   };
 
@@ -65,6 +62,14 @@ const SpcCreate = () => {
       ]);
     }
   };
+
+  const product = [
+    {
+      label: "Product name",
+      type: "input",
+      placeholder: "Type your product name",
+    },
+  ];
 
   const addNewProductChanged = (e) => {
     setNewProduct(e.target.value);
@@ -125,7 +130,11 @@ const SpcCreate = () => {
                           className="form-control"
                           name="title"
                         />
-                        {error?.title ? <span>{error?.title}</span> : ""}
+                        {error?.title ? (
+                          <div className="login-validation">{error?.title}</div>
+                        ) : (
+                          ""
+                        )}
                       </div>
 
                       <div className="form-group">
@@ -139,7 +148,13 @@ const SpcCreate = () => {
                           className="dropdown-basic-button split-button-dropup"
                           isClearable
                         />
-                        {error?.country ? <span>{error?.country}</span> : ""}
+                        {error?.country ? (
+                          <div className="login-validation">
+                            {error?.country}
+                          </div>
+                        ) : (
+                          ""
+                        )}
                       </div>
                       <div className="form-group">
                         <label htmlFor="">Language</label>
@@ -152,7 +167,13 @@ const SpcCreate = () => {
                           className="dropdown-basic-button split-button-dropup"
                           isClearable
                         />
-                        {error?.language ? <span>{error?.language}</span> : ""}
+                        {error?.language ? (
+                          <div className="login-validation">
+                            {error?.language}
+                          </div>
+                        ) : (
+                          ""
+                        )}
                       </div>
                       <div className="form-group">
                         <label htmlFor="">Business Unit</label>
@@ -166,7 +187,9 @@ const SpcCreate = () => {
                           isClearable
                         />
                         {error?.businessunit ? (
-                          <span>{error?.businessunit}</span>
+                          <div className="login-validation">
+                            {error?.businessunit}
+                          </div>
                         ) : (
                           ""
                         )}
@@ -191,7 +214,13 @@ const SpcCreate = () => {
                             Add New Product +
                           </Button>
                         </div>
-                        {error?.product ? <span>{error?.product}</span> : ""}
+                        {error?.product ? (
+                          <div className="login-validation">
+                            {error?.product}
+                          </div>
+                        ) : (
+                          ""
+                        )}
                       </div>
                       <div className="form-group val">
                         <label htmlFor="">Upload SPC</label>
@@ -221,7 +250,9 @@ const SpcCreate = () => {
                           </div>
                         </div>
                         {error?.uploadspc ? (
-                          <span>{error?.uploadspc}</span>
+                          <div className="login-validation">
+                            {error?.uploadspc}
+                          </div>
                         ) : (
                           ""
                         )}
@@ -235,7 +266,17 @@ const SpcCreate = () => {
         </div>
       </Col>
 
-      <Modal show={show} className="send-confirm spc-create" id="download-qr">
+      <CommonModel
+        show={show}
+        onClose={setShow}
+        heading={"Add New Product"}
+        data={product}
+        footerButton={"Add"}
+        handleChange={addNewProductChanged}
+        handleSubmit={addProductClicked}
+        inputValue
+      />
+      {/* <Modal show={show} className="send-confirm spc-create" id="download-qr">
         <Modal.Header>
           <h5 className="modal-title" id="staticBackdropLabel">
             Add New Product
@@ -276,7 +317,7 @@ const SpcCreate = () => {
             Add
           </button>
         </div>
-      </Modal>
+      </Modal> */}
     </>
   );
 };

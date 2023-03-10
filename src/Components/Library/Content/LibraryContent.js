@@ -82,11 +82,11 @@ const LibraryContent = () => {
         },
       ],
     },
-    {
-      label: "Product name",
-      type: "input",
-      placeholder: "Type your product name",
-    },
+    // {
+    //   label: "Product name",
+    //   type: "input",
+    //   placeholder: "Type your product name",
+    // },
   ];
 
   useEffect(() => {
@@ -1234,63 +1234,12 @@ const LibraryContent = () => {
         </div>
       </Col>
 
-      {/* <Modal show={show} className="send-confirm" id="download-qr">
-        <Modal.Header>
-          <h5 className="modal-title" id="staticBackdropLabel">
-            Download QR
-          </h5>
-          <button
-            type="button"
-            className="btn-close"
-            data-bs-dismiss="modal"
-            onClick={() => {
-              setShow(false);
-            }}
-          ></button>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="form-group">
-            <label htmlFor="">Select Size</label>
-            <DropdownButton
-              className="dropdown-basic-button split-button-dropup "
-              title={size != "" ? size : "Select Size"}
-              onSelect={(event) => onSizeChange(event)}
-            >
-              <div className="scroll_div">
-                <Dropdown.Item
-                  eventKey="Tiny"
-                  className={size == "Tiny" ? "active" : ""}
-                >
-                  Tiny
-                </Dropdown.Item>
-                <Dropdown.Item
-                  eventKey="Article"
-                  className={size == "Article" ? "active" : ""}
-                >
-                  Article
-                </Dropdown.Item>
-                <Dropdown.Item
-                  eventKey="Large Print"
-                  className={size == "Large Print" ? "active" : ""}
-                >
-                  Large Print
-                </Dropdown.Item>
-              </div>
-            </DropdownButton>
-          </div>
-        </Modal.Body>
-        <div className="modal-footer">
-          <button type="button" className="btn btn-primary save btn-filled">
-            Save
-          </button>
-        </div>
-      </Modal> */}
-
       <CommonModel
         show={show}
         onClose={setShow}
         heading={"Download QR"}
         data={downloadQRData}
+        footerButton={"Save"}
         inputValue
       />
 

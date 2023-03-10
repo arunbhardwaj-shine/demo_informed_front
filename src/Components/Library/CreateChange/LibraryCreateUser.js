@@ -252,10 +252,7 @@ const LibraryCreateUser = () => {
                 </div>
                 <div className="col-12 col-md-2">
                   <div className="header-btn">
-                    <button
-                      className="btn btn-primary btn-bordered move-draft"
-                      // onClick={saveAsDraft}
-                    >
+                    <button className="btn btn-primary btn-bordered move-draft">
                       Cancel
                     </button>
 
