@@ -295,7 +295,7 @@ header {
   left: auto !important;
 }
 
-.filter-by button{
+.filter-by button {
   background: var(--white);
   border-radius: 30px;
   box-shadow: 0px 2px 10px 0px rgb(0 102 190 / 15%);
@@ -4064,6 +4064,10 @@ form#add_hcp_form .row:not(:first-child) {
   height: 90%;
 }
 
+.default_page_not_found .coming-soon {
+  height: 100%;
+}
+
 .right-sidebar .coming-soon h2 {
   display: flex;
   justify-content: center;
@@ -6976,6 +6980,8 @@ section.search-hcp.smart-list-view .header-btn-left {
 
 .default_page_not_found {
   min-height: 100vh;
+  border-radius: 0;
+  padding: 0;
 }
 
 .email-form .form-inline .form-group.template_builder_div {

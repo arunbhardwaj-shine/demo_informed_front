@@ -494,6 +494,7 @@ const LibraryCreateUser = () => {
                       <input type="text" className="form-control" />
                     </div>
                     <div className="form-group val">
+                      {console.log("---dfdfd>",ePrintType)}
                       <label for="">Docintel format *</label>
                       <Select
                         className="dropdown-basic-button split-button-dropup"

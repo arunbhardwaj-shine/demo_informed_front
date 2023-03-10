@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { Link } from "react-router-dom";
 import queryString from "query-string";
-
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const Header = () => {
   const queryParams = queryString.parse(window.location.search);
   const [getUserName, setUserName] = useState("");
@@ -78,7 +78,7 @@ const Header = () => {
               className="navbar-brand"
               href="https://informed.pro/Libraries/home"
             >
-              <img src={path + "inforMed_Logo_Blue_1.svg"} alt="" />
+              <img src={path_image + "inforMed_Logo_Blue_1.svg"} alt="" />
             </a>
             <button
               className="navbar-toggler"
@@ -199,8 +199,7 @@ const Header = () => {
                       window.open(
                         "https://support.informed.pro/authenticate?token=" +
                           localStorage.getItem("decrypted_token"),
-                        "_blank"
-                      )
+                        "_blank")
                     }
                   >
                     Raise a ticket

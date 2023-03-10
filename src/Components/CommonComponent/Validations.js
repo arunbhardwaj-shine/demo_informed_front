@@ -9,11 +9,11 @@ export const createContent = (data) => {
     error.limitOfUsage = "Limit of usage is required!";
   }
   if (!data?.ePrint) {
-    error.ePrint = "Eprint is required!";
+    error.ePrint = "Docintel format is required!";
   }
-  if (!data?.pdfFile) {
-    error.pdfFile = "Upload Pdf file is required!";
-  }
+  // if (!data?.pdfFile) {
+  //   error.pdfFile = "Upload video file is required!";
+  // }
   if (!data?.image) {
     error.image = "Upload cover image is required!";
   }
