@@ -7,7 +7,6 @@ import { ENDPOINT } from "../../../axios/apiConfig";
 import Select from "react-select";
 import { Spinner } from "react-activity";
 import CommonModel from "../../../Model/CommonModel";
-import SimpleReactValidator from "simple-react-validator";
 import Tooltip from "react-bootstrap/Tooltip";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import {
@@ -27,6 +26,8 @@ import "react-activity/dist/library.css";
 import { loader } from "../../../loader";
 import { toast } from "react-toastify";
 import moment from "moment";
+// import QRCode from "react-qr-code";
+import QRCode from "qrcode.react";
 
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -64,8 +65,14 @@ const LibraryContent = () => {
   const [deletestatus, setDeleteStatus] = useState(false);
   const [page, setPage] = useState(1);
   const [showfilter, setShowFilter] = useState(false);
+  const [qrValue, setQrValue] = useState("QR-code");
 
   const [libraryData, setLibraryData] = useState([]);
+  const [qrState, setQr] = useState({
+    leve: "",
+    value: "",
+  });
+
   const downloadQRData = [
     {
       label: "Select Size",
@@ -73,12 +80,15 @@ const LibraryContent = () => {
       dropdown: [
         {
           key: "Tiny",
+          value: "M",
         },
         {
           key: "Article",
+          value: "H",
         },
         {
           key: "Large Print",
+          value: "L",
         },
       ],
     },
@@ -223,6 +233,9 @@ const LibraryContent = () => {
 
     setShowFilter(false);
   };
+  const handleQR = (e) => {
+    setQr({ ...qrState, level: e });
+  };
 
   const showDeleteButtons = () => {
     if (deletestatus) {
@@ -344,6 +357,22 @@ const LibraryContent = () => {
     setFilterObject(old_object);
     setLibraryData([]);
     getLibraryData(page, old_object);
+  };
+
+  const downloadQRCode = () => {
+    // Generate download with use canvas and stream
+    const canvas = document.getElementById("qr-gen");
+    const pngUrl = canvas
+      .toDataURL("image/png")
+      .replace("image/png", "image/octet-stream");
+    let downloadLink = document.createElement("a");
+    downloadLink.href = pngUrl;
+    downloadLink.download = `${qrValue}.png`;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+    console.log("e", qrState?.value);
+    setShow(false);
   };
 
   return (
@@ -600,6 +629,14 @@ const LibraryContent = () => {
                 ) : null}
               </div>
             </div>
+            <QRCode
+              style={{ display: "none" }}
+              id="qr-gen"
+              value={qrState?.value}
+              size={290}
+              level={qrState?.level}
+              includeMargin={true}
+            />
             {Object.keys(filterObject)?.length !== 0 ? (
               <div className="apply-filter">
                 <h6>Applied filters</h6>
@@ -872,7 +909,13 @@ const LibraryContent = () => {
                                           Preview Aritcle
                                         </Button>
                                         <Button
-                                          onClick={commonModelFun}
+                                          onClick={() => {
+                                            commonModelFun();
+                                            setQr({
+                                              ...qrState,
+                                              value: data?.docintelLink,
+                                            });
+                                          }}
                                           className="footer-btn"
                                         >
                                           Download QR
@@ -1240,7 +1283,9 @@ const LibraryContent = () => {
         heading={"Download QR"}
         data={downloadQRData}
         footerButton={"Save"}
-        inputValue
+        handleSubmit={downloadQRCode}
+        handleQR={handleQR}
+        // inputValue
       />
 
       <div className="delete">
