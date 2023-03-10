@@ -47,7 +47,6 @@ const CommonModel = ({
   const modelInput = (item) => {
     return (
       <>
-        <Form>
           <div className="form-group">
             <label htmlFor="">{item?.label}</label>
             <input
@@ -57,7 +56,6 @@ const CommonModel = ({
               onChange={handleChange}
             />
           </div>
-        </Form>
       </>
     );
   };
@@ -82,6 +80,7 @@ const CommonModel = ({
           ></button>
         </Modal.Header>
         <Modal.Body>
+          <Form>
           {data?.map((item, index) => {
             return (
               <React.Fragment key={index}>
@@ -93,7 +92,7 @@ const CommonModel = ({
               </React.Fragment>
             );
           })}
-          {/* </div> */}
+          </Form>
         </Modal.Body>
         <div className="modal-footer">
           <button
