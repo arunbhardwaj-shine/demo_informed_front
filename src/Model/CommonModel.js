@@ -1,7 +1,15 @@
 import React, { useState } from "react";
 import { Dropdown, DropdownButton, Modal, Form } from "react-bootstrap";
 
-const CommonModel = ({ show, onClose, heading, data }) => {
+const CommonModel = ({
+  show,
+  onClose,
+  heading,
+  data,
+  footerButton,
+  handleChange,
+  handleSubmit,
+}) => {
   const [selecteValue, setSelectedValue] = useState("Select Size");
   const handleSelect = (value) => {
     setSelectedValue(value);
@@ -46,7 +54,7 @@ const CommonModel = ({ show, onClose, heading, data }) => {
               type="text"
               placeholder={item?.placeholder}
               className="form-control"
-              //   onChange={(e) => addNewProductChanged(e)}
+              onChange={handleChange}
             />
           </div>
         </Form>
@@ -88,8 +96,12 @@ const CommonModel = ({ show, onClose, heading, data }) => {
           {/* </div> */}
         </Modal.Body>
         <div className="modal-footer">
-          <button type="button" className="btn btn-primary save btn-filled">
-            Save
+          <button
+            type="button"
+            className="btn btn-primary save btn-filled"
+            onClick={handleSubmit}
+          >
+            {footerButton}
           </button>
         </div>
       </Modal>
