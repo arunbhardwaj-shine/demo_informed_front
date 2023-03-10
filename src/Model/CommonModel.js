@@ -39,7 +39,6 @@ const CommonModel = ({ show, onClose, heading, data }) => {
   const modelInput = (item) => {
     return (
       <>
-        <Form>
           <div className="form-group">
             <label htmlFor="">{item?.label}</label>
             <input
@@ -49,7 +48,6 @@ const CommonModel = ({ show, onClose, heading, data }) => {
               //   onChange={(e) => addNewProductChanged(e)}
             />
           </div>
-        </Form>
       </>
     );
   };
@@ -74,6 +72,7 @@ const CommonModel = ({ show, onClose, heading, data }) => {
           ></button>
         </Modal.Header>
         <Modal.Body>
+          <Form>
           {data?.map((item, index) => {
             return (
               <React.Fragment key={index}>
@@ -85,7 +84,7 @@ const CommonModel = ({ show, onClose, heading, data }) => {
               </React.Fragment>
             );
           })}
-          {/* </div> */}
+          </Form>
         </Modal.Body>
         <div className="modal-footer">
           <button type="button" className="btn btn-primary save btn-filled">
