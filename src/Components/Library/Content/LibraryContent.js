@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-
 import { popup_alert } from "../../../popup_alert";
 import { deleteData, postData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
@@ -26,7 +25,7 @@ import "react-activity/dist/library.css";
 import { loader } from "../../../loader";
 import { toast } from "react-toastify";
 import moment from "moment";
-// import QRCode from "react-qr-code";
+
 import QRCode from "qrcode.react";
 
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -69,8 +68,9 @@ const LibraryContent = () => {
 
   const [libraryData, setLibraryData] = useState([]);
   const [qrState, setQr] = useState({
-    leve: "",
+    // leve: "",
     value: "",
+    levels: "",
   });
 
   const downloadQRData = [
@@ -92,11 +92,6 @@ const LibraryContent = () => {
         },
       ],
     },
-    // {
-    //   label: "Product name",
-    //   type: "input",
-    //   placeholder: "Type your product name",
-    // },
   ];
 
   useEffect(() => {
@@ -234,7 +229,7 @@ const LibraryContent = () => {
     setShowFilter(false);
   };
   const handleQR = (e) => {
-    setQr({ ...qrState, level: e });
+    setQr({ ...qrState, levels: e });
   };
 
   const showDeleteButtons = () => {
@@ -371,7 +366,7 @@ const LibraryContent = () => {
     document.body.appendChild(downloadLink);
     downloadLink.click();
     document.body.removeChild(downloadLink);
-    console.log("e", qrState?.value);
+
     setShow(false);
   };
 
@@ -634,7 +629,7 @@ const LibraryContent = () => {
               id="qr-gen"
               value={qrState?.value}
               size={290}
-              level={qrState?.level}
+              levels={qrState?.levels}
               includeMargin={true}
             />
             {Object.keys(filterObject)?.length !== 0 ? (
@@ -756,9 +751,10 @@ const LibraryContent = () => {
                                 >
                                   <div className="tab-panel d-flex flex-column justify-content-between">
                                     <div className="tab-content-links">
-                                      <a href="#" className="doc-link">
+                                      {/* <a href="#" className="doc-link"> */}
+                                      <Link to={data?.docintelLink}>
                                         {data?.docintelLink}
-                                      </a>
+                                      </Link>
                                       <span
                                         className="copy-content"
                                         onClick={() => {
