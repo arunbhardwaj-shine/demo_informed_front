@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
 import { popup_alert } from "../../../popup_alert";
-import { deleteData, postData, updateConsent} from "../../../axios/apiHelper";
+import { deleteData, postData, updateConsent, resetStats} from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import Select from "react-select";
 import { Spinner } from "react-activity";
@@ -411,6 +411,37 @@ const LibraryContent = () => {
         popup_alert({
           visible: "show",
           message: "Your content has been update <br />successfully !",
+          type: "success",
+          redirect: "",
+        });
+    } catch (err) {
+      console.log("err",err);
+      loader("hide");
+    }
+  }
+
+  const resetCollection = async (pdf_id) => {
+    loader("show");
+    try {
+      let body = {
+        userId: 18207,
+        pdfId:pdf_id
+      };
+        const res = await resetStats(ENDPOINT.LIBRARYRESETSTATS, body);
+        let normal_data = opening_details;
+        const lib_data_index = normal_data.findIndex(el => el.pdf_id === pdf_id);
+        normal_data[lib_data_index].uniqueReader = 0;
+        normal_data[lib_data_index].opening = 0;
+        normal_data[lib_data_index].registeredReader = 0;
+
+        setOpeningDetails(normal_data);
+        setFlag(1);
+        setUpdate(update + 1);
+
+        loader("hide");
+        popup_alert({
+          visible: "show",
+          message: "Your stats has been reset <br />successfully !",
           type: "success",
           redirect: "",
         });
@@ -1083,8 +1114,8 @@ const LibraryContent = () => {
                                                   <div className="data-progress success-progress">
                                                     <ProgressBar
                                                       variant="success"
-                                                      now={100}
-                                                      label={details?.opening}
+                                                      now = {details.opening == 0 ? 0 : 100}
+                                                      label = {details?.opening}
                                                     />
                                                     {/* <ProgressBar
                                                     variant="success"
@@ -1097,6 +1128,7 @@ const LibraryContent = () => {
                                                             details.limit) *
                                                           100
                                                     }
+                                                    now={100}
                                                     label={details.opening}
                                                   /> */}
                                                   </div>
@@ -1166,7 +1198,7 @@ const LibraryContent = () => {
                                       <Button className="footer-btn">
                                         Analytics
                                       </Button>
-                                      <Button className="footer-btn reset">
+                                      <Button className="footer-btn reset" onClick={(e) => resetCollection(data.id)}>
                                         Reset the collected data
                                       </Button>
                                     </div>

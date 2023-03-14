@@ -12,3 +12,6 @@ export const deleteData = (end_point, user_id) => {
 export const updateConsent = (end_point, data) => {
   return axios.put(end_point, data);
 };
+export const resetStats = (end_point, data) => {
+  return axios.post(end_point, data);
+};
