@@ -4,4 +4,5 @@ export const ENDPOINT = {
   FILTERS: `/library/library-filter`,
   DELETE: `library/delete-library`,
   LIBRARYSTATS: `/library/library-stats`,
+  CREATELIBRARY: `/library/create-library`,
 };

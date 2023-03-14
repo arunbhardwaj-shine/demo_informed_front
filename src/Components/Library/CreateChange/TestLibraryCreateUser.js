@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Select from "react-select";
 import { Link } from "react-router-dom";
 import DatePicker from "react-datepicker";
@@ -89,38 +89,6 @@ const LibraryCreateUser = () => {
 
   const [production, setProduction] = useState("");
   const [country, setCountry] = useState("");
-  const [userInputs, setCreateLibraryInputs] = useState({});
-
-  const handleChange = (e, isSelectedName) => {
-    if (e?.target?.files?.length < 1) {
-      return;
-    }
-    setCreateLibraryInputs({
-      ...userInputs,
-      [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
-        ? e?.target?.files
-          ? e?.target?.files
-          : e
-        : e?.target?.value,
-    });
-  };
-
-  const nextButtonClicked = (e) => {
-    e.preventDefault();
-    console.log("eeee", userInputs);
-    const err = createContent(userInputs);
-    if (Object.keys(err)?.length) {
-      setError(err);
-
-      console.log(err);
-      return;
-    } else {
-      // navigate("/create-docintel-link");
-      setError(err);
-      console.log("no error");
-    }
-  };
-
   const onCompanyChange = (event) => {
     setCompany(event.target.value);
   };
@@ -178,32 +146,29 @@ const LibraryCreateUser = () => {
     setContentTitle(e.target.value);
   };
 
-  // const nextButtonClicked = (e) => {
-  //   e.preventDefault();
+  const nextButtonClicked = (e) => {
+    e.preventDefault();
 
-  //   const data = {
-  //     date: startDate,
-  //     limitOfUsage: limitOfUsage,
-  //     contentTitle: contentTitle,
-  //     ePrint: ePrint,
-  //     pdfFile: pdfFile,
-  //     image: image,
-  //   };
+    const data = {
+      contentTitle: contentTitle,
+      ePrint: ePrint,
+      pdfFile: pdfFile,
+      image: image,
+      limitOfUsage: limitOfUsage,
+    };
 
-  //   console.log("WW", data);
+    const err = createContent(data);
+    if (Object.keys(err)?.length) {
+      setError(err);
 
-  //   const err = createContent(data);
-  //   if (Object.keys(err)?.length) {
-  //     setError(err);
-
-  //     console.log(err);
-  //     return;
-  //   } else {
-  //     navigate("/create-docintel-link");
-  //     setError(err);
-  //     console.log("no error");
-  //   }
-  // };
+      console.log(err);
+      return;
+    } else {
+      navigate("/create-docintel-link");
+      setError(err);
+      console.log("no error");
+    }
+  };
 
   const handleFileChange = (e) => {
     setSelectedPdfName(e.target.files[0].name);
@@ -301,7 +266,7 @@ const LibraryCreateUser = () => {
                 </div>
               </div>
             </div>
-            {/* <div className="create-change-content">
+            <div className="create-change-content">
               <div className="form_action">
                 <h4>Who is involved</h4>
                 <div className="row">
@@ -312,7 +277,11 @@ const LibraryCreateUser = () => {
                         type="text"
                         className="form-control"
                         onChange={(event) => onCompanyChange(event)}
+                        //value={val.firstname}
                       />
+                      {/* {error?.company ? (
+                        <div className="login-validation">{error?.company}</div>
+                      ) : null} */}
                     </div>
                     <div className="form-group">
                       <label htmlFor="">Country</label>
@@ -323,6 +292,9 @@ const LibraryCreateUser = () => {
                         className="dropdown-basic-button split-button-dropup"
                         isClearable
                       />
+                      {/* {error?.country ? (
+                        <div className="login-validation">{error?.country}</div>
+                      ) : null} */}
                     </div>
                     <div className="form-group">
                       <label htmlFor="">Client product</label>
@@ -331,6 +303,11 @@ const LibraryCreateUser = () => {
                         className="form-control"
                         onChange={(e) => onClientProductChange(e)}
                       />
+                      {/* {error?.clientProduct ? (
+                        <div className="login-validation">
+                          {error?.clientProduct}
+                        </div>
+                      ) : null} */}
                     </div>
                     <div className="form-group">
                       <label htmlFor="">Production</label>
@@ -341,6 +318,11 @@ const LibraryCreateUser = () => {
                         className="dropdown-basic-button split-button-dropup edit-production-dropdown"
                         isClearable
                       />
+                      {/* {error?.production ? (
+                        <div className="login-validation">
+                          {error?.production}
+                        </div>
+                      ) : null} */}
                     </div>
                     <div className="form-group">
                       <label htmlFor="">Sales</label>
@@ -351,6 +333,9 @@ const LibraryCreateUser = () => {
                         className="dropdown-basic-button split-button-dropup edit-sales-dropdown"
                         isClearable
                       />
+                      {/* {error?.sales ? (
+                        <div className="login-validation">{error?.sales}</div>
+                      ) : null} */}
                     </div>
                   </div>
                   <div className="col-12 col-md-6 d-flex justify-content-end align-items-end right-change">
@@ -418,20 +403,20 @@ const LibraryCreateUser = () => {
                   </div>
                 </div>
               </div>
-            </div> */}
+            </div>
             <div className="create-change-content">
               <div className="form_action">
                 <h4>Limits agreed</h4>
                 <div className="row">
                   <div className="col-12 col-md-6">
-                    {/* <div className="form-group">
+                    <div className="form-group">
                       <label htmlFor="">Cost centre</label>
                       <Select
                         className="dropdown-basic-button split-button-dropup"
                         isClearable
                         placeholder="Select cost center"
                       />
-                    </div> */}
+                    </div>
                     <div className="form-group">
                       <label htmlFor="">Expiration date</label>
                       <DatePicker
@@ -443,11 +428,9 @@ const LibraryCreateUser = () => {
                       <label htmlFor="">Set limit of usage</label>
                       <input
                         type="text"
-                        name="limitOfUsage"
                         className="form-control"
                         placeholder="“0” value means unlimited limit"
-                        // onChange={(e) => setLimitOfUsage(e.target.value)}
-                        onChange={(e) => handleChange(e)}
+                        onChange={(e) => setLimitOfUsage(e.target.value)}
                       />
                       {error?.limitOfUsage ? (
                         <div className="login-validation">
@@ -505,12 +488,8 @@ const LibraryCreateUser = () => {
                       <label htmlFor="">Content title *</label>
                       <input
                         type="text"
-                        name="contentTitle"
                         className="form-control"
-                        // onChange={(e) => contentTitleChanged(e)}
-                        onChange={(e) => {
-                          handleChange(e);
-                        }}
+                        onChange={(e) => contentTitleChanged(e)}
                       />
                       {error?.contentTitle ? (
                         <div className="login-validation">
@@ -520,45 +499,29 @@ const LibraryCreateUser = () => {
                     </div>
                     <div className="form-group">
                       <label htmlFor="">Journal title</label>
-                      <input
-                        type="text"
-                        name="journalTitle"
-                        className="form-control"
-                        onChange={(e) => handleChange(e)}
-                      />
+                      <input type="text" className="form-control" />
                     </div>
                     <div className="form-group">
                       <label htmlFor="">Author</label>
-                      <input
-                        type="text"
-                        name="author"
-                        className="form-control"
-                        onChange={(e) => {
-                          handleChange(e);
-                        }}
-                      />
+                      <input type="text" className="form-control" />
                     </div>
                     <div className="form-group val">
                       <label htmlFor="">Docintel format *</label>
                       <Select
                         className="dropdown-basic-button split-button-dropup"
                         options={ePrintType}
-                        // onChange={(event) => ePrintTypeChange(event)}
+                        onChange={(event) => ePrintTypeChange(event)}
                         isClearable
                         placeholder="Select type of Docintel format "
-                        onChange={(event) =>
-                          handleChange(event?.value, "docintelFormat")
-                        }
                       />
-                      {error?.docintelFormat ? (
-                        <div className="login-validation">
-                          {error?.docintelFormat}
-                        </div>
+                      {error?.ePrint ? (
+                        <div className="login-validation">{error?.ePrint}</div>
                       ) : null}
                     </div>
 
-                    {/* {ePrint == "PDF" ? ( */}
-                    {userInputs.docintelFormat == "PDF" ? (
+                    {console.log(ePrint)}
+
+                    {ePrint == "PDF" ? (
                       <div className="form-group val">
                         <label htmlFor="">Upload PDF</label>
                         <div className="upload-file-box">
@@ -569,33 +532,26 @@ const LibraryCreateUser = () => {
                               id="file-6"
                               className="inputfile inputfile-6"
                               accept="application/pdf"
-                              // onChange={(e) => handleFileChange(e)}
-                              onChange={(e) => handleChange(e, "uploadFile")}
+                              onChange={(e) => handleFileChange(e)}
                             />
                             <label htmlFor="file-6">
                               <span>Choose Your File</span>
                             </label>
-                            {userInputs?.uploadFile?.[0]?.name ? (
-                              <h5>{userInputs?.uploadFile?.[0].name}</h5>
-                            ) : (
-                              <p>Upload your PDF</p>
-                            )}
 
-                            {/* <p>
+                            <p>
                               {selectedPdfName == ""
                                 ? "Upload your PDF"
                                 : selectedPdfName}{" "}
-                            </p> */}
+                            </p>
                           </div>
                         </div>
-                        {error?.uploadPdf ? (
+                        {error?.pdfFile ? (
                           <div className="login-validation-upload">
-                            {error?.uploadPdf}
+                            {error?.pdfFile}
                           </div>
                         ) : null}
                       </div>
-                    ) : // : ePrint == "video" ? (
-                    userInputs.docintelFormat == "video" ? (
+                    ) : ePrint == "video" ? (
                       <div className="form-group val">
                         <label htmlFor="">Upload video</label>
                         <div className="upload-file-box">
@@ -606,51 +562,44 @@ const LibraryCreateUser = () => {
                               id="file-6"
                               className="inputfile inputfile-6"
                               accept="video/*"
-                              // onChange={(e) => handleVideoChange(e)}
-                              onChange={(e) => handleChange(e, "uploadFile")}
+                              onChange={(e) => handleVideoChange(e)}
                             />
                             <label htmlFor="file-6">
                               <span>Choose Your File</span>
                             </label>
-                            {userInputs?.uploadFile?.[0]?.name ? (
-                              <h5>{userInputs?.uploadFile?.[0].name}</h5>
-                            ) : (
-                              <p>Upload your Video file</p>
-                            )}
-                            {/* <p>
+                            <p>
                               {selectedVideoName == ""
                                 ? "Upload your Video file"
                                 : selectedVideoName}{" "}
-                            </p> */}
+                            </p>
                           </div>
                         </div>
-                        {error?.uploadFile ? (
+                        {error?.pdfFile ? (
                           <div className="login-validation-upload">
-                            {error?.uploadFile}
+                            {error?.pdfFile}
                           </div>
                         ) : null}
                       </div>
-                    ) : // ePrint == "eBook" ? (
-                    userInputs.docintelFormat == "eBook" ? (
+                    ) : ePrint == "eBook" ? (
                       chapter.map((val, i) => {
                         return (
                           <>
-                            <div className="form-group val chapter-title">
+                            <div class="form-group val chapter-title">
                               <div className="ebook-format">
                                 <label htmlFor="">Chapter title {i + 1}</label>
                                 <input
                                   type="text"
-                                  className="form-control"
+                                  class="form-control"
                                   onChange={(e) => onChapterTitleChange(e, i)}
                                   value={val.chapterTitle}
                                 />
-                                <div className="upload-file-box">
-                                  <div className="box">
+                                <div class="upload-file-box">
+                                  <div class="box">
                                     <input
                                       type="file"
                                       name={`file-${i}`}
                                       id={`file-${i}`}
-                                      className="inputfile inputfile-6"
+                                      class="inputfile inputfile-6"
                                       accept="application/pdf"
                                       onChange={(e) =>
                                         handleOnEbookChange(e, i)
@@ -668,7 +617,7 @@ const LibraryCreateUser = () => {
                                   </div>
                                 </div>
                               </div>
-                              <div className="chapter-btn-wrapper">
+                              <div class="chapter-btn-wrapper">
                                 <Button
                                   className="btn btn-primary btn-bordered btn-voilet move-draft chappter-add-btn"
                                   onClick={addMoreChClicked}
