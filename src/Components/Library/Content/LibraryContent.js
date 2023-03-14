@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
 import { popup_alert } from "../../../popup_alert";
-import { deleteData, postData } from "../../../axios/apiHelper";
+import { deleteData, postData, updateConsent} from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import Select from "react-select";
 import { Spinner } from "react-activity";
 import CommonModel from "../../../Model/CommonModel";
-import SimpleReactValidator from "simple-react-validator";
 import Tooltip from "react-bootstrap/Tooltip";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import {
@@ -27,6 +26,8 @@ import "react-activity/dist/library.css";
 import { loader } from "../../../loader";
 import { toast } from "react-toastify";
 import moment from "moment";
+// import QRCode from "react-qr-code";
+import QRCode from "qrcode.react";
 
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -63,9 +64,18 @@ const LibraryContent = () => {
 
   const [deletestatus, setDeleteStatus] = useState(false);
   const [page, setPage] = useState(1);
+  const [type, setType] = useState('');
   const [showfilter, setShowFilter] = useState(false);
+  const [qrValue, setQrValue] = useState("QR-code");
 
   const [libraryData, setLibraryData] = useState([]);
+  const [changeConsent, setchangeConsent] = useState([]);
+  const [updateflag, setupdateFlag] = useState(0);
+  const [qrState, setQr] = useState({
+    leve: "",
+    value: "",
+  });
+
   const downloadQRData = [
     {
       label: "Select Size",
@@ -73,12 +83,15 @@ const LibraryContent = () => {
       dropdown: [
         {
           key: "Tiny",
+          value: "M",
         },
         {
           key: "Article",
+          value: "H",
         },
         {
           key: "Large Print",
+          value: "L",
         },
       ],
     },
@@ -109,7 +122,8 @@ const LibraryContent = () => {
 
   const loadMoreClicked = () => {
     setPageAllClicked(true);
-    setPage("All");
+    setPage(2);
+    setType("rest");
   };
 
   const submitHandler = (event) => {
@@ -223,6 +237,9 @@ const LibraryContent = () => {
 
     setShowFilter(false);
   };
+  const handleQR = (e) => {
+    setQr({ ...qrState, level: e });
+  };
 
   const showDeleteButtons = () => {
     if (deletestatus) {
@@ -238,16 +255,11 @@ const LibraryContent = () => {
 
   const getLibraryData = async (page, obj, search) => {
     try {
-      // let body = {
-      //   id: 18207,
-      //   page: page,
-      // };
-      //console.log(filterObject);
-
       let data = {
         id: 18207,
         page: page,
         search: search,
+        type:type
       };
 
       let body = { ...data, ...obj };
@@ -288,30 +300,30 @@ const LibraryContent = () => {
     }
   };
 
-  const deleteUser = async () => {
-    loader("show");
-    try {
-      const res = await deleteData(ENDPOINT.DELETE, userId);
-      if (res?.data?.message == "Library deleted successfully") {
+    const deleteUser = async () => {
+      loader("show");
+      try {
+        const res = await deleteData(ENDPOINT.DELETE, userId);
+        if (res?.data?.message == "Library deleted successfully") {
+          loader("hide");
+          popup_alert({
+            visible: "show",
+            message: "Your content has been deleted <br />successfully !",
+            type: "success",
+            redirect: "",
+          });
+          setLibraryData([]);
+          getLibraryData(page, filterObject, search);
+        }
+
         loader("hide");
-        popup_alert({
-          visible: "show",
-          message: "Your content has been deleted <br />successfully !",
-          type: "success",
-          redirect: "",
-        });
-        setLibraryData([]);
-        getLibraryData(page, filterObject, search);
+      } catch (err) {
+        console.log("err");
+        loader("hide");
       }
 
-      loader("hide");
-    } catch (err) {
-      console.log("err");
-      loader("hide");
-    }
-
-    hideConfirmationModal();
-  };
+      hideConfirmationModal();
+    };
 
   const commonModelFun = () => {
     setShow(true);
@@ -345,6 +357,68 @@ const LibraryContent = () => {
     setLibraryData([]);
     getLibraryData(page, old_object);
   };
+
+  const downloadQRCode = () => {
+    // Generate download with use canvas and stream
+    const canvas = document.getElementById("qr-gen");
+    const pngUrl = canvas
+      .toDataURL("image/png")
+      .replace("image/png", "image/octet-stream");
+    let downloadLink = document.createElement("a");
+    downloadLink.href = pngUrl;
+    downloadLink.download = `${qrValue}.png`;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+    console.log("e", qrState?.value);
+    setShow(false);
+  };
+
+  const onConsentChange = (e, i) => {
+    let consetValue = e.value;
+    let consent = {
+      index : i,
+      value  : consetValue
+    };
+
+    const found = changeConsent.some(el => el.index === i);
+    if(!found){
+      setchangeConsent((oldarray) => [...oldarray,consent]);
+    }else{
+      const index = changeConsent.findIndex(el => el.index === i);
+      changeConsent[index].value = consetValue;
+    }
+  }
+
+  const updateConset = async (pdf_id,index) => {
+    loader("show");
+    try {
+      const index = changeConsent.findIndex(el => el.index === pdf_id);
+      let consent_value = changeConsent[index].value;
+
+      let body = {
+        pdfId: pdf_id,
+        consentType:consent_value
+      };
+
+      const res = await updateConsent(ENDPOINT.LIBRARYCHANGECONSENT, body);
+      const lib_data_index = libraryData.findIndex(el => el.id === pdf_id);
+      libraryData[lib_data_index].linkType = consent_value;
+      const new_data = libraryData;
+      setLibraryData(new_data);
+      setupdateFlag(updateflag + 1);
+        loader("hide");
+        popup_alert({
+          visible: "show",
+          message: "Your content has been update <br />successfully !",
+          type: "success",
+          redirect: "",
+        });
+    } catch (err) {
+      console.log("err",err);
+      loader("hide");
+    }
+  }
 
   return (
     <>
@@ -600,6 +674,14 @@ const LibraryContent = () => {
                 ) : null}
               </div>
             </div>
+            <QRCode
+              style={{ display: "none" }}
+              id="qr-gen"
+              value={qrState?.value}
+              size={290}
+              level={qrState?.level}
+              includeMargin={true}
+            />
             {Object.keys(filterObject)?.length !== 0 ? (
               <div className="apply-filter">
                 <h6>Applied filters</h6>
@@ -655,8 +737,8 @@ const LibraryContent = () => {
           <Row>
             <div className="library-content-box-layuot d-flex">
               <>
-                {libraryData?.length
-                  ? libraryData?.map((data) => {
+                {libraryData?.length || updateflag
+                  ? libraryData?.map((data, index) => {
                       return (
                         <>
                           <div className="doc-content-main-box col">
@@ -665,7 +747,7 @@ const LibraryContent = () => {
                                 <a href="#">
                                   <img
                                     alt="doc-logo"
-                                    src={path_image + "dummy-img1.png"}
+                                    src={data?.coverImage}
                                     style={{ width: "67px" }}
                                   />
                                 </a>
@@ -719,7 +801,7 @@ const LibraryContent = () => {
                                 >
                                   <div className="tab-panel d-flex flex-column justify-content-between">
                                     <div className="tab-content-links">
-                                      <a href="#" className="doc-link">
+                                      <a href={data?.docintelLink} className="doc-link" target="_blank">
                                         {data?.docintelLink}
                                       </a>
                                       <span
@@ -823,17 +905,7 @@ const LibraryContent = () => {
                                           <strong>Link type</strong>
                                         </h6>
                                         <h6>
-                                          {" "}
-                                          {data.first_popup == 0 &&
-                                          data.only_first_popup == 0
-                                            ? "online"
-                                            : data.first_popup == 1 &&
-                                              data.only_first_popup == 1
-                                            ? "offline"
-                                            : data.first_popup == 1 &&
-                                              data.only_first_popup == 0
-                                            ? "sunshine"
-                                            : ""}
+                                          {data?.linkType}
                                         </h6>
                                       </li>
                                       <li>
@@ -841,24 +913,34 @@ const LibraryContent = () => {
                                           <strong>Include</strong>
                                         </h6>
                                         <div className="include-links">
-                                          <Link>
-                                            <img
-                                              src={path_image + "spc-img.png"}
-                                              alt=""
-                                            />
-                                          </Link>
-                                          <Link>
-                                            <img
-                                              src={path_image + "video-img.png"}
-                                              alt=""
-                                            />
-                                          </Link>
-                                          <Link>
-                                            <img
-                                              src={path_image + "link-img.png"}
-                                              alt=""
-                                            />
-                                          </Link>
+
+                                          {
+                                            data?.spc_included ?
+                                              <img
+                                                src={path_image + "spc-img.png"}
+                                                alt=""
+                                              />
+                                            :""
+                                          }
+
+                                          {
+                                            data?.linkRelations ?
+                                              <img
+                                                src={path_image + "video-img.png"}
+                                                alt=""
+                                              />
+                                            :""
+                                          }
+                                          {
+                                            data?.pdfLinks ?
+                                              <img
+                                                src={path_image + "link-img.png"}
+                                                alt=""
+                                              />
+                                            :""
+                                          }
+
+
                                         </div>
                                       </li>
                                     </ul>
@@ -868,11 +950,17 @@ const LibraryContent = () => {
                                   deletestatus == false ? (
                                     <div className="data-main-footer-sec">
                                       <div className="footer-btn-wrapper">
-                                        <Button className="footer-btn">
+                                        <a className="footer-btn" href={data?.previewArticle} target="_blank">
                                           Preview Aritcle
-                                        </Button>
+                                        </a>
                                         <Button
-                                          onClick={commonModelFun}
+                                          onClick={() => {
+                                            commonModelFun();
+                                            setQr({
+                                              ...qrState,
+                                              value: data?.docintelLink,
+                                            });
+                                          }}
                                           className="footer-btn"
                                         >
                                           Download QR
@@ -1095,16 +1183,22 @@ const LibraryContent = () => {
                                         <label htmlFor="">Consent type</label>
                                         <Select
                                           options={types}
-                                          // onChange={(event) =>
-                                          //   onCountryChange(event)
-                                          // }
+                                          defaultValue={data.linkType == "Online"
+                                            ? types[0]
+                                            : data.linkType == "Offline"
+                                            ? types[1]
+                                            : data.linkType == "Sunshine"
+                                            ? types[2]
+                                            : "Select"}
+                                          onChange={(event) =>
+                                            onConsentChange(event,data.id)
+                                          }
+                                          id={"consent_dropdown_"+index}
                                           className="dropdown-basic-button split-button-dropup"
                                           isClearable
                                         />
-                                        {/* {error?.country ? (
-                        <div className="login-validation">{error?.country}</div>
-                      ) : null} */}
-                                        <Button>Update</Button>
+                                        <Button
+                                        onClick={(e) => updateConset(data.id,index)}>Update</Button>
                                       </div>
                                     </ul>
                                   </div>
@@ -1129,71 +1223,77 @@ const LibraryContent = () => {
                                 >
                                   <div className="tab-panel">
                                     <ul className="tab-mail-list">
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          <strong>Sales person</strong>
-                                        </h6>
-                                        <h6>Sales person name</h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          <strong>Production person</strong>
-                                        </h6>
-                                        <h6>Production person name</h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          <strong>Client name</strong>
-                                        </h6>
-                                        <h6>Jacob Flindt</h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          <strong>Client product</strong>
-                                        </h6>
-                                        <h6>Product name</h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          <strong>Client country</strong>
-                                        </h6>
-                                        <h6>United Kingdom</h6>
-                                      </li>
+                                      {
+                                        data.licensed == 1  &&(
+                                          <>
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              <strong>Sales person</strong>
+                                            </h6>
+                                            <h6>{data?.saleName}</h6>
+                                          </li>
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              <strong>Production person</strong>
+                                            </h6>
+                                            <h6>{data?.productName}</h6>
+                                          </li>
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              <strong>Client name</strong>
+                                            </h6>
+                                            <h6>{data?.company}</h6>
+                                          </li>
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              <strong>Client product</strong>
+                                            </h6>
+                                            <h6>{data?.product}</h6>
+                                          </li>
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              <strong>Client country</strong>
+                                            </h6>
+                                            <h6>{data?.country}</h6>
+                                          </li>
+                                          </>
+                                        )
+                                      }
                                       <li>
                                         <h6 className="tab-content-title">
                                           <strong>Opening limit</strong>
                                         </h6>
-                                        <h6>300</h6>
+                                        <h6>{data?.limit}</h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
                                           <strong>Link type</strong>
                                         </h6>
-                                        <h6>Sunshine</h6>
+                                        <h6>{data?.linkType}</h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
                                           <strong>Print</strong>
                                         </h6>
-                                        <h6>No</h6>
+                                        <h6>{data?.allow_print ? "Yes" : "No" }</h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
                                           <strong>Download</strong>
                                         </h6>
-                                        <h6>Yes</h6>
+                                        <h6>{data?.allow_download ? "Yes" : "No"}</h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          <strong>Uploade date</strong>
+                                          <strong>Upload date</strong>
                                         </h6>
-                                        <h6>4 August 2022</h6>
+                                        <h6>{data?.uploadedDate}</h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
                                           <strong>Expiration date</strong>
                                         </h6>
-                                        <h6>1 August 2023</h6>
+                                        <h6>{data?.expireDate}</h6>
                                       </li>
                                     </ul>
                                   </div>
@@ -1240,7 +1340,9 @@ const LibraryContent = () => {
         heading={"Download QR"}
         data={downloadQRData}
         footerButton={"Save"}
-        inputValue
+        handleSubmit={downloadQRCode}
+        handleQR={handleQR}
+        // inputValue
       />
 
       <div className="delete">

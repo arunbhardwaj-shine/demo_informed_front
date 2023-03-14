@@ -9,10 +9,12 @@ const CommonModel = ({
   footerButton,
   handleChange,
   handleSubmit,
+  handleQR,
 }) => {
   const [selecteValue, setSelectedValue] = useState("Select Size");
   const handleSelect = (value) => {
     setSelectedValue(value);
+    handleQR(value);
   };
   const handleClose = () => {
     onClose(false);
@@ -31,7 +33,7 @@ const CommonModel = ({
             {item?.dropdown?.map((values, newKeys) => {
               return (
                 <Dropdown.Item
-                  eventKey={values?.key}
+                  eventKey={values?.value}
                   key={newKeys}
                   className={selecteValue == values?.key ? "active" : ""}
                 >
@@ -47,15 +49,15 @@ const CommonModel = ({
   const modelInput = (item) => {
     return (
       <>
-          <div className="form-group">
-            <label htmlFor="">{item?.label}</label>
-            <input
-              type="text"
-              placeholder={item?.placeholder}
-              className="form-control"
-              onChange={handleChange}
-            />
-          </div>
+        <div className="form-group">
+          <label htmlFor="">{item?.label}</label>
+          <input
+            type="text"
+            placeholder={item?.placeholder}
+            className="form-control"
+            onChange={handleChange}
+          />
+        </div>
       </>
     );
   };
@@ -81,17 +83,17 @@ const CommonModel = ({
         </Modal.Header>
         <Modal.Body>
           <Form>
-          {data?.map((item, index) => {
-            return (
-              <React.Fragment key={index}>
-                {item?.type == "dropdown"
-                  ? modelDropdown(item)
-                  : item?.type == "input"
-                  ? modelInput(item)
-                  : null}
-              </React.Fragment>
-            );
-          })}
+            {data?.map((item, index) => {
+              return (
+                <React.Fragment key={index}>
+                  {item?.type == "dropdown"
+                    ? modelDropdown(item)
+                    : item?.type == "input"
+                    ? modelInput(item)
+                    : null}
+                </React.Fragment>
+              );
+            })}
           </Form>
         </Modal.Body>
         <div className="modal-footer">
