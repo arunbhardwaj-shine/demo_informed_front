@@ -11,7 +11,7 @@
     box-shadow: $library-box-shadow;
     border-radius: 20px;
     padding: $library-box-padding;
-    margin: 40px 0 20px;
+    margin: 20px 0 28px;
     width: 100%;
     flex: 0 0 30%;
     position: relative;
@@ -62,6 +62,7 @@
       margin: 0 -16px 0;
       .nav-item {
        margin-right: 0;
+       flex: 1 1;
        &:first-child {
 			button.active {
         border-radius: 20px 20px 0 0;
@@ -135,12 +136,12 @@
         border-radius: 20px 20px 20px;
         margin: 1px -16px 0;
         padding: 18px 16px 0;
-        min-height: 330px;
+        min-height: 320px;
         display: flex;
        justify-content: space-between;
         >.active {
         display: flex;
-        min-height: 313px;
+        min-height: 303px;
         width:100%;
       }
       .tab-content-links {
@@ -206,12 +207,10 @@
           }
         }
         .include-links{
-          a{
-            margin-right:10px;
-            img{
+          img{
+              margin-right:10px;
               width:24px;
             }
-          }
         }
         
       }
@@ -412,7 +411,10 @@
 }
 .library_create {
 	@include library_create;
-  &.spc-box{gap:100px;}
+  &.spc-box{gap:100px;
+    min-height: 65vh;
+    align-items: center;
+  }
 .library_create-box {
 	@include library_create-box; 	
   &:hover {
@@ -663,6 +665,11 @@ ul.tab-mail-list.data span.total-left small {
           &.dropdown-toggle {
             max-width: 100%;
             width: 100%;
+          }
+          }
+        &.show{
+          button{
+
           }
         }
       }
@@ -1377,10 +1384,26 @@ select::-ms-expand {
     flex: 0 0 171px;
 }
 .spc-edit .smartlist-view .mail-box-content {
-    min-height: 354px;
+    min-height: 338px;
 }
 .spc-edit .smartlist-view .mail-box-content h5 {
     margin: 0 0 20px;
+}
+.spc-edit .smartlist-view .mail-box-content table {
+   width: 100%;
+}
+.spc-edit .smartlist-view .mail-box-content table th{
+   width: 115px;
+}
+.spc-edit .dlt_btn {
+    right: -20px;
+    bottom: -13px;
+}
+.smart-list-result.spc-delete {
+    margin-top: 30px;
+}
+.smartlist-result-block.spc-edit  .smartlist_box_block {
+    margin-bottom: 40px;
 }
 .spc-edit .smartlist-buttons {
     min-height: 47px;
@@ -1603,6 +1626,35 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 .chapter-btn-wrapper button.dlt_btn {
     min-width: 40px;
     padding: 7px;
+}
+.filter-block .filter-block-left .filter-div .filter-div-title span, .filter-block .filter-block-right .filter-div .filter-div-title span{
+    text-transform: capitalize;
+}
+.filter-block .filter-block-left .filter-div .filter-div-title, .filter-block .filter-block-right .filter-div .filter-div-title {
+    min-width: 31px;
+    padding-top: 0px;
+}
+.filter-block .filter-div .filter-result {
+    margin: 0px 16px 10px 0;
+}
+.filter-block .filter-block-left .filter-div .filter-div-title span, .filter-block .filter-block-right .filter-div .filter-div-title span {
+    font-size: 12px;
+    line-height: 14px;
+}
+.filter-block .filter-div .filter-result {
+    font-size: 11px;
+    line-height: 13px;
+    padding: 3px 5px 3px 21px;
+    margin: 0px 16px 10px 0;
+}
+.library-content-box-layuot > h4 {
+    flex: 0 0 100%;
+    color: $dark-blue;
+    font-weight: 300;
+}
+
+.library-content-box-layuot > h4 span {
+    font-weight: 500;
 }
 /**Library Style End**/
 
