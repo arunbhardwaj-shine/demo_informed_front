@@ -565,9 +565,9 @@ ul.tab-mail-list.data span.total-left small {
   border-radius: 27px;
   height: 24px;
 }
-.tab-mail-list.data .success-progress  .progress {
-  background: #00D4C0;
-}
+// .tab-mail-list.data .success-progress  .progress {
+//   background: #00D4C0;
+// }
 .tab-mail-list.data .progress .progress-bar, .tab-mail-list.data .data-progress.success span, .tab-mail-list.data .data-progress.danger span {
     border-radius: 27px;
     padding: 4px 7px;
@@ -586,9 +586,7 @@ ul.tab-mail-list.data span.total-left small {
 
 .tab-mail-list.data .progress .progress-bar.bg-success{
   color: #05766b;
-  background: transparent !important;
-  width: auto !important;
-  margin:0 auto;
+  background: #00D4C0 !important;
 }
 
 .tab-mail-list.data .progress .progress-bar.bg-danger{
