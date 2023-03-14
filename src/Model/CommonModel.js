@@ -16,7 +16,6 @@ const CommonModel = ({
 
   const handleSelect = (value, label) => {
     setSelectedValue({ ...selecteValue, [label]: value });
-    // setSelectedValue(value);
     handleDropdown(label, value);
   };
   const handleClose = () => {
