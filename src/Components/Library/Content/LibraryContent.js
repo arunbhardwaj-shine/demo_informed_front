@@ -1240,9 +1240,7 @@ const LibraryContent = () => {
                                       <Button className="footer-btn">
                                         Add / Remove Tags
                                       </Button>
-                                      <Button className="footer-btn">
-                                        New Sublink
-                                      </Button>
+                                      <Link to="/library-sublink" className="footer-btn">New Sublink</Link>
                                     </div>
                                   </div>
                                 </Tab>
