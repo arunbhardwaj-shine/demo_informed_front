@@ -16,6 +16,7 @@ import Select from "react-select";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import Tooltip from "react-bootstrap/Tooltip";
+import CommonModel from "../../../Model/CommonModel";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const LibrarySublink = () => {
   const [BusinessUnitAll, setBusinessUnitAll] = useState([
@@ -41,13 +42,60 @@ const LibrarySublink = () => {
     setLink({ ...newLink, [name]: e });
   };
 
-  const handleSubmit = () => {
+  const handleCreateSubmit = () => {
     setLink({
       ...newLink,
       isCheckBoth: newLink?.delivery && newLink?.identifier,
     });
     setCreateNewLink(false);
   };
+
+  const downloadLinkData = [
+    {
+      label: "Delivery",
+      stateLabel: "delivery",
+      type: "dropdown",
+      dropdown: [
+        {
+          key: "Social Media",
+          value: "Social Media",
+        },
+        {
+          key: "Article",
+          value: "Article",
+        },
+        {
+          key: "Large Print",
+          value: "Large Print",
+        },
+      ],
+    },
+    {
+      label: "Identifier",
+      type: "dropdown",
+      stateLabel: "identifier",
+      dropdown: [
+        {
+          key: "Social Media",
+          value: "Social Media",
+        },
+        {
+          key: "Article",
+          value: "Article",
+        },
+        {
+          key: "Large Print",
+          value: "Large Print",
+        },
+      ],
+    },
+
+    // {
+    //   label: "Product name",
+    //   type: "input",
+    //   placeholder: "Type your product name",
+    // },
+  ];
 
   const navigate = useNavigate();
   return (
@@ -175,6 +223,16 @@ const LibrarySublink = () => {
         </div>
       </Col>
 
+      <CommonModel
+        show={createNewLink}
+        onClose={setCreateNewLink}
+        heading="Create New Link"
+        footerButton={"Apply"}
+        data={downloadLinkData}
+        handleDropdown={handleChange}
+        handleSubmit={handleCreateSubmit}
+      />
+      {/* 
       <Modal show={createNewLink} className="send-confirm" id="download-qr">
         <Modal.Header>
           <h5 className="modal-title" id="staticBackdropLabel">
@@ -270,12 +328,12 @@ const LibrarySublink = () => {
             type="button"
             disabled={!(newLink?.delivery && newLink?.identifier)}
             className="btn btn-primary save btn-filled"
-            onClick={() => handleSubmit()}
+            onClick={() => handleCreateSubmit()}
           >
             Apply
           </button>
         </div>
-      </Modal>
+      </Modal> */}
     </>
   );
 };
