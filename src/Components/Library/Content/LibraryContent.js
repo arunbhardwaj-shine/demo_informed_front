@@ -72,7 +72,6 @@ const LibraryContent = () => {
   const [changeConsent, setchangeConsent] = useState([]);
   const [updateflag, setupdateFlag] = useState(0);
   const [qrState, setQr] = useState({
-    leve: "",
     value: "",
   });
 
@@ -370,7 +369,6 @@ const LibraryContent = () => {
     document.body.appendChild(downloadLink);
     downloadLink.click();
     document.body.removeChild(downloadLink);
-    console.log("e", qrState?.value);
     setShow(false);
   };
 
