@@ -37,6 +37,7 @@ const LibrarySublink = () => {
   const [userId, setUserId] = useState();
   const [update, setUpdate] = useState(0);
   const [consentValue, setConsentValue] = useState('');
+  const [identifier, setIdentifier] = useState("");
   const [newLink, setLink] = useState({
     delivery: "",
     identifier: "",
@@ -243,6 +244,10 @@ const LibrarySublink = () => {
       </OverlayTrigger>
     );
   }
+
+  const onIdentifierChange = (event) => {
+    setIdentifier(event.target.value);
+  };
 
   const navigate = useNavigate();
   return (
@@ -486,6 +491,9 @@ const LibrarySublink = () => {
                                                   :""
                                                 }
 
+                                                {articleData.spc_included == 0 && articleData.linkRelations ==0 && articleData.pdfLinks ==0 && (
+                                                  <h6>N/A</h6>
+                                                )}
 
                                               </div>
                                             </li>
@@ -883,7 +891,7 @@ const LibrarySublink = () => {
           <div className="form-group">
             <label htmlFor="">Delivery</label>
             <DropdownButton
-              className="dropdown-basic-button split-button-dropup "
+              className={"dropdown-basic-button split-button-dropup " + (newLink?.delivery ? 'addval' : '')}
               title={
                 newLink?.delivery ? newLink?.delivery : "Select delivery Change"
               }
@@ -928,6 +936,7 @@ const LibrarySublink = () => {
               type="text"
               className="form-control"
               placeholder=""
+              onChange={(event) => onIdentifierChange(event)}
             />
           </div>
         </Modal.Body>
@@ -935,7 +944,7 @@ const LibrarySublink = () => {
         <div className="modal-footer">
           <button
             type="button"
-            disabled={!(newLink?.delivery && newLink?.identifier)}
+            disabled={!(newLink?.delivery && identifier.trim().length > 0)}
             className="btn btn-primary save btn-filled"
             onClick={() => handleSubmit()}
           >
