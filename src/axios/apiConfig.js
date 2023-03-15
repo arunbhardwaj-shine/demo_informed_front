@@ -7,4 +7,5 @@ export const ENDPOINT = {
   LIBRARYCHANGECONSENT: `/library/change-consent`,
   LIBRARYCREATE: `/library/create-library`,
   LIBRARYRESETSTATS: `/library/reset-stats`,
+  LIBRARYREUPDATETAGS: `/library/update-tags`,
 };

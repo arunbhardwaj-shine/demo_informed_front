@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
 import { popup_alert } from "../../../popup_alert";
-import { deleteData, postData, updateConsent, resetStats} from "../../../axios/apiHelper";
+import { deleteData, postData, updateConsent, resetStats, updateTags} from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import Select from "react-select";
 import { Spinner } from "react-activity";
@@ -540,30 +540,39 @@ const LibraryContent = () => {
     }
   };
 
-  const saveButtonClicked = () => {
+  const saveButtonClicked = async () => {
+    loader("show");
+    let payload = {
+      pdfId:pdftagsid,
+    };
     if (typeof finalTags != "undefined" && finalTags.length > 0) {
       let prev_tags = finalTags;
       let new_tags = prev_tags.concat(tagClickedFirst);
       const uniqueTags = new_tags.filter((x, i, a) => a.indexOf(x) == i);
       setFinalTags(uniqueTags);
-
+      payload.tags = JSON.stringify(uniqueTags);
       if(pdftagsid != ''){
         const lib_data_index = libraryData.findIndex(el => el.id === pdftagsid);
         libraryData[lib_data_index].tags = JSON.stringify(uniqueTags);
       }
     } else {
       setFinalTags(tagClickedFirst);
-
+      payload.tags = JSON.stringify(tagClickedFirst);
       if(pdftagsid != ''){
         const lib_data_index = libraryData.findIndex(el => el.id === pdftagsid);
         libraryData[lib_data_index].tags = JSON.stringify(tagClickedFirst);
       }
     }
+    try {
+      const res = await updateTags(ENDPOINT.LIBRARYREUPDATETAGS, payload);
+    } catch (err) {
+      loader("hide");
+    }
 
     setLibraryData(libraryData);
     setupdateFlag(updateflag + 1);
-    // tags
     closeModal();
+    loader("hide");
   };
 
   return (
@@ -1590,7 +1599,7 @@ const LibraryContent = () => {
           <Modal.Footer>
             <form>
               <div className="form-group">
-                <label for="new-tag">New Tag</label>
+                <label htmlFor="new-tag">New Tag</label>
                 <input
                   type="text"
                   className="form-control"
