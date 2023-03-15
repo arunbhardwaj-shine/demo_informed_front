@@ -9,6 +9,7 @@ import {
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
+import Select from "react-select";
 
 const ReaderAdd = () => {
   const [field, setField] = useState([]);
@@ -16,58 +17,250 @@ const ReaderAdd = () => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+   const [countryAll, setCountryAll] = useState([
+    { value: "India", label: "India" },
+    { value: "Australia", label: "Australia" },
+    { value: "Russia", label: "Russia" },
+  ]);
+    const [salesAll, setSalesAll] = useState([
+    { value: "sales1", label: "sales1" },
+    { value: "sales2", label: "sales2" },
+    { value: "sales3", label: "sales3" },
+  ]);
+    const [productionAll, setProductionAll] = useState([
+    { value: "production1", label: "production1" },
+    { value: "production2", label: "production2" },
+    { value: "production3", label: "production3" },
+  ]);
   return (
     <>
-      <Col className="right-sidebar">
+      <Col className="col right-sidebar">
         <div className="custom-container">
           <Row>
             <div className="page-top-nav">
               <div className="row justify-content-end align-items-center">
-                <div className="col-12 col-md-2">
+                <div className="col-12 col-md-1">
                   <div className="header-btn-left">
                     <button className="btn btn-primary btn-bordered back">
-                      <Link to="/readers-view">Back</Link>
+                      <Link to="/library-create">Back</Link>
                     </button>
                   </div>
                 </div>
-                <div className="col-12 col-md-6"></div>
-                <div className="col-12 col-md-4">
+                <div className="col-12 col-md-9">
+                  <ul className="tabnav-link">
+                    <li className="active active-main">
+                      <a href="">Create CRM</a>
+                    </li>
+                    <li className="">
+                      <a href="">Review &amp; approve</a>
+                    </li>
+                  </ul>
+                </div>
+                <div className="col-12 col-md-2">
                   <div className="header-btn">
-                    <button
-                      onClick={handleShow}
-                      className="btn btn-primary btn-bordered upload"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="96"
-                        height="96"
-                        viewBox="0 0 96 96"
-                        fill="none"
-                      >
-                        <path
-                          d="M88 63C86.9391 63 85.9217 63.4214 85.1716 64.1716C84.4214 64.9217 84 65.9391 84 67V72.852C83.9968 75.8076 82.8213 78.6413 80.7313 80.7313C78.6413 82.8213 75.8077 83.9968 72.852 84H23.148C20.1923 83.9968 17.3586 82.8213 15.2687 80.7313C13.1787 78.6413 12.0032 75.8076 12 72.852V67C12 65.9391 11.5786 64.9217 10.8284 64.1716C10.0783 63.4214 9.06087 63 8 63C6.93913 63 5.92172 63.4214 5.17157 64.1716C4.42143 64.9217 4 65.9391 4 67V72.852C4.00529 77.9287 6.02437 82.796 9.61417 86.3858C13.204 89.9756 18.0713 91.9947 23.148 92H72.852C77.9287 91.9947 82.796 89.9756 86.3858 86.3858C89.9756 82.796 91.9947 77.9287 92 72.852V67C92 65.9391 91.5786 64.9217 90.8284 64.1716C90.0783 63.4214 89.0609 63 88 63Z"
-                          fill="#0066BE"
-                        />
-                        <path
-                          d="M70.7788 31.3305C70.0287 32.0803 69.0115 32.5016 67.9508 32.5016C66.8902 32.5016 65.8729 32.0803 65.1228 31.3305L51.9508 18.1585L52 67.0012C52 68.0621 51.5786 69.0795 50.8284 69.8296C50.0783 70.5798 49.0609 71.0012 48 71.0012C46.9391 71.0012 45.9217 70.5798 45.1716 69.8296C44.4214 69.0795 44 68.0621 44 67.0012L43.9508 18.1585L30.7788 31.3305C30.0244 32.0591 29.014 32.4623 27.9652 32.4532C26.9165 32.444 25.9132 32.0234 25.1716 31.2817C24.4299 30.5401 24.0093 29.5369 24.0002 28.4881C23.991 27.4393 24.3942 26.4289 25.1228 25.6745L45.1228 5.67447C45.4944 5.30196 45.9358 5.00642 46.4218 4.80477C46.9077 4.60312 47.4287 4.49932 47.9548 4.49932C48.481 4.49932 49.002 4.60312 49.4879 4.80477C49.9739 5.00642 50.4153 5.30196 50.7868 5.67447L70.7868 25.6745C71.5357 26.4256 71.9555 27.4435 71.954 28.5041C71.9525 29.5648 71.5298 30.5814 70.7788 31.3305Z"
-                          fill="#0066BE"
-                        />
-                      </svg>{" "}
-                      Upload
+                    <button className="btn btn-primary btn-bordered move-draft">
+                      Cancel
                     </button>
-                    <button className="btn btn-primary btn-filled next">
+
+                    <button
+                      className="btn btn-primary btn-filled next"
+                      
+                    >
                       Next
                     </button>
                   </div>
                 </div>
               </div>
             </div>
-          </Row>
-          <Row>
-            <div className="create-reader">
-              <h4>Create Reader</h4>
-              <h6>Use this side for adding a new contact.</h6>
-              <Form className="d-flex flex-wrap row">
+            <div className="create-reader create-change-content">
+              <div className="form_action">
+                <h4>Please fill the following and upload SPC needed</h4>
+                <div className="row">
+                  <div className="col-12 col-md-6">
+                    <div className="form-group">
+                      <label htmlFor="">First name *</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="">Middle name</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="">Last name</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="">Primary email *</label>
+                      <input
+                        type="email"
+                        className="form-control"
+                      />
+                    </div>
+                    
+                    <div className="form-group">
+                      <label htmlFor="">Alternative email </label>
+                      <input
+                        type="email"
+                        className="form-control"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="">Primary phone *</label>
+                      <input
+                        type="number"
+                        className="form-control"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="">Alternative phone</label>
+                      <input
+                        type="number"
+                        className="form-control"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="">Country *</label>
+                      <Select
+                        options={countryAll}
+                        placeholder="Select country"
+                        className="dropdown-basic-button split-button-dropup"
+                        isClearable
+                      />
+                      {/* {error?.country ? (
+                        <div className="login-validation">{error?.country}</div>
+                      ) : null} */}
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="">Province</label>
+                      <Select
+                        options={countryAll}
+                        placeholder="Select Province"
+                        className="dropdown-basic-button split-button-dropup"
+                        isClearable
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="">Hospital</label>
+                      <Select
+                        options={countryAll}
+                        placeholder="Select hospital"
+                        className="dropdown-basic-button split-button-dropup"
+                        isClearable
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="">Title</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                      />
+                      {/* {error?.clientProduct ? (
+                        <div className="login-validation">
+                          {error?.clientProduct}
+                        </div>
+                      ) : null} */}
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="">Production</label>
+                      <Select
+                        options={productionAll}
+                        placeholder="Select own production person"
+                        className="dropdown-basic-button split-button-dropup edit-production-dropdown"
+                        isClearable
+                      />
+                      {/* {error?.production ? (
+                        <div className="login-validation">
+                          {error?.production}
+                        </div>
+                      ) : null} */}
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="">Sales</label>
+                      <Select
+                        options={salesAll}
+                        placeholder="Who made the sale?"
+                        className="dropdown-basic-button split-button-dropup edit-sales-dropdown"
+                        isClearable
+                      />
+                      {/* {error?.sales ? (
+                        <div className="login-validation">{error?.sales}</div>
+                      ) : null} */}
+                    </div>
+                  </div>
+                  <div className="col-12 col-md-6 d-flex justify-content-end align-items-end right-change">
+                    <div className="form-group justify-content-end">
+                      <label htmlFor="">Reseller</label>
+                      <div className="form-check-group">
+                        <div className="form-check">
+                          <input
+                            className="form-check-input"
+                            value=""
+                            id="flexCheckDefault"
+                            type="checkbox"
+                          />
+                          <label
+                            className="form-check-label"
+                            htmlFor="flexCheckDefault"
+                          >
+                            N/A
+                          </label>
+                        </div>
+                        <div className="form-check">
+                          <input
+                            className="form-check-input"
+                            value=""
+                            id="flexCheckReseller"
+                            type="checkbox"
+                          />
+                          <label
+                            className="form-check-label"
+                            htmlFor="flexCheckReseller"
+                          >
+                            Reseller Name
+                          </label>
+                        </div>
+                        <div className="form-check">
+                          <input
+                            className="form-check-input"
+                            value=""
+                            id="flexCheckReseller1"
+                            type="checkbox"
+                          />
+                          <label
+                            className="form-check-label"
+                            htmlFor="flexCheckReseller1"
+                          >
+                            Reseller Name
+                          </label>
+                        </div>
+                        <div className="form-check">
+                          <input
+                            className="form-check-input"
+                            value=""
+                            id="flexCheckReseller2"
+                            type="checkbox"
+                          />
+                          <label
+                            className="form-check-label"
+                            htmlFor="flexCheckReseller2"
+                          >
+                            Reseller Name
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {/* <Form className="d-flex flex-wrap row">
                 <Form.Group className="mb-3 col-6 form-group">
                   <Form.Label>First name</Form.Label>
                   <Form.Control
@@ -267,7 +460,8 @@ const ReaderAdd = () => {
                     placeholder="Meeting notes, special interests etc"
                   />
                 </Form.Group>
-              </Form>
+              </Form> */}
+              </div>
             </div>
           </Row>
         </div>

@@ -824,7 +824,7 @@ const LibraryContent = () => {
                                     <ul className="tab-mail-list">
                                       <li>
                                         <h6 className="tab-content-title">
-                                          <strong>Upload date</strong>
+                                          Upload date
                                         </h6>
                                         <h6>
                                           {moment(data?.created).format(
@@ -834,7 +834,7 @@ const LibraryContent = () => {
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          <strong>inforMedGo code</strong>
+                                          inforMedGo code
                                         </h6>
                                         <h6>
                                           {data?.code}
@@ -860,7 +860,7 @@ const LibraryContent = () => {
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          <strong>Docintel code</strong>
+                                          Docintel code
                                         </h6>
                                         <h6>
                                           {data.docintel_code}
@@ -886,7 +886,7 @@ const LibraryContent = () => {
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          <strong>SPC included</strong>
+                                          SPC included
                                         </h6>
                                         <h6>
                                           {data?.spc_included == 0
@@ -896,13 +896,13 @@ const LibraryContent = () => {
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          <strong>Language</strong>
+                                          Language
                                         </h6>
                                         <h6>No</h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          <strong>Link type</strong>
+                                          Link type
                                         </h6>
                                         <h6>
                                           {data?.linkType}
@@ -910,7 +910,7 @@ const LibraryContent = () => {
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          <strong>Include</strong>
+                                          Include
                                         </h6>
                                         <div className="include-links">
 
@@ -1228,31 +1228,31 @@ const LibraryContent = () => {
                                           <>
                                           <li>
                                             <h6 className="tab-content-title">
-                                              <strong>Sales person</strong>
+                                              Sales person
                                             </h6>
                                             <h6>{data?.saleName}</h6>
                                           </li>
                                           <li>
                                             <h6 className="tab-content-title">
-                                              <strong>Production person</strong>
+                                              Production person
                                             </h6>
                                             <h6>{data?.productName}</h6>
                                           </li>
                                           <li>
                                             <h6 className="tab-content-title">
-                                              <strong>Client name</strong>
+                                              Client name
                                             </h6>
                                             <h6>{data?.company}</h6>
                                           </li>
                                           <li>
                                             <h6 className="tab-content-title">
-                                              <strong>Client product</strong>
+                                              Client product
                                             </h6>
                                             <h6>{data?.product}</h6>
                                           </li>
                                           <li>
                                             <h6 className="tab-content-title">
-                                              <strong>Client country</strong>
+                                              Client country
                                             </h6>
                                             <h6>{data?.country}</h6>
                                           </li>
@@ -1261,37 +1261,37 @@ const LibraryContent = () => {
                                       }
                                       <li>
                                         <h6 className="tab-content-title">
-                                          <strong>Opening limit</strong>
+                                          Opening limit
                                         </h6>
                                         <h6>{data?.limit}</h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          <strong>Link type</strong>
+                                          Link type
                                         </h6>
                                         <h6>{data?.linkType}</h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          <strong>Print</strong>
+                                          Print
                                         </h6>
                                         <h6>{data?.allow_print ? "Yes" : "No" }</h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          <strong>Download</strong>
+                                          Download
                                         </h6>
                                         <h6>{data?.allow_download ? "Yes" : "No"}</h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          <strong>Upload date</strong>
+                                          Upload date
                                         </h6>
                                         <h6>{data?.uploadedDate}</h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          <strong>Expiration date</strong>
+                                          Expiration date
                                         </h6>
                                         <h6>{data?.expireDate}</h6>
                                       </li>

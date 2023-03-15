@@ -6,6 +6,72 @@
   margin-top: 30px;
   gap: 0% 5%;
   flex-wrap: wrap;
+  &.readerlist{
+     gap: 0% 2.3%;
+     .doc-content-main-box {
+      flex: 0 0 23.27%;
+      .tab-content{
+        padding: 18px 16px 12px;
+        min-height: 275px;
+        .tab-pane{
+          min-height:230px;
+        }
+        .tab-mail-list{
+          &.data{
+             &.change {
+              padding: 0px 0 0;
+              li{
+                margin-bottom: 20px;
+              }
+             }
+            li{
+              padding:3px 0;
+              &:first-child{
+                min-height:initial;
+                padding:3px 0;
+              }
+            }
+          }
+           h6.tab-content-title{
+            font-weight: 500;
+            color: rgba(0, 74, 137, 0.55);
+            flex: 0 0 129px;
+            margin: 0;
+          }
+        }
+        .data-main-box{
+          .tab-mail-list{
+          &.data{
+            li{
+              &:first-child{
+                min-height:initial;
+                padding:3px 0;
+                align-items: center;
+              }
+            }
+          }
+        }
+        }
+        .data-main-footer-sec{
+          .btn{
+            &.btn-primary{
+              padding: 7px 8px;
+            }
+            &.btn-bordered{
+              font-size: 14px;
+              line-height: 16px;
+              min-width: 128px;
+            }
+            &.update{
+              font-size: 14px;
+              line-height: 16px;
+              min-width: 89px;
+            }
+          }
+        }
+      }
+  }
+}
   .doc-content-main-box {
     background: $white;
     box-shadow: $library-box-shadow;
@@ -57,6 +123,8 @@
         }
       }
     }
+  .tabs-data{
+    flex:1 1;
     .nav-tabs {
       border: 0;
       margin: 0 -16px 0;
@@ -129,20 +197,28 @@
       }
       }
     }
+  }
     .tab-content {
         background: $white;
         mix-blend-mode: normal;
         box-shadow: 0px -4px 8px rgb(0 102 190 / 7%);
         border-radius: 20px 20px 20px;
         margin: 1px -16px 0;
-        padding: 18px 16px 0;
-        min-height: 320px;
+        padding: 18px 16px 16px;
+        min-height: 290px;
         display: flex;
+        height: calc(100% - 16px);
        justify-content: space-between;
-        >.active {
+       .tab-pane{
+          width:100%;
+          min-height: 273px;
+        &.active {
         display: flex;
-        min-height: 303px;
-        width:100%;
+       }
+       .tab-panel{
+         width:100%;
+       }
+        
       }
       .tab-content-links {
          margin-bottom: 8px;
@@ -217,6 +293,28 @@
       .tab-mail-list.data {
         li{
           padding:18px 0 18px;
+          .select-dropdown-wrapper{
+            flex:1 1;
+            .select{
+              justify-content: flex-end;
+              .split-button-dropup{
+                width:100%;
+                	& > div {
+                  &:nth-child(3) {
+                    padding: 3px 14px;
+                    font-size: 14px;
+                    div{
+                      div{
+                        font-size: 14px;
+                        font-weight: 400;
+                      }
+                    }
+                  }
+                }
+              }
+              
+            }
+          }
         }
       }
       .tab-mail-list.change {
@@ -226,6 +324,7 @@
       }
       .data-main-box {
          height: 100%;
+         width:100%;
           ul.tab-mail-list{
             li {
             display: flex;
@@ -242,7 +341,12 @@
           }
         }
       }
-      .footer-btn-wrapper {
+      .data-main-footer-sec{
+        .data-main-footer-sec-inner{
+           border-top: 0.5px dashed $primary-color;
+           padding-top: 12px;
+        }
+        .footer-btn-wrapper {
         border-top: 0.5px dashed $primary-color;
         padding-top: 12px;
         margin: 0px 0px;
@@ -264,7 +368,7 @@
           }
         }
       }
- 
+    }
     }
   }
 }
@@ -274,6 +378,10 @@
 	padding: 24px 72px;
 	margin: 0 0 40px;
   &.spc-content{
+    background: transparent;
+    padding: 36px 12px;
+  }
+  &.create-reader{
     background: transparent;
     padding: 36px 12px;
   }
@@ -523,7 +631,7 @@
 .library-content-box-layuot .dlt_btn button img {
     width: 20px;
 }
-.library-content-box-layuot .doc-content-main-box .tab-content .data-main-box ul.tab-mail-list.data li:first-child {
+.library-content-box-layuot .doc-content-main-box .tab-content .data-main-box .tab-mail-list.data li:first-child {
     min-height: 47px;
     align-items: flex-start;
     padding: 11px 0 5px;
@@ -556,6 +664,11 @@ ul.tab-mail-list.data span.total-left small {
     margin-right: 8px;
     padding: 0px 0 0 35px;
 }
+.readerlist .data-progress {
+    margin-right: 0px;
+    padding: 0px 0 0 32px;
+}
+
 .data-progress.limited {
     margin-top: -5px;
 }
@@ -565,9 +678,34 @@ ul.tab-mail-list.data span.total-left small {
   border-radius: 27px;
   height: 24px;
 }
-// .tab-mail-list.data .success-progress  .progress {
-//   background: #00D4C0;
-// }
+.readerlist .tab-mail-list.data .progress {
+    width: auto;
+    min-width:50px;
+    background: #FFBE2C;
+    border-radius: 3px;
+    height:auto;
+}
+.readerlist .tab-mail-list.data .send .progress {
+    background: #FFBE2C;
+}
+.readerlist .tab-mail-list.data .open .progress {
+    background: #00D4C0;
+}
+.readerlist .tab-mail-list.data .delivered .progress {
+    background: #F58289;
+}
+.readerlist .tab-mail-list.data .rtr .progress {
+    background: #8A4E9C;
+}
+.readerlist .tab-mail-list.data .qr-opening .progress {
+    background: #0066BE;
+}
+.readerlist .tab-mail-list.data .go-opening .progress {
+    background: #004A89;
+}
+.readerlist .tab-mail-list.data .content-opening .progress {
+    background: #00003C;
+}
 .tab-mail-list.data .progress .progress-bar, .tab-mail-list.data .data-progress.success span, .tab-mail-list.data .data-progress.danger span {
     border-radius: 27px;
     padding: 4px 7px;
@@ -596,6 +734,32 @@ ul.tab-mail-list.data span.total-left small {
 .tab-mail-list.data .progress .progress-bar.bg-default {
     background: rgba(151, 182, 207, 0.2);
     color: $light-gray;
+}
+.readerlist .tab-mail-list.data .progress .progress-bar {
+    background: transparent;
+    width:100%!important;
+    padding: 1px 7px;
+}
+.readerlist .tab-mail-list.data .send .progress-bar {
+    color: #AA7D17;
+}
+.readerlist .tab-mail-list.data .open .progress-bar {
+    color: #05766B;
+}
+.readerlist .tab-mail-list.data .delivered .progress-bar {
+    color: #A53239;
+}
+.readerlist .tab-mail-list.data .rtr .progress-bar {
+    color: #530969;
+}
+.readerlist .tab-mail-list.data .qr-opening .progress-bar {
+    color: rgba(255, 255, 255, 0.62);
+}
+.readerlist .tab-mail-list.data .go-opening .progress-bar {
+    color: rgba(255, 255, 255, 0.62);
+}
+.readerlist .tab-mail-list.data .content-opening .progress-bar {
+    color: rgba(255, 255, 255, 0.62);
 }
 .data-progress span {
   font-size: 9px;
@@ -897,7 +1061,7 @@ ul.tab-mail-list.tag a {
 .data-main-footer-sec .footer-btn button {
   padding: 9px;
   font-size: 15px;
-  margin-bottom: 4px;
+  margin: 0;
 }
 
 .doc-content-main-box ul.tab-mail-list.data b {
@@ -948,7 +1112,13 @@ ul.tab-mail-list.data li .select-dropdown-wrapper select {
   background: $white url(../images/dropdown-arrow.svg) no-repeat;
   background-position: 93% center;
 }
-
+.readerlist ul.tab-mail-list.data li .select-dropdown-wrapper select {
+    min-width: initial;
+    max-width: 222px;
+    margin-right: 0px;
+    padding: 9px 24px;
+    background-position: 90% center;
+}
 select::-ms-expand {
   display: none;
 }
