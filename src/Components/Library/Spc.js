@@ -17,7 +17,7 @@ const data = [
   {
     image: `${path_image}delete.png`,
     title: "Delete",
-    subtitle: "Delete your SPC from herE",
+    subtitle: "Delete your SPC from here",
   },
 ];
 

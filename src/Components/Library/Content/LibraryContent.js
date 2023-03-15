@@ -2,12 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
 import { popup_alert } from "../../../popup_alert";
-import {
-  deleteData,
-  postData,
-  updateConsent,
-  resetStats,
-} from "../../../axios/apiHelper";
+import { deleteData, postData, updateConsent, resetStats} from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import Select from "react-select";
 import { Spinner } from "react-activity";
@@ -31,7 +26,7 @@ import "react-activity/dist/library.css";
 import { loader } from "../../../loader";
 import { toast } from "react-toastify";
 import moment from "moment";
-
+// import QRCode from "react-qr-code";
 import QRCode from "qrcode.react";
 
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -74,7 +69,7 @@ const LibraryContent = () => {
 
   const [deletestatus, setDeleteStatus] = useState(false);
   const [page, setPage] = useState(1);
-  const [type, setType] = useState("");
+  const [type, setType] = useState('');
   const [showfilter, setShowFilter] = useState(false);
   const [qrValue, setQrValue] = useState("QR-code");
   const [newTag, setNewTag] = useState("");
@@ -93,7 +88,6 @@ const LibraryContent = () => {
   const downloadQRData = [
     {
       label: "Select Size",
-      // stateLabel: "select size",
       type: "dropdown",
       dropdown: [
         {
@@ -253,7 +247,7 @@ const LibraryContent = () => {
 
     setShowFilter(false);
   };
-  const handleQR = (name, e) => {
+  const handleQR = (e) => {
     setQr({ ...qrState, level: e });
   };
 
@@ -275,7 +269,7 @@ const LibraryContent = () => {
         id: 18207,
         page: page,
         search: search,
-        type: type,
+        type:type
       };
 
       let body = { ...data, ...obj };
@@ -316,30 +310,30 @@ const LibraryContent = () => {
     }
   };
 
-  const deleteUser = async () => {
-    loader("show");
-    try {
-      const res = await deleteData(ENDPOINT.DELETE, userId);
-      if (res?.data?.message == "Library deleted successfully") {
+    const deleteUser = async () => {
+      loader("show");
+      try {
+        const res = await deleteData(ENDPOINT.DELETE, userId);
+        if (res?.data?.message == "Library deleted successfully") {
+          loader("hide");
+          popup_alert({
+            visible: "show",
+            message: "Your content has been deleted <br />successfully !",
+            type: "success",
+            redirect: "",
+          });
+          setLibraryData([]);
+          getLibraryData(page, filterObject, search);
+        }
+
         loader("hide");
-        popup_alert({
-          visible: "show",
-          message: "Your content has been deleted <br />successfully !",
-          type: "success",
-          redirect: "",
-        });
-        setLibraryData([]);
-        getLibraryData(page, filterObject, search);
+      } catch (err) {
+        console.log("err");
+        loader("hide");
       }
 
-      loader("hide");
-    } catch (err) {
-      console.log("err");
-      loader("hide");
-    }
-
-    hideConfirmationModal();
-  };
+      hideConfirmationModal();
+    };
 
   const commonModelFun = () => {
     setShow(true);
@@ -392,89 +386,87 @@ const LibraryContent = () => {
   const onConsentChange = (e, i) => {
     let consetValue = e.value;
     let consent = {
-      index: i,
-      value: consetValue,
+      index : i,
+      value  : consetValue
     };
 
-    const found = changeConsent.some((el) => el.index === i);
-    if (!found) {
-      setchangeConsent((oldarray) => [...oldarray, consent]);
-    } else {
-      const index = changeConsent.findIndex((el) => el.index === i);
+    const found = changeConsent.some(el => el.index === i);
+    if(!found){
+      setchangeConsent((oldarray) => [...oldarray,consent]);
+    }else{
+      const index = changeConsent.findIndex(el => el.index === i);
       changeConsent[index].value = consetValue;
     }
-  };
+  }
 
-  const updateConset = async (pdf_id, index) => {
+  const updateConset = async (pdf_id,index) => {
     loader("show");
     try {
-      const index = changeConsent.findIndex((el) => el.index === pdf_id);
+      const index = changeConsent.findIndex(el => el.index === pdf_id);
       let consent_value = changeConsent[index].value;
 
       let body = {
         pdfId: pdf_id,
-        consentType: consent_value,
+        consentType:consent_value
       };
 
       const res = await updateConsent(ENDPOINT.LIBRARYCHANGECONSENT, body);
-      const lib_data_index = libraryData.findIndex((el) => el.id === pdf_id);
+      const lib_data_index = libraryData.findIndex(el => el.id === pdf_id);
       libraryData[lib_data_index].linkType = consent_value;
       const new_data = libraryData;
       setLibraryData(new_data);
       setupdateFlag(updateflag + 1);
-      loader("hide");
-      popup_alert({
-        visible: "show",
-        message: "Your content has been update <br />successfully !",
-        type: "success",
-        redirect: "",
-      });
+        loader("hide");
+        popup_alert({
+          visible: "show",
+          message: "Your content has been update <br />successfully !",
+          type: "success",
+          redirect: "",
+        });
     } catch (err) {
-      console.log("err", err);
+      console.log("err",err);
       loader("hide");
     }
-  };
+  }
 
   const resetCollection = async (pdf_id) => {
     loader("show");
     try {
       let body = {
         userId: 18207,
-        pdfId: pdf_id,
+        pdfId:pdf_id
       };
-      const res = await resetStats(ENDPOINT.LIBRARYRESETSTATS, body);
-      let normal_data = opening_details;
-      const lib_data_index = normal_data.findIndex(
-        (el) => el.pdf_id === pdf_id
-      );
-      normal_data[lib_data_index].uniqueReader = 0;
-      normal_data[lib_data_index].opening = 0;
-      normal_data[lib_data_index].registeredReader = 0;
+        const res = await resetStats(ENDPOINT.LIBRARYRESETSTATS, body);
+        let normal_data = opening_details;
+        const lib_data_index = normal_data.findIndex(el => el.pdf_id === pdf_id);
+        normal_data[lib_data_index].uniqueReader = 0;
+        normal_data[lib_data_index].opening = 0;
+        normal_data[lib_data_index].registeredReader = 0;
 
-      setOpeningDetails(normal_data);
-      setFlag(1);
-      setUpdate(update + 1);
+        setOpeningDetails(normal_data);
+        setFlag(1);
+        setUpdate(update + 1);
 
-      loader("hide");
-      popup_alert({
-        visible: "show",
-        message: "Your stats has been reset <br />successfully !",
-        type: "success",
-        redirect: "",
-      });
+        loader("hide");
+        popup_alert({
+          visible: "show",
+          message: "Your stats has been reset <br />successfully !",
+          type: "success",
+          redirect: "",
+        });
     } catch (err) {
-      console.log("err", err);
+      console.log("err",err);
       loader("hide");
     }
-  };
+  }
 
   const tagButtonClicked = (pdf_id) => {
-    const lib_data_index = libraryData.findIndex((el) => el.id === pdf_id);
+    const lib_data_index = libraryData.findIndex(el => el.id === pdf_id);
     let get_tags = libraryData[lib_data_index]?.tags;
-    if (get_tags != "") {
+    if(get_tags != ""){
       let parsed_tag = JSON.parse(get_tags);
       setTagClickedFirst(parsed_tag);
-    } else {
+    }else{
       setTagClickedFirst([]);
     }
     setFinalTags([]);
@@ -555,19 +547,15 @@ const LibraryContent = () => {
       const uniqueTags = new_tags.filter((x, i, a) => a.indexOf(x) == i);
       setFinalTags(uniqueTags);
 
-      if (pdftagsid != "") {
-        const lib_data_index = libraryData.findIndex(
-          (el) => el.id === pdftagsid
-        );
+      if(pdftagsid != ''){
+        const lib_data_index = libraryData.findIndex(el => el.id === pdftagsid);
         libraryData[lib_data_index].tags = JSON.stringify(uniqueTags);
       }
     } else {
       setFinalTags(tagClickedFirst);
 
-      if (pdftagsid != "") {
-        const lib_data_index = libraryData.findIndex(
-          (el) => el.id === pdftagsid
-        );
+      if(pdftagsid != ''){
+        const lib_data_index = libraryData.findIndex(el => el.id === pdftagsid);
         libraryData[lib_data_index].tags = JSON.stringify(tagClickedFirst);
       }
     }
@@ -959,11 +947,7 @@ const LibraryContent = () => {
                                 >
                                   <div className="tab-panel d-flex flex-column justify-content-between">
                                     <div className="tab-content-links">
-                                      <a
-                                        href={data?.docintelLink}
-                                        className="doc-link"
-                                        target="_blank"
-                                      >
+                                      <a href={data?.docintelLink} className="doc-link" target="_blank">
                                         {data?.docintelLink}
                                       </a>
                                       <span
@@ -1066,38 +1050,43 @@ const LibraryContent = () => {
                                         <h6 className="tab-content-title">
                                           <strong>Link type</strong>
                                         </h6>
-                                        <h6>{data?.linkType}</h6>
+                                        <h6>
+                                          {data?.linkType}
+                                        </h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
                                           <strong>Include</strong>
                                         </h6>
                                         <div className="include-links">
-                                          {data?.spc_included ? (
-                                            <img
-                                              src={path_image + "spc-img.png"}
-                                              alt=""
-                                            />
-                                          ) : (
-                                            ""
-                                          )}
 
-                                          {data?.linkRelations ? (
-                                            <img
-                                              src={path_image + "video-img.png"}
-                                              alt=""
-                                            />
-                                          ) : (
-                                            ""
-                                          )}
-                                          {data?.pdfLinks ? (
-                                            <img
-                                              src={path_image + "link-img.png"}
-                                              alt=""
-                                            />
-                                          ) : (
-                                            ""
-                                          )}
+                                          {
+                                            data?.spc_included ?
+                                              <img
+                                                src={path_image + "spc-img.png"}
+                                                alt=""
+                                              />
+                                            :""
+                                          }
+
+                                          {
+                                            data?.linkRelations ?
+                                              <img
+                                                src={path_image + "video-img.png"}
+                                                alt=""
+                                              />
+                                            :""
+                                          }
+                                          {
+                                            data?.pdfLinks ?
+                                              <img
+                                                src={path_image + "link-img.png"}
+                                                alt=""
+                                              />
+                                            :""
+                                          }
+
+
                                         </div>
                                       </li>
                                     </ul>
@@ -1107,11 +1096,7 @@ const LibraryContent = () => {
                                   deletestatus == false ? (
                                     <div className="data-main-footer-sec">
                                       <div className="footer-btn-wrapper">
-                                        <a
-                                          className="footer-btn"
-                                          href={data?.previewArticle}
-                                          target="_blank"
-                                        >
+                                        <a className="footer-btn" href={data?.previewArticle} target="_blank">
                                           Preview Aritcle
                                         </a>
                                         <Button
@@ -1244,12 +1229,8 @@ const LibraryContent = () => {
                                                   <div className="data-progress success-progress">
                                                     <ProgressBar
                                                       variant="success"
-                                                      now={
-                                                        details.opening == 0
-                                                          ? 0
-                                                          : 100
-                                                      }
-                                                      label={details?.opening}
+                                                      now = {details.opening == 0 ? 0 : 100}
+                                                      label = {details?.opening}
                                                     />
                                                     {/* <ProgressBar
                                                     variant="success"
@@ -1332,12 +1313,7 @@ const LibraryContent = () => {
                                       <Button className="footer-btn">
                                         Analytics
                                       </Button>
-                                      <Button
-                                        className="footer-btn reset"
-                                        onClick={(e) =>
-                                          resetCollection(data.id)
-                                        }
-                                      >
+                                      <Button className="footer-btn reset" onClick={(e) => resetCollection(data.id)}>
                                         Reset the collected data
                                       </Button>
                                     </div>
@@ -1354,29 +1330,22 @@ const LibraryContent = () => {
                                         <label htmlFor="">Consent type</label>
                                         <Select
                                           options={types}
-                                          defaultValue={
-                                            data.linkType == "Online"
-                                              ? types[0]
-                                              : data.linkType == "Offline"
-                                              ? types[1]
-                                              : data.linkType == "Sunshine"
-                                              ? types[2]
-                                              : "Select"
-                                          }
+                                          defaultValue={data.linkType == "Online"
+                                            ? types[0]
+                                            : data.linkType == "Offline"
+                                            ? types[1]
+                                            : data.linkType == "Sunshine"
+                                            ? types[2]
+                                            : "Select"}
                                           onChange={(event) =>
-                                            onConsentChange(event, data.id)
+                                            onConsentChange(event,data.id)
                                           }
-                                          id={"consent_dropdown_" + index}
+                                          id={"consent_dropdown_"+index}
                                           className="dropdown-basic-button split-button-dropup"
                                           isClearable
                                         />
                                         <Button
-                                          onClick={(e) =>
-                                            updateConset(data.id, index)
-                                          }
-                                        >
-                                          Update
-                                        </Button>
+                                        onClick={(e) => updateConset(data.id,index)}>Update</Button>
                                       </div>
                                     </ul>
                                   </div>
@@ -1385,20 +1354,10 @@ const LibraryContent = () => {
                                       <Button className="footer-btn">
                                         Edit Docintel Link
                                       </Button>
-                                      <Button
-                                        className="footer-btn"
-                                        onClick={(e) =>
-                                          tagButtonClicked(data.id)
-                                        }
-                                      >
+                                      <Button className="footer-btn" onClick={(e) => tagButtonClicked(data.id)}>
                                         Add / Remove Tags
                                       </Button>
-                                      <Link
-                                        to="/library-sublink"
-                                        className="footer-btn"
-                                      >
-                                        New Sublink
-                                      </Link>
+                                      <Link to="/library-sublink" className="footer-btn">New Sublink</Link>
                                     </div>
                                   </div>
                                 </Tab>
@@ -1409,8 +1368,9 @@ const LibraryContent = () => {
                                 >
                                   <div className="tab-panel">
                                     <ul className="tab-mail-list">
-                                      {data.licensed == 1 && (
-                                        <>
+                                      {
+                                        data.licensed == 1  &&(
+                                          <>
                                           <li>
                                             <h6 className="tab-content-title">
                                               <strong>Sales person</strong>
@@ -1441,8 +1401,9 @@ const LibraryContent = () => {
                                             </h6>
                                             <h6>{data?.country}</h6>
                                           </li>
-                                        </>
-                                      )}
+                                          </>
+                                        )
+                                      }
                                       <li>
                                         <h6 className="tab-content-title">
                                           <strong>Opening limit</strong>
@@ -1459,17 +1420,13 @@ const LibraryContent = () => {
                                         <h6 className="tab-content-title">
                                           <strong>Print</strong>
                                         </h6>
-                                        <h6>
-                                          {data?.allow_print ? "Yes" : "No"}
-                                        </h6>
+                                        <h6>{data?.allow_print ? "Yes" : "No" }</h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
                                           <strong>Download</strong>
                                         </h6>
-                                        <h6>
-                                          {data?.allow_download ? "Yes" : "No"}
-                                        </h6>
+                                        <h6>{data?.allow_download ? "Yes" : "No"}</h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
@@ -1576,87 +1533,90 @@ const LibraryContent = () => {
         </Modal>
       </div>
 
+
       <Modal id="tagsModal" show={isOpen}>
-        <Modal.Header>
-          <h5 className="modal-title" id="staticBackdropLabel">
-            Add Tags
-          </h5>
-          <button
-            type="button"
-            className="btn-close"
-            onClick={closeModal}
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="select-tags">
-            <h6>Select Tag :</h6>
-            <div className="tag-lists">
-              <div className="tag-lists-view">
-                {Object.values(allTags).map((data) => {
-                  return (
-                    <>
-                      <div onClick={(event) => tagClicked(data)}>{data} </div>
-                    </>
-                  );
-                })}
+          <Modal.Header>
+            <h5 className="modal-title" id="staticBackdropLabel">
+              Add Tags
+            </h5>
+            <button
+              type="button"
+              className="btn-close"
+              onClick={closeModal}
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="select-tags">
+              <h6>Select Tag :</h6>
+              <div className="tag-lists">
+                <div className="tag-lists-view">
+                  {Object.values(allTags).map((data) => {
+                    return (
+                      <>
+                        <div onClick={(event) => tagClicked(data)}>{data} </div>
+                      </>
+                    );
+                  })}
+                </div>
               </div>
             </div>
-          </div>
-          <div className="selected-tags">
-            <h6>
-              Selected Tag <span>| {tagClickedFirst.length}</span>
-            </h6>
+            <div className="selected-tags">
+              <h6>
+                Selected Tag <span>| {tagClickedFirst.length}</span>
+              </h6>
 
-            <div className="total-selected">
-              {tagClickedFirst.map((data, index) => {
-                return (
-                  <>
-                    <div className="tag-cross">
-                      {data.innerHTML || data}
-                      <img
-                        src={path_image + "filter-close.svg"}
-                        alt="Close-filter"
-                        onClick={() => removeTagFinal(index)}
-                      />
-                    </div>
-                  </>
-                );
-              })}
+              <div className="total-selected">
+                {
+                  tagClickedFirst.map((data, index) => {
+                  return (
+                    <>
+                      <div className="tag-cross">
+                        {data.innerHTML || data}
+                        <img
+                          src={path_image + "filter-close.svg"}
+                          alt="Close-filter"
+                          onClick={() => removeTagFinal(index)}
+                        />
+                      </div>
+                    </>
+                  );
+                })
+              }
+              </div>
             </div>
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <form>
-            <div className="form-group">
-              <label for="new-tag">New Tag</label>
-              <input
-                type="text"
-                className="form-control"
-                id="new-tag"
-                value={newTag}
-                onChange={(e) => newTagChanged(e)}
-              />
+          </Modal.Body>
+          <Modal.Footer>
+            <form>
+              <div className="form-group">
+                <label for="new-tag">New Tag</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="new-tag"
+                  value={newTag}
+                  onChange={(e) => newTagChanged(e)}
+                />
 
-              <button
-                onClick={addTag}
-                type="button"
-                className="btn btn-primary add btn-bordered"
-              >
-                Add
-              </button>
-            </div>
-          </form>
-          <button
-            type="button"
-            className="btn btn-primary save btn-filled"
-            onClick={saveButtonClicked}
-          >
-            Save
-          </button>
-        </Modal.Footer>
-      </Modal>
+                <button
+                  onClick={addTag}
+                  type="button"
+                  className="btn btn-primary add btn-bordered"
+                >
+                  Add
+                </button>
+              </div>
+            </form>
+            <button
+              type="button"
+              className="btn btn-primary save btn-filled"
+              onClick={saveButtonClicked}
+            >
+              Save
+            </button>
+          </Modal.Footer>
+        </Modal>
     </>
   );
 };

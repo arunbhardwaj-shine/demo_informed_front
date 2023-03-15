@@ -66,7 +66,6 @@ const SpcCreate = () => {
   const product = [
     {
       label: "Product name",
-      stateLabel: "product name",
       type: "input",
       placeholder: "Type your product name",
     },

@@ -16,10 +16,9 @@ import Select from "react-select";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import Tooltip from "react-bootstrap/Tooltip";
-import CommonModel from "../../../Model/CommonModel";
 import { loader } from "../../../loader";
 import { ENDPOINT } from "../../../axios/apiConfig";
-import { postData } from "../../../axios/apiHelper";
+import {postData} from "../../../axios/apiHelper";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const LibrarySublink = () => {
   const [BusinessUnitAll, setBusinessUnitAll] = useState([]);
@@ -38,13 +37,13 @@ const LibrarySublink = () => {
 
   const getLibraryData = async () => {
     try {
-      let selectedValue = ["id", "title", "code"];
+      let selectedValue = ['id','title','code'];
       let data = {
         id: 18207,
         page: 1,
-        search: "",
-        type: "All",
-        selecteValue: JSON.stringify(selectedValue),
+        search: '',
+        type:'All',
+        selectValue:JSON.stringify(selectedValue)
       };
 
       let body = data;
@@ -58,6 +57,7 @@ const LibrarySublink = () => {
       // });
       setLibraryData((oldArray) => [...oldArray, ...res?.data?.data?.library]);
       loader("hide");
+
     } catch (err) {
       console.log("err");
       loader("hide");
@@ -75,60 +75,13 @@ const LibrarySublink = () => {
     setLink({ ...newLink, [name]: e });
   };
 
-  const handleCreateSubmit = () => {
+  const handleSubmit = () => {
     setLink({
       ...newLink,
       isCheckBoth: newLink?.delivery && newLink?.identifier,
     });
     setCreateNewLink(false);
   };
-
-  const downloadLinkData = [
-    {
-      label: "Delivery",
-      stateLabel: "delivery",
-      type: "dropdown",
-      dropdown: [
-        {
-          key: "Social Media",
-          value: "Social Media",
-        },
-        {
-          key: "Article",
-          value: "Article",
-        },
-        {
-          key: "Large Print",
-          value: "Large Print",
-        },
-      ],
-    },
-    {
-      label: "Identifier",
-      type: "dropdown",
-      stateLabel: "identifier",
-      dropdown: [
-        {
-          key: "Social Media",
-          value: "Social Media",
-        },
-        {
-          key: "Article",
-          value: "Article",
-        },
-        {
-          key: "Large Print",
-          value: "Large Print",
-        },
-      ],
-    },
-
-    // {
-    //   label: "Product name",
-    //   type: "input",
-    //   placeholder: "Type your product name",
-    // },
-  ];
 
   const navigate = useNavigate();
   return (
@@ -256,16 +209,6 @@ const LibrarySublink = () => {
         </div>
       </Col>
 
-      <CommonModel
-        show={createNewLink}
-        onClose={setCreateNewLink}
-        heading="Create New Link"
-        footerButton={"Apply"}
-        data={downloadLinkData}
-        handleDropdown={handleChange}
-        handleSubmit={handleCreateSubmit}
-      />
-      {/* 
       <Modal show={createNewLink} className="send-confirm" id="download-qr">
         <Modal.Header>
           <h5 className="modal-title" id="staticBackdropLabel">
@@ -361,12 +304,12 @@ const LibrarySublink = () => {
             type="button"
             disabled={!(newLink?.delivery && newLink?.identifier)}
             className="btn btn-primary save btn-filled"
-            onClick={() => handleCreateSubmit()}
+            onClick={() => handleSubmit()}
           >
             Apply
           </button>
         </div>
-      </Modal> */}
+      </Modal>
     </>
   );
 };

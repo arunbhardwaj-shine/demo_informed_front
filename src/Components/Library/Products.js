@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Button, Col, Form, Row, Modal } from "react-bootstrap";
 import Select from "react-select";
-import CommonModel from "../../Model/CommonModel";
 import { popup_alert } from "../../popup_alert";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -59,15 +58,6 @@ function Products() {
   const addNewProductChanged = (e) => {
     setNewProduct(e.target.value);
   };
-
-  const product = [
-    {
-      label: "Product name",
-      stateLabel: "product name",
-      type: "input",
-      placeholder: "Type your product name",
-    },
-  ];
   return (
     <Col className="right-sidebar">
       <div className="custom-container">
@@ -194,17 +184,7 @@ function Products() {
         </Modal>
       </div>
 
-      <CommonModel
-        show={show}
-        onClose={setShow}
-        heading={"Add New Product"}
-        footerButton={"Add"}
-        data={product}
-        handleChange={addNewProductChanged}
-        handleSubmit={addProductClicked}
-      />
-
-      {/* <Modal show={show} className="send-confirm spc-create" id="download-qr">
+      <Modal show={show} className="send-confirm spc-create" id="download-qr">
         <Modal.Header>
           <h5 className="modal-title" id="staticBackdropLabel">
             Add New Product
@@ -245,7 +225,7 @@ function Products() {
             Add
           </button>
         </div>
-      </Modal> */}
+      </Modal>
     </Col>
   );
 }

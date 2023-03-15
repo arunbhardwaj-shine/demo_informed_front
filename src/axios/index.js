@@ -21,21 +21,10 @@ requestHelper.interceptors.request.use(
 // For POST requests
 requestHelper.interceptors.response.use(
   (res) => {
-    if (res.status === 201 || res.status === 200) {
-      // console.log("Posted Successfully");
-    }
     return res;
   },
   (err) => {
     switch (err?.response?.status) {
-      case 401:
-        // logout();
-        // window.location.href = "/login";
-        break;
-      case 401:
-        // logout();
-        // window.location.href = "/login";
-        break;
       default:
         break;
     }

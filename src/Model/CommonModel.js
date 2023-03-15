@@ -7,13 +7,13 @@ const CommonModel = ({
   heading,
   data,
   footerButton,
+  handleChange,
   handleSubmit,
   handleQR,
-  handleChange,
 }) => {
   const [selecteValue, setSelectedValue] = useState("Select Size");
   const handleSelect = (value) => {
-    const dp_index = data[0].dropdown.findIndex((el) => el.value === value);
+    const dp_index = data[0].dropdown.findIndex(el => el.value === value);
     setSelectedValue(data[0].dropdown[dp_index].key);
     handleQR(value);
   };
@@ -27,12 +27,8 @@ const CommonModel = ({
         <label htmlFor="">{item.label}</label>
         <DropdownButton
           className="dropdown-basic-button split-button-dropup "
-          title={
-            selecteValue[item?.stateLabel]
-              ? selecteValue[item?.stateLabel]
-              : "Select size"
-          }
-          onSelect={(e) => handleSelect(e, item?.stateLabel)}
+          title={selecteValue}
+          onSelect={handleSelect}
         >
           <div className="scroll_div">
             {item?.dropdown?.map((values, newKeys) => {
@@ -40,11 +36,7 @@ const CommonModel = ({
                 <Dropdown.Item
                   eventKey={values?.value}
                   key={newKeys}
-                  className={
-                    selecteValue[item?.stateLabel] == values?.key
-                      ? "active"
-                      : ""
-                  }
+                  className={selecteValue == values?.key ? "active" : ""}
                 >
                   {values?.key}
                 </Dropdown.Item>
