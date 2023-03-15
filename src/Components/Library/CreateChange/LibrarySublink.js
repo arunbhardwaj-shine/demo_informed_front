@@ -11,7 +11,7 @@ import {
   Tab,
   Tabs,
 } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import Select from "react-select";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
@@ -21,9 +21,10 @@ import { ENDPOINT } from "../../../axios/apiConfig";
 import {postData} from "../../../axios/apiHelper";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const LibrarySublink = () => {
+  const { state } = useLocation();
   const [allContents, setallContents] = useState([]);
   const [allCodes, setAllCodes] = useState([]);
-  const [selectedArticle, setSelectedArticle] = useState("");
+  const [selectedArticle, setSelectedArticle] = useState(state?.pdfid);
   const [libraryData, setLibraryData] = useState([]);
   const [createNewLink, setCreateNewLink] = useState(false);
   const [newLink, setLink] = useState({

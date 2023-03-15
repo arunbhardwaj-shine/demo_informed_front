@@ -1366,7 +1366,8 @@ const LibraryContent = () => {
                                       <Button className="footer-btn" onClick={(e) => tagButtonClicked(data.id)}>
                                         Add / Remove Tags
                                       </Button>
-                                      <Link to="/library-sublink" className="footer-btn">New Sublink</Link>
+                                      <Link to="/library-sublink" state={{ pdfid: data.id }} className="footer-btn">
+                                        New Sublink</Link>
                                     </div>
                                   </div>
                                 </Tab>
