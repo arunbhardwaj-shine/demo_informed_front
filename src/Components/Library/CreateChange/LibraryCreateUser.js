@@ -4,11 +4,11 @@ import { Link,useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Modal from "react-bootstrap/Modal";
-import ReactSelect from "react-select";
 import { toast } from "react-toastify";
 import { createContent } from "../../CommonComponent/Validations";
 import { Button, Form, Dropdown, DropdownButton } from "react-bootstrap";
 import {postFormData} from "../../../axios/apiHelper"
+import { loader } from "../../../loader";
 import {ENDPOINT} from "../../../axios/apiConfig"
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -18,18 +18,17 @@ const LibraryCreateUser = () => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
   const navigate = useNavigate();
   const [error, setError] = useState({});
-  const [image, setImage] = useState({});
   const [userInputs, setCreateLibraryInputs] = useState({
      "expDatetime":new Date(),
   });
+  const [ebookFile,setEbookFile] = useState([])
   const [chapter, setChapter] = useState([
     {
       chapterTitle: "",
       uploadFile: "",
-      fileValue:""
+      fileValue:"",
     },
   ]);
 
@@ -39,23 +38,10 @@ const LibraryCreateUser = () => {
     { value: "Russia", label: "Russia" },
   ]);
 
-  const [productionAll, setProductionAll] = useState([
-    { value: "production1", label: "production1" },
-    { value: "production2", label: "production2" },
-    { value: "production3", label: "production3" },
-  ]);
-
-  const [sales, setSales] = useState("");
-  const [salesAll, setSalesAll] = useState([
-    { value: "sales1", label: "sales1" },
-    { value: "sales2", label: "sales2" },
-    { value: "sales3", label: "sales3" },
-  ]);
-
   const [ePrintType, setePrintType] = useState([
     { value: "pdf", label: "PDF" },
     { value: "video", label: "video" },
-    { value: "eBook", label: "eBook" },
+    { value: "ebook", label: "eBook" },
   ]);
 
 
@@ -84,26 +70,34 @@ const LibraryCreateUser = () => {
     const err = createContent(userInputs);
 
     if (Object.keys(err)?.length) {
-      console.log("- im err",err)
-
       setError(err);
       return;
     } else {
-   
+      loader("show");
       let formData = new FormData();
       formData.append("keyAuthor", userInputs?.keyAuthor);
       formData.append("expDatetime", userInputs?.expDatetime);
       formData.append("limit", userInputs?.limitOfUsage);
-      formData.append("file", userInputs?.uploadFile[0]);
+      formData.append("file", userInputs?.uploadFile?.[0]);
       formData.append("title", userInputs?.contentTitle)
+      formData.append("allowShare", userInputs?.allowShare)
+      formData.append("allowDownload", userInputs?.allowDownload)
+      formData.append("allowPrint", userInputs?.allowPrint)
       formData.append("fileType", userInputs?.docintelFormat)
-      formData.append("ebookData", chapter)
+         ebookFile?.forEach(item =>{
+       formData.append("ebookData",item )
+      })
+      
+      formData.append("coverPhoto",userInputs?.coverPhoto?.[0])
+      formData.append("chapter",JSON.stringify(chapter ))
       formData.append("createdBy", 18207)
+      
       await postFormData(ENDPOINT.LIBRARYCREATE,formData,{
         header:{
           "Content-Type": "multipart/form-data",
         }
       });
+      loader("hide");
     }
   };
 
@@ -157,8 +151,9 @@ const LibraryCreateUser = () => {
   const handleOnEbookChange = (e, i) => {
     const value = e.target.files[0]?.name;
     const list = [...chapter];
-    list[i].fileValue = e.target.files[0];
     list[i].uploadFile = value;
+    ebookFile[i] =   e.target.files[0];
+    setEbookFile(ebookFile)
     setChapter(list);
   };
 
@@ -382,6 +377,7 @@ const LibraryCreateUser = () => {
                           type="checkbox"
                           value="value1"
                           name="group2"
+                          onClick={(e)=>handleChange(e.target?.checked,"allowPrint")}
                           id="limitagreed1"
                         />
                         <label htmlFor="limitagreed1">Print</label>
@@ -389,12 +385,14 @@ const LibraryCreateUser = () => {
                           type="checkbox"
                           value="value2"
                           name="group2"
+                          onClick={(e)=>handleChange(e.target?.checked,"allowDownload")}
                           id="limitagreed2"
                         />
                         <label htmlFor="limitagreed2">Download</label>
                         <input
                           type="checkbox"
                           value="value3"
+                          onClick={(e)=>handleChange(e.target?.checked,"allowShare")}
                           name="group2"
                           id="limitagreed3"
                         />
@@ -427,7 +425,6 @@ const LibraryCreateUser = () => {
                         type="text"
                         name="contentTitle"
                         className="form-control"
-                        // onChange={(e) => contentTitleChanged(e)}
                         onChange={(e) => {
                           handleChange(e);
                         }}
@@ -446,6 +443,11 @@ const LibraryCreateUser = () => {
                         className="form-control"
                         onChange={(e) => handleChange(e)}
                       />
+                        {error?.journalTitle ? (
+                        <div className="login-validation">
+                          {error?.journalTitle}
+                        </div>
+                      ) : null}
                     </div>
                     <div className="form-group">
                       <label htmlFor="">Author</label>
@@ -456,7 +458,13 @@ const LibraryCreateUser = () => {
                         onChange={
                           handleChange
                         }
+                        
                       />
+                       {error?.keyAuthor ? (
+                        <div className="login-validation">
+                          {error?.keyAuthor}
+                        </div>
+                      ) : null}
                     </div>
                     <div className="form-group val">
                       <label htmlFor="">Docintel format *</label>
@@ -487,7 +495,6 @@ const LibraryCreateUser = () => {
                               id="file-6"
                               className="inputfile inputfile-6"
                               accept="application/pdf"
-                              // onChange={(e) => handleFileChange(e)}
                               onChange={(e) => handleChange(e, "uploadFile")}
                             />
                             <label htmlFor="file-6">
@@ -524,7 +531,6 @@ const LibraryCreateUser = () => {
                               id="file-6"
                               className="inputfile inputfile-6"
                               accept="video/*"
-                              // onChange={(e) => handleVideoChange(e)}
                               onChange={(e) => handleChange(e, "uploadFile")}
                             />
                             <label htmlFor="file-6">
@@ -549,7 +555,7 @@ const LibraryCreateUser = () => {
                         ) : null}
                       </div>
                     ) : // ePrint == "eBook" ? (
-                    userInputs.docintelFormat == "eBook" ? (
+                    userInputs.docintelFormat == "ebook" ? (
                       chapter.map((val, i) => {
                         return (
                           <>
@@ -676,19 +682,19 @@ const LibraryCreateUser = () => {
                             id="file-5"
                             className="inputfile inputfile-5"
                             accept="image/png, image/jpeg"
-                            // onChange={(e) => handleImageChange(e, "image")}
+                            onChange={(e) => handleChange(e, "coverPhoto")}
                           />
                           <label htmlFor="file-5">
                             <span>Choose Your File</span>
                           </label>
-                          {/* {image?.image?.[0]?.name ? (
-                            <h5>{image?.image?.[0]?.name}</h5>
+                          {userInputs?.coverPhoto?.[0]?.name ? (
+                            <h5>{userInputs?.coverPhoto?.[0]?.name}</h5>
                           ) : (
                             <p>
                               Upload your cover image <br />
                               <span>(Recommended size 00 X 00)</span>
                             </p>
-                          )} */}
+                          )}
                           {/* <p>
                             Upload your cover image
                             <br />
