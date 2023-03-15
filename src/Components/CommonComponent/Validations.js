@@ -1,4 +1,4 @@
-export const createContent = (data) => {
+export const createContent = (data,fileCheck) => {
   let error = {};
   const regemail =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -9,15 +9,24 @@ export const createContent = (data) => {
   if (!data?.contentTitle) {
     error.contentTitle = "Content Title is required!";
   }
-  if (!data?.journalTitle) {
-    error.journalTitle = "Journal Title is required!";
-  }
-  if (!data?.keyAuthor) {
-    error.keyAuthor = "Author Title is required!";
-  }
+  // if (!data?.journalTitle) {
+  //   error.journalTitle = "Journal Title is required!";
+  // }
+  // if (!data?.keyAuthor) {
+  //   error.keyAuthor = "Author Title is required!";
+  // }
 
+  
   if (!data?.docintelFormat) {
     error.docintelFormat = "Docintel Format is required!";
+  }else if(data?.docintelFormat){
+     if(data?.docintelFormat == "pdf" && !data?.uploadFile){
+      error.uploadFile = "Please upload pdf file!";
+     }else if(data?.docintelFormat == "video" && !data?.uploadFile){
+      error.uploadVideo = "Please upload video !";
+     }else if(data?.docintelFormat == "ebook" && !fileCheck.length){
+      error.ebookErr = "Please upload pdf file !";
+     }
   }
   // if (!data?.uploadFile) {
   //   error.uploadFile = "File is required!";
