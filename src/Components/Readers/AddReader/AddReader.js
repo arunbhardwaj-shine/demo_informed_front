@@ -32,6 +32,11 @@ const ReaderAdd = () => {
     { value: "production2", label: "production2" },
     { value: "production3", label: "production3" },
   ]);
+  const [countryCode, setCountryCode] = useState([
+    { value: "1", label: "1" },
+    { value: "2", label: "2" },
+    { value: "3", label: "3" },
+  ]);
 
    const addNewProductClicked = (e) => {
     e.preventDefault();
@@ -125,8 +130,14 @@ const ReaderAdd = () => {
                         placeholder="example@email.com"
                       />
                     </div>
-                    <div className="form-group">
+                    <div className="form-group primary_phone">
                       <label htmlFor="">Primary phone *</label>
+                      <Select
+                        options={countryCode}
+                        className="dropdown-basic-button split-button-dropup"
+                        isClearable
+                        placeholder=""
+                      />
                       <input
                         type="number"
                         className="form-control"
@@ -464,7 +475,95 @@ const ReaderAdd = () => {
               </Form> */}
               </div>
             </div>
+            <div className="crm-detail">
+                <div className="crm-detail-content">
+                  <h4>CRM Details</h4>
+                  <div className="crm-review">
+                    <div className="crm-review-detail">
+                      <ul class="tab-mail-list">
+                        <li>
+                          <h6 class="tab-content-title">First name</h6>
+                          <h6>User first name</h6>
+                        </li>
+                        <li>
+                          <h6 class="tab-content-title">Middle name</h6>
+                          <h6>User middle name</h6>
+                        </li>
+                        <li>
+                          <h6 class="tab-content-title">Last name</h6>
+                          <h6>User last name</h6>
+                        </li>
+                        <li>
+                          <h6 class="tab-content-title">Primary email </h6>
+                          <h6>example@gmail.com</h6>
+                        </li>
+                        <li>
+                          <h6 class="tab-content-title">Alternative email </h6>
+                          <h6>example@gmail.com</h6>
+                        </li>
+                        <li>
+                          <h6 class="tab-content-title">Primary phone </h6>
+                          <h6>+000 000000000</h6>
+                        </li>
+                        <li>
+                          <h6 class="tab-content-title">Alternative phone </h6>
+                          <h6>+000 000000000</h6>
+                        </li>
+                      </ul>
+                    </div>
+                     <div className="crm-review-detail">
+                      <ul class="tab-mail-list">
+                        <li>
+                          <h6 class="tab-content-title">Country </h6>
+                          <h6>United Kingdom</h6>
+                        </li>
+                        <li>
+                          <h6 class="tab-content-title">Province</h6>
+                          <h6>Province name</h6>
+                        </li>
+                        <li>
+                          <h6 class="tab-content-title">Hospital</h6>
+                          <h6>Hospital name</h6>
+                        </li>
+                        <li>
+                          <h6 class="tab-content-title">Title</h6>
+                          <h6>User title</h6>
+                        </li>
+                        <li>
+                          <h6 class="tab-content-title">Speciality</h6>
+                          <h6>User speciality</h6>
+                        </li>
+                        <li>
+                          <h6 class="tab-content-title">Discipline</h6>
+                          <h6>User Discipline</h6>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="crm-review-detail">
+                       <ul class="tab-mail-list">
+                        <li>
+                          <h6 class="tab-content-title">Product</h6>
+                          <h6>Product name</h6>
+                        </li>
+                        <li>
+                          <h6 class="tab-content-title">Interest area</h6>
+                          <h6>Interest area</h6>
+                        </li>
+                        <li>
+                          <h6 class="tab-content-title">Rep contact</h6>
+                          <h6>Rep name</h6>
+                        </li>
+                        <li>
+                          <h6 class="tab-content-title">Notes</h6>
+                          <h6>Condi ment zcsum dolor nibhdolor masa euismod phartra donec mas faucibus quisque nuneque ipsum</h6>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+            </div>
           </Row>
+
         </div>
         <Modal
           show={show}
