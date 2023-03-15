@@ -10,10 +10,10 @@ export const createContent = (data) => {
     error.contentTitle = "Content Title is required!";
   }
   if (!data?.journalTitle) {
-    error.contentTitle = "Journal Title is required!";
+    error.journalTitle = "Journal Title is required!";
   }
   if (!data?.keyAuthor) {
-    error.contentTitle = "Author Title is required!";
+    error.keyAuthor = "Author Title is required!";
   }
 
   if (!data?.docintelFormat) {
