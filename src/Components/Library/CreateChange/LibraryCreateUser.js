@@ -1,46 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Select from "react-select";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useNavigate } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import ReactSelect from "react-select";
 import { toast } from "react-toastify";
 import { createContent } from "../../CommonComponent/Validations";
-import { useSSRSafeId } from "@react-aria/ssr";
 import { Button, Form, Dropdown, DropdownButton } from "react-bootstrap";
+import {postFormData} from "../../../axios/apiHelper"
+import {ENDPOINT} from "../../../axios/apiConfig"
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-// import Placeholder from "react-select/dist/declarations/src/components/Placeholder";
-const today = new Date();
 
 const LibraryCreateUser = () => {
-  const [selectedPdfName, setSelectedPdfName] = useState("");
   const [counterFlag, setCounterFlag] = useState(0);
-  const [selectedVideoName, setSelectedVideoName] = useState("");
-  const [selectedEbookName, setSelectedEbookName] = useState("");
-
   const [checked, setChecked] = useState(false);
   const [show, setShow] = useState(false);
-  const [limitOfUsage, setLimitOfUsage] = useState("");
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const navigate = useNavigate();
-  const [startDate, setStartDate] = useState(new Date());
   const [error, setError] = useState({});
   const [image, setImage] = useState({});
-  const [company, setCompany] = useState("");
-  const [contentTitle, setContentTitle] = useState("");
-  const [clientProduct, setClientProduct] = useState("");
-  const [pdfFile, setPdfFile] = useState("");
-  const [videoFile, setVideoFile] = useState("");
-  const [ebookFile, setEbookFile] = useState("");
-
+  const [userInputs, setCreateLibraryInputs] = useState({
+     "expDatetime":new Date(),
+  });
   const [chapter, setChapter] = useState([
     {
       chapterTitle: "",
       uploadFile: "",
+      fileValue:""
     },
   ]);
 
@@ -49,13 +38,6 @@ const LibraryCreateUser = () => {
     { value: "Australia", label: "Australia" },
     { value: "Russia", label: "Russia" },
   ]);
-
-  // const [types, setTypes] = useState([
-  //   { value: "Online", label: "Online" },
-  //   { value: "Offline", label: "Offline" },
-
-  //   { value: "Sunshine", label: "Sunshine" },
-  // ]);
 
   const [productionAll, setProductionAll] = useState([
     { value: "production1", label: "production1" },
@@ -71,25 +53,17 @@ const LibraryCreateUser = () => {
   ]);
 
   const [ePrintType, setePrintType] = useState([
-    { value: "PDF", label: "PDF" },
+    { value: "pdf", label: "PDF" },
     { value: "video", label: "video" },
     { value: "eBook", label: "eBook" },
   ]);
 
-  const [ePrint, setEPrint] = useState("");
 
   const [chapterSelect, setChapterSelect] = useState("");
   const [videoSelect, setVideoSelect] = useState("");
   const [uploadNewVideo, setUploadNewVideo] = useState(false);
   const [changeEmbeddedVideo, setChangeEmbeddedVideo] = useState("");
 
-  const onSalesChange = (event) => {
-    setSales(event.value);
-  };
-
-  const [production, setProduction] = useState("");
-  const [country, setCountry] = useState("");
-  const [userInputs, setCreateLibraryInputs] = useState({});
 
   const handleChange = (e, isSelectedName) => {
     if (e?.target?.files?.length < 1) {
@@ -105,37 +79,32 @@ const LibraryCreateUser = () => {
     });
   };
 
-  const nextButtonClicked = (e) => {
+  const nextButtonClicked = async(e) => {
     e.preventDefault();
-    console.log("eeee", userInputs);
     const err = createContent(userInputs);
-    if (Object.keys(err)?.length) {
-      setError(err);
 
-      console.log(err);
+    if (Object.keys(err)?.length) {
+      console.log("- im err",err)
+
+      setError(err);
       return;
     } else {
-      // navigate("/create-docintel-link");
-      setError(err);
-      console.log("no error");
+   
+      let formData = new FormData();
+      formData.append("keyAuthor", userInputs?.keyAuthor);
+      formData.append("expDatetime", userInputs?.expDatetime);
+      formData.append("limit", userInputs?.limitOfUsage);
+      formData.append("file", userInputs?.uploadFile[0]);
+      formData.append("title", userInputs?.contentTitle)
+      formData.append("fileType", userInputs?.docintelFormat)
+      formData.append("ebookData", chapter)
+      formData.append("createdBy", 18207)
+      await postFormData(ENDPOINT.LIBRARYCREATE,formData,{
+        header:{
+          "Content-Type": "multipart/form-data",
+        }
+      });
     }
-  };
-
-  const onCompanyChange = (event) => {
-    setCompany(event.target.value);
-  };
-
-  const onClientProductChange = (event) => {
-    setClientProduct(event.target.value);
-  };
-
-  const onCountryChange = (event) => {
-    console.log(event);
-    setCountry(event.value);
-  };
-
-  const ePrintTypeChange = (e) => {
-    setEPrint(e.value);
   };
 
   const addMoreChClicked = () => {
@@ -168,57 +137,7 @@ const LibraryCreateUser = () => {
     setChapter(list);
     setCounterFlag(counterFlag + 1);
   };
-
-  const onProductionChange = (event) => {
-    console.log(event);
-    setProduction(event.value);
-  };
-
-  const contentTitleChanged = (e) => {
-    setContentTitle(e.target.value);
-  };
-
-  // const nextButtonClicked = (e) => {
-  //   e.preventDefault();
-
-  //   const data = {
-  //     date: startDate,
-  //     limitOfUsage: limitOfUsage,
-  //     contentTitle: contentTitle,
-  //     ePrint: ePrint,
-  //     pdfFile: pdfFile,
-  //     image: image,
-  //   };
-
-  //   console.log("WW", data);
-
-  //   const err = createContent(data);
-  //   if (Object.keys(err)?.length) {
-  //     setError(err);
-
-  //     console.log(err);
-  //     return;
-  //   } else {
-  //     navigate("/create-docintel-link");
-  //     setError(err);
-  //     console.log("no error");
-  //   }
-  // };
-
-  const handleFileChange = (e) => {
-    setSelectedPdfName(e.target.files[0].name);
-    setPdfFile(e.target.files[0]);
-  };
-
-  const handleVideoChange = (e) => {
-    setSelectedVideoName(e?.target?.files[0]?.name);
-    setVideoFile(e?.target?.files[0]);
-  };
-
-  const handleImageChange = (e, isSelectedName) => {
-    setImage({ ...image, [isSelectedName]: e?.target?.files });
-  };
-
+ 
   const includeVideoCheckboxChanged = (e) => {
     if (e.target.checked == true) {
       setChecked(true);
@@ -236,10 +155,10 @@ const LibraryCreateUser = () => {
   };
 
   const handleOnEbookChange = (e, i) => {
-    const value = e.target.files[0].name;
+    const value = e.target.files[0]?.name;
     const list = [...chapter];
+    list[i].fileValue = e.target.files[0];
     list[i].uploadFile = value;
-
     setChapter(list);
   };
 
@@ -435,8 +354,10 @@ const LibraryCreateUser = () => {
                     <div className="form-group">
                       <label htmlFor="">Expiration date</label>
                       <DatePicker
-                        selected={startDate}
-                        onChange={(date) => setStartDate(date)}
+                        selected={userInputs?.expDatetime}
+                        name="expDatetime"
+                        onChange={(e)=>handleChange(e,"expDatetime")}
+                        dateFormat="dd/MM/yyyy"
                       />
                     </div>
                     <div className="form-group">
@@ -446,8 +367,7 @@ const LibraryCreateUser = () => {
                         name="limitOfUsage"
                         className="form-control"
                         placeholder="“0” value means unlimited limit"
-                        // onChange={(e) => setLimitOfUsage(e.target.value)}
-                        onChange={(e) => handleChange(e)}
+                        onChange={handleChange}
                       />
                       {error?.limitOfUsage ? (
                         <div className="login-validation">
@@ -531,11 +451,11 @@ const LibraryCreateUser = () => {
                       <label htmlFor="">Author</label>
                       <input
                         type="text"
-                        name="author"
+                        name="keyAuthor"
                         className="form-control"
-                        onChange={(e) => {
-                          handleChange(e);
-                        }}
+                        onChange={
+                          handleChange
+                        }
                       />
                     </div>
                     <div className="form-group val">
@@ -543,7 +463,6 @@ const LibraryCreateUser = () => {
                       <Select
                         className="dropdown-basic-button split-button-dropup"
                         options={ePrintType}
-                        // onChange={(event) => ePrintTypeChange(event)}
                         isClearable
                         placeholder="Select type of Docintel format "
                         onChange={(event) =>
@@ -557,8 +476,7 @@ const LibraryCreateUser = () => {
                       ) : null}
                     </div>
 
-                    {/* {ePrint == "PDF" ? ( */}
-                    {userInputs.docintelFormat == "PDF" ? (
+                    {userInputs.docintelFormat == "pdf" ? (
                       <div className="form-group val">
                         <label htmlFor="">Upload PDF</label>
                         <div className="upload-file-box">
@@ -758,19 +676,19 @@ const LibraryCreateUser = () => {
                             id="file-5"
                             className="inputfile inputfile-5"
                             accept="image/png, image/jpeg"
-                            onChange={(e) => handleImageChange(e, "image")}
+                            // onChange={(e) => handleImageChange(e, "image")}
                           />
                           <label htmlFor="file-5">
                             <span>Choose Your File</span>
                           </label>
-                          {image?.image?.[0]?.name ? (
+                          {/* {image?.image?.[0]?.name ? (
                             <h5>{image?.image?.[0]?.name}</h5>
                           ) : (
                             <p>
                               Upload your cover image <br />
                               <span>(Recommended size 00 X 00)</span>
                             </p>
-                          )}
+                          )} */}
                           {/* <p>
                             Upload your cover image
                             <br />
@@ -778,11 +696,11 @@ const LibraryCreateUser = () => {
                           </p> */}
                         </div>
                       </div>
-                      {error?.image ? (
+                      {/* {error?.image ? (
                         <div className="login-validation-upload">
                           {error?.image}
                         </div>
-                      ) : null}
+                      ) : null} */}
                     </div>
                   </div>
                   <div className="col-12 col-md-6 d-flex justify-content-end align-items-start right-change">
