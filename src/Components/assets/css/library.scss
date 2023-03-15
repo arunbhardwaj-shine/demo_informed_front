@@ -445,6 +445,7 @@
 					} 
           div.css-14el2xx-placeholder{
             color: #97B6CF;
+            font-weight: 300;
              }
 		    	}
 				}
@@ -1166,6 +1167,12 @@ select::-ms-expand {
     font-weight: 300;
     color: $dark-gray;
 }
+.create-reader-form-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
 .form_action h4{
   color:$dark-blue;
   font-weight: 500;
@@ -1177,7 +1184,9 @@ select::-ms-expand {
     display: flex;
     align-items: center;
 }
-
+.create-change-content .form-group fieldset label {
+    cursor: pointer;
+}
 .create-change-content .form-group fieldset input, .create-change-content .form-group .form-check-group input {
     border: 1px solid $light-gray;
     width: 16px;

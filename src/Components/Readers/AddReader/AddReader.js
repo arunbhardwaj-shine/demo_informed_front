@@ -14,7 +14,7 @@ import Select from "react-select";
 const ReaderAdd = () => {
   const [field, setField] = useState([]);
   const [show, setShow] = useState(false);
-
+  const [newProduct, setNewProduct] = useState("");
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
    const [countryAll, setCountryAll] = useState([
@@ -32,6 +32,13 @@ const ReaderAdd = () => {
     { value: "production2", label: "production2" },
     { value: "production3", label: "production3" },
   ]);
+
+   const addNewProductClicked = (e) => {
+    e.preventDefault();
+    setNewProduct("");
+    setShow(true);
+  };
+
   return (
     <>
       <Col className="col right-sidebar">
@@ -74,9 +81,12 @@ const ReaderAdd = () => {
             </div>
             <div className="create-reader create-change-content">
               <div className="form_action">
-                <h4>Please fill the following and upload SPC needed</h4>
+                <div className="create-reader-form-header">
+                  <h4>Please fill the following details</h4>
+                  <Button className="btn-bordered" type="file">Upload Excel File</Button>
+                </div>
                 <div className="row">
-                  <div className="col-12 col-md-6">
+                  <div className="col-12 col-md-7">
                     <div className="form-group">
                       <label htmlFor="">First name *</label>
                       <input
@@ -103,6 +113,7 @@ const ReaderAdd = () => {
                       <input
                         type="email"
                         className="form-control"
+                        placeholder="example@email.com"
                       />
                     </div>
                     
@@ -111,6 +122,7 @@ const ReaderAdd = () => {
                       <input
                         type="email"
                         className="form-control"
+                        placeholder="example@email.com"
                       />
                     </div>
                     <div className="form-group">
@@ -143,7 +155,7 @@ const ReaderAdd = () => {
                       <label htmlFor="">Province</label>
                       <Select
                         options={countryAll}
-                        placeholder="Select Province"
+                        placeholder="Select province"
                         className="dropdown-basic-button split-button-dropup"
                         isClearable
                       />
@@ -189,14 +201,14 @@ const ReaderAdd = () => {
                     <div className="form-group">
                         <label htmlFor="">Discipline</label>
                         <Select
-                          options={countryAll}
+                          options={productionAll}
                           placeholder="Select discipline"
                           className="dropdown-basic-button split-button-dropup"
                           isClearable
                         />
                         <div className="add_product">
                           <span>&nbsp;</span>
-                          <Button
+                          <Button  onClick={addNewProductClicked}
                             className="btn-bordered btn-voilet"
                           >
                             Add new Discipline +
@@ -206,7 +218,7 @@ const ReaderAdd = () => {
                      <div className="form-group">
                         <label htmlFor="">Product</label>
                         <Select
-                          options={countryAll}
+                          options={productionAll}
                           placeholder="Select product"
                           className="dropdown-basic-button split-button-dropup"
                           isClearable
@@ -223,7 +235,7 @@ const ReaderAdd = () => {
                     <div className="form-group">
                       <label htmlFor="">Interest area</label>
                       <Select
-                        options={countryAll}
+                        options={productionAll}
                         placeholder="Select interest area"
                         className="dropdown-basic-button split-button-dropup"
                         isClearable
@@ -237,7 +249,7 @@ const ReaderAdd = () => {
                       />
                     </div>
                   </div>
-                  <div className="col-12 col-md-6 d-flex justify-content-end align-items-start right-change">
+                  <div className="col-12 col-md-5 d-flex justify-content-end align-items-start right-change">
                     <div className="form-group justify-content-end">
                       <label htmlFor="">Notes</label>
                       <textarea
