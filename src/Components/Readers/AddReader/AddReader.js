@@ -170,93 +170,82 @@ const ReaderAdd = () => {
                       ) : null} */}
                     </div>
                     <div className="form-group">
-                      <label htmlFor="">Production</label>
-                      <Select
-                        options={productionAll}
-                        placeholder="Select own production person"
-                        className="dropdown-basic-button split-button-dropup edit-production-dropdown"
-                        isClearable
-                      />
-                      {/* {error?.production ? (
-                        <div className="login-validation">
-                          {error?.production}
-                        </div>
-                      ) : null} */}
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="">Sales</label>
-                      <Select
-                        options={salesAll}
-                        placeholder="Who made the sale?"
-                        className="dropdown-basic-button split-button-dropup edit-sales-dropdown"
-                        isClearable
-                      />
-                      {/* {error?.sales ? (
-                        <div className="login-validation">{error?.sales}</div>
-                      ) : null} */}
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-6 d-flex justify-content-end align-items-end right-change">
-                    <div className="form-group justify-content-end">
-                      <label htmlFor="">Reseller</label>
-                      <div className="form-check-group">
-                        <div className="form-check">
-                          <input
-                            className="form-check-input"
-                            value=""
-                            id="flexCheckDefault"
-                            type="checkbox"
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor="flexCheckDefault"
+                        <label htmlFor="">Speciality</label>
+                        <Select
+                          options={countryAll}
+                          placeholder="Select speciality"
+                          className="dropdown-basic-button split-button-dropup"
+                          isClearable
+                        />
+                        <div className="add_product">
+                          <span>&nbsp;</span>
+                          <Button
+                            className="btn-bordered btn-voilet"
                           >
-                            N/A
-                          </label>
-                        </div>
-                        <div className="form-check">
-                          <input
-                            className="form-check-input"
-                            value=""
-                            id="flexCheckReseller"
-                            type="checkbox"
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor="flexCheckReseller"
-                          >
-                            Reseller Name
-                          </label>
-                        </div>
-                        <div className="form-check">
-                          <input
-                            className="form-check-input"
-                            value=""
-                            id="flexCheckReseller1"
-                            type="checkbox"
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor="flexCheckReseller1"
-                          >
-                            Reseller Name
-                          </label>
-                        </div>
-                        <div className="form-check">
-                          <input
-                            className="form-check-input"
-                            value=""
-                            id="flexCheckReseller2"
-                            type="checkbox"
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor="flexCheckReseller2"
-                          >
-                            Reseller Name
-                          </label>
+                            Add new Speciality +
+                          </Button>
                         </div>
                       </div>
+                    <div className="form-group">
+                        <label htmlFor="">Discipline</label>
+                        <Select
+                          options={countryAll}
+                          placeholder="Select discipline"
+                          className="dropdown-basic-button split-button-dropup"
+                          isClearable
+                        />
+                        <div className="add_product">
+                          <span>&nbsp;</span>
+                          <Button
+                            className="btn-bordered btn-voilet"
+                          >
+                            Add new Discipline +
+                          </Button>
+                        </div>
+                      </div>
+                     <div className="form-group">
+                        <label htmlFor="">Product</label>
+                        <Select
+                          options={countryAll}
+                          placeholder="Select product"
+                          className="dropdown-basic-button split-button-dropup"
+                          isClearable
+                        />
+                        <div className="add_product">
+                          <span>&nbsp;</span>
+                          <Button
+                            className="btn-bordered btn-voilet"
+                          >
+                            Add new product +
+                          </Button>
+                        </div>
+                      </div>
+                    <div className="form-group">
+                      <label htmlFor="">Interest area</label>
+                      <Select
+                        options={countryAll}
+                        placeholder="Select interest area"
+                        className="dropdown-basic-button split-button-dropup"
+                        isClearable
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="">Rep contact</label>
+                      <input
+                        type="text" placeholder="Who is Rep contact?"
+                        className="form-control"
+                      />
+                    </div>
+                  </div>
+                  <div className="col-12 col-md-6 d-flex justify-content-end align-items-start right-change">
+                    <div className="form-group justify-content-end">
+                      <label htmlFor="">Notes</label>
+                      <textarea
+                        className="form-control"
+                        id="formControlTextarea"
+                        rows="5"
+                        placeholder="Meeting note, special interest etc..."
+                      ></textarea>
                     </div>
                   </div>
                 </div>
