@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
 import { popup_alert } from "../../../popup_alert";
-import { deleteData, postData } from "../../../axios/apiHelper";
+import {
+  deleteData,
+  postData,
+  updateConsent,
+  resetStats,
+} from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import Select from "react-select";
 import { Spinner } from "react-activity";
@@ -46,6 +51,11 @@ const LibraryContent = () => {
   const [pageAll, setPageAll] = useState(false);
   const [search, setSearch] = useState("");
   const [opening_details, setOpeningDetails] = useState([]);
+  const [tagClickedFirst, setTagClickedFirst] = useState([]);
+  const [finalTags, setFinalTags] = useState([]);
+  const [tagsReRender, setTagsReRender] = useState(0);
+  const [tagsCounter, setTagsCounter] = useState(0);
+  const [pdftagsid, setpdftagsid] = useState();
 
   const navigate = useNavigate();
   let obj = {};
@@ -64,14 +74,21 @@ const LibraryContent = () => {
 
   const [deletestatus, setDeleteStatus] = useState(false);
   const [page, setPage] = useState(1);
+  const [type, setType] = useState("");
   const [showfilter, setShowFilter] = useState(false);
   const [qrValue, setQrValue] = useState("QR-code");
+  const [newTag, setNewTag] = useState("");
 
   const [libraryData, setLibraryData] = useState([]);
+  const [changeConsent, setchangeConsent] = useState([]);
+  const [updateflag, setupdateFlag] = useState(0);
   const [qrState, setQr] = useState({
-    leve: "",
     value: "",
   });
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [modalCounter, setModalCounter] = useState(0);
+  const [allTags, setAllTags] = useState({});
 
   const downloadQRData = [
     {
@@ -111,6 +128,7 @@ const LibraryContent = () => {
         id: 18207,
       });
       setFilterData(res?.data?.data);
+      setAllTags(res?.data?.data?.tags);
       loader("hide");
     } catch (err) {
       loader("hide");
@@ -120,7 +138,8 @@ const LibraryContent = () => {
 
   const loadMoreClicked = () => {
     setPageAllClicked(true);
-    setPage("All");
+    setPage(2);
+    setType("rest");
   };
 
   const submitHandler = (event) => {
@@ -235,7 +254,6 @@ const LibraryContent = () => {
     setShowFilter(false);
   };
   const handleQR = (name, e) => {
-    console.log("dfdffd", e);
     setQr({ ...qrState, level: e });
   };
 
@@ -253,16 +271,11 @@ const LibraryContent = () => {
 
   const getLibraryData = async (page, obj, search) => {
     try {
-      // let body = {
-      //   id: 18207,
-      //   page: page,
-      // };
-      //console.log(filterObject);
-
       let data = {
         id: 18207,
         page: page,
         search: search,
+        type: type,
       };
 
       let body = { ...data, ...obj };
@@ -373,8 +386,196 @@ const LibraryContent = () => {
     document.body.appendChild(downloadLink);
     downloadLink.click();
     document.body.removeChild(downloadLink);
-    console.log("e", qrState?.value);
     setShow(false);
+  };
+
+  const onConsentChange = (e, i) => {
+    let consetValue = e.value;
+    let consent = {
+      index: i,
+      value: consetValue,
+    };
+
+    const found = changeConsent.some((el) => el.index === i);
+    if (!found) {
+      setchangeConsent((oldarray) => [...oldarray, consent]);
+    } else {
+      const index = changeConsent.findIndex((el) => el.index === i);
+      changeConsent[index].value = consetValue;
+    }
+  };
+
+  const updateConset = async (pdf_id, index) => {
+    loader("show");
+    try {
+      const index = changeConsent.findIndex((el) => el.index === pdf_id);
+      let consent_value = changeConsent[index].value;
+
+      let body = {
+        pdfId: pdf_id,
+        consentType: consent_value,
+      };
+
+      const res = await updateConsent(ENDPOINT.LIBRARYCHANGECONSENT, body);
+      const lib_data_index = libraryData.findIndex((el) => el.id === pdf_id);
+      libraryData[lib_data_index].linkType = consent_value;
+      const new_data = libraryData;
+      setLibraryData(new_data);
+      setupdateFlag(updateflag + 1);
+      loader("hide");
+      popup_alert({
+        visible: "show",
+        message: "Your content has been update <br />successfully !",
+        type: "success",
+        redirect: "",
+      });
+    } catch (err) {
+      console.log("err", err);
+      loader("hide");
+    }
+  };
+
+  const resetCollection = async (pdf_id) => {
+    loader("show");
+    try {
+      let body = {
+        userId: 18207,
+        pdfId: pdf_id,
+      };
+      const res = await resetStats(ENDPOINT.LIBRARYRESETSTATS, body);
+      let normal_data = opening_details;
+      const lib_data_index = normal_data.findIndex(
+        (el) => el.pdf_id === pdf_id
+      );
+      normal_data[lib_data_index].uniqueReader = 0;
+      normal_data[lib_data_index].opening = 0;
+      normal_data[lib_data_index].registeredReader = 0;
+
+      setOpeningDetails(normal_data);
+      setFlag(1);
+      setUpdate(update + 1);
+
+      loader("hide");
+      popup_alert({
+        visible: "show",
+        message: "Your stats has been reset <br />successfully !",
+        type: "success",
+        redirect: "",
+      });
+    } catch (err) {
+      console.log("err", err);
+      loader("hide");
+    }
+  };
+
+  const tagButtonClicked = (pdf_id) => {
+    const lib_data_index = libraryData.findIndex((el) => el.id === pdf_id);
+    let get_tags = libraryData[lib_data_index]?.tags;
+    if (get_tags != "") {
+      let parsed_tag = JSON.parse(get_tags);
+      setTagClickedFirst(parsed_tag);
+    } else {
+      setTagClickedFirst([]);
+    }
+    setFinalTags([]);
+    setpdftagsid(pdf_id);
+    setIsOpen(true);
+    setModalCounter(modalCounter + 1);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+  const tagClicked = (dd) => {
+    if (!tagClickedFirst.includes(dd)) {
+      setTagClickedFirst((oldArray) => [...oldArray, dd]);
+    } else {
+      toast.error("Tag already in list.");
+    }
+  };
+
+  const removeTagFinal = (index) => {
+    const tags = finalTags;
+    const tagsClickedFirst = tagClickedFirst;
+    tags.splice(index, 1);
+    tagsClickedFirst.splice(index, 1);
+    setFinalTags(tags);
+    setTagClickedFirst(tagsClickedFirst);
+
+    setTagsReRender(tagsReRender + 1);
+  };
+
+  const newTagChanged = (e) => {
+    setNewTag(e.target.value);
+    e.target.value = "";
+    const new_atg = document.getElementById("new-tag");
+    new_atg.value = "";
+  };
+
+  const addTag = async () => {
+    if (typeof newTag == "undefined" || newTag.trim().length == 0) {
+      toast.error("Please input a tag");
+    } else {
+      let temp_tags = tagClickedFirst.map((data) => {
+        return data.toLowerCase();
+      });
+      //  console.log(allTags)
+      let alltemp_tags = [];
+      Object.entries(allTags).map((data) => {
+        return alltemp_tags.push(...data);
+      });
+      alltemp_tags = alltemp_tags.map((data) => {
+        return data.toLowerCase();
+      });
+
+      if (
+        !temp_tags.includes(newTag.toLowerCase()) &&
+        !alltemp_tags.includes(newTag.toLowerCase())
+      ) {
+        setTagClickedFirst((oldArray) => [...oldArray, newTag]);
+
+        const body = {
+          user_id: localStorage.getItem("user_id"),
+          tags: newTag,
+        };
+        //console.log(body);
+      } else {
+        toast.error("Tag already in list.");
+      }
+      setNewTag("");
+      setTagsCounter(tagsCounter + 1);
+    }
+  };
+
+  const saveButtonClicked = () => {
+    if (typeof finalTags != "undefined" && finalTags.length > 0) {
+      let prev_tags = finalTags;
+      let new_tags = prev_tags.concat(tagClickedFirst);
+      const uniqueTags = new_tags.filter((x, i, a) => a.indexOf(x) == i);
+      setFinalTags(uniqueTags);
+
+      if (pdftagsid != "") {
+        const lib_data_index = libraryData.findIndex(
+          (el) => el.id === pdftagsid
+        );
+        libraryData[lib_data_index].tags = JSON.stringify(uniqueTags);
+      }
+    } else {
+      setFinalTags(tagClickedFirst);
+
+      if (pdftagsid != "") {
+        const lib_data_index = libraryData.findIndex(
+          (el) => el.id === pdftagsid
+        );
+        libraryData[lib_data_index].tags = JSON.stringify(tagClickedFirst);
+      }
+    }
+
+    setLibraryData(libraryData);
+    setupdateFlag(updateflag + 1);
+    // tags
+    closeModal();
   };
 
   return (
@@ -694,8 +895,8 @@ const LibraryContent = () => {
           <Row>
             <div className="library-content-box-layuot d-flex">
               <>
-                {libraryData?.length
-                  ? libraryData?.map((data) => {
+                {libraryData?.length || updateflag
+                  ? libraryData?.map((data, index) => {
                       return (
                         <>
                           <div className="doc-content-main-box col">
@@ -704,7 +905,7 @@ const LibraryContent = () => {
                                 <a href="#">
                                   <img
                                     alt="doc-logo"
-                                    src={path_image + "dummy-img1.png"}
+                                    src={data?.coverImage}
                                     style={{ width: "67px" }}
                                   />
                                 </a>
@@ -758,10 +959,13 @@ const LibraryContent = () => {
                                 >
                                   <div className="tab-panel d-flex flex-column justify-content-between">
                                     <div className="tab-content-links">
-                                      {/* <a href="#" className="doc-link"> */}
-                                      <Link to={data?.docintelLink}>
+                                      <a
+                                        href={data?.docintelLink}
+                                        className="doc-link"
+                                        target="_blank"
+                                      >
                                         {data?.docintelLink}
-                                      </Link>
+                                      </a>
                                       <span
                                         className="copy-content"
                                         onClick={() => {
@@ -862,43 +1066,38 @@ const LibraryContent = () => {
                                         <h6 className="tab-content-title">
                                           <strong>Link type</strong>
                                         </h6>
-                                        <h6>
-                                          {" "}
-                                          {data.first_popup == 0 &&
-                                          data.only_first_popup == 0
-                                            ? "online"
-                                            : data.first_popup == 1 &&
-                                              data.only_first_popup == 1
-                                            ? "offline"
-                                            : data.first_popup == 1 &&
-                                              data.only_first_popup == 0
-                                            ? "sunshine"
-                                            : ""}
-                                        </h6>
+                                        <h6>{data?.linkType}</h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
                                           <strong>Include</strong>
                                         </h6>
                                         <div className="include-links">
-                                          <Link>
+                                          {data?.spc_included ? (
                                             <img
                                               src={path_image + "spc-img.png"}
                                               alt=""
                                             />
-                                          </Link>
-                                          <Link>
+                                          ) : (
+                                            ""
+                                          )}
+
+                                          {data?.linkRelations ? (
                                             <img
                                               src={path_image + "video-img.png"}
                                               alt=""
                                             />
-                                          </Link>
-                                          <Link>
+                                          ) : (
+                                            ""
+                                          )}
+                                          {data?.pdfLinks ? (
                                             <img
                                               src={path_image + "link-img.png"}
                                               alt=""
                                             />
-                                          </Link>
+                                          ) : (
+                                            ""
+                                          )}
                                         </div>
                                       </li>
                                     </ul>
@@ -908,9 +1107,13 @@ const LibraryContent = () => {
                                   deletestatus == false ? (
                                     <div className="data-main-footer-sec">
                                       <div className="footer-btn-wrapper">
-                                        <Button className="footer-btn">
+                                        <a
+                                          className="footer-btn"
+                                          href={data?.previewArticle}
+                                          target="_blank"
+                                        >
                                           Preview Aritcle
-                                        </Button>
+                                        </a>
                                         <Button
                                           onClick={() => {
                                             commonModelFun();
@@ -1041,7 +1244,11 @@ const LibraryContent = () => {
                                                   <div className="data-progress success-progress">
                                                     <ProgressBar
                                                       variant="success"
-                                                      now={100}
+                                                      now={
+                                                        details.opening == 0
+                                                          ? 0
+                                                          : 100
+                                                      }
                                                       label={details?.opening}
                                                     />
                                                     {/* <ProgressBar
@@ -1055,6 +1262,7 @@ const LibraryContent = () => {
                                                             details.limit) *
                                                           100
                                                     }
+                                                    now={100}
                                                     label={details.opening}
                                                   /> */}
                                                   </div>
@@ -1124,7 +1332,12 @@ const LibraryContent = () => {
                                       <Button className="footer-btn">
                                         Analytics
                                       </Button>
-                                      <Button className="footer-btn reset">
+                                      <Button
+                                        className="footer-btn reset"
+                                        onClick={(e) =>
+                                          resetCollection(data.id)
+                                        }
+                                      >
                                         Reset the collected data
                                       </Button>
                                     </div>
@@ -1141,16 +1354,29 @@ const LibraryContent = () => {
                                         <label htmlFor="">Consent type</label>
                                         <Select
                                           options={types}
-                                          // onChange={(event) =>
-                                          //   onCountryChange(event)
-                                          // }
+                                          defaultValue={
+                                            data.linkType == "Online"
+                                              ? types[0]
+                                              : data.linkType == "Offline"
+                                              ? types[1]
+                                              : data.linkType == "Sunshine"
+                                              ? types[2]
+                                              : "Select"
+                                          }
+                                          onChange={(event) =>
+                                            onConsentChange(event, data.id)
+                                          }
+                                          id={"consent_dropdown_" + index}
                                           className="dropdown-basic-button split-button-dropup"
                                           isClearable
                                         />
-                                        {/* {error?.country ? (
-                        <div className="login-validation">{error?.country}</div>
-                      ) : null} */}
-                                        <Button>Update</Button>
+                                        <Button
+                                          onClick={(e) =>
+                                            updateConset(data.id, index)
+                                          }
+                                        >
+                                          Update
+                                        </Button>
                                       </div>
                                     </ul>
                                   </div>
@@ -1159,12 +1385,20 @@ const LibraryContent = () => {
                                       <Button className="footer-btn">
                                         Edit Docintel Link
                                       </Button>
-                                      <Button className="footer-btn">
+                                      <Button
+                                        className="footer-btn"
+                                        onClick={(e) =>
+                                          tagButtonClicked(data.id)
+                                        }
+                                      >
                                         Add / Remove Tags
                                       </Button>
-                                      <Button className="footer-btn">
+                                      <Link
+                                        to="/library-sublink"
+                                        className="footer-btn"
+                                      >
                                         New Sublink
-                                      </Button>
+                                      </Link>
                                     </div>
                                   </div>
                                 </Tab>
@@ -1175,71 +1409,79 @@ const LibraryContent = () => {
                                 >
                                   <div className="tab-panel">
                                     <ul className="tab-mail-list">
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          <strong>Sales person</strong>
-                                        </h6>
-                                        <h6>Sales person name</h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          <strong>Production person</strong>
-                                        </h6>
-                                        <h6>Production person name</h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          <strong>Client name</strong>
-                                        </h6>
-                                        <h6>Jacob Flindt</h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          <strong>Client product</strong>
-                                        </h6>
-                                        <h6>Product name</h6>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          <strong>Client country</strong>
-                                        </h6>
-                                        <h6>United Kingdom</h6>
-                                      </li>
+                                      {data.licensed == 1 && (
+                                        <>
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              <strong>Sales person</strong>
+                                            </h6>
+                                            <h6>{data?.saleName}</h6>
+                                          </li>
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              <strong>Production person</strong>
+                                            </h6>
+                                            <h6>{data?.productName}</h6>
+                                          </li>
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              <strong>Client name</strong>
+                                            </h6>
+                                            <h6>{data?.company}</h6>
+                                          </li>
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              <strong>Client product</strong>
+                                            </h6>
+                                            <h6>{data?.product}</h6>
+                                          </li>
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              <strong>Client country</strong>
+                                            </h6>
+                                            <h6>{data?.country}</h6>
+                                          </li>
+                                        </>
+                                      )}
                                       <li>
                                         <h6 className="tab-content-title">
                                           <strong>Opening limit</strong>
                                         </h6>
-                                        <h6>300</h6>
+                                        <h6>{data?.limit}</h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
                                           <strong>Link type</strong>
                                         </h6>
-                                        <h6>Sunshine</h6>
+                                        <h6>{data?.linkType}</h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
                                           <strong>Print</strong>
                                         </h6>
-                                        <h6>No</h6>
+                                        <h6>
+                                          {data?.allow_print ? "Yes" : "No"}
+                                        </h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
                                           <strong>Download</strong>
                                         </h6>
-                                        <h6>Yes</h6>
+                                        <h6>
+                                          {data?.allow_download ? "Yes" : "No"}
+                                        </h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          <strong>Uploade date</strong>
+                                          <strong>Upload date</strong>
                                         </h6>
-                                        <h6>4 August 2022</h6>
+                                        <h6>{data?.uploadedDate}</h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
                                           <strong>Expiration date</strong>
                                         </h6>
-                                        <h6>1 August 2023</h6>
+                                        <h6>{data?.expireDate}</h6>
                                       </li>
                                     </ul>
                                   </div>
@@ -1287,7 +1529,7 @@ const LibraryContent = () => {
         data={downloadQRData}
         footerButton={"Save"}
         handleSubmit={downloadQRCode}
-        handleDropdown={handleQR}
+        handleQR={handleQR}
         // inputValue
       />
 
@@ -1333,6 +1575,88 @@ const LibraryContent = () => {
           </Modal.Body>
         </Modal>
       </div>
+
+      <Modal id="tagsModal" show={isOpen}>
+        <Modal.Header>
+          <h5 className="modal-title" id="staticBackdropLabel">
+            Add Tags
+          </h5>
+          <button
+            type="button"
+            className="btn-close"
+            onClick={closeModal}
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="select-tags">
+            <h6>Select Tag :</h6>
+            <div className="tag-lists">
+              <div className="tag-lists-view">
+                {Object.values(allTags).map((data) => {
+                  return (
+                    <>
+                      <div onClick={(event) => tagClicked(data)}>{data} </div>
+                    </>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+          <div className="selected-tags">
+            <h6>
+              Selected Tag <span>| {tagClickedFirst.length}</span>
+            </h6>
+
+            <div className="total-selected">
+              {tagClickedFirst.map((data, index) => {
+                return (
+                  <>
+                    <div className="tag-cross">
+                      {data.innerHTML || data}
+                      <img
+                        src={path_image + "filter-close.svg"}
+                        alt="Close-filter"
+                        onClick={() => removeTagFinal(index)}
+                      />
+                    </div>
+                  </>
+                );
+              })}
+            </div>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <form>
+            <div className="form-group">
+              <label for="new-tag">New Tag</label>
+              <input
+                type="text"
+                className="form-control"
+                id="new-tag"
+                value={newTag}
+                onChange={(e) => newTagChanged(e)}
+              />
+
+              <button
+                onClick={addTag}
+                type="button"
+                className="btn btn-primary add btn-bordered"
+              >
+                Add
+              </button>
+            </div>
+          </form>
+          <button
+            type="button"
+            className="btn btn-primary save btn-filled"
+            onClick={saveButtonClicked}
+          >
+            Save
+          </button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };

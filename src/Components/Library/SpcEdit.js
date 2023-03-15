@@ -179,7 +179,7 @@ const SpcEdit = () => {
                 </div>
               )} */}
 
-            <div className="smart-list-result">
+            <div className="smart-list-result spc-delete">
               <div className="col smartlist-result-block spc-edit">
                 <div className="smartlist_box_block">
                   <div className="smartlist-view email_box">

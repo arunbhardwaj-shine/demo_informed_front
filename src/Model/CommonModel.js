@@ -8,15 +8,14 @@ const CommonModel = ({
   data,
   footerButton,
   handleSubmit,
-  handleDropdown,
+  handleQR,
   handleChange,
 }) => {
-  // const [selecteValue, setSelectedValue] = useState("Select Size");
-  const [selecteValue, setSelectedValue] = useState({});
-
-  const handleSelect = (value, label) => {
-    setSelectedValue({ ...selecteValue, [label]: value });
-    handleDropdown(label, value);
+  const [selecteValue, setSelectedValue] = useState("Select Size");
+  const handleSelect = (value) => {
+    const dp_index = data[0].dropdown.findIndex((el) => el.value === value);
+    setSelectedValue(data[0].dropdown[dp_index].key);
+    handleQR(value);
   };
   const handleClose = () => {
     onClose(false);
