@@ -824,6 +824,11 @@ ul.tab-mail-list.data span.total-left small {
       .split-button-dropup {
         max-width: 331px;
         width: 100%;
+        &.addval{
+          button {
+            color:$primary-color;
+          }
+        }
         button {
           &.dropdown-toggle {
             max-width: 100%;
