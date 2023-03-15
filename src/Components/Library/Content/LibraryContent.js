@@ -1095,6 +1095,10 @@ const LibraryContent = () => {
                                             :""
                                           }
 
+                                          {data.spc_included == 0 && data.linkRelations ==0 && data.pdfLinks ==0 && (
+                                            <h6>N/A</h6>
+                                          )}
+
 
                                         </div>
                                       </li>
@@ -1448,7 +1452,11 @@ const LibraryContent = () => {
                                         <h6 className="tab-content-title">
                                           Expiration date
                                         </h6>
-                                        <h6>{data?.expireDate}</h6>
+                                        <h6>{
+                                          data?.expireDate
+                                          ? data.expireDate
+                                          : "N/A"
+                                        }</h6>
                                       </li>
                                     </ul>
                                   </div>
