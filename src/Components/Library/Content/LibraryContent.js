@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
 import { popup_alert } from "../../../popup_alert";
-import { deleteData, postData, updateConsent, resetStats} from "../../../axios/apiHelper";
+import { deleteData, postData, updateConsent, resetStats, updateTags} from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import Select from "react-select";
 import { Spinner } from "react-activity";
@@ -540,30 +540,39 @@ const LibraryContent = () => {
     }
   };
 
-  const saveButtonClicked = () => {
+  const saveButtonClicked = async () => {
+    loader("show");
+    let payload = {
+      pdfId:pdftagsid,
+    };
     if (typeof finalTags != "undefined" && finalTags.length > 0) {
       let prev_tags = finalTags;
       let new_tags = prev_tags.concat(tagClickedFirst);
       const uniqueTags = new_tags.filter((x, i, a) => a.indexOf(x) == i);
       setFinalTags(uniqueTags);
-
+      payload.tags = JSON.stringify(uniqueTags);
       if(pdftagsid != ''){
         const lib_data_index = libraryData.findIndex(el => el.id === pdftagsid);
         libraryData[lib_data_index].tags = JSON.stringify(uniqueTags);
       }
     } else {
       setFinalTags(tagClickedFirst);
-
+      payload.tags = JSON.stringify(tagClickedFirst);
       if(pdftagsid != ''){
         const lib_data_index = libraryData.findIndex(el => el.id === pdftagsid);
         libraryData[lib_data_index].tags = JSON.stringify(tagClickedFirst);
       }
     }
+    try {
+      const res = await updateTags(ENDPOINT.LIBRARYREUPDATETAGS, payload);
+    } catch (err) {
+      loader("hide");
+    }
 
     setLibraryData(libraryData);
     setupdateFlag(updateflag + 1);
-    // tags
     closeModal();
+    loader("hide");
   };
 
   return (
@@ -970,7 +979,7 @@ const LibraryContent = () => {
                                     <ul className="tab-mail-list">
                                       <li>
                                         <h6 className="tab-content-title">
-                                          <strong>Upload date</strong>
+                                          Upload date
                                         </h6>
                                         <h6>
                                           {moment(data?.created).format(
@@ -980,7 +989,7 @@ const LibraryContent = () => {
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          <strong>inforMedGo code</strong>
+                                          inforMedGo code
                                         </h6>
                                         <h6>
                                           {data?.code}
@@ -1006,7 +1015,7 @@ const LibraryContent = () => {
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          <strong>Docintel code</strong>
+                                          Docintel code
                                         </h6>
                                         <h6>
                                           {data.docintel_code}
@@ -1032,7 +1041,7 @@ const LibraryContent = () => {
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          <strong>SPC included</strong>
+                                          SPC included
                                         </h6>
                                         <h6>
                                           {data?.spc_included == 0
@@ -1042,13 +1051,13 @@ const LibraryContent = () => {
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          <strong>Language</strong>
+                                          Language
                                         </h6>
                                         <h6>No</h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          <strong>Link type</strong>
+                                          Link type
                                         </h6>
                                         <h6>
                                           {data?.linkType}
@@ -1056,7 +1065,7 @@ const LibraryContent = () => {
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          <strong>Include</strong>
+                                          Include
                                         </h6>
                                         <div className="include-links">
 
@@ -1357,7 +1366,8 @@ const LibraryContent = () => {
                                       <Button className="footer-btn" onClick={(e) => tagButtonClicked(data.id)}>
                                         Add / Remove Tags
                                       </Button>
-                                      <Link to="/library-sublink" className="footer-btn">New Sublink</Link>
+                                      <Link to="/library-sublink" state={{ pdfid: data.id }} className="footer-btn">
+                                        New Sublink</Link>
                                     </div>
                                   </div>
                                 </Tab>
@@ -1373,31 +1383,31 @@ const LibraryContent = () => {
                                           <>
                                           <li>
                                             <h6 className="tab-content-title">
-                                              <strong>Sales person</strong>
+                                              Sales person
                                             </h6>
                                             <h6>{data?.saleName}</h6>
                                           </li>
                                           <li>
                                             <h6 className="tab-content-title">
-                                              <strong>Production person</strong>
+                                              Production person
                                             </h6>
                                             <h6>{data?.productName}</h6>
                                           </li>
                                           <li>
                                             <h6 className="tab-content-title">
-                                              <strong>Client name</strong>
+                                              Client name
                                             </h6>
                                             <h6>{data?.company}</h6>
                                           </li>
                                           <li>
                                             <h6 className="tab-content-title">
-                                              <strong>Client product</strong>
+                                              Client product
                                             </h6>
                                             <h6>{data?.product}</h6>
                                           </li>
                                           <li>
                                             <h6 className="tab-content-title">
-                                              <strong>Client country</strong>
+                                              Client country
                                             </h6>
                                             <h6>{data?.country}</h6>
                                           </li>
@@ -1406,37 +1416,37 @@ const LibraryContent = () => {
                                       }
                                       <li>
                                         <h6 className="tab-content-title">
-                                          <strong>Opening limit</strong>
+                                          Opening limit
                                         </h6>
                                         <h6>{data?.limit}</h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          <strong>Link type</strong>
+                                          Link type
                                         </h6>
                                         <h6>{data?.linkType}</h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          <strong>Print</strong>
+                                          Print
                                         </h6>
                                         <h6>{data?.allow_print ? "Yes" : "No" }</h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          <strong>Download</strong>
+                                          Download
                                         </h6>
                                         <h6>{data?.allow_download ? "Yes" : "No"}</h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          <strong>Upload date</strong>
+                                          Upload date
                                         </h6>
                                         <h6>{data?.uploadedDate}</h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
-                                          <strong>Expiration date</strong>
+                                          Expiration date
                                         </h6>
                                         <h6>{data?.expireDate}</h6>
                                       </li>
@@ -1590,7 +1600,7 @@ const LibraryContent = () => {
           <Modal.Footer>
             <form>
               <div className="form-group">
-                <label for="new-tag">New Tag</label>
+                <label htmlFor="new-tag">New Tag</label>
                 <input
                   type="text"
                   className="form-control"

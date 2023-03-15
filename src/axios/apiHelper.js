@@ -18,3 +18,6 @@ export const updateConsent = (end_point, data) => {
 export const resetStats = (end_point, data) => {
   return axios.post(end_point, data);
 };
+export const updateTags = (end_point, data) => {
+  return axios.put(end_point, data);
+};
