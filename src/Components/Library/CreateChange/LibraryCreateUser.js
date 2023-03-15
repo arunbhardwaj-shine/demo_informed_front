@@ -14,14 +14,12 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LibraryCreateUser = () => {
   const [counterFlag, setCounterFlag] = useState(0);
-  const [checked, setChecked] = useState(false);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
   const navigate = useNavigate();
   const [error, setError] = useState({});
   const [userInputs, setCreateLibraryInputs] = useState({
-     "expDatetime":new Date(),
+     "expDatetime":"",
   });
   const [ebookFile,setEbookFile] = useState([])
   const [chapter, setChapter] = useState([
@@ -67,7 +65,7 @@ const LibraryCreateUser = () => {
 
   const nextButtonClicked = async(e) => {
     e.preventDefault();
-    const err = createContent(userInputs);
+    const err = createContent(userInputs,ebookFile);
 
     if (Object.keys(err)?.length) {
       setError(err);
@@ -87,9 +85,10 @@ const LibraryCreateUser = () => {
          ebookFile?.forEach(item =>{
        formData.append("ebookData",item )
       })
-      
+
       formData.append("coverPhoto",userInputs?.coverPhoto?.[0])
       formData.append("chapter",JSON.stringify(chapter ))
+      formData.append("specialRequirment",userInputs?.specialRequirment?.target.value)
       formData.append("createdBy", 18207)
       
       await postFormData(ENDPOINT.LIBRARYCREATE,formData,{
@@ -98,19 +97,12 @@ const LibraryCreateUser = () => {
         }
       });
       loader("hide");
+      navigate("/set-popup")
     }
   };
 
   const addMoreChClicked = () => {
-    const status = chapter.map((data) => {
-      if (data.chapterTitle == "") {
-        return "false";
-      } else {
-        return "true";
-      }
-    });
-
-    if (status.every((element) => element == "true")) {
+    if (chapter.every((element) => element.uploadFile != "")) {
       setChapter([
         ...chapter,
         {
@@ -119,7 +111,7 @@ const LibraryCreateUser = () => {
         },
       ]);
     } else {
-      toast.warning("Please input the chapter title atleast!");
+      toast.warning("Please input the chapter file atleast!");
     }
   };
 
@@ -132,18 +124,9 @@ const LibraryCreateUser = () => {
     setCounterFlag(counterFlag + 1);
   };
  
-  const includeVideoCheckboxChanged = (e) => {
-    if (e.target.checked == true) {
-      setChecked(true);
-    } else {
-      setChecked(false);
-    }
-  };
-
   const onChapterTitleChange = (e, i) => {
     const { value } = e.target;
     const list = [...chapter];
-    const name = chapter[i].chapterTitle;
     list[i].chapterTitle = value;
     setChapter(list);
   };
@@ -406,6 +389,7 @@ const LibraryCreateUser = () => {
                       <textarea
                         className="form-control"
                         id="formControlTextarea"
+                        onChange={(e)=>handleChange(e,"specialRequirment")}
                         rows="5"
                         placeholder="Please type your notes here.."
                       ></textarea>
@@ -460,11 +444,6 @@ const LibraryCreateUser = () => {
                         }
                         
                       />
-                       {error?.keyAuthor ? (
-                        <div className="login-validation">
-                          {error?.keyAuthor}
-                        </div>
-                      ) : null}
                     </div>
                     <div className="form-group val">
                       <label htmlFor="">Docintel format *</label>
@@ -505,22 +484,16 @@ const LibraryCreateUser = () => {
                             ) : (
                               <p>Upload your PDF</p>
                             )}
-
-                            {/* <p>
-                              {selectedPdfName == ""
-                                ? "Upload your PDF"
-                                : selectedPdfName}{" "}
-                            </p> */}
                           </div>
                         </div>
-                        {error?.uploadPdf ? (
+                        {error?.uploadFile ? (
                           <div className="login-validation-upload">
-                            {error?.uploadPdf}
+                            {error?.uploadFile}
                           </div>
                         ) : null}
                       </div>
-                    ) : // : ePrint == "video" ? (
-                    userInputs.docintelFormat == "video" ? (
+                    ) :
+                    userInputs?.docintelFormat == "video" ? (
                       <div className="form-group val">
                         <label htmlFor="">Upload video</label>
                         <div className="upload-file-box">
@@ -537,20 +510,15 @@ const LibraryCreateUser = () => {
                               <span>Choose Your File</span>
                             </label>
                             {userInputs?.uploadFile?.[0]?.name ? (
-                              <h5>{userInputs?.uploadFile?.[0].name}</h5>
+                              <h5>{userInputs?.uploadFile?.[0]?.name}</h5>
                             ) : (
                               <p>Upload your Video file</p>
                             )}
-                            {/* <p>
-                              {selectedVideoName == ""
-                                ? "Upload your Video file"
-                                : selectedVideoName}{" "}
-                            </p> */}
                           </div>
                         </div>
-                        {error?.uploadFile ? (
+                        {error?.uploadVideo ? (
                           <div className="login-validation-upload">
-                            {error?.uploadFile}
+                            {error?.uploadVideo}
                           </div>
                         ) : null}
                       </div>
@@ -612,6 +580,11 @@ const LibraryCreateUser = () => {
                                   </Button>
                                 ) : null}
                               </div>
+                              {error?.ebookErr ? (
+                            <div className="login-validation-upload">
+                            {error?.ebookErr}
+                          </div>
+                        ) : null}
                             </div>
                           </>
                         );
@@ -646,7 +619,7 @@ const LibraryCreateUser = () => {
                     // </div>
                     null}
 
-                    <div className="form-group">
+                    {/* <div className="form-group">
                       <label htmlFor="">Include video</label>
                       <div className="switch">
                         <label className="switch-light">
@@ -671,7 +644,7 @@ const LibraryCreateUser = () => {
                       ) : (
                         false
                       )}
-                    </div>
+                    </div> */}
                     <div className="form-group val">
                       <label htmlFor="">Content cover</label>
                       <div className="upload-file-box">

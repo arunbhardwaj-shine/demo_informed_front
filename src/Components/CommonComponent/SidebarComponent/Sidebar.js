@@ -419,6 +419,7 @@ const Sidebar = () => {
                     location.pathname == "/set-popup" ||
                     location.pathname == "/library-create-user" ||
                     location.pathname == "/edit-Consent-Options" ||
+                    location.pathname == "/auto_popup" ||
                     location.pathname == "/create-docintel-link") &&
                   c_id == 0
                     ? "active"
