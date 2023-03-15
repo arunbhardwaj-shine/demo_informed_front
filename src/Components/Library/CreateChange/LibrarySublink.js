@@ -21,8 +21,9 @@ import { ENDPOINT } from "../../../axios/apiConfig";
 import {postData} from "../../../axios/apiHelper";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const LibrarySublink = () => {
-  const [BusinessUnitAll, setBusinessUnitAll] = useState([]);
-  const [BusinessUnit, setBusinessUnit] = useState("");
+  const [allContents, setallContents] = useState([]);
+  const [allCodes, setAllCodes] = useState([]);
+  const [selectedArticle, setSelectedArticle] = useState("");
   const [libraryData, setLibraryData] = useState([]);
   const [createNewLink, setCreateNewLink] = useState(false);
   const [newLink, setLink] = useState({
@@ -36,6 +37,7 @@ const LibrarySublink = () => {
   }, []);
 
   const getLibraryData = async () => {
+    loader("show");
     try {
       let selectedValue = ['id','title','code'];
       let data = {
@@ -48,13 +50,20 @@ const LibrarySublink = () => {
 
       let body = data;
       const res = await postData(ENDPOINT.LIBRARY, body);
-
-      // Object.entries(res?.data?.data?.library).map(([index, item]) => {
-      //   arr.push({
-      //     value: item,
-      //     label: label,
-      //   });
-      // });
+      let arr = [];
+      let codearr = [];
+      Object.entries(res?.data?.data?.library).map(([index, item]) => {
+        arr.push({
+          value: item.id,
+          label: item.title,
+        });
+        codearr.push({
+          value: item.id,
+          label: item.code,
+        });
+        setallContents(arr);
+        setAllCodes(codearr);
+      });
       setLibraryData((oldArray) => [...oldArray, ...res?.data?.data?.library]);
       loader("hide");
 
@@ -64,8 +73,8 @@ const LibrarySublink = () => {
     }
   };
 
-  const onBusinessUnitChange = (event) => {
-    setBusinessUnit(event.value);
+  const onArticleChange = (event) => {
+    setSelectedArticle(event.value);
   };
 
   const createNewLinkClicked = () => {
@@ -113,9 +122,15 @@ const LibrarySublink = () => {
                       <div className="form-group">
                         <label htmlFor="">Content</label>
                         <Select
-                          options={BusinessUnitAll}
+                          options={allContents}
                           placeholder="Select business unit"
-                          onChange={(event) => onBusinessUnitChange(event)}
+                          onChange={(event) => onArticleChange(event)}
+                          value={
+                            selectedArticle != ""
+                            ?
+                            allContents[allContents.findIndex(el => el.value === selectedArticle)]
+                            :''
+                          }
                           className="dropdown-basic-button split-button-dropup"
                           isClearable
                         />
@@ -126,9 +141,15 @@ const LibrarySublink = () => {
                       <div className="form-group">
                         <label htmlFor="">URL</label>
                         <Select
-                          options={BusinessUnitAll}
+                          options={allCodes}
                           placeholder="Select business unit"
-                          onChange={(event) => onBusinessUnitChange(event)}
+                          onChange={(event) => onArticleChange(event)}
+                          value={
+                            selectedArticle != ""
+                            ?
+                            allCodes[allCodes.findIndex(el => el.value === selectedArticle)]
+                            :''
+                          }
                           className="dropdown-basic-button split-button-dropup"
                           isClearable
                         />
@@ -144,7 +165,7 @@ const LibrarySublink = () => {
                       <Button
                         className="btn-filled"
                         onClick={createNewLinkClicked}
-                        disabled={!BusinessUnit}
+                        disabled={!selectedArticle}
                       >
                         Create New Link +
                       </Button>
