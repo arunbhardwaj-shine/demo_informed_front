@@ -43,7 +43,7 @@ const LibrarySublink = () => {
         page: 1,
         search: '',
         type:'All',
-        selecteValue:JSON.stringify(selectedValue)
+        selectValue:JSON.stringify(selectedValue)
       };
 
       let body = data;
