@@ -1452,7 +1452,11 @@ const LibraryContent = () => {
                                         <h6 className="tab-content-title">
                                           Expiration date
                                         </h6>
-                                        <h6>{data?.expireDate}</h6>
+                                        <h6>{
+                                          data?.expireDate
+                                          ? data.expireDate
+                                          : "N/A"
+                                        }</h6>
                                       </li>
                                     </ul>
                                   </div>
