@@ -1095,6 +1095,10 @@ const LibraryContent = () => {
                                             :""
                                           }
 
+                                          {data.spc_included == 0 && data.linkRelations ==0 && data.pdfLinks ==0 && (
+                                            <h6>N/A</h6>
+                                          )}
+
 
                                         </div>
                                       </li>
