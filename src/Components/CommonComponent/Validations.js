@@ -12,20 +12,20 @@ export const createContent = (data) => {
   if (!data?.journalTitle) {
     error.contentTitle = "Journal Title is required!";
   }
-  if (!data?.author) {
+  if (!data?.keyAuthor) {
     error.contentTitle = "Author Title is required!";
   }
 
   if (!data?.docintelFormat) {
     error.docintelFormat = "Docintel Format is required!";
   }
-  if (!data?.uploadFile) {
-    error.uploadFile = "File is required!";
-  }
+  // if (!data?.uploadFile) {
+  //   error.uploadFile = "File is required!";
+  // }
 
-  if (!data?.image) {
-    error.image = "Upload cover image is required!";
-  }
+  // if (!data?.image) {
+  //   error.image = "Upload cover image is required!";
+  // }
 
   // else if (!data?.country) {
   //   error.country = "Country is required";
