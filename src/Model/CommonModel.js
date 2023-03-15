@@ -13,7 +13,8 @@ const CommonModel = ({
 }) => {
   const [selecteValue, setSelectedValue] = useState("Select Size");
   const handleSelect = (value) => {
-    setSelectedValue(value);
+    const dp_index = data[0].dropdown.findIndex(el => el.value === value);
+    setSelectedValue(data[0].dropdown[dp_index].key);
     handleQR(value);
   };
   const handleClose = () => {

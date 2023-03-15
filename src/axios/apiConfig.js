@@ -5,4 +5,7 @@ export const ENDPOINT = {
   DELETE: `library/delete-library`,
   LIBRARYSTATS: `/library/library-stats`,
   LIBRARYCHANGECONSENT: `/library/change-consent`,
+  LIBRARYCREATE: `/library/create-library`,
+  LIBRARYRESETSTATS: `/library/reset-stats`,
+  LIBRARYREUPDATETAGS: `/library/update-tags`,
 };

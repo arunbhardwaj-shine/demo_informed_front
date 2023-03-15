@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
 import { popup_alert } from "../../../popup_alert";
-import { deleteData, postData, updateConsent} from "../../../axios/apiHelper";
+import { deleteData, postData, updateConsent, resetStats, updateTags} from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import Select from "react-select";
 import { Spinner } from "react-activity";
@@ -46,6 +46,11 @@ const LibraryContent = () => {
   const [pageAll, setPageAll] = useState(false);
   const [search, setSearch] = useState("");
   const [opening_details, setOpeningDetails] = useState([]);
+  const [tagClickedFirst, setTagClickedFirst] = useState([]);
+  const [finalTags, setFinalTags] = useState([]);
+  const [tagsReRender, setTagsReRender] = useState(0);
+  const [tagsCounter, setTagsCounter] = useState(0);
+  const [pdftagsid, setpdftagsid] = useState();
 
   const navigate = useNavigate();
   let obj = {};
@@ -67,14 +72,18 @@ const LibraryContent = () => {
   const [type, setType] = useState('');
   const [showfilter, setShowFilter] = useState(false);
   const [qrValue, setQrValue] = useState("QR-code");
+  const [newTag, setNewTag] = useState("");
 
   const [libraryData, setLibraryData] = useState([]);
   const [changeConsent, setchangeConsent] = useState([]);
   const [updateflag, setupdateFlag] = useState(0);
   const [qrState, setQr] = useState({
-    leve: "",
     value: "",
   });
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [modalCounter, setModalCounter] = useState(0);
+  const [allTags, setAllTags] = useState({});
 
   const downloadQRData = [
     {
@@ -113,6 +122,7 @@ const LibraryContent = () => {
         id: 18207,
       });
       setFilterData(res?.data?.data);
+      setAllTags(res?.data?.data?.tags);
       loader("hide");
     } catch (err) {
       loader("hide");
@@ -370,7 +380,6 @@ const LibraryContent = () => {
     document.body.appendChild(downloadLink);
     downloadLink.click();
     document.body.removeChild(downloadLink);
-    console.log("e", qrState?.value);
     setShow(false);
   };
 
@@ -419,6 +428,152 @@ const LibraryContent = () => {
       loader("hide");
     }
   }
+
+  const resetCollection = async (pdf_id) => {
+    loader("show");
+    try {
+      let body = {
+        userId: 18207,
+        pdfId:pdf_id
+      };
+        const res = await resetStats(ENDPOINT.LIBRARYRESETSTATS, body);
+        let normal_data = opening_details;
+        const lib_data_index = normal_data.findIndex(el => el.pdf_id === pdf_id);
+        normal_data[lib_data_index].uniqueReader = 0;
+        normal_data[lib_data_index].opening = 0;
+        normal_data[lib_data_index].registeredReader = 0;
+
+        setOpeningDetails(normal_data);
+        setFlag(1);
+        setUpdate(update + 1);
+
+        loader("hide");
+        popup_alert({
+          visible: "show",
+          message: "Your stats has been reset <br />successfully !",
+          type: "success",
+          redirect: "",
+        });
+    } catch (err) {
+      console.log("err",err);
+      loader("hide");
+    }
+  }
+
+  const tagButtonClicked = (pdf_id) => {
+    const lib_data_index = libraryData.findIndex(el => el.id === pdf_id);
+    let get_tags = libraryData[lib_data_index]?.tags;
+    if(get_tags != ""){
+      let parsed_tag = JSON.parse(get_tags);
+      setTagClickedFirst(parsed_tag);
+    }else{
+      setTagClickedFirst([]);
+    }
+    setFinalTags([]);
+    setpdftagsid(pdf_id);
+    setIsOpen(true);
+    setModalCounter(modalCounter + 1);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+  const tagClicked = (dd) => {
+    if (!tagClickedFirst.includes(dd)) {
+      setTagClickedFirst((oldArray) => [...oldArray, dd]);
+    } else {
+      toast.error("Tag already in list.");
+    }
+  };
+
+  const removeTagFinal = (index) => {
+    const tags = finalTags;
+    const tagsClickedFirst = tagClickedFirst;
+    tags.splice(index, 1);
+    tagsClickedFirst.splice(index, 1);
+    setFinalTags(tags);
+    setTagClickedFirst(tagsClickedFirst);
+
+    setTagsReRender(tagsReRender + 1);
+  };
+
+  const newTagChanged = (e) => {
+    setNewTag(e.target.value);
+    e.target.value = "";
+    const new_atg = document.getElementById("new-tag");
+    new_atg.value = "";
+  };
+
+  const addTag = async () => {
+    if (typeof newTag == "undefined" || newTag.trim().length == 0) {
+      toast.error("Please input a tag");
+    } else {
+      let temp_tags = tagClickedFirst.map((data) => {
+        return data.toLowerCase();
+      });
+      //  console.log(allTags)
+      let alltemp_tags = [];
+      Object.entries(allTags).map((data) => {
+        return alltemp_tags.push(...data);
+      });
+      alltemp_tags = alltemp_tags.map((data) => {
+        return data.toLowerCase();
+      });
+
+      if (
+        !temp_tags.includes(newTag.toLowerCase()) &&
+        !alltemp_tags.includes(newTag.toLowerCase())
+      ) {
+        setTagClickedFirst((oldArray) => [...oldArray, newTag]);
+
+        const body = {
+          user_id: localStorage.getItem("user_id"),
+          tags: newTag,
+        };
+        //console.log(body);
+      } else {
+        toast.error("Tag already in list.");
+      }
+      setNewTag("");
+      setTagsCounter(tagsCounter + 1);
+    }
+  };
+
+  const saveButtonClicked = async () => {
+    loader("show");
+    let payload = {
+      pdfId:pdftagsid,
+    };
+    if (typeof finalTags != "undefined" && finalTags.length > 0) {
+      let prev_tags = finalTags;
+      let new_tags = prev_tags.concat(tagClickedFirst);
+      const uniqueTags = new_tags.filter((x, i, a) => a.indexOf(x) == i);
+      setFinalTags(uniqueTags);
+      payload.tags = JSON.stringify(uniqueTags);
+      if(pdftagsid != ''){
+        const lib_data_index = libraryData.findIndex(el => el.id === pdftagsid);
+        libraryData[lib_data_index].tags = JSON.stringify(uniqueTags);
+      }
+    } else {
+      setFinalTags(tagClickedFirst);
+      payload.tags = JSON.stringify(tagClickedFirst);
+      if(pdftagsid != ''){
+        const lib_data_index = libraryData.findIndex(el => el.id === pdftagsid);
+        libraryData[lib_data_index].tags = JSON.stringify(tagClickedFirst);
+      }
+    }
+    try {
+      const res = await updateTags(ENDPOINT.LIBRARYREUPDATETAGS, payload);
+    } catch (err) {
+      loader("hide");
+    }
+
+    setLibraryData(libraryData);
+    setupdateFlag(updateflag + 1);
+    closeModal();
+    loader("hide");
+  };
 
   return (
     <>
@@ -1083,8 +1238,8 @@ const LibraryContent = () => {
                                                   <div className="data-progress success-progress">
                                                     <ProgressBar
                                                       variant="success"
-                                                      now={100}
-                                                      label={details?.opening}
+                                                      now = {details.opening == 0 ? 0 : 100}
+                                                      label = {details?.opening}
                                                     />
                                                     {/* <ProgressBar
                                                     variant="success"
@@ -1097,6 +1252,7 @@ const LibraryContent = () => {
                                                             details.limit) *
                                                           100
                                                     }
+                                                    now={100}
                                                     label={details.opening}
                                                   /> */}
                                                   </div>
@@ -1166,7 +1322,7 @@ const LibraryContent = () => {
                                       <Button className="footer-btn">
                                         Analytics
                                       </Button>
-                                      <Button className="footer-btn reset">
+                                      <Button className="footer-btn reset" onClick={(e) => resetCollection(data.id)}>
                                         Reset the collected data
                                       </Button>
                                     </div>
@@ -1207,12 +1363,11 @@ const LibraryContent = () => {
                                       <Button className="footer-btn">
                                         Edit Docintel Link
                                       </Button>
-                                      <Button className="footer-btn">
+                                      <Button className="footer-btn" onClick={(e) => tagButtonClicked(data.id)}>
                                         Add / Remove Tags
                                       </Button>
-                                      <Button className="footer-btn">
-                                        New Sublink
-                                      </Button>
+                                      <Link to="/library-sublink" state={{ pdfid: data.id }} className="footer-btn">
+                                        New Sublink</Link>
                                     </div>
                                   </div>
                                 </Tab>
@@ -1387,6 +1542,91 @@ const LibraryContent = () => {
           </Modal.Body>
         </Modal>
       </div>
+
+
+      <Modal id="tagsModal" show={isOpen}>
+          <Modal.Header>
+            <h5 className="modal-title" id="staticBackdropLabel">
+              Add Tags
+            </h5>
+            <button
+              type="button"
+              className="btn-close"
+              onClick={closeModal}
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="select-tags">
+              <h6>Select Tag :</h6>
+              <div className="tag-lists">
+                <div className="tag-lists-view">
+                  {Object.values(allTags).map((data) => {
+                    return (
+                      <>
+                        <div onClick={(event) => tagClicked(data)}>{data} </div>
+                      </>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+            <div className="selected-tags">
+              <h6>
+                Selected Tag <span>| {tagClickedFirst.length}</span>
+              </h6>
+
+              <div className="total-selected">
+                {
+                  tagClickedFirst.map((data, index) => {
+                  return (
+                    <>
+                      <div className="tag-cross">
+                        {data.innerHTML || data}
+                        <img
+                          src={path_image + "filter-close.svg"}
+                          alt="Close-filter"
+                          onClick={() => removeTagFinal(index)}
+                        />
+                      </div>
+                    </>
+                  );
+                })
+              }
+              </div>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <form>
+              <div className="form-group">
+                <label htmlFor="new-tag">New Tag</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="new-tag"
+                  value={newTag}
+                  onChange={(e) => newTagChanged(e)}
+                />
+
+                <button
+                  onClick={addTag}
+                  type="button"
+                  className="btn btn-primary add btn-bordered"
+                >
+                  Add
+                </button>
+              </div>
+            </form>
+            <button
+              type="button"
+              className="btn btn-primary save btn-filled"
+              onClick={saveButtonClicked}
+            >
+              Save
+            </button>
+          </Modal.Footer>
+        </Modal>
     </>
   );
 };
