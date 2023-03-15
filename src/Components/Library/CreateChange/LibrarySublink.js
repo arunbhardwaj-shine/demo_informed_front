@@ -31,7 +31,9 @@ const LibrarySublink = () => {
   const [libraryData, setLibraryData] = useState([]);
   const [createNewLink, setCreateNewLink] = useState(false);
   const [reRenderFlag, setreRenderFlag] = useState(0);
+  const [showSubLinkList, setshowSubLinkList] = useState(false);
   const [changeConsent, setchangeConsent] = useState([]);
+  const [subLinkData, setsubLinkData] = useState([]);
   const [flag, setFlag] = useState(0);
   const [opening_details, setOpeningDetails] = useState([]);
   const [userId, setUserId] = useState();
@@ -40,8 +42,6 @@ const LibrarySublink = () => {
   const [identifier, setIdentifier] = useState("");
   const [newLink, setLink] = useState({
     delivery: "",
-    identifier: "",
-    isCheckBoth: false,
   });
 
   const [types, setTypes] = useState([
@@ -111,12 +111,31 @@ const LibrarySublink = () => {
     setLink({ ...newLink, [name]: e });
   };
 
-  const handleSubmit = () => {
-    setLink({
-      ...newLink,
-      isCheckBoth: newLink?.delivery && newLink?.identifier,
-    });
+  const handleSubmit = async() => {
+    loader("show");
+    try {
+      let body = {
+        pdfId:selectedArticle,
+        campaignId: newLink.delivery,
+        name:identifier
+      };
+      const res = await postData(ENDPOINT.LIBRARYREADDSUBLINK, body);
+      setsubLinkData((oldArray) => [...oldArray, res?.data?.data]);
+      setLink({
+        ...newLink,
+        delivery:""
+      });
+
+      setshowSubLinkList(true);
+      loader("hide");
+    }catch (err) {
+      console.log("err",err);
+      loader("hide");
+    }
     setCreateNewLink(false);
+
+    // console.log(newLink.delivery);
+
   };
 
   const getArticleData = () => {
@@ -814,55 +833,63 @@ const LibrarySublink = () => {
                       </Button>
                     </div>
                     <div className="sublink_right_block">
-                      {!newLink?.isCheckBoth ? (
+                      {typeof subLinkData === 'undefined' ? (
                         <div className="no-sublink">
                           <img src={path_image + "dummy-sublink.png"} alt="" />
                         </div>
                       ) : (
-                        <div className="sublink-list">
-                          <div className="sublink-listed-view d-flex align-items-center">
-                            <div className="sublink-listed-view-block">
-                              <h5>Identifier text ipsum quamodio</h5>
-                              <h6>Social media</h6>
-                              <div className="sublink-list-link">
-                                <Link to="https://docintel.app/Critical_Care_CEE_CIS/YJPbRILv_JUFCJTEzJUNEWSVBNCVEOCVEREQ">
-                                  https://docintel.app/Critical_Care_CEE_CIS/YJPbRILv_JUFCJTEzJUNEWSVBNCVEOCVEREQ
-                                </Link>
-                                <span
-                                  className="copy-content"
-                                  onClick={() => {
-                                    toast.success(
-                                      "content copied to the clipboard!"
-                                    );
-                                    window.navigator.clipboard.writeText(
-                                      "https://docintel.app/Critical_Care_CEE_CIS/YJPbRILv_JUFCJTEzJUNEWSVBNCVEOCVEREQ"
-                                    );
-                                  }}
-                                >
-                                  <img
-                                    src={path_image + "copy-content.svg"}
-                                    alt="Copy"
-                                  />
-                                </span>
-                              </div>
-                            </div>
-                            <div className="sublink-qr">
-                              <div className="sublink-qr-download">
-                                <img
-                                  src={path_image + "qr-code-img.png"}
-                                  alt=""
-                                />
-                                <Link>
-                                  <img
-                                    src={path_image + "download.svg"}
-                                    alt=""
-                                  />
-                                </Link>
-                              </div>
-                            </div>
-                            <Button className="btn-bordered">Analytics</Button>
-                          </div>
-                        </div>
+                        <>
+                        {
+                            subLinkData?.map((data, index) => {
+                              return (
+                                <>
+                                <div className="sublink-list">
+                                  <div className="sublink-listed-view d-flex align-items-center">
+                                    <div className="sublink-listed-view-block">
+                                      <h5>{data?.name}</h5>
+                                      <h6>{data?.campaignId}</h6>
+                                      <div className="sublink-list-link">
+                                        <Link to={data?.link}>
+                                          {data?.link}
+                                        </Link>
+                                        <span
+                                          className="copy-content"
+                                          onClick={() => {
+                                            toast.success(
+                                              "content copied to the clipboard!"
+                                            );
+                                            window.navigator.clipboard.writeText(
+                                              data?.link
+                                            );
+                                          }}
+                                        >
+                                          <img
+                                            src={path_image + "copy-content.svg"}
+                                            alt="Copy"
+                                          />
+                                        </span>
+                                      </div>
+                                    </div>
+                                    <div className="sublink-qr">
+                                      <div className="sublink-qr-download">
+                                        <img
+                                          src={path_image + "qr-code-img.png"}
+                                          alt=""
+                                        />
+                                        <img
+                                          src={path_image + "download.svg"}
+                                          alt=""
+                                        />
+                                      </div>
+                                    </div>
+                                    <Button className="btn-bordered">Analytics</Button>
+                                  </div>
+                                </div>
+                                </>
+                              )
+                            })
+                        }
+                        </>
                       )}
                     </div>
                   </Col>

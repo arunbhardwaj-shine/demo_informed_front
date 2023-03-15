@@ -8,4 +8,5 @@ export const ENDPOINT = {
   LIBRARYCREATE: `/library/create-library`,
   LIBRARYRESETSTATS: `/library/reset-stats`,
   LIBRARYREUPDATETAGS: `/library/update-tags`,
+  LIBRARYREADDSUBLINK: `/library/add-subLink`,
 };
