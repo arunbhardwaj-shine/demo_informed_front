@@ -1851,6 +1851,12 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 .create-change-content ul.tab-mail-list.data.change .form-group {
     margin: 0;
 }
+#tagsModal .modal-body{
+  overflow-y: auto;
+}
+#tagsModal .modal-footer form {
+    flex: 1 1;
+}
 /**Library Style End**/
 
 
