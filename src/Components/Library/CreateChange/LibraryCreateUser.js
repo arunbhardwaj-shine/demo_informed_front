@@ -353,6 +353,7 @@ const LibraryCreateUser = () => {
                         name="expDatetime"
                         onChange={(e)=>handleChange(e,"expDatetime")}
                         dateFormat="dd/MM/yyyy"
+                        className="form-control"
                       />
                     </div>
                     <div className="form-group">

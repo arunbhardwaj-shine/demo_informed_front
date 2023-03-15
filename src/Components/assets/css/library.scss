@@ -1209,6 +1209,9 @@ select::-ms-expand {
     flex: 0 0 80px;
     font-weight: 400;
 }
+.create-change-content .form-group fieldset label[for="limitagreed2"] {
+    padding-right: 32px;
+}
 .create-change-content .form-group input:checked[type="checkbox"], .create-change-content .form-group .form-check-group input:checked[type="radio"] {
     background-color: $secondary-green;
     border-color: $secondary-green;
@@ -1601,7 +1604,7 @@ select::-ms-expand {
 		font-size: 20px;
 		line-height: 23px;
 		color: #004A89;
-		margin: 0 0 18px;
+		margin: 9px 0 18px;
 	}
 }
 .sublink_right {
@@ -1623,8 +1626,9 @@ select::-ms-expand {
 		border: 0.5px solid $light-gray;
 		box-shadow: inset 0px 0px 15px rgba(0, 102, 190, 0.24);
 		border-radius: 15px;
-		min-height: 65vh;
+		min-height: 69vh;
 		padding: 24px;
+    margin: 0;
 		.no-sublink {
 			display: flex;
 			justify-content: center;
@@ -1718,12 +1722,23 @@ select::-ms-expand {
 
 .no_content_selected {
     text-align: center;
-    padding: 160px 0 0;
+   
   h3 {
     font-weight: 300;
     font-size: 36px;
     line-height: 42px;
     color: $light-gray;
+    padding: 160px 0 0;
+  }
+  .library-content-box-layuot{
+    .doc-content-main-box{
+      max-width:445px;
+      margin-left: auto;
+      width:100%;
+      .tab-panel{
+        text-align: left;
+      }
+    }
   }
 }
 
@@ -1833,6 +1848,9 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 .library-content-box-layuot > h4 span {
     font-weight: 500;
 }
+.create-change-content ul.tab-mail-list.data.change .form-group {
+    margin: 0;
+}
 /**Library Style End**/
 
 
@@ -1888,6 +1906,9 @@ form.product-unit .btn-voilet.btn.btn-primary, #download-qr .modal-footer button
 @media only screen and (max-width:1500px){
   .library_create .library_create-box, .library_create .library_create-box.spc {
     max-width: 31.3%;
+}
+.sublink_right .sublink_right_block {
+    min-height: 572px;
 }
 .create-change-content .form-group {
     margin: 15px 0 20px;
@@ -2010,6 +2031,9 @@ form.product-unit .btn-voilet.btn.btn-primary, #download-qr .modal-footer button
   .sublink_right .sublink_right_block .no-sublink img {
     max-width: 150px;
 }
+.create-change-content .form-group .split-button-dropup > div:nth-child(3){
+  max-width: 100%;
+}
 }
 @media (max-width: $layout-breakpoint-extraLarge) {
   .library_create .library_create-box {
@@ -2034,19 +2058,20 @@ form.product-unit .btn-voilet.btn.btn-primary, #download-qr .modal-footer button
     min-width: 86px;
     font-size: 14px;
 }
-.no_content_selected {
-    padding: 100px 0 0;
-}
 .no_content_selected h3 {
     font-size: 28px;
     line-height: 38px;
+     padding: 100px 0 0;
 }
 .create-change-content .sublink_left .product-unit .form-group.blank {
     line-height: 1;
 }
-  .sublink_left h5 {
+  .sublink_left h5, .sublink_right h5 {
     font-size: 16px;
     line-height: 21px;
+}
+.sublink_left h5 {
+    margin: 3px 0 10px;
 }
   .sublink_left {
     flex: 0 0 400px;
@@ -2110,7 +2135,7 @@ form.product-unit .btn-voilet.btn.btn-primary, #download-qr .modal-footer button
       font-size: 10px;
   }
   .library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list h6.tab-content-title {
-      flex: 0 0 120px;
+      flex: 0 0 130px;
   }
   .data-progress {
       margin-right: 4px;
