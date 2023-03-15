@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Col,
@@ -17,20 +17,53 @@ import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import Tooltip from "react-bootstrap/Tooltip";
 import CommonModel from "../../../Model/CommonModel";
+import { loader } from "../../../loader";
+import { ENDPOINT } from "../../../axios/apiConfig";
+import { postData } from "../../../axios/apiHelper";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const LibrarySublink = () => {
-  const [BusinessUnitAll, setBusinessUnitAll] = useState([
-    { value: "Critical", label: "Critical Care" },
-    { value: "Haematology", label: "Haematology" },
-    { value: "Immunotherapy", label: "Immunotherapy" },
-  ]);
+  const [BusinessUnitAll, setBusinessUnitAll] = useState([]);
   const [BusinessUnit, setBusinessUnit] = useState("");
+  const [libraryData, setLibraryData] = useState([]);
   const [createNewLink, setCreateNewLink] = useState(false);
   const [newLink, setLink] = useState({
     delivery: "",
     identifier: "",
     isCheckBoth: false,
   });
+
+  useEffect(() => {
+    getLibraryData();
+  }, []);
+
+  const getLibraryData = async () => {
+    try {
+      let selectedValue = ["id", "title", "code"];
+      let data = {
+        id: 18207,
+        page: 1,
+        search: "",
+        type: "All",
+        selecteValue: JSON.stringify(selectedValue),
+      };
+
+      let body = data;
+      const res = await postData(ENDPOINT.LIBRARY, body);
+
+      // Object.entries(res?.data?.data?.library).map(([index, item]) => {
+      //   arr.push({
+      //     value: item,
+      //     label: label,
+      //   });
+      // });
+      setLibraryData((oldArray) => [...oldArray, ...res?.data?.data?.library]);
+      loader("hide");
+    } catch (err) {
+      console.log("err");
+      loader("hide");
+    }
+  };
+
   const onBusinessUnitChange = (event) => {
     setBusinessUnit(event.value);
   };
