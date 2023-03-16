@@ -15,6 +15,7 @@ import { useLocation, Link, useNavigate } from "react-router-dom";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import {postData, getData} from "../../../axios/apiHelper";
 import { toast } from "react-toastify";
+import QRCode from "qrcode.react";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const SubLinkListing = ({
@@ -22,6 +23,7 @@ const SubLinkListing = ({
 }) => {
   const [sectionLoader, setSectionLoader] = useState(false);
   const [subLinkData, setSubLinkData] = useState([]);
+  const [qrState, setQr] = useState({value: ""});
 
   useEffect(() => {
     getSubLinkListingData();
@@ -35,6 +37,29 @@ const SubLinkListing = ({
       setSectionLoader(false);
     }
   }
+
+  const setDownloadLink = (link) => {
+    setSectionLoader(true);
+    setQr({ ...qrState, value: link });
+    setTimeout(function () {
+      downloadQRCode();
+    }, 500);
+  }
+
+  const downloadQRCode = () => {
+    // Generate download with use canvas and stream
+    const canvas = document.getElementById("qr-gen");
+    const pngUrl = canvas
+      .toDataURL("image/png")
+      .replace("image/png", "image/octet-stream");
+    let downloadLink = document.createElement("a");
+    downloadLink.href = pngUrl;
+    downloadLink.download = `QR-code.png`;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+    setSectionLoader(false);
+  };
 
   return (
     <>
@@ -90,7 +115,7 @@ const SubLinkListing = ({
                           src={path_image + "qr-code-img.png"}
                           alt=""
                         />
-                        <div className="sublink-download">
+                        <div className="sublink-download" onClick={(e) => setDownloadLink(data?.link)}>
                           <img
                           src={path_image + "download.svg"}
                           alt=""
@@ -101,6 +126,14 @@ const SubLinkListing = ({
                     <Button className="btn-bordered">Analytics</Button>
                   </div>
                 </div>
+                <QRCode
+                  style={{ display: "none" }}
+                  id="qr-gen"
+                  value={qrState?.value}
+                  size={290}
+                  level={'H'}
+                  includeMargin={true}
+                />
                 </>
               )
             })
