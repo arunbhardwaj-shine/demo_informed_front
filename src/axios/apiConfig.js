@@ -9,5 +9,7 @@ export const ENDPOINT = {
   LIBRARYRESETSTATS: `/library/reset-stats`,
   LIBRARYREUPDATETAGS: `/library/update-tags`,
   LIBRARYREADDSUBLINK: `/library/add-subLink`,
-  LIBRARYRESUBLINKLISTING: `/library/sublink`,
+  LIBRARYREADDSUBLINK: `/library/add-subLink`,
+
+  LIBRARYDETAIL: `/library/user-detail`,
 };
