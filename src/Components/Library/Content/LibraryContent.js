@@ -7,6 +7,7 @@ import { ENDPOINT } from "../../../axios/apiConfig";
 import Select from "react-select";
 import { Spinner } from "react-activity";
 import CommonModel from "../../../Model/CommonModel";
+import CommonConfirmModel from "../../../Model/CommonConfirmModel";
 import Tooltip from "react-bootstrap/Tooltip";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import {
@@ -84,6 +85,11 @@ const LibraryContent = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [modalCounter, setModalCounter] = useState(0);
   const [allTags, setAllTags] = useState({});
+  const [resetDataId, setResetDataId] = useState();
+  const [popupMessage, setPopupMessage] = useState({
+      message1: "",
+      message2: "",
+  });
 
   const downloadQRData = [
     {
@@ -301,14 +307,32 @@ const LibraryContent = () => {
     }
   };
 
-  const showConfirmationPopup = (e, id) => {
-    setUserId(id);
-    if (confirmationpopup) {
-      setConfirmationPopup(false);
+  const showConfirmationPopup = (stateMsg, e, id) => {
+    if (stateMsg == "delete") {
+        setUserId(id);
+        setPopupMessage({
+            message1: "You are about to remove this content from any reader and every device forever.",
+            message2: "Are you sure you want to do this?",
+        });
+        if (confirmationpopup) {
+            setConfirmationPopup(false);
+        } else {
+            setConfirmationPopup(true);
+        }
     } else {
-      setConfirmationPopup(true);
+        setDeleteStatus(false);
+        setResetDataId(id);
+        setPopupMessage({
+            message1: " You are about to reset the collected data",
+            message2: "Are you sure you want to do this?",
+        });
+        if (confirmationpopup) {
+            setConfirmationPopup(false);
+        } else {
+            setConfirmationPopup(true);
+        }
     }
-  };
+};
 
     const deleteUser = async () => {
       loader("show");
@@ -458,6 +482,7 @@ const LibraryContent = () => {
       console.log("err",err);
       loader("hide");
     }
+    hideConfirmationModal();
   }
 
   const tagButtonClicked = (pdf_id) => {
@@ -932,7 +957,7 @@ const LibraryContent = () => {
                                 <div className="dlt_btn">
                                   <button
                                     onClick={(e) =>
-                                      showConfirmationPopup(e, data?.id)
+                                      showConfirmationPopup( "delete",e, data?.id)
                                     }
                                   >
                                     <img
@@ -1326,7 +1351,7 @@ const LibraryContent = () => {
                                       <Button className="footer-btn">
                                         Analytics
                                       </Button>
-                                      <Button className="footer-btn reset" onClick={(e) => resetCollection(data.id)}>
+                                      <Button className="footer-btn reset" onClick={(e) => showConfirmationPopup("reset", e, data?.id)}>
                                         Reset the collected data
                                       </Button>
                                     </div>
@@ -1509,46 +1534,16 @@ const LibraryContent = () => {
       />
 
       <div className="delete">
-        <Modal
-          className="modal send-confirm"
-          id="delete-confirm"
-          show={confirmationpopup}
-        >
-          <Modal.Header>
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              onClick={(e) => hideConfirmationModal()}
-            ></button>
-          </Modal.Header>
-
-          <Modal.Body>
-            <img src={path_image + "alert.png"} alt="" />
-            <h4>
-              You are about to remove this content from any reader and every
-              device forever.
-              <br />
-              Are you sure you want to do this?
-            </h4>
-            <div className="modal-buttons">
-              <button
-                type="button"
-                className="btn btn-primary btn-filled"
-                onClick={(e) => deleteUser()}
-              >
-                Yes Please!
-              </button>
-              <button
-                type="button"
-                className="btn btn-primary btn-bordered light"
-                onClick={(e) => hideConfirmationModal()}
-              >
-                Cancel
-              </button>
-            </div>
-          </Modal.Body>
-        </Modal>
+        <CommonConfirmModel
+          show = {confirmationpopup}
+          onClose = {hideConfirmationModal}
+          deleteUser = {deleteUser}
+          popupMessage = {popupMessage}
+          path_image = {path_image}
+          deletestatus = {deletestatus}
+          resetDataId = {resetDataId}
+          resetCollectionFn = {resetCollection}
+        />
       </div>
 
 
