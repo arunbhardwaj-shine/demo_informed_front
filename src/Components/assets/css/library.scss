@@ -1703,6 +1703,12 @@ select::-ms-expand {
 		min-height: 69vh;
 		padding: 24px;
     margin: 0;
+    position: relative;
+    .loader{
+      position: absolute;
+      border-radius: 15px;
+      background: rgb(134 155 173 / 19%);
+    }
 		.no-sublink {
 			display: flex;
 			justify-content: center;
