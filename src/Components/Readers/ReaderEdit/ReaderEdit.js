@@ -41,7 +41,7 @@ const ReaderEdit = () => {
           <div className="row justify-content-end align-items-center">
             <div className="col-12 col-md-1">
               <div className="header-btn-left">
-                <button  className="btn btn-primary btn-bordered back"><Link to="/readers-view">Back</Link></button>
+                <Link className="btn btn-primary btn-bordered back" to="/readers-view">Back</Link>
               </div>
             </div>
             <div className="col-12 col-md-9">

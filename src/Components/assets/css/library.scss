@@ -1178,55 +1178,73 @@ select::-ms-expand {
     justify-content: space-between;
     margin-bottom: 8px;
 }
-.crm-detail-content {
-    border: 1px dashed #0066BE;
-    border-radius: 30px;
-    padding: 16px 32px;
+.crm-detail {
+    margin: 5px 0 0;
+    .crm-detail-content {
+       border: 1px dashed #0066BE;
+       border-radius: 30px;
+       padding: 16px 32px;
+       .crm-review{
+        display: flex;
+        flex-wrap: wrap;
+       .crm-review-detail{
+          flex: 1 1;
+          padding-left: 32px;
+          &:first-child{
+            padding-left: 0px;
+          }
+          &:last-child{
+            ul{
+              border-right:0;
+              li{
+                h6{
+                  &.tab-content-title{
+                     min-width: 101px;
+                  }
+                }
+              }
+            }
+          }
+          &:nth-child(2){
+            ul{
+              li{
+                h6{
+                  &.tab-content-title{
+                     min-width: 80px;
+                  }
+                }
+              }
+            }
+          }
+        ul{
+            padding: 0 0px 0 0;
+            margin: 0;
+            border-right: 1px dashed #0066BE;
+            li{
+              list-style: none;
+              display: flex;
+              align-items: center;
+              margin: 0 0 14px;
+              h6{
+                  font-weight: 400;
+                  font-size: 18px;
+                  line-height: 21px;
+                  margin:0;
+                  color:#70899E;
+                &.tab-content-title{
+                  color: #004A89;
+                  display: flex;
+                  min-width: 140px;
+                  margin-right: 23px;
+                }
+              }
+            }
+        }
+       }
+       }
+    }
 }
-.crm-detail-content .crm-review-detail ul {
-    padding: 0 0px 0 0;
-    margin: 0;
-    border-right: 1px dashed #0066BE;
-}
-.crm-detail-content .crm-review-detail:last-child ul {
-    border-right:0;
-}
-.crm-detail-content .crm-review-detail ul li {
-    list-style: none;
-    display: flex;
-    align-items: center;
-    margin: 0 0 14px;
-}
-.crm-detail-content .crm-review-detail ul li h6 {
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 21px;
-    margin:0;
-    color:#70899E;
-}
-.crm-review {
-    display: flex;
-    flex-wrap: wrap;
-}
-.crm-review .crm-review-detail {
-    flex: 1 1;
-    padding-left: 32px;
-}
-.crm-review .crm-review-detail:first-child {
-    padding-left: 0px;
-}
-.crm-detail-content .crm-review-detail ul li h6.tab-content-title {
-    color: #004A89;
-    display: flex;
-    min-width: 140px;
-    margin-right: 23px;
-}
-.crm-review .crm-review-detail:nth-child(2) ul.tab-mail-list h6.tab-content-title {
-    min-width: 80px;
-}
-.crm-review .crm-review-detail:last-child ul.tab-mail-list h6.tab-content-title {
-    min-width: 101px;
-}
+
 .form_action h4, .crm-detail-content h4{
   color:$dark-blue;
   font-weight: 500;

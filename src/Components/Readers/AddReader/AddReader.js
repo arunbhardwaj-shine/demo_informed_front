@@ -10,6 +10,7 @@ import {
 import { Link } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import Select from "react-select";
+import  CommonModel from "../../../Model/CommonModel"
 
 const ReaderAdd = () => {
   const [field, setField] = useState([]);
@@ -17,6 +18,7 @@ const ReaderAdd = () => {
   const [newProduct, setNewProduct] = useState("");
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
    const [countryAll, setCountryAll] = useState([
     { value: "India", label: "India" },
     { value: "Australia", label: "Australia" },
@@ -37,6 +39,31 @@ const ReaderAdd = () => {
     { value: "2", label: "2" },
     { value: "3", label: "3" },
   ]);
+   const downloadQRData = [
+    // {
+    //   label: "Select Size",
+    //   type: "dropdown",
+    //   dropdown: [
+    //     {
+    //       key: "Tiny",
+    //       value: "M",
+    //     },
+    //     {
+    //       key: "Article",
+    //       value: "H",
+    //     },
+    //     {
+    //       key: "Large Print",
+    //       value: "L",
+    //     },
+    //   ],
+    // },
+    {
+      label: "Speciality",
+      type: "input",
+      placeholder: "Type your speciality",
+    },
+  ];
 
    const addNewProductClicked = (e) => {
     e.preventDefault();
@@ -54,7 +81,7 @@ const ReaderAdd = () => {
                 <div className="col-12 col-md-1">
                   <div className="header-btn-left">
                     <button className="btn btn-primary btn-bordered back">
-                      <Link to="/library-create">Back</Link>
+                      <Link to="/readers-view">Back</Link>
                     </button>
                   </div>
                 </div>
@@ -219,7 +246,7 @@ const ReaderAdd = () => {
                         />
                         <div className="add_product">
                           <span>&nbsp;</span>
-                          <Button  onClick={addNewProductClicked}
+                          <Button onClick={addNewProductClicked}
                             className="btn-bordered btn-voilet"
                           >
                             Add new Discipline +
@@ -475,97 +502,21 @@ const ReaderAdd = () => {
               </Form> */}
               </div>
             </div>
-            <div className="crm-detail">
-                <div className="crm-detail-content">
-                  <h4>CRM Details</h4>
-                  <div className="crm-review">
-                    <div className="crm-review-detail">
-                      <ul class="tab-mail-list">
-                        <li>
-                          <h6 class="tab-content-title">First name</h6>
-                          <h6>User first name</h6>
-                        </li>
-                        <li>
-                          <h6 class="tab-content-title">Middle name</h6>
-                          <h6>User middle name</h6>
-                        </li>
-                        <li>
-                          <h6 class="tab-content-title">Last name</h6>
-                          <h6>User last name</h6>
-                        </li>
-                        <li>
-                          <h6 class="tab-content-title">Primary email </h6>
-                          <h6>example@gmail.com</h6>
-                        </li>
-                        <li>
-                          <h6 class="tab-content-title">Alternative email </h6>
-                          <h6>example@gmail.com</h6>
-                        </li>
-                        <li>
-                          <h6 class="tab-content-title">Primary phone </h6>
-                          <h6>+000 000000000</h6>
-                        </li>
-                        <li>
-                          <h6 class="tab-content-title">Alternative phone </h6>
-                          <h6>+000 000000000</h6>
-                        </li>
-                      </ul>
-                    </div>
-                     <div className="crm-review-detail">
-                      <ul class="tab-mail-list">
-                        <li>
-                          <h6 class="tab-content-title">Country </h6>
-                          <h6>United Kingdom</h6>
-                        </li>
-                        <li>
-                          <h6 class="tab-content-title">Province</h6>
-                          <h6>Province name</h6>
-                        </li>
-                        <li>
-                          <h6 class="tab-content-title">Hospital</h6>
-                          <h6>Hospital name</h6>
-                        </li>
-                        <li>
-                          <h6 class="tab-content-title">Title</h6>
-                          <h6>User title</h6>
-                        </li>
-                        <li>
-                          <h6 class="tab-content-title">Speciality</h6>
-                          <h6>User speciality</h6>
-                        </li>
-                        <li>
-                          <h6 class="tab-content-title">Discipline</h6>
-                          <h6>User Discipline</h6>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="crm-review-detail">
-                       <ul class="tab-mail-list">
-                        <li>
-                          <h6 class="tab-content-title">Product</h6>
-                          <h6>Product name</h6>
-                        </li>
-                        <li>
-                          <h6 class="tab-content-title">Interest area</h6>
-                          <h6>Interest area</h6>
-                        </li>
-                        <li>
-                          <h6 class="tab-content-title">Rep contact</h6>
-                          <h6>Rep name</h6>
-                        </li>
-                        <li>
-                          <h6 class="tab-content-title">Notes</h6>
-                          <h6>Condi ment zcsum dolor nibhdolor masa euismod phartra donec mas faucibus quisque nuneque ipsum</h6>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-            </div>
+            
           </Row>
 
         </div>
-        <Modal
+         <CommonModel
+        show={show}
+        onClose={setShow}
+        heading={"Add New Speciality"}
+        data={downloadQRData}
+        footerButton={"Add"}
+        // handleSubmit={downloadQRCode}
+        // handleQR={handleQR}
+        // inputValue
+      />
+        {/* <Modal
           show={show}
           onHide={handleClose}
           className="send-confirm"
@@ -620,15 +571,7 @@ const ReaderAdd = () => {
               </button>
             </div>
           </Modal.Body>
-          {/* <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
-          </Button>
-        </Modal.Footer> */}
-        </Modal>
+        </Modal> */}
       </Col>
     </>
   );

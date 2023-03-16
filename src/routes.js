@@ -164,8 +164,8 @@ const Routing = () => {
                 <Route path="/readers-view" element={<NewReaders />} />
                 <Route path="/reader-edit" element={<ReaderEdit />} />
                 <Route path="/reader-add" element={<ReaderAdd />} />
-                <Route path="/smart-list-add" element={<SmartListAdd />} />
                 <Route path="/reader-review" element={<ReaderReview />} />
+                <Route path="/smart-list-add" element={<SmartListAdd />} />
                 <Route path="/timeline-detail" element={<TimelineDetail />} />
                 <Route path="/library-content" element={<LibraryContent />} />
                 <Route path="/library-edit" element={<LibraryContent />} />
