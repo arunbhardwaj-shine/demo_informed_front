@@ -131,7 +131,8 @@ const SetPopup = (props) => {
   const getSmartListData = (flag) => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
-      user_id: localStorage.getItem("user_id"),
+      // user_id: localStorage.getItem("user_id"),
+      user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
       search: getsearch,
       filter: "",
     };
@@ -156,7 +157,8 @@ const SetPopup = (props) => {
     loader("show");
     const getalCountry = async () => {
       const body = {
-        user_id: localStorage.getItem("user_id"),
+        // user_id: localStorage.getItem("user_id"),
+        user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
         language: "",
         ibu: "",
       };
@@ -195,7 +197,8 @@ const SetPopup = (props) => {
     }
 
     const body = {
-      user_id: localStorage.getItem("user_id"),
+      // user_id: localStorage.getItem("user_id"),
+      user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
       language: check_lng_index,
       ibu: ibu,
     };
@@ -259,7 +262,8 @@ const SetPopup = (props) => {
 
   useEffect(() => {
     const body = {
-      user_id: localStorage.getItem("user_id"),
+      // user_id: localStorage.getItem("user_id"),
+      user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
     };
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -364,7 +368,8 @@ const SetPopup = (props) => {
     if (typeof getSmartListId != "undefined" && getSmartListId !== 0) {
       loader("show");
       const body = {
-        user_id: localStorage.getItem("user_id"),
+        // user_id: localStorage.getItem("user_id"),
+        user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
         list_id: getSmartListId,
       };
       axios
@@ -433,7 +438,8 @@ const SetPopup = (props) => {
       //  loader("show");
       setShowProgressBar(true);
       const body = {
-        user_id: localStorage.getItem("user_id"),
+        // user_id: localStorage.getItem("user_id"),
+        user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
         pdf_id: "3487",
         subject: emailSubject,
         template_id: templateId,
@@ -551,7 +557,8 @@ const SetPopup = (props) => {
     if (newTemplateName != "") {
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       const body = {
-        user_id: localStorage.getItem("user_id"),
+        // user_id: localStorage.getItem("user_id"),
+        user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
         template_id: templateId,
         image_url: "",
         template_name: newTemplateName,
@@ -634,7 +641,8 @@ const SetPopup = (props) => {
       toast.warning("Please enter name or email first");
     } else {
       const body = {
-        user_id: localStorage.getItem("user_id"),
+        // user_id: localStorage.getItem("user_id"),
+        user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
         name: name,
         email: email,
       };
@@ -775,7 +783,8 @@ const SetPopup = (props) => {
 
       const body = {
         data: body_data,
-        user_id: localStorage.getItem("user_id"),
+        // user_id: localStorage.getItem("user_id"),
+        user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
         smart_list_id: "",
       };
 
@@ -831,7 +840,8 @@ const SetPopup = (props) => {
       }
     } else {
       let formData = new FormData();
-      let user_id = localStorage.getItem("user_id");
+      // let user_id = localStorage.getItem("user_id");
+      let user_id = "rjiGlqA9DXJVH7bDDTX0Lg==";
       formData.append("user_id", user_id);
       formData.append("smart_list_id", "");
       formData.append("reader_file", selectedFile);
@@ -943,7 +953,8 @@ const SetPopup = (props) => {
       }
 
       const body = {
-        user_id: localStorage.getItem("user_id"),
+        // user_id: localStorage.getItem("user_id"),
+        user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
         source_code: template,
         template_id: "",
         name: template_name,
@@ -995,7 +1006,8 @@ const SetPopup = (props) => {
     setShowLessInfo(true);
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
-      user_id: localStorage.getItem("user_id"),
+      // user_id: localStorage.getItem("user_id"),
+      user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
       list_id: smart_list_id,
     };
     loader("show");
@@ -1064,7 +1076,8 @@ const SetPopup = (props) => {
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         if (dataUrl) {
           const body = {
-            user_id: localStorage.getItem("user_id"),
+            // user_id: localStorage.getItem("user_id"),
+            user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
             template_id: templateId,
             image_url: dataUrl,
             template_name: "",
@@ -1106,7 +1119,8 @@ const SetPopup = (props) => {
     ) {
       if (editorRef.current) {
         const body = {
-          user_id: localStorage.getItem("user_id"),
+          // user_id: localStorage.getItem("user_id"),
+          user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
           source_code: editorRef.current.getContent(),
           template_id: templateId,
           name: templateName,
@@ -1145,7 +1159,8 @@ const SetPopup = (props) => {
       templateId != 0
     ) {
       const body = {
-        user_id: localStorage.getItem("user_id"),
+        // user_id: localStorage.getItem("user_id"),
+        user_id: "rjiGlqA9DXJVH7bDDTX0Lg==",
         template_id: templateId,
       };
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;

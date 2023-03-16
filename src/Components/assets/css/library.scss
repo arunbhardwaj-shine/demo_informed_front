@@ -6,6 +6,72 @@
   margin-top: 30px;
   gap: 0% 5%;
   flex-wrap: wrap;
+  &.readerlist{
+     gap: 0% 2.3%;
+     .doc-content-main-box {
+      flex: 0 0 23.27%;
+      .tab-content{
+        padding: 18px 16px 12px;
+        min-height: 275px;
+        .tab-pane{
+          min-height:230px;
+        }
+        .tab-mail-list{
+          &.data{
+             &.change {
+              padding: 0px 0 0;
+              li{
+                margin-bottom: 20px;
+              }
+             }
+            li{
+              padding:3px 0;
+              &:first-child{
+                min-height:initial;
+                padding:3px 0;
+              }
+            }
+          }
+           h6.tab-content-title{
+            font-weight: 500;
+            color: rgba(0, 74, 137, 0.55);
+            flex: 0 0 129px;
+            margin: 0;
+          }
+        }
+        .data-main-box{
+          .tab-mail-list{
+          &.data{
+            li{
+              &:first-child{
+                min-height:initial;
+                padding:3px 0;
+                align-items: center;
+              }
+            }
+          }
+        }
+        }
+        .data-main-footer-sec{
+          .btn{
+            &.btn-primary{
+              padding: 7px 8px;
+            }
+            &.btn-bordered{
+              font-size: 14px;
+              line-height: 16px;
+              min-width: 128px;
+            }
+            &.update{
+              font-size: 14px;
+              line-height: 16px;
+              min-width: 89px;
+            }
+          }
+        }
+      }
+  }
+}
   .doc-content-main-box {
     background: $white;
     box-shadow: $library-box-shadow;
@@ -57,6 +123,8 @@
         }
       }
     }
+  .tabs-data{
+    flex:1 1;
     .nav-tabs {
       border: 0;
       margin: 0 -16px 0;
@@ -129,20 +197,28 @@
       }
       }
     }
+  }
     .tab-content {
         background: $white;
         mix-blend-mode: normal;
         box-shadow: 0px -4px 8px rgb(0 102 190 / 7%);
         border-radius: 20px 20px 20px;
         margin: 1px -16px 0;
-        padding: 18px 16px 0;
-        min-height: 320px;
+        padding: 18px 16px 16px;
+        min-height: 290px;
         display: flex;
+        height: calc(100% - 16px);
        justify-content: space-between;
-        >.active {
+       .tab-pane{
+          width:100%;
+          min-height: 273px;
+        &.active {
         display: flex;
-        min-height: 303px;
-        width:100%;
+       }
+       .tab-panel{
+         width:100%;
+       }
+        
       }
       .tab-content-links {
          margin-bottom: 8px;
@@ -217,6 +293,28 @@
       .tab-mail-list.data {
         li{
           padding:18px 0 18px;
+          .select-dropdown-wrapper{
+            flex:1 1;
+            .select{
+              justify-content: flex-end;
+              .split-button-dropup{
+                width:100%;
+                	& > div {
+                  &:nth-child(3) {
+                    padding: 3px 14px;
+                    font-size: 14px;
+                    div{
+                      div{
+                        font-size: 14px;
+                        font-weight: 400;
+                      }
+                    }
+                  }
+                }
+              }
+              
+            }
+          }
         }
       }
       .tab-mail-list.change {
@@ -226,6 +324,7 @@
       }
       .data-main-box {
          height: 100%;
+         width:100%;
           ul.tab-mail-list{
             li {
             display: flex;
@@ -242,7 +341,12 @@
           }
         }
       }
-      .footer-btn-wrapper {
+      .data-main-footer-sec{
+        .data-main-footer-sec-inner{
+           border-top: 0.5px dashed $primary-color;
+           padding-top: 12px;
+        }
+        .footer-btn-wrapper {
         border-top: 0.5px dashed $primary-color;
         padding-top: 12px;
         margin: 0px 0px;
@@ -264,7 +368,7 @@
           }
         }
       }
- 
+    }
     }
   }
 }
@@ -274,6 +378,10 @@
 	padding: 24px 72px;
 	margin: 0 0 40px;
   &.spc-content{
+    background: transparent;
+    padding: 36px 12px;
+  }
+  &.create-reader{
     background: transparent;
     padding: 36px 12px;
   }
@@ -337,6 +445,7 @@
 					} 
           div.css-14el2xx-placeholder{
             color: #97B6CF;
+            font-weight: 300;
              }
 		    	}
 				}
@@ -523,7 +632,7 @@
 .library-content-box-layuot .dlt_btn button img {
     width: 20px;
 }
-.library-content-box-layuot .doc-content-main-box .tab-content .data-main-box ul.tab-mail-list.data li:first-child {
+.library-content-box-layuot .doc-content-main-box .tab-content .data-main-box .tab-mail-list.data li:first-child {
     min-height: 47px;
     align-items: flex-start;
     padding: 11px 0 5px;
@@ -556,6 +665,11 @@ ul.tab-mail-list.data span.total-left small {
     margin-right: 8px;
     padding: 0px 0 0 35px;
 }
+.readerlist .data-progress {
+    margin-right: 0px;
+    padding: 0px 0 0 32px;
+}
+
 .data-progress.limited {
     margin-top: -5px;
 }
@@ -565,9 +679,34 @@ ul.tab-mail-list.data span.total-left small {
   border-radius: 27px;
   height: 24px;
 }
-// .tab-mail-list.data .success-progress  .progress {
-//   background: #00D4C0;
-// }
+.readerlist .tab-mail-list.data .progress {
+    width: auto;
+    min-width:50px;
+    background: #FFBE2C;
+    border-radius: 3px;
+    height:auto;
+}
+.readerlist .tab-mail-list.data .send .progress {
+    background: #FFBE2C;
+}
+.readerlist .tab-mail-list.data .open .progress {
+    background: #00D4C0;
+}
+.readerlist .tab-mail-list.data .delivered .progress {
+    background: #F58289;
+}
+.readerlist .tab-mail-list.data .rtr .progress {
+    background: #8A4E9C;
+}
+.readerlist .tab-mail-list.data .qr-opening .progress {
+    background: #0066BE;
+}
+.readerlist .tab-mail-list.data .go-opening .progress {
+    background: #004A89;
+}
+.readerlist .tab-mail-list.data .content-opening .progress {
+    background: #00003C;
+}
 .tab-mail-list.data .progress .progress-bar, .tab-mail-list.data .data-progress.success span, .tab-mail-list.data .data-progress.danger span {
     border-radius: 27px;
     padding: 4px 7px;
@@ -596,6 +735,32 @@ ul.tab-mail-list.data span.total-left small {
 .tab-mail-list.data .progress .progress-bar.bg-default {
     background: rgba(151, 182, 207, 0.2);
     color: $light-gray;
+}
+.readerlist .tab-mail-list.data .progress .progress-bar {
+    background: transparent;
+    width:100%!important;
+    padding: 1px 7px;
+}
+.readerlist .tab-mail-list.data .send .progress-bar {
+    color: #AA7D17;
+}
+.readerlist .tab-mail-list.data .open .progress-bar {
+    color: #05766B;
+}
+.readerlist .tab-mail-list.data .delivered .progress-bar {
+    color: #A53239;
+}
+.readerlist .tab-mail-list.data .rtr .progress-bar {
+    color: #530969;
+}
+.readerlist .tab-mail-list.data .qr-opening .progress-bar {
+    color: rgba(255, 255, 255, 0.62);
+}
+.readerlist .tab-mail-list.data .go-opening .progress-bar {
+    color: rgba(255, 255, 255, 0.62);
+}
+.readerlist .tab-mail-list.data .content-opening .progress-bar {
+    color: rgba(255, 255, 255, 0.62);
 }
 .data-progress span {
   font-size: 9px;
@@ -659,6 +824,11 @@ ul.tab-mail-list.data span.total-left small {
       .split-button-dropup {
         max-width: 331px;
         width: 100%;
+        &.addval{
+          button {
+            color:$primary-color;
+          }
+        }
         button {
           &.dropdown-toggle {
             max-width: 100%;
@@ -715,7 +885,7 @@ ul.tab-mail-list.data span.total-left small {
 			color: $light-gray;
 			padding: 8px 25px;
 			border-radius: 21px;
-      margin: 0;
+      margin: 0 0 1px;
 			&:hover {
 				background: $primary-color;
 				box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
@@ -897,7 +1067,7 @@ ul.tab-mail-list.tag a {
 .data-main-footer-sec .footer-btn button {
   padding: 9px;
   font-size: 15px;
-  margin-bottom: 4px;
+  margin: 0;
 }
 
 .doc-content-main-box ul.tab-mail-list.data b {
@@ -948,7 +1118,13 @@ ul.tab-mail-list.data li .select-dropdown-wrapper select {
   background: $white url(../images/dropdown-arrow.svg) no-repeat;
   background-position: 93% center;
 }
-
+.readerlist ul.tab-mail-list.data li .select-dropdown-wrapper select {
+    min-width: initial;
+    max-width: 222px;
+    margin-right: 0px;
+    padding: 9px 24px;
+    background-position: 90% center;
+}
 select::-ms-expand {
   display: none;
 }
@@ -996,18 +1172,77 @@ select::-ms-expand {
     font-weight: 300;
     color: $dark-gray;
 }
-.form_action h4{
+.create-reader-form-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+.crm-detail-content {
+    border: 1px dashed #0066BE;
+    border-radius: 30px;
+    padding: 16px 32px;
+}
+.crm-detail-content .crm-review-detail ul {
+    padding: 0 0px 0 0;
+    margin: 0;
+    border-right: 1px dashed #0066BE;
+}
+.crm-detail-content .crm-review-detail:last-child ul {
+    border-right:0;
+}
+.crm-detail-content .crm-review-detail ul li {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    margin: 0 0 14px;
+}
+.crm-detail-content .crm-review-detail ul li h6 {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21px;
+    margin:0;
+    color:#70899E;
+}
+.crm-review {
+    display: flex;
+    flex-wrap: wrap;
+}
+.crm-review .crm-review-detail {
+    flex: 1 1;
+    padding-left: 32px;
+}
+.crm-review .crm-review-detail:first-child {
+    padding-left: 0px;
+}
+.crm-detail-content .crm-review-detail ul li h6.tab-content-title {
+    color: #004A89;
+    display: flex;
+    min-width: 140px;
+    margin-right: 23px;
+}
+.crm-review .crm-review-detail:nth-child(2) ul.tab-mail-list h6.tab-content-title {
+    min-width: 80px;
+}
+.crm-review .crm-review-detail:last-child ul.tab-mail-list h6.tab-content-title {
+    min-width: 101px;
+}
+.form_action h4, .crm-detail-content h4{
   color:$dark-blue;
   font-weight: 500;
   margin-bottom: 12px;
   text-transform: unset;
 }
-
+.crm-detail-content h4 {
+    margin-bottom: 23px;
+}
 .create-change-content .form-group fieldset {
     display: flex;
     align-items: center;
 }
-
+.create-change-content .form-group fieldset label {
+    cursor: pointer;
+}
 .create-change-content .form-group fieldset input, .create-change-content .form-group .form-check-group input {
     border: 1px solid $light-gray;
     width: 16px;
@@ -1029,6 +1264,9 @@ select::-ms-expand {
     color: $dark-gray;
     flex: 0 0 80px;
     font-weight: 400;
+}
+.create-change-content .form-group fieldset label[for="limitagreed2"] {
+    padding-right: 32px;
 }
 .create-change-content .form-group input:checked[type="checkbox"], .create-change-content .form-group .form-check-group input:checked[type="radio"] {
     background-color: $secondary-green;
@@ -1422,7 +1660,7 @@ select::-ms-expand {
 		font-size: 20px;
 		line-height: 23px;
 		color: #004A89;
-		margin: 0 0 18px;
+		margin: 9px 0 18px;
 	}
 }
 .sublink_right {
@@ -1444,8 +1682,9 @@ select::-ms-expand {
 		border: 0.5px solid $light-gray;
 		box-shadow: inset 0px 0px 15px rgba(0, 102, 190, 0.24);
 		border-radius: 15px;
-		min-height: 65vh;
+		min-height: 69vh;
 		padding: 24px;
+    margin: 0;
 		.no-sublink {
 			display: flex;
 			justify-content: center;
@@ -1456,6 +1695,9 @@ select::-ms-expand {
 				max-width: 233px;
 			}
 		}
+    .sublink-list{
+      padding-bottom: 20px;
+    }
 	}
 }
 .sublink-listed-view-block {
@@ -1463,6 +1705,7 @@ select::-ms-expand {
 	box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
 	border-radius: 13px;
 	padding: 12px;
+  width:100%;
 	h5 {
 		@include h5;
 		color: $primary-color;
@@ -1493,14 +1736,15 @@ select::-ms-expand {
 		img {
 			max-width: 48px;
 		}
-		a {
+		.sublink-download {
 			margin-left: 5px;
-			width: 40px;
-			height: 40px;
+			width: 30px;
+			height: 30px;
 			display: flex;
 			text-align: center;
 			align-items: center;
 			justify-content: center;
+      cursor: pointer;
 		}
 	}
 }
@@ -1508,6 +1752,8 @@ select::-ms-expand {
 	button {
 		&.btn-bordered {
 			min-width: 106px;
+      font-size: 14px;
+      line-height: 16px;
 		}
 	}
 }
@@ -1539,12 +1785,23 @@ select::-ms-expand {
 
 .no_content_selected {
     text-align: center;
-    padding: 160px 0 0;
+   
   h3 {
     font-weight: 300;
     font-size: 36px;
     line-height: 42px;
     color: $light-gray;
+    padding: 160px 0 0;
+  }
+  .library-content-box-layuot{
+    .doc-content-main-box{
+      max-width:445px;
+      margin-left: auto;
+      width:100%;
+      .tab-panel{
+        text-align: left;
+      }
+    }
   }
 }
 
@@ -1654,6 +1911,25 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 .library-content-box-layuot > h4 span {
     font-weight: 500;
 }
+.create-change-content ul.tab-mail-list.data.change .form-group {
+    margin: 0;
+}
+#tagsModal .modal-body{
+  overflow-y: auto;
+}
+#tagsModal .modal-footer form {
+    flex: 1 1;
+}
+.form-group.primary_phone .dropdown-basic-button {
+    max-width: 124px;
+    margin-right: 13px;
+}
+.form-group.primary_phone .dropdown-basic-button.split-button-dropup > div:nth-child(3){
+background-position: 83% center;
+}
+.form-group.primary_phone input.form-control {
+    max-width: 308px;
+}
 /**Library Style End**/
 
 
@@ -1709,6 +1985,9 @@ form.product-unit .btn-voilet.btn.btn-primary, #download-qr .modal-footer button
 @media only screen and (max-width:1500px){
   .library_create .library_create-box, .library_create .library_create-box.spc {
     max-width: 31.3%;
+}
+.sublink_right .sublink_right_block {
+    min-height: 572px;
 }
 .create-change-content .form-group {
     margin: 15px 0 20px;
@@ -1831,6 +2110,9 @@ form.product-unit .btn-voilet.btn.btn-primary, #download-qr .modal-footer button
   .sublink_right .sublink_right_block .no-sublink img {
     max-width: 150px;
 }
+.create-change-content .form-group .split-button-dropup > div:nth-child(3){
+  max-width: 100%;
+}
 }
 @media (max-width: $layout-breakpoint-extraLarge) {
   .library_create .library_create-box {
@@ -1855,19 +2137,20 @@ form.product-unit .btn-voilet.btn.btn-primary, #download-qr .modal-footer button
     min-width: 86px;
     font-size: 14px;
 }
-.no_content_selected {
-    padding: 100px 0 0;
-}
 .no_content_selected h3 {
     font-size: 28px;
     line-height: 38px;
+     padding: 100px 0 0;
 }
 .create-change-content .sublink_left .product-unit .form-group.blank {
     line-height: 1;
 }
-  .sublink_left h5 {
+  .sublink_left h5, .sublink_right h5 {
     font-size: 16px;
     line-height: 21px;
+}
+.sublink_left h5 {
+    margin: 3px 0 10px;
 }
   .sublink_left {
     flex: 0 0 400px;
@@ -1931,7 +2214,7 @@ form.product-unit .btn-voilet.btn.btn-primary, #download-qr .modal-footer button
       font-size: 10px;
   }
   .library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list h6.tab-content-title {
-      flex: 0 0 120px;
+      flex: 0 0 130px;
   }
   .data-progress {
       margin-right: 4px;

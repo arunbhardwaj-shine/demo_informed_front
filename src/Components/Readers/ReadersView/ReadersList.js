@@ -1,6 +1,7 @@
 import React,{useState} from 'react';
-import { Accordion, Button, Col, Dropdown, DropdownButton, OverlayTrigger, Row, Tab, Tabs, Tooltip } from 'react-bootstrap';
+import { Accordion, Button, Col, Dropdown, DropdownButton, OverlayTrigger, ProgressBar, Row, Tab, Tabs, Tooltip } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import Select from "react-select";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
  
 const NewReaders = () => {
@@ -37,7 +38,33 @@ const data = [
   const [sortUser, setSortUserd] = useState("Select User");
   const userDropDownClicked = (e) => {setSortUserd(e);};
   const [filterdata, setFilterData] = useState([]);
+  const [filterObject, setFilterObject] = useState({});
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+    const [types, setTypes] = useState([
+    { value: "Online", label: "Online" },
+    { value: "Offline", label: "Offline" },
+    { value: "Sunshine", label: "Sunshine" },
+    ]);
+  const handleOnFilterChange = (e, item, index, key) => {
+    if (!filterObject[key]) {
+      filterObject[key] = [];
+    }
+
+    if (e?.target?.checked == true) {
+      filterObject[key]?.push(item);
+    } else {
+      const index = filterObject[key]?.indexOf(item);
+      if (index > -1) {
+        filterObject[key]?.splice(index, 1);
+        if (filterObject[key]?.length == 0) {
+          delete filterObject[key];
+        }
+      }
+    }
+
+    setFilterObject(filterObject);
+  };
+  
 function LinkWithTooltip({ id, children, href, tooltip }) {
   return (
     <OverlayTrigger
@@ -89,38 +116,14 @@ function LinkWithTooltip({ id, children, href, tooltip }) {
                     </button>
                   </form>
                 </div>
-                <div
-                  className="filter-by nav-item dropdown"
-                >
+                <div className="filter-by nav-item dropdown">
                   <button
                     className="btn btn-secondary dropdown"
                     type="button"
                     id="dropdownMenuButton2"
                   >
                     Filter By
-                      <svg
-                        className="close-arrow"
-                        width="13"
-                        height="12"
-                        viewBox="0 0 13 12"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <rect
-                          width="2.09896"
-                          height="15.1911"
-                          rx="1.04948"
-                          transform="matrix(0.720074 0.693897 -0.720074 0.693897 11.0977 0)"
-                          fill="#0066BE"
-                        />
-                        <rect
-                          width="2.09896"
-                          height="15.1911"
-                          rx="1.04948"
-                          transform="matrix(0.720074 -0.693897 0.720074 0.693897 0 1.45898)"
-                          fill="#0066BE"
-                        />
-                      </svg>
+                      <svg class="filter-arrow" width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z" fill="#97B6CF"></path><path d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z" fill="#97B6CF"></path><path d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z" fill="#97B6CF"></path></svg>
                   </button>
                 </div>
 
@@ -142,103 +145,106 @@ function LinkWithTooltip({ id, children, href, tooltip }) {
             <div className="doc-content-main-box col">
                 <div className="doc-content-header">
                     <div className="doc-content">
-                        <h4>Reader Name</h4>
+                        <h4>CRM Name</h4>
                     </div>
                 </div>
-                <Tabs defaultActiveKey="personal-details" className="mb-3" fill>
-                    <Tab eventKey="personal-details" title="Personal Details">
+                <div className="tabs-data">
+                <Tabs defaultActiveKey="personal-details" fill>
+                    <Tab eventKey="personal-details" title="Personal Details" className="flex-column justify-content-between">
                       <div className="tab-panel d-flex flex-column justify-content-between">
                         <ul className="tab-mail-list">
                             <li>
-                                <h6 className='tab-content-title'><strong>Email:</strong></h6>
+                                <h6 className='tab-content-title'>Email</h6>
                                 <h6>arun1@mailinator.com</h6>
                             </li>
                             <li>
-                                <h6 className='tab-content-title'><strong>Country:</strong></h6>
+                                <h6 className='tab-content-title'>Country</h6>
                                 <h6>Azerbaijan</h6>
                             </li>
                             <li>
-                                <h6 className='tab-content-title'><strong>User Status:</strong></h6>
+                                <h6 className='tab-content-title'>User Status</h6>
                                 <h6>HCP</h6>
                             </li>
                             <li>
-                                <h6 className='tab-content-title'><strong>Last Email:</strong></h6>
+                                <h6 className='tab-content-title'>Interests</h6>
                                 <h6>N/A</h6>
                             </li>
                             <li>
-                                <h6 className='tab-content-title'><strong>Last Activity:</strong></h6>
+                                <h6 className='tab-content-title'>Last Email</h6>
                                 <h6>N/A</h6>
                             </li>
                             <li>
-                                <h6 className='tab-content-title'><strong>Interests:</strong></h6>
+                                <h6 className='tab-content-title'>Last Activity</h6>
                                 <h6>N/A</h6>
                             </li>
                         </ul>
-                          <div className="data-main-footer-sec">
-                              <div className="footer-btn">
-                                  <button className="btn btn-primary btn-filled" type="submit">
-                                    <Link to="/reader-edit">Edit Details</Link>
-                                  </button>
-                              </div>
-                          </div>
-                    </div>
+                        </div>
+                        <div className="data-main-footer-sec">
+                            <div className="data-main-footer-sec-inner">
+                                <div className="footer-btn d-flex justify-content-end">
+                                    <Link to="/reader-edit" className="btn btn-primary btn-filled">Edit</Link>
+                                </div>
+                            </div>
+                        </div>
                     </Tab>
-                    <Tab eventKey="usage" title="Usage">
-                        <div className="data-main-box">
+                    <Tab eventKey="usage" title="Usage" className="flex-column justify-content-between">
+                        <div className="data-main-box tab-panel d-flex flex-column justify-content-between">
                             <ul className="tab-mail-list data">
                                 <li>
-                                    <h5>Emails Sent : <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)." href="#">
-                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
-                                    <p className='data_box'>6</p>
+                                    <h6 className="tab-content-title">Emails Sent<LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h6>
+                                        <div className="data-progress send">
+                                            <ProgressBar variant="default" now={20} label={"20"}/>
+                                        </div>
                                 </li>
                                 <li>
-                                    <h5>Emails Opened : <LinkWithTooltip tooltip="Number of opening counts for specific article." href="#">
-                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
-                                    <p className='data_box'>32</p>
+                                    <h6 className="tab-content-title">Emails Opened<LinkWithTooltip tooltip="Number of opening counts for specific article." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h6>
+                                        <div className="data-progress open">
+                                            <ProgressBar variant="default" now={15} label={"2"}/>
+                                        </div>
                                 </li>
                                 <li>
-                                    <h5>Content Delivered : <LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content." href="#">
-                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
-                                    <p className='data_box'>23</p>
+                                    <h6 className="tab-content-title">Content Delivered<LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h6>
+                                        <div className="data-progress delivered">
+                                            <ProgressBar variant="default" now={2} label={"2"}/>
+                                        </div>
                                 </li>
                                 <li>
-                                    <h5>Content with RTR : <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)." href="#">
-                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
-                                    <p className='data_box'>6</p>
+                                    <h6 className="tab-content-title">Content with RTR<LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h6>
+                                        <div className="data-progress rtr">
+                                            <ProgressBar variant="default" now={5} label={"5"}/>
+                                        </div>
                                 </li>
                                 <li>
-                                    <h5>QR Openings : <LinkWithTooltip tooltip="Number of opening counts for specific article." href="#">
-                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
-                                    <p className='data_box'>32</p>
+                                    <h6 className="tab-content-title">QR Openings<LinkWithTooltip tooltip="Number of opening counts for specific article." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h6>
+                                        <div className="data-progress qr-opening">
+                                            <ProgressBar variant="default" now={11} label={"11"}/>
+                                        </div>
                                 </li>
                                 <li>
-                                    <h5>GO Openings : <LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content." href="#">
-                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
-                                    <p className='data_box'>23</p>
+                                    <h6 className="tab-content-title">GO Openings<LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h6>
+                                        <div className="data-progress go-opening">
+                                            <ProgressBar variant="default" now={25} label={"25"}/>
+                                        </div>
                                 </li>
                                 <li>
-                                    <h5>Content Openings : <LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content." href="#">
-                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
-                                    <p className='data_box'>2</p>
+                                    <h6 className="tab-content-title">Content Openings<LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h6>
+                                        <div className="data-progress content-opening">
+                                            <ProgressBar variant="default" now={19} label={"19"}/>
+                                        </div>
                                 </li>
                             </ul>
-                            <ul className="tab-mail-list">
-                            <li>
-                                <h5 className='tab-content-title'><strong>Last Email:</strong></h5>
-                                <h5>N/A</h5>
-                            </li>
-                            <li>
-                                <h5 className='tab-content-title'><strong>Last Activity:</strong></h5>
-                                <h5>N/A</h5>
-                            </li>
-                            <li>
-                                <h5 className='tab-content-title'><strong>Interests:</strong></h5>
-                                <h5>N/A</h5>
-                            </li>
-                        </ul>
-                            <div className="data-main-footer-sec">
-                                <div className="footer-btn">
-                                    <button className="btn btn-primary btn-filled" type="submit"><Link to="/timeline-detail">See Timeline</Link></button>
+                        </div>
+                        <div className="data-main-footer-sec">
+                            <div className="data-main-footer-sec-inner">
+                                <div className="footer-btn d-flex justify-content-end">
+                                    <Link className="btn btn-primary btn-bordered" to="/timeline-detail">See time line</Link>
                                 </div>
                             </div>
                         </div>
@@ -248,7 +254,174 @@ function LinkWithTooltip({ id, children, href, tooltip }) {
                         <div className="data-main-box change-tab-main-box">
                             <ul className="tab-mail-list data change">
                                 <li>
-                                    <h5 className='tab-content-title'><strong>User Status:</strong></h5>
+                                    <h6 className='tab-content-title'>User Status</h6>
+                                    <div className="select-dropdown-wrapper">
+                                        <div className="select">
+                                            <Select
+                                                options={types}
+                                                //   defaultValue={data.linkType == "Online"
+                                                //     ? types[0]
+                                                //     : data.linkType == "Offline"
+                                                //     ? types[1]
+                                                //     : data.linkType == "Sunshine"
+                                                //     ? types[2]
+                                                //     : "Select"}
+                                                //   onChange={(event) =>
+                                                //     onConsentChange(event,data.id)
+                                                //   }
+                                                id={"consent_dropdown_"}
+                                                className="dropdown-basic-button split-button-dropup"
+                                                isClearable
+                                                />
+                                            </div>
+                                        </div>
+                                    {/* <div className="select-dropdown-wrapper">
+                                        <div className="select">
+                                            <select>
+                                                <option value="1">Sunshine</option>
+                                                <option value="2">Offline Offer</option>
+                                                <option value="3">Online Only</option>
+                                            </select>
+                                        </div>
+                                    </div> */}
+                                </li>
+                                <li>
+                                    <h6 className='tab-content-title'>User Country</h6>
+                                    <div className="select-dropdown-wrapper">
+                                        <div className="select">
+                                            <Select
+                                                options={types}
+                                                id={"consent_dropdown_"}
+                                                className="dropdown-basic-button split-button-dropup"
+                                                isClearable
+                                                />
+                                            </div>
+                                        </div>
+                                </li>
+                            </ul>
+                            <div className="data-main-footer-sec">
+                                <div className="footer-btn d-flex justify-content-end">
+                                    <button className="btn btn-primary btn-filled update" type="submit">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </Tab>
+                </Tabs>
+                </div>
+            </div>
+             <div className="doc-content-main-box col">
+                <div className="doc-content-header">
+                    <div className="doc-content">
+                        <h4>CRM Name</h4>
+                    </div>
+                </div>
+                <div className="tabs-data">
+                <Tabs defaultActiveKey="personal-details" fill>
+                    <Tab eventKey="personal-details" title="Personal Details" className="flex-column justify-content-between">
+                      <div className="tab-panel d-flex flex-column justify-content-between">
+                        <ul className="tab-mail-list">
+                            <li>
+                                <h6 className='tab-content-title'>Email</h6>
+                                <h6>arun1@mailinator.com</h6>
+                            </li>
+                            <li>
+                                <h6 className='tab-content-title'>Country</h6>
+                                <h6>Azerbaijan</h6>
+                            </li>
+                            <li>
+                                <h6 className='tab-content-title'>User Status</h6>
+                                <h6>HCP</h6>
+                            </li>
+                            <li>
+                                <h6 className='tab-content-title'>Interests</h6>
+                                <h6>N/A</h6>
+                            </li>
+                            <li>
+                                <h6 className='tab-content-title'>Last Email</h6>
+                                <h6>N/A</h6>
+                            </li>
+                            <li>
+                                <h6 className='tab-content-title'>Last Activity</h6>
+                                <h6>N/A</h6>
+                            </li>
+                        </ul>
+                        </div>
+                        <div className="data-main-footer-sec">
+                            <div className="data-main-footer-sec-inner">
+                                <div className="footer-btn d-flex justify-content-end">
+                                    <Link to="/reader-edit" className="btn btn-primary btn-filled">Edit</Link>
+                                </div>
+                            </div>
+                        </div>
+                    </Tab>
+                    <Tab eventKey="usage" title="Usage" className="flex-column justify-content-between">
+                        <div className="data-main-box tab-panel d-flex flex-column justify-content-between">
+                            <ul className="tab-mail-list data">
+                                <li>
+                                    <h6 className="tab-content-title">Emails Sent<LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h6>
+                                        <div className="data-progress send">
+                                            <ProgressBar variant="default" now={20} label={"20"}/>
+                                        </div>
+                                </li>
+                                <li>
+                                    <h6 className="tab-content-title">Emails Opened<LinkWithTooltip tooltip="Number of opening counts for specific article." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h6>
+                                        <div className="data-progress open">
+                                            <ProgressBar variant="default" now={15} label={"2"}/>
+                                        </div>
+                                </li>
+                                <li>
+                                    <h6 className="tab-content-title">Content Delivered<LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h6>
+                                        <div className="data-progress delivered">
+                                            <ProgressBar variant="default" now={2} label={"2"}/>
+                                        </div>
+                                </li>
+                                <li>
+                                    <h6 className="tab-content-title">Content with RTR<LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h6>
+                                        <div className="data-progress rtr">
+                                            <ProgressBar variant="default" now={5} label={"5"}/>
+                                        </div>
+                                </li>
+                                <li>
+                                    <h6 className="tab-content-title">QR Openings<LinkWithTooltip tooltip="Number of opening counts for specific article." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h6>
+                                        <div className="data-progress qr-opening">
+                                            <ProgressBar variant="default" now={11} label={"11"}/>
+                                        </div>
+                                </li>
+                                <li>
+                                    <h6 className="tab-content-title">GO Openings<LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h6>
+                                        <div className="data-progress go-opening">
+                                            <ProgressBar variant="default" now={25} label={"25"}/>
+                                        </div>
+                                </li>
+                                <li>
+                                    <h6 className="tab-content-title">Content Openings<LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h6>
+                                        <div className="data-progress content-opening">
+                                            <ProgressBar variant="default" now={19} label={"19"}/>
+                                        </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div className="data-main-footer-sec">
+                            <div className="data-main-footer-sec-inner">
+                                <div className="footer-btn d-flex justify-content-end">
+                                    <Link className="btn btn-primary btn-bordered" to="/timeline-detail">See time line</Link>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </Tab>
+                    <Tab eventKey="change-tab" title="Change">
+                        <div className="data-main-box change-tab-main-box">
+                            <ul className="tab-mail-list data change">
+                                <li>
+                                    <h6 className='tab-content-title'>User Status</h6>
                                     <div className="select-dropdown-wrapper">
                                         <div className="select">
                                             <select>
@@ -260,7 +433,7 @@ function LinkWithTooltip({ id, children, href, tooltip }) {
                                     </div>
                                 </li>
                                 <li>
-                                    <h5 className='tab-content-title'><strong>User Country:</strong></h5>
+                                    <h6 className='tab-content-title'>User Country</h6>
                                     <div className="select-dropdown-wrapper">
                                         <div className="select">
                                             <select>
@@ -273,112 +446,118 @@ function LinkWithTooltip({ id, children, href, tooltip }) {
                                 </li>
                             </ul>
                             <div className="data-main-footer-sec">
-                                <div className="footer-btn">
-                                    <button className="btn btn-primary btn-filled" type="submit">Update</button>
+                                <div className="footer-btn d-flex justify-content-end">
+                                    <button className="btn btn-primary btn-filled update" type="submit">Update</button>
                                 </div>
                             </div>
                         </div>
                     </Tab>
                 </Tabs>
+                </div>
             </div>
             <div className="doc-content-main-box col">
                 <div className="doc-content-header">
                     <div className="doc-content">
-                        <h4>Reader Name</h4>
+                        <h4>CRM Name</h4>
                     </div>
                 </div>
-                <Tabs defaultActiveKey="personal-details" className="mb-3" fill>
-                    <Tab eventKey="personal-details" title="Personal Details">
-                      <div className="tab-panel">
+                <div className="tabs-data">
+                <Tabs defaultActiveKey="personal-details" fill>
+                    <Tab eventKey="personal-details" title="Personal Details" className="flex-column justify-content-between">
+                      <div className="tab-panel d-flex flex-column justify-content-between">
                         <ul className="tab-mail-list">
                             <li>
-                                <h5 className='tab-content-title'><strong>Email:</strong></h5>
-                                <h5>arun1@mailinator.com</h5>
+                                <h6 className='tab-content-title'>Email</h6>
+                                <h6>arun1@mailinator.com</h6>
                             </li>
                             <li>
-                                <h5 className='tab-content-title'><strong>Country:</strong></h5>
-                                <h5>Azerbaijan</h5>
+                                <h6 className='tab-content-title'>Country</h6>
+                                <h6>Azerbaijan</h6>
                             </li>
                             <li>
-                                <h5 className='tab-content-title'><strong>User Status:</strong></h5>
-                                <h5>HCP</h5>
+                                <h6 className='tab-content-title'>User Status</h6>
+                                <h6>HCP</h6>
                             </li>
                             <li>
-                                <h5 className='tab-content-title'><strong>Last Email:</strong></h5>
-                                <h5>N/A</h5>
+                                <h6 className='tab-content-title'>Interests</h6>
+                                <h6>N/A</h6>
                             </li>
                             <li>
-                                <h5 className='tab-content-title'><strong>Last Activity:</strong></h5>
-                                <h5>N/A</h5>
+                                <h6 className='tab-content-title'>Last Email</h6>
+                                <h6>N/A</h6>
                             </li>
                             <li>
-                                <h5 className='tab-content-title'><strong>Interests:</strong></h5>
-                                <h5>N/A</h5>
+                                <h6 className='tab-content-title'>Last Activity</h6>
+                                <h6>N/A</h6>
                             </li>
                         </ul>
-                          <div className="data-main-footer-sec">
-                              <div className="footer-btn">
-                                  <button className="btn btn-primary btn-filled" type="submit">Edit Details</button>
-                              </div>
-                          </div>
-                    </div>
+                        </div>
+                        <div className="data-main-footer-sec">
+                            <div className="data-main-footer-sec-inner">
+                                <div className="footer-btn d-flex justify-content-end">
+                                    <Link to="/reader-edit" className="btn btn-primary btn-filled">Edit</Link>
+                                </div>
+                            </div>
+                        </div>
                     </Tab>
-                    <Tab eventKey="usage" title="Usage">
-                        <div className="data-main-box">
+                    <Tab eventKey="usage" title="Usage" className="flex-column justify-content-between">
+                        <div className="data-main-box tab-panel d-flex flex-column justify-content-between">
                             <ul className="tab-mail-list data">
                                 <li>
-                                    <h5>Emails Sent : <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)." href="#">
-                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
-                                    <p className='data_box'>6</p>
+                                    <h6 className="tab-content-title">Emails Sent<LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h6>
+                                        <div className="data-progress send">
+                                            <ProgressBar variant="default" now={20} label={"20"}/>
+                                        </div>
                                 </li>
                                 <li>
-                                    <h5>Emails Opened : <LinkWithTooltip tooltip="Number of opening counts for specific article." href="#">
-                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
-                                    <p className='data_box'>32</p>
+                                    <h6 className="tab-content-title">Emails Opened<LinkWithTooltip tooltip="Number of opening counts for specific article." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h6>
+                                        <div className="data-progress open">
+                                            <ProgressBar variant="default" now={15} label={"2"}/>
+                                        </div>
                                 </li>
                                 <li>
-                                    <h5>Content Delivered : <LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content." href="#">
-                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
-                                    <p className='data_box'>23</p>
+                                    <h6 className="tab-content-title">Content Delivered<LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h6>
+                                        <div className="data-progress delivered">
+                                            <ProgressBar variant="default" now={2} label={"2"}/>
+                                        </div>
                                 </li>
                                 <li>
-                                    <h5>Content with RTR : <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)." href="#">
-                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
-                                    <p className='data_box'>6</p>
+                                    <h6 className="tab-content-title">Content with RTR<LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h6>
+                                        <div className="data-progress rtr">
+                                            <ProgressBar variant="default" now={5} label={"5"}/>
+                                        </div>
                                 </li>
                                 <li>
-                                    <h5>QR Openings : <LinkWithTooltip tooltip="Number of opening counts for specific article." href="#">
-                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
-                                    <p className='data_box'>32</p>
+                                    <h6 className="tab-content-title">QR Openings<LinkWithTooltip tooltip="Number of opening counts for specific article." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h6>
+                                        <div className="data-progress qr-opening">
+                                            <ProgressBar variant="default" now={11} label={"11"}/>
+                                        </div>
                                 </li>
                                 <li>
-                                    <h5>GO Openings : <LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content." href="#">
-                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
-                                    <p className='data_box'>23</p>
+                                    <h6 className="tab-content-title">GO Openings<LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h6>
+                                        <div className="data-progress go-opening">
+                                            <ProgressBar variant="default" now={25} label={"25"}/>
+                                        </div>
                                 </li>
                                 <li>
-                                    <h5>Content Openings : <LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content." href="#">
-                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
-                                    <p className='data_box'>2</p>
+                                    <h6 className="tab-content-title">Content Openings<LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h6>
+                                        <div className="data-progress content-opening">
+                                            <ProgressBar variant="default" now={19} label={"19"}/>
+                                        </div>
                                 </li>
                             </ul>
-                            <ul className="tab-mail-list">
-                            <li>
-                                <h5 className='tab-content-title'><strong>Last Email:</strong></h5>
-                                <h5>N/A</h5>
-                            </li>
-                            <li>
-                                <h5 className='tab-content-title'><strong>Last Activity:</strong></h5>
-                                <h5>N/A</h5>
-                            </li>
-                            <li>
-                                <h5 className='tab-content-title'><strong>Interests:</strong></h5>
-                                <h5>N/A</h5>
-                            </li>
-                        </ul>
-                            <div className="data-main-footer-sec">
-                                <div className="footer-btn">
-                                     <button className="btn btn-primary btn-filled" type="submit"><Link to="/timeline-detail">See Timeline</Link></button>
+                        </div>
+                        <div className="data-main-footer-sec">
+                            <div className="data-main-footer-sec-inner">
+                                <div className="footer-btn d-flex justify-content-end">
+                                    <Link className="btn btn-primary btn-bordered" to="/timeline-detail">See time line</Link>
                                 </div>
                             </div>
                         </div>
@@ -388,7 +567,7 @@ function LinkWithTooltip({ id, children, href, tooltip }) {
                         <div className="data-main-box change-tab-main-box">
                             <ul className="tab-mail-list data change">
                                 <li>
-                                    <h5 className='tab-content-title'><strong>User Status:</strong></h5>
+                                    <h6 className='tab-content-title'>User Status</h6>
                                     <div className="select-dropdown-wrapper">
                                         <div className="select">
                                             <select>
@@ -400,7 +579,7 @@ function LinkWithTooltip({ id, children, href, tooltip }) {
                                     </div>
                                 </li>
                                 <li>
-                                    <h5 className='tab-content-title'><strong>User Country:</strong></h5>
+                                    <h6 className='tab-content-title'>User Country</h6>
                                     <div className="select-dropdown-wrapper">
                                         <div className="select">
                                             <select>
@@ -413,112 +592,118 @@ function LinkWithTooltip({ id, children, href, tooltip }) {
                                 </li>
                             </ul>
                             <div className="data-main-footer-sec">
-                                <div className="footer-btn">
-                                    <button className="btn btn-primary btn-filled" type="submit">Update</button>
+                                <div className="footer-btn d-flex justify-content-end">
+                                    <button className="btn btn-primary btn-filled update" type="submit">Update</button>
                                 </div>
                             </div>
                         </div>
                     </Tab>
                 </Tabs>
+                </div>
             </div>
-            <div className="doc-content-main-box col">
+             <div className="doc-content-main-box col">
                 <div className="doc-content-header">
                     <div className="doc-content">
-                        <h4>User1</h4>
+                        <h4>CRM Name</h4>
                     </div>
                 </div>
-                <Tabs defaultActiveKey="personal-details" className="mb-3" fill>
-                    <Tab eventKey="personal-details" title="Personal Details">
-                      <div className="tab-panel">
+                <div className="tabs-data">
+                <Tabs defaultActiveKey="personal-details" fill>
+                    <Tab eventKey="personal-details" title="Personal Details" className="flex-column justify-content-between">
+                      <div className="tab-panel d-flex flex-column justify-content-between">
                         <ul className="tab-mail-list">
                             <li>
-                                <h5 className='tab-content-title'><strong>Email:</strong></h5>
-                                <h5>arun1@mailinator.com</h5>
+                                <h6 className='tab-content-title'>Email</h6>
+                                <h6>arun1@mailinator.com</h6>
                             </li>
                             <li>
-                                <h5 className='tab-content-title'><strong>Country:</strong></h5>
-                                <h5>Azerbaijan</h5>
+                                <h6 className='tab-content-title'>Country</h6>
+                                <h6>Azerbaijan</h6>
                             </li>
                             <li>
-                                <h5 className='tab-content-title'><strong>User Status:</strong></h5>
-                                <h5>HCP</h5>
+                                <h6 className='tab-content-title'>User Status</h6>
+                                <h6>HCP</h6>
                             </li>
                             <li>
-                                <h5 className='tab-content-title'><strong>Last Email:</strong></h5>
-                                <h5>N/A</h5>
+                                <h6 className='tab-content-title'>Interests</h6>
+                                <h6>N/A</h6>
                             </li>
                             <li>
-                                <h5 className='tab-content-title'><strong>Last Activity:</strong></h5>
-                                <h5>N/A</h5>
+                                <h6 className='tab-content-title'>Last Email</h6>
+                                <h6>N/A</h6>
                             </li>
                             <li>
-                                <h5 className='tab-content-title'><strong>Interests:</strong></h5>
-                                <h5>N/A</h5>
+                                <h6 className='tab-content-title'>Last Activity</h6>
+                                <h6>N/A</h6>
                             </li>
                         </ul>
-                          <div className="data-main-footer-sec">
-                              <div className="footer-btn">
-                                  <button className="btn btn-primary btn-filled" type="submit">Edit Details</button>
-                              </div>
-                          </div>
-                    </div>
+                        </div>
+                        <div className="data-main-footer-sec">
+                            <div className="data-main-footer-sec-inner">
+                                <div className="footer-btn d-flex justify-content-end">
+                                    <Link to="/reader-edit" className="btn btn-primary btn-filled">Edit</Link>
+                                </div>
+                            </div>
+                        </div>
                     </Tab>
-                    <Tab eventKey="usage" title="Usage">
-                        <div className="data-main-box">
+                    <Tab eventKey="usage" title="Usage" className="flex-column justify-content-between">
+                        <div className="data-main-box tab-panel d-flex flex-column justify-content-between">
                             <ul className="tab-mail-list data">
                                 <li>
-                                    <h5>Emails Sent : <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)." href="#">
-                                    <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
-                                    <p className='data_box'>6</p>
+                                    <h6 className="tab-content-title">Emails Sent<LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h6>
+                                        <div className="data-progress send">
+                                            <ProgressBar variant="default" now={20} label={"20"}/>
+                                        </div>
                                 </li>
                                 <li>
-                                    <h5>Emails Opened : <LinkWithTooltip tooltip="Number of opening counts for specific article." href="#">
-                                    <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
-                                    <p className='data_box'>32</p>
+                                    <h6 className="tab-content-title">Emails Opened<LinkWithTooltip tooltip="Number of opening counts for specific article." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h6>
+                                        <div className="data-progress open">
+                                            <ProgressBar variant="default" now={15} label={"2"}/>
+                                        </div>
                                 </li>
                                 <li>
-                                    <h5>Content Delivered : <LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content." href="#">
-                                    <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
-                                    <p className='data_box'>23</p>
+                                    <h6 className="tab-content-title">Content Delivered<LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h6>
+                                        <div className="data-progress delivered">
+                                            <ProgressBar variant="default" now={2} label={"2"}/>
+                                        </div>
                                 </li>
                                 <li>
-                                    <h5>Content with RTR : <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)." href="#">
-                                    <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
-                                    <p className='data_box'>6</p>
+                                    <h6 className="tab-content-title">Content with RTR<LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h6>
+                                        <div className="data-progress rtr">
+                                            <ProgressBar variant="default" now={5} label={"5"}/>
+                                        </div>
                                 </li>
                                 <li>
-                                    <h5>QR Openings : <LinkWithTooltip tooltip="Number of opening counts for specific article." href="#">
-                                    <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
-                                    <p className='data_box'>32</p>
+                                    <h6 className="tab-content-title">QR Openings<LinkWithTooltip tooltip="Number of opening counts for specific article." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h6>
+                                        <div className="data-progress qr-opening">
+                                            <ProgressBar variant="default" now={11} label={"11"}/>
+                                        </div>
                                 </li>
                                 <li>
-                                    <h5>GO Openings : <LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content." href="#">
-                                    <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
-                                    <p className='data_box'>23</p>
+                                    <h6 className="tab-content-title">GO Openings<LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h6>
+                                        <div className="data-progress go-opening">
+                                            <ProgressBar variant="default" now={25} label={"25"}/>
+                                        </div>
                                 </li>
                                 <li>
-                                    <h5>Content Openings : <LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content." href="#">
-                                    <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h5>
-                                    <p className='data_box'>2</p>
+                                    <h6 className="tab-content-title">Content Openings<LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content." href="#">
+                                        <img src={path_image + "info_circle_icon.svg"} alt="refresh-btn"/></LinkWithTooltip></h6>
+                                        <div className="data-progress content-opening">
+                                            <ProgressBar variant="default" now={19} label={"19"}/>
+                                        </div>
                                 </li>
                             </ul>
-                            <ul className="tab-mail-list">
-                            <li>
-                                <h5 className='tab-content-title'><strong>Last Email:</strong></h5>
-                                <h5>N/A</h5>
-                            </li>
-                            <li>
-                                <h5 className='tab-content-title'><strong>Last Activity:</strong></h5>
-                                <h5>N/A</h5>
-                            </li>
-                            <li>
-                                <h5 className='tab-content-title'><strong>Interests:</strong></h5>
-                                <h5>N/A</h5>
-                            </li>
-                        </ul>
-                            <div className="data-main-footer-sec">
-                                <div className="footer-btn">
-                                     <button className="btn btn-primary btn-filled" type="submit"><Link to="/timeline-detail">See Timeline</Link></button>
+                        </div>
+                        <div className="data-main-footer-sec">
+                            <div className="data-main-footer-sec-inner">
+                                <div className="footer-btn d-flex justify-content-end">
+                                    <Link className="btn btn-primary btn-bordered" to="/timeline-detail">See time line</Link>
                                 </div>
                             </div>
                         </div>
@@ -528,7 +713,7 @@ function LinkWithTooltip({ id, children, href, tooltip }) {
                         <div className="data-main-box change-tab-main-box">
                             <ul className="tab-mail-list data change">
                                 <li>
-                                    <h5 className='tab-content-title'><strong>User Status:</strong></h5>
+                                    <h6 className='tab-content-title'>User Status</h6>
                                     <div className="select-dropdown-wrapper">
                                         <div className="select">
                                             <select>
@@ -540,7 +725,7 @@ function LinkWithTooltip({ id, children, href, tooltip }) {
                                     </div>
                                 </li>
                                 <li>
-                                    <h5 className='tab-content-title'><strong>User Country:</strong></h5>
+                                    <h6 className='tab-content-title'>User Country</h6>
                                     <div className="select-dropdown-wrapper">
                                         <div className="select">
                                             <select>
@@ -553,14 +738,15 @@ function LinkWithTooltip({ id, children, href, tooltip }) {
                                 </li>
                             </ul>
                             <div className="data-main-footer-sec">
-                                <div className="footer-btn">
-                                    <button className="btn btn-primary btn-filled" type="submit">Update</button>
+                                <div className="footer-btn d-flex justify-content-end">
+                                    <button className="btn btn-primary btn-filled update" type="submit">Update</button>
                                 </div>
                             </div>
                         </div>
                     </Tab>
                 </Tabs>
-            </div>             
+                </div>
+            </div>         
             </div> 
         </Row>
       </div>
