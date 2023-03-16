@@ -876,10 +876,12 @@ const LibrarySublink = () => {
                                           src={path_image + "qr-code-img.png"}
                                           alt=""
                                         />
-                                        <img
+                                        <div className="sublink-download">
+                                          <img
                                           src={path_image + "download.svg"}
                                           alt=""
                                         />
+                                        </div>
                                       </div>
                                     </div>
                                     <Button className="btn-bordered">Analytics</Button>

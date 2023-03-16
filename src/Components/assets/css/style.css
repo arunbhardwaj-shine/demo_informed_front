@@ -6976,6 +6976,7 @@ section.search-hcp.smart-list-view .header-btn-left {
 
 .default_page_not_found {
   min-height: 100vh;
+  border-radius: 0;
 }
 
 .email-form .form-inline .form-group.template_builder_div {

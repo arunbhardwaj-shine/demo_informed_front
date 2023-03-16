@@ -885,7 +885,7 @@ ul.tab-mail-list.data span.total-left small {
 			color: $light-gray;
 			padding: 8px 25px;
 			border-radius: 21px;
-      margin: 0;
+      margin: 0 0 1px;
 			&:hover {
 				background: $primary-color;
 				box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
@@ -1695,6 +1695,9 @@ select::-ms-expand {
 				max-width: 233px;
 			}
 		}
+    .sublink-list{
+      padding-bottom: 20px;
+    }
 	}
 }
 .sublink-listed-view-block {
@@ -1702,6 +1705,7 @@ select::-ms-expand {
 	box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
 	border-radius: 13px;
 	padding: 12px;
+  width:100%;
 	h5 {
 		@include h5;
 		color: $primary-color;
@@ -1732,14 +1736,15 @@ select::-ms-expand {
 		img {
 			max-width: 48px;
 		}
-		a {
+		.sublink-download {
 			margin-left: 5px;
-			width: 40px;
-			height: 40px;
+			width: 30px;
+			height: 30px;
 			display: flex;
 			text-align: center;
 			align-items: center;
 			justify-content: center;
+      cursor: pointer;
 		}
 	}
 }
@@ -1747,6 +1752,8 @@ select::-ms-expand {
 	button {
 		&.btn-bordered {
 			min-width: 106px;
+      font-size: 14px;
+      line-height: 16px;
 		}
 	}
 }
