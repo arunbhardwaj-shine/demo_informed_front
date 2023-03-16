@@ -19,8 +19,9 @@ import Tooltip from "react-bootstrap/Tooltip";
 import { popup_alert } from "../../../popup_alert";
 import { loader } from "../../../loader";
 import { ENDPOINT } from "../../../axios/apiConfig";
-import {postData} from "../../../axios/apiHelper";
+import {postData, getData} from "../../../axios/apiHelper";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import SubLinkListing from "./SubLinkListing";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const LibrarySublink = () => {
   const { state } = useLocation();
@@ -33,7 +34,6 @@ const LibrarySublink = () => {
   const [reRenderFlag, setreRenderFlag] = useState(0);
   const [showSubLinkList, setshowSubLinkList] = useState(false);
   const [changeConsent, setchangeConsent] = useState([]);
-  const [subLinkData, setsubLinkData] = useState([]);
   const [flag, setFlag] = useState(0);
   const [opening_details, setOpeningDetails] = useState([]);
   const [userId, setUserId] = useState();
@@ -88,11 +88,11 @@ const LibrarySublink = () => {
       });
       setLibraryData((oldArray) => [...oldArray, ...res?.data?.data?.library]);
 
-      // if(typeof selectedArticle === "undefined"){
-      //   if(state?.pdfid){
-      //     setSelectedArticle(state.pdfid);
-      //   }
-      // }
+      if(typeof selectedArticle === "undefined"){
+        if(state?.pdfid){
+          setSelectedArticle(state.pdfid);
+        }
+      }
       loader("hide");
     } catch (err) {
       console.log("err");
@@ -100,7 +100,7 @@ const LibrarySublink = () => {
     }
   };
 
-  const onArticleChange = (event) => {
+  const onArticleChange = async(event) => {
     setSelectedArticle(event.value);
   };
 
@@ -120,7 +120,6 @@ const LibrarySublink = () => {
         name:identifier
       };
       const res = await postData(ENDPOINT.LIBRARYREADDSUBLINK, body);
-      setsubLinkData((oldArray) => [...oldArray, res?.data?.data]);
       setLink({
         ...newLink,
         delivery:""
@@ -832,68 +831,16 @@ const LibrarySublink = () => {
                         Create New Link +
                       </Button>
                     </div>
-                    <div className="sublink_right_block">
-                      {typeof subLinkData === 'undefined' ? (
-                        <div className="no-sublink">
-                          <img src={path_image + "dummy-sublink.png"} alt="" />
-                        </div>
-                      ) : (
-                        <>
-                        {
-                            subLinkData?.map((data, index) => {
-                              return (
-                                <>
-                                <div className="sublink-list">
-                                  <div className="sublink-listed-view d-flex align-items-center">
-                                    <div className="sublink-listed-view-block">
-                                      <h5>{data?.name}</h5>
-                                      <h6>{data?.campaignId}</h6>
-                                      <div className="sublink-list-link">
-                                        <Link to={data?.link}>
-                                          {data?.link}
-                                        </Link>
-                                        <span
-                                          className="copy-content"
-                                          onClick={() => {
-                                            toast.success(
-                                              "content copied to the clipboard!"
-                                            );
-                                            window.navigator.clipboard.writeText(
-                                              data?.link
-                                            );
-                                          }}
-                                        >
-                                          <img
-                                            src={path_image + "copy-content.svg"}
-                                            alt="Copy"
-                                          />
-                                        </span>
-                                      </div>
-                                    </div>
-                                    <div className="sublink-qr">
-                                      <div className="sublink-qr-download">
-                                        <img
-                                          src={path_image + "qr-code-img.png"}
-                                          alt=""
-                                        />
-                                        <div className="sublink-download">
-                                          <img
-                                          src={path_image + "download.svg"}
-                                          alt=""
-                                        />
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <Button className="btn-bordered">Analytics</Button>
-                                  </div>
-                                </div>
-                                </>
-                              )
-                            })
-                        }
-                        </>
-                      )}
-                    </div>
+
+
+
+                    <SubLinkListing
+                      pdfid = {selectedArticle}
+                      render = {showSubLinkList}
+                    />
+                    {
+                      /*<div className="sublink_right_block"></div>*/
+                    }
                   </Col>
                 </div>
               </div>
