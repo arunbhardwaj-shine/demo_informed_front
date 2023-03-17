@@ -10,11 +10,17 @@ import { Button, Form, Dropdown, DropdownButton } from "react-bootstrap";
 import {postFormData,postData} from "../../../axios/apiHelper"
 import { loader } from "../../../loader";
 import {ENDPOINT} from "../../../axios/apiConfig"
+import CommonModel from "../../../Model/CommonModel";
+
+// import CommonModel from "../../Model/CommonModel";
+
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LibraryCreateUser = () => {
   const [counterFlag, setCounterFlag] = useState(0);
   const [show, setShow] = useState(false);
+  const [commanShow, setCommanShow] = useState(false);
+
   const handleClose = () => setShow(false);
   const navigate = useNavigate();
   const [error, setError] = useState({});
@@ -33,8 +39,17 @@ const LibraryCreateUser = () => {
     user:{},
     production:[],
     sales:[],
-    country:[]
+    country:[],
+    format:[]
   })
+
+  const product = [
+    {
+      label: "Product name",
+      type: "input",
+      placeholder: "Type your product name",
+    },
+  ];
 
   const [productionAll, setProductionAll] = useState([
     { value: "production1", label: "production1" },
@@ -70,15 +85,11 @@ const LibraryCreateUser = () => {
    const hadData =  await postData(ENDPOINT.LIBRARYDETAIL,{
       userId:29406
     });
-    // console.log("gauravs",hadData?.data?.data)
     setUserDetail({"user":hadData?.data?.data?.user,"production":hadData?.data?.data?.production,country:hadData?.data?.data?.user?.pharma_country,
-      sales:hadData?.data?.data?.sale
+      sales:hadData?.data?.data?.sale,format:hadData?.data?.data?.format,category:hadData?.data?.data?.category,ibu:hadData?.data?.data?.ibu
+      ,"product":hadData?.data?.data?.product,"reseller":hadData?.data?.data?.reseller
     })
-    // setUserDetail({"user":hadData?.data?.data?.user,"production":hadData?.data?.data?.production,country:hadData?.data?.data?.user?.pharma_country,
-    //   sales:hadData?.data?.data?.user?.sale
-    // })
   }
-
   useEffect(()=>{
     initalFun()
   },[])
@@ -188,6 +199,11 @@ const LibraryCreateUser = () => {
     setChangeEmbeddedVideo(event);
   };
 
+
+  const addNewProductClicked = (e) => {
+    e.preventDefault();
+    setCommanShow(true);
+  };
   const publisherFun = () =>{
     return (
       <div className="create-change-content">
@@ -200,13 +216,12 @@ const LibraryCreateUser = () => {
               <input
                 type="text"
                 className="form-control"
-                // onChange={(event) => onCompanyChange(event)}
               />
             </div>
             <div className="form-group">
               <label htmlFor="">Country</label>
               <Select
-                options={countryAll}
+                options={userDetail?.user?.[0]?.pharma_country||[]}
                 placeholder="Select country"
                 // onChange={(event) => onCountryChange(event)}
                 className="dropdown-basic-button split-button-dropup"
@@ -215,11 +230,21 @@ const LibraryCreateUser = () => {
             </div>
             <div className="form-group">
               <label htmlFor="">Client product</label>
-              <input
-                type="text"
-                className="form-control"
-                // onChange={(e) => onClientProductChange(e)}
+                <Select
+                options={userDetail?.product}
+                placeholder="Select own production person"
+                className="dropdown-basic-button split-button-dropup edit-production-dropdown"
+                isClearable
               />
+              <div className="add_product">
+                          <span>&nbsp;</span>
+                          <Button
+                            onClick={addNewProductClicked}
+                            className="btn-bordered btn-voilet"
+                          >
+                            Add New Product +
+                          </Button>
+                        </div>
             </div>
             <div className="form-group">
               <label htmlFor="">Production</label>
@@ -246,62 +271,45 @@ const LibraryCreateUser = () => {
             <div className="form-group justify-content-end">
               <label htmlFor="">Reseller</label>
               <div className="form-check-group">
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    value=""
-                    id="flexCheckDefault"
-                    type="checkbox"
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckDefault"
-                  >
-                    N/A
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    value=""
-                    id="flexCheckReseller"
-                    type="checkbox"
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckReseller"
-                  >
-                    Reseller Name
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    value=""
-                    id="flexCheckReseller1"
-                    type="checkbox"
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckReseller1"
-                  >
-                    Reseller Name
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    value=""
-                    id="flexCheckReseller2"
-                    type="checkbox"
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckReseller2"
-                  >
-                    Reseller Name
-                  </label>
-                </div>
+              {console.log( userDetail?.reseller)}
+                {
+                 
+                 userDetail?.reseller?.length?userDetail?.reseller?.map(item =>{
+                    return (
+                      <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        value=""
+                        id="flexCheckDefault"
+                        type="checkbox"
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="flexCheckDefault"
+                      >
+                        {item?.value}
+                      </label>
+                    </div>
+                    )
+                  }):(
+                    <> 
+                      <div className="form-check">
+                        <input
+                        className="form-check-input"
+                        value=""
+                        id="flexCheckReseller"
+                        type="checkbox"
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="flexCheckReseller"
+                      >
+                        N/A
+                        </label>
+                        </div>
+                   </>
+                  )
+                }
               </div>
             </div>
           </div>
@@ -322,7 +330,7 @@ const LibraryCreateUser = () => {
             <div className="form-group">
               <label htmlFor="">Category</label>
               <Select
-                options={countryAll}
+                options={userDetail?.category}
                 placeholder="Select category type for HCPs to sort"
                 // onChange={(event) => onCountryChange(event)}
                 className="dropdown-basic-button split-button-dropup"
@@ -332,7 +340,7 @@ const LibraryCreateUser = () => {
             <div className="form-group">
               <label htmlFor="">Format</label>
               <Select
-                options={countryAll}
+                options={userDetail?.format}
                 placeholder="Select format for tracking"
                 // onChange={(event) => onCountryChange(event)}
                 className="dropdown-basic-button split-button-dropup"
@@ -352,7 +360,7 @@ const LibraryCreateUser = () => {
             <div className="form-group">
               <label htmlFor="">Business Unit</label>
               <Select
-                options={countryAll}
+                options={userDetail?.ibu}
                 placeholder="Select Business Unit"
                 // onChange={(event) => onCountryChange(event)}
                 className="dropdown-basic-button split-button-dropup"
@@ -381,7 +389,7 @@ const LibraryCreateUser = () => {
                 </fieldset>
               </div>
           </div>
-          <div className="col-12 col-md-6 d-flex justify-content-end align-items-end right-change">
+          <div className="col-12 col-md-6 d-flex justify-content-end align-items-start right-change">
             <div className="form-group justify-content-end">
                  <label htmlFor="">Topics</label>
                  <div class="input-group w-100">
@@ -511,7 +519,7 @@ const LibraryCreateUser = () => {
               </div>
             </div>
             {
-            userDetail?.user?.[0]?.group_id == 3?publisherFun():userDetail?.user?.[0]?.flag== 0 && userDetail?.user?.[0]?.group_id == 2? docintelLink():null
+            userDetail?.user?.[0]?.group_id == 2?publisherFun():userDetail?.user?.[0]?.flag== 0 && userDetail?.user?.[0]?.group_id == 3? docintelLink():null
             }
             <div className="create-change-content">
               <div className="form_action">
@@ -1101,6 +1109,16 @@ const LibraryCreateUser = () => {
           </button>
         </div>
       </Modal>
+      <CommonModel
+        show={commanShow}
+        onClose={setCommanShow}
+        heading={"Add New Product"}
+        data={product}
+        footerButton={"Add"}
+        // handleChange={addNewProductChanged}
+        // handleSubmit={addProductClicked}
+        // inputValue
+      />
     </>
   );
 };
