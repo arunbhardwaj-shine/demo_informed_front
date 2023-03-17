@@ -597,7 +597,6 @@ const Sidebar = () => {
           ) : window.location.pathname == "/readers-view" ||
             window.location.pathname == "/reader-add" ||
             window.location.pathname == "/reader-edit" ||
-            window.location.pathname == "/reader-add" ||
             window.location.pathname == "/smart-list-add" ||
             window.location.pathname == "/reader-review" ||
             window.location.pathname == "/timeline-detail" ? (
