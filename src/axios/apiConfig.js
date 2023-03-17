@@ -13,5 +13,6 @@ export const ENDPOINT = {
   LIBRARYRESUBLINKLISTING: `/library/sublink`,
   LIBRARYGETPOPUP: `/library/get-popup`,
   LIBRARYREADDSUBLINK: `/library/add-subLink`,
-  LIBRARYDETAIL: `/library/user-detail`
+  LIBRARYDETAIL: `/library/user-detail`,
+  LIBRARYSAVEPOPUP: `/library/save-pdf-popup`,
 };

@@ -420,6 +420,9 @@
     .react-datepicker__input-container {
       input {
           @include custom-input-drop;
+          background: $white url(../images/calender.png) no-repeat;
+          background-size: 23px;
+          background-position: 95% center;
       }
 	  }
 	}
@@ -627,8 +630,62 @@
 
 
 
-
-
+.create-change-content .input-group {
+    border: 1px dashed var(--light-blue);
+    box-sizing: border-box;
+    border-radius: 15px;
+    padding: 16px 12px;
+    position: relative;
+    margin-bottom: 40px;
+    display: flex;
+    max-width: 445px;
+    flex-direction: row-reverse;
+}
+.create-change-content .input-group .input-group-prepend {
+    padding-left: 15px;
+    margin-left: 15px;
+    display: flex;
+    align-items: center;
+}
+.create-change-content .input-group .input-group-prepend::after {
+    left:auto;
+    right: 130px;
+}
+.create-change-content .input-group #tags-add {
+    border: 1px solid var(--light-blue);
+    box-sizing: border-box;
+    border-radius: 30px;
+    font-size: 16px;
+    line-height: 19px;
+    color: var(--light-blue);
+    background: transparent;
+    font-weight: 500;
+    padding: 9px 16px;
+}
+.create-change-content .input-group .tags_added ul {
+    padding: 0;
+    margin: 0;
+}
+.create-change-content .input-group .tags_added ul li {
+    list-style: none;
+    background: #e9deec;
+    border-radius: 3px;
+    font-size: 11px;
+    line-height: 13px;
+    color: var(--violet);
+    font-weight: 300;
+    padding: 4px 11px;
+    margin: 0 9px 5px 0;
+    display: inline-block;
+}
+.create-change-content .input-group .tags_added {
+    flex: 1 1;
+}
+.create-change-content .input-group .tags_added ul li img {
+    width: 10px;
+    margin-left: 5px;
+    cursor: pointer;
+}
 .library-content-box-layuot .dlt_btn button img {
     width: 20px;
 }
@@ -1166,6 +1223,10 @@ select::-ms-expand {
     max-width: 445px;
     width: 100%;
 }
+.form-check-group .form-check-group-inset {
+    max-height: 145px;
+    overflow-y: auto;
+}
 .create-change-content .form-group .form-check label {
     font-size: 15px;
     line-height: 18px;
@@ -1280,8 +1341,9 @@ select::-ms-expand {
     font-size: 16px;
     line-height: 19px;
     color: $dark-gray;
-    flex: 0 0 80px;
+    flex: 0 0 auto;
     font-weight: 400;
+    padding-right:20px;
 }
 .create-change-content .form-group fieldset label[for="limitagreed2"] {
     padding-right: 32px;
@@ -1356,6 +1418,8 @@ select::-ms-expand {
     font-size: 16px;
     line-height: 145.19%;
     color: $light-gray;
+    word-break: break-all;
+    padding-right: 5px;
 }
 .create-change-content .upload-file-box .box p span{
     font-size: 14px;
@@ -1840,7 +1904,92 @@ select::-ms-expand {
 
 
 
+.template_builder-option.library-cosent .template_language span {
+    margin-right: 7px;
+    font-weight: 400;
+}
+.template_builder-option.library-cosent .template_language span a {
+    margin-left: 10px;
+}
+.select-mail-template .page-title {
+    padding: 0;
+}
+.library-cosent {
+    max-width: 1330px;
+    margin: 70px auto 30px;
+    padding: 0;
+}
+.template_builder-option.library-cosent .template_language {
+    margin-right: 57px;
+    width: 100%;
+    max-width: 435px;
+}
+.select-mail-template.library-cosent .alice-carousel .item img {
+    max-width: 175px;
+    max-height: 150px;
+}
+.select-mail-template.library-cosent .alice-carousel .item {
+    max-width: 195px;
+    margin: 14px auto 0;
+}
+.sublink_right.preview-content {
+    max-width: 1330px;
+    margin: 0 auto;
+}
 
+.preview-content .edit_content_title {
+    color: $primary-color;
+    max-width: 80%;
+}
+.btn.btn-bordered {
+    text-transform: unset;
+}
+.create-change-content .form-group.margin-added .add_product {
+    margin-right: -110px;
+}
+.preview-content .edit_content_title button {
+    filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));
+    border-radius: 30px;
+    background: $white;
+    padding: 2px;
+    cursor: pointer;
+    border: 0;
+    width: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    margin-left: 10px;
+}
+
+.preview-content .edit_content_title button:hover {
+    background: $primary-color;
+}
+.preview-content .edit_content_title button:hover img {
+    filter: brightness(0) invert(1);
+}
+
+.preview-content .edit_content_title button img {
+    max-width: 17px;
+}
+.select-mail-template.library-cosent  .alice-carousel {
+    padding: 14px 23px 5px;
+}
+.template_builder-option.library-cosent .template_language:last-child {
+    margin-right: 0;
+}
+.template_builder-option.library-cosent .form-group {
+    flex: 1 1;
+}
+.template_builder-option.library-cosent .template_language .split-button-dropup.edit-country-dropdown>div:nth-child(3), .template_builder-option.library-cosent .template_country .split-button-dropup.edit-country-dropdown>div:nth-child(3) {
+    width: 100%;
+    flex: 1 1;
+    max-width: 300px;
+}
+.select-mail-template .page-title h4 {
+    margin: 0 0 24px;
+    text-transform: none;
+}
 .form-group.chapter-title {
     background: $white;
     box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
@@ -2181,7 +2330,7 @@ fill:$white;
 }
 .page-title .back-btn {
     border: none;
-    background: #fff;
+    background: $white;
     filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));
     border-radius: 30px;
     min-width: 40px;
