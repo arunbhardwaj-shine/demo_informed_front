@@ -379,6 +379,7 @@ const Sidebar = () => {
             window.location.pathname == "/library-campaign" ||
             window.location.pathname == "/spc" ||
             window.location.pathname == "/set-popup" ||
+            window.location.pathname == "/preview-content" ||
             window.location.pathname == "/spc-edit" ||
             window.location.pathname == "/spc-delete" ||
             window.location.pathname == "/spc-create" ||
@@ -417,6 +418,7 @@ const Sidebar = () => {
                     location.pathname == "/library-sublink" ||
                     location.pathname == "/library-topics" ||
                     location.pathname == "/set-popup" ||
+                    location.pathname == "/preview-content" ||
                     location.pathname == "/library-create-user" ||
                     location.pathname == "/edit-Consent-Options" ||
                     location.pathname == "/auto_popup" ||

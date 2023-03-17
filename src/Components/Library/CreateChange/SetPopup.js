@@ -40,6 +40,7 @@ const SetPopup = (props) => {
   const [editableTemplate, setEdiatbleTemplate] = useState(false);
   const [templateName, setTemplateName] = useState("");
   const [templateId, setTemplateId] = useState();
+  const [popupNo, setPopupNo] = useState();
   const [validator] = React.useState(new SimpleReactValidator());
   const [activeIndex, setActiveIndex] = useState(0);
   const slidePrev = () => setActiveIndex(activeIndex - 1);
@@ -50,6 +51,7 @@ const SetPopup = (props) => {
   const [newTemplateName, setNewTemplateName] = useState("");
   const [getTemplatePopup, setTemplatePopup] = useState(false);
   const [getNewTemplatePopup, setNewTemplatePopup] = useState(false);
+  const [articleId, setArticleId] = useState("3982");
   const [selectOptions, setSelectOptions] = useState({
     consentType: "",
     language: "",
@@ -83,18 +85,24 @@ const SetPopup = (props) => {
 
   const dropDownSelected = (label,e) => {
     if(label == "consentType"){
+      loader("show");
       setSelectOptions({ ...selectOptions, consentType: e.value });
+      getTemplateListData(2, selectOptions.language,e.value);
     }else if(label == "language"){
+      loader("show");
       setSelectOptions({ ...selectOptions, language: e.value });
+      getTemplateListData(2, e.value, selectOptions.consentType);
     }else{
       setSelectOptions({ ...selectOptions, time: e.value });
     }
-
     // setSelectedLanguage(e.value);
     // getTemplateListData(2, e.value, selectedIbu);
   };
 
-  const getTemplateListData = async (flag, lng, ibu) => {
+  const getTemplateListData = async (flag, lng, consent) => {
+    loader("show");
+    try {
+      setTemplateClicked(false);
       let check_lng_index = 10;
       if (lng == "All") {
         check_lng_index = 10;
@@ -113,27 +121,26 @@ const SetPopup = (props) => {
       const body = {
         userId: "18207",
         language: check_lng_index,
-        ibu: ibu,
+        consentType: consent,
+        pdfId: ''
       };
       const res = await postData(ENDPOINT.LIBRARYGETPOPUP, body);
       setTemplateList(res?.data?.data?.popupData);
-
+      setTemplateId(res?.data?.data?.popupTempId);
       let lang = res?.data?.data?.language;
       let lng_arr = [];
-        Object.entries(lang).map(([index, item]) => {
-          let label = item;
-          lng_arr.push({
-            value: item,
-            label: label.toUpperCase(),
-          });
+      Object.entries(lang).map(([index, item]) => {
+        let label = item;
+        lng_arr.push({
+          value: item,
+          label: label.toUpperCase(),
         });
+      });
       setTemplateLanguage(lng_arr);
-
-      if (flag == 1) {
-        loader("hide");
-      } else if (flag == 2) {
-        loader("hide");
-      }
+      loader("hide");
+    }catch(err){
+      loader("hide");
+    }
   };
 
   const saveTemplateEdit = (e) => {
@@ -154,51 +161,46 @@ const SetPopup = (props) => {
     setTemplateName(template.name);
     setNewTemplateName(template.name);
     setTemplate(template.source_code);
+    setPopupNo(template.popupNo);
     e.target.classList.toggle("select_mm");
   };
 
   const updateTemplate = async (e) => {
     e.preventDefault();
-    let template_id = templateId;
-    if (
-      typeof template_id != "undefined" &&
-      template_id != "" &&
-      template_id != 0
-    ) {
-      if (editorRef.current) {
-        const body = {
-          user_id: localStorage.getItem("user_id"),
-          source_code: editorRef.current.getContent(),
-          template_id: templateId,
-          name: templateName,
-          status: 2,
-          language: 2,
-        };
-        console.log(body);
-        // axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-        // loader("show");
-        // await axios
-        //   .post(`emailapi/add_update_template`, body)
-        //   .then((res) => {
-        //     if (res.data.status_code === 200) {
-        //       getTemplateListData(1, selectedLanguage, selectedIbu);
-        //       setTemplate(templateSaving);
-        //     } else {
-        //       loader("hide");
-        //       toast.warning("Template not selected.");
-        //     }
-        //   })
-        //   .catch((err) => {
-        //     loader("hide");
-        //     toast.error("Something went wrong");
-        //   });
-        setNewTemplatePopup(false);
-        setTemplatePopup(false);
-      }
-    } else {
-      toast.warning("Template not selected.");
+    let findTemplateIndex = templateList.findIndex(el => el.popupNo === popupNo);
+    if(findTemplateIndex){
+        templateList[findTemplateIndex].source_code = templateSaving;
+        setTemplateList(templateList);
+        toast.success("Popup Update successfully.");
     }
   };
+
+  const nextButtonClicked = async() => {
+      loader("show");
+      try{
+        let first  = templateList.findIndex(el => el.popupNo === 1);
+        let second = templateList.findIndex(el => el.popupNo === 2);
+        let third  = templateList.findIndex(el => el.popupNo === 3);
+        let fourth = templateList.findIndex(el => el.popupNo === 4);
+
+        let body = {
+          userId : '18207',
+          pdfId   : articleId,
+          language    : selectOptions.language,
+          firstPopupTime : selectOptions.time,
+          consentType : selectOptions.consentType,
+          htmlEditor1 : templateList?.[first]?.source_code,
+          htmlEditor2 : templateList?.[second]?.source_code,
+          htmlEditor3 : templateList?.[third]?.source_code,
+          htmlEditor4 : templateList?.[fourth]?.source_code
+        }
+        const res = await postData(ENDPOINT.LIBRARYSAVEPOPUP, body);
+        loader("hide");
+        navigate("/preview-content")
+      }catch(err){
+        loader("hide");
+      }
+  }
 
   function LinkWithTooltip({ id, children, href, tooltip }) {
     return (
@@ -219,6 +221,54 @@ const SetPopup = (props) => {
       <div className="col right-sidebar">
         <div className="custom-container">
           <div className="row">
+
+          {
+            articleId ?
+            <>
+            <div className="page-top-nav">
+              <div className="row justify-content-end align-items-center">
+                <div className="col-12 col-md-1">
+                  <div className="header-btn-left">
+                    <button className="btn btn-primary btn-bordered back"
+                    onClick={(e) => navigate("/library-create-user")}
+                    >
+                      Back
+                    </button>
+                  </div>
+                </div>
+                <div className="col-12 col-md-9">
+                  <ul className="tabnav-link">
+                    <li className="">
+                      <a href="">Create Your Content</a>
+                    </li>
+                    <li className="active active-main">
+                      <a href="">Edit Consent Option</a>
+                    </li>
+                    <li className="">
+                      <a href="">Preview Your Content &amp; Publish</a>
+                    </li>
+                  </ul>
+                </div>
+                <div className="col-12 col-md-2">
+                  <div className="header-btn">
+                    <button className="btn btn-primary btn-bordered move-draft"
+                    onClick={(e) => navigate("/library-create")}
+                    >
+                      Cancel
+                    </button>
+
+                    <button
+                      className="btn btn-primary btn-filled next"
+                      onClick={nextButtonClicked}
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </>
+            :
             <div className="top-header">
               <div className="page-title">
                 <h2>Set Pop-up</h2>
@@ -234,24 +284,27 @@ const SetPopup = (props) => {
                 </div>
               </div>
             </div>
-            <div className="template_builder-option">
+          }
+            <div className="template_builder-option library-cosent">
               <div className="d-flex justify-content-start align-items-center">
 
-                {types.length > 0 && (
+                {articleId && types.length > 0 && (
                   <div className="template_language">
-                    <span>Consent type</span>
-                      <LinkWithTooltip
-                        tooltip="Select Popup Type."
-                        href="#"
-                      >
-                        <img
-                          src={
-                            path_image +
-                            "info_circle_icon.svg"
-                          }
-                          alt="refresh-btn"
-                        />
-                      </LinkWithTooltip>
+                    <span>Consent type
+                    <LinkWithTooltip
+                      tooltip="Select Popup Type."
+                      href="#"
+                    >
+                      <img
+                        src={
+                          path_image +
+                          "info_circle_icon.svg"
+                        }
+                        alt="refresh-btn"
+                      />
+                    </LinkWithTooltip>
+                    </span>
+
                     <div className="form-group">
                       <Select
                         defaultValue={{label: "Select your eprint type", value: ""}}
@@ -265,7 +318,7 @@ const SetPopup = (props) => {
 
                 {getTemplateLanguage.length > 0 && (
                   <div className="template_language">
-                    <span>Language</span>
+                    <span>Language
                     <LinkWithTooltip
                       tooltip="Select Popup Language."
                       href="#"
@@ -278,6 +331,8 @@ const SetPopup = (props) => {
                         alt="refresh-btn"
                       />
                     </LinkWithTooltip>
+                    </span>
+
                     <div className="form-group">
                       <Select
                         defaultValue={
@@ -300,9 +355,9 @@ const SetPopup = (props) => {
                   </div>
                 )}
 
-                {timeList.length > 0 && (
+                {articleId && timeList.length > 0 && (
                   <div className="template_language">
-                    <span>Time</span>
+                    <span>Time
                     <LinkWithTooltip
                       tooltip="Select Popup Time."
                       href="#"
@@ -315,6 +370,8 @@ const SetPopup = (props) => {
                         alt="refresh-btn"
                       />
                     </LinkWithTooltip>
+                    </span>
+
                     <div className="form-group">
                       <Select
                         defaultValue={{label: "Select time (in seconds)", value: ""}}
@@ -328,19 +385,12 @@ const SetPopup = (props) => {
               </div>
             </div>
 
-            <div className="top-header">
+            <section className="select-mail-template library-cosent">
               <div className="custom-container">
                 <div className="row">
                   <div className="page-title">
-                    <h5>Select the Pop-up to edit</h5>
+                    <h4>Select the Pop-up to edit</h4>
                   </div>
-                </div>
-              </div>
-            </div>
-
-            <section className="select-mail-template">
-              <div className="custom-container">
-                <div className="row">
                   <AliceCarousel
                     mouseTracking
                     disableDotsControls
@@ -442,6 +492,7 @@ const SetPopup = (props) => {
                           "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
                         content_style:
                           "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                        content_css: ['https://docintel.app/angular_cs.css','https://use.fontawesome.com/releases/v5.8.2/css/all.css'],
                       }}
                       onEditorChange={(content) => {
                         setTemplateSaving(content);
