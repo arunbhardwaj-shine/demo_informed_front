@@ -690,7 +690,7 @@ const LibraryCreateUser = () => {
                               <span>Choose Your File</span>
                             </label>
                             {userInputs?.uploadFile?.[0]?.name ? (
-                              <h5>{userInputs?.uploadFile?.[0].name}</h5>
+                              <p>{userInputs?.uploadFile?.[0].name}</p>
                             ) : (
                               <p>Upload your PDF</p>
                             )}
@@ -720,7 +720,7 @@ const LibraryCreateUser = () => {
                               <span>Choose Your File</span>
                             </label>
                             {userInputs?.uploadFile?.[0]?.name ? (
-                              <h5>{userInputs?.uploadFile?.[0]?.name}</h5>
+                              <p>{userInputs?.uploadFile?.[0]?.name}</p>
                             ) : (
                               <p>Upload your Video file</p>
                             )}
