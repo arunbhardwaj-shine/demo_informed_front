@@ -50,6 +50,7 @@ const SetPopup = (props) => {
   const [newTemplateName, setNewTemplateName] = useState("");
   const [getTemplatePopup, setTemplatePopup] = useState(false);
   const [getNewTemplatePopup, setNewTemplatePopup] = useState(false);
+  const [articleId, setArticleId] = useState("3982");
   const [selectOptions, setSelectOptions] = useState({
     consentType: "",
     language: "",
@@ -83,18 +84,23 @@ const SetPopup = (props) => {
 
   const dropDownSelected = (label,e) => {
     if(label == "consentType"){
+      loader("show");
       setSelectOptions({ ...selectOptions, consentType: e.value });
+      getTemplateListData(2, selectOptions.language,e.value);
     }else if(label == "language"){
+      loader("show");
       setSelectOptions({ ...selectOptions, language: e.value });
+      getTemplateListData(2, e.value, selectOptions.consentType);
     }else{
       setSelectOptions({ ...selectOptions, time: e.value });
     }
-
     // setSelectedLanguage(e.value);
     // getTemplateListData(2, e.value, selectedIbu);
   };
 
-  const getTemplateListData = async (flag, lng, ibu) => {
+  const getTemplateListData = async (flag, lng, consent) => {
+    loader("show");
+    setTemplateClicked(false);
       let check_lng_index = 10;
       if (lng == "All") {
         check_lng_index = 10;
@@ -113,12 +119,12 @@ const SetPopup = (props) => {
       const body = {
         userId: "18207",
         language: check_lng_index,
-        ibu: ibu,
+        consentType: consent,
         pdfId: ''
       };
       const res = await postData(ENDPOINT.LIBRARYGETPOPUP, body);
       setTemplateList(res?.data?.data?.popupData);
-
+      setTemplateId(res?.data?.data?.popupTempId);
       let lang = res?.data?.data?.language;
       let lng_arr = [];
         Object.entries(lang).map(([index, item]) => {
@@ -129,12 +135,7 @@ const SetPopup = (props) => {
           });
         });
       setTemplateLanguage(lng_arr);
-
-      if (flag == 1) {
-        loader("hide");
-      } else if (flag == 2) {
-        loader("hide");
-      }
+      loader("hide");
   };
 
   const saveTemplateEdit = (e) => {
@@ -168,7 +169,7 @@ const SetPopup = (props) => {
     ) {
       if (editorRef.current) {
         const body = {
-          user_id: localStorage.getItem("user_id"),
+          user_id: '18207',
           source_code: editorRef.current.getContent(),
           template_id: templateId,
           name: templateName,
@@ -220,6 +221,49 @@ const SetPopup = (props) => {
       <div className="col right-sidebar">
         <div className="custom-container">
           <div className="row">
+
+          {
+            articleId ?
+            <>
+            <div className="page-top-nav">
+              <div className="row justify-content-end align-items-center">
+                <div className="col-12 col-md-1">
+                  <div className="header-btn-left">
+                    <button className="btn btn-primary btn-bordered back">
+                      <Link to="/library-create">Back</Link>
+                    </button>
+                  </div>
+                </div>
+                <div className="col-12 col-md-9">
+                  <ul className="tabnav-link">
+                    <li className="">
+                      <a href="">Create Your Content</a>
+                    </li>
+                    <li className="active active-main">
+                      <a href="">Edit Consent Option</a>
+                    </li>
+                    <li className="">
+                      <a href="">Preview Your Content &amp; Publish</a>
+                    </li>
+                  </ul>
+                </div>
+                <div className="col-12 col-md-2">
+                  <div className="header-btn">
+                    <button className="btn btn-primary btn-bordered move-draft">
+                      Cancel
+                    </button>
+
+                    <button
+                      className="btn btn-primary btn-filled next"
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </>
+            :
             <div className="top-header">
               <div className="page-title">
                 <h2>Set Pop-up</h2>
@@ -235,24 +279,27 @@ const SetPopup = (props) => {
                 </div>
               </div>
             </div>
+          }
             <div className="template_builder-option">
               <div className="d-flex justify-content-start align-items-center">
 
-                {types.length > 0 && (
+                {articleId && types.length > 0 && (
                   <div className="template_language">
-                    <span>Consent type</span>
-                      <LinkWithTooltip
-                        tooltip="Select Popup Type."
-                        href="#"
-                      >
-                        <img
-                          src={
-                            path_image +
-                            "info_circle_icon.svg"
-                          }
-                          alt="refresh-btn"
-                        />
-                      </LinkWithTooltip>
+                    <span>Consent type
+                    <LinkWithTooltip
+                      tooltip="Select Popup Type."
+                      href="#"
+                    >
+                      <img
+                        src={
+                          path_image +
+                          "info_circle_icon.svg"
+                        }
+                        alt="refresh-btn"
+                      />
+                    </LinkWithTooltip>
+                    </span>
+
                     <div className="form-group">
                       <Select
                         defaultValue={{label: "Select your eprint type", value: ""}}
@@ -266,7 +313,7 @@ const SetPopup = (props) => {
 
                 {getTemplateLanguage.length > 0 && (
                   <div className="template_language">
-                    <span>Language</span>
+                    <span>Language
                     <LinkWithTooltip
                       tooltip="Select Popup Language."
                       href="#"
@@ -279,6 +326,8 @@ const SetPopup = (props) => {
                         alt="refresh-btn"
                       />
                     </LinkWithTooltip>
+                    </span>
+
                     <div className="form-group">
                       <Select
                         defaultValue={
@@ -301,9 +350,9 @@ const SetPopup = (props) => {
                   </div>
                 )}
 
-                {timeList.length > 0 && (
+                {articleId && timeList.length > 0 && (
                   <div className="template_language">
-                    <span>Time</span>
+                    <span>Time
                     <LinkWithTooltip
                       tooltip="Select Popup Time."
                       href="#"
@@ -316,6 +365,8 @@ const SetPopup = (props) => {
                         alt="refresh-btn"
                       />
                     </LinkWithTooltip>
+                    </span>
+
                     <div className="form-group">
                       <Select
                         defaultValue={{label: "Select time (in seconds)", value: ""}}
