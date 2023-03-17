@@ -226,7 +226,7 @@ const LibraryCreateUser = () => {
                 isClearable
               />
             </div>
-            <div className="form-group">
+            <div className="form-group margin-added">
               <label htmlFor="">Client product</label>
                 <Select
                 options={userDetail?.product}
@@ -269,6 +269,7 @@ const LibraryCreateUser = () => {
             <div className="form-group justify-content-end">
               <label htmlFor="">Reseller</label>
               <div className="form-check-group">
+                <div className="form-check-group-inset">
               {console.log( userDetail?.reseller)}
                 {
                  
@@ -308,6 +309,7 @@ const LibraryCreateUser = () => {
                    </>
                   )
                 }
+                </div>
               </div>
             </div>
           </div>

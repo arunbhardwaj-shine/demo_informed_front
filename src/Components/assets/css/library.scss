@@ -1223,6 +1223,10 @@ select::-ms-expand {
     max-width: 445px;
     width: 100%;
 }
+.form-check-group .form-check-group-inset {
+    max-height: 145px;
+    overflow-y: auto;
+}
 .create-change-content .form-group .form-check label {
     font-size: 15px;
     line-height: 18px;
@@ -1937,6 +1941,9 @@ select::-ms-expand {
 }
 .btn.btn-bordered {
     text-transform: unset;
+}
+.create-change-content .form-group.margin-added .add_product {
+    margin-right: -110px;
 }
 .preview-content .edit_content_title button {
     filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));
