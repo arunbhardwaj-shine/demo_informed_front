@@ -114,6 +114,7 @@ const SetPopup = (props) => {
         userId: "18207",
         language: check_lng_index,
         ibu: ibu,
+        pdfId: ''
       };
       const res = await postData(ENDPOINT.LIBRARYGETPOPUP, body);
       setTemplateList(res?.data?.data?.popupData);
@@ -442,6 +443,7 @@ const SetPopup = (props) => {
                           "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
                         content_style:
                           "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                        content_css: ['https://docintel.app/angular_cs.css','https://use.fontawesome.com/releases/v5.8.2/css/all.css'],
                       }}
                       onEditorChange={(content) => {
                         setTemplateSaving(content);
