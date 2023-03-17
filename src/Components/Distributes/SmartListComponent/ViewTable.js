@@ -220,13 +220,7 @@ const ViewTable = (props) => {
               Object.entries(sub_role).map(([index, item]) => {
                 let label = item;
 
-                arrSubRole.push({
-                  value: item,
-                  label: label,
-                });
-              });
-              Object.entries(sub_role).map(([index, item]) => {
-                let label = item;
+                console.log(item);
 
                 arrSubRole.push({
                   value: item,
@@ -1000,7 +994,9 @@ const ViewTable = (props) => {
       list[i].siteNumber = value;
       list[i].siteName = site_name_value;
 
-      let snameindex = siteNameAll.findIndex((x) => x.value === site_name_value);
+      let snameindex = siteNameAll.findIndex(
+        (x) => x.value === site_name_value
+      );
       list[i].siteNameIndex = snameindex;
 
       let index = siteNumberAll.findIndex((x) => x.value === value);
@@ -1033,14 +1029,18 @@ const ViewTable = (props) => {
     } else {
       const value = e.value;
       let getSiteData = siteData;
-      let site_number_value = Object.keys(getSiteData).find(key => getSiteData[key] === e.value);
+      let site_number_value = Object.keys(getSiteData).find(
+        (key) => getSiteData[key] === e.value
+      );
 
       const list = [...hpc];
       const name = hpc[i].siteName;
       list[i].siteName = value;
       list[i].siteNumber = site_number_value;
 
-      let snameindex = siteNumberAll.findIndex((x) => x.value === site_number_value);
+      let snameindex = siteNumberAll.findIndex(
+        (x) => x.value === site_number_value
+      );
       list[i].siteNumberIndex = snameindex;
 
       let index = siteNameAll.findIndex((x) => x.value === value);
@@ -1257,7 +1257,8 @@ const ViewTable = (props) => {
           siteStreet: data.siteStreet ? data.siteStreet : "",
           sitePostalCode: data.sitePostCode ? data.sitePostCode : "",
           siteCity: data.siteCity ? data.siteCity : "",
-          siteIrt: data.siteIrt == "Yes" ? 1 : data.siteIrt == "Training" ? 2 : 0,
+          siteIrt:
+            data.siteIrt == "Yes" ? 1 : data.siteIrt == "Training" ? 2 : 0,
         };
       });
       console.log(body_data);
@@ -2203,7 +2204,9 @@ const ViewTable = (props) => {
                                         onChange={(event) =>
                                           onSiteNumberChange(event, i)
                                         }
-                                        value={siteNumberAll[hpc[i].siteNumberIndex]}
+                                        value={
+                                          siteNumberAll[hpc[i].siteNumberIndex]
+                                        }
                                         defaultValue={
                                           siteNumberAll[hpc[i].siteNumberIndex]
                                         }
@@ -2244,10 +2247,7 @@ const ViewTable = (props) => {
                                         options={siteNameAll}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                                         onChange={(event) =>
-                                          onSiteNameChange(
-                                            event,
-                                            i
-                                          )
+                                          onSiteNameChange(event, i)
                                         }
                                         // onChange={(event) =>
                                         //   onUserTypeChange(event, i)
@@ -2263,7 +2263,9 @@ const ViewTable = (props) => {
                                         defaultValue={
                                           siteNameAll[hpc[i].siteNameIndex]
                                         }
-                                        value={siteNameAll[hpc[i].siteNameIndex]}
+                                        value={
+                                          siteNameAll[hpc[i].siteNameIndex]
+                                        }
                                         placeholder={
                                           typeof siteNameAll[
                                             hpc[i].siteNameIndex
