@@ -12,8 +12,6 @@ import { loader } from "../../../loader";
 import {ENDPOINT} from "../../../axios/apiConfig"
 import CommonModel from "../../../Model/CommonModel";
 
-// import CommonModel from "../../Model/CommonModel";
-
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LibraryCreateUser = () => {
@@ -40,7 +38,8 @@ const LibraryCreateUser = () => {
     production:[],
     sales:[],
     country:[],
-    format:[]
+    format:[],
+    product:[]
   })
 
   const product = [
@@ -50,17 +49,6 @@ const LibraryCreateUser = () => {
       placeholder: "Type your product name",
     },
   ];
-
-  const [productionAll, setProductionAll] = useState([
-    { value: "production1", label: "production1" },
-    { value: "production2", label: "production2" },
-    { value: "production3", label: "production3" },
-  ]);
-  const [salesAll, setSalesAll] = useState([
-    { value: "sales1", label: "sales1" },
-    { value: "sales2", label: "sales2" },
-    { value: "sales3", label: "sales3" },
-  ]);
 
   const [countryAll, setCountryAll] = useState([
     { value: "India", label: "India" },
@@ -83,7 +71,7 @@ const LibraryCreateUser = () => {
 
   const initalFun = async() =>{
    const hadData =  await postData(ENDPOINT.LIBRARYDETAIL,{
-      userId:29406
+      userId:18207
     });
     setUserDetail({"user":hadData?.data?.data?.user,"production":hadData?.data?.data?.production,country:hadData?.data?.data?.user?.pharma_country,
       sales:hadData?.data?.data?.sale,format:hadData?.data?.data?.format,category:hadData?.data?.data?.category,ibu:hadData?.data?.data?.ibu
@@ -93,6 +81,9 @@ const LibraryCreateUser = () => {
   useEffect(()=>{
     initalFun()
   },[])
+  const editFun = () =>{
+    
+  }
   const handleChange = (e, isSelectedName) => {
     if (e?.target?.files?.length < 1) {
       return;
@@ -126,7 +117,8 @@ const LibraryCreateUser = () => {
       formData.append("allowDownload", userInputs?.allowDownload)
       formData.append("allowPrint", userInputs?.allowPrint)
       formData.append("fileType", userInputs?.docintelFormat)
-         ebookFile?.forEach(item =>{
+      formData.append("product", userInputs?.product)
+      ebookFile?.forEach(item =>{
        formData.append("ebookData",item )
       })
 
@@ -198,8 +190,6 @@ const LibraryCreateUser = () => {
   const onChangeEmbeddedVideo = (event) => {
     setChangeEmbeddedVideo(event);
   };
-
-
   const addNewProductClicked = (e) => {
     e.preventDefault();
     setCommanShow(true);
@@ -216,6 +206,9 @@ const LibraryCreateUser = () => {
               <input
                 type="text"
                 className="form-control"
+                name = "company"
+                onChange={handleChange}
+
               />
             </div>
             <div className="form-group">
@@ -223,7 +216,7 @@ const LibraryCreateUser = () => {
               <Select
                 options={userDetail?.user?.[0]?.pharma_country||[]}
                 placeholder="Select country"
-                // onChange={(event) => onCountryChange(event)}
+                onChange={(e)=>handleChange(e?.value,"country")}
                 className="dropdown-basic-button split-button-dropup"
                 isClearable
               />
@@ -232,6 +225,8 @@ const LibraryCreateUser = () => {
               <label htmlFor="">Client product</label>
                 <Select
                 options={userDetail?.product}
+                onChange={(e)=>handleChange(e?.value,"product")}
+
                 placeholder="Select own production person"
                 className="dropdown-basic-button split-button-dropup edit-production-dropdown"
                 isClearable
@@ -250,8 +245,9 @@ const LibraryCreateUser = () => {
               <label htmlFor="">Production</label>
               <Select
                 options={userDetail?.production}
+                onChange={(e)=>handleChange(e?.value,"production")}
+
                 placeholder="Select own production person"
-                // onChange={(event) => onProductionChange(event)}
                 className="dropdown-basic-button split-button-dropup edit-production-dropdown"
                 isClearable
               />
@@ -261,7 +257,7 @@ const LibraryCreateUser = () => {
               <Select
                 options={userDetail?.sales}
                 placeholder="Who made the sale?"
-                // onChange={(event) => onSalesChange(event)}
+                onChange={(e)=>handleChange(e?.value,"sales")}
                 className="dropdown-basic-button split-button-dropup edit-sales-dropdown"
                 isClearable
               />
@@ -272,7 +268,6 @@ const LibraryCreateUser = () => {
               <label htmlFor="">Reseller</label>
               <div className="form-check-group">
                 <div className="form-check-group-inset">
-              {console.log( userDetail?.reseller)}
                 {
                  
                  userDetail?.reseller?.length?userDetail?.reseller?.map(item =>{
@@ -476,6 +471,15 @@ const LibraryCreateUser = () => {
 
     )
   }
+
+  const handleModelFun = (e) =>{
+     setUserDetail({...userDetail,newValue:e.target.value})
+  }
+  const handleSubmitModelFun = (e) =>{
+    let newAr = userDetail?.product
+     newAr.push({value:userDetail?.newValu,label:userDetail?.newValue})
+    setUserDetail({...userDetail,product:newAr})
+ }
 
   return (
     <>
@@ -869,7 +873,7 @@ const LibraryCreateUser = () => {
                             <span>Choose Your File</span>
                           </label>
                           {userInputs?.coverPhoto?.[0]?.name ? (
-                            <h5>{userInputs?.coverPhoto?.[0]?.name}</h5>
+                            <p>{userInputs?.coverPhoto?.[0]?.name}</p>
                           ) : (
                             <p>
                               Upload your cover image <br />
@@ -1117,8 +1121,8 @@ const LibraryCreateUser = () => {
         heading={"Add New Product"}
         data={product}
         footerButton={"Add"}
-        // handleChange={addNewProductChanged}
-        // handleSubmit={addProductClicked}
+        handleChange={handleModelFun}
+        handleSubmit={handleSubmitModelFun}
         // inputValue
       />
     </>
