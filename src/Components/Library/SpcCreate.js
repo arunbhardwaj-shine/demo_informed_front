@@ -3,9 +3,11 @@ import { Button, Col, Form, Row } from "react-bootstrap";
 import Select from "react-select";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
+import {postFormData,postData} from "../../axios/apiHelper"
 import { popup_alert } from "../../popup_alert";
 import { SPCValidation } from "../Validations/LibraryValidation/SPCValidation";
 import CommonModel from "../../Model/CommonModel";
+import {ENDPOINT} from "../../axios/apiConfig"
 
 const SpcCreate = () => {
   const [countryAll, setCountryAll] = useState([
@@ -14,7 +16,11 @@ const SpcCreate = () => {
     { value: "Russia", label: "Russia" },
   ]);
   const navigate = useNavigate();
-  const [productArr, setProductArr] = useState([]);
+  const [productArr, setProductArr] = useState([
+    { value: "India", label: "India" },
+    { value: "Australia", label: "Australia" },
+    { value: "Russia", label: "Russia" },
+  ]);
   const [newProduct, setNewProduct] = useState("");
   const [show, setShow] = useState(false);
   const [userInputs, setSpcFormInputs] = useState({});
@@ -75,13 +81,23 @@ const SpcCreate = () => {
     setNewProduct(e.target.value);
   };
 
-  const publishClicked = () => {
+  const publishClicked = async(event) => {
+    event.preventDefault()
+  
     const result = SPCValidation(userInputs);
 
     if (Object.keys(result)?.length) {
       setError(result);
       return;
     }
+    const data = new FormData(event.target);
+    await postFormData(ENDPOINT.SPCCREATE,data,{
+      header:{
+        "Content-Type": "multipart/form-data",
+      }
+    });
+
+
     popup_alert({
       visible: "show",
       message: "Your HCP has been published <br />successfully !",
@@ -95,6 +111,7 @@ const SpcCreate = () => {
       <Col className="right-sidebar">
         <div className="custom-container">
           <Row>
+          <Form onSubmit={publishClicked} >
             <div className="top-header">
               <div className="page-title">
                 <h2>Create SPC</h2>
@@ -102,13 +119,14 @@ const SpcCreate = () => {
               <div className="header-btn">
                 <Button
                   className="btn-bordered cancel"
+                 
                   onClick={() => navigate("/spc")}
                 >
                   Cancel
                 </Button>
                 <Button
                   className="btn-filled send_btn"
-                  onClick={publishClicked}
+                  type="submit"
                 >
                   Publish
                 </Button>
@@ -120,7 +138,7 @@ const SpcCreate = () => {
                 <h4>Please fill the following and upload SPC needed</h4>
                 <div className="row">
                   <div className="col-12">
-                    <Form>
+                   
                       <div className="form-group">
                         <label htmlFor="">Title of SPC</label>
 
@@ -130,6 +148,13 @@ const SpcCreate = () => {
                           className="form-control"
                           name="title"
                         />
+                        <input
+                          type="text"
+                          className="form-control"
+                          name="createdBy"
+                          value="18207"
+                        />
+                     
                         {error?.title ? (
                           <div className="login-validation">{error?.title}</div>
                         ) : (
@@ -142,6 +167,7 @@ const SpcCreate = () => {
                         <Select
                           options={countryAll}
                           placeholder="Select country"
+                          name="country"
                           onChange={(event) =>
                             handleChange(event?.value, "country")
                           }
@@ -161,6 +187,7 @@ const SpcCreate = () => {
                         <Select
                           options={countryAll}
                           placeholder="Select SPC language"
+                          name="langauge"
                           onChange={(event) =>
                             handleChange(event?.value, "language")
                           }
@@ -179,6 +206,7 @@ const SpcCreate = () => {
                         <label htmlFor="">Business Unit</label>
                         <Select
                           options={countryAll}
+                          name="ibu"
                           placeholder="Select Business Unit"
                           onChange={(event) =>
                             handleChange(event?.value, "businessunit")
@@ -198,6 +226,7 @@ const SpcCreate = () => {
                         <label htmlFor="">Product</label>
                         <Select
                           options={productArr}
+                          name="product"
                           placeholder="Select product"
                           onChange={(event) =>
                             handleChange(event?.value, "product")
@@ -228,10 +257,10 @@ const SpcCreate = () => {
                           <div className="box">
                             <input
                               type="file"
-                              name="file-6[]"
+                              name="file"
                               id="file-6"
                               className="inputfile inputfile-6"
-                              accept=".doc .csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                              accept="application/pdf"
                               onChange={(event) =>
                                 handleChange(event, "uploadspc")
                               }
@@ -257,11 +286,12 @@ const SpcCreate = () => {
                           ""
                         )}
                       </div>
-                    </Form>
+                   
                   </div>
                 </div>
               </div>
             </div>
+            </Form>
           </Row>
         </div>
       </Col>
