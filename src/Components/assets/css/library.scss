@@ -1425,7 +1425,9 @@ select::-ms-expand {
     font-size: 14px;
     line-height: 16px;
 }
-
+.form-check-input:focus {
+    box-shadow: none;
+}
 
 .pdf-video-link {
 	.modal-dialog {
@@ -2316,6 +2318,39 @@ padding-bottom:0;
 .library .timeline-block-title h6 {
     color: $primary-color;
 }
+.timeline-article-detail-full {
+    border-top: 0.5px dashed #97B6CF;
+    margin: 16px -16px -16px;
+    padding: 0 16px;
+}
+.timeline-article-detail-full .timeline-article-details-heading {
+    text-align: center;
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.timeline-article-detail-full.active .timeline-article-details-overall {
+    display: block;
+}
+.timeline-article-detail-full .timeline-article-details-heading p {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    color: #97B6CF;
+    margin: 0;
+}
+.timeline-article-detail-full .timeline-article-details-overall {
+    display: none;
+}
+.timeline-article-detail-full .timeline-article-details-heading p img {
+    margin-left: 7px;
+}
+
+
+
+
 .header-btn button.btn.print {
     filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));
     border-radius: 30px;

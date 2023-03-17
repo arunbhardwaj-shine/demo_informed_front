@@ -191,14 +191,14 @@ const TimelineDetail = () => {
                                   </tbody>
                                 </table>
                              </div>
-                             {/* <div className={isActive ? 'timeline-article-detail active' : 'timeline-article-detail'} onClick={handleClick}>
+                             <div className={isActive ? 'timeline-article-detail-full active' : 'timeline-article-detail-full'} onClick={handleClick}>
                                 <div className="timeline-article-details-heading">
                                     <p>Details <img src={path_image + "down-arrow.png"} alt="" /></p>
                                 </div>
                                 <div className="timeline-article-details-overall">
                                     sdfsdfsdfsdfsdfs adaqweqwr ewryterhewe
                                 </div>
-                             </div> */}
+                             </div>
                         </div>
                         
                       </div>
