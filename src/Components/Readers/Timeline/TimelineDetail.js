@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from 'react'
 import { Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
+
 // const data = [
 //   {
 //     itemdetail: "Web Details:",
@@ -61,6 +62,12 @@ import { Link } from "react-router-dom";
 //   },
 // ];
 const TimelineDetail = () => {
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+
+  const [isActive, setIsActive] = useState(false);
+  const handleClick = event => {
+    setIsActive(current => !current);
+  };
   return (
     <>
       <Col className="right-sidebar col">
@@ -69,8 +76,12 @@ const TimelineDetail = () => {
             <div className="page-top-nav">
               <div className="row justify-content-end align-items-center">
                 <div className="col-12 col-md-6">
-                    <div className="page-title">
-                      <Link className="btn btn-primary btn-bordered back" to="/readers-view">Back</Link>
+                    <div className="page-title d-flex">
+                      <Link className="btn btn-primary btn-bordered back-btn" to="/readers-view">
+                        <svg width="14" height="24" viewBox="0 0 14 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z" fill="#97B6CF"/>
+                        </svg>
+                      </Link>
                        <h2>Timeline</h2>
                     </div>
                 </div>
@@ -99,7 +110,12 @@ const TimelineDetail = () => {
                 </div>
               </div>
             </div>
-            <div className="vertical-timeline d-flex">
+            <div>
+              {/* <button className={isActive ? 'bg-salmon' : ''} onClick={handleClick}>
+                Click
+              </button> */}
+            </div>
+            <div className="vertical-timeline d-flex align-items-start">
                 <div className="timeline-left-user">
                    <div className="timeline-left-user-detail">
                     <h5>Username seuismod phartra</h5>
@@ -127,6 +143,415 @@ const TimelineDetail = () => {
                 </div>
                 <div className="timeline-right-list">
                   <div className="timeline-right-list-view">
+                      <div className="timeline-box">
+                        <div className="timeline_date">
+                            5 March 2023
+                        </div>
+                        <div className="timeline-block">
+                            <div className="timeline-block-head read">
+                                <div className="timeline-block-title">
+                                   <div className="timeline-block-img">
+                                    <img src={path_image + "read-content.png"} alt="" />
+                                  </div>
+                                    <h6>Read Content</h6>
+                                </div>
+                                <div className="timeline-time-view">
+                                    <div className="timeline-time">
+                                      08:36 AM
+                                    </div>|
+                                    <div className="timeline-timezone">
+                                      Europe, London
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="timeline-article d-flex">
+                                 <div className="timeline-article-image">
+                                    <img src={path_image + "dummy-img1.png"} alt=""/>
+                                 </div>
+                                 <div className="timeline-article-detail">
+                                      <div className="timeline-title">
+                                          <p>Octaplaslg thawing recommendations  plasmatherm with octaplas program implemented</p>
+                                      </div>
+                                      <div className="timeline-subtitle">
+                                          <p>Subtitle dolor nibhdolor masa euismod phartra donec</p>
+                                      </div>
+                                 </div>
+                            </div>
+                             <div className="timeline-article-device">
+                              <table>
+                                  <tbody>
+                                    <tr>
+                                      <th className="device-title">
+                                        Device
+                                      </th>
+                                      <td className="device-name">
+                                        IOS
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                             </div>
+                             {/* <div className={isActive ? 'timeline-article-detail active' : 'timeline-article-detail'} onClick={handleClick}>
+                                <div className="timeline-article-details-heading">
+                                    <p>Details <img src={path_image + "down-arrow.png"} alt="" /></p>
+                                </div>
+                                <div className="timeline-article-details-overall">
+                                    sdfsdfsdfsdfsdfs adaqweqwr ewryterhewe
+                                </div>
+                             </div> */}
+                        </div>
+                        
+                      </div>
+                      <div className="timeline-box">
+                        <div className="timeline_date">
+                            3 March 2023
+                        </div>
+                        <div className="timeline-block">
+                            <div className="timeline-block-head shared">
+                                <div className="timeline-block-title">
+                                  <div className="timeline-block-img">
+                                    <img src={path_image + "share-materials.png"} alt="" />
+                                  </div>
+                                    <h6>Shared Content</h6>
+                                </div>
+                                <div className="timeline-time-view">
+                                    <div className="timeline-time">
+                                      08:36 AM
+                                    </div>|
+                                    <div className="timeline-timezone">
+                                      Europe, London
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="timeline-article d-flex">
+                                 <div className="timeline-article-image">
+                                    <img src={path_image + "dummy-img1.png"} alt=""/>
+                                 </div>
+                                 <div className="timeline-article-detail">
+                                      <div className="timeline-title">
+                                          <p>The pharmacokinetic diversity of two von Willebrand factor (VWF)/ factor VIII (FVIII) concentrates in subjects with congenital </p>
+                                      </div>
+                                      <div className="timeline-subtitle">
+                                          <p>Subtitle dolor nibhdolor masa euismod phartra donec</p>
+                                      </div>
+                                 </div>
+                            </div>
+                             <div className="timeline-article-device">
+                                <table>
+                                  <tbody>
+                                    <tr>
+                                      <th className="device-title">
+                                        Device
+                                      </th>
+                                      <td className="device-name">
+                                        IOS
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                             </div>
+                        </div>
+                        <div className="timeline-block">
+                            <div className="timeline-block-head saved">
+                                <div className="timeline-block-title">
+                                  <div className="timeline-block-img">
+                                    <img src={path_image + "saved-content.png"} alt="" />
+                                  </div>
+                                    <h6>Saved Content</h6>
+                                </div>
+                                <div className="timeline-time-view">
+                                    <div className="timeline-time">
+                                      08:36 AM
+                                    </div>|
+                                    <div className="timeline-timezone">
+                                      Europe, London
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="timeline-article d-flex">
+                                 <div className="timeline-article-image">
+                                    <img src={path_image + "dummy-img1.png"} alt=""/>
+                                 </div>
+                                 <div className="timeline-article-detail">
+                                      <div className="timeline-title">
+                                          <p>NuPreviq Study: Personalised prophylaxis with Nuwiq (simoctocog alfa) in adults with haemophilia A EBOOK SAMPLE</p>
+                                      </div>
+                                      <div className="timeline-subtitle">
+                                          <p>Infographics presented by Dr. Fernando Corrales EBO...</p>
+                                      </div>
+                                 </div>
+                            </div>
+                             <div className="timeline-article-device">
+                              <table>
+                                  <tbody>
+                                    <tr>
+                                      <th className="device-title">
+                                        Device
+                                      </th>
+                                      <td className="device-name">
+                                        IOS
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                             </div>
+                        </div>
+                        
+                      </div>
+                      <div className="timeline-box">
+                        <div className="timeline_date">
+                            2 March 2023
+                        </div>
+                        <div className="timeline-block">
+                            <div className="timeline-block-head opened">
+                                <div className="timeline-block-title">
+                                  <div className="timeline-block-img">
+                                    <img src={path_image + "open-content.png"} alt="" />
+                                  </div>
+                                    <h6>Opened Content</h6>
+                                </div>
+                                <div className="timeline-time-view">
+                                    <div className="timeline-time">
+                                      08:36 AM
+                                    </div>|
+                                    <div className="timeline-timezone">
+                                      Europe, London
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="timeline-article d-flex">
+                                 <div className="timeline-article-image">
+                                    <img src={path_image + "dummy-img1.png"} alt=""/>
+                                 </div>
+                                 <div className="timeline-article-detail">
+                                      <div className="timeline-title">
+                                          <p>Octaplaslg thawing recommendations  plasmatherm with octaplas program implemented</p>
+                                      </div>
+                                      <div className="timeline-subtitle">
+                                          <p>Subtitle dolor nibhdolor masa euismod phartra donec</p>
+                                      </div>
+                                 </div>
+                            </div>
+                             <div className="timeline-article-device">
+                              <table>
+                                  <tbody>
+                                    <tr>
+                                      <th className="device-title">
+                                        Device
+                                      </th>
+                                      <td className="device-name">
+                                        IOS
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                             </div>
+                        </div>
+                      </div>
+                      <div className="timeline-box">
+                        <div className="timeline_date">
+                            24 Feb 2023
+                        </div>
+                        <div className="timeline-block">
+                            <div className="timeline-block-head received">
+                                <div className="timeline-block-title">
+                                  <div className="timeline-block-img">
+                                    <img src={path_image + "email-received.png"} alt="" />
+                                  </div>
+                                    <h6>Email Received</h6>
+                                </div>
+                                <div className="timeline-time-view">
+                                    <div className="timeline-time">
+                                      08:36 AM
+                                    </div>|
+                                    <div className="timeline-timezone">
+                                      Europe, London
+                                    </div>
+                                </div>
+                            </div>
+                             <div className="timeline-article-device">
+                              <table>
+                                  <tbody>
+                                    <tr>
+                                      <th className="device-title">
+                                        Title
+                                      </th>
+                                      <td className="device-name">
+                                        Octote condi ment zcsum dolor nibhdolor masa euismod phartra donec mas faucibus quisque nuneque ipsum
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <th className="device-title">
+                                        Subject
+                                      </th>
+                                      <td className="device-name">
+                                        Mote condi ment zcsum dolor nibhdolor masa euismod phartra donec mas faucibus quisque nuneque ipsum
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <th className="device-title">
+                                        Device
+                                      </th>
+                                      <td className="device-name">
+                                        IOS
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                             </div>
+                        </div>
+                      </div>
+                      <div className="timeline-box">
+                        <div className="timeline_date">
+                            17 Feb 2023
+                        </div>
+                        <div className="timeline-block">
+                            <div className="timeline-block-head registration">
+                                <div className="timeline-block-title">
+                                  <div className="timeline-block-img">
+                                    <img src={path_image + "registration.png"} alt="" />
+                                  </div>
+                                    <h6>Registration</h6>
+                                </div>
+                                <div className="timeline-time-view">
+                                    <div className="timeline-time">
+                                      08:36 AM
+                                    </div>|
+                                    <div className="timeline-timezone">
+                                      Europe, London
+                                    </div>
+                                </div>
+                            </div>
+                             <div className="timeline-article-device">
+                              <table>
+                                  <tbody>
+                                    <tr>
+                                      <th className="device-title">
+                                        Title
+                                      </th>
+                                      <td className="device-name">
+                                        Octote condi ment zcsum dolor nibhdolor masa euismod phartra donec mas faucibus quisque nuneque ipsum
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <th className="device-title">
+                                        Device
+                                      </th>
+                                      <td className="device-name">
+                                        Android
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                             </div>
+                        </div>
+                      </div>
+                      <div className="timeline-box">
+                        <div className="timeline_date">
+                            2 Feb 2023
+                        </div>
+                        <div className="timeline-block">
+                            <div className="timeline-block-head library">
+                                <div className="timeline-block-title">
+                                  <div className="timeline-block-img">
+                                    <img src={path_image + "checked-docintel.png"} alt="" />
+                                  </div>
+                                    <h6>Checked Docintel Library</h6>
+                                </div>
+                                <div className="timeline-time-view">
+                                    <div className="timeline-time">
+                                      08:36 AM
+                                    </div>|
+                                    <div className="timeline-timezone">
+                                      Europe, London
+                                    </div>
+                                </div>
+                            </div>
+                             <div className="timeline-article-device">
+                              <table>
+                                  <tbody>
+                                    <tr>
+                                      <th className="device-title">
+                                        Device
+                                      </th>
+                                      <td className="device-name">
+                                        Web
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                             </div>
+                        </div>
+                        <div className="timeline-block">
+                            <div className="timeline-block-head library">
+                                <div className="timeline-block-title">
+                                  <div className="timeline-block-img">
+                                    <img src={path_image + "log-docintel.png"} alt="" />
+                                  </div>
+                                    <h6>Login To Docintel</h6>
+                                </div>
+                                <div className="timeline-time-view">
+                                    <div className="timeline-time">
+                                      08:36 AM
+                                    </div>|
+                                    <div className="timeline-timezone">
+                                      Europe, London
+                                    </div>
+                                </div>
+                            </div>
+                             <div className="timeline-article-device">
+                              <table>
+                                  <tbody>
+                                    <tr>
+                                      <th className="device-title">
+                                        Device
+                                      </th>
+                                      <td className="device-name">
+                                        Web
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                             </div>
+                        </div>
+                      </div>
+                      <div className="timeline-box">
+                        <div className="timeline_date">
+                            1 Feb 2023
+                        </div>
+                        <div className="timeline-block">
+                            <div className="timeline-block-head library">
+                                <div className="timeline-block-title">
+                                  <div className="timeline-block-img">
+                                    <img src={path_image + "account-create.png"} alt="" />
+                                  </div>
+                                    <h6>New Account Is Created</h6>
+                                </div>
+                                <div className="timeline-time-view">
+                                    <div className="timeline-time">
+                                      08:36 AM
+                                    </div>|
+                                    <div className="timeline-timezone">
+                                      Europe, London
+                                    </div>
+                                </div>
+                            </div>
+                             <div className="timeline-article-device">
+                              <table>
+                                  <tbody>
+                                    <tr>
+                                      <th className="device-title">
+                                        Device
+                                      </th>
+                                      <td className="device-name">
+                                        Android
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                             </div>
+                        </div>
+                      </div>
                       
                   </div>
                 </div>

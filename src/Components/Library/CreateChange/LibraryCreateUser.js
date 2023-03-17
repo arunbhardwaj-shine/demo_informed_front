@@ -312,7 +312,7 @@ const LibraryCreateUser = () => {
     return (
         <div className="create-change-content">
       <div className="form_action">
-        <h4>About the Docintel link  you're making</h4>
+        <h4>About the Docintel link you're making</h4>
         <div className="row">
           <div className="col-12 col-md-6">
             <div className="form-group">
@@ -356,29 +356,45 @@ const LibraryCreateUser = () => {
               />
             </div>
             <div className="form-group">
-                      <label htmlFor="">Content Use</label>
-                      <fieldset id="group2">
-                        <input
-                          type="checkbox"
-                          value="value1"
-                          name="group2"
-                          onClick={(e)=>handleChange(e.target?.checked,"allowPrint")}
-                          id="limitagreed1"
-                        />
-                        <label htmlFor="limitagreed1">One Source</label>
-                        <input
-                          type="checkbox"
-                          value="value2"
-                          name="group2"
-                          onClick={(e)=>handleChange(e.target?.checked,"allowDownload")}
-                          id="limitagreed2"
-                        />
-                        <label htmlFor="limitagreed2">Library</label>
-                      </fieldset>
-                    </div>
+                <label htmlFor="">Content Use</label>
+                <fieldset id="group2">
+                  <input
+                    type="checkbox"
+                    value="value1"
+                    name="group2"
+                    onClick={(e)=>handleChange(e.target?.checked,"allowPrint")}
+                    id="limitagreed1"
+                  />
+                  <label htmlFor="limitagreed1">One Source</label>
+                  <input
+                    type="checkbox"
+                    value="value2"
+                    name="group2"
+                    onClick={(e)=>handleChange(e.target?.checked,"allowDownload")}
+                    id="limitagreed2"
+                  />
+                  <label htmlFor="limitagreed2">Library</label>
+                </fieldset>
+              </div>
           </div>
           <div className="col-12 col-md-6 d-flex justify-content-end align-items-end right-change">
             <div className="form-group justify-content-end">
+                 <label htmlFor="">Topics</label>
+                 <div class="input-group w-100">
+                  <div class="input-group-prepend">
+                    <button class="btn btn-filled btn-primary" type="button" id="tags-add" data-bs-toggle="modal" data-bs-target="#tagsModal">Add Tag +</button>
+                  </div>
+                  <div class="tags_added">
+                    <ul>
+                      <li class="list1">Excessive bleedings <img src="componentAssets/images/filter-close.svg" alt="Close-filter"/></li>
+                      <li class="list1">New tag 3 <img src="componentAssets/images/filter-close.svg" alt="Close-filter"/></li>
+                      <li class="list1">New tag 6 <img src="componentAssets/images/filter-close.svg" alt="Close-filter"/></li>
+                      <li class="list1">global <img src="componentAssets/images/filter-close.svg" alt="Close-filter"/></li>
+                 </ul>
+                 </div>
+                 </div>
+            </div>
+            {/* <div className="form-group justify-content-end">
               <label htmlFor="">Reseller</label>
               <div className="form-check-group">
                 <div className="form-check">
@@ -438,7 +454,7 @@ const LibraryCreateUser = () => {
                   </label>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
