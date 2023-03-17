@@ -70,13 +70,9 @@ const LibraryCreateUser = () => {
    const hadData =  await postData(ENDPOINT.LIBRARYDETAIL,{
       userId:29406
     });
-    // console.log("gauravs",hadData?.data?.data)
     setUserDetail({"user":hadData?.data?.data?.user,"production":hadData?.data?.data?.production,country:hadData?.data?.data?.user?.pharma_country,
       sales:hadData?.data?.data?.sale
     })
-    // setUserDetail({"user":hadData?.data?.data?.user,"production":hadData?.data?.data?.production,country:hadData?.data?.data?.user?.pharma_country,
-    //   sales:hadData?.data?.data?.user?.sale
-    // })
   }
 
   useEffect(()=>{
