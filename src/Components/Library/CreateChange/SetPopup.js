@@ -40,6 +40,7 @@ const SetPopup = (props) => {
   const [editableTemplate, setEdiatbleTemplate] = useState(false);
   const [templateName, setTemplateName] = useState("");
   const [templateId, setTemplateId] = useState();
+  const [popupNo, setPopupNo] = useState();
   const [validator] = React.useState(new SimpleReactValidator());
   const [activeIndex, setActiveIndex] = useState(0);
   const slidePrev = () => setActiveIndex(activeIndex - 1);
@@ -100,7 +101,8 @@ const SetPopup = (props) => {
 
   const getTemplateListData = async (flag, lng, consent) => {
     loader("show");
-    setTemplateClicked(false);
+    try {
+      setTemplateClicked(false);
       let check_lng_index = 10;
       if (lng == "All") {
         check_lng_index = 10;
@@ -127,15 +129,18 @@ const SetPopup = (props) => {
       setTemplateId(res?.data?.data?.popupTempId);
       let lang = res?.data?.data?.language;
       let lng_arr = [];
-        Object.entries(lang).map(([index, item]) => {
-          let label = item;
-          lng_arr.push({
-            value: item,
-            label: label.toUpperCase(),
-          });
+      Object.entries(lang).map(([index, item]) => {
+        let label = item;
+        lng_arr.push({
+          value: item,
+          label: label.toUpperCase(),
         });
+      });
       setTemplateLanguage(lng_arr);
       loader("hide");
+    }catch(err){
+      loader("hide");
+    }
   };
 
   const saveTemplateEdit = (e) => {
@@ -156,51 +161,46 @@ const SetPopup = (props) => {
     setTemplateName(template.name);
     setNewTemplateName(template.name);
     setTemplate(template.source_code);
+    setPopupNo(template.popupNo);
     e.target.classList.toggle("select_mm");
   };
 
   const updateTemplate = async (e) => {
     e.preventDefault();
-    let template_id = templateId;
-    if (
-      typeof template_id != "undefined" &&
-      template_id != "" &&
-      template_id != 0
-    ) {
-      if (editorRef.current) {
-        const body = {
-          user_id: '18207',
-          source_code: editorRef.current.getContent(),
-          template_id: templateId,
-          name: templateName,
-          status: 2,
-          language: 2,
-        };
-        console.log(body);
-        // axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-        // loader("show");
-        // await axios
-        //   .post(`emailapi/add_update_template`, body)
-        //   .then((res) => {
-        //     if (res.data.status_code === 200) {
-        //       getTemplateListData(1, selectedLanguage, selectedIbu);
-        //       setTemplate(templateSaving);
-        //     } else {
-        //       loader("hide");
-        //       toast.warning("Template not selected.");
-        //     }
-        //   })
-        //   .catch((err) => {
-        //     loader("hide");
-        //     toast.error("Something went wrong");
-        //   });
-        setNewTemplatePopup(false);
-        setTemplatePopup(false);
-      }
-    } else {
-      toast.warning("Template not selected.");
+    let findTemplateIndex = templateList.findIndex(el => el.popupNo === popupNo);
+    if(findTemplateIndex){
+        templateList[findTemplateIndex].source_code = templateSaving;
+        setTemplateList(templateList);
+        toast.success("Popup Update successfully.");
     }
   };
+
+  const nextButtonClicked = async() => {
+      loader("show");
+      try{
+        let first  = templateList.findIndex(el => el.popupNo === 1);
+        let second = templateList.findIndex(el => el.popupNo === 2);
+        let third  = templateList.findIndex(el => el.popupNo === 3);
+        let fourth = templateList.findIndex(el => el.popupNo === 4);
+
+        let body = {
+          userId : '18207',
+          pdfId   : articleId,
+          language    : selectOptions.language,
+          firstPopupTime : selectOptions.time,
+          consentType : selectOptions.consentType,
+          htmlEditor1 : templateList?.[first]?.source_code,
+          htmlEditor2 : templateList?.[second]?.source_code,
+          htmlEditor3 : templateList?.[third]?.source_code,
+          htmlEditor4 : templateList?.[fourth]?.source_code
+        }
+        const res = await postData(ENDPOINT.LIBRARYSAVEPOPUP, body);
+        loader("hide");
+        navigate("/preview-content")
+      }catch(err){
+        loader("hide");
+      }
+  }
 
   function LinkWithTooltip({ id, children, href, tooltip }) {
     return (
@@ -229,8 +229,10 @@ const SetPopup = (props) => {
               <div className="row justify-content-end align-items-center">
                 <div className="col-12 col-md-1">
                   <div className="header-btn-left">
-                    <button className="btn btn-primary btn-bordered back">
-                      <Link to="/library-create">Back</Link>
+                    <button className="btn btn-primary btn-bordered back"
+                    onClick={(e) => navigate("/library-create-user")}
+                    >
+                      Back
                     </button>
                   </div>
                 </div>
@@ -249,12 +251,15 @@ const SetPopup = (props) => {
                 </div>
                 <div className="col-12 col-md-2">
                   <div className="header-btn">
-                    <button className="btn btn-primary btn-bordered move-draft">
+                    <button className="btn btn-primary btn-bordered move-draft"
+                    onClick={(e) => navigate("/library-create")}
+                    >
                       Cancel
                     </button>
 
                     <button
                       className="btn btn-primary btn-filled next"
+                      onClick={nextButtonClicked}
                     >
                       Next
                     </button>
