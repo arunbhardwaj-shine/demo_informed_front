@@ -81,6 +81,9 @@ const LibraryCreateUser = () => {
   useEffect(()=>{
     initalFun()
   },[])
+  const editFun = () =>{
+    
+  }
   const handleChange = (e, isSelectedName) => {
     if (e?.target?.files?.length < 1) {
       return;
@@ -187,8 +190,6 @@ const LibraryCreateUser = () => {
   const onChangeEmbeddedVideo = (event) => {
     setChangeEmbeddedVideo(event);
   };
-
-
   const addNewProductClicked = (e) => {
     e.preventDefault();
     setCommanShow(true);
