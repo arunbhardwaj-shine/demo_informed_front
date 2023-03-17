@@ -101,7 +101,8 @@ const SetPopup = (props) => {
 
   const getTemplateListData = async (flag, lng, consent) => {
     loader("show");
-    setTemplateClicked(false);
+    try {
+      setTemplateClicked(false);
       let check_lng_index = 10;
       if (lng == "All") {
         check_lng_index = 10;
@@ -128,15 +129,18 @@ const SetPopup = (props) => {
       setTemplateId(res?.data?.data?.popupTempId);
       let lang = res?.data?.data?.language;
       let lng_arr = [];
-        Object.entries(lang).map(([index, item]) => {
-          let label = item;
-          lng_arr.push({
-            value: item,
-            label: label.toUpperCase(),
-          });
+      Object.entries(lang).map(([index, item]) => {
+        let label = item;
+        lng_arr.push({
+          value: item,
+          label: label.toUpperCase(),
         });
+      });
       setTemplateLanguage(lng_arr);
       loader("hide");
+    }catch(err){
+      loader("hide");
+    }
   };
 
   const saveTemplateEdit = (e) => {
@@ -172,23 +176,30 @@ const SetPopup = (props) => {
   };
 
   const nextButtonClicked = async() => {
-      let first  = templateList.findIndex(el => el.popupNo === 1);
-      let second = templateList.findIndex(el => el.popupNo === 2);
-      let third  = templateList.findIndex(el => el.popupNo === 3);
-      let fourth = templateList.findIndex(el => el.popupNo === 4);
+      loader("show");
+      try{
+        let first  = templateList.findIndex(el => el.popupNo === 1);
+        let second = templateList.findIndex(el => el.popupNo === 2);
+        let third  = templateList.findIndex(el => el.popupNo === 3);
+        let fourth = templateList.findIndex(el => el.popupNo === 4);
 
-      let body = {
-        userId : '18207',
-        pdfId   : articleId,
-        language    : selectOptions.language,
-        firstPopupTime : selectOptions.time,
-        consentType : selectOptions.consentType,
-        htmlEditor1 : templateList?.[first]?.source_code,
-        htmlEditor2 : templateList?.[second]?.source_code,
-        htmlEditor3 : templateList?.[third]?.source_code,
-        htmlEditor4 : templateList?.[fourth]?.source_code
+        let body = {
+          userId : '18207',
+          pdfId   : articleId,
+          language    : selectOptions.language,
+          firstPopupTime : selectOptions.time,
+          consentType : selectOptions.consentType,
+          htmlEditor1 : templateList?.[first]?.source_code,
+          htmlEditor2 : templateList?.[second]?.source_code,
+          htmlEditor3 : templateList?.[third]?.source_code,
+          htmlEditor4 : templateList?.[fourth]?.source_code
+        }
+        const res = await postData(ENDPOINT.LIBRARYSAVEPOPUP, body);
+        loader("hide");
+        navigate("/preview-content")
+      }catch(err){
+        loader("hide");
       }
-      console.log(body);
   }
 
   function LinkWithTooltip({ id, children, href, tooltip }) {
