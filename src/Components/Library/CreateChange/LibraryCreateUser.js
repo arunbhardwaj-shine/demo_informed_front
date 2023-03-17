@@ -12,8 +12,6 @@ import { loader } from "../../../loader";
 import {ENDPOINT} from "../../../axios/apiConfig"
 import CommonModel from "../../../Model/CommonModel";
 
-// import CommonModel from "../../Model/CommonModel";
-
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LibraryCreateUser = () => {
@@ -473,6 +471,10 @@ const LibraryCreateUser = () => {
     </div>
 
     )
+  }
+
+  const handleModelFun = (e) =>{
+     console.log("dfdfdfdfdfd",e.target.value)
   }
 
   return (
@@ -1115,7 +1117,7 @@ const LibraryCreateUser = () => {
         heading={"Add New Product"}
         data={product}
         footerButton={"Add"}
-        // handleChange={addNewProductChanged}
+        handleChange={handleModelFun}
         // handleSubmit={addProductClicked}
         // inputValue
       />
