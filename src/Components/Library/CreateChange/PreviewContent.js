@@ -28,8 +28,31 @@ import {
 import Select from "react-select";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-const PreviewContent = (props) => {
+const PreviewContent = () => {
     const navigate = useNavigate();
+    const [articleId, setArticleId] = useState("3968");
+    const [pdfData, setPdfData] = useState([]);
+    const [editTitle, setEditTitle] = useState(false);
+    const [titleChange, setTitleChange] = useState('');
+
+    useEffect(() => {
+      getArticleData();
+    }, []);
+
+    const getArticleData = async () => {
+        loader('show');
+          let body = {
+            pdfId: articleId
+          };
+          const res = await postData(ENDPOINT.LIBRARYGETARTICLE, body);
+          setPdfData(res?.data?.data);
+        loader('hide');
+    };
+
+    const updateArticleTitle = (title) => {
+            pdfData.title = title;
+    }
+
     return(
       <Col className="right-sidebar">
         <div className="custom-container">
@@ -74,13 +97,55 @@ const PreviewContent = (props) => {
               <div className="form_action">
                 <div className="row">
                   <Col className="sublink_right preview-content d-flex flex-column">
+
                     <div className="d-flex justify-content-between align-items-center">
-                      <h4 className="edit_content_title">Title <button><img src={path_image + "edit-button.svg"} alt="Edit" /></button></h4>
+                      <h4 className="edit_content_title">
+                        {
+                          editTitle ?
+                          <input
+                            type="text"
+                            className="form-control"
+                            id="new-tag"
+                            value={
+                              titleChange
+                            }
+                            onChange={(e) => setTitleChange(e.target.value)}
+                          />
+                          : pdfData?.title
+                        }
+
+                        {
+                          editTitle ?
+                          <>
+                          <button onClick={(e) => {
+                              setEditTitle(false)
+                              updateArticleTitle(titleChange)
+                          }}>Save</button>
+                          <button onClick={(e) => {
+                              setEditTitle(false)
+                              setTitleChange(pdfData?.title)
+                          }}>Cancel</button>
+                          </>
+                          :
+                          <button
+                          onClick={(e) => {
+                              setEditTitle(true)
+                              setTitleChange(pdfData?.title)
+                          }}
+                          >
+                          <img src={path_image + "edit-button.svg"} alt="Edit" />
+                          </button>
+                        }
+
+
+                      </h4>
                       <Button className="btn btn-bordered">Change content file</Button>
                     </div>
 
-                    <RenderPdf/>
-                    
+                    <RenderPdf
+                      url= {pdfData?.url}
+                    />
+
                   </Col>
                 </div>
               </div>
