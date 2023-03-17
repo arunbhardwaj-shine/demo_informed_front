@@ -17,6 +17,7 @@ import LibraryPopupSet from "./Components/Library/CreateChange/LibraryPopupSet";
 import LibrarySublink from "./Components/Library/CreateChange/LibrarySublink";
 import LibraryTopics from "./Components/Library/CreateChange/LibraryTopics";
 import LibraryCampaign from "./Components/Library/LibraryCampaign";
+import PreviewContent from "./Components/Library/CreateChange/PreviewContent";
 import Spc from "./Components/Library/Spc";
 import SpcCreate from "./Components/Library/SpcCreate";
 import Products from "./Components/Library/Products";
@@ -187,6 +188,7 @@ const Routing = () => {
                 <Route path="/library-topics" element={<LibraryTopics />} />
                 <Route path="/library-campaign" element={<LibraryCampaign />} />
                 <Route path="/content-detail" element={<ContentDetail />} />
+                <Route path="/preview-content" element={<PreviewContent />} />
                 <Route
                   path="/create-docintel-link"
                   element={<CreateDocintelLink />}

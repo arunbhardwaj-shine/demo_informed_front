@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from 'react'
 import { Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
@@ -63,6 +63,11 @@ import { Link } from "react-router-dom";
 // ];
 const TimelineDetail = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+
+  const [isActive, setIsActive] = useState(false);
+  const handleClick = event => {
+    setIsActive(current => !current);
+  };
   return (
     <>
       <Col className="right-sidebar col">
@@ -104,6 +109,11 @@ const TimelineDetail = () => {
                   </div>
                 </div>
               </div>
+            </div>
+            <div>
+              {/* <button className={isActive ? 'bg-salmon' : ''} onClick={handleClick}>
+                Click
+              </button> */}
             </div>
             <div className="vertical-timeline d-flex align-items-start">
                 <div className="timeline-left-user">
@@ -181,6 +191,14 @@ const TimelineDetail = () => {
                                   </tbody>
                                 </table>
                              </div>
+                             {/* <div className={isActive ? 'timeline-article-detail active' : 'timeline-article-detail'} onClick={handleClick}>
+                                <div className="timeline-article-details-heading">
+                                    <p>Details <img src={path_image + "down-arrow.png"} alt="" /></p>
+                                </div>
+                                <div className="timeline-article-details-overall">
+                                    sdfsdfsdfsdfsdfs adaqweqwr ewryterhewe
+                                </div>
+                             </div> */}
                         </div>
                         
                       </div>

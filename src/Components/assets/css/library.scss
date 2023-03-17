@@ -1222,6 +1222,10 @@ select::-ms-expand {
   max-height: 145px;
   overflow-y: auto;
 }
+.form-check-group .form-check-group-inset {
+  max-height: 145px;
+  overflow-y: auto;
+}
 .create-change-content .form-group .form-check label {
   font-size: 15px;
   line-height: 18px;
