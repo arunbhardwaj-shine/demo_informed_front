@@ -78,6 +78,7 @@ import CreateDocintelLink from "./Components/Library/CreateChange/CreateDocintel
 import SpcEdit from "./Components/Library/SpcEdit";
 import SetPopup from "./Components/Library/CreateChange/SetPopup";
 import EditConsentOptions from "./Components/Library/CreateChange/EditConsentOptions";
+import ContentDetail from "./Components/Library/CreateChange/ContentDetail";
 
 let platform = 0;
 let show = 0;
@@ -185,6 +186,7 @@ const Routing = () => {
                 <Route path="/library-sublink" element={<LibrarySublink />} />
                 <Route path="/library-topics" element={<LibraryTopics />} />
                 <Route path="/library-campaign" element={<LibraryCampaign />} />
+                <Route path="/content-detail" element={<ContentDetail />} />
                 <Route
                   path="/create-docintel-link"
                   element={<CreateDocintelLink />}
