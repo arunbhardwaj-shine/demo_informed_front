@@ -144,7 +144,7 @@ const SetPopup = (props) => {
   };
 
   const saveTemplateEdit = (e) => {
-
+    console.log(e);
   };
 
   const closeTemplateEdit = (e) => {
@@ -168,11 +168,9 @@ const SetPopup = (props) => {
   const updateTemplate = async (e) => {
     e.preventDefault();
     let findTemplateIndex = templateList.findIndex(el => el.popupNo === popupNo);
-    if(findTemplateIndex){
-        templateList[findTemplateIndex].source_code = templateSaving;
-        setTemplateList(templateList);
-        toast.success("Popup Update successfully.");
-    }
+    templateList[findTemplateIndex].source_code = templateSaving;
+    setTemplateList(templateList);
+    toast.success("Popup Update successfully.");
   };
 
   const nextButtonClicked = async() => {
