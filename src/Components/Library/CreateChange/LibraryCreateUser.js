@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Select from "react-select";
 import { Link,useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
@@ -7,7 +7,7 @@ import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
 import { createContent } from "../../CommonComponent/Validations";
 import { Button, Form, Dropdown, DropdownButton } from "react-bootstrap";
-import {postFormData} from "../../../axios/apiHelper"
+import {postFormData,postData} from "../../../axios/apiHelper"
 import { loader } from "../../../loader";
 import {ENDPOINT} from "../../../axios/apiConfig"
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -29,6 +29,23 @@ const LibraryCreateUser = () => {
       fileValue:"",
     },
   ]);
+  const [userDetail,setUserDetail] = useState({
+    user:{},
+    production:[],
+    sales:[],
+    country:[]
+  })
+
+  const [productionAll, setProductionAll] = useState([
+    { value: "production1", label: "production1" },
+    { value: "production2", label: "production2" },
+    { value: "production3", label: "production3" },
+  ]);
+  const [salesAll, setSalesAll] = useState([
+    { value: "sales1", label: "sales1" },
+    { value: "sales2", label: "sales2" },
+    { value: "sales3", label: "sales3" },
+  ]);
 
   const [countryAll, setCountryAll] = useState([
     { value: "India", label: "India" },
@@ -49,6 +66,22 @@ const LibraryCreateUser = () => {
   const [changeEmbeddedVideo, setChangeEmbeddedVideo] = useState("");
 
 
+  const initalFun = async() =>{
+   const hadData =  await postData(ENDPOINT.LIBRARYDETAIL,{
+      userId:29406
+    });
+    // console.log("gauravs",hadData?.data?.data)
+    setUserDetail({"user":hadData?.data?.data?.user,"production":hadData?.data?.data?.production,country:hadData?.data?.data?.user?.pharma_country,
+      sales:hadData?.data?.data?.sale
+    })
+    // setUserDetail({"user":hadData?.data?.data?.user,"production":hadData?.data?.data?.production,country:hadData?.data?.data?.user?.pharma_country,
+    //   sales:hadData?.data?.data?.user?.sale
+    // })
+  }
+
+  useEffect(()=>{
+    initalFun()
+  },[])
   const handleChange = (e, isSelectedName) => {
     if (e?.target?.files?.length < 1) {
       return;
@@ -155,6 +188,269 @@ const LibraryCreateUser = () => {
     setChangeEmbeddedVideo(event);
   };
 
+  const publisherFun = () =>{
+    return (
+      <div className="create-change-content">
+      <div className="form_action">
+        <h4>Who is involved</h4>
+        <div className="row">
+          <div className="col-12 col-md-6">
+            <div className="form-group">
+              <label htmlFor="">Company</label>
+              <input
+                type="text"
+                className="form-control"
+                // onChange={(event) => onCompanyChange(event)}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="">Country</label>
+              <Select
+                options={countryAll}
+                placeholder="Select country"
+                // onChange={(event) => onCountryChange(event)}
+                className="dropdown-basic-button split-button-dropup"
+                isClearable
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="">Client product</label>
+              <input
+                type="text"
+                className="form-control"
+                // onChange={(e) => onClientProductChange(e)}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="">Production</label>
+              <Select
+                options={userDetail?.production}
+                placeholder="Select own production person"
+                // onChange={(event) => onProductionChange(event)}
+                className="dropdown-basic-button split-button-dropup edit-production-dropdown"
+                isClearable
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="">Sales</label>
+              <Select
+                options={userDetail?.sales}
+                placeholder="Who made the sale?"
+                // onChange={(event) => onSalesChange(event)}
+                className="dropdown-basic-button split-button-dropup edit-sales-dropdown"
+                isClearable
+              />
+            </div>
+          </div>
+          <div className="col-12 col-md-6 d-flex justify-content-end align-items-end right-change">
+            <div className="form-group justify-content-end">
+              <label htmlFor="">Reseller</label>
+              <div className="form-check-group">
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    value=""
+                    id="flexCheckDefault"
+                    type="checkbox"
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor="flexCheckDefault"
+                  >
+                    N/A
+                  </label>
+                </div>
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    value=""
+                    id="flexCheckReseller"
+                    type="checkbox"
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor="flexCheckReseller"
+                  >
+                    Reseller Name
+                  </label>
+                </div>
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    value=""
+                    id="flexCheckReseller1"
+                    type="checkbox"
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor="flexCheckReseller1"
+                  >
+                    Reseller Name
+                  </label>
+                </div>
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    value=""
+                    id="flexCheckReseller2"
+                    type="checkbox"
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor="flexCheckReseller2"
+                  >
+                    Reseller Name
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    )
+  }
+
+  const docintelLink = () =>{
+    return (
+        <div className="create-change-content">
+      <div className="form_action">
+        <h4>About the Docintel link  you're making</h4>
+        <div className="row">
+          <div className="col-12 col-md-6">
+            <div className="form-group">
+              <label htmlFor="">Category</label>
+              <Select
+                options={countryAll}
+                placeholder="Select category type for HCPs to sort"
+                // onChange={(event) => onCountryChange(event)}
+                className="dropdown-basic-button split-button-dropup"
+                isClearable
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="">Format</label>
+              <Select
+                options={countryAll}
+                placeholder="Select format for tracking"
+                // onChange={(event) => onCountryChange(event)}
+                className="dropdown-basic-button split-button-dropup"
+                isClearable
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="">Product</label>
+              <Select
+                options={countryAll}
+                placeholder="Select the product this is for"
+                // onChange={(event) => onCountryChange(event)}
+                className="dropdown-basic-button split-button-dropup"
+                isClearable
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="">Business Unit</label>
+              <Select
+                options={countryAll}
+                placeholder="Select Business Unit"
+                // onChange={(event) => onCountryChange(event)}
+                className="dropdown-basic-button split-button-dropup"
+                isClearable
+              />
+            </div>
+            <div className="form-group">
+                      <label htmlFor="">Content Use</label>
+                      <fieldset id="group2">
+                        <input
+                          type="checkbox"
+                          value="value1"
+                          name="group2"
+                          onClick={(e)=>handleChange(e.target?.checked,"allowPrint")}
+                          id="limitagreed1"
+                        />
+                        <label htmlFor="limitagreed1">One Source</label>
+                        <input
+                          type="checkbox"
+                          value="value2"
+                          name="group2"
+                          onClick={(e)=>handleChange(e.target?.checked,"allowDownload")}
+                          id="limitagreed2"
+                        />
+                        <label htmlFor="limitagreed2">Library</label>
+                      </fieldset>
+                    </div>
+          </div>
+          <div className="col-12 col-md-6 d-flex justify-content-end align-items-end right-change">
+            <div className="form-group justify-content-end">
+              <label htmlFor="">Reseller</label>
+              <div className="form-check-group">
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    value=""
+                    id="flexCheckDefault"
+                    type="checkbox"
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor="flexCheckDefault"
+                  >
+                    N/A
+                  </label>
+                </div>
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    value=""
+                    id="flexCheckReseller"
+                    type="checkbox"
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor="flexCheckReseller"
+                  >
+                    Reseller Name
+                  </label>
+                </div>
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    value=""
+                    id="flexCheckReseller1"
+                    type="checkbox"
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor="flexCheckReseller1"
+                  >
+                    Reseller Name
+                  </label>
+                </div>
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    value=""
+                    id="flexCheckReseller2"
+                    type="checkbox"
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor="flexCheckReseller2"
+                  >
+                    Reseller Name
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    )
+  }
+
   return (
     <>
       <div className="col right-sidebar">
@@ -198,137 +494,22 @@ const LibraryCreateUser = () => {
                 </div>
               </div>
             </div>
-            {/* <div className="create-change-content">
-              <div className="form_action">
-                <h4>Who is involved</h4>
-                <div className="row">
-                  <div className="col-12 col-md-6">
-                    <div className="form-group">
-                      <label htmlFor="">Company</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        onChange={(event) => onCompanyChange(event)}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="">Country</label>
-                      <Select
-                        options={countryAll}
-                        placeholder="Select country"
-                        onChange={(event) => onCountryChange(event)}
-                        className="dropdown-basic-button split-button-dropup"
-                        isClearable
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="">Client product</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        onChange={(e) => onClientProductChange(e)}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="">Production</label>
-                      <Select
-                        options={productionAll}
-                        placeholder="Select own production person"
-                        onChange={(event) => onProductionChange(event)}
-                        className="dropdown-basic-button split-button-dropup edit-production-dropdown"
-                        isClearable
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="">Sales</label>
-                      <Select
-                        options={salesAll}
-                        placeholder="Who made the sale?"
-                        onChange={(event) => onSalesChange(event)}
-                        className="dropdown-basic-button split-button-dropup edit-sales-dropdown"
-                        isClearable
-                      />
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-6 d-flex justify-content-end align-items-end right-change">
-                    <div className="form-group justify-content-end">
-                      <label htmlFor="">Reseller</label>
-                      <div className="form-check-group">
-                        <div className="form-check">
-                          <input
-                            className="form-check-input"
-                            value=""
-                            id="flexCheckDefault"
-                            type="checkbox"
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor="flexCheckDefault"
-                          >
-                            N/A
-                          </label>
-                        </div>
-                        <div className="form-check">
-                          <input
-                            className="form-check-input"
-                            value=""
-                            id="flexCheckReseller"
-                            type="checkbox"
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor="flexCheckReseller"
-                          >
-                            Reseller Name
-                          </label>
-                        </div>
-                        <div className="form-check">
-                          <input
-                            className="form-check-input"
-                            value=""
-                            id="flexCheckReseller1"
-                            type="checkbox"
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor="flexCheckReseller1"
-                          >
-                            Reseller Name
-                          </label>
-                        </div>
-                        <div className="form-check">
-                          <input
-                            className="form-check-input"
-                            value=""
-                            id="flexCheckReseller2"
-                            type="checkbox"
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor="flexCheckReseller2"
-                          >
-                            Reseller Name
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div> */}
+            {
+            userDetail?.user?.[0]?.group_id == 3?publisherFun():userDetail?.user?.[0]?.flag== 0 && userDetail?.user?.[0]?.group_id == 2? docintelLink():null
+            }
             <div className="create-change-content">
               <div className="form_action">
                 <h4>Limits agreed</h4>
                 <div className="row">
                   <div className="col-12 col-md-6">
-                    {/* <div className="form-group">
+                    <div className="form-group">
                       <label htmlFor="">Cost centre</label>
                       <Select
                         className="dropdown-basic-button split-button-dropup"
                         isClearable
                         placeholder="Select cost center"
                       />
-                    </div> */}
+                    </div>
                     <div className="form-group">
                       <label htmlFor="">Expiration date</label>
                       <DatePicker

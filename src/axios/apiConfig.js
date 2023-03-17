@@ -10,4 +10,7 @@ export const ENDPOINT = {
   LIBRARYREUPDATETAGS: `/library/update-tags`,
   LIBRARYREADDSUBLINK: `/library/add-subLink`,
   LIBRARYRESUBLINKLISTING: `/library/sublink`,
+  LIBRARYGETPOPUP: `/library/get-popup`,
+  LIBRARYREADDSUBLINK: `/library/add-subLink`,
+  LIBRARYDETAIL: `/library/user-detail`
 };
