@@ -1,0 +1,345 @@
+import React, { useEffect, useState } from "react";
+import { loader } from "../../../loader";
+import { toast } from "react-toastify";
+import "react-circular-progressbar/dist/styles.css";
+import { postData } from "../../../axios/apiHelper";
+import { ENDPOINT } from "../../../axios/apiConfig";
+
+const ContentDetail = () => {
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const [libraryData, setLibraryData] = useState();
+
+  useEffect(() => {
+    getLibraryData();
+  }, []);
+
+  const getLibraryData = async () => {
+    try {
+      loader("show");
+      let body = {
+        pdfId: 3982,
+        apiType: "Library",
+      };
+
+      const res = await postData(ENDPOINT.LIBRARY, body);
+
+      setLibraryData(res?.data?.data?.library);
+
+      loader("hide");
+    } catch (err) {
+      console.log("err");
+      loader("hide");
+    }
+  };
+
+  return (
+    <>
+      <div className="col right-sidebar">
+        <div className="custom-container">
+          <div className="row">
+            <div className="page-top-nav">
+              <div className="row justify-content-end align-items-center">
+                <div className="col-12 col-md-1">
+                  <div className="header-btn-left"></div>
+                </div>
+                <div className="col-12 col-md-9"></div>
+                <div className="col-12 col-md-2">
+                  <div className="header-btn">
+                    <button className="btn btn-primary btn-bordered move-draft">
+                      Edit
+                    </button>
+                    <button className="btn btn-primary btn-bordered next">
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <section className="verify_email content_details">
+              {libraryData?.length
+                ? libraryData.map((data, index) => {
+                    return (
+                      <>
+                        <div className="row">
+                          <div className="col-12">
+                            <div className="verify-mail-box">
+                              <div className="verify-email-detail">
+                                <div>
+                                  <h4>Content Details</h4>
+                                  <div className="d-flex align-items-start">
+                                    <img
+                                      src={path_image + "dummy-img.png"}
+                                      alt="Preview "
+                                    />
+                                    <div className="verify-email-detail-clear">
+                                      <h6>
+                                        <strong>Content Title | </strong>
+                                        {data?.title ? data?.title : "N/A"}
+                                      </h6>
+                                      <h6>
+                                        <strong>Content subtitle | </strong>
+                                        {data?.content_subtitle
+                                          ? data?.content_subtitle
+                                          : "N/A"}
+                                      </h6>
+                                      <h6>
+                                        <strong>Author | </strong>
+                                        {data?.key_author
+                                          ? data?.key_author
+                                          : "N/A"}
+                                      </h6>
+                                      <h6>
+                                        <strong>Topics | </strong>
+                                        <ul>
+                                          <li className="list1">
+                                            <img
+                                              src={
+                                                path_image + "filter-close.svg"
+                                              }
+                                              alt="Close-filter"
+                                            />
+                                          </li>
+
+                                          <li className="list1">
+                                            <img
+                                              src={
+                                                path_image + "filter-close.svg"
+                                              }
+                                              alt="Close-filter"
+                                            />
+                                          </li>
+                                        </ul>
+                                      </h6>
+                                      <h6>
+                                        <strong>Docintel | </strong>
+                                        <a
+                                          href={data?.docintelLink}
+                                          className="doc-link"
+                                          target="_blank"
+                                        >
+                                          {data?.docintelLink}
+                                        </a>
+                                        <span
+                                          className="copy-content"
+                                          onClick={() => {
+                                            toast.success(
+                                              "content copied to the clipboard!"
+                                            );
+                                            window.navigator.clipboard.writeText(
+                                              data?.docintelLink
+                                            );
+                                          }}
+                                        >
+                                          <img
+                                            src={
+                                              path_image + "copy-content.svg"
+                                            }
+                                            alt="Copy"
+                                          />
+                                        </span>
+                                      </h6>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div className="mail-recipt">
+                                <div className="row">
+                                  <div className="col-12 col-md-4 mail-recipt-left">
+                                    <h6>Who is involved</h6>
+
+                                    <div className="smartlist-view email_box_outer">
+                                      <div className="smartlist-view email_box">
+                                        <div className="mail-box-content">
+                                          <div className="mailbox-table">
+                                            <table>
+                                              <tbody>
+                                                <tr>
+                                                  <th>Company</th>
+                                                  <td>
+                                                    {data?.company
+                                                      ? data?.company
+                                                      : "N/A"}
+                                                  </td>
+                                                </tr>
+                                                <tr>
+                                                  <th>Country</th>
+                                                  <td>
+                                                    {data?.country
+                                                      ? data?.country
+                                                      : "N/A"}
+                                                  </td>
+                                                </tr>
+                                                <tr>
+                                                  <th>Client Product</th>
+                                                  <td>
+                                                    {data?.client_product
+                                                      ? data?.client_product
+                                                      : "N/A"}
+                                                  </td>
+                                                </tr>
+                                                <tr>
+                                                  <th>Production</th>
+                                                  <td>
+                                                    {data?.production
+                                                      ? data?.production
+                                                      : "N/A"}
+                                                  </td>
+                                                </tr>
+                                                <tr>
+                                                  <th>Sales</th>
+                                                  <td>
+                                                    {data?.saleName
+                                                      ? data?.saleName
+                                                      : "N/A"}
+                                                  </td>
+                                                </tr>
+                                                <tr>
+                                                  <th>Reseller</th>
+                                                  <td>
+                                                    {data?.reseller
+                                                      ? data?.reseller
+                                                      : "N/A"}
+                                                  </td>
+                                                </tr>
+                                              </tbody>
+                                            </table>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div className="col-12 col-md-4 mail-recipt-left">
+                                    <h6>Limits agreed </h6>
+                                    <div className="smartlist-view email_box_outer">
+                                      <div className="smartlist-view email_box">
+                                        <div className="mail-box-content">
+                                          <div className="mailbox-table">
+                                            <table>
+                                              <tbody>
+                                                <tr>
+                                                  <th>Cost center</th>
+                                                  <td>
+                                                    {data?.cost_center
+                                                      ? data?.cost_center
+                                                      : "N/A"}
+                                                  </td>
+                                                </tr>
+                                                <tr>
+                                                  <th>Expiration date</th>
+                                                  <td>
+                                                    {data?.expireDate
+                                                      ? data?.expireDate
+                                                      : "N/A"}
+                                                  </td>
+                                                </tr>
+                                                <tr>
+                                                  <th>Set limit of usage</th>
+                                                  <td>
+                                                    {data?.usage_limit
+                                                      ? data?.usage_limit
+                                                      : "N/A"}
+                                                  </td>
+                                                </tr>
+                                                <tr>
+                                                  <th>Enable</th>
+                                                  <td>
+                                                    {data?.enable
+                                                      ? data?.enable
+                                                      : "N/A"}
+                                                  </td>
+                                                </tr>
+                                                <tr>
+                                                  <th>Invoice Notes</th>
+                                                  <td>
+                                                    {data?.invoice_notes
+                                                      ? data?.invoice_notes
+                                                      : "N/A"}
+                                                  </td>
+                                                </tr>
+                                              </tbody>
+                                            </table>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div className="col-12 col-md-4 mail-recipt-left">
+                                    <h6>Creating the eprint </h6>
+                                    <div className="smartlist-view email_box_outer">
+                                      <div className="smartlist-view email_box">
+                                        <div className="mail-box-content">
+                                          <div className="mailbox-table">
+                                            <table>
+                                              <tbody>
+                                                <tr>
+                                                  <th>ePrint type</th>
+                                                  <td>
+                                                    {data?.eprint_type
+                                                      ? data?.eprint_type
+                                                      : "N/A"}
+                                                  </td>
+                                                </tr>
+                                                <tr>
+                                                  <th>Uploaded chapters</th>
+                                                  <td>
+                                                    {data?.uploaded_chapters
+                                                      ? data?.uploaded_chapters
+                                                      : "N/A"}
+                                                  </td>
+                                                </tr>
+                                                <tr>
+                                                  <th>Included videos</th>
+                                                  <td>
+                                                    {data?.include_videos
+                                                      ? data?.include_videos
+                                                      : "N/A"}
+                                                  </td>
+                                                </tr>
+                                                <tr>
+                                                  <th>Saved as draft</th>
+                                                  <td>
+                                                    {data?.save_draft
+                                                      ? data?.save_draft
+                                                      : "N/A"}
+                                                  </td>
+                                                </tr>
+                                                <tr>
+                                                  <th>
+                                                    Production notes to Docintel
+                                                    team
+                                                  </th>
+                                                  <td>
+                                                    {data?.production_notes
+                                                      ? data?.production_notes
+                                                      : "N/A"}
+                                                  </td>
+                                                </tr>
+                                              </tbody>
+                                            </table>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    );
+                  })
+                : null}
+            </section>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default ContentDetail;
