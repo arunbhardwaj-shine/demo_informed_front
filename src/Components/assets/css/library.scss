@@ -1926,6 +1926,43 @@ select::-ms-expand {
     max-width: 195px;
     margin: 14px auto 0;
 }
+.sublink_right.preview-content {
+    max-width: 1330px;
+    margin: 0 auto;
+}
+
+.preview-content .edit_content_title {
+    color: $primary-color;
+    max-width: 80%;
+}
+.btn.btn-bordered {
+    text-transform: unset;
+}
+.preview-content .edit_content_title button {
+    filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));
+    border-radius: 30px;
+    background: $white;
+    padding: 2px;
+    cursor: pointer;
+    border: 0;
+    width: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    margin-left: 10px;
+}
+
+.preview-content .edit_content_title button:hover {
+    background: $primary-color;
+}
+.preview-content .edit_content_title button:hover img {
+    filter: brightness(0) invert(1);
+}
+
+.preview-content .edit_content_title button img {
+    max-width: 17px;
+}
 .select-mail-template.library-cosent  .alice-carousel {
     padding: 14px 23px 5px;
 }

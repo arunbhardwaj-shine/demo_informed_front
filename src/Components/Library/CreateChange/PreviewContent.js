@@ -73,10 +73,10 @@ const PreviewContent = (props) => {
             <div className="create-change-content spc-content">
               <div className="form_action">
                 <div className="row">
-                  <Col className="sublink_right d-flex flex-column">
+                  <Col className="sublink_right preview-content d-flex flex-column">
                     <div className="d-flex justify-content-between align-items-center">
-                      <h5 className="edit_content_title">Title <img src={path_image + "edit-button.svg"} alt="Edit" /></h5>
-                      <Button className="btn-filled">Change content file</Button>
+                      <h4 className="edit_content_title">Title <button><img src={path_image + "edit-button.svg"} alt="Edit" /></button></h4>
+                      <Button className="btn btn-bordered">Change content file</Button>
                     </div>
 
                     <RenderPdf/>
