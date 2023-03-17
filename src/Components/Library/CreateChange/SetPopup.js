@@ -280,7 +280,7 @@ const SetPopup = (props) => {
               </div>
             </div>
           }
-            <div className="template_builder-option">
+            <div className="template_builder-option library-cosent">
               <div className="d-flex justify-content-start align-items-center">
 
                 {articleId && types.length > 0 && (
@@ -380,19 +380,12 @@ const SetPopup = (props) => {
               </div>
             </div>
 
-            <div className="top-header">
+            <section className="select-mail-template library-cosent">
               <div className="custom-container">
                 <div className="row">
                   <div className="page-title">
-                    <h5>Select the Pop-up to edit</h5>
+                    <h4>Select the Pop-up to edit</h4>
                   </div>
-                </div>
-              </div>
-            </div>
-
-            <section className="select-mail-template">
-              <div className="custom-container">
-                <div className="row">
                   <AliceCarousel
                     mouseTracking
                     disableDotsControls
