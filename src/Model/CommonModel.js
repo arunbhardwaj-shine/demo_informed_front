@@ -101,7 +101,10 @@ const CommonModel = ({
           <button
             type="button"
             className="btn btn-primary save btn-filled"
-            onClick={handleSubmit}
+            onClick={() =>{
+              handleSubmit()
+              handleClose()
+            }}
           >
             {footerButton}
           </button>
