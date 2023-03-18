@@ -76,6 +76,7 @@ import EventCreate from "./Components/NewWebinar/WebinarFiles/EventCreate";
 import SettingWebinar from "./Components/NewWebinar/WebinarFiles/SettingWebinar";
 import LibraryCreateUser from "./Components/Library/CreateChange/LibraryCreateUser";
 import CreateDocintelLink from "./Components/Library/CreateChange/CreateDocintelLink";
+import SpcView from "./Components/Library/SpcView";
 import SpcEdit from "./Components/Library/SpcEdit";
 import SetPopup from "./Components/Library/CreateChange/SetPopup";
 import EditConsentOptions from "./Components/Library/CreateChange/EditConsentOptions";
@@ -182,8 +183,9 @@ const Routing = () => {
                   element={<EditConsentOptions />}
                 />
                 <Route path="/set-popup" element={<SetPopup />} />
+                <Route path="/spc-view" element={<SpcView />} />
+                <Route path="/spc-delete" element={<SpcView />} />
                 <Route path="/spc-edit" element={<SpcEdit />} />
-                <Route path="/spc-delete" element={<SpcEdit />} />
                 <Route path="/library-sublink" element={<LibrarySublink />} />
                 <Route path="/library-topics" element={<LibraryTopics />} />
                 <Route path="/library-campaign" element={<LibraryCampaign />} />

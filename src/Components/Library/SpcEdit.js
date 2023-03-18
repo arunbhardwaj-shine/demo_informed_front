@@ -1,282 +1,381 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Button, Col, Form, Row } from "react-bootstrap";
+import Select from "react-select";
+import { useNavigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
+import {postFormData,postData} from "../../axios/apiHelper"
 import { popup_alert } from "../../popup_alert";
-import {ENDPOINT} from "../../axios/apiConfig";
-import {postData, deleteData} from "../../axios/apiHelper";
-import { loader } from "../../loader";
-import { Button } from "react-bootstrap";
+import { SPCValidation } from "../Validations/LibraryValidation/SPCValidation";
+import CommonModel from "../../Model/CommonModel";
+import {ENDPOINT} from "../../axios/apiConfig"
 
 const SpcEdit = () => {
+  const [countryAll, setCountryAll] = useState([
+    { value: "India", label: "India" },
+    { value: "Australia", label: "Australia" },
+    { value: "Russia", label: "Russia" },
+  ]);
   const navigate = useNavigate();
-  const location = useLocation();
-  const [confirmationpopup, setConfirmationPopup] = useState(false);
-  const [spcData, setSpcData] = useState([]);
-  const [superSpcData, setSuperSpcData] = useState([]);
-  const [search, setSearch] = useState("");
-  const [spcDeletedId, setSpcDeletedId] = useState("");
-  const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const [productArr, setProductArr] = useState([
+    { value: "India", label: "India" },
+    { value: "Australia", label: "Australia" },
+    { value: "Russia", label: "Russia" },
+  ]);
+  const [newProduct, setNewProduct] = useState("");
+  const [show, setShow] = useState(false);
+  const [userInputs, setSpcFormInputs] = useState({});
+  const [error, setError] = useState({});
+  const [pageLoad, setPageLoad] = useState(0);
   
   useEffect(() => {
-    getSpcData('');
+	getSpcData();
   }, []);
   
-  const getSpcData = async(searchVal) => {
-	  loader("show");
-	  try{		  
-		  const body = {
-			userId: "18207",
-			search: searchVal
-		  };
-		  
-		  const res = await postData(ENDPOINT.LIBRARYGETSPC, body);
-		  setSpcData(res?.data?.data);
-		  setSuperSpcData(res?.data?.data);
-		  loader("hide");
-	  }catch(err){
-		loader("hide");
-	  }
+  const getSpcData = () => {
+	  setSpcFormInputs({
+		"title": "test",
+		"country": "Australia",
+		"language": "Russia",
+		"businessunit": "Australia",
+		"product": "Australia",
+		"uploadspc": {
+			"0": {"name":"abc.pdf"}
+		}
+	  });
+	  
+	  setPageLoad(1);
+  }
+
+  const handleChange = (e, isSelectedName) => {
+    if (e?.target?.files?.length < 1) {
+      return;
+    }
+    setSpcFormInputs({
+      ...userInputs,
+      [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+        ? e?.target?.files
+          ? e?.target?.files
+          : e
+        : e?.target?.value,
+    });
+    setError({});
   };
-  
-  const searchChange = (e) => {
-    setSearch(e?.target?.value);
-    if (e?.target?.value === "") {
-		setSpcData([]);
-		getSpcData(e?.target?.value);
+
+  const addNewProductClicked = (e) => {
+    e.preventDefault();
+    setNewProduct("");
+    setShow(true);
+  };
+
+  const addProductClicked = () => {
+    setShow(false);
+    if (newProduct != "") {
+      setProductArr((oldArray) => [
+        ...oldArray,
+        { value: newProduct, label: newProduct },
+      ]);
     }
   };
-  
-  const submitHandler = (event) => {
-    setSpcData([]);
-    getSpcData(search);
-    event.preventDefault();
-    return false;
+
+  const product = [
+    {
+      label: "Product name",
+      type: "input",
+      placeholder: "Type your product name",
+    },
+  ];
+
+  const addNewProductChanged = (e) => {
+    setNewProduct(e.target.value);
+  };
+
+  const publishClicked = async(event) => {
+    event.preventDefault()
+	console.log(userInputs);
+    const result = SPCValidation(userInputs);
+
+    if (Object.keys(result)?.length) {
+      setError(result);
+      return;
+    }
+    // const data = new FormData(event.target);
+    // await postFormData(ENDPOINT.SPCCREATE,data,{
+      // header:{
+        // "Content-Type": "multipart/form-data",
+      // }
+    // });
+
+
+    popup_alert({
+      visible: "show",
+      message: "Your HCP has been published <br />successfully !",
+      type: "success",
+      redirect: "spc",
+    });
   };
   
-  const deleteSpc = async() => {
-	  loader('show');
-	  try{		  
-		  const res = await deleteData(ENDPOINT.LIBRARYSPCDELETE,spcDeletedId);
-		  popup_alert({
-			visible: "show",
-			message: "Your content has been deleted <br />successfully !",
-			type: "success",
-			redirect: "",
-		  });
-		  
-		  setSpcData([]);
-		  getSpcData(search);
-	  }catch(err){
-		  console.log(err);
-	  }
-	  setConfirmationPopup(false);
-	  loader('hide');
-  }
-  
+
   return (
     <>
-      <div className="col right-sidebar">
+      <Col className="right-sidebar">
         <div className="custom-container">
-          <div className="row">
-            <div className="top-header">
-              <div className="page-title">
-                <h2>
-                  {location?.state?.data == "edit"
-                    ? "View | Edit SPC"
-                    : "Delete SPC"}
-                </h2>
-              </div>
-              <div className="top-right-action">
-                <div className="search-bar">
-                  <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
-                    <input
-                      className="form-control me-2"
-                      type="text"
-                      placeholder="Search"
-                      aria-label="Search"
-					  onChange={(e) => searchChange(e)}
-                    />
-                    <button className="btn btn-outline-success" type="submit">
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 16 16"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M15.8045 14.862L11.2545 10.312C12.1359 9.22334 12.6665 7.84 12.6665 6.33334C12.6665 2.84134 9.82522 0 6.33325 0C2.84128 0 0 2.84131 0 6.33331C0 9.82531 2.84132 12.6667 6.33328 12.6667C7.83992 12.6667 9.22325 12.136 10.3119 11.2547L14.8619 15.8047C14.9919 15.9347 15.1625 16 15.3332 16C15.5039 16 15.6745 15.9347 15.8045 15.8047C16.0652 15.544 16.0652 15.1227 15.8045 14.862ZM6.33328 11.3333C3.57597 11.3333 1.33333 9.09066 1.33333 6.33331C1.33333 3.57597 3.57597 1.33331 6.33328 1.33331C9.0906 1.33331 11.3332 3.57597 11.3332 6.33331C11.3332 9.09066 9.09057 11.3333 6.33328 11.3333Z"
-                          fill="#97B6CF"
-                        />
-                      </svg>
-                    </button>
-                  </form>
-                </div>
-                 <button
-                    className="btn-bordered cancel btn btn-primary"
-                    type="button"
-                    onClick={() => navigate("/spc")}>
-                    Close
-                  </button>
-              </div>
-            </div>
-
-            <div className="smart-list-result spc-delete">
-              <div className="col smartlist-result-block spc-edit">
-				{
-					typeof spcData !== "undefined" && spcData.length > 0
-					?
-					spcData.map((data) => {
-						return (
-							<>
-							<div className="smartlist_box_block">
-							  <div className="smartlist-view email_box">
-								<div className="mail-box-content">
-								  <div className="mailbox-table">
-									<h5>
-									{data?.title}
-									</h5>
-
-									<table>
-									  <tbody>
-										<tr>
-										  <th>Country</th>
-										  <td>{data?.country}</td>
-										</tr>
-										<tr>
-										  <th>Language</th>
-										  <td>{data?.language}</td>
-										</tr>
-										<tr>
-										  <th>IBU</th>
-										  <td>{data?.IBU}</td>
-										</tr>
-										<tr>
-										  <th>Product</th>
-										  <td>
-											{
-												typeof data?.product == "String" ?
-													<div>data?.product</div>
-												:
-													data?.product?.length
-													? JSON.parse(data.product)?.map((data) => {
-														return <div>{data}</div>;
-													  })
-													: "N/A"
-											}
-										  </td>
-										</tr>
-										<tr>
-										  <th>Creation date</th>
-										  <td>{data?.createdDate}</td>
-										</tr>
-										<tr>
-										  <th>Last edit</th>
-										  <td>{
-											  data?.last_edit ? data.last_edit : "N/A"
-											  }
-										  </td>
-										</tr>
-									  </tbody>
-									</table>
-								  </div>
-								  <div className="smartlist-buttons">
-									{
-									  <>
-										{location?.state?.data == "edit" ? (
-										  <Button className="btn btn-primary btn-bordered edit_list">
-											Edit
-										  </Button>
-										) : null}
-
-										<Button className="btn btn-primary btn-filled view">
-										  View
-										</Button>
-									  </>
-									}
-								  </div>
-								  {location?.state?.data != "edit" ? (
-									<div className="dlt_btn">
-									  <button onClick={
-										  (e) => {
-											setConfirmationPopup(true);
-											setSpcDeletedId(data?.id)
-										  }}
-										>
-										<img
-										  src={path_image + "delete.svg"}
-										  alt="Delete Row"
-										/>
-									  </button>
-									</div>
-								  ) : null}
-								</div>
-							  </div>
-							</div>
-							</>
-						)
-					})
-					: 
-					<div className="smartlist_box_block">
-						<div className="smartlist-view email_box">
-							<div className="mail-box-content">
-							  <div className="mailbox-table">
-								No Data Found
-							  </div>
-							</div>
-						</div>
+          <Row>
+		  {
+			  pageLoad == 1 && (			  
+				  <Form onSubmit={publishClicked} >
+					<div className="top-header">
+					  <div className="page-title">
+						<h2>Update SPC</h2>
+					  </div>
+					  <div className="header-btn">
+						<Button
+						  className="btn-bordered cancel"
+						 
+						  onClick={() => navigate("/spc-view")}
+						>
+						  Cancel
+						</Button>
+						<Button
+						  className="btn-filled send_btn"
+						  type="submit"
+						>
+						  Update
+						</Button>
+					  </div>
 					</div>
-				}
-                
-              </div>
+
+					<div className="create-change-content spc-content">
+					  <div className="form_action">
+						<h4>Please fill the following and upload SPC needed</h4>
+						<div className="row">
+						  <div className="col-12">
+						   
+							  <div className="form-group">
+								<label htmlFor="">Title of SPC</label>
+
+								<input
+								  type="text"
+								  onChange={(e) => handleChange(e)}
+								  className="form-control"
+								  value={userInputs?.title}
+								  name="title"
+								/>
+								<input
+								  type="text"
+								  className="form-control"
+								  name="createdBy"
+								  value="18207"
+								/>
+							 
+								{error?.title ? (
+								  <div className="login-validation">{error?.title}</div>
+								) : (
+								  ""
+								)}
+							  </div>
+
+							  <div className="form-group">
+								<label htmlFor="">Country</label>
+								<Select
+								  options={countryAll}
+								  placeholder="Select country"
+								  name="country"
+								  defaultValue={
+									countryAll[countryAll.findIndex(el => el.value == userInputs?.country)]
+								  }
+								  onChange={(event) =>
+									handleChange(event?.value, "country")
+								  }
+								  className="dropdown-basic-button split-button-dropup"
+								  isClearable
+								/>
+								{error?.country ? (
+								  <div className="login-validation">
+									{error?.country}
+								  </div>
+								) : (
+								  ""
+								)}
+							  </div>
+							  <div className="form-group">
+								<label htmlFor="">Language</label>
+								<Select
+								  options={countryAll}
+								  placeholder="Select SPC language"
+								  name="langauge"
+								  onChange={(event) =>
+									handleChange(event?.value, "language")
+								  }
+								  defaultValue={
+									  countryAll[countryAll.findIndex(el => el.value == userInputs?.language)]
+								  }
+								  className="dropdown-basic-button split-button-dropup"
+								  isClearable
+								/>
+								{error?.language ? (
+								  <div className="login-validation">
+									{error?.language}
+								  </div>
+								) : (
+								  ""
+								)}
+							  </div>
+							  <div className="form-group">
+								<label htmlFor="">Business Unit</label>
+								<Select
+								  options={countryAll}
+								  name="ibu"
+								  placeholder="Select Business Unit"
+								  onChange={(event) =>
+									handleChange(event?.value, "businessunit")
+								  }
+								  defaultValue={
+									  countryAll[countryAll.findIndex(el => el.value == userInputs?.businessunit)]
+								  }
+								  className="dropdown-basic-button split-button-dropup"
+								  isClearable
+								/>
+								{error?.businessunit ? (
+								  <div className="login-validation">
+									{error?.businessunit}
+								  </div>
+								) : (
+								  ""
+								)}
+							  </div>
+							  <div className="form-group">
+								<label htmlFor="">Product</label>
+								<Select
+								  options={productArr}
+								  name="product"
+								  placeholder="Select product"
+								  onChange={(event) =>
+									handleChange(event?.value, "product")
+								  }
+								  defaultValue={
+									  productArr[countryAll.findIndex(el => el.value == userInputs?.product)]
+								  }
+								  className="dropdown-basic-button split-button-dropup"
+								  isClearable
+								/>
+								<div className="add_product">
+								  <span>&nbsp;</span>
+								  <Button
+									onClick={addNewProductClicked}
+									className="btn-bordered btn-voilet"
+								  >
+									Add New Product +
+								  </Button>
+								</div>
+								{error?.product ? (
+								  <div className="login-validation">
+									{error?.product}
+								  </div>
+								) : (
+								  ""
+								)}
+							  </div>
+							  <div className="form-group val">
+								<label htmlFor="">Upload SPC</label>
+								<div className="upload-file-box">
+								  <div className="box">
+									<input
+									  type="file"
+									  name="file"
+									  id="file-6"
+									  className="inputfile inputfile-6"
+									  accept="application/pdf"
+									  onChange={(event) =>
+										handleChange(event, "uploadspc")
+									  }
+									/>
+									<label htmlFor="file-6">
+									  <span>Choose Your File</span>
+									</label>
+									{userInputs?.uploadspc?.[0]?.name ? (
+									  <h5>{userInputs?.uploadspc?.[0]?.name}</h5>
+									) : (
+									  <p>
+										Upload your SPC file <br />
+										<span>(Please upload PDF file only)</span>
+									  </p>
+									)}
+								  </div>
+								</div>
+								{error?.uploadspc ? (
+								  <div className="login-validation">
+									{error?.uploadspc}
+								  </div>
+								) : (
+								  ""
+								)}
+							  </div>
+						   
+						  </div>
+						</div>
+					  </div>
+					</div>
+					</Form>
+			  )
+		  }
+          </Row>
+        </div>
+      </Col>
+
+      <CommonModel
+        show={show}
+        onClose={setShow}
+        heading={"Add New Product"}
+        data={product}
+        footerButton={"Add"}
+        handleChange={addNewProductChanged}
+        handleSubmit={addProductClicked}
+        inputValue
+      />
+      {/* <Modal show={show} className="send-confirm spc-create" id="download-qr">
+        <Modal.Header>
+          <h5 className="modal-title" id="staticBackdropLabel">
+            Add New Product
+          </h5>
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="modal"
+            onClick={() => {
+              setShow(false);
+              setNewProduct("");
+            }}
+          ></button>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="row">
+            <div className="col-12">
+              <Form>
+                <div className="form-group">
+                  <label htmlFor="">Product Name</label>
+                  <input
+                    type="text"
+                    placeholder="Type your product name"
+                    className="form-control"
+                    onChange={(e) => addNewProductChanged(e)}
+                  />
+                </div>
+              </Form>
             </div>
           </div>
+        </Modal.Body>
+        <div className="modal-footer">
+          <button
+            type="button"
+            className="btn btn-primary save btn-filled"
+            onClick={addProductClicked}
+          >
+            Add
+          </button>
         </div>
-      </div>
-
-      <div className="delete">
-        <Modal
-          className="modal send-confirm"
-          id="delete-confirm"
-          show={confirmationpopup}
-        >
-          <Modal.Header>
-            {/* <Modal.Title>Heading Text</Modal.Title>*/}
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              onClick={(e) => setConfirmationPopup(false)}
-            ></button>
-          </Modal.Header>
-
-          <Modal.Body>
-            <img src={path_image + "alert.png"} alt="" />
-            <h4>
-              The SPC be deleted from the list.
-              <br />
-              Are you sure you want to delete it?
-            </h4>
-            <div className="modal-buttons">
-              <button
-                type="button"
-                className="btn btn-primary btn-filled"
-                onClick={(e) => deleteSpc()}
-              >
-                Yes Please!
-              </button>
-              <button
-                type="button"
-                className="btn btn-primary btn-bordered light"
-                onClick={(e) => setConfirmationPopup(false)}
-              >
-                Cancel
-              </button>
-            </div>
-          </Modal.Body>
-        </Modal>
-      </div>
+      </Modal> */}
     </>
   );
 };
+
 export default SpcEdit;
