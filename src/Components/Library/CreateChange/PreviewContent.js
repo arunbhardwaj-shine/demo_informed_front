@@ -27,7 +27,7 @@ import {
 } from "react-bootstrap";
 import Select from "react-select";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-// ebook 
+// ebook 3846
 const PreviewContent = () => {
     const navigate = useNavigate();
     const [articleId, setArticleId] = useState("3899");
