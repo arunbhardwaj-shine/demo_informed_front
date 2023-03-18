@@ -56,12 +56,16 @@ const PreviewContent = () => {
 
     const getArticleData = async () => {
         loader('show');
+		try{
           let body = {
             pdfId: articleId
           };
           const res = await postData(ENDPOINT.LIBRARYGETARTICLE, body);
           setPdfData(res?.data?.data);
-        loader('hide');
+		  loader('hide');
+		}catch(err){
+			loader('hide');
+		}
     };
 
     const updateArticleTitle = (title) => {
