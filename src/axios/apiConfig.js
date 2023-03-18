@@ -16,4 +16,6 @@ export const ENDPOINT = {
   LIBRARYDETAIL: `/library/user-detail`,
   LIBRARYSAVEPOPUP: `/library/save-pdf-popup`,
   LIBRARYGETARTICLE: `/library/get-pdffile`,
+  LIBRARYGETSPC: `/library/get-spcListing`,
+  LIBRARYSPCDELETE: `/library/deletespc`,
 };
