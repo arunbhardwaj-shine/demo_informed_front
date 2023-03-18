@@ -29,7 +29,11 @@ const RenderPdf = ({
 
     return (
       <div class="sublink_right_block">
-        <iframe src= 'https://www.africau.edu/images/default/sample.pdf' />
+	  {
+		  url != "" && (
+			<iframe src= {url} />
+		  )
+	  }
       </div>
     )
 }
