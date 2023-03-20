@@ -21,6 +21,7 @@ export const ENDPOINT = {
   LIBRARYGETSPC: `/library/get-spcListing`,
   LIBRARYGETSINGLESPC: `/library/getSpcById`,
   LIBRARYSPCDELETE: `/library/deletespc`,
+  SPC_PRO_DELETE:`/library/spcProductDelete/`,
   SPC_HELPER_LISTING: `/library/spc-helper-listing`,
   SPC_UPDATE: `/library/spc-edit`,
 };
