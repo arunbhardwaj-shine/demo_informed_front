@@ -86,9 +86,10 @@ function Products() {
         type:1
       })
       loader("hide");
+      initFun()
+
   }
   const handleChange = (e) =>{
-    // setNewProduct(e.target.value)
     setNewValue({...newValue,newProductValue:e.target.value})
   }
   return (
@@ -126,7 +127,6 @@ function Products() {
                       <Button
                         className="btn-bordered btn-voilet"
                         onClick={() => {
-                          setNewProduct("");
                           setShow(true);
                         }}
                       >
@@ -178,7 +178,6 @@ function Products() {
           show={confirmationpopup}
         >
           <Modal.Header>
-            {/* <Modal.Title>Heading Text</Modal.Title>*/}
             <button
               type="button"
               className="btn-close"
