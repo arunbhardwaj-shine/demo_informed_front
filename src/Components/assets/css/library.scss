@@ -1014,13 +1014,30 @@ ul.tab-mail-list.data span.total-left small {
   border: 0;
   margin: 0;
 }
-
+.extra_multiselect .css-1rhbuit-multiValue {
+    background-color:$light-blue
+}
+.extra_multiselect .css-xb97g8:hover {
+    background-color: #6bb2ef;
+}
+.split-button-dropup > div:nth-child(3) div[class*=css-1rhbuit-multiValue] > div {
+    display: flex;
+}
+.create-change-content .form-group .dropdown-basic-button.extra_multiselect .css-1s2u09g-control + div:last-child ,  .css-1pahdxg-control + div:last-child{ 
+    display: none;
+}
 .doc-content-main-box ul.tab-mail-list li {
   display: flex;
   align-items: center;
   margin: 0 0 10px;
 }
-
+.mailbox-table td span.product_list {
+    background: transparent;
+    padding: 0 6px 4px 0;
+    display: inline-block;
+    color: #004a89;
+    font-weight: 400;
+}
 .doc-content-main-box ul.tab-mail-list li h5 {
   font-weight: 500;
   font-size: 15px;

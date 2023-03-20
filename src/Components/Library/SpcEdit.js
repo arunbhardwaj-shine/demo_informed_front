@@ -357,7 +357,7 @@ const SpcEdit = () => {
 								  defaultValue={
                     productInput
 								  }
-								  className="dropdown-basic-button split-button-dropup"
+								  className="dropdown-basic-button split-button-dropup extra_multiselect"
 								  isClearable
                   isMulti="true"
 								/>
@@ -396,7 +396,7 @@ const SpcEdit = () => {
 									  <span>Choose Your File</span>
 									</label>
 									{userInputs?.uploadspc?.[0]?.name ? (
-									  <h5>{userInputs?.uploadspc?.[0]?.name}</h5>
+									  <p>{userInputs?.uploadspc?.[0]?.name}</p>
 									) : (
 									  <p>
 										Upload your SPC file <br />
