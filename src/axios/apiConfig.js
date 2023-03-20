@@ -15,4 +15,7 @@ export const ENDPOINT = {
   LIBRARYREADDSUBLINK: `/library/add-subLink`,
   LIBRARYDETAIL: `/library/user-detail`,
   LIBRARYSAVEPOPUP: `/library/save-pdf-popup`,
+  LIBRARYGETARTICLE: `/library/get-pdffile`,
+  SPC_PRO_LISTING: `/library/spc-productListing`,
+  ADD_SPC_PRODUCT:"/library/add-product"
 };

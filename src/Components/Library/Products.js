@@ -1,19 +1,36 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Button, Col, Form, Row, Modal } from "react-bootstrap";
 import Select from "react-select";
 import { popup_alert } from "../../popup_alert";
+import { postData, } from "../../axios/apiHelper";
+import { ENDPOINT } from "../../axios/apiConfig";
+import { loader } from "../../loader";
+import CommanModel from "../../Model/CommonModel"
+
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
+const downloadData = [
+  {
+    label: "Product name",
+    type: "input",
+    placeholder: "Type your product name",
+  },
+];
 function Products() {
   const [confirmationpopup, setConfirmationPopup] = useState(false);
+  const [newValue, setNewValue] = useState({
+    newProductValue :"",
+    category:0
+  });
+
   const [show, setShow] = useState(false);
   const [newProduct, setNewProduct] = useState("");
   const [BusinessUnitAll, setBusinessUnitAll] = useState([
-    { value: "Critical", label: "Critical Care" },
-    { value: "Haematology", label: "Haematology" },
-    { value: "Immunotherapy", label: "Immunotherapy" },
+    { value:3, label: "Critical Care" },
+    { value:1, label: "Haematology" },
+    { value: 2, label: "Immunotherapy" },
   ]);
-
+ const [productData,setProductData] = useState({})
   const [data, setData] = useState([
     "Product1",
     "Product2",
@@ -24,7 +41,21 @@ function Products() {
     "Product7",
     "Product8",
   ]);
+ 
 
+  const initFun = async() =>{
+    loader("show");
+    const resp =  await postData(ENDPOINT.SPC_PRO_LISTING,{
+        userId:29836198,
+        type:1,
+        category:newValue?.category
+      })
+      setProductData(resp?.data?.data)
+      loader("hide");
+  }
+  useEffect (()=>{
+    initFun()
+  },[newValue?.category])
   const [BusinessUnit, setBusinessUnit] = useState("");
   const onBusinessUnitChange = (event) => {
     console.log(event.value);
@@ -46,18 +77,20 @@ function Products() {
     }
     setBusinessUnit(event.value);
   };
-
-  const addProductClicked = () => {
-    if (newProduct != "") {
-      setData((oldArray) => [...oldArray, newProduct]);
-    }
-
-    setShow(false);
-  };
-
-  const addNewProductChanged = (e) => {
-    setNewProduct(e.target.value);
-  };
+  const handleSubmit = async(e) =>{
+    loader("show");
+     await postData(ENDPOINT.ADD_SPC_PRODUCT,{
+        userId:29836198,
+        product:newValue?.newProductValue,
+        category:newValue?.category,
+        type:1
+      })
+      loader("hide");
+  }
+  const handleChange = (e) =>{
+    // setNewProduct(e.target.value)
+    setNewValue({...newValue,newProductValue:e.target.value})
+  }
   return (
     <Col className="right-sidebar">
       <div className="custom-container">
@@ -71,19 +104,25 @@ function Products() {
             <div className="form_action">
               <h4>Please select the business unit to show the products </h4>
               <div className="row">
+                
                 <div className="col-12">
                   <Form className="product-unit d-flex justify-content-between align-items-center">
-                    <div className="form-group">
-                      <label htmlFor="">Business Unit</label>
-                      <Select
-                        options={BusinessUnitAll}
-                        placeholder="Select business unit"
-                        onChange={(event) => onBusinessUnitChange(event)}
-                        className="dropdown-basic-button split-button-dropup"
-                        isClearable
-                      />
-                    </div>
-                    {BusinessUnit !== "" ? (
+                  {
+                      productData?.flag?(
+                        <div className="form-group">
+                        <label htmlFor="">Business Unit</label>
+                        <Select
+                          options={BusinessUnitAll}
+                          placeholder="Select business unit"
+                          onChange={(e) => setNewValue({...newValue,category:e?.value})}
+                          className="dropdown-basic-button split-button-dropup"
+                          isClearable
+                        />
+                  </div>
+                  ):null
+                }
+                  
+                    {/* {BusinessUnit !== "" ? ( */}
                       <Button
                         className="btn-bordered btn-voilet"
                         onClick={() => {
@@ -93,24 +132,23 @@ function Products() {
                       >
                         Add New Product +
                       </Button>
-                    ) : null}
                   </Form>
                 </div>
-                {BusinessUnit == "" ? (
+                {/* {BusinessUnit == "" ? (
                   <div className="col-12 no-type-selected">
                     <div className="no-data-selected">
                       <h3>No BU selected yet!</h3>
                       <img src={path_image + "dummy-bu.png"} alt="" />
                     </div>
                   </div>
-                ) : (
+                ) : ( */}
                   <div className="col-12 selected-products-list d-flex">
-                    {data.map((data) => {
+                    {productData?.data?.map((item) => {
                       return (
                         <>
                           <Col xxl={3} xl={4} md={6}>
                             <div className="products-listing">
-                              {data}
+                              {item?.product}
                               <button
                                 className="dlt_btn"
                                 onClick={() => setConfirmationPopup(true)}
@@ -126,7 +164,7 @@ function Products() {
                       );
                     })}
                   </div>
-                )}
+                {/* )} */}
               </div>
             </div>
           </div>
@@ -183,49 +221,15 @@ function Products() {
           </Modal.Body>
         </Modal>
       </div>
-
-      <Modal show={show} className="send-confirm spc-create" id="download-qr">
-        <Modal.Header>
-          <h5 className="modal-title" id="staticBackdropLabel">
-            Add New Product
-          </h5>
-          <button
-            type="button"
-            className="btn-close"
-            data-bs-dismiss="modal"
-            onClick={() => {
-              setShow(false);
-              // setNewProduct("");
-            }}
-          ></button>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="row">
-            <div className="col-12">
-              <Form>
-                <div className="form-group">
-                  <label htmlFor="">Product name</label>
-                  <input
-                    type="text"
-                    placeholder="Type your product name"
-                    className="form-control"
-                    onChange={(e) => addNewProductChanged(e)}
-                  />
-                </div>
-              </Form>
-            </div>
-          </div>
-        </Modal.Body>
-        <div className="modal-footer">
-          <button
-            type="button"
-            className="btn btn-primary save btn-filled"
-            onClick={addProductClicked}
-          >
-            Add
-          </button>
-        </div>
-      </Modal>
+      <CommanModel
+        show={show}
+        onClose={setShow}
+        heading={"Add New Product"}
+        data={downloadData}
+        footerButton={"Add"}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+      />
     </Col>
   );
 }
