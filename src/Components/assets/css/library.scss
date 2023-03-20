@@ -270,6 +270,7 @@
           @include h6;
           color: $dark-blue;
           margin: 0;
+          word-break: break-all;
         }
         h6.tab-content-title {
           font-weight: 500;
@@ -1023,9 +1024,9 @@ ul.tab-mail-list.data span.total-left small {
 .split-button-dropup > div:nth-child(3) div[class*=css-1rhbuit-multiValue] > div {
     display: flex;
 }
-.create-change-content .form-group .dropdown-basic-button.extra_multiselect .css-1s2u09g-control + div:last-child ,  .css-1pahdxg-control + div:last-child{ 
-    display: none;
-}
+// .create-change-content .form-group .dropdown-basic-button.extra_multiselect .css-1s2u09g-control + div:last-child ,  .css-1pahdxg-control + div:last-child{ 
+//     display: none;
+// }
 .doc-content-main-box ul.tab-mail-list li {
   display: flex;
   align-items: center;
@@ -1958,6 +1959,18 @@ margin: 18px 0 23px auto;
   margin: 70px auto 30px;
   padding: 0;
 }
+.template_builder-option.library-cosent {
+    margin-top: 40px;
+}
+section.select-mail-template.library-cosent {
+    margin-top: 10px;
+}
+section.select-mail-template.library-cosent + .create-change-content.spc-content {
+    padding-top: 0px;
+}
+section.select-mail-template.library-cosent .email-form {
+    margin: 15px 0 0;
+}
 .template_builder-option.library-cosent .template_language {
   margin-right: 57px;
   width: 100%;
@@ -1979,6 +1992,7 @@ margin: 18px 0 23px auto;
 .preview-content .edit_content_title {
   color: $primary-color;
   max-width: 80%;
+  margin:0;
 }
 .btn.btn-bordered {
   text-transform: unset;
@@ -2153,6 +2167,86 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 }
 .form-group.primary_phone input.form-control {
   max-width: 308px;
+}
+
+
+
+.modal .upload-file-box {
+    width: 100%;
+    border: 1px dashed #0066BE;
+    box-sizing: border-box;
+    border-radius: 15px;
+    padding: 16px;
+    max-width: 445px;
+    margin: 0 0 5px;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+}
+.modal .upload-file-box .box {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+    align-items: center;
+    width: 100%;
+}
+.preview-content #download-qr .modal-body {
+    padding: 18px 32px 0px;
+}
+.preview-content #download-qr .modal-body .form-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 26px;
+}
+.preview-content #download-qr .modal-body .form-group:last-child {
+    margin-bottom: 5px;
+}
+.modal.preview-content .upload-file-box {
+    max-width: 512px;
+}
+.modal.preview-content #download-qr .modal-body .form-group .form-control {
+    max-width: 400px;
+}
+.modal .inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+.preview-content #download-qr .modal-body  .form-group label {
+    flex: 0 0 109px;
+}
+.preview-content #download-qr .modal-body  .form-group .upload-file-box label {
+    font-size: 16px;
+    padding: 9px;
+}
+.modal .inputfile ~ label {
+    max-width: 80%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    padding: 11px;
+    background: #0066BE;
+    border-radius: 30px;
+    color: #ffffff !important;
+    font-size: 16px;
+    line-height: 1.1;
+    font-weight: 500;
+    min-width: 171px;
+    text-align: center;
+}
+.modal .upload-file-box .box p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 145.19%;
+    color: #97B6CF;
+    word-break: break-all;
+    padding-right: 5px;
 }
 /**Library Style End**/
 

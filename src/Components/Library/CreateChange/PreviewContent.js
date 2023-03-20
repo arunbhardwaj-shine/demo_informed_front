@@ -29,6 +29,10 @@ import Select from "react-select";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 // ebook 3846
 const PreviewContent = () => {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
     const navigate = useNavigate();
     const [articleId, setArticleId] = useState("3899");
     const [pdfData, setPdfData] = useState([]);
@@ -230,7 +234,7 @@ const PreviewContent = () => {
 
 
 					  </h4>
-					  <Button className="btn btn-bordered">Change content file</Button>
+					  <Button className="btn btn-bordered" onClick={handleShow}>Change content file</Button>
 					</div>
 					{						
 						pdfData?.file_type && pdfData.file_type == "ebook" ?
@@ -249,9 +253,54 @@ const PreviewContent = () => {
                 </div>
               </div>
             </div>
+			<Modal
+				show={show}
+				onHide={handleClose}
+				className="send-confirm preview-content"
+				id="download-qr"
+			>
+				<Modal.Header>
+				<h5 className="modal-title" id="staticBackdropLabel">
+					Change file
+				</h5>
+				<button
+					type="button"
+					className="btn-close"
+					data-bs-dismiss="modal"
+					onClick={handleClose}
+				></button>
+				</Modal.Header>
+				<Modal.Body>
+				<Form>
+					<div class="form-group">
+						<label for="">Chapter title </label>
+						<input type="text" placeholder="Type your product name" class="form-control"/>
+					</div>
+					<div class="form-group">
+						<div class="upload-file-box">
+							<div class="box">
+								<input type="file" name="file-5[]" id="file-5" class="inputfile inputfile-5" accept="image/png, image/jpeg"/>
+								<label for="file-5">
+									<span>Choose Your File</span>
+								</label>
+								<p>Upload your new PDF file
+								</p>
+							</div>
+						</div>
+					</div>
+					</Form>
+				</Modal.Body>
+				<div className="modal-footer">
+				<button
+					type="button"
+					className="btn btn-primary save btn-filled move-draft">Upload
+				</button>
+				</div>
+			</Modal>
       </Row>
     </div>
   </Col>
+  
   )
 }
 
