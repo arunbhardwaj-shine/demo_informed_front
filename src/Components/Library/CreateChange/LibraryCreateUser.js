@@ -98,9 +98,6 @@ const LibraryCreateUser = () => {
   useEffect(()=>{
     initalFun()
   },[])
-  const editFun = () =>{
-    
-  }
   const handleChange = (e, isSelectedName) => {
     if (e?.target?.files?.length < 1) {
       return;
@@ -511,54 +508,9 @@ const LibraryCreateUser = () => {
   }
 
  }
-
-  return (
-    <>
-      <div className="col right-sidebar">
-        <div className="custom-container">
-          <div className="row">
-            <div className="page-top-nav">
-              <div className="row justify-content-end align-items-center">
-                <div className="col-12 col-md-1">
-                  <div className="header-btn-left">
-                    <button className="btn btn-primary btn-bordered back">
-                      <Link to="/library-create">Back</Link>
-                    </button>
-                  </div>
-                </div>
-                <div className="col-12 col-md-9">
-                  <ul className="tabnav-link">
-                    <li className="active active-main">
-                      <a href="">Create Your Content</a>
-                    </li>
-                    <li className="">
-                      <a href="">Edit Consent Option</a>
-                    </li>
-                    <li className="">
-                      <a href="">Approve Your Content &amp; Publish</a>
-                    </li>
-                  </ul>
-                </div>
-                <div className="col-12 col-md-2">
-                  <div className="header-btn">
-                    <button className="btn btn-primary btn-bordered move-draft">
-                      Cancel
-                    </button>
-
-                    <button
-                      className="btn btn-primary btn-filled next"
-                      onClick={nextButtonClicked}
-                    >
-                      Next
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {
-            userDetail?.user?.[0]?.group_id == 2?publisherFun():userDetail?.user?.[0]?.flag== 0 && userDetail?.user?.[0]?.group_id == 3? docintelLink():null
-            }
-            <div className="create-change-content">
+ const LimitAgreed = () =>{
+   return (
+    <div className="create-change-content">
               <div className="form_action">
                 <h4>Limits agreed</h4>
                 <div className="row">
@@ -641,6 +593,58 @@ const LibraryCreateUser = () => {
                 </div>
               </div>
             </div>
+   )
+ }
+
+  return (
+    <>
+      <div className="col right-sidebar">
+        <div className="custom-container">
+          <div className="row">
+            <div className="page-top-nav">
+              <div className="row justify-content-end align-items-center">
+                <div className="col-12 col-md-1">
+                  <div className="header-btn-left">
+                    <button className="btn btn-primary btn-bordered back">
+                      <Link to="/library-create">Back</Link>
+                    </button>
+                  </div>
+                </div>
+                <div className="col-12 col-md-9">
+                  <ul className="tabnav-link">
+                    <li className="active active-main">
+                      <a href="">Create Your Content</a>
+                    </li>
+                    <li className="">
+                      <a href="">Edit Consent Option</a>
+                    </li>
+                    <li className="">
+                      <a href="">Approve Your Content &amp; Publish</a>
+                    </li>
+                  </ul>
+                </div>
+                <div className="col-12 col-md-2">
+                  <div className="header-btn">
+                    <button className="btn btn-primary btn-bordered move-draft">
+                      Cancel
+                    </button>
+
+                    <button
+                      className="btn btn-primary btn-filled next"
+                      onClick={nextButtonClicked}
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {
+            userDetail?.user?.[0]?.group_id == 2?publisherFun():userDetail?.user?.[0]?.flag== 0 && userDetail?.user?.[0]?.group_id == 3? docintelLink():null
+            }
+            {
+              userDetail?.user?.[0]?.group_id == 2?LimitAgreed():null
+            }
             <div className="create-change-content">
               <div className="form_action">
                 <h4>Creating the eprint</h4>
