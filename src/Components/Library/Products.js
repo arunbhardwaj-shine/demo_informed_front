@@ -25,6 +25,10 @@ function Products() {
 
   const [show, setShow] = useState(false);
   const [newProduct, setNewProduct] = useState("");
+    const [SelectType, setSelectType] = useState([
+    { value:1, label: "Product" },
+    { value: 2, label: "Topics" },
+  ]);
   const [BusinessUnitAll, setBusinessUnitAll] = useState([
     { value:3, label: "Critical Care" },
     { value:1, label: "Haematology" },
@@ -95,18 +99,25 @@ function Products() {
     <Col className="right-sidebar">
       <div className="custom-container">
         <Row>
-          <div className="top-header">
+          {/* <div className="top-header">
             <div className="page-title">
               <h2>Products</h2>
             </div>
-          </div>
+          </div> */}
           <div className="create-change-content spc-content">
             <div className="form_action">
-              <h4>Please select the business unit to show the products </h4>
-              <div className="row">
-                
-                <div className="col-12">
+              <h4>Please select the business unit</h4>
                   <Form className="product-unit d-flex justify-content-between align-items-center">
+                    <div className="form-group full">
+                        <label htmlFor="">Select type</label>
+                        <Select
+                          options={SelectType}
+                          placeholder="Select type"
+                          onChange={(e) => setNewValue({...newValue,category:e?.value})}
+                          className="dropdown-basic-button split-button-dropup"
+                          isClearable
+                        />
+                  </div>
                   {
                       productData?.flag?(
                         <div className="form-group">
@@ -133,7 +144,6 @@ function Products() {
                         Add New Product +
                       </Button>
                   </Form>
-                </div>
                 {/* {BusinessUnit == "" ? (
                   <div className="col-12 no-type-selected">
                     <div className="no-data-selected">
@@ -142,7 +152,7 @@ function Products() {
                     </div>
                   </div>
                 ) : ( */}
-                  <div className="col-12 selected-products-list d-flex">
+                  <div className="selected-products-list d-flex">
                     {productData?.data?.map((item) => {
                       return (
                         <>
@@ -165,7 +175,6 @@ function Products() {
                     })}
                   </div>
                 {/* )} */}
-              </div>
             </div>
           </div>
         </Row>
