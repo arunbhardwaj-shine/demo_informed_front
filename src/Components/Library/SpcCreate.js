@@ -310,7 +310,7 @@ const SpcCreate = () => {
                           onChange={(event) =>
                             handleChange(event, "product")
                           }
-                          className="dropdown-basic-button split-button-dropup"
+                          className="dropdown-basic-button split-button-dropup extra_multiselect"
                           isClearable
                           isMulti="true"
                         />
