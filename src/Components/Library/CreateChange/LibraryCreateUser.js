@@ -70,8 +70,9 @@ const LibraryCreateUser = () => {
 
 
   const initalFun = async() =>{
+    loader("show")
    const hadData =  await postData(ENDPOINT.LIBRARYDETAIL,{
-      userId:18207
+      userId:22899
     });
 
     let country = []
@@ -81,11 +82,18 @@ const LibraryCreateUser = () => {
         value:key
       })
   })
-  // console.log("dfd",country)
+  let category = []
+  hadData?.data?.data?.category.reduce((objEntries, key) => {
+    category.push({
+      label:key,
+      value:key
+    })
+  })
     setUserDetail({"user":hadData?.data?.data?.user,"production":hadData?.data?.data?.production,country:country,
-      sales:hadData?.data?.data?.sale,format:hadData?.data?.data?.format,category:hadData?.data?.data?.category,ibu:hadData?.data?.data?.ibu
+      sales:hadData?.data?.data?.sale,format:hadData?.data?.data?.format,category:category,ibu:hadData?.data?.data?.ibu
       ,"product":hadData?.data?.data?.product,"reseller":hadData?.data?.data?.reseller
     })
+    loader("hide")
   }
   useEffect(()=>{
     initalFun()
@@ -356,7 +364,7 @@ const LibraryCreateUser = () => {
             <div className="form-group">
               <label htmlFor="">Product</label>
               <Select
-                options={countryAll}
+                options={userDetail?.product}
                 placeholder="Select the product this is for"
                 // onChange={(event) => onCountryChange(event)}
                 className="dropdown-basic-button split-button-dropup"
@@ -484,10 +492,24 @@ const LibraryCreateUser = () => {
   const handleModelFun = (e) =>{
      setUserDetail({...userDetail,newValue:e.target.value})
   }
-  const handleSubmitModelFun = (e) =>{
+  const handleSubmitModelFun = async(e) =>{
+    try{
     let newAr = userDetail?.product
      newAr.push({value:userDetail?.newValu,label:userDetail?.newValue})
+    let body = {
+      "userId":18207,
+      "product":userDetail?.newValue,
+      "category":0,
+      "type":1
+    };
+    const res = await postData(ENDPOINT.ADD_SPC_PRODUCT,body);
     setUserDetail({...userDetail,product:newAr})
+
+    toast.success(res?.data?.message);
+  }catch(err){
+    loader('hide');
+  }
+
  }
 
   return (
@@ -533,7 +555,6 @@ const LibraryCreateUser = () => {
                 </div>
               </div>
             </div>
-            {console.log("dfdfdfd",userDetail?.user?.[0])}
             {
             userDetail?.user?.[0]?.group_id == 2?publisherFun():userDetail?.user?.[0]?.flag== 0 && userDetail?.user?.[0]?.group_id == 3? docintelLink():null
             }

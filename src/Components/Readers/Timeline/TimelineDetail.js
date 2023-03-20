@@ -63,7 +63,6 @@ const data = [
 ];
 const TimelineDetail = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-
   const [isActive, setIsActive] = useState(false);
   const handleClick = event => {
     setIsActive(current => !current);
@@ -111,9 +110,6 @@ const TimelineDetail = () => {
               </div>
             </div>
             <div>
-              {/* <button className={isActive ? 'bg-salmon' : ''} onClick={handleClick}>
-                Click
-              </button> */}
             </div>
             <div className="vertical-timeline d-flex align-items-start">
                 <div className="timeline-left-user">
@@ -196,8 +192,68 @@ const TimelineDetail = () => {
                                     <p>Details <img src={path_image + "down-arrow.png"} alt="" /></p>
                                 </div>
                                 <div className="timeline-article-details-overall">
-                                    sdfsdfsdfsdfsdfs adaqweqwr ewryterhewe
-                                </div>
+                                    <div class="data-main-box tab-panel d-flex flex-column justify-content-between">
+                                      <h3>Chaper 1</h3>
+                                      <div className="timeline-article-details-boxes">
+                                        <div className="media">
+                                          <div className="media-left">
+                                            <img
+                                              src="https://docintel.s3-eu-west-1.amazonaws.com/ebook/pdftoimage/Haematology_Octapharma/3681/ios_page1.png"
+                                              className="media-object"
+                                              style={{ width: "80px" }}
+                                              alt="ebook"
+                                            />
+                                            {/* <img
+                                              src={path_image + "down-arrow.png"}
+                                              className="media-object"
+                                              // style={{}}
+                                              alt="ebook"
+                                            /> */}
+                                            <p>Page: 1</p>
+                                          </div>
+                                          <div className="media-right">
+                                            <ul class="tab-mail-list data">
+                                            <li class="d-flex align-center">
+                                              <h6 class="tab-content-title">Ignored
+                                              </h6>
+                                              <div class="data-progress limited">
+                                                <div class="progress">
+                                                  <div role="progressbar" class="progress-bar bg-danger" aria-valuenow="1" aria-valuemin="0" aria-valuemax="100" style={{width: "1%"}}>10</div>
+                                                </div>
+                                              </div>
+                                              </li>
+                                              <li>
+                                                <h6 class="tab-content-title">Browsed
+                                                </h6>
+                                                <div class="data-progress success-progress">
+                                                  <div class="progress">
+                                                    <div role="progressbar" class="progress-bar bg-warning" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style={{width: "100%"}}>40</div>
+                                                    </div>
+                                                  </div>
+                                              </li>
+                                              <li>
+                                                  <h6 class="tab-content-title">Read</h6>
+                                                  <div class="data-progress">
+                                                    <div class="progress">
+                                                      <div role="progressbar" class="progress-bar bg-success" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style={{width: "0%"}}>0</div>
+                                                    </div>
+                                                  </div>
+                                              </li>
+                                              <li>
+                                                  <h6 class="tab-content-title">Readers</h6>
+                                                  <div class="data-progress">
+                                                    <div class="progress">
+                                                      <div role="progressbar" class="progress-bar bg-danger" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style={{width: "0%"}}>0</div>
+                                                    </div>
+                                                  </div>
+                                              </li>
+                                            </ul>
+                                            <p><span>Time Needed: 15.84 seconds</span> <span>Time Spent: 0 seconds</span></p>
+                                        </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div> 
                              </div>
                         </div>
                         
@@ -557,7 +613,7 @@ const TimelineDetail = () => {
                 </div>
             </div>
 
-            {data.map((item, index) => (
+            {/* {data.map((item, index) => (
               <div key={index} className="vertical-timeline vertical-timeline--animate">
                 <div className="vertical-timeline-element--work vertical-timeline-element">
                   <span
@@ -698,7 +754,7 @@ const TimelineDetail = () => {
                   )}
                 </div>
               </div>
-            ))}
+            ))} */}
           </Row>
         </div>
       </Col>

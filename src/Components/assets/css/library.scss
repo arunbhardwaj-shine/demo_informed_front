@@ -595,6 +595,7 @@
     top: 0;
     width: calc(100% - 24px);
   }
+
   .products-listing {
     position: relative;
     max-width: 283px;
@@ -757,7 +758,7 @@ ul.tab-mail-list.data span.total-left small {
   background: #0066be;
 }
 .readerlist .tab-mail-list.data .go-opening .progress {
-  background: #004a89;
+  background: $dark-blue;
 }
 .readerlist .tab-mail-list.data .content-opening .progress {
   background: #00003c;
@@ -895,6 +896,7 @@ ul.tab-mail-list.data span.total-left small {
         }
         &.show {
           button {
+            color: $primary-color;
           }
         }
       }
@@ -960,7 +962,7 @@ ul.tab-mail-list.data span.total-left small {
     border: 0;
     justify-content: center;
     padding-top: 8px;
-    padding-bottom: 20px;
+    padding-bottom: 22px;
     button {
       min-width: 106px;
     }
@@ -1292,7 +1294,7 @@ select::-ms-expand {
               margin: 0;
               color: #70899e;
               &.tab-content-title {
-                color: #004a89;
+                color: $dark-blue;
                 display: flex;
                 min-width: 140px;
                 margin-right: 23px;
@@ -1315,6 +1317,7 @@ select::-ms-expand {
 form.product-unit {
     flex-wrap: wrap;
 }
+
 form.product-unit .form-group.full {
     flex: 0 0 100%;
 }
@@ -1473,14 +1476,14 @@ margin: 18px 0 23px auto;
             &:first-child {
               &:not(:last-child) {
                 width: 45%;
-                border-right: 1px dashed #004a89;
+                border-right: 1px dashed $dark-blue;
               }
             }
             p {
               font-weight: 500;
               font-size: 20px;
               line-height: 25px;
-              color: #004a89;
+              color: $dark-blue;
               text-align: left;
             }
             .formgroup {
@@ -1490,7 +1493,7 @@ margin: 18px 0 23px auto;
                 font-weight: 400;
                 font-size: 18px;
                 line-height: 21px;
-                color: #004a89;
+                color: $dark-blue;
                 margin: 0 14px 0 0;
               }
               .split-button-dropup {
@@ -1757,20 +1760,13 @@ margin: 18px 0 23px auto;
   flex: 0 0 600px;
   padding-right: 55px;
   h5 {
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 23px;
-    color: #004a89;
+    @include sublink_h5;
     margin: 9px 0 18px;
   }
 }
 .sublink_right {
   h5 {
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 23px;
-    color: #004a89;
-    margin: 0 0 18px;
+    @include sublink_h5;
     margin: 0;
   }
   flex: 1 1;
@@ -2198,13 +2194,13 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 .timeline-box .timeline_date {
   position: absolute;
   left: 0;
-  background: #004a89;
+  background: $dark-blue;
   box-shadow: 0px 5px 6px rgba(0, 102, 190, 0.2);
   border-radius: 36px 0px 36px 36px;
   font-weight: 600;
   font-size: 14px;
   line-height: 128.69%;
-  color: #fff;
+  color: $white;
   width: 72px;
   height: 72px;
   display: flex;
@@ -2214,7 +2210,7 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
   padding: 10px;
 }
 .timeline-block {
-  background: #ffffff;
+  background: $white;
   box-shadow: 0px 1px 8px rgba(0, 102, 190, 0.24);
   border-radius: 0px 20px 20px 20px;
   padding: 17px 16px;
@@ -2283,7 +2279,7 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
   font-weight: 400;
   font-size: 14px;
   line-height: 16px;
-  color: #004a89;
+  color: $dark-blue;
   margin: 0 0 7px;
 }
 
@@ -2306,7 +2302,7 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 .timeline-article-device tr .device-name {
   font-size: 14px;
   line-height: 16px;
-  color: #004a89;
+  color: $dark-blue;
   padding: 0 0 14px;
 }
 .timeline-article-device tr:last-child td,
@@ -2360,6 +2356,11 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
   margin: 16px -16px -16px;
   padding: 0 16px;
 }
+.timeline-article-detail-full.active {
+    flex-direction: column-reverse;
+    display: flex;
+    width: 100%;
+}
 .timeline-article-detail-full .timeline-article-details-heading {
   text-align: center;
   min-height: 32px;
@@ -2384,6 +2385,80 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 .timeline-article-detail-full .timeline-article-details-heading p img {
   margin-left: 7px;
 }
+.timeline-article-details-overall{
+    .data-main-box{
+     h3 {
+        margin: 15px 10px;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 23px;
+        color: #0066BE;
+    }
+    .timeline-article-details-boxes {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    margin: 0 0 0px;
+    .media {
+    flex: 0 0 48%;
+    padding: 15px;
+    background: $white;
+    box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
+    border-radius: 13px;
+    margin: 0 1% 20px;
+    display: flex;
+    align-items: flex-start;
+    .media-left {
+      margin-right: 20px;
+      p {
+      margin: 5px 0;
+      text-align: center;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 16px;
+      color: $dark-blue;
+      }
+    }
+    .media-right {
+    flex: 1 1;
+    ul {
+      list-style: none;
+      padding: 0;
+      li{
+         display: flex;
+        align-items: center;
+        margin: 0 0 14px;
+        &.data-progress{
+          margin: 0;
+          padding: 0;
+        }
+        h6{
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 16px;
+          color: rgba(0, 74, 137, 0.55);
+          min-width: 72px;
+          margin: 0;
+        }
+      }
+     }
+     p {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 16px;
+      color: $dark-blue;
+      margin: 0;
+      span {
+      display: block;
+      line-height: 20px;
+      }
+       }
+    }
+    }
+    }
+  }
+      
+} 
 
 .header-btn button.btn.print {
   filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));
@@ -2482,12 +2557,24 @@ section.verify_email.content_details {
   margin-top: 8px;
 }
 .header-btn .btn.btn-primary.move-draft:hover {
-  color: #ffffff;
+  color: $white;
   background-color: #97b6cf;
 }
 /**Reader Style End**/
 
+
+
+
+
 /**Library Responsive**/
+@media only screen and (max-width: 1900px) {
+.tab-mail-list.data .progress {
+    width: 145px;
+}
+.data-progress {
+    margin-right: 4px;
+}
+}
 @media only screen and (max-width: 1700px) {
   .library-content-box-layuot {
     gap: 0% 2%;
@@ -2903,6 +2990,10 @@ section.verify_email.content_details {
   .library-content-box-layuot .doc-content-main-box .doc-content-header {
     margin-bottom: 15px;
   }
+  .library-content-box-layuot .doc-content-main-box .tabs-data .nav-tabs .nav-item button {
+    font-size: 10px;
+    padding: 10px 6px;
+}
 }
 @media (max-width: $layout-breakpoint-large) {
   .library-content-box-layuot

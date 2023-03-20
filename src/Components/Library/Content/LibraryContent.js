@@ -46,7 +46,6 @@ const LibraryContent = () => {
     { value: "Offline", label: "Offline" },
     { value: "Sunshine", label: "Sunshine" },
   ]);
-
   const [pageAllClicked, setPageAllClicked] = useState(false);
   const [update, setUpdate] = useState(0);
   const location = useLocation();
@@ -1591,7 +1590,7 @@ const LibraryContent = () => {
         handleQR={handleQR}
       />
 
-      <div className="delete">
+     
         <CommonConfirmModel
           show={confirmationpopup}
           onClose={hideConfirmationModal}
@@ -1600,7 +1599,7 @@ const LibraryContent = () => {
           path_image={path_image}
           resetDataId={resetDataId}
         />
-      </div>
+    
 
       <Modal id="tagsModal" show={isOpen}>
         <Modal.Header>
@@ -1625,7 +1624,7 @@ const LibraryContent = () => {
                     <>
                       <div onClick={(event) => tagClicked(data)}>{data} </div>
                     </>
-                  );
+                  )
                 })}
               </div>
             </div>
@@ -1648,7 +1647,7 @@ const LibraryContent = () => {
                       />
                     </div>
                   </>
-                );
+                )
               })}
             </div>
           </div>
@@ -1684,7 +1683,7 @@ const LibraryContent = () => {
         </Modal.Footer>
       </Modal>
     </>
-  );
-};
+  )
+}
 
 export default LibraryContent;

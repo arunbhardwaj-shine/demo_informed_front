@@ -60,7 +60,6 @@ const CommonConfirmModel = ({
           </div>
         </Modal.Body>
       </Modal>
-      ;
     </>
   );
 };

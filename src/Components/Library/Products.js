@@ -55,7 +55,7 @@ function Products() {
   const handleSubmit = async(e) =>{
     loader("show");
      await postData(ENDPOINT.ADD_SPC_PRODUCT,{
-        userId:29836198,
+        userId:18207,
         product:newValue?.newProductValue,
         category:newValue?.category,
         type:content?.value
