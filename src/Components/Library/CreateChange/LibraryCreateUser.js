@@ -73,7 +73,16 @@ const LibraryCreateUser = () => {
    const hadData =  await postData(ENDPOINT.LIBRARYDETAIL,{
       userId:18207
     });
-    setUserDetail({"user":hadData?.data?.data?.user,"production":hadData?.data?.data?.production,country:hadData?.data?.data?.user?.pharma_country,
+
+    let country = []
+     hadData?.data?.data?.country.reduce((objEntries, key) => {
+      country.push({
+        label:key,
+        value:key
+      })
+  })
+  // console.log("dfd",country)
+    setUserDetail({"user":hadData?.data?.data?.user,"production":hadData?.data?.data?.production,country:country,
       sales:hadData?.data?.data?.sale,format:hadData?.data?.data?.format,category:hadData?.data?.data?.category,ibu:hadData?.data?.data?.ibu
       ,"product":hadData?.data?.data?.product,"reseller":hadData?.data?.data?.reseller
     })
@@ -214,7 +223,7 @@ const LibraryCreateUser = () => {
             <div className="form-group">
               <label htmlFor="">Country</label>
               <Select
-                options={userDetail?.user?.[0]?.pharma_country||[]}
+                options={userDetail?.country||[]}
                 placeholder="Select country"
                 onChange={(e)=>handleChange(e?.value,"country")}
                 className="dropdown-basic-button split-button-dropup"
@@ -524,6 +533,7 @@ const LibraryCreateUser = () => {
                 </div>
               </div>
             </div>
+            {console.log("dfdfdfd",userDetail?.user?.[0])}
             {
             userDetail?.user?.[0]?.group_id == 2?publisherFun():userDetail?.user?.[0]?.flag== 0 && userDetail?.user?.[0]?.group_id == 3? docintelLink():null
             }

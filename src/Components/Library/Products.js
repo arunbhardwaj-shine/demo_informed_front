@@ -28,7 +28,7 @@ function Products() {
     label:"Product",
     value:1
   })
-    const [SelectType, setSelectType] = useState([
+  const [SelectType, setSelectType] = useState([
     { value:1, label: "Product" },
     { value: 2, label: "Topics" },
   ]);
