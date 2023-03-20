@@ -20,4 +20,5 @@ export const ENDPOINT = {
   ADD_SPC_PRODUCT:"/library/add-product",
   LIBRARYGETSPC: `/library/get-spcListing`,
   LIBRARYSPCDELETE: `/library/deletespc`,
+  SPC_PRO_DELETE:`/library/spcProductDelete/`
 };
