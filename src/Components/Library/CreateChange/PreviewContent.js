@@ -27,9 +27,72 @@ import {
 } from "react-bootstrap";
 import Select from "react-select";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-
-const PreviewContent = (props) => {
+// ebook 3846
+const PreviewContent = () => {
     const navigate = useNavigate();
+    const [articleId, setArticleId] = useState("3899");
+    const [pdfData, setPdfData] = useState([]);
+    const [editTitle, setEditTitle] = useState(false);
+    const [titleChange, setTitleChange] = useState('');
+	const responsive = {
+		0: { items: 1 },
+		568: { items: 2 },
+		1024: { items: 5 },
+	};
+	const [activeIndex, setActiveIndex] = useState(0);
+	const slidePrev = () => setActiveIndex(activeIndex - 1);
+	const slideNext = () => setActiveIndex(activeIndex + 1);
+	const syncActiveIndex = ({ item }) => setActiveIndex(item);
+	const [templateId, setTemplateId] = useState();
+	const [newTemplateClicked, setNewTemplateClicked] = useState(false);
+	const [templateClickedd, setTemplateClicked] = useState(false);
+	const [pdfFileId, setPdfFileId] = useState();
+	const [templatePdf, setTemplatePdf] = useState();
+	const [templateName, setTemplateName] = useState("");
+
+    useEffect(() => {
+      getArticleData();
+    }, []);
+
+    const getArticleData = async () => {
+        loader('show');
+		try{
+          let body = {
+            pdfId: articleId
+          };
+          const res = await postData(ENDPOINT.LIBRARYGETARTICLE, body);
+          setPdfData(res?.data?.data);
+		  loader('hide');
+		}catch(err){
+			loader('hide');
+		}
+    };
+
+    const updateArticleTitle = (title) => {
+		if(pdfData?.file_type && pdfData.file_type == "ebook") {
+			let pdfIndex = pdfData.ebookData.findIndex(el => el.id === pdfFileId);
+			pdfData.ebookData[pdfIndex].title = title;
+			setPdfData(pdfData);
+			setTemplateName(title);
+		}else{
+			pdfData.title = title;
+		}   
+    }
+	
+	const templateClicked = (template, e) => {
+		const div = document.querySelector("img.select_mm");
+		setNewTemplateClicked(false);
+		if (div) {
+		  div.classList.remove("select_mm");
+		}
+		setTemplatePdf(template?.file_name);
+		setTemplateName(template?.title);
+		setTemplateClicked(true);
+		setPdfFileId(template.id);
+		setEditTitle(false);
+		e.target.classList.toggle("select_mm");
+	}
+
     return(
       <Col className="right-sidebar">
         <div className="custom-container">
@@ -70,17 +133,118 @@ const PreviewContent = (props) => {
                 </div>
               </div>
             </div>
+			{
+				pdfData?.file_type && pdfData.file_type == "ebook" && 
+				(
+					<section className="select-mail-template library-cosent">
+					  <div className="custom-container">
+						<div className="row">
+							<AliceCarousel
+							mouseTracking
+							disableDotsControls
+							activeIndex={activeIndex}
+							responsive={responsive}
+							onSlideChanged={syncActiveIndex}
+						  >
+							{pdfData?.ebookData.map((template) => {
+							  return (
+								<>
+								  <div
+									className="item"
+									onClick={(e) => templateClicked(template, e)}
+								  >
+									<img
+									  id={"template_dyn" + template.id}
+									  src={template.image}
+									  alt=""
+									  className={
+										typeof templateId !== "undefined" &&
+										templateId == template.id
+										  ? "select_mm"
+										  : ""
+									  }
+									/>
+									<p>{template.title}</p>
+								  </div>
+								</>
+							  );
+							})}
+							</AliceCarousel>
+						</div>
+					</div>
+					</section>	
+				)
+			}
             <div className="create-change-content spc-content">
               <div className="form_action">
                 <div className="row">
                   <Col className="sublink_right preview-content d-flex flex-column">
-                    <div className="d-flex justify-content-between align-items-center">
-                      <h4 className="edit_content_title">Title <button><img src={path_image + "edit-button.svg"} alt="Edit" /></button></h4>
-                      <Button className="btn btn-bordered">Change content file</Button>
-                    </div>
+					<>
+					  <div className="d-flex justify-content-between align-items-center">
+					  <h4 className="edit_content_title">
+						{
+						  editTitle ?
+						  <input
+							type="text"
+							className="form-control"
+							id="new-tag"
+							value={
+							  titleChange
+							}
+							onChange={(e) => setTitleChange(e.target.value)}
+						  />
+						  : 
+						  pdfData?.file_type && pdfData.file_type == "ebook" ?
+							templateName != '' ? templateName : pdfData?.title
+						  :
+						  pdfData?.title
+						}
 
-                    <RenderPdf/>
-                    
+						{
+						  editTitle ?
+						  <>
+						  <button onClick={(e) => {
+							  setEditTitle(false)
+							  updateArticleTitle(titleChange)
+						  }}>Save</button>
+						  <button onClick={(e) => {
+							  setEditTitle(false)
+							  setTitleChange(pdfData?.title)
+						  }}>Cancel</button>
+						  </>
+						  :
+						  <button
+						  onClick={(e) => {
+							  setEditTitle(true)
+							  setTitleChange(
+								pdfData?.file_type && pdfData.file_type == "ebook" ?
+								templateName != '' ? templateName : pdfData?.title
+								  :
+								pdfData?.title
+							  )
+						  }}
+						  >
+						  <img src={path_image + "edit-button.svg"} alt="Edit" />
+						  </button>
+						}
+
+
+					  </h4>
+					  <Button className="btn btn-bordered">Change content file</Button>
+					</div>
+					{						
+						pdfData?.file_type && pdfData.file_type == "ebook" ?
+							<RenderPdf
+							  url= {templatePdf}
+							/>
+						:
+						
+							<RenderPdf
+							  url= {pdfData?.file_name}
+							/>
+					}
+					
+					</>	
                   </Col>
                 </div>
               </div>
