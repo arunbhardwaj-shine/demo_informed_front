@@ -356,7 +356,7 @@ const SpcEdit = () => {
   								}
 								  defaultValue={
                     productInput
-								  }
+								  }      
 								  className="dropdown-basic-button split-button-dropup extra_multiselect"
 								  isClearable
                   isMulti="true"
