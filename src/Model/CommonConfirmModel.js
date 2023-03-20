@@ -4,18 +4,17 @@ import { Modal } from "react-bootstrap";
 const CommonConfirmModel = ({
   show,
   onClose,
-  deleteUser,
+  fun,
   popupMessage,
   path_image,
-  deletestatus,
   resetDataId,
-  resetCollectionFn,
 }) => {
   const handleClose = () => {
     onClose(false);
   };
+
   const handleCollection = () => {
-    resetCollectionFn(resetDataId);
+    fun(resetDataId);
   };
   return (
     <>
@@ -37,29 +36,19 @@ const CommonConfirmModel = ({
         <Modal.Body>
           <img src={path_image + "alert.png"} alt="" />
           <h4>
-            {popupMessage.message1 ? popupMessage.message1 : ""}
+            {popupMessage?.message1 ? popupMessage?.message1 : ""}
             <br />
 
-            {popupMessage.message2 ? popupMessage.message2 : ""}
+            {popupMessage?.message2 ? popupMessage?.message2 : ""}
           </h4>
           <div className="modal-buttons">
-            {deletestatus ? (
-              <button
-                type="button"
-                className="btn btn-primary btn-filled"
-                onClick={deleteUser}
-              >
-                Yes Please!
-              </button>
-            ) : (
-              <button
-                type="button"
-                className="btn btn-primary btn-filled"
-                onClick={handleCollection}
-              >
-                Reset Collection
-              </button>
-            )}
+            <button
+              type="button"
+              className="btn btn-primary btn-filled"
+              onClick={handleCollection}
+            >
+              {popupMessage?.footerButton}
+            </button>
 
             <button
               type="button"
