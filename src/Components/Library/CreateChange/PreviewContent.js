@@ -80,9 +80,9 @@ const PreviewContent = () => {
 			setTemplateName(title);
 		}else{
 			pdfData.title = title;
-		}   
+		}
     }
-	
+
 	const templateClicked = (template, e) => {
 		const div = document.querySelector("img.select_mm");
 		setNewTemplateClicked(false);
@@ -138,11 +138,12 @@ const PreviewContent = () => {
               </div>
             </div>
 			{
-				pdfData?.file_type && pdfData.file_type == "ebook" && 
+				pdfData?.file_type && pdfData.file_type == "ebook" &&
 				(
 					<section className="select-mail-template library-cosent">
 					  <div className="custom-container">
 						<div className="row">
+              <div class="page-title"><h4>Select chapter to preview it</h4></div>
 							<AliceCarousel
 							mouseTracking
 							disableDotsControls
@@ -176,7 +177,7 @@ const PreviewContent = () => {
 							</AliceCarousel>
 						</div>
 					</div>
-					</section>	
+					</section>
 				)
 			}
             <div className="create-change-content spc-content">
@@ -197,7 +198,7 @@ const PreviewContent = () => {
 							}
 							onChange={(e) => setTitleChange(e.target.value)}
 						  />
-						  : 
+						  :
 						  pdfData?.file_type && pdfData.file_type == "ebook" ?
 							templateName != '' ? templateName : pdfData?.title
 						  :
@@ -236,19 +237,19 @@ const PreviewContent = () => {
 					  </h4>
 					  <Button className="btn btn-bordered" onClick={handleShow}>Change content file</Button>
 					</div>
-					{						
+					{
 						pdfData?.file_type && pdfData.file_type == "ebook" ?
 							<RenderPdf
 							  url= {templatePdf}
 							/>
 						:
-						
+
 							<RenderPdf
 							  url= {pdfData?.file_name}
 							/>
 					}
-					
-					</>	
+
+					</>
                   </Col>
                 </div>
               </div>

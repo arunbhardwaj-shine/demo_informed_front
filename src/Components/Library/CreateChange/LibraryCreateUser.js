@@ -70,20 +70,34 @@ const LibraryCreateUser = () => {
 
 
   const initalFun = async() =>{
+    loader("show")
    const hadData =  await postData(ENDPOINT.LIBRARYDETAIL,{
-      userId:18207
+      userId:22899
     });
-    setUserDetail({"user":hadData?.data?.data?.user,"production":hadData?.data?.data?.production,country:hadData?.data?.data?.user?.pharma_country,
-      sales:hadData?.data?.data?.sale,format:hadData?.data?.data?.format,category:hadData?.data?.data?.category,ibu:hadData?.data?.data?.ibu
+
+    let country = []
+     hadData?.data?.data?.country.reduce((objEntries, key) => {
+      country.push({
+        label:key,
+        value:key
+      })
+  })
+  let category = []
+  hadData?.data?.data?.category.reduce((objEntries, key) => {
+    category.push({
+      label:key,
+      value:key
+    })
+  })
+    setUserDetail({"user":hadData?.data?.data?.user,"production":hadData?.data?.data?.production,country:country,
+      sales:hadData?.data?.data?.sale,format:hadData?.data?.data?.format,category:category,ibu:hadData?.data?.data?.ibu
       ,"product":hadData?.data?.data?.product,"reseller":hadData?.data?.data?.reseller
     })
+    loader("hide")
   }
   useEffect(()=>{
     initalFun()
   },[])
-  const editFun = () =>{
-    
-  }
   const handleChange = (e, isSelectedName) => {
     if (e?.target?.files?.length < 1) {
       return;
@@ -214,7 +228,7 @@ const LibraryCreateUser = () => {
             <div className="form-group">
               <label htmlFor="">Country</label>
               <Select
-                options={userDetail?.user?.[0]?.pharma_country||[]}
+                options={userDetail?.country||[]}
                 placeholder="Select country"
                 onChange={(e)=>handleChange(e?.value,"country")}
                 className="dropdown-basic-button split-button-dropup"
@@ -347,7 +361,7 @@ const LibraryCreateUser = () => {
             <div className="form-group">
               <label htmlFor="">Product</label>
               <Select
-                options={countryAll}
+                options={userDetail?.product}
                 placeholder="Select the product this is for"
                 // onChange={(event) => onCountryChange(event)}
                 className="dropdown-basic-button split-button-dropup"
@@ -475,59 +489,28 @@ const LibraryCreateUser = () => {
   const handleModelFun = (e) =>{
      setUserDetail({...userDetail,newValue:e.target.value})
   }
-  const handleSubmitModelFun = (e) =>{
+  const handleSubmitModelFun = async(e) =>{
+    try{
     let newAr = userDetail?.product
      newAr.push({value:userDetail?.newValu,label:userDetail?.newValue})
+    let body = {
+      "userId":18207,
+      "product":userDetail?.newValue,
+      "category":0,
+      "type":1
+    };
+    const res = await postData(ENDPOINT.ADD_SPC_PRODUCT,body);
     setUserDetail({...userDetail,product:newAr})
+
+    toast.success(res?.data?.message);
+  }catch(err){
+    loader('hide');
+  }
+
  }
-
-  return (
-    <>
-      <div className="col right-sidebar">
-        <div className="custom-container">
-          <div className="row">
-            <div className="page-top-nav">
-              <div className="row justify-content-end align-items-center">
-                <div className="col-12 col-md-1">
-                  <div className="header-btn-left">
-                    <button className="btn btn-primary btn-bordered back">
-                      <Link to="/library-create">Back</Link>
-                    </button>
-                  </div>
-                </div>
-                <div className="col-12 col-md-9">
-                  <ul className="tabnav-link">
-                    <li className="active active-main">
-                      <a href="">Create Your Content</a>
-                    </li>
-                    <li className="">
-                      <a href="">Edit Consent Option</a>
-                    </li>
-                    <li className="">
-                      <a href="">Approve Your Content &amp; Publish</a>
-                    </li>
-                  </ul>
-                </div>
-                <div className="col-12 col-md-2">
-                  <div className="header-btn">
-                    <button className="btn btn-primary btn-bordered move-draft">
-                      Cancel
-                    </button>
-
-                    <button
-                      className="btn btn-primary btn-filled next"
-                      onClick={nextButtonClicked}
-                    >
-                      Next
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {
-            userDetail?.user?.[0]?.group_id == 2?publisherFun():userDetail?.user?.[0]?.flag== 0 && userDetail?.user?.[0]?.group_id == 3? docintelLink():null
-            }
-            <div className="create-change-content">
+ const LimitAgreed = () =>{
+   return (
+    <div className="create-change-content">
               <div className="form_action">
                 <h4>Limits agreed</h4>
                 <div className="row">
@@ -610,6 +593,58 @@ const LibraryCreateUser = () => {
                 </div>
               </div>
             </div>
+   )
+ }
+
+  return (
+    <>
+      <div className="col right-sidebar">
+        <div className="custom-container">
+          <div className="row">
+            <div className="page-top-nav">
+              <div className="row justify-content-end align-items-center">
+                <div className="col-12 col-md-1">
+                  <div className="header-btn-left">
+                    <button className="btn btn-primary btn-bordered back">
+                      <Link to="/library-create">Back</Link>
+                    </button>
+                  </div>
+                </div>
+                <div className="col-12 col-md-9">
+                  <ul className="tabnav-link">
+                    <li className="active active-main">
+                      <a href="">Create Your Content</a>
+                    </li>
+                    <li className="">
+                      <a href="">Edit Consent Option</a>
+                    </li>
+                    <li className="">
+                      <a href="">Approve Your Content &amp; Publish</a>
+                    </li>
+                  </ul>
+                </div>
+                <div className="col-12 col-md-2">
+                  <div className="header-btn">
+                    <button className="btn btn-primary btn-bordered move-draft">
+                      Cancel
+                    </button>
+
+                    <button
+                      className="btn btn-primary btn-filled next"
+                      onClick={nextButtonClicked}
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {
+            userDetail?.user?.[0]?.group_id == 2?publisherFun():userDetail?.user?.[0]?.flag== 0 && userDetail?.user?.[0]?.group_id == 3? docintelLink():null
+            }
+            {
+              userDetail?.user?.[0]?.group_id == 2?LimitAgreed():null
+            }
             <div className="create-change-content">
               <div className="form_action">
                 <h4>Creating the eprint</h4>

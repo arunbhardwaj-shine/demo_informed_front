@@ -4,6 +4,7 @@ import { Modal } from "react-bootstrap";
 import { popup_alert } from "../../popup_alert";
 import {ENDPOINT} from "../../axios/apiConfig";
 import {postData, deleteData} from "../../axios/apiHelper";
+import CommonConfirmModel from "../../Model/CommonConfirmModel";
 import { loader } from "../../loader";
 import { Button } from "react-bootstrap";
 
@@ -254,46 +255,21 @@ const SpcView = () => {
       </div>
 
       <div className="delete">
-        <Modal
-          className="modal send-confirm"
-          id="delete-confirm"
-          show={confirmationpopup}
-        >
-          <Modal.Header>
-            {/* <Modal.Title>Heading Text</Modal.Title>*/}
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              onClick={(e) => setConfirmationPopup(false)}
-            ></button>
-          </Modal.Header>
+      <CommonConfirmModel
+        show={confirmationpopup}
+        onClose={setConfirmationPopup}
+        fun={deleteSpc}
+        resetDataId={spcDeletedId}
+        popupMessage={
+         {
+           "message1":"You are about to remove this Spc.",
+           "message2":" Are you sure you want to do this?",
+           "footerButton":" Yes Please!"
+         }
+        }
+        path_image={path_image}
 
-          <Modal.Body>
-            <img src={path_image + "alert.png"} alt="" />
-            <h4>
-              The SPC be deleted from the list.
-              <br />
-              Are you sure you want to delete it?
-            </h4>
-            <div className="modal-buttons">
-              <button
-                type="button"
-                className="btn btn-primary btn-filled"
-                onClick={(e) => deleteSpc()}
-              >
-                Yes Please!
-              </button>
-              <button
-                type="button"
-                className="btn btn-primary btn-bordered light"
-                onClick={(e) => setConfirmationPopup(false)}
-              >
-                Cancel
-              </button>
-            </div>
-          </Modal.Body>
-        </Modal>
+       />
       </div>
     </>
   );
