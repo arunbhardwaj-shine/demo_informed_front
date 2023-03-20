@@ -595,6 +595,7 @@
     top: 0;
     width: calc(100% - 24px);
   }
+
   .products-listing {
     position: relative;
     max-width: 283px;
@@ -1315,6 +1316,7 @@ select::-ms-expand {
 form.product-unit {
     flex-wrap: wrap;
 }
+
 form.product-unit .form-group.full {
     flex: 0 0 100%;
 }
@@ -2360,6 +2362,11 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
   margin: 16px -16px -16px;
   padding: 0 16px;
 }
+.timeline-article-detail-full.active {
+    flex-direction: column-reverse;
+    display: flex;
+    width: 100%;
+}
 .timeline-article-detail-full .timeline-article-details-heading {
   text-align: center;
   min-height: 32px;
@@ -2384,6 +2391,80 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 .timeline-article-detail-full .timeline-article-details-heading p img {
   margin-left: 7px;
 }
+.timeline-article-details-overall{
+    .data-main-box{
+     h3 {
+        margin: 15px 10px;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 23px;
+        color: #0066BE;
+    }
+    .timeline-article-details-boxes {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    margin: 0 0 0px;
+    .media {
+    flex: 0 0 48%;
+    padding: 15px;
+    background: $white;
+    box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
+    border-radius: 13px;
+    margin: 0 1% 20px;
+    display: flex;
+    align-items: flex-start;
+    .media-left {
+      margin-right: 20px;
+      p {
+      margin: 5px 0;
+      text-align: center;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 16px;
+      color: #004a89;
+      }
+    }
+    .media-right {
+    flex: 1 1;
+    ul {
+      list-style: none;
+      padding: 0;
+      li{
+         display: flex;
+        align-items: center;
+        margin: 0 0 14px;
+        &.data-progress{
+          margin: 0;
+          padding: 0;
+        }
+        h6{
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 16px;
+          color: rgba(0, 74, 137, 0.55);
+          min-width: 72px;
+          margin: 0;
+        }
+      }
+     }
+     p {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 16px;
+      color: $dark-blue;
+      margin: 0;
+      span {
+      display: block;
+      line-height: 20px;
+      }
+       }
+    }
+    }
+    }
+  }
+      
+} 
 
 .header-btn button.btn.print {
   filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));
