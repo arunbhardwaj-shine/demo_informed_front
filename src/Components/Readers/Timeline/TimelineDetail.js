@@ -2,65 +2,65 @@ import React, { useState } from 'react'
 import { Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-// const data = [
-//   {
-//     itemdetail: "Web Details:",
-//     date: "12 Dec 2022",
-//     time: "Time: 10:34 AM ( Europe/London )",
-//     activity: "Activity: Login to docintel app",
-//     title: "Title: Factor FVIII Relevance Academy 2022, Morning sessions",
-//     chapter: [
-//       {
-//         chapter: "Chapter 1",
-//         markimage:
-//           "https://docintel.s3-eu-west-1.amazonaws.com/ebook/pdftoimage/Haematology_Octapharma/3681/ios_page1.png",
-//       },
-//       {
-//         markimage:
-//           "https://docintel.s3-eu-west-1.amazonaws.com/ebook/pdftoimage/Haematology_Octapharma/3681/ios_page2.png",
-//       },
-//     ],
-//   },
-//   {
-//     itemdetail: "Android Details:",
-//     date: "14 Dec 2022",
-//     time: "Time: 10:34 AM ( Europe/London )",
-//     activity: "Activity: Login to docintel app",
-//   },
-//   {
-//     itemdetail: "IOS Details:",
-//     date: "15 Dec 2022",
-//     time: "Time: 10:34 AM ( Europe/London )",
-//     activity: "Activity: Login to docintel app",
-//   },
-//   {
-//     itemdetail: "Web Details:",
-//     date: "16 Dec 2022",
-//     time: "Time: 10:34 AM ( Europe/London )",
-//     activity: "Activity: Login to docintel app",
-//     chapter: [
-//       {
-//         chapter: "Chapter 1",
-//         markimage:
-//           "https://docintel.s3-eu-west-1.amazonaws.com/ebook/pdftoimage/Haematology_Octapharma/3755/ios_page1.png",
-//       },
-//       {
-//         markimage:
-//           "https://docintel.s3-eu-west-1.amazonaws.com/ebook/pdftoimage/Haematology_Octapharma/3755/ios_page2.png",
-//       },
-//       {
-//         markimage:
-//           "https://docintel.s3-eu-west-1.amazonaws.com/ebook/pdftoimage/Haematology_Octapharma/3755/ios_page3.png",
-//       },
-//     ],
-//   },
-//   {
-//     itemdetail: "Web Details:",
-//     date: "17 Dec 2022",
-//     time: "Time: 10:34 AM ( Europe/London )",
-//     activity: "Activity: Login to docintel app",
-//   },
-// ];
+const data = [
+  {
+    itemdetail: "Web Details:",
+    date: "12 Dec 2022",
+    time: "Time: 10:34 AM ( Europe/London )",
+    activity: "Activity: Login to docintel app",
+    title: "Title: Factor FVIII Relevance Academy 2022, Morning sessions",
+    chapter: [
+      {
+        chapter: "Chapter 1",
+        markimage:
+          "https://docintel.s3-eu-west-1.amazonaws.com/ebook/pdftoimage/Haematology_Octapharma/3681/ios_page1.png",
+      },
+      {
+        markimage:
+          "https://docintel.s3-eu-west-1.amazonaws.com/ebook/pdftoimage/Haematology_Octapharma/3681/ios_page2.png",
+      },
+    ],
+  },
+  {
+    itemdetail: "Android Details:",
+    date: "14 Dec 2022",
+    time: "Time: 10:34 AM ( Europe/London )",
+    activity: "Activity: Login to docintel app",
+  },
+  {
+    itemdetail: "IOS Details:",
+    date: "15 Dec 2022",
+    time: "Time: 10:34 AM ( Europe/London )",
+    activity: "Activity: Login to docintel app",
+  },
+  {
+    itemdetail: "Web Details:",
+    date: "16 Dec 2022",
+    time: "Time: 10:34 AM ( Europe/London )",
+    activity: "Activity: Login to docintel app",
+    chapter: [
+      {
+        chapter: "Chapter 1",
+        markimage:
+          "https://docintel.s3-eu-west-1.amazonaws.com/ebook/pdftoimage/Haematology_Octapharma/3755/ios_page1.png",
+      },
+      {
+        markimage:
+          "https://docintel.s3-eu-west-1.amazonaws.com/ebook/pdftoimage/Haematology_Octapharma/3755/ios_page2.png",
+      },
+      {
+        markimage:
+          "https://docintel.s3-eu-west-1.amazonaws.com/ebook/pdftoimage/Haematology_Octapharma/3755/ios_page3.png",
+      },
+    ],
+  },
+  {
+    itemdetail: "Web Details:",
+    date: "17 Dec 2022",
+    time: "Time: 10:34 AM ( Europe/London )",
+    activity: "Activity: Login to docintel app",
+  },
+];
 const TimelineDetail = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -557,7 +557,7 @@ const TimelineDetail = () => {
                 </div>
             </div>
 
-            {/* {data.map((item, index) => (
+            {data.map((item, index) => (
               <div key={index} className="vertical-timeline vertical-timeline--animate">
                 <div className="vertical-timeline-element--work vertical-timeline-element">
                   <span
@@ -601,8 +601,8 @@ const TimelineDetail = () => {
                           className="vertical-timeline-element-content-arrow"
                           style={{
                             borderRight: "7px solid rgb(255, 255, 255)",
-                          }}
-                        ></div>
+                          }}>
+                        </div>
 
                         {item.chapter?.map((value) => (
                           <div className="mark-kriger-inside">
@@ -630,8 +630,7 @@ const TimelineDetail = () => {
                                       style={{
                                         width: "10%",
                                         backgroundColor: "#B13000",
-                                      }}
-                                    >
+                                      }}>
                                       0
                                     </div>
                                   </div>
@@ -647,8 +646,7 @@ const TimelineDetail = () => {
                                       style={{
                                         width: "10%",
                                         backgroundColor: "#C7C008",
-                                      }}
-                                    >
+                                      }}>
                                       0
                                     </div>
                                   </div>
@@ -664,8 +662,7 @@ const TimelineDetail = () => {
                                       style={{
                                         width: "10%",
                                         backgroundColor: "rgb(86, 195, 187)",
-                                      }}
-                                    >
+                                      }}>
                                       0
                                     </div>
                                   </div>
@@ -681,8 +678,7 @@ const TimelineDetail = () => {
                                       style={{
                                         width: "10%",
                                         background: "#729EFF",
-                                      }}
-                                    >
+                                      }}>
                                       0
                                     </div>
                                   </div>
@@ -702,7 +698,7 @@ const TimelineDetail = () => {
                   )}
                 </div>
               </div>
-            ))} */}
+            ))}
           </Row>
         </div>
       </Col>

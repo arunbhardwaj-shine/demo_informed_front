@@ -1312,6 +1312,19 @@ select::-ms-expand {
   margin-bottom: 12px;
   text-transform: unset;
 }
+form.product-unit {
+    flex-wrap: wrap;
+}
+form.product-unit .form-group.full {
+    flex: 0 0 100%;
+}
+form.product-unit .form-group {
+    width: auto;
+    flex: 0 0 600px;
+}
+form.product-unit button{
+margin: 18px 0 23px auto;
+}
 .crm-detail-content h4 {
   margin-bottom: 23px;
 }

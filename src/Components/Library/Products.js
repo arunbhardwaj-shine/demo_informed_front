@@ -24,6 +24,14 @@ function Products() {
     category:0
   });
   const [show, setShow] = useState(false);
+  const [content,setContent] = useState({
+    label:"Product",
+    value:1
+  })
+    const [SelectType, setSelectType] = useState([
+    { value:1, label: "Product" },
+    { value: 2, label: "Topics" },
+  ]);
   const [BusinessUnitAll, setBusinessUnitAll] = useState([
     { value:3, label: "Critical Care" },
     { value:1, label: "Haematology" },
@@ -33,8 +41,8 @@ function Products() {
   const initFun = async() =>{
     loader("show");
     const resp =  await postData(ENDPOINT.SPC_PRO_LISTING,{
-        userId:29836198,
-        type:1,
+        userId:18207,
+        type:content?.value,
         category:newValue?.category
       })
       setProductData(resp?.data?.data)
@@ -42,7 +50,7 @@ function Products() {
   }
   useEffect (()=>{
     initFun()
-  },[newValue?.category])
+  },[newValue?.category,content])
 
   const handleSubmit = async(e) =>{
     loader("show");
@@ -50,16 +58,15 @@ function Products() {
         userId:29836198,
         product:newValue?.newProductValue,
         category:newValue?.category,
-        type:1
+        type:content?.value
       })
       loader("hide");
       initFun()
-
   }
   const handleConfirmModel = async(id) =>{
+      setConfirmationPopup(false)
       loader("show");
      await deleteMethod(`${ENDPOINT.SPC_PRO_DELETE}${id}`)
-      setConfirmationPopup(false)
       loader("hide");
       setClickData(0)
       initFun()
@@ -72,21 +79,13 @@ function Products() {
     <Col className="right-sidebar">
       <div className="custom-container">
         <Row>
-          <div className="top-header">
-            <div className="page-title">
-              <h2>Products</h2>
-            </div>
-          </div>
           <div className="create-change-content spc-content">
             <div className="form_action">
-              <h4>Please select the business unit to show the products </h4>
-              <div className="row">
-                
-                <div className="col-12">
+              <h4>Please select the business unit</h4>
                   <Form className="product-unit d-flex justify-content-between align-items-center">
                   {
                       productData?.flag?(
-                        <div className="form-group">
+                        <div className="form-group full">
                         <label htmlFor="">Business Unit</label>
                         <Select
                           options={BusinessUnitAll}
@@ -95,16 +94,28 @@ function Products() {
                           className="dropdown-basic-button split-button-dropup"
                           isClearable
                         />
+                    </div>
+                    ):null
+                  }
+                    <div className="form-group ">
+                        <label htmlFor="">Select type</label>
+                        <Select
+                          options={SelectType}
+                          placeholder="Select type"
+                          defaultValue={SelectType?.[0]}
+                          onChange={(e) => setContent({label:e?.label,value:e?.value})}
+                          className="dropdown-basic-button split-button-dropup"
+                          isClearable
+                        />
                   </div>
-                  ):null
-                }
+                
                       <Button
                         className="btn-bordered btn-voilet"
                         onClick={() => {
                           setShow(true);
                         }}
                       >
-                        Add New Product +
+                        Add New {content?.label?.trim()} +
                       </Button>
                   </Form>
                 </div>
@@ -135,8 +146,6 @@ function Products() {
                     })}
                   </div>
               </div>
-            </div>
-          </div>
         </Row>
       </div>
       <CommanModel
