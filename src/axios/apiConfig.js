@@ -24,4 +24,5 @@ export const ENDPOINT = {
   SPC_PRO_DELETE:`/library/spcProductDelete/`,
   SPC_HELPER_LISTING: `/library/spc-helper-listing`,
   SPC_UPDATE: `/library/spc-edit`,
+  UPDATE_PDF_FILE: `/library/update-pdf`,
 };
