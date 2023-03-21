@@ -7,7 +7,7 @@ import { Link, useLocation } from "react-router-dom";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import { loader } from "../../../loader";
 import React, { useEffect, useState, useRef } from "react";
-import {postData} from "../../../axios/apiHelper";
+import { postData, postFormData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import SimpleReactValidator from "simple-react-validator";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
@@ -27,12 +27,10 @@ import {
 } from "react-bootstrap";
 import Select from "react-select";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-// ebook 3846
+//pdf id  3846
+//ebook 3899
 const PreviewContent = () => {
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
     const navigate = useNavigate();
     const [articleId, setArticleId] = useState("3899");
     const [pdfData, setPdfData] = useState([]);
@@ -53,6 +51,9 @@ const PreviewContent = () => {
 	const [pdfFileId, setPdfFileId] = useState();
 	const [templatePdf, setTemplatePdf] = useState();
 	const [templateName, setTemplateName] = useState("");
+  const [userInputs, setUserInputs] = useState({});
+  const [updateFlag, setUpdateFlag] = useState(0);
+  const [apiCallBackFlag, setApiCallBackFlag] = useState(0);
 
     useEffect(() => {
       getArticleData();
@@ -66,6 +67,7 @@ const PreviewContent = () => {
           };
           const res = await postData(ENDPOINT.LIBRARYGETARTICLE, body);
           setPdfData(res?.data?.data);
+          setApiCallBackFlag(apiCallBackFlag + 1);
 		  loader('hide');
 		}catch(err){
 			loader('hide');
@@ -73,14 +75,14 @@ const PreviewContent = () => {
     };
 
     const updateArticleTitle = (title) => {
-		if(pdfData?.file_type && pdfData.file_type == "ebook") {
-			let pdfIndex = pdfData.ebookData.findIndex(el => el.id === pdfFileId);
-			pdfData.ebookData[pdfIndex].title = title;
-			setPdfData(pdfData);
-			setTemplateName(title);
-		}else{
+		// if(pdfData?.file_type && pdfData.file_type == "ebook") {
+		// 	let pdfIndex = pdfData.ebookData.findIndex(el => el.id === pdfFileId);
+		// 	pdfData.ebookData[pdfIndex].title = title;
+		// 	setPdfData(pdfData);
+		// 	setTemplateName(title);
+		// }else{
 			pdfData.title = title;
-		}
+		// }
     }
 
 	const templateClicked = (template, e) => {
@@ -95,7 +97,65 @@ const PreviewContent = () => {
 		setPdfFileId(template.id);
 		setEditTitle(false);
 		e.target.classList.toggle("select_mm");
-	}
+	};
+
+  const handleClose = () => {
+        setShow(false);
+  }
+
+  const handleShow = () => {
+    if(pdfData?.file_type && pdfData.file_type == "ebook") {
+      if(typeof pdfFileId === "undefined"){
+        toast.warning("Please select the Ebook chapter.");
+      }else{
+        setShow(true);
+      }
+    }else{
+        setShow(true);
+    }
+  }
+
+  const handleChange = (e, isSelectedName) => {
+    setUpdateFlag(1);
+    if (e?.target?.files?.length < 1) {
+      return;
+    }
+    setUserInputs({
+      ...userInputs,
+      [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+        ? e?.target?.files
+          ? e?.target?.files
+          : e?.target?.value
+        : e?.target?.value,
+    });
+  };
+
+  const uploadPdf = async(e) => {
+    e.preventDefault();
+    loader("show");
+    try{
+        let formData = new FormData();
+        formData.append("pdfId",articleId);
+        formData.append("type",pdfData.file_type);
+        formData.append("userId",18207);
+        formData.append("file", userInputs?.uploadFile?.[0]);
+
+        if(pdfData?.file_type && pdfData.file_type == "ebook") {
+          formData.append("title", userInputs?.title)
+          formData.append("fileId",pdfFileId);
+        }
+        await postFormData(ENDPOINT.UPDATE_PDF_FILE,formData,{
+          header:{
+            "Content-Type": "multipart/form-data",
+          }
+        });
+        getArticleData();
+    }catch(err){
+        loader("hide");
+    }
+    handleClose();
+    setUpdateFlag(0);
+  };
 
     return(
       <Col className="right-sidebar">
@@ -137,104 +197,98 @@ const PreviewContent = () => {
                 </div>
               </div>
             </div>
-			{
-				pdfData?.file_type && pdfData.file_type == "ebook" &&
-				(
-					<section className="select-mail-template library-cosent">
-					  <div className="custom-container">
-						<div className="row">
-              <div class="page-title"><h4>Select chapter to preview it</h4></div>
-							<AliceCarousel
-							mouseTracking
-							disableDotsControls
-							activeIndex={activeIndex}
-							responsive={responsive}
-							onSlideChanged={syncActiveIndex}
-						  >
-							{pdfData?.ebookData.map((template) => {
-							  return (
-								<>
-								  <div
-									className="item"
-									onClick={(e) => templateClicked(template, e)}
-								  >
-									<img
-									  id={"template_dyn" + template.id}
-									  src={template.image}
-									  alt=""
-									  className={
-										typeof templateId !== "undefined" &&
-										templateId == template.id
-										  ? "select_mm"
-										  : ""
-									  }
-									/>
-									<p>{template.title}</p>
-								  </div>
-								</>
-							  );
-							})}
-							</AliceCarousel>
-						</div>
-					</div>
-					</section>
-				)
-			}
+      			{
+              apiCallBackFlag && (
+                  pdfData?.file_type && pdfData.file_type == "ebook" &&
+                  (
+                    <section className="select-mail-template library-cosent">
+                    <div className="custom-container">
+                    <div className="row">
+                    <div className="page-title"><h4>Select chapter to preview it</h4></div>
+                    <AliceCarousel
+                    mouseTracking
+                    disableDotsControls
+                    activeIndex={activeIndex}
+                    responsive={responsive}
+                    onSlideChanged={syncActiveIndex}
+                    >
+                    {pdfData?.ebookData.map((template) => {
+                      return (
+                        <>
+                        <div
+                        className="item"
+                        onClick={(e) => templateClicked(template, e)}
+                        >
+                        <img
+                        id={"template_dyn" + template.id}
+                        src={template.image}
+                        alt=""
+                        className={
+                          typeof templateId !== "undefined" &&
+                          templateId == template.id
+                          ? "select_mm"
+                          : ""
+                        }
+                        />
+                        <p>{template.title}</p>
+                        </div>
+                        </>
+                      );
+                    })}
+                    </AliceCarousel>
+                    </div>
+                    </div>
+                    </section>
+                  )
+              )
+      			}
             <div className="create-change-content spc-content">
               <div className="form_action">
                 <div className="row">
                   <Col className="sublink_right preview-content d-flex flex-column">
 					<>
 					  <div className="d-flex justify-content-between align-items-center">
-					  <h4 className="edit_content_title">
-						{
-						  editTitle ?
-						  <input
-							type="text"
-							className="form-control"
-							id="new-tag"
-							value={
-							  titleChange
-							}
-							onChange={(e) => setTitleChange(e.target.value)}
-						  />
-						  :
-						  pdfData?.file_type && pdfData.file_type == "ebook" ?
-							templateName != '' ? templateName : pdfData?.title
-						  :
-						  pdfData?.title
-						}
+            <div className="edit_pdf_title">
+  					  <h4 className="edit_content_title">
+  						{
+  						  editTitle ?
+    						  <input
+    							type="text"
+    							className="form-control"
+    							id="new-tag"
+    							value={titleChange}
+    							onChange={(e) => setTitleChange(e.target.value)}
+    						  />
+  						  :
+  						  pdfData?.title
+  						}
 
-						{
-						  editTitle ?
-						  <>
-						  <button onClick={(e) => {
-							  setEditTitle(false)
-							  updateArticleTitle(titleChange)
-						  }}>Save</button>
-						  <button onClick={(e) => {
-							  setEditTitle(false)
-							  setTitleChange(pdfData?.title)
-						  }}>Cancel</button>
-						  </>
-						  :
-						  <button
-						  onClick={(e) => {
-							  setEditTitle(true)
-							  setTitleChange(
-								pdfData?.file_type && pdfData.file_type == "ebook" ?
-								templateName != '' ? templateName : pdfData?.title
-								  :
-								pdfData?.title
-							  )
-						  }}
-						  >
-						  <img src={path_image + "edit-button.svg"} alt="Edit" />
-						  </button>
-						}
-
-
-					  </h4>
+  						{
+  						  editTitle ?
+  						  <>
+  						  <button className="btn btn-filled" onClick={(e) => {
+  							  setEditTitle(false)
+  							  updateArticleTitle(titleChange)
+  						  }}>Save</button>
+  						  <button className="btn btn-bordered"
+                 onClick={(e) => {
+  							  setEditTitle(false)
+  							  setTitleChange(pdfData?.title)
+  						  }}>Cancel</button>
+  						  </>
+  						  :
+  						  <button
+                className="btn btn-edit"
+  						  onClick={(e) => {
+  							  setEditTitle(true)
+  							  setTitleChange(pdfData?.title)
+  						  }}
+  						  >
+  						  <img src={path_image + "edit-button.svg"} alt="Edit" />
+  						  </button>
+  						}
+  					  </h4>
+            </div>
 					  <Button className="btn btn-bordered" onClick={handleShow}>Change content file</Button>
 					</div>
 					{
@@ -273,19 +327,43 @@ const PreviewContent = () => {
 				</Modal.Header>
 				<Modal.Body>
 				<Form>
-					<div class="form-group">
-						<label for="">Chapter title </label>
-						<input type="text" placeholder="Type your product name" class="form-control"/>
-					</div>
-					<div class="form-group">
-						<div class="upload-file-box">
-							<div class="box">
-								<input type="file" name="file-5[]" id="file-5" class="inputfile inputfile-5" accept="image/png, image/jpeg"/>
-								<label for="file-5">
+          {
+            pdfData?.file_type && pdfData.file_type == "ebook" ?
+            <div className="form-group">
+  						<label htmlFor="">Chapter title </label>
+  						<input
+                type="text"
+                placeholder="Type chapter title"
+                name="chapter_title"
+                className="form-control"
+                value={templateName}
+                onChange={(e) => {
+                    setTemplateName(e.target.value)
+                    handleChange(e, "title")
+                }}
+              />
+  					</div>
+            : null
+          }
+					<div className="form-group">
+						<div className="upload-file-box">
+							<div className="box">
+								<input
+                  type="file"
+                  name="file-5[]"
+                  id="file-5"
+                  className="inputfile inputfile-5"
+                  accept="application/pdf"
+                  onChange={(e) => handleChange(e, "uploadFile")}
+                />
+								<label htmlFor="file-5">
 									<span>Choose Your File</span>
 								</label>
-								<p>Upload your new PDF file
-								</p>
+                  {userInputs?.uploadFile?.[0]?.name ? (
+                    <p>{userInputs?.uploadFile?.[0].name}</p>
+                  ) : (
+                    <p>Upload your PDF</p>
+                  )}
 							</div>
 						</div>
 					</div>
@@ -294,14 +372,16 @@ const PreviewContent = () => {
 				<div className="modal-footer">
 				<button
 					type="button"
-					className="btn btn-primary save btn-filled move-draft">Upload
+					className={updateFlag == 0 ? "btn btn-primary save btn-filled move-draft btn-disabled" : "btn btn-primary save btn-filled move-draft"}
+          onClick={uploadPdf}
+          >Upload
 				</button>
 				</div>
 			</Modal>
       </Row>
     </div>
   </Col>
-  
+
   )
 }
 

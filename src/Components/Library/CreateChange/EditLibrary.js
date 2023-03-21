@@ -13,7 +13,6 @@ import {postFormData,postData, getData,deleteFormData} from "../../../axios/apiH
 import { loader } from "../../../loader";
 import {ENDPOINT} from "../../../axios/apiConfig"
 import CommonModel from "../../../Model/CommonModel";
-import moment from "moment"
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
