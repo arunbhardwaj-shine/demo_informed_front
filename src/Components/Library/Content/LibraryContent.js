@@ -406,7 +406,6 @@ const LibraryContent = () => {
   };
 
   const downloadQRCode = () => {
-    // Generate download with use canvas and stream
     const canvas = document.getElementById("qr-gen");
     const pngUrl = canvas
       .toDataURL("image/png")
