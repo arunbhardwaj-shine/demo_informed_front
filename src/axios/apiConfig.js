@@ -17,7 +17,8 @@ export const ENDPOINT = {
   LIBRARYSAVEPOPUP: `/library/save-pdf-popup`,
   LIBRARYGETARTICLE: `/library/get-pdffile`,
   SPC_PRO_LISTING: `/library/spc-productListing`,
-  ADD_SPC_PRODUCT:"/library/add-product",
+  ADD_SPC_PRODUCT: "/library/add-product",
   LIBRARYGETSPC: `/library/get-spcListing`,
   LIBRARYSPCDELETE: `/library/deletespc`,
+  READER_LIST_DATA: `/reader/reader`,
 };

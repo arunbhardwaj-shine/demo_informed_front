@@ -87,6 +87,7 @@ const LibraryContent = () => {
   const [qrState, setQr] = useState({
     value: "",
   });
+  const [qrSize, setQrSize] = useState(290);
 
   const [isOpen, setIsOpen] = useState(false);
   const [modalCounter, setModalCounter] = useState(0);
@@ -262,6 +263,12 @@ const LibraryContent = () => {
     setShowFilter(false);
   };
   const handleQR = (e) => {
+    if (e == "H") {
+      setQrSize(390);
+    }
+    if (e == "L") {
+      setQrSize(490);
+    }
     setQr({ ...qrState, level: e });
   };
 
@@ -878,7 +885,7 @@ const LibraryContent = () => {
               style={{ display: "none" }}
               id="qr-gen"
               value={qrState?.value}
-              size={290}
+              size={qrSize}
               level={qrState?.level}
               includeMargin={true}
             />
@@ -1591,16 +1598,14 @@ const LibraryContent = () => {
         handleQR={handleQR}
       />
 
-      <div className="delete">
-        <CommonConfirmModel
-          show={confirmationpopup}
-          onClose={hideConfirmationModal}
-          fun={commonConfirmModelFun}
-          popupMessage={popupMessage}
-          path_image={path_image}
-          resetDataId={resetDataId}
-        />
-      </div>
+      <CommonConfirmModel
+        show={confirmationpopup}
+        onClose={hideConfirmationModal}
+        fun={commonConfirmModelFun}
+        popupMessage={popupMessage}
+        path_image={path_image}
+        resetDataId={resetDataId}
+      />
 
       <Modal id="tagsModal" show={isOpen}>
         <Modal.Header>
