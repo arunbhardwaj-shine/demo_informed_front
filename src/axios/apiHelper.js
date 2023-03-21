@@ -25,3 +25,6 @@ export const updateTags = (end_point, data) => {
 export const deleteMethod = (end_point, user_id) => {
   return axios.delete(end_point , user_id);
 };
+export const deleteFormData= (end_point) => {
+  return axios.delete(end_point );
+};
