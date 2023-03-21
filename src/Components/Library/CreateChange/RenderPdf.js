@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Button,
   Col,
@@ -16,24 +16,57 @@ import { ENDPOINT } from "../../../axios/apiConfig";
 import {postData, getData} from "../../../axios/apiHelper";
 import { toast } from "react-toastify";
 import QRCode from "qrcode.react";
-import { Document, pdfjs, Page } from "react-pdf";
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+import { usePdf } from '@mikecousins/react-pdf';
+import PDF from "react-pdf-js";
+import packageJson from '../../../../package.json';
+import  Viewer, { Worker } from '@phuocng/react-pdf-viewer';
+import '@phuocng/react-pdf-viewer/cjs/react-pdf-viewer.css';
+import { RotateEvent, PageChangeEvent, DocumentLoadEvent, RenderPageProps  } from '@react-pdf-viewer/core';
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const RenderPdf = ({
   url
 }) => {
+  const [page, setPage]   = useState(1);
+  const [pages, setPages] = useState(null);
+  const [scale, setScale] = useState(1);
+  const [numPages, setNumPages] = useState(null);
+  const pdfjsVersion = packageJson.dependencies['pdfjs-dist'];
 
-  function onDocumentLoadSuccess({ numPages }) {
-    console.log("Hlo");
-  }
+  const handleDocumentLoad = (e: DocumentLoadEvent) => {
+    console.log(e.doc.numPages);
+    setPages(e.doc.numPages);
+  };
+
+  const handlePageChange = (e: PageChangeEvent) => {
+    console.log(e.currentPage);
+    console.log(e.doc);
+    setPage(e.currentPage);
+  };
+
 
     return (
-      <div class="sublink_right_block">
-	  {
-		  url != "" && (
-			<iframe src= {url} />
-		  )
-	  }
+      <div className="sublink_right_block">
+      {
+        typeof url !== "undefined" && (
+          <>
+              {
+                typeof url !== "undefined" && (
+                  <>
+                    <Worker workerUrl={`https://unpkg.com/pdfjs-dist@${pdfjsVersion}/build/pdf.worker.min.js`}>
+                        <div style={{ height: '750px' }}>
+                          <Viewer
+                            onPageChange={handlePageChange}
+                            onDocumentLoad={handleDocumentLoad}
+                            fileUrl={url}
+                          />;
+                        </div>
+                      </Worker>
+                  </>
+                )
+              }
+          </>
+        )
+      }
       </div>
     )
 }

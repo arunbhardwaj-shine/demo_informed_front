@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import Select from "react-select";
 import { useNavigate } from "react-router-dom";
@@ -7,37 +7,94 @@ import {postFormData,postData} from "../../axios/apiHelper"
 import { popup_alert } from "../../popup_alert";
 import { SPCValidation } from "../Validations/LibraryValidation/SPCValidation";
 import CommonModel from "../../Model/CommonModel";
-import {ENDPOINT} from "../../axios/apiConfig"
+import {ENDPOINT} from "../../axios/apiConfig";
+import { loader } from "../../loader";
+import { toast } from "react-toastify";
 
 const SpcCreate = () => {
-  const [countryAll, setCountryAll] = useState([
-    { value: "India", label: "India" },
-    { value: "Australia", label: "Australia" },
-    { value: "Russia", label: "Russia" },
+  const [ibu, setIbu] = useState([
+    { value: "Haematology", label: "Haematology" },
+    { value: "Critical Care", label: "Critical Care" },
+    { value: "Immunotherapy", label: "Immunotherapy" },
   ]);
+  const [countryAll, setCountryAll] = useState([]);
+  const [language, setLanguage] = useState([]);
   const navigate = useNavigate();
-  const [productArr, setProductArr] = useState([
-    { value: "India", label: "India" },
-    { value: "Australia", label: "Australia" },
-    { value: "Russia", label: "Russia" },
-  ]);
+  const [productArr, setProductArr] = useState([]);
   const [newProduct, setNewProduct] = useState("");
   const [show, setShow] = useState(false);
   const [userInputs, setSpcFormInputs] = useState({});
   const [error, setError] = useState({});
 
+
+  useEffect(() => {
+	   getSpcData();
+  }, []);
+
+
+  const getSpcData = async() => {
+      loader('show');
+      try{
+          let body = {
+            "id": 18207
+          };
+          const res_data = await postData(ENDPOINT.SPC_HELPER_LISTING,body);
+          let allListingData = res_data?.data?.data;
+          let spcprodusts = [];
+          Object.entries(res_data?.data?.data?.spcProduct).map(([index, item]) => {
+            spcprodusts.push({
+              value: item.product,
+              label: item.product,
+            });
+            setProductArr(spcprodusts);
+          });
+
+          let countries = []
+          Object.entries(res_data?.data?.data?.country).map(([index, item]) => {
+            countries.push({
+              value: item,
+              label: item,
+            });
+            setCountryAll(countries);
+          });
+
+          let lng = []
+          Object.entries(res_data?.data?.data?.language).map(([index, item]) => {
+            lng.push({
+              value: item,
+              label: item,
+            });
+            setLanguage(lng);
+          });
+          loader('hide');
+      }catch(err){
+        loader('hide');
+      }
+  };
+
   const handleChange = (e, isSelectedName) => {
     if (e?.target?.files?.length < 1) {
       return;
     }
-    setSpcFormInputs({
-      ...userInputs,
-      [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
-        ? e?.target?.files
+
+    if(isSelectedName == "product"){
+      let productVal = e.map((pdata) => {
+        return pdata.value;
+      });
+      setSpcFormInputs({
+        ...userInputs,
+        [isSelectedName ? isSelectedName : e?.target?.name]: productVal
+      });
+    }else{
+      setSpcFormInputs({
+        ...userInputs,
+        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
           ? e?.target?.files
-          : e
-        : e?.target?.value,
-    });
+            ? e?.target?.files
+            : e
+          : e?.target?.value,
+      });
+    }
     // const result = SPCValidation({
     //   ...userInputs,
     //   [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
@@ -59,14 +116,28 @@ const SpcCreate = () => {
     setShow(true);
   };
 
-  const addProductClicked = () => {
-    setShow(false);
-    if (newProduct != "") {
-      setProductArr((oldArray) => [
-        ...oldArray,
-        { value: newProduct, label: newProduct },
-      ]);
+  const addProductClicked = async() => {
+    loader("show");
+    if (newProduct.trim() != "") {
+      try{
+        let body = {
+          "userId":18207,
+          "product":newProduct,
+          "category":0,
+          "type":1
+        };
+        const res = await postData(ENDPOINT.ADD_SPC_PRODUCT,body);
+        setProductArr((oldArray) => [
+          ...oldArray,
+          { value: newProduct, label: newProduct },
+        ]);
+        toast.success(res?.data?.message);
+      }catch(err){
+        loader('hide');
+      }
     }
+    loader('hide');
+    setShow(false);
   };
 
   const product = [
@@ -82,8 +153,9 @@ const SpcCreate = () => {
   };
 
   const publishClicked = async(event) => {
+    loader('show');
     event.preventDefault()
-  
+
     const result = SPCValidation(userInputs);
 
     if (Object.keys(result)?.length) {
@@ -91,19 +163,20 @@ const SpcCreate = () => {
       return;
     }
     const data = new FormData(event.target);
+    data.append('createdBy',18207);
     await postFormData(ENDPOINT.SPCCREATE,data,{
       header:{
         "Content-Type": "multipart/form-data",
       }
     });
 
-
     popup_alert({
       visible: "show",
       message: "Your HCP has been published <br />successfully !",
       type: "success",
-      redirect: "",
+      redirect: "spc-view",
     });
+    loader('hide');
   };
 
   return (
@@ -119,7 +192,7 @@ const SpcCreate = () => {
               <div className="header-btn">
                 <Button
                   className="btn-bordered cancel"
-                 
+
                   onClick={() => navigate("/spc")}
                 >
                   Cancel
@@ -138,7 +211,7 @@ const SpcCreate = () => {
                 <h4>Please fill the following and upload SPC needed</h4>
                 <div className="row">
                   <div className="col-12">
-                   
+
                       <div className="form-group">
                         <label htmlFor="">Title of SPC</label>
 
@@ -148,13 +221,19 @@ const SpcCreate = () => {
                           className="form-control"
                           name="title"
                         />
-                        <input
-                          type="text"
-                          className="form-control"
-                          name="createdBy"
-                          value="18207"
-                        />
-                     
+
+                        {
+                          /*
+                          <input
+                            type="text"
+                            className="form-control"
+                            name="createdBy"
+                            value="18207"
+                          />
+                          */
+                        }
+
+
                         {error?.title ? (
                           <div className="login-validation">{error?.title}</div>
                         ) : (
@@ -185,7 +264,7 @@ const SpcCreate = () => {
                       <div className="form-group">
                         <label htmlFor="">Language</label>
                         <Select
-                          options={countryAll}
+                          options={language}
                           placeholder="Select SPC language"
                           name="langauge"
                           onChange={(event) =>
@@ -205,7 +284,7 @@ const SpcCreate = () => {
                       <div className="form-group">
                         <label htmlFor="">Business Unit</label>
                         <Select
-                          options={countryAll}
+                          options={ibu}
                           name="ibu"
                           placeholder="Select Business Unit"
                           onChange={(event) =>
@@ -229,10 +308,11 @@ const SpcCreate = () => {
                           name="product"
                           placeholder="Select product"
                           onChange={(event) =>
-                            handleChange(event?.value, "product")
+                            handleChange(event, "product")
                           }
-                          className="dropdown-basic-button split-button-dropup"
+                          className="dropdown-basic-button split-button-dropup extra_multiselect"
                           isClearable
+                          isMulti="true"
                         />
                         <div className="add_product">
                           <span>&nbsp;</span>
@@ -286,7 +366,7 @@ const SpcCreate = () => {
                           ""
                         )}
                       </div>
-                   
+
                   </div>
                 </div>
               </div>

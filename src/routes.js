@@ -81,6 +81,7 @@ import SpcEdit from "./Components/Library/SpcEdit";
 import SetPopup from "./Components/Library/CreateChange/SetPopup";
 import EditConsentOptions from "./Components/Library/CreateChange/EditConsentOptions";
 import ContentDetail from "./Components/Library/CreateChange/ContentDetail";
+import EditLibrary from "./Components/Library/CreateChange/EditLibrary";
 
 let platform = 0;
 let show = 0;
@@ -121,7 +122,7 @@ const Routing = () => {
           "/setting-webinar",
         ].includes(window.location.pathname) ? (
           <WebinarHeader />
-        ) : ["/library-content", "/library-create"].includes(
+        ) : ["/library-content", "/library-create",].includes(
             window.location.pathname
           ) ? (
           <Header />
@@ -171,7 +172,8 @@ const Routing = () => {
                 <Route path="/smart-list-add" element={<SmartListAdd />} />
                 <Route path="/timeline-detail" element={<TimelineDetail />} />
                 <Route path="/library-content" element={<LibraryContent />} />
-                <Route path="/library-edit" element={<LibraryContent />} />
+                <Route path="/library-edit" element={<EditLibrary />} />
+                {/* <Route path="/library-edit" element={<LibraryContent />} /> */}
                 <Route path="/library-create" element={<LibraryCreate />} />
                 <Route path="/library-popup" element={<LibraryPopupSet />} />
                 <Route

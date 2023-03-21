@@ -4,41 +4,44 @@ import { Modal } from "react-bootstrap";
 import { popup_alert } from "../../popup_alert";
 import {ENDPOINT} from "../../axios/apiConfig";
 import {postData, deleteData} from "../../axios/apiHelper";
+import CommonConfirmModel from "../../Model/CommonConfirmModel";
 import { loader } from "../../loader";
 import { Button } from "react-bootstrap";
 
 const SpcView = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location?.state?.data);
   const [confirmationpopup, setConfirmationPopup] = useState(false);
+  const [apiCallStatus, setApiCallStatus] = useState(false);
   const [spcData, setSpcData] = useState([]);
   const [superSpcData, setSuperSpcData] = useState([]);
   const [search, setSearch] = useState("");
   const [spcDeletedId, setSpcDeletedId] = useState("");
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-  
+
   useEffect(() => {
     getSpcData('');
   }, []);
-  
+
   const getSpcData = async(searchVal) => {
 	  loader("show");
-	  try{		  
+    setApiCallStatus(false);
+	  try{
 		  const body = {
 			userId: "18207",
 			search: searchVal
 		  };
-		  
+
 		  const res = await postData(ENDPOINT.LIBRARYGETSPC, body);
 		  setSpcData(res?.data?.data);
 		  setSuperSpcData(res?.data?.data);
 		  loader("hide");
 	  }catch(err){
-		loader("hide");
+		    loader("hide");
 	  }
+    setApiCallStatus(true);
   };
-  
+
   const searchChange = (e) => {
     setSearch(e?.target?.value);
     if (e?.target?.value === "") {
@@ -46,17 +49,17 @@ const SpcView = () => {
 		getSpcData(e?.target?.value);
     }
   };
-  
+
   const submitHandler = (event) => {
     setSpcData([]);
     getSpcData(search);
     event.preventDefault();
     return false;
   };
-  
+
   const deleteSpc = async() => {
 	  loader('show');
-	  try{		  
+	  try{
 		  const res = await deleteData(ENDPOINT.LIBRARYSPCDELETE,spcDeletedId);
 		  popup_alert({
 			visible: "show",
@@ -64,7 +67,7 @@ const SpcView = () => {
 			type: "success",
 			redirect: "",
 		  });
-		  
+
 		  setSpcData([]);
 		  getSpcData(search);
 	  }catch(err){
@@ -73,7 +76,16 @@ const SpcView = () => {
 	  setConfirmationPopup(false);
 	  loader('hide');
   }
-  
+
+  const isJson  = (str) => {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+  }
+
   return (
     <>
       <div className="col right-sidebar">
@@ -156,15 +168,16 @@ const SpcView = () => {
 										  <th>Product</th>
 										  <td>
 											{
-												typeof data?.product == "String" ?
-													<div>data?.product</div>
-												:
-													data?.product?.length
-													? JSON.parse(data.product)?.map((data) => {
-														return <div>{data}</div>;
-													  })
-													: "N/A"
-											}
+                        isJson(data?.product) ?
+                        JSON.parse(data.product)?.map((data, index) => {
+                           return <span className="product_list">{data}
+                            {
+                              data[index+1] ? ',' : null
+                            }
+                           </span>;
+                        }) :
+                        <div>{data?.product}</div>
+                      }
 										  </td>
 										</tr>
 										<tr>
@@ -185,9 +198,13 @@ const SpcView = () => {
 									{
 									  <>
 										{location?.state?.data == "edit" ? (
-										  <Button className="btn btn-primary btn-bordered edit_list">
-											Edit
-										  </Button>
+                      <Link
+                        to="/spc-edit"
+                        state={{ spcId: data.id }}
+                        className="btn btn-primary btn-bordered edit_list"
+                      >
+                        Edit
+                      </Link>
 										) : null}
 
 										<Button className="btn btn-primary btn-filled view">
@@ -217,18 +234,20 @@ const SpcView = () => {
 							</>
 						)
 					})
-					: 
-					<div className="smartlist_box_block">
-						<div className="smartlist-view email_box">
-							<div className="mail-box-content">
-							  <div className="mailbox-table">
-								No Data Found
-							  </div>
-							</div>
-						</div>
-					</div>
+					:
+            apiCallStatus ?
+            <div className="smartlist_box_block">
+               <div className="smartlist-view email_box">
+                 <div className="mail-box-content">
+                   <div className="mailbox-table">
+                   No Data Found
+                   </div>
+                 </div>
+               </div>
+             </div>
+             : null
 				}
-                
+
               </div>
             </div>
           </div>
@@ -236,46 +255,21 @@ const SpcView = () => {
       </div>
 
       <div className="delete">
-        <Modal
-          className="modal send-confirm"
-          id="delete-confirm"
-          show={confirmationpopup}
-        >
-          <Modal.Header>
-            {/* <Modal.Title>Heading Text</Modal.Title>*/}
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              onClick={(e) => setConfirmationPopup(false)}
-            ></button>
-          </Modal.Header>
+      <CommonConfirmModel
+        show={confirmationpopup}
+        onClose={setConfirmationPopup}
+        fun={deleteSpc}
+        resetDataId={spcDeletedId}
+        popupMessage={
+         {
+           "message1":"You are about to remove this Spc.",
+           "message2":" Are you sure you want to do this?",
+           "footerButton":" Yes Please!"
+         }
+        }
+        path_image={path_image}
 
-          <Modal.Body>
-            <img src={path_image + "alert.png"} alt="" />
-            <h4>
-              The SPC be deleted from the list.
-              <br />
-              Are you sure you want to delete it?
-            </h4>
-            <div className="modal-buttons">
-              <button
-                type="button"
-                className="btn btn-primary btn-filled"
-                onClick={(e) => deleteSpc()}
-              >
-                Yes Please!
-              </button>
-              <button
-                type="button"
-                className="btn btn-primary btn-bordered light"
-                onClick={(e) => setConfirmationPopup(false)}
-              >
-                Cancel
-              </button>
-            </div>
-          </Modal.Body>
-        </Modal>
+       />
       </div>
     </>
   );

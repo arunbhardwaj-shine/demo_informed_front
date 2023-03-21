@@ -1,63 +1,136 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Select from "react-select";
-import { useNavigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
-import {postFormData,postData} from "../../axios/apiHelper"
+import {postFormData,postData,getData} from "../../axios/apiHelper"
 import { popup_alert } from "../../popup_alert";
 import { SPCValidation } from "../Validations/LibraryValidation/SPCValidation";
 import CommonModel from "../../Model/CommonModel";
-import {ENDPOINT} from "../../axios/apiConfig"
+import {ENDPOINT} from "../../axios/apiConfig";
+import { loader } from "../../loader";
+import { toast } from "react-toastify";
 
 const SpcEdit = () => {
-  const [countryAll, setCountryAll] = useState([
-    { value: "India", label: "India" },
-    { value: "Australia", label: "Australia" },
-    { value: "Russia", label: "Russia" },
+  const { state } = useLocation();
+  const [countryAll, setCountryAll] = useState([]);
+  const [ibu, setIbu] = useState([
+    { value: "Haematology", label: "Haematology" },
+    { value: "Critical Care", label: "Critical Care" },
+    { value: "Immunotherapy", label: "Immunotherapy" },
   ]);
+  const [language, setLanguage] = useState([]);
   const navigate = useNavigate();
-  const [productArr, setProductArr] = useState([
-    { value: "India", label: "India" },
-    { value: "Australia", label: "Australia" },
-    { value: "Russia", label: "Russia" },
-  ]);
+  const [productArr, setProductArr] = useState([]);
+  const [productInput, setProductInput] = useState([]);
   const [newProduct, setNewProduct] = useState("");
   const [show, setShow] = useState(false);
   const [userInputs, setSpcFormInputs] = useState({});
   const [error, setError] = useState({});
   const [pageLoad, setPageLoad] = useState(0);
-  
+
   useEffect(() => {
-	getSpcData();
+	   getSpcData();
   }, []);
-  
-  const getSpcData = () => {
-	  setSpcFormInputs({
-		"title": "test",
-		"country": "Australia",
-		"language": "Russia",
-		"businessunit": "Australia",
-		"product": "Australia",
-		"uploadspc": {
-			"0": {"name":"abc.pdf"}
-		}
-	  });
-	  
-	  setPageLoad(1);
+
+  const getSpcData = async() => {
+    loader("show");
+    try{
+      let body = {
+        "id": 18207
+      };
+      const res_data = await postData(ENDPOINT.SPC_HELPER_LISTING,body);
+      let allListingData = res_data?.data?.data;
+      let spcprodusts = [];
+      Object.entries(res_data?.data?.data?.spcProduct).map(([index, item]) => {
+        spcprodusts.push({
+          value: item.product,
+          label: item.product,
+        });
+        setProductArr(spcprodusts);
+      });
+
+      let countries = []
+      Object.entries(res_data?.data?.data?.country).map(([index, item]) => {
+        countries.push({
+          value: item,
+          label: item,
+        });
+        setCountryAll(countries);
+      });
+
+      let lng = []
+      Object.entries(res_data?.data?.data?.language).map(([index, item]) => {
+        lng.push({
+          value: item,
+          label: item,
+        });
+        setLanguage(lng);
+      });
+
+      if(state?.spcId){
+          try{
+            const res = await getData(ENDPOINT.LIBRARYGETSINGLESPC+"/"+state?.spcId);
+            setSpcFormInputs({
+              "title": res?.data?.data?.title,
+              "country": res?.data?.data?.country,
+              "language": res?.data?.data?.language,
+              "businessunit": res?.data?.data?.IBU,
+              "product": res?.data?.data?.product,
+              "uploadspc": {
+                "0": {"name":res?.data?.data?.file_name}
+              }
+            });
+
+            let userProducts = [];
+            if(isJson(res?.data?.data?.product)){
+                let parsedObj = JSON.parse(res?.data?.data?.product);
+                Object.entries(parsedObj).map(([index, item]) => {
+                  userProducts.push({
+                    value: item,
+                    label: item,
+                  });
+                });
+            }else{
+              userProducts = {
+                value: res?.data?.data?.product,
+                label: res?.data?.data?.product,
+              };
+            }
+            setProductInput(userProducts);
+          }catch(err){
+            loader("hide");
+          }
+          setPageLoad(1);
+          loader("hide");
+      }
+    }catch(err){
+      loader("hide");
+    }
   }
 
   const handleChange = (e, isSelectedName) => {
     if (e?.target?.files?.length < 1) {
       return;
     }
-    setSpcFormInputs({
-      ...userInputs,
-      [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+    if(isSelectedName == "product"){
+      let productVal = e.map((pdata) => {
+        return pdata.value;
+      });
+      setSpcFormInputs({
+        ...userInputs,
+        [isSelectedName ? isSelectedName : e?.target?.name]: productVal
+      });
+    }else{
+      setSpcFormInputs({
+        ...userInputs,
+        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
         ? e?.target?.files
-          ? e?.target?.files
-          : e
+        ? e?.target?.files
+        : e
         : e?.target?.value,
-    });
+      });
+    }
     setError({});
   };
 
@@ -67,14 +140,28 @@ const SpcEdit = () => {
     setShow(true);
   };
 
-  const addProductClicked = () => {
-    setShow(false);
-    if (newProduct != "") {
-      setProductArr((oldArray) => [
-        ...oldArray,
-        { value: newProduct, label: newProduct },
-      ]);
+  const addProductClicked = async() => {
+    loader("show");
+    if (newProduct.trim() != "") {
+      try{
+        let body = {
+          "userId":18207,
+          "product":newProduct,
+          "category":0,
+          "type":1
+        };
+        const res = await postData(ENDPOINT.ADD_SPC_PRODUCT,body);
+        setProductArr((oldArray) => [
+          ...oldArray,
+          { value: newProduct, label: newProduct },
+        ]);
+        toast.success(res?.data?.message);
+      }catch(err){
+        loader('hide');
+      }
     }
+    loader('hide');
+    setShow(false);
   };
 
   const product = [
@@ -90,30 +177,40 @@ const SpcEdit = () => {
   };
 
   const publishClicked = async(event) => {
+    loader('show');
     event.preventDefault()
-	console.log(userInputs);
     const result = SPCValidation(userInputs);
 
     if (Object.keys(result)?.length) {
       setError(result);
       return;
     }
-    // const data = new FormData(event.target);
-    // await postFormData(ENDPOINT.SPCCREATE,data,{
-      // header:{
-        // "Content-Type": "multipart/form-data",
-      // }
-    // });
-
-
+    const data = new FormData(event.target);
+    data.append('id',state?.spcId);
+    data.append('createdBy',18207);
+    await postFormData(ENDPOINT.SPC_UPDATE,data,{
+      header:{
+        "Content-Type": "multipart/form-data",
+      }
+    });
+    loader('hide');
     popup_alert({
       visible: "show",
       message: "Your HCP has been published <br />successfully !",
       type: "success",
-      redirect: "spc",
+      redirect: "spc-view",
     });
   };
-  
+
+  const isJson  = (str) => {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+  };
+
 
   return (
     <>
@@ -121,7 +218,7 @@ const SpcEdit = () => {
         <div className="custom-container">
           <Row>
 		  {
-			  pageLoad == 1 && (			  
+			  pageLoad == 1 && (
 				  <Form onSubmit={publishClicked} >
 					<div className="top-header">
 					  <div className="page-title">
@@ -130,7 +227,7 @@ const SpcEdit = () => {
 					  <div className="header-btn">
 						<Button
 						  className="btn-bordered cancel"
-						 
+
 						  onClick={() => navigate("/spc-view")}
 						>
 						  Cancel
@@ -149,7 +246,7 @@ const SpcEdit = () => {
 						<h4>Please fill the following and upload SPC needed</h4>
 						<div className="row">
 						  <div className="col-12">
-						   
+
 							  <div className="form-group">
 								<label htmlFor="">Title of SPC</label>
 
@@ -160,13 +257,18 @@ const SpcEdit = () => {
 								  value={userInputs?.title}
 								  name="title"
 								/>
-								<input
-								  type="text"
-								  className="form-control"
-								  name="createdBy"
-								  value="18207"
-								/>
-							 
+                {
+                  /*
+                  <input
+  								  type="text"
+  								  className="form-control"
+  								  name="createdBy"
+  								  value="18207"
+  								/>
+                  */
+                }
+
+
 								{error?.title ? (
 								  <div className="login-validation">{error?.title}</div>
 								) : (
@@ -200,14 +302,14 @@ const SpcEdit = () => {
 							  <div className="form-group">
 								<label htmlFor="">Language</label>
 								<Select
-								  options={countryAll}
+								  options={language}
 								  placeholder="Select SPC language"
 								  name="langauge"
 								  onChange={(event) =>
 									handleChange(event?.value, "language")
 								  }
 								  defaultValue={
-									  countryAll[countryAll.findIndex(el => el.value == userInputs?.language)]
+									  language[language.findIndex(el => el.value == userInputs?.language)]
 								  }
 								  className="dropdown-basic-button split-button-dropup"
 								  isClearable
@@ -223,14 +325,14 @@ const SpcEdit = () => {
 							  <div className="form-group">
 								<label htmlFor="">Business Unit</label>
 								<Select
-								  options={countryAll}
+								  options={ibu}
 								  name="ibu"
 								  placeholder="Select Business Unit"
 								  onChange={(event) =>
 									handleChange(event?.value, "businessunit")
 								  }
 								  defaultValue={
-									  countryAll[countryAll.findIndex(el => el.value == userInputs?.businessunit)]
+									  ibu[ibu.findIndex(el => el.value == userInputs?.businessunit)]
 								  }
 								  className="dropdown-basic-button split-button-dropup"
 								  isClearable
@@ -249,14 +351,15 @@ const SpcEdit = () => {
 								  options={productArr}
 								  name="product"
 								  placeholder="Select product"
-								  onChange={(event) =>
-									handleChange(event?.value, "product")
-								  }
+                  onChange={(event) =>
+  									       handleChange(event, "product")
+  								}
 								  defaultValue={
-									  productArr[countryAll.findIndex(el => el.value == userInputs?.product)]
-								  }
-								  className="dropdown-basic-button split-button-dropup"
+                    productInput
+								  }      
+								  className="dropdown-basic-button split-button-dropup extra_multiselect"
 								  isClearable
+                  isMulti="true"
 								/>
 								<div className="add_product">
 								  <span>&nbsp;</span>
@@ -293,7 +396,7 @@ const SpcEdit = () => {
 									  <span>Choose Your File</span>
 									</label>
 									{userInputs?.uploadspc?.[0]?.name ? (
-									  <h5>{userInputs?.uploadspc?.[0]?.name}</h5>
+									  <p>{userInputs?.uploadspc?.[0]?.name}</p>
 									) : (
 									  <p>
 										Upload your SPC file <br />
@@ -310,7 +413,7 @@ const SpcEdit = () => {
 								  ""
 								)}
 							  </div>
-						   
+
 						  </div>
 						</div>
 					  </div>

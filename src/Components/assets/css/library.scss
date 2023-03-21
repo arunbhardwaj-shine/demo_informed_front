@@ -270,6 +270,7 @@
           @include h6;
           color: $dark-blue;
           margin: 0;
+          word-break: break-all;
         }
         h6.tab-content-title {
           font-weight: 500;
@@ -595,6 +596,7 @@
     top: 0;
     width: calc(100% - 24px);
   }
+
   .products-listing {
     position: relative;
     max-width: 283px;
@@ -757,7 +759,7 @@ ul.tab-mail-list.data span.total-left small {
   background: #0066be;
 }
 .readerlist .tab-mail-list.data .go-opening .progress {
-  background: #004a89;
+  background: $dark-blue;
 }
 .readerlist .tab-mail-list.data .content-opening .progress {
   background: #00003c;
@@ -895,6 +897,7 @@ ul.tab-mail-list.data span.total-left small {
         }
         &.show {
           button {
+            color: $primary-color;
           }
         }
       }
@@ -960,7 +963,7 @@ ul.tab-mail-list.data span.total-left small {
     border: 0;
     justify-content: center;
     padding-top: 8px;
-    padding-bottom: 20px;
+    padding-bottom: 22px;
     button {
       min-width: 106px;
     }
@@ -1012,13 +1015,30 @@ ul.tab-mail-list.data span.total-left small {
   border: 0;
   margin: 0;
 }
-
+.extra_multiselect .css-1rhbuit-multiValue {
+    background-color:$light-blue
+}
+.extra_multiselect .css-xb97g8:hover {
+    background-color: #6bb2ef;
+}
+.split-button-dropup > div:nth-child(3) div[class*=css-1rhbuit-multiValue] > div {
+    display: flex;
+}
+// .create-change-content .form-group .dropdown-basic-button.extra_multiselect .css-1s2u09g-control + div:last-child ,  .css-1pahdxg-control + div:last-child{ 
+//     display: none;
+// }
 .doc-content-main-box ul.tab-mail-list li {
   display: flex;
   align-items: center;
   margin: 0 0 10px;
 }
-
+.mailbox-table td span.product_list {
+    background: transparent;
+    padding: 0 6px 4px 0;
+    display: inline-block;
+    color: #004a89;
+    font-weight: 400;
+}
 .doc-content-main-box ul.tab-mail-list li h5 {
   font-weight: 500;
   font-size: 15px;
@@ -1292,7 +1312,7 @@ select::-ms-expand {
               margin: 0;
               color: #70899e;
               &.tab-content-title {
-                color: #004a89;
+                color: $dark-blue;
                 display: flex;
                 min-width: 140px;
                 margin-right: 23px;
@@ -1311,6 +1331,20 @@ select::-ms-expand {
   font-weight: 500;
   margin-bottom: 12px;
   text-transform: unset;
+}
+form.product-unit {
+    flex-wrap: wrap;
+}
+
+form.product-unit .form-group.full {
+    flex: 0 0 100%;
+}
+form.product-unit .form-group {
+    width: auto;
+    flex: 0 0 600px;
+}
+form.product-unit button{
+margin: 18px 0 23px auto;
 }
 .crm-detail-content h4 {
   margin-bottom: 23px;
@@ -1460,14 +1494,14 @@ select::-ms-expand {
             &:first-child {
               &:not(:last-child) {
                 width: 45%;
-                border-right: 1px dashed #004a89;
+                border-right: 1px dashed $dark-blue;
               }
             }
             p {
               font-weight: 500;
               font-size: 20px;
               line-height: 25px;
-              color: #004a89;
+              color: $dark-blue;
               text-align: left;
             }
             .formgroup {
@@ -1477,7 +1511,7 @@ select::-ms-expand {
                 font-weight: 400;
                 font-size: 18px;
                 line-height: 21px;
-                color: #004a89;
+                color: $dark-blue;
                 margin: 0 14px 0 0;
               }
               .split-button-dropup {
@@ -1744,20 +1778,13 @@ select::-ms-expand {
   flex: 0 0 600px;
   padding-right: 55px;
   h5 {
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 23px;
-    color: #004a89;
+    @include sublink_h5;
     margin: 9px 0 18px;
   }
 }
 .sublink_right {
   h5 {
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 23px;
-    color: #004a89;
-    margin: 0 0 18px;
+    @include sublink_h5;
     margin: 0;
   }
   flex: 1 1;
@@ -1932,6 +1959,18 @@ select::-ms-expand {
   margin: 70px auto 30px;
   padding: 0;
 }
+.template_builder-option.library-cosent {
+    margin-top: 40px;
+}
+section.select-mail-template.library-cosent {
+    margin-top: 10px;
+}
+section.select-mail-template.library-cosent + .create-change-content.spc-content {
+    padding-top: 0px;
+}
+section.select-mail-template.library-cosent .email-form {
+    margin: 15px 0 0;
+}
 .template_builder-option.library-cosent .template_language {
   margin-right: 57px;
   width: 100%;
@@ -1952,8 +1991,11 @@ select::-ms-expand {
 
 .preview-content .edit_content_title {
   color: $primary-color;
-  max-width: 80%;
+  margin:0;
+  display: flex;
+  align-items: center;
 }
+
 .btn.btn-bordered {
   text-transform: unset;
 }
@@ -1973,8 +2015,47 @@ select::-ms-expand {
   justify-content: center;
   height: 32px;
   margin-left: 10px;
-}
+}    
+.btn-filled.btn-disabled, .btn-filled.btn-disabled:hover{
+  background: rgba(151, 182, 207, 0.6);
+  color:$white;
+   border: none;
+   pointer-events: none;
 
+}
+.btn-bordered.btn-disabled, .btn-bordered.btn-disabled:hover{
+  border: 1px solid #97B6CF;
+  color:#97B6CF;
+  pointer-events: none;
+}
+.preview-content .edit_content_title .btn-filled, .preview-content .edit_content_title .btn-bordered {
+    width: auto;
+    min-width: 90px;
+    padding: 8px 11px;
+    font-size: 14px;
+    height: auto;
+}
+.preview-content .edit_content_title .btn-filled {
+    background: $primary-color;
+}
+.preview-content .edit_content_title .btn-filled:hover {
+    background: $dark-blue;
+}
+.preview-content .edit_content_title .btn-bordered {
+    border: 1px solid var(--light-blue);
+    background: transparent;
+}
+.preview-content .edit_content_title .btn-bordered:hover {
+    background: $primary-color;
+}
+.preview-content .edit_content_title input[type="text"] {
+    background: $white;
+    border-radius: 30px;
+    border: 0;
+    padding: 8px 19px;
+    color: $dark-blue;
+    min-width: 250px;
+}
 .preview-content .edit_content_title button:hover {
   background: $primary-color;
 }
@@ -2128,6 +2209,86 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 .form-group.primary_phone input.form-control {
   max-width: 308px;
 }
+
+
+
+.modal .upload-file-box {
+    width: 100%;
+    border: 1px dashed #0066BE;
+    box-sizing: border-box;
+    border-radius: 15px;
+    padding: 16px;
+    max-width: 445px;
+    margin: 0 0 5px;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+}
+.modal .upload-file-box .box {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+    align-items: center;
+    width: 100%;
+}
+.preview-content #download-qr .modal-body {
+    padding: 18px 32px 0px;
+}
+.preview-content #download-qr .modal-body .form-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 26px;
+}
+.preview-content #download-qr .modal-body .form-group:last-child {
+    margin-bottom: 5px;
+}
+.modal.preview-content .upload-file-box {
+    max-width: 512px;
+}
+.modal.preview-content #download-qr .modal-body .form-group .form-control {
+    max-width: 400px;
+}
+.modal .inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+.preview-content #download-qr .modal-body  .form-group label {
+    flex: 0 0 109px;
+}
+.preview-content #download-qr .modal-body  .form-group .upload-file-box label {
+    font-size: 16px;
+    padding: 9px;
+}
+.modal .inputfile ~ label {
+    max-width: 80%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    padding: 11px;
+    background: #0066BE;
+    border-radius: 30px;
+    color: #ffffff !important;
+    font-size: 16px;
+    line-height: 1.1;
+    font-weight: 500;
+    min-width: 171px;
+    text-align: center;
+}
+.modal .upload-file-box .box p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 145.19%;
+    color: #97B6CF;
+    word-break: break-all;
+    padding-right: 5px;
+}
 /**Library Style End**/
 
 /**Readers Style**/
@@ -2185,13 +2346,13 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 .timeline-box .timeline_date {
   position: absolute;
   left: 0;
-  background: #004a89;
+  background: $dark-blue;
   box-shadow: 0px 5px 6px rgba(0, 102, 190, 0.2);
   border-radius: 36px 0px 36px 36px;
   font-weight: 600;
   font-size: 14px;
   line-height: 128.69%;
-  color: #fff;
+  color: $white;
   width: 72px;
   height: 72px;
   display: flex;
@@ -2201,7 +2362,7 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
   padding: 10px;
 }
 .timeline-block {
-  background: #ffffff;
+  background: $white;
   box-shadow: 0px 1px 8px rgba(0, 102, 190, 0.24);
   border-radius: 0px 20px 20px 20px;
   padding: 17px 16px;
@@ -2270,7 +2431,7 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
   font-weight: 400;
   font-size: 14px;
   line-height: 16px;
-  color: #004a89;
+  color: $dark-blue;
   margin: 0 0 7px;
 }
 
@@ -2293,7 +2454,7 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 .timeline-article-device tr .device-name {
   font-size: 14px;
   line-height: 16px;
-  color: #004a89;
+  color: $dark-blue;
   padding: 0 0 14px;
 }
 .timeline-article-device tr:last-child td,
@@ -2347,6 +2508,11 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
   margin: 16px -16px -16px;
   padding: 0 16px;
 }
+.timeline-article-detail-full.active {
+    flex-direction: column-reverse;
+    display: flex;
+    width: 100%;
+}
 .timeline-article-detail-full .timeline-article-details-heading {
   text-align: center;
   min-height: 32px;
@@ -2371,6 +2537,80 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 .timeline-article-detail-full .timeline-article-details-heading p img {
   margin-left: 7px;
 }
+.timeline-article-details-overall{
+    .data-main-box{
+     h3 {
+        margin: 15px 10px;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 23px;
+        color: #0066BE;
+    }
+    .timeline-article-details-boxes {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    margin: 0 0 0px;
+    .media {
+    flex: 0 0 48%;
+    padding: 15px;
+    background: $white;
+    box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
+    border-radius: 13px;
+    margin: 0 1% 20px;
+    display: flex;
+    align-items: flex-start;
+    .media-left {
+      margin-right: 20px;
+      p {
+      margin: 5px 0;
+      text-align: center;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 16px;
+      color: $dark-blue;
+      }
+    }
+    .media-right {
+    flex: 1 1;
+    ul {
+      list-style: none;
+      padding: 0;
+      li{
+         display: flex;
+        align-items: center;
+        margin: 0 0 14px;
+        &.data-progress{
+          margin: 0;
+          padding: 0;
+        }
+        h6{
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 16px;
+          color: rgba(0, 74, 137, 0.55);
+          min-width: 72px;
+          margin: 0;
+        }
+      }
+     }
+     p {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 16px;
+      color: $dark-blue;
+      margin: 0;
+      span {
+      display: block;
+      line-height: 20px;
+      }
+       }
+    }
+    }
+    }
+  }
+      
+} 
 
 .header-btn button.btn.print {
   filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));
@@ -2469,12 +2709,24 @@ section.verify_email.content_details {
   margin-top: 8px;
 }
 .header-btn .btn.btn-primary.move-draft:hover {
-  color: #ffffff;
+  color: $white;
   background-color: #97b6cf;
 }
 /**Reader Style End**/
 
+
+
+
+
 /**Library Responsive**/
+@media only screen and (max-width: 1900px) {
+.tab-mail-list.data .progress {
+    width: 145px;
+}
+.data-progress {
+    margin-right: 4px;
+}
+}
 @media only screen and (max-width: 1700px) {
   .library-content-box-layuot {
     gap: 0% 2%;
@@ -2890,6 +3142,10 @@ section.verify_email.content_details {
   .library-content-box-layuot .doc-content-main-box .doc-content-header {
     margin-bottom: 15px;
   }
+  .library-content-box-layuot .doc-content-main-box .tabs-data .nav-tabs .nav-item button {
+    font-size: 10px;
+    padding: 10px 6px;
+}
 }
 @media (max-width: $layout-breakpoint-large) {
   .library-content-box-layuot

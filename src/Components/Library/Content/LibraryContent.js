@@ -46,7 +46,6 @@ const LibraryContent = () => {
     { value: "Offline", label: "Offline" },
     { value: "Sunshine", label: "Sunshine" },
   ]);
-
   const [pageAllClicked, setPageAllClicked] = useState(false);
   const [update, setUpdate] = useState(0);
   const location = useLocation();
@@ -414,7 +413,6 @@ const LibraryContent = () => {
   };
 
   const downloadQRCode = () => {
-    // Generate download with use canvas and stream
     const canvas = document.getElementById("qr-gen");
     const pngUrl = canvas
       .toDataURL("image/png")
@@ -1443,9 +1441,16 @@ const LibraryContent = () => {
                                   </div>
                                   <div className="data-main-footer-sec">
                                     <div className="footer-btn-wrapper">
-                                      <Button className="footer-btn">
+                                      {/* <Button className="footer-btn">
                                         Edit Docintel Link
-                                      </Button>
+                                      </Button> */}
+                                      <Link
+                                        to="/library-edit"
+                                        state={{ pdfid: data.id }}
+                                        className="footer-btn"
+                                      >
+                                        Edit Docintel Link
+                                      </Link>
                                       <Button
                                         className="footer-btn"
                                         onClick={(e) =>

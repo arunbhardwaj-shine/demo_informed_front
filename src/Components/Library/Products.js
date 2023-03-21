@@ -1,12 +1,11 @@
 import React, { useState,useEffect } from "react";
-import { Button, Col, Form, Row, Modal } from "react-bootstrap";
+import { Button, Col, Form, Row } from "react-bootstrap";
 import Select from "react-select";
-import { popup_alert } from "../../popup_alert";
-import { postData, } from "../../axios/apiHelper";
+import { postData,deleteMethod } from "../../axios/apiHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { loader } from "../../loader";
 import CommanModel from "../../Model/CommonModel"
-
+import CommonConfirmModel from "../../Model/CommonConfirmModel"
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const downloadData = [
@@ -18,36 +17,32 @@ const downloadData = [
 ];
 function Products() {
   const [confirmationpopup, setConfirmationPopup] = useState(false);
+  const [clickData, setClickData] = useState(0);
+
   const [newValue, setNewValue] = useState({
     newProductValue :"",
     category:0
   });
-
   const [show, setShow] = useState(false);
-  const [newProduct, setNewProduct] = useState("");
+  const [content,setContent] = useState({
+    label:"Product",
+    value:1
+  })
+  const [SelectType, setSelectType] = useState([
+    { value:1, label: "Product" },
+    { value: 2, label: "Topics" },
+  ]);
   const [BusinessUnitAll, setBusinessUnitAll] = useState([
     { value:3, label: "Critical Care" },
     { value:1, label: "Haematology" },
     { value: 2, label: "Immunotherapy" },
   ]);
  const [productData,setProductData] = useState({})
-  const [data, setData] = useState([
-    "Product1",
-    "Product2",
-    "Product3",
-    "Product4",
-    "Product5",
-    "Product6",
-    "Product7",
-    "Product8",
-  ]);
- 
-
   const initFun = async() =>{
     loader("show");
     const resp =  await postData(ENDPOINT.SPC_PRO_LISTING,{
-        userId:29836198,
-        type:1,
+        userId:18207,
+        type:content?.value,
         category:newValue?.category
       })
       setProductData(resp?.data?.data)
@@ -55,61 +50,42 @@ function Products() {
   }
   useEffect (()=>{
     initFun()
-  },[newValue?.category])
-  const [BusinessUnit, setBusinessUnit] = useState("");
-  const onBusinessUnitChange = (event) => {
-    console.log(event.value);
-    if (event.value == "Haematology") {
-      setData([
-        "Product1",
-        "Product2",
-        "Product3",
-        "Product4",
-        "Product5",
-        "Product6",
-        "Product7",
-        "Product8",
-      ]);
-    } else if (event.value == "Immunotherapy") {
-      setData(["Product1", "Product2", "Product3", "Product4", "Product5"]);
-    } else if (event.value == "Critical") {
-      setData(["Product1", "Product2"]);
-    }
-    setBusinessUnit(event.value);
-  };
+  },[newValue?.category,content])
+
   const handleSubmit = async(e) =>{
     loader("show");
      await postData(ENDPOINT.ADD_SPC_PRODUCT,{
-        userId:29836198,
+        userId:18207,
         product:newValue?.newProductValue,
         category:newValue?.category,
-        type:1
+        type:content?.value
       })
       loader("hide");
+      initFun()
+  }
+  const handleConfirmModel = async(id) =>{
+      setConfirmationPopup(false)
+      loader("show");
+     await deleteMethod(`${ENDPOINT.SPC_PRO_DELETE}${id}`)
+      loader("hide");
+      setClickData(0)
+      initFun()
+
   }
   const handleChange = (e) =>{
-    // setNewProduct(e.target.value)
     setNewValue({...newValue,newProductValue:e.target.value})
   }
   return (
     <Col className="right-sidebar">
       <div className="custom-container">
         <Row>
-          <div className="top-header">
-            <div className="page-title">
-              <h2>Products</h2>
-            </div>
-          </div>
           <div className="create-change-content spc-content">
             <div className="form_action">
-              <h4>Please select the business unit to show the products </h4>
-              <div className="row">
-                
-                <div className="col-12">
+              <h4>Please select the business unit</h4>
                   <Form className="product-unit d-flex justify-content-between align-items-center">
                   {
                       productData?.flag?(
-                        <div className="form-group">
+                        <div className="form-group full">
                         <label htmlFor="">Business Unit</label>
                         <Select
                           options={BusinessUnitAll}
@@ -118,30 +94,31 @@ function Products() {
                           className="dropdown-basic-button split-button-dropup"
                           isClearable
                         />
+                    </div>
+                    ):null
+                  }
+                    <div className="form-group ">
+                        <label htmlFor="">Select type</label>
+                        <Select
+                          options={SelectType}
+                          placeholder="Select type"
+                          defaultValue={SelectType?.[0]}
+                          onChange={(e) => setContent({label:e?.label,value:e?.value})}
+                          className="dropdown-basic-button split-button-dropup"
+                          isClearable
+                        />
                   </div>
-                  ):null
-                }
-                  
-                    {/* {BusinessUnit !== "" ? ( */}
+                
                       <Button
                         className="btn-bordered btn-voilet"
                         onClick={() => {
-                          setNewProduct("");
                           setShow(true);
                         }}
                       >
-                        Add New Product +
+                        Add New {content?.label?.trim()} +
                       </Button>
                   </Form>
                 </div>
-                {/* {BusinessUnit == "" ? (
-                  <div className="col-12 no-type-selected">
-                    <div className="no-data-selected">
-                      <h3>No BU selected yet!</h3>
-                      <img src={path_image + "dummy-bu.png"} alt="" />
-                    </div>
-                  </div>
-                ) : ( */}
                   <div className="col-12 selected-products-list d-flex">
                     {productData?.data?.map((item) => {
                       return (
@@ -151,7 +128,11 @@ function Products() {
                               {item?.product}
                               <button
                                 className="dlt_btn"
-                                onClick={() => setConfirmationPopup(true)}
+                                onClick={() => {
+                                  setConfirmationPopup(true)
+                                  setClickData(item?.id)
+                                }
+                              }
                               >
                                 <img
                                   src={path_image + "delete.svg"}
@@ -164,62 +145,8 @@ function Products() {
                       );
                     })}
                   </div>
-                {/* )} */}
               </div>
-            </div>
-          </div>
         </Row>
-      </div>
-
-      <div className="delete">
-        <Modal
-          className="modal send-confirm"
-          id="delete-confirm"
-          show={confirmationpopup}
-        >
-          <Modal.Header>
-            {/* <Modal.Title>Heading Text</Modal.Title>*/}
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              onClick={(e) => setConfirmationPopup(false)}
-            ></button>
-          </Modal.Header>
-
-          <Modal.Body>
-            <img src={path_image + "alert.png"} alt="" />
-            <h4>
-              You are about to remove this popup forever.
-              <br />
-              Are you sure you want to do this?
-            </h4>
-            <div className="modal-buttons">
-              <button
-                type="button"
-                className="btn btn-primary btn-filled"
-                onClick={(e) => {
-                  setConfirmationPopup(false);
-                  popup_alert({
-                    visible: "show",
-                    message: "The topic has been deleted <br />successfully !",
-                    type: "success",
-                    redirect: "",
-                  });
-                }}
-              >
-                Yes Please!
-              </button>
-              <button
-                type="button"
-                className="btn btn-primary btn-bordered light"
-                onClick={(e) => setConfirmationPopup(false)}
-              >
-                Cancel
-              </button>
-            </div>
-          </Modal.Body>
-        </Modal>
       </div>
       <CommanModel
         show={show}
@@ -229,6 +156,21 @@ function Products() {
         footerButton={"Add"}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
+      />
+       <CommonConfirmModel
+       show={confirmationpopup}
+       onClose={setConfirmationPopup}
+       fun={handleConfirmModel}
+       resetDataId={clickData}
+       popupMessage={
+        {
+          "message1":"You are about to remove this popup forever.",
+          "message2":" Are you sure you want to do this?",
+          "footerButton":" Yes Please!"
+        }
+       }
+       path_image={path_image}
+
       />
     </Col>
   );
