@@ -186,55 +186,57 @@ const PreviewContent = () => {
                   <Col className="sublink_right preview-content d-flex flex-column">
 					<>
 					  <div className="d-flex justify-content-between align-items-center">
-					  <h4 className="edit_content_title">
-						{
-						  editTitle ?
-						  <input
-							type="text"
-							className="form-control"
-							id="new-tag"
-							value={
-							  titleChange
-							}
-							onChange={(e) => setTitleChange(e.target.value)}
-						  />
-						  :
-						  pdfData?.file_type && pdfData.file_type == "ebook" ?
-							templateName != '' ? templateName : pdfData?.title
-						  :
-						  pdfData?.title
-						}
+            <div className="edit_pdf_title">
+  					  <h4 className="edit_content_title">
+  						{
+  						  editTitle ?
+  						  <input
+  							type="text"
+  							className="form-control"
+  							id="new-tag"
+  							value={
+  							  titleChange
+  							}
+  							onChange={(e) => setTitleChange(e.target.value)}
+  						  />
+  						  :
+  						  pdfData?.file_type && pdfData.file_type == "ebook" ?
+  							templateName != '' ? templateName : pdfData?.title
+  						  :
+  						  pdfData?.title
+  						}
 
-						{
-						  editTitle ?
-						  <>
-						  <button onClick={(e) => {
-							  setEditTitle(false)
-							  updateArticleTitle(titleChange)
-						  }}>Save</button>
-						  <button onClick={(e) => {
-							  setEditTitle(false)
-							  setTitleChange(pdfData?.title)
-						  }}>Cancel</button>
-						  </>
-						  :
-						  <button
-						  onClick={(e) => {
-							  setEditTitle(true)
-							  setTitleChange(
-								pdfData?.file_type && pdfData.file_type == "ebook" ?
-								templateName != '' ? templateName : pdfData?.title
-								  :
-								pdfData?.title
-							  )
-						  }}
-						  >
-						  <img src={path_image + "edit-button.svg"} alt="Edit" />
-						  </button>
-						}
-
-
-					  </h4>
+  						{
+  						  editTitle ?
+  						  <>
+  						  <button className="btn btn-filled" onClick={(e) => {
+  							  setEditTitle(false)
+  							  updateArticleTitle(titleChange)
+  						  }}>Save</button>
+  						  <button className="btn btn-bordered"
+                 onClick={(e) => {
+  							  setEditTitle(false)
+  							  setTitleChange(pdfData?.title)
+  						  }}>Cancel</button>
+  						  </>
+  						  :
+  						  <button
+                className="btn btn-edit"
+  						  onClick={(e) => {
+  							  setEditTitle(true)
+  							  setTitleChange(
+  								pdfData?.file_type && pdfData.file_type == "ebook" ?
+  								templateName != '' ? templateName : pdfData?.title
+  								  :
+  								pdfData?.title
+  							  )
+  						  }}
+  						  >
+  						  <img src={path_image + "edit-button.svg"} alt="Edit" />
+  						  </button>
+  						}
+  					  </h4>
+            </div>
 					  <Button className="btn btn-bordered" onClick={handleShow}>Change content file</Button>
 					</div>
 					{
@@ -301,7 +303,7 @@ const PreviewContent = () => {
       </Row>
     </div>
   </Col>
-  
+
   )
 }
 
