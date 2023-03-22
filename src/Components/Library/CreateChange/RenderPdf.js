@@ -13,7 +13,8 @@ import {
 } from "react-bootstrap";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { ENDPOINT } from "../../../axios/apiConfig";
-import {postData, getData} from "../../../axios/apiHelper";
+import {postFormData} from "../../../axios/apiHelper";
+import MessageModel from "../../../Model/MessageModel";
 import { toast } from "react-toastify";
 import QRCode from "qrcode.react";
 import { usePdf } from '@mikecousins/react-pdf';
@@ -23,84 +24,102 @@ import  Viewer, { Worker } from '@phuocng/react-pdf-viewer';
 import '@phuocng/react-pdf-viewer/cjs/react-pdf-viewer.css';
 import { RotateEvent, PageChangeEvent, DocumentLoadEvent, RenderPageProps  } from '@react-pdf-viewer/core';
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-const RenderPdf = () => {
+const RenderPdf = ({
+  url,
+  handleNext
+}) => {
   const [page, setPage]   = useState(1);
-  const [pages, setPages] = useState(null);
   const [scale, setScale] = useState(1);
   const [numPages, setNumPages] = useState(null);
+  const [commanShow, setCommanShow] = useState(false);
+  const [wordData, setWordData] = useState([]);
+  const [modalMessage, setModalMessage] = useState('');
+  const [modalBtn, setModalBtn] = useState('');
   const pdfjsVersion = packageJson.dependencies['pdfjs-dist'];
-  let url = "https://docintel.s3-eu-west-1.amazonaws.com/ebook/arunp/1679390009620.pdf";
+  // let url = "https://docintel.s3-eu-west-1.amazonaws.com/ebook/arunp/1679390009620.pdf";
 
   const handleDocumentLoad = (e: DocumentLoadEvent) => {
-    console.log(e.doc.numPages);
-    setPages(e.doc.numPages);
+    // console.log("Asda");
+    setNumPages(e.doc.numPages);
+    setModalMessage("Please verify every page is correct and press 'Publish' at the bottom when you're sure.");
+    setModalBtn('');
+    setCommanShow(true);
   };
 
   const handlePageChange = (e: PageChangeEvent) => {
-    // console.log(e.currentPage);
-    // console.log(e.doc);
-	
     setPage(e.currentPage);
-	var mainDiv = document.getElementsByClassName('viewer-layout-main')[0];
-	// console.log(e.currentPage);
-	let chd = mainDiv.getElementsByClassName("viewer-text-layer");
-	setTimeout(function(){
-		let node = chd[e.currentPage];
-		if(typeof node !== "undefined"){		
-			var words = get_text(node);
-			var count = words.split(' ').length;
-			console.log(e.currentPage);
-			console.log(node.textContent);
-			// console.log(mainDiv.getElementsByTagName('div')[0]);
-			// let childDiv = mainDiv.getElementsByClassName('viewer-text-layer')[0];
-			// console.log(childDiv);
-		}
-	}, 500);
-	
-	
+  	var mainDiv = document.getElementsByClassName('viewer-layout-main')[0];
+  	let chd = mainDiv.getElementsByClassName("viewer-text-layer");
+  	setTimeout(function(){
+  		let node = chd[e.currentPage];
+  		if(typeof node !== "undefined"){
+        let string_val = node.textContent;
+        let words = string_val.split(' ').length;
+
+        let wordsInfo = {
+          "page" : e.currentPage + 1,
+          "total" : words,
+        };
+
+        wordData.push(wordsInfo);
+        console.log(wordData);
+        // setWordData(...wordData,wordsInfo);
+        // console.log(words);
+  		}
+  	}, 300);
+
+      if(e.currentPage === (numPages -1)){
+        setModalMessage("");
+        setModalBtn('Publish');
+        setCommanShow(true);
+      }
   };
-  
-  
-    const get_text = (el) => {
+
+    // const get_text = (el) => {
 		// console.log(el.childNodes)
-		let ret = "";
-		var length = el.childNodes.length;
-		for(var i = 0; i < length; i++) {
-			var node = el.childNodes[i];
-			if(node.nodeType != 8) {
-				ret += node.nodeType != 1 ? node.nodeValue : get_text(node);
-			}
-		}
-		return ret;
-	}
-	
-	const nextButtonClicked = (e) => {
+	// 	let ret = "";
+	// 	var length = el.childNodes.length;
+	// 	for(var i = 0; i < length; i++) {
+	// 		var node = el.childNodes[i];
+	// 		if(node.nodeType != 8) {
+	// 			ret += node.nodeType != 1 ? node.nodeValue : get_text(node);
+	// 		}
+	// 	}
+	// 	return ret;
+	// }
+
+	const publishClicked = async(e) => {
 		var mainDiv = document.getElementsByClassName('viewer-layout-main')[0];
 		let chd = mainDiv.getElementsByClassName("viewer-text-layer");
-		var canvas = mainDiv.getElementsByClassName("viewer-text-layer")[0];
-		
+		var canvas_layer = mainDiv.getElementsByClassName("viewer-canvas-layer")[0];
+    var canvas = canvas_layer.querySelector('canvas');
 		if (canvas == null) {
-			alert('All pages of this pdf have not loaded,Please reload to this pdf');
-			
-		}
-		
-		var dataURL = canvas.toDataURL("image/png");
-		var file = dataURLtoBlob(dataURL);
-		// chd[0];
-		console.log(file);
-	}
-	
-	const dataURLtoBlob = (dataURL) => {
-        // Decode the dataURL
-        var binary = atob(dataURL.split(',')[1]);
-        // Create 8-bit unsigned array
-        var array = [];
-        for (var i = 0; i < binary.length; i++) {
-            array.push(binary.charCodeAt(i));
-        }
-        // Return our Blob object
-        return new Blob([new Uint8Array(array)], {type: 'image/png'});
+      setModalMessage("All pages of this pdf have not loaded,Please reload to this pdf");
+      setModalBtn('');
+      setCommanShow(true);
+		}else{
+      var dataURL = canvas.toDataURL("image/png");
+      var file = dataURLtoBlob(dataURL);
+      var fd = new FormData();
+      fd.append("file", file);
+      fd.append("data", JSON.stringify(wordData));
+      // await postFormData(ENDPOINT.ADD_PDF_WORD,fd,{
+      //   header:{
+      //     "Content-Type": "multipart/form-data",
+      //   }
+      // });
+      handleNext(fd);
     }
+ }
+
+const dataURLtoBlob = (dataURL) => {
+      var binary = atob(dataURL.split(',')[1]);
+      var array = [];
+      for (var i = 0; i < binary.length; i++) {
+          array.push(binary.charCodeAt(i));
+      }
+      return new Blob([new Uint8Array(array)], {type: 'image/png'});
+}
 
 
     return (
@@ -111,11 +130,21 @@ const RenderPdf = () => {
               {
                 typeof url !== "undefined" && (
                   <>
+                    <MessageModel
+                      show={commanShow}
+                      onClose={setCommanShow}
+                      heading={""}
+                      data={modalMessage}
+                      footerButton={modalBtn}
+                      handleSubmit={publishClicked}
+                    />
+
                     <Worker workerUrl={`https://unpkg.com/pdfjs-dist@${pdfjsVersion}/build/pdf.worker.min.js`}>
                         <div style={{ height: '750px' }}>
                           <Viewer
                             onPageChange={handlePageChange}
                             onDocumentLoad={handleDocumentLoad}
+                            renderMode = "canvas"
                             fileUrl={url}
                           />;
                         </div>
@@ -123,9 +152,6 @@ const RenderPdf = () => {
                   </>
                 )
               }
-			  {
-				<button onClick={nextButtonClicked}>Upload</button>  
-			  }
           </>
         )
       }

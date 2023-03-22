@@ -32,9 +32,10 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const PreviewContent = () => {
   const [show, setShow] = useState(false);
     const navigate = useNavigate();
-    const [articleId, setArticleId] = useState("3899");
+    const [articleId, setArticleId] = useState("3846");
     const [pdfData, setPdfData] = useState([]);
     const [editTitle, setEditTitle] = useState(false);
+    const [publishStatus, setPublishStatus] = useState(false);
     const [titleChange, setTitleChange] = useState('');
 	const responsive = {
 		0: { items: 1 },
@@ -54,6 +55,7 @@ const PreviewContent = () => {
   const [userInputs, setUserInputs] = useState({});
   const [updateFlag, setUpdateFlag] = useState(0);
   const [apiCallBackFlag, setApiCallBackFlag] = useState(0);
+  const BrokenImage = "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
 
     useEffect(() => {
       getArticleData();
@@ -68,6 +70,10 @@ const PreviewContent = () => {
           const res = await postData(ENDPOINT.LIBRARYGETARTICLE, body);
           setPdfData(res?.data?.data);
           setApiCallBackFlag(apiCallBackFlag + 1);
+
+          if(res?.data?.data?.file_type && res?.data?.data?.file_type == "pdf"){
+              setNewTemplateClicked(true);
+          }
 		  loader('hide');
 		}catch(err){
 			loader('hide');
@@ -87,7 +93,7 @@ const PreviewContent = () => {
 
 	const templateClicked = (template, e) => {
 		const div = document.querySelector("img.select_mm");
-		setNewTemplateClicked(false);
+		setNewTemplateClicked(true);
 		if (div) {
 		  div.classList.remove("select_mm");
 		}
@@ -155,7 +161,53 @@ const PreviewContent = () => {
     }
     handleClose();
     setUpdateFlag(0);
+    setNewTemplateClicked(false);
   };
+
+  const imageOnError = (event) => {
+    event.currentTarget.src = BrokenImage;
+    event.currentTarget.className = "error";
+  }
+
+  const handleNext = async(obj) => {
+    loader("show");
+    obj.append("pdfId", articleId);
+    obj.append("userId", 18207);
+    obj.append("type", pdfData?.file_type);
+    if(pdfData.file_type == "ebook"){
+      obj.append("pdfFileId", pdfFileId);
+    }
+    try{
+        const res = await postFormData(ENDPOINT.ADD_PDF_WORD,obj,{
+          header:{
+            "Content-Type": "multipart/form-data",
+          }
+        });
+        if(pdfData?.file_type && pdfData.file_type == "ebook") {
+          let pdfIndex = pdfData.ebookData.findIndex(el => el.id === pdfFileId);
+          pdfData.ebookData[pdfIndex].processed = 1;
+          pdfData.ebookData[pdfIndex].image = res?.data?.data?.image?.file;
+
+          let nextItem = pdfData.ebookData[pdfIndex+1];
+          if(typeof nextItem !== "undefined"){
+            pdfData.ebookData[pdfIndex+1].processed = 1;
+            let get_next_id = nextItem.id;
+            var link = document.getElementById('template_dyn'+get_next_id);
+            link.click();
+          }else{
+            setPublishStatus(true);
+          }
+          setPdfData(pdfData);
+        }else{
+          setPublishStatus(true);
+        }
+        setApiCallBackFlag(apiCallBackFlag + 1);
+        loader("hide");
+    }catch(err){
+      loader("hide");
+      console.log(err);
+    }
+  }
 
     return(
       <Col className="right-sidebar">
@@ -190,15 +242,20 @@ const PreviewContent = () => {
                     <button className="btn btn-primary btn-bordered move-draft">
                       Cancel
                     </button>
-                    <button className="btn btn-primary btn-filled next">
-                      Publish
-                    </button>
+                      <Link
+                        to="/content-detail"
+                        state={{ pdfid: articleId }}
+                        className={publishStatus  ? "btn btn-primary btn-filled next" : "btn btn-primary btn-filled next btn-disabled"}
+                      >
+                        Publish
+                      </Link>
                   </div>
                 </div>
               </div>
             </div>
+
       			{
-              apiCallBackFlag && (
+              apiCallBackFlag ?
                   pdfData?.file_type && pdfData.file_type == "ebook" &&
                   (
                     <section className="select-mail-template library-cosent">
@@ -212,16 +269,18 @@ const PreviewContent = () => {
                     responsive={responsive}
                     onSlideChanged={syncActiveIndex}
                     >
-                    {pdfData?.ebookData.map((template) => {
+                    {pdfData?.ebookData.map((template,index) => {
                       return (
                         <>
                         <div
-                        className="item"
+                        className={(index === 0 || template.processed == 1) ? "item" :  (template.id == pdfFileId) ? "item": " item disable-link" }
                         onClick={(e) => templateClicked(template, e)}
+                        id={"click"+ template.id}
                         >
                         <img
                         id={"template_dyn" + template.id}
                         src={template.image}
+                        onError={imageOnError}
                         alt=""
                         className={
                           typeof templateId !== "undefined" &&
@@ -240,7 +299,7 @@ const PreviewContent = () => {
                     </div>
                     </section>
                   )
-              )
+              : null
       			}
             <div className="create-change-content spc-content">
               <div className="form_action">
@@ -292,15 +351,20 @@ const PreviewContent = () => {
 					  <Button className="btn btn-bordered" onClick={handleShow}>Change content file</Button>
 					</div>
 					{
+            newTemplateClicked
+            ?
 						pdfData?.file_type && pdfData.file_type == "ebook" ?
 							<RenderPdf
 							  url= {templatePdf}
+                handleNext ={handleNext}
 							/>
 						:
 
 							<RenderPdf
 							  url= {pdfData?.file_name}
+                handleNext ={handleNext}
 							/>
+            : null
 					}
 
 					</>

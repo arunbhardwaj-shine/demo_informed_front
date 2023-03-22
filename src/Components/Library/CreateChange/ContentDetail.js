@@ -18,7 +18,7 @@ const ContentDetail = () => {
     try {
       loader("show");
       let body = {
-        pdfId: 3982,
+        pdfId: 4002,
         apiType: "Library",
       };
 
@@ -86,8 +86,8 @@ const ContentDetail = () => {
                                       </h6>
                                       <h6>
                                         <strong>Content subtitle | </strong>
-                                        {data?.content_subtitle
-                                          ? data?.content_subtitle
+                                        {data?.pdf_sub_title
+                                          ? data?.pdf_sub_title
                                           : "N/A"}
                                       </h6>
                                       <h6>
@@ -185,16 +185,16 @@ const ContentDetail = () => {
                                                 <tr>
                                                   <th>Client Product</th>
                                                   <td>
-                                                    {data?.client_product
-                                                      ? data?.client_product
+                                                    {data?.product
+                                                      ? data?.product
                                                       : "N/A"}
                                                   </td>
                                                 </tr>
                                                 <tr>
                                                   <th>Production</th>
                                                   <td>
-                                                    {data?.production
-                                                      ? data?.production
+                                                    {data?.productName
+                                                      ? data?.productName
                                                       : "N/A"}
                                                   </td>
                                                 </tr>
@@ -249,8 +249,8 @@ const ContentDetail = () => {
                                                 <tr>
                                                   <th>Set limit of usage</th>
                                                   <td>
-                                                    {data?.usage_limit
-                                                      ? data?.usage_limit
+                                                    {data?.limit
+                                                      ? data?.limit
                                                       : "N/A"}
                                                   </td>
                                                 </tr>
@@ -265,8 +265,8 @@ const ContentDetail = () => {
                                                 <tr>
                                                   <th>Invoice Notes</th>
                                                   <td>
-                                                    {data?.invoice_notes
-                                                      ? data?.invoice_notes
+                                                    {data?.special_requirment
+                                                      ? data?.special_requirment
                                                       : "N/A"}
                                                   </td>
                                                 </tr>
