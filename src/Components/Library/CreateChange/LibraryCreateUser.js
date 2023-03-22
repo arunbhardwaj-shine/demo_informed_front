@@ -137,15 +137,7 @@ const LibraryCreateUser = () => {
         ebookFile?.forEach(item =>{
           formData.append("ebookData",item )
         })
-        formData.append("allowShare", userInputs?.allowShare);
-        formData.append("allowDownload", userInputs?.allowDownload);
-        formData.append("allowPrint", userInputs?.allowPrint);
         formData.append("fileType", userInputs?.docintelFormat);
-        formData.append("product", userInputs?.product);
-        ebookFile?.forEach((item) => {
-          formData.append("ebookData", item);
-        });
-
         formData.append("coverPhoto", userInputs?.coverPhoto?.[0]);
         formData.append("chapter", JSON.stringify(chapter));
         formData.append(
