@@ -25,6 +25,8 @@ const LibraryCreateUser = () => {
   const [error, setError] = useState({});
   const [userInputs, setCreateLibraryInputs] = useState({
     expDatetime: "",
+    keyAuthor:"",
+    journalTitle:""
   });
   const [ebookFile, setEbookFile] = useState([]);
   const [chapter, setChapter] = useState([
@@ -84,7 +86,6 @@ const LibraryCreateUser = () => {
       value:key
     })
   })
-  console.log("-df",hadData?.data?.data)
     setUserDetail({"user":hadData?.data?.data?.user,"production":hadData?.data?.data?.production,country:country,
       sales:hadData?.data?.data?.sale,format:hadData?.data?.data?.format,category:category,ibu:hadData?.data?.data?.ibu
       ,"product":hadData?.data?.data?.product,"reseller":hadData?.data?.data?.reseller
@@ -118,6 +119,7 @@ const LibraryCreateUser = () => {
     } else {
       loader("show");
       let formData = new FormData();
+
       formData.append("expDatetime", userInputs?.expDatetime);
       formData.append("limit", userInputs?.limitOfUsage);
       formData.append("file", userInputs?.uploadFile?.[0]);
@@ -126,7 +128,7 @@ const LibraryCreateUser = () => {
       formData.append("country", userInputs?.country)
       formData.append("pdfSubTitle", userInputs?.journalTitle)
       formData.append("keyAuthor", userInputs?.keyAuthor)
-      formData.append("multiplePublisher", reseller)
+      formData.append("multiplePublisher",JSON.stringify(reseller))
       formData.append("allowShare", userInputs?.allowShare)
       formData.append("allowDownload", userInputs?.allowDownload)
       formData.append("allowPrint", userInputs?.allowPrint)
@@ -201,9 +203,8 @@ const LibraryCreateUser = () => {
     let newData = []
     if(e.target.checked){
        newData = reseller
-      newData.push(reseller?.id)
+      newData.push(data?.id)
     }else{
-      reseller.push(reseller?.id)
       newData =  reseller?.filter(item => item !=data?.id)
     }
     setReseller(newData)
@@ -292,14 +293,17 @@ const LibraryCreateUser = () => {
                 <div className="form-check-group">
                   <div className="form-check-group-inset">
                     {userDetail?.reseller?.length ? (
-                      userDetail?.reseller?.map((item, id) => {
+                      userDetail?.reseller?.map((item, index) => {
                         return (
-                          <div className="form-check">
+                          <div className="form-check" key={index}>
                             <input
                               className="form-check-input"
                               value=""
                               id="flexCheckDefault"
                               type="checkbox"
+                              defaultValue={reseller.includes(item?.id)}
+                              onClick={(e)=>handleReseller(e,item)}
+
                             />
                             <label
                               className="form-check-label"
@@ -322,71 +326,6 @@ const LibraryCreateUser = () => {
                         </div>
                         </>
                         )}
-            </div>
-            <div className="form-group">
-              <label htmlFor="">Production</label>
-              <Select
-                options={userDetail?.production}
-                onChange={(e)=>handleChange(e?.value,"production")}
-
-                placeholder="Select own production person"
-                className="dropdown-basic-button split-button-dropup edit-production-dropdown"
-                isClearable
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="">Sales</label>
-              <Select
-                options={userDetail?.sales}
-                placeholder="Who made the sale?"
-                onChange={(e)=>handleChange(e?.value,"sales")}
-                className="dropdown-basic-button split-button-dropup edit-sales-dropdown"
-                isClearable
-              />
-            </div>
-          </div>
-          <div className="col-12 col-md-6 d-flex justify-content-end align-items-end right-change">
-            <div className="form-group justify-content-end">
-              <label htmlFor="">Reseller</label>
-              <div className="form-check-group">
-                <div className="form-check-group-inset">
-                  {console.log("-dfdf",reseller)}
-                {
-                 
-                 userDetail?.reseller?.length?userDetail?.reseller?.map((item,index) =>{
-                    return (
-                      <div className="form-check" key={index}>
-                      <input
-                        className="form-check-input"
-                        value=""
-                        id="flexCheckDefault"
-                        type="checkbox"
-                        defaultChecked={reseller.includes(item?.id)}
-                        onClick={(e)=>handleReseller(e,item)}
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="flexCheckDefault"
-                      >
-                        {item?.value}
-                      </label>
-                    </div>
-                    )
-                  }):(
-                    <> 
-                      <div className="form-check">
-                      <label
-                        className="form-check-label"
-                        htmlFor="flexCheckReseller"
-                      >
-                        N/A
-                        </label>
-                        </div>
-                   </>
-                  )
-                }
-                </div>
-              </div>
             </div>
           </div>
         </div>
