@@ -382,6 +382,7 @@ const Sidebar = () => {
             window.location.pathname == "/preview-content" ||
             window.location.pathname == "/spc-edit" ||
             window.location.pathname == "/spc-view" ||
+            window.location.pathname == "/spc-render" ||
             window.location.pathname == "/spc-delete" ||
             window.location.pathname == "/spc-create" ||
             window.location.pathname == "/products" ||
@@ -480,6 +481,7 @@ const Sidebar = () => {
                     location.pathname == "/spc-create" ||
                     location.pathname == "/spc-edit" ||
                     location.pathname == "/spc-view" ||
+                    location.pathname == "/spc-render" ||
                     location.pathname == "/spc-delete") &&
                   c_id == 0
                     ? "active"
