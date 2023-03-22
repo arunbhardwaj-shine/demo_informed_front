@@ -1,23 +1,26 @@
-
-
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Select from "react-select";
-import { Link,useNavigate,useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
 import { createContent } from "../../CommonComponent/Validations";
 import { Button, Form, Dropdown, DropdownButton } from "react-bootstrap";
-import {postFormData,postData, getData,deleteFormData} from "../../../axios/apiHelper"
+import {
+  postFormData,
+  postData,
+  getData,
+  deleteFormData,
+} from "../../../axios/apiHelper";
 import { loader } from "../../../loader";
-import {ENDPOINT} from "../../../axios/apiConfig"
+import { ENDPOINT } from "../../../axios/apiConfig";
 import CommonModel from "../../../Model/CommonModel";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const EditLibrary = () => {
-    const { state } = useLocation();
+  const { state } = useLocation();
   const [counterFlag, setCounterFlag] = useState(0);
   const [show, setShow] = useState(false);
   const [commanShow, setCommanShow] = useState(false);
@@ -26,26 +29,27 @@ const EditLibrary = () => {
   const navigate = useNavigate();
   const [error, setError] = useState({});
   const [userInputs, setCreateLibraryInputs] = useState({
-     "expDatetime":"",
+    expDatetime: "",
   });
-  const [ebookFile,setEbookFile] = useState([])
-  const [libraryData,setLibraryData] = useState([])
+  const [ebookFile, setEbookFile] = useState([]);
+  const [libraryData, setLibraryData] = useState([]);
 
   const [chapter, setChapter] = useState([
     {
       chapterTitle: "",
       uploadFile: "",
-      fileValue:"",
+      fileValue: "",
     },
   ]);
-  const [userDetail,setUserDetail] = useState({
-    user:{},
-    production:[],
-    sales:[],
-    country:[],
-    format:[],
-    product:[]
-  })
+  const [userDetail, setUserDetail] = useState({
+    user: {},
+    production: [],
+    sales: [],
+    country: [],
+    format: [],
+    product: [],
+    costCenter: [],
+  });
 
   const product = [
     {
@@ -61,57 +65,61 @@ const EditLibrary = () => {
     { value: "ebook", label: "eBook" },
   ]);
 
-
   const [chapterSelect, setChapterSelect] = useState("");
   const [videoSelect, setVideoSelect] = useState("");
   const [uploadNewVideo, setUploadNewVideo] = useState(false);
   const [changeEmbeddedVideo, setChangeEmbeddedVideo] = useState("");
 
-
-  const initalFun = async() =>{
-    loader("show")
-   const hadData =  await postData(ENDPOINT.LIBRARYDETAIL,{
-      userId:18207
+  const initalFun = async () => {
+    loader("show");
+    const hadData = await postData(ENDPOINT.LIBRARYDETAIL, {
+      userId: 18207,
     });
 
-    let country = []
-     hadData?.data?.data?.country.reduce((objEntries, key) => {
+    let country = [];
+    hadData?.data?.data?.country.reduce((objEntries, key) => {
       country.push({
-        label:key,
-        value:key
-      })
-  })
-  let category = []
-  hadData?.data?.data?.category.reduce((objEntries, key) => {
-    category.push({
-      label:key,
-      value:key
-    })
-  })
-    setUserDetail({"user":hadData?.data?.data?.user,"production":hadData?.data?.data?.production,country:country,
-      sales:hadData?.data?.data?.sale,format:hadData?.data?.data?.format,category:category,ibu:hadData?.data?.data?.ibu
-      ,"product":hadData?.data?.data?.product,"reseller":hadData?.data?.data?.reseller
-    })
-    loader("hide")
-  }
-  const libraryDetail = async()=>{
-    try{
-        loader("show");
-        const hadData =  await getData(`${ENDPOINT.LIBRARY_DETAIL_BY_ID}/${state?.pdfid}`);
-         setCreateLibraryInputs(hadData?.data?.data?.pdfData)
-         setChapter(hadData?.data?.data?.ebookData)
-         loader("hide");
-
-
-    }catch(err){
-       console.log("-err",err)
+        label: key,
+        value: key,
+      });
+    });
+    let category = [];
+    hadData?.data?.data?.category.reduce((objEntries, key) => {
+      category.push({
+        label: key,
+        value: key,
+      });
+    });
+    setUserDetail({
+      user: hadData?.data?.data?.user,
+      production: hadData?.data?.data?.production,
+      country: country,
+      sales: hadData?.data?.data?.sale,
+      format: hadData?.data?.data?.format,
+      category: category,
+      ibu: hadData?.data?.data?.ibu,
+      product: hadData?.data?.data?.product,
+      reseller: hadData?.data?.data?.reseller,
+    });
+    loader("hide");
+  };
+  const libraryDetail = async () => {
+    try {
+      loader("show");
+      const hadData = await getData(
+        `${ENDPOINT.LIBRARY_DETAIL_BY_ID}/${state?.pdfid}`
+      );
+      setCreateLibraryInputs(hadData?.data?.data?.pdfData);
+      setChapter(hadData?.data?.data?.ebookData);
+      loader("hide");
+    } catch (err) {
+      console.log("-err", err);
     }
-  }
-  useEffect(()=>{
-    libraryDetail()
-    initalFun()
-   
-  },[])
+  };
+  useEffect(() => {
+    libraryDetail();
+    initalFun();
+  }, []);
   const handleChange = (e, isSelectedName) => {
     if (e?.target?.files?.length < 1) {
       return;
@@ -126,49 +134,55 @@ const EditLibrary = () => {
     });
   };
 
-  const nextButtonClicked = async(e) => {
+  const nextButtonClicked = async (e) => {
     e.preventDefault();
-    const err = createContent(userInputs,ebookFile);
+    // const err = createContent(userInputs, ebookFile);
 
-    if (Object.keys(err)?.length) {
-      setError(err);
-      return;
-    } else {
+    // if (Object.keys(err)?.length) {
+    //   setError(err);
+    //   return;
+    // }else{
+    try {
       loader("show");
       let formData = new FormData();
       formData.append("keyAuthor", userInputs?.keyAuthor);
       formData.append("expDatetime", userInputs?.expDatetime);
       formData.append("limit", userInputs?.limit);
       formData.append("file", userInputs?.uploadFile?.[0]);
-      formData.append("title", userInputs?.contentTitle)
-      formData.append("allowShare", JSON.stringify(userInputs?.allow_share))
-      formData.append("allowDownload", JSON.stringify(userInputs?.allow_download))
-      formData.append("allowPrint", JSON.stringify(userInputs?.allow_print))
-      formData.append("pdfId", state?.pdfid)
+      formData.append("title", userInputs?.contentTitle);
+      formData.append("allowShare", JSON.stringify(userInputs?.allow_share));
+      formData.append(
+        "allowDownload",
+        JSON.stringify(userInputs?.allow_download)
+      );
+      formData.append("allowPrint", JSON.stringify(userInputs?.allow_print));
+      formData.append("pdfId", state?.pdfid);
 
-      formData.append("country", userInputs?.country)
-      formData.append("company", userInputs?.company)
-      formData.append("journalTitle", userInputs?.journalTitle)
+      formData.append("country", userInputs?.country);
+      formData.append("company", userInputs?.company);
+      formData.append("journalTitle", userInputs?.journalTitle);
 
-      formData.append("fileType", userInputs?.docintelFormat)
-      formData.append("product", userInputs?.product)
+      formData.append("fileType", userInputs?.docintelFormat);
+      formData.append("product", userInputs?.product);
 
-      ebookFile?.forEach(item =>{
-       formData.append("ebookData",item )
-      })
+      ebookFile?.forEach((item) => {
+        formData.append("ebookData", item);
+      });
 
-      formData.append("coverPhoto",userInputs?.coverPhoto?.[0])
-      formData.append("chapter",JSON.stringify(chapter ))
-    //   formData.append("specialRequirment",userInputs?.specialRequirment?.target.value)
-      formData.append("createdBy", 18207)
-      
-      await postFormData(ENDPOINT.UPDATE_ARTICLE,formData,{
-        header:{
+      formData.append("coverPhoto", userInputs?.coverPhoto?.[0]);
+      formData.append("chapter", JSON.stringify(chapter));
+      //   formData.append("specialRequirment",userInputs?.specialRequirment?.target.value)
+      formData.append("createdBy", 18207);
+
+      await postFormData(ENDPOINT.UPDATE_ARTICLE, formData, {
+        header: {
           "Content-Type": "multipart/form-data",
-        }
+        },
       });
       loader("hide");
-    //   navigate("/set-popup")
+      navigate("/set-popup");
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -186,11 +200,11 @@ const EditLibrary = () => {
     }
   };
 
-  const deleteRecord = async(i,id) => {
-    if(id){
-     loader("show")
+  const deleteRecord = async (i, id) => {
+    if (id) {
+      loader("show");
       await deleteFormData(`${ENDPOINT.DELETE_PDF_FILE}/${id}`);
-     loader("hide")
+      loader("hide");
     }
     const list = chapter;
 
@@ -199,7 +213,7 @@ const EditLibrary = () => {
     setChapter(list);
     setCounterFlag(counterFlag + 1);
   };
- 
+
   const onChapterTitleChange = (e, i) => {
     const { value } = e.target;
     const list = [...chapter];
@@ -211,8 +225,8 @@ const EditLibrary = () => {
     const value = e.target.files[0]?.name;
     const list = [...chapter];
     list[i].uploadFile = value;
-    ebookFile[i] =   e.target.files[0];
-    setEbookFile(ebookFile)
+    ebookFile[i] = e.target.files[0];
+    setEbookFile(ebookFile);
     setChapter(list);
   };
 
@@ -234,189 +248,190 @@ const EditLibrary = () => {
     e.preventDefault();
     setCommanShow(true);
   };
-  const publisherFun = () =>{
+  const publisherFun = () => {
     return (
       <div className="create-change-content">
-      <div className="form_action">
-        <h4>Who is involved</h4>
-        <div className="row">
-          <div className="col-12 col-md-6">
-            <div className="form-group">
-              <label htmlFor="">Company</label>
-              <input
-                type="text"
-                className="form-control"
-                name = "company"
-                defaultValue={userInputs?.company}
-                onChange={handleChange}
-
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="">Country</label>
-              <Select
-                options={userDetail?.country||[]}
-                placeholder="Select country"
-                defaultValue={{label:userInputs
-                ?.country,value:userInputs?.country}}
-
-                onChange={(e)=>handleChange(e?.value,"country")}
-                className="dropdown-basic-button split-button-dropup"
-                isClearable
-              />
-            </div>
-            <div className="form-group margin-added">
-              <label htmlFor="">Client product</label>
+        <div className="form_action">
+          <h4>Who is involved</h4>
+          <div className="row">
+            <div className="col-12 col-md-6">
+              <div className="form-group">
+                <label htmlFor="">Company</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="company"
+                  defaultValue={userInputs?.company}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="">Country</label>
                 <Select
-                options={userDetail?.product}
-                defaultValue={{label:userInputs?.product,value:userInputs?.product}}
-                onChange={(e)=>handleChange(e?.value,"product")}
-
-                placeholder="Select own production person"
-                className="dropdown-basic-button split-button-dropup edit-production-dropdown"
-                isClearable
-              />
-              <div className="add_product">
-                          <span>&nbsp;</span>
-                          <Button
-                            onClick={addNewProductClicked}
-                            className="btn-bordered btn-voilet"
+                  options={userDetail?.country || []}
+                  placeholder="Select country"
+                  defaultValue={{
+                    label: userInputs?.country,
+                    value: userInputs?.country,
+                  }}
+                  onChange={(e) => handleChange(e?.value, "country")}
+                  className="dropdown-basic-button split-button-dropup"
+                  isClearable
+                />
+              </div>
+              <div className="form-group margin-added">
+                <label htmlFor="">Client product</label>
+                <Select
+                  options={userDetail?.product}
+                  defaultValue={{
+                    label: userInputs?.product,
+                    value: userInputs?.product,
+                  }}
+                  onChange={(e) => handleChange(e?.value, "product")}
+                  placeholder="Select own production person"
+                  className="dropdown-basic-button split-button-dropup edit-production-dropdown"
+                  isClearable
+                />
+                <div className="add_product">
+                  <span>&nbsp;</span>
+                  <Button
+                    onClick={addNewProductClicked}
+                    className="btn-bordered btn-voilet"
+                  >
+                    Add New Product +
+                  </Button>
+                </div>
+              </div>
+              <div className="form-group">
+                <label htmlFor="">Production</label>
+                <Select
+                  options={userDetail?.production}
+                  onChange={(e) => handleChange(e?.value, "production")}
+                  placeholder="Select own production person"
+                  className="dropdown-basic-button split-button-dropup edit-production-dropdown"
+                  isClearable
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="">Sales</label>
+                <Select
+                  options={userDetail?.sales}
+                  placeholder="Who made the sale?"
+                  onChange={(e) => handleChange(e?.value, "sales")}
+                  className="dropdown-basic-button split-button-dropup edit-sales-dropdown"
+                  isClearable
+                />
+              </div>
+            </div>
+            <div className="col-12 col-md-6 d-flex justify-content-end align-items-end right-change">
+              <div className="form-group justify-content-end">
+                <label htmlFor="">Reseller</label>
+                <div className="form-check-group">
+                  <div className="form-check-group-inset">
+                    {userDetail?.reseller?.length ? (
+                      userDetail?.reseller?.map((item) => {
+                        return (
+                          <div className="form-check">
+                            <input
+                              className="form-check-input"
+                              value=""
+                              id="flexCheckDefault"
+                              type="checkbox"
+                            />
+                            <label
+                              className="form-check-label"
+                              htmlFor="flexCheckDefault"
+                            >
+                              {item?.value}
+                            </label>
+                          </div>
+                        );
+                      })
+                    ) : (
+                      <>
+                        <div className="form-check">
+                          <input
+                            className="form-check-input"
+                            value=""
+                            id="flexCheckReseller"
+                            type="checkbox"
+                          />
+                          <label
+                            className="form-check-label"
+                            htmlFor="flexCheckReseller"
                           >
-                            Add New Product +
-                          </Button>
+                            N/A
+                          </label>
                         </div>
-            </div>
-            <div className="form-group">
-              <label htmlFor="">Production</label>
-              <Select
-                options={userDetail?.production}
-                onChange={(e)=>handleChange(e?.value,"production")}
-
-                placeholder="Select own production person"
-                className="dropdown-basic-button split-button-dropup edit-production-dropdown"
-                isClearable
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="">Sales</label>
-              <Select
-                options={userDetail?.sales}
-                placeholder="Who made the sale?"
-                onChange={(e)=>handleChange(e?.value,"sales")}
-                className="dropdown-basic-button split-button-dropup edit-sales-dropdown"
-                isClearable
-              />
-            </div>
-          </div>
-          <div className="col-12 col-md-6 d-flex justify-content-end align-items-end right-change">
-            <div className="form-group justify-content-end">
-              <label htmlFor="">Reseller</label>
-              <div className="form-check-group">
-                <div className="form-check-group-inset">
-                {
-                 
-                 userDetail?.reseller?.length?userDetail?.reseller?.map(item =>{
-                    return (
-                      <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        value=""
-                        id="flexCheckDefault"
-                        type="checkbox"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="flexCheckDefault"
-                      >
-                        {item?.value}
-                      </label>
-                    </div>
-                    )
-                  }):(
-                    <> 
-                      <div className="form-check">
-                        <input
-                        className="form-check-input"
-                        value=""
-                        id="flexCheckReseller"
-                        type="checkbox"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="flexCheckReseller"
-                      >
-                        N/A
-                        </label>
-                        </div>
-                   </>
-                  )
-                }
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    );
+  };
 
-    )
-  }
-
-  const docintelLink = () =>{
+  const docintelLink = () => {
     return (
-        <div className="create-change-content">
-      <div className="form_action">
-        <h4>About the Docintel link you're making</h4>
-        <div className="row">
-          <div className="col-12 col-md-6">
-            <div className="form-group">
-              <label htmlFor="">Category</label>
-              <Select
-                options={userDetail?.category}
-                placeholder="Select category type for HCPs to sort"
-                // onChange={(event) => onCountryChange(event)}
-                className="dropdown-basic-button split-button-dropup"
-                isClearable
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="">Format</label>
-              <Select
-                options={userDetail?.format}
-                placeholder="Select format for tracking"
-                // onChange={(event) => onCountryChange(event)}
-                className="dropdown-basic-button split-button-dropup"
-                isClearable
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="">Product</label>
-              <Select
-                options={userDetail?.product}
-                placeholder="Select the product this is for"
-                // onChange={(event) => onCountryChange(event)}
-                className="dropdown-basic-button split-button-dropup"
-                isClearable
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="">Business Unit</label>
-              <Select
-                options={userDetail?.ibu}
-                placeholder="Select Business Unit"
-                // onChange={(event) => onCountryChange(event)}
-                className="dropdown-basic-button split-button-dropup"
-                isClearable
-              />
-            </div>
-            <div className="form-group">
+      <div className="create-change-content">
+        <div className="form_action">
+          <h4>About the Docintel link you're making</h4>
+          <div className="row">
+            <div className="col-12 col-md-6">
+              <div className="form-group">
+                <label htmlFor="">Category</label>
+                <Select
+                  options={userDetail?.category}
+                  placeholder="Select category type for HCPs to sort"
+                  // onChange={(event) => onCountryChange(event)}
+                  className="dropdown-basic-button split-button-dropup"
+                  isClearable
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="">Format</label>
+                <Select
+                  options={userDetail?.format}
+                  placeholder="Select format for tracking"
+                  // onChange={(event) => onCountryChange(event)}
+                  className="dropdown-basic-button split-button-dropup"
+                  isClearable
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="">Product</label>
+                <Select
+                  options={userDetail?.product}
+                  placeholder="Select the product this is for"
+                  // onChange={(event) => onCountryChange(event)}
+                  className="dropdown-basic-button split-button-dropup"
+                  isClearable
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="">Business Unit</label>
+                <Select
+                  options={userDetail?.ibu}
+                  placeholder="Select Business Unit"
+                  // onChange={(event) => onCountryChange(event)}
+                  className="dropdown-basic-button split-button-dropup"
+                  isClearable
+                />
+              </div>
+              <div className="form-group">
                 <label htmlFor="">Content Use</label>
                 <fieldset id="group2">
                   <input
                     type="checkbox"
                     value="value1"
                     name="group2"
-                    onClick={(e)=>handleChange(e.target?.checked,"allowPrint")}
+                    onClick={(e) =>
+                      handleChange(e.target?.checked, "allowPrint")
+                    }
                     id="limitagreed1"
                   />
                   <label htmlFor="limitagreed1">One Source</label>
@@ -424,31 +439,65 @@ const EditLibrary = () => {
                     type="checkbox"
                     value="value2"
                     name="group2"
-                    onClick={(e)=>handleChange(e.target?.checked,"allowDownload")}
+                    onClick={(e) =>
+                      handleChange(e.target?.checked, "allowDownload")
+                    }
                     id="limitagreed2"
                   />
                   <label htmlFor="limitagreed2">Library</label>
                 </fieldset>
               </div>
-          </div>
-          <div className="col-12 col-md-6 d-flex justify-content-end align-items-start right-change">
-            <div className="form-group justify-content-end">
-                 <label htmlFor="">Topics</label>
-                 <div class="input-group w-100">
+            </div>
+            <div className="col-12 col-md-6 d-flex justify-content-end align-items-start right-change">
+              <div className="form-group justify-content-end">
+                <label htmlFor="">Topics</label>
+                <div class="input-group w-100">
                   <div class="input-group-prepend">
-                    <button class="btn btn-filled btn-primary" type="button" id="tags-add" data-bs-toggle="modal" data-bs-target="#tagsModal">Add Tag +</button>
+                    <button
+                      class="btn btn-filled btn-primary"
+                      type="button"
+                      id="tags-add"
+                      data-bs-toggle="modal"
+                      data-bs-target="#tagsModal"
+                    >
+                      Add Tag +
+                    </button>
                   </div>
                   <div class="tags_added">
                     <ul>
-                      <li class="list1">Excessive bleedings <img src="componentAssets/images/filter-close.svg" alt="Close-filter"/></li>
-                      <li class="list1">New tag 3 <img src="componentAssets/images/filter-close.svg" alt="Close-filter"/></li>
-                      <li class="list1">New tag 6 <img src="componentAssets/images/filter-close.svg" alt="Close-filter"/></li>
-                      <li class="list1">global <img src="componentAssets/images/filter-close.svg" alt="Close-filter"/></li>
-                 </ul>
-                 </div>
-                 </div>
-            </div>
-            {/* <div className="form-group justify-content-end">
+                      <li class="list1">
+                        Excessive bleedings{" "}
+                        <img
+                          src="componentAssets/images/filter-close.svg"
+                          alt="Close-filter"
+                        />
+                      </li>
+                      <li class="list1">
+                        New tag 3{" "}
+                        <img
+                          src="componentAssets/images/filter-close.svg"
+                          alt="Close-filter"
+                        />
+                      </li>
+                      <li class="list1">
+                        New tag 6{" "}
+                        <img
+                          src="componentAssets/images/filter-close.svg"
+                          alt="Close-filter"
+                        />
+                      </li>
+                      <li class="list1">
+                        global{" "}
+                        <img
+                          src="componentAssets/images/filter-close.svg"
+                          alt="Close-filter"
+                        />
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              {/* <div className="form-group justify-content-end">
               <label htmlFor="">Reseller</label>
               <div className="form-check-group">
                 <div className="form-check">
@@ -509,129 +558,143 @@ const EditLibrary = () => {
                 </div>
               </div>
             </div> */}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    );
+  };
 
-    )
-  }
+  const handleModelFun = (e) => {
+    setUserDetail({ ...userDetail, newValue: e.target.value });
+  };
+  const handleSubmitModelFun = async (e) => {
+    try {
+      let newAr = userDetail?.product;
+      newAr.push({ value: userDetail?.newValu, label: userDetail?.newValue });
+      let body = {
+        userId: 18207,
+        product: userDetail?.newValue,
+        category: 0,
+        type: 1,
+      };
+      const res = await postData(ENDPOINT.ADD_SPC_PRODUCT, body);
+      setUserDetail({ ...userDetail, product: newAr });
 
-  const handleModelFun = (e) =>{
-     setUserDetail({...userDetail,newValue:e.target.value})
-  }
-  const handleSubmitModelFun = async(e) =>{
-    try{
-    let newAr = userDetail?.product
-     newAr.push({value:userDetail?.newValu,label:userDetail?.newValue})
-    let body = {
-      "userId":18207,
-      "product":userDetail?.newValue,
-      "category":0,
-      "type":1
-    };
-    const res = await postData(ENDPOINT.ADD_SPC_PRODUCT,body);
-    setUserDetail({...userDetail,product:newAr})
-
-    toast.success(res?.data?.message);
-  }catch(err){
-    loader('hide');
-  }
-
- }
- const LimitAgreed = () =>{
-   return (
-    <div className="create-change-content">
-              <div className="form_action">
-                <h4>Limits agreed</h4>
-                <div className="row">
-                  <div className="col-12 col-md-6">
-                    <div className="form-group">
-                      <label htmlFor="">Cost centre</label>
-                      <Select
-                        className="dropdown-basic-button split-button-dropup"
-                        isClearable
-                        placeholder="Select cost center"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="">Expiration date</label>
-                      <DatePicker
-                        selected={userInputs?.expDatetime? new Date(userInputs?.expDatetime)
-                        :""}
-                        name="expDatetime"
-                        onChange={(e)=>handleChange(e,"expDatetime")}
-                        dateFormat="dd/MM/yyyy"
-                        className="form-control"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="">Set limit of usage</label>
-                      <input
-                        type="text"
-                        name="limit"
-                        defaultValue={userInputs?.limit}
-                        className="form-control"
-                        placeholder="“0” value means unlimited limit"
-                        onChange={handleChange}
-                      />
-                      {error?.limit ? (
-                        <div className="login-validation">
-                          {error?.limit}
-                        </div>
-                      ) : null}
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="">Enable</label>
-                      <fieldset id="group2">
-                        <input
-                          type="checkbox"
-                          value="value1"
-                          name="group2"
-                          defaultChecked={userInputs?.allow_print}
-                          onClick={(e)=>handleChange(e.target?.checked,"allow_print")}
-                          id="limitagreed1"
-                        />
-                        <label htmlFor="limitagreed1">Print</label>
-                        <input
-                          type="checkbox"
-                          value="value2"
-                          name="group2"
-                          defaultChecked={userInputs?.allow_download}
-                          onClick={(e)=>handleChange(e.target?.checked,"allow_download")}
-                          id="limitagreed2"
-                        />
-                        <label htmlFor="limitagreed2">Download</label>
-                        <input
-                          type="checkbox"
-                          value="value3"
-                          defaultChecked={libraryData?.allow_share}
-                          onClick={(e)=>handleChange(e.target?.checked,"allow_share")}
-                          name="group2"
-                          id="limitagreed3"
-                        />
-                        <label htmlFor="limitagreed3">Share</label>
-                      </fieldset>
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-6 d-flex justify-content-end align-items-start right-change">
-                    <div className="form-group justify-content-end">
-                      <label htmlFor="">Invoice notes</label>
-                      <textarea
-                        className="form-control"
-                        id="formControlTextarea"
-                        defaultValue={userInputs?.specialRequirment}
-                        onChange={(e)=>handleChange(e?.target.value,"specialRequirment")}
-                        rows="5"
-                        placeholder="Please type your notes here.."
-                      ></textarea>
-                    </div>
-                  </div>
+      toast.success(res?.data?.message);
+    } catch (err) {
+      loader("hide");
+    }
+  };
+  const LimitAgreed = () => {
+    return (
+      <div className="create-change-content">
+        <div className="form_action">
+          <h4>Limits agreed</h4>
+          <div className="row">
+            <div className="col-12 col-md-6">
+              {userDetail?.costCenter ? (
+                <div className="form-group">
+                  <label htmlFor="">Cost centre</label>
+                  <Select
+                    options={userDetail?.costCenter}
+                    className="dropdown-basic-button split-button-dropup"
+                    isClearable
+                    placeholder="Select cost center"
+                    onChange={(e) => handleChange(e, "costCenter")}
+                  />
                 </div>
+              ) : (
+                ""
+              )}
+
+              <div className="form-group">
+                <label htmlFor="">Expiration date</label>
+                <DatePicker
+                  selected={
+                    userInputs?.expDatetime
+                      ? new Date(userInputs?.expDatetime)
+                      : ""
+                  }
+                  name="expDatetime"
+                  onChange={(e) => handleChange(e, "expDatetime")}
+                  dateFormat="dd/MM/yyyy"
+                  className="form-control"
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="">Set limit of usage</label>
+                <input
+                  type="text"
+                  name="limit"
+                  defaultValue={userInputs?.limit}
+                  className="form-control"
+                  placeholder="“0” value means unlimited limit"
+                  onChange={handleChange}
+                />
+                {error?.limit ? (
+                  <div className="login-validation">{error?.limit}</div>
+                ) : null}
+              </div>
+              <div className="form-group">
+                <label htmlFor="">Enable</label>
+                <fieldset id="group2">
+                  <input
+                    type="checkbox"
+                    value="value1"
+                    name="group2"
+                    defaultChecked={userInputs?.allow_print}
+                    onClick={(e) =>
+                      handleChange(e.target?.checked, "allow_print")
+                    }
+                    id="limitagreed1"
+                  />
+                  <label htmlFor="limitagreed1">Print</label>
+                  <input
+                    type="checkbox"
+                    value="value2"
+                    name="group2"
+                    defaultChecked={userInputs?.allow_download}
+                    onClick={(e) =>
+                      handleChange(e.target?.checked, "allow_download")
+                    }
+                    id="limitagreed2"
+                  />
+                  <label htmlFor="limitagreed2">Download</label>
+                  <input
+                    type="checkbox"
+                    value="value3"
+                    defaultChecked={libraryData?.allow_share}
+                    onClick={(e) =>
+                      handleChange(e.target?.checked, "allow_share")
+                    }
+                    name="group2"
+                    id="limitagreed3"
+                  />
+                  <label htmlFor="limitagreed3">Share</label>
+                </fieldset>
               </div>
             </div>
-   )
- }
+            <div className="col-12 col-md-6 d-flex justify-content-end align-items-start right-change">
+              <div className="form-group justify-content-end">
+                <label htmlFor="">Invoice notes</label>
+                <textarea
+                  className="form-control"
+                  id="formControlTextarea"
+                  defaultValue={userInputs?.specialRequirment}
+                  onChange={(e) =>
+                    handleChange(e?.target.value, "specialRequirment")
+                  }
+                  rows="5"
+                  placeholder="Please type your notes here.."
+                ></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <>
@@ -676,12 +739,13 @@ const EditLibrary = () => {
                 </div>
               </div>
             </div>
-            {
-            userDetail?.user?.[0]?.group_id == 2?publisherFun():userDetail?.user?.[0]?.flag== 0 && userDetail?.user?.[0]?.group_id == 3? docintelLink():null
-            }
-            {
-              userDetail?.user?.[0]?.group_id == 2?LimitAgreed():null
-            }
+            {userDetail?.user?.[0]?.group_id == 2
+              ? publisherFun()
+              : userDetail?.user?.[0]?.flag == 0 &&
+                userDetail?.user?.[0]?.group_id == 3
+              ? docintelLink()
+              : null}
+            {userDetail?.user?.[0]?.group_id == 2 ? LimitAgreed() : null}
             <div className="create-change-content">
               <div className="form_action">
                 <h4>Creating the eprint</h4>
@@ -713,7 +777,7 @@ const EditLibrary = () => {
                         className="form-control"
                         onChange={(e) => handleChange(e)}
                       />
-                        {error?.journalTitle ? (
+                      {error?.journalTitle ? (
                         <div className="login-validation">
                           {error?.journalTitle}
                         </div>
@@ -726,10 +790,7 @@ const EditLibrary = () => {
                         name="keyAuthor"
                         defaultValue={userInputs?.keyAuthor}
                         className="form-control"
-                        onChange={
-                          handleChange
-                        }
-                        
+                        onChange={handleChange}
                       />
                     </div>
                     <div className="form-group val">
@@ -738,12 +799,12 @@ const EditLibrary = () => {
                         className="dropdown-basic-button split-button-dropup"
                         options={ePrintType}
                         defaultValue={
-                            userInputs?.docintelFormat === "pdf" ?
-                            ePrintType[0]
-                            : userInputs?.docintelFormat === "ebook" ?
-                            ePrintType[2]
-                            :
-                            ePrintType[1]
+                          // console.log("default", userInputs?.docintelFormat)
+                          userInputs?.docintelFormat === "pdf"
+                            ? ePrintType[0]
+                            : userInputs?.docintelFormat == "ebook"
+                            ? ePrintType[2]
+                            : ePrintType[1]
                         }
                         isClearable
                         placeholder="Select type of Docintel format "
@@ -787,8 +848,7 @@ const EditLibrary = () => {
                           </div>
                         ) : null}
                       </div>
-                    ) :
-                    userInputs?.docintelFormat == "video" ? (
+                    ) : userInputs?.docintelFormat == "video" ? (
                       <div className="form-group val">
                         <label htmlFor="">Upload video</label>
                         <div className="upload-file-box">
@@ -866,7 +926,7 @@ const EditLibrary = () => {
                                 {chapter.length > 1 ? (
                                   <Button
                                     className="dlt_btn"
-                                    onClick={() => deleteRecord(i,val?.id)}
+                                    onClick={() => deleteRecord(i, val?.id)}
                                   >
                                     <img
                                       src={path_image + "delete.svg"}
@@ -876,10 +936,10 @@ const EditLibrary = () => {
                                 ) : null}
                               </div>
                               {error?.ebookErr ? (
-                            <div className="login-validation-upload">
-                            {error?.ebookErr}
-                          </div>
-                        ) : null}
+                                <div className="login-validation-upload">
+                                  {error?.ebookErr}
+                                </div>
+                              ) : null}
                             </div>
                           </>
                         );

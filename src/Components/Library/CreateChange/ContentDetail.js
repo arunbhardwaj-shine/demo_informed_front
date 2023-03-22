@@ -8,6 +8,7 @@ import { ENDPOINT } from "../../../axios/apiConfig";
 const ContentDetail = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [libraryData, setLibraryData] = useState();
+  const [reRender, setReRender] = useState(0);
 
   useEffect(() => {
     getLibraryData();
@@ -30,6 +31,12 @@ const ContentDetail = () => {
       console.log("err");
       loader("hide");
     }
+  };
+
+  const removeTopic = (id) => {
+    const allTopics = libraryData?.topic;
+    allTopics.splice(id, 1);
+    setReRender(reRender + 1);
   };
 
   return (
@@ -61,7 +68,7 @@ const ContentDetail = () => {
                 ? libraryData.map((data, index) => {
                     return (
                       <>
-                        <div className="row">
+                        <div className="row" key={index}>
                           <div className="col-12">
                             <div className="verify-mail-box">
                               <div className="verify-email-detail">
@@ -92,23 +99,27 @@ const ContentDetail = () => {
                                       <h6>
                                         <strong>Topics | </strong>
                                         <ul>
-                                          <li className="list1">
-                                            <img
-                                              src={
-                                                path_image + "filter-close.svg"
-                                              }
-                                              alt="Close-filter"
-                                            />
-                                          </li>
-
-                                          <li className="list1">
-                                            <img
-                                              src={
-                                                path_image + "filter-close.svg"
-                                              }
-                                              alt="Close-filter"
-                                            />
-                                          </li>
+                                          {data?.topic
+                                            ? data?.topic?.map((topic, id) => {
+                                                return (
+                                                  <>
+                                                    <li className="list1">
+                                                      {topic.innerHTML || topic}{" "}
+                                                      <img
+                                                        src={
+                                                          path_image +
+                                                          "filter-close.svg"
+                                                        }
+                                                        alt="Close-filter"
+                                                        onClick={() =>
+                                                          removeTopic(id)
+                                                        }
+                                                      />
+                                                    </li>
+                                                  </>
+                                                );
+                                              })
+                                            : "N/A"}
                                         </ul>
                                       </h6>
                                       <h6>
@@ -278,8 +289,8 @@ const ContentDetail = () => {
                                                 <tr>
                                                   <th>ePrint type</th>
                                                   <td>
-                                                    {data?.eprint_type
-                                                      ? data?.eprint_type
+                                                    {data?.allow_print
+                                                      ? "Yes"
                                                       : "N/A"}
                                                   </td>
                                                 </tr>
