@@ -154,13 +154,16 @@ const LibraryCreateUser = () => {
       );
       formData.append("createdBy", 18207);
 
-      await postFormData(ENDPOINT.LIBRARYCREATE, formData, {
+      const res = await postFormData(ENDPOINT.LIBRARYCREATE, formData, {
         header: {
           "Content-Type": "multipart/form-data",
         },
       });
       loader("hide");
-      navigate("/set-popup");
+      // navigate("/set-popup");
+      navigate("/set-popup", {
+        state: { pdfId: res?.data?.data?.pdfId },
+      });
     }
   };
 
