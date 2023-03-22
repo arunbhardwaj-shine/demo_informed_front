@@ -16,6 +16,7 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LibraryCreateUser = () => {
   const [counterFlag, setCounterFlag] = useState(0);
+  const [reseller,setReseller] = useState([])
   const [show, setShow] = useState(false);
   const [commanShow, setCommanShow] = useState(false);
    const [id,setId] =  useState(18207)
@@ -50,11 +51,6 @@ const LibraryCreateUser = () => {
     },
   ];
 
-  const [countryAll, setCountryAll] = useState([
-    { value: "India", label: "India" },
-    { value: "Australia", label: "Australia" },
-    { value: "Russia", label: "Russia" },
-  ]);
 
   const [ePrintType, setePrintType] = useState([
     { value: "pdf", label: "PDF" },
@@ -131,8 +127,7 @@ const LibraryCreateUser = () => {
       formData.append("country", userInputs?.country)
       formData.append("pdfSubTitle", userInputs?.journalTitle)
       formData.append("keyAuthor", userInputs?.keyAuthor)
-
-      
+      formData.append("multiplePublisher", reseller)
       formData.append("allowShare", userInputs?.allowShare)
       formData.append("allowDownload", userInputs?.allowDownload)
       formData.append("allowPrint", userInputs?.allowPrint)
@@ -202,6 +197,19 @@ const LibraryCreateUser = () => {
   const onVideoSelect = (event) => {
     setVideoSelect(event);
   };
+
+  const handleReseller = (e,data)=>{
+    let newData = []
+    if(e.target.checked){
+       newData = reseller
+      newData.push(reseller?.id)
+    }else{
+      reseller.push(reseller?.id)
+      newData =  reseller?.filter(item => item !=data?.id)
+    }
+    setReseller(newData)
+
+  }
 
   const onUploadNewVideoClicked = () => {
     setUploadNewVideo(true);
@@ -287,16 +295,19 @@ const LibraryCreateUser = () => {
               <label htmlFor="">Reseller</label>
               <div className="form-check-group">
                 <div className="form-check-group-inset">
+                  {console.log("-dfdf",reseller)}
                 {
                  
-                 userDetail?.reseller?.length?userDetail?.reseller?.map(item =>{
+                 userDetail?.reseller?.length?userDetail?.reseller?.map((item,index) =>{
                     return (
-                      <div className="form-check">
+                      <div className="form-check" key={index}>
                       <input
                         className="form-check-input"
                         value=""
                         id="flexCheckDefault"
                         type="checkbox"
+                        defaultChecked={reseller.includes(item?.id)}
+                        onClick={(e)=>handleReseller(e,item)}
                       />
                       <label
                         className="form-check-label"
@@ -309,12 +320,6 @@ const LibraryCreateUser = () => {
                   }):(
                     <> 
                       <div className="form-check">
-                        <input
-                        className="form-check-input"
-                        value=""
-                        id="flexCheckReseller"
-                        type="checkbox"
-                      />
                       <label
                         className="form-check-label"
                         htmlFor="flexCheckReseller"
