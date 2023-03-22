@@ -5,9 +5,14 @@ import { Link } from "react-router-dom";
 import Select from "react-select";
 import CommonModel from "../../../Model/CommonModel";
 import { AddReaderValidation } from "../../Validations/ReaderValidation/AddReaderValidation";
+import { postData } from "../../../axios/apiHelper";
+import { ENDPOINT } from "../../../axios/apiConfig";
+import { loader } from "../../../loader";
+import { useNavigate } from "react-router-dom";
 
 const ReaderAdd = () => {
   const [commonShow, setCommonShow] = useState(false);
+  const navigate = useNavigate();
 
   const [countryAll, setCountryAll] = useState([
     { value: "India", label: "India" },
@@ -162,12 +167,43 @@ const ReaderAdd = () => {
 
   const nextButtonClicked = async (e) => {
     e.preventDefault();
-    console.log("inputs", userInputs);
 
     const result = AddReaderValidation(userInputs);
     if (Object.keys(result)?.length) {
       setError(result);
       return;
+    } else {
+      try {
+        loader("show");
+        let data = {
+          createdBy: 18207,
+          firstName: userInputs?.firstName,
+          middleName: userInputs?.middleName,
+          lastName: userInputs?.lastName,
+          email: userInputs?.email,
+          alternativeEmail: userInputs?.alternativeEmail,
+          countryCode: userInputs?.countryCode,
+          primary_phone: userInputs?.phoneNumber,
+          alternativePhone: userInputs?.alternativePhone,
+          country: userInputs?.country,
+          province: userInputs?.province,
+          hospital: userInputs?.hospital,
+          title: userInputs?.title,
+          speciality: userInputs?.speciality,
+          discipline: userInputs?.discipline,
+          product: userInputs?.product,
+          interestArea: userInputs?.interestArea,
+          repContact: userInputs?.repContact,
+          notes: userInputs?.notes,
+        };
+        console.log("data", data);
+        await postData(ENDPOINT.READER_CREATE, data);
+        loader("hide");
+        navigate("/readers-view");
+      } catch (err) {
+        console.log(err);
+        loader("hide");
+      }
     }
   };
 
@@ -288,9 +324,15 @@ const ReaderAdd = () => {
                         className="dropdown-basic-button split-button-dropup"
                         isClearable
                         placeholder=""
-                        name="phoneNumber"
                         onChange={(e) => handleChange(e?.value, "countryCode")}
                       />
+                      {error?.countryCode ? (
+                        <div className="login-validation">
+                          {error?.countryCode}
+                        </div>
+                      ) : (
+                        ""
+                      )}
                       <input
                         type="number"
                         className="form-control"
@@ -335,10 +377,10 @@ const ReaderAdd = () => {
                       <Select
                         options={countryAll}
                         placeholder="Select province"
-                        name="provience"
+                        // name="provience"
                         className="dropdown-basic-button split-button-dropup"
                         isClearable
-                        onChange={(e) => handleChange(e?.value, "provience")}
+                        onChange={(e) => handleChange(e?.value, "province")}
                       />
                     </div>
                     <div className="form-group">
@@ -346,7 +388,6 @@ const ReaderAdd = () => {
                       <Select
                         options={countryAll}
                         placeholder="Select hospital"
-                        name="hospital"
                         className="dropdown-basic-button split-button-dropup"
                         isClearable
                         onChange={(e) => handleChange(e?.value, "hospital")}
@@ -366,7 +407,7 @@ const ReaderAdd = () => {
                       <Select
                         options={userDetail?.speciality}
                         placeholder="Select speciality"
-                        name="speciality"
+                        // name="speciality"
                         className="dropdown-basic-button split-button-dropup"
                         isClearable
                         onChange={(e) => handleChange(e?.value, "speciality")}
@@ -386,7 +427,7 @@ const ReaderAdd = () => {
                       <Select
                         options={userDetail?.discipline}
                         placeholder="Select discipline"
-                        name="discipline"
+                        // name="discipline"
                         className="dropdown-basic-button split-button-dropup"
                         isClearable
                         onChange={(e) => handleChange(e?.value, "discipline")}
@@ -406,7 +447,7 @@ const ReaderAdd = () => {
                       <Select
                         options={userDetail?.product}
                         placeholder="Select product"
-                        name="product"
+                        // name="product"
                         className="dropdown-basic-button split-button-dropup"
                         isClearable
                         onChange={(e) => handleChange(e?.value, "product")}
@@ -426,7 +467,7 @@ const ReaderAdd = () => {
                       <Select
                         options={productionAll}
                         placeholder="Select interest area"
-                        name="interestArea"
+                        // name="interestArea"
                         className="dropdown-basic-button split-button-dropup"
                         isClearable
                         onChange={(e) => handleChange(e?.value, "interestArea")}
