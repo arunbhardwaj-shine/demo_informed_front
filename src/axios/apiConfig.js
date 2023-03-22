@@ -28,4 +28,5 @@ export const ENDPOINT = {
   UPDATE_ARTICLE: `/library/update-article`,
   DELETE_PDF_FILE: `/library//delete-pdf-file`,
   UPDATE_PDF_FILE: `/library/update-pdf`,
+  READER_CREATE: `/reader/create-reader`,
 };
