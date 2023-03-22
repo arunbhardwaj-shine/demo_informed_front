@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import Select from "react-select";
 import CommonModel from "../../../Model/CommonModel";
 import { AddReaderValidation } from "../../Validations/ReaderValidation/AddReaderValidation";
-import { postData } from "../../../axios/apiHelper";
+import { postData, postFormData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { loader } from "../../../loader";
 import { useNavigate } from "react-router-dom";
@@ -165,6 +165,17 @@ const ReaderAdd = () => {
     });
   };
 
+  const handleFileUpload = async (e) => {
+    loader("show");
+    let formData = new FormData();
+    formData.append("file", e.target.files[0]);
+    formData.append("createdBy", 18207);
+    await postFormData(ENDPOINT.UPLOAD_READER_FILE, formData, {
+      header: { "Content-Type": "multipart/form-data" },
+    });
+    loader("hide");
+  };
+
   const nextButtonClicked = async (e) => {
     e.preventDefault();
 
@@ -182,7 +193,7 @@ const ReaderAdd = () => {
           lastName: userInputs?.lastName,
           email: userInputs?.email,
           alternativeEmail: userInputs?.alternativeEmail,
-          countryCode: userInputs?.countryCode,
+          // countryCode: userInputs?.countryCode,
           primary_phone: userInputs?.phoneNumber,
           alternativePhone: userInputs?.alternativePhone,
           country: userInputs?.country,
@@ -190,11 +201,15 @@ const ReaderAdd = () => {
           hospital: userInputs?.hospital,
           title: userInputs?.title,
           speciality: userInputs?.speciality,
-          discipline: userInputs?.discipline,
+          Discipline: userInputs?.discipline,
           product: userInputs?.product,
           interestArea: userInputs?.interestArea,
           repContact: userInputs?.repContact,
           notes: userInputs?.notes,
+          siteNumber: "",
+          Blind: "",
+          siteName: "",
+          irt: "",
         };
         console.log("data", data);
         await postData(ENDPOINT.READER_CREATE, data);
@@ -251,6 +266,14 @@ const ReaderAdd = () => {
               <div className="form_action">
                 <div className="create-reader-form-header">
                   <h4>Please fill the following details</h4>
+                  <input
+                    type="file"
+                    name="file-6[]"
+                    id="file-6"
+                    // className="inputfile inputfile-6"
+                    // accept="application/pdf"
+                    onChange={handleFileUpload}
+                  />
                   <Button className="btn-bordered" type="file">
                     Upload Excel File
                   </Button>
