@@ -141,9 +141,9 @@ const EditLibrary = () => {
       formData.append("limit", userInputs?.limit);
       formData.append("file", userInputs?.uploadFile?.[0]);
       formData.append("title", userInputs?.contentTitle)
-      formData.append("allowShare", userInputs?.allowShare)
-      formData.append("allowDownload", userInputs?.allowDownload)
-      formData.append("allowPrint", userInputs?.allowPrint)
+      formData.append("allowShare", JSON.stringify(userInputs?.allow_share))
+      formData.append("allowDownload", JSON.stringify(userInputs?.allow_download))
+      formData.append("allowPrint", JSON.stringify(userInputs?.allow_print))
       formData.append("pdfId", state?.pdfid)
 
       formData.append("country", userInputs?.country)
@@ -589,7 +589,7 @@ const EditLibrary = () => {
                           value="value1"
                           name="group2"
                           defaultChecked={userInputs?.allow_print}
-                          onClick={(e)=>handleChange(e.target?.checked,"allowPrint")}
+                          onClick={(e)=>handleChange(e.target?.checked,"allow_print")}
                           id="limitagreed1"
                         />
                         <label htmlFor="limitagreed1">Print</label>
@@ -598,7 +598,7 @@ const EditLibrary = () => {
                           value="value2"
                           name="group2"
                           defaultChecked={userInputs?.allow_download}
-                          onClick={(e)=>handleChange(e.target?.checked,"allowDownload")}
+                          onClick={(e)=>handleChange(e.target?.checked,"allow_download")}
                           id="limitagreed2"
                         />
                         <label htmlFor="limitagreed2">Download</label>
@@ -606,7 +606,7 @@ const EditLibrary = () => {
                           type="checkbox"
                           value="value3"
                           defaultChecked={libraryData?.allow_share}
-                          onClick={(e)=>handleChange(e.target?.checked,"allowShare")}
+                          onClick={(e)=>handleChange(e.target?.checked,"allow_share")}
                           name="group2"
                           id="limitagreed3"
                         />
