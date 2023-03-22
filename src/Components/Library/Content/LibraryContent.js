@@ -558,7 +558,6 @@ const LibraryContent = () => {
       let temp_tags = tagClickedFirst.map((data) => {
         return data.toLowerCase();
       });
-      //  console.log(allTags)
       let alltemp_tags = [];
       Object.entries(allTags).map((data) => {
         return alltemp_tags.push(...data);
@@ -577,7 +576,6 @@ const LibraryContent = () => {
           user_id: localStorage.getItem("user_id"),
           tags: newTag,
         };
-        //console.log(body);
       } else {
         toast.error("Tag already in list.");
       }

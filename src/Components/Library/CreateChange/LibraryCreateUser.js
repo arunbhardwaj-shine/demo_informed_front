@@ -16,9 +16,10 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LibraryCreateUser = () => {
   const [counterFlag, setCounterFlag] = useState(0);
+  const [reseller,setReseller] = useState([])
   const [show, setShow] = useState(false);
   const [commanShow, setCommanShow] = useState(false);
-
+   const [id,setId] =  useState(18207)
   const handleClose = () => setShow(false);
   const navigate = useNavigate();
   const [error, setError] = useState({});
@@ -50,11 +51,6 @@ const LibraryCreateUser = () => {
     },
   ];
 
-  const [countryAll, setCountryAll] = useState([
-    { value: "India", label: "India" },
-    { value: "Australia", label: "Australia" },
-    { value: "Russia", label: "Russia" },
-  ]);
 
   const [ePrintType, setePrintType] = useState([
     { value: "pdf", label: "PDF" },
@@ -67,42 +63,37 @@ const LibraryCreateUser = () => {
   const [uploadNewVideo, setUploadNewVideo] = useState(false);
   const [changeEmbeddedVideo, setChangeEmbeddedVideo] = useState("");
 
-  const initalFun = async () => {
-    loader("show");
-    const hadData = await postData(ENDPOINT.LIBRARYDETAIL, {
-      userId: 18207,
+
+  const initalFun = async() =>{
+    loader("show")
+   const hadData =  await postData(ENDPOINT.LIBRARYDETAIL,{
+      userId:id
     });
 
     let country = [];
     hadData?.data?.data?.country.reduce((objEntries, key) => {
       country.push({
-        label: key,
-        value: key,
-      });
-    });
-    let category = [];
-    hadData?.data?.data?.category.reduce((objEntries, key) => {
-      category.push({
-        label: key,
-        value: key,
-      });
-    });
-    setUserDetail({
-      user: hadData?.data?.data?.user,
-      production: hadData?.data?.data?.production,
-      country: country,
-      sales: hadData?.data?.data?.sale,
-      format: hadData?.data?.data?.format,
-      category: category,
-      ibu: hadData?.data?.data?.ibu,
-      product: hadData?.data?.data?.product,
-      reseller: hadData?.data?.data?.reseller,
-    });
-    loader("hide");
-  };
-  useEffect(() => {
-    initalFun();
-  }, []);
+        label:key,
+        value:key
+      })
+  })
+  let category = []
+  hadData?.data?.data?.category.reduce((objEntries, key) => {
+    category.push({
+      label:key,
+      value:key
+    })
+  })
+  console.log("-df",hadData?.data?.data)
+    setUserDetail({"user":hadData?.data?.data?.user,"production":hadData?.data?.data?.production,country:country,
+      sales:hadData?.data?.data?.sale,format:hadData?.data?.data?.format,category:category,ibu:hadData?.data?.data?.ibu
+      ,"product":hadData?.data?.data?.product,"reseller":hadData?.data?.data?.reseller
+    })
+    loader("hide")
+  }
+  useEffect(()=>{
+    initalFun()
+  },[])
   const handleChange = (e, isSelectedName) => {
     if (e?.target?.files?.length < 1) {
       return;
@@ -127,35 +118,31 @@ const LibraryCreateUser = () => {
     } else {
       loader("show");
       let formData = new FormData();
-      formData.append("keyAuthor", userInputs?.keyAuthor);
       formData.append("expDatetime", userInputs?.expDatetime);
       formData.append("limit", userInputs?.limitOfUsage);
       formData.append("file", userInputs?.uploadFile?.[0]);
-      formData.append("title", userInputs?.contentTitle);
-      formData.append("company", userInputs?.company);
-      formData.append("country", userInputs?.country);
-      formData.append("pdfSubTitle", userInputs?.journalTitle);
-      formData.append("keyAuthor", userInputs?.keyAuthor);
+      formData.append("title", userInputs?.contentTitle)
+      formData.append("company", userInputs?.company)
+      formData.append("country", userInputs?.country)
+      formData.append("pdfSubTitle", userInputs?.journalTitle)
+      formData.append("keyAuthor", userInputs?.keyAuthor)
+      formData.append("multiplePublisher", reseller)
+      formData.append("allowShare", userInputs?.allowShare)
+      formData.append("allowDownload", userInputs?.allowDownload)
+      formData.append("allowPrint", userInputs?.allowPrint)
+      formData.append("fileType", userInputs?.docintelFormat)
+      formData.append("product", userInputs?.product)
+      ebookFile?.forEach(item =>{
+       formData.append("ebookData",item )
+      })
 
-      formData.append("allowShare", userInputs?.allowShare);
-      formData.append("allowDownload", userInputs?.allowDownload);
-      formData.append("allowPrint", userInputs?.allowPrint);
-      formData.append("fileType", userInputs?.docintelFormat);
-      formData.append("product", userInputs?.product);
-      ebookFile?.forEach((item) => {
-        formData.append("ebookData", item);
-      });
-
-      formData.append("coverPhoto", userInputs?.coverPhoto?.[0]);
-      formData.append("chapter", JSON.stringify(chapter));
-      formData.append(
-        "specialRequirment",
-        userInputs?.specialRequirment?.target.value
-      );
-      formData.append("createdBy", 18207);
-
-      await postFormData(ENDPOINT.LIBRARYCREATE, formData, {
-        header: {
+      formData.append("coverPhoto",userInputs?.coverPhoto?.[0])
+      formData.append("chapter",JSON.stringify(chapter ))
+      formData.append("specialRequirment",userInputs?.specialRequirment?.target.value)
+      formData.append("createdBy", id)
+      
+      await postFormData(ENDPOINT.LIBRARYCREATE,formData,{
+        header:{
           "Content-Type": "multipart/form-data",
         },
       });
@@ -209,6 +196,19 @@ const LibraryCreateUser = () => {
   const onVideoSelect = (event) => {
     setVideoSelect(event);
   };
+
+  const handleReseller = (e,data)=>{
+    let newData = []
+    if(e.target.checked){
+       newData = reseller
+      newData.push(reseller?.id)
+    }else{
+      reseller.push(reseller?.id)
+      newData =  reseller?.filter(item => item !=data?.id)
+    }
+    setReseller(newData)
+
+  }
 
   const onUploadNewVideoClicked = () => {
     setUploadNewVideo(true);
@@ -320,14 +320,79 @@ const LibraryCreateUser = () => {
                             N/A
                           </label>
                         </div>
-                      </>
-                    )}
-                  </div>
+                        </>
+                        )}
+            </div>
+            <div className="form-group">
+              <label htmlFor="">Production</label>
+              <Select
+                options={userDetail?.production}
+                onChange={(e)=>handleChange(e?.value,"production")}
+
+                placeholder="Select own production person"
+                className="dropdown-basic-button split-button-dropup edit-production-dropdown"
+                isClearable
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="">Sales</label>
+              <Select
+                options={userDetail?.sales}
+                placeholder="Who made the sale?"
+                onChange={(e)=>handleChange(e?.value,"sales")}
+                className="dropdown-basic-button split-button-dropup edit-sales-dropdown"
+                isClearable
+              />
+            </div>
+          </div>
+          <div className="col-12 col-md-6 d-flex justify-content-end align-items-end right-change">
+            <div className="form-group justify-content-end">
+              <label htmlFor="">Reseller</label>
+              <div className="form-check-group">
+                <div className="form-check-group-inset">
+                  {console.log("-dfdf",reseller)}
+                {
+                 
+                 userDetail?.reseller?.length?userDetail?.reseller?.map((item,index) =>{
+                    return (
+                      <div className="form-check" key={index}>
+                      <input
+                        className="form-check-input"
+                        value=""
+                        id="flexCheckDefault"
+                        type="checkbox"
+                        defaultChecked={reseller.includes(item?.id)}
+                        onClick={(e)=>handleReseller(e,item)}
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="flexCheckDefault"
+                      >
+                        {item?.value}
+                      </label>
+                    </div>
+                    )
+                  }):(
+                    <> 
+                      <div className="form-check">
+                      <label
+                        className="form-check-label"
+                        htmlFor="flexCheckReseller"
+                      >
+                        N/A
+                        </label>
+                        </div>
+                   </>
+                  )
+                }
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
+      </div>
+      </div>
       </div>
     );
   };
@@ -537,103 +602,100 @@ const LibraryCreateUser = () => {
       };
       const res = await postData(ENDPOINT.ADD_SPC_PRODUCT, body);
       setUserDetail({ ...userDetail, product: newAr });
-
-      toast.success(res?.data?.message);
-    } catch (err) {
-      loader("hide");
+    }catch(err){
+      console.log("err",err)
     }
-  };
-  const LimitAgreed = () => {
-    return (
-      <div className="create-change-content">
-        <div className="form_action">
-          <h4>Limits agreed</h4>
-          <div className="row">
-            <div className="col-12 col-md-6">
-              <div className="form-group">
-                <label htmlFor="">Cost centre</label>
-                <Select
-                  className="dropdown-basic-button split-button-dropup"
-                  isClearable
-                  placeholder="Select cost center"
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="">Expiration date</label>
-                <DatePicker
-                  selected={userInputs?.expDatetime}
-                  name="expDatetime"
-                  onChange={(e) => handleChange(e, "expDatetime")}
-                  dateFormat="dd/MM/yyyy"
-                  className="form-control"
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="">Set limit of usage</label>
-                <input
-                  type="text"
-                  name="limitOfUsage"
-                  className="form-control"
-                  placeholder="“0” value means unlimited limit"
-                  onChange={handleChange}
-                />
-                {error?.limitOfUsage ? (
-                  <div className="login-validation">{error?.limitOfUsage}</div>
-                ) : null}
-              </div>
-              <div className="form-group">
-                <label htmlFor="">Enable</label>
-                <fieldset id="group2">
-                  <input
-                    type="checkbox"
-                    value="value1"
-                    name="group2"
-                    onClick={(e) =>
-                      handleChange(e.target?.checked, "allowPrint")
-                    }
-                    id="limitagreed1"
-                  />
-                  <label htmlFor="limitagreed1">Print</label>
-                  <input
-                    type="checkbox"
-                    value="value2"
-                    name="group2"
-                    onClick={(e) =>
-                      handleChange(e.target?.checked, "allowDownload")
-                    }
-                    id="limitagreed2"
-                  />
-                  <label htmlFor="limitagreed2">Download</label>
-                  <input
-                    type="checkbox"
-                    value="value3"
-                    onClick={(e) =>
-                      handleChange(e.target?.checked, "allowShare")
-                    }
-                    name="group2"
-                    id="limitagreed3"
-                  />
-                  <label htmlFor="limitagreed3">Share</label>
-                </fieldset>
-              </div>
-            </div>
-            <div className="col-12 col-md-6 d-flex justify-content-end align-items-start right-change">
-              <div className="form-group justify-content-end">
-                <label htmlFor="">Invoice notes</label>
-                <textarea
-                  className="form-control"
-                  id="formControlTextarea"
-                  onChange={(e) => handleChange(e, "specialRequirment")}
-                  rows="5"
-                  placeholder="Please type your notes here.."
-                ></textarea>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
+
+  }
+
+ const LimitAgreed = () =>{
+  return (
+   <div className="create-change-content">
+             <div className="form_action">
+               <h4>Limits agreed</h4>
+               <div className="row">
+                 <div className="col-12 col-md-6">
+                   <div className="form-group">
+                     <label htmlFor="">Cost centre</label>
+                     <Select
+                       className="dropdown-basic-button split-button-dropup"
+                       isClearable
+                       placeholder="Select cost center"
+                     />
+                   </div>
+                   <div className="form-group">
+                     <label htmlFor="">Expiration date</label>
+                     <DatePicker
+                       selected={userInputs?.expDatetime}
+                       name="expDatetime"
+                       onChange={(e)=>handleChange(e,"expDatetime")}
+                       dateFormat="dd/MM/yyyy"
+                       className="form-control"
+                     />
+                   </div>
+                   <div className="form-group">
+                     <label htmlFor="">Set limit of usage</label>
+                     <input
+                       type="text"
+                       name="limitOfUsage"
+                       className="form-control"
+                       placeholder="“0” value means unlimited limit"
+                       onChange={handleChange}
+                     />
+                     {error?.limitOfUsage ? (
+                       <div className="login-validation">
+                         {error?.limitOfUsage}
+                       </div>
+                     ) : null}
+                   </div>
+                   <div className="form-group">
+                     <label htmlFor="">Enable</label>
+                     <fieldset id="group2">
+                       <input
+                         type="checkbox"
+                         value="value1"
+                         name="group2"
+                         onClick={(e)=>handleChange(e.target?.checked,"allowPrint")}
+                         id="limitagreed1"
+                       />
+                       <label htmlFor="limitagreed1">Print</label>
+                       <input
+                         type="checkbox"
+                         value="value2"
+                         name="group2"
+                         onClick={(e)=>handleChange(e.target?.checked,"allowDownload")}
+                         id="limitagreed2"
+                       />
+                       <label htmlFor="limitagreed2">Download</label>
+                       <input
+                         type="checkbox"
+                         value="value3"
+                         onClick={(e)=>handleChange(e.target?.checked,"allowShare")}
+                         name="group2"
+                         id="limitagreed3"
+                       />
+                       <label htmlFor="limitagreed3">Share</label>
+                     </fieldset>
+                   </div>
+                 </div>
+                 <div className="col-12 col-md-6 d-flex justify-content-end align-items-start right-change">
+                   <div className="form-group justify-content-end">
+                     <label htmlFor="">Invoice notes</label>
+                     <textarea
+                       className="form-control"
+                       id="formControlTextarea"
+                       onChange={(e)=>handleChange(e,"specialRequirment")}
+                       rows="5"
+                       placeholder="Please type your notes here.."
+                     ></textarea>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+  )
+}
+
 
   return (
     <>
