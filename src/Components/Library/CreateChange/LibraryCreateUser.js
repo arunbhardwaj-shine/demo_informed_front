@@ -118,52 +118,55 @@ const LibraryCreateUser = () => {
       return;
     } else {
       loader("show");
-      let formData = new FormData();
+      try{
+        let formData = new FormData();
 
-      formData.append("expDatetime", userInputs?.expDatetime);
-      formData.append("limit", userInputs?.limitOfUsage);
-      formData.append("file", userInputs?.uploadFile?.[0]);
-      formData.append("title", userInputs?.contentTitle)
-      formData.append("company", userInputs?.company)
-      formData.append("country", userInputs?.country)
-      formData.append("pdfSubTitle", userInputs?.journalTitle)
-      formData.append("keyAuthor", userInputs?.keyAuthor)
-      formData.append("multiplePublisher",JSON.stringify(reseller))
-      formData.append("allowShare", userInputs?.allowShare)
-      formData.append("allowDownload", userInputs?.allowDownload)
-      formData.append("allowPrint", userInputs?.allowPrint)
-      formData.append("fileType", userInputs?.docintelFormat)
-      formData.append("product", userInputs?.product)
-      ebookFile?.forEach(item =>{
-       formData.append("ebookData",item )
-      })
-      formData.append("allowShare", userInputs?.allowShare);
-      formData.append("allowDownload", userInputs?.allowDownload);
-      formData.append("allowPrint", userInputs?.allowPrint);
-      formData.append("fileType", userInputs?.docintelFormat);
-      formData.append("product", userInputs?.product);
-      ebookFile?.forEach((item) => {
-        formData.append("ebookData", item);
-      });
+        formData.append("expDatetime", userInputs?.expDatetime);
+        formData.append("limit", userInputs?.limitOfUsage);
+        formData.append("file", userInputs?.uploadFile?.[0]);
+        formData.append("title", userInputs?.contentTitle)
+        formData.append("company", userInputs?.company)
+        formData.append("country", userInputs?.country)
+        formData.append("pdfSubTitle", userInputs?.journalTitle)
+        formData.append("keyAuthor", userInputs?.keyAuthor)
+        formData.append("multiplePublisher",JSON.stringify(reseller))
+        formData.append("allowShare", userInputs?.allowShare)
+        formData.append("allowDownload", userInputs?.allowDownload)
+        formData.append("allowPrint", userInputs?.allowPrint)
+        formData.append("product", userInputs?.product)
+        ebookFile?.forEach(item =>{
+          formData.append("ebookData",item )
+        })
+        formData.append("allowShare", userInputs?.allowShare);
+        formData.append("allowDownload", userInputs?.allowDownload);
+        formData.append("allowPrint", userInputs?.allowPrint);
+        formData.append("fileType", userInputs?.docintelFormat);
+        formData.append("product", userInputs?.product);
+        ebookFile?.forEach((item) => {
+          formData.append("ebookData", item);
+        });
 
-      formData.append("coverPhoto", userInputs?.coverPhoto?.[0]);
-      formData.append("chapter", JSON.stringify(chapter));
-      formData.append(
-        "specialRequirment",
-        userInputs?.specialRequirment?.target.value
-      );
-      formData.append("createdBy", 18207);
+        formData.append("coverPhoto", userInputs?.coverPhoto?.[0]);
+        formData.append("chapter", JSON.stringify(chapter));
+        formData.append(
+          "specialRequirment",
+          userInputs?.specialRequirment?.target.value
+        );
+        formData.append("createdBy", 18207);
 
-      const res = await postFormData(ENDPOINT.LIBRARYCREATE, formData, {
-        header:{
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      loader("hide");
-      // navigate("/set-popup");
-      navigate("/set-popup", {
-        state: { pdfId: res?.data?.data?.pdfId },
-      });
+        const res = await postFormData(ENDPOINT.LIBRARYCREATE, formData, {
+          header:{
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        loader("hide");
+        // navigate("/set-popup");
+        navigate("/set-popup", {
+          state: { pdfId: res?.data?.data?.pdfId },
+        });
+      }catch(err){
+        loader("hide");
+      }
     }
   };
 
