@@ -86,6 +86,7 @@ const LibraryContent = () => {
   const [qrState, setQr] = useState({
     value: "",
   });
+  const [qrSize, setQrSize] = useState(290);
 
   const [isOpen, setIsOpen] = useState(false);
   const [modalCounter, setModalCounter] = useState(0);
@@ -261,6 +262,12 @@ const LibraryContent = () => {
     setShowFilter(false);
   };
   const handleQR = (e) => {
+    if (e == "H") {
+      setQrSize(390);
+    }
+    if (e == "L") {
+      setQrSize(490);
+    }
     setQr({ ...qrState, level: e });
   };
 
@@ -876,7 +883,7 @@ const LibraryContent = () => {
               style={{ display: "none" }}
               id="qr-gen"
               value={qrState?.value}
-              size={290}
+              size={qrSize}
               level={qrState?.level}
               includeMargin={true}
             />
@@ -1442,7 +1449,7 @@ const LibraryContent = () => {
                                         state={{ pdfid: data.id }}
                                         className="footer-btn"
                                       >
-                                          Edit Docintel Link
+                                        Edit Docintel Link
                                       </Link>
                                       <Button
                                         className="footer-btn"
@@ -1596,16 +1603,14 @@ const LibraryContent = () => {
         handleQR={handleQR}
       />
 
-     
-        <CommonConfirmModel
-          show={confirmationpopup}
-          onClose={hideConfirmationModal}
-          fun={commonConfirmModelFun}
-          popupMessage={popupMessage}
-          path_image={path_image}
-          resetDataId={resetDataId}
-        />
-    
+      <CommonConfirmModel
+        show={confirmationpopup}
+        onClose={hideConfirmationModal}
+        fun={commonConfirmModelFun}
+        popupMessage={popupMessage}
+        path_image={path_image}
+        resetDataId={resetDataId}
+      />
 
       <Modal id="tagsModal" show={isOpen}>
         <Modal.Header>
@@ -1630,7 +1635,7 @@ const LibraryContent = () => {
                     <>
                       <div onClick={(event) => tagClicked(data)}>{data} </div>
                     </>
-                  )
+                  );
                 })}
               </div>
             </div>
@@ -1653,7 +1658,7 @@ const LibraryContent = () => {
                       />
                     </div>
                   </>
-                )
+                );
               })}
             </div>
           </div>
@@ -1689,7 +1694,7 @@ const LibraryContent = () => {
         </Modal.Footer>
       </Modal>
     </>
-  )
-}
+  );
+};
 
 export default LibraryContent;
