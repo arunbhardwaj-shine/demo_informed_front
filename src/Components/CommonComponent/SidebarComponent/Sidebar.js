@@ -372,7 +372,7 @@ const Sidebar = () => {
             </ul>
           ) : window.location.pathname == "/library-content" ||
             location.pathname == "/create-docintel-link" ||
-            window/location.pathname == "/library-edit" ||
+            window.location.pathname == "/library-edit" ||
             window.location.pathname == "/library-create" ||
             window.location.pathname == "/library-sublink" ||
             window.location.pathname == "/library-topics" ||
@@ -389,6 +389,7 @@ const Sidebar = () => {
             window.location.pathname == "/library-create-user" ||
             window.location.pathname == "/edit-Consent-Options" ||
             window.location.pathname == "/library-create-pharma" ||
+            window.location.pathname == "/library-edit-listing" ||
             window.location.pathname == "/content-detail" ? (
             <ul>
               <li
@@ -425,6 +426,7 @@ const Sidebar = () => {
                     location.pathname == "/edit-Consent-Options" ||
                     location.pathname == "/auto_popup" ||
                     location.pathname == "/create-docintel-link" ||
+                    location.pathname == "/library-edit-listing" ||
                     location.pathname == "/content-detail") &&
                   c_id == 0
                     ? "active"
