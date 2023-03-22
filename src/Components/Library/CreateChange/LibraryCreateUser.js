@@ -18,7 +18,7 @@ const LibraryCreateUser = () => {
   const [counterFlag, setCounterFlag] = useState(0);
   const [show, setShow] = useState(false);
   const [commanShow, setCommanShow] = useState(false);
-
+   const [id,setId] =  useState(18207)
   const handleClose = () => setShow(false);
   const navigate = useNavigate();
   const [error, setError] = useState({});
@@ -72,7 +72,7 @@ const LibraryCreateUser = () => {
   const initalFun = async() =>{
     loader("show")
    const hadData =  await postData(ENDPOINT.LIBRARYDETAIL,{
-      userId:18207
+      userId:id
     });
 
     let country = []
@@ -89,6 +89,7 @@ const LibraryCreateUser = () => {
       value:key
     })
   })
+  console.log("-df",hadData?.data?.data)
     setUserDetail({"user":hadData?.data?.data?.user,"production":hadData?.data?.data?.production,country:country,
       sales:hadData?.data?.data?.sale,format:hadData?.data?.data?.format,category:category,ibu:hadData?.data?.data?.ibu
       ,"product":hadData?.data?.data?.product,"reseller":hadData?.data?.data?.reseller
@@ -122,7 +123,6 @@ const LibraryCreateUser = () => {
     } else {
       loader("show");
       let formData = new FormData();
-      formData.append("keyAuthor", userInputs?.keyAuthor);
       formData.append("expDatetime", userInputs?.expDatetime);
       formData.append("limit", userInputs?.limitOfUsage);
       formData.append("file", userInputs?.uploadFile?.[0]);
@@ -145,7 +145,7 @@ const LibraryCreateUser = () => {
       formData.append("coverPhoto",userInputs?.coverPhoto?.[0])
       formData.append("chapter",JSON.stringify(chapter ))
       formData.append("specialRequirment",userInputs?.specialRequirment?.target.value)
-      formData.append("createdBy", 18207)
+      formData.append("createdBy", id)
       
       await postFormData(ENDPOINT.LIBRARYCREATE,formData,{
         header:{
@@ -499,7 +499,7 @@ const LibraryCreateUser = () => {
     let newAr = userDetail?.product
      newAr.push({value:userDetail?.newValu,label:userDetail?.newValue})
     let body = {
-      "userId":18207,
+      "userId":id,
       "product":userDetail?.newValue,
       "category":0,
       "type":1
