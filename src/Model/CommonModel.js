@@ -13,10 +13,11 @@ const CommonModel = ({
 }) => {
   const [selecteValue, setSelectedValue] = useState("Select Size");
   const handleSelect = (value) => {
-    const dp_index = data[0].dropdown.findIndex(el => el.value === value);
+    const dp_index = data[0].dropdown.findIndex((el) => el.value === value);
     setSelectedValue(data[0].dropdown[dp_index].key);
     handleQR(value);
   };
+
   const handleClose = () => {
     onClose(false);
   };
@@ -54,6 +55,7 @@ const CommonModel = ({
           <label htmlFor="">{item?.label}</label>
           <input
             type="text"
+            name={item?.name ? item?.name : item?.label}
             placeholder={item?.placeholder}
             className="form-control"
             onChange={handleChange}
@@ -101,9 +103,10 @@ const CommonModel = ({
           <button
             type="button"
             className="btn btn-primary save btn-filled"
-            onClick={() =>{
-              handleSubmit()
-              handleClose()
+            onClick={() => {
+              handleSubmit();
+
+              handleClose();
             }}
           >
             {footerButton}

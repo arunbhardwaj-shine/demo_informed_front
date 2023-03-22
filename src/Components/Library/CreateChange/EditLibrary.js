@@ -1,20 +1,23 @@
+
+
 import React, { useState,useEffect } from "react";
 import Select from "react-select";
-import { Link,useNavigate } from "react-router-dom";
+import { Link,useNavigate,useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
 import { createContent } from "../../CommonComponent/Validations";
 import { Button, Form, Dropdown, DropdownButton } from "react-bootstrap";
-import {postFormData,postData} from "../../../axios/apiHelper"
+import {postFormData,postData, getData,deleteFormData} from "../../../axios/apiHelper"
 import { loader } from "../../../loader";
 import {ENDPOINT} from "../../../axios/apiConfig"
 import CommonModel from "../../../Model/CommonModel";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-const LibraryCreateUser = () => {
+const EditLibrary = () => {
+    const { state } = useLocation();
   const [counterFlag, setCounterFlag] = useState(0);
   const [show, setShow] = useState(false);
   const [commanShow, setCommanShow] = useState(false);
@@ -26,6 +29,8 @@ const LibraryCreateUser = () => {
      "expDatetime":"",
   });
   const [ebookFile,setEbookFile] = useState([])
+  const [libraryData,setLibraryData] = useState([])
+
   const [chapter, setChapter] = useState([
     {
       chapterTitle: "",
@@ -49,12 +54,6 @@ const LibraryCreateUser = () => {
       placeholder: "Type your product name",
     },
   ];
-
-  const [countryAll, setCountryAll] = useState([
-    { value: "India", label: "India" },
-    { value: "Australia", label: "Australia" },
-    { value: "Russia", label: "Russia" },
-  ]);
 
   const [ePrintType, setePrintType] = useState([
     { value: "pdf", label: "PDF" },
@@ -95,8 +94,23 @@ const LibraryCreateUser = () => {
     })
     loader("hide")
   }
+  const libraryDetail = async()=>{
+    try{
+        loader("show");
+        const hadData =  await getData(`${ENDPOINT.LIBRARY_DETAIL_BY_ID}/${state?.pdfid}`);
+         setCreateLibraryInputs(hadData?.data?.data?.pdfData)
+         setChapter(hadData?.data?.data?.ebookData)
+         loader("hide");
+
+
+    }catch(err){
+       console.log("-err",err)
+    }
+  }
   useEffect(()=>{
+    libraryDetail()
     initalFun()
+   
   },[])
   const handleChange = (e, isSelectedName) => {
     if (e?.target?.files?.length < 1) {
@@ -124,36 +138,37 @@ const LibraryCreateUser = () => {
       let formData = new FormData();
       formData.append("keyAuthor", userInputs?.keyAuthor);
       formData.append("expDatetime", userInputs?.expDatetime);
-      formData.append("limit", userInputs?.limitOfUsage);
+      formData.append("limit", userInputs?.limit);
       formData.append("file", userInputs?.uploadFile?.[0]);
       formData.append("title", userInputs?.contentTitle)
-      formData.append("company", userInputs?.company)
-      formData.append("country", userInputs?.country)
-      formData.append("pdfSubTitle", userInputs?.journalTitle)
-      formData.append("keyAuthor", userInputs?.keyAuthor)
+      formData.append("allowShare", JSON.stringify(userInputs?.allow_share))
+      formData.append("allowDownload", JSON.stringify(userInputs?.allow_download))
+      formData.append("allowPrint", JSON.stringify(userInputs?.allow_print))
+      formData.append("pdfId", state?.pdfid)
 
-      
-      formData.append("allowShare", userInputs?.allowShare)
-      formData.append("allowDownload", userInputs?.allowDownload)
-      formData.append("allowPrint", userInputs?.allowPrint)
+      formData.append("country", userInputs?.country)
+      formData.append("company", userInputs?.company)
+      formData.append("journalTitle", userInputs?.journalTitle)
+
       formData.append("fileType", userInputs?.docintelFormat)
       formData.append("product", userInputs?.product)
+
       ebookFile?.forEach(item =>{
        formData.append("ebookData",item )
       })
 
       formData.append("coverPhoto",userInputs?.coverPhoto?.[0])
       formData.append("chapter",JSON.stringify(chapter ))
-      formData.append("specialRequirment",userInputs?.specialRequirment?.target.value)
+    //   formData.append("specialRequirment",userInputs?.specialRequirment?.target.value)
       formData.append("createdBy", 18207)
       
-      await postFormData(ENDPOINT.LIBRARYCREATE,formData,{
+      await postFormData(ENDPOINT.UPDATE_ARTICLE,formData,{
         header:{
           "Content-Type": "multipart/form-data",
         }
       });
       loader("hide");
-      navigate("/set-popup")
+    //   navigate("/set-popup")
     }
   };
 
@@ -171,8 +186,14 @@ const LibraryCreateUser = () => {
     }
   };
 
-  const deleteRecord = (i) => {
+  const deleteRecord = async(i,id) => {
+    if(id){
+     loader("show")
+      await deleteFormData(`${ENDPOINT.DELETE_PDF_FILE}/${id}`);
+     loader("hide")
+    }
     const list = chapter;
+
     list.splice(i, 1);
 
     setChapter(list);
@@ -226,6 +247,7 @@ const LibraryCreateUser = () => {
                 type="text"
                 className="form-control"
                 name = "company"
+                defaultValue={userInputs?.company}
                 onChange={handleChange}
 
               />
@@ -235,6 +257,9 @@ const LibraryCreateUser = () => {
               <Select
                 options={userDetail?.country||[]}
                 placeholder="Select country"
+                defaultValue={{label:userInputs
+                ?.country,value:userInputs?.country}}
+
                 onChange={(e)=>handleChange(e?.value,"country")}
                 className="dropdown-basic-button split-button-dropup"
                 isClearable
@@ -244,6 +269,7 @@ const LibraryCreateUser = () => {
               <label htmlFor="">Client product</label>
                 <Select
                 options={userDetail?.product}
+                defaultValue={{label:userInputs?.product,value:userInputs?.product}}
                 onChange={(e)=>handleChange(e?.value,"product")}
 
                 placeholder="Select own production person"
@@ -531,7 +557,8 @@ const LibraryCreateUser = () => {
                     <div className="form-group">
                       <label htmlFor="">Expiration date</label>
                       <DatePicker
-                        selected={userInputs?.expDatetime}
+                        selected={userInputs?.expDatetime? new Date(userInputs?.expDatetime)
+                        :""}
                         name="expDatetime"
                         onChange={(e)=>handleChange(e,"expDatetime")}
                         dateFormat="dd/MM/yyyy"
@@ -542,14 +569,15 @@ const LibraryCreateUser = () => {
                       <label htmlFor="">Set limit of usage</label>
                       <input
                         type="text"
-                        name="limitOfUsage"
+                        name="limit"
+                        defaultValue={userInputs?.limit}
                         className="form-control"
                         placeholder="“0” value means unlimited limit"
                         onChange={handleChange}
                       />
-                      {error?.limitOfUsage ? (
+                      {error?.limit ? (
                         <div className="login-validation">
-                          {error?.limitOfUsage}
+                          {error?.limit}
                         </div>
                       ) : null}
                     </div>
@@ -560,7 +588,8 @@ const LibraryCreateUser = () => {
                           type="checkbox"
                           value="value1"
                           name="group2"
-                          onClick={(e)=>handleChange(e.target?.checked,"allowPrint")}
+                          defaultChecked={userInputs?.allow_print}
+                          onClick={(e)=>handleChange(e.target?.checked,"allow_print")}
                           id="limitagreed1"
                         />
                         <label htmlFor="limitagreed1">Print</label>
@@ -568,14 +597,16 @@ const LibraryCreateUser = () => {
                           type="checkbox"
                           value="value2"
                           name="group2"
-                          onClick={(e)=>handleChange(e.target?.checked,"allowDownload")}
+                          defaultChecked={userInputs?.allow_download}
+                          onClick={(e)=>handleChange(e.target?.checked,"allow_download")}
                           id="limitagreed2"
                         />
                         <label htmlFor="limitagreed2">Download</label>
                         <input
                           type="checkbox"
                           value="value3"
-                          onClick={(e)=>handleChange(e.target?.checked,"allowShare")}
+                          defaultChecked={libraryData?.allow_share}
+                          onClick={(e)=>handleChange(e.target?.checked,"allow_share")}
                           name="group2"
                           id="limitagreed3"
                         />
@@ -589,7 +620,8 @@ const LibraryCreateUser = () => {
                       <textarea
                         className="form-control"
                         id="formControlTextarea"
-                        onChange={(e)=>handleChange(e,"specialRequirment")}
+                        defaultValue={userInputs?.specialRequirment}
+                        onChange={(e)=>handleChange(e?.target.value,"specialRequirment")}
                         rows="5"
                         placeholder="Please type your notes here.."
                       ></textarea>
@@ -661,6 +693,7 @@ const LibraryCreateUser = () => {
                         type="text"
                         name="contentTitle"
                         className="form-control"
+                        defaultValue={userInputs?.contentTitle}
                         onChange={(e) => {
                           handleChange(e);
                         }}
@@ -676,6 +709,7 @@ const LibraryCreateUser = () => {
                       <input
                         type="text"
                         name="journalTitle"
+                        defaultValue={userInputs?.journalTitle}
                         className="form-control"
                         onChange={(e) => handleChange(e)}
                       />
@@ -690,6 +724,7 @@ const LibraryCreateUser = () => {
                       <input
                         type="text"
                         name="keyAuthor"
+                        defaultValue={userInputs?.keyAuthor}
                         className="form-control"
                         onChange={
                           handleChange
@@ -702,6 +737,14 @@ const LibraryCreateUser = () => {
                       <Select
                         className="dropdown-basic-button split-button-dropup"
                         options={ePrintType}
+                        defaultValue={
+                            userInputs?.docintelFormat === "pdf" ?
+                            ePrintType[0]
+                            : userInputs?.docintelFormat === "ebook" ?
+                            ePrintType[2]
+                            :
+                            ePrintType[1]
+                        }
                         isClearable
                         placeholder="Select type of Docintel format "
                         onChange={(event) =>
@@ -734,7 +777,7 @@ const LibraryCreateUser = () => {
                             {userInputs?.uploadFile?.[0]?.name ? (
                               <p>{userInputs?.uploadFile?.[0].name}</p>
                             ) : (
-                              <p>Upload your PDF</p>
+                              <p>Change your PDF</p>
                             )}
                           </div>
                         </div>
@@ -801,7 +844,7 @@ const LibraryCreateUser = () => {
                                       }
                                     />
                                     <label htmlFor={`file-${i}`}>
-                                      <span>Choose Your File</span>
+                                      <span>Change Your File</span>
                                     </label>
 
                                     <p>
@@ -1168,4 +1211,4 @@ const LibraryCreateUser = () => {
     </>
   );
 };
-export default LibraryCreateUser;
+export default EditLibrary;

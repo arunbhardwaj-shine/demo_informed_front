@@ -3,9 +3,9 @@ export const createContent = (data,fileCheck) => {
   const regemail =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-  if (!data?.limitOfUsage) {
-    error.limitOfUsage = "Limit of usage is required!";
-  }
+  // if (!data?.limitOfUsage) {
+  //   error.limitOfUsage = "Limit of usage is required!";
+  // }
   if (!data?.contentTitle) {
     error.contentTitle = "Content Title is required!";
   }

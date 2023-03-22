@@ -372,8 +372,8 @@ const Sidebar = () => {
             </ul>
           ) : window.location.pathname == "/library-content" ||
             location.pathname == "/create-docintel-link" ||
+            window/location.pathname == "/library-edit" ||
             window.location.pathname == "/library-create" ||
-            window.location.pathname == "/library-edit" ||
             window.location.pathname == "/library-sublink" ||
             window.location.pathname == "/library-topics" ||
             window.location.pathname == "/library-campaign" ||

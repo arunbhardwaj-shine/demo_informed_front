@@ -1,35 +1,26 @@
 import React, { useState } from "react";
-import {
-  Col,
-  Dropdown,
-  DropdownButton,
-  Form,
-  Row,
-  Button,
-} from "react-bootstrap";
+import { Col, Row, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import Modal from "react-bootstrap/Modal";
+
 import Select from "react-select";
-import  CommonModel from "../../../Model/CommonModel"
+import CommonModel from "../../../Model/CommonModel";
+import { AddReaderValidation } from "../../Validations/ReaderValidation/AddReaderValidation";
+import { postData } from "../../../axios/apiHelper";
+import { ENDPOINT } from "../../../axios/apiConfig";
+import { loader } from "../../../loader";
+import { useNavigate } from "react-router-dom";
 
 const ReaderAdd = () => {
-  const [field, setField] = useState([]);
-  const [show, setShow] = useState(false);
-  const [newProduct, setNewProduct] = useState("");
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const [commonShow, setCommonShow] = useState(false);
+  const navigate = useNavigate();
 
-   const [countryAll, setCountryAll] = useState([
+  const [countryAll, setCountryAll] = useState([
     { value: "India", label: "India" },
     { value: "Australia", label: "Australia" },
     { value: "Russia", label: "Russia" },
   ]);
-    const [salesAll, setSalesAll] = useState([
-    { value: "sales1", label: "sales1" },
-    { value: "sales2", label: "sales2" },
-    { value: "sales3", label: "sales3" },
-  ]);
-    const [productionAll, setProductionAll] = useState([
+
+  const [productionAll, setProductionAll] = useState([
     { value: "production1", label: "production1" },
     { value: "production2", label: "production2" },
     { value: "production3", label: "production3" },
@@ -39,36 +30,181 @@ const ReaderAdd = () => {
     { value: "2", label: "2" },
     { value: "3", label: "3" },
   ]);
-   const downloadQRData = [
-    // {
-    //   label: "Select Size",
-    //   type: "dropdown",
-    //   dropdown: [
-    //     {
-    //       key: "Tiny",
-    //       value: "M",
-    //     },
-    //     {
-    //       key: "Article",
-    //       value: "H",
-    //     },
-    //     {
-    //       key: "Large Print",
-    //       value: "L",
-    //     },
-    //   ],
-    // },
-    {
-      label: "Speciality",
-      type: "input",
-      placeholder: "Type your speciality",
-    },
-  ];
+  const [userInputs, setAddReaderInputs] = useState({});
+  const [error, setError] = useState({});
+  const [commonHeader, setCommonHeader] = useState("");
+  const [data, setData] = useState([]);
 
-   const addNewProductClicked = (e) => {
+  const [newProduct, setNewProduct] = useState({
+    label: "",
+    value: "",
+  });
+  const [userDetail, setUserDetail] = useState({
+    speciality: [
+      { value: "speciality1", label: "speciality1" },
+      { value: "speciality2", label: "speciality2" },
+      { value: "speciality3", label: "speciality3" },
+    ],
+    discipline: [
+      { value: "dicipline1", label: "dicipline1" },
+      { value: "dicipline2", label: "dicipline2" },
+      { value: "dicipline3", label: "dicipline3" },
+    ],
+    product: [
+      { value: "production1", label: "production1" },
+      { value: "production2", label: "production2" },
+      { value: "production3", label: "production3" },
+    ],
+  });
+
+  const handleModelFun = (e) => {
+    setNewProduct({ label: e?.target?.name, value: e?.target?.value });
+  };
+
+  const handleSubmitModelFun = (e) => {
+    if (newProduct?.value?.length) {
+      const newArr = userDetail[newProduct?.label];
+
+      newArr.push({
+        value: newProduct?.value,
+        label: newProduct?.value,
+      });
+
+      setUserDetail({ ...userDetail, [newProduct?.label]: newArr });
+    }
+  };
+
+  const addNewProductClicked = (statusMsg, e) => {
     e.preventDefault();
-    setNewProduct("");
-    setShow(true);
+    setCommonShow(true);
+    if (statusMsg == "speciality") {
+      setNewProduct("");
+      setData(() => [
+        {
+          name: "speciality",
+          label: "Speciality",
+          type: "input",
+          placeholder: "Type your speciality",
+        },
+      ]);
+      setCommonHeader("Add New Speciality");
+    }
+    if (statusMsg == "discipline") {
+      setNewProduct("");
+      setData(() => [
+        {
+          name: "discipline",
+          label: "Discipline",
+          type: "input",
+          placeholder: "Type your discipline",
+        },
+      ]);
+
+      setCommonHeader("Add New Discipline");
+    }
+    if (statusMsg == "product") {
+      setNewProduct("");
+      setData(() => [
+        {
+          name: "product",
+          label: "Product",
+          type: "input",
+          placeholder: "Type your product",
+        },
+      ]);
+
+      setCommonHeader("Add New Product");
+    }
+  };
+
+  // const addSpecialityClicked = () => {
+  //   setCommonShow(false);
+  //   if (newProduct != "") {
+  //     console.log("Speciality Clicked");
+  //     setSpecialityAll((oldArray) => [
+  //       ...oldArray,
+  //       { value: newProduct, label: newProduct },
+  //     ]);
+  //   }
+  // };
+
+  // const addDisciplineClicked = () => {
+  //   setCommonShow(false);
+  //   if (newProduct != "") {
+  //     console.log("dicipline clicked");
+  //     setDisciplineAll((oldArray) => [
+  //       ...oldArray,
+  //       { value: newProduct, label: newProduct },
+  //     ]);
+  //   }
+  // };
+
+  // const addProductClicked = () => {
+  //   setCommonShow(false);
+  //   if (newProduct != "") {
+  //     console.log("ProductClicked");
+  //     setProductionAll((oldArray) => [
+  //       ...oldArray,
+  //       { value: newProduct, label: newProduct },
+  //     ]);
+  //   }
+  // };
+
+  const handleChange = (e, isSelectedName) => {
+    if (e?.target?.files?.length < 1) {
+      return;
+    }
+
+    setAddReaderInputs({
+      ...userInputs,
+      [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+        ? e?.target?.files
+          ? e?.target?.files
+          : e
+        : e?.target?.value,
+    });
+  };
+
+  const nextButtonClicked = async (e) => {
+    e.preventDefault();
+
+    const result = AddReaderValidation(userInputs);
+    if (Object.keys(result)?.length) {
+      setError(result);
+      return;
+    } else {
+      try {
+        loader("show");
+        let data = {
+          createdBy: 18207,
+          firstName: userInputs?.firstName,
+          middleName: userInputs?.middleName,
+          lastName: userInputs?.lastName,
+          email: userInputs?.email,
+          alternativeEmail: userInputs?.alternativeEmail,
+          countryCode: userInputs?.countryCode,
+          primary_phone: userInputs?.phoneNumber,
+          alternativePhone: userInputs?.alternativePhone,
+          country: userInputs?.country,
+          province: userInputs?.province,
+          hospital: userInputs?.hospital,
+          title: userInputs?.title,
+          speciality: userInputs?.speciality,
+          discipline: userInputs?.discipline,
+          product: userInputs?.product,
+          interestArea: userInputs?.interestArea,
+          repContact: userInputs?.repContact,
+          notes: userInputs?.notes,
+        };
+        console.log("data", data);
+        await postData(ENDPOINT.READER_CREATE, data);
+        loader("hide");
+        navigate("/readers-view");
+      } catch (err) {
+        console.log(err);
+        loader("hide");
+      }
+    }
   };
 
   return (
@@ -103,7 +239,7 @@ const ReaderAdd = () => {
 
                     <button
                       className="btn btn-primary btn-filled next"
-                      
+                      onClick={nextButtonClicked}
                     >
                       Next
                     </button>
@@ -115,7 +251,9 @@ const ReaderAdd = () => {
               <div className="form_action">
                 <div className="create-reader-form-header">
                   <h4>Please fill the following details</h4>
-                  <Button className="btn-bordered" type="file">Upload Excel File</Button>
+                  <Button className="btn-bordered" type="file">
+                    Upload Excel File
+                  </Button>
                 </div>
                 <div className="row">
                   <div className="col-12 col-md-7">
@@ -124,13 +262,24 @@ const ReaderAdd = () => {
                       <input
                         type="text"
                         className="form-control"
+                        name="firstName"
+                        onChange={(e) => handleChange(e)}
                       />
+                      {error?.firstName ? (
+                        <div className="login-validation">
+                          {error?.firstName}
+                        </div>
+                      ) : (
+                        ""
+                      )}
                     </div>
                     <div className="form-group">
                       <label htmlFor="">Middle name</label>
                       <input
                         type="text"
                         className="form-control"
+                        name="middleName"
+                        onChange={(e) => handleChange(e)}
                       />
                     </div>
                     <div className="form-group">
@@ -138,6 +287,8 @@ const ReaderAdd = () => {
                       <input
                         type="text"
                         className="form-control"
+                        name="lastName"
+                        onChange={(e) => handleChange(e)}
                       />
                     </div>
                     <div className="form-group">
@@ -146,15 +297,24 @@ const ReaderAdd = () => {
                         type="email"
                         className="form-control"
                         placeholder="example@email.com"
+                        name="email"
+                        onChange={(e) => handleChange(e)}
                       />
+                      {error?.email ? (
+                        <div className="login-validation">{error?.email}</div>
+                      ) : (
+                        ""
+                      )}
                     </div>
-                    
+
                     <div className="form-group">
                       <label htmlFor="">Alternative email </label>
                       <input
                         type="email"
                         className="form-control"
                         placeholder="example@email.com"
+                        name="alternativeEmail"
+                        onChange={(e) => handleChange(e)}
                       />
                     </div>
                     <div className="form-group primary_phone">
@@ -164,17 +324,36 @@ const ReaderAdd = () => {
                         className="dropdown-basic-button split-button-dropup"
                         isClearable
                         placeholder=""
+                        onChange={(e) => handleChange(e?.value, "countryCode")}
                       />
+                      {error?.countryCode ? (
+                        <div className="login-validation">
+                          {error?.countryCode}
+                        </div>
+                      ) : (
+                        ""
+                      )}
                       <input
                         type="number"
                         className="form-control"
+                        name="phoneNumber"
+                        onChange={(e) => handleChange(e)}
                       />
+                      {error?.phoneNumber ? (
+                        <div className="login-validation">
+                          {error?.phoneNumber}
+                        </div>
+                      ) : (
+                        ""
+                      )}
                     </div>
                     <div className="form-group">
                       <label htmlFor="">Alternative phone</label>
                       <input
                         type="number"
                         className="form-control"
+                        name="alternativePhone"
+                        onChange={(e) => handleChange(e)}
                       />
                     </div>
                     <div className="form-group">
@@ -182,20 +361,26 @@ const ReaderAdd = () => {
                       <Select
                         options={countryAll}
                         placeholder="Select country"
+                        name="country"
                         className="dropdown-basic-button split-button-dropup"
                         isClearable
+                        onChange={(e) => handleChange(e?.value, "country")}
                       />
-                      {/* {error?.country ? (
+                      {error?.phoneNumber ? (
                         <div className="login-validation">{error?.country}</div>
-                      ) : null} */}
+                      ) : (
+                        ""
+                      )}
                     </div>
                     <div className="form-group">
                       <label htmlFor="">Province</label>
                       <Select
                         options={countryAll}
                         placeholder="Select province"
+                        // name="provience"
                         className="dropdown-basic-button split-button-dropup"
                         isClearable
+                        onChange={(e) => handleChange(e?.value, "province")}
                       />
                     </div>
                     <div className="form-group">
@@ -205,6 +390,7 @@ const ReaderAdd = () => {
                         placeholder="Select hospital"
                         className="dropdown-basic-button split-button-dropup"
                         isClearable
+                        onChange={(e) => handleChange(e?.value, "hospital")}
                       />
                     </div>
                     <div className="form-group">
@@ -212,78 +398,89 @@ const ReaderAdd = () => {
                       <input
                         type="text"
                         className="form-control"
+                        name="title"
+                        onChange={(e) => handleChange(e)}
                       />
-                      {/* {error?.clientProduct ? (
-                        <div className="login-validation">
-                          {error?.clientProduct}
-                        </div>
-                      ) : null} */}
                     </div>
                     <div className="form-group">
-                        <label htmlFor="">Speciality</label>
-                        <Select
-                          options={countryAll}
-                          placeholder="Select speciality"
-                          className="dropdown-basic-button split-button-dropup"
-                          isClearable
-                        />
-                        <div className="add_product">
-                          <span>&nbsp;</span>
-                          <Button
-                            className="btn-bordered btn-voilet"
-                          >
-                            Add new Speciality +
-                          </Button>
-                        </div>
+                      <label htmlFor="">Speciality</label>
+                      <Select
+                        options={userDetail?.speciality}
+                        placeholder="Select speciality"
+                        // name="speciality"
+                        className="dropdown-basic-button split-button-dropup"
+                        isClearable
+                        onChange={(e) => handleChange(e?.value, "speciality")}
+                      />
+                      <div className="add_product">
+                        <span>&nbsp;</span>
+                        <Button
+                          className="btn-bordered btn-voilet"
+                          onClick={(e) => addNewProductClicked("speciality", e)}
+                        >
+                          Add new Speciality +
+                        </Button>
                       </div>
+                    </div>
                     <div className="form-group">
-                        <label htmlFor="">Discipline</label>
-                        <Select
-                          options={productionAll}
-                          placeholder="Select discipline"
-                          className="dropdown-basic-button split-button-dropup"
-                          isClearable
-                        />
-                        <div className="add_product">
-                          <span>&nbsp;</span>
-                          <Button onClick={addNewProductClicked}
-                            className="btn-bordered btn-voilet"
-                          >
-                            Add new Discipline +
-                          </Button>
-                        </div>
+                      <label htmlFor="">Discipline</label>
+                      <Select
+                        options={userDetail?.discipline}
+                        placeholder="Select discipline"
+                        // name="discipline"
+                        className="dropdown-basic-button split-button-dropup"
+                        isClearable
+                        onChange={(e) => handleChange(e?.value, "discipline")}
+                      />
+                      <div className="add_product">
+                        <span>&nbsp;</span>
+                        <Button
+                          onClick={(e) => addNewProductClicked("discipline", e)}
+                          className="btn-bordered btn-voilet"
+                        >
+                          Add new Discipline +
+                        </Button>
                       </div>
-                     <div className="form-group">
-                        <label htmlFor="">Product</label>
-                        <Select
-                          options={productionAll}
-                          placeholder="Select product"
-                          className="dropdown-basic-button split-button-dropup"
-                          isClearable
-                        />
-                        <div className="add_product">
-                          <span>&nbsp;</span>
-                          <Button
-                            className="btn-bordered btn-voilet"
-                          >
-                            Add new product +
-                          </Button>
-                        </div>
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="">Product</label>
+                      <Select
+                        options={userDetail?.product}
+                        placeholder="Select product"
+                        // name="product"
+                        className="dropdown-basic-button split-button-dropup"
+                        isClearable
+                        onChange={(e) => handleChange(e?.value, "product")}
+                      />
+                      <div className="add_product">
+                        <span>&nbsp;</span>
+                        <Button
+                          className="btn-bordered btn-voilet"
+                          onClick={(e) => addNewProductClicked("product", e)}
+                        >
+                          Add new product +
+                        </Button>
                       </div>
+                    </div>
                     <div className="form-group">
                       <label htmlFor="">Interest area</label>
                       <Select
                         options={productionAll}
                         placeholder="Select interest area"
+                        // name="interestArea"
                         className="dropdown-basic-button split-button-dropup"
                         isClearable
+                        onChange={(e) => handleChange(e?.value, "interestArea")}
                       />
                     </div>
                     <div className="form-group">
                       <label htmlFor="">Rep contact</label>
                       <input
-                        type="text" placeholder="Who is Rep contact?"
+                        type="text"
+                        name="repContact"
+                        placeholder="Who is Rep contact?"
                         className="form-control"
+                        onChange={(e) => handleChange(e)}
                       />
                     </div>
                   </div>
@@ -292,14 +489,16 @@ const ReaderAdd = () => {
                       <label htmlFor="">Notes</label>
                       <textarea
                         className="form-control"
+                        name="notes"
                         id="formControlTextarea"
                         rows="5"
                         placeholder="Meeting note, special interest etc..."
+                        onChange={(e) => handleChange(e)}
                       ></textarea>
                     </div>
                   </div>
                 </div>
-              {/* <Form className="d-flex flex-wrap row">
+                {/* <Form className="d-flex flex-wrap row">
                 <Form.Group className="mb-3 col-6 form-group">
                   <Form.Label>First name</Form.Label>
                   <Form.Control
@@ -502,20 +701,17 @@ const ReaderAdd = () => {
               </Form> */}
               </div>
             </div>
-            
           </Row>
-
         </div>
-         <CommonModel
-        show={show}
-        onClose={setShow}
-        heading={"Add New Speciality"}
-        data={downloadQRData}
-        footerButton={"Add"}
-        // handleSubmit={downloadQRCode}
-        // handleQR={handleQR}
-        // inputValue
-      />
+        <CommonModel
+          show={commonShow}
+          onClose={setCommonShow}
+          heading={commonHeader}
+          handleChange={handleModelFun}
+          handleSubmit={handleSubmitModelFun}
+          data={data}
+          footerButton={"Add"}
+        />
         {/* <Modal
           show={show}
           onHide={handleClose}
