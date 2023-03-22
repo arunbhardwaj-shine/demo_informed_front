@@ -160,23 +160,29 @@ const SpcCreate = () => {
 
     if (Object.keys(result)?.length) {
       setError(result);
+        loader('hide');
       return;
     }
     const data = new FormData(event.target);
     data.append('createdBy',18207);
-    await postFormData(ENDPOINT.SPCCREATE,data,{
-      header:{
-        "Content-Type": "multipart/form-data",
-      }
-    });
+    try{
 
-    popup_alert({
-      visible: "show",
-      message: "Your HCP has been published <br />successfully !",
-      type: "success",
-      redirect: "spc-view",
-    });
-    loader('hide');
+      await postFormData(ENDPOINT.SPCCREATE,data,{
+        header:{
+          "Content-Type": "multipart/form-data",
+        }
+      });
+      popup_alert({
+        visible: "show",
+        message: "Your HCP has been published <br />successfully !",
+        type: "success",
+        redirect: "spc-view",
+      });
+      loader('hide');
+    }catch(err){
+      loader('hide');
+      console.log(err);
+    }
   };
 
   return (
