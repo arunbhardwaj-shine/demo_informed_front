@@ -41,6 +41,7 @@ const EditLibrary = () => {
       fileValue: "",
     },
   ]);
+  const [reseller,setReseller] = useState([])
   const [userDetail, setUserDetail] = useState({
     user: {},
     production: [],
@@ -49,6 +50,7 @@ const EditLibrary = () => {
     format: [],
     product: [],
     costCenter: [],
+    // reseller:[]
   });
 
   const product = [
@@ -90,6 +92,9 @@ const EditLibrary = () => {
         value: key,
       });
     });
+
+    
+    
     setUserDetail({
       user: hadData?.data?.data?.user,
       production: hadData?.data?.data?.production,
@@ -110,6 +115,7 @@ const EditLibrary = () => {
         `${ENDPOINT.LIBRARY_DETAIL_BY_ID}/${state?.pdfid}`
       );
       setCreateLibraryInputs(hadData?.data?.data?.pdfData);
+      setReseller(hadData?.data?.data?.pdfData?.multiple_publisher?JSON.parse(hadData?.data?.data?.pdfData?.multiple_publisher):[])
       setChapter(hadData?.data?.data?.ebookData);
       loader("hide");
     } catch (err) {
@@ -151,9 +157,12 @@ const EditLibrary = () => {
       formData.append("file", userInputs?.uploadFile?.[0]);
       formData.append("title", userInputs?.contentTitle);
       formData.append("allowShare", JSON.stringify(userInputs?.allow_share));
+      formData.append("multiplePublisher",JSON.stringify(reseller))
+
       formData.append(
         "allowDownload",
         JSON.stringify(userInputs?.allow_download)
+        
       );
       formData.append("allowPrint", JSON.stringify(userInputs?.allow_print));
       formData.append("pdfId", state?.pdfid);
@@ -199,6 +208,19 @@ const EditLibrary = () => {
       toast.warning("Please input the chapter file atleast!");
     }
   };
+
+  const handleReseller = (e,data)=>{
+    let newData = []
+    if(e.target.checked){
+       newData = reseller
+      newData.push(data?.id)
+    }else{
+      newData =  reseller?.filter(item => item !=data?.id)
+    }
+    setReseller(newData)
+
+  }
+
 
   const deleteRecord = async (i, id) => {
     if (id) {
@@ -327,6 +349,7 @@ const EditLibrary = () => {
               <div className="form-group justify-content-end">
                 <label htmlFor="">Reseller</label>
                 <div className="form-check-group">
+                  {console.log("-dfdf",reseller)}
                   <div className="form-check-group-inset">
                     {userDetail?.reseller?.length ? (
                       userDetail?.reseller?.map((item) => {
@@ -337,6 +360,10 @@ const EditLibrary = () => {
                               value=""
                               id="flexCheckDefault"
                               type="checkbox"
+                              // userInputs
+                              defaultChecked={reseller.includes(item?.id)}
+                              onClick={(e)=>handleReseller(e,item)}
+
                             />
                             <label
                               className="form-check-label"
