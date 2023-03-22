@@ -183,6 +183,7 @@ const SpcEdit = () => {
 
     if (Object.keys(result)?.length) {
       setError(result);
+      loader('hide');
       return;
     }
     const data = new FormData(event.target);
@@ -356,7 +357,7 @@ const SpcEdit = () => {
   								}
 								  defaultValue={
                     productInput
-								  }      
+								  }
 								  className="dropdown-basic-button split-button-dropup extra_multiselect"
 								  isClearable
                   isMulti="true"

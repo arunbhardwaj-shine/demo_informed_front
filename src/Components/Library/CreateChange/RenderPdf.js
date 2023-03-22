@@ -146,7 +146,7 @@ const dataURLtoBlob = (dataURL) => {
                             onDocumentLoad={handleDocumentLoad}
                             renderMode = "canvas"
                             fileUrl={url}
-                          />;
+                          />
                         </div>
                       </Worker>
                   </>

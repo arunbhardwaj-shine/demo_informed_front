@@ -207,9 +207,13 @@ const SpcView = () => {
                       </Link>
 										) : null}
 
-										<Button className="btn btn-primary btn-filled view">
+                    <Link
+                      to="/spc-render"
+                      state={{ file: data.file }}
+                      className="btn btn-primary btn-filled view"
+                    >
 										  View
-										</Button>
+										</Link>
 									  </>
 									}
 								  </div>
