@@ -26,6 +26,7 @@ const MessageModel = ({
           <h5 className="modal-title" id="staticBackdropLabel">
             {heading}
           </h5>
+          
           <button
             type="button"
             className="btn-close"
@@ -58,7 +59,7 @@ const MessageModel = ({
               :null
           }
 
-        </Modal.Body>        
+        </Modal.Body>
       </Modal>
     </>
   );
