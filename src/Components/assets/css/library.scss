@@ -879,7 +879,8 @@ ul.tab-mail-list.data span.total-left small {
         text-transform: capitalize;
         color: $dark-blue;
         margin-right: 16px;
-        flex: 0 0 89px;
+        min-width: 89px;
+        flex:0 0 auto;
       }
       .split-button-dropup {
         max-width: 331px;
@@ -2652,7 +2653,6 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 .content_details .verify-email-detail {
   margin-bottom: 0;
 }
-
 .content_details .mail-recipt .mail-recipt-left {
   border-right: 1px dashed var(--light-blue);
   padding-top: 30px;
@@ -2717,6 +2717,9 @@ section.verify_email.content_details {
 .header-btn .btn.btn-primary.move-draft:hover {
   color: $white;
   background-color: #97b6cf;
+}
+.spc-edit .smartlist-view .mail-box-content table th {
+    vertical-align: top;
 }
 /**Reader Style End**/
 
@@ -2900,9 +2903,9 @@ section.verify_email.content_details {
   .create-change-content .form-group .form-control,
   .create-change-content .form-group .react-datepicker__input-container input {
     padding: 9px 24px;
-    max-width: 350px;
   }
-  .create-change-content .upload-file-box {
+  .create-change-content .upload-file-box,  .create-change-content .form-group .form-control,
+  .create-change-content .form-group .react-datepicker__input-container input {
     max-width: 350px;
   }
   .form-group.chapter-title {
@@ -2949,6 +2952,36 @@ section.verify_email.content_details {
   .library_create .library_create-box {
     padding: 22px 22px;
   }
+  .create-change-content .right-change .form-group > label {
+    text-align: left;
+}
+.create-change-content .right-change .form-group {
+    justify-content: flex-start!important;
+}
+.create-change-content .col-md-6{
+  width: 100%;
+}
+.create-change-content.spc-content  .col-md-6 {
+    width: 50%;
+}
+.create-change-content .right-change .form-group > label {
+    padding-top: 10px;
+}
+.create-change-content .right-change .form-group {
+    margin: 0px 0 20px;
+}
+.split-button-dropup > div:nth-child(3) {
+    padding: 2px 45px 2px 15px;
+}
+.create-change-content .form-group textarea.form-control {
+    min-height: 160px;
+}
+  .search-bar form.d-flex button {
+    padding: 5px;
+  }
+  .mailbox-table td span.product_list {
+    padding: 0 5px 0px 0;
+}
   .create-change-content .form-group label {
     flex: 0 0 130px;
   }
@@ -3152,14 +3185,125 @@ section.verify_email.content_details {
     font-size: 10px;
     padding: 10px 6px;
 }
+.header-btn .btn.btn-primary {
+    min-height: 34px;
+}
+.btn.btn-primary {
+    padding: 10px 14px;
+}
+.selected-products-list .products-listing {
+    max-width: 300px;
+}
+.create-change-content.spc-content .form-group .split-button-dropup > div:nth-child(3) {
+    max-width: 350px;
+}
+#download-qr .modal-body .form-group:last-child {
+    margin-bottom: 10px;
+}
+.spc-edit .smartlist-view .mail-box-content h5 {
+    margin: 0 0 8px;
+}
+.spc-edit .smartlist-view .mail-box-content {
+    min-height: 265px;
+}
+.spc-edit .smartlist-view .mail-box-content table th {
+    width: 100px;
+}
+.smartlist-result-block.spc-edit .smartlist_box_block {
+    margin-bottom: 20px;
+}
+.smartlist-result-block .smartlist_box_block {
+    padding: 0 10px;
+}
+.search-bar form.d-flex input {
+    padding: 5px 44px 5px 15px;
+}
+}
+@media only screen and (max-width: 1365px) {
+.selected-products-list .products-listing {
+    max-width: 265px;
+}
 }
 @media (max-width: $layout-breakpoint-large) {
-  .library-content-box-layuot
-    .doc-content-main-box
-    .tab-content
-    .tab-mail-list
-    h6.tab-content-title {
-    flex: 0 0 103px;
-  }
+form.product-unit .form-group {
+    width: auto;
+    flex: 0 0 50%;
+}
+.selected-products-list .products-listing {
+    max-width: 90%;
+}
+  .library-content-box-layuot .doc-content-main-box {
+    flex: 0 0 49%;
+    width: 49%;
+}
+.library-content-box-layuot .doc-content-main-box .tab-content {
+    min-height: 235px;
+}
+.library-content-box-layuot .doc-content-main-box .tab-content > .active {
+    min-height: 220px;
+}
+.library-content-box-layuot .doc-content-main-box .tab-content .data-main-footer-sec .footer-btn-wrapper .footer-btn {
+    font-size: 12px;
+    padding: 7px 8px;
+}
+.library-content-box-layuot .doc-content-main-box .tab-content {
+    padding: 10px 10px 10px;
+}
+.library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list.change .form-group .split-button-dropup {
+    width: calc(100% - 185px);
+}   
+.library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list.change .form-group .split-button-dropup > div:nth-child(3) {
+    min-height: 34px;
+} 
+.library-content-box-layuot .doc-content-main-box .tabs-data .nav-tabs .nav-item:first-child button.active:before {
+    height: 40px;
+}
+#tagsModal.modal-dialog, #add-list.modal-dialog, #send-sample.modal-dialog {
+    max-width: 90%;
+}
+#tagsModal .modal-footer form .form-group label, .smartlist-buttons button.btn {
+    flex: 0 0 auto;
+}
+.doc-content-main-box ul.tab-mail-list.data.change {
+    padding: 10px 0 0;
+}
+.sublink_left h5, .sublink_right h5 {
+    font-size: 15px;
+}
+.sublink_left {
+    flex: 0 0 320px;
+    padding-right: 10px;
+}
+.sublink-listed-view button.btn-bordered {
+    min-width: 75px;
+    font-size: 12px;
+}
+.sublink_right .sublink_right_block {
+    padding: 14px;
+}
+.sublink_right .sublink_right_block {
+    min-height: 565px;
+}
+.library_create .library_create-box .create-library-content h3 {
+    font-size: 18px;
+    line-height: 24px;
+}
+.library_create .library_create-box .create-library-content h5 {
+    font-size: 14px;
+}
+.library_create .library_create-box {
+    padding: 22px 15px;
+}
+.create-change-content .form-group .dropdown-basic-button {
+    max-width: 350px;
+}
+.form-group .add_product span {
+    height: 42px;
+}
+
+}
+
+@media (max-width: $layout-breakpoint-medium){
+
 }
 /**Library Responsive**/
