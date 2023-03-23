@@ -203,9 +203,17 @@ const SetPopup = (props) => {
         }
         const res = await postData(ENDPOINT.LIBRARYSAVEPOPUP, body);
         loader("hide");
-        navigate("/preview-content", {
-          state: { pdfId: articleId },
-        });
+        if(state?.fileType != "video"){
+          navigate("/preview-content", {
+            state: { pdfId: articleId },
+          });
+        }else{
+          navigate("/content-detail", {
+            state: { pdfId: articleId },
+          });
+        }
+
+
         // navigate("/preview-content")
       }catch(err){
         loader("hide");

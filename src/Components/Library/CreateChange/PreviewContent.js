@@ -33,7 +33,7 @@ const PreviewContent = () => {
   const [show, setShow] = useState(false);
     const navigate = useNavigate();
     const { state } = useLocation();
-    const [articleId, setArticleId] = useState(typeof state?.pdfId !== "undefined" ?  state?.pdfId : '');
+    const [articleId, setArticleId] = useState(typeof state?.pdfId !== "undefined" ?  state?.pdfId : '3899');
     const [pdfData, setPdfData] = useState([]);
     const [editTitle, setEditTitle] = useState(false);
     const [publishStatus, setPublishStatus] = useState(false);
@@ -52,6 +52,7 @@ const PreviewContent = () => {
 	const [templateClickedd, setTemplateClicked] = useState(false);
 	const [pdfFileId, setPdfFileId] = useState();
 	const [templatePdf, setTemplatePdf] = useState();
+	const [nextFlag, setNextFlag] = useState(0);
 	const [templateName, setTemplateName] = useState("");
   const [userInputs, setUserInputs] = useState({});
   const [updateFlag, setUpdateFlag] = useState(0);
@@ -104,6 +105,20 @@ const PreviewContent = () => {
 		if (div) {
 		  div.classList.remove("select_mm");
 		}
+
+
+    if(pdfData?.file_type && pdfData.file_type == "ebook") {
+      let pdfIndex = pdfData.ebookData.findIndex(el => el.id === template.id);
+      let nextItem = pdfData.ebookData[pdfIndex+1];
+      if(typeof nextItem !== "undefined"){
+        setNextFlag(1);
+      }else{
+        setNextFlag(0);
+      }
+    }else{
+      setNextFlag(0);
+    }
+
 		setTemplatePdf(template?.file_name);
 		setTemplateName(template?.title);
 		setTemplateClicked(true);
@@ -203,10 +218,16 @@ const PreviewContent = () => {
             link.click();
           }else{
             setPublishStatus(true);
+            navigate("/content-detail", {
+              state: { pdfId: articleId },
+            });
           }
           setPdfData(pdfData);
         }else{
           setPublishStatus(true);
+          navigate("/content-detail", {
+            state: { pdfId: articleId },
+          });
         }
         setApiCallBackFlag(apiCallBackFlag + 1);
         loader("hide");
@@ -355,6 +376,7 @@ const PreviewContent = () => {
   						}
   					  </h4>
             </div>
+            <div className="blink_text"><h4>Please verify every page is correct and press 'Publish' at the bottom when you're sure.</h4></div>
 					  <Button className="btn btn-bordered" onClick={handleShow}>Change content file</Button>
 					</div>
 					{
@@ -362,12 +384,14 @@ const PreviewContent = () => {
             ?
 						pdfData?.file_type && pdfData.file_type == "ebook" ?
 							<RenderPdf
+                next= {nextFlag}
 							  url= {templatePdf}
                 handleNext ={handleNext}
 							/>
 						:
 
 							<RenderPdf
+                next= {nextFlag}
 							  url= {pdfData?.file_name}
                 handleNext ={handleNext}
 							/>

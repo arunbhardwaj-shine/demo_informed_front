@@ -30,4 +30,5 @@ export const ENDPOINT = {
   UPDATE_PDF_FILE: `/library/update-pdf`,
   READER_CREATE: `/reader/create-reader`,
   ADD_PDF_WORD: `/library/add-pdf-word`,
+  USERTIMELINE: `/reader/get-timetracking`,
 };

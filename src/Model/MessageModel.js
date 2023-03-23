@@ -26,6 +26,7 @@ const MessageModel = ({
           <h5 className="modal-title" id="staticBackdropLabel">
             {heading}
           </h5>
+          
           <button
             type="button"
             className="btn-close"
@@ -34,29 +35,31 @@ const MessageModel = ({
           ></button>
         </Modal.Header>
         <Modal.Body>
-          <h4 className="message"
-          onClick={() => {handleClose();}}>
+          {
+            /*
+            <h4 className="message"
+            onClick={() => {handleClose();}}>
             {data}
-          </h4>
-        </Modal.Body>
-        <div className="modal-footer">
-        {
-          footerButton !== ""
-          ?
-          <button
-            type="button"
-            className="btn btn-primary save btn-filled"
-            onClick={() => {
-              handleSubmit();
+            </h4>
+            */
 
-              handleClose();
-            }}
-          >
-            {footerButton}
-          </button>
-          :null
-        }
-        </div>
+              footerButton !== ""
+              ?
+              <button
+                type="button"
+                className="btn btn-primary save btn-filled"
+                onClick={() => {
+                  handleSubmit();
+
+                  handleClose();
+                }}
+              >
+                {footerButton}
+              </button>
+              :null
+          }
+
+        </Modal.Body>
       </Modal>
     </>
   );
