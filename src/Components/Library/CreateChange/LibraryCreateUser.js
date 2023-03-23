@@ -171,7 +171,10 @@ const LibraryCreateUser = () => {
         loader("hide");
         // navigate("/set-popup");
         navigate("/set-popup", {
-          state: { pdfId: res?.data?.data?.pdfId },
+          state: {
+            pdfId: res?.data?.data?.pdfId,
+            fileType:userInputs?.docintelFormat
+           },
         });
       } catch (err) {
         loader("hide");
