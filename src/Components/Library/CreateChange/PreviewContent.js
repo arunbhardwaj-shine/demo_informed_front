@@ -286,7 +286,7 @@ const PreviewContent = () => {
               apiCallBackFlag ?
                   pdfData?.file_type && pdfData.file_type == "ebook" &&
                   (
-                    <section className="select-mail-template library-cosent">
+                    <section className="select-mail-template library-cosent prev_content">
                     <div className="custom-container">
                     <div className="row">
                     <div className="page-title"><h4>Select chapter to preview it</h4></div>

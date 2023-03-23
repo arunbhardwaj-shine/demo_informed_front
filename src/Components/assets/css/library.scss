@@ -624,35 +624,39 @@
     }
   }
 }
-@keyframes textclip {
-  to {
-    background-position: 200% center;
-  }
+@keyframes blinker {  
+ 0% { opacity: 1.0; }
+ 50% { opacity: 0.0; }
+ 100% { opacity: 1.0; }
 }
-.blink_text {
+.sublink_right .blink_text {
     width: calc(100% - 430px);
     margin: 0 auto;
     text-align: center;
 }
-.blink_text h4 {
+.sublink_right .blink_text h4 {
     margin: 0;
+    color: $pink;
     font-size: 20px;
-    background-image: linear-gradient(
-    -225deg,
-    $white 0%,
-    $dark-blue 50%
-  );
-    background-size: auto auto;
-    background-clip: border-box;
-    background-size: 200% auto;
-    color: #fff;
-    background-clip: text;
-    text-fill-color: transparent;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: textclip 2s linear infinite;
-    animation-direction: reverse;
-    display: inline-block;
+    animation-name: blinker;
+ animation-duration: 1s;
+ animation-timing-function: linear;
+ animation-iteration-count: infinite;
+}
+.viewer-layout-container .viewer-layout-toolbar {
+    background: #dbe7f2;
+}
+
+.viewer-layout-container .viewer-layout-toolbar .viewer-toolbar-center, .viewer-layout-container .viewer-layout-toolbar .viewer-toolbar-right, .viewer-layout-container .viewer-layout-toolbar .viewer-toolbar-left .viewer-toolbar-item  {
+    display: none;
+}
+.viewer-toolbar {
+    align-items: center;
+    justify-content: center;
+}
+
+.viewer-layout-container .viewer-layout-toolbar .viewer-toolbar-left .viewer-toolbar-item:nth-child(4) {
+    display: block;
 }
 #message_modal .modal-body button {
     margin: 0 auto;
@@ -2026,6 +2030,13 @@ section.select-mail-template.library-cosent .email-form {
   max-width: 195px;
   margin: 14px auto 0;
 }
+.select-mail-template.library-cosent.prev_content .alice-carousel .item {
+    max-width: 150px;
+}
+.select-mail-template.library-cosent.prev_content .alice-carousel .item img {
+    max-width: 107px;
+    max-height: 125px;
+}
 .sublink_right.preview-content {
   max-width: 1330px;
   margin: 0 auto;
@@ -2798,6 +2809,10 @@ section.verify_email.content_details {
   .library_create .library_create-box {
     max-width: 373px;
   }
+  .library_create.spc-box {
+    gap: 70px;
+    justify-content: center;
+}
   .create-change-content {
     padding: 24px 24px;
   }
@@ -2987,6 +3002,7 @@ section.verify_email.content_details {
   .library_create .library_create-box {
     padding: 22px 22px;
   }
+
   .create-change-content .right-change .form-group > label {
     text-align: left;
 }
