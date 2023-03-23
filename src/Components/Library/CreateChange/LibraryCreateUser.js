@@ -40,6 +40,7 @@ const LibraryCreateUser = () => {
     country: [],
     format: [],
     product: [],
+    costCenter: [],
   });
 
   const product = [
@@ -129,7 +130,7 @@ const LibraryCreateUser = () => {
       let formData = new FormData();
       formData.append("keyAuthor", userInputs?.keyAuthor);
       formData.append("expDatetime", userInputs?.expDatetime);
-      formData.append("limit", userInputs?.limitOfUsage);
+      formData.append("limit", userInputs?.limit);
       formData.append("file", userInputs?.uploadFile?.[0]);
       formData.append("title", userInputs?.contentTitle);
       formData.append("company", userInputs?.company);
@@ -550,14 +551,21 @@ const LibraryCreateUser = () => {
           <h4>Limits agreed</h4>
           <div className="row">
             <div className="col-12 col-md-6">
-              <div className="form-group">
-                <label htmlFor="">Cost centre</label>
-                <Select
-                  className="dropdown-basic-button split-button-dropup"
-                  isClearable
-                  placeholder="Select cost center"
-                />
-              </div>
+              {userDetail?.costCenter ? (
+                <div className="form-group">
+                  <label htmlFor="">Cost centre</label>
+                  <Select
+                    options={userDetail?.costCenter}
+                    className="dropdown-basic-button split-button-dropup"
+                    isClearable
+                    placeholder="Select cost center"
+                    onChange={(e) => handleChange(e?.value, "costCenter")}
+                  />
+                </div>
+              ) : (
+                ""
+              )}
+
               <div className="form-group">
                 <label htmlFor="">Expiration date</label>
                 <DatePicker
@@ -572,13 +580,13 @@ const LibraryCreateUser = () => {
                 <label htmlFor="">Set limit of usage</label>
                 <input
                   type="text"
-                  name="limitOfUsage"
+                  name="limit"
                   className="form-control"
                   placeholder="“0” value means unlimited limit"
                   onChange={handleChange}
                 />
-                {error?.limitOfUsage ? (
-                  <div className="login-validation">{error?.limitOfUsage}</div>
+                {error?.limit ? (
+                  <div className="login-validation">{error?.limit}</div>
                 ) : null}
               </div>
               <div className="form-group">
