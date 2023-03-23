@@ -66,9 +66,13 @@ const ContentDetail = () => {
                 <div className="col-12 col-md-9"></div>
                 <div className="col-12 col-md-2">
                   <div className="header-btn">
-                    <button className="btn btn-primary btn-bordered move-draft">
+                    <Link
+                      to="/library-edit"
+                      state={{ pdfid: state?.pdfId }}
+                      className="btn btn-primary btn-bordered move-draft"
+                    >
                       Edit
-                    </button>
+                    </Link>
                     <button
                       className="btn btn-primary btn-bordered next"
                       onClick={() => navigate("/library-content")}

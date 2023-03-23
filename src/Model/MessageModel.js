@@ -18,7 +18,6 @@ const MessageModel = ({
     <>
       <Modal
         show={show}
-        onHide={handleClose}
         className="send-confirm"
         id="message_modal"
       >
@@ -26,7 +25,7 @@ const MessageModel = ({
           <h5 className="modal-title" id="staticBackdropLabel">
             {heading}
           </h5>
-          
+
           <button
             type="button"
             className="btn-close"
