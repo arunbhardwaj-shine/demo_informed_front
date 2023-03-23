@@ -204,7 +204,10 @@ const EditLibrary = () => {
         });
         loader("hide");
         navigate("/set-popup", {
-          state: { pdfId: state?.pdfid },
+          state: {
+            pdfId: state?.pdfid,
+            fileType: userInputs?.docintelFormat,
+          },
         });
       } catch (err) {
         console.log(err);
@@ -666,7 +669,7 @@ const EditLibrary = () => {
               <div className="form-group">
                 <label htmlFor="">Set limit of usage</label>
                 <input
-                  type="text"
+                  type="number"
                   name="limit"
                   defaultValue={userInputs?.limit}
                   className="form-control"
