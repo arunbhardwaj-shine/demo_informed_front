@@ -39,7 +39,7 @@ const LibraryCreate = () => {
     if (value == 0) {
       navigate("/library-create-user");
     } else if (value == 1) {
-      navigate("/library-edit", {
+      navigate("/library-edit-listing", {
         state: {
           data: "edit",
         },

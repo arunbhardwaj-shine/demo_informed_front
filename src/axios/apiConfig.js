@@ -29,4 +29,6 @@ export const ENDPOINT = {
   DELETE_PDF_FILE: `/library//delete-pdf-file`,
   UPDATE_PDF_FILE: `/library/update-pdf`,
   READER_CREATE: `/reader/create-reader`,
+  ADD_PDF_WORD: `/library/add-pdf-word`,
+  USERTIMELINE: `/reader/get-timetracking`,
 };

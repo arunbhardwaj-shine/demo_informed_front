@@ -83,10 +83,8 @@ const LibraryContent = () => {
   const [libraryData, setLibraryData] = useState([]);
   const [changeConsent, setchangeConsent] = useState([]);
   const [updateflag, setupdateFlag] = useState(0);
-  const [qrState, setQr] = useState({
-    value: "",
-  });
-  const [qrSize, setQrSize] = useState(150);
+
+  const [qrSize, setQrSize] = useState(290);
 
   const [isOpen, setIsOpen] = useState(false);
   const [modalCounter, setModalCounter] = useState(0);
@@ -262,14 +260,12 @@ const LibraryContent = () => {
     setShowFilter(false);
   };
   const handleQR = (e) => {
-    console.log("eee", e);
     if (e == "H") {
-      setQrSize(300);
+      setQrSize(390);
     }
     if (e == "L") {
-      setQrSize(500);
+      setQrSize(490);
     }
-    setQr({ ...qrState, level: e });
   };
 
   const showDeleteButtons = () => {
@@ -300,12 +296,11 @@ const LibraryContent = () => {
       } else {
         loader("show");
       }
-
       const res = await postData(ENDPOINT.LIBRARY, body);
       setLibraryData((oldArray) => [...oldArray, ...res?.data?.data?.library]);
-      loader("hide");
       setPageAll(false);
       setPageAllClicked(false);
+      loader("hide");
     } catch (err) {
       console.log("err");
       loader("hide");
@@ -319,39 +314,6 @@ const LibraryContent = () => {
       setPageAllClicked(false);
 
       getLibraryData(page, filterObject, "");
-    }
-  };
-
-  const showConfirmationPopup = (stateMsg, e, id) => {
-    if (stateMsg == "delete") {
-      // setUserId(id);
-      setResetDataId(id);
-      setCommonConfirmModelFun(() => deleteUser);
-      setPopupMessage({
-        message1:
-          "You are about to remove this content from any reader and every device forever.",
-        message2: "Are you sure you want to do this?",
-        footerButton: "Yes Please  !",
-      });
-      if (confirmationpopup) {
-        setConfirmationPopup(false);
-      } else {
-        setConfirmationPopup(true);
-      }
-    } else {
-      // setDeleteStatus(false);
-      setResetDataId(id);
-      setCommonConfirmModelFun(() => resetCollection);
-      setPopupMessage({
-        message1: " You are about to reset the collected data",
-        message2: "Are you sure you want to do this?",
-        footerButton: "Reset Collection",
-      });
-      if (confirmationpopup) {
-        setConfirmationPopup(false);
-      } else {
-        setConfirmationPopup(true);
-      }
     }
   };
 
@@ -378,10 +340,6 @@ const LibraryContent = () => {
     }
 
     hideConfirmationModal();
-  };
-
-  const commonModelFun = () => {
-    setShow(true);
   };
 
   function LinkWithTooltip({ id, children, href, tooltip }) {
@@ -507,21 +465,6 @@ const LibraryContent = () => {
     hideConfirmationModal();
   };
 
-  const tagButtonClicked = (pdf_id) => {
-    const lib_data_index = libraryData.findIndex((el) => el.id === pdf_id);
-    let get_tags = libraryData[lib_data_index]?.tags;
-    if (get_tags != "") {
-      let parsed_tag = JSON.parse(get_tags);
-      setTagClickedFirst(parsed_tag);
-    } else {
-      setTagClickedFirst([]);
-    }
-    setFinalTags([]);
-    setpdftagsid(pdf_id);
-    setIsOpen(true);
-    setModalCounter(modalCounter + 1);
-  };
-
   const closeModal = () => {
     setIsOpen(false);
   };
@@ -559,6 +502,7 @@ const LibraryContent = () => {
       let temp_tags = tagClickedFirst.map((data) => {
         return data.toLowerCase();
       });
+      //  console.log(allTags)
       let alltemp_tags = [];
       Object.entries(allTags).map((data) => {
         return alltemp_tags.push(...data);
@@ -577,6 +521,7 @@ const LibraryContent = () => {
           user_id: localStorage.getItem("user_id"),
           tags: newTag,
         };
+        //console.log(body);
       } else {
         toast.error("Tag already in list.");
       }
@@ -878,14 +823,7 @@ const LibraryContent = () => {
                 ) : null}
               </div>
             </div>
-            <QRCode
-              style={{ display: "none" }}
-              id="qr-gen"
-              value={qrState?.value}
-              size={qrSize}
-              level={qrState?.level}
-              includeMargin={true}
-            />
+
             {Object.keys(filterObject)?.length !== 0 ? (
               <div className="apply-filter">
                 <h6>Applied filters</h6>
@@ -970,30 +908,21 @@ const LibraryContent = () => {
                               </div>
                               {location?.state?.data == "edit" ? (
                                 <div className="dlt_btn">
-                                  <button>
-                                    <img
-                                      src={path_image + "edit-white.svg"}
-                                      alt="Delete Row"
-                                    />
-                                  </button>
+                                  <Link
+                                    to="/library-edit"
+                                    state={{ pdfid: data.id }}
+                                    className="footer-btn"
+                                  >
+                                    <button>
+                                      <img
+                                        src={path_image + "edit-white.svg"}
+                                        alt="Delete Row"
+                                      />
+                                    </button>
+                                  </Link>
                                 </div>
                               ) : deletestatus ? (
-                                <div className="dlt_btn">
-                                  <button
-                                    onClick={(e) =>
-                                      showConfirmationPopup(
-                                        "delete",
-                                        e,
-                                        data?.id
-                                      )
-                                    }
-                                  >
-                                    <img
-                                      src={path_image + "delete.svg"}
-                                      alt="Delete Row"
-                                    />
-                                  </button>
-                                </div>
+                                <div className="dlt_btn"></div>
                               ) : null}
                             </div>
                             <div className="tabs-data">
@@ -1156,41 +1085,6 @@ const LibraryContent = () => {
                                       </li>
                                     </ul>
                                   </div>
-
-                                  {location?.state?.data != "edit" &&
-                                  deletestatus == false ? (
-                                    <div className="data-main-footer-sec">
-                                      <div className="footer-btn-wrapper">
-                                        <a
-                                          className="footer-btn"
-                                          href={data?.previewArticle}
-                                          target="_blank"
-                                        >
-                                          Preview Aritcle
-                                        </a>
-                                        <Button
-                                          onClick={() => {
-                                            commonModelFun();
-                                            setQr({
-                                              ...qrState,
-                                              value: data?.docintelLink,
-                                            });
-                                          }}
-                                          className="footer-btn"
-                                        >
-                                          Download QR
-                                        </Button>
-                                        <Button
-                                          className="footer-btn"
-                                          onClick={() => {
-                                            navigate("/CreateEmail");
-                                          }}
-                                        >
-                                          Send in Email
-                                        </Button>
-                                      </div>
-                                    </div>
-                                  ) : null}
                                 </Tab>
                                 <Tab
                                   eventKey="data-tab"
@@ -1382,23 +1276,7 @@ const LibraryContent = () => {
                                     </ul>
                                   </div>
                                   <div className="data-main-footer-sec">
-                                    <div className="footer-btn-wrapper">
-                                      <Button className="footer-btn">
-                                        Analytics
-                                      </Button>
-                                      <Button
-                                        className="footer-btn reset"
-                                        onClick={(e) =>
-                                          showConfirmationPopup(
-                                            "reset",
-                                            e,
-                                            data?.id
-                                          )
-                                        }
-                                      >
-                                        Reset the collected data
-                                      </Button>
-                                    </div>
+                                    <div className="footer-btn-wrapper"></div>
                                   </div>
                                 </Tab>
                                 <Tab
@@ -1443,28 +1321,6 @@ const LibraryContent = () => {
                                       {/* <Button className="footer-btn">
                                         Edit Docintel Link
                                       </Button> */}
-                                      <Link
-                                        to="/library-edit"
-                                        state={{ pdfid: data.id }}
-                                        className="footer-btn"
-                                      >
-                                        Edit Docintel Link
-                                      </Link>
-                                      <Button
-                                        className="footer-btn"
-                                        onClick={(e) =>
-                                          tagButtonClicked(data.id)
-                                        }
-                                      >
-                                        Add / Remove Tags
-                                      </Button>
-                                      <Link
-                                        to="/library-sublink"
-                                        state={{ pdfid: data.id }}
-                                        className="footer-btn"
-                                      >
-                                        New Sublink
-                                      </Link>
                                     </div>
                                   </div>
                                 </Tab>
@@ -1557,6 +1413,28 @@ const LibraryContent = () => {
                                   </div>
                                 </Tab>
                               </Tabs>
+                            </div>
+                            <div
+                              className="data-main-footer-sec"
+                              style={{
+                                height: "15px",
+                                display: "flex",
+                                justifyContent: "right",
+                              }}
+                            >
+                              <div className="footer-btn-wrapper">
+                                <Link
+                                  to="/library-edit"
+                                  state={{ pdfid: data.id }}
+                                  className="footer-btn"
+                                >
+                                  {/* <img
+                                    src={path_image + "edit-img.svg"}
+                                    alt=""
+                                    style={{ padding: "13px" }}
+                                  /> */}
+                                </Link>
+                              </div>
                             </div>
                           </div>
                         </>

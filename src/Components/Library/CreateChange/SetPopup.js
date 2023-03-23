@@ -30,6 +30,7 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const SetPopup = (props) => {
   const editorRef = useRef(null);
   const navigate = useNavigate();
+  const { state } = useLocation();
   const [getTemplateLanguage, setTemplateLanguage] = useState([]);
   const [selectedLanguage, setSelectedLanguage] = useState("All");
   const [countryOption, setCountryOption] = useState(0);
@@ -51,7 +52,9 @@ const SetPopup = (props) => {
   const [newTemplateName, setNewTemplateName] = useState("");
   const [getTemplatePopup, setTemplatePopup] = useState(false);
   const [getNewTemplatePopup, setNewTemplatePopup] = useState(false);
-  const [articleId, setArticleId] = useState("3982");
+  const [articleId, setArticleId] = useState(
+      typeof state?.pdfId !== "undefined" ?  state?.pdfId : ''
+  );
   const [selectOptions, setSelectOptions] = useState({
     consentType: "",
     language: "",
@@ -118,11 +121,17 @@ const SetPopup = (props) => {
         check_lng_index = 4;
       }
 
+      if(typeof articleId === "undefined"){
+        if(state?.pdfId){
+          setArticleId(state?.pdfId);
+        }
+      }
+
       const body = {
         userId: "18207",
         language: check_lng_index,
         consentType: consent,
-        pdfId: ''
+        pdfId: typeof state?.pdfId !== "undefined" ?  state?.pdfId : articleId
       };
       const res = await postData(ENDPOINT.LIBRARYGETPOPUP, body);
       setTemplateList(res?.data?.data?.popupData);
@@ -194,7 +203,10 @@ const SetPopup = (props) => {
         }
         const res = await postData(ENDPOINT.LIBRARYSAVEPOPUP, body);
         loader("hide");
-        navigate("/preview-content")
+        navigate("/preview-content", {
+          state: { pdfId: articleId },
+        });
+        // navigate("/preview-content")
       }catch(err){
         loader("hide");
       }
@@ -410,7 +422,7 @@ const SetPopup = (props) => {
                               className={
                                 typeof templateId !== "undefined" &&
                                 templateId == template.popupNo
-                                  ? "select_mm"
+                                  ? ""
                                   : ""
                               }
                             />

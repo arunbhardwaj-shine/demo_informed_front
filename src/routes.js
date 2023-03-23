@@ -77,11 +77,13 @@ import SettingWebinar from "./Components/NewWebinar/WebinarFiles/SettingWebinar"
 import LibraryCreateUser from "./Components/Library/CreateChange/LibraryCreateUser";
 import CreateDocintelLink from "./Components/Library/CreateChange/CreateDocintelLink";
 import SpcView from "./Components/Library/SpcView";
+import SpcRender from "./Components/Library/SpcRender";
 import SpcEdit from "./Components/Library/SpcEdit";
 import SetPopup from "./Components/Library/CreateChange/SetPopup";
 import EditConsentOptions from "./Components/Library/CreateChange/EditConsentOptions";
 import ContentDetail from "./Components/Library/CreateChange/ContentDetail";
 import EditLibrary from "./Components/Library/CreateChange/EditLibrary";
+import LibraryEditListing from "./Components/Library/Content/LibraryEditListing";
 
 let platform = 0;
 let show = 0;
@@ -122,7 +124,7 @@ const Routing = () => {
           "/setting-webinar",
         ].includes(window.location.pathname) ? (
           <WebinarHeader />
-        ) : ["/library-content", "/library-create",].includes(
+        ) : ["/library-content", "/library-create"].includes(
             window.location.pathname
           ) ? (
           <Header />
@@ -177,6 +179,10 @@ const Routing = () => {
                 <Route path="/library-create" element={<LibraryCreate />} />
                 <Route path="/library-popup" element={<LibraryPopupSet />} />
                 <Route
+                  path="/library-edit-listing"
+                  element={<LibraryEditListing />}
+                />
+                <Route
                   path="/library-create-user"
                   element={<LibraryCreateUser />}
                 />
@@ -186,6 +192,7 @@ const Routing = () => {
                 />
                 <Route path="/set-popup" element={<SetPopup />} />
                 <Route path="/spc-view" element={<SpcView />} />
+                <Route path="/spc-render" element={<SpcRender />} />
                 <Route path="/spc-delete" element={<SpcView />} />
                 <Route path="/spc-edit" element={<SpcEdit />} />
                 <Route path="/library-sublink" element={<LibrarySublink />} />
