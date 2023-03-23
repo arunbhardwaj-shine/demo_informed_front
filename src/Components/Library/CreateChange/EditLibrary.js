@@ -5,7 +5,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
-import { createContent } from "../../CommonComponent/Validations";
+
+import { LibraryEditValidation } from "../../Validations/LibraryValidation/LibraryEditValidation";
 import { Button, Form, Dropdown, DropdownButton } from "react-bootstrap";
 import {
   postFormData,
@@ -157,7 +158,7 @@ const EditLibrary = () => {
 
   const nextButtonClicked = async (e) => {
     e.preventDefault();
-    const err = createContent(userInputs, ebookFile);
+    const err = LibraryEditValidation(userInputs);
 
     if (Object.keys(err)?.length) {
       setError(err);

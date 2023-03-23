@@ -1,22 +1,29 @@
-import React, { useState } from 'react'
-import { Button, Col, Dropdown, DropdownButton, Form, Row } from 'react-bootstrap'
-import { Link, Navigate } from 'react-router-dom';
+import React, { useState } from "react";
+import {
+  Button,
+  Col,
+  Dropdown,
+  DropdownButton,
+  Form,
+  Row,
+} from "react-bootstrap";
+import { Link, Navigate } from "react-router-dom";
 import Select from "react-select";
 
 const ReaderEdit = () => {
   const [newProduct, setNewProduct] = useState("");
   const [show, setShow] = useState(false);
-   const [countryAll, setCountryAll] = useState([
+  const [countryAll, setCountryAll] = useState([
     { value: "India", label: "India" },
     { value: "Australia", label: "Australia" },
     { value: "Russia", label: "Russia" },
   ]);
-    const [salesAll, setSalesAll] = useState([
+  const [salesAll, setSalesAll] = useState([
     { value: "sales1", label: "sales1" },
     { value: "sales2", label: "sales2" },
     { value: "sales3", label: "sales3" },
   ]);
-    const [productionAll, setProductionAll] = useState([
+  const [productionAll, setProductionAll] = useState([
     { value: "production1", label: "production1" },
     { value: "production2", label: "production2" },
     { value: "production3", label: "production3" },
@@ -34,59 +41,54 @@ const ReaderEdit = () => {
   const [field, setField] = useState([]);
   return (
     <>
-    <Col className="right-sidebar">
-      <div className="custom-container">
-        <Row>
-          <div className="page-top-nav">
-          <div className="row justify-content-end align-items-center">
-            <div className="col-12 col-md-1">
-              <div className="header-btn-left">
-                <Link className="btn btn-primary btn-bordered back" to="/readers-view">Back</Link>
+      <Col className="right-sidebar">
+        <div className="custom-container">
+          <Row>
+            <div className="page-top-nav">
+              <div className="row justify-content-end align-items-center">
+                <div className="col-12 col-md-1">
+                  <div className="header-btn-left">
+                    <Link
+                      className="btn btn-primary btn-bordered back"
+                      to="/readers-view"
+                    >
+                      Back
+                    </Link>
+                  </div>
+                </div>
+                <div className="col-12 col-md-9"></div>
+                <div className="col-12 col-md-2">
+                  <div className="header-btn">
+                    <button className="btn btn-primary btn-filled save">
+                      Save
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="col-12 col-md-9">
-
-            </div>
-            <div className="col-12 col-md-2">
-              <div className="header-btn">
-                <button
-                  className="btn btn-primary btn-filled save">
-                  Save
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        </Row>
-        <Row>
-          <div className="create-reader create-change-content">
+          </Row>
+          <Row>
+            <div className="create-reader create-change-content">
               <div className="form_action">
                 <div className="create-reader-form-header">
                   <h4>Please fill the following details</h4>
-                  <Button className="btn-bordered" type="file">Upload Excel File</Button>
+                  <Button className="btn-bordered" type="file">
+                    Upload Excel File
+                  </Button>
                 </div>
                 <div className="row">
                   <div className="col-12 col-md-7">
                     <div className="form-group">
                       <label htmlFor="">First name *</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                      />
+                      <input type="text" className="form-control" />
                     </div>
                     <div className="form-group">
                       <label htmlFor="">Middle name</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                      />
+                      <input type="text" className="form-control" />
                     </div>
                     <div className="form-group">
                       <label htmlFor="">Last name</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                      />
+                      <input type="text" className="form-control" />
                     </div>
                     <div className="form-group">
                       <label htmlFor="">Primary email *</label>
@@ -96,7 +98,7 @@ const ReaderEdit = () => {
                         placeholder="example@email.com"
                       />
                     </div>
-                    
+
                     <div className="form-group">
                       <label htmlFor="">Alternative email </label>
                       <input
@@ -113,17 +115,11 @@ const ReaderEdit = () => {
                         isClearable
                         placeholder=""
                       />
-                      <input
-                        type="number"
-                        className="form-control"
-                      />
+                      <input type="number" className="form-control" />
                     </div>
                     <div className="form-group">
                       <label htmlFor="">Alternative phone</label>
-                      <input
-                        type="number"
-                        className="form-control"
-                      />
+                      <input type="number" className="form-control" />
                     </div>
                     <div className="form-group">
                       <label htmlFor="">Country *</label>
@@ -157,10 +153,7 @@ const ReaderEdit = () => {
                     </div>
                     <div className="form-group">
                       <label htmlFor="">Title</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                      />
+                      <input type="text" className="form-control" />
                       {/* {error?.clientProduct ? (
                         <div className="login-validation">
                           {error?.clientProduct}
@@ -168,56 +161,53 @@ const ReaderEdit = () => {
                       ) : null} */}
                     </div>
                     <div className="form-group">
-                        <label htmlFor="">Speciality</label>
-                        <Select
-                          options={countryAll}
-                          placeholder="Select speciality"
-                          className="dropdown-basic-button split-button-dropup"
-                          isClearable
-                        />
-                        <div className="add_product">
-                          <span>&nbsp;</span>
-                          <Button
-                            className="btn-bordered btn-voilet"
-                          >
-                            Add new Speciality +
-                          </Button>
-                        </div>
+                      <label htmlFor="">Speciality</label>
+                      <Select
+                        options={countryAll}
+                        placeholder="Select speciality"
+                        className="dropdown-basic-button split-button-dropup"
+                        isClearable
+                      />
+                      <div className="add_product">
+                        <span>&nbsp;</span>
+                        <Button className="btn-bordered btn-voilet">
+                          Add new Speciality +
+                        </Button>
                       </div>
+                    </div>
                     <div className="form-group">
-                        <label htmlFor="">Discipline</label>
-                        <Select
-                          options={productionAll}
-                          placeholder="Select discipline"
-                          className="dropdown-basic-button split-button-dropup"
-                          isClearable
-                        />
-                        <div className="add_product">
-                          <span>&nbsp;</span>
-                          <Button  onClick={addNewProductClicked}
-                            className="btn-bordered btn-voilet"
-                          >
-                            Add new Discipline +
-                          </Button>
-                        </div>
+                      <label htmlFor="">Discipline</label>
+                      <Select
+                        options={productionAll}
+                        placeholder="Select discipline"
+                        className="dropdown-basic-button split-button-dropup"
+                        isClearable
+                      />
+                      <div className="add_product">
+                        <span>&nbsp;</span>
+                        <Button
+                          onClick={addNewProductClicked}
+                          className="btn-bordered btn-voilet"
+                        >
+                          Add new Discipline +
+                        </Button>
                       </div>
-                     <div className="form-group">
-                        <label htmlFor="">Product</label>
-                        <Select
-                          options={productionAll}
-                          placeholder="Select product"
-                          className="dropdown-basic-button split-button-dropup"
-                          isClearable
-                        />
-                        <div className="add_product">
-                          <span>&nbsp;</span>
-                          <Button
-                            className="btn-bordered btn-voilet"
-                          >
-                            Add new product +
-                          </Button>
-                        </div>
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="">Product</label>
+                      <Select
+                        options={productionAll}
+                        placeholder="Select product"
+                        className="dropdown-basic-button split-button-dropup"
+                        isClearable
+                      />
+                      <div className="add_product">
+                        <span>&nbsp;</span>
+                        <Button className="btn-bordered btn-voilet">
+                          Add new product +
+                        </Button>
                       </div>
+                    </div>
                     <div className="form-group">
                       <label htmlFor="">Interest area</label>
                       <Select
@@ -230,7 +220,8 @@ const ReaderEdit = () => {
                     <div className="form-group">
                       <label htmlFor="">Rep contact</label>
                       <input
-                        type="text" placeholder="Who is Rep contact?"
+                        type="text"
+                        placeholder="Who is Rep contact?"
                         className="form-control"
                       />
                     </div>
@@ -247,7 +238,7 @@ const ReaderEdit = () => {
                     </div>
                   </div>
                 </div>
-              {/* <Form className="d-flex flex-wrap row">
+                {/* <Form className="d-flex flex-wrap row">
                 <Form.Group className="mb-3 col-6 form-group">
                   <Form.Label>First name</Form.Label>
                   <Form.Control
@@ -583,11 +574,11 @@ const ReaderEdit = () => {
                     
                 </Form>
             </div> */}
-        </Row>
-      </div>
-    </Col>
+          </Row>
+        </div>
+      </Col>
     </>
-  )
-}
+  );
+};
 
 export default ReaderEdit;
