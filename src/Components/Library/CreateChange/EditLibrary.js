@@ -44,6 +44,8 @@ const EditLibrary = () => {
     docintelFormat: "",
     product: "",
     coverPhoto: "",
+    productionNotes:"",
+    specialRequirment:""
   });
   const [ebookFile, setEbookFile] = useState([]);
   const [libraryData, setLibraryData] = useState([]);
@@ -66,6 +68,7 @@ const EditLibrary = () => {
     costCenter: [],
     // reseller:[]
   });
+  const [id,setId] = useState(18207)
 
   const product = [
     {
@@ -89,7 +92,7 @@ const EditLibrary = () => {
   const initalFun = async () => {
     loader("show");
     const hadData = await postData(ENDPOINT.LIBRARYDETAIL, {
-      userId: 18207,
+      userId: id,
     });
 
     let country = [];
@@ -173,7 +176,7 @@ const EditLibrary = () => {
         formData.append("file", userInputs?.uploadFile?.[0]);
         formData.append("title", userInputs?.contentTitle);
         formData.append("allowShare", JSON.stringify(userInputs?.allow_share));
-        formData.append("multiplePublisher", JSON.stringify(reseller));
+        formData.append("multiplePublisher", reseller?.length?JSON.stringify(reseller):"");
 
         formData.append(
           "allowDownload",
@@ -188,6 +191,7 @@ const EditLibrary = () => {
 
         formData.append("fileType", userInputs?.docintelFormat);
         formData.append("product", userInputs?.product);
+        formData.append("product", userInputs?.product);
 
         ebookFile?.forEach((item) => {
           formData.append("ebookData", item);
@@ -195,8 +199,10 @@ const EditLibrary = () => {
 
         formData.append("coverPhoto", userInputs?.coverPhoto?.[0]);
         formData.append("chapter", JSON.stringify(chapter));
-        //   formData.append("specialRequirment",userInputs?.specialRequirment?.target?.value)
-        formData.append("createdBy", 18207);
+        formData.append("productionNotes",userInputs?.productionNotes)
+
+        formData.append("specialRequirment",userInputs?.specialRequirment)
+        formData.append("createdBy", id);
 
         await postFormData(ENDPOINT.UPDATE_ARTICLE, formData, {
           header: {
@@ -618,7 +624,7 @@ const EditLibrary = () => {
       let newAr = userDetail?.product;
       newAr.push({ value: userDetail?.newValu, label: userDetail?.newValue });
       let body = {
-        userId: 18207,
+        userId: id,
         product: userDetail?.newValue,
         category: 0,
         type: 1,
@@ -1091,6 +1097,8 @@ const EditLibrary = () => {
                         className="form-control"
                         id="formControlTextarea"
                         rows="5"
+                        defaultValue={userInputs?.productionNotes}
+                        onChange={(e) => handleChange(e?.target.value, "productionNotes")}
                         placeholder="Please type your notes here.."
                       ></textarea>
                     </div>

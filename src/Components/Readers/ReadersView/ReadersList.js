@@ -112,6 +112,7 @@ const NewReaders = () => {
   const userDropDownClicked = (e) => {
     setSortUserd(e);
   };
+
   const handleOnFilterChange = (e, item, index, key) => {
     if (!filterObject[key]) {
       filterObject[key] = [];
@@ -131,6 +132,7 @@ const NewReaders = () => {
 
     setFilterObject(filterObject);
   };
+
 
   function LinkWithTooltip({ id, children, href, tooltip }) {
     return (
@@ -388,6 +390,7 @@ const NewReaders = () => {
                                       <Link
                                         to="/reader-edit"
                                         className="btn btn-primary btn-filled"
+                                        state={{ id: data.id }}
                                       >
                                         Edit
                                       </Link>
