@@ -119,6 +119,7 @@ const EditLibrary = () => {
       setChapter(hadData?.data?.data?.ebookData);
       loader("hide");
     } catch (err) {
+      
       console.log("-err", err);
     }
   };
