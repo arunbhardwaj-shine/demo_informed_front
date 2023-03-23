@@ -230,8 +230,8 @@ const ContentDetail = () => {
                                                 <tr>
                                                   <th>Reseller</th>
                                                   <td>
-                                                    {data?.reseller
-                                                      ? data?.reseller
+                                                    {data?.multiple_publisher
+                                                      ? "Yes"
                                                       : "N/A"}
                                                   </td>
                                                 </tr>
@@ -287,7 +287,7 @@ const ContentDetail = () => {
                                                   <th>Invoice Notes</th>
                                                   <td>
                                                     {data?.special_requirment
-                                                      ? data?.special_requirment
+                                                      ? "Yes"
                                                       : "N/A"}
                                                   </td>
                                                 </tr>
@@ -318,16 +318,16 @@ const ContentDetail = () => {
                                                 <tr>
                                                   <th>Uploaded chapters</th>
                                                   <td>
-                                                    {data?.uploaded_chapters
-                                                      ? data?.uploaded_chapters
+                                                    {data?.file_type == "ebook"
+                                                      ? "Yes"
                                                       : "N/A"}
                                                   </td>
                                                 </tr>
                                                 <tr>
                                                   <th>Included videos</th>
                                                   <td>
-                                                    {data?.include_videos
-                                                      ? data?.include_videos
+                                                    {data?.file_type == "video"
+                                                      ? "Yes"
                                                       : "N/A"}
                                                   </td>
                                                 </tr>
@@ -346,7 +346,7 @@ const ContentDetail = () => {
                                                   </th>
                                                   <td>
                                                     {data?.production_notes
-                                                      ? data?.production_notes
+                                                      ? "Yes"
                                                       : "N/A"}
                                                   </td>
                                                 </tr>
