@@ -4,11 +4,14 @@ import { toast } from "react-toastify";
 import "react-circular-progressbar/dist/styles.css";
 import { postData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
+import { Link, useLocation } from "react-router-dom";
 
 const ContentDetail = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const { state } = useLocation();
   const [libraryData, setLibraryData] = useState();
   const [reRender, setReRender] = useState(0);
+  const [articleId, setArticleId] = useState(typeof state?.pdfId !== "undefined" ?  state?.pdfId : '');
 
   useEffect(() => {
     getLibraryData();
@@ -17,8 +20,15 @@ const ContentDetail = () => {
   const getLibraryData = async () => {
     try {
       loader("show");
+
+      if(typeof articleId === "undefined"){
+        if(state?.pdfId){
+          setArticleId(state?.pdfId);
+        }
+      }
+
       let body = {
-        pdfId: 4002,
+        pdfId: typeof state?.pdfId !== "undefined" ?  state?.pdfId : articleId,
         apiType: "Library",
       };
 

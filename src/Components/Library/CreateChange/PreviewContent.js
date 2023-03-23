@@ -32,7 +32,8 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const PreviewContent = () => {
   const [show, setShow] = useState(false);
     const navigate = useNavigate();
-    const [articleId, setArticleId] = useState("3846");
+    const { state } = useLocation();
+    const [articleId, setArticleId] = useState(typeof state?.pdfId !== "undefined" ?  state?.pdfId : '');
     const [pdfData, setPdfData] = useState([]);
     const [editTitle, setEditTitle] = useState(false);
     const [publishStatus, setPublishStatus] = useState(false);
@@ -64,8 +65,14 @@ const PreviewContent = () => {
     const getArticleData = async () => {
         loader('show');
 		try{
+          if(typeof articleId === "undefined"){
+            if(state?.pdfId){
+              setArticleId(state?.pdfId);
+            }
+          }
+
           let body = {
-            pdfId: articleId
+            pdfId: typeof state?.pdfId !== "undefined" ?  state?.pdfId : articleId
           };
           const res = await postData(ENDPOINT.LIBRARYGETARTICLE, body);
           setPdfData(res?.data?.data);
@@ -244,7 +251,7 @@ const PreviewContent = () => {
                     </button>
                       <Link
                         to="/content-detail"
-                        state={{ pdfid: articleId }}
+                        state={{ pdfId: articleId }}
                         className={publishStatus  ? "btn btn-primary btn-filled next" : "btn btn-primary btn-filled next btn-disabled"}
                       >
                         Publish
