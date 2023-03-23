@@ -203,7 +203,9 @@ const EditLibrary = () => {
           },
         });
         loader("hide");
-        navigate("/set-popup");
+        navigate("/set-popup", {
+          state: { pdfId: state?.pdfid },
+        });
       } catch (err) {
         console.log(err);
       }
