@@ -171,7 +171,10 @@ const LibraryCreateUser = () => {
         loader("hide");
         // navigate("/set-popup");
         navigate("/set-popup", {
-          state: { pdfId: res?.data?.data?.pdfId },
+          state: {
+            pdfId: res?.data?.data?.pdfId,
+            fileType:userInputs?.docintelFormat
+           },
         });
       } catch (err) {
         loader("hide");
@@ -602,7 +605,7 @@ const LibraryCreateUser = () => {
               <div className="form-group">
                 <label htmlFor="">Set limit of usage</label>
                 <input
-                  type="text"
+                  type="number"
                   name="limit"
                   className="form-control"
                   placeholder="“0” value means unlimited limit"
