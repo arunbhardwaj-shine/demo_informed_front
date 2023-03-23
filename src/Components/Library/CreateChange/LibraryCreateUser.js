@@ -159,7 +159,7 @@ const LibraryCreateUser = () => {
       }catch(err){
         loader("hide");
       }
-    }
+   }
   };
 
   const addMoreChClicked = () => {
@@ -563,14 +563,18 @@ const LibraryCreateUser = () => {
                <h4>Limits agreed</h4>
                <div className="row">
                  <div className="col-12 col-md-6">
-                   <div className="form-group">
-                     <label htmlFor="">Cost centre</label>
-                     <Select
-                       className="dropdown-basic-button split-button-dropup"
-                       isClearable
-                       placeholder="Select cost center"
-                     />
-                   </div>
+                 {userDetail?.costCenter ? (
+                    <div className="form-group">
+                      <label htmlFor="">Cost centre</label> 
+                      <Select
+                      options={userDetail?.costCenter} 
+                      className="dropdown-basic-button split-button-dropup" 
+                      isClearable 
+                      placeholder="Select cost center"
+                      onChange={(e) => handleChange(e?.value, "costCenter")}
+                        />
+                      </div>
+                      ) : null}
                    <div className="form-group">
                      <label htmlFor="">Expiration date</label>
                      <DatePicker
