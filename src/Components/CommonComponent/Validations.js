@@ -16,8 +16,12 @@ export const createContent = (data, fileCheck) => {
   //   error.keyAuthor = "Author Title is required!";
   // }
 
-  if (!data?.limit && data?.limit < 0) {
+  if (!data?.limit) {
     error.limit = "Limit is required";
+  } else if (data?.limit) {
+    if (data?.limit < 1) {
+      error.limit = "Limit must be greater than 0";
+    }
   }
   if (!data?.docintelFormat) {
     error.docintelFormat = "Docintel Format is required!";
