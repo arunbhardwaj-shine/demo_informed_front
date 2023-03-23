@@ -624,7 +624,42 @@
     }
   }
 }
-
+@keyframes textclip {
+  to {
+    background-position: 200% center;
+  }
+}
+.blink_text {
+    width: calc(100% - 430px);
+    margin: 0 auto;
+    text-align: center;
+}
+.blink_text h4 {
+    margin: 0;
+    font-size: 20px;
+    background-image: linear-gradient(
+    -225deg,
+    $white 0%,
+    $dark-blue 50%
+  );
+    background-size: auto auto;
+    background-clip: border-box;
+    background-size: 200% auto;
+    color: #fff;
+    background-clip: text;
+    text-fill-color: transparent;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: textclip 2s linear infinite;
+    animation-direction: reverse;
+    display: inline-block;
+}
+#message_modal .modal-body button {
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    padding: 12px 40px;
+}
 .create-change-content .input-group {
   border: 1px dashed var(--light-blue);
   box-sizing: border-box;
