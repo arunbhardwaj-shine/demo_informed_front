@@ -30,6 +30,19 @@ const EditLibrary = () => {
   const [error, setError] = useState({});
   const [userInputs, setCreateLibraryInputs] = useState({
     expDatetime: "",
+    keyAuthor: "",
+    limit: "",
+    uploadFile: "",
+    contentTitle: "",
+    allow_share: "",
+    allow_download: "",
+    allow_print: "",
+    country: "",
+    company: "",
+    journalTitle: "",
+    docintelFormat: "",
+    product: "",
+    coverPhoto: "",
   });
   const [ebookFile, setEbookFile] = useState([]);
   const [libraryData, setLibraryData] = useState([]);
@@ -41,7 +54,7 @@ const EditLibrary = () => {
       fileValue: "",
     },
   ]);
-  const [reseller,setReseller] = useState([])
+  const [reseller, setReseller] = useState([]);
   const [userDetail, setUserDetail] = useState({
     user: {},
     production: [],
@@ -93,8 +106,6 @@ const EditLibrary = () => {
       });
     });
 
-    
-    
     setUserDetail({
       user: hadData?.data?.data?.user,
       production: hadData?.data?.data?.production,
@@ -115,11 +126,14 @@ const EditLibrary = () => {
         `${ENDPOINT.LIBRARY_DETAIL_BY_ID}/${state?.pdfid}`
       );
       setCreateLibraryInputs(hadData?.data?.data?.pdfData);
-      setReseller(hadData?.data?.data?.pdfData?.multiple_publisher?JSON.parse(hadData?.data?.data?.pdfData?.multiple_publisher):[])
+      setReseller(
+        hadData?.data?.data?.pdfData?.multiple_publisher
+          ? JSON.parse(hadData?.data?.data?.pdfData?.multiple_publisher)
+          : []
+      );
       setChapter(hadData?.data?.data?.ebookData);
       loader("hide");
     } catch (err) {
-      
       console.log("-err", err);
     }
   };
@@ -143,56 +157,56 @@ const EditLibrary = () => {
 
   const nextButtonClicked = async (e) => {
     e.preventDefault();
-    // const err = createContent(userInputs, ebookFile);
+    const err = createContent(userInputs, ebookFile);
 
-    // if (Object.keys(err)?.length) {
-    //   setError(err);
-    //   return;
-    // }else{
-    try {
-      loader("show");
-      let formData = new FormData();
-      formData.append("keyAuthor", userInputs?.keyAuthor);
-      formData.append("expDatetime", userInputs?.expDatetime);
-      formData.append("limit", userInputs?.limit);
-      formData.append("file", userInputs?.uploadFile?.[0]);
-      formData.append("title", userInputs?.contentTitle);
-      formData.append("allowShare", JSON.stringify(userInputs?.allow_share));
-      formData.append("multiplePublisher",JSON.stringify(reseller))
+    if (Object.keys(err)?.length) {
+      setError(err);
+      return;
+    } else {
+      try {
+        loader("show");
+        let formData = new FormData();
+        formData.append("keyAuthor", userInputs?.keyAuthor);
+        formData.append("expDatetime", userInputs?.expDatetime);
+        formData.append("limit", userInputs?.limit);
+        formData.append("file", userInputs?.uploadFile?.[0]);
+        formData.append("title", userInputs?.contentTitle);
+        formData.append("allowShare", JSON.stringify(userInputs?.allow_share));
+        formData.append("multiplePublisher", JSON.stringify(reseller));
 
-      formData.append(
-        "allowDownload",
-        JSON.stringify(userInputs?.allow_download)
-        
-      );
-      formData.append("allowPrint", JSON.stringify(userInputs?.allow_print));
-      formData.append("pdfId", state?.pdfid);
+        formData.append(
+          "allowDownload",
+          JSON.stringify(userInputs?.allow_download)
+        );
+        formData.append("allowPrint", JSON.stringify(userInputs?.allow_print));
+        formData.append("pdfId", state?.pdfid);
 
-      formData.append("country", userInputs?.country);
-      formData.append("company", userInputs?.company);
-      formData.append("journalTitle", userInputs?.journalTitle);
+        formData.append("country", userInputs?.country);
+        formData.append("company", userInputs?.company);
+        formData.append("journalTitle", userInputs?.journalTitle);
 
-      formData.append("fileType", userInputs?.docintelFormat);
-      formData.append("product", userInputs?.product);
+        formData.append("fileType", userInputs?.docintelFormat);
+        formData.append("product", userInputs?.product);
 
-      ebookFile?.forEach((item) => {
-        formData.append("ebookData", item);
-      });
+        ebookFile?.forEach((item) => {
+          formData.append("ebookData", item);
+        });
 
-      formData.append("coverPhoto", userInputs?.coverPhoto?.[0]);
-      formData.append("chapter", JSON.stringify(chapter));
-      //   formData.append("specialRequirment",userInputs?.specialRequirment?.target.value)
-      formData.append("createdBy", 18207);
+        formData.append("coverPhoto", userInputs?.coverPhoto?.[0]);
+        formData.append("chapter", JSON.stringify(chapter));
+        //   formData.append("specialRequirment",userInputs?.specialRequirment?.target?.value)
+        formData.append("createdBy", 18207);
 
-      await postFormData(ENDPOINT.UPDATE_ARTICLE, formData, {
-        header: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      loader("hide");
-      navigate("/set-popup");
-    } catch (err) {
-      console.log(err);
+        await postFormData(ENDPOINT.UPDATE_ARTICLE, formData, {
+          header: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        loader("hide");
+        navigate("/set-popup");
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
@@ -210,18 +224,16 @@ const EditLibrary = () => {
     }
   };
 
-  const handleReseller = (e,data)=>{
-    let newData = []
-    if(e.target.checked){
-       newData = reseller
-      newData.push(data?.id)
-    }else{
-      newData =  reseller?.filter(item => item !=data?.id)
+  const handleReseller = (e, data) => {
+    let newData = [];
+    if (e.target.checked) {
+      newData = reseller;
+      newData.push(data?.id);
+    } else {
+      newData = reseller?.filter((item) => item != data?.id);
     }
-    setReseller(newData)
-
-  }
-
+    setReseller(newData);
+  };
 
   const deleteRecord = async (i, id) => {
     if (id) {
@@ -350,7 +362,7 @@ const EditLibrary = () => {
               <div className="form-group justify-content-end">
                 <label htmlFor="">Reseller</label>
                 <div className="form-check-group">
-                  {console.log("-dfdf",reseller)}
+                  {console.log("-dfdf", reseller)}
                   <div className="form-check-group-inset">
                     {userDetail?.reseller?.length ? (
                       userDetail?.reseller?.map((item) => {
@@ -363,8 +375,7 @@ const EditLibrary = () => {
                               type="checkbox"
                               // userInputs
                               defaultChecked={reseller.includes(item?.id)}
-                              onClick={(e)=>handleReseller(e,item)}
-
+                              onClick={(e) => handleReseller(e, item)}
                             />
                             <label
                               className="form-check-label"
@@ -711,7 +722,7 @@ const EditLibrary = () => {
                   id="formControlTextarea"
                   defaultValue={userInputs?.specialRequirment}
                   onChange={(e) =>
-                    handleChange(e?.target.value, "specialRequirment")
+                    handleChange(e?.target?.value, "specialRequirment")
                   }
                   rows="5"
                   placeholder="Please type your notes here.."
