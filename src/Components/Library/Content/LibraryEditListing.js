@@ -296,12 +296,11 @@ const LibraryContent = () => {
       } else {
         loader("show");
       }
-
       const res = await postData(ENDPOINT.LIBRARY, body);
       setLibraryData((oldArray) => [...oldArray, ...res?.data?.data?.library]);
-      loader("hide");
       setPageAll(false);
       setPageAllClicked(false);
+      loader("hide");
     } catch (err) {
       console.log("err");
       loader("hide");
