@@ -32,7 +32,5 @@ export const ENDPOINT = {
   ADD_PDF_WORD: `/library/add-pdf-word`,
   READER_USER_DROP: `/reader/user-detail/`,
   READER_GET_READER_USER: `/reader/get-reader`,
-
-
- 
+  USERTIMELINE: `/reader/get-timetracking`,
 };

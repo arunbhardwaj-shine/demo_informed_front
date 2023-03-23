@@ -1,72 +1,39 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { postData } from "../../../axios/apiHelper";
+import { ENDPOINT } from "../../../axios/apiConfig";
+import { loader } from "../../../loader";
 
-const data = [
-  {
-    itemdetail: "Web Details:",
-    date: "12 Dec 2022",
-    time: "Time: 10:34 AM ( Europe/London )",
-    activity: "Activity: Login to docintel app",
-    title: "Title: Factor FVIII Relevance Academy 2022, Morning sessions",
-    chapter: [
-      {
-        chapter: "Chapter 1",
-        markimage:
-          "https://docintel.s3-eu-west-1.amazonaws.com/ebook/pdftoimage/Haematology_Octapharma/3681/ios_page1.png",
-      },
-      {
-        markimage:
-          "https://docintel.s3-eu-west-1.amazonaws.com/ebook/pdftoimage/Haematology_Octapharma/3681/ios_page2.png",
-      },
-    ],
-  },
-  {
-    itemdetail: "Android Details:",
-    date: "14 Dec 2022",
-    time: "Time: 10:34 AM ( Europe/London )",
-    activity: "Activity: Login to docintel app",
-  },
-  {
-    itemdetail: "IOS Details:",
-    date: "15 Dec 2022",
-    time: "Time: 10:34 AM ( Europe/London )",
-    activity: "Activity: Login to docintel app",
-  },
-  {
-    itemdetail: "Web Details:",
-    date: "16 Dec 2022",
-    time: "Time: 10:34 AM ( Europe/London )",
-    activity: "Activity: Login to docintel app",
-    chapter: [
-      {
-        chapter: "Chapter 1",
-        markimage:
-          "https://docintel.s3-eu-west-1.amazonaws.com/ebook/pdftoimage/Haematology_Octapharma/3755/ios_page1.png",
-      },
-      {
-        markimage:
-          "https://docintel.s3-eu-west-1.amazonaws.com/ebook/pdftoimage/Haematology_Octapharma/3755/ios_page2.png",
-      },
-      {
-        markimage:
-          "https://docintel.s3-eu-west-1.amazonaws.com/ebook/pdftoimage/Haematology_Octapharma/3755/ios_page3.png",
-      },
-    ],
-  },
-  {
-    itemdetail: "Web Details:",
-    date: "17 Dec 2022",
-    time: "Time: 10:34 AM ( Europe/London )",
-    activity: "Activity: Login to docintel app",
-  },
-];
 const TimelineDetail = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [isActive, setIsActive] = useState(false);
   const handleClick = event => {
     setIsActive(current => !current);
   };
+  const [timeLineData, setTimeLineData] = useState([]);
+  const [apiFlag, setApiFlag] = useState(0);
+
+  useEffect(() => {
+    getUserTimelineData();
+  }, []);
+
+  const getUserTimelineData = async() => {
+      try {
+        loader("show");
+        const res = await postData(ENDPOINT.USERTIMELINE, {
+          logId: 22899,
+          userId:2147499977
+        });
+        setTimeLineData(res?.data?.data);
+        loader("hide");
+      } catch (err) {
+        loader("hide");
+        console.log("err");
+      }
+      setApiFlag(1);
+  }
+
   return (
     <>
       <Col className="right-sidebar col">
@@ -111,650 +78,586 @@ const TimelineDetail = () => {
             </div>
             <div>
             </div>
-            <div className="vertical-timeline d-flex align-items-start">
-                <div className="timeline-left-user">
-                   <div className="timeline-left-user-detail">
-                    <h5>Username seuismod phartra</h5>
-                      <table>
-                        <tbody>
-                          <tr>
-                            <th>Email</th>
-                            <td>Reader@gmail.com</td>
-                          </tr>
-                          <tr>
-                            <th>Country</th>
-                            <td>Country name</td>
-                          </tr>
-                          <tr>
-                            <th>IBU</th>
-                            <td>Immunotherapy</td>
-                          </tr>
-                          <tr>
-                            <th>Consent</th>
-                            <td>Full consent</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                   </div>
-                </div>
-                <div className="timeline-right-list">
-                  <div className="timeline-right-list-view">
-                      <div className="timeline-box">
-                        <div className="timeline_date">
-                            5 March 2023
-                        </div>
-                        <div className="timeline-block">
-                            <div className="timeline-block-head read">
-                                <div className="timeline-block-title">
-                                   <div className="timeline-block-img">
-                                    <img src={path_image + "read-content.png"} alt="" />
-                                  </div>
-                                    <h6>Read Content</h6>
-                                </div>
-                                <div className="timeline-time-view">
-                                    <div className="timeline-time">
-                                      08:36 AM
-                                    </div>|
-                                    <div className="timeline-timezone">
-                                      Europe, London
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="timeline-article d-flex">
-                                 <div className="timeline-article-image">
-                                    <img src={path_image + "dummy-img1.png"} alt=""/>
-                                 </div>
-                                 <div className="timeline-article-detail">
-                                      <div className="timeline-title">
-                                          <p>Octaplaslg thawing recommendations  plasmatherm with octaplas program implemented</p>
-                                      </div>
-                                      <div className="timeline-subtitle">
-                                          <p>Subtitle dolor nibhdolor masa euismod phartra donec</p>
-                                      </div>
-                                 </div>
-                            </div>
-                             <div className="timeline-article-device">
-                              <table>
-                                  <tbody>
-                                    <tr>
-                                      <th className="device-title">
-                                        Device
-                                      </th>
-                                      <td className="device-name">
-                                        IOS
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                             </div>
-                             <div className={isActive ? 'timeline-article-detail-full active' : 'timeline-article-detail-full'} onClick={handleClick}>
-                                <div className="timeline-article-details-heading">
-                                    <p>Details <img src={path_image + "down-arrow.png"} alt="" /></p>
-                                </div>
-                                <div className="timeline-article-details-overall">
-                                    <div class="data-main-box tab-panel d-flex flex-column justify-content-between">
-                                      <h3>Chaper 1</h3>
-                                      <div className="timeline-article-details-boxes">
-                                        <div className="media">
-                                          <div className="media-left">
-                                            <img
-                                              src="https://docintel.s3-eu-west-1.amazonaws.com/ebook/pdftoimage/Haematology_Octapharma/3681/ios_page1.png"
-                                              className="media-object"
-                                              style={{ width: "80px" }}
-                                              alt="ebook"
-                                            />
-                                            {/* <img
-                                              src={path_image + "down-arrow.png"}
-                                              className="media-object"
-                                              // style={{}}
-                                              alt="ebook"
-                                            /> */}
-                                            <p>Page: 1</p>
-                                          </div>
-                                          <div className="media-right">
-                                            <ul class="tab-mail-list data">
-                                            <li class="d-flex align-center">
-                                              <h6 class="tab-content-title">Ignored
-                                              </h6>
-                                              <div class="data-progress limited">
-                                                <div class="progress">
-                                                  <div role="progressbar" class="progress-bar bg-danger" aria-valuenow="1" aria-valuemin="0" aria-valuemax="100" style={{width: "1%"}}>10</div>
+            {
+              apiFlag > 0 ?
+              typeof timeLineData !== "undefined" && Object.keys(timeLineData).length > 0
+              ?
+              <>
+              <div className="vertical-timeline d-flex align-items-start">
+                  <div className="timeline-left-user">
+                     <div className="timeline-left-user-detail">
+                      <h5>Username {timeLineData?.user?.name}</h5>
+                        <table>
+                          <tbody>
+                            <tr>
+                              <th>Email</th>
+                              <td>{timeLineData?.user?.email}</td>
+                            </tr>
+                            <tr>
+                              <th>Country</th>
+                              <td>{
+                                timeLineData?.user?.country
+                                ? timeLineData?.user?.country
+                                : "N/A"
+                              }</td>
+                            </tr>
+                            <tr>
+                              <th>IBU</th>
+                              <td>{
+                                timeLineData?.user?.ibu
+                                ? timeLineData?.user?.ibu
+                                : "N/A"
+                              }</td>
+                            </tr>
+                            <tr>
+                              <th>Consent</th>
+                              <td>{
+                                timeLineData?.user?.other_option
+                                ? timeLineData?.user?.other_option
+                                : "N/A"
+                              }</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                     </div>
+                  </div>
+                  <div className="timeline-right-list">
+                    <div className="timeline-right-list-view">
+                        {
+                          timeLineData?.timeline.map((details, index) => {
+                              return(
+                                <>
+                                {
+                                  details?.action == "Article browsed" && (
+                                      <div className="timeline-box">
+                                        <div className="timeline_date">
+                                            {details?.date}
+                                        </div>
+                                        <div className="timeline-block">
+                                            <div className="timeline-block-head read">
+                                                <div className="timeline-block-title">
+                                                   <div className="timeline-block-img">
+                                                    <img src={path_image + "read-content.png"} alt="" />
+                                                  </div>
+                                                    <h6>Read Content</h6>
                                                 </div>
+                                                <div className="timeline-time-view">
+                                                    <div className="timeline-time">
+                                                      {details?.time}
+                                                    </div>|
+                                                    <div className="timeline-timezone">
+                                                      {details?.timezone}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="timeline-article d-flex">
+                                                 <div className="timeline-article-image">
+                                                    <img src={path_image + "dummy-img1.png"} alt=""/>
+                                                 </div>
+                                                 <div className="timeline-article-detail">
+                                                      <div className="timeline-title">
+                                                          <p>{details?.pdfTitle}</p>
+                                                      </div>
+                                                      <div className="timeline-subtitle">
+                                                          <p>{details?.pdf_sub_title}</p>
+                                                      </div>
+                                                 </div>
+                                            </div>
+                                             <div className="timeline-article-device">
+                                              <table>
+                                                  <tbody>
+                                                    <tr>
+                                                      <th className="device-title">
+                                                        Device
+                                                      </th>
+                                                      <td className="device-name">
+                                                        {
+                                                          details?.webinar != "" ? details.webinar : details?.device_used
+                                                        }
+                                                      </td>
+                                                    </tr>
+                                                  </tbody>
+                                                </table>
+                                             </div>
+                                             <div className={isActive ? 'timeline-article-detail-full active' : 'timeline-article-detail-full'} onClick={handleClick}>
+                                                <div className="timeline-article-details-heading">
+                                                    <p>Details <img src={path_image + "down-arrow.png"} alt="" /></p>
+                                                </div>
+                                                <div className="timeline-article-details-overall">
+                                                    <div class="data-main-box tab-panel d-flex flex-column justify-content-between">
+                                                      <h3>Chaper 1</h3>
+                                                      <div className="timeline-article-details-boxes">
+                                                        <div className="media">
+                                                          <div className="media-left">
+                                                            <img
+                                                              src="https://docintel.s3-eu-west-1.amazonaws.com/ebook/pdftoimage/Haematology_Octapharma/3681/ios_page1.png"
+                                                              className="media-object"
+                                                              style={{ width: "80px" }}
+                                                              alt="ebook"
+                                                            />
+                                                            <p>Page: 1</p>
+                                                          </div>
+                                                          <div className="media-right">
+                                                            <ul class="tab-mail-list data">
+                                                            <li class="d-flex align-center">
+                                                              <h6 class="tab-content-title">Ignored
+                                                              </h6>
+                                                              <div class="data-progress limited">
+                                                                <div class="progress">
+                                                                  <div role="progressbar" class="progress-bar bg-danger" aria-valuenow="1" aria-valuemin="0" aria-valuemax="100" style={{width: "1%"}}>10</div>
+                                                                </div>
+                                                              </div>
+                                                              </li>
+                                                              <li>
+                                                                <h6 class="tab-content-title">Browsed
+                                                                </h6>
+                                                                <div class="data-progress success-progress">
+                                                                  <div class="progress">
+                                                                    <div role="progressbar" class="progress-bar bg-warning" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style={{width: "100%"}}>40</div>
+                                                                    </div>
+                                                                  </div>
+                                                              </li>
+                                                              <li>
+                                                                  <h6 class="tab-content-title">Read</h6>
+                                                                  <div class="data-progress">
+                                                                    <div class="progress">
+                                                                      <div role="progressbar" class="progress-bar bg-success" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style={{width: "0%"}}>0</div>
+                                                                    </div>
+                                                                  </div>
+                                                              </li>
+                                                              <li>
+                                                                  <h6 class="tab-content-title">Readers</h6>
+                                                                  <div class="data-progress">
+                                                                    <div class="progress">
+                                                                      <div role="progressbar" class="progress-bar bg-danger" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style={{width: "0%"}}>0</div>
+                                                                    </div>
+                                                                  </div>
+                                                              </li>
+                                                            </ul>
+                                                            <p><span>Time Needed: 15.84 seconds</span> <span>Time Spent: 0 seconds</span></p>
+                                                        </div>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                </div>
+                                             </div>
+                                        </div>
+
+                                      </div>
+                                    )
+                                }
+                                {
+                                  details?.action == "Haematology library opened in Docintel App" && (
+                                    <div className="timeline-box">
+                                      <div className="timeline_date">
+                                          {details?.date}
+                                      </div>
+                                      <div className="timeline-block">
+                                          <div className="timeline-block-head opened">
+                                              <div className="timeline-block-title">
+                                                <div className="timeline-block-img">
+                                                  <img src={path_image + "open-content.png"} alt="" />
+                                                </div>
+                                                  <h6>Opened Content</h6>
                                               </div>
-                                              </li>
-                                              <li>
-                                                <h6 class="tab-content-title">Browsed
-                                                </h6>
-                                                <div class="data-progress success-progress">
-                                                  <div class="progress">
-                                                    <div role="progressbar" class="progress-bar bg-warning" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style={{width: "100%"}}>40</div>
-                                                    </div>
+                                              <div className="timeline-time-view">
+                                                  <div className="timeline-time">
+                                                    {details?.time}
+                                                  </div>|
+                                                  <div className="timeline-timezone">
+                                                    {details?.timezone}
                                                   </div>
-                                              </li>
-                                              <li>
-                                                  <h6 class="tab-content-title">Read</h6>
-                                                  <div class="data-progress">
-                                                    <div class="progress">
-                                                      <div role="progressbar" class="progress-bar bg-success" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style={{width: "0%"}}>0</div>
+                                              </div>
+                                          </div>
+                                          <div className="timeline-article d-flex">
+                                               <div className="timeline-article-image">
+                                                  <img src={path_image + "dummy-img1.png"} alt=""/>
+                                               </div>
+                                               <div className="timeline-article-detail">
+                                                    <div className="timeline-title">
+                                                        <p>{details?.action}</p>
                                                     </div>
-                                                  </div>
-                                              </li>
-                                              <li>
-                                                  <h6 class="tab-content-title">Readers</h6>
-                                                  <div class="data-progress">
-                                                    <div class="progress">
-                                                      <div role="progressbar" class="progress-bar bg-danger" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style={{width: "0%"}}>0</div>
+                                                    <div className="timeline-subtitle">
+                                                        <p>{details?.pdf_sub_title}</p>
                                                     </div>
+                                               </div>
+                                          </div>
+                                           <div className="timeline-article-device">
+                                            <table>
+                                                <tbody>
+                                                  <tr>
+                                                    <th className="device-title">
+                                                      Device
+                                                    </th>
+                                                    <td className="device-name">
+                                                    {
+                                                      details?.webinar != "" ? details.webinar : details?.device_used
+                                                    }
+                                                    </td>
+                                                  </tr>
+                                                </tbody>
+                                              </table>
+                                           </div>
+                                      </div>
+                                    </div>
+                                  )
+                                }
+
+                                {
+                                  details?.action == "Checked Library in Docintel app" && (
+                                    <div className="timeline-box">
+                                      <div className="timeline_date">
+                                          {details?.date}
+                                      </div>
+                                      <div className="timeline-block">
+                                          <div className="timeline-block-head library">
+                                              <div className="timeline-block-title">
+                                                <div className="timeline-block-img">
+                                                  <img src={path_image + "checked-docintel.png"} alt="" />
+                                                </div>
+                                                  <h6>Checked Docintel Library</h6>
+                                              </div>
+                                              <div className="timeline-time-view">
+                                                  <div className="timeline-time">
+                                                    {details?.time}
+                                                  </div>|
+                                                  <div className="timeline-timezone">
+                                                    {details?.timezone}
                                                   </div>
-                                              </li>
-                                            </ul>
-                                            <p><span>Time Needed: 15.84 seconds</span> <span>Time Spent: 0 seconds</span></p>
+                                              </div>
+                                          </div>
+                                           <div className="timeline-article-device">
+                                            <table>
+                                                <tbody>
+                                                  <tr>
+                                                    <th className="device-title">
+                                                      Device
+                                                    </th>
+                                                    <td className="device-name">
+                                                      {details?.webinar != "" ? details.webinar : details?.device_used}
+                                                    </td>
+                                                  </tr>
+                                                </tbody>
+                                              </table>
+                                           </div>
+                                      </div>
+                                    </div>
+                                  )
+                                }
+
+                                {
+                                  details?.action == "Login to docintel" && (
+                                    <div className="timeline-box">
+                                    <div className="timeline_date">
+                                        {details?.date}
+                                    </div>
+                                    <div className="timeline-block">
+                                        <div className="timeline-block-head library">
+                                            <div className="timeline-block-title">
+                                              <div className="timeline-block-img">
+                                                <img src={path_image + "log-docintel.png"} alt="" />
+                                              </div>
+                                                <h6>{details?.action}</h6>
+                                            </div>
+                                            <div className="timeline-time-view">
+                                                <div className="timeline-time">
+                                                  {details?.time}
+                                                </div>|
+                                                <div className="timeline-timezone">
+                                                  {details?.timezone}
+                                                </div>
+                                            </div>
                                         </div>
-                                        </div>
-                                      </div>
+                                         <div className="timeline-article-device">
+                                          <table>
+                                              <tbody>
+                                                <tr>
+                                                  <th className="device-title">
+                                                    Device
+                                                  </th>
+                                                  <td className="device-name">
+                                                    {details?.webinar != "" ? details.webinar : details?.device_used}
+                                                  </td>
+                                                </tr>
+                                              </tbody>
+                                            </table>
+                                         </div>
                                     </div>
-                                </div> 
-                             </div>
-                        </div>
-                        
-                      </div>
-                      <div className="timeline-box">
-                        <div className="timeline_date">
-                            3 March 2023
-                        </div>
-                        <div className="timeline-block">
-                            <div className="timeline-block-head shared">
-                                <div className="timeline-block-title">
-                                  <div className="timeline-block-img">
-                                    <img src={path_image + "share-materials.png"} alt="" />
-                                  </div>
-                                    <h6>Shared Content</h6>
-                                </div>
-                                <div className="timeline-time-view">
-                                    <div className="timeline-time">
-                                      08:36 AM
-                                    </div>|
-                                    <div className="timeline-timezone">
-                                      Europe, London
                                     </div>
-                                </div>
-                            </div>
-                            <div className="timeline-article d-flex">
-                                 <div className="timeline-article-image">
-                                    <img src={path_image + "dummy-img1.png"} alt=""/>
-                                 </div>
-                                 <div className="timeline-article-detail">
-                                      <div className="timeline-title">
-                                          <p>The pharmacokinetic diversity of two von Willebrand factor (VWF)/ factor VIII (FVIII) concentrates in subjects with congenital </p>
-                                      </div>
-                                      <div className="timeline-subtitle">
-                                          <p>Subtitle dolor nibhdolor masa euismod phartra donec</p>
-                                      </div>
-                                 </div>
-                            </div>
-                             <div className="timeline-article-device">
-                                <table>
-                                  <tbody>
-                                    <tr>
-                                      <th className="device-title">
-                                        Device
-                                      </th>
-                                      <td className="device-name">
-                                        IOS
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                             </div>
-                        </div>
-                        <div className="timeline-block">
-                            <div className="timeline-block-head saved">
-                                <div className="timeline-block-title">
-                                  <div className="timeline-block-img">
-                                    <img src={path_image + "saved-content.png"} alt="" />
-                                  </div>
-                                    <h6>Saved Content</h6>
-                                </div>
-                                <div className="timeline-time-view">
-                                    <div className="timeline-time">
-                                      08:36 AM
-                                    </div>|
-                                    <div className="timeline-timezone">
-                                      Europe, London
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="timeline-article d-flex">
-                                 <div className="timeline-article-image">
-                                    <img src={path_image + "dummy-img1.png"} alt=""/>
-                                 </div>
-                                 <div className="timeline-article-detail">
-                                      <div className="timeline-title">
-                                          <p>NuPreviq Study: Personalised prophylaxis with Nuwiq (simoctocog alfa) in adults with haemophilia A EBOOK SAMPLE</p>
-                                      </div>
-                                      <div className="timeline-subtitle">
-                                          <p>Infographics presented by Dr. Fernando Corrales EBO...</p>
-                                      </div>
-                                 </div>
-                            </div>
-                             <div className="timeline-article-device">
-                              <table>
-                                  <tbody>
-                                    <tr>
-                                      <th className="device-title">
-                                        Device
-                                      </th>
-                                      <td className="device-name">
-                                        IOS
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                             </div>
-                        </div>
-                        
-                      </div>
-                      <div className="timeline-box">
-                        <div className="timeline_date">
-                            2 March 2023
-                        </div>
-                        <div className="timeline-block">
-                            <div className="timeline-block-head opened">
-                                <div className="timeline-block-title">
-                                  <div className="timeline-block-img">
-                                    <img src={path_image + "open-content.png"} alt="" />
-                                  </div>
-                                    <h6>Opened Content</h6>
-                                </div>
-                                <div className="timeline-time-view">
-                                    <div className="timeline-time">
-                                      08:36 AM
-                                    </div>|
-                                    <div className="timeline-timezone">
-                                      Europe, London
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="timeline-article d-flex">
-                                 <div className="timeline-article-image">
-                                    <img src={path_image + "dummy-img1.png"} alt=""/>
-                                 </div>
-                                 <div className="timeline-article-detail">
-                                      <div className="timeline-title">
-                                          <p>Octaplaslg thawing recommendations  plasmatherm with octaplas program implemented</p>
-                                      </div>
-                                      <div className="timeline-subtitle">
-                                          <p>Subtitle dolor nibhdolor masa euismod phartra donec</p>
-                                      </div>
-                                 </div>
-                            </div>
-                             <div className="timeline-article-device">
-                              <table>
-                                  <tbody>
-                                    <tr>
-                                      <th className="device-title">
-                                        Device
-                                      </th>
-                                      <td className="device-name">
-                                        IOS
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                             </div>
-                        </div>
-                      </div>
-                      <div className="timeline-box">
-                        <div className="timeline_date">
-                            24 Feb 2023
-                        </div>
-                        <div className="timeline-block">
-                            <div className="timeline-block-head received">
-                                <div className="timeline-block-title">
-                                  <div className="timeline-block-img">
-                                    <img src={path_image + "email-received.png"} alt="" />
-                                  </div>
-                                    <h6>Email Received</h6>
-                                </div>
-                                <div className="timeline-time-view">
-                                    <div className="timeline-time">
-                                      08:36 AM
-                                    </div>|
-                                    <div className="timeline-timezone">
-                                      Europe, London
-                                    </div>
-                                </div>
-                            </div>
-                             <div className="timeline-article-device">
-                              <table>
-                                  <tbody>
-                                    <tr>
-                                      <th className="device-title">
-                                        Title
-                                      </th>
-                                      <td className="device-name">
-                                        Octote condi ment zcsum dolor nibhdolor masa euismod phartra donec mas faucibus quisque nuneque ipsum
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <th className="device-title">
-                                        Subject
-                                      </th>
-                                      <td className="device-name">
-                                        Mote condi ment zcsum dolor nibhdolor masa euismod phartra donec mas faucibus quisque nuneque ipsum
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <th className="device-title">
-                                        Device
-                                      </th>
-                                      <td className="device-name">
-                                        IOS
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                             </div>
-                        </div>
-                      </div>
-                      <div className="timeline-box">
-                        <div className="timeline_date">
-                            17 Feb 2023
-                        </div>
-                        <div className="timeline-block">
-                            <div className="timeline-block-head registration">
-                                <div className="timeline-block-title">
-                                  <div className="timeline-block-img">
-                                    <img src={path_image + "registration.png"} alt="" />
-                                  </div>
-                                    <h6>Registration</h6>
-                                </div>
-                                <div className="timeline-time-view">
-                                    <div className="timeline-time">
-                                      08:36 AM
-                                    </div>|
-                                    <div className="timeline-timezone">
-                                      Europe, London
-                                    </div>
-                                </div>
-                            </div>
-                             <div className="timeline-article-device">
-                              <table>
-                                  <tbody>
-                                    <tr>
-                                      <th className="device-title">
-                                        Title
-                                      </th>
-                                      <td className="device-name">
-                                        Octote condi ment zcsum dolor nibhdolor masa euismod phartra donec mas faucibus quisque nuneque ipsum
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <th className="device-title">
-                                        Device
-                                      </th>
-                                      <td className="device-name">
-                                        Android
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                             </div>
-                        </div>
-                      </div>
-                      <div className="timeline-box">
-                        <div className="timeline_date">
-                            2 Feb 2023
-                        </div>
-                        <div className="timeline-block">
-                            <div className="timeline-block-head library">
-                                <div className="timeline-block-title">
-                                  <div className="timeline-block-img">
-                                    <img src={path_image + "checked-docintel.png"} alt="" />
-                                  </div>
-                                    <h6>Checked Docintel Library</h6>
-                                </div>
-                                <div className="timeline-time-view">
-                                    <div className="timeline-time">
-                                      08:36 AM
-                                    </div>|
-                                    <div className="timeline-timezone">
-                                      Europe, London
-                                    </div>
-                                </div>
-                            </div>
-                             <div className="timeline-article-device">
-                              <table>
-                                  <tbody>
-                                    <tr>
-                                      <th className="device-title">
-                                        Device
-                                      </th>
-                                      <td className="device-name">
-                                        Web
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                             </div>
-                        </div>
-                        <div className="timeline-block">
-                            <div className="timeline-block-head library">
-                                <div className="timeline-block-title">
-                                  <div className="timeline-block-img">
-                                    <img src={path_image + "log-docintel.png"} alt="" />
-                                  </div>
-                                    <h6>Login To Docintel</h6>
-                                </div>
-                                <div className="timeline-time-view">
-                                    <div className="timeline-time">
-                                      08:36 AM
-                                    </div>|
-                                    <div className="timeline-timezone">
-                                      Europe, London
-                                    </div>
-                                </div>
-                            </div>
-                             <div className="timeline-article-device">
-                              <table>
-                                  <tbody>
-                                    <tr>
-                                      <th className="device-title">
-                                        Device
-                                      </th>
-                                      <td className="device-name">
-                                        Web
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                             </div>
-                        </div>
-                      </div>
-                      <div className="timeline-box">
-                        <div className="timeline_date">
-                            1 Feb 2023
-                        </div>
-                        <div className="timeline-block">
-                            <div className="timeline-block-head library">
-                                <div className="timeline-block-title">
-                                  <div className="timeline-block-img">
-                                    <img src={path_image + "account-create.png"} alt="" />
-                                  </div>
-                                    <h6>New Account Is Created</h6>
-                                </div>
-                                <div className="timeline-time-view">
-                                    <div className="timeline-time">
-                                      08:36 AM
-                                    </div>|
-                                    <div className="timeline-timezone">
-                                      Europe, London
-                                    </div>
-                                </div>
-                            </div>
-                             <div className="timeline-article-device">
-                              <table>
-                                  <tbody>
-                                    <tr>
-                                      <th className="device-title">
-                                        Device
-                                      </th>
-                                      <td className="device-name">
-                                        Android
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                             </div>
-                        </div>
-                      </div>
-                      
-                  </div>
-                </div>
-            </div>
+                                  )
+                                }
 
-            {/* {data.map((item, index) => (
-              <div key={index} className="vertical-timeline vertical-timeline--animate">
-                <div className="vertical-timeline-element--work vertical-timeline-element">
-                  <span
-                    className="vertical-timeline-element-icon bounce-in"
-                    style={{
-                      background: "rgb(0, 74, 137)",
-                      color: "rgb(0, 74, 137)",
-                    }}
-                  ></span>
-                  <div
-                    className="vertical-timeline-element-content bounce-in"
-                    style={{
-                      background: "rgb(255, 255, 255)",
-                      color: "rgb(0, 74, 137)",
-                    }}
-                  >
-                    <div
-                      className="vertical-timeline-element-content-arrow"
-                      style={{ borderRight: "7px solid rgb(255, 255, 255)" }}
-                    ></div>
-                    <div className="vertical-timeline-title">
-                      <h6 className="vertical-timeline-element-title">
-                        {item.itemdetail}
-                      </h6>
-                    </div>
-                    <div className="vertical-timeline-details">
-                      <h6 className="vertical-timeline-time">{item.time}</h6>
-                      <h6 className="vertical-timeline-activity">
-                        {item.activity}
-                      </h6>
-                      <h6>{item.title}</h6>
-                    </div>
-                    <span className="vertical-timeline-element-date">
-                      {item.date}
-                    </span>
-                  </div>
-                  {item?.chapter?.length ? (
-                    <div className="vertical-timeline-element-right">
-                      <div className="vertical-timeline-element-content-inset">
-                        <div
-                          className="vertical-timeline-element-content-arrow"
-                          style={{
-                            borderRight: "7px solid rgb(255, 255, 255)",
-                          }}>
-                        </div>
-
-                        {item.chapter?.map((value) => (
-                          <div className="mark-kriger-inside">
-                            <h3>{value?.chapter}</h3>
-                            <div className="media">
-                              <div className="media-left">
-                                <img
-                                  src={value?.markimage}
-                                  className="media-object"
-                                  style={{ width: "80px" }}
-                                  alt="ebook"
-                                />
-                                <p>Page: 1</p>
-                              </div>
-                              <div className="media-body">
-                                <div className="pro-bar second-bar">
-                                  <label htmlFor="file">Ignored</label>
-                                  <div className="progress">
-                                    <div
-                                      className="progress-bar progress-bar-success"
-                                      role="progressbar"
-                                      aria-valuenow="0"
-                                      aria-valuemin="0"
-                                      aria-valuemax="100"
-                                      style={{
-                                        width: "10%",
-                                        backgroundColor: "#B13000",
-                                      }}>
-                                      0
+                                {
+                                  details?.action == "New docintel account is created" && (
+                                    <div className="timeline-box">
+                                      <div className="timeline_date">
+                                          {details?.date}
+                                      </div>
+                                      <div className="timeline-block">
+                                          <div className="timeline-block-head library">
+                                              <div className="timeline-block-title">
+                                                <div className="timeline-block-img">
+                                                  <img src={path_image + "account-create.png"} alt="" />
+                                                </div>
+                                                  <h6>{details?.action}</h6>
+                                              </div>
+                                              <div className="timeline-time-view">
+                                                  <div className="timeline-time">
+                                                    {details?.time}
+                                                  </div>|
+                                                  <div className="timeline-timezone">
+                                                    {details?.timezone}
+                                                  </div>
+                                              </div>
+                                          </div>
+                                           <div className="timeline-article-device">
+                                            <table>
+                                                <tbody>
+                                                  <tr>
+                                                    <th className="device-title">
+                                                      Device
+                                                    </th>
+                                                    <td className="device-name">
+                                                      {details?.webinar != "" ? details.webinar : details?.device_used}
+                                                    </td>
+                                                  </tr>
+                                                </tbody>
+                                              </table>
+                                           </div>
+                                      </div>
                                     </div>
-                                  </div>
+                                  )
+                                }
 
-                                  <label htmlFor="file">Browsed:</label>
-                                  <div className="progress">
-                                    <div
-                                      className="progress-bar progress-bar-success"
-                                      role="progressbar"
-                                      aria-valuenow="0"
-                                      aria-valuemin="0"
-                                      aria-valuemax="100"
-                                      style={{
-                                        width: "10%",
-                                        backgroundColor: "#C7C008",
-                                      }}>
-                                      0
+                                {
+                                  details?.action == "New mail received" && (
+                                    <div className="timeline-box">
+                                      <div className="timeline_date">
+                                          {details?.date}
+                                      </div>
+                                      <div className="timeline-block">
+                                          <div className="timeline-block-head received">
+                                              <div className="timeline-block-title">
+                                                <div className="timeline-block-img">
+                                                  <img src={path_image + "email-received.png"} alt="" />
+                                                </div>
+                                                  <h6>Email Received</h6>
+                                              </div>
+                                              <div className="timeline-time-view">
+                                                  <div className="timeline-time">
+                                                    {details?.time}
+                                                  </div>|
+                                                  <div className="timeline-timezone">
+                                                    {details?.timezone}
+                                                  </div>
+                                              </div>
+                                          </div>
+                                           <div className="timeline-article-device">
+                                            <table>
+                                                <tbody>
+                                                  <tr>
+                                                    <th className="device-title">
+                                                      Title
+                                                    </th>
+                                                    <td className="device-name">
+                                                      {
+                                                        details?.pdfTitle===null || details?.pdfTitle==="" ? "New mail received" : details?.pdfTitle
+                                                      }
+                                                    </td>
+                                                  </tr>
+                                                  <tr>
+                                                    <th className="device-title">
+                                                      Subject
+                                                    </th>
+                                                    <td className="device-name">
+                                                    {
+                                                      details?.pdf_sub_title===null || details?.pdf_sub_title==="" ? "" : details?.pdf_sub_title
+                                                    }
+                                                    </td>
+                                                  </tr>
+                                                  <tr>
+                                                    <th className="device-title">
+                                                      Device
+                                                    </th>
+                                                    <td className="device-name">
+                                                      {details?.webinar != "" ? details.webinar : details?.device_used}
+                                                    </td>
+                                                  </tr>
+                                                </tbody>
+                                              </table>
+                                           </div>
+                                      </div>
                                     </div>
-                                  </div>
+                                  )
+                                }
 
-                                  <label htmlFor="file">Read</label>
-                                  <div className="progress">
-                                    <div
-                                      className="progress-bar progress-bar-success changecolorbypercentage"
-                                      role="progressbar"
-                                      aria-valuenow="0"
-                                      aria-valuemin="0"
-                                      aria-valuemax="100"
-                                      style={{
-                                        width: "10%",
-                                        backgroundColor: "rgb(86, 195, 187)",
-                                      }}>
-                                      0
+                                {
+                                  details?.action && details.action.includes("shared") && (
+                                    <div className="timeline-box">
+                                      <div className="timeline_date">
+                                          {details?.date}
+                                      </div>
+                                      <div className="timeline-block">
+                                          <div className="timeline-block-head shared">
+                                              <div className="timeline-block-title">
+                                                <div className="timeline-block-img">
+                                                  <img src={path_image + "share-materials.png"} alt="" />
+                                                </div>
+                                                  <h6>Shared Content</h6>
+                                              </div>
+                                              <div className="timeline-time-view">
+                                                  <div className="timeline-time">
+                                                    {details?.time}
+                                                  </div>|
+                                                  <div className="timeline-timezone">
+                                                    {details?.timezone}
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div className="timeline-article d-flex">
+                                               <div className="timeline-article-image">
+                                                  <img src={path_image + "dummy-img1.png"} alt=""/>
+                                               </div>
+                                               <div className="timeline-article-detail">
+                                                    <div className="timeline-title">
+                                                        <p>{
+                                                          details?.pdfTitle===null || details?.pdfTitle==="" ? details?.action : details?.pdfTitle
+                                                        }</p>
+                                                    </div>
+                                                    <div className="timeline-subtitle">
+                                                        <p>{
+                                                          details?.pdfTitle===null || details?.pdfTitle==="" ? "" : details?.pdfTitle
+                                                        }</p>
+                                                    </div>
+                                               </div>
+                                          </div>
+                                           <div className="timeline-article-device">
+                                              <table>
+                                                <tbody>
+                                                  <tr>
+                                                    <th className="device-title">
+                                                      Device
+                                                    </th>
+                                                    <td className="device-name">
+                                                      {details?.webinar != "" ? details.webinar : details?.device_used}
+                                                    </td>
+                                                  </tr>
+                                                </tbody>
+                                              </table>
+                                           </div>
+                                      </div>
                                     </div>
-                                  </div>
+                                  )
+                                }
 
-                                  <label htmlFor="file">Readers</label>
-                                  <div className="progress">
-                                    <div
-                                      className="progress-bar bg-info"
-                                      role="progressbar"
-                                      aria-valuenow="70"
-                                      aria-valuemin="0"
-                                      aria-valuemax="100"
-                                      style={{
-                                        width: "10%",
-                                        background: "#729EFF",
-                                      }}>
-                                      0
-                                    </div>
-                                  </div>
-                                  <p>
-                                    <span>Time Needed: 14.48 seconds </span>
-                                    <span>Time Spent: 305 seconds</span>
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
+                                </>
+                              )
+                          })
+                        }
+
+                        {
+                          /*
+                          <div className="timeline-box">
+                          <div className="timeline_date">
+                          17 Feb 2023
                           </div>
-                        ))}
-                      </div>
+                          <div className="timeline-block">
+                          <div className="timeline-block-head registration">
+                          <div className="timeline-block-title">
+                          <div className="timeline-block-img">
+                          <img src={path_image + "registration.png"} alt="" />
+                          </div>
+                          <h6>Registration</h6>
+                          </div>
+                          <div className="timeline-time-view">
+                          <div className="timeline-time">
+                          08:36 AM
+                          </div>|
+                          <div className="timeline-timezone">
+                          Europe, London
+                          </div>
+                          </div>
+                          </div>
+                          <div className="timeline-article-device">
+                          <table>
+                          <tbody>
+                          <tr>
+                          <th className="device-title">
+                          Title
+                          </th>
+                          <td className="device-name">
+                          Octote condi ment zcsum dolor nibhdolor masa euismod phartra donec mas faucibus quisque nuneque ipsum
+                          </td>
+                          </tr>
+                          <tr>
+                          <th className="device-title">
+                          Device
+                          </th>
+                          <td className="device-name">
+                          Android
+                          </td>
+                          </tr>
+                          </tbody>
+                          </table>
+                          </div>
+                          </div>
+                          </div>
+
+                          <div className="timeline-block">
+                          <div className="timeline-block-head saved">
+                          <div className="timeline-block-title">
+                          <div className="timeline-block-img">
+                          <img src={path_image + "saved-content.png"} alt="" />
+                          </div>
+                          <h6>Saved Content</h6>
+                          </div>
+                          <div className="timeline-time-view">
+                          <div className="timeline-time">
+                          17 Feb 2023
+                          </div>|
+                          <div className="timeline-timezone">
+                          17 Feb 2023
+                          </div>
+                          </div>
+                          </div>
+                          <div className="timeline-article d-flex">
+                          <div className="timeline-article-image">
+                          <img src={path_image + "dummy-img1.png"} alt=""/>
+                          </div>
+                          <div className="timeline-article-detail">
+                          <div className="timeline-title">
+                          <p>NuPreviq Study: Personalised prophylaxis with Nuwiq (simoctocog alfa) in adults with haemophilia A EBOOK SAMPLE</p>
+                          </div>
+                          <div className="timeline-subtitle">
+                          <p>Infographics presented by Dr. Fernando Corrales EBO...</p>
+                          </div>
+                          </div>
+                          </div>
+                          <div className="timeline-article-device">
+                          <table>
+                          <tbody>
+                          <tr>
+                          <th className="device-title">
+                          Device
+                          </th>
+                          <td className="device-name">
+                          17 Feb 2023
+                          </td>
+                          </tr>
+                          </tbody>
+                          </table>
+                          </div>
+                          </div>
+                          */
+                        }
                     </div>
-                  ) : (
-                    ""
-                  )}
-                </div>
+                  </div>
               </div>
-            ))} */}
+              </>
+              :
+                "No Data Found"
+              : null
+            }
           </Row>
         </div>
       </Col>
