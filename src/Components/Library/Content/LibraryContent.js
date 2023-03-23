@@ -86,7 +86,7 @@ const LibraryContent = () => {
   const [qrState, setQr] = useState({
     value: "",
   });
-  const [qrSize, setQrSize] = useState(290);
+  const [qrSize, setQrSize] = useState(150);
 
   const [isOpen, setIsOpen] = useState(false);
   const [modalCounter, setModalCounter] = useState(0);
@@ -262,11 +262,12 @@ const LibraryContent = () => {
     setShowFilter(false);
   };
   const handleQR = (e) => {
+    console.log("eee", e);
     if (e == "H") {
-      setQrSize(390);
+      setQrSize(300);
     }
     if (e == "L") {
-      setQrSize(490);
+      setQrSize(500);
     }
     setQr({ ...qrState, level: e });
   };
