@@ -93,8 +93,8 @@ const EditLibrary = () => {
       });
     });
 
-    
-    
+
+
     setUserDetail({
       user: hadData?.data?.data?.user,
       production: hadData?.data?.data?.production,
@@ -119,7 +119,7 @@ const EditLibrary = () => {
       setChapter(hadData?.data?.data?.ebookData);
       loader("hide");
     } catch (err) {
-      
+
       console.log("-err", err);
     }
   };
@@ -163,7 +163,7 @@ const EditLibrary = () => {
       formData.append(
         "allowDownload",
         JSON.stringify(userInputs?.allow_download)
-        
+
       );
       formData.append("allowPrint", JSON.stringify(userInputs?.allow_print));
       formData.append("pdfId", state?.pdfid);
@@ -190,7 +190,9 @@ const EditLibrary = () => {
         },
       });
       loader("hide");
-      navigate("/set-popup");
+      navigate("/set-popup", {
+        state: { pdfId: state?.pdfid },
+      });
     } catch (err) {
       console.log(err);
     }
