@@ -224,7 +224,7 @@ const ReaderAdd = () => {
           hospital: userInputs?.hospital,
           title: userInputs?.title,
           speciality: userInputs?.speciality,
-          Discipline: userInputs?.discipline,
+          discipline: userInputs?.discipline,
           product: userInputs?.product,
           interestArea: userInputs?.interestArea,
           repContact: userInputs?.repContact,

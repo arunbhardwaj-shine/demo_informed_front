@@ -34,7 +34,7 @@ const NewReaders = () => {
     try {
       loader("show");
       let data = {
-        userId: 29836198,
+        userId: 18207,
         userType: 5,
         type: "register",
         page: page,
@@ -89,25 +89,6 @@ const NewReaders = () => {
     { value: "Offline", label: "Offline" },
     { value: "Sunshine", label: "Sunshine" },
   ]);
-  const handleOnFilterChange = (e, item, index, key) => {
-    if (!filterObject[key]) {
-      filterObject[key] = [];
-    }
-
-    if (e?.target?.checked == true) {
-      filterObject[key]?.push(item);
-    } else {
-      const index = filterObject[key]?.indexOf(item);
-      if (index > -1) {
-        filterObject[key]?.splice(index, 1);
-        if (filterObject[key]?.length == 0) {
-          delete filterObject[key];
-        }
-      }
-    }
-
-    setFilterObject(filterObject);
-  };
 
   function LinkWithTooltip({ id, children, href, tooltip }) {
     return (
@@ -281,6 +262,7 @@ const NewReaders = () => {
                                       <Link
                                         to="/reader-edit"
                                         className="btn btn-primary btn-filled"
+                                        state={{ id: data.id }}
                                       >
                                         Edit
                                       </Link>
