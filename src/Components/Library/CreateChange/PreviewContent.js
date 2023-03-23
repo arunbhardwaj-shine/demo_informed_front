@@ -33,7 +33,7 @@ const PreviewContent = () => {
   const [show, setShow] = useState(false);
     const navigate = useNavigate();
     const { state } = useLocation();
-    const [articleId, setArticleId] = useState(typeof state?.pdfId !== "undefined" ?  state?.pdfId : '');
+    const [articleId, setArticleId] = useState(typeof state?.pdfId !== "undefined" ?  state?.pdfId : '3899');
     const [pdfData, setPdfData] = useState([]);
     const [editTitle, setEditTitle] = useState(false);
     const [publishStatus, setPublishStatus] = useState(false);
@@ -355,6 +355,7 @@ const PreviewContent = () => {
   						}
   					  </h4>
             </div>
+            <div className="blink_text"><h4>Please verify every page is correct and press 'Publish' at the bottom when you're sure.</h4></div>
 					  <Button className="btn btn-bordered" onClick={handleShow}>Change content file</Button>
 					</div>
 					{

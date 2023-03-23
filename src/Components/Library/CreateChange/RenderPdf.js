@@ -41,7 +41,7 @@ const RenderPdf = ({
   const handleDocumentLoad = (e: DocumentLoadEvent) => {
     // console.log("Asda");
     setNumPages(e.doc.numPages);
-    setModalMessage("Please verify every page is correct and press 'Publish' at the bottom when you're sure.");
+    setModalMessage("");
     setModalBtn('');
     setCommanShow(true);
   };
