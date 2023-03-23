@@ -25,6 +25,7 @@ import '@phuocng/react-pdf-viewer/cjs/react-pdf-viewer.css';
 import { RotateEvent, PageChangeEvent, DocumentLoadEvent, RenderPageProps  } from '@react-pdf-viewer/core';
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const RenderPdf = ({
+  next,
   url,
   handleNext
 }) => {
@@ -43,7 +44,7 @@ const RenderPdf = ({
     setNumPages(e.doc.numPages);
     setModalMessage("");
     setModalBtn('');
-    setCommanShow(true);
+    // setCommanShow(true);
   };
 
   const handlePageChange = (e: PageChangeEvent) => {
@@ -70,7 +71,12 @@ const RenderPdf = ({
 
       if(e.currentPage === (numPages -1)){
         setModalMessage("");
-        setModalBtn('Publish');
+        let btn_val = "";
+        if (typeof next !=="undefined")
+        {
+          btn_val = next == 1 ? "Next" : "Publish";
+        }
+        setModalBtn(btn_val);
         setCommanShow(true);
       }
   };
