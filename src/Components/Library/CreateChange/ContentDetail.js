@@ -287,7 +287,7 @@ const ContentDetail = () => {
                                                   <th>Invoice Notes</th>
                                                   <td>
                                                     {data?.special_requirment
-                                                      ? data?.special_requirment
+                                                      ? "Yes"
                                                       : "N/A"}
                                                   </td>
                                                 </tr>
@@ -346,7 +346,7 @@ const ContentDetail = () => {
                                                   </th>
                                                   <td>
                                                     {data?.production_notes
-                                                      ? data?.production_notes
+                                                      ? "Yes"
                                                       : "N/A"}
                                                   </td>
                                                 </tr>
