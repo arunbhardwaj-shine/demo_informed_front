@@ -605,7 +605,7 @@ const LibraryCreateUser = () => {
               <div className="form-group">
                 <label htmlFor="">Set limit of usage</label>
                 <input
-                  type="text"
+                  type="number"
                   name="limit"
                   className="form-control"
                   placeholder="“0” value means unlimited limit"
