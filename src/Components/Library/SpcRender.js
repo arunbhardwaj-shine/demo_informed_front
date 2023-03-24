@@ -48,8 +48,10 @@ const SpcRender = () => {
                   state?.file && typeof state?.file !== "undefined"
                   ?
                   <RenderPdf
+                    next = "0"
                     url= {state?.file}
                     handleNext ={handleNext}
+                    hidePopup = "1"
                   />
                   : null
                 }

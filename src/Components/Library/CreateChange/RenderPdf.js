@@ -27,7 +27,8 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const RenderPdf = ({
   next,
   url,
-  handleNext
+  handleNext,
+  hidePopup
 }) => {
   const [page, setPage]   = useState(1);
   const [scale, setScale] = useState(1);
@@ -77,7 +78,9 @@ const RenderPdf = ({
           btn_val = next == 1 ? "Next" : "Publish";
         }
         setModalBtn(btn_val);
-        setCommanShow(true);
+        if(hidePopup == 0){
+          setCommanShow(true);
+        }
       }
   };
 
