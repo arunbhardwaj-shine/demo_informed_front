@@ -34,6 +34,8 @@ const SetPopup = (props) => {
   const [getTemplateLanguage, setTemplateLanguage] = useState([]);
   const [actualTemplateData, setActualTemplateData] = useState([]);
   const [isTemplateData, setIsTemplateData] = useState(true);
+  const [isOnline, setIsOnline] = useState(false);
+
 
 
 
@@ -97,7 +99,7 @@ const SetPopup = (props) => {
     if (label == "consentType") {
       loader("show");
       setSelectOptions({ ...selectOptions, consentType: e.value });
-      getTemplateListData(2, selectOptions.language, e.value);
+      getTemplateListData(1, selectOptions.language, e.value);
     } else if (label == "language") {
       loader("show");
       setSelectOptions({ ...selectOptions, language: e.value });
@@ -109,8 +111,12 @@ const SetPopup = (props) => {
     // getTemplateListData(2, e.value, selectedIbu);
   };
 
-  const getTemplateListData = async (flag, lng, consent) => {
+  const getTemplateListData = async (flag=1, lng, consent) => {
+
+    console.log(lng)
+    console.log(consent)
     loader("show");
+    
     try {
       setTemplateClicked(false);
       let check_lng_index = 10;
@@ -135,6 +141,7 @@ const SetPopup = (props) => {
       }
 
       let res;
+      if(flag===1 || flag===0){
       if (isTemplateData) {
         // Fetch the template data from the server
         const body = {
@@ -160,18 +167,43 @@ const SetPopup = (props) => {
       }
       let data = [];
       if (consent == "Online") {
+        setIsOnline(true);
         data = [];
       } else if (consent == "Offline") {
+        setIsOnline(false);
+
         data.push(res?.data?.data?.popupData[0]);
         data.push(res?.data?.data?.popupData[3]);
       } else {
+        setIsOnline(false);
+
         data = res?.data?.data?.popupData;
       }
-     
+    
       setTemplateList(data);
       setTemplateId(res?.data?.data?.popupTempId);
      
       res = actualTemplateData;
+    }
+    else if(flag===2){
+      const body = {
+
+        userId: "18207",
+  
+        language: check_lng_index,
+  
+        consentType: consent,
+  
+        pdfId: typeof state?.pdfId !== "undefined" ?  state?.pdfId : articleId
+  
+      };
+  
+      const res = await postData(ENDPOINT.LIBRARYGETPOPUP, body);
+  
+      setTemplateList(res?.data?.data?.popupData);
+  
+      setTemplateId(res?.data?.data?.popupTempId);
+    }
       if (res?.data?.data) {
       let lang = res?.data?.data?.language;
       let lng_arr = [];
@@ -464,6 +496,7 @@ const SetPopup = (props) => {
                     <div className="page-title">
                       <h4>Select the Pop-up to edit</h4>
                     </div>
+                    {isOnline==false?(
                     <AliceCarousel
                       mouseTracking
                       disableDotsControls
@@ -498,8 +531,9 @@ const SetPopup = (props) => {
                           </>
                         );
                       })}
-                    </AliceCarousel>
-
+                    </AliceCarousel>)
+                    :null
+}
                     <input
                       type="hidden"
                       id="mail_template"
@@ -513,9 +547,10 @@ const SetPopup = (props) => {
                             {templateName != "" && (
                               <>
                                 {
+                                  (isOnline==false &&
                                   <div className="template_name">
                                     <h4>{templateName}</h4>
-                                  </div>
+                                  </div>)
                                 }
                               </>
                             )}
