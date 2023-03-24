@@ -1032,22 +1032,26 @@ const LibraryContent = () => {
                                       >
                                         {data?.docintelLink}
                                       </a>
-                                      <span
+                                      {
+                                        /*
+                                        <span
                                         className="copy-content"
                                         onClick={() => {
-                                          toast.success(
-                                            "content copied to the clipboard!"
-                                          );
-                                          window.navigator.clipboard.writeText(
-                                            data?.docintelLink
-                                          );
-                                        }}
-                                      >
-                                        <img
-                                          src={path_image + "copy-content.svg"}
-                                          alt="Copy"
-                                        />
-                                      </span>
+                                        toast.success(
+                                        "content copied to the clipboard!"
+                                      );
+                                      window.navigator.clipboard.writeText(
+                                      data?.docintelLink
+                                    );
+                                  }}
+                                  >
+                                  <img
+                                  src={path_image + "copy-content.svg"}
+                                  alt="Copy"
+                                  />
+                                  </span>
+                                        */
+                                      }
                                     </div>
                                     <ul className="tab-mail-list">
                                       <li>
@@ -1066,24 +1070,28 @@ const LibraryContent = () => {
                                         </h6>
                                         <h6>
                                           {data?.code}
-                                          <span
+                                          {
+                                            /*
+                                            <span
                                             className="copy-content"
                                             onClick={() => {
-                                              toast.success(
-                                                "content copied to the clipboard!"
-                                              );
-                                              navigator.clipboard.writeText(
-                                                data?.code
-                                              );
-                                            }}
-                                          >
-                                            <img
-                                              src={
-                                                path_image + "copy-content.svg"
-                                              }
-                                              alt="Copy"
-                                            />
-                                          </span>
+                                            toast.success(
+                                            "content copied to the clipboard!"
+                                          );
+                                          navigator.clipboard.writeText(
+                                          data?.code
+                                        );
+                                      }}
+                                      >
+                                      <img
+                                      src={
+                                      path_image + "copy-content.svg"
+                                    }
+                                    alt="Copy"
+                                    />
+                                    </span>
+                                            */
+                                          }
                                         </h6>
                                       </li>
                                       <li>
@@ -1092,24 +1100,28 @@ const LibraryContent = () => {
                                         </h6>
                                         <h6>
                                           {data.docintel_code}
-                                          <span
+                                          {
+                                            /*
+                                            <span
                                             className="copy-content"
                                             onClick={() => {
-                                              toast.success(
-                                                "content copied to the clipboard!"
-                                              );
-                                              navigator.clipboard.writeText(
-                                                data?.docintel_code
-                                              );
-                                            }}
-                                          >
-                                            <img
-                                              src={
-                                                path_image + "copy-content.svg"
-                                              }
-                                              alt="Copy"
-                                            />
-                                          </span>
+                                            toast.success(
+                                            "content copied to the clipboard!"
+                                          );
+                                          navigator.clipboard.writeText(
+                                          data?.docintel_code
+                                        );
+                                      }}
+                                      >
+                                      <img
+                                      src={
+                                      path_image + "copy-content.svg"
+                                    }
+                                    alt="Copy"
+                                    />
+                                    </span>
+                                            */
+                                          }
                                         </h6>
                                       </li>
                                       <li>
