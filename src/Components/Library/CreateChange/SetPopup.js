@@ -116,7 +116,7 @@ const SetPopup = (props) => {
     console.log(lng)
     console.log(consent)
     loader("show");
-    
+
     try {
       setTemplateClicked(false);
       let check_lng_index = 10;
@@ -197,17 +197,17 @@ const SetPopup = (props) => {
       const body = {
 
         userId: "18207",
-  
+
         language: check_lng_index,
-  
+
         consentType: consent,
-  
+
         pdfId: typeof state?.pdfId !== "undefined" ?  state?.pdfId : articleId
-  
+
       };
-  
+
       const res = await postData(ENDPOINT.LIBRARYGETPOPUP, body);
-  
+
       setTemplateList(res?.data?.data?.popupData);
       loader("hide");
       setTemplateId(res?.data?.data?.popupTempId);
@@ -302,8 +302,8 @@ const SetPopup = (props) => {
 
   return (
     <>
-      {popupData ? (
         <div className="col right-sidebar">
+        {popupData ? (
           <div className="custom-container">
             <div className="row">
               {articleId ? (
@@ -619,8 +619,8 @@ const SetPopup = (props) => {
               </section>
             </div>
           </div>
+        ) : null}
         </div>
-      ) : null}
     </>
   );
 };

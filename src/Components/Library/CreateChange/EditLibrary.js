@@ -754,8 +754,9 @@ const EditLibrary = () => {
 
   return (
     <>
-      {showFlag ? (
+
         <div className="col right-sidebar">
+        {showFlag ? (
           <div className="custom-container">
             <div className="row">
               <div className="page-top-nav">
@@ -1118,8 +1119,8 @@ const EditLibrary = () => {
               </div>
             </div>
           </div>
+          ) : null}
         </div>
-      ) : null}
       <Modal className="pdf-video-link" show={show} onHide={handleClose}>
         <Modal.Header>
           <div className="form_action embedding-video">
