@@ -116,7 +116,7 @@ const SetPopup = (props) => {
     console.log(lng)
     console.log(consent)
     loader("show");
-    
+
     try {
       setTemplateClicked(false);
       let check_lng_index = 10;
@@ -197,17 +197,17 @@ const SetPopup = (props) => {
       const body = {
 
         userId: "18207",
-  
+
         language: check_lng_index,
-  
+
         consentType: consent,
-  
+
         pdfId: typeof state?.pdfId !== "undefined" ?  state?.pdfId : articleId
-  
+
       };
-  
+
       const res = await postData(ENDPOINT.LIBRARYGETPOPUP, body);
-  
+
       setTemplateList(res?.data?.data?.popupData);
       loader("hide");
       setTemplateId(res?.data?.data?.popupTempId);
@@ -302,8 +302,8 @@ const SetPopup = (props) => {
 
   return (
     <>
-      {popupData ? (
         <div className="col right-sidebar">
+        {popupData ? (
           <div className="custom-container">
             <div className="row">
               {articleId ? (
@@ -467,10 +467,7 @@ const SetPopup = (props) => {
                         <Select
                           defaultValue={
                             popupData?.time
-                              ? {
-                                  label: popupData?.time,
-                                  value: popupData?.time,
-                                }
+                              ? timeList[timeList.findIndex((el) => el.value == popupData?.time)]
                               : {
                                   label: "Select time (in seconds)",
                                   value: "",
@@ -489,10 +486,12 @@ const SetPopup = (props) => {
               <section className="select-mail-template library-cosent">
                 <div className="custom-container">
                   <div className="row">
+                  {isOnline==false?(
+                    <>
                     <div className="page-title">
                       <h4>Select the Pop-up to edit</h4>
                     </div>
-                    {isOnline==false?(
+
                     <AliceCarousel
                       mouseTracking
                       disableDotsControls
@@ -527,7 +526,9 @@ const SetPopup = (props) => {
                           </>
                         );
                       })}
-                    </AliceCarousel>)
+                    </AliceCarousel>
+                    </>
+                  )
                     :null
 }
                     <input
@@ -595,7 +596,6 @@ const SetPopup = (props) => {
                         onInit={(evt, editor) => (editorRef.current = editor)}
                         initialValue={template}
                         init={{
-                          height: "100vh",
                           menubar:
                             "file edit view insert format tools table help",
                           plugins:
@@ -605,7 +605,7 @@ const SetPopup = (props) => {
                           content_style:
                             "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
                           content_css: [
-                            "https://docintel.app/angular_cs.css",
+                            "https://docintel.app/react_informed.css",
                             "https://use.fontawesome.com/releases/v5.8.2/css/all.css",
                           ],
                         }}
@@ -619,8 +619,8 @@ const SetPopup = (props) => {
               </section>
             </div>
           </div>
+        ) : null}
         </div>
-      ) : null}
     </>
   );
 };

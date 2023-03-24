@@ -649,6 +649,30 @@ const LibraryContent = () => {
     loader("hide");
   };
 
+  const copyToClipboard = (content) => {
+    if (window.isSecureContext && navigator.clipboard) {
+      navigator.clipboard.writeText(content);
+      toast.success("content copied to the clipboard!");
+    } else {
+      unsecuredCopyToClipboard(content);
+    }
+  };
+
+  const unsecuredCopyToClipboard = (text) => {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    // textArea.focus();
+    textArea.select();
+    try {
+        document.execCommand('copy');
+        toast.success("content copied to the clipboard!");
+    } catch (err) {
+        console.error('Unable to copy to clipboard', err)
+    }
+    document.body.removeChild(textArea)
+ };
+
   return (
     <>
       <Col className="right-sidebar">
@@ -1043,20 +1067,10 @@ const LibraryContent = () => {
                                         {data?.docintelLink}
                                       </a>
                                       <span
-                                        className="copy-content"
-                                        onClick={() => {
-                                          toast.success(
-                                            "content copied to the clipboard!"
-                                          );
-                                          window.navigator.clipboard.writeText(
-                                            data?.docintelLink
-                                          );
-                                        }}
+                                      className="copy-content"
+                                      onClick={() => {copyToClipboard(data?.docintelLink)}}
                                       >
-                                        <img
-                                          src={path_image + "copy-content.svg"}
-                                          alt="Copy"
-                                        />
+                                        <img src={path_image + "copy-content.svg"} alt="Copy" />
                                       </span>
                                     </div>
                                     <ul className="tab-mail-list">
@@ -1079,21 +1093,16 @@ const LibraryContent = () => {
                                           <span
                                             className="copy-content"
                                             onClick={() => {
-                                              toast.success(
-                                                "content copied to the clipboard!"
-                                              );
-                                              navigator.clipboard.writeText(
-                                                data?.code
-                                              );
+                                              copyToClipboard(data?.code)
                                             }}
-                                          >
-                                            <img
-                                              src={
-                                                path_image + "copy-content.svg"
-                                              }
-                                              alt="Copy"
-                                            />
-                                          </span>
+                                      >
+                                      <img
+                                      src={
+                                      path_image + "copy-content.svg"
+                                    }
+                                    alt="Copy"
+                                    />
+                                    </span>
                                         </h6>
                                       </li>
                                       <li>
@@ -1102,24 +1111,21 @@ const LibraryContent = () => {
                                         </h6>
                                         <h6>
                                           {data.docintel_code}
-                                          <span
+                                          {
+                                            <span
                                             className="copy-content"
                                             onClick={() => {
-                                              toast.success(
-                                                "content copied to the clipboard!"
-                                              );
-                                              navigator.clipboard.writeText(
-                                                data?.docintel_code
-                                              );
+                                              copyToClipboard(data?.docintel_code)
                                             }}
-                                          >
+                                            >
                                             <img
-                                              src={
-                                                path_image + "copy-content.svg"
-                                              }
-                                              alt="Copy"
-                                            />
+                                            src={
+                                            path_image + "copy-content.svg"
+                                          }
+                                          alt="Copy"
+                                          />
                                           </span>
+                                        }
                                         </h6>
                                       </li>
                                       <li>
@@ -1192,7 +1198,7 @@ const LibraryContent = () => {
                                           href={data?.previewArticle}
                                           target="_blank"
                                         >
-                                          Preview Aritcle
+                                          Preview aritcle
                                         </a>
                                         <Button
                                           onClick={() => {
@@ -1212,7 +1218,7 @@ const LibraryContent = () => {
                                             navigate("/CreateEmail");
                                           }}
                                         >
-                                          Send in Email
+                                          Send in email
                                         </Button>
                                       </div>
                                     </div>
@@ -1474,7 +1480,7 @@ const LibraryContent = () => {
                                         state={{ pdfid: data.id }}
                                         className="footer-btn"
                                       >
-                                        Edit Docintel Link
+                                        Edit Docintel link
                                       </Link>
                                       <Button
                                         className="footer-btn"
@@ -1482,14 +1488,14 @@ const LibraryContent = () => {
                                           tagButtonClicked(data.id)
                                         }
                                       >
-                                        Add / Remove Tags
+                                        Add / Remove tags
                                       </Button>
                                       <Link
                                         to="/library-sublink"
                                         state={{ pdfid: data.id }}
                                         className="footer-btn"
                                       >
-                                        New Sublink
+                                        New sublink
                                       </Link>
                                     </div>
                                   </div>

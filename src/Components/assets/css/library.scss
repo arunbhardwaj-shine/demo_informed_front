@@ -221,7 +221,7 @@
         }
       }
       .tab-content-links {
-        margin-bottom: 8px;
+        margin-bottom: 9px;
         line-height: 1;
         a {
           @include h6;
@@ -277,7 +277,7 @@
         h6.tab-content-title {
           font-weight: 500;
           color: $library-box-heading;
-          flex: 0 0 150px;
+          flex: 0 0 116px;
           margin: 0;
           img {
             width: 12px;
@@ -352,6 +352,7 @@
           gap: 0px;
           @include flex-center;
           .footer-btn {
+            text-transform: none;
             @include footer-btn;
             &:hover {
               background: $primary-color;
@@ -378,7 +379,7 @@
   margin: 0 0 40px;
   &.spc-content {
     background: transparent;
-    padding: 36px 12px;
+    padding: 36px 0px;
   }
   &.create-reader {
     background: transparent;
@@ -991,8 +992,8 @@ ul.tab-mail-list.data span.total-left small {
     padding: 0;
     .dropdown-item {
       font-weight: 400;
-      font-size: 16px;
-      line-height: 19px;
+      font-size: 15px;
+      line-height: 18px;
       text-transform: capitalize;
       color: $light-gray;
       padding: 8px 25px;
@@ -2347,8 +2348,10 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
   flex: 0 0 109px;
 }
 .preview-content #download-qr .modal-body .form-group .upload-file-box label {
-  font-size: 16px;
-  padding: 9px;
+    font-size: 16px;
+    padding: 9px 17px;
+    flex: 0 0 auto;
+    margin: 0;
 }
 .modal .inputfile ~ label {
   max-width: 80%;
@@ -2360,7 +2363,7 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
   padding: 11px;
   background: $primary-color;
   border-radius: 30px;
-  color: #ffffff !important;
+  color: $white !important;
   font-size: 16px;
   line-height: 1.1;
   font-weight: 500;
@@ -2375,6 +2378,8 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
   word-break: break-all;
   padding-right: 5px;
 }
+
+
 /**Library Style End**/
 
 /**Readers Style**/
@@ -2512,8 +2517,6 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
   width: 38px;
 }
 .timeline-article-detail .timeline-title p {
-  font-family: "Roboto";
-  font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 16px;
@@ -2808,9 +2811,17 @@ section.verify_email.content_details {
 .dropdown-menu.filter-options .accordion .card-header button {
     text-transform: capitalize;
 }
+.top-header {
+    align-items: center;
+}
+.select-mail-template.library-cosent .alice-carousel > div {
+    display: block;
+}
 /**Reader Style End**/
 
 /**Library Responsive**/
+
+
 @media only screen and (min-width:1921px){
   .library-content-box-layuot {
     gap: 0% 3%;
@@ -2823,6 +2834,9 @@ section.verify_email.content_details {
     flex: 0 0 100%;
 }
 }
+
+
+
 @media only screen and (max-width: 1900px) {
   .tab-mail-list.data .progress {
     width: 145px;
@@ -2831,6 +2845,9 @@ section.verify_email.content_details {
     margin-right: 4px;
   }
 }
+
+
+
 @media only screen and (max-width: 1700px) {
   .library-content-box-layuot {
     gap: 0% 2%;
@@ -2854,6 +2871,9 @@ section.verify_email.content_details {
     padding: 7px 10px;
   }
 }
+
+
+
 @media only screen and (max-width: 1599px) {
   .library_create .library_create-box {
     max-width: 373px;
@@ -2890,6 +2910,9 @@ section.verify_email.content_details {
     padding-right: 35px;
   }
 }
+
+
+
 @media only screen and (max-width: 1500px) {
   .library_create .library_create-box,
   .library_create .library_create-box.spc {
@@ -3063,11 +3086,28 @@ section.verify_email.content_details {
     max-width: 100%;
   }
 }
+
+
+
 @media (max-width: $layout-breakpoint-extraLarge) {
   .library_create .library_create-box {
     padding: 22px 22px;
   }
-
+  .spc-edit .dlt_btn {
+    right: -15px;
+}
+.page-title .btn.back-btn {
+    min-width: 36px;
+    height: 36px;
+    padding: 7px;
+    margin: 0 12px 0 0;
+}
+.page-title .btn.back-btn svg {
+    width: 12px;
+}
+.top-header .page-title {
+    align-items: center;
+}
   .create-change-content .right-change .form-group > label {
     text-align: left;
   }
@@ -3366,6 +3406,9 @@ section.verify_email.content_details {
     width: auto;
     flex: 0 0 50%;
   }
+.no_content_selected h3 {
+    padding: 80px 0 80px;
+}
   .library-content-box-layuot {
     margin-bottom: 20px;
 }
@@ -3373,7 +3416,7 @@ section.verify_email.content_details {
     width: 50%;
 }
   .selected-products-list .products-listing {
-    max-width: 90%;
+    max-width: 91%;
   }
   .library-content-box-layuot .doc-content-main-box {
     flex: 0 0 49%;
@@ -3477,6 +3520,9 @@ section.verify_email.content_details {
   .form-group .add_product span {
     height: 42px;
   }
+  .selected-products-list {
+    padding: 15px 12px 0;
+}
 }
 
 @media (max-width: $layout-breakpoint-medium) {

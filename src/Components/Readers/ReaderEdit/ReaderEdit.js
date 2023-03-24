@@ -26,11 +26,48 @@ const ReaderEdit = () => {
   ]);
   const [hospital,setHospital] = useState([])
   const [countryCode, setCountryCode] = useState([
-    { value: "1", label: "1" },
-    { value: "2", label: "2" },
-    { value: "3", label: "3" },
+    {value : "Afghanistan",  label : "+93"},
+
+    {value : "Albania",  label : "+355"},
+    
+    {value : "Algeria",  label : "+213"},
+    
+    {value : "American Samoa",  label : "+1-684"},
+    
+    {value : "Andorra",  label : "+376"},
+    
+    {value : "Angola",  label : "+244"},
+    
+    {value : "Anguilla",  label : "+1-264"},
+    
+    {value : "Antarctica",  label : "+672"},
+    
+    {value : "Antigua and Barbuda",  label : "+1-268"},
+    
+    {value : "Argentina",  label : "+54"},
+    
+    {value : "Armenia",  label : "+374"},
+    
+    {value : "India",  label : "+91"},
+    
+    {value : "Azerbaijan",  label : "+994"},
+    
+    {value : "Bahamas",  label : "+1-242"},
+    
+    {value : "Bahrain",  label : "+973"},
+    
+    {value : "Bangladesh",  label : "+880"},
+    
+    {value : "Barbados",  label : "+1-246"},
+    
+    {value : "Belarus",  label : "+375"},
+    
+    {value : "Belgium",  label : "+32"},
+    
   ]);
   const [id,setId] = useState(state.id)
+  const [userId,setUserID] = useState(18207)
+
   const [userInputs, setAddReaderInputs] = useState({});
   const [error, setError] = useState({});
   const [commonHeader, setCommonHeader] = useState("");
@@ -76,7 +113,7 @@ const ReaderEdit = () => {
   };
   const initalFun = async() =>{
     loader("show")
-   const hasData =  await getData(`${ENDPOINT.READER_USER_DROP}${id} `);
+   const hasData =  await getData(`${ENDPOINT.READER_USER_DROP}${userId} `);
 
     let country = [];
     hasData?.data?.data?.country.reduce((objEntries, key) => {
@@ -168,7 +205,7 @@ const ReaderEdit = () => {
     loader("show");
     let formData = new FormData();
     formData.append("file", e.target.files[0]);
-    formData.append("createdBy", 18207);
+    formData.append("createdBy", userId);
     await postFormData(ENDPOINT.UPLOAD_READER_FILE, formData, {
       header: { "Content-Type": "multipart/form-data" },
     });
@@ -181,7 +218,7 @@ const ReaderEdit = () => {
       try {
          loader("show");
         let data = {
-          createdBy: 18207,
+          createdBy: userId,
           firstName: userInputs?.firstName,
           middleName: userInputs?.middleName,
           lastName: userInputs?.lastName,
@@ -232,7 +269,7 @@ const ReaderEdit = () => {
                 <div className="col-12 col-md-9">
                   <ul className="tabnav-link">
                     <li className="active active-main">
-                      <a href="">Create CRM</a>
+                      <a href="">Edit CRM</a>
                     </li>
                     <li className="">
                       <a href="">Review &amp; approve</a>
@@ -259,16 +296,6 @@ const ReaderEdit = () => {
               <div className="form_action">
                 <div className="create-reader-form-header">
                   <h4>Please fill the following details</h4>
-                  <input
-                    type="file"
-                    name="file-6[]"
-                    id="file-6"
-                    // accept="application/pdf"
-                    onChange={handleFileUpload}
-                  />
-                  <Button className="btn-bordered" type="file">
-                    Upload Excel File
-                  </Button>
                 </div>
                 <div className="row">
                   <div className="col-12 col-md-7">

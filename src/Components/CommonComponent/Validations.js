@@ -19,8 +19,8 @@ export const createContent = (data, fileCheck) => {
   if (!data?.limit) {
     error.limit = "Limit is required";
   } else if (data?.limit) {
-    if (data?.limit < 1) {
-      error.limit = "Limit must be greater than 0";
+    if (data?.limit < 0) {
+      error.limit = "Limit must be greater than or equal to 0";
     }
   }
   if (!data?.docintelFormat) {
