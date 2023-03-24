@@ -47,6 +47,8 @@ const LibraryContent = () => {
     { value: "Sunshine", label: "Sunshine" },
   ]);
   const [pageAllClicked, setPageAllClicked] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+
   const [update, setUpdate] = useState(0);
   const location = useLocation();
   const [pageAll, setPageAll] = useState(false);
@@ -301,6 +303,7 @@ const LibraryContent = () => {
       const res = await postData(ENDPOINT.LIBRARY, body);
       setLibraryData((oldArray) => [...oldArray, ...res?.data?.data?.library]);
       setPageAll(false);
+      setIsLoaded(true);
       setPageAllClicked(false);
       loader("hide");
     } catch (err) {
@@ -1422,28 +1425,6 @@ const LibraryContent = () => {
                                 </Tab>
                               </Tabs>
                             </div>
-                            <div
-                              className="data-main-footer-sec"
-                              style={{
-                                height: "15px",
-                                display: "flex",
-                                justifyContent: "right",
-                              }}
-                            >
-                              <div className="footer-btn-wrapper">
-                                <Link
-                                  to="/library-edit"
-                                  state={{ pdfid: data.id }}
-                                  className="footer-btn"
-                                >
-                                  {/* <img
-                                    src={path_image + "edit-img.svg"}
-                                    alt=""
-                                    style={{ padding: "13px" }}
-                                  /> */}
-                                </Link>
-                              </div>
-                            </div>
                           </div>
                         </>
                       );
@@ -1451,7 +1432,7 @@ const LibraryContent = () => {
                   : null}
               </>
             </div>
-            {page == 1 ? (
+            {page == 1 && isLoaded==true? (
               <div className="load_more">
                 <button
                   className="btn btn-primary btn-filled"

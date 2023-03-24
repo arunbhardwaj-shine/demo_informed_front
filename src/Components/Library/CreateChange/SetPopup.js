@@ -28,10 +28,15 @@ import Select from "react-select";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const SetPopup = (props) => {
+  const { state } = useLocation();
   const editorRef = useRef(null);
   const navigate = useNavigate();
-  const { state } = useLocation();
   const [getTemplateLanguage, setTemplateLanguage] = useState([]);
+  const [actualTemplateData, setActualTemplateData] = useState([]);
+  const [isTemplateData, setIsTemplateData] = useState(true);
+
+
+
   const [selectedLanguage, setSelectedLanguage] = useState("All");
   const [countryOption, setCountryOption] = useState(0);
   const [templateSaving, setTemplateSaving] = useState("");
@@ -129,31 +134,52 @@ const SetPopup = (props) => {
         }
       }
 
-      const body = {
-        userId: "18207",
-        language: check_lng_index,
-        consentType: consent,
-        pdfId: typeof state?.pdfId !== "undefined" ? state?.pdfId : articleId,
-      };
-      const res = await postData(ENDPOINT.LIBRARYGETPOPUP, body);
-      setPopupData(res?.data?.data);
-      setTemplateList(res?.data?.data?.popupData);
-      setTemplateId(res?.data?.data?.popupTempId);
-      setSelectOptions({
-        consentType: res?.data?.data?.linkType,
-        language: res?.data?.data?.selectedLanguage,
-        time: res?.data?.data?.time,
-      });
-      let lang = res?.data?.data?.language;
-      let lng_arr = [];
-      Object.entries(lang).map(([index, item]) => {
-        let label = item;
-        lng_arr.push({
-          value: item,
-          label: label.toUpperCase(),
+      let res;
+      if (isTemplateData) {
+        // Fetch the template data from the server
+        const body = {
+          userId: "18207",
+          language: check_lng_index,
+          consentType: consent,
+          pdfId: typeof state?.pdfId !== "undefined" ? state?.pdfId : articleId,
+        };
+        res = await postData(ENDPOINT.LIBRARYGETPOPUP, body);
+        setActualTemplateData(res);
+        setPopupData(res?.data?.data);
+        setIsTemplateData(false);
+        setSelectOptions({
+          consentType: res?.data?.data?.linkType,
+          language: res?.data?.data?.selectedLanguage,
+          time: res?.data?.data?.time,
         });
-      });
-      setTemplateLanguage(lng_arr);
+
+        if (res?.data?.data) {
+          let lang = res?.data?.data?.language;
+          let lng_arr = [];
+          Object.entries(lang).map(([index, item]) => {
+            let label = item;
+            lng_arr.push({
+              value: item,
+              label: label.toUpperCase(),
+            });
+          });
+          setTemplateLanguage(lng_arr);
+        }
+        setTemplateId(res?.data?.data?.popupTempId);
+      } else {
+        res = actualTemplateData;
+      }
+
+      let data = [];
+      if (consent == "Online") {
+        data = [];
+      } else if (consent == "Offline") {
+        data.push(res?.data?.data?.popupData[0]);
+        data.push(res?.data?.data?.popupData[3]);
+      } else {
+        data = res?.data?.data?.popupData;
+      }
+      setTemplateList(data);
       loader("hide");
     } catch (err) {
       loader("hide");
