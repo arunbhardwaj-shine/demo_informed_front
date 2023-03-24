@@ -5,7 +5,7 @@ export const LibraryEditValidation = (data) => {
     error.contentTitle = "Content Title is required!";
   }
 
-  if (!data?.limit) {
+  if (!data?.limit?.toString()) {
     error.limit = "Limit is required";
   } else if (data?.limit) {
     if (data?.limit < 0) {
