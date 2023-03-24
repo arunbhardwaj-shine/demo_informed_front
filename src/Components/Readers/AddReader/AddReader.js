@@ -24,9 +24,44 @@ const ReaderAdd = () => {
   ]);
   const [hospital, setHospital] = useState([]);
   const [countryCode, setCountryCode] = useState([
-    { value: "1", label: "1" },
-    { value: "2", label: "2" },
-    { value: "3", label: "3" },
+    {value : "Afghanistan",  label : "+93"},
+
+    {value : "Albania",  label : "+355"},
+    
+    {value : "Algeria",  label : "+213"},
+    
+    {value : "American Samoa",  label : "+1-684"},
+    
+    {value : "Andorra",  label : "+376"},
+    
+    {value : "Angola",  label : "+244"},
+    
+    {value : "Anguilla",  label : "+1-264"},
+    
+    {value : "Antarctica",  label : "+672"},
+    
+    {value : "Antigua and Barbuda",  label : "+1-268"},
+    
+    {value : "Argentina",  label : "+54"},
+    
+    {value : "Armenia",  label : "+374"},
+    
+    {value : "India",  label : "+91"},
+    
+    {value : "Azerbaijan",  label : "+994"},
+    
+    {value : "Bahamas",  label : "+1-242"},
+    
+    {value : "Bahrain",  label : "+973"},
+    
+    {value : "Bangladesh",  label : "+880"},
+    
+    {value : "Barbados",  label : "+1-246"},
+    
+    {value : "Belarus",  label : "+375"},
+    
+    {value : "Belgium",  label : "+32"},
+    
   ]);
   const [id, setId] = useState(18207);
   const [userInputs, setAddReaderInputs] = useState({});
