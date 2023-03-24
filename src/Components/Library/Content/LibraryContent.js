@@ -285,8 +285,8 @@ const LibraryContent = () => {
 
   useEffect(() => {
     getLibraryData(page, filterObject, search);
-    
-  
+
+
   }, [page]);
 
   const getLibraryData = async (page, obj, search) => {
@@ -373,8 +373,10 @@ const LibraryContent = () => {
           type: "success",
           redirect: "",
         });
-        setLibraryData([]);
-        getLibraryData(page, filterObject, search);
+        const updatedRes = libraryData.filter(item => item.id !== id);
+        setLibraryData(updatedRes);
+        // setLibraryData([]);
+        // getLibraryData(page, filterObject, search);
       }
 
       loader("hide");
@@ -1579,9 +1581,9 @@ const LibraryContent = () => {
                   : null}
               </>
             </div>
-            {(page === 1 && isLoaded==true)? 
+            {(page === 1 && isLoaded==true)?
             (
-              
+
               <div className="load_more">
                 <button
                   className="btn btn-primary btn-filled"
@@ -1590,7 +1592,7 @@ const LibraryContent = () => {
                   Load More
                 </button>
               </div>
-            ) 
+            )
             : null}
 
             {pageAll == true ? (
