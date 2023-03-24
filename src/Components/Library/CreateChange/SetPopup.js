@@ -153,11 +153,23 @@ const SetPopup = (props) => {
           time: res?.data?.data?.time,
         });
 
+        if (res?.data?.data) {
+          let lang = res?.data?.data?.language;
+          let lng_arr = [];
+          Object.entries(lang).map(([index, item]) => {
+            let label = item;
+            lng_arr.push({
+              value: item,
+              label: label.toUpperCase(),
+            });
+          });
+          setTemplateLanguage(lng_arr);
+        }
+        setTemplateId(res?.data?.data?.popupTempId);
       } else {
-    
         res = actualTemplateData;
-   
       }
+
       let data = [];
       if (consent == "Online") {
         data = [];
@@ -167,23 +179,7 @@ const SetPopup = (props) => {
       } else {
         data = res?.data?.data?.popupData;
       }
-     
       setTemplateList(data);
-      setTemplateId(res?.data?.data?.popupTempId);
-     
-      res = actualTemplateData;
-      if (res?.data?.data) {
-      let lang = res?.data?.data?.language;
-      let lng_arr = [];
-      Object.entries(lang).map(([index, item]) => {
-        let label = item;
-        lng_arr.push({
-          value: item,
-          label: label.toUpperCase(),
-        });
-      });
-      setTemplateLanguage(lng_arr);
-    }
       loader("hide");
     } catch (err) {
       loader("hide");
