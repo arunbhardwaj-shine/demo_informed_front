@@ -232,7 +232,7 @@ const ReaderEdit = () => {
                 <div className="col-12 col-md-9">
                   <ul className="tabnav-link">
                     <li className="active active-main">
-                      <a href="">Create CRM</a>
+                      <a href="">Edit CRM</a>
                     </li>
                     <li className="">
                       <a href="">Review &amp; approve</a>
