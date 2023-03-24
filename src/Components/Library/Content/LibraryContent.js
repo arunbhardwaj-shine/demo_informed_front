@@ -1182,7 +1182,7 @@ const LibraryContent = () => {
                                           href={data?.previewArticle}
                                           target="_blank"
                                         >
-                                          Preview Aritcle
+                                          Preview aritcle
                                         </a>
                                         <Button
                                           onClick={() => {
@@ -1202,7 +1202,7 @@ const LibraryContent = () => {
                                             navigate("/CreateEmail");
                                           }}
                                         >
-                                          Send in Email
+                                          Send in email
                                         </Button>
                                       </div>
                                     </div>
@@ -1464,7 +1464,7 @@ const LibraryContent = () => {
                                         state={{ pdfid: data.id }}
                                         className="footer-btn"
                                       >
-                                        Edit Docintel Link
+                                        Edit Docintel link
                                       </Link>
                                       <Button
                                         className="footer-btn"
@@ -1472,14 +1472,14 @@ const LibraryContent = () => {
                                           tagButtonClicked(data.id)
                                         }
                                       >
-                                        Add / Remove Tags
+                                        Add / Remove tags
                                       </Button>
                                       <Link
                                         to="/library-sublink"
                                         state={{ pdfid: data.id }}
                                         className="footer-btn"
                                       >
-                                        New Sublink
+                                        New sublink
                                       </Link>
                                     </div>
                                   </div>
