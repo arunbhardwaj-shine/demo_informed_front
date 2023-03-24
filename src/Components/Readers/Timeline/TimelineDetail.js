@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { Col, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { postData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { loader } from "../../../loader";
 
 const TimelineDetail = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const { state } = useLocation();
   const [isActive, setIsActive] = useState(false);
+  const [readerId, setReaderId] = useState(typeof state?.readerId !== "undefined" ?  state?.readerId : '');
   const handleClick = event => {
     setIsActive(current => !current);
   };
@@ -21,9 +23,15 @@ const TimelineDetail = () => {
   const getUserTimelineData = async() => {
       try {
         loader("show");
+
+        if(typeof readerId === "undefined"){
+          if(state?.readerId){
+            setReaderId(state?.readerId);
+          }
+        }
         const res = await postData(ENDPOINT.USERTIMELINE, {
-          logId: 22899,
-          userId:2147499977
+          logId: 18207,
+          userId:readerId
         });
         setTimeLineData(res?.data?.data);
         loader("hide");
@@ -32,6 +40,10 @@ const TimelineDetail = () => {
         console.log("err");
       }
       setApiFlag(1);
+  }
+
+  const printPage = () => {
+    window.print();
   }
 
   return (
@@ -56,7 +68,9 @@ const TimelineDetail = () => {
                 </div>
                 <div className="col-12 col-md-2">
                   <div className="header-btn">
-                    <button className="btn print">
+                    <button className="btn print"
+                      onClick={(e) => printPage()}
+                    >
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                           <mask id="mask0_1144_989" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
                           <path d="M0 1.90735e-06H24V24H0V1.90735e-06Z" fill="white"/>
@@ -550,6 +564,66 @@ const TimelineDetail = () => {
                                   )
                                 }
 
+                                {
+                                  details?.action && details.action.includes("Saved") && (
+                                    <div className="timeline-box">
+                                      <div className="timeline_date">
+                                          {details?.date}
+                                      </div>
+                                      <div className="timeline-block">
+                                         <div className="timeline-block-head saved">
+                                            <div className="timeline-block-title">
+                                               <div className="timeline-block-img">
+                                                  <img src={path_image + "saved-content.png"} alt="" />
+                                               </div>
+                                               <h6>Saved Content</h6>
+                                            </div>
+                                            <div className="timeline-time-view">
+                                               <div className="timeline-time">
+                                                  {details?.time}
+                                               </div>
+                                               |
+                                               <div className="timeline-timezone">
+                                                  {details?.timezone}
+                                               </div>
+                                            </div>
+                                         </div>
+                                         <div className="timeline-article d-flex">
+                                            <div className="timeline-article-image">
+                                               <img src={path_image + "dummy-img1.png"} alt=""/>
+                                            </div>
+                                            <div className="timeline-article-detail">
+                                               <div className="timeline-title">
+                                                  <p>{
+                                                    details?.pdfTitle===null || details?.pdfTitle==="" ? details?.action : details?.pdfTitle
+                                                  }</p>
+                                               </div>
+                                               <div className="timeline-subtitle">
+                                                  <p>{
+                                                    details?.pdf_sub_title===null || details?.pdf_sub_title==="" ? details?.action : details?.pdf_sub_title
+                                                  }</p>
+                                               </div>
+                                            </div>
+                                         </div>
+                                         <div className="timeline-article-device">
+                                            <table>
+                                               <tbody>
+                                                  <tr>
+                                                     <th className="device-title">
+                                                        Device
+                                                     </th>
+                                                     <td className="device-name">
+                                                        {details?.webinar != "" ? details.webinar : details?.device_used}
+                                                     </td>
+                                                  </tr>
+                                               </tbody>
+                                            </table>
+                                         </div>
+                                      </div>
+                                    </div>
+                                  )
+                                }
+
                                 </>
                               )
                           })
@@ -600,52 +674,6 @@ const TimelineDetail = () => {
                           </tbody>
                           </table>
                           </div>
-                          </div>
-                          </div>
-
-                          <div className="timeline-block">
-                          <div className="timeline-block-head saved">
-                          <div className="timeline-block-title">
-                          <div className="timeline-block-img">
-                          <img src={path_image + "saved-content.png"} alt="" />
-                          </div>
-                          <h6>Saved Content</h6>
-                          </div>
-                          <div className="timeline-time-view">
-                          <div className="timeline-time">
-                          17 Feb 2023
-                          </div>|
-                          <div className="timeline-timezone">
-                          17 Feb 2023
-                          </div>
-                          </div>
-                          </div>
-                          <div className="timeline-article d-flex">
-                          <div className="timeline-article-image">
-                          <img src={path_image + "dummy-img1.png"} alt=""/>
-                          </div>
-                          <div className="timeline-article-detail">
-                          <div className="timeline-title">
-                          <p>NuPreviq Study: Personalised prophylaxis with Nuwiq (simoctocog alfa) in adults with haemophilia A EBOOK SAMPLE</p>
-                          </div>
-                          <div className="timeline-subtitle">
-                          <p>Infographics presented by Dr. Fernando Corrales EBO...</p>
-                          </div>
-                          </div>
-                          </div>
-                          <div className="timeline-article-device">
-                          <table>
-                          <tbody>
-                          <tr>
-                          <th className="device-title">
-                          Device
-                          </th>
-                          <td className="device-name">
-                          17 Feb 2023
-                          </td>
-                          </tr>
-                          </tbody>
-                          </table>
                           </div>
                           </div>
                           */
