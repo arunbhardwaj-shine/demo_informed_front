@@ -1,5 +1,5 @@
-import React, { useState,useEffect } from "react";
-import { Col, Row, Button } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Col, Row, Button, Modal, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 import Select from "react-select";
@@ -14,23 +14,21 @@ const ReaderAdd = () => {
   const [commonShow, setCommonShow] = useState(false);
   const navigate = useNavigate();
 
-  const [countryAll, setCountryAll] = useState([
-  ]);
-  const [province,setProvince] = useState([])
-
+  const [countryAll, setCountryAll] = useState([]);
+  const [province, setProvince] = useState([]);
 
   const [productionAll, setProductionAll] = useState([
     { value: "production1", label: "production1222" },
     { value: "production2", label: "production2" },
     { value: "production3", label: "production3" },
   ]);
-  const [hospital,setHospital] = useState([])
+  const [hospital, setHospital] = useState([]);
   const [countryCode, setCountryCode] = useState([
     { value: "1", label: "1" },
     { value: "2", label: "2" },
     { value: "3", label: "3" },
   ]);
-  const [id,setId] = useState(18207)
+  const [id, setId] = useState(18207);
   const [userInputs, setAddReaderInputs] = useState({});
   const [error, setError] = useState({});
   const [commonHeader, setCommonHeader] = useState("");
@@ -57,9 +55,19 @@ const ReaderAdd = () => {
       { value: "production3", label: "production3" },
     ],
   });
+  const [uploadShow, setUploadShow] = useState(false);
+  const [updateFlag, setUpdateFlag] = useState(0);
 
   const handleModelFun = (e) => {
     setNewProduct({ label: e?.target?.name, value: e?.target?.value });
+  };
+
+  const handleShow = () => {
+    setUploadShow(true);
+  };
+
+  const handleClose = () => {
+    setUploadShow(false);
   };
 
   const handleSubmitModelFun = (e) => {
@@ -74,24 +82,29 @@ const ReaderAdd = () => {
       setUserDetail({ ...userDetail, [newProduct?.label]: newArr });
     }
   };
-  const initalFun = async() =>{
-    loader("show")
-   const hasData =  await getData(`${ENDPOINT.READER_USER_DROP}${id} `);
+  const initalFun = async () => {
+    loader("show");
+    const hasData = await getData(`${ENDPOINT.READER_USER_DROP}${id} `);
 
     let country = [];
     hasData?.data?.data?.country.reduce((objEntries, key) => {
       country.push({
-        label:key,
-        value:key
-      })
-       })
-     setCountryAll(country)
-     setProvince(hasData?.data?.data?.province)
-     setHospital(hasData?.data?.data?.hospital)
-   
-     setUserDetail({...userDetail,discipline:hasData?.data?.data?.discipline,speciality:hasData?.data?.data?.speciality,product:hasData?.data?.data?.product})
-    loader("hide")
-  }
+        label: key,
+        value: key,
+      });
+    });
+    setCountryAll(country);
+    setProvince(hasData?.data?.data?.province);
+    setHospital(hasData?.data?.data?.hospital);
+
+    setUserDetail({
+      ...userDetail,
+      discipline: hasData?.data?.data?.discipline,
+      speciality: hasData?.data?.data?.speciality,
+      product: hasData?.data?.data?.product,
+    });
+    loader("hide");
+  };
 
   const addNewProductClicked = (statusMsg, e) => {
     e.preventDefault();
@@ -136,9 +149,9 @@ const ReaderAdd = () => {
     }
   };
 
-  useEffect(()=>{
-    initalFun()
-  },[])
+  useEffect(() => {
+    initalFun();
+  }, []);
 
   // const addSpecialityClicked = () => {
   //   setCommonShow(false);
@@ -174,6 +187,7 @@ const ReaderAdd = () => {
   // };
 
   const handleChange = (e, isSelectedName) => {
+    setUpdateFlag(1);
     if (e?.target?.files?.length < 1) {
       return;
     }
@@ -190,12 +204,21 @@ const ReaderAdd = () => {
 
   const handleFileUpload = async (e) => {
     loader("show");
-    let formData = new FormData();
-    formData.append("file", e.target.files[0]);
-    formData.append("createdBy", 18207);
-    await postFormData(ENDPOINT.UPLOAD_READER_FILE, formData, {
-      header: { "Content-Type": "multipart/form-data" },
-    });
+    try {
+      let formData = new FormData();
+      formData.append("file", userInputs?.uploadFile?.[0]);
+      formData.append("createdBy", 18207);
+      await postFormData(ENDPOINT.UPLOAD_READER_FILE, formData, {
+        header: { "Content-Type": "multipart/form-data" },
+      });
+      // navigate("/readers-view");
+    } catch (err) {
+      console.log(err);
+      loader("hide");
+    }
+    handleClose();
+    setUpdateFlag(0);
+
     loader("hide");
   };
 
@@ -289,15 +312,19 @@ const ReaderAdd = () => {
               <div className="form_action">
                 <div className="create-reader-form-header">
                   <h4>Please fill the following details</h4>
-                  <input
+                  {/* <input
                     type="file"
                     name="file-6[]"
-                    id="file-6"
-                    // className="inputfile inputfile-6"
-                    // accept="application/pdf"
-                    onChange={handleFileUpload}
-                  />
-                  <Button className="btn-bordered" type="file">
+                    id="file-6" */}
+                  {/* // className="inputfile inputfile-6" //
+                  accept="application/pdf" */}
+                  {/* onChange={handleFileUpload}
+                  /> */}
+                  <Button
+                    className="btn-bordered"
+                    type="file"
+                    onClick={handleShow}
+                  >
                     Upload Excel File
                   </Button>
                 </div>
@@ -814,6 +841,64 @@ const ReaderAdd = () => {
             </div>
           </Modal.Body>
         </Modal> */}
+        <Modal
+          show={uploadShow}
+          onHide={handleClose}
+          className="send-confirm preview-content"
+          id="download-qr"
+        >
+          <Modal.Header>
+            <h5 className="modal-title" id="staticBackdropLabel">
+              Change file
+            </h5>
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              onClick={handleClose}
+            ></button>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <div className="form-group">
+                <div className="upload-file-box">
+                  <div className="box">
+                    <input
+                      type="file"
+                      name="file-5[]"
+                      id="file-5"
+                      className="inputfile inputfile-5"
+                      // accept="application/pdf"
+                      accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                      onChange={(e) => handleChange(e, "uploadFile")}
+                    />
+                    <label htmlFor="file-5">
+                      <span>Choose Your File</span>
+                    </label>
+                    {userInputs?.uploadFile?.[0]?.name ? (
+                      <p>{userInputs?.uploadFile?.[0].name}</p>
+                    ) : (
+                      <p>Upload your Excel</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </Form>
+          </Modal.Body>
+          <div className="modal-footer">
+            <button
+              type="button"
+              className={
+                updateFlag == 0
+                  ? "btn btn-primary save btn-filled move-draft btn-disabled"
+                  : "btn btn-primary save btn-filled move-draft"
+              }
+              onClick={handleFileUpload}
+            >
+              Upload
+            </button>
+          </div>
+        </Modal>
       </Col>
     </>
   );

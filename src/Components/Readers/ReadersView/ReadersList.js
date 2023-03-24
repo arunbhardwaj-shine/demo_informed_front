@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  Accordion,
   Col,
   OverlayTrigger,
   ProgressBar,
@@ -13,30 +14,64 @@ import Select from "react-select";
 import { postData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { loader } from "../../../loader";
+import { toast } from "react-toastify";
 import { Spinner } from "react-activity";
+import { popup_alert } from "../../../popup_alert";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const NewReaders = () => {
+  let obj = {};
   const [search, setSearch] = useState("");
-  const [readerDataList, setReaderDataList] = useState();
+  const [readerDataList, setReaderDataList] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [page, setPage] = useState(1);
+  const [filterApplyflag, setFilterApplyflag] = useState(0);
   const [pageAll, setPageAll] = useState(false);
   const [pageAllClicked, setPageAllClicked] = useState(false);
   const [type, setType] = useState("");
-  const searchChange = (e) => {
-    setSearch(e.target.value);
+  const [countryAll, setCountryAll] = useState([]);
+  const [filterdata, setFilterData] = useState({
+    Status: ["Registered", "Unregistered"],
+  });
+  const [filterObject, setFilterObject] = useState({});
+  const [eventSelected, setEventSelected] = useState("Webinar registered");
+  const [articleSelected, setArticleSelected] = useState("Select Tags");
+  const [actionSelected, setActionSelected] = useState("Select Title");
+  const [sortSelected, setSortSelected] = useState("User Action");
+  const [sortUser, setSortUserd] = useState("Select User");
+  const [updateflag, setupdateFlag] = useState(0);
+  const [types, setTypes] = useState([
+    { value: "0", label: "HCP" },
+    { value: "1", label: "Staff User" },
+    { value: "3", label: "Test User" },
+    { value: "4", label: "Competitor" },
+  ]);
+  const searchChange = (e) => {setSearch(e.target.value);};
+  const userTypeValues = {
+    "0" : "Hcp",
+    "1" : "Staff User",
+    "3" :"Test User",
+    "4" :"Competitor",
   };
+  const [changeCountry, setChangeCountry] = useState([]);
+  const [changeUserType, setChangeUserType] = useState([]);
+  const [showfilter, setShowFilter] = useState(false);
+
   useEffect(() => {
-    getReaderListData(page);
+    getReaderListData(page, filterObject, search);
   }, []);
 
-  const getReaderListData = async (page) => {
+  useEffect(() => {
+    getReaderListData(page, filterObject, search);
+  }, [page]);
+
+  const getReaderListData = async (page, obj, search) => {
     try {
       loader("show");
       let data = {
         userId: 18207,
         userType: 5,
-        type: "register",
+        type: Object.keys(obj).length > 0 ? obj?.Status[0] : 'Unregistered',
         page: page,
       };
       if (pageAllClicked == true) {
@@ -46,7 +81,21 @@ const NewReaders = () => {
       }
       const res = await postData(ENDPOINT.READER_LIST_DATA, data);
 
-      setReaderDataList(res?.data?.data);
+      let body = {
+        "id": 18207
+      };
+      const res_data = await postData(ENDPOINT.SPC_HELPER_LISTING,body);
+      let countries = []
+      Object.entries(res_data?.data?.data?.country).map(([index, item]) => {
+        countries.push({
+          value: item,
+          label: item  == "B&H" ? "Bosnia and Herzegovina" : item,
+        });
+        setCountryAll(countries);
+      });
+
+      // setLibraryData((oldArray) => [...oldArray, ...res?.data?.data?.library]);
+      setReaderDataList((oldArray) => [...oldArray, ...res?.data?.data]);
       loader("hide");
       setPageAll(false);
       setPageAllClicked(false);
@@ -60,35 +109,44 @@ const NewReaders = () => {
     setPage(2);
     setType("rest");
   };
-
-  const [eventSelected, setEventSelected] = useState("Webinar registered");
   const eventDropDownClicked = (e) => {
     setEventSelected(e);
   };
-  const [articleSelected, setArticleSelected] = useState("Select Tags");
   const articleDropDownClicked = (e) => {
     setArticleSelected(e);
   };
-  const [actionSelected, setActionSelected] = useState("Select Title");
   const actionDropDownClicked = (e) => {
     setActionSelected(e);
   };
-  const [sortSelected, setSortSelected] = useState("User Action");
   const sortDropDownClicked = (e) => {
     setSortSelected(e);
   };
-  const [sortUser, setSortUserd] = useState("Select User");
   const userDropDownClicked = (e) => {
     setSortUserd(e);
   };
-  const [filterdata, setFilterData] = useState([]);
-  const [filterObject, setFilterObject] = useState({});
-  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-  const [types, setTypes] = useState([
-    { value: "Online", label: "Online" },
-    { value: "Offline", label: "Offline" },
-    { value: "Sunshine", label: "Sunshine" },
-  ]);
+
+  const handleOnFilterChange = (e, item, index, key) => {
+    if (!filterObject[key]) {
+      filterObject[key] = [];
+    }
+
+    if (e?.target?.checked == true) {
+      filterObject[key]  = [];
+      filterObject[key]?.push(item);
+      // filterObject[key] = item;
+    } else {
+      const index = filterObject[key]?.indexOf(item);
+      if (index > -1) {
+        filterObject[key]?.splice(index, 1);
+        if (filterObject[key]?.length == 0) {
+          delete filterObject[key];
+        }
+      }
+    }
+
+    setFilterObject(filterObject);
+  };
+
 
   function LinkWithTooltip({ id, children, href, tooltip }) {
     return (
@@ -106,6 +164,130 @@ const NewReaders = () => {
   const handleChange = (value) => {
     setActive(value);
   };
+
+
+  const onCountryChange = (e, i) => {
+    let consetValue = e.value;
+    let consent = {
+      index: i,
+      value: consetValue,
+    };
+
+    const found = changeCountry.some((el) => el.index === i);
+    if (!found) {
+      setChangeCountry((oldarray) => [...oldarray, consent]);
+    } else {
+      const index = changeCountry.findIndex((el) => el.index === i);
+      changeCountry[index].value = consetValue;
+    }
+  };
+
+  const onUserChange = (e, i) => {
+    let consetValue = e.value;
+    let consent = {
+      index: i,
+      value: consetValue,
+    };
+    const found = changeUserType.some((el) => el.index === i);
+    if (!found) {
+      setChangeUserType((oldarray) => [...oldarray, consent]);
+    } else {
+      const index = changeUserType.findIndex((el) => el.index === i);
+      changeUserType[index].value = consetValue;
+    }
+  };
+
+  const updateReaderDetails = async(reader_id, index) => {
+      try {
+        const index = changeCountry.findIndex((el) => el.index === reader_id);
+        let country = "";
+        if(index !== -1){
+          country = changeCountry[index].value;
+        }
+
+        const tindex = changeUserType.findIndex((el) => el.index === reader_id);
+        let type = "";
+        if(tindex !== -1){
+          type = changeUserType[tindex].value;
+        }
+
+        if(country != "" || type != ""){
+          loader("show");
+          let body = {
+            userId: 18207,
+            readerId: reader_id,
+            userStatus:type,
+            country:country
+          };
+
+          const res = await postData(ENDPOINT.READERSTATUSUPDATE, body);
+          const lib_data_index = readerDataList.findIndex((el) => el.id === reader_id);
+          if(country != ""){
+            readerDataList[lib_data_index].country = country;
+          }
+          if(type != ""){
+            readerDataList[lib_data_index].user_status = type;
+          }
+          const new_data = readerDataList;
+          setReaderDataList(new_data);
+          setupdateFlag(updateflag + 1);
+          loader("hide");
+          popup_alert({
+              visible: "show",
+              message: "Your Profile has been update <br />successfully !",
+              type: "success",
+              redirect: "",
+            });
+        }else{
+          toast.warning("Nothing for update.");
+        }
+      } catch (err) {
+        console.log("err", err);
+        loader("hide");
+      }
+  }
+
+  const clearFilter = () => {
+    document.querySelectorAll("input")?.forEach((checkbox) => {
+      checkbox.checked = false;
+    });
+    obj = {};
+
+    if (filterApplyflag > 0) {
+      setFilterObject({});
+      setReaderDataList([]);
+
+      getReaderListData(page, {}, search);
+      setSearch("");
+    }
+    setShowFilter(false);
+  }
+
+  const applyFilter = (e) => {
+    e.preventDefault();
+    setFilterApplyflag(1);
+    setReaderDataList([]);
+    setFilterObject(filterObject);
+    getReaderListData(page, filterObject, search);
+    setShowFilter(false);
+  }
+
+  const removeindividualfilter = (key, item) => {
+    // console.log(key,item);
+    let old_object = filterObject;
+    const index = old_object[key]?.indexOf(item);
+    if (index > -1) {
+      old_object[key]?.splice(index, 1);
+      if (old_object[key]?.length == 0) {
+        delete old_object[key];
+      }
+    }
+
+    setFilterObject(old_object);
+    setReaderDataList([]);
+    getReaderListData(page, old_object);
+  };
+
   return (
     <>
       <Col className="right-sidebar">
@@ -146,8 +328,34 @@ const NewReaders = () => {
                     className="btn btn-secondary dropdown"
                     type="button"
                     id="dropdownMenuButton2"
+                    onClick={() => setShowFilter((showfilter) => !showfilter)}
                   >
                     Filter By
+                    {showfilter ? (
+                      <svg
+                        className="close-arrow"
+                        width="13"
+                        height="12"
+                        viewBox="0 0 13 12"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <rect
+                          width="2.09896"
+                          height="15.1911"
+                          rx="1.04948"
+                          transform="matrix(0.720074 0.693897 -0.720074 0.693897 11.0977 0)"
+                          fill="#0066BE"
+                        />
+                        <rect
+                          width="2.09896"
+                          height="15.1911"
+                          rx="1.04948"
+                          transform="matrix(0.720074 -0.693897 0.720074 0.693897 0 1.45898)"
+                          fill="#0066BE"
+                        />
+                      </svg>
+                    ) : (
                     <svg
                       className="filter-arrow"
                       width="16"
@@ -169,24 +377,169 @@ const NewReaders = () => {
                         fill="#97B6CF"
                       ></path>
                     </svg>
+                    )}
                   </button>
+
+                  {showfilter && (
+                    <div
+                      className="dropdown-menu filter-options"
+                      aria-labelledby="dropdownMenuButton2"
+                    >
+                      <h4>Filter By</h4>
+                      <Accordion defaultActiveKey="0" flush>
+                        {Object.keys(filterdata)?.map(function (key, index) {
+                          return (
+                            <>
+                              {filterdata[key]?.length > 0 ? (
+                                <Accordion.Item
+                                  className="card"
+                                  eventKey={index}
+                                >
+                                  <Accordion.Header className="card-header">
+                                    {key}
+                                  </Accordion.Header>
+
+                                  <Accordion.Body className="card-body">
+                                    <ul>
+                                      {filterdata[key]?.length > 0
+                                        ? filterdata[key]?.map(
+                                            (item, index) => (
+                                              <li>
+                                                {item != "" ? (
+                                                  <label className="select-multiple-option">
+                                                    <input
+                                                      type="radio"
+                                                      id={`custom-checkbox-tags-${index}`}
+                                                      value={item}
+                                                      defaultChecked={
+                                                        filterObject?.hasOwnProperty(
+                                                          key
+                                                        )
+                                                          ? filterObject[
+                                                              key
+                                                            ]?.indexOf(item) !==
+                                                            -1
+                                                          : false
+                                                      }
+                                                      name="tags[]"
+                                                      onChange={(e) =>
+                                                        handleOnFilterChange(
+                                                          e,
+                                                          item,
+                                                          index,
+                                                          key
+                                                        )
+                                                      }
+                                                    />
+
+                                                    {key == "draft" &&
+                                                    item == "0"
+                                                      ? "live"
+                                                      : key == "draft" &&
+                                                        item == "1"
+                                                      ? "draft"
+                                                      : item}
+                                                    <span className="checkmark"></span>
+                                                  </label>
+                                                ) : null}
+                                              </li>
+                                            )
+                                          )
+                                        : null}
+                                    </ul>
+                                  </Accordion.Body>
+                                </Accordion.Item>
+                              ) : null}
+                            </>
+                          );
+                        })}
+                      </Accordion>
+
+                      <div className="filter-footer">
+                        <button
+                          className="btn btn-primary btn-bordered"
+                          onClick={clearFilter}
+                        >
+                          Clear
+                        </button>
+                        <button
+                          className="btn btn-primary btn-filled"
+                          onClick={applyFilter}
+                        >
+                          Apply
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
+
+            {Object.keys(filterObject)?.length !== 0 && filterApplyflag > 0 ? (
+              <div className="apply-filter">
+                <h6>Applied filters</h6>
+                <div className="filter-block">
+                  <div className="filter-block-left full">
+                    {Object.keys(filterObject)?.map((key, index) => {
+                      return (
+                        <>
+                          {filterObject[key]?.length > 0 ? (
+                            <div className="filter-div">
+                              <div className="filter-div-title">
+                                <span>{key} |</span>
+                              </div>
+                              <div className="filter-div-list">
+                                {filterObject[key]?.map((item, index) => (
+                                  <div
+                                    className="filter-result"
+                                    onClick={(event) =>
+                                      removeindividualfilter(key, item)
+                                    }
+                                  >
+                                    {key == "draft" && item == "0"
+                                      ? "live"
+                                      : key == "draft" && item == "1"
+                                      ? "draft"
+                                      : item}
+                                    <img
+                                      src={path_image + "filter-close.svg"}
+                                      alt="Close-filter"
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          ) : null}
+                        </>
+                      );
+                    })}
+                  </div>
+                  <div className="clear-filter">
+                    <button
+                      className="btn btn-outline-primary btn-bordered"
+                      onClick={clearFilter}
+                    >
+                      Remove All
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : null}
+
           </Row>
           <Row>
             <div className="library-content-box-layuot readerlist d-flex">
               <h4>
-                <span>Total HCP</span> | {readerDataList?.length}{" "}
+                <span>Total HCP</span> | {readerDataList?.length}
               </h4>
-              {readerDataList?.length
+              {readerDataList?.length || updateflag
                 ? readerDataList.map((data, index) => {
                     return (
                       <>
                         <div className="doc-content-main-box col" key={index}>
                           <div className="doc-content-header">
                             <div className="doc-content">
-                              <h4>CRM Name</h4>
+                              <h4>{data?.name}</h4>
                             </div>
                           </div>
                           <div className="tabs-data">
@@ -211,7 +564,10 @@ const NewReaders = () => {
                                         Country
                                       </h6>
                                       <h6>
-                                        {data?.country ? data?.country : "N/A"}
+                                        {
+                                          data?.country ?
+                                          data?.country == "B&H" ? "Bosnia and Herzegovina" : data?.country : "N/A"
+                                        }
                                       </h6>
                                     </li>
                                     <li>
@@ -219,9 +575,7 @@ const NewReaders = () => {
                                         User Status
                                       </h6>
                                       <h6>
-                                        {data?.user_status
-                                          ? data?.user_status
-                                          : "N/A"}
+                                        {userTypeValues[data?.user_status]}
                                       </h6>
                                     </li>
                                     <li>
@@ -453,6 +807,7 @@ const NewReaders = () => {
                                       <Link
                                         className="btn btn-primary btn-bordered"
                                         to="/timeline-detail"
+                                        state={{ readerId: data?.id }}
                                       >
                                         See time line
                                       </Link>
@@ -471,31 +826,18 @@ const NewReaders = () => {
                                         <div className="select">
                                           <Select
                                             options={types}
-                                            //   defaultValue={data.linkType == "Online"
-                                            //     ? types[0]
-                                            //     : data.linkType == "Offline"
-                                            //     ? types[1]
-                                            //     : data.linkType == "Sunshine"
-                                            //     ? types[2]
-                                            //     : "Select"}
-                                            //   onChange={(event) =>
-                                            //     onConsentChange(event,data.id)
-                                            //   }
-                                            id={"consent_dropdown_"}
+                                            defaultValue={
+                                              types[types.findIndex(el => el.value == data?.user_status)]
+                                            }
+                                            onChange={(event) =>
+                                              onUserChange(event, data.id)
+                                            }
+                                            id={"user_type_"+data?.id}
                                             className="dropdown-basic-button split-button-dropup"
                                             isClearable
                                           />
                                         </div>
                                       </div>
-                                      {/* <div className="select-dropdown-wrapper">
-                                        <div className="select">
-                                            <select>
-                                                <option value="1">Sunshine</option>
-                                                <option value="2">Offline Offer</option>
-                                                <option value="3">Online Only</option>
-                                            </select>
-                                        </div>
-                                    </div> */}
                                     </li>
                                     <li>
                                       <h6 className="tab-content-title">
@@ -504,8 +846,14 @@ const NewReaders = () => {
                                       <div className="select-dropdown-wrapper">
                                         <div className="select">
                                           <Select
-                                            options={types}
-                                            id={"consent_dropdown_"}
+                                            options={countryAll}
+                                            defaultValue={
+                                              countryAll[countryAll.findIndex(el => el.value == data?.country)]
+                                            }
+                                            onChange={(event) =>
+                                              onCountryChange(event, data.id)
+                                            }
+                                            id={"country_"+data?.id}
                                             className="dropdown-basic-button split-button-dropup"
                                             isClearable
                                           />
@@ -517,7 +865,10 @@ const NewReaders = () => {
                                     <div className="footer-btn d-flex justify-content-end">
                                       <button
                                         className="btn btn-primary btn-filled update"
-                                        type="submit"
+                                        onClick={(e) =>
+                                          updateReaderDetails(data?.id, index)
+                                        }
+                                        id={data?.id}
                                       >
                                         Update
                                       </button>
