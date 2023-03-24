@@ -824,9 +824,8 @@ const LibrarySublink = () => {
                     <div className="d-flex justify-content-between align-items-center">
                       <h5>SubLinks:</h5>
                       <Button
-                        className="btn-filled"
+                        className={!selectedArticle ? "btn-filled btn-disabled" : "btn-filled"}
                         onClick={createNewLinkClicked}
-                        disabled={!selectedArticle}
                       >
                         Create New Link +
                       </Button>
@@ -920,8 +919,7 @@ const LibrarySublink = () => {
         <div className="modal-footer">
           <button
             type="button"
-            disabled={!(newLink?.delivery && identifier.trim().length > 0)}
-            className="btn btn-primary save btn-filled"
+            className={!(newLink?.delivery && identifier.trim().length > 0) ? "btn btn-primary save btn-filled btn-disabled":"btn btn-primary save btn-filled"}
             onClick={() => handleSubmit()}
           >
             Apply
