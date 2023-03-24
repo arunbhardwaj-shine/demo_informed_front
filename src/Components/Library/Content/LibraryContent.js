@@ -639,6 +639,30 @@ const LibraryContent = () => {
     loader("hide");
   };
 
+  const copyToClipboard = (content) => {
+    if (window.isSecureContext && navigator.clipboard) {
+      navigator.clipboard.writeText(content);
+      toast.success("content copied to the clipboard!");
+    } else {
+      unsecuredCopyToClipboard(content);
+    }
+  };
+
+  const unsecuredCopyToClipboard = (text) => {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    // textArea.focus();
+    textArea.select();
+    try {
+        document.execCommand('copy');
+        toast.success("content copied to the clipboard!");
+    } catch (err) {
+        console.error('Unable to copy to clipboard', err)
+    }
+    document.body.removeChild(textArea)
+ };
+
   return (
     <>
       <Col className="right-sidebar">
@@ -1032,26 +1056,12 @@ const LibraryContent = () => {
                                       >
                                         {data?.docintelLink}
                                       </a>
-                                      {
-                                        /*
-                                        <span
-                                        className="copy-content"
-                                        onClick={() => {
-                                        toast.success(
-                                        "content copied to the clipboard!"
-                                      );
-                                      window.navigator.clipboard.writeText(
-                                      data?.docintelLink
-                                    );
-                                  }}
-                                  >
-                                  <img
-                                  src={path_image + "copy-content.svg"}
-                                  alt="Copy"
-                                  />
-                                  </span>
-                                        */
-                                      }
+                                      <span
+                                      className="copy-content"
+                                      onClick={() => {copyToClipboard(data?.docintelLink)}}
+                                      >
+                                        <img src={path_image + "copy-content.svg"} alt="Copy" />
+                                      </span>
                                     </div>
                                     <ul className="tab-mail-list">
                                       <li>
@@ -1070,18 +1080,11 @@ const LibraryContent = () => {
                                         </h6>
                                         <h6>
                                           {data?.code}
-                                          {
-                                            /*
-                                            <span
+                                          <span
                                             className="copy-content"
                                             onClick={() => {
-                                            toast.success(
-                                            "content copied to the clipboard!"
-                                          );
-                                          navigator.clipboard.writeText(
-                                          data?.code
-                                        );
-                                      }}
+                                              copyToClipboard(data?.code)
+                                            }}
                                       >
                                       <img
                                       src={
@@ -1090,8 +1093,6 @@ const LibraryContent = () => {
                                     alt="Copy"
                                     />
                                     </span>
-                                            */
-                                          }
                                         </h6>
                                       </li>
                                       <li>
@@ -1101,19 +1102,20 @@ const LibraryContent = () => {
                                         <h6>
                                           {data.docintel_code}
                                           {
-                                            /*<span
-                                              className="copy-content"
+                                            <span
+                                            className="copy-content"
+                                            onClick={() => {
+                                              copyToClipboard(data?.docintel_code)
+                                            }}
                                             >
-                                              <img
-                                                src={
-                                                  path_image + "copy-content.svg"
-                                                }
-                                                alt="Copy"
-                                              />
-                                            </span>
-                                            */
+                                            <img
+                                            src={
+                                            path_image + "copy-content.svg"
                                           }
-
+                                          alt="Copy"
+                                          />
+                                          </span>
+                                        }
                                         </h6>
                                       </li>
                                       <li>
