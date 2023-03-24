@@ -44,8 +44,8 @@ const EditLibrary = () => {
     docintelFormat: "",
     product: "",
     coverPhoto: "",
-    productionNotes:"",
-    specialRequirment:""
+    productionNotes: "",
+    specialRequirment: "",
   });
   const [ebookFile, setEbookFile] = useState([]);
   const [libraryData, setLibraryData] = useState([]);
@@ -68,7 +68,7 @@ const EditLibrary = () => {
     costCenter: [],
     // reseller:[]
   });
-  const [id,setId] = useState(18207)
+  const [id, setId] = useState(18207);
 
   const product = [
     {
@@ -88,6 +88,7 @@ const EditLibrary = () => {
   const [videoSelect, setVideoSelect] = useState("");
   const [uploadNewVideo, setUploadNewVideo] = useState(false);
   const [changeEmbeddedVideo, setChangeEmbeddedVideo] = useState("");
+  const [showFlag, setShowFlag] = useState(false);
 
   const initalFun = async () => {
     loader("show");
@@ -136,6 +137,7 @@ const EditLibrary = () => {
           : []
       );
       setChapter(hadData?.data?.data?.ebookData);
+      setShowFlag(true);
       loader("hide");
     } catch (err) {
       console.log("-err", err);
@@ -176,7 +178,10 @@ const EditLibrary = () => {
         formData.append("file", userInputs?.uploadFile?.[0]);
         formData.append("title", userInputs?.contentTitle);
         formData.append("allowShare", JSON.stringify(userInputs?.allow_share));
-        formData.append("multiplePublisher", reseller?.length?JSON.stringify(reseller):"");
+        formData.append(
+          "multiplePublisher",
+          reseller?.length ? JSON.stringify(reseller) : ""
+        );
 
         formData.append(
           "allowDownload",
@@ -199,9 +204,9 @@ const EditLibrary = () => {
 
         formData.append("coverPhoto", userInputs?.coverPhoto?.[0]);
         formData.append("chapter", JSON.stringify(chapter));
-        formData.append("productionNotes",userInputs?.productionNotes)
+        formData.append("productionNotes", userInputs?.productionNotes);
 
-        formData.append("specialRequirment",userInputs?.specialRequirment)
+        formData.append("specialRequirment", userInputs?.specialRequirment);
         formData.append("createdBy", id);
 
         await postFormData(ENDPOINT.UPDATE_ARTICLE, formData, {
@@ -749,283 +754,286 @@ const EditLibrary = () => {
 
   return (
     <>
-      <div className="col right-sidebar">
-        <div className="custom-container">
-          <div className="row">
-            <div className="page-top-nav">
-              <div className="row justify-content-end align-items-center">
-                <div className="col-12 col-md-1">
-                  <div className="header-btn-left">
-                    <button className="btn btn-primary btn-bordered back">
-                      <Link to="/library-create">Back</Link>
-                    </button>
+      {showFlag ? (
+        <div className="col right-sidebar">
+          <div className="custom-container">
+            <div className="row">
+              <div className="page-top-nav">
+                <div className="row justify-content-end align-items-center">
+                  <div className="col-12 col-md-1">
+                    <div className="header-btn-left">
+                      <button className="btn btn-primary btn-bordered back">
+                        <Link to="/library-create">Back</Link>
+                      </button>
+                    </div>
                   </div>
-                </div>
-                <div className="col-12 col-md-9">
-                  <ul className="tabnav-link">
-                    <li className="active active-main">
-                      <a href="">Create Your Content</a>
-                    </li>
-                    <li className="">
-                      <a href="">Edit Consent Option</a>
-                    </li>
-                    <li className="">
-                      <a href="">Approve Your Content &amp; Publish</a>
-                    </li>
-                  </ul>
-                </div>
-                <div className="col-12 col-md-2">
-                  <div className="header-btn">
-                    <button className="btn btn-primary btn-bordered move-draft">
-                      Cancel
-                    </button>
+                  <div className="col-12 col-md-9">
+                    <ul className="tabnav-link">
+                      <li className="active active-main">
+                        <a href="">Create Your Content</a>
+                      </li>
+                      <li className="">
+                        <a href="">Edit Consent Option</a>
+                      </li>
+                      <li className="">
+                        <a href="">Approve Your Content &amp; Publish</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="col-12 col-md-2">
+                    <div className="header-btn">
+                      <button className="btn btn-primary btn-bordered move-draft">
+                        Cancel
+                      </button>
 
-                    <button
-                      className="btn btn-primary btn-filled next"
-                      onClick={nextButtonClicked}
-                    >
-                      Next
-                    </button>
+                      <button
+                        className="btn btn-primary btn-filled next"
+                        onClick={nextButtonClicked}
+                      >
+                        Next
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            {userDetail?.user?.[0]?.group_id == 2
-              ? publisherFun()
-              : userDetail?.user?.[0]?.flag == 0 &&
-                userDetail?.user?.[0]?.group_id == 3
-              ? docintelLink()
-              : null}
-            {userDetail?.user?.[0]?.group_id == 2 ? LimitAgreed() : null}
-            <div className="create-change-content">
-              <div className="form_action">
-                <h4>Creating the eprint</h4>
-                <div className="row">
-                  <div className="col-12 col-md-6">
-                    <div className="form-group val">
-                      <label htmlFor="">Content title *</label>
-                      <input
-                        type="text"
-                        name="contentTitle"
-                        className="form-control"
-                        defaultValue={userInputs?.contentTitle}
-                        onChange={(e) => {
-                          handleChange(e);
-                        }}
-                      />
-                      {error?.contentTitle ? (
-                        <div className="login-validation">
-                          {error?.contentTitle}
-                        </div>
-                      ) : null}
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="">Journal title</label>
-                      <input
-                        type="text"
-                        name="journalTitle"
-                        defaultValue={userInputs?.journalTitle}
-                        className="form-control"
-                        onChange={(e) => handleChange(e)}
-                      />
-                      {error?.journalTitle ? (
-                        <div className="login-validation">
-                          {error?.journalTitle}
-                        </div>
-                      ) : null}
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="">Author</label>
-                      <input
-                        type="text"
-                        name="keyAuthor"
-                        defaultValue={userInputs?.keyAuthor}
-                        className="form-control"
-                        onChange={handleChange}
-                      />
-                    </div>
-                    <div className="form-group val">
-                      <label htmlFor="">Docintel format *</label>
-                      <Select
-                        className="dropdown-basic-button split-button-dropup"
-                        options={ePrintType}
-                        defaultValue={
-                          // console.log("default", userInputs?.docintelFormat)
-                          userInputs?.docintelFormat === "pdf"
-                            ? ePrintType[0]
-                            : userInputs?.docintelFormat == "ebook"
-                            ? ePrintType[2]
-                            : ePrintType[1]
-                        }
-                        isClearable
-                        placeholder="Select type of Docintel format "
-                        onChange={(event) =>
-                          handleChange(event?.value, "docintelFormat")
-                        }
-                      />
-                      {error?.docintelFormat ? (
-                        <div className="login-validation">
-                          {error?.docintelFormat}
-                        </div>
-                      ) : null}
-                    </div>
-
-                    {userInputs.docintelFormat == "pdf" ? (
+              {userDetail?.user?.[0]?.group_id == 2
+                ? publisherFun()
+                : userDetail?.user?.[0]?.flag == 0 &&
+                  userDetail?.user?.[0]?.group_id == 3
+                ? docintelLink()
+                : null}
+              {userDetail?.user?.[0]?.group_id == 2 ? LimitAgreed() : null}
+              <div className="create-change-content">
+                <div className="form_action">
+                  <h4>Creating the eprint</h4>
+                  <div className="row">
+                    <div className="col-12 col-md-6">
                       <div className="form-group val">
-                        <label htmlFor="">Upload PDF</label>
-                        <div className="upload-file-box">
-                          <div className="box">
-                            <input
-                              type="file"
-                              name="file-6[]"
-                              id="file-6"
-                              className="inputfile inputfile-6"
-                              accept="application/pdf"
-                              onChange={(e) => handleChange(e, "uploadFile")}
-                            />
-                            <label htmlFor="file-6">
-                              <span>Choose Your File</span>
-                            </label>
-                            {userInputs?.uploadFile?.[0]?.name ? (
-                              <p>{userInputs?.uploadFile?.[0].name}</p>
-                            ) : (
-                              <p>Change your PDF</p>
-                            )}
-                          </div>
-                        </div>
-                        {error?.uploadFile ? (
-                          <div className="login-validation-upload">
-                            {error?.uploadFile}
+                        <label htmlFor="">Content title *</label>
+                        <input
+                          type="text"
+                          name="contentTitle"
+                          className="form-control"
+                          defaultValue={userInputs?.contentTitle}
+                          onChange={(e) => {
+                            handleChange(e);
+                          }}
+                        />
+                        {error?.contentTitle ? (
+                          <div className="login-validation">
+                            {error?.contentTitle}
                           </div>
                         ) : null}
                       </div>
-                    ) : userInputs?.docintelFormat == "video" ? (
-                      <div className="form-group val">
-                        <label htmlFor="">Upload video</label>
-                        <div className="upload-file-box">
-                          <div className="box">
-                            <input
-                              type="file"
-                              name="file-6[]"
-                              id="file-6"
-                              className="inputfile inputfile-6"
-                              accept="video/*"
-                              onChange={(e) => handleChange(e, "uploadFile")}
-                            />
-                            <label htmlFor="file-6">
-                              <span>Choose Your File</span>
-                            </label>
-                            {userInputs?.uploadFile?.[0]?.name ? (
-                              <p>{userInputs?.uploadFile?.[0]?.name}</p>
-                            ) : (
-                              <p>Upload your Video file</p>
-                            )}
-                          </div>
-                        </div>
-                        {error?.uploadVideo ? (
-                          <div className="login-validation-upload">
-                            {error?.uploadVideo}
+                      <div className="form-group">
+                        <label htmlFor="">Journal title</label>
+                        <input
+                          type="text"
+                          name="journalTitle"
+                          defaultValue={userInputs?.journalTitle}
+                          className="form-control"
+                          onChange={(e) => handleChange(e)}
+                        />
+                        {error?.journalTitle ? (
+                          <div className="login-validation">
+                            {error?.journalTitle}
                           </div>
                         ) : null}
                       </div>
-                    ) : // ePrint == "eBook" ? (
-                    userInputs.docintelFormat == "ebook" ? (
-                      chapter.map((val, i) => {
-                        return (
-                          <>
-                            <div className="form-group val chapter-title">
-                              <div className="ebook-format">
-                                <label htmlFor="">Chapter title {i + 1}</label>
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  onChange={(e) => onChapterTitleChange(e, i)}
-                                  value={val.chapterTitle}
-                                />
-                                <div className="upload-file-box">
-                                  <div className="box">
-                                    <input
-                                      type="file"
-                                      name={`file-${i}`}
-                                      id={`file-${i}`}
-                                      className="inputfile inputfile-6"
-                                      accept="application/pdf"
-                                      onChange={(e) =>
-                                        handleOnEbookChange(e, i)
-                                      }
-                                    />
-                                    <label htmlFor={`file-${i}`}>
-                                      <span>Change Your File</span>
-                                    </label>
+                      <div className="form-group">
+                        <label htmlFor="">Author</label>
+                        <input
+                          type="text"
+                          name="keyAuthor"
+                          defaultValue={userInputs?.keyAuthor}
+                          className="form-control"
+                          onChange={handleChange}
+                        />
+                      </div>
+                      <div className="form-group val">
+                        <label htmlFor="">Docintel format *</label>
+                        <Select
+                          className="dropdown-basic-button split-button-dropup"
+                          options={ePrintType}
+                          defaultValue={
+                            // console.log("default", userInputs?.docintelFormat)
+                            userInputs?.docintelFormat === "pdf"
+                              ? ePrintType[0]
+                              : userInputs?.docintelFormat == "ebook"
+                              ? ePrintType[2]
+                              : ePrintType[1]
+                          }
+                          isClearable
+                          placeholder="Select type of Docintel format "
+                          onChange={(event) =>
+                            handleChange(event?.value, "docintelFormat")
+                          }
+                        />
+                        {error?.docintelFormat ? (
+                          <div className="login-validation">
+                            {error?.docintelFormat}
+                          </div>
+                        ) : null}
+                      </div>
 
-                                    <p>
-                                      {val.uploadFile == ""
-                                        ? "Upload your PDF file"
-                                        : val.uploadFile}
-                                    </p>
+                      {userInputs.docintelFormat == "pdf" ? (
+                        <div className="form-group val">
+                          <label htmlFor="">Upload PDF</label>
+                          <div className="upload-file-box">
+                            <div className="box">
+                              <input
+                                type="file"
+                                name="file-6[]"
+                                id="file-6"
+                                className="inputfile inputfile-6"
+                                accept="application/pdf"
+                                onChange={(e) => handleChange(e, "uploadFile")}
+                              />
+                              <label htmlFor="file-6">
+                                <span>Choose Your File</span>
+                              </label>
+                              {userInputs?.uploadFile?.[0]?.name ? (
+                                <p>{userInputs?.uploadFile?.[0].name}</p>
+                              ) : (
+                                <p>Change your PDF</p>
+                              )}
+                            </div>
+                          </div>
+                          {error?.uploadFile ? (
+                            <div className="login-validation-upload">
+                              {error?.uploadFile}
+                            </div>
+                          ) : null}
+                        </div>
+                      ) : userInputs?.docintelFormat == "video" ? (
+                        <div className="form-group val">
+                          <label htmlFor="">Upload video</label>
+                          <div className="upload-file-box">
+                            <div className="box">
+                              <input
+                                type="file"
+                                name="file-6[]"
+                                id="file-6"
+                                className="inputfile inputfile-6"
+                                accept="video/*"
+                                onChange={(e) => handleChange(e, "uploadFile")}
+                              />
+                              <label htmlFor="file-6">
+                                <span>Choose Your File</span>
+                              </label>
+                              {userInputs?.uploadFile?.[0]?.name ? (
+                                <p>{userInputs?.uploadFile?.[0]?.name}</p>
+                              ) : (
+                                <p>Upload your Video file</p>
+                              )}
+                            </div>
+                          </div>
+                          {error?.uploadVideo ? (
+                            <div className="login-validation-upload">
+                              {error?.uploadVideo}
+                            </div>
+                          ) : null}
+                        </div>
+                      ) : // ePrint == "eBook" ? (
+                      userInputs.docintelFormat == "ebook" ? (
+                        chapter.map((val, i) => {
+                          return (
+                            <>
+                              <div className="form-group val chapter-title">
+                                <div className="ebook-format">
+                                  <label htmlFor="">
+                                    Chapter title {i + 1}
+                                  </label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    onChange={(e) => onChapterTitleChange(e, i)}
+                                    value={val.chapterTitle}
+                                  />
+                                  <div className="upload-file-box">
+                                    <div className="box">
+                                      <input
+                                        type="file"
+                                        name={`file-${i}`}
+                                        id={`file-${i}`}
+                                        className="inputfile inputfile-6"
+                                        accept="application/pdf"
+                                        onChange={(e) =>
+                                          handleOnEbookChange(e, i)
+                                        }
+                                      />
+                                      <label htmlFor={`file-${i}`}>
+                                        <span>Change Your File</span>
+                                      </label>
+
+                                      <p>
+                                        {val.uploadFile == ""
+                                          ? "Upload your PDF file"
+                                          : val.uploadFile}
+                                      </p>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                              <div className="chapter-btn-wrapper">
-                                <Button
-                                  className="btn btn-primary btn-bordered btn-voilet move-draft chappter-add-btn"
-                                  onClick={addMoreChClicked}
-                                >
-                                  Add Ch +
-                                </Button>
-
-                                {chapter.length > 1 ? (
+                                <div className="chapter-btn-wrapper">
                                   <Button
-                                    className="dlt_btn"
-                                    onClick={() => deleteRecord(i, val?.id)}
+                                    className="btn btn-primary btn-bordered btn-voilet move-draft chappter-add-btn"
+                                    onClick={addMoreChClicked}
                                   >
-                                    <img
-                                      src={path_image + "delete.svg"}
-                                      alt="Delete Row"
-                                    />
+                                    Add Ch +
                                   </Button>
+
+                                  {chapter.length > 1 ? (
+                                    <Button
+                                      className="dlt_btn"
+                                      onClick={() => deleteRecord(i, val?.id)}
+                                    >
+                                      <img
+                                        src={path_image + "delete.svg"}
+                                        alt="Delete Row"
+                                      />
+                                    </Button>
+                                  ) : null}
+                                </div>
+                                {error?.ebookErr ? (
+                                  <div className="login-validation-upload">
+                                    {error?.ebookErr}
+                                  </div>
                                 ) : null}
                               </div>
-                              {error?.ebookErr ? (
-                                <div className="login-validation-upload">
-                                  {error?.ebookErr}
-                                </div>
-                              ) : null}
-                            </div>
-                          </>
-                        );
-                      })
-                    ) : // <div className="form-group val">
-                    //   <label htmlFor="">Upload Ebook</label>
-                    //   <div className="upload-file-box">
-                    //     <div className="box">
-                    //       <input
-                    //         type="file"
-                    //         name="file-6[]"
-                    //         id="file-6"
-                    //         className="inputfile inputfile-6"
-                    //         accept="application/pdf"
-                    //         onChange={(e) => handleEbookChange(e)}
-                    //       />
-                    //       <label htmlFor="file-6">
-                    //         <span>Choose Your File</span>
-                    //       </label>
-                    //       <p>
-                    //         {selectedEbookName == ""
-                    //           ? "Upload your Ebook file"
-                    //           : selectedEbookName}{" "}
-                    //       </p>
-                    //     </div>
-                    //   </div>
-                    //   {error?.pdfFile ? (
-                    //     <div className="login-validation-upload">
-                    //       {error?.pdfFile}
-                    //     </div>
-                    //   ) : null}
-                    // </div>
-                    null}
+                            </>
+                          );
+                        })
+                      ) : // <div className="form-group val">
+                      //   <label htmlFor="">Upload Ebook</label>
+                      //   <div className="upload-file-box">
+                      //     <div className="box">
+                      //       <input
+                      //         type="file"
+                      //         name="file-6[]"
+                      //         id="file-6"
+                      //         className="inputfile inputfile-6"
+                      //         accept="application/pdf"
+                      //         onChange={(e) => handleEbookChange(e)}
+                      //       />
+                      //       <label htmlFor="file-6">
+                      //         <span>Choose Your File</span>
+                      //       </label>
+                      //       <p>
+                      //         {selectedEbookName == ""
+                      //           ? "Upload your Ebook file"
+                      //           : selectedEbookName}{" "}
+                      //       </p>
+                      //     </div>
+                      //   </div>
+                      //   {error?.pdfFile ? (
+                      //     <div className="login-validation-upload">
+                      //       {error?.pdfFile}
+                      //     </div>
+                      //   ) : null}
+                      // </div>
+                      null}
 
-                    {/* <div className="form-group">
+                      {/* <div className="form-group">
                       <label htmlFor="">Include video</label>
                       <div className="switch">
                         <label className="switch-light">
@@ -1051,56 +1059,59 @@ const EditLibrary = () => {
                         false
                       )}
                     </div> */}
-                    <div className="form-group val">
-                      <label htmlFor="">Content cover</label>
-                      <div className="upload-file-box">
-                        <div className="box">
-                          <input
-                            type="file"
-                            name="file-5[]"
-                            id="file-5"
-                            className="inputfile inputfile-5"
-                            accept="image/png, image/jpeg"
-                            onChange={(e) => handleChange(e, "coverPhoto")}
-                          />
-                          <label htmlFor="file-5">
-                            <span>Choose Your File</span>
-                          </label>
-                          {userInputs?.coverPhoto?.[0]?.name ? (
-                            <p>{userInputs?.coverPhoto?.[0]?.name}</p>
-                          ) : (
-                            <p>
-                              Upload your cover image <br />
-                              <span>(Recommended size 00 X 00)</span>
-                            </p>
-                          )}
-                          {/* <p>
+                      <div className="form-group val">
+                        <label htmlFor="">Content cover</label>
+                        <div className="upload-file-box">
+                          <div className="box">
+                            <input
+                              type="file"
+                              name="file-5[]"
+                              id="file-5"
+                              className="inputfile inputfile-5"
+                              accept="image/png, image/jpeg"
+                              onChange={(e) => handleChange(e, "coverPhoto")}
+                            />
+                            <label htmlFor="file-5">
+                              <span>Choose Your File</span>
+                            </label>
+                            {userInputs?.coverPhoto?.[0]?.name ? (
+                              <p>{userInputs?.coverPhoto?.[0]?.name}</p>
+                            ) : (
+                              <p>
+                                Upload your cover image <br />
+                                <span>(Recommended size 00 X 00)</span>
+                              </p>
+                            )}
+                            {/* <p>
                             Upload your cover image
                             <br />
                             <span>(Recommended size 00 X 00)</span>
                           </p> */}
+                          </div>
                         </div>
-                      </div>
-                      {/* {error?.image ? (
+                        {/* {error?.image ? (
                         <div className="login-validation-upload">
                           {error?.image}
                         </div>
                       ) : null} */}
+                      </div>
                     </div>
-                  </div>
-                  <div className="col-12 col-md-6 d-flex justify-content-end align-items-start right-change">
-                    <div className="form-group justify-content-end">
-                      <label htmlFor="">
-                        Production notes to Docintel team
-                      </label>
-                      <textarea
-                        className="form-control"
-                        id="formControlTextarea"
-                        rows="5"
-                        defaultValue={userInputs?.productionNotes}
-                        onChange={(e) => handleChange(e?.target.value, "productionNotes")}
-                        placeholder="Please type your notes here.."
-                      ></textarea>
+                    <div className="col-12 col-md-6 d-flex justify-content-end align-items-start right-change">
+                      <div className="form-group justify-content-end">
+                        <label htmlFor="">
+                          Production notes to Docintel team
+                        </label>
+                        <textarea
+                          className="form-control"
+                          id="formControlTextarea"
+                          rows="5"
+                          defaultValue={userInputs?.productionNotes}
+                          onChange={(e) =>
+                            handleChange(e?.target.value, "productionNotes")
+                          }
+                          placeholder="Please type your notes here.."
+                        ></textarea>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1108,7 +1119,7 @@ const EditLibrary = () => {
             </div>
           </div>
         </div>
-      </div>
+      ) : null}
       <Modal className="pdf-video-link" show={show} onHide={handleClose}>
         <Modal.Header>
           <div className="form_action embedding-video">
