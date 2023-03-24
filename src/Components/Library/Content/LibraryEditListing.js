@@ -924,12 +924,12 @@ const LibraryContent = () => {
                                     state={{ pdfid: data.id }}
                                     className="footer-btn"
                                   >
-                                    {/* <button>
+                                    <button>
                                       <img
                                         src={path_image + "edit-white.svg"}
                                         alt="Delete Row"
                                       />
-                                    </button> */}
+                                    </button>
                                   </Link>
                                 </div>
                               ) : deletestatus ? (
@@ -1424,28 +1424,6 @@ const LibraryContent = () => {
                                   </div>
                                 </Tab>
                               </Tabs>
-                            </div>
-                            <div
-                              className="data-main-footer-sec"
-                              style={{
-                                height: "30px",
-                                display: "flex",
-                                justifyContent: "right",
-                              }}
-                            >
-                              <div className="footer-btn-wrapper">
-                                <Link
-                                  to="/library-edit"
-                                  state={{ pdfid: data.id }}
-                                  className="footer-btn"
-                                >
-                                  <img
-                                    src={path_image + "edit.svg"}
-                                    alt=""
-                                   
-                                  />
-                                </Link>
-                              </div>
                             </div>
                           </div>
                         </>
