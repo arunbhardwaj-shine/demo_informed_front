@@ -298,7 +298,7 @@ const LibrarySublink = () => {
                         <label htmlFor="">Content</label>
                         <Select
                           options={allContents}
-                          placeholder="Select business unit"
+                          placeholder="Select content to create a sublink "
                           onChange={(event) => onArticleChange(event)}
                           value={
                             selectedArticle != ""
@@ -317,7 +317,7 @@ const LibrarySublink = () => {
                         <label htmlFor="">URL</label>
                         <Select
                           options={allCodes}
-                          placeholder="Select business unit"
+                          placeholder="Select content URL"
                           onChange={(event) => onArticleChange(event)}
                           value={
                             selectedArticle != ""

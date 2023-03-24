@@ -221,7 +221,7 @@
         }
       }
       .tab-content-links {
-        margin-bottom: 8px;
+        margin-bottom: 9px;
         line-height: 1;
         a {
           @include h6;
@@ -277,7 +277,7 @@
         h6.tab-content-title {
           font-weight: 500;
           color: $library-box-heading;
-          flex: 0 0 150px;
+          flex: 0 0 116px;
           margin: 0;
           img {
             width: 12px;
@@ -352,6 +352,7 @@
           gap: 0px;
           @include flex-center;
           .footer-btn {
+            text-transform: none;
             @include footer-btn;
             &:hover {
               background: $primary-color;
@@ -2362,7 +2363,7 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
   padding: 11px;
   background: $primary-color;
   border-radius: 30px;
-  color: #ffffff !important;
+  color: $white !important;
   font-size: 16px;
   line-height: 1.1;
   font-weight: 500;
@@ -2377,6 +2378,8 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
   word-break: break-all;
   padding-right: 5px;
 }
+
+
 /**Library Style End**/
 
 /**Readers Style**/
@@ -2514,8 +2517,6 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
   width: 38px;
 }
 .timeline-article-detail .timeline-title p {
-  font-family: "Roboto";
-  font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 16px;
@@ -2819,6 +2820,8 @@ section.verify_email.content_details {
 /**Reader Style End**/
 
 /**Library Responsive**/
+
+
 @media only screen and (min-width:1921px){
   .library-content-box-layuot {
     gap: 0% 3%;
@@ -2831,6 +2834,9 @@ section.verify_email.content_details {
     flex: 0 0 100%;
 }
 }
+
+
+
 @media only screen and (max-width: 1900px) {
   .tab-mail-list.data .progress {
     width: 145px;
@@ -2839,6 +2845,9 @@ section.verify_email.content_details {
     margin-right: 4px;
   }
 }
+
+
+
 @media only screen and (max-width: 1700px) {
   .library-content-box-layuot {
     gap: 0% 2%;
@@ -2862,6 +2871,9 @@ section.verify_email.content_details {
     padding: 7px 10px;
   }
 }
+
+
+
 @media only screen and (max-width: 1599px) {
   .library_create .library_create-box {
     max-width: 373px;
@@ -2898,6 +2910,9 @@ section.verify_email.content_details {
     padding-right: 35px;
   }
 }
+
+
+
 @media only screen and (max-width: 1500px) {
   .library_create .library_create-box,
   .library_create .library_create-box.spc {
@@ -3071,6 +3086,9 @@ section.verify_email.content_details {
     max-width: 100%;
   }
 }
+
+
+
 @media (max-width: $layout-breakpoint-extraLarge) {
   .library_create .library_create-box {
     padding: 22px 22px;
