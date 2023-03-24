@@ -20,6 +20,8 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const NewReaders = () => {
   const [search, setSearch] = useState("");
+  const [isLoaded, setIsLoaded] = useState(false);
+
   const [readerDataList, setReaderDataList] = useState();
   const [page, setPage] = useState(1);
   const [pageAll, setPageAll] = useState(false);
@@ -87,6 +89,7 @@ const NewReaders = () => {
       loader("hide");
       setPageAll(false);
       setPageAllClicked(false);
+      setIsLoaded(true);
     } catch (err) {
       console.log(err);
       loader("hide");
@@ -658,7 +661,7 @@ const NewReaders = () => {
                   })
                 : null}
             </div>
-            {page == 1 ? (
+            {page == 1 && isLoaded==true ? (
               <div className="load_more">
                 <button
                   className="btn btn-primary btn-filled"

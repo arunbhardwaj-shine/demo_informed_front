@@ -53,6 +53,8 @@ const LibraryContent = () => {
   const location = useLocation();
   const [pageAll, setPageAll] = useState(false);
   const [search, setSearch] = useState("");
+  const [noData, setNoData] = useState(false);
+
   const [opening_details, setOpeningDetails] = useState([]);
   const [tagClickedFirst, setTagClickedFirst] = useState([]);
   const [finalTags, setFinalTags] = useState([]);
@@ -311,7 +313,13 @@ const LibraryContent = () => {
       loader("hide");
       setPageAll(false);
       setPageAllClicked(false);
+      if((res?.data?.data?.library).length>0){
       setIsLoaded(true);
+      setNoData(false)
+      }
+      else{
+        setNoData(true)
+      }
     } catch (err) {
       console.log("err");
       loader("hide");
@@ -319,6 +327,8 @@ const LibraryContent = () => {
   };
 
   const searchChange = (e) => {
+    setIsLoaded(false)
+    setNoData(false);
     setSearch(e?.target?.value);
     if (e?.target?.value === "") {
       setLibraryData([]);
@@ -1578,7 +1588,11 @@ const LibraryContent = () => {
                         </>
                       );
                     })
-                  : null}
+                  : <div>
+                    {noData==true && libraryData?.length<=0?
+                    <p style={{fontSize:"30px",}}>
+                    No Data Found</p>:null}
+                    </div>}
               </>
             </div>
             {(page === 1 && isLoaded==true)?
