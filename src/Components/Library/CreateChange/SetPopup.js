@@ -60,7 +60,7 @@ const SetPopup = (props) => {
   const [getTemplatePopup, setTemplatePopup] = useState(false);
   const [getNewTemplatePopup, setNewTemplatePopup] = useState(false);
   const [articleId, setArticleId] = useState(
-    typeof state?.pdfId !== "undefined" ? state?.pdfId : ""
+    typeof state?.pdfId !== "undefined" ? state?.pdfId : "3846"
   );
   const [selectOptions, setSelectOptions] = useState({
     consentType: "",
@@ -160,11 +160,23 @@ const SetPopup = (props) => {
           time: res?.data?.data?.time,
         });
 
+        if (res?.data?.data) {
+          let lang = res?.data?.data?.language;
+          let lng_arr = [];
+          Object.entries(lang).map(([index, item]) => {
+            let label = item;
+            lng_arr.push({
+              value: item,
+              label: label.toUpperCase(),
+            });
+          });
+          setTemplateLanguage(lng_arr);
+        }
+        setTemplateId(res?.data?.data?.popupTempId);
       } else {
-    
         res = actualTemplateData;
-   
       }
+
       let data = [];
       if (consent == "Online") {
         setIsOnline(true);
@@ -179,13 +191,9 @@ const SetPopup = (props) => {
 
         data = res?.data?.data?.popupData;
       }
-    
       setTemplateList(data);
-      setTemplateId(res?.data?.data?.popupTempId);
-     
-      res = actualTemplateData;
-    }
-    else if(flag===2){
+      loader("hide");
+    } else if(flag===2){
       const body = {
 
         userId: "18207",
@@ -201,23 +209,11 @@ const SetPopup = (props) => {
       const res = await postData(ENDPOINT.LIBRARYGETPOPUP, body);
   
       setTemplateList(res?.data?.data?.popupData);
-  
+      loader("hide");
       setTemplateId(res?.data?.data?.popupTempId);
     }
-      if (res?.data?.data) {
-      let lang = res?.data?.data?.language;
-      let lng_arr = [];
-      Object.entries(lang).map(([index, item]) => {
-        let label = item;
-        lng_arr.push({
-          value: item,
-          label: label.toUpperCase(),
-        });
-      });
-      setTemplateLanguage(lng_arr);
-    }
-      loader("hide");
-    } catch (err) {
+  }
+    catch (err) {
       loader("hide");
     }
   };
