@@ -62,7 +62,9 @@ const NewReaders = () => {
   }, []);
 
   useEffect(() => {
-    getReaderListData(page, filterObject, search);
+    if(page == 2){
+      getReaderListData(page, filterObject, search);
+    }
   }, [page]);
 
   const getReaderListData = async (page, obj, search) => {
