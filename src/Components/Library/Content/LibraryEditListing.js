@@ -98,6 +98,8 @@ const LibraryContent = () => {
     footerButton: "",
   });
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
+  const BrokenImage =
+    "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
 
   const downloadQRData = [
     {
@@ -533,6 +535,11 @@ const LibraryContent = () => {
     }
   };
 
+  const imageOnError = (event) => {
+    event.currentTarget.src = BrokenImage;
+    event.currentTarget.className = "error";
+  };
+
   const saveButtonClicked = async () => {
     loader("show");
     let payload = {
@@ -893,6 +900,7 @@ const LibraryContent = () => {
                                   <img
                                     alt="doc-logo"
                                     src={data?.coverImage}
+                                    onError={imageOnError}
                                     style={{ width: "67px" }}
                                   />
                                 </a>

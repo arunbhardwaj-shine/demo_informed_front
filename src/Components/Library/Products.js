@@ -119,6 +119,7 @@ function Products() {
                       </Button>
                   </Form>
                 </div>
+                <Row>
                   <div className="col-12 selected-products-list d-flex">
                     {productData?.data?.map((item) => {
                       return (
@@ -145,6 +146,7 @@ function Products() {
                       );
                     })}
                   </div>
+                  </Row>
               </div>
         </Row>
       </div>

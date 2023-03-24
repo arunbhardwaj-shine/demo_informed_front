@@ -39,6 +39,8 @@ const LibraryCreateUser = () => {
     docintelFormat: "",
     coverPhoto: "",
     specialRequirment: "",
+    productionNotes: "",
+
   });
   const [ebookFile, setEbookFile] = useState([]);
   const [chapter, setChapter] = useState([
@@ -137,7 +139,8 @@ const LibraryCreateUser = () => {
       loader("show");
       try {
         let formData = new FormData();
-
+        
+        formData.append("productionNotes", userInputs?.productionNotes);
         formData.append("expDatetime", userInputs?.expDatetime);
         formData.append("limit", userInputs?.limit);
         formData.append("file", userInputs?.uploadFile?.[0]);
@@ -159,9 +162,9 @@ const LibraryCreateUser = () => {
         formData.append("chapter", JSON.stringify(chapter));
         formData.append(
           "specialRequirment",
-          userInputs?.specialRequirment?.target?.value
+          userInputs?.specialRequirment
         );
-        formData.append("createdBy", 18207);
+        formData.append("createdBy", id);
 
         const res = await postFormData(ENDPOINT.LIBRARYCREATE, formData, {
           header: {
@@ -171,7 +174,10 @@ const LibraryCreateUser = () => {
         loader("hide");
         // navigate("/set-popup");
         navigate("/set-popup", {
-          state: { pdfId: res?.data?.data?.pdfId },
+          state: {
+            pdfId: res?.data?.data?.pdfId,
+            fileType:userInputs?.docintelFormat
+           },
         });
       } catch (err) {
         loader("hide");
@@ -602,7 +608,7 @@ const LibraryCreateUser = () => {
               <div className="form-group">
                 <label htmlFor="">Set limit of usage</label>
                 <input
-                  type="text"
+                  type="number"
                   name="limit"
                   className="form-control"
                   placeholder="“0” value means unlimited limit"
@@ -654,7 +660,7 @@ const LibraryCreateUser = () => {
                 <textarea
                   className="form-control"
                   id="formControlTextarea"
-                  onChange={(e) => handleChange(e, "specialRequirment")}
+                  onChange={(e) => handleChange(e?.target.value, "specialRequirment")}
                   rows="5"
                   placeholder="Please type your notes here.."
                 ></textarea>
@@ -1005,6 +1011,7 @@ const LibraryCreateUser = () => {
                         className="form-control"
                         id="formControlTextarea"
                         rows="5"
+                        onChange={(e) => handleChange(e?.target.value, "productionNotes")}
                         placeholder="Please type your notes here.."
                       ></textarea>
                     </div>

@@ -52,6 +52,7 @@ const PreviewContent = () => {
 	const [templateClickedd, setTemplateClicked] = useState(false);
 	const [pdfFileId, setPdfFileId] = useState();
 	const [templatePdf, setTemplatePdf] = useState();
+	const [nextFlag, setNextFlag] = useState(0);
 	const [templateName, setTemplateName] = useState("");
   const [userInputs, setUserInputs] = useState({});
   const [updateFlag, setUpdateFlag] = useState(0);
@@ -104,6 +105,20 @@ const PreviewContent = () => {
 		if (div) {
 		  div.classList.remove("select_mm");
 		}
+
+
+    if(pdfData?.file_type && pdfData.file_type == "ebook") {
+      let pdfIndex = pdfData.ebookData.findIndex(el => el.id === template.id);
+      let nextItem = pdfData.ebookData[pdfIndex+1];
+      if(typeof nextItem !== "undefined"){
+        setNextFlag(1);
+      }else{
+        setNextFlag(0);
+      }
+    }else{
+      setNextFlag(0);
+    }
+
 		setTemplatePdf(template?.file_name);
 		setTemplateName(template?.title);
 		setTemplateClicked(true);
@@ -203,10 +218,16 @@ const PreviewContent = () => {
             link.click();
           }else{
             setPublishStatus(true);
+            navigate("/content-detail", {
+              state: { pdfId: articleId },
+            });
           }
           setPdfData(pdfData);
         }else{
           setPublishStatus(true);
+          navigate("/content-detail", {
+            state: { pdfId: articleId },
+          });
         }
         setApiCallBackFlag(apiCallBackFlag + 1);
         loader("hide");
@@ -224,11 +245,22 @@ const PreviewContent = () => {
               <div className="row justify-content-end align-items-center">
                 <div className="col-12 col-md-1">
                   <div className="header-btn-left">
+                  {
+                    /*
                     <button className="btn btn-primary btn-bordered back"
                     onClick={(e) => navigate("/set-popup")}
                     >
                       Back
                     </button>
+                    */
+                  }
+                    <Link
+                      to="/set-popup"
+                      state={{ pdfId: state?.pdfId }}
+                      className="btn btn-primary btn-bordered back"
+                    >
+                    Back
+                    </Link>
                   </div>
                 </div>
                 <div className="col-12 col-md-9">
@@ -265,9 +297,8 @@ const PreviewContent = () => {
               apiCallBackFlag ?
                   pdfData?.file_type && pdfData.file_type == "ebook" &&
                   (
-                    <section className="select-mail-template library-cosent">
+                    <section className="select-mail-template library-cosent prev_content">
                     <div className="custom-container">
-                    <div className="row">
                     <div className="page-title"><h4>Select chapter to preview it</h4></div>
                     <AliceCarousel
                     mouseTracking
@@ -302,7 +333,6 @@ const PreviewContent = () => {
                       );
                     })}
                     </AliceCarousel>
-                    </div>
                     </div>
                     </section>
                   )
@@ -355,6 +385,7 @@ const PreviewContent = () => {
   						}
   					  </h4>
             </div>
+            <div className="blink_text"><h4>Please verify every page is correct and press 'Publish' at the bottom when you're sure.</h4></div>
 					  <Button className="btn btn-bordered" onClick={handleShow}>Change content file</Button>
 					</div>
 					{
@@ -362,12 +393,14 @@ const PreviewContent = () => {
             ?
 						pdfData?.file_type && pdfData.file_type == "ebook" ?
 							<RenderPdf
+                next= {nextFlag}
 							  url= {templatePdf}
                 handleNext ={handleNext}
 							/>
 						:
 
 							<RenderPdf
+                next= {nextFlag}
 							  url= {pdfData?.file_name}
                 handleNext ={handleNext}
 							/>

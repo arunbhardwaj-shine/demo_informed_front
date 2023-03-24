@@ -30,5 +30,8 @@ export const ENDPOINT = {
   UPDATE_PDF_FILE: `/library/update-pdf`,
   READER_CREATE: `/reader/create-reader`,
   ADD_PDF_WORD: `/library/add-pdf-word`,
+  READER_USER_DROP: `/reader/user-detail/`,
+  READER_GET_READER_USER: `/reader/get-reader`,
   USERTIMELINE: `/reader/get-timetracking`,
+  READERSTATUSUPDATE: `/reader/update-status`,
 };
