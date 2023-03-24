@@ -657,6 +657,12 @@ const CreateEmail = (props) => {
 
     if (typeof campaign !== "undefined" && campaign !== "") {
       console.log(props.getDraftData);
+
+      let up_temp = template;
+      if (editorRef.current) {
+         up_temp = editorRef.current.getContent();
+      }
+
       const body = {
         user_id: localStorage.getItem("user_id"),
         pdf_id: state_object?.PdfSelected
@@ -679,7 +685,7 @@ const CreateEmail = (props) => {
         },
 
         campaign_id: campaign_id_st,
-        source_code: template,
+        source_code: up_temp,
         status: 2,
       };
 
@@ -1651,9 +1657,38 @@ const CreateEmail = (props) => {
                       plugins:
                         "preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons",
                       toolbar:
-                        "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
+                        "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media pageembed template link anchor codesample | ltr rtl",
                       content_style:
                         "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                      automatic_uploads: true,
+                      image_caption: true,
+                      contextmenu:
+                        "link image imagetools table configurepermanentpen",
+                      file_picker_types: "image",
+                      file_picker_callback: function (cb, value, meta) {
+                        var input = document.createElement("input");
+                        input.setAttribute("type", "file");
+                        input.setAttribute("accept", "image/*");
+                        input.onchange = function () {
+                          var file = this.files[0];
+
+                          var reader = new FileReader();
+                          reader.onload = function () {
+                            var id = "blobid" + new Date().getTime();
+                            console.log(editorRef.current.editorUpload);
+                            var blobCache =
+                              editorRef.current.editorUpload.blobCache;
+                            var base64 = reader.result.split(",")[1];
+                            var blobInfo = blobCache.create(id, file, base64);
+                            blobCache.add(blobInfo);
+                            /* call the callback and populate the Title field with the file name */
+                            cb(blobInfo.blobUri(), { title: file.name });
+                          };
+                          reader.readAsDataURL(file);
+                        };
+
+                        input.click();
+                      },
                     }}
                     onEditorChange={(content) => {
                       setTemplateSaving(content);

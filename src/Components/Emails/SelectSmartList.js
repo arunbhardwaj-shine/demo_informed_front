@@ -51,22 +51,24 @@ const SelectSmartList = (props) => {
   const [creatorName, setCreatorName] = useState("");
 
   const [selectedFile, setSelectedFile] = useState(null);
+  const [getloadmore, setloadmore] = useState(0);
 
   const inputElement = useRef();
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   useEffect(() => {
-    getSmartListData();
+    getSmartListData(1);
   }, []);
 
-  const getSmartListData = () => {
+  const getSmartListData = (page=1) => {
     const body = {
       user_id: localStorage.getItem("user_id"),
       search: "",
       filter: "",
+      paging: '32'
     };
     loader("show");
     axios
-      .post(`distributes/get_smart_list`, body)
+      .post(`distributes/get_smart_list?page=`+page, body)
       .then((res) => {
         setSendListData(res.data.response.data);
         loader("hide");
@@ -255,7 +257,7 @@ const SelectSmartList = (props) => {
   };
 
   const refreshSmartList = () => {
-    getSmartListData();
+    getSmartListData(1);
   };
 
   // const openFileUploadPopup = () => {
@@ -325,7 +327,7 @@ const SelectSmartList = (props) => {
           clearInterval(timer);
           setTimeout(() => {
             setFileUploadPopup(false);
-            getSmartListData();
+            getSmartListData(1);
             popup_alert({
               visible: "show",
               message: "Smart list created.",
@@ -378,6 +380,11 @@ const SelectSmartList = (props) => {
     link.download = "";
     link.click();
     document.body.removeChild(link);
+  };
+
+  const load_more = () => {
+    getSmartListData(2);
+    setloadmore(1);
   };
 
   return (
@@ -588,6 +595,20 @@ const SelectSmartList = (props) => {
                     );
                   })}
                 </div>
+
+                {typeof SendListData !== "undefined" &&
+                  SendListData.length == 32 &&
+                  getloadmore === 0 && (
+                    <div className="load_more">
+                      <button
+                        className="btn btn-primary btn-filled"
+                        onClick={load_more}
+                      >
+                        Load More
+                      </button>
+                    </div>
+                  )}
+
               </div>
             </section>
           </div>

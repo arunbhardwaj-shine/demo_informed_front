@@ -27,20 +27,25 @@ const SmartList = (props) => {
   const [updateflag, setUpdateFlag] = useState(0);
   const [showfilter, setShowFilter] = useState(false);
   const [filterapplied, setFilterApply] = useState(false);
+  const [getloadmore, setloadmore] = useState(0);
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED;
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   const body = {
     user_id: localStorage.getItem("user_id"),
+    // user_id: "56Ek4feL/1A8mZgIKQWEqg==",
     search: search,
     filter: filter,
+    paging: "31",
   };
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-  const getSmartListData = async (flag) => {
+  const getSmartListData = async (flag, page = 1) => {
     loader("show");
     await axios
-      .post(`distributes/get_smart_list`, body)
+      .post(`distributes/get_smart_list?page=` + page, body)
       .then((res) => {
+        console.log(res);
+
         setLoading(false);
         setSmartListData(res.data.response.data);
         if (flag == 0) {
@@ -51,6 +56,7 @@ const SmartList = (props) => {
         loader("hide");
       })
       .catch((err) => {
+        loader("hide");
         console.log(err);
       });
   };
@@ -241,6 +247,11 @@ const SmartList = (props) => {
       loader("hide");
     }
     setShowFilter(false);
+  };
+
+  const load_more = () => {
+    getSmartListData(0, 2);
+    setloadmore(1);
   };
 
   return (
@@ -787,6 +798,18 @@ const SmartList = (props) => {
                 )}
               </div>
             </div>
+            {typeof smartListData !== "undefined" &&
+              smartListData.length == 31 &&
+              getloadmore === 0 && (
+                <div className="load_more">
+                  <button
+                    className="btn btn-primary btn-filled"
+                    onClick={load_more}
+                  >
+                    Load More
+                  </button>
+                </div>
+              )}
           </div>
         </div>
       </div>
