@@ -467,7 +467,7 @@ const SetPopup = (props) => {
                         <Select
                           defaultValue={
                             popupData?.time
-                              ? timeList[timeList.findIndex((el) => el.value == popupData?.time)
+                              ? timeList[timeList.findIndex((el) => el.value == popupData?.time)]
                               : {
                                   label: "Select time (in seconds)",
                                   value: "",
