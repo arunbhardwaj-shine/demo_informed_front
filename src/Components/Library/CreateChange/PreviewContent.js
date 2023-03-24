@@ -288,7 +288,6 @@ const PreviewContent = () => {
                   (
                     <section className="select-mail-template library-cosent prev_content">
                     <div className="custom-container">
-                    <div className="row">
                     <div className="page-title"><h4>Select chapter to preview it</h4></div>
                     <AliceCarousel
                     mouseTracking
@@ -323,7 +322,6 @@ const PreviewContent = () => {
                       );
                     })}
                     </AliceCarousel>
-                    </div>
                     </div>
                     </section>
                   )
