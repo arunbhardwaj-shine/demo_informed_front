@@ -25,46 +25,46 @@ const ReaderEdit = () => {
     { value: "production3", label: "production3" },
   ]);
   const [hospital,setHospital] = useState([])
-  // const [countryCode, setCountryCode] = useState([
-  //   {value : "Afghanistan",  label : "+93"},
+  const [countryCode, setCountryCode] = useState([
+    {value : "Afghanistan",  label : "+93"},
 
-  //   {value : "Albania",  label : "+355"},
+    {value : "Albania",  label : "+355"},
     
-  //   {value : "Algeria",  label : "+213"},
+    {value : "Algeria",  label : "+213"},
     
-  //   {value : "American Samoa",  label : "+1-684"},
+    {value : "American Samoa",  label : "+1-684"},
     
-  //   {value : "Andorra",  label : "+376"},
+    {value : "Andorra",  label : "+376"},
     
-  //   {value : "Angola",  label : "+244"},
+    {value : "Angola",  label : "+244"},
     
-  //   {value : "Anguilla",  label : "+1-264"},
+    {value : "Anguilla",  label : "+1-264"},
     
-  //   {value : "Antarctica",  label : "+672"},
+    {value : "Antarctica",  label : "+672"},
     
-  //   {value : "Antigua and Barbuda",  label : "+1-268"},
+    {value : "Antigua and Barbuda",  label : "+1-268"},
     
-  //   {value : "Argentina",  label : "+54"},
+    {value : "Argentina",  label : "+54"},
     
-  //   {value : "Armenia",  label : "+374"},
+    {value : "Armenia",  label : "+374"},
     
-  //   {value : "India",  label : "+91"},
+    {value : "India",  label : "+91"},
     
-  //   {value : "Azerbaijan",  label : "+994"},
+    {value : "Azerbaijan",  label : "+994"},
     
-  //   {value : "Bahamas",  label : "+1-242"},
+    {value : "Bahamas",  label : "+1-242"},
     
-  //   {value : "Bahrain",  label : "+973"},
+    {value : "Bahrain",  label : "+973"},
     
-  //   {value : "Bangladesh",  label : "+880"},
+    {value : "Bangladesh",  label : "+880"},
     
-  //   {value : "Barbados",  label : "+1-246"},
+    {value : "Barbados",  label : "+1-246"},
     
-  //   {value : "Belarus",  label : "+375"},
+    {value : "Belarus",  label : "+375"},
     
-  //   {value : "Belgium",  label : "+32"},
+    {value : "Belgium",  label : "+32"},
     
-  // ]);
+  ]);
   const [id,setId] = useState(state.id)
   const [userId,setUserID] = useState(18207)
 
@@ -296,16 +296,6 @@ const ReaderEdit = () => {
               <div className="form_action">
                 <div className="create-reader-form-header">
                   <h4>Please fill the following details</h4>
-                  <input
-                    type="file"
-                    name="file-6[]"
-                    id="file-6"
-                    // accept="application/pdf"
-                    onChange={handleFileUpload}
-                  />
-                  <Button className="btn-bordered" type="file">
-                    Upload Excel File
-                  </Button>
                 </div>
                 <div className="row">
                   <div className="col-12 col-md-7">
