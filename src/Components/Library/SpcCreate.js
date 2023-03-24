@@ -355,7 +355,7 @@ const SpcCreate = () => {
                               <span>Choose Your File</span>
                             </label>
                             {userInputs?.uploadspc?.[0]?.name ? (
-                              <h5>{userInputs?.uploadspc?.[0]?.name}</h5>
+                              <p>{userInputs?.uploadspc?.[0]?.name}</p>
                             ) : (
                               <p>
                                 Upload your SPC file <br />
