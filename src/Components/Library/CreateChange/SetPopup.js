@@ -467,10 +467,7 @@ const SetPopup = (props) => {
                         <Select
                           defaultValue={
                             popupData?.time
-                              ? {
-                                  label: popupData?.time,
-                                  value: popupData?.time,
-                                }
+                              ? timeList[timeList.findIndex((el) => el.value == popupData?.time)]
                               : {
                                   label: "Select time (in seconds)",
                                   value: "",
@@ -489,10 +486,12 @@ const SetPopup = (props) => {
               <section className="select-mail-template library-cosent">
                 <div className="custom-container">
                   <div className="row">
+                  {isOnline==false?(
+                    <>
                     <div className="page-title">
                       <h4>Select the Pop-up to edit</h4>
                     </div>
-                    {isOnline==false?(
+
                     <AliceCarousel
                       mouseTracking
                       disableDotsControls
@@ -527,7 +526,9 @@ const SetPopup = (props) => {
                           </>
                         );
                       })}
-                    </AliceCarousel>)
+                    </AliceCarousel>
+                    </>
+                  )
                     :null
 }
                     <input
