@@ -135,7 +135,10 @@ const EditLibrary = () => {
           ? JSON.parse(hadData?.data?.data?.pdfData?.multiple_publisher)
           : []
       );
-      setChapter(hadData?.data?.data?.ebookData);
+      if(hadData?.data?.data?.ebookData?.length){
+        setChapter(hadData?.data?.data?.ebookData);
+      }
+     
       loader("hide");
     } catch (err) {
       console.log("-err", err);
@@ -374,7 +377,6 @@ const EditLibrary = () => {
               <div className="form-group justify-content-end">
                 <label htmlFor="">Reseller</label>
                 <div className="form-check-group">
-                  {console.log("-dfdf", reseller)}
                   <div className="form-check-group-inset">
                     {userDetail?.reseller?.length ? (
                       userDetail?.reseller?.map((item) => {
@@ -869,7 +871,6 @@ const EditLibrary = () => {
                         </div>
                       ) : null}
                     </div>
-
                     {userInputs.docintelFormat == "pdf" ? (
                       <div className="form-group val">
                         <label htmlFor="">Upload PDF</label>

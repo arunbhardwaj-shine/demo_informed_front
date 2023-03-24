@@ -31,6 +31,8 @@ const ReaderEdit = () => {
     { value: "3", label: "3" },
   ]);
   const [id,setId] = useState(state.id)
+  const [userId,setUserID] = useState(18207)
+
   const [userInputs, setAddReaderInputs] = useState({});
   const [error, setError] = useState({});
   const [commonHeader, setCommonHeader] = useState("");
@@ -76,7 +78,7 @@ const ReaderEdit = () => {
   };
   const initalFun = async() =>{
     loader("show")
-   const hasData =  await getData(`${ENDPOINT.READER_USER_DROP}${id} `);
+   const hasData =  await getData(`${ENDPOINT.READER_USER_DROP}${userId} `);
 
     let country = [];
     hasData?.data?.data?.country.reduce((objEntries, key) => {
@@ -168,7 +170,7 @@ const ReaderEdit = () => {
     loader("show");
     let formData = new FormData();
     formData.append("file", e.target.files[0]);
-    formData.append("createdBy", 18207);
+    formData.append("createdBy", userId);
     await postFormData(ENDPOINT.UPLOAD_READER_FILE, formData, {
       header: { "Content-Type": "multipart/form-data" },
     });
@@ -181,7 +183,7 @@ const ReaderEdit = () => {
       try {
          loader("show");
         let data = {
-          createdBy: 18207,
+          createdBy: userId,
           firstName: userInputs?.firstName,
           middleName: userInputs?.middleName,
           lastName: userInputs?.lastName,
