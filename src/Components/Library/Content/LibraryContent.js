@@ -1101,27 +1101,19 @@ const LibraryContent = () => {
                                         <h6>
                                           {data.docintel_code}
                                           {
-                                            /*
-                                            <span
-                                            className="copy-content"
-                                            onClick={() => {
-                                            toast.success(
-                                            "content copied to the clipboard!"
-                                          );
-                                          navigator.clipboard.writeText(
-                                          data?.docintel_code
-                                        );
-                                      }}
-                                      >
-                                      <img
-                                      src={
-                                      path_image + "copy-content.svg"
-                                    }
-                                    alt="Copy"
-                                    />
-                                    </span>
+                                            /*<span
+                                              className="copy-content"
+                                            >
+                                              <img
+                                                src={
+                                                  path_image + "copy-content.svg"
+                                                }
+                                                alt="Copy"
+                                              />
+                                            </span>
                                             */
                                           }
+
                                         </h6>
                                       </li>
                                       <li>
