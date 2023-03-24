@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 // For GET requests
 const requestHelper = axios.create({
@@ -24,11 +25,18 @@ requestHelper.interceptors.response.use(
     return res;
   },
   (err) => {
-    switch (err?.response?.status) {
+      switch(err?.response?.status){
+      case 400:
+      toast.error(err?.response.data.message)
+      break;
+      case 500:
+      toast.warning(err?.response.data.message)
+      break;
       default:
-        break;
+      toast.error(err?.response.data.message)
+      break;
+      return Promise.reject(err);
     }
-    return Promise.reject(err);
   }
 );
 
