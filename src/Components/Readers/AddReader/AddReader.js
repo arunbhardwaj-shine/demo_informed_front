@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Col, Row, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 import Select from "react-select";
 import CommonModel from "../../../Model/CommonModel";
 import { AddReaderValidation } from "../../Validations/ReaderValidation/AddReaderValidation";
-import { postData, postFormData } from "../../../axios/apiHelper";
+import { getData, postData, postFormData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { loader } from "../../../loader";
 import { useNavigate } from "react-router-dom";
@@ -15,21 +15,22 @@ const ReaderAdd = () => {
   const navigate = useNavigate();
 
   const [countryAll, setCountryAll] = useState([
-    { value: "India", label: "India" },
-    { value: "Australia", label: "Australia" },
-    { value: "Russia", label: "Russia" },
   ]);
+  const [province,setProvince] = useState([])
+
 
   const [productionAll, setProductionAll] = useState([
-    { value: "production1", label: "production1" },
+    { value: "production1", label: "production1222" },
     { value: "production2", label: "production2" },
     { value: "production3", label: "production3" },
   ]);
+  const [hospital,setHospital] = useState([])
   const [countryCode, setCountryCode] = useState([
     { value: "1", label: "1" },
     { value: "2", label: "2" },
     { value: "3", label: "3" },
   ]);
+  const [id,setId] = useState(18207)
   const [userInputs, setAddReaderInputs] = useState({});
   const [error, setError] = useState({});
   const [commonHeader, setCommonHeader] = useState("");
@@ -73,6 +74,24 @@ const ReaderAdd = () => {
       setUserDetail({ ...userDetail, [newProduct?.label]: newArr });
     }
   };
+  const initalFun = async() =>{
+    loader("show")
+   const hasData =  await getData(`${ENDPOINT.READER_USER_DROP}${id} `);
+
+    let country = [];
+    hasData?.data?.data?.country.reduce((objEntries, key) => {
+      country.push({
+        label:key,
+        value:key
+      })
+       })
+     setCountryAll(country)
+     setProvince(hasData?.data?.data?.province)
+     setHospital(hasData?.data?.data?.hospital)
+   
+     setUserDetail({...userDetail,discipline:hasData?.data?.data?.discipline,speciality:hasData?.data?.data?.speciality,product:hasData?.data?.data?.product})
+    loader("hide")
+  }
 
   const addNewProductClicked = (statusMsg, e) => {
     e.preventDefault();
@@ -116,6 +135,10 @@ const ReaderAdd = () => {
       setCommonHeader("Add New Product");
     }
   };
+
+  useEffect(()=>{
+    initalFun()
+  },[])
 
   // const addSpecialityClicked = () => {
   //   setCommonShow(false);
@@ -201,7 +224,7 @@ const ReaderAdd = () => {
           hospital: userInputs?.hospital,
           title: userInputs?.title,
           speciality: userInputs?.speciality,
-          Discipline: userInputs?.discipline,
+          discipline: userInputs?.discipline,
           product: userInputs?.product,
           interestArea: userInputs?.interestArea,
           repContact: userInputs?.repContact,
@@ -398,7 +421,7 @@ const ReaderAdd = () => {
                     <div className="form-group">
                       <label htmlFor="">Province</label>
                       <Select
-                        options={countryAll}
+                        options={province}
                         placeholder="Select province"
                         // name="provience"
                         className="dropdown-basic-button split-button-dropup"
@@ -409,7 +432,7 @@ const ReaderAdd = () => {
                     <div className="form-group">
                       <label htmlFor="">Hospital</label>
                       <Select
-                        options={countryAll}
+                        options={hospital}
                         placeholder="Select hospital"
                         className="dropdown-basic-button split-button-dropup"
                         isClearable

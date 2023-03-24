@@ -33,7 +33,7 @@ const PreviewContent = () => {
   const [show, setShow] = useState(false);
     const navigate = useNavigate();
     const { state } = useLocation();
-    const [articleId, setArticleId] = useState(typeof state?.pdfId !== "undefined" ?  state?.pdfId : '3899');
+    const [articleId, setArticleId] = useState(typeof state?.pdfId !== "undefined" ?  state?.pdfId : '');
     const [pdfData, setPdfData] = useState([]);
     const [editTitle, setEditTitle] = useState(false);
     const [publishStatus, setPublishStatus] = useState(false);
@@ -245,11 +245,22 @@ const PreviewContent = () => {
               <div className="row justify-content-end align-items-center">
                 <div className="col-12 col-md-1">
                   <div className="header-btn-left">
+                  {
+                    /*
                     <button className="btn btn-primary btn-bordered back"
                     onClick={(e) => navigate("/set-popup")}
                     >
                       Back
                     </button>
+                    */
+                  }
+                    <Link
+                      to="/set-popup"
+                      state={{ pdfId: state?.pdfId }}
+                      className="btn btn-primary btn-bordered back"
+                    >
+                    Back
+                    </Link>
                   </div>
                 </div>
                 <div className="col-12 col-md-9">
