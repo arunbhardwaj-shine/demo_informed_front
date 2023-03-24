@@ -396,6 +396,7 @@ const PreviewContent = () => {
                 next= {nextFlag}
 							  url= {templatePdf}
                 handleNext ={handleNext}
+                hidePopup = "0"
 							/>
 						:
 
@@ -403,6 +404,7 @@ const PreviewContent = () => {
                 next= {nextFlag}
 							  url= {pdfData?.file_name}
                 handleNext ={handleNext}
+                hidePopup = "0"
 							/>
             : null
 					}
