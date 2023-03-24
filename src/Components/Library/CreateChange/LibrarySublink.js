@@ -868,7 +868,7 @@ const LibrarySublink = () => {
             <DropdownButton
               className={"dropdown-basic-button split-button-dropup " + (newLink?.delivery ? 'addval' : '')}
               title={
-                newLink?.delivery ? newLink?.delivery : "Select delivery Change"
+                newLink?.delivery ? newLink?.delivery : "Select delivery type"
               }
               name="delivery"
               onSelect={(e) => handleChange("delivery", e)}
