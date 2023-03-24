@@ -30,8 +30,12 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const SetPopup = (props) => {
   const editorRef = useRef(null);
   const navigate = useNavigate();
-  const { state } = useLocation();
   const [getTemplateLanguage, setTemplateLanguage] = useState([]);
+  const [actualTemplateData, setActualTemplateData] = useState([]);
+  const [isTemplateData, setIsTemplateData] = useState(true);
+
+
+
   const [selectedLanguage, setSelectedLanguage] = useState("All");
   const [countryOption, setCountryOption] = useState(0);
   const [templateSaving, setTemplateSaving] = useState("");
@@ -52,9 +56,7 @@ const SetPopup = (props) => {
   const [newTemplateName, setNewTemplateName] = useState("");
   const [getTemplatePopup, setTemplatePopup] = useState(false);
   const [getNewTemplatePopup, setNewTemplatePopup] = useState(false);
-  const [articleId, setArticleId] = useState(
-      typeof state?.pdfId !== "undefined" ?  state?.pdfId : ''
-  );
+  const [articleId, setArticleId] = useState("3982");
   const [selectOptions, setSelectOptions] = useState({
     consentType: "",
     language: "",
@@ -121,21 +123,40 @@ const SetPopup = (props) => {
         check_lng_index = 4;
       }
 
-      if(typeof articleId === "undefined"){
-        if(state?.pdfId){
-          setArticleId(state?.pdfId);
-        }
-      }
+      let res;
+      if (isTemplateData) {
+        // Fetch the template data from the server
+        const body = {
+          userId: "18207",
+          language: check_lng_index,
+          consentType: consent,
+          pdfId: '',
+        };
+        res = await postData(ENDPOINT.LIBRARYGETPOPUP, body);
+        setActualTemplateData(res);
+        setIsTemplateData(false);
+       
 
-      const body = {
-        userId: "18207",
-        language: check_lng_index,
-        consentType: consent,
-        pdfId: typeof state?.pdfId !== "undefined" ?  state?.pdfId : articleId
-      };
-      const res = await postData(ENDPOINT.LIBRARYGETPOPUP, body);
-      setTemplateList(res?.data?.data?.popupData);
+      } else {
+    
+        res = actualTemplateData;
+   
+      }
+      let data = [];
+      if (consent == "Online") {
+        data = [];
+      } else if (consent == "Offline") {
+        data.push(res?.data?.data?.popupData[0]);
+        data.push(res?.data?.data?.popupData[3]);
+      } else {
+        data = res?.data?.data?.popupData;
+      }
+     
+      setTemplateList(data);
       setTemplateId(res?.data?.data?.popupTempId);
+     
+      res = actualTemplateData;
+      if (res?.data?.data) {
       let lang = res?.data?.data?.language;
       let lng_arr = [];
       Object.entries(lang).map(([index, item]) => {
@@ -146,6 +167,7 @@ const SetPopup = (props) => {
         });
       });
       setTemplateLanguage(lng_arr);
+    }
       loader("hide");
     }catch(err){
       loader("hide");
@@ -203,10 +225,7 @@ const SetPopup = (props) => {
         }
         const res = await postData(ENDPOINT.LIBRARYSAVEPOPUP, body);
         loader("hide");
-        navigate("/preview-content", {
-          state: { pdfId: articleId },
-        });
-        // navigate("/preview-content")
+        navigate("/preview-content")
       }catch(err){
         loader("hide");
       }
@@ -422,7 +441,7 @@ const SetPopup = (props) => {
                               className={
                                 typeof templateId !== "undefined" &&
                                 templateId == template.popupNo
-                                  ? ""
+                                  ? "select_mm"
                                   : ""
                               }
                             />

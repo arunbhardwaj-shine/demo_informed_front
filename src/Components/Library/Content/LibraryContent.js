@@ -47,6 +47,8 @@ const LibraryContent = () => {
     { value: "Sunshine", label: "Sunshine" },
   ]);
   const [pageAllClicked, setPageAllClicked] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+
   const [update, setUpdate] = useState(0);
   const location = useLocation();
   const [pageAll, setPageAll] = useState(false);
@@ -86,7 +88,7 @@ const LibraryContent = () => {
   const [qrState, setQr] = useState({
     value: "",
   });
-  const [qrSize, setQrSize] = useState(150);
+  const [qrSize, setQrSize] = useState(290);
 
   const [isOpen, setIsOpen] = useState(false);
   const [modalCounter, setModalCounter] = useState(0);
@@ -262,12 +264,11 @@ const LibraryContent = () => {
     setShowFilter(false);
   };
   const handleQR = (e) => {
-    console.log("eee", e);
     if (e == "H") {
-      setQrSize(300);
+      setQrSize(390);
     }
     if (e == "L") {
-      setQrSize(500);
+      setQrSize(490);
     }
     setQr({ ...qrState, level: e });
   };
@@ -282,6 +283,8 @@ const LibraryContent = () => {
 
   useEffect(() => {
     getLibraryData(page, filterObject, search);
+    
+  
   }, [page]);
 
   const getLibraryData = async (page, obj, search) => {
@@ -306,6 +309,7 @@ const LibraryContent = () => {
       loader("hide");
       setPageAll(false);
       setPageAllClicked(false);
+      setIsLoaded(true);
     } catch (err) {
       console.log("err");
       loader("hide");
@@ -559,6 +563,7 @@ const LibraryContent = () => {
       let temp_tags = tagClickedFirst.map((data) => {
         return data.toLowerCase();
       });
+      //  console.log(allTags)
       let alltemp_tags = [];
       Object.entries(allTags).map((data) => {
         return alltemp_tags.push(...data);
@@ -577,6 +582,7 @@ const LibraryContent = () => {
           user_id: localStorage.getItem("user_id"),
           tags: newTag,
         };
+        //console.log(body);
       } else {
         toast.error("Tag already in list.");
       }
@@ -1565,7 +1571,9 @@ const LibraryContent = () => {
                   : null}
               </>
             </div>
-            {page == 1 ? (
+            {(page === 1 && isLoaded==true)? 
+            (
+              
               <div className="load_more">
                 <button
                   className="btn btn-primary btn-filled"
@@ -1574,7 +1582,8 @@ const LibraryContent = () => {
                   Load More
                 </button>
               </div>
-            ) : null}
+            ) 
+            : null}
 
             {pageAll == true ? (
               <div
