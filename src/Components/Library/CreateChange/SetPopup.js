@@ -596,7 +596,6 @@ const SetPopup = (props) => {
                         onInit={(evt, editor) => (editorRef.current = editor)}
                         initialValue={template}
                         init={{
-                          height: "100vh",
                           menubar:
                             "file edit view insert format tools table help",
                           plugins:
@@ -606,7 +605,7 @@ const SetPopup = (props) => {
                           content_style:
                             "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
                           content_css: [
-                            "https://docintel.app/angular_cs.css",
+                            "https://docintel.app/react_informed.css",
                             "https://use.fontawesome.com/releases/v5.8.2/css/all.css",
                           ],
                         }}
