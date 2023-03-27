@@ -98,10 +98,52 @@ const Header = () => {
                     LIBRARY
                   </a>
                 </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="/readers-view">
-                    READERS
-                  </a>
+                <li className={
+                    window.location.pathname == "/cis_stats" ||
+                    window.location.pathname == "/country_stats" ||
+                    window.location.pathname == "/campaign_stats" ||
+                    window.location.pathname == "/shared_via_stats" ||
+                    window.location.pathname == "/trending_topics" ||
+                    window.location.pathname == "/trending_article" ||
+                    window.location.pathname == "/article_type_registration"
+                    ? "nav-item active active-main"
+                      : "nav-item"
+                  }
+                  >
+                  <Link className="nav-link">ANALYTICS</Link>
+                </li>
+                <li
+                  className={
+                    window.location.pathname == "/SmartList" ||
+                    window.location.pathname == "/EditList" ||
+                    window.location.pathname == "/CreateSmartList" ||
+                    window.location.pathname == "/SmartListFilter" ||
+                    window.location.pathname == "/SelectSmartList" ||
+                    window.location.pathname == "/EmailList" ||
+                    window.location.pathname == "/EmailList" ||
+                    window.location.pathname == "/TemplateBuilder" ||
+                    window.location.pathname == "/AutoEmail" ||
+                    window.location.pathname == "/EmailArticleSelect" ||
+                    window.location.pathname == "/CreateEmail" ||
+                    window.location.pathname == "/FilterSegment" ||
+                    window.location.pathname == "/SelectHCP" ||
+                    window.location.pathname == "/VerifyHCP" ||
+                    window.location.pathname == "/VerifyMAIL" ||
+                    window.location.pathname == "/VerifyHcpMAIL" ||
+                    window.location.pathname == "/VerifyHCP" ||
+                    window.location.pathname == "/SelectSmartListUsers" ||
+                    window.location.pathname == "/VerifySmartList" ||
+                    window.location.pathname == "/ViewSmartList" ||
+                    window.location.pathname == "/UploadExcel" ||
+                    window.location.pathname == "/UpdatedTable" ||
+                    window.location.pathname == "/ViewTable" ||
+                    window.location.pathname == "/EmailStatss" ||
+                    window.location.pathname == "/get-details"
+                      ? "nav-item active active-main"
+                      : "nav-item"
+                  }
+                >
+                  <a className="nav-link">EMAIL</a>
                 </li>
                 <li className="nav-item">
                   <a className="nav-link" href="https://informed.pro/Analytics">

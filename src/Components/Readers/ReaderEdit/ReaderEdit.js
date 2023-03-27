@@ -292,7 +292,7 @@ const ReaderEdit = () => {
                 </div>
               </div>
             </div>
-            <div className="create-reader create-change-content">
+            <div className="create-reader create-change-content reader_added">
               <div className="form_action">
                 <div className="create-reader-form-header">
                   <h4>Please fill the following details</h4>
@@ -456,7 +456,7 @@ const ReaderEdit = () => {
                         onChange={(e) => handleChange(e)}
                       />
                     </div>
-                    <div className="form-group">
+                    <div className="form-group margin-added">
                       <label htmlFor="">Speciality</label>
                       <Select
                         options={userDetail?.speciality}
@@ -477,7 +477,7 @@ const ReaderEdit = () => {
                         </Button>
                       </div>
                     </div>
-                    <div className="form-group">
+                    <div className="form-group margin-added">
                       <label htmlFor="">Discipline</label>
                       <Select
                         options={userDetail?.discipline}
@@ -498,7 +498,7 @@ const ReaderEdit = () => {
                         </Button>
                       </div>
                     </div>
-                    <div className="form-group">
+                    <div className="form-group margin-added">
                       <label htmlFor="">Product</label>
                       <Select
                         options={userDetail?.product}
