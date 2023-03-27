@@ -102,6 +102,7 @@ const NewReaders = () => {
       loader("hide");
       setPageAll(false);
       setPageAllClicked(false);
+      setIsLoaded(true);
     } catch (err) {
       console.log(err);
       loader("hide");
@@ -916,7 +917,7 @@ const NewReaders = () => {
                   })
                 : null}
             </div>
-            {page == 1 ? (
+            {page == 1 && isLoaded == true ? (
               <div className="load_more">
                 <button
                   className="btn btn-primary btn-filled"

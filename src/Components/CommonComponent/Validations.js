@@ -20,7 +20,7 @@ export const createContent = (data, fileCheck) => {
     error.limit = "Limit is required";
   } else if (data?.limit) {
     if (data?.limit < 0) {
-      error.limit = "Limit can't be negetive";
+      error.limit = "Limit must be greater than or equal to 0";
     }
   }
   if (!data?.docintelFormat) {
