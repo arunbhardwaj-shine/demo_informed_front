@@ -71,7 +71,7 @@ const NewReaders = () => {
     try {
       loader("show");
       let data = {
-        userId: 18207,
+        user_id: localStorage.getItem("user_id"),
         userType: 5,
         type: Object.keys(obj).length > 0 ? obj?.Status[0] : 'Unregistered',
         page: page,
@@ -84,7 +84,7 @@ const NewReaders = () => {
       const res = await postData(ENDPOINT.READER_LIST_DATA, data);
 
       let body = {
-        "id": 18207
+        "user_id": localStorage.getItem("user_id")
       };
       const res_data = await postData(ENDPOINT.SPC_HELPER_LISTING,body);
       let countries = []
@@ -216,7 +216,7 @@ const NewReaders = () => {
         if(country != "" || type != ""){
           loader("show");
           let body = {
-            userId: 18207,
+            user_id: localStorage.getItem("user_id"),
             readerId: reader_id,
             userStatus:type,
             country:country

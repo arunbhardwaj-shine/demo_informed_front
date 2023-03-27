@@ -28,7 +28,7 @@ const SpcView = () => {
     setApiCallStatus(false);
 	  try{
 		  const body = {
-			userId: "18207",
+			user_id: localStorage.getItem("user_id"),
 			search: searchVal
 		  };
 

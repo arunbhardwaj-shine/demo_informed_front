@@ -102,7 +102,7 @@ const LibraryContent = () => {
     loader("show");
     try {
       let body = {
-        id: 18207,
+        id: localStorage.getItem("user_id"),
       };
       const res = await postData(ENDPOINT.FILTERS, body);
       setFilterData(res.data.data);
@@ -254,13 +254,13 @@ const LibraryContent = () => {
   const getLibraryData = async (page, obj, search) => {
     try {
       // let body = {
-      //   id: 18207,
+      //   id: localStorage.getItem("user_id"),
       //   page: page,
       // };
       //console.log(filterObject);
 
       let data = {
-        id: 18207,
+        id: localStorage.getItem("user_id"),
         page: page,
         search: search,
       };

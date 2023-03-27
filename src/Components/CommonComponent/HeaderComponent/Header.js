@@ -93,13 +93,13 @@ const Header = () => {
                 <li className="nav-item active">
                   <a
                     className="nav-link"
-                    href="https://informed.pro/Libraries/home"
+                    href="/library-content"
                   >
                     LIBRARY
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="https://informed.pro/Readers">
+                  <a className="nav-link" href="/readers-view">
                     READERS
                   </a>
                 </li>

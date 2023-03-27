@@ -40,7 +40,7 @@ function LibraryTopics() {
   const initFun = async() =>{
     loader("show");
     const resp =  await postData(ENDPOINT.SPC_PRO_LISTING,{
-        userId:18207,
+        user_id:localStorage.getItem("user_id"),
         type:content?.value,
         category:newValue?.category
       })
@@ -54,7 +54,7 @@ function LibraryTopics() {
   const handleSubmit = async(e) =>{
     loader("show");
      await postData(ENDPOINT.ADD_SPC_PRODUCT,{
-        userId:18207,
+        user_id:localStorage.getItem("user_id"),
         product:newValue?.newProductValue,
         category:newValue?.category,
         type:content?.value
@@ -107,7 +107,7 @@ function LibraryTopics() {
                           isClearable
                         />
                   </div>
-                
+
                       <Button
                         className="btn-bordered btn-voilet"
                         onClick={() => {

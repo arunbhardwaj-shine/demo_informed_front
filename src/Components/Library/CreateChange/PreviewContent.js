@@ -165,7 +165,7 @@ const PreviewContent = () => {
         let formData = new FormData();
         formData.append("pdfId",articleId);
         formData.append("type",pdfData.file_type);
-        formData.append("userId",18207);
+        formData.append("user_id",localStorage.getItem("user_id"));
         formData.append("file", userInputs?.uploadFile?.[0]);
 
         if(pdfData?.file_type && pdfData.file_type == "ebook") {
@@ -194,7 +194,7 @@ const PreviewContent = () => {
   const handleNext = async(obj) => {
     loader("show");
     obj.append("pdfId", articleId);
-    obj.append("userId", 18207);
+    obj.append("user_id", localStorage.getItem("user_id"));
     obj.append("type", pdfData?.file_type);
     if(pdfData.file_type == "ebook"){
       obj.append("pdfFileId", pdfFileId);

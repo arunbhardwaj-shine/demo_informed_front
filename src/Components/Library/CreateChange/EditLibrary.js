@@ -68,7 +68,7 @@ const EditLibrary = () => {
     costCenter: [],
     // reseller:[]
   });
-  const [id, setId] = useState(18207);
+  const [id, setId] = useState(localStorage.getItem("user_id"));
 
   const product = [
     {
@@ -93,7 +93,7 @@ const EditLibrary = () => {
   const initalFun = async () => {
     loader("show");
     const hadData = await postData(ENDPOINT.LIBRARYDETAIL, {
-      userId: id,
+      user_id: id,
     });
 
     let country = [];
@@ -140,7 +140,7 @@ const EditLibrary = () => {
         setChapter(hadData?.data?.data?.ebookData);
       }
       setShowFlag(true);
-     
+
       loader("hide");
     } catch (err) {
       console.log("-err", err);
@@ -631,7 +631,7 @@ const EditLibrary = () => {
       let newAr = userDetail?.product;
       newAr.push({ value: userDetail?.newValu, label: userDetail?.newValue });
       let body = {
-        userId: id,
+        user_id: id,
         product: userDetail?.newValue,
         category: 0,
         type: 1,

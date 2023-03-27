@@ -145,7 +145,7 @@ const SetPopup = (props) => {
       if (isTemplateData) {
         // Fetch the template data from the server
         const body = {
-          userId: "18207",
+          user_id: localStorage.getItem("user_id"),
           language: check_lng_index,
           consentType: consent,
           pdfId: typeof state?.pdfId !== "undefined" ? state?.pdfId : articleId,
@@ -196,7 +196,7 @@ const SetPopup = (props) => {
     } else if(flag===2){
       const body = {
 
-        userId: "18207",
+        user_id: localStorage.getItem("user_id"),
 
         language: check_lng_index,
 
@@ -259,7 +259,7 @@ const SetPopup = (props) => {
       let fourth = templateList.findIndex((el) => el.popupNo === 4);
 
       let body = {
-        userId: "18207",
+        user_id: localStorage.getItem("user_id"),
         pdfId: articleId,
         language: selectOptions.language,
         firstPopupTime: selectOptions.time,
