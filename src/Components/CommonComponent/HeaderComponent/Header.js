@@ -158,7 +158,6 @@ const Header = () => {
                     EMAIL
                   </a>
                 </li>
-
                 {queryParams?.webinar_flag && queryParams.webinar_flag == 1 ? (
                   <li className="nav-item">
                     <a
