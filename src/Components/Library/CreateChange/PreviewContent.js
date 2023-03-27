@@ -196,7 +196,7 @@ const PreviewContent = () => {
   const handleNext = async (obj) => {
     loader("show");
     obj.append("pdfId", articleId);
-    obj.append("userId", 18207);
+    obj.append("user_id", localStorage.getItem("user_id"));
     obj.append("type", pdfData?.file_type);
     if (pdfData.file_type == "ebook") {
       obj.append("pdfFileId", pdfFileId);

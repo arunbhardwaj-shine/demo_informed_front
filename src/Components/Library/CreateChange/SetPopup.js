@@ -109,108 +109,108 @@ const SetPopup = (props) => {
   };
 
   const getTemplateListData = async (flag = 1, lng, consent) => {
-    console.log(lng);
-    console.log(consent);
-    loader("show");
+      console.log(lng);
+      console.log(consent);
+      loader("show");
 
-    try {
-      setTemplateClicked(false);
-      let check_lng_index = 10;
-      if (lng == "All") {
-        check_lng_index = 10;
-      } else if (lng == "English") {
-        check_lng_index = 0;
-      } else if (lng == "Italian") {
-        check_lng_index = 1;
-      } else if (lng == "Germany") {
-        check_lng_index = 2;
-      } else if (lng == "Spanish") {
-        check_lng_index = 3;
-      } else if (lng == "Russian") {
-        check_lng_index = 4;
-      }
-
-      if (typeof articleId === "undefined") {
-        if (state?.pdfId) {
-          setArticleId(state?.pdfId);
+      try {
+        setTemplateClicked(false);
+        let check_lng_index = 10;
+        if (lng == "All") {
+          check_lng_index = 10;
+        } else if (lng == "English") {
+          check_lng_index = 0;
+        } else if (lng == "Italian") {
+          check_lng_index = 1;
+        } else if (lng == "Germany") {
+          check_lng_index = 2;
+        } else if (lng == "Spanish") {
+          check_lng_index = 3;
+        } else if (lng == "Russian") {
+          check_lng_index = 4;
         }
-      }
 
-      let res;
-      if (flag === 1 || flag === 0) {
-        if (isTemplateData) {
-          // Fetch the template data from the server
-          const body = {
-            userId: "18207",
-            language: check_lng_index,
-            consentType: consent,
-            pdfId:
-              typeof state?.pdfId !== "undefined" ? state?.pdfId : articleId,
-          };
-          res = await postData(ENDPOINT.LIBRARYGETPOPUP, body);
-          setActualTemplateData(res);
-          setPopupData(res?.data?.data);
-          setIsTemplateData(false);
-          setSelectOptions({
-            consentType: res?.data?.data?.linkType,
-            language: res?.data?.data?.selectedLanguage,
-            time: res?.data?.data?.time,
-          });
-
-          if (res?.data?.data) {
-            let lang = res?.data?.data?.language;
-            let lng_arr = [];
-            Object.entries(lang).map(([index, item]) => {
-              let label = item;
-              lng_arr.push({
-                value: item,
-                label: label.toUpperCase(),
-              });
-            });
-            setTemplateLanguage(lng_arr);
+        if (typeof articleId === "undefined") {
+          if (state?.pdfId) {
+            setArticleId(state?.pdfId);
           }
+        }
+
+        let res;
+        if (flag === 1 || flag === 0) {
+          if (isTemplateData) {
+            // Fetch the template data from the server
+            const body = {
+              userId: localStorage.getItem("user_id"),
+              language: check_lng_index,
+              consentType: consent,
+              pdfId:
+                typeof state?.pdfId !== "undefined" ? state?.pdfId : articleId,
+            };
+            res = await postData(ENDPOINT.LIBRARYGETPOPUP, body);
+            setActualTemplateData(res);
+            setPopupData(res?.data?.data);
+            setIsTemplateData(false);
+            setSelectOptions({
+              consentType: res?.data?.data?.linkType,
+              language: res?.data?.data?.selectedLanguage,
+              time: res?.data?.data?.time,
+            });
+
+            if (res?.data?.data) {
+              let lang = res?.data?.data?.language;
+              let lng_arr = [];
+              Object.entries(lang).map(([index, item]) => {
+                let label = item;
+                lng_arr.push({
+                  value: item,
+                  label: label.toUpperCase(),
+                });
+              });
+              setTemplateLanguage(lng_arr);
+            }
+            setTemplateId(res?.data?.data?.popupTempId);
+          } else {
+            res = actualTemplateData;
+          }
+
+          let data = [];
+          if (consent == "Online") {
+            setIsOnline(true);
+            data = [];
+          } else if (consent == "Offline") {
+            setIsOnline(false);
+
+            data.push(res?.data?.data?.popupData[0]);
+            data.push(res?.data?.data?.popupData[3]);
+          } else {
+            setIsOnline(false);
+
+            data = res?.data?.data?.popupData;
+          }
+          setTemplateList(data);
+          loader("hide");
+        } else if (flag === 2) {
+          const body = {
+            userId: localStorage.getItem("user_id"),
+
+            language: check_lng_index,
+
+            consentType: consent,
+
+            pdfId: typeof state?.pdfId !== "undefined" ? state?.pdfId : articleId,
+          };
+
+          const res = await postData(ENDPOINT.LIBRARYGETPOPUP, body);
+
+          setTemplateList(res?.data?.data?.popupData);
+          loader("hide");
           setTemplateId(res?.data?.data?.popupTempId);
-        } else {
-          res = actualTemplateData;
         }
-
-        let data = [];
-        if (consent == "Online") {
-          setIsOnline(true);
-          data = [];
-        } else if (consent == "Offline") {
-          setIsOnline(false);
-
-          data.push(res?.data?.data?.popupData[0]);
-          data.push(res?.data?.data?.popupData[3]);
-        } else {
-          setIsOnline(false);
-
-          data = res?.data?.data?.popupData;
-        }
-        setTemplateList(data);
+      } catch (err) {
         loader("hide");
-      } else if (flag === 2) {
-        const body = {
-          userId: "18207",
-
-          language: check_lng_index,
-
-          consentType: consent,
-
-          pdfId: typeof state?.pdfId !== "undefined" ? state?.pdfId : articleId,
-        };
-
-        const res = await postData(ENDPOINT.LIBRARYGETPOPUP, body);
-
-        setTemplateList(res?.data?.data?.popupData);
-        loader("hide");
-        setTemplateId(res?.data?.data?.popupTempId);
       }
-    } catch (err) {
-      loader("hide");
-    }
-  };
+    };
 
   const saveTemplateEdit = (e) => {
     console.log(e);
@@ -253,7 +253,7 @@ const SetPopup = (props) => {
       let fourth = templateList.findIndex((el) => el.popupNo === 4);
 
       let body = {
-        userId: "18207",
+        user_id: localStorage.getItem("user_id"),
         pdfId: articleId,
         language: selectOptions.language,
         firstPopupTime: selectOptions.time,

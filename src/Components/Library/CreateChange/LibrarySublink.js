@@ -63,7 +63,7 @@ const LibrarySublink = () => {
     try {
       let selectedValue = [];
       let data = {
-        id: 18207,
+        user_id: localStorage.getItem("user_id"),
         page: 1,
         search: '',
         type:'All',

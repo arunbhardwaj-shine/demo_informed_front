@@ -19,7 +19,7 @@ const LibraryCreateUser = () => {
   const [reseller, setReseller] = useState([]);
   const [show, setShow] = useState(false);
   const [commanShow, setCommanShow] = useState(false);
-  const [id, setId] = useState(18207);
+  const [id, setId] = useState(localStorage.getItem("user_id"));
   const handleClose = () => setShow(false);
   const navigate = useNavigate();
   const [error, setError] = useState({});
@@ -80,7 +80,7 @@ const LibraryCreateUser = () => {
   const initalFun = async () => {
     loader("show");
     const hadData = await postData(ENDPOINT.LIBRARYDETAIL, {
-      userId: id,
+      user_id: id,
     });
 
     let country = [];
@@ -561,7 +561,7 @@ const LibraryCreateUser = () => {
       let newAr = userDetail?.product;
       newAr.push({ value: userDetail?.newValu, label: userDetail?.newValue });
       let body = {
-        userId: 18207,
+        user_id: localStorage.getItem("user_id"),
         product: userDetail?.newValue,
         category: 0,
         type: 1,

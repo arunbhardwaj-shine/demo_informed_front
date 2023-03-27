@@ -139,7 +139,7 @@ const LibraryContent = () => {
     try {
       loader("show");
       const res = await postData(ENDPOINT.FILTERS, {
-        id: 18207,
+        user_id: localStorage.getItem("user_id"),
       });
       setFilterData(res?.data?.data);
       setAllTags(res?.data?.data?.tags);
@@ -294,7 +294,7 @@ const LibraryContent = () => {
   const getLibraryData = async (page, obj, search) => {
     try {
       let data = {
-        id: 18207,
+        user_id: localStorage.getItem("user_id"),
         page: page,
         search: search,
         type: type,
@@ -495,7 +495,7 @@ const LibraryContent = () => {
     loader("show");
     try {
       let body = {
-        userId: 18207,
+        user_id: localStorage.getItem("user_id"),
         pdfId: pdf_id,
       };
       const res = await resetStats(ENDPOINT.LIBRARYRESETSTATS, body);

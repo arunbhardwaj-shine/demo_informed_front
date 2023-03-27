@@ -37,7 +37,7 @@ const SpcEdit = () => {
     loader("show");
     try{
       let body = {
-        "id": 18207
+        "user_id": localStorage.getItem("user_id")
       };
       const res_data = await postData(ENDPOINT.SPC_HELPER_LISTING,body);
       let allListingData = res_data?.data?.data;
@@ -145,7 +145,7 @@ const SpcEdit = () => {
     if (newProduct.trim() != "") {
       try{
         let body = {
-          "userId":18207,
+          "user_id":localStorage.getItem("user_id"),
           "product":newProduct,
           "category":0,
           "type":1
@@ -188,7 +188,7 @@ const SpcEdit = () => {
     }
     const data = new FormData(event.target);
     data.append('id',state?.spcId);
-    data.append('createdBy',18207);
+    data.append('createdBy',localStorage.getItem("user_id"));
     await postFormData(ENDPOINT.SPC_UPDATE,data,{
       header:{
         "Content-Type": "multipart/form-data",
@@ -264,7 +264,7 @@ const SpcEdit = () => {
   								  type="text"
   								  className="form-control"
   								  name="createdBy"
-  								  value="18207"
+  								  value=localStorage.getItem("user_id")
   								/>
                   */
                 }
