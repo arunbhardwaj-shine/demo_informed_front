@@ -36,9 +36,6 @@ const SetPopup = (props) => {
   const [isTemplateData, setIsTemplateData] = useState(true);
   const [isOnline, setIsOnline] = useState(false);
 
-
-
-
   const [selectedLanguage, setSelectedLanguage] = useState("All");
   const [countryOption, setCountryOption] = useState(0);
   const [templateSaving, setTemplateSaving] = useState("");
@@ -111,112 +108,109 @@ const SetPopup = (props) => {
     // getTemplateListData(2, e.value, selectedIbu);
   };
 
-  const getTemplateListData = async (flag=1, lng, consent) => {
+  const getTemplateListData = async (flag = 1, lng, consent) => {
+      console.log(lng);
+      console.log(consent);
+      loader("show");
 
-    console.log(lng)
-    console.log(consent)
-    loader("show");
-
-    try {
-      setTemplateClicked(false);
-      let check_lng_index = 10;
-      if (lng == "All") {
-        check_lng_index = 10;
-      } else if (lng == "English") {
-        check_lng_index = 0;
-      } else if (lng == "Italian") {
-        check_lng_index = 1;
-      } else if (lng == "Germany") {
-        check_lng_index = 2;
-      } else if (lng == "Spanish") {
-        check_lng_index = 3;
-      } else if (lng == "Russian") {
-        check_lng_index = 4;
-      }
-
-      if (typeof articleId === "undefined") {
-        if (state?.pdfId) {
-          setArticleId(state?.pdfId);
+      try {
+        setTemplateClicked(false);
+        let check_lng_index = 10;
+        if (lng == "All") {
+          check_lng_index = 10;
+        } else if (lng == "English") {
+          check_lng_index = 0;
+        } else if (lng == "Italian") {
+          check_lng_index = 1;
+        } else if (lng == "Germany") {
+          check_lng_index = 2;
+        } else if (lng == "Spanish") {
+          check_lng_index = 3;
+        } else if (lng == "Russian") {
+          check_lng_index = 4;
         }
-      }
 
-      let res;
-      if(flag===1 || flag===0){
-      if (isTemplateData) {
-        // Fetch the template data from the server
-        const body = {
-          user_id: localStorage.getItem("user_id"),
-          language: check_lng_index,
-          consentType: consent,
-          pdfId: typeof state?.pdfId !== "undefined" ? state?.pdfId : articleId,
-        };
-        res = await postData(ENDPOINT.LIBRARYGETPOPUP, body);
-        setActualTemplateData(res);
-        setPopupData(res?.data?.data);
-        setIsTemplateData(false);
-        setSelectOptions({
-          consentType: res?.data?.data?.linkType,
-          language: res?.data?.data?.selectedLanguage,
-          time: res?.data?.data?.time,
-        });
+        if (typeof articleId === "undefined") {
+          if (state?.pdfId) {
+            setArticleId(state?.pdfId);
+          }
+        }
 
-        if (res?.data?.data) {
-          let lang = res?.data?.data?.language;
-          let lng_arr = [];
-          Object.entries(lang).map(([index, item]) => {
-            let label = item;
-            lng_arr.push({
-              value: item,
-              label: label.toUpperCase(),
+        let res;
+        if (flag === 1 || flag === 0) {
+          if (isTemplateData) {
+            // Fetch the template data from the server
+            const body = {
+              userId: localStorage.getItem("user_id"),
+              language: check_lng_index,
+              consentType: consent,
+              pdfId:
+                typeof state?.pdfId !== "undefined" ? state?.pdfId : articleId,
+            };
+            res = await postData(ENDPOINT.LIBRARYGETPOPUP, body);
+            setActualTemplateData(res);
+            setPopupData(res?.data?.data);
+            setIsTemplateData(false);
+            setSelectOptions({
+              consentType: res?.data?.data?.linkType,
+              language: res?.data?.data?.selectedLanguage,
+              time: res?.data?.data?.time,
             });
-          });
-          setTemplateLanguage(lng_arr);
+
+            if (res?.data?.data) {
+              let lang = res?.data?.data?.language;
+              let lng_arr = [];
+              Object.entries(lang).map(([index, item]) => {
+                let label = item;
+                lng_arr.push({
+                  value: item,
+                  label: label.toUpperCase(),
+                });
+              });
+              setTemplateLanguage(lng_arr);
+            }
+            setTemplateId(res?.data?.data?.popupTempId);
+          } else {
+            res = actualTemplateData;
+          }
+
+          let data = [];
+          if (consent == "Online") {
+            setIsOnline(true);
+            data = [];
+          } else if (consent == "Offline") {
+            setIsOnline(false);
+
+            data.push(res?.data?.data?.popupData[0]);
+            data.push(res?.data?.data?.popupData[3]);
+          } else {
+            setIsOnline(false);
+
+            data = res?.data?.data?.popupData;
+          }
+          setTemplateList(data);
+          loader("hide");
+        } else if (flag === 2) {
+          const body = {
+            userId: localStorage.getItem("user_id"),
+
+            language: check_lng_index,
+
+            consentType: consent,
+
+            pdfId: typeof state?.pdfId !== "undefined" ? state?.pdfId : articleId,
+          };
+
+          const res = await postData(ENDPOINT.LIBRARYGETPOPUP, body);
+
+          setTemplateList(res?.data?.data?.popupData);
+          loader("hide");
+          setTemplateId(res?.data?.data?.popupTempId);
         }
-        setTemplateId(res?.data?.data?.popupTempId);
-      } else {
-        res = actualTemplateData;
+      } catch (err) {
+        loader("hide");
       }
-
-      let data = [];
-      if (consent == "Online") {
-        setIsOnline(true);
-        data = [];
-      } else if (consent == "Offline") {
-        setIsOnline(false);
-
-        data.push(res?.data?.data?.popupData[0]);
-        data.push(res?.data?.data?.popupData[3]);
-      } else {
-        setIsOnline(false);
-
-        data = res?.data?.data?.popupData;
-      }
-      setTemplateList(data);
-      loader("hide");
-    } else if(flag===2){
-      const body = {
-
-        user_id: localStorage.getItem("user_id"),
-
-        language: check_lng_index,
-
-        consentType: consent,
-
-        pdfId: typeof state?.pdfId !== "undefined" ?  state?.pdfId : articleId
-
-      };
-
-      const res = await postData(ENDPOINT.LIBRARYGETPOPUP, body);
-
-      setTemplateList(res?.data?.data?.popupData);
-      loader("hide");
-      setTemplateId(res?.data?.data?.popupTempId);
-    }
-  }
-    catch (err) {
-      loader("hide");
-    }
-  };
+    };
 
   const saveTemplateEdit = (e) => {
     console.log(e);
@@ -302,7 +296,7 @@ const SetPopup = (props) => {
 
   return (
     <>
-        <div className="col right-sidebar">
+      <div className="col right-sidebar">
         {popupData ? (
           <div className="custom-container">
             <div className="row">
@@ -312,12 +306,12 @@ const SetPopup = (props) => {
                     <div className="row justify-content-end align-items-center">
                       <div className="col-12 col-md-1">
                         <div className="header-btn-left">
-                          <button
+                          <Link
                             className="btn btn-primary btn-bordered back"
-                            onClick={(e) => navigate("/library-create-user")}
+                            to="/library-create-user"
                           >
                             Back
-                          </button>
+                          </Link>
                         </div>
                       </div>
                       <div className="col-12 col-md-9">
@@ -335,12 +329,12 @@ const SetPopup = (props) => {
                       </div>
                       <div className="col-12 col-md-2">
                         <div className="header-btn">
-                          <button
+                          <Link
                             className="btn btn-primary btn-bordered move-draft"
-                            onClick={(e) => navigate("/library-create")}
+                            to="/library-content"
                           >
                             Cancel
-                          </button>
+                          </Link>
 
                           <button
                             className="btn btn-primary btn-filled next"
@@ -467,7 +461,11 @@ const SetPopup = (props) => {
                         <Select
                           defaultValue={
                             popupData?.time
-                              ? timeList[timeList.findIndex((el) => el.value == popupData?.time)]
+                              ? timeList[
+                                  timeList.findIndex(
+                                    (el) => el.value == popupData?.time
+                                  )
+                                ]
                               : {
                                   label: "Select time (in seconds)",
                                   value: "",
@@ -486,51 +484,49 @@ const SetPopup = (props) => {
               <section className="select-mail-template library-cosent">
                 <div className="custom-container">
                   <div className="row">
-                  {isOnline==false?(
-                    <>
-                    <div className="page-title">
-                      <h4>Select the Pop-up to edit</h4>
-                    </div>
+                    {isOnline == false ? (
+                      <>
+                        <div className="page-title">
+                          <h4>Select the Pop-up to edit</h4>
+                        </div>
 
-                    <AliceCarousel
-                      mouseTracking
-                      disableDotsControls
-                      activeIndex={activeIndex}
-                      responsive={responsive}
-                      onSlideChanged={syncActiveIndex}
-                    >
-                      {templateList.map((template) => {
-                        return (
-                          <>
-                            <div
-                              className="item"
-                              onClick={(e) => templateClicked(template, e)}
-                            >
-                              <img
-                                id={"template_dyn" + template.popupNo}
-                                src={
-                                  process.env.REACT_APP_API_KEY_NEW_DESIGN +
-                                  "/" +
-                                  template.template_img
-                                }
-                                alt=""
-                                className={
-                                  typeof templateId !== "undefined" &&
-                                  templateId == template.popupNo
-                                    ? ""
-                                    : ""
-                                }
-                              />
-                              <p>{template.name}</p>
-                            </div>
-                          </>
-                        );
-                      })}
-                    </AliceCarousel>
-                    </>
-                  )
-                    :null
-}
+                        <AliceCarousel
+                          mouseTracking
+                          disableDotsControls
+                          activeIndex={activeIndex}
+                          responsive={responsive}
+                          onSlideChanged={syncActiveIndex}
+                        >
+                          {templateList.map((template) => {
+                            return (
+                              <>
+                                <div
+                                  className="item"
+                                  onClick={(e) => templateClicked(template, e)}
+                                >
+                                  <img
+                                    id={"template_dyn" + template.popupNo}
+                                    src={
+                                      process.env.REACT_APP_API_KEY_NEW_DESIGN +
+                                      "/" +
+                                      template.template_img
+                                    }
+                                    alt=""
+                                    className={
+                                      typeof templateId !== "undefined" &&
+                                      templateId == template.popupNo
+                                        ? ""
+                                        : ""
+                                    }
+                                  />
+                                  <p>{template.name}</p>
+                                </div>
+                              </>
+                            );
+                          })}
+                        </AliceCarousel>
+                      </>
+                    ) : null}
                     <input
                       type="hidden"
                       id="mail_template"
@@ -543,12 +539,11 @@ const SetPopup = (props) => {
                           <div className="form-group template_builder_div col-12 col-md-12">
                             {templateName != "" && (
                               <>
-                                {
-                                  (isOnline==false &&
+                                {isOnline == false && (
                                   <div className="template_name">
                                     <h4>{templateName}</h4>
-                                  </div>)
-                                }
+                                  </div>
+                                )}
                               </>
                             )}
                             {editableTemplate ? (
@@ -596,7 +591,6 @@ const SetPopup = (props) => {
                         onInit={(evt, editor) => (editorRef.current = editor)}
                         initialValue={template}
                         init={{
-                          height: "100vh",
                           menubar:
                             "file edit view insert format tools table help",
                           plugins:
@@ -606,7 +600,7 @@ const SetPopup = (props) => {
                           content_style:
                             "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
                           content_css: [
-                            "https://docintel.app/angular_cs.css",
+                            "https://docintel.app/react_informed.css",
                             "https://use.fontawesome.com/releases/v5.8.2/css/all.css",
                           ],
                         }}
@@ -621,7 +615,7 @@ const SetPopup = (props) => {
             </div>
           </div>
         ) : null}
-        </div>
+      </div>
     </>
   );
 };

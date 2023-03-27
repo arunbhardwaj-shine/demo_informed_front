@@ -298,7 +298,7 @@ const LibrarySublink = () => {
                         <label htmlFor="">Content</label>
                         <Select
                           options={allContents}
-                          placeholder="Select business unit"
+                          placeholder="Select content to create a sublink "
                           onChange={(event) => onArticleChange(event)}
                           value={
                             selectedArticle != ""
@@ -317,7 +317,7 @@ const LibrarySublink = () => {
                         <label htmlFor="">URL</label>
                         <Select
                           options={allCodes}
-                          placeholder="Select business unit"
+                          placeholder="Select content URL"
                           onChange={(event) => onArticleChange(event)}
                           value={
                             selectedArticle != ""
@@ -824,9 +824,8 @@ const LibrarySublink = () => {
                     <div className="d-flex justify-content-between align-items-center">
                       <h5>SubLinks:</h5>
                       <Button
-                        className="btn-filled"
+                        className={!selectedArticle ? "btn-filled btn-disabled" : "btn-filled"}
                         onClick={createNewLinkClicked}
-                        disabled={!selectedArticle}
                       >
                         Create New Link +
                       </Button>
@@ -869,7 +868,7 @@ const LibrarySublink = () => {
             <DropdownButton
               className={"dropdown-basic-button split-button-dropup " + (newLink?.delivery ? 'addval' : '')}
               title={
-                newLink?.delivery ? newLink?.delivery : "Select delivery Change"
+                newLink?.delivery ? newLink?.delivery : "Select delivery type"
               }
               name="delivery"
               onSelect={(e) => handleChange("delivery", e)}
@@ -920,8 +919,7 @@ const LibrarySublink = () => {
         <div className="modal-footer">
           <button
             type="button"
-            disabled={!(newLink?.delivery && identifier.trim().length > 0)}
-            className="btn btn-primary save btn-filled"
+            className={!(newLink?.delivery && identifier.trim().length > 0) ? "btn btn-primary save btn-filled btn-disabled":"btn btn-primary save btn-filled"}
             onClick={() => handleSubmit()}
           >
             Apply

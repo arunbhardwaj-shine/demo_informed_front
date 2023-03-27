@@ -4557,6 +4557,10 @@ h2 {
   min-height: 90px;
 }
 
+.select-mail-template.library-cosent .tox.tox-tinymce {
+  min-height: 600px;
+}
+
 /*Css for email filters start*/
 .filter-block .filter-block-left,
 .filter-block .filter-block-right {

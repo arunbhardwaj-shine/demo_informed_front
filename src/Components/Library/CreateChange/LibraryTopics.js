@@ -80,7 +80,7 @@ function LibraryTopics() {
         <Row>
           <div className="create-change-content spc-content">
             <div className="form_action">
-              <h4>Please select the business unit</h4>
+              <h4>Please select the business unit to show the topics </h4>
                   <Form className="product-unit d-flex justify-content-between align-items-center">
                   {
                       productData?.flag?(
