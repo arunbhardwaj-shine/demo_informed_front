@@ -27,43 +27,43 @@ const ReaderAdd = () => {
     {value : "Afghanistan",  label : "+93"},
 
     {value : "Albania",  label : "+355"},
-    
+
     {value : "Algeria",  label : "+213"},
-    
+
     {value : "American Samoa",  label : "+1-684"},
-    
+
     {value : "Andorra",  label : "+376"},
-    
+
     {value : "Angola",  label : "+244"},
-    
+
     {value : "Anguilla",  label : "+1-264"},
-    
+
     {value : "Antarctica",  label : "+672"},
-    
+
     {value : "Antigua and Barbuda",  label : "+1-268"},
-    
+
     {value : "Argentina",  label : "+54"},
-    
+
     {value : "Armenia",  label : "+374"},
-    
+
     {value : "India",  label : "+91"},
-    
+
     {value : "Azerbaijan",  label : "+994"},
-    
+
     {value : "Bahamas",  label : "+1-242"},
-    
+
     {value : "Bahrain",  label : "+973"},
-    
+
     {value : "Bangladesh",  label : "+880"},
-    
+
     {value : "Barbados",  label : "+1-246"},
-    
+
     {value : "Belarus",  label : "+375"},
-    
+
     {value : "Belgium",  label : "+32"},
-    
+
   ]);
-  const [id, setId] = useState(18207);
+  const [id, setId] = useState(localStorage.getItem("user_id"));
   const [userInputs, setAddReaderInputs] = useState({});
   const [error, setError] = useState({});
   const [commonHeader, setCommonHeader] = useState("");
@@ -119,7 +119,7 @@ const ReaderAdd = () => {
   };
   const initalFun = async () => {
     loader("show");
-    const hasData = await getData(`${ENDPOINT.READER_USER_DROP}${id} `);
+    const hasData = await getData(`${ENDPOINT.READER_USER_DROP}`);
 
     let country = [];
     hasData?.data?.data?.country.reduce((objEntries, key) => {
@@ -242,7 +242,7 @@ const ReaderAdd = () => {
     try {
       let formData = new FormData();
       formData.append("file", userInputs?.uploadFile?.[0]);
-      formData.append("createdBy", 18207);
+      formData.append("createdBy", localStorage.getItem("user_id"));
       await postFormData(ENDPOINT.UPLOAD_READER_FILE, formData, {
         header: { "Content-Type": "multipart/form-data" },
       });
@@ -268,7 +268,7 @@ const ReaderAdd = () => {
       try {
         loader("show");
         let data = {
-          createdBy: 18207,
+          createdBy: localStorage.getItem("user_id"),
           firstName: userInputs?.firstName,
           middleName: userInputs?.middleName,
           lastName: userInputs?.lastName,

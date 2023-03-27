@@ -68,7 +68,7 @@ const EditLibrary = () => {
     costCenter: [],
     // reseller:[]
   });
-  const [id, setId] = useState(18207);
+  const [id, setId] = useState(localStorage.getItem("user_id"));
 
   const product = [
     {
@@ -93,7 +93,7 @@ const EditLibrary = () => {
   const initalFun = async () => {
     loader("show");
     const hadData = await postData(ENDPOINT.LIBRARYDETAIL, {
-      userId: id,
+      user_id: id,
     });
 
     let country = [];
@@ -131,16 +131,17 @@ const EditLibrary = () => {
         `${ENDPOINT.LIBRARY_DETAIL_BY_ID}/${state?.pdfid}`
       );
       setCreateLibraryInputs(hadData?.data?.data?.pdfData);
+
       setReseller(
         hadData?.data?.data?.pdfData?.multiple_publisher
           ? JSON.parse(hadData?.data?.data?.pdfData?.multiple_publisher)
           : []
       );
-      if(hadData?.data?.data?.ebookData?.length){
+      if (hadData?.data?.data?.ebookData?.length) {
         setChapter(hadData?.data?.data?.ebookData);
       }
       setShowFlag(true);
-     
+
       loader("hide");
     } catch (err) {
       console.log("-err", err);
@@ -631,7 +632,7 @@ const EditLibrary = () => {
       let newAr = userDetail?.product;
       newAr.push({ value: userDetail?.newValu, label: userDetail?.newValue });
       let body = {
-        userId: id,
+        user_id: id,
         product: userDetail?.newValue,
         category: 0,
         type: 1,
@@ -680,12 +681,13 @@ const EditLibrary = () => {
                   className="form-control"
                 />
               </div>
+
               <div className="form-group">
                 <label htmlFor="">Set limit of usage</label>
                 <input
                   type="number"
                   name="limit"
-                  defaultValue={userInputs?.limit}
+                  defaultValue={Number(userInputs?.limit)}
                   className="form-control"
                   placeholder="“0” value means unlimited limit"
                   onChange={handleChange}
@@ -756,8 +758,7 @@ const EditLibrary = () => {
 
   return (
     <>
-
-        <div className="col right-sidebar">
+      <div className="col right-sidebar">
         {showFlag ? (
           <div className="custom-container">
             <div className="row">
@@ -765,9 +766,12 @@ const EditLibrary = () => {
                 <div className="row justify-content-end align-items-center">
                   <div className="col-12 col-md-1">
                     <div className="header-btn-left">
-                      <button className="btn btn-primary btn-bordered back">
-                        <Link to="/library-create">Back</Link>
-                      </button>
+                      <Link
+                        className="btn btn-primary btn-bordered back"
+                        to="/library-content"
+                      >
+                        Back
+                      </Link>
                     </div>
                   </div>
                   <div className="col-12 col-md-9">
@@ -785,9 +789,12 @@ const EditLibrary = () => {
                   </div>
                   <div className="col-12 col-md-2">
                     <div className="header-btn">
-                      <button className="btn btn-primary btn-bordered move-draft">
+                      <Link
+                        className="btn btn-primary btn-bordered move-draft"
+                        to="/library-content"
+                      >
                         Cancel
-                      </button>
+                      </Link>
 
                       <button
                         className="btn btn-primary btn-filled next"
@@ -1121,8 +1128,8 @@ const EditLibrary = () => {
               </div>
             </div>
           </div>
-          ) : null}
-        </div>
+        ) : null}
+      </div>
       <Modal className="pdf-video-link" show={show} onHide={handleClose}>
         <Modal.Header>
           <div className="form_action embedding-video">

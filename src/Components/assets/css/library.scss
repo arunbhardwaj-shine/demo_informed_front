@@ -91,6 +91,7 @@
     .doc-content-header-logo {
       width: 76px;
       margin-right: 10px;
+      min-height: 70px;
       img {
         filter: drop-shadow(0px 0px 6px rgba(0, 102, 190, 0.29));
         max-height: 95px;
@@ -237,6 +238,11 @@
       .tab-mail-list {
         padding: 0;
         margin: 0;
+        &.data{
+            h6.tab-content-title {
+               flex: 0 0 150px;
+            }
+        }
         &.change {
           .form-group {
             label {
@@ -3241,7 +3247,7 @@ section.verify_email.content_details {
     padding-bottom: 15px;
   }
   .library-content-box-layuot .doc-content-main-box .tab-content {
-    padding: 10px 10px 0;
+    padding: 10px 10px;
   }
   .library-content-box-layuot
     .doc-content-main-box
@@ -3258,13 +3264,9 @@ section.verify_email.content_details {
     padding: 6px 6px;
     font-size: 10px;
   }
-  .library-content-box-layuot
-    .doc-content-main-box
-    .tab-content
-    .tab-mail-list
-    h6.tab-content-title {
+  .library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list.data h6.tab-content-title {
     flex: 0 0 130px;
-  }
+}
   .data-progress {
     margin-right: 4px;
   }
@@ -3299,15 +3301,15 @@ section.verify_email.content_details {
     width: calc(100% - 94px);
     margin-right: 0;
   }
-  .library-content-box-layuot
-    .doc-content-main-box
-    .tab-content
-    .tab-mail-list.change
-    .form-group
-    .split-button-dropup
-    > div:nth-child(3) {
+.library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list.change .form-group .split-button-dropup > div:nth-child(3) {
     background-size: 13px;
-  }
+    min-height: 20px;
+}
+.library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list.change .form-group .split-button-dropup > div:nth-child(3) div {
+    font-size: 13px;
+    line-height: 16px;
+    padding-left: 0;
+}
   .library-content-box-layuot
     .doc-content-main-box
     .tab-content
@@ -3333,10 +3335,10 @@ section.verify_email.content_details {
     padding-top: 10px;
   }
   .library-content-box-layuot .doc-content-main-box .tab-content {
-    min-height: 295px;
+    min-height: 265px;
   }
   .library-content-box-layuot .doc-content-main-box .tab-content > .active {
-    min-height: 277px;
+    min-height: 250px;
   }
   .library-content-box-layuot .doc-content-main-box .doc-content-header {
     margin-bottom: 15px;

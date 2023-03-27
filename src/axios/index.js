@@ -11,8 +11,8 @@ const requestHelper = axios.create({
 
 requestHelper.interceptors.request.use(
   (req) => {
-    // const token = localStorage.getItem("loginToken");
-    // req.headers["Authorization"] = token;
+    const token = localStorage.getItem("user_id");
+    req.headers["token"] = token;
     return req;
   },
   (err) => {

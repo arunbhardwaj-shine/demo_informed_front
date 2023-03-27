@@ -30,7 +30,7 @@ const TimelineDetail = () => {
           }
         }
         const res = await postData(ENDPOINT.USERTIMELINE, {
-          logId: 18207,
+          user_id: localStorage.getItem("user_id"),
           userId:readerId
         });
         setTimeLineData(res?.data?.data);

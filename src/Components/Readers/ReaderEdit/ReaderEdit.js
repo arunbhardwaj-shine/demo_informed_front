@@ -29,44 +29,44 @@ const ReaderEdit = () => {
     {value : "Afghanistan",  label : "+93"},
 
     {value : "Albania",  label : "+355"},
-    
+
     {value : "Algeria",  label : "+213"},
-    
+
     {value : "American Samoa",  label : "+1-684"},
-    
+
     {value : "Andorra",  label : "+376"},
-    
+
     {value : "Angola",  label : "+244"},
-    
+
     {value : "Anguilla",  label : "+1-264"},
-    
+
     {value : "Antarctica",  label : "+672"},
-    
+
     {value : "Antigua and Barbuda",  label : "+1-268"},
-    
+
     {value : "Argentina",  label : "+54"},
-    
+
     {value : "Armenia",  label : "+374"},
-    
+
     {value : "India",  label : "+91"},
-    
+
     {value : "Azerbaijan",  label : "+994"},
-    
+
     {value : "Bahamas",  label : "+1-242"},
-    
+
     {value : "Bahrain",  label : "+973"},
-    
+
     {value : "Bangladesh",  label : "+880"},
-    
+
     {value : "Barbados",  label : "+1-246"},
-    
+
     {value : "Belarus",  label : "+375"},
-    
+
     {value : "Belgium",  label : "+32"},
-    
+
   ]);
   const [id,setId] = useState(state.id)
-  const [userId,setUserID] = useState(18207)
+  const [userId,setUserID] = useState(localStorage.getItem("user_id"))
 
   const [userInputs, setAddReaderInputs] = useState({});
   const [error, setError] = useState({});
@@ -113,7 +113,7 @@ const ReaderEdit = () => {
   };
   const initalFun = async() =>{
     loader("show")
-   const hasData =  await getData(`${ENDPOINT.READER_USER_DROP}${userId} `);
+   const hasData =  await getData(`${ENDPOINT.READER_USER_DROP} `);
 
     let country = [];
     hasData?.data?.data?.country.reduce((objEntries, key) => {
@@ -125,7 +125,7 @@ const ReaderEdit = () => {
      setCountryAll(country)
      setProvince(hasData?.data?.data?.province)
      setHospital(hasData?.data?.data?.hospital)
-   
+
      setUserDetail({...userDetail,discipline:hasData?.data?.data?.discipline,speciality:hasData?.data?.data?.speciality,product:hasData?.data?.data?.product})
     loader("hide")
   }
@@ -133,7 +133,7 @@ const ReaderEdit = () => {
     loader("show")
    const hasData =  await getData(`${ENDPOINT.READER_GET_READER_USER}/${id} `);
    setAddReaderInputs(hasData?.data?.data)
-   
+
     loader("hide")
   }
 
@@ -249,7 +249,7 @@ const ReaderEdit = () => {
         console.log(err);
         loader("hide");
       }
-   
+
   };
 
   return (

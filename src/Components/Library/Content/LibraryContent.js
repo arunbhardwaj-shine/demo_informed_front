@@ -53,6 +53,8 @@ const LibraryContent = () => {
   const location = useLocation();
   const [pageAll, setPageAll] = useState(false);
   const [search, setSearch] = useState("");
+  const [noData, setNoData] = useState(false);
+
   const [opening_details, setOpeningDetails] = useState([]);
   const [tagClickedFirst, setTagClickedFirst] = useState([]);
   const [finalTags, setFinalTags] = useState([]);
@@ -137,7 +139,7 @@ const LibraryContent = () => {
     try {
       loader("show");
       const res = await postData(ENDPOINT.FILTERS, {
-        id: 18207,
+        user_id: localStorage.getItem("user_id"),
       });
       setFilterData(res?.data?.data);
       setAllTags(res?.data?.data?.tags);
@@ -292,7 +294,7 @@ const LibraryContent = () => {
   const getLibraryData = async (page, obj, search) => {
     try {
       let data = {
-        id: 18207,
+        user_id: localStorage.getItem("user_id"),
         page: page,
         search: search,
         type: type,
@@ -311,7 +313,13 @@ const LibraryContent = () => {
       loader("hide");
       setPageAll(false);
       setPageAllClicked(false);
+      if((res?.data?.data?.library).length>0){
       setIsLoaded(true);
+      setNoData(false)
+      }
+      else{
+        setNoData(true)
+      }
     } catch (err) {
       console.log("err");
       loader("hide");
@@ -319,6 +327,8 @@ const LibraryContent = () => {
   };
 
   const searchChange = (e) => {
+    setIsLoaded(false)
+    setNoData(false);
     setSearch(e?.target?.value);
     if (e?.target?.value === "") {
       setLibraryData([]);
@@ -485,7 +495,7 @@ const LibraryContent = () => {
     loader("show");
     try {
       let body = {
-        userId: 18207,
+        user_id: localStorage.getItem("user_id"),
         pdfId: pdf_id,
       };
       const res = await resetStats(ENDPOINT.LIBRARYRESETSTATS, body);
@@ -1584,7 +1594,11 @@ const LibraryContent = () => {
                         </>
                       );
                     })
-                  : null}
+                  : <div>
+                    {noData==true && libraryData?.length<=0?
+                    <p style={{fontSize:"30px",}}>
+                    No Data Found</p>:null}
+                    </div>}
               </>
             </div>
             {(page === 1 && isLoaded==true)?

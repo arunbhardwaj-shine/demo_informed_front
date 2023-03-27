@@ -19,7 +19,7 @@ const LibraryCreateUser = () => {
   const [reseller, setReseller] = useState([]);
   const [show, setShow] = useState(false);
   const [commanShow, setCommanShow] = useState(false);
-  const [id, setId] = useState(18207);
+  const [id, setId] = useState(localStorage.getItem("user_id"));
   const handleClose = () => setShow(false);
   const navigate = useNavigate();
   const [error, setError] = useState({});
@@ -40,7 +40,6 @@ const LibraryCreateUser = () => {
     coverPhoto: "",
     specialRequirment: "",
     productionNotes: "",
-
   });
   const [ebookFile, setEbookFile] = useState([]);
   const [chapter, setChapter] = useState([
@@ -81,7 +80,7 @@ const LibraryCreateUser = () => {
   const initalFun = async () => {
     loader("show");
     const hadData = await postData(ENDPOINT.LIBRARYDETAIL, {
-      userId: id,
+      user_id: id,
     });
 
     let country = [];
@@ -129,6 +128,7 @@ const LibraryCreateUser = () => {
   };
 
   const nextButtonClicked = async (e) => {
+    console.log("type of", typeof userInputs?.limit);
     e.preventDefault();
     const err = createContent(userInputs, ebookFile);
 
@@ -139,7 +139,7 @@ const LibraryCreateUser = () => {
       loader("show");
       try {
         let formData = new FormData();
-        
+
         formData.append("productionNotes", userInputs?.productionNotes);
         formData.append("expDatetime", userInputs?.expDatetime);
         formData.append("limit", userInputs?.limit);
@@ -160,10 +160,7 @@ const LibraryCreateUser = () => {
         formData.append("fileType", userInputs?.docintelFormat);
         formData.append("coverPhoto", userInputs?.coverPhoto?.[0]);
         formData.append("chapter", JSON.stringify(chapter));
-        formData.append(
-          "specialRequirment",
-          userInputs?.specialRequirment
-        );
+        formData.append("specialRequirment", userInputs?.specialRequirment);
         formData.append("createdBy", id);
 
         const res = await postFormData(ENDPOINT.LIBRARYCREATE, formData, {
@@ -176,8 +173,8 @@ const LibraryCreateUser = () => {
         navigate("/set-popup", {
           state: {
             pdfId: res?.data?.data?.pdfId,
-            fileType:userInputs?.docintelFormat
-           },
+            fileType: userInputs?.docintelFormat,
+          },
         });
       } catch (err) {
         loader("hide");
@@ -564,7 +561,7 @@ const LibraryCreateUser = () => {
       let newAr = userDetail?.product;
       newAr.push({ value: userDetail?.newValu, label: userDetail?.newValue });
       let body = {
-        userId: 18207,
+        user_id: localStorage.getItem("user_id"),
         product: userDetail?.newValue,
         category: 0,
         type: 1,
@@ -660,7 +657,9 @@ const LibraryCreateUser = () => {
                 <textarea
                   className="form-control"
                   id="formControlTextarea"
-                  onChange={(e) => handleChange(e?.target.value, "specialRequirment")}
+                  onChange={(e) =>
+                    handleChange(e?.target.value, "specialRequirment")
+                  }
                   rows="5"
                   placeholder="Please type your notes here.."
                 ></textarea>
@@ -681,9 +680,12 @@ const LibraryCreateUser = () => {
               <div className="row justify-content-end align-items-center">
                 <div className="col-12 col-md-1">
                   <div className="header-btn-left">
-                    <button className="btn btn-primary btn-bordered back">
-                      <Link to="/library-create">Back</Link>
-                    </button>
+                    <Link
+                      className="btn btn-primary btn-bordered back"
+                      to="/library-create"
+                    >
+                      Back
+                    </Link>
                   </div>
                 </div>
                 <div className="col-12 col-md-9">
@@ -701,9 +703,12 @@ const LibraryCreateUser = () => {
                 </div>
                 <div className="col-12 col-md-2">
                   <div className="header-btn">
-                    <button className="btn btn-primary btn-bordered move-draft">
+                    <Link
+                      className="btn btn-primary btn-bordered move-draft"
+                      to="/library-create"
+                    >
                       Cancel
-                    </button>
+                    </Link>
 
                     <button
                       className="btn btn-primary btn-filled next"
@@ -1011,7 +1016,9 @@ const LibraryCreateUser = () => {
                         className="form-control"
                         id="formControlTextarea"
                         rows="5"
-                        onChange={(e) => handleChange(e?.target.value, "productionNotes")}
+                        onChange={(e) =>
+                          handleChange(e?.target.value, "productionNotes")
+                        }
                         placeholder="Please type your notes here.."
                       ></textarea>
                     </div>
