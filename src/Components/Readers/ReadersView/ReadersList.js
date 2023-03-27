@@ -46,12 +46,12 @@ const NewReaders = () => {
     { value: "3", label: "Test User" },
     { value: "4", label: "Competitor" },
   ]);
-  const searchChange = (e) => {setSearch(e.target.value);};
+
   const userTypeValues = {
-    "0" : "Hcp",
-    "1" : "Staff User",
-    "3" :"Test User",
-    "4" :"Competitor",
+    0: "Hcp",
+    1: "Staff User",
+    3: "Test User",
+    4: "Competitor",
   };
   const [changeCountry, setChangeCountry] = useState([]);
   const [changeUserType, setChangeUserType] = useState([]);
@@ -62,7 +62,7 @@ const NewReaders = () => {
   }, []);
 
   useEffect(() => {
-    if(page == 2){
+    if (page == 2) {
       getReaderListData(page, filterObject, search);
     }
   }, [page]);
@@ -73,7 +73,8 @@ const NewReaders = () => {
       let data = {
         userId: 18207,
         userType: 5,
-        type: Object.keys(obj).length > 0 ? obj?.Status[0] : 'Unregistered',
+        search: search,
+        type: Object.keys(obj).length > 0 ? obj?.Status[0] : "Unregistered",
         page: page,
       };
       if (pageAllClicked == true) {
@@ -84,14 +85,14 @@ const NewReaders = () => {
       const res = await postData(ENDPOINT.READER_LIST_DATA, data);
 
       let body = {
-        "id": 18207
+        id: 18207,
       };
-      const res_data = await postData(ENDPOINT.SPC_HELPER_LISTING,body);
-      let countries = []
+      const res_data = await postData(ENDPOINT.SPC_HELPER_LISTING, body);
+      let countries = [];
       Object.entries(res_data?.data?.data?.country).map(([index, item]) => {
         countries.push({
           value: item,
-          label: item  == "B&H" ? "Bosnia and Herzegovina" : item,
+          label: item == "B&H" ? "Bosnia and Herzegovina" : item,
         });
         setCountryAll(countries);
       });
@@ -127,13 +128,30 @@ const NewReaders = () => {
     setSortUserd(e);
   };
 
+  const searchChange = (e) => {
+    setSearch(e?.target?.value);
+    if (e?.target?.value === "") {
+      setReaderDataList([]);
+      setPageAllClicked(false);
+
+      getReaderListData(page, filterObject, "");
+    }
+  };
+
+  const submitHandler = (event) => {
+    setReaderDataList([]);
+    getReaderListData(page, filterObject, search);
+    event.preventDefault();
+    return false;
+  };
+
   const handleOnFilterChange = (e, item, index, key) => {
     if (!filterObject[key]) {
       filterObject[key] = [];
     }
 
     if (e?.target?.checked == true) {
-      filterObject[key]  = [];
+      filterObject[key] = [];
       filterObject[key]?.push(item);
       // filterObject[key] = item;
     } else {
@@ -148,7 +166,6 @@ const NewReaders = () => {
 
     setFilterObject(filterObject);
   };
-
 
   function LinkWithTooltip({ id, children, href, tooltip }) {
     return (
@@ -166,7 +183,6 @@ const NewReaders = () => {
   const handleChange = (value) => {
     setActive(value);
   };
-
 
   const onCountryChange = (e, i) => {
     let consetValue = e.value;
@@ -199,55 +215,57 @@ const NewReaders = () => {
     }
   };
 
-  const updateReaderDetails = async(reader_id, index) => {
-      try {
-        const index = changeCountry.findIndex((el) => el.index === reader_id);
-        let country = "";
-        if(index !== -1){
-          country = changeCountry[index].value;
-        }
-
-        const tindex = changeUserType.findIndex((el) => el.index === reader_id);
-        let type = "";
-        if(tindex !== -1){
-          type = changeUserType[tindex].value;
-        }
-
-        if(country != "" || type != ""){
-          loader("show");
-          let body = {
-            userId: 18207,
-            readerId: reader_id,
-            userStatus:type,
-            country:country
-          };
-
-          const res = await postData(ENDPOINT.READERSTATUSUPDATE, body);
-          const lib_data_index = readerDataList.findIndex((el) => el.id === reader_id);
-          if(country != ""){
-            readerDataList[lib_data_index].country = country;
-          }
-          if(type != ""){
-            readerDataList[lib_data_index].user_status = type;
-          }
-          const new_data = readerDataList;
-          setReaderDataList(new_data);
-          setupdateFlag(updateflag + 1);
-          loader("hide");
-          popup_alert({
-              visible: "show",
-              message: "Your Profile has been update <br />successfully !",
-              type: "success",
-              redirect: "",
-            });
-        }else{
-          toast.warning("Nothing for update.");
-        }
-      } catch (err) {
-        console.log("err", err);
-        loader("hide");
+  const updateReaderDetails = async (reader_id, index) => {
+    try {
+      const index = changeCountry.findIndex((el) => el.index === reader_id);
+      let country = "";
+      if (index !== -1) {
+        country = changeCountry[index].value;
       }
-  }
+
+      const tindex = changeUserType.findIndex((el) => el.index === reader_id);
+      let type = "";
+      if (tindex !== -1) {
+        type = changeUserType[tindex].value;
+      }
+
+      if (country != "" || type != "") {
+        loader("show");
+        let body = {
+          userId: 18207,
+          readerId: reader_id,
+          userStatus: type,
+          country: country,
+        };
+
+        const res = await postData(ENDPOINT.READERSTATUSUPDATE, body);
+        const lib_data_index = readerDataList.findIndex(
+          (el) => el.id === reader_id
+        );
+        if (country != "") {
+          readerDataList[lib_data_index].country = country;
+        }
+        if (type != "") {
+          readerDataList[lib_data_index].user_status = type;
+        }
+        const new_data = readerDataList;
+        setReaderDataList(new_data);
+        setupdateFlag(updateflag + 1);
+        loader("hide");
+        popup_alert({
+          visible: "show",
+          message: "Your Profile has been update <br />successfully !",
+          type: "success",
+          redirect: "",
+        });
+      } else {
+        toast.warning("Nothing for update.");
+      }
+    } catch (err) {
+      console.log("err", err);
+      loader("hide");
+    }
+  };
 
   const clearFilter = () => {
     document.querySelectorAll("input")?.forEach((checkbox) => {
@@ -263,7 +281,7 @@ const NewReaders = () => {
       setSearch("");
     }
     setShowFilter(false);
-  }
+  };
 
   const applyFilter = (e) => {
     e.preventDefault();
@@ -272,7 +290,7 @@ const NewReaders = () => {
     setFilterObject(filterObject);
     getReaderListData(page, filterObject, search);
     setShowFilter(false);
-  }
+  };
 
   const removeindividualfilter = (key, item) => {
     // console.log(key,item);
@@ -301,13 +319,14 @@ const NewReaders = () => {
               </div>
               <div className="top-right-action library_content_view">
                 <div className="search-bar">
-                  <form className="d-flex">
+                  <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
                     <input
                       className="form-control me-2"
                       type="text"
                       placeholder="Search"
                       aria-label="Search"
                       id="email_search"
+                      onChange={(e) => searchChange(e)}
                     />
                     <button className="btn btn-outline-success" type="submit">
                       <svg
@@ -358,27 +377,27 @@ const NewReaders = () => {
                         />
                       </svg>
                     ) : (
-                    <svg
-                      className="filter-arrow"
-                      width="16"
-                      height="14"
-                      viewBox="0 0 16 14"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z"
-                        fill="#97B6CF"
-                      ></path>
-                      <path
-                        d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z"
-                        fill="#97B6CF"
-                      ></path>
-                      <path
-                        d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z"
-                        fill="#97B6CF"
-                      ></path>
-                    </svg>
+                      <svg
+                        className="filter-arrow"
+                        width="16"
+                        height="14"
+                        viewBox="0 0 16 14"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z"
+                          fill="#97B6CF"
+                        ></path>
+                        <path
+                          d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z"
+                          fill="#97B6CF"
+                        ></path>
+                        <path
+                          d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z"
+                          fill="#97B6CF"
+                        ></path>
+                      </svg>
                     )}
                   </button>
 
@@ -406,7 +425,7 @@ const NewReaders = () => {
                                       {filterdata[key]?.length > 0
                                         ? filterdata[key]?.map(
                                             (item, index) => (
-                                              <li>
+                                              <li key={index}>
                                                 {item != "" ? (
                                                   <label className="select-multiple-option">
                                                     <input
@@ -527,7 +546,6 @@ const NewReaders = () => {
                 </div>
               </div>
             ) : null}
-
           </Row>
           <Row>
             <div className="library-content-box-layuot readerlist d-flex">
@@ -566,10 +584,11 @@ const NewReaders = () => {
                                         Country
                                       </h6>
                                       <h6>
-                                        {
-                                          data?.country ?
-                                          data?.country == "B&H" ? "Bosnia and Herzegovina" : data?.country : "N/A"
-                                        }
+                                        {data?.country
+                                          ? data?.country == "B&H"
+                                            ? "Bosnia and Herzegovina"
+                                            : data?.country
+                                          : "N/A"}
                                       </h6>
                                     </li>
                                     <li>
@@ -829,12 +848,18 @@ const NewReaders = () => {
                                           <Select
                                             options={types}
                                             defaultValue={
-                                              types[types.findIndex(el => el.value == data?.user_status)]
+                                              types[
+                                                types.findIndex(
+                                                  (el) =>
+                                                    el.value ==
+                                                    data?.user_status
+                                                )
+                                              ]
                                             }
                                             onChange={(event) =>
                                               onUserChange(event, data.id)
                                             }
-                                            id={"user_type_"+data?.id}
+                                            id={"user_type_" + data?.id}
                                             className="dropdown-basic-button split-button-dropup"
                                             isClearable
                                           />
@@ -850,12 +875,17 @@ const NewReaders = () => {
                                           <Select
                                             options={countryAll}
                                             defaultValue={
-                                              countryAll[countryAll.findIndex(el => el.value == data?.country)]
+                                              countryAll[
+                                                countryAll.findIndex(
+                                                  (el) =>
+                                                    el.value == data?.country
+                                                )
+                                              ]
                                             }
                                             onChange={(event) =>
                                               onCountryChange(event, data.id)
                                             }
-                                            id={"country_"+data?.id}
+                                            id={"country_" + data?.id}
                                             className="dropdown-basic-button split-button-dropup"
                                             isClearable
                                           />
