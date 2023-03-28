@@ -73,9 +73,7 @@ const NewReaders = () => {
       loader("show");
       const res = await getData(ENDPOINT.READERSFILTER);
       setFilterData(res?.data?.data);
-      loader("hide");
     } catch (err) {
-      loader("hide");
       console.log("err");
     }
   };
@@ -118,10 +116,10 @@ const NewReaders = () => {
       }else{
         setReaderDataList(res?.data?.data);
       }
-      loader("hide");
       setPageAll(false);
       setPageAllClicked(false);
       setIsLoaded(true);
+      loader("hide");
     } catch (err) {
       console.log(err);
       loader("hide");
