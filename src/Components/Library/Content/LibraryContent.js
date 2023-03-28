@@ -309,7 +309,15 @@ const LibraryContent = () => {
       }
 
       const res = await postData(ENDPOINT.LIBRARY, body);
-      setLibraryData((oldArray) => [...oldArray, ...res?.data?.data?.library]);
+      if (libraryData?.length) {
+        setLibraryData((oldArray) => [
+          ...oldArray,
+          ...res?.data?.data?.library,
+        ]);
+      } else {
+        setLibraryData(res?.data?.data?.library);
+      }
+      // setLibraryData((oldArray) => [...oldArray, ...res?.data?.data?.library]);
       loader("hide");
       setPageAll(false);
       setPageAllClicked(false);
