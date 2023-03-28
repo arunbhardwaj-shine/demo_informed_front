@@ -89,102 +89,61 @@ const Header = () => {
               <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="collapsibleNavbar">
-              <ul className="navbar-nav">
-                <li className="nav-item active">
-                  <a
-                    className="nav-link"
-                    href="/library-content"
-                  >
-                    LIBRARY
-                  </a>
-                </li>
-                <li className={
-                    window.location.pathname == "/cis_stats" ||
-                    window.location.pathname == "/country_stats" ||
-                    window.location.pathname == "/campaign_stats" ||
-                    window.location.pathname == "/shared_via_stats" ||
-                    window.location.pathname == "/trending_topics" ||
-                    window.location.pathname == "/trending_article" ||
-                    window.location.pathname == "/article_type_registration"
-                    ? "nav-item active active-main"
-                      : "nav-item"
-                  }
-                  >
-                  <Link className="nav-link">ANALYTICS</Link>
-                </li>
-                <li
-                  className={
-                    window.location.pathname == "/SmartList" ||
-                    window.location.pathname == "/EditList" ||
-                    window.location.pathname == "/CreateSmartList" ||
-                    window.location.pathname == "/SmartListFilter" ||
-                    window.location.pathname == "/SelectSmartList" ||
-                    window.location.pathname == "/EmailList" ||
-                    window.location.pathname == "/EmailList" ||
-                    window.location.pathname == "/TemplateBuilder" ||
-                    window.location.pathname == "/AutoEmail" ||
-                    window.location.pathname == "/EmailArticleSelect" ||
-                    window.location.pathname == "/CreateEmail" ||
-                    window.location.pathname == "/FilterSegment" ||
-                    window.location.pathname == "/SelectHCP" ||
-                    window.location.pathname == "/VerifyHCP" ||
-                    window.location.pathname == "/VerifyMAIL" ||
-                    window.location.pathname == "/VerifyHcpMAIL" ||
-                    window.location.pathname == "/VerifyHCP" ||
-                    window.location.pathname == "/SelectSmartListUsers" ||
-                    window.location.pathname == "/VerifySmartList" ||
-                    window.location.pathname == "/ViewSmartList" ||
-                    window.location.pathname == "/UploadExcel" ||
-                    window.location.pathname == "/UpdatedTable" ||
-                    window.location.pathname == "/ViewTable" ||
-                    window.location.pathname == "/EmailStatss" ||
-                    window.location.pathname == "/get-details"
-                      ? "nav-item active active-main"
-                      : "nav-item"
-                  }
+            <ul className="navbar-nav">
+              <li className="nav-item active">
+                <a
+                  className="nav-link"
+                  href="/library-content"
                 >
-                  <a className="nav-link">EMAIL</a>
-                </li>
+                  LIBRARY
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="/readers-view">
+                  READERS
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="https://informed.pro/Analytics">
+                  ANALYTICS
+                </a>
+              </li>
+              <li className="nav-item active active-main">
+                <a
+                  className="nav-link"
+                  href="https://informed.pro/Distributes/MailEngine"
+                >
+                  EMAIL
+                </a>
+              </li>
+
+              {queryParams?.webinar_flag && queryParams.webinar_flag == 1 ? (
                 <li className="nav-item">
-                  <a className="nav-link" href="https://informed.pro/Analytics">
-                    ANALYTICS
-                  </a>
-                </li>
-                <li className="nav-item active active-main">
                   <a
                     className="nav-link"
-                    href="https://informed.pro/Distributes/MailEngine"
+                    href="https://informed.pro/Webinar/readers_webinar"
                   >
-                    EMAIL
+                    WEBINAR
                   </a>
                 </li>
-                {queryParams?.webinar_flag && queryParams.webinar_flag == 1 ? (
-                  <li className="nav-item">
-                    <a
-                      className="nav-link"
-                      href="https://informed.pro/Webinar/readers_webinar"
-                    >
-                      WEBINAR
-                    </a>
-                  </li>
-                ) : (
-                  ""
-                )}
+              ) : (
+                ""
+              )}
 
-                {localStorage.getItem("user_id") ==
-                "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                  <li className="nav-item">
-                    <a
-                      className="nav-link"
-                      href="https://informed.pro/webinar/qa_survey?cmid=2147501188"
-                    >
-                      Q&A/SURVEY
-                    </a>
-                  </li>
-                ) : (
-                  ""
-                )}
-              </ul>
+              {localStorage.getItem("user_id") ==
+              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    href="https://informed.pro/webinar/qa_survey?cmid=2147501188"
+                  >
+                    Q&A/SURVEY
+                  </a>
+                </li>
+              ) : (
+                ""
+              )}
+            </ul>
             </div>
             <div className="user-login">
               <Dropdown>
