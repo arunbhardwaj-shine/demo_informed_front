@@ -2851,8 +2851,24 @@ section.verify_email.content_details {
     max-width: 100%;
     flex: 0 0 100%;
 }
+.tab-mail-list.data .progress {
+    width: 150px;
 }
-
+ul.tab-mail-list.data span.total-left {
+    font-size: 12px;
+}
+.data-progress {
+    margin-right: 3px;
+    padding: 0px 0 0 20px;
+}
+.library-content-box-layuot .doc-content-main-box .tab-content .data-main-footer-sec .footer-btn-wrapper .footer-btn {
+    padding: 7px 7px;
+    font-size: 13px;
+}
+.library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list.change .form-group .split-button-dropup > div:nth-child(3) div {
+    padding-left: 0;
+}
+}
 
 
 @media only screen and (max-width: 1900px) {
@@ -2863,7 +2879,6 @@ section.verify_email.content_details {
     margin-right: 4px;
   }
 }
-
 
 
 @media only screen and (max-width: 1700px) {
@@ -2889,7 +2904,6 @@ section.verify_email.content_details {
     padding: 7px 10px;
   }
 }
-
 
 
 @media only screen and (max-width: 1599px) {
