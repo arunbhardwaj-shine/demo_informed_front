@@ -4,7 +4,7 @@ import { Col, Dropdown, DropdownButton, Form, Modal, Row } from 'react-bootstrap
 import {Link } from 'react-router-dom';
 
 const ReaderReview = () => {
-  const [field, setField] = useState([]);  
+  const [field, setField] = useState([]);
   return (
    <Col className="col right-sidebar">
       <div className="custom-container">
@@ -14,7 +14,7 @@ const ReaderReview = () => {
                 <div className="col-12 col-md-1">
                   <div className="header-btn-left">
                     <button className="btn btn-primary btn-bordered back">
-                      <Link to="/library-create">Back</Link>
+                      <Link to="/reader-add">Back</Link>
                     </button>
                   </div>
                 </div>
@@ -30,9 +30,12 @@ const ReaderReview = () => {
                 </div>
                 <div className="col-12 col-md-2">
                   <div className="header-btn">
-                    <button className="btn btn-primary btn-bordered move-draft">
+                    <Link
+                    className="btn btn-primary btn-bordered move-draft"
+                    to="/reader-view"
+                    >
                       Cancel
-                    </button>
+                    </Link>
                     <button
                       className="btn btn-primary btn-filled next send_btn">
                       Create
@@ -129,9 +132,9 @@ const ReaderReview = () => {
                 </div>
             </div>
         </Row>
-      
+
       </div>
-       
+
     </Col>
   )
 }

@@ -722,7 +722,7 @@ const NewReaders = () => {
                                           label={
                                             emailStats.findIndex((el) => el.userId == data?.id) !== -1
                                             ?
-                                            emailStats[emailStats.findIndex((el) => el.userId == data?.id)].emailSent
+                                            emailStats[emailStats.findIndex((el) => el.userId == data?.id)]?.emailSent
                                               :
                                               "Loading"
                                           }
@@ -752,7 +752,7 @@ const NewReaders = () => {
                                           label={
                                             emailStats.findIndex((el) => el.userId == data?.id) !== -1
                                             ?
-                                            emailStats[emailStats.findIndex((el) => el.userId == data?.id)].emailOpen
+                                            emailStats[emailStats.findIndex((el) => el.userId == data?.id)]?.emailOpen
                                               :
                                               "Loading"
                                           }
@@ -782,7 +782,7 @@ const NewReaders = () => {
                                           label={
                                             emailStats.findIndex((el) => el.userId == data?.id) !== -1
                                             ?
-                                            emailStats[emailStats.findIndex((el) => el.userId == data?.id)].registered
+                                            emailStats[emailStats.findIndex((el) => el.userId == data?.id)]?.contentDeliverd
                                               :
                                               "Loading"
                                           }
@@ -812,7 +812,7 @@ const NewReaders = () => {
                                           label={
                                             emailStats.findIndex((el) => el.userId == data?.id) !== -1
                                             ?
-                                            emailStats[emailStats.findIndex((el) => el.userId == data?.id)].rtr
+                                            emailStats[emailStats.findIndex((el) => el.userId == data?.id)]?.rtr
                                               :
                                               "Loading"
                                           }
@@ -842,7 +842,7 @@ const NewReaders = () => {
                                           label={
                                             emailStats.findIndex((el) => el.userId == data?.id) !== -1
                                             ?
-                                            emailStats[emailStats.findIndex((el) => el.userId == data?.id)].qr
+                                            emailStats[emailStats.findIndex((el) => el.userId == data?.id)]?.qr
                                               :
                                               "Loading"
                                           }
@@ -872,7 +872,7 @@ const NewReaders = () => {
                                           label={
                                             emailStats.findIndex((el) => el.userId == data?.id) !== -1
                                             ?
-                                            emailStats[emailStats.findIndex((el) => el.userId == data?.id)].go
+                                            emailStats[emailStats.findIndex((el) => el.userId == data?.id)]?.go
                                               :
                                               "Loading"
                                           }
@@ -902,7 +902,7 @@ const NewReaders = () => {
                                           label={
                                             emailStats.findIndex((el) => el.userId == data?.id) !== -1
                                             ?
-                                            emailStats[emailStats.findIndex((el) => el.userId == data?.id)].contentOpening
+                                            emailStats[emailStats.findIndex((el) => el.userId == data?.id)]?.contentOpening
                                               :
                                               "Loading"
                                           }
