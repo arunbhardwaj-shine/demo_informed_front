@@ -617,7 +617,11 @@ const Sidebar = () => {
             <ul>
               <li
                 className={
-                  location.pathname == "/readers-view" ? "active" : "side_li"
+                  location.pathname == "/readers-view" ||
+                  location.pathname == "/reader-edit" ||
+                  location.pathname == "/smart-list-add" ||
+                  location.pathname == "/timeline-detail"
+                   ? "active" : "side_li"
                 }
               >
                 <Link to={"/readers-view"}>
@@ -640,7 +644,9 @@ const Sidebar = () => {
 
               <li
                 className={
-                  location.pathname == "/reader-add" && c_id == 0
+                  location.pathname == "/reader-add" ||
+                  location.pathname == "/reader-review"
+                  && c_id == 0
                     ? "active"
                     : "side_li"
                 }

@@ -11,7 +11,7 @@ import {
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Select from "react-select";
-import { postData } from "../../../axios/apiHelper";
+import { postData, getData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { loader } from "../../../loader";
 import { toast } from "react-toastify";
@@ -56,8 +56,11 @@ const NewReaders = () => {
   const [changeCountry, setChangeCountry] = useState([]);
   const [changeUserType, setChangeUserType] = useState([]);
   const [showfilter, setShowFilter] = useState(false);
+  const [emailStats, setEmailStats] = useState([]);
+  const [statsFlag, setStatsFlag] = useState(0);
 
   useEffect(() => {
+    getFilters();
     getReaderListData(page, filterObject, search);
   }, []);
 
@@ -67,6 +70,16 @@ const NewReaders = () => {
     }
   }, [page]);
 
+  const getFilters = async () => {
+    try {
+      loader("show");
+      const res = await getData(ENDPOINT.READERSFILTER);
+      setFilterData(res?.data?.data);
+    } catch (err) {
+      console.log("err");
+    }
+  };
+
   const getReaderListData = async (page, obj, search) => {
     try {
       loader("show");
@@ -74,15 +87,17 @@ const NewReaders = () => {
         user_id: localStorage.getItem("user_id"),
         userType: 5,
         search: search,
-        type: Object.keys(obj).length > 0 ? obj?.Status[0] : "Unregistered",
+        type: "",
         page: page,
       };
+
+      let payload = { ...data, ...obj };
       if (pageAllClicked == true) {
         setPageAll(true);
       } else {
         loader("show");
       }
-      const res = await postData(ENDPOINT.READER_LIST_DATA, data);
+      const res = await postData(ENDPOINT.READER_LIST_DATA, payload);
 
       let body = {
         "user_id": localStorage.getItem("user_id")
@@ -98,11 +113,15 @@ const NewReaders = () => {
       });
 
       // setLibraryData((oldArray) => [...oldArray, ...res?.data?.data?.library]);
-      setReaderDataList((oldArray) => [...oldArray, ...res?.data?.data]);
-      loader("hide");
+      if(page == 2){
+        setReaderDataList((oldArray) => [...oldArray, ...res?.data?.data]);
+      }else{
+        setReaderDataList(res?.data?.data);
+      }
       setPageAll(false);
       setPageAllClicked(false);
       setIsLoaded(true);
+      loader("hide");
     } catch (err) {
       console.log(err);
       loader("hide");
@@ -152,7 +171,9 @@ const NewReaders = () => {
     }
 
     if (e?.target?.checked == true) {
-      filterObject[key] = [];
+      if(key == "status" || key == "contactType"){
+        filterObject[key] = [];
+      }
       filterObject[key]?.push(item);
       // filterObject[key] = item;
     } else {
@@ -310,6 +331,29 @@ const NewReaders = () => {
     getReaderListData(page, old_object);
   };
 
+  const tabClicked = async(key,userId) => {
+      if(key == "usage"){
+        let index = emailStats.findIndex((el) => el.userId == userId);
+        if(index === -1){
+            let normal_data = emailStats;
+          try{
+            let body = {
+              "readerId" : userId
+            };
+            const res = await postData(ENDPOINT.READERACTIVITY, body);
+            if(res?.data?.data){
+              let new_data = res?.data?.data;
+              normal_data.push(new_data);
+              setEmailStats(normal_data);
+              setStatsFlag(statsFlag + 1);
+            }
+          }catch(err){
+            console.log(err);
+          }
+        }
+      }
+  };
+
   return (
     <>
       <Col className="right-sidebar">
@@ -431,9 +475,10 @@ const NewReaders = () => {
                                                 {item != "" ? (
                                                   <label className="select-multiple-option">
                                                     <input
-                                                      type="radio"
+                                                      type={key == "status" || key == "contactType"  ? "radio" : "checkbox" }
                                                       id={`custom-checkbox-tags-${index}`}
                                                       value={item}
+                                                      name={key}
                                                       defaultChecked={
                                                         filterObject?.hasOwnProperty(
                                                           key
@@ -444,7 +489,6 @@ const NewReaders = () => {
                                                             -1
                                                           : false
                                                       }
-                                                      name="tags[]"
                                                       onChange={(e) =>
                                                         handleOnFilterChange(
                                                           e,
@@ -548,8 +592,7 @@ const NewReaders = () => {
                 </div>
               </div>
             ) : null}
-          </Row>
-          <Row>
+
             <div className="library-content-box-layuot readerlist d-flex">
               <h4>
                 <span>Total HCP</span> | {readerDataList?.length}
@@ -565,7 +608,9 @@ const NewReaders = () => {
                             </div>
                           </div>
                           <div className="tabs-data">
-                            <Tabs defaultActiveKey="personal-details" fill>
+                            <Tabs
+                            onSelect={(key) => tabClicked(key, data?.id)}
+                            defaultActiveKey="personal-details" fill>
                               <Tab
                                 eventKey="personal-details"
                                 title="Personal Details"
@@ -673,8 +718,14 @@ const NewReaders = () => {
                                       <div className="data-progress send">
                                         <ProgressBar
                                           variant="default"
-                                          now={20}
-                                          label={"20"}
+                                          now={100}
+                                          label={
+                                            emailStats.findIndex((el) => el.userId == data?.id) !== -1
+                                            ?
+                                            emailStats[emailStats.findIndex((el) => el.userId == data?.id)]?.emailSent
+                                              :
+                                              "Loading"
+                                          }
                                         />
                                       </div>
                                     </li>
@@ -698,7 +749,13 @@ const NewReaders = () => {
                                         <ProgressBar
                                           variant="default"
                                           now={15}
-                                          label={"2"}
+                                          label={
+                                            emailStats.findIndex((el) => el.userId == data?.id) !== -1
+                                            ?
+                                            emailStats[emailStats.findIndex((el) => el.userId == data?.id)]?.emailOpen
+                                              :
+                                              "Loading"
+                                          }
                                         />
                                       </div>
                                     </li>
@@ -722,7 +779,13 @@ const NewReaders = () => {
                                         <ProgressBar
                                           variant="default"
                                           now={2}
-                                          label={"2"}
+                                          label={
+                                            emailStats.findIndex((el) => el.userId == data?.id) !== -1
+                                            ?
+                                            emailStats[emailStats.findIndex((el) => el.userId == data?.id)]?.contentDeliverd
+                                              :
+                                              "Loading"
+                                          }
                                         />
                                       </div>
                                     </li>
@@ -746,7 +809,13 @@ const NewReaders = () => {
                                         <ProgressBar
                                           variant="default"
                                           now={5}
-                                          label={"5"}
+                                          label={
+                                            emailStats.findIndex((el) => el.userId == data?.id) !== -1
+                                            ?
+                                            emailStats[emailStats.findIndex((el) => el.userId == data?.id)]?.rtr
+                                              :
+                                              "Loading"
+                                          }
                                         />
                                       </div>
                                     </li>
@@ -770,7 +839,13 @@ const NewReaders = () => {
                                         <ProgressBar
                                           variant="default"
                                           now={11}
-                                          label={"11"}
+                                          label={
+                                            emailStats.findIndex((el) => el.userId == data?.id) !== -1
+                                            ?
+                                            emailStats[emailStats.findIndex((el) => el.userId == data?.id)]?.qr
+                                              :
+                                              "Loading"
+                                          }
                                         />
                                       </div>
                                     </li>
@@ -794,7 +869,13 @@ const NewReaders = () => {
                                         <ProgressBar
                                           variant="default"
                                           now={25}
-                                          label={"25"}
+                                          label={
+                                            emailStats.findIndex((el) => el.userId == data?.id) !== -1
+                                            ?
+                                            emailStats[emailStats.findIndex((el) => el.userId == data?.id)]?.go
+                                              :
+                                              "Loading"
+                                          }
                                         />
                                       </div>
                                     </li>
@@ -818,7 +899,13 @@ const NewReaders = () => {
                                         <ProgressBar
                                           variant="default"
                                           now={19}
-                                          label={"19"}
+                                          label={
+                                            emailStats.findIndex((el) => el.userId == data?.id) !== -1
+                                            ?
+                                            emailStats[emailStats.findIndex((el) => el.userId == data?.id)]?.contentOpening
+                                              :
+                                              "Loading"
+                                          }
                                         />
                                       </div>
                                     </li>

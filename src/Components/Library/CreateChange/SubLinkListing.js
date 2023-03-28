@@ -102,8 +102,7 @@ const SubLinkListing = ({
                             );
                           }}
                         >
-                          <img
-                            src={path_image + "copy-content.svg"}
+                          <img src={path_image + "copy-content.svg"}
                             alt="Copy"
                           />
                         </span>

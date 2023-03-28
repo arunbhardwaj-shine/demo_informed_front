@@ -266,7 +266,7 @@ const ReaderAdd = () => {
       return;
     } else {
       try {
-        loader("show");
+        // loader("show");
         let data = {
           createdBy: localStorage.getItem("user_id"),
           firstName: userInputs?.firstName,
@@ -292,13 +292,18 @@ const ReaderAdd = () => {
           siteName: "",
           irt: "",
         };
-        console.log("data", data);
-        await postData(ENDPOINT.READER_CREATE, data);
-        loader("hide");
-        navigate("/readers-view");
+        // console.log("data", data);
+        // await postData(ENDPOINT.READER_CREATE, data);
+        // loader("hide");
+        // navigate("/readers-view");
+        navigate("/reader-review", {
+          state: {
+            data: data,
+          },
+        });
       } catch (err) {
         console.log(err);
-        loader("hide");
+        // loader("hide");
       }
     }
   };
@@ -329,9 +334,12 @@ const ReaderAdd = () => {
                 </div>
                 <div className="col-12 col-md-2">
                   <div className="header-btn">
-                    <button className="btn btn-primary btn-bordered move-draft">
+                    <Link
+                    className="btn btn-primary btn-bordered move-draft"
+                    to="/readers-view"
+                    >
                       Cancel
-                    </button>
+                    </Link>
 
                     <button
                       className="btn btn-primary btn-filled next"
@@ -343,7 +351,7 @@ const ReaderAdd = () => {
                 </div>
               </div>
             </div>
-            <div className="create-reader create-change-content">
+            <div className="create-reader create-change-content reader_added">
               <div className="form_action">
                 <div className="create-reader-form-header">
                   <h4>Please fill the following details</h4>
@@ -510,7 +518,7 @@ const ReaderAdd = () => {
                         onChange={(e) => handleChange(e)}
                       />
                     </div>
-                    <div className="form-group">
+                    <div className="form-group margin-added">
                       <label htmlFor="">Speciality</label>
                       <Select
                         options={userDetail?.speciality}
@@ -530,7 +538,7 @@ const ReaderAdd = () => {
                         </Button>
                       </div>
                     </div>
-                    <div className="form-group">
+                    <div className="form-group margin-added">
                       <label htmlFor="">Discipline</label>
                       <Select
                         options={userDetail?.discipline}
@@ -550,7 +558,7 @@ const ReaderAdd = () => {
                         </Button>
                       </div>
                     </div>
-                    <div className="form-group">
+                    <div className="form-group margin-added">
                       <label htmlFor="">Product</label>
                       <Select
                         options={userDetail?.product}
