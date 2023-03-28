@@ -2437,6 +2437,7 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
       line-height: 16px;
       color: $dark-blue;
       padding: 0 0 24px;
+      word-break: break-all;
     }
   }
 }
@@ -2846,6 +2847,9 @@ section.verify_email.content_details {
     padding-left: 2px;
     padding-right: 8px;
 }
+.no_found {
+    min-height: 60vh;
+}
 /**Reader Style End**/
 
 /**Library Responsive**/
@@ -3169,6 +3173,9 @@ ul.tab-mail-list.data span.total-left {
     font-size: 11px;
     line-height: 15px;
 }
+.timeline-left-user tr th, .timeline-left-user tr td {
+    padding: 0 0 15px;
+}
 .timeline-block-title h6 {
     font-size: 14px;
 }
@@ -3200,10 +3207,7 @@ ul.tab-mail-list.data span.total-left {
     min-width: initial;
     max-width: 300px;
 }
-.timeline-left-user tr td {
-    word-break: break-all;
-    padding: 0 0 24px;
-}
+
 .timeline-box .timeline_date {
     font-size: 13px;
     width: 66px;
@@ -3513,6 +3517,9 @@ ul.tab-mail-list.data span.total-left {
    .create-change-content .col-md-6, .create-change-content .col-md-7, .create-change-content .col-md-5 {
     width: 100%;
   }
+  .timeline-box {
+    margin: 0 0 30px 30px;
+}
   .create-change-content.spc-content .col-xl-4{
     width: 33.3%;
   }
@@ -3658,6 +3665,22 @@ ul.tab-mail-list.data span.total-left {
   .library-content-box-layuot .doc-content-main-box .tab-content .data-main-footer-sec .footer-btn-wrapper .footer-btn {
     font-size: 11px;
     padding: 7px 6px;
+}
+.timeline-left-user {
+    max-width: 250px;
+}
+.timeline-block-head {
+    align-items: center;
+}
+.timeline-left-user h5 {
+    font-size: 14px;
+}
+.timeline-left-user tr th {
+    font-size: 13px;
+    min-width: 63px;
+}
+.timeline-left-user tr td {
+    font-size: 13px;
 }
 .library_create .library_create-box {
     padding: 18px 8px;
