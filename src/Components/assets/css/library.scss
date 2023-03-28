@@ -3165,7 +3165,55 @@ ul.tab-mail-list.data span.total-left {
 
 
 @media (max-width: $layout-breakpoint-extraLarge) {
-
+.timeline-time-view {
+    font-size: 11px;
+    line-height: 15px;
+}
+.timeline-block-title h6 {
+    font-size: 14px;
+}
+.timeline-block-img {
+    width: 32px;
+}
+.timeline-article-device {
+    padding: 0 0 0 34px;
+}
+.timeline-article-device tr .device-title {
+    padding: 0 14px 10px 0;
+    font-size: 13px;
+}
+.timeline-article-device tr .device-name {
+    padding: 0 0 10px;
+    font-size: 13px;
+}
+.timeline-block-head {
+    margin: 0 0 7px;
+}
+.timeline-block-title {
+    flex: 1 1;
+}
+.timeline-left-user h5 {
+    font-size: 17px;
+    margin: 0 0 20px;
+}
+.timeline-left-user {
+    min-width: initial;
+    max-width: 300px;
+}
+.timeline-left-user tr td {
+    word-break: break-all;
+    padding: 0 0 24px;
+}
+.timeline-box .timeline_date {
+    font-size: 13px;
+    width: 66px;
+    height: 66px;
+}
+.timeline-block-title img {
+    margin-right: 10px;
+    max-width: 20px;
+    max-height: 20px;
+}
   .library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list.data li .select-dropdown-wrapper .select .split-button-dropup > div:nth-child(3) div div {
     font-size: 13px;
 }
