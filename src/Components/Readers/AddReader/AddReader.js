@@ -292,7 +292,7 @@ const ReaderAdd = () => {
           siteName: "",
           irt: "",
         };
-        console.log("data", data);
+        // console.log("data", data);
         // await postData(ENDPOINT.READER_CREATE, data);
         // loader("hide");
         // navigate("/readers-view");

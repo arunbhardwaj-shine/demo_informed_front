@@ -53,7 +53,7 @@ const ReaderReview = () => {
                   <div className="header-btn">
                     <Link
                     className="btn btn-primary btn-bordered move-draft"
-                    to="/reader-view"
+                    to="/readers-view"
                     >
                       Cancel
                     </Link>
@@ -68,9 +68,6 @@ const ReaderReview = () => {
               </div>
             </div>
             {
-              console.log(typeof readerData)
-            }
-            {
               Object.keys(readerData).length > 0
               ?
               <div className="crm-detail">
@@ -81,23 +78,23 @@ const ReaderReview = () => {
                         <ul className="tab-mail-list">
                           <li>
                             <h6 className="tab-content-title">First name</h6>
-                            <h6>{readerData?.firstName ? readerData?.firstName : ""}</h6>
+                            <h6>{readerData?.firstName ? readerData?.firstName : "N/A"}</h6>
                           </li>
                           <li>
                             <h6 className="tab-content-title">Middle name</h6>
-                            <h6>{readerData?.middleName ? readerData?.middleName : ""}</h6>
+                            <h6>{readerData?.middleName ? readerData?.middleName : "N/A"}</h6>
                           </li>
                           <li>
                             <h6 className="tab-content-title">Last name</h6>
-                            <h6>{readerData?.lastName ? readerData?.lastName : ""}</h6>
+                            <h6>{readerData?.lastName ? readerData?.lastName : "N/A"}</h6>
                           </li>
                           <li>
                             <h6 className="tab-content-title">Primary email </h6>
-                            <h6>{readerData?.email ? readerData?.email : ""}</h6>
+                            <h6>{readerData?.email ? readerData?.email : "N/A"}</h6>
                           </li>
                           <li>
                             <h6 className="tab-content-title">Alternative email </h6>
-                            <h6>{readerData?.alternativeEmail ? readerData?.alternativeEmail : ""}</h6>
+                            <h6>{readerData?.alternativeEmail ? readerData?.alternativeEmail : "N/A"}</h6>
                           </li>
                           <li>
                             <h6 className="tab-content-title">Primary phone </h6>
