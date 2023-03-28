@@ -292,7 +292,7 @@ const ReaderAdd = () => {
           siteName: "",
           irt: "",
         };
-        console.log("data", data);
+        // console.log("data", data);
         // await postData(ENDPOINT.READER_CREATE, data);
         // loader("hide");
         // navigate("/readers-view");
@@ -334,9 +334,12 @@ const ReaderAdd = () => {
                 </div>
                 <div className="col-12 col-md-2">
                   <div className="header-btn">
-                    <button className="btn btn-primary btn-bordered move-draft">
+                    <Link
+                    className="btn btn-primary btn-bordered move-draft"
+                    to="/readers-view"
+                    >
                       Cancel
-                    </button>
+                    </Link>
 
                     <button
                       className="btn btn-primary btn-filled next"
