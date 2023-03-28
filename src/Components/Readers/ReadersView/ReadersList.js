@@ -56,6 +56,8 @@ const NewReaders = () => {
   const [changeCountry, setChangeCountry] = useState([]);
   const [changeUserType, setChangeUserType] = useState([]);
   const [showfilter, setShowFilter] = useState(false);
+  const [emailStats, setEmailStats] = useState([]);
+  const [statsFlag, setStatsFlag] = useState(0);
 
   useEffect(() => {
     getFilters();
@@ -329,6 +331,29 @@ const NewReaders = () => {
     getReaderListData(page, old_object);
   };
 
+  const tabClicked = async(key,userId) => {
+      if(key == "usage"){
+        let index = emailStats.findIndex((el) => el.userId == userId);
+        if(index === -1){
+            let normal_data = emailStats;
+          try{
+            let body = {
+              "readerId" : userId
+            };
+            const res = await postData(ENDPOINT.READERACTIVITY, body);
+            if(res?.data?.data){
+              let new_data = res?.data?.data;
+              normal_data.push(new_data);
+              setEmailStats(normal_data);
+              setStatsFlag(statsFlag + 1);
+            }
+          }catch(err){
+            console.log(err);
+          }
+        }
+      }
+  };
+
   return (
     <>
       <Col className="right-sidebar">
@@ -584,7 +609,9 @@ const NewReaders = () => {
                             </div>
                           </div>
                           <div className="tabs-data">
-                            <Tabs defaultActiveKey="personal-details" fill>
+                            <Tabs
+                            onSelect={(key) => tabClicked(key, data?.id)}
+                            defaultActiveKey="personal-details" fill>
                               <Tab
                                 eventKey="personal-details"
                                 title="Personal Details"
@@ -692,8 +719,14 @@ const NewReaders = () => {
                                       <div className="data-progress send">
                                         <ProgressBar
                                           variant="default"
-                                          now={20}
-                                          label={"20"}
+                                          now={100}
+                                          label={
+                                            emailStats.findIndex((el) => el.userId == data?.id) !== -1
+                                            ?
+                                            emailStats[emailStats.findIndex((el) => el.userId == data?.id)].emailSent
+                                              :
+                                              "Loading"
+                                          }
                                         />
                                       </div>
                                     </li>
@@ -717,7 +750,13 @@ const NewReaders = () => {
                                         <ProgressBar
                                           variant="default"
                                           now={15}
-                                          label={"2"}
+                                          label={
+                                            emailStats.findIndex((el) => el.userId == data?.id) !== -1
+                                            ?
+                                            emailStats[emailStats.findIndex((el) => el.userId == data?.id)].emailOpen
+                                              :
+                                              "Loading"
+                                          }
                                         />
                                       </div>
                                     </li>
@@ -741,7 +780,13 @@ const NewReaders = () => {
                                         <ProgressBar
                                           variant="default"
                                           now={2}
-                                          label={"2"}
+                                          label={
+                                            emailStats.findIndex((el) => el.userId == data?.id) !== -1
+                                            ?
+                                            emailStats[emailStats.findIndex((el) => el.userId == data?.id)].registered
+                                              :
+                                              "Loading"
+                                          }
                                         />
                                       </div>
                                     </li>
@@ -765,7 +810,13 @@ const NewReaders = () => {
                                         <ProgressBar
                                           variant="default"
                                           now={5}
-                                          label={"5"}
+                                          label={
+                                            emailStats.findIndex((el) => el.userId == data?.id) !== -1
+                                            ?
+                                            emailStats[emailStats.findIndex((el) => el.userId == data?.id)].rtr
+                                              :
+                                              "Loading"
+                                          }
                                         />
                                       </div>
                                     </li>
@@ -789,7 +840,13 @@ const NewReaders = () => {
                                         <ProgressBar
                                           variant="default"
                                           now={11}
-                                          label={"11"}
+                                          label={
+                                            emailStats.findIndex((el) => el.userId == data?.id) !== -1
+                                            ?
+                                            emailStats[emailStats.findIndex((el) => el.userId == data?.id)].qr
+                                              :
+                                              "Loading"
+                                          }
                                         />
                                       </div>
                                     </li>
@@ -813,7 +870,13 @@ const NewReaders = () => {
                                         <ProgressBar
                                           variant="default"
                                           now={25}
-                                          label={"25"}
+                                          label={
+                                            emailStats.findIndex((el) => el.userId == data?.id) !== -1
+                                            ?
+                                            emailStats[emailStats.findIndex((el) => el.userId == data?.id)].go
+                                              :
+                                              "Loading"
+                                          }
                                         />
                                       </div>
                                     </li>
@@ -837,7 +900,13 @@ const NewReaders = () => {
                                         <ProgressBar
                                           variant="default"
                                           now={19}
-                                          label={"19"}
+                                          label={
+                                            emailStats.findIndex((el) => el.userId == data?.id) !== -1
+                                            ?
+                                            emailStats[emailStats.findIndex((el) => el.userId == data?.id)].contentOpening
+                                              :
+                                              "Loading"
+                                          }
                                         />
                                       </div>
                                     </li>
